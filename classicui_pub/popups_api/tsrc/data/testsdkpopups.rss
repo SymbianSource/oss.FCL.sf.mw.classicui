@@ -1,0 +1,302 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdknotes
+ *
+*/
+
+
+NAME    TSPP
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+#include <avkon.mbg>
+
+#include "testsdkpopups.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_form_dialog
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_form_dialog
+    {
+    flags = EEikDialogFlagNoDrag | 
+            EEikDialogFlagFillAppClientRect |
+            EEikDialogFlagNoTitleBar |
+            EEikDialogFlagNoBorder |
+            EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_testsdk_form;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_form
+// ---------------------------------------------------------------------------
+//
+RESOURCE FORM r_testsdk_form
+    {
+    flags = EEikFormEditModeOnly;
+    items =
+        {
+        DLG_LINE
+            {
+            type=EEikCtEdwin;
+            prompt=POPUPS_FORM;
+            id=ETestSDKEdwin;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control=EDWIN 
+                {
+                flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                width=KMaxLength; 
+                maxlength=KMaxLength;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_popupsfield
+// ---------------------------------------------------------------------------
+//
+RESOURCE POPUP_FIELD_TEXT r_testsdk_popupsfield
+    {
+     popupfield = POPUP_FIELD
+         {
+         width = KMaxLength;
+         other = POPUPS_OTHER;
+         empty = POPUPS_EMPTY;
+         invalid = POPUPS_INVALID;
+         };
+     textarray = r_testsdk_text_array;
+     active = 0; 
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_text_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_text_array
+    {
+    items =
+        {
+        LBUF 
+            { 
+            txt = POPUPS_ITEM1; 
+            },
+        LBUF 
+            { 
+            txt = POPUPS_ITEM2; 
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_listnote
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_listnote
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+        EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKPopupsNoteId;
+            control= AVKON_NOTE
+                { 
+                layout = ENotificationWithGraphicsLayout;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_popupsfieldform
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_popupsfieldform
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+        EEikDialogFlagCbaButtons | EEikDialogFlagNoBorder;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_testsdk_text_field_form;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_text_field_form
+// ---------------------------------------------------------------------------
+//
+RESOURCE FORM r_testsdk_text_field_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = POPUPS_FIELD1;
+            id = ETestSDKField1;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = POPUP_FIELD
+                {
+                width = KMaxLength;
+                other = POPUPS_OTHER1;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = POPUPS_FIELD2;
+            id = ETestSDKField2;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = POPUP_FIELD
+                {
+                width = KMaxLength;
+                other = POPUPS_OTHER2;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_popup_field_text
+// ---------------------------------------------------------------------------
+//
+RESOURCE POPUP_FIELD_TEXT r_testsdk_popup_field_text
+    {
+     popupfield = POPUP_FIELD
+         {
+         width = KMaxLength;
+         other = POPUPS_OTHER;
+         };
+     textarray = r_testsdk_text_array;
+     active = 0; 
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_heading
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_HEADING r_testsdk_heading
+    {
+    label = POPUPS_LABEL;  
+    bmpfile = POPUPS_BMPFILE_NAME;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    animation = r_testsdk_animation;
+    headinglayout = R_AVKON_LIST_HEADING_PANE;
+    } 
+
+// ---------------------------------------------------------------------------
+// r_testsdk_animation
+// ---------------------------------------------------------------------------
+//
+RESOURCE BMPANIM_DATA r_testsdk_animation
+    {
+    frameinterval = 200;
+    playmode = -1;
+    bmpfile = POPUPS_BMPFILE_NAME;
+    frames = r_testsdk_animation_array;
+    }  
+
+// ---------------------------------------------------------------------------
+// r_testsdk_animation_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_animation_array
+    {
+    items = 
+        {
+        BMPANIM_FRAME
+            {
+            bmpid = EMbmAvkonQgn_indi_mic;
+            maskid = EMbmAvkonQgn_indi_mic_mask;
+            },
+         BMPANIM_FRAME
+            {
+            bmpid = EMbmAvkonQgn_indi_mic;
+            maskid = EMbmAvkonQgn_indi_mic_mask;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_image
+// ---------------------------------------------------------------------------
+//
+RESOURCE IMAGE r_testsdk_image
+    {
+    bmpfile = POPUPS_BMPFILE_NAME;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_popup_setting_list
+// ---------------------------------------------------------------------------
+//
+RESOURCE POPUP_SETTING_LIST r_testsdk_popup_setting_list
+    {
+    flags = EAknPopupSettingListFlagAllowsUserDefinedEntry;
+    width = 20;
+    other = POPUPS_OTHER;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_popup_setting_page
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_testsdk_popup_setting_page
+    {
+    number = 1;
+    label = POPUPS_LABEL;
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_testsdk_popup_setting_list;
+    } 
+
+// ---------------------------------------------------------------------------
+// r_testsdk_list_item_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_list_item_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = POPUPS_ITEM1;
+            }
+        };
+    }

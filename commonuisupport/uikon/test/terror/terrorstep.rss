@@ -1,0 +1,100 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code
+*/
+
+NAME TBTG
+
+#include <techview/eikon.rh>
+#include <uiklafgt/eikcore.rsg>
+
+#include "terrorstep.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO { hotkeys=r_terror_hotkeys; menubar=r_terror_menubar;}
+
+RESOURCE HOTKEYS r_terror_hotkeys
+    {
+	control=
+		{
+        HOTKEY {command=EEikCmdExit; key='e';}
+		};
+    }
+
+RESOURCE MENU_BAR r_terror_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_terror_file_menu; txt="File"; },
+        MENU_TITLE { menu_pane=r_terror_tests_menu; txt="Tests"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_terror_file_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Close";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_terror_tests_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=ETErrCmdResolveErrs;
+            txt="Resolve errors";
+			},
+        MENU_ITEM
+            {
+            command=ETErrCmdProfile;
+            txt="Profile";
+			},
+        MENU_ITEM
+            {
+            command=ETErrCmdTestAll;
+            txt="All tests (inc. add/remove)";
+			},
+        MENU_ITEM
+            {
+            command=ETErrCmdStressTest;
+            txt="OOM";
+			},
+        MENU_ITEM
+            {
+            command=ETErrCmdStdAPI;
+            txt="Standard API";
+			},
+     MENU_ITEM
+            {
+            command=ETErrCmdErrorApp;
+            txt="Error Application";
+			}
+		};
+	}
+

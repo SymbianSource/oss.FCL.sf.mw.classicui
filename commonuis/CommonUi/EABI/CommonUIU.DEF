@@ -1,0 +1,122 @@
+EXPORTS
+	_ZN13CFindItemMenu11HandleCallLERK7TDesC16 @ 1 NONAME
+	_ZN13CFindItemMenu15HandleVoIPCallLERK7TDesC16 @ 2 NONAME
+	_ZN13CFindItemMenu17SetCallbackNumberERK7TDesC16 @ 3 NONAME
+	_ZN13CFindItemMenu18AddItemFinderMenuLEP14CAknItemFinderP12CEikMenuPaneiRK7TDesC16ii @ 4 NONAME ABSENT
+	_ZN13CFindItemMenu21AttachItemFinderMenuLEi @ 5 NONAME
+	_ZN13CFindItemMenu21UpdateItemFinderMenuLEiP12CEikMenuPane @ 6 NONAME
+	_ZN13CFindItemMenu23SetSenderDescriptorTypeEN14CAknItemFinder9TItemTypeE @ 7 NONAME ABSENT
+	_ZN13CFindItemMenu24DisplayFindItemMenuItemLER12CEikMenuPanei @ 8 NONAME
+	_ZN13CFindItemMenu24HandleItemFinderCommandLEi @ 9 NONAME
+	_ZN13CFindItemMenu4NewLEi @ 10 NONAME
+	_ZN13CFindItemMenu5NewLCEi @ 11 NONAME
+	_ZN15CFindItemDialog14OfferKeyEventLERK9TKeyEvent10TEventCode @ 12 NONAME
+	_ZN15CFindItemDialog15ProcessCommandLEi @ 13 NONAME
+	_ZN15CFindItemDialog16DynInitMenuPaneLEiP12CEikMenuPane @ 14 NONAME
+	_ZN15CFindItemDialog4NewLERK7TDesC16N15CFindItemEngine19TFindItemSearchCaseE @ 15 NONAME
+	_ZN15CFindItemDialog9ExecuteLDEv @ 16 NONAME
+	_ZN15CFindItemDialogD0Ev @ 17 NONAME
+	_ZN15CFindItemDialogD1Ev @ 18 NONAME
+	_ZN15CFindItemDialogD2Ev @ 19 NONAME
+	_ZN16CDocumentHandler10CanHandleLERK9TDataType @ 20 NONAME
+	_ZN16CDocumentHandler11SilentMoveLERK7TDesC16S2_S2_R9TDataTypej @ 21 NONAME
+	_ZN16CDocumentHandler12InParamListLEv @ 22 NONAME
+	_ZN16CDocumentHandler12OutParamListEv @ 23 NONAME
+	_ZN16CDocumentHandler13HandlerAppUidER4TUid @ 24 NONAME
+	_ZN16CDocumentHandler13OpenTempFileLERK7TDesC16R5RFile @ 25 NONAME
+	_ZN16CDocumentHandler13SaveTempFileLERK6TDesC8R9TDataTypeRK7TDesC16R5RFile @ 26 NONAME
+	_ZN16CDocumentHandler15SetExitObserverEP25MAknServerAppExitObserver @ 27 NONAME
+	_ZN16CDocumentHandler17OpenFileEmbeddedLER5RFileR9TDataType @ 28 NONAME
+	_ZN16CDocumentHandler17OpenFileEmbeddedLER5RFileR9TDataTypeRK20CAiwGenericParamList @ 29 NONAME
+	_ZN16CDocumentHandler17OpenFileEmbeddedLERK7TDesC16R9TDataType @ 30 NONAME
+	_ZN16CDocumentHandler4NewLEP11CEikProcess @ 31 NONAME
+	_ZN16CDocumentHandler4NewLEv @ 32 NONAME
+	_ZN16CDocumentHandler5CopyLERK5RFileRK7TDesC16R9TDataTypej @ 33 NONAME
+	_ZN16CDocumentHandler5CopyLERK7TDesC16S2_R9TDataTypej @ 34 NONAME
+	_ZN16CDocumentHandler5MoveLERK7TDesC16S2_R9TDataTypej @ 35 NONAME
+	_ZN16CDocumentHandler5NewLCEP11CEikProcess @ 36 NONAME
+	_ZN16CDocumentHandler5NewLCEv @ 37 NONAME
+	_ZN16CDocumentHandler5SaveLERK6TDesC8R9TDataTypeRK7TDesC16j @ 38 NONAME
+	_ZN16CDocumentHandler5SaveLERK6TDesC8R9TDataTypej @ 39 NONAME
+	_ZN16CDocumentHandler7GetPathER6TDes16 @ 40 NONAME
+	_ZN16CDocumentHandler8CanOpenLERK9TDataType @ 41 NONAME
+	_ZN16CDocumentHandler8CanSaveLERK9TDataType @ 42 NONAME
+	_ZN16CDocumentHandler9OpenFileLER5RFileR9TDataType @ 43 NONAME
+	_ZN16CDocumentHandler9OpenFileLERK7TDesC16R9TDataType @ 44 NONAME
+	_ZN16CDocumentHandlerD0Ev @ 45 NONAME
+	_ZN16CDocumentHandlerD1Ev @ 46 NONAME
+	_ZN16CDocumentHandlerD2Ev @ 47 NONAME
+	_ZN24CAiwGenericParamConsumer16SetOutputParamsLEPK20CAiwGenericParamList @ 48 NONAME
+	_ZN24CAiwGenericParamConsumer8RestoreLERK12CStreamStoreRK17CStreamDictionary @ 49 NONAME
+	_ZN24CAiwGenericParamConsumerC2ER15CEikApplication @ 50 NONAME
+	_ZN24CAiwGenericParamConsumerD0Ev @ 51 NONAME
+	_ZN24CAiwGenericParamConsumerD1Ev @ 52 NONAME
+	_ZN24CAiwGenericParamConsumerD2Ev @ 53 NONAME
+	_ZN8CErrorUI20ShowGlobalErrorNoteLEiN13CTextResolver13TErrorContextE @ 54 NONAME
+	_ZN8CErrorUI21ShowGlobalErrorQueryLEiN13CTextResolver13TErrorContextE @ 55 NONAME
+	_ZN8CErrorUI4NewLER7CCoeEnv @ 56 NONAME
+	_ZN8CErrorUI4NewLEv @ 57 NONAME
+	_ZN8CErrorUI5NewLCER7CCoeEnv @ 58 NONAME
+	_ZN8CErrorUI5NewLCEv @ 59 NONAME
+	_ZN8CErrorUID0Ev @ 60 NONAME
+	_ZN8CErrorUID1Ev @ 61 NONAME
+	_ZN8CErrorUID2Ev @ 62 NONAME
+	_ZNK13CFindItemMenu10SearchCaseEi @ 63 NONAME
+	_ZNK13CFindItemMenu15CommandIsValidLEi @ 64 NONAME
+	_ZNK13CFindItemMenu27DisplayFindItemCascadeMenuLER12CEikMenuPane @ 65 NONAME
+	_ZTI24CAiwGenericParamConsumer @ 66 NONAME ; #<TI>#
+	_ZTI8CErrorUI @ 67 NONAME ; #<TI>#
+	_ZTV24CAiwGenericParamConsumer @ 68 NONAME ; #<VT>#
+	_ZTV8CErrorUI @ 69 NONAME ; #<VT>#
+	_ZThn156_N15CFindItemDialog15ProcessCommandLEi @ 70 NONAME ; #<thunk>#
+	_ZThn156_N15CFindItemDialog16DynInitMenuPaneLEiP12CEikMenuPane @ 71 NONAME ; #<thunk>#
+	_ZN16CDocumentHandler22CheckFileNameExtensionER6TDes16RK9TDataType @ 72 NONAME
+	_ZN16CDocumentHandler23CanHandleProgressivelyLERK9TDataTypeR4TUid @ 73 NONAME
+	_ZTI24CRichTextEditorContainer @ 74 NONAME ; #<TI>#
+	_ZTV24CRichTextEditorContainer @ 75 NONAME ; #<VT>#
+	_ZN16CDocumentHandler30GetProgressiveDownloadAppUidsLER6RArrayIlE @ 76 NONAME
+	_ZN13CFindItemMenu24SetSenderHighlightStatusEi @ 77 NONAME
+	_ZN13CFindItemMenu20SetSenderDisplayTextERK7TDesC16 @ 78 NONAME
+	_ZN11CItemFinder11AddObserverER19MItemFinderObserver @ 79 NONAME
+	_ZN11CItemFinder11CurrentItemEv @ 80 NONAME ABSENT
+	_ZN11CItemFinder12SetFindModeLEi @ 81 NONAME
+	_ZN11CItemFinder13ParseThisTextERK9CRichTextiiiRiS3_ @ 82 NONAME
+	_ZN11CItemFinder14CreateDoItTextERK9CRichTextii @ 83 NONAME
+	_ZN11CItemFinder14CurrentItemExtEv @ 84 NONAME
+	_ZN11CItemFinder14ItemWasTappedLE6TPoint @ 85 NONAME
+	_ZN11CItemFinder16CurrentSelectionEv @ 86 NONAME
+	_ZN11CItemFinder16ResetCurrentItemEv @ 87 NONAME
+	_ZN11CItemFinder16SetExternalLinksEP13CArrayPtrFlatINS_12CFindItemExtEE @ 88 NONAME
+	_ZN11CItemFinder17ActivateThisTextLERK9CRichTextii @ 89 NONAME
+	_ZN11CItemFinder17GetRolloverFormatER11TCharFormat @ 90 NONAME
+	_ZN11CItemFinder17NextItemOrScrollLENS_14TFindDirectionE @ 91 NONAME
+	_ZN11CItemFinder18GetRecogniseFormatER11TCharFormat @ 92 NONAME
+	_ZN11CItemFinder18MParser_Reserved_2Ev @ 93 NONAME
+	_ZN11CItemFinder18PositionOfNextItemENS_14TFindDirectionE @ 94 NONAME
+	_ZN11CItemFinder20ConfirmCursorOverTagERK9CRichTextiii @ 95 NONAME
+	_ZN11CItemFinder22ResolveAndSetItemTypeLEi @ 96 NONAME
+	_ZN11CItemFinder4NewLEi @ 97 NONAME
+	_ZN11CItemFinder7ReleaseEv @ 98 NONAME
+	_ZN11CItemFinder9SetEditorEPP18CEikRichTextEditor @ 99 NONAME
+	_ZNK11CItemFinder18ReformatOnRolloverEv @ 100 NONAME
+	_ZNK11CItemFinder19ReformatOnRecogniseEv @ 101 NONAME
+	_ZThn4_N11CItemFinder13ParseThisTextERK9CRichTextiiiRiS3_ @ 102 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder14CreateDoItTextERK9CRichTextii @ 103 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder17ActivateThisTextLERK9CRichTextii @ 104 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder17GetRolloverFormatER11TCharFormat @ 105 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder18GetRecogniseFormatER11TCharFormat @ 106 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder18MParser_Reserved_2Ev @ 107 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder20ConfirmCursorOverTagERK9CRichTextiii @ 108 NONAME ; #<thunk>#
+	_ZThn4_N11CItemFinder7ReleaseEv @ 109 NONAME ; #<thunk>#
+	_ZThn4_NK11CItemFinder18ReformatOnRolloverEv @ 110 NONAME ; #<thunk>#
+	_ZThn4_NK11CItemFinder19ReformatOnRecogniseEv @ 111 NONAME ; #<thunk>#
+	_ZN13CFindItemMenu16AddItemFindMenuLEP11CItemFinderP12CEikMenuPaneiRK7TDesC16ii @ 112 NONAME
+	_ZN13CFindItemMenu23SetSenderDescriptorTypeEN11CItemFinder9TItemTypeE @ 113 NONAME
+	_ZN11CItemFinder12CFindItemExtD0Ev @ 114 NONAME
+	_ZN11CItemFinder12CFindItemExtD1Ev @ 115 NONAME
+	_ZN11CItemFinder12CFindItemExtD2Ev @ 116 NONAME
+	_ZTIN11CItemFinder12CFindItemExtE @ 117 NONAME ; #<TI>#
+	_ZTVN11CItemFinder12CFindItemExtE @ 118 NONAME ; #<VT>#
+	_ZN13CFindItemMenu21SetMenuItemVisibilityENS_9TMenuItemEi @ 119 NONAME
+	_ZN12MPBAiwNotify13HandleNotifyLEiiR20CAiwGenericParamListRKS0_ @ 120 NONAME
+

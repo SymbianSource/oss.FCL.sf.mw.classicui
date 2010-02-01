@@ -1,0 +1,491 @@
+<?xml version="1.0"?>
+<DICTTABLE>
+<DICTITEM>
+<APINAME><![CDATA[Common File Dialogs API]]></APINAME>
+<FILENAME><![CDATA[#AknCommonDialogs#CAknCommonDialogsBase#CAknFileNamePromptDialog#CAknFileSelectionDialog#CAknMemorySelectionDialog#CAknMemorySelectionSettingItem#CAknMemorySelectionSettingPage#CommonDialogsrh#CommonDialogs#MAknFileFilter#MAknFileSelectionObserver#MAknMemorySelectionObserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Error UI API]]></APINAME>
+<FILENAME><![CDATA[#ErrorUI#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Media Shared Document API]]></APINAME>
+<FILENAME><![CDATA[#MediaSharedDocument#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Find UI API]]></APINAME>
+<FILENAME><![CDATA[#Finditemdialog#Finditemmenu#finditemrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Generic Parameter API]]></APINAME>
+<FILENAME><![CDATA[#GenericParam#GenericParam.inl#GenericParamrh#GenericParamConsumer#Variant#Variant.inl#VariantTyperh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Document handler API]]></APINAME>
+<FILENAME><![CDATA[#DocumentHandler#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Application framework API]]></APINAME>
+<FILENAME><![CDATA[#aknapp#aknappui#akndoc#aknview#aknviewappui#eikapp#eikappui#eikaufty#eikcmobs#eikdoc#eikembal#eikenv#eikproc#eikvcurs#eiksrv#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Private UIKLAF API]]></APINAME>
+<FILENAME><![CDATA[#lafappui#lafbtgpc#lafbtpan#lafbutb#lafcmbut#lafedwin#laffnlab#lafimage#laflabel#laflbbut#laflbd#laflbed#laflbi#laflbv#laflbx#lafmenub#lafmenup#lafmnbut#lafmsg#lafsbfrm#lafscbut#lafscrlb#lafshut#lafspane#lafsrv#laftbar#lafthumb#laftxlbx#lafvcurs#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Screen saver API]]></APINAME>
+<FILENAME><![CDATA[#screensaverplugin#ScreensaverpluginIntDef#ScreensaverpluginIntDefrh#ScreensaverpluginIntDef.inl#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Generic Parameter API]]></APINAME>
+<FILENAME><![CDATA[#AiwGenericParam#AiwGenericParamrh#AiwGenericParam.inl#AiwVariant#AiwVariant.inl#AiwVariantTyperh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Private clock API]]></APINAME>
+<FILENAME><![CDATA[#eikclock#eikclockctrlrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Help API]]></APINAME>
+<FILENAME><![CDATA[#eikbhelp#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Server application services API]]></APINAME>
+<FILENAME><![CDATA[#AknOpenFileService#AknNullService#AknLaunchAppService#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Context pane API]]></APINAME>
+<FILENAME><![CDATA[#akncontext#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Title pane API]]></APINAME>
+<FILENAME><![CDATA[#akntitle#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended indicators API]]></APINAME>
+<FILENAME><![CDATA[#akneditstateindicator#aknindicator#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended notifiers API]]></APINAME>
+<FILENAME><![CDATA[#aknnotifiercontroller#aknbatterynotify#aknsignalnotify#aknincallbubblenotify#aknsoftnotifier#aknsmallindicator#akndialogcontroller#aknkeylocknotifier#aknsignalnotifyaddition#aknsoftnotificationparameters#alarmobserver#aknnotifierwrapper#AknNotifierAppServer#AknNotifierAppServerSession#AknNotiferAppServerApplication#AknNotifierWrapperDefs#AknNotifierControllerUtilities#AknNotifierControllerPlugin#AknAsyncDemoNotify#AknNotifySignature#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended fonts API]]></APINAME>
+<FILENAME><![CDATA[#AknFontProvider#AknFontId#AknFontIdOffsetsrh#AknFontProviderSuppliedMetrics#AknFontIdLayoutFont#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Animation API]]></APINAME>
+<FILENAME><![CDATA[#aknanimrh#aknanim#aknbitmapanimation#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Status pane API]]></APINAME>
+<FILENAME><![CDATA[#eikspane#eikspmod#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Private UI Framework API]]></APINAME>
+<FILENAME><![CDATA[#eikalert#eikbtpan#eikdgfty#eikdll#eikdpage#eikhfdlg#eikhkeyc#eikirfty#eiklay#eiklibry#eikscncl#eikshut#eiksrvc#eiksrvs#eikunder#eiksvfty#eikalsrv#eikalsup#eiknfysv#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Tabs API]]></APINAME>
+<FILENAME><![CDATA[#akntabgrp#akntabobserver#AknTabGrpPenEventObserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Item finder API]]></APINAME>
+<FILENAME><![CDATA[#aknitemfinder#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended scroller API]]></APINAME>
+<FILENAME><![CDATA[#aknscind#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended initialization API]]></APINAME>
+<FILENAME><![CDATA[#aknlib#akninit#eikcdlib#eikcdfty#eikdlib#eikinit#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended status pane API]]></APINAME>
+<FILENAME><![CDATA[#aknsgcc#eiksrvsp#aknsyncdraw#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[ATOK API]]></APINAME>
+<FILENAME><![CDATA[#atok_dic#atok_exp#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Layout tree API]]></APINAME>
+<FILENAME><![CDATA[#AknLayoutTree#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Buttons API]]></APINAME>
+<FILENAME><![CDATA[#eikbgfty#eikbtgpc#eikbutb#eikcba#eikcmbut#eiklbbut#eikmnbut#eikbtgps#eikbtgrp#aknbutton#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Sounds API]]></APINAME>
+<FILENAME><![CDATA[#aknsoundsystem#aknSoundInfo#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended buttons API]]></APINAME>
+<FILENAME><![CDATA[#eiksoftkeyimage#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Queries API]]></APINAME>
+<FILENAME><![CDATA[#akndialog#aknlistquerycontrol#aknlistquerydialog#aknmessagequerycontrol#aknmessagequerydialog#aknmultilinequerycontrol#aknquerycontrol#aknquerydata#aknquerydialog#aknqueryvalue#aknqueryvaluedate#aknqueryvalueduration#aknqueryvaluenumber#aknqueryvaluephone#aknqueryvaluetext#aknqueryvaluetime#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Cover UI deprecated API]]></APINAME>
+<FILENAME><![CDATA[#AknPublishToCoverUI#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Eikon server extension client API]]></APINAME>
+<FILENAME><![CDATA[#akneiksrvc#akneiksrvs#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended utilities API]]></APINAME>
+<FILENAME><![CDATA[#aknsettingcache#eikmop#akndateformatutils#aknitemfinder#jplangutil#aknlinebreaker#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Screen clearer API]]></APINAME>
+<FILENAME><![CDATA[#aknclearer#eikspace#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Input frame API]]></APINAME>
+<FILENAME><![CDATA[#akninfrm#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Images API]]></APINAME>
+<FILENAME><![CDATA[#eikimage#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[T9 engine API]]></APINAME>
+<FILENAME><![CDATA[#et9lang#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Slider API]]></APINAME>
+<FILENAME><![CDATA[#aknslider#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Criteria API]]></APINAME>
+<FILENAME><![CDATA[#aiwcommon#aiwcommonrh#aiwcommon#AiwDialDataTypes#AiwDialDataTypes.inl#AiwMediaGalleryCommandsrh#AiwPoCParametersrh#AiwPoCParameters#AiwPoCParameters.inl#AiwContactSelectionDataTypes#AiwContactSelectionDataTypes.inl#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended setting pages API]]></APINAME>
+<FILENAME><![CDATA[#AknTransparentCameraSettingPage#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Calendar API]]></APINAME>
+<FILENAME><![CDATA[#eikcal#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[SortUtil API]]></APINAME>
+<FILENAME><![CDATA[#sortutil#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Touch pane API]]></APINAME>
+<FILENAME><![CDATA[#akntouchpaneobserver#akntouchpane#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Phone number text utilities API]]></APINAME>
+<FILENAME><![CDATA[#AknPhoneNumberTextUtils#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Server application API]]></APINAME>
+<FILENAME><![CDATA[#aknserverapp#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Deprecated, for compatibility]]></APINAME>
+<FILENAME><![CDATA[#calslbs#notecontrol#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Misc controls API]]></APINAME>
+<FILENAME><![CDATA[#eikcapc#eikcapca#eikdpobs#eikmover#eikconso#eikctgrp#eikkwin#eiktbar#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended editors API]]></APINAME>
+<FILENAME><![CDATA[#aknphonenumbereditor#aknedwincustomdrawbase#aknedwincustomdrawprivate#aknedformaccessor#formcursormodifierint#fepipext #aknedwindrawingmodifier#aknformaccessor#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended sounds API]]></APINAME>
+<FILENAME><![CDATA[#eikkeysound#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Setting pages API]]></APINAME>
+<FILENAME><![CDATA[#akncheckboxsettingpage#aknpasswordsettingpage#akntextsettingpage#aknslidersettingpage#aknmfnesettingpage#aknsettingitemlist#aknsettingpage#aknvolumesettingpage#aknradiobuttonsettingpage#akndescarraydecorator#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Menus API]]></APINAME>
+<FILENAME><![CDATA[#eikmenub#eikmenup#eikamnt#eikmobs#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Popups API]]></APINAME>
+<FILENAME><![CDATA[#aknpopup#aknpopupfader#aknpopupfield#aknpopupfieldlist#aknpopupfieldtext#aknpopupheadingpane#aknpopuplayout#aknpopupsettingpage#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended constant definitions API]]></APINAME>
+<FILENAME><![CDATA[#aknfepglobalenums#puacodesrh#aknpriv#aknprivrh#AknFepGlobalTables#SystemWarningLevelsrh#Languagesrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Input language info API]]></APINAME>
+<FILENAME><![CDATA[#akninputlanguageinfo#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Scroller API]]></APINAME>
+<FILENAME><![CDATA[#aknscbut#aknscrlb#eiksbfrm#eiksbobs#eikscbut#eikscrlb#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[CDL API]]></APINAME>
+<FILENAME><![CDATA[#cdldef#CdlTkInterface#CdlTkInstance#CdlTkProcess#CdlTkUtil#CdlEngDef#CdlTypes#UserPckg.cdl#CdlEngine#CdlRefs#CdlRefs.inl#CdlExplorer#CdlExplorer.inl#CdlUserPackageExplorer#CdlEcomrh#CdlEcom#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Palette API]]></APINAME>
+<FILENAME><![CDATA[#palette#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended queries API]]></APINAME>
+<FILENAME><![CDATA[#aknquerylaf#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Alarm API]]></APINAME>
+<FILENAME><![CDATA[#eikalmct#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Labels API]]></APINAME>
+<FILENAME><![CDATA[#eikfnlab#eiklabel#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Intermediate state API]]></APINAME>
+<FILENAME><![CDATA[#aknintermediate#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[PtiEngine API]]></APINAME>
+<FILENAME><![CDATA[#PtiDefs#PtiDefs.inl#PtiEngine #PtiCore#PtiLanguage#PtiLanguage.inl#PtiKeyMappings#PtiUserDictionary#PtiUserDictionary.inl#PtiObserver#PtiCompositionDataIF#PtiUserDicEntry#PtiUserDicEntry.inl#PtiLanguageDatabase#PtiUidsrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Base controls API]]></APINAME>
+<FILENAME><![CDATA[#eikdialg#eikalign#eikbctrl#akncontrol#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Keylock API]]></APINAME>
+<FILENAME><![CDATA[#aknkeylock#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended skins API]]></APINAME>
+<FILENAME><![CDATA[#AknsPointerStore#AknsItemDef#AknsSkinUID#AknsSrvClient#AknsSrvSkinInformationPkg#AknsSrvChunkLookup#AknsPkgID#AknsPkgID.inl#AknsRendererWrapper#AknsEffectAnim#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended AIW Criteria API]]></APINAME>
+<FILENAME><![CDATA[#AiwCdmaCommandsrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Searchfield API]]></APINAME>
+<FILENAME><![CDATA[#aknsfld#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Text scroller API]]></APINAME>
+<FILENAME><![CDATA[#aknmarqueecontrol#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Notes API]]></APINAME>
+<FILENAME><![CDATA[#aknnotecontrol#aknnotedialog#aknnotewrappers#aknprogressdialog#aknprogresstimer#aknstaticnotedialog#aknwaitdialog#aknwaitnotewrapper#eikinfo#eikprogi#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Clock API]]></APINAME>
+<FILENAME><![CDATA[#eikclock#eikclock#eikclockctrlrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended lists API]]></APINAME>
+<FILENAME><![CDATA[#aknshortcuts#aknjavalists#eikslbd#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended notes API]]></APINAME>
+<FILENAME><![CDATA[#notelaf#aknnoteattributes#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Utilities API]]></APINAME>
+<FILENAME><![CDATA[#aknkeys#aknutils#aknenv#akniconarray#eikdebug#eikfctry#eikfutil#eikmsg#eikrutil#eiktopset#AknBidiTextUtils#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Japanese reading API]]></APINAME>
+<FILENAME><![CDATA[#aknjapanesereading#aknjapanesereading.inl#aknreadingconverter#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Title pane touch observer API]]></APINAME>
+<FILENAME><![CDATA[#akntitlepaneobserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Lists API]]></APINAME>
+<FILENAME><![CDATA[#aknlistboxlayoutdecorator#aknlistboxsettingpage#aknlists#aknselectionlist#eikclb#eikclbd#eikfrlb#eikfrlbd#eikslb#eiklbd#eiklbed#eiklbi#eiklbm#eiklbo#eiklbv#eiklbx#eiktxlbm#eiktxlbx#eiklbx.pan#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Info popup note API]]></APINAME>
+<FILENAME><![CDATA[#AknInfoPopupNote#AknInfoPopupNoteController#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Initialization API]]></APINAME>
+<FILENAME><![CDATA[#eikctlib#eikcolib#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Avkon anim DLL API]]></APINAME>
+<FILENAME><![CDATA[#aknanimdllstd#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Volume popup API]]></APINAME>
+<FILENAME><![CDATA[#AknVolumePopup#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Fonts API]]></APINAME>
+<FILENAME><![CDATA[#lafenv#AknLayoutFont#AknTextDecorationMetrics#AknFontSpecification#AknFontCategoryrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended grids API]]></APINAME>
+<FILENAME><![CDATA[#aknappgrid#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Form API]]></APINAME>
+<FILENAME><![CDATA[#aknform#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Hotkeys API]]></APINAME>
+<FILENAME><![CDATA[#eikhkeyt#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Emergency call support API]]></APINAME>
+<FILENAME><![CDATA[#aknecs#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Skins API]]></APINAME>
+<FILENAME><![CDATA[#AknsSkinInstance#AknsItemData#AknsUtils#AknsDrawUtils#AknsItemID#AknsItemID.inl#AknsConstants#AknsConstantsrh#AknsBasicBackgroundControlContext#AknsListBoxBackgroundControlContext#AknsLayeredBackgroundControlContext#AknsFrameBackgroundControlContext#AknsControlContext#AknsDataContext#AknsRlEffect#AknsRlEffectContext#AknsRlParameter#AknsWallPaperUtils#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Memory card UI API]]></APINAME>
+<FILENAME><![CDATA[#aknmemorycarddialog#aknmemorycardui#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Application switching API]]></APINAME>
+<FILENAME><![CDATA[#eiksrvui#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Signal pane API]]></APINAME>
+<FILENAME><![CDATA[#aknsignal#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Editors API]]></APINAME>
+<FILENAME><![CDATA[#aknedsts#aknedstsobs#aknnumed#aknnumedwin#aknnumseced#aknipfed#eikfpne#eikgted#eikmfne#eikrted#eikseced#lafmain#eikccpu#eikedwin#eikedwob#eikedwin.pan#aknmfnecommandobserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Special character table API]]></APINAME>
+<FILENAME><![CDATA[#aknsctdialog#akncharmap#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Toolbar API]]></APINAME>
+<FILENAME><![CDATA[#eikdlgtb#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[FindUtil API]]></APINAME>
+<FILENAME><![CDATA[#findutil#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Window server event observer API]]></APINAME>
+<FILENAME><![CDATA[#aknwseventobserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Layout system private API]]></APINAME>
+<FILENAME><![CDATA[#AknLayout2Def#AknLayout2DataDef#AknLayout2Decode#AknLayout2ScalableDef#AknLayout2ScalableDataDef#AknLayout2AdaptationDataDef#AknLayout2ScalableDecode#AknLayout2AdaptationDecode#cdlfont#LayoutPack.cdl#AknLayoutByteCodes#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended animation API]]></APINAME>
+<FILENAME><![CDATA[#aknanimdata#aknanimgc#aknanimview#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Grids API]]></APINAME>
+<FILENAME><![CDATA[#akngmsstylegrid#akngrid#akngridview#akngridm#AknColourSelectionGrid#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Extended dialogs API]]></APINAME>
+<FILENAME><![CDATA[#eikdialogext#eikdpsel#eikpgsel#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Indicator touch observer API]]></APINAME>
+<FILENAME><![CDATA[#aknindicatorobserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Provider Utility API]]></APINAME>
+<FILENAME><![CDATA[#AiwMenu#AiwProviderObserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Volume control API]]></APINAME>
+<FILENAME><![CDATA[#aknvolumecontrol#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Dialog shutter API]]></APINAME>
+<FILENAME><![CDATA[#akndlgshut#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[LOC files]]></APINAME>
+<FILENAME><![CDATA[#avkonsct.loc#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Dialogs API]]></APINAME>
+<FILENAME><![CDATA[#eikdialg#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Service Handler API]]></APINAME>
+<FILENAME><![CDATA[#AiwServiceHandler#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Navigation pane API]]></APINAME>
+<FILENAME><![CDATA[#aknnavi#aknnavide#aknnavilabel#aknnaviobserver#AknNaviDecoratorObserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Avkon UI server API]]></APINAME>
+<FILENAME><![CDATA[#akncapserverclient#akncapserverdefs#akncapserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Constant definitions API]]></APINAME>
+<FILENAME><![CDATA[#aknconsts#aknborders#aknpanic#aknlayoutdef#aknlayout2id#avkonrh#avkon#eikonrh#eikon#eikcolorrh#eiksfont#lafpublc#lafpublcrh#lafpanic#uikonrh#uikon#eikkeys#eikdef#eikpanic#eiksvdef#eikver#fontids#fontidsrh#avkon.rsg#eikcore.rsg#eikcoctl.rsg#eikctl.rsg#eikcdlg.rsg#eikon.rsg#AVKON.mbg#eiksrv.pan#aknfontcategoryrh#aknfontidoffsetsrh#thirdpartybitmap.pal#eikform.pan#eikdialg.pan#akndef#eikcoctlpanic#avkoniconsrh#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Battery pane API]]></APINAME>
+<FILENAME><![CDATA[#aknbattery#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Skinnable clock API]]></APINAME>
+<FILENAME><![CDATA[#aknskinnableclock#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Service Interface Menu API]]></APINAME>
+<FILENAME><![CDATA[#AiwServiceIfMenu#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Activity manager API]]></APINAME>
+<FILENAME><![CDATA[#activitymanager#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Directory localizer API]]></APINAME>
+<FILENAME><![CDATA[#DirectoryLocalizer#CDirectoryLocalizer#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Scalable icons API]]></APINAME>
+<FILENAME><![CDATA[#akniconutils#akniconsrvclient#akniconobserver#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Number grouping API]]></APINAME>
+<FILENAME><![CDATA[#numbergrouping#numbergroupingstd#AknPhoneNumberGrouping#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Pictograph API]]></APINAME>
+<FILENAME><![CDATA[#AknPictographInterface#AknPictographInterface.inl#AknPictographDrawerInterface#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Popup form API]]></APINAME>
+<FILENAME><![CDATA[#AknPopupForm#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Notifiers API]]></APINAME>
+<FILENAME><![CDATA[#aknglobalconfirmationquery#akngloballistquery#aknglobalmsgquery#aknglobalnote#aknglobalprogressdialog#aknnotify#aknnotifystd#aknpopupnotify#eiknotapi#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[AIW Service Interface Base API]]></APINAME>
+<FILENAME><![CDATA[#AiwServiceIfBase#]]></FILENAME>
+</DICTITEM>
+<DICTITEM>
+<APINAME><![CDATA[Indicators API]]></APINAME>
+<FILENAME><![CDATA[#aknindicatorcontainer#]]></FILENAME>
+</DICTITEM>
+</DICTTABLE>

@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN22CEikServShutdownServer4NewLEv @ 1 NONAME
+	_ZTI22CEikServShutdownServer @ 2 NONAME ABSENT ; #<TI>#
+	_ZTV22CEikServShutdownServer @ 3 NONAME ABSENT ; #<VT>#
+

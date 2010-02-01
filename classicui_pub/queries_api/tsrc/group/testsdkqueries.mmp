@@ -1,0 +1,86 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ?Description
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#include <platform_paths.hrh>
+
+
+TARGET          testsdkqueries.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB82
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkqueries.def
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../data
+START RESOURCE testsdkqueries.rss
+TARGETPATH RESOURCE_FILES_DIR
+HEADER
+END
+SOURCEPATH      ../src
+
+
+SOURCE          testsdkqueries.cpp
+SOURCE          testsdkqueriesblocks.cpp
+SOURCE          testsdkqueriesblocksdlg.cpp
+SOURCE          testsdkqueriescontainer.cpp
+SOURCE          testsdkqueriesview.cpp 
+SOURCE          testsdkqueriesblockslistquerycontrol.cpp
+SOURCE          testsdkqueriesblockslistquerydlg.cpp
+SOURCE          testsdkqueriesblocksmessagequerycontrol.cpp
+SOURCE          testsdkqueriesblocksmessagequerydlg.cpp
+SOURCE          testsdkqueriesblocksmultilinequerycontrol.cpp
+SOURCE          testsdkqueriesblocksquerycontrol.cpp
+SOURCE          testsdkqueriesblocksquerydata.cpp
+SOURCE          testsdkqueriesblocksquerydlg.cpp
+SOURCE          testsdkqueriesblocksqueryvalue.cpp
+SOURCE          testsdkqueriesblocksqueryvaluedate.cpp
+SOURCE          testsdkqueriesblocksqueryvalueduration.cpp
+SOURCE          testsdkqueriesblocksqueryvaluenumber.cpp
+SOURCE          testsdkqueriesblocksqueryvaluephone.cpp
+SOURCE          testsdkqueriesblocksqueryvaluetext.cpp
+SOURCE          testsdkqueriesblocksqueryvaluetime.cpp
+SOURCE          testsdkaknListquerydialogprotected.cpp 
+SOURCE          testsdkdialogmediatorobserver.cpp 
+SOURCE          testsdkaknquerydialogprotected.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib 
+LIBRARY         eikcoctl.lib
+LIBRARY         eikcore.lib 
+LIBRARY         cone.lib
+LIBRARY         eikdlg.lib
+LIBRARY         bafl.lib
+LIBRARY         aknicon.lib
+LIBRARY         egul.lib
+LIBRARY         Lbs.lib
+LIBRARY         insock.lib
+
+LANG            SC
+
+// End of File
+
+
+

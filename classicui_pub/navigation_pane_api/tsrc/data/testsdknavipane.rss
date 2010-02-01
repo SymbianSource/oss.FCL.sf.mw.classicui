@@ -1,0 +1,123 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdknavipane
+ *
+*/
+
+
+NAME    TEST
+
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include "testsdknavipane.loc"
+
+#define TESTSDKNAVIPANE_VALUE5 5
+
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testsdknavipane_navidecorator
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_testsdknavipane_navidecorator
+    {
+    type = ENaviDecoratorLabel;
+    control = NAVI_LABEL
+        {
+        txt = qtn_testsdknavipane_navelabel;
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testsdknavipane_tabgroup
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TAB_GROUP r_testsdknavipane_tabgroup
+    {
+    tab_width = EAknTabWidthWithTwoTabs;
+    active = 0;
+    tabs = 
+        {
+        TAB
+            {
+            id = 0;
+            txt = qtn_testsdknavipane_tab;
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_indi_signal_strength;
+            bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+            },
+        TAB
+            {
+            id = 1;
+            txt = qtn_testsdknavipane_tab;
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_indi_battery_strength;
+            bmpid = EMbmAvkonQgn_indi_battery_strength_mask;
+            }
+        };
+    }
+
+RESOURCE NAVI_LABEL r_testsdknavipane_navilabel
+{
+txt = qtn_testsdknavipane_navelabel;
+}
+
+//-----------------------------------------------------------------------------
+//
+//    r_testsdknavipane_naviimage
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE NAVI_IMAGE r_testsdknavipane_naviimage
+    {
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_battery_strength;
+    bmpid = EMbmAvkonQgn_indi_battery_strength_mask;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testsdknavipane_volume_indicator
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE VOLUME r_testsdknavipane_volume_indicator
+    {
+    flags = ESettingsVolumeControl;
+    value = TESTSDKNAVIPANE_VALUE5;
+    }
+
+
+
+#include "testsdknavipanecontainer.rssi"
+
+// End of files

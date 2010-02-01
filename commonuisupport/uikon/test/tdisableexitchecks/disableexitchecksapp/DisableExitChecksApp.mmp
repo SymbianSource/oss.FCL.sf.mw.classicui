@@ -1,0 +1,57 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// using relative paths for sourcepath and user includes
+// 
+//
+
+/**
+ @file
+*/
+
+target		disableexitchecksapp.exe
+TARGETTYPE 	exe
+	
+targetpath		/sys/bin
+UID           	0x100039CE 0x102857AF
+VENDORID 		0x70000001
+CAPABILITY 		NONE
+epocstacksize 	0x5000
+
+SOURCEPATH    .
+SOURCE		DisableExitChecksApp.cpp
+
+USERINCLUDE   ../disableexitchecksapp
+APP_LAYER_SYSTEMINCLUDE 
+
+// Application exe specific resource which is localised to the application
+RESOURCE	 	DisableExitChecksApp.rss
+start resource	DisableExitChecksApp.rss
+targetpath		/resource/apps
+lang			sc
+end
+
+// Application exe registration resource file
+START RESOURCE	DisableExitChecksApp_reg.rss
+TARGETPATH		/private/10003a3f/apps
+lang			sc
+END
+
+
+LIBRARY       euser.lib 
+LIBRARY		  apparc.lib 
+LIBRARY		  cone.lib 
+LIBRARY		  eikcore.lib
+LIBRARY		  gdi.lib
+
+SMPSAFE

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="b3936cb0d517f60a8aec2824a5cc572f" dataversion="1.0">
+  <name>Long Tap Animation API</name>
+  <description>Provides UI component taking care of showing the long tap animation.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

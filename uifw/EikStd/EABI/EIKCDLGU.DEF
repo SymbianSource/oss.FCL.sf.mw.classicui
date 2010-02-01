@@ -1,0 +1,27 @@
+EXPORTS
+	_ZN12CEikDebugWin19HandlePointerEventLERK13TPointerEvent @ 1 NONAME
+	_ZN13CEikDebugKeys19HandlePointerEventLERK13TPointerEvent @ 2 NONAME
+	_ZN14CEikInfoDialog18ExtensionInterfaceE4TUid @ 3 NONAME
+	_ZN14CEikInfoDialog19HandlePointerEventLERK13TPointerEvent @ 4 NONAME
+	_ZN14CEikInfoDialog21CEikDialog_Reserved_1Ev @ 5 NONAME
+	_ZN14CEikInfoDialog21CEikDialog_Reserved_2Ev @ 6 NONAME
+	_ZN14CEikInfoDialog8RunDlgLDERK7TDesC16S2_NS_9TExitKeysE @ 7 NONAME
+	_ZN14CEikInfoDialogC1ERK7TDesC16S2_NS_9TExitKeysE @ 8 NONAME
+	_ZN14CEikInfoDialogC2ERK7TDesC16S2_NS_9TExitKeysE @ 9 NONAME
+	_ZN15CEikCDlgLibrary11InitializeLEv @ 10 NONAME
+	_ZN15CEikCDlgLibrary12ResourceFileEv @ 11 NONAME
+	_ZN15CEikCDlgLibrary14ControlFactoryEv @ 12 NONAME
+	_ZN15CEikCDlgLibrary18RequestInfoDialogLEv @ 13 NONAME
+	_ZN15CEikCDlgLibrary19RequestQueryDialogLEv @ 14 NONAME
+	_ZN21CEikCDlgDialogFactory4NewLEv @ 15 NONAME
+	_ZN9CEikAlert18ExtensionInterfaceE4TUid @ 16 NONAME
+	_ZN9CEikAlert19HandlePointerEventLERK13TPointerEvent @ 17 NONAME
+	_ZTI12CEikDebugWin @ 18 NONAME ; #<TI>#
+	_ZTI13CEikDebugKeys @ 19 NONAME ; #<TI>#
+	_ZTI14CEikInfoDialog @ 20 NONAME ; #<TI>#
+	_ZTI9CEikAlert @ 21 NONAME ; #<TI>#
+	_ZTV12CEikDebugWin @ 22 NONAME ; #<VT>#
+	_ZTV13CEikDebugKeys @ 23 NONAME ; #<VT>#
+	_ZTV14CEikInfoDialog @ 24 NONAME ; #<VT>#
+	_ZTV9CEikAlert @ 25 NONAME ; #<VT>#
+

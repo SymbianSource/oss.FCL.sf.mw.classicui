@@ -1,0 +1,72 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains declarations for constants of aknconf.
+ *                The file can be included in C++ or resource file.
+ *
+*/
+
+
+#ifndef __AKNCONF_HRH__
+#define __AKNCONF_HRH__
+
+#define _UID3 0x20021193
+
+// aknconf enumerate command codes
+enum TAknConfIds
+    {
+    EAbout = 1,
+    EResetValues,
+    EAknConfView,
+    EGestureConfView
+    };
+
+// aknconf enumerate setting ids
+enum TaknconfphysicsSettings
+    {
+    EAknConfPhysicsSettingMass = 1,
+    EAknConfPhysicsSettingGravity,
+    EAknConfPhysicsSettingSurfaceSoftErp,
+    EAknConfPhysicsSettingSurfaceSoftCfm,
+    EAknConfPhysicsSettingHighlightTimeout,
+    EAknConfPhysicsSettingDragThreshold,
+    EAknConfPhysicsSettingFrameDelay,
+    EAknConfPhysicsSettingMinFrameInterval,
+    EAknConfPhysicsSettingFeatureEnabled,
+    EAknConfPhysicsSettingShortListEmptySpace,
+    EAknConfPhysicsSettingLongListEmptySpace,
+    EAknConfPhysicsSettingFpsLoggingEnabled,
+    EAknConfPhysicsLastSetting
+    };
+
+// aknconf gesture enumerate setting ids
+enum TAknConfGestureSettings
+    {
+    EAknConfGestureSettingTapThreshold = EAknConfPhysicsLastSetting,
+    EAknConfGestureSettingLongTapThreshold,
+    EAknConfGestureSettingDoubleTapThreshold,
+    EAknConfGestureSettingDragThreshold,
+    EAknConfGestureSettingFlickBuffer,
+    EAknConfGestureSettingFlickSpeedThreshold,
+    EAknConfGestureSettingFlickDetectionTime,
+    EAknConfGestureSettingFlickDirectionChange,
+    EAknConfGestureSettingPinchInitialThreshold,
+    EAknConfGestureSettingPinchMovementThreshold,
+    EAknConfGestureSettingPinchDirectionChangeSensitivity,
+    EAknConfGestureSettingPinchDirectionResetSensitivity,
+    EAknConfGestureSettingPinchDimensionThreshold,
+    EAknConfGestureSettingPinchMaximumConfirmationDuration,
+    EAknConfGestureLastSetting
+    };
+
+#endif // __AKNCONF_HRH__

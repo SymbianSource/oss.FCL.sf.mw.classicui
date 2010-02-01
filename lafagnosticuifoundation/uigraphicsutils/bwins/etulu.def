@@ -1,0 +1,38 @@
+EXPORTS
+	?Format@TulTextResourceUtils@@SAXAAVTDes16@@ABVTDesC16@@H1@Z @ 1 NONAME ; void TulTextResourceUtils::Format(class TDes16 &, class TDesC16 const &, int, class TDesC16 const &)
+	?Format@TulTextResourceUtils@@SAXAAVTDes16@@ABVTDesC16@@HH@Z @ 2 NONAME ; void TulTextResourceUtils::Format(class TDes16 &, class TDesC16 const &, int, int)
+	?Load@TulTextResourceUtils@@SAXAAVTDes16@@HPAVCCoeEnv@@@Z @ 3 NONAME ; void TulTextResourceUtils::Load(class TDes16 &, int, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HABV?$CArrayFix@H@@PAVCCoeEnv@@@Z @ 4 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class CArrayFix<int> const &, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HABVMDesC16Array@@ABV?$CArrayFix@H@@PAVCCoeEnv@@@Z @ 5 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class MDesC16Array const &, class CArrayFix<int> const &, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HABVMDesC16Array@@PAVCCoeEnv@@@Z @ 6 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class MDesC16Array const &, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HABVTDesC16@@HPAVCCoeEnv@@@Z @ 7 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class TDesC16 const &, int, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HABVTDesC16@@PAVCCoeEnv@@@Z @ 8 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class TDesC16 const &, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HHPAVCCoeEnv@@@Z @ 9 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, int, class CCoeEnv *)
+	?LoadL@TulTextResourceUtils@@SAPAVHBufC16@@HPAVCCoeEnv@@@Z @ 10 NONAME ; class HBufC16 * TulTextResourceUtils::LoadL(int, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HABV?$CArrayFix@H@@PAVCCoeEnv@@@Z @ 11 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class CArrayFix<int> const &, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HABVMDesC16Array@@ABV?$CArrayFix@H@@PAVCCoeEnv@@@Z @ 12 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class MDesC16Array const &, class CArrayFix<int> const &, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HABVMDesC16Array@@PAVCCoeEnv@@@Z @ 13 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class MDesC16Array const &, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HABVTDesC16@@HPAVCCoeEnv@@@Z @ 14 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class TDesC16 const &, int, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HABVTDesC16@@PAVCCoeEnv@@@Z @ 15 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class TDesC16 const &, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HHPAVCCoeEnv@@@Z @ 16 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, int, class CCoeEnv *)
+	?LoadLC@TulTextResourceUtils@@SAPAVHBufC16@@HPAVCCoeEnv@@@Z @ 17 NONAME ; class HBufC16 * TulTextResourceUtils::LoadLC(int, class CCoeEnv *)
+	?IsValid@TulPhoneNumberUtils@@SAHABVTDesC16@@W4TPhoneNumberType@1@@Z @ 18 NONAME ; int TulPhoneNumberUtils::IsValid(class TDesC16 const &, enum TulPhoneNumberUtils::TPhoneNumberType)
+	?Normalize@TulPhoneNumberUtils@@SAHAAVTDes16@@W4TPhoneNumberType@1@@Z @ 19 NONAME ; int TulPhoneNumberUtils::Normalize(class TDes16 &, enum TulPhoneNumberUtils::TPhoneNumberType)
+	??1CTulAddressStringTokenizer@@UAE@XZ @ 20  NONAME ; CTulAddressStringTokenizer::~CTulAddressStringTokenizer(void)
+	?DoNewSearchL@CTulAddressStringTokenizer@@QAEHABVTDesC16@@H@Z @ 21  NONAME ; int CTulAddressStringTokenizer::DoNewSearchL(class TDesC16 const &, int)
+	?DoNewSearchL@CTulAddressStringTokenizer@@QAEHABVTDesC16@@HH@Z @ 22  NONAME ; int CTulAddressStringTokenizer::DoNewSearchL(class TDesC16 const &, int, int)
+	?Item@CTulAddressStringTokenizer@@QBEHAAUSFoundItem@1@@Z @ 23  NONAME ; int CTulAddressStringTokenizer::Item(struct CTulAddressStringTokenizer::SFoundItem &) const
+	?ItemArray@CTulAddressStringTokenizer@@QBEPBV?$CArrayFixFlat@USFoundItem@CTulAddressStringTokenizer@@@@XZ @ 24  NONAME ; class CArrayFixFlat<struct CTulAddressStringTokenizer::SFoundItem> const * CTulAddressStringTokenizer::ItemArray(void) const
+	?ItemCount@CTulAddressStringTokenizer@@QBEHXZ @ 25  NONAME ; int CTulAddressStringTokenizer::ItemCount(void) const
+	?NewL@CTulAddressStringTokenizer@@SAPAV1@ABVTDesC16@@H@Z @ 26  NONAME ; class CTulAddressStringTokenizer * CTulAddressStringTokenizer::NewL(class TDesC16 const &, int)
+	?NewL@CTulAddressStringTokenizer@@SAPAV1@ABVTDesC16@@HH@Z @ 27  NONAME ; class CTulAddressStringTokenizer * CTulAddressStringTokenizer::NewL(class TDesC16 const &, int, int)
+	?NextItem@CTulAddressStringTokenizer@@QAEHAAUSFoundItem@1@@Z @ 28  NONAME ; int CTulAddressStringTokenizer::NextItem(struct CTulAddressStringTokenizer::SFoundItem &)
+	?Position@CTulAddressStringTokenizer@@QBEHXZ @ 29  NONAME ; int CTulAddressStringTokenizer::Position(void) const
+	?PrevItem@CTulAddressStringTokenizer@@QAEHAAUSFoundItem@1@@Z @ 30  NONAME ; int CTulAddressStringTokenizer::PrevItem(struct CTulAddressStringTokenizer::SFoundItem &)
+	?ResetPosition@CTulAddressStringTokenizer@@QAEXXZ @ 31  NONAME ; void CTulAddressStringTokenizer::ResetPosition(void)
+	?NewL@CTulStringResourceReader@@SAPAV1@AAV?$TBuf@$0BAA@@@@Z @ 32 NONAME ; class CTulStringResourceReader * CTulStringResourceReader::NewL(class TBuf<256> &)
+	?NewL@CTulStringResourceReader@@SAPAV1@AAV?$TBuf@$0BAA@@@AAVRFs@@@Z @ 33 NONAME ; class CTulStringResourceReader * CTulStringResourceReader::NewL(class TBuf<256> &, class RFs &)
+	?NewLC@CTulStringResourceReader@@SAPAV1@AAV?$TBuf@$0BAA@@@@Z @ 34 NONAME ; class CTulStringResourceReader * CTulStringResourceReader::NewLC(class TBuf<256> &)
+	?NewLC@CTulStringResourceReader@@SAPAV1@AAV?$TBuf@$0BAA@@@AAVRFs@@@Z @ 35 NONAME ; class CTulStringResourceReader * CTulStringResourceReader::NewLC(class TBuf<256> &, class RFs &)
+	?ReadResourceString@CTulStringResourceReader@@QAEABVTDesC16@@H@Z @ 36 NONAME ; class TDesC16 const & CTulStringResourceReader::ReadResourceString(int)
+

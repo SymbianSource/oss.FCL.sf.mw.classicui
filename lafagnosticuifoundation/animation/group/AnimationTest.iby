@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __ANIMATIONTEST_IBY__
+#define __ANIMATIONTEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+
+#include <Animation.iby>
+
+REM Animation test suite
+
+file=ABI_DIR\DEBUG_DIR\animationtestserver.exe 			sys\bin\animationtestserver.exe
+ECOM_PLUGIN(testanimators.dll,testanimators.rsc)
+
+data=DATAZ_\animationtest\animationtest_run.bat         \animationtest_run.bat
+data=DATAZ_\animationtest\animationtest_t_basic.script	\animationtest\animationtest_t_basic.script
+data=DATAZ_\animationtest\animationtest_t_custom.script	\animationtest\animationtest_t_custom.script
+data=DATAZ_\animationtest\animationtest_t_frames.script	\animationtest\animationtest_t_frames.script
+data=DATAZ_\animationtest\animationtest_t_mng.script	\animationtest\animationtest_t_mng.script
+data=DATAZ_\animationtest\animationtest_t_oom.script	\animationtest\animationtest_t_oom.script
+data=DATAZ_\animationtest\animationtest_t_synch.script	\animationtest\animationtest_t_synch.script
+data=ZPRIVATE\10204F5B\disposal.gif		        \private\10204F5B\disposal.gif
+data=ZPRIVATE\10204F5B\disposal.mbm		        \private\10204F5B\disposal.mbm
+data=ZPRIVATE\10204F5B\moving.gif		        \private\10204F5B\moving.gif
+data=ZPRIVATE\10204F5B\moving.mbm		        \private\10204F5B\moving.mbm
+data=ZPRIVATE\10204F5B\previous.gif		        \private\10204F5B\previous.gif
+data=ZPRIVATE\10204F5B\previous.mbm		        \private\10204F5B\previous.mbm
+data=ZPRIVATE\10204F5B\rgb1.gif			        \private\10204F5B\rgb1.gif
+data=ZPRIVATE\10204F5B\rgb2.gif			        \private\10204F5B\rgb2.gif
+data=ZPRIVATE\10204F5B\sqdisp1.gif		        \private\10204F5B\sqdisp1.gif
+data=ZPRIVATE\10204F5B\sqdisp1.mbm		        \private\10204F5B\sqdisp1.mbm
+data=ZPRIVATE\10204F5B\sqdisp2.gif		        \private\10204F5B\sqdisp2.gif
+data=ZPRIVATE\10204F5B\sqdisp2.mbm		        \private\10204F5B\sqdisp2.mbm
+data=ZPRIVATE\10204F5B\symball.gif		        \private\10204F5B\symball.gif
+data=ZPRIVATE\10204F5B\symwave.gif		        \private\10204F5B\symwave.gif
+data=ZPRIVATE\10204F5B\simple_b.mng		        \private\10204F5B\simple_b.mng
+
+#endif

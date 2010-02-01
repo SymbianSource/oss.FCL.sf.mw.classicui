@@ -1,0 +1,493 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file for find item API.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME FIUI // 4 letter ID
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include "finditem.hrh"
+#include <avkon.loc>
+#include <finditemdialog.loc>
+#include "eikon.rsg"
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include <bldvariant.hrh>
+
+#include <AiwCommon.hrh>
+#include <AiwCommon.rh>
+
+//  RESOURCE DEFINITIONS
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF r_finditem_title_phone
+    {
+    buf=qtn_find_title_find_number;
+    }
+
+RESOURCE TBUF r_finditem_title_url
+    {
+    buf=qtn_find_title_find_url;
+    }
+
+RESOURCE TBUF r_finditem_title_mail
+    {
+    buf=qtn_find_title_find_mail;
+    }
+
+RESOURCE TBUF r_finditem_default_bookmark_name
+    {
+    buf=qtn_find_default_bookmark_name;
+    }
+
+RESOURCE TBUF r_finditem_no_items_found_note_msg
+    {
+    buf=qtn_find_conf_no_items;
+    }
+
+RESOURCE TBUF r_finditem_bookmark_saved
+    {
+    buf=qtn_find_bm_saved_note;
+    }
+
+RESOURCE TBUF r_finditem_title_telinternet
+    {
+    buf=qtn_find_title_find_voip;
+    }
+
+STRUCT FINDITEMCONTROL
+    {
+    STRUCT control;
+    }
+
+/* Menu for Phone numbers */
+RESOURCE MENU_PANE r_finditem_phonenumber_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindItemCmdCall;
+            txt=qtn_options_call;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemSubMenuSend;
+            txt=qtn_phob_opt_send;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCreateContactCard;
+            txt=qtn_options_contacts;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCopy;
+            txt=qtn_find_copy;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdNextItem;
+            txt=qtn_find_next_number;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdPrevItem;
+            txt=qtn_find_previous_number;
+            },
+#ifdef __SERIES60_HELP
+        MENU_ITEM
+            {
+            command=EAknCmdHelp;
+            txt=qtn_options_help;
+            },
+#endif
+        MENU_ITEM
+            {
+            command=EFindItemCmdExit;
+            txt=qtn_options_exit;
+            }
+        };
+    }
+
+/* Menu for URLs */
+RESOURCE MENU_PANE r_finditem_url_address_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindItemCmdGoToUrl;
+            txt=qtn_find_open_link;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdAddToBookmark;
+            txt=qtn_find_add_to_bookmarks;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCreateContactCard;
+            txt=qtn_options_contacts;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCopy;
+            txt=qtn_find_copy;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdNextItem;
+            txt=qtn_find_next_url;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdPrevItem;
+            txt=qtn_find_previous_url;
+            },
+#ifdef __SERIES60_HELP
+        MENU_ITEM
+            {
+            command=EAknCmdHelp;
+            txt=qtn_options_help;
+            },
+#endif
+        MENU_ITEM
+            {
+            command=EFindItemCmdExit;
+            txt=qtn_options_exit;
+            }
+        };
+    }
+
+/* Menu for Mail Addresses */
+RESOURCE MENU_PANE r_finditem_mail_address_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindItemCmdCall;
+            txt=qtn_options_call;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemSubMenuSend;
+            txt=qtn_phob_opt_send;
+            //cascade=r_finditem_message_submenu;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCreateContactCard;
+            txt=qtn_options_contacts;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCopy;
+            txt=qtn_find_copy;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdNextItem;
+            txt=qtn_find_next_mail;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdPrevItem;
+            txt=qtn_find_previous_mail;
+            },
+#ifdef __SERIES60_HELP
+        MENU_ITEM
+            {
+            command=EAknCmdHelp;
+            txt=qtn_options_help;
+            },
+#endif
+        MENU_ITEM
+            {
+            command=EFindItemCmdExit;
+            txt=qtn_options_exit;
+            }
+        };
+    }
+
+
+// -------------------------------------------------------------------------------------------------
+//
+//    r_finditem_dialog
+//    ?description
+//
+// -------------------------------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_finditem_dialog
+    {
+    flags=EEikDialogFlagNoDrag |
+        EEikDialogFlagNoTitleBar |
+        EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagCbaButtons |
+        EEikDialogFlagWait;
+    //buttons=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    buttons=r_finditem_softkeys_options_back__context;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EFindItemCtRichTxtEditorContainer;
+            id=EFindItemRichTxtEditorContainer;
+            control=FINDITEMCONTROL
+                {
+                control=RTXTED
+                    {
+                    width=167;
+                    height=144;
+                    numlines=0;
+
+                    flags=EEikEdwinDisplayOnly |
+                        EEikEdwinNoAutoSelection |
+                        EEikEdwinAvkonDisableCursor;
+                    };
+                };
+            }
+        };
+    }
+
+/* CallUi submenu */
+RESOURCE AIW_INTEREST r_find_dialog_aiw_interests /* @deprecated 3.2 */
+    {
+    items=
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id=EFindMenuPlaceHolderCallUI;
+            serviceCmd=KAiwCmdCall;
+            serviceClass=KAiwClassMenu;
+            contentType="*";
+            defaultProvider=0x101F868E;
+            maxProviders=1;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_finitem_callui_item /* @deprecated 3.2 */
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            txt=qtn_options_call;
+            cascade=r_finditem_callui_submenu;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_finditem_callui_submenu /* @deprecated 3.2 */
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindMenuPlaceHolderCallUI;
+            txt="";
+            }
+        };
+    }
+
+/* Menu for Tel Internet */
+RESOURCE MENU_PANE r_finditem_telinternetnumber_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindItemCmdCall;
+            txt=qtn_options_call;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemSubMenuSend;
+            txt=qtn_phob_opt_send;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCreateContactCard;
+            txt=qtn_options_contacts;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdCopy;
+            txt=qtn_find_copy;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdNextItem;
+            txt=qtn_find_next_voip;
+            },
+        MENU_ITEM
+            {
+            command=EFindItemCmdPrevItem;
+            txt=qtn_find_previous_voip;
+            },
+#ifdef __SERIES60_HELP
+        MENU_ITEM
+            {
+            command=EAknCmdHelp;
+            txt=qtn_options_help;
+            },
+#endif
+      MENU_ITEM
+            {
+            command=EFindItemCmdExit;
+            txt=qtn_options_exit ;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//    r_finditem_bookmark_query_dialog
+//    Dialog for renaming a bookmark
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_finditem_bookmark_query_dialog
+    {
+    flags=EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control=AVKON_DATA_QUERY
+                {
+                layout=EDataLayout;
+                label=qtn_wml_query_bookmark_title;
+                control=EDWIN
+                    {
+                    flags=EEikEdwinNoHorizScrolling |
+                        EEikEdwinResizable;
+                    default_case=EAknEditorLowerCase;
+                    allowed_case_modes=EAknEditorLowerCase |
+                        EAknEditorUpperCase;
+                    default_input_mode=EAknEditorTextInputMode;
+                    allowed_input_modes=EAknEditorTextInputMode |
+                        EAknEditorNumericInputMode;
+                    };
+                };
+            }
+        };
+    }
+
+// NEW: RD_VIRTUAL_PHONEBOOK
+
+/* CallUi submenu */
+RESOURCE MENU_PANE r_finditem_callui_aiw_item
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            txt=qtn_options_call;
+            cascade=r_finditem_callui_aiw_submenu;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_finditem_callui_aiw_submenu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindMenuPlaceHolderCallUI;
+            txt="";
+           }
+    };
+    }
+
+RESOURCE AIW_INTEREST r_finditem_callui_aiw_interest
+    {
+    items=
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id=EFindMenuPlaceHolderCallUI;
+            serviceCmd=KAiwCmdCall;
+            serviceClass=KAiwClassMenu;
+            contentType="*";
+            defaultProvider=0x101F868E;
+            maxProviders=1;
+            }
+        };
+    }
+
+/* Contacts submenu */
+RESOURCE MENU_PANE r_finditem_contacts_aiw_item
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            txt=qtn_options_contacts;
+            cascade=r_finditem_contacts_aiw_submenu;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_finditem_contacts_aiw_submenu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EFindMenuPlaceHolderContacts;
+            txt="";
+            }
+        };
+    }
+
+RESOURCE AIW_INTEREST r_finditem_contacts_aiw_interest
+    {
+    items=
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id=EFindMenuPlaceHolderContacts;
+            serviceCmd=KAiwCmdAssign;
+            serviceClass=KAiwClassMenu;
+            contentType="*";
+            defaultProvider=0x1020728F; // KPbk2AiwCmdAssignImplementationUID
+            maxProviders=1;
+            }
+        };
+    }
+
+RESOURCE CBA r_finditem_softkeys_options_back__context
+    {
+    buttons =
+        {
+        CBA_BUTTON {id=EAknSoftkeyOptions; txt = text_softkey_option;},
+        CBA_BUTTON {id=EAknSoftkeyBack; txt = text_softkey_back; },
+        AVKON_CBA_BUTTON{id=EAknSoftkeyContextOptions; longpressid=0; txt= text_softkey_option; }
+        };
+    }
+
+// End of File

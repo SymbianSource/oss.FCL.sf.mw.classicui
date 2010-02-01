@@ -1,0 +1,35 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// TBTGPFTY.HRH
+// 
+//
+
+#define ECmdNoResizing								1
+#define ECmdResizeHorizToFit						2
+#define ECmdResizeVertToFit							3
+#define ECmdResizeHorizAndVertToFit					4
+#define ECmdStart									5
+#define ECmdStop									6
+#define ECmdRandom									7
+#define ECmdToggleDisplaySprite						8
+#define ECmdToggleInvertedMask						9
+#define ECmdTranslateSprite							10
+#define ECmdSetClippingRect							11
+#define ECmdTranslateX								12
+#define ECmdTranslateY								13
+#define ECmdRTl										14
+#define ECmdBTl										15
+#define ECmdLBr										16
+#define ECmdABr										17
+

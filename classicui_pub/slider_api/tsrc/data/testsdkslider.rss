@@ -1,0 +1,61 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkslider
+ *
+*/
+
+
+NAME    TEST
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+
+#define AKNATSLIDER_MINIMUM_VALUE 0
+#define AKNATSLIDER_MAXIMUM_VALUE 100
+#define AKNATSLIDER_STEP_SIZE 2
+
+
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testslider_slider
+// ---------------------------------------------------------------------------
+//
+RESOURCE SLIDER r_testslider_slider
+    {
+    layout = EAknFormSliderLayout1;
+    minvalue = AKNATSLIDER_MINIMUM_VALUE;
+    maxvalue = AKNATSLIDER_MAXIMUM_VALUE;
+    step = AKNATSLIDER_STEP_SIZE;
+    valuetype=EAknSliderValueBareFigure;
+    decimalplaces=0;
+    singular_valuelabel = "";
+    minlabel="";
+    maxlabel="";
+    valuelabel="";
+    graphical_image=0;
+    }
+

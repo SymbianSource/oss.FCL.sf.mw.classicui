@@ -1,0 +1,53 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET			tpackage.exe
+TARGETPATH		/sys/bin
+TARGETTYPE		exe	
+
+
+EPOCSTACKSIZE 	0x5000
+CAPABILITY 		all -tcb
+UID            	0x100039CE 0x10207F6E
+VENDORID 		0x70000001
+
+SOURCEPATH		.
+SOURCE        	TPACKAGE.CPP
+
+USERINCLUDE     ../tpackage
+USERINCLUDE	    ../../../../../appsupport/appfw/uiftestfw/inc
+USERINCLUDE 	../tmessageserv
+APP_LAYER_SYSTEMINCLUDE 
+
+LIBRARY         euser.lib  estor.lib   ws32.lib  cone.lib  apparc.lib
+LIBRARY         eikcore.lib appfwk_test_appui.lib messageserv.lib
+
+RESOURCE       	TPACKAGE.RSS
+START RESOURCE  TPACKAGE.RSS
+	TARGETPATH	/resource/apps
+END 
+
+START RESOURCE	TPACKAGE_reg.rss
+	TARGETPATH	/private/10003a3f/apps
+	DEPENDS		tpackage.rsg
+END
+
+START RESOURCE	TPACKAGE_loc.rss
+	TARGETPATH	/resource/apps
+	LANG        SC
+END
+
+
+SMPSAFE

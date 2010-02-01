@@ -1,0 +1,52 @@
+/** EIKPRIV.RSG
+@publishedPartner
+@released
+*/
+
+/** Resource type: EIKCOLORLIST */
+#define R_EIK_COLOR_GRAY4                         0x19bd6002
+
+/** Resource type: EIKCOLORLIST */ 
+#define R_EIK_COLOR_COLOR16                       0x19bd6003
+
+/** Resource type: ARRAY */ 
+#define R_EIK_COLOR_ITEMS_GRAY4                   0x19bd6004
+
+/** Resource type: ARRAY */
+#define R_EIK_COLOR_EXTRA_ITEMS_GRAY4             0x19bd6005
+
+/** Resource type: ARRAY */
+#define R_EIK_COLOR_ITEMS_COLOR16                 0x19bd6006
+
+/** Resource type: ARRAY */
+#define R_EIK_COLOR_EXTRA_ITEMS_COLOR16           0x19bd6007
+
+/** Resource type: FEP_DEFAULT_DATA */
+#define R_EIK_FEP_DEFAULT_DATA                    0x19bd6008
+
+/** Resource type: TBUF */
+#define R_EIK_DEFAULT_CHAR_FORMAT_TYPEFACE        0x19bd6009
+
+/** Resource type: INT16 */
+#define R_EIK_DEFAULT_CHAR_FORMAT_HEIGHT          0x19bd600a
+
+/** Resource type: VIEW_ID */
+#define R_EIK_SYSTEM_DEFAULT_VIEW_ID              0x19bd600b
+
+/** Resource type: TBUF */
+#define R_EIK_DBG_TBUF_ALLOC_INFO                 0x19bd600c
+
+/** Resource type: TBUF */
+#define R_EIK_DBG_TBUF_WSERV_COUNT                0x19bd600d
+
+/** Resource type: TBUF */
+#define R_EIK_DBG_TBUF_FSERV_COUNT                0x19bd600e
+
+/** Resource type: NUMBER_INT32 */
+#define R_EIK_SYSTEM_VIEW_SERVER_EVENT_TIME_OUT   0x19bd600f
+
+/** Resource type: NUMBER_INT32 */
+#define R_EIK_SYSTEM_VIEW_SERVER_CLIENT_REQUEST_TIME_OUT 0x19bd6010
+
+/** Resource type: VIEW_ID */
+#define R_EIK_SYSTEM_DEFAULT_VIEW_ID_MODE_1       0x19bd6011

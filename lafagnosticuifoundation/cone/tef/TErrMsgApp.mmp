@@ -1,0 +1,46 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          terrmsgapp.exe
+TARGETTYPE      EXE
+TARGETPATH		/sys/bin
+
+UID      		0x100039CE 0x102827C5 
+VENDORID 		0x70000001
+CAPABILITY 		All -Tcb
+EPOCSTACKSIZE 	0x5000
+
+SOURCEPATH		.	
+SOURCE          TErrMsgApp.cpp
+
+USERINCLUDE     .
+APP_LAYER_SYSTEMINCLUDE
+
+// Application exe registration resource file
+START RESOURCE	TErrMsgApp_reg.rss
+TARGETPATH		/private/10003a3f/apps
+LANG			sc
+END
+
+LIBRARY         euser.lib 
+LIBRARY         apparc.lib 
+LIBRARY         efsrv.lib 
+LIBRARY         appfwk_test_appui.lib 
+LIBRARY         cone.lib 
+LIBRARY         eikcore.lib
+
+
+
+SMPSAFE

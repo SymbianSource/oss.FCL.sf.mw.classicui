@@ -1,0 +1,324 @@
+/*
+* Copyright (c) 2006-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         This file contains all the resources for the BCTestLauncher.
+*
+*/
+
+
+
+
+
+
+
+
+
+NAME    AUTO 
+
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#include <appinfo.rh>
+
+#include <eikon.rsg>
+
+#include "BCTestLauncher.hrh"
+#include "BCTestLauncher.loc"
+
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTLAUNCHER_BMP_FNAME APP_BITMAP_DIR"\\bctestlauncher.mbm"
+
+#define BCTESTLAUNCHER_LISTBOX_HEIGHT 3
+#define BCTESTLAUNCHER_LISTBOX_WIDTH 3
+
+//  RESOURCE DEFINITIONS 
+//----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//    Symbian OS requirement
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    TBUF
+//    Symbian OS requirement
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF
+    {
+    buf = qtn_bctestlauncher_caption;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//    Symbian OS requirement
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    status_pane = r_bctestlauncher_status_pane;
+    }
+
+// ---------------------------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestlauncher_localisable_app_info
+    {
+    short_caption = qtn_apps_tapb_grid;
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tapb_list;
+        };
+    }
+
+//----------------------------------------------------------------------------
+//   
+//    r_bctestlauncher_view
+//    View definition
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestlauncher_view
+    {
+    menubar = r_bctestlauncher_menubar_view;  
+    cba = r_bctestlauncher_softkeys_run_exit;
+    }
+
+// ---------------------------------------------------------------------------
+//
+//    r_bctestlauncher_menubar
+//    Menu bar (dummy)
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestlauncher_menubar_view
+    {
+    titles=
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlauncher_main_menu;
+            txt = qtn_bctestlauncher_menu;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+//
+//    r_bctestlauncher_main_menu
+//    Menu pane, put new applications here
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlauncher_main_menu
+    {
+    items=
+        {
+        MENU_ITEM 
+            {
+            command = ESdkVersion;
+            txt = qtn_bctestlauncher_sdkversion;
+            },
+        MENU_ITEM 
+            {
+            command = EAutoTestAll;
+            txt = qtn_bctestlauncher_all;
+            },
+        MENU_ITEM 
+            {
+            command = EAutoTestSelection;
+            txt = qtn_bctestlauncher_selection;
+            },
+        MENU_ITEM
+            {
+            txt = qtn_bctestlauncher_separate;
+            cascade = r_bctestlauncher_separate_tests;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestlauncher_exit;
+            }
+        };      
+    }
+
+//----------------------------------------------------------------------------
+//   
+//    r_bctestlauncher_separate_tests
+//    Menu for separate test applications
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlauncher_separate_tests
+    {
+    }
+
+//----------------------------------------------------------------------------
+//   
+//    r_bctestlauncher_status_pane
+//    Status pane definition
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE STATUS_PANE_APP_MODEL r_bctestlauncher_status_pane
+    {
+    panes=
+        {
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidNavi;
+            type = EAknCtNaviPane;
+            resource = r_bctestlauncher_navi_decorator;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//   
+//    r_bctestlauncher_navi_decorator
+//    Status pane definition of details
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_bctestlauncher_navi_decorator
+    {
+    type = ENaviDecoratorControlTabGroup;
+    control = TAB_GROUP
+        {
+        tab_width = EAknTabWidthWithOneTab;
+        active = 0;
+        tabs = {
+            TAB
+                {
+                id = EBCTestLauncherView1Tab;
+                txt = qtn_bctestlauncher_view1_tab;
+                }
+            };
+        };
+    }
+
+RESOURCE CBA r_bctestlauncher_softkeys_run_exit
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id=EAknSoftkeyOptions;
+            txt = qtn_bctestlauncher_softkey_run;
+            },
+        CBA_BUTTON
+            {
+            id=EAknCmdExit;
+            txt = qtn_bctestlauncher_exit;
+            }
+        };
+    }
+
+RESOURCE TBUF40 r_bctestlauncher_title_setdraw
+    {
+    buf=qtn_bctestlauncher_title_setdraw;
+    }
+
+RESOURCE TBUF40 r_bctestlauncher_title_incdraw
+    {
+    buf=qtn_bctestlauncher_title_incdraw;
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlauncher_multi_selection_query
+//    Resource of Multi Selection Query.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestlauncher_multi_selection_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxMultiselectionList;
+                    height = BCTESTLAUNCHER_LISTBOX_HEIGHT;
+                    width = BCTESTLAUNCHER_LISTBOX_WIDTH;
+                    };
+                heading = qtn_bctestlauncher_selection_title;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+//    r_bctestlauncher_sdkversion_query
+//    sdk version query for the application
+//
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_bctestlauncher_sdkversion_query
+    {
+    flags=EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EDataQueryDlgCIdDataQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                control = 
+                    AVKON_INTEGER_EDWIN
+                    {
+                    min = 30;
+                    max = 40;
+                    };
+                };
+            }
+        };
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlauncher_query_caption
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF64 r_bctestlauncher_query_caption
+    {
+    buf = qtn_bctestlauncher_query_caption;
+    }
+// End of File

@@ -1,0 +1,327 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for SMILEY support
+*
+*/
+
+NAME SMLY
+
+#include <eikon.rh>
+#include <smiley.mbg>
+
+RESOURCE RSS_SIGNATURE { }
+
+/**
+ * Smiley Icon ID
+ * Used with CSmileyManager (in eikstd/coctlsrc) to enable Smiley feature
+ * in editor. With resource, SMILEY_ICON_ITEM 
+ */
+enum TAknSmileyIconID
+    {
+    EAknSmileyIconAngry = 0xf880,
+    EAknSmileyIconBigSmile,
+    EAknSmileyIconCry,
+    EAknSmileyIconEvil,
+    EAknSmileyIconEyebrows,
+    EAknSmileyIconHeart,
+    EAknSmileyIconIrritated,
+    EAknSmileyIconKissing,
+    EAknSmileyIconNerd,
+    EAknSmileyIconNeutral,
+    EAknSmileyIconSarcastic,
+    EAknSmileyIconSarcasticMad,
+    EAknSmileyIconSmile,
+    EAknSmileyIconSurprised,
+    EAknSmileyIconTongue,
+    EAknSmileyIconUnhappy,
+    EAknSmileyIconVeryCool,
+    EAknSmileyIconWink,
+    EAknSmileyIconWinkGrin,
+    EAknSmileyIconWondering,
+    EAknSmileyAnimCoffee,
+    EAknSmileyAnimConnive,
+    EAknSmileyAnimDenial,
+    EAknSmileyAnimFlirt,
+    EAknSmileyAnimFrustrated,
+    EAknSmileyAnimGum,
+    EAknSmileyAnimIdea,
+    EAknSmileyAnimInnocent,
+    EAknSmileyAnimLaugh,
+    EAknSmileyAnimParty,
+    EAknSmileyAnimRun,
+    EAknSmileyAnimSilly,
+    EAknSmileyAnimSleep,
+    EAknSmileyAnimSurprised    
+    };
+
+#define KAknSmileyStaticIcon   0
+#define KAknSmileyAnimation    1
+
+STRUCT SMILEY_ICON_ITEM
+    {
+    WORD animation = 0;
+    WORD code = 0;
+    LONG smileyIconId = 0;
+    LONG smileyMaskId = 0;
+    LONG smileyStaticIconId = 0;
+    LONG smileyStaticMaskId = 0;
+    LTEXT strings = "";
+    }
+    
+STRUCT SMILEY_ICON_INFO
+    {
+    STRUCT items[]; // SMILEY_ICON_ITEM
+    }
+
+RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
+    {
+    items = 
+        {
+        // still smiley
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconSmile;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_smile;
+            strings = ":) :-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconBigSmile;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_bigsmile;
+            strings = ":D :-D";
+            }, 
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconWink;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_wink;
+            strings = ";) ;-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconWinkGrin;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_wink_grin;
+            strings = ";D ;-D";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconUnhappy;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_unhappy;
+            strings = ":( :-(";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconTongue;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_tongue;
+            strings = ":P :p :-P :-p";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconCry;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_cry;
+            strings = ";( ;-( :'(";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconNeutral;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_neutral;
+            strings = ":| :-|";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconWondering;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_wondering;
+            strings = ":-\ :-/";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconSurprised;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_suprised;
+            strings = ":O :o :-O :-o";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconKissing;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_kissing;
+            strings = ":* :-*";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconIrritated;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_irritated;
+            strings = ":X :-X";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconSarcastic;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_sarcastic;
+            strings = ":> :->";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconVeryCool;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_verycool;
+            strings = "B) B-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconEyebrows;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_eyebrows;
+            strings = "%) %-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconAngry;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_angry;
+            strings = ":@ :-@";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconSarcasticMad;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_sarcastic_mad;
+            strings = ";> ;->";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconEvil;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_evil;
+            strings = ">) >-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconNerd;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_nerd;
+            strings = "8) 8-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            code = EAknSmileyIconHeart;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_heart;
+            strings = "<3";
+            },
+
+        // animation smiley
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimCoffee;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_coffee;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_coffee;
+            strings = "c[_]";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimConnive;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_connive;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_connive;          
+            strings = ">] >-]";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimDenial;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_denial;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_denial;                  
+            strings = ":S :-S";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimFlirt;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_flirt;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_flirt;
+            strings = ";} ;-}";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimFrustrated;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_frustrated;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_frustrated;
+            strings = ">O >o >-O >-o";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimGum;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_gum;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_gum;
+            strings = ":& :-&";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimIdea;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_idea;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_idea;
+            strings = "C= c=";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimInnocent;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_innocent;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_innocent;
+            strings = "O:) o:) O:-) o:-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimLaugh;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_laugh;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_laugh;
+            strings = "|D |-D";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimParty;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_party;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_party;
+            strings = "<|:) <|:-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimRun;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_run;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_run;
+            strings = <0x00a4>"K "<0x00a4>"k";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimSilly;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_silly;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_silly;
+            strings = "8P 8p 8-P 8-p";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimSleep;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_sleep;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_sleep;
+            strings = "|-)";
+            },
+        SMILEY_ICON_ITEM
+            {
+            animation = KAknSmileyAnimation;
+            code = EAknSmileyAnimSurprised;
+            smileyIconId = EMbmSmileyQgn_indi_smiley_anim_surprised;
+            smileyStaticIconId = EMbmSmileyQgn_indi_smiley_surprised;
+            strings = "<:O <:o <:-O <:-o";
+            }
+        };
+    }

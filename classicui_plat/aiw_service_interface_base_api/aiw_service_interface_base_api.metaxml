@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="2e1f764ba6d457be4774b83d89884849" dataversion="1.0">
+  <name>AIW Service Interface Base API</name>
+  <description>Base service interface, which needs to be implemented by all the providers.  Contains initialization services for the AIW Framework and service command execution.</description>
+  <type>c++</type>
+  <subsystem>applicationinterworkingfw</subsystem>
+  <libs>
+    <lib name="servicehandler.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

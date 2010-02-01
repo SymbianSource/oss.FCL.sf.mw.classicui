@@ -1,0 +1,4 @@
+EXPORTS
+	?CreateL@MGfxTransAdapter@@SAPAV1@PAVMGfxTransClient@@@Z @ 1 NONAME ; class MGfxTransAdapter * MGfxTransAdapter::CreateL(class MGfxTransClient *)
+	?Destroy@MGfxTransAdapter@@SAXPAV1@@Z @ 2 NONAME ; void MGfxTransAdapter::Destroy(class MGfxTransAdapter *)
+

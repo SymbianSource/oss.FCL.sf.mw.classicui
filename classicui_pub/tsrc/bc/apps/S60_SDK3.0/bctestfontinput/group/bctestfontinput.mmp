@@ -1,0 +1,110 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the BCTestFontInput.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          BCTestFontInput.exe
+TARGETTYPE      exe
+UID             0x0 0x20004766
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE BCTestFontInput.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctestfontinputapp.cpp
+SOURCE          bctestfontinputdocument.cpp
+SOURCE          bctestfontinputappui.cpp
+SOURCE          bctestfontinputview.cpp
+SOURCE          bctestfontinputcontainer.cpp
+SOURCE          bctestfontinputcase.cpp
+SOURCE          bctestframeinfocase.cpp
+
+USERINCLUDE     . ../Inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY			efsrv.lib
+LIBRARY         fbscli.lib
+LIBRARY         akninputlanguage.lib
+LIBRARY		    fontutils.lib 
+LIBRARY         uiklaf.lib 
+LIBRARY         gdi.lib 
+LIBRARY         egul.lib 
+LIBRARY         etext.lib
+LIBRARY         aknicon.lib
+
+// Creates Mbm file.
+START BITMAP    BCTestFontInput.mbm
+HEADER
+TARGETPATH      /resource/apps
+SOURCEPATH      ../DataSrc
+SOURCE C8       SampleIcon.bmp
+SOURCE C8       SampleIconMask.bmp
+END
+
+// Changes for Scalable UI:
+// New registration resource defined.
+// else Normal AIF will work.
+
+START RESOURCE ../group/BCTestFontInput_reg.rss
+DEPENDS bctestfontinput.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+
+// Creates Mbm file.
+START BITMAP    BCTestFontInput_Aif.mbm
+HEADER
+TARGETPATH      /resource/apps
+sourcepath ../aif
+source  c8 BCTestfontinputsmallicon.bmp
+source  c8 BCTestfontinputsmalliconmask.bmp
+source  c8 BCTestfontinput_lst.bmp
+source  c8 BCTestfontinput_lst_mask.bmp
+end
+    
+// End of File

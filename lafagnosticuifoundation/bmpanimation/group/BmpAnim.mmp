@@ -1,0 +1,42 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// bmpanim.dll Wserv anim dll for sequences of bitmaps - client
+// 
+//
+
+/**
+ @file
+*/
+
+target        bmpanim.dll
+CAPABILITY All -Tcb
+targettype    dll
+UID    0x1000008d 0x100048F2
+VENDORID 0x70000001
+
+SOURCEPATH		../src
+source        		bmpancli.cpp bmpanstd.cpp
+
+userinclude		../inc
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library       		euser.lib ws32.lib fbscli.lib
+
+
+#ifdef WINSCW
+deffile BMPANIM.DEF
+#else
+deffile BmpAnim.DEF
+#endif
+SMPSAFE

@@ -1,0 +1,741 @@
+EXPORTS
+	_Z10PanicStub1v @ 1 NONAME
+	_ZN10CCoeStaticC1E4TUidNS_6TScopeE @ 2 NONAME
+	_ZN10CCoeStaticC1E4TUidiNS_6TScopeE @ 3 NONAME
+	_ZN10CCoeStaticC2E4TUidNS_6TScopeE @ 4 NONAME
+	_ZN10CCoeStaticC2E4TUidiNS_6TScopeE @ 5 NONAME
+	_ZN10CCoeStaticD0Ev @ 6 NONAME
+	_ZN10CCoeStaticD1Ev @ 7 NONAME
+	_ZN10CCoeStaticD2Ev @ 8 NONAME
+	_ZN11CCoeControl10Reserved_2Ev @ 9 NONAME
+	_ZN11CCoeControl11CloseWindowEv @ 10 NONAME
+	_ZN11CCoeControl11MakeVisibleEi @ 11 NONAME
+	_ZN11CCoeControl11MinimumSizeEv @ 12 NONAME
+	_ZN11CCoeControl11SetAdjacentEi @ 13 NONAME
+	_ZN11CCoeControl11SetFocusingEi @ 14 NONAME
+	_ZN11CCoeControl11SetNeighborEPS_ @ 15 NONAME
+	_ZN11CCoeControl11SetObserverEP19MCoeControlObserver @ 16 NONAME
+	_ZN11CCoeControl11SetPositionERK6TPoint @ 17 NONAME
+	_ZN11CCoeControl11SizeChangedEv @ 18 NONAME
+	_ZN11CCoeControl12FocusChangedE8TDrawNow @ 19 NONAME
+	_ZN11CCoeControl12ReportEventLEN19MCoeControlObserver9TCoeEventE @ 20 NONAME
+	_ZN11CCoeControl12SetMopParentEP15MObjectProvider @ 21 NONAME
+	_ZN11CCoeControl13CreateWindowLEP12RWindowGroup @ 22 NONAME
+	_ZN11CCoeControl13CreateWindowLEPKS_ @ 23 NONAME
+	_ZN11CCoeControl13CreateWindowLER15RWindowTreeNode @ 24 NONAME
+	_ZN11CCoeControl13CreateWindowLEv @ 25 NONAME
+	_ZN11CCoeControl14OfferKeyEventLERK9TKeyEvent10TEventCode @ 26 NONAME
+	_ZN11CCoeControl14OverrideColorLEi4TRgb @ 27 NONAME
+	_ZN11CCoeControl14SetNonFocusingEv @ 28 NONAME
+	_ZN11CCoeControl15MopSupplyObjectE8TTypeUid @ 29 NONAME
+	_ZN11CCoeControl15PositionChangedEv @ 30 NONAME
+	_ZN11CCoeControl16ClaimPointerGrabEi @ 31 NONAME
+	_ZN11CCoeControl16EnableDragEventsEv @ 32 NONAME
+	_ZN11CCoeControl16SetCornerAndSizeE13TGulAlignmentRK5TSize @ 33 NONAME
+	_ZN11CCoeControl17SetControlContextEP18MCoeControlContext @ 34 NONAME
+	_ZN11CCoeControl17SetPointerCaptureEi @ 35 NONAME
+	_ZN11CCoeControl19HandlePointerEventLERK13TPointerEvent @ 36 NONAME
+	_ZN11CCoeControl19SetContainerWindowLER15RBackedUpWindow @ 37 NONAME
+	_ZN11CCoeControl19SetContainerWindowLER7RWindow @ 38 NONAME
+	_ZN11CCoeControl19SetContainerWindowLERKS_ @ 39 NONAME
+	_ZN11CCoeControl20HandleResourceChangeEi @ 40 NONAME
+	_ZN11CCoeControl20PrepareForFocusGainLEv @ 41 NONAME
+	_ZN11CCoeControl20PrepareForFocusLossLEv @ 42 NONAME
+	_ZN11CCoeControl20SetGloballyCapturingEi @ 43 NONAME
+	_ZN11CCoeControl21CreateBackedUpWindowLER15RWindowTreeNode @ 44 NONAME
+	_ZN11CCoeControl21CreateBackedUpWindowLER15RWindowTreeNode12TDisplayMode @ 45 NONAME
+	_ZN11CCoeControl21SetAllowStrayPointersEv @ 46 NONAME
+	_ZN11CCoeControl21SetCanDrawOutsideRectEv @ 47 NONAME
+	_ZN11CCoeControl22ConstructFromResourceLER15TResourceReader @ 48 NONAME
+	_ZN11CCoeControl22CopyControlContextFromEPKS_ @ 49 NONAME
+	_ZN11CCoeControl22SetExtentToWholeScreenEv @ 50 NONAME
+	_ZN11CCoeControl25HandlePointerBufferReadyLEv @ 51 NONAME
+	_ZN11CCoeControl26SetSizeWithoutNotificationERK5TSize @ 52 NONAME
+	_ZN11CCoeControl30IgnoreEventsUntilNextPointerUpEv @ 53 NONAME
+	_ZN11CCoeControl32SetComponentsToInheritVisibilityEi @ 54 NONAME
+	_ZN11CCoeControl37HandleComponentControlsResourceChangeEi @ 55 NONAME
+	_ZN11CCoeControl7MopNextEv @ 56 NONAME
+	_ZN11CCoeControl7SetRectERK5TRect @ 57 NONAME
+	_ZN11CCoeControl7SetSizeERK5TSize @ 58 NONAME
+	_ZN11CCoeControl8SetBlankEv @ 59 NONAME
+	_ZN11CCoeControl8SetFocusEi8TDrawNow @ 60 NONAME
+	_ZN11CCoeControl9ActivateLEv @ 61 NONAME
+	_ZN11CCoeControl9SetDimmedEi @ 62 NONAME
+	_ZN11CCoeControl9SetExtentERK6TPointRK5TSize @ 63 NONAME
+	_ZN11CCoeControlC1Ev @ 64 NONAME
+	_ZN11CCoeControlC2Ev @ 65 NONAME
+	_ZN11CCoeControlD0Ev @ 66 NONAME
+	_ZN11CCoeControlD1Ev @ 67 NONAME
+	_ZN11CCoeControlD2Ev @ 68 NONAME
+	_ZN12TCoeColorUse15SetLogicalColorEi @ 69 NONAME
+	_ZN12TCoeColorUse6SetUseEi @ 70 NONAME
+	_ZN12TCoeColorUseC1Ev @ 71 NONAME
+	_ZN12TCoeColorUseC2Ev @ 72 NONAME
+	_ZN13CCoeAppUiBase10Reserved_2Ev @ 73 NONAME ABSENT
+	_ZN13CCoeAppUiBase13PrepareToExitEv @ 74 NONAME ABSENT
+	_ZN13CCoeAppUiBase26HandleScreenDeviceChangedLEv @ 75 NONAME ABSENT
+	_ZN13CCoeScheduler10Reserved_1Ev @ 76 NONAME
+	_ZN13CCoeScheduler10Reserved_2Ev @ 77 NONAME
+	_ZN13CCoeScheduler17WaitForAnyRequestEv @ 78 NONAME
+	_ZN13CCoeSchedulerC1EP7CCoeEnv @ 79 NONAME
+	_ZN13CCoeSchedulerC2EP7CCoeEnv @ 80 NONAME
+	_ZN14CoeSoundPlayer11CancelSoundERK18TBaSystemSoundType @ 81 NONAME
+	_ZN14CoeSoundPlayer9PlaySoundERK18TBaSystemSoundTypei27TTimeIntervalMicroSeconds32i @ 82 NONAME
+	_ZN15CCoeAppUiSimple14HandleWsEventLERK8TWsEventP11CCoeControl @ 83 NONAME ABSENT
+	_ZN15CCoeAppUiSimple14SetRootControlEP11CCoeControl @ 84 NONAME ABSENT
+	_ZN15CCoeAppUiSimple15HandleKeyEventLERK9TKeyEvent10TEventCode @ 85 NONAME ABSENT
+	_ZN15CCoeAppUiSimple22HandleForegroundEventLEi @ 86 NONAME ABSENT
+	_ZN15CCoeAppUiSimpleC1Ev @ 87 NONAME ABSENT
+	_ZN15CCoeAppUiSimpleC2Ev @ 88 NONAME ABSENT
+	_ZN15CCoeAppUiSimpleD0Ev @ 89 NONAME ABSENT
+	_ZN15CCoeAppUiSimpleD1Ev @ 90 NONAME ABSENT
+	_ZN15CCoeAppUiSimpleD2Ev @ 91 NONAME ABSENT
+	_ZN15MObjectProvider10MopGetByIdE8TTypeUid @ 92 NONAME
+	_ZN15MObjectProvider7MopNextEv @ 93 NONAME
+	_ZN15TCoeHelpContextC1E4TUidRK7TDesC16 @ 94 NONAME
+	_ZN15TCoeHelpContextC1Ev @ 95 NONAME
+	_ZN15TCoeHelpContextC2E4TUidRK7TDesC16 @ 96 NONAME
+	_ZN15TCoeHelpContextC2Ev @ 97 NONAME
+	_ZN17MCoeFocusObserver28MCoeFocusObserver_Reserved_1Ev @ 98 NONAME
+	_ZN17MCoeFocusObserver28MCoeFocusObserver_Reserved_2Ev @ 99 NONAME
+	_ZN19MCoeMessageObserver30MCoeMessageObserver_Reserved_1Ev @ 100 NONAME
+	_ZN19MCoeMessageObserver30MCoeMessageObserver_Reserved_2Ev @ 101 NONAME
+	_ZN21TCoeInputCapabilities15SetCapabilitiesEj @ 102 NONAME
+	_ZN21TCoeInputCapabilities17SetObjectProviderEP15MObjectProvider @ 103 NONAME
+	_ZN21TCoeInputCapabilities9MergeWithERKS_ @ 104 NONAME
+	_ZN21TCoeInputCapabilitiesC1ERKS_ @ 105 NONAME
+	_ZN21TCoeInputCapabilitiesC1Ej @ 106 NONAME
+	_ZN21TCoeInputCapabilitiesC1EjP22MCoeFepAwareTextEditorP26MCoeCaptionRetrieverForFep @ 107 NONAME
+	_ZN21TCoeInputCapabilitiesC1EjP22MCoeFepAwareTextEditorP26MCoeCaptionRetrieverForFep4TUidPNS_25MCoeFepSpecificExtensionsE @ 108 NONAME
+	_ZN21TCoeInputCapabilitiesC2ERKS_ @ 109 NONAME
+	_ZN21TCoeInputCapabilitiesC2Ej @ 110 NONAME
+	_ZN21TCoeInputCapabilitiesC2EjP22MCoeFepAwareTextEditorP26MCoeCaptionRetrieverForFep @ 111 NONAME
+	_ZN21TCoeInputCapabilitiesC2EjP22MCoeFepAwareTextEditorP26MCoeCaptionRetrieverForFep4TUidPNS_25MCoeFepSpecificExtensionsE @ 112 NONAME
+	_ZN21TCoeInputCapabilitiesaSERKS_ @ 113 NONAME
+	_ZN22CCoeBrushAndPenContext11SetPenColorE4TRgb @ 114 NONAME
+	_ZN22CCoeBrushAndPenContext13SetBrushColorE4TRgb @ 115 NONAME
+	_ZN22CCoeBrushAndPenContext13SetBrushStyleEN16CGraphicsContext11TBrushStyleE @ 116 NONAME
+	_ZN22CCoeBrushAndPenContext14SetBrushBitmapERK10CFbsBitmap @ 117 NONAME
+	_ZN22CCoeBrushAndPenContext4NewLEv @ 118 NONAME
+	_ZN22MCoeForegroundObserver33MCoeForegroundObserver_Reserved_1Ev @ 119 NONAME
+	_ZN22MCoeForegroundObserver33MCoeForegroundObserver_Reserved_2Ev @ 120 NONAME
+	_ZN23MCoeObserverOfLoadedFep34MCoeObserverOfLoadedFep_Reserved_1Ev @ 121 NONAME
+	_ZN23MCoeObserverOfLoadedFep34MCoeObserverOfLoadedFep_Reserved_2Ev @ 122 NONAME
+	_ZN26MCoeResourceChangeObserver37MCoeResourceChangeObserver_Reserved_1Ev @ 123 NONAME
+	_ZN26MCoeResourceChangeObserver37MCoeResourceChangeObserver_Reserved_2Ev @ 124 NONAME
+	_ZN26MCoeViewActivationObserver37MCoeViewActivationObserver_Reserved_1Ev @ 125 NONAME
+	_ZN26MCoeViewActivationObserver37MCoeViewActivationObserver_Reserved_2Ev @ 126 NONAME
+	_ZN28MCoeViewDeactivationObserver39MCoeViewDeactivationObserver_Reserved_1Ev @ 127 NONAME
+	_ZN28MCoeViewDeactivationObserver39MCoeViewDeactivationObserver_Reserved_2Ev @ 128 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandler4SelfEv @ 129 NONAME
+	_ZTV23MCoeControlBrushContext @ 130 NONAME ; #<VT>#
+	_ZN36CCoeScreenDeviceChangeDefaultHandlerC2Ev @ 131 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandlerD0Ev @ 132 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandlerD1Ev @ 133 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandlerD2Ev @ 134 NONAME
+	_ZN7CCoeEnv10ConstructLEi @ 135 NONAME
+	_ZN7CCoeEnv10ConstructLEv @ 136 NONAME
+	_ZN7CCoeEnv10FindStaticE4TUid @ 137 NONAME
+	_ZN7CCoeEnv10Reserved_1Ev @ 138 NONAME
+	_ZN7CCoeEnv10Reserved_2Ev @ 139 NONAME
+	_ZN7CCoeEnv11HandleErrorEi @ 140 NONAME
+	_ZN7CCoeEnv11InstallFepLERK7TDesC16 @ 141 NONAME ABSENT
+	_ZN7CCoeEnv11InstallFepLERK7TDesC16i @ 142 NONAME ABSENT
+	_ZN7CCoeEnv12SwapSystemGcEP9CWindowGc @ 143 NONAME
+	_ZN7CCoeEnv13DestroyScreenEv @ 144 NONAME
+	_ZN7CCoeEnv13FepParametersEv @ 145 NONAME ABSENT
+	_ZN7CCoeEnv13PrepareToExitEv @ 146 NONAME
+	_ZN7CCoeEnv15AddFepObserverLER15MCoeFepObserver @ 147 NONAME
+	_ZN7CCoeEnv16AddResourceFileLERK7TDesC16 @ 148 NONAME
+	_ZN7CCoeEnv16InitSystemFontsLEv @ 149 NONAME
+	_ZN7CCoeEnv17AddFocusObserverLER17MCoeFocusObserver @ 150 NONAME
+	_ZN7CCoeEnv17BringOwnerToFrontEv @ 151 NONAME
+	_ZN7CCoeEnv17CreateDeviceFontLEP15CGraphicsDeviceRK9TFontSpec @ 152 NONAME
+	_ZN7CCoeEnv17CreateScreenFontLERK9TFontSpec @ 153 NONAME
+	_ZN7CCoeEnv17DisableExitChecksEi @ 154 NONAME
+	_ZN7CCoeEnv17RemoveFepObserverER15MCoeFepObserver @ 155 NONAME
+	_ZN7CCoeEnv17SimulateKeyEventLERK9TKeyEvent10TEventCode @ 156 NONAME
+	_ZN7CCoeEnv17SuppressNextFlushEv @ 157 NONAME
+	_ZN7CCoeEnv18DeleteResourceFileEi @ 158 NONAME
+	_ZN7CCoeEnv18DestroyEnvironmentEv @ 159 NONAME
+	_ZN7CCoeEnv18LeaveWithErrorTextERK7TDesC16PS1_ @ 160 NONAME
+	_ZN7CCoeEnv19AddMessageObserverLER19MCoeMessageObserver @ 161 NONAME
+	_ZN7CCoeEnv19NameOfInstalledFepLEv @ 162 NONAME ABSENT
+	_ZN7CCoeEnv19RemoveFocusObserverER17MCoeFocusObserver @ 163 NONAME
+	_ZN7CCoeEnv21RemoveMessageObserverER19MCoeMessageObserver @ 164 NONAME
+	_ZN7CCoeEnv22AddForegroundObserverLER22MCoeForegroundObserver @ 165 NONAME
+	_ZN7CCoeEnv22ForEachFepObserverCallEPFvR15MCoeFepObserverE @ 166 NONAME
+	_ZN7CCoeEnv23AddObserverOfLoadedFepLER23MCoeObserverOfLoadedFep @ 167 NONAME
+	_ZN7CCoeEnv23ReadDesC8ArrayResourceLEi @ 168 NONAME
+	_ZN7CCoeEnv24InputCapabilitiesChangedEv @ 169 NONAME
+	_ZN7CCoeEnv24ReadDesC16ArrayResourceLEi @ 170 NONAME
+	_ZN7CCoeEnv24RemoveForegroundObserverER22MCoeForegroundObserver @ 171 NONAME
+	_ZN7CCoeEnv25ExecuteFepSettingsDialogLERK7TDesC16 @ 172 NONAME ABSENT
+	_ZN7CCoeEnv25FileNamesOfAvailableFepsLEv @ 173 NONAME ABSENT
+	_ZN7CCoeEnv25RemoveObserverOfLoadedFepER23MCoeObserverOfLoadedFep @ 174 NONAME
+	_ZN7CCoeEnv26AddResourceChangeObserverLER26MCoeResourceChangeObserver @ 175 NONAME
+	_ZN7CCoeEnv28RemoveResourceChangeObserverER26MCoeResourceChangeObserver @ 176 NONAME
+	_ZN7CCoeEnv30GetMessageNotifyingObserversLCEmR4TUidR5TPtr8RK8TWsEvent @ 177 NONAME
+	_ZN7CCoeEnv39SyncNotifyFocusObserversOfChangeInFocusEv @ 178 NONAME
+	_ZN7CCoeEnv4RunLEv @ 179 NONAME
+	_ZN7CCoeEnv5FlushE27TTimeIntervalMicroSeconds32 @ 180 NONAME
+	_ZN7CCoeEnv6StaticE4TUid @ 181 NONAME
+	_ZN7CCoeEnv6StaticEv @ 182 NONAME
+	_ZN7CCoeEnv7VersionEv @ 183 NONAME
+	_ZN7CCoeEnv8DoCancelEv @ 184 NONAME
+	_ZN7CCoeEnv8ExecuteDEv @ 185 NONAME
+	_ZN7CCoeEnv8SetAppUiEP9CCoeAppUi @ 186 NONAME
+	_ZN7CCoeEnv9CreateGcLEv @ 187 NONAME
+	_ZN7CCoeEnv9Format128ER6TDes16iz @ 188 NONAME
+	_ZN7CCoeEnv9Format256ER6TDes16iz @ 189 NONAME
+	_ZN7CCoeEnv9SetUpFepLEP17CCoeFepParametersRK7TDesC16 @ 190 NONAME ABSENT
+	_ZN7CCoeEnvC1Ev @ 191 NONAME
+	_ZN7CCoeEnvC2Ev @ 192 NONAME
+	_ZN7CCoeEnvD0Ev @ 193 NONAME
+	_ZN7CCoeEnvD1Ev @ 194 NONAME
+	_ZN7CCoeEnvD2Ev @ 195 NONAME
+	_ZN8MCoeView14ViewConstructLEv @ 196 NONAME
+	_ZN8MCoeView24PrepareForViewActivationEv @ 197 NONAME
+	_ZN8MCoeView24ViewScreenDeviceChangedLEv @ 198 NONAME
+	_ZN8MCoeView24ViewScreenModeCompatibleEi @ 199 NONAME
+	_ZN9CCoeAppUi10ConstructLEPS_ @ 200 NONAME
+	_ZTV18MCoeControlHitTest @ 201 NONAME ; #<VT>#
+	_ZN9CCoeAppUi11AddToStackLEP11CCoeControlii @ 202 NONAME
+	_ZN9CCoeAppUi11AddToStackLERK8MCoeViewP11CCoeControlii @ 203 NONAME
+	_ZN9CCoeAppUi13ActivateViewLERK10TVwsViewId @ 204 NONAME
+	_ZN9CCoeAppUi13ActivateViewLERK10TVwsViewId4TUidRK6TDesC8 @ 205 NONAME
+	_ZN9CCoeAppUi13RegisterViewLER8MCoeView @ 206 NONAME
+	_ZN9CCoeAppUi14DeregisterViewERK8MCoeView @ 207 NONAME
+	_ZN9CCoeAppUi14HandleWsEventLERK8TWsEventP11CCoeControl @ 208 NONAME
+	_ZN9CCoeAppUi15AddToViewStackLERK8MCoeViewP11CCoeControlii @ 209 NONAME
+	_ZN9CCoeAppUi15HandleKeyEventLERK9TKeyEvent10TEventCode @ 210 NONAME
+	_ZN9CCoeAppUi15RemoveFromStackEP11CCoeControl @ 211 NONAME
+	_ZN9CCoeAppUi15SetAndDrawFocusEi @ 212 NONAME
+	_ZN9CCoeAppUi15SetDefaultViewLERK8MCoeView @ 213 NONAME
+	_ZN9CCoeAppUi16ActivateTopViewLEv @ 214 NONAME
+	_ZN9CCoeAppUi16AddViewObserverLEP16MCoeViewObserver @ 215 NONAME
+	_ZN9CCoeAppUi18HandleStackChangedEv @ 216 NONAME
+	_ZN9CCoeAppUi18HandleSystemEventLERK8TWsEvent @ 217 NONAME
+	_ZN9CCoeAppUi18RemoveViewObserverEP16MCoeViewObserver @ 218 NONAME
+	_ZN9CCoeAppUi19RemoveFromViewStackERK8MCoeViewP11CCoeControl @ 219 NONAME
+	_ZN9CCoeAppUi20HandleSwitchOnEventLEP11CCoeControl @ 220 NONAME
+	_ZN9CCoeAppUi20NotifyNextActivationER26MCoeViewActivationObserver @ 221 NONAME
+	_ZN9CCoeAppUi20NotifyNextActivationERK10TVwsViewIdR26MCoeViewActivationObserver @ 222 NONAME
+	_ZN9CCoeAppUi21CheckInitializeViewsLE4TUid @ 223 NONAME
+	_ZN9CCoeAppUi21DeactivateActiveViewLEv @ 224 NONAME
+	_ZN9CCoeAppUi21SetSystemDefaultViewLERK10TVwsViewId @ 225 NONAME
+	_ZN9CCoeAppUi21SetSystemDefaultViewLERK10TVwsViewIdi @ 226 NONAME
+	_ZN9CCoeAppUi22HandleForegroundEventLEi @ 227 NONAME
+	_ZN9CCoeAppUi22NotifyNextDeactivationER28MCoeViewDeactivationObserver @ 228 NONAME
+	_ZN9CCoeAppUi22NotifyNextDeactivationERK10TVwsViewIdR28MCoeViewDeactivationObserver @ 229 NONAME
+	_ZN9CCoeAppUi24CreateActivateViewEventLERK10TVwsViewId4TUidRK6TDesC8 @ 230 NONAME
+	_ZN9CCoeAppUi24RegisterApplicationViewLE4TUid @ 231 NONAME
+	_ZN9CCoeAppUi24RegisterViewAndAddStackLER8MCoeView @ 232 NONAME
+	_ZN9CCoeAppUi25DeregisterApplicationViewEv @ 233 NONAME
+	_ZN9CCoeAppUi25UpdateStackedControlFlagsEP11CCoeControlii @ 234 NONAME
+	_ZN9CCoeAppUi26AddViewActivationObserverLEP26MCoeViewActivationObserver @ 235 NONAME
+	_ZN9CCoeAppUi26HandleScreenDeviceChangedLEv @ 236 NONAME
+	_ZN9CCoeAppUi28AddViewDeactivationObserverLEP28MCoeViewDeactivationObserver @ 237 NONAME
+	_ZN9CCoeAppUi28DeregisterViewAndRemoveStackERK8MCoeView @ 238 NONAME
+	_ZN9CCoeAppUi28RemoveViewActivationObserverEP26MCoeViewActivationObserver @ 239 NONAME
+	_ZN9CCoeAppUi28SetApplicationViewAsDefaultLEv @ 240 NONAME
+	_ZN9CCoeAppUi29UpdateViewStackedControlFlagsERK8MCoeViewP11CCoeControlii @ 241 NONAME
+	_ZN9CCoeAppUi30RemoveViewDeactivationObserverEP28MCoeViewDeactivationObserver @ 242 NONAME
+	_ZN9CCoeAppUi31HandleApplicationSpecificEventLEiRK8TWsEvent @ 243 NONAME
+	_ZN9CCoeAppUi35HandleStackedControlsResourceChangeEi @ 244 NONAME
+	_ZN9CCoeAppUiC1Ev @ 245 NONAME
+	_ZN9CCoeAppUiC2Ev @ 246 NONAME
+	_ZN9CCoeAppUiD0Ev @ 247 NONAME
+	_ZN9CCoeAppUiD1Ev @ 248 NONAME
+	_ZN9CCoeAppUiD2Ev @ 249 NONAME
+	_ZN9ConeUtils10FileExistsERK7TDesC16 @ 250 NONAME
+	_ZN9ConeUtils17EnsurePathExistsLERK7TPtrC16 @ 251 NONAME
+	_ZNK11CCoeControl10ActivateGcEv @ 252 NONAME
+	_ZNK11CCoeControl10IsBackedUpEv @ 253 NONAME
+	_ZNK11CCoeControl10OwnsWindowEv @ 254 NONAME
+	_ZNK11CCoeControl11IsActivatedEv @ 255 NONAME
+	_ZNK11CCoeControl12DeactivateGcEv @ 256 NONAME
+	_ZNK11CCoeControl12DrawDeferredEv @ 257 NONAME
+	_ZNK11CCoeControl13IsNonFocusingEv @ 258 NONAME
+	_ZNK11CCoeControl13IsReadyToDrawEv @ 259 NONAME
+	_ZNK11CCoeControl14BackedUpWindowEv @ 260 NONAME
+	_ZNK11CCoeControl14ControlContextEv @ 261 NONAME
+	_ZNK11CCoeControl14DrawableWindowEv @ 262 NONAME
+	_ZNK11CCoeControl14GetHelpContextER15TCoeHelpContext @ 263 NONAME
+	_ZNK11CCoeControl15CapturesPointerEv @ 264 NONAME
+	_ZNK11CCoeControl16ComponentControlEi @ 265 NONAME
+	_ZNK11CCoeControl16GetColorUseListLER9CArrayFixI12TCoeColorUseE @ 266 NONAME
+	_ZNK11CCoeControl16IsBeingDestroyedEv @ 267 NONAME
+	_ZNK11CCoeControl17GrabbingComponentEv @ 268 NONAME
+	_ZNK11CCoeControl17HandleRedrawEventERK5TRect @ 269 NONAME
+	_ZNK11CCoeControl17InputCapabilitiesEv @ 270 NONAME
+	_ZNK11CCoeControl19WriteInternalStateLER12RWriteStream @ 271 NONAME
+	_ZNK11CCoeControl22CountComponentControlsEv @ 272 NONAME
+	_ZNK11CCoeControl24PositionRelativeToScreenEv @ 273 NONAME
+	_ZNK11CCoeControl34RecursivelyMergedInputCapabilitiesEv @ 274 NONAME
+	_ZNK11CCoeControl4DrawERK5TRect @ 275 NONAME
+	_ZNK11CCoeControl4RectEv @ 276 NONAME
+	_ZNK11CCoeControl4SizeEv @ 277 NONAME
+	_ZNK11CCoeControl5IndexEPKS_ @ 278 NONAME
+	_ZNK11CCoeControl6WindowEv @ 279 NONAME
+	_ZNK11CCoeControl7DrawNowEv @ 280 NONAME
+	_ZNK11CCoeControl7IsBlankEv @ 281 NONAME
+	_ZNK11CCoeControl7ResetGcEv @ 282 NONAME
+	_ZNK11CCoeControl8GetColorEiR4TRgb @ 283 NONAME
+	_ZNK11CCoeControl8IsDimmedEv @ 284 NONAME
+	_ZNK11CCoeControl8ObserverEv @ 285 NONAME
+	_ZNK11CCoeControl8PositionEv @ 286 NONAME
+	_ZNK11CCoeControl8SystemGcEv @ 287 NONAME
+	_ZNK11CCoeControl9HasBorderEv @ 288 NONAME
+	_ZNK11CCoeControl9IsFocusedEv @ 289 NONAME
+	_ZNK11CCoeControl9IsVisibleEv @ 290 NONAME
+	_ZNK12TCoeColorUse10IsContentsEv @ 291 NONAME
+	_ZNK12TCoeColorUse11IsSurroundsEv @ 292 NONAME
+	_ZNK12TCoeColorUse12IsBackgroundEv @ 293 NONAME
+	_ZNK12TCoeColorUse12IsForegroundEv @ 294 NONAME
+	_ZNK12TCoeColorUse12IsHighlightsEv @ 295 NONAME
+	_ZNK12TCoeColorUse12LogicalColorEv @ 296 NONAME
+	_ZNK12TCoeColorUse3UseEv @ 297 NONAME
+	_ZNK12TCoeColorUse5IsSetEv @ 298 NONAME
+	_ZNK12TCoeColorUse8IsActiveEv @ 299 NONAME
+	_ZNK12TCoeColorUse8IsDimmedEv @ 300 NONAME
+	_ZNK12TCoeColorUse8IsNormalEv @ 301 NONAME
+	_ZNK12TCoeColorUse9IsBordersEv @ 302 NONAME
+	_ZNK12TCoeColorUse9IsPressedEv @ 303 NONAME
+	_ZNK13CCoeScheduler12DisplayErrorEi @ 304 NONAME
+	_ZNK15TCoeHelpContext6IsNullEv @ 305 NONAME
+	_ZNK15TCoeHelpContexteqERKS_ @ 306 NONAME
+	_ZNK15TCoeHelpContextneERKS_ @ 307 NONAME
+	_ZNK18MCoeControlContext12ResetContextER9CWindowGc @ 308 NONAME
+	_ZNK18MCoeControlContext14PrepareContextER9CWindowGc @ 309 NONAME
+	_ZNK18MCoeControlContext15ActivateContextER9CWindowGcR15RDrawableWindow @ 310 NONAME
+	_ZNK21TCoeInputCapabilities12CapabilitiesEv @ 311 NONAME
+	_ZNK21TCoeInputCapabilities14ObjectProviderEv @ 312 NONAME
+	_ZNK21TCoeInputCapabilities15SupportsAllTextEv @ 313 NONAME
+	_ZNK21TCoeInputCapabilities18FepAwareTextEditorEv @ 314 NONAME
+	_ZNK21TCoeInputCapabilities18SupportsNavigationEv @ 315 NONAME
+	_ZNK21TCoeInputCapabilities18SupportsSecretTextEv @ 316 NONAME
+	_ZNK21TCoeInputCapabilities21FepSpecificExtensionsE4TUid @ 317 NONAME
+	_ZNK21TCoeInputCapabilities22CaptionRetrieverForFepEv @ 318 NONAME
+	_ZNK21TCoeInputCapabilities24SupportsJapaneseHiraganaEv @ 319 NONAME
+	_ZNK21TCoeInputCapabilities25SupportsWesternAlphabeticEv @ 320 NONAME
+	_ZNK21TCoeInputCapabilities26SupportsDialableCharactersEv @ 321 NONAME
+	_ZNK21TCoeInputCapabilities26SupportsWesternNumericRealEv @ 322 NONAME
+	_ZNK21TCoeInputCapabilities33SupportsJapaneseKatakanaFullWidthEv @ 323 NONAME
+	_ZNK21TCoeInputCapabilities33SupportsJapaneseKatakanaHalfWidthEv @ 324 NONAME
+	_ZNK21TCoeInputCapabilities37SupportsWesternNumericIntegerNegativeEv @ 325 NONAME
+	_ZNK21TCoeInputCapabilities37SupportsWesternNumericIntegerPositiveEv @ 326 NONAME
+	_ZNK21TCoeInputCapabilities6IsNoneEv @ 327 NONAME
+	_ZNK21TCoeInputCapabilitieseqERKS_ @ 328 NONAME
+	_ZNK21TCoeInputCapabilitiesneERKS_ @ 329 NONAME
+	_ZNK22CCoeBrushAndPenContext10BrushColorEv @ 330 NONAME
+	_ZNK22CCoeBrushAndPenContext10BrushStyleEv @ 331 NONAME
+	_ZNK22CCoeBrushAndPenContext11BrushBitmapEv @ 332 NONAME
+	_ZNK22CCoeBrushAndPenContext14PrepareContextER9CWindowGc @ 333 NONAME
+	_ZNK22CCoeBrushAndPenContext8PenColorEv @ 334 NONAME
+	_ZNK23MCoeControlBrushContext14PrepareContextER9CWindowGc @ 335 NONAME
+	_ZNK7CCoeEnv17ReleaseScreenFontEP5CFont @ 336 NONAME
+	_ZNK7CCoeEnv18ReadResourceAsDes8ER5TDes8i @ 337 NONAME
+	_ZNK7CCoeEnv19IsWservEventPendingEv @ 338 NONAME
+	_ZNK7CCoeEnv19ReadResourceAsDes16ER6TDes16i @ 339 NONAME
+	_ZNK7CCoeEnv19ReadResourceAsDes8LER5TDes8i @ 340 NONAME
+	_ZNK7CCoeEnv20IsRedrawEventPendingEv @ 341 NONAME
+	_ZNK7CCoeEnv20ReadResourceAsDes16LER6TDes16i @ 342 NONAME
+	_ZNK7CCoeEnv22CreateResourceReaderLCER15TResourceReaderi @ 343 NONAME
+	_ZNK7CCoeEnv24AllocReadResourceAsDes8LEi @ 344 NONAME
+	_ZNK7CCoeEnv25AllocReadResourceAsDes16LEi @ 345 NONAME
+	_ZNK7CCoeEnv25AllocReadResourceAsDes8LCEi @ 346 NONAME
+	_ZNK7CCoeEnv25ResourceFileVersionNumberEv @ 347 NONAME
+	_ZNK7CCoeEnv26AllocReadResourceAsDes16LCEi @ 348 NONAME
+	_ZNK7CCoeEnv3FepEv @ 349 NONAME
+	_ZNK7CCoeEnv6FepUidEv @ 350 NONAME
+	_ZNK9CCoeAppUi12HelpContextLEv @ 351 NONAME
+	_ZNK9CCoeAppUi15AppHelpContextLEv @ 352 NONAME
+	_ZNK9CCoeAppUi15GetActiveViewIdER10TVwsViewId @ 353 NONAME
+	_ZNK9CCoeAppUi16GetDefaultViewIdER10TVwsViewId @ 354 NONAME
+	_ZNK9CCoeAppUi17InputCapabilitiesEv @ 355 NONAME
+	_ZNK9CCoeAppUi18IsDisplayingDialogEv @ 356 NONAME
+	_ZNK9CCoeAppUi24IsDisplayingMenuOrDialogEv @ 357 NONAME
+	_ZNK9CCoeAppUi36IsDisplayingControlBetweenPrioritiesEii @ 358 NONAME
+	_ZNK9CCoeAppUi36WriteInternalStateOfStackedControlsLER12RWriteStream @ 359 NONAME
+	_ZTI10CCoeStatic @ 360 NONAME ; #<TI>#
+	_ZTI11CCoeControl @ 361 NONAME ; #<TI>#
+	_ZTI13CCoeAppUiBase @ 362 NONAME ABSENT ; #<TI>#
+	_ZTI13CCoeScheduler @ 363 NONAME ; #<TI>#
+	_ZTI15CCoeAppUiSimple @ 364 NONAME ABSENT ; #<TI>#
+	_ZTI15MObjectProvider @ 365 NONAME ; #<TI>#
+	_ZTI17MCoeFocusObserver @ 366 NONAME ; #<TI>#
+	_ZTI18MCoeControlContext @ 367 NONAME ; #<TI>#
+	_ZTI19MCoeMessageObserver @ 368 NONAME ; #<TI>#
+	_ZTI22MCoeForegroundObserver @ 369 NONAME ; #<TI>#
+	_ZTI23MCoeObserverOfLoadedFep @ 370 NONAME ; #<TI>#
+	_ZTI26MCoeResourceChangeObserver @ 371 NONAME ; #<TI>#
+	_ZTI26MCoeViewActivationObserver @ 372 NONAME ; #<TI>#
+	_ZTI28MCoeViewDeactivationObserver @ 373 NONAME ; #<TI>#
+	_ZTI36CCoeScreenDeviceChangeDefaultHandler @ 374 NONAME ; #<TI>#
+	_ZTI7CCoeEnv @ 375 NONAME ; #<TI>#
+	_ZTI8MCoeView @ 376 NONAME ; #<TI>#
+	_ZTI9CCoeAppUi @ 377 NONAME ; #<TI>#
+	_ZTV10CCoeStatic @ 378 NONAME ; #<VT>#
+	_ZTV11CCoeControl @ 379 NONAME ; #<VT>#
+	_ZTV13CCoeAppUiBase @ 380 NONAME ABSENT ; #<VT>#
+	_ZTV13CCoeScheduler @ 381 NONAME ; #<VT>#
+	_ZTV15CCoeAppUiSimple @ 382 NONAME ABSENT ; #<VT>#
+	_ZTV15MObjectProvider @ 383 NONAME ; #<VT>#
+	_ZTV17MCoeFocusObserver @ 384 NONAME ; #<VT>#
+	_ZTV18MCoeControlContext @ 385 NONAME ; #<VT>#
+	_ZTV19MCoeMessageObserver @ 386 NONAME ; #<VT>#
+	_ZTV22MCoeForegroundObserver @ 387 NONAME ; #<VT>#
+	_ZTV23MCoeObserverOfLoadedFep @ 388 NONAME ; #<VT>#
+	_ZTV26MCoeResourceChangeObserver @ 389 NONAME ; #<VT>#
+	_ZTV26MCoeViewActivationObserver @ 390 NONAME ; #<VT>#
+	_ZTV28MCoeViewDeactivationObserver @ 391 NONAME ; #<VT>#
+	_ZTV36CCoeScreenDeviceChangeDefaultHandler @ 392 NONAME ; #<VT>#
+	_ZTV7CCoeEnv @ 393 NONAME ; #<VT>#
+	_ZTV8MCoeView @ 394 NONAME ; #<VT>#
+	_ZTV9CCoeAppUi @ 395 NONAME ; #<VT>#
+	_ZThn4_N11CCoeControl15MopSupplyObjectE8TTypeUid @ 396 NONAME ; #<thunk>#
+	_ZThn4_N11CCoeControl7MopNextEv @ 397 NONAME ; #<thunk>#
+	_ZThn4_NK22CCoeBrushAndPenContext14PrepareContextER9CWindowGc @ 398 NONAME ; #<thunk>#
+	_ZTI23MCoeControlBrushContext @ 399 NONAME ; #<TI>#
+	_ZN9CCoeAppUi21GetSystemDefaultViewLER10TVwsViewId @ 400 NONAME
+	_ZNK21TCoeInputCapabilities24SupportsAutoSentenceCaseEv @ 401 NONAME
+	_ZTI12CCoeEnvExtra @ 402 NONAME ; #<TI>#
+	_ZTI12CCoeRedrawer @ 403 NONAME ; #<TI>#
+	_ZTI13CCoeFepLoader @ 404 NONAME ; #<TI>#
+	_ZTI14CCoeFilePlayer @ 405 NONAME ; #<TI>#
+	_ZTI14CCoeTonePlayer @ 406 NONAME ; #<TI>#
+	Absentee1 @ 407 NONAME ABSENT
+	_ZTI15CCoeSoundPlayer @ 408 NONAME ; #<TI>#
+	_ZTI15CCoeViewManager @ 409 NONAME ; #<TI>#
+	_ZTI16CCoeViewObserver @ 410 NONAME ; #<TI>#
+	Absentee1 @ 411 NONAME ABSENT
+	_ZTI22CCoeBrushAndPenContext @ 412 NONAME ; #<TI>#
+	_ZTI22CCoeSoundPlayerManager @ 413 NONAME ; #<TI>#
+	_ZTIN12CCoeEnvExtra19CHighPriorityActiveE @ 414 NONAME ; #<TI>#
+	_ZTV12CCoeEnvExtra @ 415 NONAME ; #<VT>#
+	_ZTV12CCoeRedrawer @ 416 NONAME ; #<VT>#
+	_ZTV13CCoeFepLoader @ 417 NONAME ; #<VT>#
+	_ZTV14CCoeFilePlayer @ 418 NONAME ; #<VT>#
+	_ZTV14CCoeTonePlayer @ 419 NONAME ; #<VT>#
+	Absentee2 @ 420 NONAME ABSENT
+	_ZTV15CCoeSoundPlayer @ 421 NONAME ; #<VT>#
+	_ZTV15CCoeViewManager @ 422 NONAME ; #<VT>#
+	_ZTV16CCoeViewObserver @ 423 NONAME ; #<VT>#
+	Absentee1 @ 424 NONAME ABSENT
+	_ZTV22CCoeBrushAndPenContext @ 425 NONAME ; #<VT>#
+	_ZTV22CCoeSoundPlayerManager @ 426 NONAME ; #<VT>#
+	_ZTVN12CCoeEnvExtra19CHighPriorityActiveE @ 427 NONAME ; #<VT>#
+	_ZN7CCoeEnv11InstallFepLE4TUid @ 428 NONAME
+	_ZN7CCoeEnv11InstallFepLE4TUidi @ 429 NONAME
+	_ZN7CCoeEnv14AvailableFepsLER6RArrayI4TUidEP12CDesC16Array @ 430 NONAME
+	_ZN7CCoeEnv25ExecuteFepSettingsDialogLE4TUid @ 431 NONAME
+	_ZN11CCoeControl15SetMaximumWidthEi @ 432 NONAME
+	_ZNK11CCoeControl12MaximumWidthEv @ 433 NONAME
+	_ZN15MObjectProvider20MopGetByIdNoChainingE8TTypeUid @ 434 NONAME
+	_ZN25CCoeControlStaticSettings16FocusedByDefaultEv @ 435 NONAME
+	_ZN25CCoeControlStaticSettings20SetFocusedByDefaultLEi @ 436 NONAME
+	_ZNK9CCoeAppUi24CheckSourceOfViewSwitchLERK15TSecurityPolicyPKc @ 437 NONAME
+	_ZN7CCoeEnv10ConstructLEii @ 438 NONAME
+	_ZNK16CCoeControlArray7TCursoreqERKS0_ @ 439 NONAME
+	_ZN11CCoeControl13SetBackgroundEPK21MCoeControlBackground @ 440 NONAME
+	_ZNK16CCoeControlArray5CountEv @ 441 NONAME
+	_ZNK16CCoeControlArray7TCursor4CtrlEv @ 442 NONAME
+	_ZNK16CCoeControlArray7TCursor7IsValidEv @ 443 NONAME
+	_ZN11CCoeControl9SetParentEPS_ @ 444 NONAME
+	_ZN8TCoeFont10LegendFontEi @ 445 NONAME
+	_ZN8TCoeFont10NormalFontEi @ 446 NONAME
+	_ZN8TCoeFont14AnnotationFontEi @ 447 NONAME
+	_ZN8TCoeFont9TitleFontEi @ 448 NONAME
+	_ZN8TCoeFontC1ENS_12TLogicalSizeEii @ 449 NONAME
+	_ZN8TCoeFontC1ERKS_ @ 450 NONAME
+	_ZN8TCoeFontC1Eiii @ 451 NONAME
+	_ZN8TCoeFontC2ENS_12TLogicalSizeEii @ 452 NONAME
+	_ZN8TCoeFontC2ERKS_ @ 453 NONAME
+	_ZN8TCoeFontC2Eiii @ 454 NONAME
+	_ZNK11CCoeControl14FindBackgroundEv @ 455 NONAME
+	_ZNK16CCoeControlArray5BeginEv @ 456 NONAME
+	_ZNK11CCoeControl6ParentEv @ 457 NONAME
+	_ZNK8TCoeFont12IsNonZoomingEv @ 458 NONAME
+	_ZNK8TCoeFont14HeightInPixelsEv @ 459 NONAME
+	_ZNK8TCoeFont11LogicalSizeEv @ 460 NONAME
+	_ZTI16CCoeControlArray @ 461 NONAME ; #<TI>#
+	_ZTV16CCoeControlArray @ 462 NONAME ; #<VT>#
+	_ZNK8TCoeFont5StyleEv @ 463 NONAME
+	_ZN11CCoeControl15SetUniqueHandleEi @ 464 NONAME
+	_ZNK11CCoeControl12UniqueHandleEv @ 465 NONAME
+	_ZN7CCoeEnv15MopSupplyObjectE8TTypeUid @ 466 NONAME
+	_ZThn28_N7CCoeEnv15MopSupplyObjectE8TTypeUid @ 467 NONAME ; #<thunk>#
+	_ZNK7CCoeEnv20IsResourceAvailableLEi @ 468 NONAME
+	_ZN11CCoeControl10SetHitTestEPK18MCoeControlHitTest @ 469 NONAME
+	_ZN11CCoeControl11SetCustomGcEP9CWindowGc @ 470 NONAME
+	_ZNK11CCoeControl14DrawBackgroundERK5TRect @ 471 NONAME
+	_ZNK11CCoeControl14DrawForegroundERK5TRect @ 472 NONAME
+	_ZNK11CCoeControl7HitTestEv @ 473 NONAME
+	_ZN11CCoeControl17SetLayoutManagerLEP17MCoeLayoutManager @ 474 NONAME
+	_ZN11CCoeControl14SetZoomFactorLEiNS_9TZoomTypeE @ 475 NONAME
+	_ZN11CCoeControl16SetFontProviderLERK16CCoeFontProvider @ 476 NONAME
+	_ZNK11CCoeControl13GetTextDrawerERP18CCoeTextDrawerBasePKS_i @ 477 NONAME
+	_ZN11CCoeControl22Reserved_CCoeControl_8Ev @ 478 NONAME
+	_ZN11CCoeControl22Reserved_CCoeControl_9Ev @ 479 NONAME
+	_ZN11CCoeControl6ParentEv @ 480 NONAME
+	_ZNK11CCoeControl10BackgroundEv @ 481 NONAME
+	_ZN11CCoeControl15RequestRelayoutEPKS_ @ 482 NONAME
+	_ZNK11CCoeControl13LayoutManagerEv @ 483 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_1Ev @ 484 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_2Ev @ 485 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_3Ev @ 486 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_4Ev @ 487 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_5Ev @ 488 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_6Ev @ 489 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_7Ev @ 490 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_8Ev @ 491 NONAME
+	_ZN17MCoeLayoutManager28Reserved_MCoeLayoutManager_9Ev @ 492 NONAME
+	_ZN17MCoeLayoutManager29Reserved_MCoeLayoutManager_10Ev @ 493 NONAME
+	_ZN17MCoeLayoutManager29Reserved_MCoeLayoutManager_11Ev @ 494 NONAME
+	_ZTI17MCoeLayoutManager @ 495 NONAME ; #<TI>#
+	_ZTV17MCoeLayoutManager @ 496 NONAME ; #<VT>#
+	_ZNK9CCoeAppUi17TopFocusedControlEv @ 497 NONAME
+	_ZN9CCoeAppUi13PrepareToExitEv @ 498 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandlerC2Ei @ 499 NONAME
+	_ZTV16CCoeFontProvider @ 500 NONAME ; #<VT>#
+	_ZTV25CCoeControlStaticSettings @ 501 NONAME ; #<VT>#
+	_ZN11CCoeControl22SetTextBaselineSpacingEi @ 502 NONAME
+	_ZN16CCoeFontProvider11SetTypefaceE9TTypeface @ 503 NONAME
+	_ZN16CCoeFontProvider17UseSystemTypefaceEv @ 504 NONAME
+	_ZN16CCoeFontProvider4NewLERK7TDesC16 @ 505 NONAME
+	_ZN16CCoeFontProvider4NewLEv @ 506 NONAME
+	_ZN25CCoeControlStaticSettings14SystemTypefaceEv @ 507 NONAME
+	_ZN25CCoeControlStaticSettings18SetSystemTypefaceLERK7TDesC16 @ 508 NONAME
+	_ZN25CCoeControlStaticSettings27GetLogicalToPixelFontSizesLER6RArrayIiE @ 509 NONAME
+	_ZN25CCoeControlStaticSettings27SetLogicalToPixelFontSizesLERK6RArrayIiE @ 510 NONAME
+	_ZNK11CCoeControl10ScreenFontERK8TCoeFont @ 511 NONAME
+	_ZNK11CCoeControl15AccumulatedZoomEv @ 512 NONAME
+	_ZNK11CCoeControl16FindFontProviderEv @ 513 NONAME
+	_ZNK11CCoeControl18TextBaselineOffsetERK5TSize @ 514 NONAME
+	_ZNK16CCoeFontProvider4FontERK8TCoeFontRK11TZoomFactor @ 515 NONAME
+	_ZNK16CCoeFontProvider8TypefaceEv @ 516 NONAME
+	_ZTI16CCoeFontProvider @ 517 NONAME ; #<TI>#
+	_ZTI25CCoeControlStaticSettings @ 518 NONAME ; #<TI>#
+	_ZNK7CCoeEnv19DefaultFontProviderEv @ 519 NONAME
+	_ZN14XCoeTextDrawer11SetClipRectERK5TRect @ 520 NONAME
+	_ZN14XCoeTextDrawerC1ER18CCoeTextDrawerBase @ 521 NONAME
+	_ZN14XCoeTextDrawerC2ER18CCoeTextDrawerBase @ 522 NONAME
+	_ZN14XCoeTextDrawerD1Ev @ 523 NONAME
+	_ZN14XCoeTextDrawerD2Ev @ 524 NONAME
+	_ZN14XCoeTextDraweraSER18CCoeTextDrawerBase @ 525 NONAME
+	_ZN14XCoeTextDrawerptEv @ 526 NONAME
+	_ZNK14XCoeTextDrawer8DrawTextER16CGraphicsContextRK9TBidiTextRK5TRectRK5CFont @ 527 NONAME
+	_ZNK19TCoeTextTypeAdaptor10LineOfTextEiRiRK5CFont @ 528 NONAME
+	_ZNK19TCoeTextTypeAdaptor13NumberOfLinesEv @ 529 NONAME
+	_ZNK19TCoeTextTypeAdaptor28HasRightToLeftDirectionalityEv @ 530 NONAME
+	_ZN18CCoeTextDrawerBase10SetMarginsERK9TMargins8 @ 531 NONAME
+	_ZN18CCoeTextDrawerBase11SetReusableEi @ 532 NONAME
+	_ZN18CCoeTextDrawerBase12SetAlignmentERK13TGulAlignment @ 533 NONAME
+	_ZN18CCoeTextDrawerBase18SetLineGapInPixelsEi @ 534 NONAME
+	_ZN18CCoeTextDrawerBase13EffectMarginsEv @ 535 NONAME
+	_ZNK18CCoeTextDrawerBase16DrawTextVerticalER16CGraphicsContextRK19TCoeTextTypeAdaptorRK5CFontRK5TRectSA_i @ 536 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved3Ev @ 537 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved4Ev @ 538 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved5Ev @ 539 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved6Ev @ 540 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved7Ev @ 541 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved8Ev @ 542 NONAME
+	_ZN18CCoeTextDrawerBase28CCoeTextDrawerBase_Reserved9Ev @ 543 NONAME
+	_ZN18CCoeTextDrawerBase29CCoeTextDrawerBase_Reserved10Ev @ 544 NONAME
+	_ZN18CCoeTextDrawerBase9ConstructEv @ 545 NONAME
+	_ZN18CCoeTextDrawerBaseC2Ev @ 546 NONAME
+	_ZN18CCoeTextDrawerBaseD0Ev @ 547 NONAME
+	_ZN18CCoeTextDrawerBaseD1Ev @ 548 NONAME
+	_ZN18CCoeTextDrawerBaseD2Ev @ 549 NONAME
+	_ZN19CCoePlainTextDrawer12SetTextColorE4TRgb @ 550 NONAME
+	_ZN19CCoePlainTextDrawer3NewE4TRgb @ 551 NONAME
+	_ZN19CCoePlainTextDrawer9ConstructEv @ 552 NONAME ABSENT
+	_ZN21MCoeControlBackground31MCoeControlBackground_Reserved1Ev @ 553 NONAME
+	_ZN21MCoeControlBackground31MCoeControlBackground_Reserved2Ev @ 554 NONAME
+	_ZN21MCoeControlBackground31MCoeControlBackground_Reserved3Ev @ 555 NONAME
+	_ZN21MCoeControlBackground31MCoeControlBackground_Reserved4Ev @ 556 NONAME
+	_ZN21MCoeControlBackground31MCoeControlBackground_Reserved5Ev @ 557 NONAME
+	_ZNK7CCoeEnv17DefaultTextDrawerEv @ 558 NONAME
+	_ZNK11CCoeControl10TextDrawerEi @ 559 NONAME
+	_ZTV21MCoeControlBackground @ 560 NONAME ; #<VT>#
+	_ZNK14XCoeTextDrawer8ClipRectEv @ 561 NONAME
+	_ZN19TCoeTextTypeAdaptorC2ERK7TDesC16 @ 562 NONAME
+	_ZN19TCoeTextTypeAdaptorC2ERK9TBidiText @ 563 NONAME
+	_ZNK14XCoeTextDrawer22DrawDisplayOrderedTextER16CGraphicsContextRK7TDesC16RK5TRectRK5CFont @ 564 NONAME
+	_ZNK18CCoeTextDrawerBase10IsReusableEv @ 565 NONAME
+	_ZNK18CCoeTextDrawerBase15LineGapInPixelsEv @ 566 NONAME
+	_ZNK18CCoeTextDrawerBase7MarginsEv @ 567 NONAME
+	_ZNK18CCoeTextDrawerBase9AlignmentEv @ 568 NONAME
+	_ZNK19CCoePlainTextDrawer9TextColorEv @ 569 NONAME
+	_ZNK21MCoeControlBackground13GetTextDrawerERP18CCoeTextDrawerBasePK11CCoeControl @ 570 NONAME
+	_ZTI18CCoeTextDrawerBase @ 571 NONAME ; #<TI>#
+	_ZTI19CCoePlainTextDrawer @ 572 NONAME ; #<TI>#
+	_ZTI21MCoeControlBackground @ 573 NONAME ; #<TI>#
+	_ZTV18CCoeTextDrawerBase @ 574 NONAME ; #<VT>#
+	_ZTV19CCoePlainTextDrawer @ 575 NONAME ; #<VT>#
+	_ZN19TCoeTextTypeAdaptorC1ERK7TDesC16 @ 576 NONAME
+	_ZN19TCoeTextTypeAdaptorC1ERK9TBidiText @ 577 NONAME
+	_ZN19CCoePlainTextDrawer15MopSupplyObjectE8TTypeUid @ 578 NONAME
+	_ZThn4_N19CCoePlainTextDrawer15MopSupplyObjectE8TTypeUid @ 579 NONAME ; #<thunk>#
+	_ZN11CCoeControl23Reserved_CCoeControl_10Ev @ 580 NONAME
+	_ZN11CCoeControl23Reserved_CCoeControl_11Ev @ 581 NONAME
+	_ZN11CCoeControl23Reserved_CCoeControl_12Ev @ 582 NONAME
+	_ZN11CCoeControl23Reserved_CCoeControl_13Ev @ 583 NONAME
+	_ZN11CCoeControl24HandleControlArrayEventLEN16CCoeControlArray6TEventEPKS0_PS_i @ 584 NONAME
+	_ZN16CCoeControlArray10RemoveByIdEi @ 585 NONAME
+	_ZN16CCoeControlArray13InsertAfterLCEiP11CCoeControli @ 586 NONAME
+	_ZN16CCoeControlArray14SetArrayLockedEv @ 587 NONAME
+	_ZN16CCoeControlArray15ResetAndDestroyEv @ 588 NONAME
+	_ZN16CCoeControlArray26SetControlsOwnedExternallyEi @ 589 NONAME
+	_ZN16CCoeControlArray2AtEi @ 590 NONAME
+	_ZN16CCoeControlArray4NewLER11CCoeControl @ 591 NONAME
+	_ZN11CCoeControl19InitComponentArrayLEv @ 592 NONAME
+	_ZN16CCoeControlArray5ResetEv @ 593 NONAME
+	_ZN16CCoeControlArray6RemoveENS_7TCursorE @ 594 NONAME
+	_ZN16CCoeControlArray6RemoveEPK11CCoeControl @ 595 NONAME
+	_ZN16CCoeControlArray7ReplaceEP11CCoeControlS1_ @ 596 NONAME
+	_ZN16CCoeControlArray7TCursor4NextEv @ 597 NONAME
+	_ZN16CCoeControlArray7TCursor4PrevEv @ 598 NONAME
+	_ZN16CCoeControlArray8AppendLCEP11CCoeControli @ 599 NONAME
+	_ZN16CCoeControlArray8InsertLCERNS_7TCursorEP11CCoeControli @ 600 NONAME
+	_ZN16CCoeControlArray8SortByIdEv @ 601 NONAME
+	_ZN16CCoeControlArrayC1ER11CCoeControl @ 602 NONAME
+	_ZN16CCoeControlArrayC2ER11CCoeControl @ 603 NONAME
+	_ZN16CCoeControlArrayD0Ev @ 604 NONAME
+	_ZN16CCoeControlArrayD1Ev @ 605 NONAME
+	_ZN16CCoeControlArrayD2Ev @ 606 NONAME
+	_ZNK11CCoeControl10ComponentsEv @ 607 NONAME
+	_ZNK16CCoeControlArray13IsArrayLockedEv @ 608 NONAME
+	_ZNK16CCoeControlArray23ControlsOwnedExternallyEv @ 609 NONAME
+	_ZNK16CCoeControlArray2AtEi @ 610 NONAME
+	_ZNK16CCoeControlArray2IdERK11CCoeControl @ 611 NONAME
+	_ZNK16CCoeControlArray3EndEv @ 612 NONAME
+	_ZNK16CCoeControlArray4FindEPK11CCoeControl @ 613 NONAME
+	_ZNK16CCoeControlArray4FindEi @ 614 NONAME
+	_ZNK16CCoeControlArray7TCursorneERKS0_ @ 615 NONAME
+	_ZN11CCoeControl10ComponentsEv @ 616 NONAME
+	_ZNK16CCoeControlArray8CtrlByIdEi @ 617 NONAME
+	_ZNK9CCoeAppUi17IsViewConstructedERK10TVwsViewId @ 618 NONAME
+	_ZNK11CCoeControl8CustomGcEv @ 619 NONAME
+	_ZNK11CCoeControl7DrawNowERK5TRect @ 620 NONAME
+	_ZN26MCoeMessageMonitorObserver37MCoeMessageMonitorObserver_Reserved_1Ev @ 621 NONAME
+	_ZN26MCoeMessageMonitorObserver37MCoeMessageMonitorObserver_Reserved_2Ev @ 622 NONAME
+	_ZN7CCoeEnv26AddMessageMonitorObserverLER26MCoeMessageMonitorObserver @ 623 NONAME
+	_ZN7CCoeEnv28RemoveMessageMonitorObserverER26MCoeMessageMonitorObserver @ 624 NONAME
+	_ZTI26MCoeMessageMonitorObserver @ 625 NONAME ; #<TI>#
+	_ZTV26MCoeMessageMonitorObserver @ 626 NONAME ; #<VT>#
+	_ZN7CCoeEnv10ConstructLEiii @ 627 NONAME
+	_ZN11CCoeControl13ComponentByIdEi @ 628 NONAME ABSENT
+	_ZN11CCoeControl15RemoveComponentERS_ @ 629 NONAME ABSENT
+	_ZN11CCoeControl18AddComponentByIdLCEPS_i @ 630 NONAME ABSENT
+	_ZN11CCoeControl19RemoveComponentByIdEi @ 631 NONAME ABSENT
+	_ZNK11CCoeControl13ComponentByIdEi @ 632 NONAME ABSENT
+	_ZN7CCoeEnv40SetAppStartupInstrumentationEventIdBaseLEi @ 633 NONAME
+	_ZN10CCoeStatic20CCoeStatic_Reserved1Ev @ 634 NONAME
+	_ZN10CCoeStatic20CCoeStatic_Reserved2Ev @ 635 NONAME
+	_ZN10CCoeStaticC1Ev @ 636 NONAME
+	_ZN10CCoeStaticC2Ev @ 637 NONAME
+	_ZN15MObjectProvider25MObjectProvider_Reserved1Ev @ 638 NONAME
+	_ZN15MObjectProvider25MObjectProvider_Reserved2Ev @ 639 NONAME
+	_ZN15MObjectProviderC2Ev @ 640 NONAME
+	_ZN16MCoeViewObserver26MCoeViewObserver_Reserved1Ev @ 641 NONAME
+	_ZN16MCoeViewObserver26MCoeViewObserver_Reserved2Ev @ 642 NONAME
+	_ZN16MCoeViewObserverC2Ev @ 643 NONAME
+	_ZN17MCoeFocusObserverC2Ev @ 644 NONAME
+	_ZN17MCoeLayoutManagerC2Ev @ 645 NONAME
+	_ZN18MCoeControlContext28MCoeControlContext_Reserved1Ev @ 646 NONAME
+	_ZN18MCoeControlContext28MCoeControlContext_Reserved2Ev @ 647 NONAME
+	_ZN18MCoeControlContextC1Ev @ 648 NONAME
+	_ZN18MCoeControlContextC2Ev @ 649 NONAME
+	_ZN18MCoeControlHitTest28MCoeControlHitTest_Reserved1Ev @ 650 NONAME
+	_ZN18MCoeControlHitTest28MCoeControlHitTest_Reserved2Ev @ 651 NONAME
+	_ZN18MCoeControlHitTestC2Ev @ 652 NONAME
+	_ZN19MCoeControlObserver29MCoeControlObserver_Reserved1Ev @ 653 NONAME
+	_ZN19MCoeControlObserver29MCoeControlObserver_Reserved2Ev @ 654 NONAME
+	_ZN19MCoeControlObserverC2Ev @ 655 NONAME
+	_ZN19MCoeMessageObserverC2Ev @ 656 NONAME
+	_ZN21MCoeControlBackgroundC2Ev @ 657 NONAME
+	_ZN21TCoeInputCapabilitiesC1Ev @ 658 NONAME
+	_ZN21TCoeInputCapabilitiesC2Ev @ 659 NONAME
+	_ZN22MCoeForegroundObserverC2Ev @ 660 NONAME
+	_ZN23MCoeObserverOfLoadedFepC2Ev @ 661 NONAME
+	_ZN26MCoeResourceChangeObserverC2Ev @ 662 NONAME
+	_ZN26MCoeViewActivationObserverC2Ev @ 663 NONAME
+	_ZN28MCoeViewDeactivationObserverC2Ev @ 664 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandler20CCoeStatic_Reserved1Ev @ 665 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandler20CCoeStatic_Reserved2Ev @ 666 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandler46CCoeScreenDeviceChangeDefaultHandler_Reserved1Ev @ 667 NONAME
+	_ZN36CCoeScreenDeviceChangeDefaultHandler46CCoeScreenDeviceChangeDefaultHandler_Reserved2Ev @ 668 NONAME
+	_ZN7CCoeEnv8RunErrorEi @ 669 NONAME
+	_ZN8MCoeView19MCoeView_Reserved_2Ev @ 670 NONAME
+	_ZN8MCoeView19MCoeView_Reserved_3Ev @ 671 NONAME
+	_ZN8MCoeViewC2Ev @ 672 NONAME
+	_ZN8TCoeFontC1Ev @ 673 NONAME
+	_ZN8TCoeFontC2Ev @ 674 NONAME
+	_ZTV19MCoeControlObserver @ 675 NONAME ; #<VT>#
+	_ZNK9CCoeAppUi24FrameworkCallsRendezvousEv @ 676 NONAME
+	_ZN9CCoeAppUi20CCoeAppUi_Reserved_2Ev @ 677 NONAME
+	_ZTI16MCoeViewObserver @ 678 NONAME ; #<TI>#
+	_ZTI18MCoeControlHitTest @ 679 NONAME ; #<TI>#
+	_ZTI19MCoeControlObserver @ 680 NONAME ; #<TI>#
+	_ZTV16MCoeViewObserver @ 681 NONAME ; #<VT>#
+	_ZN23MCoeControlBrushContextC1Ev @ 682 NONAME
+	_ZN23MCoeControlBrushContextC2Ev @ 683 NONAME
+	_ZN18CCoeTextDrawerBase5ResetEv @ 684 NONAME
+	_ZNK21TCoeInputCapabilities21SupportsNonPredictiveEv @ 685 NONAME
+	_ZN7CCoeEnv13SetZoomFactorERK11TZoomFactor @ 686 NONAME
+	_ZNK7CCoeEnv10ZoomFactorEv @ 687 NONAME
+	_ZN16CCoeControlArray4SortE12TLinearOrderI17TCoeControlWithIdE @ 688 NONAME
+	_ZNK11CCoeControl12ZoomWithTypeEv @ 689 NONAME
+	_ZN25CCoeControlStaticSettings15ParentByDefaultEv @ 690 NONAME
+	_ZN25CCoeControlStaticSettings19SetParentByDefaultLEi @ 691 NONAME
+	_ZN25CCoeControlStaticSettings18OrdinalForAllViewsEv @ 692 NONAME
+	_ZN25CCoeControlStaticSettings22SetOrdinalForAllViewsLEi @ 693 NONAME
+	_ZN11CCoeControlC1EP7CCoeEnv @ 694 NONAME
+	_ZN11CCoeControlC2EP7CCoeEnv @ 695 NONAME
+	_ZN25CCoeControlStaticSettings16FocusedByDefaultEP7CCoeEnv @ 696 NONAME
+	_ZN15CCoeDataStorage18GetInstalledFepIdLER6TDes16 @ 697 NONAME
+	_ZN15CCoeDataStorage18SetInstalledFepIdLERK7TDesC16 @ 698 NONAME
+	_ZN15CCoeDataStorage19GetSystemColorListLEv @ 699 NONAME
+	_ZN15CCoeDataStorage19SetSystemColorListLERK10CColorList @ 700 NONAME
+	_ZN15CCoeDataStorage25GetSystemColorListBufferLEv @ 701 NONAME
+	_ZN15CCoeDataStorage29SetSystemColorListFromBufferLERK6TDesC8 @ 702 NONAME
+	_ZN15CCoeDataStorage4GetLER7CCoeEnv @ 703 NONAME
+	_ZN15CCoeDataStorage4NewLEv @ 704 NONAME
+	_ZN15CCoeDataStorageD0Ev @ 705 NONAME
+	_ZN15CCoeDataStorageD1Ev @ 706 NONAME
+	_ZN15CCoeDataStorageD2Ev @ 707 NONAME
+	_ZTI15CCoeDataStorage @ 708 NONAME ; #<TI>#
+	_ZTV15CCoeDataStorage @ 709 NONAME ; #<VT>#
+	_ZN15CCoeDataStorage16GetFepAttributeLE4TUidR5TDes8 @ 710 NONAME
+	_ZN15CCoeDataStorage16SetFepAttributeLE4TUidRK6TDesC8 @ 711 NONAME
+	_ZN7CCoeEnv21DestroyEnvironmentEndEv @ 712 NONAME
+	_ZN7CCoeEnv24DestroyEnvironmentStaticEv @ 713 NONAME
+	_ZN15CCoeDataStorage19PopulateColorArrayLEv @ 714 NONAME
+	_ZNK11CCoeControl20ComponentArrayExistsEv @ 715 NONAME
+	_ZNK7CCoeEnv12ScreenDeviceEi @ 716 NONAME
+	_ZNK7CCoeEnv7RootWinEi @ 717 NONAME
+	_ZN9CCoeAppUi26EnableExternalViewSwitchesEi @ 718 NONAME
+	_ZN9CCoeAppUi16SetCustomControlEi @ 719 NONAME
+	_ZNK9CCoeAppUi12GetTopViewIdER10TVwsViewId @ 720 NONAME
+	_ZN9CCoeAppUi21SetWindowGroupOrdinalEi @ 721 NONAME
+	_ZN9CCoeAppUi33DeactivateActiveViewIfOwnerMatchLEv @ 722 NONAME
+	_ZN18CCoeTextDrawerBase14SetAppLanguageE9TLanguage @ 723 NONAME
+	_ZNK18CCoeTextDrawerBase25ActualHorizontalAlignmentERK19TCoeTextTypeAdaptor @ 724 NONAME
+	_ZNK7CCoeEnv22CoeEnvConstructorErrorEv @ 725 NONAME
+	_ZN7CCoeEnv7ExecuteEv @ 726 NONAME
+	_ZNK7CCoeEnv21DisableShutdownChecksEv @ 727 NONAME
+	_ZN9CCoeAppUi31UpdateViewServerBackgroundColorERK4TRgb @ 728 NONAME
+	KCoeSetControlParentByDefault @ 729 NONAME DATA 4 
+	_ZN18RCoeResourceLoader4OpenER4TBufILi256EE @ 730 NONAME
+	_ZN18RCoeResourceLoader5CloseEv @ 731 NONAME
+	_ZN18RCoeResourceLoader5OpenLER4TBufILi256EE @ 732 NONAME
+	_ZN18RCoeResourceLoaderC1ER7CCoeEnv @ 733 NONAME
+	_ZN18RCoeResourceLoaderC2ER7CCoeEnv @ 734 NONAME
+	_ZN11CCoeControl30EnableReportControlStateChangeEi @ 735 NONAME
+	_ZNK14XCoeTextDrawer16DrawTextVerticalER16CGraphicsContextRK9TBidiTextRK5TRectRK5CFonti @ 736 NONAME
+	_ZNK14XCoeTextDrawer30DrawDisplayOrderedTextVerticalER16CGraphicsContextRK7TDesC16RK5TRectRK5CFonti @ 737 NONAME
+	_ZN11CCoeControl24EnableWindowTransparencyEv @ 738 NONAME
+	_ZN11CCoeControl16ClaimPointerGrabEii @ 739 NONAME
+	_ZNK11CCoeControl17GrabbingComponentEi @ 740 NONAME

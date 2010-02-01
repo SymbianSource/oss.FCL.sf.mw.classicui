@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="a003302f85b34aaa6caa824206be00f0" dataversion="1.0">
+  <name>Item Finder API</name>
+  <description>Utility used for automatic highlighting of items (e.g. HTTP, email, phone numbers) in editors</description>
+  <type>c++</type>
+  <subsystem>commonuis</subsystem>
+  <libs>
+    <lib name="commonui.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

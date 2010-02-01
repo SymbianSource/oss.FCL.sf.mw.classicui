@@ -1,0 +1,72 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef FINDITEM_HRH
+#define FINDITEM_HRH
+
+enum TFindItemMenuCommands
+    {
+    // Phone number cmds
+    EFindItemCmdCall = 100,
+    EFindItemCmdSendSMS, /* @deprecated 3.2 */
+    EFindItemCmdSendMMS, /* @deprecated 3.2 */
+    // URL cmds
+    EFindItemCmdGoToUrl,
+    EFindItemCmdAddToBookmark,
+    EFindItemCmdSendMail,
+    // General cmds
+    EFindItemCmdCreateContactCard,
+    EFindItemCmdCreateContactCardSub1,
+    EFindItemCmdCreateContactCardSub2,
+    EFindItemCmdCreateContactCardSub3,
+    EFindItemCmdNextItem,
+    EFindItemCmdPrevItem,
+    EFindItemCmdCopy,
+    EFindItemCmdExit,
+    EFindItemCmdCreateNewContactCard,
+    EFindItemCmdCreateOldContactCard,
+    EFindItemCmdGoToRstp,
+    EFindItemContextMenuPlaceHolder,
+    EFindItemSubMenuSend,
+    EFindItemCmdAddToGallery,
+    EFindItemMenuPlaceHolder,
+    EFindItemCmdEnableAutoFind,
+    EFindItemCmdDisableAutoFind,
+    EFindItemCmdUse,
+    EFindItemCmdSendMessage,
+    EFindItemCmdSendAudio,
+    EFindMenuPlaceHolderCallUI = 150,
+    EFindMenuPlaceHolderContacts,
+    EFindMenuCmdLast // this must always be last in the list
+    };
+
+
+enum TFindItemDlgLineId // dialog line ids
+    {
+    EFindItemRichTxtEditor = 1,
+    EFindItemRichTxtEditorContainer
+    };
+
+enum TFindItemDlgTypeId // dialog type
+    {
+    EFindItemCtRichTxtEditorContainer = 9
+    };
+
+#endif      //  FINDITEM_HRH
+
+// End of File

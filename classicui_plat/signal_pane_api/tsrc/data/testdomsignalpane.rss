@@ -1,0 +1,122 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testdombatterypane
+ *
+*/
+
+
+NAME    TEST
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+
+
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_testdomnotifier_view
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_testdomnotifier_view
+    {
+    menubar = r_testdomnotifier_menubar_main;
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_testdomnotifier_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_testdomnotifier_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_testdomnotifier_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_testdomnotifier_case_menu;
+            }
+        };
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_testdomnotifier_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_testdomnotifier_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = 0x6000;
+            txt = "Outline01";
+            },
+        MENU_ITEM
+            {
+            command = 0x6001;
+            txt = "Outline02";
+            },
+        MENU_ITEM
+            {
+            command = 0x6002;
+            txt = "Outline03";
+            },
+       MENU_ITEM
+            {
+            command = 0x6003;
+            txt = "Outline04";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testdomnotifier_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_testdomnotifier_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = 0x6004;
+            txt = "Outline05";
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = 0x6005;
+            txt = "Outline06";
+            }
+        };
+    }

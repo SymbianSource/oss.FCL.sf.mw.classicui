@@ -1,0 +1,351 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains the resources for the aknconf.
+*
+*/
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <appinfo.rh>
+#include "aknconf.hrh"
+#include "aknconf.rls"
+
+NAME ACGE // AknConfGesture
+
+
+// --------------------------------------------------------------------------
+// RSS_SIGNATURE
+// Standard resource signature
+// --------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting item list
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_ITEM_LIST r_aknconf_gesture_settingitemlist
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Settings";
+    initial_number = 1;
+    items =     
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingTapThreshold;
+            setting_page_resource = r_aknconf_tap_threshold_setting_page;
+            name = qtn_setting_tap_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingLongTapThreshold;
+            setting_page_resource = r_aknconf_long_tap_threshold_setting_page;
+            name = qtn_setting_long_tap_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingDoubleTapThreshold;
+            setting_page_resource = r_aknconf_double_tap_threshold_setting_page;
+            name = qtn_setting_double_tap_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingDragThreshold;
+            setting_page_resource = r_aknconf_drag_threshold_setting_page;
+            name = qtn_setting_gesture_drag_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingFlickBuffer;
+            setting_page_resource = r_aknconf_flick_buffer_setting_page;
+            name = qtn_setting_flick_buffer;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingFlickSpeedThreshold;
+            setting_page_resource = r_aknconf_flick_speed_threshold_setting_page;
+            name = qtn_setting_flick_speed_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingFlickDetectionTime;
+            setting_page_resource = r_aknconf_flick_detection_time_setting_page;
+            name = qtn_setting_flick_detection_time;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingFlickDirectionChange;
+            setting_page_resource = r_aknconf_flick_direction_change_setting_page;
+            name = qtn_setting_direction_change_sensitivity;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchInitialThreshold;
+            setting_page_resource = r_aknconf_pinch_initial_threshold_setting_page;
+            name = qtn_setting_pinch_initial_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchMovementThreshold;
+            setting_page_resource = r_aknconf_pinch_movement_threshold_setting_page;
+            name = qtn_setting_pinch_movement_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchDirectionChangeSensitivity;
+            setting_page_resource = 
+                r_aknconf_pinch_direction_change_sensitivity_setting_page;
+            name = qtn_setting_pinch_direction_change_sensitivity;
+            },        
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchDirectionResetSensitivity;
+            setting_page_resource = 
+                r_aknconf_pinch_direction_reset_sensitivity_setting_page;
+            name = qtn_setting_pinch_direction_reset_sensitivity;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchDimensionThreshold;
+            setting_page_resource = 
+                r_aknconf_pinch_dimension_threshold_setting_page;
+            name = qtn_setting_pinch_dimension_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfGestureSettingPinchMaximumConfirmationDuration;
+            setting_page_resource = 
+                r_aknconf_pinch_maximum_confirmation_duration_setting_page;
+            name = qtn_setting_pinch_maximum_confirmation_duration;
+            }                    
+            
+        };  
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: tap threshold
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_tap_threshold_setting_page
+    {
+    label = qtn_setting_tap_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: long tap threshold
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_long_tap_threshold_setting_page
+    {
+    label = qtn_setting_long_tap_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: double tap threshold
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_double_tap_threshold_setting_page
+    {
+    label = qtn_setting_double_tap_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: drag threshold.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_drag_threshold_setting_page
+    {
+    label = qtn_setting_gesture_drag_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: flick buffer
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_flick_buffer_setting_page
+    {
+    label = qtn_setting_flick_buffer;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: flick speed threshold
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_flick_speed_threshold_setting_page
+    {
+    label = qtn_setting_flick_speed_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: flick detection time
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_flick_detection_time_setting_page
+    {
+    label = qtn_setting_flick_detection_time;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: flick direction change.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_flick_direction_change_setting_page
+    {
+    label = qtn_setting_direction_change_sensitivity;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch initial threshold.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_initial_threshold_setting_page
+    {
+    label = qtn_setting_pinch_initial_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch movement threshold.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_movement_threshold_setting_page
+    {
+    label = qtn_setting_pinch_movement_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch direction change sensitivity.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_direction_change_sensitivity_setting_page
+    {
+    label = qtn_setting_pinch_direction_change_sensitivity;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch direction reset sensitivity.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_direction_reset_sensitivity_setting_page
+    {
+    label = qtn_setting_pinch_direction_reset_sensitivity;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch dimension threshold.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_dimension_threshold_setting_page
+    {
+    label = qtn_setting_pinch_dimension_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gesture setting: pinch maximum confirmation duration.
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_pinch_maximum_confirmation_duration_setting_page
+    {
+    label = qtn_setting_pinch_maximum_confirmation_duration;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Numeric editor
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_INTEGER_EDWIN r_aknconf_numericeditor
+    {
+    maxlength = 100;
+    }
+
+
+// End of File

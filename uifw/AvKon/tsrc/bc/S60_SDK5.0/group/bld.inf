@@ -1,0 +1,40 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  build information
+*
+*/
+
+
+PRJ_EXPORTS
+../../bctestlauncher/group/config_3x.xml /epoc32/winscw/c/bctestlog/config.xml
+
+PRJ_MMPFILES
+../../bctestutil/group/bctestutil.mmp
+
+../../bctestlauncher/group/bctestlauncher.mmp
+
+../bcmultidriver/group/bctestmultidriver.mmp
+
+../bctestappfrm/group/bctestappfrm.mmp
+
+../bctestdocandinit/group/bctestdocandinit.mmp
+
+../bctestsettingpage/group/bctestsettingpage.mmp
+
+../bctestsliderandicons/group/bctestsliderandicons.mmp
+
+gnumakefile ../bctestmix50/group/Icons_mix50.mk
+../bctestmix50/group/bctestmix50.mmp
+
+../bctestfontinput/group/BCTestFontInput.mmp

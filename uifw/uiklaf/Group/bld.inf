@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Build info file.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+
+// UiklafGT exports these files to us:
+//../inc/uikon.rh           MW_LAYER_PUBLIC_EXPORT_PATH(uikon.rh)
+//../inc/uikon.hrh          MW_LAYER_PUBLIC_EXPORT_PATH(uikon.hrh)
+//../inc/eikcolor.hrh       MW_LAYER_PUBLIC_EXPORT_PATH(eikcolor.hrh)
+//../inc/eiksfont.h         MW_LAYER_PUBLIC_EXPORT_PATH(eiksfont.h)
+//../inc/lafmain.h          MW_LAYER_PUBLIC_EXPORT_PATH(lafmain.h)
+//../inc/lafenv.h	        /epoc32/include/uiklaf/private/lafenv.h
+//../inc/lafappui.h         /epoc32/include/uiklaf/private/lafappui.h
+//../inc/lafmsg.h           /epoc32/include/uiklaf/private/lafmsg.h
+//../inc/lafvcurs.h         /epoc32/include/uiklaf/private/lafvcurs.h
+//../inc/lafspane.h         /epoc32/include/uiklaf/private/lafspane.h
+//../inc/lafsrv.h           /epoc32/include/uiklaf/private/lafsrv.h
+
+../inc/LAFBTGPC.H           |../../../inc/LAFBTGPC.H
+../inc/laflbbut.h           |../../../inc/laflbbut.h
+../inc/lafbtpan.h           |../../../inc/lafbtpan.h
+../inc/LAFBUTB.H            |../../../inc/LAFBUTB.H
+../inc/LAFCMBUT.H           |../../../inc/LAFCMBUT.H
+../inc/LAFEDWIN.H           |../../../inc/LAFEDWIN.H
+../inc/LAFFNLAB.H           |../../../inc/LAFFNLAB.H
+../inc/lafimage.h           |../../../inc/lafimage.h
+../inc/laflabel.h           |../../../inc/laflabel.h
+../inc/LAFLBED.H            |../../../inc/LAFLBED.H
+../inc/laflbd.h             |../../../inc/laflbd.h
+../inc/laflbi.h             |../../../inc/laflbi.h
+../inc/laflbv.h             |../../../inc/laflbv.h
+../inc/laflbx.h             |../../../inc/laflbx.h
+../inc/LAFMENUB.H           |../../../inc/LAFMENUB.H
+../inc/LAFMENUP.H           |../../../inc/LAFMENUP.H
+../inc/lafmnbut.h           |../../../inc/lafmnbut.h
+../inc/LAFSBFRM.H           |../../../inc/LAFSBFRM.H
+../inc/LAFSCBUT.H           |../../../inc/LAFSCBUT.H
+../inc/LAFSCRLB.H           |../../../inc/LAFSCRLB.H
+../inc/LAFTBAR.H            |../../../inc/LAFTBAR.H
+../inc/lafthumb.h           |../../../inc/lafthumb.h
+../inc/laftxlbx.h           |../../../inc/laftxlbx.h
+
+// IBY-files
+../rom/uiklaf.iby CORE_MW_LAYER_IBY_EXPORT_PATH(uiklaf.iby)
+../rom/uikonresources.iby LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(uikonresources.iby)
+../rom/uiklaf_Variant.iby CUSTOMER_MW_LAYER_IBY_EXPORT_PATH(uiklaf_Variant.iby)
+
+
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+../Group/UIKLAF.MMP
+../Group/EikCoCtlLaf.MMP
+#endif
+
+//  End of File

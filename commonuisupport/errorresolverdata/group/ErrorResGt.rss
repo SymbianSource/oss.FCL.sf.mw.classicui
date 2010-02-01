@@ -1,0 +1,277 @@
+// Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME ERRG
+
+#include <uikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE ERROR_SET r_error_res_base_list
+	{
+	errorarrays=
+		{
+		ERROR_ARRAY
+			{
+			startError=-101;	// KFaxErrModemNotWorking
+			errors=r_error_res_fax_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-170;	// KPop3CannotConnect
+			errors=r_error_res_email_pop3_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-180;	// KImskErrorDNSNotFound
+			errors=r_error_res_email_imsk_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-190;	// KErrNetUnreach
+			errors=r_error_res_socket_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-200;	// KErrImapConnectFail
+			errors=r_error_res_email_imap_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-240;	// KSmtpNoMailFromErr
+			errors=r_error_res_email_smtp_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-500;	// KBspInvalidMessage
+			errors=r_error_res_bio_base_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-510;	// KIacpUnknownSmsType
+			errors=r_error_res_bio_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-600;	// KWappErrBaseError
+			errors=r_error_res_bio_wapp_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-2000;	// KErrEtelNotCallOwner
+			errors=r_error_res_etel_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-3050;	// KErrIfAuthenticationFailure
+			errors=r_error_res_tcpip_errors;
+			},
+
+		ERROR_ARRAY
+			{
+			startError=-3606;	// KErrGenConnDatabaseDefaultUndefined
+			errors=r_error_net_con_errors;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4001;	// KErrGsmRRUnspecifedAbnormalRelease
+			errors=r_error_res_gsm_errors1;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4065;	// KErrGsmRRCallAlreadyCleared
+			errors=r_error_res_gsm_errors2;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4095;	// KErrGsmRRInvalidMessage
+			errors=r_error_res_gsm_errors3;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4111;	// KErrGsmRRUnspecifiedProtocolError
+			errors=r_error_res_gsm_errors4;
+			},
+		ERROR_ARRAY //Added for Quartz 6.1 2000-10-05
+			{
+			startError=-4135;	// KErrGprsServicesNotAllowed
+			errors=r_error_res_psd_errors1;
+			}, 
+		ERROR_ARRAY //Added for Quartz 6.1 2000-10-05
+			{
+			startError=-4144;	// KErrGprsMSCTemporarilyNotReachable
+			errors=r_error_res_psd_errors2;
+			}, 
+
+		ERROR_ARRAY //Added for Quartz 6.1 2000-10-05
+			{
+			startError=-4153;	//  KErrGprsLlcOrSndcpFailure
+			errors=r_error_res_psd_errors3;
+			}, 
+		ERROR_ARRAY //Added for Quartz 6.1 2000-10-05
+			{
+			startError=-4163;	//  KErrGprsNSAPIAlreadyUsed
+			errors=r_error_res_psd_errors4;
+			}, 
+		ERROR_ARRAY //Added for Quartz 6.1 2000-10-05
+			{
+			startError=-4167;	//  KErrGprsReactivationRequested
+			errors=r_error_res_psd_errors5;
+			}, 
+		ERROR_ARRAY
+			{
+			startError=-4129;	// KErrGsmMMUnallocatedTmsi
+			errors=r_error_res_gsm_errors5;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4223;	// KErrGsmMMSemanticErrorInMessage
+			errors=r_error_res_gsm_errors6;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4257;	// KErrGsmCCUnassignedNumber
+			errors=r_error_res_gsm_errors7;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4383;	// KErrGsmCCUnspecifiedInterworkingError
+			errors=r_error_res_gsm_errors8;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4455;	// KErrGsmSSUnknownAlphabet
+			errors=r_error_res_gsm_errors9;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4510;	// KErrGsmSSMaxNumMptyParticipants
+			errors=r_error_res_gsm_errors10;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4581;	// KErrGsmSMSRequestedFacilityNotImplemented
+			errors=r_error_res_gsm_errors11;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4593;	// KErrGsmSMSInvalidShortMessageTransferReferenceValue
+			errors=r_error_res_gsm_errors12;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4607;	// KErrGsmSMSUnspecifiedInvalidMessage
+			errors=r_error_res_gsm_errors13;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4623;	// KErrGsmSMSUnspecifiedProtocolError
+			errors=r_error_res_gsm_errors14;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4639;	// KErrGsmSMSUnspecifiedInterworkingError
+			errors=r_error_res_gsm_errors15;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4655;	// KErrGsmSMSUnspecifiedPIDError
+			errors=r_error_res_gsm_errors16;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4671;	// KErrGsmSMSUnspecifiedDCSError
+			errors=r_error_res_gsm_errors17;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4687;	// KErrGsmSMSUnspecifiedCommandError
+			errors=r_error_res_gsm_errors18;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4704;	// KErrGsmSMSServiceCentreBusy
+			errors=r_error_res_gsm_errors19;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4720;	// KErrGsmSMSSimSMSStorageFull
+			errors=r_error_res_gsm_errors20;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4767;	// KErrGsmSMSUnspecifiedErrorCause
+			errors=r_error_res_gsm_errors21;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4812;	// KErrGsmSMSFailureInME
+			errors=r_error_res_gsm_errors22;
+			},
+		ERROR_ARRAY
+			{
+			startError=-4852;	// KErrGsmSMSCnmaAckNotExpected
+			errors=r_error_res_gsm_errors23;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5012;	// KErrGsmSMSUnknownError
+			errors=r_error_res_gsm_errors24;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5024;	// KErrGsm0707PhoneFailure
+			errors=r_error_res_gsm_errors25;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5124;	// KErrGsm0707UnknownError
+			errors=r_error_res_gsm_errors26;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5501;	// KErrIrObexClientNoDevicesFound
+			errors=r_error_res_ir_errors_1;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5507;	
+			errors=r_error_res_ir_errors_2;
+			},
+		ERROR_ARRAY
+			{
+			startError=-5124;	// KErrGsm0707UnknownError
+			errors=r_error_res_gsm_errors26;
+			},
+		ERROR_ARRAY
+			{
+			startError=-7000;	// KMsvMediaUnavailable
+			errors=r_error_res_msg_server_errors;
+			}
+		};
+	}
+
+#include <errors/generic/psderr.ra>
+#include <errors/generic/netconerr.ra>
+#include <errors/generic/faxerr.ra>
+#include <errors/generic/emailerr.ra>
+#include <errors/generic/sockerr.ra>
+#include <errors/generic/tcperr.ra>
+#include <errors/generic/gsmerr.ra>
+#include <errors/generic/bioerr.ra>
+#include <errors/generic/etelerr.ra>
+#include <errors/generic/msgerr.ra>
+#include <errors/generic/irerr.ra>
+

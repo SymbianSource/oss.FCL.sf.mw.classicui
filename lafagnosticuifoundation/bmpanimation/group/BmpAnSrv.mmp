@@ -1,0 +1,36 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// bmpansrv.dll Wserv anim dll for sequences of bitmaps - server
+// 
+//
+
+/**
+ @file
+*/
+
+target			bmpansrv.dll
+CAPABILITY 		PowerMgmt ReadDeviceData WriteDeviceData ProtServ
+targettype		ani
+UID			0x10003B22 0x100048F1
+VENDORID 0x70000001
+
+SOURCEPATH		../src
+source			bmpansd.cpp bmpansrv.cpp
+
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+userinclude		../inc
+
+library			euser.lib	fbscli.lib	bitgdi.lib
+
+SMPSAFE

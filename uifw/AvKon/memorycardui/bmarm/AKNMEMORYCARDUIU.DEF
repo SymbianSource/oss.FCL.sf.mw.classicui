@@ -1,0 +1,6 @@
+EXPORTS
+	NotifierArray__Fv @ 1 NONAME R3UNUSED ; NotifierArray(void)	
+	NewLC__20CAknMemoryCardDialogP28MAknMemoryCardDialogObserver @ 2 NONAME R3UNUSED ; CAknMemoryCardDialog::NewLC(MAknMemoryCardDialogObserver *)
+	UnlockCardLD__20CAknMemoryCardDialogi @ 3 NONAME R3UNUSED ; CAknMemoryCardDialog::UnlockCardLD(int)
+	SetSelfPointer__20CAknMemoryCardDialogPP20CAknMemoryCardDialog @ 4 NONAME R3UNUSED ; CAknMemoryCardDialog::SetSelfPointer(CAknMemoryCardDialog **)
+

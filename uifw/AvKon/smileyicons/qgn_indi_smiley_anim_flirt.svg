@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape6grad" r="8.363">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-8,-8)">
+<g>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape6grad)" fill-rule="evenodd"/>
+<g display="none" transform="translate(0,0.001)">
+<g transform="translate(0,0.001)">
+<path d="M5.355,7.193C5.994,7.562,6.809,7.343,7.175,6.707C6.639,6.396,5.37,5.664,4.869,5.374C4.501,6.012,4.719,6.828,5.355,7.193M11.132,5.374C10.594,5.685,9.402,6.374,8.823,6.707C9.190,7.345,10.005,7.562,10.642,7.195C11.282,6.827,11.499,6.012,11.132,5.374" fill="white" fill-rule="evenodd" transform="translate(0.001)"/>
+</g>
+</g>
+</g>
+<g>
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.21s" fill="freeze" keyTimes="0;0.662;1" values="inline;none;inline"/>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(5.746,5.827)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(5.745,5.827)"/>
+</g>
+<g>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(10.367,5.827)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(10.365,5.827)"/>
+</g>
+<g transform="translate(0)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.21s" fill="freeze" keyTimes="0;0.662;1" values="inline;none;inline"/>
+<g transform="translate(0)">
+<g transform="translate(0)">
+<path d="M8.042,12.509C6.138,12.509,4.558,11.212,4.072,9.462L3.21,9.462C3.716,11.685,5.667,13.358,8.042,13.358C10.418,13.358,12.37,11.685,12.875,9.462L12.014,9.462C11.528,11.212,9.947,12.509,8.042,12.509z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+</g>
+</g>
+</g>
+<path d="M3.968,7.744C4.137,7.237,4.264,6.813,5.067,6.518C4.094,6.307,3.206,6.518,2.486,7.661L2.076,7.788C2.408,6.414,3.468,5.56,4.652,5.566L4.652,5.566C5.44,5.565,6.254,5.937,6.917,6.669L6.917,6.669L6.802,6.982C5.87,6.982,4.983,6.813,4.179,7.701L3.968,7.744z" display="none" fill="black" fill-rule="evenodd" transform="matrix(0.958 0.289 -0.288 0.958 -4.756 -9.763)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.21s" fill="freeze" keyTimes="0;0.662;1" values="none;inline;none"/>
+</path>
+<rect fill="none" fill-rule="evenodd" height="16.375" transform="scale(0.978)" width="16.375" x="-8.187" y="-8.187"/>
+<g display="none" transform="translate(4.258,0.125) scale(-1,1)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.21s" fill="freeze" keyTimes="0;0.662;1" values="none;inline;none"/>
+<path d="M1.42,3.258C2.46,4.297,4,4.764,5.507,4.311C7.013,3.856,8.04,2.618,8.334,1.178L1.42,3.258z" fill="none" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M4.913,2.369C2.758,3.018,0,2.786,0,2.786C1.125,4.766,3.477,5.809,5.75,5.124C8.027,4.44,9.414,2.274,9.256,0C9.256,0,7.067,1.721,4.913,2.369z" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M4.797,1.984C2.803,2.585,0,2.786,0,2.786C1.125,4.766,3.477,5.809,5.75,5.124C8.027,4.44,9.414,2.274,9.256,0C9.256,0,6.792,1.384,4.797,1.984M5.507,4.311C4,4.764,2.46,4.297,1.42,3.258C1.42,3.258,3.533,3.134,5.050,2.678C6.605,2.21,8.335,1.178,8.335,1.178C8.04,2.618,7.013,3.856,5.507,4.311" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+</g>
+</svg>

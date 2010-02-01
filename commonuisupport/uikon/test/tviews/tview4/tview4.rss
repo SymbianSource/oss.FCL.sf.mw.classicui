@@ -1,0 +1,100 @@
+// Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+ 
+NAME TVW4
+
+#include <techview/eikon.hrh>
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include <eikon.mbg>
+
+#include "tview4.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tview4_hotkeys;
+	menubar=r_tview4_menubar;
+	toolbar=r_tcolovr_toolbar;
+	}
+
+RESOURCE HOTKEYS r_tview4_hotkeys
+    {
+    control=
+        {
+        HOTKEY {command=EEikCmdExit; key='e';}
+        };
+    }
+
+RESOURCE TOOLBAR r_tcolovr_toolbar
+	{
+	controls=
+		{
+        TBAR_BUTTON {id=EAppCmdListOwnedFiles; txt="List files";}
+		};
+	}
+
+RESOURCE MENU_BAR r_tview4_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tview4_file_menu; txt="File"; },
+        MENU_TITLE { menu_pane=r_tview4_test_menu; txt="Test"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tview4_file_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Exit";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_tview4_test_menu
+    {
+    items=
+        {
+		 MENU_ITEM
+            {
+            command=EAppCmdListOwnedFiles;
+            txt="List files";
+            }
+        };
+    }
+RESOURCE DIALOG r_tview4_owned_file_dlg
+    {
+    title = "Owned files";
+    flags=EEikDialogFlagWait;
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtListBox;
+            id = EAppDlgOwnedFilesId;
+            control = LISTBOX
+                {
+                };
+            }
+        };
+    }

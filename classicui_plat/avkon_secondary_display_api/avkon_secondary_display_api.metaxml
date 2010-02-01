@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="c318274e50b16e64fd08fc9bb96c9dbc" dataversion="1.0">
+  <name>AVKON Secondary Display API</name>
+  <description>Message interface that is published for secondary display software. It declares the data types and other definitions that are used in message passing between Avkon and secondary display via the mediator service.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="aknnotify.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

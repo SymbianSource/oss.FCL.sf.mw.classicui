@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN20AknKeyRotatorFactory20CreateAknKeyRotatorLEv @ 1 NONAME
+	_ZTI18CAknKeyRotatorImpl @ 2 NONAME ; #<TI>#
+	_ZTV18CAknKeyRotatorImpl @ 3 NONAME ; #<VT>#
+

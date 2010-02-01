@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 1998 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+RESOURCE TBUF16 r_eik_edwin_ctrl_hotkeys       { buf="xcvzf biu       "; }
+RESOURCE TBUF16 r_eik_edwin_shift_ctrl_hotkeys { buf="     c   fozj   "; }
+
+RESOURCE TBUF r_eik_tbuf_no_text { buf="No text"; }
+RESOURCE TBUF r_eik_tbuf_text_not_found { buf="Text not found"; }
+
+RESOURCE TBUF r_eik_tbuf_left { buf="   Left"; }
+#ifdef LANGUAGE_US
+RESOURCE TBUF r_eik_tbuf_centred { buf="   Centered"; }
+#else
+RESOURCE TBUF r_eik_tbuf_centred { buf="   Centred"; }
+#endif
+RESOURCE TBUF r_eik_tbuf_right { buf="   Right"; }
+
+RESOURCE TBUF r_eik_tbuf_del_empty_object_confirm_1 { buf="Object is now empty"; }
+RESOURCE TBUF r_eik_tbuf_del_empty_object_confirm_2 { buf="Remove it?"; }
+
+RESOURCE TBUF r_eik_tbuf_cannot_undo_confirm_1 { buf="Cannot undo this action"; }
+RESOURCE TBUF r_eik_tbuf_cannot_undo_confirm_2 { buf="Continue?"; }
+
+RESOURCE TBUF r_eik_tbuf_block_delete_confirm_1 { buf="Delete selection?"; }
+
+RESOURCE TBUF r_eik_tbuf_cannot_paste_objects { buf="Cannot paste objects here"; }
+RESOURCE TBUF r_eik_tbuf_cannot_insert_objects { buf="Cannot insert objects here"; }
+
+RESOURCE TBUF r_eik_tbuf_indents_left_right_invalid { buf="Combined left and right indents too large for page size"; }
+RESOURCE TBUF r_eik_tbuf_indents_right_fline_invalid { buf="Combined right and first line indents too large for page size"; }
+
+RESOURCE TBUF r_eik_tbuf_replacing_busymsg { buf="Replacing…"; }
+RESOURCE TBUF64 r_eik_tbuf_replace_finished { buf="Replace finished"; }
+
+
+
+
+
+RESOURCE TBUF r_eik_charmap_label { buf="Ctrl + "; }
+
+RESOURCE TBUF9 r_eik_charmap_extra_chars { buf="|"; }
+
+
+RESOURCE TBUF r_eik_no_embeddable_apps_found { buf="Cannot find any programs that can insert objects"; }
+RESOURCE TBUF r_eik_no_object_present { buf="Select an object and then try again"; }
+RESOURCE TBUF r_eik_region_selected { buf="Please select a single object and then try again"; }
+RESOURCE TBUF r_eik_embedded_generic_app_not_found { buf="Program could not be found"; }
+
+
+
+RESOURCE TBUF32 r_eik_embedded_app_not_found { buf=<KLeftSingleQuote>"%S"<KRightSingleQuote>" program could not be found"; }
+
+RESOURCE TBUF80 r_eik_confirm_delete_object_title { buf="Delete object?"; }

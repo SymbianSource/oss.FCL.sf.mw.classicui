@@ -1,0 +1,5 @@
+EXPORTS
+	_Z24FindUtilFactoryFunctionLv @ 1 NONAME
+	_ZTI22CFindRepositoryWatcher @ 2 NONAME ; #<TI>#
+	_ZTV22CFindRepositoryWatcher @ 3 NONAME ; #<VT>#
+

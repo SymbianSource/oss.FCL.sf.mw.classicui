@@ -1,0 +1,210 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestpopups localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                      "BCTESTPOPUPS"
+#define qtn_apps_tavl_grid                      "BCTESTPOPUPS"
+
+// MenuBar
+#define qtn_bctestpopups_menubar                    "Options"
+#define qtn_bctestpopups_menu_popup_field_text      "Popup field Text"
+#define qtn_bctestpopups_menu_popup_list            "Popup list"
+#define qtn_bctestpopups_menu_popup_heading_pane    "Popup heading pane"
+#define qtn_bctestpopups_menu_popup_setting_page    "Popup setting page"
+#define qtn_bctestpopups_menu_popup_layout          "Popup layout"
+#define qtn_bctestpopups_menu_autotest              "Autotest"
+#define qtn_bctestpopups_menu_exit                  "Exit"
+
+//icon file 
+#define qtn_bctestpopups_iconfile         "\\resource\\apps\\bctestpopups.mbm"
+
+// Sub menubar of "Popup field Text" menu
+#define qtn_bctestpopups_menu_out01    "OUTLINE01"
+#define qtn_bctestpopups_menu_out02    "OUTLINE02"
+#define qtn_bctestpopups_menu_out03    "OUTLINE03"
+
+// Sub menubar of "Popup list" menu
+#define qtn_bctestpopups_menu_out04    "OUTLINE04"
+#define qtn_bctestpopups_menu_out05    "OUTLINE05"
+#define qtn_bctestpopups_menu_out06    "OUTLINE06" 
+
+// Sub menubar of "Popup heading pane" menu  
+#define qtn_bctestpopups_menu_out07    "OUTLINE07"   
+#define qtn_bctestpopups_menu_out08    "OUTLINE08"
+#define qtn_bctestpopups_menu_out09    "OUTLINE09"
+
+// Sub menubar of "Popup setting page" menu   
+#define qtn_bctestpopups_menu_out10    "OUTLINE10"   
+#define qtn_bctestpopups_menu_out11    "OUTLINE11"   
+
+// Sub menubar of "Popup layout" menu
+#define qtn_bctestpopups_menu_out12    "OUTLINE12"   
+
+// Extra manu item for AttribSetDialog
+#define qtn_bctestpopups_menu_edit_entry     "Edit Entry"
+
+// Messages
+#define qtn_bctestpopups_label_title   "bctestpopups\nSample Application"
+#define qtn_bctestpopups_operation \
+                             "Press right softkey to\ndisplay next outline" 
+ 
+// Time array text in popfield selection list
+#define qtn_bctestpopups_time_text     "000000."
+
+// Date array text in popfield selection list
+#define qtn_bctestpopups_date_text     "20000000:"
+
+// Navipane page label text
+#define qtn_bctestpopups_label_page1   "text"
+#define qtn_bctestpopups_label_page2   "num"
+#define qtn_bctestpopups_label_page3   "phon"
+#define qtn_bctestpopups_label_page4   "time"
+#define qtn_bctestpopups_label_page5   "date"
+#define qtn_bctestpopups_label_page6   "dura"
+
+// Each format string text
+#define qtn_bctestpopups_num_format     "%d"
+#define qtn_bctestpopups_phon_format    "%d"
+#define qtn_bctestpopups_time_format    "%-B%:0%J%:1%T%:2%S%:3%+B"
+#define qtn_bctestpopups_date_format    "%D%M%Y%/0%1%/1%2%/2%3%/3"
+#define qtn_bctestpopups_dura_format    "%02d:%02d'%02d\""
+
+// Hint text
+#define qtn_bctestpopups_hint_text      "PopField"
+#define qtn_bctestpopups_hint_text2 	"PopupFieldText"
+
+// Data query prompt
+#define qtn_bctestpopups_query_prompt  "Enter other item"
+
+// Extra strings for AttribSet Dialog
+#define qtn_bctestpopups_empty_text_replacement "An empty value."
+#define qtn_bctestpopups_other_text_replacement "Another value."
+
+#define qtn_bctestpopups_empty_list_note "This list is empty."
+
+// Label field text
+#define qtn_bctestpopups_label_pop00       "pop0"
+#define qtn_bctestpopups_label_pop01       "pop1"
+#define qtn_bctestpopups_label_pop02       "pop2"
+#define qtn_bctestpopups_label_pop03       "pop3"
+#define qtn_bctestpopups_label_pop04       "pop4"
+#define qtn_bctestpopups_label_pop05       "pop5"
+#define qtn_bctestpopups_label_pop06       "pop6"
+#define qtn_bctestpopups_label_pop07       "pop7"
+#define qtn_bctestpopups_label_pop08       "pop8"
+#define qtn_bctestpopups_label_pop09       "pop9"
+#define qtn_bctestpopups_label_pop10       "pop10"
+#define qtn_bctestpopups_label_pop11       "pop11"
+#define qtn_bctestpopups_label_pop12       "pop12"
+#define qtn_bctestpopups_label_txt         "txt"
+#define qtn_bctestpopups_label_txt01       "txt1"
+#define qtn_bctestpopups_label_txt02       "txt2"
+#define qtn_bctestpopups_label_txt03       "txt3"
+#define qtn_bctestpopups_label_txt04       "txt4"
+#define qtn_bctestpopups_label_txt05       "txt5"
+#define qtn_bctestpopups_label_txt06       "txt6"
+#define qtn_bctestpopups_label_num         "num"
+#define qtn_bctestpopups_label_num01       "num1"
+#define qtn_bctestpopups_label_num02       "num2"
+#define qtn_bctestpopups_label_num03       "num3"
+#define qtn_bctestpopups_label_num04       "num4"
+#define qtn_bctestpopups_label_num05       "num5"
+#define qtn_bctestpopups_label_num06       "num6"
+#define qtn_bctestpopups_label_phon        "phon"
+#define qtn_bctestpopups_label_phon01      "phon1"
+#define qtn_bctestpopups_label_phon02      "phon2"
+#define qtn_bctestpopups_label_phon03      "phon3"
+#define qtn_bctestpopups_label_phon04      "phon4"
+#define qtn_bctestpopups_label_phon05      "phon5"
+#define qtn_bctestpopups_label_phon06      "phon6"
+#define qtn_bctestpopups_label_time        "time"
+#define qtn_bctestpopups_label_time01      "time1"
+#define qtn_bctestpopups_label_time02      "time2"
+#define qtn_bctestpopups_label_time03      "time3"
+#define qtn_bctestpopups_label_time04      "time4"
+#define qtn_bctestpopups_label_time05      "time5"
+#define qtn_bctestpopups_label_time06      "time6"
+#define qtn_bctestpopups_label_date        "date"
+#define qtn_bctestpopups_label_date01      "date1"
+#define qtn_bctestpopups_label_date02      "date2"
+#define qtn_bctestpopups_label_date03      "date3"
+#define qtn_bctestpopups_label_date04      "date4"
+#define qtn_bctestpopups_label_date05      "date5"
+#define qtn_bctestpopups_label_date06      "date6"
+#define qtn_bctestpopups_label_dura        "dura"
+#define qtn_bctestpopups_label_dura01      "dura1"
+#define qtn_bctestpopups_label_dura02      "dura2"
+#define qtn_bctestpopups_label_dura03      "dura3"
+#define qtn_bctestpopups_label_dura04      "dura4"
+#define qtn_bctestpopups_label_dura05      "dura5"
+#define qtn_bctestpopups_label_dura06      "dura6"
+#define qtn_bctestpopups_label_fldtext01   "fldtext01"
+#define qtn_bctestpopups_label_fldtext02   "fldtext02"
+#define qtn_bctestpopups_label_attribset01 "attribset01"
+#define qtn_bctestpopups_label_attribset02 "attribset02"
+
+// Text in popfield selection list
+#define qtn_bctestpopups_list_text01   "Select Item 1"
+#define qtn_bctestpopups_list_text02   "Select Item 2"
+#define qtn_bctestpopups_list_text03   "Select Item 3"
+#define qtn_bctestpopups_list_text04   "Select Item 4"
+#define qtn_bctestpopups_list_text05   "Select Item 5"
+#define qtn_bctestpopups_list_text06   "Select Item 6"
+#define qtn_bctestpopups_list_text07   "Select Item 7"
+#define qtn_bctestpopups_list_text08   "Select Item 8"
+#define qtn_bctestpopups_list_text09   "Select Item 9"
+#define qtn_bctestpopups_list_text10   "Select Item 10"
+#define qtn_bctestpopups_list_text11   "Select Item 11"
+#define qtn_bctestpopups_list_text12   "Select Item 12"
+#define qtn_bctestpopups_list_other    "Other..."
+
+// The title of setting page
+#define qtn_bctestpopups_setting_page_title "Setting Page"
+
+// Phone array text in popfield selection list
+#define qtn_bctestpopups_list_phone01  "11 1111 111111"
+#define qtn_bctestpopups_list_phone02  "22 2222 222222"
+#define qtn_bctestpopups_list_phone03  "33 3333 333333"
+#define qtn_bctestpopups_list_phone04  "44 4444 444444"
+#define qtn_bctestpopups_list_phone05  "55 5555 555555"
+#define qtn_bctestpopups_list_phone06  "66 6666 666666"
+
+// For Cba
+#define qtn_bctestpopups_cba_exit "Exit"
+
+// registraton string
+#define qtn_apps_name                   "bctestpopups"
+#define qtn_localization_filename       "\\resource\\apps\\bctestpopups"
+#define qtn_group_name                  "BCTest"
+
+#define qtn_bctestpopups_buf       "BCTestPopups"
+#define qtn_bctestpopups_label     "avkon heading"
+#define qtn_bctestpopups_bmpfile   "\\resource\\apps\\bctestpopups.mbm"
+#define qtn_bctestpopups_other     "Other ..."
+
+
+

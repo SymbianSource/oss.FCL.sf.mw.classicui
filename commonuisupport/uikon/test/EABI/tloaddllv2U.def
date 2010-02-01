@@ -1,0 +1,11 @@
+EXPORTS
+	_Z24ImplementationGroupProxyRi @ 1 NONAME
+	_ZN20CTestEikonDllLoading4NewLEv @ 2 NONAME
+	_ZN24CTestEikonEComDllLoading4NewLEv @ 3 NONAME
+	_ZTI20CTestEikonDllLoading @ 4 NONAME ; #<TI>#
+	_ZTI22CTestEikDllLoadedLabel @ 5 NONAME ; #<TI>#
+	_ZTI24CTestEikonEComDllLoading @ 6 NONAME ; #<TI>#
+	_ZTV20CTestEikonDllLoading @ 7 NONAME ; #<VT>#
+	_ZTV22CTestEikDllLoadedLabel @ 8 NONAME ; #<VT>#
+	_ZTV24CTestEikonEComDllLoading @ 9 NONAME ; #<VT>#
+

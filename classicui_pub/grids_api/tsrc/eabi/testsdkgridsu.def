@@ -1,0 +1,11 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI11CAknGridExt @ 2 NONAME ; #<TI>#
+	_ZTI17CTestSDKGridsView @ 3 NONAME ; #<TI>#
+	_ZTI22CStifScrollBarObserver @ 4 NONAME ; #<TI>#
+	_ZTI22CTestSDKGridsContainer @ 5 NONAME ; #<TI>#
+	_ZTV11CAknGridExt @ 6 NONAME ; #<VT>#
+	_ZTV17CTestSDKGridsView @ 7 NONAME ; #<VT>#
+	_ZTV22CStifScrollBarObserver @ 8 NONAME ; #<VT>#
+	_ZTV22CTestSDKGridsContainer @ 9 NONAME ; #<VT>#
+

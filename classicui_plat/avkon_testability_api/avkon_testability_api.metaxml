@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<api id="d41d8cd98f00b204e9800998ecf8427e" dataversion="1.0">
+<name>AVKON Testability API</name>
+<description>Interface for storing and accessing testability information (hooks).</description>
+<type>c++</type>
+<subsystem>uifw</subsystem>
+<libs></libs>
+<release category="domain" sinceversion=""/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

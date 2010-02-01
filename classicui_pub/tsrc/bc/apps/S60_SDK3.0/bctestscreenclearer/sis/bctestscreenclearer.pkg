@@ -1,0 +1,53 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:       
+;
+
+; Languages
+&EN
+
+; Header
+#{"UIFW_BCTestScreenClearer"},(0x2000474A),1,0,0,TYPE=SA
+
+; List of localised vendor names
+%{"Vendor-EN"}
+
+; The non-localised, globally unique vendor name (mandatory)
+:"Nokia OY"
+
+;Supports Series 60 v 3.0
+;This line indicates that this installation is for the Series 60 platform v3.0
+;This line must appear _exactly_ as shown below in the sis file
+;If this line is missing or incorrect, the sis file will not be able
+;to be installed on Series 60 v3.0 platforms
+(0x101F7961), 0, 0, 0, {"Series60ProductID"}
+
+; Target
+"\epoc32\release\armv5\urel\BCTestScreenClearer.exe"-
+"!:\sys\bin\BCTestScreenClearer.exe"
+
+"\epoc32\data\z\resource\apps\BCTestScreenClearer.RSC"-
+"!:\resource\apps\BCTestScreenClearer.RSC"
+
+"\epoc32\data\z\resource\apps\BCTestScreenClearer_aif.mbm"-
+"!:\resource\apps\BCTestScreenClearer_aif.mbm"
+
+"\epoc32\data\z\resource\apps\BCTestScreenClearer.mbm"-
+"!:\resource\apps\BCTestScreenClearer.mbm"
+
+"\epoc32\data\z\PRIVATE\10003A3F\APPS\BCTestScreenClearer_reg.RSC"-
+"!:\PRIVATE\10003A3F\import\APPS\BCTestScreenClearer_reg.RSC"
+
+; bctestutil must be installed
+(0x20004742), 1, 10, 0, {"bctestutil.dll"}

@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Localization strings for project BCTestPane
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+#define qtn_apps_buf                    "bctestpane"
+#define qtn_app_file                    "BctestPane"
+#define qtn_resource_file               "\\resource\\apps\\BCTestPane"
+#define qtn_group_name                  "BCTest"
+
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTPANE"
+#define qtn_apps_tavl_grid              "BCTESTPANE"
+
+// MenuBar
+#define qtn_bctestpane_menubar         "Option"
+#define qtn_bctestpane_cba_next        "Next"
+#define qtn_bctestpane_autotest        "Autotest"
+#define qtn_bctestpane_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestpane_titlepane       "Test title pane"
+#define qtn_bctestpane_statuspane      "Test status pane"
+#define qtn_bctestpane_contextpane     "Test context pane"
+#define qtn_bctestpane_tabgroup        "Test tab group"
+#define qtn_bctestpane_navipane        "Test Navigation pane"
+#define qtn_bctestpane_shutpicto       "Test DlgShutter and Pictograph"
+
+// text
+#define qtn_bctestpane_title_pane      "Title pane"
+#define qtn_bctestpane_tab             "Tab0"
+#define qtn_bctestpane_navelabel       "Navigation"

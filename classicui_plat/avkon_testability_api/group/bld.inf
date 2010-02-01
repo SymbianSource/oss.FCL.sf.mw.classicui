@@ -1,0 +1,34 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to AVKON Testability API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+../inc/AknTasHook.h		              MW_LAYER_PLATFORM_EXPORT_PATH(AknTasHook.h)
+../inc/TasHookingInternalCRKeys.h   MW_LAYER_PLATFORM_EXPORT_PATH(TasHookingInternalCRKeys.h)
+../inc/AknTasPluginInterface.h      MW_LAYER_PLATFORM_EXPORT_PATH(AknTasPluginInterface.h)
+../inc/AknTasPluginInterface.inl    MW_LAYER_PLATFORM_EXPORT_PATH(AknTasPluginInterface.inl)
+../inc/TasDataModelInterface.h        MW_LAYER_PLATFORM_EXPORT_PATH(TasDataModelInterface.h)
+../inc/TasDataModelInterface.inl      MW_LAYER_PLATFORM_EXPORT_PATH(TasDataModelInterface.inl)
+../inc/TasFixturePluginInterface.h    MW_LAYER_PLATFORM_EXPORT_PATH(TasFixturePluginInterface.h)
+../inc/TasFixturePluginInterface.inl  MW_LAYER_PLATFORM_EXPORT_PATH(TasFixturePluginInterface.inl)
+../inc/TasTraversePluginInterface.h   MW_LAYER_PLATFORM_EXPORT_PATH(TasTraversePluginInterface.h)
+../inc/TasTraversePluginInterface.inl MW_LAYER_PLATFORM_EXPORT_PATH(TasTraversePluginInterface.inl)

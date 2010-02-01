@@ -1,0 +1,47 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// BitmapAnimator.MMP
+// animators.dll animator plugins
+// 
+//
+
+/**
+ @file
+*/
+
+target        animators.dll
+targettype    PLUGIN
+CAPABILITY    all -tcb
+UID    0x10009D8D 0x10204F58
+VENDORID 0x70000001
+
+SOURCEPATH	../src
+source		Animators.cpp
+source		BitmapAnimator.cpp
+
+userinclude	../inc ../src
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH	../res
+START RESOURCE Animators.rss
+TARGET animators.rsc
+END
+
+library       euser.lib ws32.lib fbscli.lib bitgdi.lib
+library       ecom.lib animationshared.lib
+
+deffile       Animator.DEF
+
+
+SMPSAFE

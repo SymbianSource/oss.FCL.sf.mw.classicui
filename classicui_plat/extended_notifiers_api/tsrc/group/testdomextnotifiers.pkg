@@ -1,0 +1,62 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testdomextnotifiers"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testdomextnotifiers.ini"-"c:\Testframework\testdomextnotifiers.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersdsnparams.cfg"-"c:\Testframework\tctestdomextnotifiersdsnparams.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersdsnparams.cfg"-"c:\Testframework\ui_testdomextnotifiersdsnparams.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersdsnotifier.cfg"-"c:\Testframework\tctestdomextnotifiersdsnotifier.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersdsnotifier.cfg"-"c:\Testframework\ui_testdomextnotifiersdsnotifier.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersincallbn.cfg"-"c:\Testframework\tctestdomextnotifiersincallbn.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersincallbn.cfg"-"c:\Testframework\ui_testdomextnotifiersincallbn.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersnasrvapp.cfg"-"c:\Testframework\tctestdomextnotifiersnasrvapp.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersnasrvapp.cfg"-"c:\Testframework\ui_testdomextnotifiersnasrvapp.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersnappsrv.cfg"-"c:\Testframework\tctestdomextnotifiersnappsrv.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersnappsrv.cfg"-"c:\Testframework\ui_testdomextnotifiersnappsrv.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersnassession.cfg"-"c:\Testframework\tctestdomextnotifiersnassession.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersnassession.cfg"-"c:\Testframework\ui_testdomextnotifiersnassession.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersnctl.cfg"-"c:\Testframework\tctestdomextnotifiersnctl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersnctl.cfg"-"c:\Testframework\ui_testdomextnotifiersnctl.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersncutil.cfg"-"c:\Testframework\tctestdomextnotifiersncutil.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersncutil.cfg"-"c:\Testframework\ui_testdomextnotifiersncutil.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifiersnwrapper.cfg"-"c:\Testframework\tctestdomextnotifiersnwrapper.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifiersnwrapper.cfg"-"c:\Testframework\ui_testdomextnotifiersnwrapper.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifierssmalli.cfg"-"c:\Testframework\tctestdomextnotifierssmalli.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifierssmalli.cfg"-"c:\Testframework\ui_testdomextnotifierssmalli.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifierssoftnpara.cfg"-"c:\Testframework\tctestdomextnotifierssoftnpara.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifierssoftnpara.cfg"-"c:\Testframework\ui_testdomextnotifierssoftnpara.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextnotifierssoftnotifier.cfg"-"c:\Testframework\tctestdomextnotifierssoftnotifier.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextnotifierssoftnotifier.cfg"-"c:\Testframework\ui_testdomextnotifierssoftnotifier.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testdomextnotifiers.dll"-"c:\sys\bin\testdomextnotifiers.dll", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

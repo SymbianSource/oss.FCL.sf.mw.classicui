@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 1998 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+
+RESOURCE TBUF r_eik_time_tbuf_lbl_dst_description 			{ buf="Set summer time for following zones"; }
+RESOURCE TBUF r_eik_time_tbuf_lbl_workday_description		{ buf="Tick the days that are workdays"; }
+#ifdef LANGUAGE_US
+RESOURCE TBUF r_eik_time_tbuf_lbl_home_description			{ buf="Note: Home is your location for distances and dialing codes"; }
+#else
+RESOURCE TBUF r_eik_time_tbuf_lbl_home_description			{ buf="Note: Home is your location for distances and dialling codes"; }
+#endif
+

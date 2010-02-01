@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestPtiEng resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTEST_PTIENG_HRH
+#define BCTEST_PTIENG_HRH
+
+enum TBCTestPtiEngMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+
+    EBCTestCmdPtiUserDict,
+	EBCTestCmdPtiLanguage,
+	EBCTestCmdPtiKeymap,
+	EBCTestCmdQwertyMap,
+	EBCTestCmdPtiCore,
+	EBCTestCmdLanDB,
+	EBCTestCmdPtiEng,
+
+    EBCTestCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestPtiEngCba
+    {
+    EBCTestPtiEngCbaCmdNext = 0x6300
+    };
+
+#endif // BCTEST_PTIENG_HRH
+
+// End of File

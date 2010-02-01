@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Registry info for AIW Custom Resolver.
+*
+*/
+
+
+
+
+
+#include "registryinfo.rh"
+#include "AiwUids.hrh"
+
+// Declares the interface implementation provided: a custom resolver
+RESOURCE REGISTRY_INFO theInfo
+    {
+    dll_uid = KAiwResolverDLLUidValue;
+    interfaces =
+        {
+        INTERFACE_INFO
+            {
+            // Interface UID of resolvers
+            interface_uid = 0x10009D90; // Uid for CResolver interface
+            implementations =
+                {
+                IMPLEMENTATION_INFO
+                    {
+                    implementation_uid = KAiwResolverImplUidValue;
+                    version_no = 1;
+                    display_name = "";
+                    default_data = "";
+                    opaque_data = "";
+                    }
+                };
+            }
+        };
+    }
+
+//  End of File

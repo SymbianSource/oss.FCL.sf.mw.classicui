@@ -1,0 +1,497 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains all the resources for the module.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    CFDR
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.loc>
+#include <commondialogs.loc>
+#include <CommonDialogs.rh>
+
+//  RESOURCE DEFINITIONS
+
+// ---------------------------------------------------------
+//
+//    A must-be signature definition in an external resource file
+//
+// ---------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+// ---------------------------------------------------------
+//
+//    Numerous resources for localized texts
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_cfd_qtn_memc_phone
+    {
+    buf = qtn_memc_phone;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mmc
+    {
+    buf = qtn_memc_mmc;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mmc_locked
+    {
+    buf = qtn_memc_mmc_locked;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mmc_unavailable
+    {
+    buf = qtn_memc_mmc_unavailable;
+    }
+
+RESOURCE TBUF r_cfd_qtn_database_phone
+    {
+    buf = qtn_database_phone;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mce_default
+    {
+    buf = qtn_memc_mce_default;
+    }
+
+RESOURCE TBUF r_cfd_qtn_database_locked
+    {
+    buf = qtn_database_locked;
+    }
+
+RESOURCE TBUF r_cfd_qtn_database_unavailable
+    {
+    buf = qtn_database_unavailable;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_phone_double_list
+    {
+    buf = qtn_memc_phone_double_list;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_free_memory
+    {
+    buf = qtn_memc_free_memory;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_units_byte
+    {
+    buf = qtn_memc_units_byte;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_units_kilobyte
+    {
+    buf = qtn_memc_units_kilobyte;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_units_megabyte
+    {
+    buf = qtn_memc_units_megabyte;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_units_gigabyte
+    {
+    buf = qtn_memc_units_gigabyte;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_free_memory_var_units
+    {
+    buf = qtn_memc_free_memory_var_units;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_free_memory_var_units_dot
+    {
+    buf = qtn_memc_free_memory_var_units_dot;
+    }
+    
+RESOURCE TBUF r_cfd_qtn_memc_mmc_double_list
+    {
+    buf = qtn_memc_mmc_double_list;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mmc_locked_double
+    {
+    buf = qtn_memc_mmc_locked_double;
+    }
+
+RESOURCE TBUF r_cfd_qtn_memc_mmc_unavailable_double
+    {
+    buf = qtn_memc_mmc_unavailable_double;
+    }
+
+RESOURCE TBUF r_cfd_qtn_fldr_root_level
+    {
+    buf = qtn_fldr_root_level;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_REMOTE_DRIVE
+    {
+    buf = qtn_memc_remote_drive;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_REMOTE_DRIVE_DOUBLE_LIST
+    {
+    buf = qtn_memc_remote_drive;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_SPACE_NOT_AVAILABLE
+    {
+    buf = qtn_memc_space_not_available;
+    }
+
+// New text strings for multiple drive support
+RESOURCE TBUF R_CFD_QTN_MEM_DEVICE_MEMORY
+    {
+    buf = qtn_mem_device_memory;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MASS_STORAGE
+    {
+    buf = qtn_mem_mass_storage;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MASS_STORAGE_UNAVAILABLE
+    {
+    buf = qtn_mem_mass_storage_unavailable;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MEMORY_CARD_DEFAULT
+    {
+    buf = qtn_mem_memory_card_default;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_NAMED_MEMORY_CARD
+    {
+    buf = qtn_mem_named_memory_card;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MEMORY_CARD_LOCKED
+    {
+    buf = qtn_mem_memory_card_locked;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MEMORY_CARD_UNAVAILABLE
+    {
+    buf = qtn_mem_memory_card_unavailable;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_DEVICE_MEMORY_DOUBLE_LIST
+    {
+    buf = qtn_mem_device_memory_double_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MASS_STORAGE_DOUBLE_LIST
+    {
+    buf = qtn_mem_mass_storage_double_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_NAMED_MEMORY_CARD_DOUBLE
+    {
+    buf = qtn_mem_named_memory_card_double;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MEMORY_CARD_DEFAULT_DOUBLE
+    {
+    buf = qtn_mem_memory_card_default_double;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_DEVICE_MEMEORY_SETTING_LIST
+    {
+    buf = qtn_mem_device_memory_setting_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MASS_STORAGE_SETTING_LIST
+    {
+    buf = qtn_mem_mass_storage_setting_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_MEMORY_CARD_DEFAULT_SETTING_LIST
+    {
+    buf = qtn_mem_memory_card_defaul_setting_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEM_NAMED_MEMORY_CARD_SETTING_LIST
+    {
+    buf = qtn_mem_named_memory_card_setting_list;
+    }
+
+// ---------------------------------------------------------
+//
+//    Softkey texts from AVKON.LOC
+//
+// ---------------------------------------------------------
+//
+
+RESOURCE TBUF r_cfd_text_softkey_back
+    {
+    buf = text_softkey_back;
+    }
+
+// ---------------------------------------------------------
+//
+//    Other texts from AVKON.LOC
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_cfd_qtn_fldr_overwrite_query
+    {
+    buf = qtn_fldr_overwrite_query;
+    }
+
+RESOURCE TBUF r_cfd_qtn_fldr_rename_query
+    {
+    buf = qtn_fldr_rename_query;
+    }
+
+RESOURCE TBUF r_cfd_qtn_fldr_item_name_prmpt
+    {
+    buf = qtn_fldr_item_name_prmpt;
+    }
+
+RESOURCE TBUF r_cfd_qtn_fldr_illegal_characters
+    {
+    buf = qtn_fldr_illegal_characters;
+    }
+
+RESOURCE TBUF r_cfd_qtn_fldr_bad_file_name
+    {
+    buf = qtn_fldr_bad_file_name;
+    }
+
+RESOURCE TBUF r_cfd_password_query_text
+    {
+    buf = qtn_mem_card_unlock_prompt;
+    }
+
+RESOURCE TBUF r_cfd_incorrect_password_text
+    {
+    buf = qtn_memc_change_pwd_error1;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_cfd_unlock_confirmation_query
+//    A resource for "unlock memory card?" -query
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_cfd_confirmation_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO__YES;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationQueryLayout;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//    r_cfd_radiobutton_listbox
+//    A resource that defines a listbox for default memory selection setting page
+//
+// ---------------------------------------------------------
+//
+RESOURCE LISTBOX r_cfd_radiobutton_listbox
+    {
+    flags = EEikListBoxMultipleSelection;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_cfd_radiobutton_setting_page
+//    A resource that defines default memory selection setting page
+//
+// ---------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_cfd_radiobutton_setting_page
+    {
+    label = qtn_memc_default_store;
+    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    type = EAknSetListBox;
+    editor_resource_id = r_cfd_radiobutton_listbox;
+    }
+
+// ---------------------------------------------------------
+//
+//    r_cfd_filename_prompt_dialog
+//    A resource that defines a filename prompt data query dialog
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_cfd_filename_prompt_dialog
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_memc_filename_prompt;
+                control = EDWIN
+                    {
+                    flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                    maxlength = 0x100; // KMaxFileName
+                    };
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_cfd_password_query_dialog
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = ECodeLayout;
+                control = SECRETED
+                    {
+                    num_letters = 8; // Only 8 Unicode chars fit
+                    };
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//
+//
+//    Resources with default settings for dialogs.
+//
+// ---------------------------------------------------------
+//
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_memory_selection
+    {
+    title = qtn_memc_select_memory;
+    softkey_1 = text_softkey_ok;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_save_memory_selection
+    {
+    title = qtn_memc_save_heading;
+    softkey_1 = text_softkey_open;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_move_memory_selection
+    {
+    title = qtn_fldr_move_to_prmpt;
+    softkey_1 = text_softkey_open;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_default_memory_selection
+    {
+    title = qtn_memc_default_store;
+    softkey_1 = text_softkey_ok;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_select_memory_selection
+    {
+    title = qtn_memc_select_memory;
+    softkey_1 = text_softkey_open;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_cfd_default_copy_memory_selection
+    {
+    title = qtn_fldr_copy_to_prmpt;
+    softkey_1 = text_softkey_open;
+    softkey_2 = text_softkey_cancel;
+    }
+
+RESOURCE FILESELECTIONDIALOG r_cfd_default_save_file_selection
+    {
+    title = qtn_memc_save_heading;
+    softkey_1_file = text_softkey_save;
+    softkey_1_folder = text_softkey_open;
+    softkey_2_root_level = text_softkey_cancel;
+    softkey_2_subfolder = text_softkey_back;
+    }
+
+RESOURCE FILESELECTIONDIALOG r_cfd_default_move_file_selection
+    {
+    title = qtn_fldr_move_to_prmpt;
+    softkey_1_file = text_softkey_move;
+    softkey_1_folder = text_softkey_open;
+    softkey_2_root_level = text_softkey_cancel;
+    softkey_2_subfolder = text_softkey_back;
+    }
+
+RESOURCE FILESELECTIONDIALOG r_cfd_default_select_file_selection
+    {
+    title = qtn_memc_select_heading;
+    softkey_1_file = text_softkey_select;
+    softkey_1_folder = text_softkey_open;
+    softkey_2_root_level = text_softkey_cancel;
+    softkey_2_subfolder = text_softkey_back;
+    }
+
+RESOURCE FILESELECTIONDIALOG r_cfd_default_browse_file_selection
+    {
+    softkey_1_file = text_softkey_ok;
+    softkey_1_folder = text_softkey_ok;
+    softkey_2_root_level = text_softkey_cancel;
+    softkey_2_subfolder = text_softkey_back;
+    }
+
+RESOURCE FILESELECTIONDIALOG r_cfd_default_copy_file_selection
+    {
+    title = qtn_fldr_copy_to_prmpt;
+    softkey_1_file = text_softkey_copy;
+    softkey_1_folder = text_softkey_open;
+    softkey_2_root_level = text_softkey_cancel;
+    softkey_2_subfolder = text_softkey_back;
+    }
+
+RESOURCE FILENAMEPROMPTDIALOG r_cfd_default_save_filename_prompt
+    {
+    filename_prompt = qtn_memc_filename_prompt;
+    path = "C:\\";
+    softkey_1 = text_softkey_ok;
+    softkey_2 = text_softkey_cancel;
+    }
+
+// End of File

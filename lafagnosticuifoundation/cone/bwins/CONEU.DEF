@@ -1,0 +1,602 @@
+EXPORTS
+	??0CCoeAppUi@@QAE@XZ @ 1 NONAME ; public: __thiscall CCoeAppUi::CCoeAppUi(void)
+	??0CCoeAppUiSimple@@QAE@XZ @ 2 NONAME ABSENT ; public: __thiscall CCoeAppUiSimple::CCoeAppUiSimple(void)
+	??0CCoeControl@@QAE@XZ @ 3 NONAME ; public: __thiscall CCoeControl::CCoeControl(void)
+	??0CCoeEnv@@QAE@XZ @ 4 NONAME ; public: __thiscall CCoeEnv::CCoeEnv(void)
+	??0TCoeColorUse@@QAE@XZ @ 5 NONAME ; public: __thiscall TCoeColorUse::TCoeColorUse(void)
+	??0TCoeHelpContext@@QAE@VTUid@@ABVTDesC16@@@Z @ 6 NONAME ; public: __thiscall TCoeHelpContext::TCoeHelpContext(class TUid,class TDesC16 const &)
+	??0TCoeHelpContext@@QAE@XZ @ 7 NONAME ; public: __thiscall TCoeHelpContext::TCoeHelpContext(void)
+	??1CCoeAppUi@@UAE@XZ @ 8 NONAME ; public: virtual __thiscall CCoeAppUi::~CCoeAppUi(void)
+	??1CCoeAppUiSimple@@UAE@XZ @ 9 NONAME ABSENT ; public: virtual __thiscall CCoeAppUiSimple::~CCoeAppUiSimple(void)
+	??1CCoeControl@@UAE@XZ @ 10 NONAME ; public: virtual __thiscall CCoeControl::~CCoeControl(void)
+	??1CCoeEnv@@UAE@XZ @ 11 NONAME ; public: virtual __thiscall CCoeEnv::~CCoeEnv(void)
+	??8TCoeHelpContext@@QBEHABV0@@Z @ 12 NONAME ; public: int __thiscall TCoeHelpContext::operator==(class TCoeHelpContext const &)const 
+	??9TCoeHelpContext@@QBEHABV0@@Z @ 13 NONAME ; public: int __thiscall TCoeHelpContext::operator!=(class TCoeHelpContext const &)const 
+	?ActivateContext@MCoeControlContext@@UBEXAAVCWindowGc@@AAVRDrawableWindow@@@Z @ 14 NONAME ; public: virtual void __thiscall MCoeControlContext::ActivateContext(class CWindowGc &,class RDrawableWindow &)const 
+	?ActivateGc@CCoeControl@@IBEXXZ @ 15 NONAME ; protected: void __thiscall CCoeControl::ActivateGc(void)const 
+	?ActivateL@CCoeControl@@UAEXXZ @ 16 NONAME ; public: virtual void __thiscall CCoeControl::ActivateL(void)
+	?ActivateViewL@CCoeAppUi@@QAEXABVTVwsViewId@@@Z @ 17 NONAME ; public: void __thiscall CCoeAppUi::ActivateViewL(class TVwsViewId const &)
+	?ActivateViewL@CCoeAppUi@@QAEXABVTVwsViewId@@VTUid@@ABVTDesC8@@@Z @ 18 NONAME ; public: void __thiscall CCoeAppUi::ActivateViewL(class TVwsViewId const &,class TUid,class TDesC8 const &)
+	?AddFepObserverL@CCoeEnv@@QAEXAAVMCoeFepObserver@@@Z @ 19 NONAME ; public: void __thiscall CCoeEnv::AddFepObserverL(class MCoeFepObserver &)
+	?AddFocusObserverL@CCoeEnv@@QAEXAAVMCoeFocusObserver@@@Z @ 20 NONAME ; public: void __thiscall CCoeEnv::AddFocusObserverL(class MCoeFocusObserver &)
+	?AddForegroundObserverL@CCoeEnv@@QAEXAAVMCoeForegroundObserver@@@Z @ 21 NONAME ; public: void __thiscall CCoeEnv::AddForegroundObserverL(class MCoeForegroundObserver &)
+	?WaitForAnyRequest@CCoeScheduler@@UAEXXZ @ 22 NONAME ; public: virtual void __thiscall CCoeScheduler::WaitForAnyRequest(void)
+	?AddObserverOfLoadedFepL@CCoeEnv@@QAEXAAVMCoeObserverOfLoadedFep@@@Z @ 23 NONAME ; public: void __thiscall CCoeEnv::AddObserverOfLoadedFepL(class MCoeObserverOfLoadedFep &)
+	?AddResourceFileL@CCoeEnv@@QAEHABVTDesC16@@@Z @ 24 NONAME ; public: int __thiscall CCoeEnv::AddResourceFileL(class TDesC16 const &)
+	?AddToStackL@CCoeAppUi@@QAEXPAVCCoeControl@@HH@Z @ 25 NONAME ; public: void __thiscall CCoeAppUi::AddToStackL(class CCoeControl *,int,int)
+	?AddToViewStackL@CCoeAppUi@@QAEXABVMCoeView@@PAVCCoeControl@@HH@Z @ 26 NONAME ; public: void __thiscall CCoeAppUi::AddToViewStackL(class MCoeView const &,class CCoeControl *,int,int)
+	?AddViewDeactivationObserverL@CCoeAppUi@@QAEXPAVMCoeViewDeactivationObserver@@@Z @ 27 NONAME ; public: void __thiscall CCoeAppUi::AddViewDeactivationObserverL(class MCoeViewDeactivationObserver *)
+	?AllocReadResourceAsDes16L@CCoeEnv@@QBEPAVHBufC16@@H@Z @ 28 NONAME ; public: class HBufC16 * __thiscall CCoeEnv::AllocReadResourceAsDes16L(int)const 
+	?AllocReadResourceAsDes16LC@CCoeEnv@@QBEPAVHBufC16@@H@Z @ 29 NONAME ; public: class HBufC16 * __thiscall CCoeEnv::AllocReadResourceAsDes16LC(int)const 
+	?AllocReadResourceAsDes8L@CCoeEnv@@QBEPAVHBufC8@@H@Z @ 30 NONAME ; public: class HBufC8 * __thiscall CCoeEnv::AllocReadResourceAsDes8L(int)const 
+	?AllocReadResourceAsDes8LC@CCoeEnv@@QBEPAVHBufC8@@H@Z @ 31 NONAME ; public: class HBufC8 * __thiscall CCoeEnv::AllocReadResourceAsDes8LC(int)const 
+	?AppHelpContextL@CCoeAppUi@@QBEPAV?$CArrayFix@VTCoeHelpContext@@@@XZ @ 32 NONAME ; public: class CArrayFix<class TCoeHelpContext> * __thiscall CCoeAppUi::AppHelpContextL(void)const 
+	?BackedUpWindow@CCoeControl@@IBEAAVRBackedUpWindow@@XZ @ 33 NONAME ; protected: class RBackedUpWindow & __thiscall CCoeControl::BackedUpWindow(void)const 
+	?BringOwnerToFront@CCoeEnv@@QAEXXZ @ 34 NONAME ; public: void __thiscall CCoeEnv::BringOwnerToFront(void)
+	?BrushBitmap@CCoeBrushAndPenContext@@QBEABVCFbsBitmap@@XZ @ 35 NONAME ; public: class CFbsBitmap const & __thiscall CCoeBrushAndPenContext::BrushBitmap(void)const 
+	?BrushColor@CCoeBrushAndPenContext@@QBE?AVTRgb@@XZ @ 36 NONAME ; public: class TRgb  __thiscall CCoeBrushAndPenContext::BrushColor(void)const 
+	?BrushStyle@CCoeBrushAndPenContext@@QBE?AW4TBrushStyle@CGraphicsContext@@XZ @ 37 NONAME ; public: enum CGraphicsContext::TBrushStyle  __thiscall CCoeBrushAndPenContext::BrushStyle(void)const 
+	?CapturesPointer@CCoeControl@@IBEHXZ @ 38 NONAME ; protected: int __thiscall CCoeControl::CapturesPointer(void)const 
+	?ClaimPointerGrab@CCoeControl@@QAEXH@Z @ 39 NONAME ; public: void __thiscall CCoeControl::ClaimPointerGrab(int)
+	?CloseWindow@CCoeControl@@IAEXXZ @ 40 NONAME ; protected: void __thiscall CCoeControl::CloseWindow(void)
+	?ComponentControl@CCoeControl@@UBEPAV1@H@Z @ 41 NONAME ; protected: virtual class CCoeControl * __thiscall CCoeControl::ComponentControl(int)const 
+	?ConstructFromResourceL@CCoeControl@@UAEXAAVTResourceReader@@@Z @ 42 NONAME ; public: virtual void __thiscall CCoeControl::ConstructFromResourceL(class TResourceReader &)
+	?ConstructL@CCoeAppUi@@QAEXPAV1@@Z @ 43 NONAME ; public: void __thiscall CCoeAppUi::ConstructL(class CCoeAppUi *)
+	?ConstructL@CCoeEnv@@QAEXXZ @ 44 NONAME ; public: void __thiscall CCoeEnv::ConstructL(void)
+	?CopyControlContextFrom@CCoeControl@@QAEXPBV1@@Z @ 45 NONAME ; public: void __thiscall CCoeControl::CopyControlContextFrom(class CCoeControl const *)
+	?CountComponentControls@CCoeControl@@UBEHXZ @ 46 NONAME ; protected: virtual int __thiscall CCoeControl::CountComponentControls(void)const 
+	?CreateBackedUpWindowL@CCoeControl@@IAEXAAVRWindowTreeNode@@@Z @ 47 NONAME ; protected: void __thiscall CCoeControl::CreateBackedUpWindowL(class RWindowTreeNode &)
+	?CreateBackedUpWindowL@CCoeControl@@IAEXAAVRWindowTreeNode@@W4TDisplayMode@@@Z @ 48 NONAME ; protected: void __thiscall CCoeControl::CreateBackedUpWindowL(class RWindowTreeNode &,enum TDisplayMode)
+	?CreateDeviceFontL@CCoeEnv@@QAEPAVCFbsFont@@PAVCGraphicsDevice@@ABVTFontSpec@@@Z @ 49 NONAME ; public: class CFbsFont * __thiscall CCoeEnv::CreateDeviceFontL(class CGraphicsDevice *,class TFontSpec const &)
+	?CreateGcL@CCoeEnv@@QAEPAVCWindowGc@@XZ @ 50 NONAME ; public: class CWindowGc * __thiscall CCoeEnv::CreateGcL(void)
+	?CreateResourceReaderLC@CCoeEnv@@QBEXAAVTResourceReader@@H@Z @ 51 NONAME ; public: void __thiscall CCoeEnv::CreateResourceReaderLC(class TResourceReader &,int)const 
+	?CreateScreenFontL@CCoeEnv@@QAEPAVCFbsFont@@ABVTFontSpec@@@Z @ 52 NONAME ; public: class CFbsFont * __thiscall CCoeEnv::CreateScreenFontL(class TFontSpec const &)
+	?CreateWindowL@CCoeControl@@IAEXAAVRWindowTreeNode@@@Z @ 53 NONAME ; protected: void __thiscall CCoeControl::CreateWindowL(class RWindowTreeNode &)
+	?CreateWindowL@CCoeControl@@IAEXPAVRWindowGroup@@@Z @ 54 NONAME ; protected: void __thiscall CCoeControl::CreateWindowL(class RWindowGroup *)
+	?CreateWindowL@CCoeControl@@IAEXPBV1@@Z @ 55 NONAME ; protected: void __thiscall CCoeControl::CreateWindowL(class CCoeControl const *)
+	?CreateWindowL@CCoeControl@@IAEXXZ @ 56 NONAME ; protected: void __thiscall CCoeControl::CreateWindowL(void)
+	?ActivateTopViewL@CCoeAppUi@@QAEXXZ @ 57 NONAME ; public: void __thiscall CCoeAppUi::ActivateTopViewL(void)
+	?DeactivateGc@CCoeControl@@IBEXXZ @ 58 NONAME ; protected: void __thiscall CCoeControl::DeactivateGc(void)const 
+	?DeleteResourceFile@CCoeEnv@@QAEXH@Z @ 59 NONAME ; public: void __thiscall CCoeEnv::DeleteResourceFile(int)
+	?DeregisterApplicationView@CCoeAppUi@@QAEXXZ @ 60 NONAME ; public: void __thiscall CCoeAppUi::DeregisterApplicationView(void)
+	?DeregisterViewAndRemoveStack@CCoeAppUi@@QAEXABVMCoeView@@@Z @ 61 NONAME ; public: void __thiscall CCoeAppUi::DeregisterViewAndRemoveStack(class MCoeView const &)
+	?DestroyEnvironment@CCoeEnv@@UAEXXZ @ 62 NONAME ; public: virtual void __thiscall CCoeEnv::DestroyEnvironment(void)
+	?DestroyScreen@CCoeEnv@@MAEXXZ @ 63 NONAME ; protected: virtual void __thiscall CCoeEnv::DestroyScreen(void)
+	?DoCancel@CCoeEnv@@UAEXXZ @ 64 NONAME ; public: virtual void __thiscall CCoeEnv::DoCancel(void)
+	?Draw@CCoeControl@@EBEXABVTRect@@@Z @ 65 NONAME ; private: virtual void __thiscall CCoeControl::Draw(class TRect const &)const 
+	?DrawDeferred@CCoeControl@@QBEXXZ @ 66 NONAME ; public: void __thiscall CCoeControl::DrawDeferred(void)const 
+	?DrawNow@CCoeControl@@QBEXXZ @ 67 NONAME ; public: void __thiscall CCoeControl::DrawNow(void)const 
+	?DrawableWindow@CCoeControl@@QBEPAVRDrawableWindow@@XZ @ 68 NONAME ; public: class RDrawableWindow * __thiscall CCoeControl::DrawableWindow(void)const 
+	?EnableDragEvents@CCoeControl@@IAEXXZ @ 69 NONAME ; protected: void __thiscall CCoeControl::EnableDragEvents(void)
+	?EnsurePathExistsL@ConeUtils@@SAXABVTPtrC16@@@Z @ 70 NONAME ; public: static void __cdecl ConeUtils::EnsurePathExistsL(class TPtrC16 const &)
+	?ExecuteD@CCoeEnv@@QAEXXZ @ 71 NONAME ; public: void __thiscall CCoeEnv::ExecuteD(void)
+	?ExecuteFepSettingsDialogL@CCoeEnv@@QAEXABVTDesC16@@@Z @ 72 NONAME ABSENT ; public: void __thiscall CCoeEnv::ExecuteFepSettingsDialogL(class TDesC16 const &)
+	?Fep@CCoeEnv@@QBEPAVCCoeFep@@XZ @ 73 NONAME ; public: class CCoeFep * __thiscall CCoeEnv::Fep(void)const 
+	?SupportsWesternNumericReal@TCoeInputCapabilities@@QBEHXZ @ 74 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsWesternNumericReal(void)const 
+	?FepParameters@CCoeEnv@@QAEPAVCCoeFepParameters@@XZ @ 75 NONAME ABSENT ; public: class CCoeFepParameters * __thiscall CCoeEnv::FepParameters(void)
+	?FileExists@ConeUtils@@SAHABVTDesC16@@@Z @ 76 NONAME ; public: static int __cdecl ConeUtils::FileExists(class TDesC16 const &)
+	?FileNamesOfAvailableFepsL@CCoeEnv@@QAEPAVMDesC16Array@@XZ @ 77 NONAME ABSENT ; public: class MDesC16Array * __thiscall CCoeEnv::FileNamesOfAvailableFepsL(void)
+	?Flush@CCoeEnv@@QAEXVTTimeIntervalMicroSeconds32@@@Z @ 78 NONAME ; public: void __thiscall CCoeEnv::Flush(class TTimeIntervalMicroSeconds32)
+	?FocusChanged@CCoeControl@@MAEXW4TDrawNow@@@Z @ 79 NONAME ; protected: virtual void __thiscall CCoeControl::FocusChanged(enum TDrawNow)
+	?SupportsWesternNumericIntegerPositive@TCoeInputCapabilities@@QBEHXZ @ 80 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsWesternNumericIntegerPositive(void)const 
+	?ForEachFepObserverCall@CCoeEnv@@QAEXP6AXAAVMCoeFepObserver@@@Z@Z @ 81 NONAME ; public: void __thiscall CCoeEnv::ForEachFepObserverCall(void (__cdecl*)(class MCoeFepObserver &))
+	?Format128@CCoeEnv@@QAAXAAVTDes16@@HZZ @ 82 NONAME ; public: void __cdecl CCoeEnv::Format128(class TDes16 &,int,...)
+	?Format256@CCoeEnv@@QAAXAAVTDes16@@HZZ @ 83 NONAME ; public: void __cdecl CCoeEnv::Format256(class TDes16 &,int,...)
+	?GetActiveViewId@CCoeAppUi@@QBEHAAVTVwsViewId@@@Z @ 84 NONAME ; public: int __thiscall CCoeAppUi::GetActiveViewId(class TVwsViewId &)const 
+	?GetColor@CCoeControl@@QBEHHAAVTRgb@@@Z @ 85 NONAME ; public: int __thiscall CCoeControl::GetColor(int,class TRgb &)const 
+	?GetColorUseListL@CCoeControl@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 86 NONAME ; public: virtual void __thiscall CCoeControl::GetColorUseListL(class CArrayFix<class TCoeColorUse> &)const 
+	?GetHelpContext@CCoeControl@@UBEXAAVTCoeHelpContext@@@Z @ 87 NONAME ; public: virtual void __thiscall CCoeControl::GetHelpContext(class TCoeHelpContext &)const 
+	?GrabbingComponent@CCoeControl@@IBEPAV1@XZ @ 88 NONAME ; protected: class CCoeControl * __thiscall CCoeControl::GrabbingComponent(void)const 
+	?HandleApplicationSpecificEventL@CCoeAppUi@@EAEXHABVTWsEvent@@@Z @ 89 NONAME ; private: virtual void __thiscall CCoeAppUi::HandleApplicationSpecificEventL(int,class TWsEvent const &)
+	?HandleComponentControlsResourceChange@CCoeControl@@IAEXH@Z @ 90 NONAME ; protected: void __thiscall CCoeControl::HandleComponentControlsResourceChange(int)
+	?HandleError@CCoeEnv@@UAEXH@Z @ 91 NONAME ; public: virtual void __thiscall CCoeEnv::HandleError(int)
+	?HandleForegroundEventL@CCoeAppUi@@EAEXH@Z @ 92 NONAME ; private: virtual void __thiscall CCoeAppUi::HandleForegroundEventL(int)
+	?HandleForegroundEventL@CCoeAppUiSimple@@EAEXH@Z @ 93 NONAME ABSENT ; private: virtual void __thiscall CCoeAppUiSimple::HandleForegroundEventL(int)
+	?HandleKeyEventL@CCoeAppUi@@EAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 94 NONAME ; private: virtual enum TKeyResponse  __thiscall CCoeAppUi::HandleKeyEventL(struct TKeyEvent const &,enum TEventCode)
+	?HandleKeyEventL@CCoeAppUiSimple@@EAEXABUTKeyEvent@@W4TEventCode@@@Z @ 95 NONAME ABSENT ; private: virtual void __thiscall CCoeAppUiSimple::HandleKeyEventL(struct TKeyEvent const &,enum TEventCode)
+	?SupportsWesternNumericIntegerNegative@TCoeInputCapabilities@@QBEHXZ @ 96 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsWesternNumericIntegerNegative(void)const 
+	?HandlePointerBufferReadyL@CCoeControl@@MAEXXZ @ 97 NONAME ; protected: virtual void __thiscall CCoeControl::HandlePointerBufferReadyL(void)
+	?HandlePointerEventL@CCoeControl@@UAEXABUTPointerEvent@@@Z @ 98 NONAME ; void CCoeControl::HandlePointerEventL(struct TPointerEvent const &)
+	?HandleRedrawEvent@CCoeControl@@IBEXABVTRect@@@Z @ 99 NONAME ; protected: void __thiscall CCoeControl::HandleRedrawEvent(class TRect const &)const 
+	?HandleResourceChange@CCoeControl@@UAEXH@Z @ 100 NONAME ; public: virtual void __thiscall CCoeControl::HandleResourceChange(int)
+	?HandleStackChanged@CCoeAppUi@@QAEXXZ @ 101 NONAME ; public: void __thiscall CCoeAppUi::HandleStackChanged(void)
+	?HandleStackedControlsResourceChange@CCoeAppUi@@QAEXH@Z @ 102 NONAME ; public: void __thiscall CCoeAppUi::HandleStackedControlsResourceChange(int)
+	?HandleSwitchOnEventL@CCoeAppUi@@EAEXPAVCCoeControl@@@Z @ 103 NONAME ; private: virtual void __thiscall CCoeAppUi::HandleSwitchOnEventL(class CCoeControl *)
+	?HandleSystemEventL@CCoeAppUi@@EAEXABVTWsEvent@@@Z @ 104 NONAME ; private: virtual void __thiscall CCoeAppUi::HandleSystemEventL(class TWsEvent const &)
+	?SetApplicationViewAsDefaultL@CCoeAppUi@@QAEXXZ @ 105 NONAME ; public: void __thiscall CCoeAppUi::SetApplicationViewAsDefaultL(void)
+	?HandleWsEventL@CCoeAppUi@@UAEXABVTWsEvent@@PAVCCoeControl@@@Z @ 106 NONAME ; public: virtual void __thiscall CCoeAppUi::HandleWsEventL(class TWsEvent const &,class CCoeControl *)
+	?HandleWsEventL@CCoeAppUiSimple@@MAEXABVTWsEvent@@PAVCCoeControl@@@Z @ 107 NONAME ABSENT ; protected: virtual void __thiscall CCoeAppUiSimple::HandleWsEventL(class TWsEvent const &,class CCoeControl *)
+	?HasBorder@CCoeControl@@UBEHXZ @ 108 NONAME ; public: virtual int __thiscall CCoeControl::HasBorder(void)const 
+	?HelpContextL@CCoeAppUi@@EBEPAV?$CArrayFix@VTCoeHelpContext@@@@XZ @ 109 NONAME ; private: virtual class CArrayFix<class TCoeHelpContext> * __thiscall CCoeAppUi::HelpContextL(void)const 
+	?IgnoreEventsUntilNextPointerUp@CCoeControl@@QAEXXZ @ 110 NONAME ; public: void __thiscall CCoeControl::IgnoreEventsUntilNextPointerUp(void)
+	?Index@CCoeControl@@QBEHPBV1@@Z @ 111 NONAME ; public: int __thiscall CCoeControl::Index(class CCoeControl const *)const 
+	?InitSystemFontsL@CCoeEnv@@EAEXXZ @ 112 NONAME ; private: virtual void __thiscall CCoeEnv::InitSystemFontsL(void)
+	?SupportsWesternAlphabetic@TCoeInputCapabilities@@QBEHXZ @ 113 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsWesternAlphabetic(void)const 
+	?InputCapabilities@CCoeControl@@UBE?AVTCoeInputCapabilities@@XZ @ 114 NONAME ; public: virtual class TCoeInputCapabilities  __thiscall CCoeControl::InputCapabilities(void)const 
+	?InstallFepL@CCoeEnv@@QAEXABVTDesC16@@@Z @ 115 NONAME ABSENT ; public: void __thiscall CCoeEnv::InstallFepL(class TDesC16 const &)
+	?IsActivated@CCoeControl@@IBEHXZ @ 116 NONAME ; protected: int __thiscall CCoeControl::IsActivated(void)const 
+	?IsActive@TCoeColorUse@@QBEHXZ @ 117 NONAME ; public: int __thiscall TCoeColorUse::IsActive(void)const 
+	?IsBackedUp@CCoeControl@@QBEHXZ @ 118 NONAME ; public: int __thiscall CCoeControl::IsBackedUp(void)const 
+	?IsBackground@TCoeColorUse@@QBEHXZ @ 119 NONAME ; public: int __thiscall TCoeColorUse::IsBackground(void)const 
+	?IsBlank@CCoeControl@@IBEHXZ @ 120 NONAME ; protected: int __thiscall CCoeControl::IsBlank(void)const 
+	?IsBorders@TCoeColorUse@@QBEHXZ @ 121 NONAME ; public: int __thiscall TCoeColorUse::IsBorders(void)const 
+	?IsContents@TCoeColorUse@@QBEHXZ @ 122 NONAME ; public: int __thiscall TCoeColorUse::IsContents(void)const 
+	?IsDimmed@CCoeControl@@QBEHXZ @ 123 NONAME ; public: int __thiscall CCoeControl::IsDimmed(void)const 
+	?IsDimmed@TCoeColorUse@@QBEHXZ @ 124 NONAME ; public: int __thiscall TCoeColorUse::IsDimmed(void)const 
+	?IsDisplayingControlBetweenPriorities@CCoeAppUi@@QBEHHH@Z @ 125 NONAME ; public: int __thiscall CCoeAppUi::IsDisplayingControlBetweenPriorities(int,int)const 
+	?IsDisplayingMenuOrDialog@CCoeAppUi@@QBEHXZ @ 126 NONAME ; public: int __thiscall CCoeAppUi::IsDisplayingMenuOrDialog(void)const 
+	?IsFocused@CCoeControl@@QBEHXZ @ 127 NONAME ; public: int __thiscall CCoeControl::IsFocused(void)const 
+	?IsForeground@TCoeColorUse@@QBEHXZ @ 128 NONAME ; public: int __thiscall TCoeColorUse::IsForeground(void)const 
+	?IsHighlights@TCoeColorUse@@QBEHXZ @ 129 NONAME ; public: int __thiscall TCoeColorUse::IsHighlights(void)const 
+	?IsNonFocusing@CCoeControl@@QBEHXZ @ 130 NONAME ; public: int __thiscall CCoeControl::IsNonFocusing(void)const 
+	?IsNormal@TCoeColorUse@@QBEHXZ @ 131 NONAME ; public: int __thiscall TCoeColorUse::IsNormal(void)const 
+	?IsNull@TCoeHelpContext@@QBEHXZ @ 132 NONAME ; public: int __thiscall TCoeHelpContext::IsNull(void)const 
+	?IsPressed@TCoeColorUse@@QBEHXZ @ 133 NONAME ; public: int __thiscall TCoeColorUse::IsPressed(void)const 
+	?IsReadyToDraw@CCoeControl@@IBEHXZ @ 134 NONAME ; protected: int __thiscall CCoeControl::IsReadyToDraw(void)const 
+	?IsRedrawEventPending@CCoeEnv@@QBEHXZ @ 135 NONAME ; public: int __thiscall CCoeEnv::IsRedrawEventPending(void)const 
+	?IsSet@TCoeColorUse@@QBEHXZ @ 136 NONAME ; public: int __thiscall TCoeColorUse::IsSet(void)const 
+	?IsSurrounds@TCoeColorUse@@QBEHXZ @ 137 NONAME ; public: int __thiscall TCoeColorUse::IsSurrounds(void)const 
+	?IsVisible@CCoeControl@@QBEHXZ @ 138 NONAME ; public: int __thiscall CCoeControl::IsVisible(void)const 
+	?IsWservEventPending@CCoeEnv@@QBEHXZ @ 139 NONAME ; public: int __thiscall CCoeEnv::IsWservEventPending(void)const 
+	?LeaveWithErrorText@CCoeEnv@@QAEXABVTDesC16@@PBV2@@Z @ 140 NONAME ; public: void __thiscall CCoeEnv::LeaveWithErrorText(class TDesC16 const &,class TDesC16 const *)
+	?LogicalColor@TCoeColorUse@@QBEHXZ @ 141 NONAME ; public: int __thiscall TCoeColorUse::LogicalColor(void)const 
+	?MCoeFocusObserver_Reserved_1@MCoeFocusObserver@@EAEXXZ @ 142 NONAME ; private: virtual void __thiscall MCoeFocusObserver::MCoeFocusObserver_Reserved_1(void)
+	?MCoeFocusObserver_Reserved_2@MCoeFocusObserver@@EAEXXZ @ 143 NONAME ; private: virtual void __thiscall MCoeFocusObserver::MCoeFocusObserver_Reserved_2(void)
+	?MCoeForegroundObserver_Reserved_1@MCoeForegroundObserver@@EAEXXZ @ 144 NONAME ; private: virtual void __thiscall MCoeForegroundObserver::MCoeForegroundObserver_Reserved_1(void)
+	?MCoeForegroundObserver_Reserved_2@MCoeForegroundObserver@@EAEXXZ @ 145 NONAME ; private: virtual void __thiscall MCoeForegroundObserver::MCoeForegroundObserver_Reserved_2(void)
+	?SupportsSecretText@TCoeInputCapabilities@@QBEHXZ @ 146 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsSecretText(void)const 
+	?SupportsNavigation@TCoeInputCapabilities@@QBEHXZ @ 147 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsNavigation(void)const 
+	?MCoeObserverOfLoadedFep_Reserved_1@MCoeObserverOfLoadedFep@@EAEXXZ @ 148 NONAME ; private: virtual void __thiscall MCoeObserverOfLoadedFep::MCoeObserverOfLoadedFep_Reserved_1(void)
+	?MCoeObserverOfLoadedFep_Reserved_2@MCoeObserverOfLoadedFep@@EAEXXZ @ 149 NONAME ; private: virtual void __thiscall MCoeObserverOfLoadedFep::MCoeObserverOfLoadedFep_Reserved_2(void)
+	?ViewScreenModeCompatible@MCoeView@@MAEHH@Z @ 150 NONAME ; protected: virtual int __thiscall MCoeView::ViewScreenModeCompatible(int)
+	?MakeVisible@CCoeControl@@UAEXH@Z @ 151 NONAME ; public: virtual void __thiscall CCoeControl::MakeVisible(int)
+	?MinimumSize@CCoeControl@@UAE?AVTSize@@XZ @ 152 NONAME ; public: virtual class TSize  __thiscall CCoeControl::MinimumSize(void)
+	?NameOfInstalledFepL@CCoeEnv@@QAEPAVHBufC16@@XZ @ 153 NONAME ABSENT ; public: class HBufC16 * __thiscall CCoeEnv::NameOfInstalledFepL(void)
+	?NewL@CCoeBrushAndPenContext@@SAPAV1@XZ @ 154 NONAME ; public: static class CCoeBrushAndPenContext * __cdecl CCoeBrushAndPenContext::NewL(void)
+	?Observer@CCoeControl@@QBEPAVMCoeControlObserver@@XZ @ 155 NONAME ; public: class MCoeControlObserver * __thiscall CCoeControl::Observer(void)const 
+	?OfferKeyEventL@CCoeControl@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 156 NONAME ; public: virtual enum TKeyResponse  __thiscall CCoeControl::OfferKeyEventL(struct TKeyEvent const &,enum TEventCode)
+	?OverrideColorL@CCoeControl@@QAEXHVTRgb@@@Z @ 157 NONAME ; public: void __thiscall CCoeControl::OverrideColorL(int,class TRgb)
+	?OwnsWindow@CCoeControl@@QBEHXZ @ 158 NONAME ; public: int __thiscall CCoeControl::OwnsWindow(void)const 
+	?PenColor@CCoeBrushAndPenContext@@QBE?AVTRgb@@XZ @ 159 NONAME ; public: class TRgb  __thiscall CCoeBrushAndPenContext::PenColor(void)const 
+	?Position@CCoeControl@@QBE?AVTPoint@@XZ @ 160 NONAME ; public: class TPoint  __thiscall CCoeControl::Position(void)const 
+	?PositionChanged@CCoeControl@@MAEXXZ @ 161 NONAME ; protected: virtual void __thiscall CCoeControl::PositionChanged(void)
+	?PositionRelativeToScreen@CCoeControl@@QBE?AVTPoint@@XZ @ 162 NONAME ; public: class TPoint  __thiscall CCoeControl::PositionRelativeToScreen(void)const 
+	?PrepareContext@CCoeBrushAndPenContext@@MBEXAAVCWindowGc@@@Z @ 163 NONAME ; protected: virtual void __thiscall CCoeBrushAndPenContext::PrepareContext(class CWindowGc &)const 
+	?PrepareContext@MCoeControlBrushContext@@MBEXAAVCWindowGc@@@Z @ 164 NONAME ; protected: virtual void __thiscall MCoeControlBrushContext::PrepareContext(class CWindowGc &)const 
+	?PrepareContext@MCoeControlContext@@UBEXAAVCWindowGc@@@Z @ 165 NONAME ; public: virtual void __thiscall MCoeControlContext::PrepareContext(class CWindowGc &)const 
+	?PrepareForFocusLossL@CCoeControl@@UAEXXZ @ 166 NONAME ; public: virtual void __thiscall CCoeControl::PrepareForFocusLossL(void)
+	?PrepareToExit@CCoeAppUiBase@@UAEXXZ @ 167 NONAME ABSENT ; public: virtual void __thiscall CCoeAppUiBase::PrepareToExit(void)
+	?PrepareToExit@CCoeEnv@@QAEXXZ @ 168 NONAME ; public: void __thiscall CCoeEnv::PrepareToExit(void)
+	?ReadDesC16ArrayResourceL@CCoeEnv@@QAEPAVCDesC16ArrayFlat@@H@Z @ 169 NONAME ; public: class CDesC16ArrayFlat * __thiscall CCoeEnv::ReadDesC16ArrayResourceL(int)
+	?ReadDesC8ArrayResourceL@CCoeEnv@@QAEPAVCDesC8ArrayFlat@@H@Z @ 170 NONAME ; public: class CDesC8ArrayFlat * __thiscall CCoeEnv::ReadDesC8ArrayResourceL(int)
+	?ReadResourceAsDes16@CCoeEnv@@QBEXAAVTDes16@@H@Z @ 171 NONAME ; public: void __thiscall CCoeEnv::ReadResourceAsDes16(class TDes16 &,int)const 
+	?ReadResourceAsDes8@CCoeEnv@@QBEXAAVTDes8@@H@Z @ 172 NONAME ; public: void __thiscall CCoeEnv::ReadResourceAsDes8(class TDes8 &,int)const 
+	?Rect@CCoeControl@@QBE?AVTRect@@XZ @ 173 NONAME ; public: class TRect  __thiscall CCoeControl::Rect(void)const 
+	?RegisterApplicationViewL@CCoeAppUi@@QAEXVTUid@@@Z @ 174 NONAME ; public: void __thiscall CCoeAppUi::RegisterApplicationViewL(class TUid)
+	?RegisterViewAndAddStackL@CCoeAppUi@@QAEXAAVMCoeView@@@Z @ 175 NONAME ; public: void __thiscall CCoeAppUi::RegisterViewAndAddStackL(class MCoeView &)
+	?ReleaseScreenFont@CCoeEnv@@QBEXPAVCFont@@@Z @ 176 NONAME ; public: void __thiscall CCoeEnv::ReleaseScreenFont(class CFont *)const 
+	?RemoveFepObserver@CCoeEnv@@QAEXAAVMCoeFepObserver@@@Z @ 177 NONAME ; public: void __thiscall CCoeEnv::RemoveFepObserver(class MCoeFepObserver &)
+	?RemoveFocusObserver@CCoeEnv@@QAEXAAVMCoeFocusObserver@@@Z @ 178 NONAME ; public: void __thiscall CCoeEnv::RemoveFocusObserver(class MCoeFocusObserver &)
+	?RemoveForegroundObserver@CCoeEnv@@QAEXAAVMCoeForegroundObserver@@@Z @ 179 NONAME ; public: void __thiscall CCoeEnv::RemoveForegroundObserver(class MCoeForegroundObserver &)
+	?RemoveFromStack@CCoeAppUi@@QAEXPAVCCoeControl@@@Z @ 180 NONAME ; public: void __thiscall CCoeAppUi::RemoveFromStack(class CCoeControl *)
+	?RemoveFromViewStack@CCoeAppUi@@QAEXABVMCoeView@@PAVCCoeControl@@@Z @ 181 NONAME ; public: void __thiscall CCoeAppUi::RemoveFromViewStack(class MCoeView const &,class CCoeControl *)
+	?SupportsJapaneseKatakanaHalfWidth@TCoeInputCapabilities@@QBEHXZ @ 182 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsJapaneseKatakanaHalfWidth(void)const 
+	?RemoveObserverOfLoadedFep@CCoeEnv@@QAEXAAVMCoeObserverOfLoadedFep@@@Z @ 183 NONAME ; public: void __thiscall CCoeEnv::RemoveObserverOfLoadedFep(class MCoeObserverOfLoadedFep &)
+	?RemoveViewDeactivationObserver@CCoeAppUi@@QAEXPAVMCoeViewDeactivationObserver@@@Z @ 184 NONAME ; public: void __thiscall CCoeAppUi::RemoveViewDeactivationObserver(class MCoeViewDeactivationObserver *)
+	?ReportEventL@CCoeControl@@IAEXW4TCoeEvent@MCoeControlObserver@@@Z @ 185 NONAME ; protected: void __thiscall CCoeControl::ReportEventL(enum MCoeControlObserver::TCoeEvent)
+	?HandleScreenDeviceChangedL@CCoeAppUi@@MAEXXZ @ 186 NONAME ; protected: virtual void __thiscall CCoeAppUi::HandleScreenDeviceChangedL(void)
+	?HandleScreenDeviceChangedL@CCoeAppUiBase@@MAEXXZ @ 187 NONAME ABSENT ; protected: virtual void __thiscall CCoeAppUiBase::HandleScreenDeviceChangedL(void)
+	?WriteInternalStateL@CCoeControl@@MBEXAAVRWriteStream@@@Z @ 188 NONAME ; protected: virtual void __thiscall CCoeControl::WriteInternalStateL(class RWriteStream &)const 
+	?Reserved_1@CCoeEnv@@EAEXXZ @ 189 NONAME ; private: virtual void __thiscall CCoeEnv::Reserved_1(void)
+	??0MCoeControlBrushContext@@QAE@XZ @ 190 NONAME ; MCoeControlBrushContext::MCoeControlBrushContext(void)
+	?Reserved_2@CCoeAppUiBase@@EAEXXZ @ 191 NONAME ABSENT ; private: virtual void __thiscall CCoeAppUiBase::Reserved_2(void)
+	?Reserved_2@CCoeControl@@EAEXXZ @ 192 NONAME ; private: virtual void __thiscall CCoeControl::Reserved_2(void)
+	?Reserved_2@CCoeEnv@@EAEXXZ @ 193 NONAME ; private: virtual void __thiscall CCoeEnv::Reserved_2(void)
+	?ResetContext@MCoeControlContext@@UBEXAAVCWindowGc@@@Z @ 194 NONAME ; public: virtual void __thiscall MCoeControlContext::ResetContext(class CWindowGc &)const 
+	?ResetGc@CCoeControl@@IBEXXZ @ 195 NONAME ; protected: void __thiscall CCoeControl::ResetGc(void)const 
+	?ResourceFileVersionNumber@CCoeEnv@@EBEHXZ @ 196 NONAME ; private: virtual int __thiscall CCoeEnv::ResourceFileVersionNumber(void)const 
+	?RunL@CCoeEnv@@UAEXXZ @ 197 NONAME ; public: virtual void __thiscall CCoeEnv::RunL(void)
+	?SetAdjacent@CCoeControl@@UAEXH@Z @ 198 NONAME ; public: virtual void __thiscall CCoeControl::SetAdjacent(int)
+	?SetAllowStrayPointers@CCoeControl@@IAEXXZ @ 199 NONAME ; protected: void __thiscall CCoeControl::SetAllowStrayPointers(void)
+	?SetAndDrawFocus@CCoeAppUi@@EAEXH@Z @ 200 NONAME ; private: virtual void __thiscall CCoeAppUi::SetAndDrawFocus(int)
+	?SetAppUi@CCoeEnv@@QAEPAVCCoeAppUi@@PAV2@@Z @ 201 NONAME ; public: class CCoeAppUi * __thiscall CCoeEnv::SetAppUi(class CCoeAppUi *)
+	?SetBlank@CCoeControl@@IAEXXZ @ 202 NONAME ; protected: void __thiscall CCoeControl::SetBlank(void)
+	?SetBrushBitmap@CCoeBrushAndPenContext@@QAEXABVCFbsBitmap@@@Z @ 203 NONAME ; public: void __thiscall CCoeBrushAndPenContext::SetBrushBitmap(class CFbsBitmap const &)
+	?SetBrushColor@CCoeBrushAndPenContext@@QAEXVTRgb@@@Z @ 204 NONAME ; public: void __thiscall CCoeBrushAndPenContext::SetBrushColor(class TRgb)
+	?SetBrushStyle@CCoeBrushAndPenContext@@QAEXW4TBrushStyle@CGraphicsContext@@@Z @ 205 NONAME ; public: void __thiscall CCoeBrushAndPenContext::SetBrushStyle(enum CGraphicsContext::TBrushStyle)
+	?SetCanDrawOutsideRect@CCoeControl@@IAEXXZ @ 206 NONAME ; protected: void __thiscall CCoeControl::SetCanDrawOutsideRect(void)
+	?SetComponentsToInheritVisibility@CCoeControl@@QAEXH@Z @ 207 NONAME ; public: void __thiscall CCoeControl::SetComponentsToInheritVisibility(int)
+	?SetContainerWindowL@CCoeControl@@QAEXAAVRBackedUpWindow@@@Z @ 208 NONAME ; public: void __thiscall CCoeControl::SetContainerWindowL(class RBackedUpWindow &)
+	?SetContainerWindowL@CCoeControl@@QAEXAAVRWindow@@@Z @ 209 NONAME ; public: void __thiscall CCoeControl::SetContainerWindowL(class RWindow &)
+	?SetContainerWindowL@CCoeControl@@UAEXABV1@@Z @ 210 NONAME ; public: virtual void __thiscall CCoeControl::SetContainerWindowL(class CCoeControl const &)
+	?SetControlContext@CCoeControl@@QAEXPAVMCoeControlContext@@@Z @ 211 NONAME ; public: void __thiscall CCoeControl::SetControlContext(class MCoeControlContext *)
+	?SetCornerAndSize@CCoeControl@@IAEXVTGulAlignment@@ABVTSize@@@Z @ 212 NONAME ; protected: void __thiscall CCoeControl::SetCornerAndSize(class TGulAlignment,class TSize const &)
+	?SetDimmed@CCoeControl@@UAEXH@Z @ 213 NONAME ; public: virtual void __thiscall CCoeControl::SetDimmed(int)
+	?SetExtent@CCoeControl@@QAEXABVTPoint@@ABVTSize@@@Z @ 214 NONAME ; public: void __thiscall CCoeControl::SetExtent(class TPoint const &,class TSize const &)
+	?SetExtentToWholeScreen@CCoeControl@@QAEXXZ @ 215 NONAME ; public: void __thiscall CCoeControl::SetExtentToWholeScreen(void)
+	?SetFocus@CCoeControl@@QAEXHW4TDrawNow@@@Z @ 216 NONAME ; public: void __thiscall CCoeControl::SetFocus(int,enum TDrawNow)
+	?SupportsJapaneseKatakanaFullWidth@TCoeInputCapabilities@@QBEHXZ @ 217 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsJapaneseKatakanaFullWidth(void)const 
+	?SetFocusing@CCoeControl@@QAEXH@Z @ 218 NONAME ; public: void __thiscall CCoeControl::SetFocusing(int)
+	?SetGloballyCapturing@CCoeControl@@QAEXH@Z @ 219 NONAME ; public: void __thiscall CCoeControl::SetGloballyCapturing(int)
+	?SetLogicalColor@TCoeColorUse@@QAEXH@Z @ 220 NONAME ; public: void __thiscall TCoeColorUse::SetLogicalColor(int)
+	?SetNeighbor@CCoeControl@@UAEXPAV1@@Z @ 221 NONAME ; public: virtual void __thiscall CCoeControl::SetNeighbor(class CCoeControl *)
+	?SetNonFocusing@CCoeControl@@QAEXXZ @ 222 NONAME ; public: void __thiscall CCoeControl::SetNonFocusing(void)
+	?SetObserver@CCoeControl@@QAEXPAVMCoeControlObserver@@@Z @ 223 NONAME ; public: void __thiscall CCoeControl::SetObserver(class MCoeControlObserver *)
+	?SetPenColor@CCoeBrushAndPenContext@@QAEXVTRgb@@@Z @ 224 NONAME ; public: void __thiscall CCoeBrushAndPenContext::SetPenColor(class TRgb)
+	?SetPointerCapture@CCoeControl@@QAEXH@Z @ 225 NONAME ; public: void __thiscall CCoeControl::SetPointerCapture(int)
+	?SetPosition@CCoeControl@@QAEXABVTPoint@@@Z @ 226 NONAME ; public: void __thiscall CCoeControl::SetPosition(class TPoint const &)
+	?SetRect@CCoeControl@@QAEXABVTRect@@@Z @ 227 NONAME ; public: void __thiscall CCoeControl::SetRect(class TRect const &)
+	?SetRootControl@CCoeAppUiSimple@@QAEXPAVCCoeControl@@@Z @ 228 NONAME ABSENT ; public: void __thiscall CCoeAppUiSimple::SetRootControl(class CCoeControl *)
+	?SetSize@CCoeControl@@QAEXABVTSize@@@Z @ 229 NONAME ; public: void __thiscall CCoeControl::SetSize(class TSize const &)
+	?SetSizeWithoutNotification@CCoeControl@@IAEXABVTSize@@@Z @ 230 NONAME ; protected: void __thiscall CCoeControl::SetSizeWithoutNotification(class TSize const &)
+	?SetUpFepL@CCoeEnv@@IAEXPAVCCoeFepParameters@@ABVTDesC16@@@Z @ 231 NONAME ABSENT ; protected: void __thiscall CCoeEnv::SetUpFepL(class CCoeFepParameters *,class TDesC16 const &)
+	?SetUse@TCoeColorUse@@QAEXH@Z @ 232 NONAME ; public: void __thiscall TCoeColorUse::SetUse(int)
+	?SimulateKeyEventL@CCoeEnv@@QAEXABUTKeyEvent@@W4TEventCode@@@Z @ 233 NONAME ; public: void __thiscall CCoeEnv::SimulateKeyEventL(struct TKeyEvent const &,enum TEventCode)
+	?Size@CCoeControl@@QBE?AVTSize@@XZ @ 234 NONAME ; public: class TSize  __thiscall CCoeControl::Size(void)const 
+	?SizeChanged@CCoeControl@@MAEXXZ @ 235 NONAME ; protected: virtual void __thiscall CCoeControl::SizeChanged(void)
+	?Static@CCoeEnv@@SAPAV1@XZ @ 236 NONAME ; public: static class CCoeEnv * __cdecl CCoeEnv::Static(void)
+	?SuppressNextFlush@CCoeEnv@@QAEXXZ @ 237 NONAME ; public: void __thiscall CCoeEnv::SuppressNextFlush(void)
+	?SwapSystemGc@CCoeEnv@@QAEPAVCWindowGc@@PAV2@@Z @ 238 NONAME ; public: class CWindowGc * __thiscall CCoeEnv::SwapSystemGc(class CWindowGc *)
+	?SystemGc@CCoeControl@@QBEAAVCWindowGc@@XZ @ 239 NONAME ; class CWindowGc & CCoeControl::SystemGc(void) const
+	?UpdateStackedControlFlags@CCoeAppUi@@QAEXPAVCCoeControl@@HH@Z @ 240 NONAME ; public: void __thiscall CCoeAppUi::UpdateStackedControlFlags(class CCoeControl *,int,int)
+	?UpdateViewStackedControlFlags@CCoeAppUi@@QAEXABVMCoeView@@PAVCCoeControl@@HH@Z @ 241 NONAME ; public: void __thiscall CCoeAppUi::UpdateViewStackedControlFlags(class MCoeView const &,class CCoeControl *,int,int)
+	?Use@TCoeColorUse@@QBEHXZ @ 242 NONAME ; public: int __thiscall TCoeColorUse::Use(void)const 
+	?Version@CCoeEnv@@SA?AVTVersion@@XZ @ 243 NONAME ; public: static class TVersion  __cdecl CCoeEnv::Version(void)
+	?Window@CCoeControl@@IBEAAVRWindow@@XZ @ 244 NONAME ; protected: class RWindow & __thiscall CCoeControl::Window(void)const 
+	??0CCoeScheduler@@QAE@PAVCCoeEnv@@@Z @ 245 NONAME ; public: __thiscall CCoeScheduler::CCoeScheduler(class CCoeEnv *)
+	??0TCoeInputCapabilities@@QAE@ABV0@@Z @ 246 NONAME ; public: __thiscall TCoeInputCapabilities::TCoeInputCapabilities(class TCoeInputCapabilities const &)
+	??0TCoeInputCapabilities@@QAE@I@Z @ 247 NONAME ; public: __thiscall TCoeInputCapabilities::TCoeInputCapabilities(unsigned int)
+	??0TCoeInputCapabilities@@QAE@IPAVMCoeFepAwareTextEditor@@PAVMCoeCaptionRetrieverForFep@@@Z @ 248 NONAME ; public: __thiscall TCoeInputCapabilities::TCoeInputCapabilities(unsigned int,class MCoeFepAwareTextEditor *,class MCoeCaptionRetrieverForFep *)
+	??4TCoeInputCapabilities@@QAEAAV0@ABV0@@Z @ 249 NONAME ; public: class TCoeInputCapabilities & __thiscall TCoeInputCapabilities::operator=(class TCoeInputCapabilities const &)
+	??8TCoeInputCapabilities@@QBEHABV0@@Z @ 250 NONAME ; public: int __thiscall TCoeInputCapabilities::operator==(class TCoeInputCapabilities const &)const 
+	??9TCoeInputCapabilities@@QBEHABV0@@Z @ 251 NONAME ; public: int __thiscall TCoeInputCapabilities::operator!=(class TCoeInputCapabilities const &)const 
+	?AddMessageObserverL@CCoeEnv@@QAEXAAVMCoeMessageObserver@@@Z @ 252 NONAME ; public: void __thiscall CCoeEnv::AddMessageObserverL(class MCoeMessageObserver &)
+	?CaptionRetrieverForFep@TCoeInputCapabilities@@QBEPAVMCoeCaptionRetrieverForFep@@XZ @ 253 NONAME ; public: class MCoeCaptionRetrieverForFep * __thiscall TCoeInputCapabilities::CaptionRetrieverForFep(void)const 
+	?ConstructL@CCoeEnv@@QAEXH@Z @ 254 NONAME ; public: void __thiscall CCoeEnv::ConstructL(int)
+	?DisplayError@CCoeScheduler@@UBEXH@Z @ 255 NONAME ; public: virtual void __thiscall CCoeScheduler::DisplayError(int)const 
+	?FepAwareTextEditor@TCoeInputCapabilities@@QBEPAVMCoeFepAwareTextEditor@@XZ @ 256 NONAME ; public: class MCoeFepAwareTextEditor * __thiscall TCoeInputCapabilities::FepAwareTextEditor(void)const 
+	?FepUid@CCoeEnv@@QBE?AVTUid@@XZ @ 257 NONAME ; public: class TUid  __thiscall CCoeEnv::FepUid(void)const 
+	?GetMessageNotifyingObserversLC@CCoeEnv@@QAEXKAAVTUid@@AAVTPtr8@@ABVTWsEvent@@@Z @ 258 NONAME ; public: void __thiscall CCoeEnv::GetMessageNotifyingObserversLC(unsigned long,class TUid &,class TPtr8 &,class TWsEvent const &)
+	?InputCapabilities@CCoeAppUi@@UBE?AVTCoeInputCapabilities@@XZ @ 259 NONAME ; public: virtual class TCoeInputCapabilities  __thiscall CCoeAppUi::InputCapabilities(void)const 
+	?IsBeingDestroyed@CCoeControl@@IBEHXZ @ 260 NONAME ; protected: int __thiscall CCoeControl::IsBeingDestroyed(void)const 
+	?IsNone@TCoeInputCapabilities@@QBEHXZ @ 261 NONAME ; public: int __thiscall TCoeInputCapabilities::IsNone(void)const 
+	?MCoeMessageObserver_Reserved_1@MCoeMessageObserver@@EAEXXZ @ 262 NONAME ; private: virtual void __thiscall MCoeMessageObserver::MCoeMessageObserver_Reserved_1(void)
+	?MCoeMessageObserver_Reserved_2@MCoeMessageObserver@@EAEXXZ @ 263 NONAME ; private: virtual void __thiscall MCoeMessageObserver::MCoeMessageObserver_Reserved_2(void)
+	?MergeWith@TCoeInputCapabilities@@QAEXABV1@@Z @ 264 NONAME ; public: void __thiscall TCoeInputCapabilities::MergeWith(class TCoeInputCapabilities const &)
+	?RemoveMessageObserver@CCoeEnv@@QAEXAAVMCoeMessageObserver@@@Z @ 265 NONAME ; public: void __thiscall CCoeEnv::RemoveMessageObserver(class MCoeMessageObserver &)
+	?SupportsAllText@TCoeInputCapabilities@@QBEHXZ @ 266 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsAllText(void)const 
+	?SupportsDialableCharacters@TCoeInputCapabilities@@QBEHXZ @ 267 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsDialableCharacters(void)const 
+	?SupportsJapaneseHiragana@TCoeInputCapabilities@@QBEHXZ @ 268 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsJapaneseHiragana(void)const 
+	??0CCoeStatic@@IAE@VTUid@@W4TScope@0@@Z @ 269 NONAME ; protected: __thiscall CCoeStatic::CCoeStatic(class TUid,enum CCoeStatic::TScope)
+	??1CCoeStatic@@UAE@XZ @ 270 NONAME ; public: virtual __thiscall CCoeStatic::~CCoeStatic(void)
+	?Static@CCoeEnv@@SAPAVCCoeStatic@@VTUid@@@Z @ 271 NONAME ; public: static class CCoeStatic * __cdecl CCoeEnv::Static(class TUid)
+	?CancelSound@CoeSoundPlayer@@SAXABVTBaSystemSoundType@@@Z @ 272 NONAME ; public: static void __cdecl CoeSoundPlayer::CancelSound(class TBaSystemSoundType const &)
+	?PlaySound@CoeSoundPlayer@@CAXABVTBaSystemSoundType@@HVTTimeIntervalMicroSeconds32@@H@Z @ 273 NONAME ; private: static void __cdecl CoeSoundPlayer::PlaySound(class TBaSystemSoundType const &,int,class TTimeIntervalMicroSeconds32,int)
+	?Reserved_1@CCoeScheduler@@EAEXXZ @ 274 NONAME ; private: virtual void __thiscall CCoeScheduler::Reserved_1(void)
+	?Reserved_2@CCoeScheduler@@EAEXXZ @ 275 NONAME ; private: virtual void __thiscall CCoeScheduler::Reserved_2(void)
+	?PrepareForFocusGainL@CCoeControl@@UAEXXZ @ 276 NONAME ; public: virtual void __thiscall CCoeControl::PrepareForFocusGainL(void)
+	?DisableExitChecks@CCoeEnv@@QAEXH@Z @ 277 NONAME ; public: void __thiscall CCoeEnv::DisableExitChecks(int)
+	?ControlContext@CCoeControl@@QBEPAVMCoeControlContext@@XZ @ 278 NONAME ; public: class MCoeControlContext * __thiscall CCoeControl::ControlContext(void)const 
+	?AddViewActivationObserverL@CCoeAppUi@@QAEXPAVMCoeViewActivationObserver@@@Z @ 279 NONAME ; public: void __thiscall CCoeAppUi::AddViewActivationObserverL(class MCoeViewActivationObserver *)
+	?CheckInitializeViewsL@CCoeAppUi@@QAEXVTUid@@@Z @ 280 NONAME ; public: void __thiscall CCoeAppUi::CheckInitializeViewsL(class TUid)
+	?GetDefaultViewId@CCoeAppUi@@QBEHAAVTVwsViewId@@@Z @ 281 NONAME ; public: int __thiscall CCoeAppUi::GetDefaultViewId(class TVwsViewId &)const 
+	?NotifyNextActivation@CCoeAppUi@@QAEXAAVMCoeViewActivationObserver@@@Z @ 282 NONAME ; public: void __thiscall CCoeAppUi::NotifyNextActivation(class MCoeViewActivationObserver &)
+	?NotifyNextActivation@CCoeAppUi@@QAEXABVTVwsViewId@@AAVMCoeViewActivationObserver@@@Z @ 283 NONAME ; public: void __thiscall CCoeAppUi::NotifyNextActivation(class TVwsViewId const &,class MCoeViewActivationObserver &)
+	?NotifyNextDeactivation@CCoeAppUi@@QAEXAAVMCoeViewDeactivationObserver@@@Z @ 284 NONAME ; public: void __thiscall CCoeAppUi::NotifyNextDeactivation(class MCoeViewDeactivationObserver &)
+	?NotifyNextDeactivation@CCoeAppUi@@QAEXABVTVwsViewId@@AAVMCoeViewDeactivationObserver@@@Z @ 285 NONAME ; public: void __thiscall CCoeAppUi::NotifyNextDeactivation(class TVwsViewId const &,class MCoeViewDeactivationObserver &)
+	?RemoveViewActivationObserver@CCoeAppUi@@QAEXPAVMCoeViewActivationObserver@@@Z @ 286 NONAME ; public: void __thiscall CCoeAppUi::RemoveViewActivationObserver(class MCoeViewActivationObserver *)
+	?SetDefaultViewL@CCoeAppUi@@QAEXABVMCoeView@@@Z @ 287 NONAME ; public: void __thiscall CCoeAppUi::SetDefaultViewL(class MCoeView const &)
+	?PrepareForViewActivation@MCoeView@@EAEXXZ @ 288 NONAME ; void MCoeView::PrepareForViewActivation(void)
+	?ViewConstructL@MCoeView@@EAEXXZ @ 289 NONAME ; private: virtual void __thiscall MCoeView::ViewConstructL(void)
+	?MCoeViewActivationObserver_Reserved_1@MCoeViewActivationObserver@@EAEXXZ @ 290 NONAME ; private: virtual void __thiscall MCoeViewActivationObserver::MCoeViewActivationObserver_Reserved_1(void)
+	?ViewScreenDeviceChangedL@MCoeView@@MAE?AVTVwsViewIdAndMessage@@XZ @ 291 NONAME ; protected: virtual class TVwsViewIdAndMessage  __thiscall MCoeView::ViewScreenDeviceChangedL(void)
+	?MCoeViewActivationObserver_Reserved_2@MCoeViewActivationObserver@@EAEXXZ @ 292 NONAME ; private: virtual void __thiscall MCoeViewActivationObserver::MCoeViewActivationObserver_Reserved_2(void)
+	?MCoeViewDeactivationObserver_Reserved_1@MCoeViewDeactivationObserver@@EAEXXZ @ 293 NONAME ; private: virtual void __thiscall MCoeViewDeactivationObserver::MCoeViewDeactivationObserver_Reserved_1(void)
+	?MCoeViewDeactivationObserver_Reserved_2@MCoeViewDeactivationObserver@@EAEXXZ @ 294 NONAME ; private: virtual void __thiscall MCoeViewDeactivationObserver::MCoeViewDeactivationObserver_Reserved_2(void)
+	?CreateActivateViewEventL@CCoeAppUi@@QAEXABVTVwsViewId@@VTUid@@ABVTDesC8@@@Z @ 295 NONAME ; public: void __thiscall CCoeAppUi::CreateActivateViewEventL(class TVwsViewId const &,class TUid,class TDesC8 const &)
+	?AddViewObserverL@CCoeAppUi@@QAEXPAVMCoeViewObserver@@@Z @ 296 NONAME ; public: void __thiscall CCoeAppUi::AddViewObserverL(class MCoeViewObserver *)
+	?RemoveViewObserver@CCoeAppUi@@QAEXPAVMCoeViewObserver@@@Z @ 297 NONAME ; public: void __thiscall CCoeAppUi::RemoveViewObserver(class MCoeViewObserver *)
+	??0TCoeInputCapabilities@@QAE@IPAVMCoeFepAwareTextEditor@@PAVMCoeCaptionRetrieverForFep@@VTUid@@PAVMCoeFepSpecificExtensions@0@@Z @ 298 NONAME ; public: __thiscall TCoeInputCapabilities::TCoeInputCapabilities(unsigned int,class MCoeFepAwareTextEditor *,class MCoeCaptionRetrieverForFep *,class TUid,class TCoeInputCapabilities::MCoeFepSpecificExtensions *)
+	?FepSpecificExtensions@TCoeInputCapabilities@@QBEPAVMCoeFepSpecificExtensions@1@VTUid@@@Z @ 299 NONAME ; public: class TCoeInputCapabilities::MCoeFepSpecificExtensions * __thiscall TCoeInputCapabilities::FepSpecificExtensions(class TUid)const 
+	?RecursivelyMergedInputCapabilities@CCoeControl@@QBE?AVTCoeInputCapabilities@@XZ @ 300 NONAME ; public: class TCoeInputCapabilities  __thiscall CCoeControl::RecursivelyMergedInputCapabilities(void)const 
+	?Capabilities@TCoeInputCapabilities@@QBEIXZ @ 301 NONAME ; public: unsigned int __thiscall TCoeInputCapabilities::Capabilities(void)const 
+	?SetCapabilities@TCoeInputCapabilities@@QAEXI@Z @ 302 NONAME ; public: void __thiscall TCoeInputCapabilities::SetCapabilities(unsigned int)
+	?InputCapabilitiesChanged@CCoeEnv@@QAEXXZ @ 303 NONAME ; public: void __thiscall CCoeEnv::InputCapabilitiesChanged(void)
+	?WriteInternalStateOfStackedControlsL@CCoeAppUi@@QBEXAAVRWriteStream@@@Z @ 304 NONAME ; public: void __thiscall CCoeAppUi::WriteInternalStateOfStackedControlsL(class RWriteStream &)const 
+	?IsDisplayingDialog@CCoeAppUi@@QBEHXZ @ 305 NONAME ; public: int __thiscall CCoeAppUi::IsDisplayingDialog(void)const 
+	?AddToStackL@CCoeAppUi@@QAEXABVMCoeView@@PAVCCoeControl@@HH@Z @ 306 NONAME ; public: void __thiscall CCoeAppUi::AddToStackL(class MCoeView const &,class CCoeControl *,int,int)
+	?DeactivateActiveViewL@CCoeAppUi@@QAEXXZ @ 307 NONAME ; public: void __thiscall CCoeAppUi::DeactivateActiveViewL(void)
+	?DeregisterView@CCoeAppUi@@QAEXABVMCoeView@@@Z @ 308 NONAME ; public: void __thiscall CCoeAppUi::DeregisterView(class MCoeView const &)
+	?RegisterViewL@CCoeAppUi@@QAEXAAVMCoeView@@@Z @ 309 NONAME ; public: void __thiscall CCoeAppUi::RegisterViewL(class MCoeView &)
+	?SyncNotifyFocusObserversOfChangeInFocus@CCoeEnv@@QAEXXZ @ 310 NONAME ; public: void __thiscall CCoeEnv::SyncNotifyFocusObserversOfChangeInFocus(void)
+	?MopGetById@MObjectProvider@@AAEPAXVTTypeUid@@@Z @ 311 NONAME ; private: void * __thiscall MObjectProvider::MopGetById(class TTypeUid)
+	?MopNext@CCoeControl@@EAEPAVMObjectProvider@@XZ @ 312 NONAME ; private: virtual class MObjectProvider * __thiscall CCoeControl::MopNext(void)
+	?MopNext@MObjectProvider@@EAEPAV1@XZ @ 313 NONAME ; private: virtual class MObjectProvider * __thiscall MObjectProvider::MopNext(void)
+	?MopSupplyObject@CCoeControl@@MAE?AVPtr@TTypeUid@@V3@@Z @ 314 NONAME ; protected: virtual class TTypeUid::Ptr  __thiscall CCoeControl::MopSupplyObject(class TTypeUid)
+	?SetMopParent@CCoeControl@@QAEXPAVMObjectProvider@@@Z @ 315 NONAME ; public: void __thiscall CCoeControl::SetMopParent(class MObjectProvider *)
+	?ObjectProvider@TCoeInputCapabilities@@QBEPAVMObjectProvider@@XZ @ 316 NONAME ; public: class MObjectProvider * __thiscall TCoeInputCapabilities::ObjectProvider(void)const 
+	?SetObjectProvider@TCoeInputCapabilities@@QAEXPAVMObjectProvider@@@Z @ 317 NONAME ; public: void __thiscall TCoeInputCapabilities::SetObjectProvider(class MObjectProvider *)
+	?PanicStub1@@YAXXZ @ 318 NONAME ; void __cdecl PanicStub1(void)
+	?MCoeResourceChangeObserver_Reserved_2@MCoeResourceChangeObserver@@EAEXXZ @ 319 NONAME ; private: virtual void __thiscall MCoeResourceChangeObserver::MCoeResourceChangeObserver_Reserved_2(void)
+	?RemoveResourceChangeObserver@CCoeEnv@@QAEXAAVMCoeResourceChangeObserver@@@Z @ 320 NONAME ; public: void __thiscall CCoeEnv::RemoveResourceChangeObserver(class MCoeResourceChangeObserver &)
+	??0CCoeScreenDeviceChangeDefaultHandler@@IAE@XZ @ 321 NONAME ; protected: __thiscall CCoeScreenDeviceChangeDefaultHandler::CCoeScreenDeviceChangeDefaultHandler(void)
+	?Self@CCoeScreenDeviceChangeDefaultHandler@@SAPAV1@XZ @ 322 NONAME ; public: static class CCoeScreenDeviceChangeDefaultHandler * __cdecl CCoeScreenDeviceChangeDefaultHandler::Self(void)
+	?ReadResourceAsDes16L@CCoeEnv@@QBEXAAVTDes16@@H@Z @ 323 NONAME ; public: void __thiscall CCoeEnv::ReadResourceAsDes16L(class TDes16 &,int)const 
+	?ReadResourceAsDes8L@CCoeEnv@@QBEXAAVTDes8@@H@Z @ 324 NONAME ; public: void __thiscall CCoeEnv::ReadResourceAsDes8L(class TDes8 &,int)const 
+	?SetSystemDefaultViewL@CCoeAppUi@@QAEXABVTVwsViewId@@@Z @ 325 NONAME ; public: void __thiscall CCoeAppUi::SetSystemDefaultViewL(class TVwsViewId const &)
+	?SetSystemDefaultViewL@CCoeAppUi@@QAEXABVTVwsViewId@@H@Z @ 326 NONAME ; public: void __thiscall CCoeAppUi::SetSystemDefaultViewL(class TVwsViewId const &,int)
+	??1CCoeScreenDeviceChangeDefaultHandler@@UAE@XZ @ 327 NONAME ; public: virtual __thiscall CCoeScreenDeviceChangeDefaultHandler::~CCoeScreenDeviceChangeDefaultHandler(void)
+	?AddResourceChangeObserverL@CCoeEnv@@QAEXAAVMCoeResourceChangeObserver@@@Z @ 328 NONAME ; public: void __thiscall CCoeEnv::AddResourceChangeObserverL(class MCoeResourceChangeObserver &)
+	?InstallFepL@CCoeEnv@@QAEXABVTDesC16@@H@Z @ 329 NONAME ABSENT ; public: void __thiscall CCoeEnv::InstallFepL(class TDesC16 const &,int)
+	?FindStatic@CCoeEnv@@QAEPAVCCoeStatic@@VTUid@@@Z @ 330 NONAME ; public: class CCoeStatic * __thiscall CCoeEnv::FindStatic(class TUid)
+	?MCoeResourceChangeObserver_Reserved_1@MCoeResourceChangeObserver@@EAEXXZ @ 331 NONAME ; private: virtual void __thiscall MCoeResourceChangeObserver::MCoeResourceChangeObserver_Reserved_1(void)
+	??0CCoeStatic@@IAE@VTUid@@HW4TScope@0@@Z @ 332 NONAME ; CCoeStatic::CCoeStatic(class TUid, int, enum CCoeStatic::TScope)
+	?GetSystemDefaultViewL@CCoeAppUi@@QAEXAAVTVwsViewId@@@Z @ 333 NONAME ; public: void __thiscall CCoeAppUi::GetSystemDefaultViewL(class TVwsViewId &)
+	?SupportsAutoSentenceCase@TCoeInputCapabilities@@QBEHXZ @ 334 NONAME ; public: int __thiscall TCoeInputCapabilities::SupportsAutoSentenceCase(void)const
+	?AvailableFepsL@CCoeEnv@@QAEXAAV?$RArray@VTUid@@@@PAVCDesC16Array@@@Z @ 335 NONAME ; void CCoeEnv::AvailableFepsL(class RArray<class TUid> &, class CDesC16Array *)
+	?ExecuteFepSettingsDialogL@CCoeEnv@@QAEXVTUid@@@Z @ 336 NONAME ; void CCoeEnv::ExecuteFepSettingsDialogL(class TUid)
+	?InstallFepL@CCoeEnv@@QAEXVTUid@@@Z @ 337 NONAME ; void CCoeEnv::InstallFepL(class TUid)
+	?InstallFepL@CCoeEnv@@QAEXVTUid@@H@Z @ 338 NONAME ; void CCoeEnv::InstallFepL(class TUid, int)
+	?MaximumWidth@CCoeControl@@QBEHXZ @ 339 NONAME ; int CCoeControl::MaximumWidth(void) const
+	?SetMaximumWidth@CCoeControl@@QAEHH@Z @ 340 NONAME ; int CCoeControl::SetMaximumWidth(int)
+	?MopGetByIdNoChaining@MObjectProvider@@AAEPAXVTTypeUid@@@Z @ 341 NONAME ; void * MObjectProvider::MopGetByIdNoChaining(class TTypeUid)
+	?FocusedByDefault@CCoeControlStaticSettings@@SAHXZ @ 342 NONAME ; int CCoeControlStaticSettings::FocusedByDefault(void)
+	?SetFocusedByDefaultL@CCoeControlStaticSettings@@SAXH@Z @ 343 NONAME ; void CCoeControlStaticSettings::SetFocusedByDefaultL(int)
+	?CheckSourceOfViewSwitchL@CCoeAppUi@@QBEHABVTSecurityPolicy@@PBD@Z @ 344 NONAME ; int CCoeAppUi::CheckSourceOfViewSwitchL(class TSecurityPolicy const &, char const *) const
+	?ConstructL@CCoeEnv@@QAEXHH@Z @ 345 NONAME ; void CCoeEnv::ConstructL(int, int)
+	??0TCoeFont@@QAE@ABV0@@Z @ 346 NONAME ; TCoeFont::TCoeFont(class TCoeFont const &)
+	??0TCoeFont@@QAE@HHH@Z @ 347 NONAME ; TCoeFont::TCoeFont(int, int, int)
+	??0TCoeFont@@QAE@W4TLogicalSize@0@HH@Z @ 348 NONAME ; TCoeFont::TCoeFont(enum TCoeFont::TLogicalSize, int, int)
+	?SortById@CCoeControlArray@@QAEXXZ @ 349 NONAME ; void CCoeControlArray::SortById(void)
+	?AnnotationFont@TCoeFont@@SA?AV1@H@Z @ 350 NONAME ; class TCoeFont TCoeFont::AnnotationFont(int)
+	?FindBackground@CCoeControl@@QBEPBVMCoeControlBackground@@XZ @ 351 NONAME ; class MCoeControlBackground const * CCoeControl::FindBackground(void) const
+	?SetControlsOwnedExternally@CCoeControlArray@@QAEXH@Z @ 352 NONAME ; void CCoeControlArray::SetControlsOwnedExternally(int)
+	??0CCoeControlArray@@AAE@AAVCCoeControl@@@Z @ 353 NONAME ; CCoeControlArray::CCoeControlArray(class CCoeControl &)
+	?HeightInPixels@TCoeFont@@QBEHXZ @ 354 NONAME ; int TCoeFont::HeightInPixels(void) const
+	?IsNonZooming@TCoeFont@@QBEHXZ @ 355 NONAME ; int TCoeFont::IsNonZooming(void) const
+	?LegendFont@TCoeFont@@SA?AV1@H@Z @ 356 NONAME ; class TCoeFont TCoeFont::LegendFont(int)
+	?LogicalSize@TCoeFont@@QBE?AW4TLogicalSize@1@XZ @ 357 NONAME ; enum TCoeFont::TLogicalSize TCoeFont::LogicalSize(void) const
+	?TitleFont@TCoeFont@@SA?AV1@H@Z @ 358 NONAME ; class TCoeFont TCoeFont::TitleFont(int)
+	?NormalFont@TCoeFont@@SA?AV1@H@Z @ 359 NONAME ; class TCoeFont TCoeFont::NormalFont(int)
+	?Parent@CCoeControl@@QBEPBV1@XZ @ 360 NONAME ; class CCoeControl const * CCoeControl::Parent(void) const
+	?ResetAndDestroy@CCoeControlArray@@QAEXXZ @ 361 NONAME ; void CCoeControlArray::ResetAndDestroy(void)
+	?SetArrayLocked@CCoeControlArray@@QAEXXZ @ 362 NONAME ; void CCoeControlArray::SetArrayLocked(void)
+	?SetBackground@CCoeControl@@QAEXPBVMCoeControlBackground@@@Z @ 363 NONAME ; void CCoeControl::SetBackground(class MCoeControlBackground const *)
+	?SetParent@CCoeControl@@UAEHPAV1@@Z @ 364 NONAME ; int CCoeControl::SetParent(class CCoeControl *)
+	?Style@TCoeFont@@QBE?AVTFontStyle@@XZ @ 365 NONAME ; class TFontStyle TCoeFont::Style(void) const
+	?SetUniqueHandle@CCoeControl@@QAEHH@Z @ 366 NONAME ; int CCoeControl::SetUniqueHandle(int)
+	?UniqueHandle@CCoeControl@@QBEHXZ @ 367 NONAME ; int CCoeControl::UniqueHandle(void) const
+	?MopSupplyObject@CCoeEnv@@MAE?AVPtr@TTypeUid@@V3@@Z @ 368 NONAME ; class TTypeUid::Ptr CCoeEnv::MopSupplyObject(class TTypeUid)
+	?IsResourceAvailableL@CCoeEnv@@QBEHH@Z @ 369 NONAME ; int CCoeEnv::IsResourceAvailableL(int) const
+	?DrawBackground@CCoeControl@@QBEXABVTRect@@@Z @ 370 NONAME ; void CCoeControl::DrawBackground(class TRect const &) const
+	?DrawForeground@CCoeControl@@QBEXABVTRect@@@Z @ 371 NONAME ; void CCoeControl::DrawForeground(class TRect const &) const
+	?HitTest@CCoeControl@@QBEPBVMCoeControlHitTest@@XZ @ 372 NONAME ; class MCoeControlHitTest const * CCoeControl::HitTest(void) const
+	?SetCustomGc@CCoeControl@@QAEHPAVCWindowGc@@@Z @ 373 NONAME ; int CCoeControl::SetCustomGc(class CWindowGc *)
+	?SetHitTest@CCoeControl@@QAEHPBVMCoeControlHitTest@@@Z @ 374 NONAME ; int CCoeControl::SetHitTest(class MCoeControlHitTest const *)
+	?Parent@CCoeControl@@QAEPAV1@XZ @ 375 NONAME ; class CCoeControl * CCoeControl::Parent(void)
+	?RequestRelayout@CCoeControl@@UAEHPBV1@@Z @ 376 NONAME ; int CCoeControl::RequestRelayout(class CCoeControl const *)
+	?SetLayoutManagerL@CCoeControl@@UAEXPAVMCoeLayoutManager@@@Z @ 377 NONAME ; void CCoeControl::SetLayoutManagerL(class MCoeLayoutManager *)
+	?SetFontProviderL@CCoeControl@@QAEXABVCCoeFontProvider@@@Z @ 378 NONAME ; void CCoeControl::SetFontProviderL(class CCoeFontProvider const &)
+	?SetZoomFactorL@CCoeControl@@QAEXHW4TZoomType@1@@Z @ 379 NONAME ; void CCoeControl::SetZoomFactorL(int, enum CCoeControl::TZoomType)
+	?GetTextDrawer@CCoeControl@@EBEXAAPAVCCoeTextDrawerBase@@PBV1@H@Z @ 380 NONAME ; void CCoeControl::GetTextDrawer(class CCoeTextDrawerBase * &, class CCoeControl const *, int) const
+	?Reserved_CCoeControl_8@CCoeControl@@EAEXXZ @ 381 NONAME ; void CCoeControl::Reserved_CCoeControl_8(void)
+	?Reserved_CCoeControl_9@CCoeControl@@EAEXXZ @ 382 NONAME ; void CCoeControl::Reserved_CCoeControl_9(void)
+	?LayoutManager@CCoeControl@@QBEPAVMCoeLayoutManager@@XZ @ 383 NONAME ; class MCoeLayoutManager * CCoeControl::LayoutManager(void) const
+	?Background@CCoeControl@@QBEPBVMCoeControlBackground@@XZ @ 384 NONAME ; class MCoeControlBackground const * CCoeControl::Background(void) const
+	?Reserved_MCoeLayoutManager_10@MCoeLayoutManager@@EAEXXZ @ 385 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_10(void)
+	?Reserved_MCoeLayoutManager_11@MCoeLayoutManager@@EAEXXZ @ 386 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_11(void)
+	?Reserved_MCoeLayoutManager_1@MCoeLayoutManager@@EAEXXZ @ 387 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_1(void)
+	?Reserved_MCoeLayoutManager_2@MCoeLayoutManager@@EAEXXZ @ 388 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_2(void)
+	?Reserved_MCoeLayoutManager_3@MCoeLayoutManager@@EAEXXZ @ 389 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_3(void)
+	?Reserved_MCoeLayoutManager_4@MCoeLayoutManager@@EAEXXZ @ 390 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_4(void)
+	?Reserved_MCoeLayoutManager_5@MCoeLayoutManager@@EAEXXZ @ 391 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_5(void)
+	?Reserved_MCoeLayoutManager_6@MCoeLayoutManager@@EAEXXZ @ 392 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_6(void)
+	?Reserved_MCoeLayoutManager_7@MCoeLayoutManager@@EAEXXZ @ 393 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_7(void)
+	?Reserved_MCoeLayoutManager_8@MCoeLayoutManager@@EAEXXZ @ 394 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_8(void)
+	?Reserved_MCoeLayoutManager_9@MCoeLayoutManager@@EAEXXZ @ 395 NONAME ; void MCoeLayoutManager::Reserved_MCoeLayoutManager_9(void)
+	?TopFocusedControl@CCoeAppUi@@QBEPAVCCoeControl@@XZ @ 396 NONAME ; class CCoeControl * CCoeAppUi::TopFocusedControl(void) const
+	?PrepareToExit@CCoeAppUi@@UAEXXZ @ 397 NONAME ; void CCoeAppUi::PrepareToExit(void)
+	??0CCoeScreenDeviceChangeDefaultHandler@@IAE@H@Z @ 398 NONAME ; CCoeScreenDeviceChangeDefaultHandler::CCoeScreenDeviceChangeDefaultHandler(int)
+	?AccumulatedZoom@CCoeControl@@QBE?AVTZoomFactor@@XZ @ 399 NONAME ; class TZoomFactor CCoeControl::AccumulatedZoom(void) const
+	?FindFontProvider@CCoeControl@@QBEABVCCoeFontProvider@@XZ @ 400 NONAME ; class CCoeFontProvider const & CCoeControl::FindFontProvider(void) const
+	?Font@CCoeFontProvider@@QBEABVCFont@@ABVTCoeFont@@ABVTZoomFactor@@@Z @ 401 NONAME ; class CFont const & CCoeFontProvider::Font(class TCoeFont const &, class TZoomFactor const &) const
+	?GetLogicalToPixelFontSizesL@CCoeControlStaticSettings@@SAXAAV?$RArray@H@@@Z @ 402 NONAME ; void CCoeControlStaticSettings::GetLogicalToPixelFontSizesL(class RArray<int> &)
+	?NewL@CCoeFontProvider@@SAPAV1@ABVTDesC16@@@Z @ 403 NONAME ; class CCoeFontProvider * CCoeFontProvider::NewL(class TDesC16 const &)
+	?NewL@CCoeFontProvider@@SAPAV1@XZ @ 404 NONAME ; class CCoeFontProvider * CCoeFontProvider::NewL(void)
+	?ScreenFont@CCoeControl@@IBEABVCFont@@ABVTCoeFont@@@Z @ 405 NONAME ; class CFont const & CCoeControl::ScreenFont(class TCoeFont const &) const
+	?UseSystemTypeface@CCoeFontProvider@@QAEXXZ @ 406 NONAME ; void CCoeFontProvider::UseSystemTypeface(void)
+	?SetLogicalToPixelFontSizesL@CCoeControlStaticSettings@@SAXABV?$RArray@H@@@Z @ 407 NONAME ; void CCoeControlStaticSettings::SetLogicalToPixelFontSizesL(class RArray<int> const &)
+	?SetSystemTypefaceL@CCoeControlStaticSettings@@SAXABVTDesC16@@@Z @ 408 NONAME ; void CCoeControlStaticSettings::SetSystemTypefaceL(class TDesC16 const &)
+	?SetTextBaselineSpacing@CCoeControl@@UAEXH@Z @ 409 NONAME ; void CCoeControl::SetTextBaselineSpacing(int)
+	?SetTypeface@CCoeFontProvider@@QAEXVTTypeface@@@Z @ 410 NONAME ; void CCoeFontProvider::SetTypeface(class TTypeface)
+	?Typeface@CCoeFontProvider@@QBE?AVTTypeface@@XZ @ 411 NONAME ; class TTypeface CCoeFontProvider::Typeface(void) const
+	?SystemTypeface@CCoeControlStaticSettings@@SAABVTDesC16@@XZ @ 412 NONAME ; class TDesC16 const & CCoeControlStaticSettings::SystemTypeface(void)
+	?TextBaselineOffset@CCoeControl@@UBEHABVTSize@@@Z @ 413 NONAME ; int CCoeControl::TextBaselineOffset(class TSize const &) const
+	?DefaultFontProvider@CCoeEnv@@QBEABVCCoeFontProvider@@XZ @ 414 NONAME ; class CCoeFontProvider const & CCoeEnv::DefaultFontProvider(void) const
+	??0CCoeTextDrawerBase@@IAE@XZ @ 415 NONAME ; CCoeTextDrawerBase::CCoeTextDrawerBase(void)
+	?NumberOfLines@TCoeTextTypeAdaptor@@QBEHXZ @ 416 NONAME ; int TCoeTextTypeAdaptor::NumberOfLines(void) const
+	?LineOfText@TCoeTextTypeAdaptor@@QBE?AVTPtrC16@@HAAHABVCFont@@@Z @ 417 NONAME ; class TPtrC16 TCoeTextTypeAdaptor::LineOfText(int, int &, class CFont const &) const
+	??0XCoeTextDrawer@@QAE@AAVCCoeTextDrawerBase@@@Z @ 418 NONAME ; XCoeTextDrawer::XCoeTextDrawer(class CCoeTextDrawerBase &)
+	??1CCoeTextDrawerBase@@UAE@XZ @ 419 NONAME ; CCoeTextDrawerBase::~CCoeTextDrawerBase(void)
+	??1XCoeTextDrawer@@QAE@XZ @ 420 NONAME ; XCoeTextDrawer::~XCoeTextDrawer(void)
+	??4XCoeTextDrawer@@QAEXAAVCCoeTextDrawerBase@@@Z @ 421 NONAME ; void XCoeTextDrawer::operator=(class CCoeTextDrawerBase &)
+	??CXCoeTextDrawer@@QAEPAVCCoeTextDrawerBase@@XZ @ 422 NONAME ; class CCoeTextDrawerBase * XCoeTextDrawer::operator->(void)
+	?Alignment@CCoeTextDrawerBase@@QBE?AVTGulAlignment@@XZ @ 423 NONAME ; class TGulAlignment CCoeTextDrawerBase::Alignment(void) const
+	?CCoeTextDrawerBase_Reserved10@CCoeTextDrawerBase@@EAEXXZ @ 424 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved10(void)
+	?EffectMargins@CCoeTextDrawerBase@@UAE?AVTMargins8@@XZ @ 425 NONAME ; class TMargins8 CCoeTextDrawerBase::EffectMargins(void)
+	?DrawTextVertical@CCoeTextDrawerBase@@EBEXAAVCGraphicsContext@@ABVTCoeTextTypeAdaptor@@ABVCFont@@ABVTRect@@3H@Z @ 426 NONAME ; void CCoeTextDrawerBase::DrawTextVertical(class CGraphicsContext &, class TCoeTextTypeAdaptor const &, class CFont const &, class TRect const &, class TRect const &, int) const
+	?CCoeTextDrawerBase_Reserved3@CCoeTextDrawerBase@@EAEXXZ @ 427 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved3(void)
+	?CCoeTextDrawerBase_Reserved4@CCoeTextDrawerBase@@EAEXXZ @ 428 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved4(void)
+	?CCoeTextDrawerBase_Reserved5@CCoeTextDrawerBase@@EAEXXZ @ 429 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved5(void)
+	?CCoeTextDrawerBase_Reserved6@CCoeTextDrawerBase@@EAEXXZ @ 430 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved6(void)
+	?CCoeTextDrawerBase_Reserved7@CCoeTextDrawerBase@@EAEXXZ @ 431 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved7(void)
+	?CCoeTextDrawerBase_Reserved8@CCoeTextDrawerBase@@EAEXXZ @ 432 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved8(void)
+	?CCoeTextDrawerBase_Reserved9@CCoeTextDrawerBase@@EAEXXZ @ 433 NONAME ; void CCoeTextDrawerBase::CCoeTextDrawerBase_Reserved9(void)
+	?ClipRect@XCoeTextDrawer@@QBE?AVTRect@@XZ @ 434 NONAME ; class TRect XCoeTextDrawer::ClipRect(void) const
+	?Construct@CCoePlainTextDrawer@@AAEHXZ @ 435 NONAME ABSENT ; int CCoePlainTextDrawer::Construct(void)
+	?Construct@CCoeTextDrawerBase@@IAEHXZ @ 436 NONAME ; int CCoeTextDrawerBase::Construct(void)
+	?DefaultTextDrawer@CCoeEnv@@QBEAAVCCoeTextDrawerBase@@XZ @ 437 NONAME ; class CCoeTextDrawerBase & CCoeEnv::DefaultTextDrawer(void) const
+	?HasRightToLeftDirectionality@TCoeTextTypeAdaptor@@QBEHXZ @ 438 NONAME ; int TCoeTextTypeAdaptor::HasRightToLeftDirectionality(void) const
+	?TextDrawer@CCoeControl@@IBEAAVCCoeTextDrawerBase@@H@Z @ 439 NONAME ; class CCoeTextDrawerBase & CCoeControl::TextDrawer(int) const
+	?GetTextDrawer@MCoeControlBackground@@UBEXAAPAVCCoeTextDrawerBase@@PBVCCoeControl@@@Z @ 440 NONAME ; void MCoeControlBackground::GetTextDrawer(class CCoeTextDrawerBase * &, class CCoeControl const *) const
+	?IsReusable@CCoeTextDrawerBase@@QBEHXZ @ 441 NONAME ; int CCoeTextDrawerBase::IsReusable(void) const
+	?LineGapInPixels@CCoeTextDrawerBase@@QBEHXZ @ 442 NONAME ; int CCoeTextDrawerBase::LineGapInPixels(void) const
+	?DrawText@XCoeTextDrawer@@QBEXAAVCGraphicsContext@@ABVTBidiText@@ABVTRect@@ABVCFont@@@Z @ 443 NONAME ; void XCoeTextDrawer::DrawText(class CGraphicsContext &, class TBidiText const &, class TRect const &, class CFont const &) const
+	?MCoeControlBackground_Reserved1@MCoeControlBackground@@EAEXXZ @ 444 NONAME ; void MCoeControlBackground::MCoeControlBackground_Reserved1(void)
+	?MCoeControlBackground_Reserved2@MCoeControlBackground@@EAEXXZ @ 445 NONAME ; void MCoeControlBackground::MCoeControlBackground_Reserved2(void)
+	?MCoeControlBackground_Reserved3@MCoeControlBackground@@EAEXXZ @ 446 NONAME ; void MCoeControlBackground::MCoeControlBackground_Reserved3(void)
+	?MCoeControlBackground_Reserved4@MCoeControlBackground@@EAEXXZ @ 447 NONAME ; void MCoeControlBackground::MCoeControlBackground_Reserved4(void)
+	?MCoeControlBackground_Reserved5@MCoeControlBackground@@EAEXXZ @ 448 NONAME ; void MCoeControlBackground::MCoeControlBackground_Reserved5(void)
+	?Margins@CCoeTextDrawerBase@@QBE?AVTMargins8@@XZ @ 449 NONAME ; class TMargins8 CCoeTextDrawerBase::Margins(void) const
+	?New@CCoePlainTextDrawer@@SAPAV1@VTRgb@@@Z @ 450 NONAME ; class CCoePlainTextDrawer * CCoePlainTextDrawer::New(class TRgb)
+	?DrawDisplayOrderedText@XCoeTextDrawer@@QBEXAAVCGraphicsContext@@ABVTDesC16@@ABVTRect@@ABVCFont@@@Z @ 451 NONAME ; void XCoeTextDrawer::DrawDisplayOrderedText(class CGraphicsContext &, class TDesC16 const &, class TRect const &, class CFont const &) const
+	?SetAlignment@CCoeTextDrawerBase@@QAEXABVTGulAlignment@@@Z @ 452 NONAME ; void CCoeTextDrawerBase::SetAlignment(class TGulAlignment const &)
+	?SetClipRect@XCoeTextDrawer@@QAEXABVTRect@@@Z @ 453 NONAME ; void XCoeTextDrawer::SetClipRect(class TRect const &)
+	?SetLineGapInPixels@CCoeTextDrawerBase@@QAEXH@Z @ 454 NONAME ; void CCoeTextDrawerBase::SetLineGapInPixels(int)
+	?SetMargins@CCoeTextDrawerBase@@QAEXABVTMargins8@@@Z @ 455 NONAME ; void CCoeTextDrawerBase::SetMargins(class TMargins8 const &)
+	?SetReusable@CCoeTextDrawerBase@@QAEXH@Z @ 456 NONAME ; void CCoeTextDrawerBase::SetReusable(int)
+	?SetTextColor@CCoePlainTextDrawer@@UAEXVTRgb@@@Z @ 457 NONAME ; void CCoePlainTextDrawer::SetTextColor(class TRgb)
+	?TextColor@CCoePlainTextDrawer@@UBE?AVTRgb@@XZ @ 458 NONAME ; class TRgb CCoePlainTextDrawer::TextColor(void) const
+	??0TCoeTextTypeAdaptor@@QAE@ABVTBidiText@@@Z @ 459 NONAME ; TCoeTextTypeAdaptor::TCoeTextTypeAdaptor(class TBidiText const &)
+	??0TCoeTextTypeAdaptor@@QAE@ABVTDesC16@@@Z @ 460 NONAME ; TCoeTextTypeAdaptor::TCoeTextTypeAdaptor(class TDesC16 const &)
+	?MopSupplyObject@CCoePlainTextDrawer@@MAE?AVPtr@TTypeUid@@V3@@Z @ 461 NONAME ; class TTypeUid::Ptr CCoePlainTextDrawer::MopSupplyObject(class TTypeUid)
+	??1CCoeControlArray@@UAE@XZ @ 462 NONAME ; CCoeControlArray::~CCoeControlArray(void)
+	??8TCursor@CCoeControlArray@@QBEHABV01@@Z @ 463 NONAME ; int CCoeControlArray::TCursor::operator==(class CCoeControlArray::TCursor const &) const
+	??9TCursor@CCoeControlArray@@QBEHABV01@@Z @ 464 NONAME ; int CCoeControlArray::TCursor::operator!=(class CCoeControlArray::TCursor const &) const
+	?AppendLC@CCoeControlArray@@QAE?AVTCursor@1@PAVCCoeControl@@H@Z @ 465 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::AppendLC(class CCoeControl *, int)
+	?At@CCoeControlArray@@QAE?AVTCoeControlWithId@@H@Z @ 466 NONAME ; class TCoeControlWithId CCoeControlArray::At(int)
+	?At@CCoeControlArray@@QBE?BVTCoeControlWithId@@H@Z @ 467 NONAME ; class TCoeControlWithId const CCoeControlArray::At(int) const
+	?Begin@CCoeControlArray@@QBE?AVTCursor@1@XZ @ 468 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::Begin(void) const
+	?Components@CCoeControl@@IAEAAVCCoeControlArray@@XZ @ 469 NONAME ; class CCoeControlArray & CCoeControl::Components(void)
+	?Components@CCoeControl@@IBEABVCCoeControlArray@@XZ @ 470 NONAME ; class CCoeControlArray const & CCoeControl::Components(void) const
+	?ControlsOwnedExternally@CCoeControlArray@@QBEHXZ @ 471 NONAME ; int CCoeControlArray::ControlsOwnedExternally(void) const
+	?Count@CCoeControlArray@@QBEHXZ @ 472 NONAME ; int CCoeControlArray::Count(void) const
+	?Ctrl@TCursor@CCoeControlArray@@ABEPAVCCoeControl@@XZ @ 473 NONAME ; class CCoeControl * CCoeControlArray::TCursor::Ctrl(void) const
+	?CtrlById@CCoeControlArray@@ABEPAVCCoeControl@@H@Z @ 474 NONAME ; class CCoeControl * CCoeControlArray::CtrlById(int) const
+	?End@CCoeControlArray@@QBE?AVTCursor@1@XZ @ 475 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::End(void) const
+	?Find@CCoeControlArray@@QBE?AVTCursor@1@H@Z @ 476 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::Find(int) const
+	?Find@CCoeControlArray@@QBE?AVTCursor@1@PBVCCoeControl@@@Z @ 477 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::Find(class CCoeControl const *) const
+	?HandleControlArrayEventL@CCoeControl@@MAEXW4TEvent@CCoeControlArray@@PBV3@PAV1@H@Z @ 478 NONAME ; void CCoeControl::HandleControlArrayEventL(enum CCoeControlArray::TEvent, class CCoeControlArray const *, class CCoeControl *, int)
+	?Id@CCoeControlArray@@QBEHABVCCoeControl@@@Z @ 479 NONAME ; int CCoeControlArray::Id(class CCoeControl const &) const
+	?InitComponentArrayL@CCoeControl@@IAEXXZ @ 480 NONAME ; void CCoeControl::InitComponentArrayL(void)
+	?InsertAfterLC@CCoeControlArray@@QAE?AVTCursor@1@HPAVCCoeControl@@H@Z @ 481 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::InsertAfterLC(int, class CCoeControl *, int)
+	?InsertLC@CCoeControlArray@@QAE?AVTCursor@1@AAV21@PAVCCoeControl@@H@Z @ 482 NONAME ; class CCoeControlArray::TCursor CCoeControlArray::InsertLC(class CCoeControlArray::TCursor &, class CCoeControl *, int)
+	?IsArrayLocked@CCoeControlArray@@QBEHXZ @ 483 NONAME ; int CCoeControlArray::IsArrayLocked(void) const
+	?IsValid@TCursor@CCoeControlArray@@QBEHXZ @ 484 NONAME ; int CCoeControlArray::TCursor::IsValid(void) const
+	?NewL@CCoeControlArray@@SAPAV1@AAVCCoeControl@@@Z @ 485 NONAME ; class CCoeControlArray * CCoeControlArray::NewL(class CCoeControl &)
+	?Next@TCursor@CCoeControlArray@@QAEHXZ @ 486 NONAME ; int CCoeControlArray::TCursor::Next(void)
+	?Prev@TCursor@CCoeControlArray@@QAEHXZ @ 487 NONAME ; int CCoeControlArray::TCursor::Prev(void)
+	?Remove@CCoeControlArray@@QAEHPBVCCoeControl@@@Z @ 488 NONAME ; int CCoeControlArray::Remove(class CCoeControl const *)
+	?Remove@CCoeControlArray@@QAEPAVCCoeControl@@VTCursor@1@@Z @ 489 NONAME ; class CCoeControl * CCoeControlArray::Remove(class CCoeControlArray::TCursor)
+	?RemoveById@CCoeControlArray@@QAEPAVCCoeControl@@H@Z @ 490 NONAME ; class CCoeControl * CCoeControlArray::RemoveById(int)
+	?Replace@CCoeControlArray@@QAEHPAVCCoeControl@@0@Z @ 491 NONAME ; int CCoeControlArray::Replace(class CCoeControl *, class CCoeControl *)
+	?Reserved_CCoeControl_10@CCoeControl@@EAEXXZ @ 492 NONAME ; void CCoeControl::Reserved_CCoeControl_10(void)
+	?Reserved_CCoeControl_11@CCoeControl@@EAEXXZ @ 493 NONAME ; void CCoeControl::Reserved_CCoeControl_11(void)
+	?Reserved_CCoeControl_12@CCoeControl@@EAEXXZ @ 494 NONAME ; void CCoeControl::Reserved_CCoeControl_12(void)
+	?Reserved_CCoeControl_13@CCoeControl@@EAEXXZ @ 495 NONAME ; void CCoeControl::Reserved_CCoeControl_13(void)
+	?Reset@CCoeControlArray@@QAEXXZ @ 496 NONAME ; void CCoeControlArray::Reset(void)
+	?IsViewConstructed@CCoeAppUi@@QBEHABVTVwsViewId@@@Z @ 497 NONAME ; int CCoeAppUi::IsViewConstructed(class TVwsViewId const &) const
+	?DrawNow@CCoeControl@@QBEXABVTRect@@@Z @ 498 NONAME ; void CCoeControl::DrawNow(class TRect const &) const
+	?CustomGc@CCoeControl@@QBEPAVCWindowGc@@XZ @ 499 NONAME ; class CWindowGc * CCoeControl::CustomGc(void) const
+	?AddMessageMonitorObserverL@CCoeEnv@@QAEXAAVMCoeMessageMonitorObserver@@@Z @ 500 NONAME ; void CCoeEnv::AddMessageMonitorObserverL(class MCoeMessageMonitorObserver &)
+	?MCoeMessageMonitorObserver_Reserved_1@MCoeMessageMonitorObserver@@EAEXXZ @ 501 NONAME ; void MCoeMessageMonitorObserver::MCoeMessageMonitorObserver_Reserved_1(void)
+	?MCoeMessageMonitorObserver_Reserved_2@MCoeMessageMonitorObserver@@EAEXXZ @ 502 NONAME ; void MCoeMessageMonitorObserver::MCoeMessageMonitorObserver_Reserved_2(void)
+	?RemoveMessageMonitorObserver@CCoeEnv@@QAEXAAVMCoeMessageMonitorObserver@@@Z @ 503 NONAME ; void CCoeEnv::RemoveMessageMonitorObserver(class MCoeMessageMonitorObserver &)
+	?ConstructL@CCoeEnv@@QAEXHHH@Z @ 504 NONAME ; void CCoeEnv::ConstructL(int, int, int)
+	?AddComponentByIdLC@CCoeControl@@MAEXPAV1@H@Z @ 505 NONAME ABSENT ; void CCoeControl::AddComponentByIdLC(class CCoeControl *, int)
+	?ComponentById@CCoeControl@@MAEPAV1@H@Z @ 506 NONAME ABSENT ; class CCoeControl * CCoeControl::ComponentById(int)
+	?ComponentById@CCoeControl@@MBEPAV1@H@Z @ 507 NONAME ABSENT ; class CCoeControl * CCoeControl::ComponentById(int) const
+	?RemoveComponent@CCoeControl@@MAEHAAV1@@Z @ 508 NONAME ABSENT ; int CCoeControl::RemoveComponent(class CCoeControl &)
+	?RemoveComponentById@CCoeControl@@MAEPAV1@H@Z @ 509 NONAME ABSENT ; class CCoeControl * CCoeControl::RemoveComponentById(int)
+	?SetAppStartupInstrumentationEventIdBaseL@CCoeEnv@@IAEXH@Z @ 510 NONAME
+	??0CCoeStatic@@IAE@XZ @ 511 NONAME ; CCoeStatic::CCoeStatic(void)
+	??0MCoeControlBackground@@IAE@XZ @ 512 NONAME ; MCoeControlBackground::MCoeControlBackground(void)
+	??0MCoeControlContext@@IAE@XZ @ 513 NONAME ; MCoeControlContext::MCoeControlContext(void)
+	??0MCoeControlHitTest@@IAE@XZ @ 514 NONAME ; MCoeControlHitTest::MCoeControlHitTest(void)
+	??0MCoeControlObserver@@IAE@XZ @ 515 NONAME ; MCoeControlObserver::MCoeControlObserver(void)
+	??0MCoeFocusObserver@@IAE@XZ @ 516 NONAME ; MCoeFocusObserver::MCoeFocusObserver(void)
+	??0MCoeForegroundObserver@@IAE@XZ @ 517 NONAME ; MCoeForegroundObserver::MCoeForegroundObserver(void)
+	??0MCoeLayoutManager@@IAE@XZ @ 518 NONAME ; MCoeLayoutManager::MCoeLayoutManager(void)
+	??0MCoeMessageObserver@@IAE@XZ @ 519 NONAME ; MCoeMessageObserver::MCoeMessageObserver(void)
+	??0MCoeObserverOfLoadedFep@@IAE@XZ @ 520 NONAME ; MCoeObserverOfLoadedFep::MCoeObserverOfLoadedFep(void)
+	??0MCoeResourceChangeObserver@@IAE@XZ @ 521 NONAME ; MCoeResourceChangeObserver::MCoeResourceChangeObserver(void)
+	??0MCoeView@@IAE@XZ @ 522 NONAME ; MCoeView::MCoeView(void)
+	??0MCoeViewActivationObserver@@IAE@XZ @ 523 NONAME ; MCoeViewActivationObserver::MCoeViewActivationObserver(void)
+	??0MCoeViewDeactivationObserver@@IAE@XZ @ 524 NONAME ; MCoeViewDeactivationObserver::MCoeViewDeactivationObserver(void)
+	??0MCoeViewObserver@@IAE@XZ @ 525 NONAME ; MCoeViewObserver::MCoeViewObserver(void)
+	??0MObjectProvider@@IAE@XZ @ 526 NONAME ; MObjectProvider::MObjectProvider(void)
+	??0TCoeFont@@QAE@XZ @ 527 NONAME ; TCoeFont::TCoeFont(void)
+	??0TCoeInputCapabilities@@QAE@XZ @ 528 NONAME ; TCoeInputCapabilities::TCoeInputCapabilities(void)
+	?FrameworkCallsRendezvous@CCoeAppUi@@UBEHXZ @ 529 NONAME ; int CCoeAppUi::FrameworkCallsRendezvous(void) const
+	?CCoeAppUi_Reserved_2@CCoeAppUi@@EAEXXZ @ 530 NONAME ; void CCoeAppUi::CCoeAppUi_Reserved_2(void)
+	?CCoeScreenDeviceChangeDefaultHandler_Reserved1@CCoeScreenDeviceChangeDefaultHandler@@EAEXXZ @ 531 NONAME ; void CCoeScreenDeviceChangeDefaultHandler::CCoeScreenDeviceChangeDefaultHandler_Reserved1(void)
+	?CCoeScreenDeviceChangeDefaultHandler_Reserved2@CCoeScreenDeviceChangeDefaultHandler@@EAEXXZ @ 532 NONAME ; void CCoeScreenDeviceChangeDefaultHandler::CCoeScreenDeviceChangeDefaultHandler_Reserved2(void)
+	?CCoeStatic_Reserved1@CCoeScreenDeviceChangeDefaultHandler@@EAEXXZ @ 533 NONAME ; void CCoeScreenDeviceChangeDefaultHandler::CCoeStatic_Reserved1(void)
+	?CCoeStatic_Reserved1@CCoeStatic@@EAEXXZ @ 534 NONAME ; void CCoeStatic::CCoeStatic_Reserved1(void)
+	?CCoeStatic_Reserved2@CCoeScreenDeviceChangeDefaultHandler@@EAEXXZ @ 535 NONAME ; void CCoeScreenDeviceChangeDefaultHandler::CCoeStatic_Reserved2(void)
+	?CCoeStatic_Reserved2@CCoeStatic@@EAEXXZ @ 536 NONAME ; void CCoeStatic::CCoeStatic_Reserved2(void)
+	?MCoeControlContext_Reserved1@MCoeControlContext@@EAEXXZ @ 537 NONAME ; void MCoeControlContext::MCoeControlContext_Reserved1(void)
+	?MCoeControlContext_Reserved2@MCoeControlContext@@EAEXXZ @ 538 NONAME ; void MCoeControlContext::MCoeControlContext_Reserved2(void)
+	?MCoeControlHitTest_Reserved1@MCoeControlHitTest@@EAEXXZ @ 539 NONAME ; void MCoeControlHitTest::MCoeControlHitTest_Reserved1(void)
+	?MCoeControlHitTest_Reserved2@MCoeControlHitTest@@EAEXXZ @ 540 NONAME ; void MCoeControlHitTest::MCoeControlHitTest_Reserved2(void)
+	?MCoeControlObserver_Reserved1@MCoeControlObserver@@EAEXXZ @ 541 NONAME ; void MCoeControlObserver::MCoeControlObserver_Reserved1(void)
+	?MCoeControlObserver_Reserved2@MCoeControlObserver@@EAEXXZ @ 542 NONAME ; void MCoeControlObserver::MCoeControlObserver_Reserved2(void)
+	?MCoeViewObserver_Reserved1@MCoeViewObserver@@EAEXXZ @ 543 NONAME ; void MCoeViewObserver::MCoeViewObserver_Reserved1(void)
+	?MCoeViewObserver_Reserved2@MCoeViewObserver@@EAEXXZ @ 544 NONAME ; void MCoeViewObserver::MCoeViewObserver_Reserved2(void)
+	?MCoeView_Reserved_2@MCoeView@@EAEXXZ @ 545 NONAME ; void MCoeView::MCoeView_Reserved_2(void)
+	?MCoeView_Reserved_3@MCoeView@@EAEXXZ @ 546 NONAME ; void MCoeView::MCoeView_Reserved_3(void)
+	?MObjectProvider_Reserved1@MObjectProvider@@EAEXXZ @ 547 NONAME ; void MObjectProvider::MObjectProvider_Reserved1(void)
+	?MObjectProvider_Reserved2@MObjectProvider@@EAEXXZ @ 548 NONAME ; void MObjectProvider::MObjectProvider_Reserved2(void)
+	?RunError@CCoeEnv@@EAEHH@Z @ 549 NONAME ; int CCoeEnv::RunError(int)
+	?Reset@CCoeTextDrawerBase@@UAEXXZ @ 550 NONAME ; void CCoeTextDrawerBase::Reset(void)
+	?SupportsNonPredictive@TCoeInputCapabilities@@QBEHXZ @ 551 NONAME ; int TCoeInputCapabilities::SupportsNonPredictive(void) const
+	?SetZoomFactor@CCoeEnv@@QAEXABVTZoomFactor@@@Z @ 552 NONAME ; void CCoeEnv::SetZoomFactor(class TZoomFactor const &)
+	?ZoomFactor@CCoeEnv@@QBE?AVTZoomFactor@@XZ @ 553 NONAME ; class TZoomFactor CCoeEnv::ZoomFactor(void) const
+	?Sort@CCoeControlArray@@QAEXV?$TLinearOrder@VTCoeControlWithId@@@@@Z @ 554 NONAME ; void CCoeControlArray::Sort(class TLinearOrder<class TCoeControlWithId>)
+	?ZoomWithType@CCoeControl@@QBEPBVTCoeZoomWithType@@XZ @ 555 NONAME ; class TCoeZoomWithType const * CCoeControl::ZoomWithType(void) const
+	?ParentByDefault@CCoeControlStaticSettings@@SAHXZ @ 556 NONAME ; int CCoeControlStaticSettings::ParentByDefault(void)
+	?SetParentByDefaultL@CCoeControlStaticSettings@@SAXH@Z @ 557 NONAME ; void CCoeControlStaticSettings::SetParentByDefaultL(int)
+	?OrdinalForAllViews@CCoeControlStaticSettings@@SAHXZ @ 558 NONAME ; int CCoeControlStaticSettings::OrdinalForAllViews(void)
+	?SetOrdinalForAllViewsL@CCoeControlStaticSettings@@SAXH@Z @ 559 NONAME ; void CCoeControlStaticSettings::SetOrdinalForAllViewsL(int)
+	??0CCoeControl@@QAE@PAVCCoeEnv@@@Z @ 560 NONAME ; CCoeControl::CCoeControl(class CCoeEnv *)
+	?FocusedByDefault@CCoeControlStaticSettings@@SAHPAVCCoeEnv@@@Z @ 561 NONAME ; int CCoeControlStaticSettings::FocusedByDefault(class CCoeEnv *)
+	?GetInstalledFepIdL@CCoeDataStorage@@QAEXAAVTDes16@@@Z @ 562 NONAME ; void CCoeDataStorage::GetInstalledFepIdL(class TDes16 &)
+	?GetL@CCoeDataStorage@@SAAAV1@AAVCCoeEnv@@@Z @ 563 NONAME ; class CCoeDataStorage & CCoeDataStorage::GetL(class CCoeEnv &)
+	?GetSystemColorListBufferL@CCoeDataStorage@@QAEPAVCBufBase@@XZ @ 564 NONAME ; class CBufBase * CCoeDataStorage::GetSystemColorListBufferL(void)
+	?GetSystemColorListL@CCoeDataStorage@@QAEPAVCColorList@@XZ @ 565 NONAME ; class CColorList * CCoeDataStorage::GetSystemColorListL(void)
+	?NewL@CCoeDataStorage@@SAPAV1@XZ @ 566 NONAME ; class CCoeDataStorage * CCoeDataStorage::NewL(void)
+	?SetFepAttributeL@CCoeDataStorage@@QAEXVTUid@@ABVTDesC8@@@Z @ 567 NONAME ; void CCoeDataStorage::SetFepAttributeL(class TUid, class TDesC8 const &)
+	?SetInstalledFepIdL@CCoeDataStorage@@QAEXABVTDesC16@@@Z @ 568 NONAME ; void CCoeDataStorage::SetInstalledFepIdL(class TDesC16 const &)
+	?SetSystemColorListFromBufferL@CCoeDataStorage@@QAEXABVTDesC8@@@Z @ 569 NONAME ; void CCoeDataStorage::SetSystemColorListFromBufferL(class TDesC8 const &)
+	?SetSystemColorListL@CCoeDataStorage@@QAEXABVCColorList@@@Z @ 570 NONAME ; void CCoeDataStorage::SetSystemColorListL(class CColorList const &)
+	??1CCoeDataStorage@@UAE@XZ @ 571 NONAME ; CCoeDataStorage::~CCoeDataStorage(void)
+	?GetFepAttributeL@CCoeDataStorage@@QAEXVTUid@@AAVTDes8@@@Z @ 572 NONAME ; void CCoeDataStorage::GetFepAttributeL(class TUid, class TDes8 &)
+	?DestroyEnvironmentEnd@CCoeEnv@@IAEXXZ @ 573 NONAME ; void CCoeEnv::DestroyEnvironmentEnd(void)
+	?DestroyEnvironmentStatic@CCoeEnv@@IAEXXZ @ 574 NONAME ; void CCoeEnv::DestroyEnvironmentStatic(void)
+	?PopulateColorArrayL@CCoeDataStorage@@QAEPAVCColorList@@XZ @ 575 NONAME ; class CColorList * CCoeDataStorage::PopulateColorArrayL(void)
+	?ComponentArrayExists@CCoeControl@@QBEHXZ @ 576 NONAME ; int CCoeControl::ComponentArrayExists(void) const
+	?RootWin@CCoeEnv@@QBEPAVRWindowGroup@@H@Z @ 577 NONAME ; class RWindowGroup * CCoeEnv::RootWin(int) const
+	?ScreenDevice@CCoeEnv@@QBEPAVCWsScreenDevice@@H@Z @ 578 NONAME ; class CWsScreenDevice * CCoeEnv::ScreenDevice(int) const
+	?EnableExternalViewSwitches@CCoeAppUi@@QAEHH@Z @ 579 NONAME ; int CCoeAppUi::EnableExternalViewSwitches(int)
+	?SetCustomControl@CCoeAppUi@@QAEXH@Z @ 580 NONAME ; void CCoeAppUi::SetCustomControl(int)
+	?GetTopViewId@CCoeAppUi@@QBEHAAVTVwsViewId@@@Z @ 581 NONAME ; int CCoeAppUi::GetTopViewId(class TVwsViewId &) const
+	?SetWindowGroupOrdinal@CCoeAppUi@@QAEXH@Z @ 582 NONAME ; void CCoeAppUi::SetWindowGroupOrdinal(int)
+	?DeactivateActiveViewIfOwnerMatchL@CCoeAppUi@@QAEXXZ @ 583 NONAME ; void CCoeAppUi::DeactivateActiveViewIfOwnerMatchL(void)
+	?ActualHorizontalAlignment@CCoeTextDrawerBase@@IBE?AW4TGulHAlignment@@ABVTCoeTextTypeAdaptor@@@Z @ 584 NONAME ; enum TGulHAlignment CCoeTextDrawerBase::ActualHorizontalAlignment(class TCoeTextTypeAdaptor const &) const
+	?SetAppLanguage@CCoeTextDrawerBase@@QAEXW4TLanguage@@@Z @ 585 NONAME ; void CCoeTextDrawerBase::SetAppLanguage(enum TLanguage)
+	?CoeEnvConstructorError@CCoeEnv@@IBEHXZ @ 586 NONAME ; int CCoeEnv::CoeEnvConstructorError(void) const
+	?DisableShutdownChecks@CCoeEnv@@QBEHXZ @ 587 NONAME ; int CCoeEnv::DisableShutdownChecks(void) const
+	?Execute@CCoeEnv@@QAEXXZ @ 588 NONAME ; void CCoeEnv::Execute(void)
+	?UpdateViewServerBackgroundColor@CCoeAppUi@@QAEXABVTRgb@@@Z @ 589 NONAME ; void CCoeAppUi::UpdateViewServerBackgroundColor(class TRgb const &)
+	?KCoeSetControlParentByDefault@@3HB @ 590 NONAME ; int const KCoeSetControlParentByDefault
+	??0RCoeResourceLoader@@QAE@AAVCCoeEnv@@@Z @ 591 NONAME ; RCoeResourceLoader::RCoeResourceLoader(class CCoeEnv &)
+	?Close@RCoeResourceLoader@@QAEXXZ @ 592 NONAME ; void RCoeResourceLoader::Close(void)
+	?Open@RCoeResourceLoader@@QAEHAAV?$TBuf@$0BAA@@@@Z @ 593 NONAME ; int RCoeResourceLoader::Open(class TBuf<256> &)
+	?OpenL@RCoeResourceLoader@@QAEXAAV?$TBuf@$0BAA@@@@Z @ 594 NONAME ; void RCoeResourceLoader::OpenL(class TBuf<256> &)
+	?EnableReportControlStateChange@CCoeControl@@QAEXH@Z @ 595 NONAME ; void CCoeControl::EnableReportControlStateChange(int)
+	?DrawDisplayOrderedTextVertical@XCoeTextDrawer@@QBEXAAVCGraphicsContext@@ABVTDesC16@@ABVTRect@@ABVCFont@@H@Z @ 596 NONAME ; void XCoeTextDrawer::DrawDisplayOrderedTextVertical(class CGraphicsContext &, class TDesC16 const &, class TRect const &, class CFont const &, int) const
+	?DrawTextVertical@XCoeTextDrawer@@QBEXAAVCGraphicsContext@@ABVTBidiText@@ABVTRect@@ABVCFont@@H@Z @ 597 NONAME ; void XCoeTextDrawer::DrawTextVertical(class CGraphicsContext &, class TBidiText const &, class TRect const &, class CFont const &, int) const
+	?EnableWindowTransparency@CCoeControl@@IAEXXZ @ 598 NONAME ; void CCoeControl::EnableWindowTransparency(void)
+	?GrabbingComponent@CCoeControl@@IBEPAV1@H@Z @ 599 NONAME ; class CCoeControl * CCoeControl::GrabbingComponent(int) const
+	?ClaimPointerGrab@CCoeControl@@QAEHHH@Z @ 600 NONAME ; int CCoeControl::ClaimPointerGrab(int, int)
+

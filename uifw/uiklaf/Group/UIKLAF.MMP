@@ -1,0 +1,121 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project file for Uiklaf module.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <iconlocations.hrh>
+#include <platform_paths.hrh>
+
+TARGET          uiklaf.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x1000411F
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../resource
+
+START RESOURCE  EIKCORE.RSS
+HEADER
+TARGETPATH      UIKLAF_RESOURCE_DIR
+LANGUAGE_IDS
+END
+
+START RESOURCE  EIKPRIV.RSS
+HEADER
+TARGETPATH      UIKLAF_RESOURCE_DIR
+LANGUAGE_IDS
+END
+
+SOURCEPATH      ../src
+
+USERINCLUDE     .
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+SOURCE          LAFAPPUI.CPP
+SOURCE          lafenv.cpp
+SOURCE          lafgrip.cpp
+SOURCE          lafmain.cpp
+SOURCE          lafmsg.cpp
+SOURCE          lafshut_stub.cpp
+SOURCE          LAFSTD.CPP
+SOURCE          lafsrv.cpp
+SOURCE          lafvcurs.cpp
+SOURCE          lafAknBorders.cpp
+SOURCE          lafcommn.cpp
+source          lafspane.cpp
+source          LafNew.CPP
+source          lafnotcap.cpp
+
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         gdi.lib
+LIBRARY         bafl.lib
+LIBRARY         fbscli.lib
+LIBRARY         ws32.lib
+LIBRARY         egul.lib
+LIBRARY         cone.lib
+LIBRARY         clock.lib
+LIBRARY         form.lib
+LIBRARY         avkon.lib
+LIBRARY         apgrfx.lib
+LIBRARY         aknnotify.lib
+LIBRARY         commonengine.lib
+LIBRARY         eikcore.lib
+LIBRARY         aknskins.lib
+LIBRARY         cdlengine.lib
+LIBRARY	        ESTOR.LIB 
+LIBRARY         EikCoCtlLaf.lib
+LIBRARY         FontUtils.lib
+LIBRARY         AknLayout2Scalable.lib
+LIBRARY         FontProvider.lib
+LIBRARY         AknCapServerClient.lib
+
+#if defined(ARMCC)
+DEFFILE         /epoc32/include/uiklaf/private/eabi/uiklaf.def
+#elif defined(WINS)
+DEFFILE         /epoc32/include/uiklaf/private/bwins/uiklaf.def
+#else
+error
+#endif
+
+START WINS
+    BASEADDRESS 0x70700000
+END
+
+
+START BITMAP    default_app_icon.mbm
+TARGETPATH      resource/apps //APP_BITMAP_DIR
+SOURCEPATH      S60_SRC_BITMAP_DIR
+SOURCE          c8,8 \
+    qgn_menu_am_sis_cxt.bmp \
+    qgn_menu_am_sis_cxt_mask_soft.bmp \
+    qgn_menu_am_sis_lst.bmp \
+    qgn_menu_am_sis_lst_mask_soft.bmp \
+    qgn_menu_am_sis_lst.bmp \
+    qgn_menu_am_sis_lst_mask_soft.bmp
+    // default_app_icon.mbm has 3 icons because CApaAppInfoReaderV2::Read() tries to load so many icons.
+END
+
+// End of file.

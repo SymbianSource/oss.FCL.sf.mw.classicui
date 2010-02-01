@@ -1,0 +1,63 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testdomeditor
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    NOTI
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+
+// -----------------------------------------------------------------------------
+// r_phonenum_editor
+// -----------------------------------------------------------------------------
+//
+RESOURCE PHONE_NUMBER_EDITOR r_phonenum_editor
+    {
+    maxLines = 1;
+    truncation = "==";
+    formats =
+        {
+        PHONE_NUMBER_EDITOR_FORMAT
+            {
+            top = 64;
+            left = 5;
+            bottom = 90;
+            right = 90;
+            lines = 1;
+            bottomBaselineOffset = 5;
+            baselineSeparation = 5;
+            font = ELatinBold19;
+            }
+        };
+    }
+
+// End of File

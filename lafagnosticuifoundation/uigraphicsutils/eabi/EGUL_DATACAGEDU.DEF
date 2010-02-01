@@ -1,0 +1,264 @@
+EXPORTS
+	_ZN10CColorList14AddColorArrayLE4TUidP11CColorArray @ 1 NONAME
+	_ZN10CColorList16DeleteColorArrayE4TUid @ 2 NONAME
+	_ZN10CColorList4NewLEP9CArrayFixI4TRgbE @ 3 NONAME
+	_ZN10CColorList8SetColorE13TLogicalColor4TRgb @ 4 NONAME
+	_ZN10CColorListD0Ev @ 5 NONAME
+	_ZN10CColorListD1Ev @ 6 NONAME
+	_ZN10CColorListD2Ev @ 7 NONAME
+	_ZN10CSpriteSet10AddMemberLEP8CGulIcon @ 8 NONAME
+	_ZN10CSpriteSet12RemoveMemberEi @ 9 NONAME
+	_ZN10CSpriteSet15SetClippingRectERK5TRect @ 10 NONAME
+	_ZN10CSpriteSet20StopDisplayingSpriteEv @ 11 NONAME
+	_ZN10CSpriteSet22StartDisplayingSpriteLEv @ 12 NONAME
+	_ZN10CSpriteSet23TranslateSpritePositionERK6TPoint @ 13 NONAME
+	_ZN10CSpriteSet24PrepareSpriteForDisplayLEiRK6TPointRK5TSizeNS_17TSpriteResizeModeE @ 14 NONAME
+	_ZN10CSpriteSet4NewLER15RWindowTreeNodeR10RWsSessionR15CWsScreenDeviceP8CGulIconi @ 15 NONAME
+	_ZN10CSpriteSet5NewLCER15RWindowTreeNodeR10RWsSessionR15CWsScreenDeviceP8CGulIconi @ 16 NONAME
+	_ZN10ColorUtils11ColorAdjustE4TRgbi @ 17 NONAME
+	_ZN10ColorUtils14RgbDarkerColorE4TRgb12TDisplayMode @ 18 NONAME
+	_ZN10ColorUtils15RgbLighterColorE4TRgb12TDisplayMode @ 19 NONAME
+	_ZN10ColorUtils17RgbMidDarkerColorE4TRgb12TDisplayMode @ 20 NONAME
+	_ZN10ColorUtils21CreateGradientBitmapLER10CFbsBitmapRK10RWsSessioniNS_18TBitmapOrientationE4TRgbS6_ @ 21 NONAME
+	_Z16ColorUtils_Stub1v @ 22 NONAME
+	_Z16ColorUtils_Stub2v @ 23 NONAME
+	_Z16ColorUtils_Stub3v @ 24 NONAME
+	_ZN10ColorUtils25GetRgbDerivedBorderColorsERN10TGulBorder7TColorsE4TRgb12TDisplayMode @ 25 NONAME
+	_ZN10TGulBorder11SetAdjacentEi @ 26 NONAME
+	_ZN10TGulBorder7SetTypeEi @ 27 NONAME
+	_ZN10TGulBorder7TColorsC1Ev @ 28 NONAME
+	_ZN10TGulBorder7TColorsC2Ev @ 29 NONAME
+	_ZN10TGulBorderC1ENS_11TBorderTypeE @ 30 NONAME
+	_ZN10TGulBorderC1ENS_11TBorderTypeE12TGulAdjacent @ 31 NONAME
+	_ZN10TGulBorderC1Ei @ 32 NONAME
+	_ZN10TGulBorderC1Ei12TGulAdjacent @ 33 NONAME
+	_ZN10TGulBorderC1Ev @ 34 NONAME
+	_ZN10TGulBorderC2ENS_11TBorderTypeE @ 35 NONAME
+	_ZN10TGulBorderC2ENS_11TBorderTypeE12TGulAdjacent @ 36 NONAME
+	_ZN10TGulBorderC2Ei @ 37 NONAME
+	_ZN10TGulBorderC2Ei12TGulAdjacent @ 38 NONAME
+	_ZN10TGulBorderC2Ev @ 39 NONAME
+	_ZN11CColorArray4AddLEi4TRgb @ 40 NONAME
+	_ZN11CColorArray4NewLEv @ 41 NONAME
+	_ZN11CColorArray5NewLCEv @ 42 NONAME
+	_ZN11CColorArray5ResetEv @ 43 NONAME
+	_ZN11CColorArray6RemoveEi @ 44 NONAME
+	_ZN11CColorArray8SetColorEi4TRgb @ 45 NONAME
+	_ZN11CColorArrayD0Ev @ 46 NONAME
+	_ZN11CColorArrayD1Ev @ 47 NONAME
+	_ZN11CColorArrayD2Ev @ 48 NONAME
+	_ZN12TLogicalFontC1E4TUid @ 49 NONAME
+	_ZN12TLogicalFontC1E4TUidNS_13TFontCategoryENS_10TFontStyleERK11TZoomFactor @ 50 NONAME
+	_ZN12TLogicalFontC1ENS_13TFontCategoryENS_10TFontStyleERK11TZoomFactor @ 51 NONAME
+	_ZN12TLogicalFontC1Ev @ 52 NONAME
+	_ZN12TLogicalFontC2E4TUid @ 53 NONAME
+	_ZN12TLogicalFontC2E4TUidNS_13TFontCategoryENS_10TFontStyleERK11TZoomFactor @ 54 NONAME
+	_ZN12TLogicalFontC2ENS_13TFontCategoryENS_10TFontStyleERK11TZoomFactor @ 55 NONAME
+	_ZN12TLogicalFontC2Ev @ 56 NONAME
+	_ZN13ResourceUtils16ReadResourceIntLER15TResourceReaderNS_16TResourceTypeIntE @ 57 NONAME
+	_ZN13ResourceUtils17CreateScreenFontLER15TResourceReaderR15CWsScreenDevice @ 58 NONAME
+	_ZN13ResourceUtils19PopulateColorArrayLER11CColorArrayR15TResourceReader @ 59 NONAME
+	_ZN13ResourceUtils22CreateNamedScreenFontLER15TResourceReaderR15CWsScreenDevice @ 60 NONAME
+	_ZN13ResourceUtils30CreateNamedScreenFontInPixelsLER15TResourceReaderR15CWsScreenDevice @ 61 NONAME
+	_ZN13TGulAlignment13SetHAlignmentE14TGulHAlignment @ 62 NONAME
+	_ZN13TGulAlignment13SetVAlignmentE14TGulVAlignment @ 63 NONAME
+	_ZN17MGulLogicalBorder25MGulLogicalBorderReservedEv @ 64 NONAME
+	_ZN21CCleanupStackableFont10NewByNameLER15TResourceReaderR15CWsScreenDevice @ 65 NONAME
+	_ZN21CCleanupStackableFont11NewByNameLCER15TResourceReaderR15CWsScreenDevice @ 66 NONAME
+	_ZN21CCleanupStackableFont19TakeOwnershipOfFontEv @ 67 NONAME
+	_ZN21CCleanupStackableFont4NewLER15TResourceReaderR15CWsScreenDevice @ 68 NONAME
+	_ZN21CCleanupStackableFont5NewLCER15TResourceReaderR15CWsScreenDevice @ 69 NONAME
+	_ZN21CCleanupStackableFontD0Ev @ 70 NONAME
+	_ZN21CCleanupStackableFontD1Ev @ 71 NONAME
+	_ZN21CCleanupStackableFontD2Ev @ 72 NONAME
+	_ZN23TFindWidthOfWidestDigitC1Ev @ 73 NONAME
+	_ZN23TFindWidthOfWidestDigitC2Ev @ 74 NONAME
+	_ZN24CWindowToBitmapMappingGc19SetFadingParametersEhh @ 75 NONAME
+	_ZN24CWindowToBitmapMappingGc4NewLER15CWsScreenDeviceR9CFbsBitGc @ 76 NONAME
+	_ZN24CWindowToBitmapMappingGc8SetFadedEi @ 77 NONAME
+	_ZN25TFindWidthOfWidestDayNameC1Ev @ 78 NONAME
+	_ZN25TFindWidthOfWidestDayNameC2Ev @ 79 NONAME
+	_ZN26TFindWidthOfWidestAmPmNameC1Ev @ 80 NONAME
+	_ZN26TFindWidthOfWidestAmPmNameC2Ev @ 81 NONAME
+	_ZN27TFindWidthOfWidestDigitTypeC1E10TDigitType @ 82 NONAME
+	_ZN27TFindWidthOfWidestDigitTypeC2E10TDigitType @ 83 NONAME
+	_ZN27TFindWidthOfWidestMonthNameC1Ev @ 84 NONAME
+	_ZN27TFindWidthOfWidestMonthNameC2Ev @ 85 NONAME
+	_ZN28TFindWidthOfWidestDateSuffixC1Ev @ 86 NONAME
+	_ZN28TFindWidthOfWidestDateSuffixC2Ev @ 87 NONAME
+	_ZN36TFindWidthOfWidestAbbreviatedDayNameC1Ev @ 88 NONAME
+	_ZN36TFindWidthOfWidestAbbreviatedDayNameC2Ev @ 89 NONAME
+	_ZN38TFindWidthOfWidestAbbreviatedMonthNameC1Ev @ 90 NONAME
+	_ZN38TFindWidthOfWidestAbbreviatedMonthNameC2Ev @ 91 NONAME
+	_ZN6GulTls13LogicalBorderEv @ 92 NONAME
+	_ZN6GulTls16SetLogicalBorderEP17MGulLogicalBorder @ 93 NONAME
+	_ZN8CGulIcon25SetBitmapsOwnedExternallyEi @ 94 NONAME
+	_ZN8CGulIcon4NewLEP10CFbsBitmapS1_ @ 95 NONAME
+	_ZN8CGulIcon4NewLEv @ 96 NONAME
+	_ZN8CGulIcon5NewLCEv @ 97 NONAME
+	_ZN8CGulIcon7SetMaskEP10CFbsBitmap @ 98 NONAME
+	_ZN8CGulIcon9SetBitmapEP10CFbsBitmap @ 99 NONAME
+	_ZN8CGulIconD0Ev @ 100 NONAME
+	_ZN8CGulIconD1Ev @ 101 NONAME
+	_ZN8CGulIconD2Ev @ 102 NONAME
+	_ZN9DrawUtils16DrawBetweenRectsER16CGraphicsContextRK5TRectS4_ @ 103 NONAME
+	_ZN9DrawUtils17ClearBetweenRectsER16CGraphicsContextRK5TRectS4_ @ 104 NONAME
+	_ZN9DrawUtils8DrawTextER16CGraphicsContextRK7TDesC16RK5TRectiNS0_10TTextAlignEiPK5CFont @ 105 NONAME
+	_ZN9FontUtils15PointsFromTwipsEi @ 106 NONAME
+	_ZN9FontUtils15TwipsFromPointsERK7TDesC16 @ 107 NONAME
+	_ZN9FontUtils15TwipsFromPointsEi @ 108 NONAME
+	_ZN9FontUtils18GetAvailableFontsLERK15CGraphicsDeviceR12CDesC16Arrayi @ 109 NONAME
+	_ZN9FontUtils18TypefaceAttributesERK15CGraphicsDeviceRK7TDesC16 @ 110 NONAME
+	_ZN9FontUtils20IndexOfNearestHeightER9CArrayFixIiEi @ 111 NONAME
+	_ZN9FontUtils27GetAvailableHeightsInTwipsLERK15CGraphicsDeviceRK7TDesC16R9CArrayFixIiE @ 112 NONAME
+	_ZN9FontUtils36GetAvailableHeightsInTwipsAndPointsLERK15CGraphicsDeviceRK7TDesC16R9CArrayFixIiER12CDesC16Array @ 113 NONAME
+	_ZN9TMargins814SetAllValuesToEi @ 114 NONAME
+	_ZN9TMargins8C1Ev @ 115 NONAME
+	_ZN9TMargins8C2Ev @ 116 NONAME
+	_ZN9TextUtils10ColumnTextER7TPtrC16iPK7TDesC165TChar @ 117 NONAME
+	_ZN9TextUtils18TruncateToNumCharsER6TDes16i @ 118 NONAME
+	_ZN9TextUtils9ClipToFitER6TDes16RK5CFonti5TChar @ 119 NONAME
+	_ZNK10CColorList10ColorArrayE4TUid @ 120 NONAME
+	_ZNK10CColorList18ContainsColorArrayE4TUid @ 121 NONAME
+	_ZNK10CColorList5ColorE13TLogicalColor @ 122 NONAME
+	_ZNK10CColorList5ColorE4TUidi @ 123 NONAME
+	_ZNK10CSpriteSet8SpriteGcEv @ 124 NONAME
+	_ZNK10TGulBorder4DrawER16CGraphicsContextRK5TRect @ 125 NONAME
+	_ZNK10TGulBorder4DrawER16CGraphicsContextRK5TRectRKNS_7TColorsE @ 126 NONAME
+	_ZNK10TGulBorder4TypeEv @ 127 NONAME
+	_ZNK10TGulBorder7MarginsEv @ 128 NONAME
+	_ZNK10TGulBorder8AdjacentEv @ 129 NONAME
+	_ZNK10TGulBorder8RoundingEv @ 130 NONAME
+	_ZNK10TGulBorder9HasBorderEv @ 131 NONAME
+	_ZNK10TGulBorder9InnerRectERK5TRect @ 132 NONAME
+	_ZNK10TGulBorder9OuterRectERK5TRect @ 133 NONAME
+	_ZNK10TGulBorder9SizeDeltaEv @ 134 NONAME
+	_ZNK10TGulBorder9ThicknessEv @ 135 NONAME
+	_ZNK11CColorArray5ColorEi @ 136 NONAME
+	_ZNK11CColorArray5CountEv @ 137 NONAME
+	_ZNK11CColorArray8ContainsEi @ 138 NONAME
+	_ZNK13TGulAlignment12InnerTopLeftERK5TRectRK5TSize @ 139 NONAME
+	_ZNK13TGulAlignment9InnerRectERK5TRectRK5TSize @ 140 NONAME
+	_ZNK21CCleanupStackableFont4FontEv @ 141 NONAME
+	_ZNK26TFindWidthOfWidestTextItem20MaximumWidthInPixelsERK5CFont @ 142 NONAME
+	_ZNK8CGulIcon22BitmapsOwnedExternallyEv @ 143 NONAME
+	_ZNK8CGulIcon4MaskEv @ 144 NONAME
+	_ZNK8CGulIcon6BitmapEv @ 145 NONAME
+	_ZNK9TMargins89InnerRectERK5TRect @ 146 NONAME
+	_ZNK9TMargins89OuterRectERK5TRect @ 147 NONAME
+	_ZNK9TMargins89SizeDeltaEv @ 148 NONAME
+	_ZTI17MGulLogicalBorder @ 149 NONAME ; #<TI>#
+	_ZTI21CCleanupStackableFont @ 150 NONAME ; #<TI>#
+	_ZTI23TFindWidthOfWidestDigit @ 151 NONAME ; #<TI>#
+	_ZTI25TFindWidthOfWidestDayName @ 152 NONAME ; #<TI>#
+	_ZTI26TFindWidthOfWidestAmPmName @ 153 NONAME ; #<TI>#
+	_ZTI27TFindWidthOfWidestDigitType @ 154 NONAME ; #<TI>#
+	_ZTI27TFindWidthOfWidestMonthName @ 155 NONAME ; #<TI>#
+	_ZTI28TFindWidthOfWidestDateSuffix @ 156 NONAME ; #<TI>#
+	_ZTI36TFindWidthOfWidestAbbreviatedDayName @ 157 NONAME ; #<TI>#
+	_ZTI38TFindWidthOfWidestAbbreviatedMonthName @ 158 NONAME ; #<TI>#
+	_ZTV17MGulLogicalBorder @ 159 NONAME ; #<VT>#
+	_ZTV21CCleanupStackableFont @ 160 NONAME ; #<VT>#
+	_ZTV23TFindWidthOfWidestDigit @ 161 NONAME ; #<VT>#
+	_ZTV25TFindWidthOfWidestDayName @ 162 NONAME ; #<VT>#
+	_ZTV26TFindWidthOfWidestAmPmName @ 163 NONAME ; #<VT>#
+	_ZTV27TFindWidthOfWidestDigitType @ 164 NONAME ; #<VT>#
+	_ZTV27TFindWidthOfWidestMonthName @ 165 NONAME ; #<VT>#
+	_ZTV28TFindWidthOfWidestDateSuffix @ 166 NONAME ; #<VT>#
+	_ZTV36TFindWidthOfWidestAbbreviatedDayName @ 167 NONAME ; #<VT>#
+	_ZTV38TFindWidthOfWidestAbbreviatedMonthName @ 168 NONAME ; #<VT>#
+	_ZTI10CColorList @ 169 NONAME ; #<TI>#
+	_ZTI10CSpriteSet @ 170 NONAME ; #<TI>#
+	_ZTI11CColorArray @ 171 NONAME ; #<TI>#
+	_ZTI24CWindowToBitmapMappingGc @ 172 NONAME ; #<TI>#
+	_ZTI8CGulIcon @ 173 NONAME ; #<TI>#
+	_ZTV10CColorList @ 174 NONAME ; #<VT>#
+	_ZTV10CSpriteSet @ 175 NONAME ; #<VT>#
+	_ZTV11CColorArray @ 176 NONAME ; #<VT>#
+	_ZTV24CWindowToBitmapMappingGc @ 177 NONAME ; #<VT>#
+	_ZTV8CGulIcon @ 178 NONAME ; #<VT>#
+	_ZN10CColorList12InternalizeLER11RReadStream @ 179 NONAME
+	_ZN10CColorList5NewLCEv @ 180 NONAME
+	_ZN10CColorList6MergeLERKS_ @ 181 NONAME
+	_ZNK10CColorList12ExternalizeLER12RWriteStream @ 182 NONAME
+	_ZN13TGulAlignment13SetHAlignmentEN16CGraphicsContext10TTextAlignE @ 183 NONAME
+	_ZNK10CColorList5CountEv @ 184 NONAME
+	_ZN24CWindowToBitmapMappingGc16DrawBitmapMaskedERK5TRectPK10CFbsBitmapS2_S5_i @ 185 NONAME
+	_ZN24CWindowToBitmapMappingGc16DrawBitmapMaskedERK5TRectPK9CWsBitmapS2_S5_i @ 186 NONAME
+	_ZN24CWindowToBitmapMappingGc17AlphaBlendBitmapsERK6TPointPK10CFbsBitmapRK5TRectS5_S2_ @ 187 NONAME
+	_ZN24CWindowToBitmapMappingGc17AlphaBlendBitmapsERK6TPointPK9CWsBitmapRK5TRectS5_S2_ @ 188 NONAME
+	_ZN24CWindowToBitmapMappingGc9SetOpaqueEi @ 189 NONAME
+	_ZN24CWindowToBitmapMappingGc10DeactivateEv @ 190 NONAME
+	_ZN24CWindowToBitmapMappingGc10DrawBitmapERK5TRectPK10CFbsBitmap @ 191 NONAME
+	_ZN24CWindowToBitmapMappingGc10DrawBitmapERK5TRectPK10CFbsBitmapS2_ @ 192 NONAME
+	_ZN24CWindowToBitmapMappingGc10DrawBitmapERK6TPointPK10CFbsBitmap @ 193 NONAME
+	_ZN24CWindowToBitmapMappingGc10DrawLineByERK6TPoint @ 194 NONAME
+	_ZN24CWindowToBitmapMappingGc10DrawLineToERK6TPoint @ 195 NONAME
+	_ZN24CWindowToBitmapMappingGc10SetPenSizeERK5TSize @ 196 NONAME
+	_ZN24CWindowToBitmapMappingGc11DiscardFontEv @ 197 NONAME
+	_ZN24CWindowToBitmapMappingGc11DrawEllipseERK5TRect @ 198 NONAME
+	_ZN24CWindowToBitmapMappingGc11DrawPolygonEPK6TPointiN16CGraphicsContext9TFillRuleE @ 199 NONAME
+	_ZN24CWindowToBitmapMappingGc11DrawPolygonEPK9CArrayFixI6TPointEN16CGraphicsContext9TFillRuleE @ 200 NONAME
+	_ZN24CWindowToBitmapMappingGc11SetDrawModeEN16CGraphicsContext9TDrawModeE @ 201 NONAME
+	_ZN24CWindowToBitmapMappingGc11SetPenColorERK4TRgb @ 202 NONAME
+	_ZN24CWindowToBitmapMappingGc11SetPenStyleEN16CGraphicsContext9TPenStyleE @ 203 NONAME
+	_ZN24CWindowToBitmapMappingGc12BitBltMaskedERK6TPointPK10CFbsBitmapRK5TRectS5_i @ 204 NONAME
+	_ZN24CWindowToBitmapMappingGc12BitBltMaskedERK6TPointPK9CWsBitmapRK5TRectS5_i @ 205 NONAME
+	_ZN24CWindowToBitmapMappingGc12DrawPolyLineEPK6TPointi @ 206 NONAME
+	_ZN24CWindowToBitmapMappingGc12DrawPolyLineEPK9CArrayFixI6TPointE @ 207 NONAME
+	_ZN24CWindowToBitmapMappingGc13DrawRoundRectERK5TRectRK5TSize @ 208 NONAME
+	_ZN24CWindowToBitmapMappingGc13SetBrushColorERK4TRgb @ 209 NONAME
+	_ZN24CWindowToBitmapMappingGc13SetBrushStyleEN16CGraphicsContext11TBrushStyleE @ 210 NONAME
+	_ZN24CWindowToBitmapMappingGc14SetBrushOriginERK6TPoint @ 211 NONAME
+	_ZN24CWindowToBitmapMappingGc15SetClippingRectERK5TRect @ 212 NONAME
+	_ZN24CWindowToBitmapMappingGc15SetDitherOriginERK6TPoint @ 213 NONAME
+	_ZN24CWindowToBitmapMappingGc15UseBrushPatternEPK10CFbsBitmap @ 214 NONAME
+	_ZN24CWindowToBitmapMappingGc16DrawTextVerticalERK7TDesC16RK5TRectiiN16CGraphicsContext10TTextAlignEi @ 215 NONAME
+	_ZN24CWindowToBitmapMappingGc16DrawTextVerticalERK7TDesC16RK6TPointi @ 216 NONAME
+	_ZN24CWindowToBitmapMappingGc17SetClippingRegionERK7TRegion @ 217 NONAME
+	_ZN24CWindowToBitmapMappingGc17SetUnderlineStyleE14TFontUnderline @ 218 NONAME
+	_ZN24CWindowToBitmapMappingGc18CancelClippingRectEv @ 219 NONAME
+	_ZN24CWindowToBitmapMappingGc19DiscardBrushPatternEv @ 220 NONAME
+	_ZN24CWindowToBitmapMappingGc20CancelClippingRegionEv @ 221 NONAME
+	_ZN24CWindowToBitmapMappingGc20SetCharJustificationEii @ 222 NONAME
+	_ZN24CWindowToBitmapMappingGc20SetWordJustificationEii @ 223 NONAME
+	_ZN24CWindowToBitmapMappingGc21SetStrikethroughStyleE18TFontStrikethrough @ 224 NONAME
+	_ZN24CWindowToBitmapMappingGc4PlotERK6TPoint @ 225 NONAME
+	_ZN24CWindowToBitmapMappingGc5ClearERK5TRect @ 226 NONAME
+	_ZN24CWindowToBitmapMappingGc5ClearEv @ 227 NONAME
+	_ZN24CWindowToBitmapMappingGc5ResetEv @ 228 NONAME
+	_ZN24CWindowToBitmapMappingGc6BitBltERK6TPointPK10CFbsBitmap @ 229 NONAME
+	_ZN24CWindowToBitmapMappingGc6BitBltERK6TPointPK10CFbsBitmapRK5TRect @ 230 NONAME
+	_ZN24CWindowToBitmapMappingGc6BitBltERK6TPointPK9CWsBitmap @ 231 NONAME
+	_ZN24CWindowToBitmapMappingGc6BitBltERK6TPointPK9CWsBitmapRK5TRect @ 232 NONAME
+	_ZN24CWindowToBitmapMappingGc6MoveByERK6TPoint @ 233 NONAME
+	_ZN24CWindowToBitmapMappingGc6MoveToERK6TPoint @ 234 NONAME
+	_ZN24CWindowToBitmapMappingGc7DrawArcERK5TRectRK6TPointS5_ @ 235 NONAME
+	_ZN24CWindowToBitmapMappingGc7DrawPieERK5TRectRK6TPointS5_ @ 236 NONAME
+	_ZN24CWindowToBitmapMappingGc7UseFontEPK5CFont @ 237 NONAME
+	_ZN24CWindowToBitmapMappingGc8ActivateER15RDrawableWindow @ 238 NONAME
+	_ZN24CWindowToBitmapMappingGc8CopyRectERK6TPointRK5TRect @ 239 NONAME
+	_ZN24CWindowToBitmapMappingGc8DrawLineERK6TPointS2_ @ 240 NONAME
+	_ZN24CWindowToBitmapMappingGc8DrawRectERK5TRect @ 241 NONAME
+	_ZN24CWindowToBitmapMappingGc8DrawTextERK7TDesC16RK5TRectiN16CGraphicsContext10TTextAlignEi @ 242 NONAME
+	_ZN24CWindowToBitmapMappingGc8DrawTextERK7TDesC16RK6TPoint @ 243 NONAME
+	_ZN24CWindowToBitmapMappingGc9MapColorsERK5TRectPK4TRgbii @ 244 NONAME
+	_ZN24CWindowToBitmapMappingGc9SetOriginERK6TPoint @ 245 NONAME
+	_ZN24CWindowToBitmapMappingGcC1ER15CWsScreenDeviceR9CFbsBitGc @ 246 NONAME
+	_ZN24CWindowToBitmapMappingGcC2ER15CWsScreenDeviceR9CFbsBitGc @ 247 NONAME
+	_ZN24CWindowToBitmapMappingGcD0Ev @ 248 NONAME
+	_ZN24CWindowToBitmapMappingGcD1Ev @ 249 NONAME
+	_ZN24CWindowToBitmapMappingGcD2Ev @ 250 NONAME
+	_ZNK24CWindowToBitmapMappingGc6DeviceEv @ 251 NONAME
+	_ZN13TGulAlignment13SetHAlignmentEN11CParaFormat10TAlignmentE @ 252 NONAME
+	_ZN13TGulAlignment21SetAbsoluteHAlignmentEi @ 253 NONAME
+	_ZN9TMargins8C1Eaaaa @ 254 NONAME
+	_ZN9TMargins8C2Eaaaa @ 255 NONAME
+	_ZNK13TGulAlignment10HAlignmentEN9TBidiText15TDirectionalityE @ 256 NONAME
+	_ZNK13TGulAlignment12InnerTopLeftERK5TRectRK5TSizeN9TBidiText15TDirectionalityE @ 257 NONAME
+	_ZNK13TGulAlignment21HasAbsoluteHAlignmentEv @ 258 NONAME
+	_ZNK13TGulAlignment9InnerRectERK5TRectRK5TSizeN9TBidiText15TDirectionalityE @ 259 NONAME
+	_ZNK13TGulAlignment9ParaAlignEv @ 260 NONAME
+	_ZNK13TGulAlignment9TextAlignEN9TBidiText15TDirectionalityE @ 261 NONAME
+	_ZNK13TGulAlignmentcv18TGulAlignmentValueEv @ 262 NONAME
+

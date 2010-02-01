@@ -1,0 +1,12 @@
+EXPORTS
+	?AddObserver@CAknTransitionUtils@@SAHPAVMAknTransitionUtilsObserver@@HPBVTDesC8@@@Z @ 1 NONAME ; int AknTransitionUtils::AddObserver(class MAknTransitionUtilsObserver *, int, class TDesC8 const *)
+	?GetData@CAknTransitionUtils@@SAPAXH@Z @ 2 NONAME ; class TAny * AknTransitionUtils::GetData(int)
+	?GetState@CAknTransitionUtils@@SAHHPAHPAVTDes8@@@Z @ 3 NONAME ; int AknTransitionUtils::GetState(int, int *, class TDes8 *)
+	?RemoveData@CAknTransitionUtils@@SAXH@Z @ 4 NONAME ; void AknTransitionUtils::RemoveData(int)
+	?RemoveObserver@CAknTransitionUtils@@SAHPAVMAknTransitionUtilsObserver@@H@Z @ 5 NONAME ; int AknTransitionUtils::RemoveObserver(class MAknTransitionUtilsObserver *, int)
+	?SetAllParents@CAknTransitionUtils@@SAXPBVCCoeControl@@@Z @ 6 NONAME ; void AknTransitionUtils::SetAllParents(class CCoeControl const *)
+	?SetData@CAknTransitionUtils@@SAHHPAX@Z @ 7 NONAME ; int AknTransitionUtils::SetData(int, class TAny *)
+	?TransitionsEnabled@CAknTransitionUtils@@SAHH@Z @ 8 NONAME ; int CAknTransitionUtils::TransitionsEnabled(int)
+	?MakeVisibleSubComponents@CAknTransitionUtils@@SAHPAVCCoeControl@@W4TMakeVisibleSubComponentsInfo@1@@Z @ 9 NONAME ; int CAknTransitionUtils::MakeVisibleSubComponents(class CCoeControl *, enum CAknTransitionUtils::TMakeVisibleSubComponentsInfo)
+	?GetDemarcation@CAknTransitionUtils@@SAHW4TGfxControlType@1@AAVTRect@@@Z @ 10 NONAME ; int CAknTransitionUtils::GetDemarcation(enum CAknTransitionUtils::TGfxControlType, class TRect &)
+

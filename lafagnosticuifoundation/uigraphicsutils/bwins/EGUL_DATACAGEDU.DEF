@@ -1,0 +1,203 @@
+EXPORTS
+	??0TColors@TGulBorder@@QAE@XZ @ 1 NONAME ; public: __thiscall TGulBorder::TColors::TColors(void)
+	??0TFindWidthOfWidestAbbreviatedDayName@@QAE@XZ @ 2 NONAME ; public: __thiscall TFindWidthOfWidestAbbreviatedDayName::TFindWidthOfWidestAbbreviatedDayName(void)
+	??0TFindWidthOfWidestAbbreviatedMonthName@@QAE@XZ @ 3 NONAME ; public: __thiscall TFindWidthOfWidestAbbreviatedMonthName::TFindWidthOfWidestAbbreviatedMonthName(void)
+	??0TFindWidthOfWidestAmPmName@@QAE@XZ @ 4 NONAME ; public: __thiscall TFindWidthOfWidestAmPmName::TFindWidthOfWidestAmPmName(void)
+	??0TFindWidthOfWidestDateSuffix@@QAE@XZ @ 5 NONAME ; public: __thiscall TFindWidthOfWidestDateSuffix::TFindWidthOfWidestDateSuffix(void)
+	??0TFindWidthOfWidestDayName@@QAE@XZ @ 6 NONAME ; public: __thiscall TFindWidthOfWidestDayName::TFindWidthOfWidestDayName(void)
+	??0TFindWidthOfWidestDigit@@QAE@XZ @ 7 NONAME ; public: __thiscall TFindWidthOfWidestDigit::TFindWidthOfWidestDigit(void)
+	??0TFindWidthOfWidestMonthName@@QAE@XZ @ 8 NONAME ; public: __thiscall TFindWidthOfWidestMonthName::TFindWidthOfWidestMonthName(void)
+	??0TGulBorder@@QAE@H@Z @ 9 NONAME ; public: __thiscall TGulBorder::TGulBorder(int)
+	??0TGulBorder@@QAE@HW4TGulAdjacent@@@Z @ 10 NONAME ; public: __thiscall TGulBorder::TGulBorder(int,enum TGulAdjacent)
+	??0TGulBorder@@QAE@W4TBorderType@0@@Z @ 11 NONAME ; public: __thiscall TGulBorder::TGulBorder(enum TGulBorder::TBorderType)
+	??0TGulBorder@@QAE@W4TBorderType@0@W4TGulAdjacent@@@Z @ 12 NONAME ; public: __thiscall TGulBorder::TGulBorder(enum TGulBorder::TBorderType,enum TGulAdjacent)
+	??0TGulBorder@@QAE@XZ @ 13 NONAME ; public: __thiscall TGulBorder::TGulBorder(void)
+	??0TMargins8@@QAE@XZ @ 14 NONAME ; public: __thiscall TMargins8::TMargins8(void)
+	??1CCleanupStackableFont@@UAE@XZ @ 15 NONAME ; public: virtual __thiscall CCleanupStackableFont::~CCleanupStackableFont(void)
+	??1CColorArray@@UAE@XZ @ 16 NONAME ; public: virtual __thiscall CColorArray::~CColorArray(void)
+	??1CColorList@@UAE@XZ @ 17 NONAME ; public: virtual __thiscall CColorList::~CColorList(void)
+	??1CGulIcon@@UAE@XZ @ 18 NONAME ; public: virtual __thiscall CGulIcon::~CGulIcon(void)
+	?AddColorArrayL@CColorList@@QAEXVTUid@@PAVCColorArray@@@Z @ 19 NONAME ; public: void __thiscall CColorList::AddColorArrayL(class TUid,class CColorArray *)
+	?AddL@CColorArray@@QAEXHVTRgb@@@Z @ 20 NONAME ; public: void __thiscall CColorArray::AddL(int,class TRgb)
+	?Adjacent@TGulBorder@@QBEHXZ @ 21 NONAME ; public: int __thiscall TGulBorder::Adjacent(void)const 
+	?Bitmap@CGulIcon@@QBEPAVCFbsBitmap@@XZ @ 22 NONAME ; public: class CFbsBitmap * __thiscall CGulIcon::Bitmap(void)const 
+	?ClearBetweenRects@DrawUtils@@SAXAAVCGraphicsContext@@ABVTRect@@1@Z @ 23 NONAME ; public: static void __cdecl DrawUtils::ClearBetweenRects(class CGraphicsContext &,class TRect const &,class TRect const &)
+	?ClipToFit@TextUtils@@SAXAAVTDes16@@ABVCFont@@HVTChar@@@Z @ 24 NONAME ; public: static void __cdecl TextUtils::ClipToFit(class TDes16 &,class CFont const &,int,class TChar)
+	?Color@CColorArray@@QBE?AVTRgb@@H@Z @ 25 NONAME ; public: class TRgb  __thiscall CColorArray::Color(int)const 
+	?Color@CColorList@@QBE?AVTRgb@@VTUid@@H@Z @ 26 NONAME ; public: class TRgb  __thiscall CColorList::Color(class TUid,int)const 
+	?Color@CColorList@@QBE?AVTRgb@@W4TLogicalColor@@@Z @ 27 NONAME ; public: class TRgb  __thiscall CColorList::Color(enum TLogicalColor)const 
+	?BitmapsOwnedExternally@CGulIcon@@QBEHXZ @ 28 NONAME ; public: int __thiscall CGulIcon::BitmapsOwnedExternally(void)const 
+	?ColorAdjust@ColorUtils@@SA?AVTRgb@@V2@H@Z @ 29 NONAME ; public: static class TRgb  __cdecl ColorUtils::ColorAdjust(class TRgb,int)
+	?ColorArray@CColorList@@QBEPAVCColorArray@@VTUid@@@Z @ 30 NONAME ; public: class CColorArray * __thiscall CColorList::ColorArray(class TUid)const 
+	?ColumnText@TextUtils@@SAHAAVTPtrC16@@HPBVTDesC16@@VTChar@@@Z @ 31 NONAME ; public: static int __cdecl TextUtils::ColumnText(class TPtrC16 &,int,class TDesC16 const *,class TChar)
+	?Contains@CColorArray@@QBEHH@Z @ 32 NONAME ; public: int __thiscall CColorArray::Contains(int)const 
+	?ContainsColorArray@CColorList@@QBEHVTUid@@@Z @ 33 NONAME ; public: int __thiscall CColorList::ContainsColorArray(class TUid)const 
+	?Count@CColorArray@@QBEHXZ @ 34 NONAME ; public: int __thiscall CColorArray::Count(void)const 
+	?CreateGradientBitmapL@ColorUtils@@SAXAAVCFbsBitmap@@ABVRWsSession@@HW4TBitmapOrientation@1@VTRgb@@3@Z @ 35 NONAME ; void ColorUtils::CreateGradientBitmapL(class CFbsBitmap &, class RWsSession const &, int, enum ColorUtils::TBitmapOrientation, class TRgb, class TRgb)
+	?CreateNamedScreenFontInPixelsL@ResourceUtils@@SAPAVCFbsFont@@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 36 NONAME ; public: static class CFbsFont * __cdecl ResourceUtils::CreateNamedScreenFontInPixelsL(class TResourceReader &,class CWsScreenDevice &)
+	?CreateNamedScreenFontL@ResourceUtils@@SAPAVCFbsFont@@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 37 NONAME ; public: static class CFbsFont * __cdecl ResourceUtils::CreateNamedScreenFontL(class TResourceReader &,class CWsScreenDevice &)
+	?CreateScreenFontL@ResourceUtils@@SAPAVCFbsFont@@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 38 NONAME ; public: static class CFbsFont * __cdecl ResourceUtils::CreateScreenFontL(class TResourceReader &,class CWsScreenDevice &)
+	?ColorUtils_Stub1@@YAXXZ @ 39 NONAME ; void ColorUtils_Stub1(void)
+	?DeleteColorArray@CColorList@@QAEXVTUid@@@Z @ 40 NONAME ; public: void __thiscall CColorList::DeleteColorArray(class TUid)
+	?Draw@TGulBorder@@QBEXAAVCGraphicsContext@@ABVTRect@@@Z @ 41 NONAME ; public: void __thiscall TGulBorder::Draw(class CGraphicsContext &,class TRect const &)const 
+	?Draw@TGulBorder@@QBEXAAVCGraphicsContext@@ABVTRect@@ABVTColors@1@@Z @ 42 NONAME ; public: void __thiscall TGulBorder::Draw(class CGraphicsContext &,class TRect const &,class TGulBorder::TColors const &)const 
+	?DrawBetweenRects@DrawUtils@@SAXAAVCGraphicsContext@@ABVTRect@@1@Z @ 43 NONAME ; public: static void __cdecl DrawUtils::DrawBetweenRects(class CGraphicsContext &,class TRect const &,class TRect const &)
+	?DrawText@DrawUtils@@SAXAAVCGraphicsContext@@ABVTDesC16@@ABVTRect@@HW4TTextAlign@2@HPBVCFont@@@Z @ 44 NONAME ; public: static void __cdecl DrawUtils::DrawText(class CGraphicsContext &,class TDesC16 const &,class TRect const &,int,enum CGraphicsContext::TTextAlign,int,class CFont const *)
+	?Font@CCleanupStackableFont@@QBEAAVCFbsFont@@XZ @ 45 NONAME ; public: class CFbsFont & __thiscall CCleanupStackableFont::Font(void)const 
+	?GetAvailableFontsL@FontUtils@@SAXABVCGraphicsDevice@@AAVCDesC16Array@@H@Z @ 46 NONAME ; void FontUtils::GetAvailableFontsL(class CGraphicsDevice const &, class CDesC16Array &, int)
+	?GetAvailableHeightsInTwipsAndPointsL@FontUtils@@SAHABVCGraphicsDevice@@ABVTDesC16@@AAV?$CArrayFix@H@@AAVCDesC16Array@@@Z @ 47 NONAME ; int FontUtils::GetAvailableHeightsInTwipsAndPointsL(class CGraphicsDevice const &, class TDesC16 const &, class CArrayFix<int> &, class CDesC16Array &)
+	?GetAvailableHeightsInTwipsL@FontUtils@@SAHABVCGraphicsDevice@@ABVTDesC16@@AAV?$CArrayFix@H@@@Z @ 48 NONAME ; int FontUtils::GetAvailableHeightsInTwipsL(class CGraphicsDevice const &, class TDesC16 const &, class CArrayFix<int> &)
+	?HasBorder@TGulBorder@@QBEHXZ @ 49 NONAME ; public: int __thiscall TGulBorder::HasBorder(void)const 
+	?IndexOfNearestHeight@FontUtils@@SAHAAV?$CArrayFix@H@@H@Z @ 50 NONAME ; public: static int __cdecl FontUtils::IndexOfNearestHeight(class CArrayFix<int> &,int)
+	?InnerRect@TGulAlignment@@QBE?AVTRect@@ABV2@ABVTSize@@@Z @ 51 NONAME ; public: class TRect  __thiscall TGulAlignment::InnerRect(class TRect const &,class TSize const &)const 
+	?InnerRect@TGulBorder@@QBE?AVTRect@@ABV2@@Z @ 52 NONAME ; public: class TRect  __thiscall TGulBorder::InnerRect(class TRect const &)const 
+	?InnerRect@TMargins8@@QBE?AVTRect@@ABV2@@Z @ 53 NONAME ; public: class TRect  __thiscall TMargins8::InnerRect(class TRect const &)const 
+	?InnerTopLeft@TGulAlignment@@QBE?AVTPoint@@ABVTRect@@ABVTSize@@@Z @ 54 NONAME ; public: class TPoint  __thiscall TGulAlignment::InnerTopLeft(class TRect const &,class TSize const &)const 
+	?Margins@TGulBorder@@QBE?AVTMargins@@XZ @ 55 NONAME ; public: class TMargins  __thiscall TGulBorder::Margins(void)const 
+	?Mask@CGulIcon@@QBEPAVCFbsBitmap@@XZ @ 56 NONAME ; public: class CFbsBitmap * __thiscall CGulIcon::Mask(void)const 
+	?MaximumWidthInPixels@TFindWidthOfWidestTextItem@@QBEHABVCFont@@@Z @ 57 NONAME ; public: int __thiscall TFindWidthOfWidestTextItem::MaximumWidthInPixels(class CFont const &)const 
+	?NewL@CCleanupStackableFont@@SAPAV1@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 58 NONAME ; public: static class CCleanupStackableFont * __cdecl CCleanupStackableFont::NewL(class TResourceReader &,class CWsScreenDevice &)
+	?NewL@CColorArray@@SAPAV1@XZ @ 59 NONAME ; public: static class CColorArray * __cdecl CColorArray::NewL(void)
+	?NewL@CColorList@@SAPAV1@PAV?$CArrayFix@VTRgb@@@@@Z @ 60 NONAME ; public: static class CColorList * __cdecl CColorList::NewL(class CArrayFix<class TRgb> *)
+	?NewL@CGulIcon@@SAPAV1@PAVCFbsBitmap@@0@Z @ 61 NONAME ; public: static class CGulIcon * __cdecl CGulIcon::NewL(class CFbsBitmap *,class CFbsBitmap *)
+	?NewL@CGulIcon@@SAPAV1@XZ @ 62 NONAME ; public: static class CGulIcon * __cdecl CGulIcon::NewL(void)
+	?NewLC@CCleanupStackableFont@@SAPAV1@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 63 NONAME ; public: static class CCleanupStackableFont * __cdecl CCleanupStackableFont::NewLC(class TResourceReader &,class CWsScreenDevice &)
+	?NewLC@CColorArray@@SAPAV1@XZ @ 64 NONAME ; public: static class CColorArray * __cdecl CColorArray::NewLC(void)
+	?NewLC@CGulIcon@@SAPAV1@XZ @ 65 NONAME ; public: static class CGulIcon * __cdecl CGulIcon::NewLC(void)
+	?OuterRect@TGulBorder@@QBE?AVTRect@@ABV2@@Z @ 66 NONAME ; public: class TRect  __thiscall TGulBorder::OuterRect(class TRect const &)const 
+	?OuterRect@TMargins8@@QBE?AVTRect@@ABV2@@Z @ 67 NONAME ; public: class TRect  __thiscall TMargins8::OuterRect(class TRect const &)const 
+	?PointsFromTwips@FontUtils@@SAHH@Z @ 68 NONAME ; public: static int __cdecl FontUtils::PointsFromTwips(int)
+	?PopulateColorArrayL@ResourceUtils@@SAXAAVCColorArray@@AAVTResourceReader@@@Z @ 69 NONAME ; public: static void __cdecl ResourceUtils::PopulateColorArrayL(class CColorArray &,class TResourceReader &)
+	?ReadResourceIntL@ResourceUtils@@CAJAAVTResourceReader@@W4TResourceTypeInt@1@@Z @ 70 NONAME ; private: static long __cdecl ResourceUtils::ReadResourceIntL(class TResourceReader &,enum ResourceUtils::TResourceTypeInt)
+	?Remove@CColorArray@@QAEXH@Z @ 71 NONAME ; public: void __thiscall CColorArray::Remove(int)
+	?Reset@CColorArray@@QAEXXZ @ 72 NONAME ; public: void __thiscall CColorArray::Reset(void)
+	?Rounding@TGulBorder@@QBEHXZ @ 73 NONAME ; public: int __thiscall TGulBorder::Rounding(void)const 
+	?SetAdjacent@TGulBorder@@QAEXH@Z @ 74 NONAME ; public: void __thiscall TGulBorder::SetAdjacent(int)
+	?SetAllValuesTo@TMargins8@@QAEXH@Z @ 75 NONAME ; public: void __thiscall TMargins8::SetAllValuesTo(int)
+	?SetBitmap@CGulIcon@@QAEXPAVCFbsBitmap@@@Z @ 76 NONAME ; public: void __thiscall CGulIcon::SetBitmap(class CFbsBitmap *)
+	?SetBitmapsOwnedExternally@CGulIcon@@QAEXH@Z @ 77 NONAME ; public: void __thiscall CGulIcon::SetBitmapsOwnedExternally(int)
+	?SetColor@CColorArray@@QAEXHVTRgb@@@Z @ 78 NONAME ; public: void __thiscall CColorArray::SetColor(int,class TRgb)
+	?SetColor@CColorList@@QAEXW4TLogicalColor@@VTRgb@@@Z @ 79 NONAME ; public: void __thiscall CColorList::SetColor(enum TLogicalColor,class TRgb)
+	?SetHAlignment@TGulAlignment@@QAEXW4TGulHAlignment@@@Z @ 80 NONAME ; public: void __thiscall TGulAlignment::SetHAlignment(enum TGulHAlignment)
+	?SetMask@CGulIcon@@QAEXPAVCFbsBitmap@@@Z @ 81 NONAME ; public: void __thiscall CGulIcon::SetMask(class CFbsBitmap *)
+	?SetType@TGulBorder@@QAEXH@Z @ 82 NONAME ; public: void __thiscall TGulBorder::SetType(int)
+	?SetVAlignment@TGulAlignment@@QAEXW4TGulVAlignment@@@Z @ 83 NONAME ; public: void __thiscall TGulAlignment::SetVAlignment(enum TGulVAlignment)
+	?SizeDelta@TGulBorder@@QBE?AVTSize@@XZ @ 84 NONAME ; public: class TSize  __thiscall TGulBorder::SizeDelta(void)const 
+	?SizeDelta@TMargins8@@QBE?AVTSize@@XZ @ 85 NONAME ; public: class TSize  __thiscall TMargins8::SizeDelta(void)const 
+	?TakeOwnershipOfFont@CCleanupStackableFont@@QAEPAVCFbsFont@@XZ @ 86 NONAME ; public: class CFbsFont * __thiscall CCleanupStackableFont::TakeOwnershipOfFont(void)
+	?Thickness@TGulBorder@@QBEHXZ @ 87 NONAME ; public: int __thiscall TGulBorder::Thickness(void)const 
+	?TruncateToNumChars@TextUtils@@SAXAAVTDes16@@H@Z @ 88 NONAME ; public: static void __cdecl TextUtils::TruncateToNumChars(class TDes16 &,int)
+	?TwipsFromPoints@FontUtils@@SAHABVTDesC16@@@Z @ 89 NONAME ; public: static int __cdecl FontUtils::TwipsFromPoints(class TDesC16 const &)
+	?TwipsFromPoints@FontUtils@@SAHH@Z @ 90 NONAME ; public: static int __cdecl FontUtils::TwipsFromPoints(int)
+	?TypefaceAttributes@FontUtils@@SAHABVCGraphicsDevice@@ABVTDesC16@@@Z @ 91 NONAME ; int FontUtils::TypefaceAttributes(class CGraphicsDevice const &, class TDesC16 const &)
+	?ColorUtils_Stub2@@YAXXZ @ 92 NONAME ; void ColorUtils_Stub2(void)
+	?ColorUtils_Stub3@@YAXXZ @ 93 NONAME ; void ColorUtils_Stub3(void)
+	?LogicalBorder@GulTls@@SAPBVMGulLogicalBorder@@XZ @ 94 NONAME ; public: static class MGulLogicalBorder const * __cdecl GulTls::LogicalBorder(void)
+	?MGulLogicalBorderReserved@MGulLogicalBorder@@EAEXXZ @ 95 NONAME ; private: virtual void __thiscall MGulLogicalBorder::MGulLogicalBorderReserved(void)
+	?SetLogicalBorder@GulTls@@SAXPAVMGulLogicalBorder@@@Z @ 96 NONAME ; public: static void __cdecl GulTls::SetLogicalBorder(class MGulLogicalBorder *)
+	?Type@TGulBorder@@QBEHXZ @ 97 NONAME ; public: int __thiscall TGulBorder::Type(void)const 
+	??0TLogicalFont@@QAE@VTUid@@W4TFontCategory@0@W4TFontStyle@0@ABVTZoomFactor@@@Z @ 98 NONAME ; public: __thiscall TLogicalFont::TLogicalFont(class TUid,enum TLogicalFont::TFontCategory,enum TLogicalFont::TFontStyle,class TZoomFactor const &)
+	??0TLogicalFont@@QAE@XZ @ 99 NONAME ; public: __thiscall TLogicalFont::TLogicalFont(void)
+	?GetRgbDerivedBorderColors@ColorUtils@@SAXAAVTColors@TGulBorder@@VTRgb@@W4TDisplayMode@@@Z @ 100 NONAME ; public: static void __cdecl ColorUtils::GetRgbDerivedBorderColors(class TGulBorder::TColors &,class TRgb,enum TDisplayMode)
+	??0TLogicalFont@@QAE@VTUid@@@Z @ 101 NONAME ; public: __thiscall TLogicalFont::TLogicalFont(class TUid)
+	??0TLogicalFont@@QAE@W4TFontCategory@0@W4TFontStyle@0@ABVTZoomFactor@@@Z @ 102 NONAME ; public: __thiscall TLogicalFont::TLogicalFont(enum TLogicalFont::TFontCategory,enum TLogicalFont::TFontStyle,class TZoomFactor const &)
+	?RgbDarkerColor@ColorUtils@@SA?AVTRgb@@V2@W4TDisplayMode@@@Z @ 103 NONAME ; public: static class TRgb  __cdecl ColorUtils::RgbDarkerColor(class TRgb,enum TDisplayMode)
+	?RgbLighterColor@ColorUtils@@SA?AVTRgb@@V2@W4TDisplayMode@@@Z @ 104 NONAME ; public: static class TRgb  __cdecl ColorUtils::RgbLighterColor(class TRgb,enum TDisplayMode)
+	?RgbMidDarkerColor@ColorUtils@@SA?AVTRgb@@V2@W4TDisplayMode@@@Z @ 105 NONAME ; public: static class TRgb  __cdecl ColorUtils::RgbMidDarkerColor(class TRgb,enum TDisplayMode)
+	?NewByNameL@CCleanupStackableFont@@SAPAV1@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 106 NONAME ; public: static class CCleanupStackableFont * __cdecl CCleanupStackableFont::NewByNameL(class TResourceReader &,class CWsScreenDevice &)
+	?NewByNameLC@CCleanupStackableFont@@SAPAV1@AAVTResourceReader@@AAVCWsScreenDevice@@@Z @ 107 NONAME ; public: static class CCleanupStackableFont * __cdecl CCleanupStackableFont::NewByNameLC(class TResourceReader &,class CWsScreenDevice &)
+	?NewLC@CSpriteSet@@SAPAV1@AAVRWindowTreeNode@@AAVRWsSession@@AAVCWsScreenDevice@@PAVCGulIcon@@H@Z @ 108 NONAME ; public: static class CSpriteSet * __cdecl CSpriteSet::NewLC(class RWindowTreeNode &,class RWsSession &,class CWsScreenDevice &,class CGulIcon *,int)
+	?NewL@CSpriteSet@@SAPAV1@AAVRWindowTreeNode@@AAVRWsSession@@AAVCWsScreenDevice@@PAVCGulIcon@@H@Z @ 109 NONAME ; public: static class CSpriteSet * __cdecl CSpriteSet::NewL(class RWindowTreeNode &,class RWsSession &,class CWsScreenDevice &,class CGulIcon *,int)
+	?NewL@CWindowToBitmapMappingGc@@SAPAV1@AAVCWsScreenDevice@@AAVCFbsBitGc@@@Z @ 110 NONAME ; public: static class CWindowToBitmapMappingGc * __cdecl CWindowToBitmapMappingGc::NewL(class CWsScreenDevice &,class CFbsBitGc &)
+	?SetFaded@CWindowToBitmapMappingGc@@UAEXH@Z @ 111 NONAME ; public: virtual void __thiscall CWindowToBitmapMappingGc::SetFaded(int)
+	?SetFadingParameters@CWindowToBitmapMappingGc@@UAEXEE@Z @ 112 NONAME ; public: virtual void __thiscall CWindowToBitmapMappingGc::SetFadingParameters(unsigned char,unsigned char)
+	?AddMemberL@CSpriteSet@@QAEXPAVCGulIcon@@@Z @ 113 NONAME ; public: void __thiscall CSpriteSet::AddMemberL(class CGulIcon *)
+	?PrepareSpriteForDisplayL@CSpriteSet@@QAEXHABVTPoint@@ABVTSize@@W4TSpriteResizeMode@1@@Z @ 114 NONAME ; public: void __thiscall CSpriteSet::PrepareSpriteForDisplayL(int,class TPoint const &,class TSize const &,enum CSpriteSet::TSpriteResizeMode)
+	?SetClippingRect@CSpriteSet@@QAEXABVTRect@@@Z @ 115 NONAME ; public: void __thiscall CSpriteSet::SetClippingRect(class TRect const &)
+	?SpriteGc@CSpriteSet@@QBEPAVCWindowGc@@XZ @ 116 NONAME ; public: class CWindowGc * __thiscall CSpriteSet::SpriteGc(void)const 
+	?StartDisplayingSpriteL@CSpriteSet@@QAEXXZ @ 117 NONAME ; public: void __thiscall CSpriteSet::StartDisplayingSpriteL(void)
+	?StopDisplayingSprite@CSpriteSet@@QAEXXZ @ 118 NONAME ; public: void __thiscall CSpriteSet::StopDisplayingSprite(void)
+	?TranslateSpritePosition@CSpriteSet@@QAEXABVTPoint@@@Z @ 119 NONAME ; public: void __thiscall CSpriteSet::TranslateSpritePosition(class TPoint const &)
+	?RemoveMember@CSpriteSet@@QAEXH@Z @ 120 NONAME ; public: void __thiscall CSpriteSet::RemoveMember(int)
+	??0TFindWidthOfWidestDigitType@@QAE@W4TDigitType@@@Z @ 121 NONAME ; public: __thiscall TFindWidthOfWidestDigitType::TFindWidthOfWidestDigitType(enum TDigitType)
+	?ExternalizeL@CColorList@@QBEXAAVRWriteStream@@@Z @ 122 NONAME ; void CColorList::ExternalizeL(class RWriteStream &) const
+	?InternalizeL@CColorList@@QAEXAAVRReadStream@@@Z @ 123 NONAME ; void CColorList::InternalizeL(class RReadStream &)
+	?MergeL@CColorList@@QAEXABV1@@Z @ 124 NONAME ; void CColorList::MergeL(class CColorList const &)
+	?NewLC@CColorList@@SAPAV1@XZ @ 125 NONAME ; class CColorList * CColorList::NewLC(void)
+	?Count@CColorList@@QBEHXZ @ 126 NONAME ; int CColorList::Count(void) const
+	?SetHAlignment@TGulAlignment@@QAEXW4TTextAlign@CGraphicsContext@@@Z @ 127 NONAME ; void TGulAlignment::SetHAlignment(enum CGraphicsContext::TTextAlign)
+	?AlphaBlendBitmaps@CWindowToBitmapMappingGc@@UAEHABVTPoint@@PBVCFbsBitmap@@ABVTRect@@10@Z @ 128 NONAME ; int CWindowToBitmapMappingGc::AlphaBlendBitmaps(class TPoint const &, class CFbsBitmap const *, class TRect const &, class CFbsBitmap const *, class TPoint const &)
+	?AlphaBlendBitmaps@CWindowToBitmapMappingGc@@UAEHABVTPoint@@PBVCWsBitmap@@ABVTRect@@10@Z @ 129 NONAME ; int CWindowToBitmapMappingGc::AlphaBlendBitmaps(class TPoint const &, class CWsBitmap const *, class TRect const &, class CWsBitmap const *, class TPoint const &)
+	?DrawBitmapMasked@CWindowToBitmapMappingGc@@UAEXABVTRect@@PBVCFbsBitmap@@01H@Z @ 130 NONAME ; void CWindowToBitmapMappingGc::DrawBitmapMasked(class TRect const &, class CFbsBitmap const *, class TRect const &, class CFbsBitmap const *, int)
+	?DrawBitmapMasked@CWindowToBitmapMappingGc@@UAEXABVTRect@@PBVCWsBitmap@@01H@Z @ 131 NONAME ; void CWindowToBitmapMappingGc::DrawBitmapMasked(class TRect const &, class CWsBitmap const *, class TRect const &, class CWsBitmap const *, int)
+	?SetOpaque@CWindowToBitmapMappingGc@@UAEXH@Z @ 132 NONAME ; void CWindowToBitmapMappingGc::SetOpaque(int)
+	??0CWindowToBitmapMappingGc@@IAE@AAVCWsScreenDevice@@AAVCFbsBitGc@@@Z @ 133 NONAME ; CWindowToBitmapMappingGc::CWindowToBitmapMappingGc(class CWsScreenDevice &, class CFbsBitGc &)
+	??1CWindowToBitmapMappingGc@@UAE@XZ @ 134 NONAME ; CWindowToBitmapMappingGc::~CWindowToBitmapMappingGc(void)
+	?Activate@CWindowToBitmapMappingGc@@UAEXAAVRDrawableWindow@@@Z @ 135 NONAME ; void CWindowToBitmapMappingGc::Activate(class RDrawableWindow &)
+	?BitBlt@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCFbsBitmap@@@Z @ 136 NONAME ; void CWindowToBitmapMappingGc::BitBlt(class TPoint const &, class CFbsBitmap const *)
+	?BitBlt@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCFbsBitmap@@ABVTRect@@@Z @ 137 NONAME ; void CWindowToBitmapMappingGc::BitBlt(class TPoint const &, class CFbsBitmap const *, class TRect const &)
+	?BitBlt@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCWsBitmap@@@Z @ 138 NONAME ; void CWindowToBitmapMappingGc::BitBlt(class TPoint const &, class CWsBitmap const *)
+	?BitBlt@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCWsBitmap@@ABVTRect@@@Z @ 139 NONAME ; void CWindowToBitmapMappingGc::BitBlt(class TPoint const &, class CWsBitmap const *, class TRect const &)
+	?BitBltMasked@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCFbsBitmap@@ABVTRect@@1H@Z @ 140 NONAME ; void CWindowToBitmapMappingGc::BitBltMasked(class TPoint const &, class CFbsBitmap const *, class TRect const &, class CFbsBitmap const *, int)
+	?BitBltMasked@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCWsBitmap@@ABVTRect@@1H@Z @ 141 NONAME ; void CWindowToBitmapMappingGc::BitBltMasked(class TPoint const &, class CWsBitmap const *, class TRect const &, class CWsBitmap const *, int)
+	?CancelClippingRect@CWindowToBitmapMappingGc@@UAEXXZ @ 142 NONAME ; void CWindowToBitmapMappingGc::CancelClippingRect(void)
+	?CancelClippingRegion@CWindowToBitmapMappingGc@@UAEXXZ @ 143 NONAME ; void CWindowToBitmapMappingGc::CancelClippingRegion(void)
+	?Clear@CWindowToBitmapMappingGc@@UAEXABVTRect@@@Z @ 144 NONAME ; void CWindowToBitmapMappingGc::Clear(class TRect const &)
+	?Clear@CWindowToBitmapMappingGc@@UAEXXZ @ 145 NONAME ; void CWindowToBitmapMappingGc::Clear(void)
+	?CopyRect@CWindowToBitmapMappingGc@@UAEXABVTPoint@@ABVTRect@@@Z @ 146 NONAME ; void CWindowToBitmapMappingGc::CopyRect(class TPoint const &, class TRect const &)
+	?Deactivate@CWindowToBitmapMappingGc@@UAEXXZ @ 147 NONAME ; void CWindowToBitmapMappingGc::Deactivate(void)
+	?Device@CWindowToBitmapMappingGc@@UBEPAVCGraphicsDevice@@XZ @ 148 NONAME ; class CGraphicsDevice * CWindowToBitmapMappingGc::Device(void) const
+	?DiscardBrushPattern@CWindowToBitmapMappingGc@@UAEXXZ @ 149 NONAME ; void CWindowToBitmapMappingGc::DiscardBrushPattern(void)
+	?DiscardFont@CWindowToBitmapMappingGc@@UAEXXZ @ 150 NONAME ; void CWindowToBitmapMappingGc::DiscardFont(void)
+	?DrawArc@CWindowToBitmapMappingGc@@UAEXABVTRect@@ABVTPoint@@1@Z @ 151 NONAME ; void CWindowToBitmapMappingGc::DrawArc(class TRect const &, class TPoint const &, class TPoint const &)
+	?DrawBitmap@CWindowToBitmapMappingGc@@UAEXABVTPoint@@PBVCFbsBitmap@@@Z @ 152 NONAME ; void CWindowToBitmapMappingGc::DrawBitmap(class TPoint const &, class CFbsBitmap const *)
+	?DrawBitmap@CWindowToBitmapMappingGc@@UAEXABVTRect@@PBVCFbsBitmap@@0@Z @ 153 NONAME ; void CWindowToBitmapMappingGc::DrawBitmap(class TRect const &, class CFbsBitmap const *, class TRect const &)
+	?DrawBitmap@CWindowToBitmapMappingGc@@UAEXABVTRect@@PBVCFbsBitmap@@@Z @ 154 NONAME ; void CWindowToBitmapMappingGc::DrawBitmap(class TRect const &, class CFbsBitmap const *)
+	?DrawEllipse@CWindowToBitmapMappingGc@@UAEXABVTRect@@@Z @ 155 NONAME ; void CWindowToBitmapMappingGc::DrawEllipse(class TRect const &)
+	?DrawLine@CWindowToBitmapMappingGc@@UAEXABVTPoint@@0@Z @ 156 NONAME ; void CWindowToBitmapMappingGc::DrawLine(class TPoint const &, class TPoint const &)
+	?DrawLineBy@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 157 NONAME ; void CWindowToBitmapMappingGc::DrawLineBy(class TPoint const &)
+	?DrawLineTo@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 158 NONAME ; void CWindowToBitmapMappingGc::DrawLineTo(class TPoint const &)
+	?DrawPie@CWindowToBitmapMappingGc@@UAEXABVTRect@@ABVTPoint@@1@Z @ 159 NONAME ; void CWindowToBitmapMappingGc::DrawPie(class TRect const &, class TPoint const &, class TPoint const &)
+	?DrawPolyLine@CWindowToBitmapMappingGc@@UAEXPBV?$CArrayFix@VTPoint@@@@@Z @ 160 NONAME ; void CWindowToBitmapMappingGc::DrawPolyLine(class CArrayFix<class TPoint> const *)
+	?DrawPolyLine@CWindowToBitmapMappingGc@@UAEXPBVTPoint@@H@Z @ 161 NONAME ; void CWindowToBitmapMappingGc::DrawPolyLine(class TPoint const *, int)
+	?DrawPolygon@CWindowToBitmapMappingGc@@UAEHPBV?$CArrayFix@VTPoint@@@@W4TFillRule@CGraphicsContext@@@Z @ 162 NONAME ; int CWindowToBitmapMappingGc::DrawPolygon(class CArrayFix<class TPoint> const *, enum CGraphicsContext::TFillRule)
+	?DrawPolygon@CWindowToBitmapMappingGc@@UAEHPBVTPoint@@HW4TFillRule@CGraphicsContext@@@Z @ 163 NONAME ; int CWindowToBitmapMappingGc::DrawPolygon(class TPoint const *, int, enum CGraphicsContext::TFillRule)
+	?DrawRect@CWindowToBitmapMappingGc@@UAEXABVTRect@@@Z @ 164 NONAME ; void CWindowToBitmapMappingGc::DrawRect(class TRect const &)
+	?DrawRoundRect@CWindowToBitmapMappingGc@@UAEXABVTRect@@ABVTSize@@@Z @ 165 NONAME ; void CWindowToBitmapMappingGc::DrawRoundRect(class TRect const &, class TSize const &)
+	?DrawText@CWindowToBitmapMappingGc@@UAEXABVTDesC16@@ABVTPoint@@@Z @ 166 NONAME ; void CWindowToBitmapMappingGc::DrawText(class TDesC16 const &, class TPoint const &)
+	?DrawText@CWindowToBitmapMappingGc@@UAEXABVTDesC16@@ABVTRect@@HW4TTextAlign@CGraphicsContext@@H@Z @ 167 NONAME ; void CWindowToBitmapMappingGc::DrawText(class TDesC16 const &, class TRect const &, int, enum CGraphicsContext::TTextAlign, int)
+	?DrawTextVertical@CWindowToBitmapMappingGc@@UAEXABVTDesC16@@ABVTPoint@@H@Z @ 168 NONAME ; void CWindowToBitmapMappingGc::DrawTextVertical(class TDesC16 const &, class TPoint const &, int)
+	?DrawTextVertical@CWindowToBitmapMappingGc@@UAEXABVTDesC16@@ABVTRect@@HHW4TTextAlign@CGraphicsContext@@H@Z @ 169 NONAME ; void CWindowToBitmapMappingGc::DrawTextVertical(class TDesC16 const &, class TRect const &, int, int, enum CGraphicsContext::TTextAlign, int)
+	?MapColors@CWindowToBitmapMappingGc@@UAEXABVTRect@@PBVTRgb@@HH@Z @ 170 NONAME ; void CWindowToBitmapMappingGc::MapColors(class TRect const &, class TRgb const *, int, int)
+	?MoveBy@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 171 NONAME ; void CWindowToBitmapMappingGc::MoveBy(class TPoint const &)
+	?MoveTo@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 172 NONAME ; void CWindowToBitmapMappingGc::MoveTo(class TPoint const &)
+	?Plot@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 173 NONAME ; void CWindowToBitmapMappingGc::Plot(class TPoint const &)
+	?Reset@CWindowToBitmapMappingGc@@UAEXXZ @ 174 NONAME ; void CWindowToBitmapMappingGc::Reset(void)
+	?SetBrushColor@CWindowToBitmapMappingGc@@UAEXABVTRgb@@@Z @ 175 NONAME ; void CWindowToBitmapMappingGc::SetBrushColor(class TRgb const &)
+	?SetBrushOrigin@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 176 NONAME ; void CWindowToBitmapMappingGc::SetBrushOrigin(class TPoint const &)
+	?SetBrushStyle@CWindowToBitmapMappingGc@@UAEXW4TBrushStyle@CGraphicsContext@@@Z @ 177 NONAME ; void CWindowToBitmapMappingGc::SetBrushStyle(enum CGraphicsContext::TBrushStyle)
+	?SetCharJustification@CWindowToBitmapMappingGc@@UAEXHH@Z @ 178 NONAME ; void CWindowToBitmapMappingGc::SetCharJustification(int, int)
+	?SetClippingRect@CWindowToBitmapMappingGc@@UAEXABVTRect@@@Z @ 179 NONAME ; void CWindowToBitmapMappingGc::SetClippingRect(class TRect const &)
+	?SetClippingRegion@CWindowToBitmapMappingGc@@UAEHABVTRegion@@@Z @ 180 NONAME ; int CWindowToBitmapMappingGc::SetClippingRegion(class TRegion const &)
+	?SetDitherOrigin@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 181 NONAME ; void CWindowToBitmapMappingGc::SetDitherOrigin(class TPoint const &)
+	?SetDrawMode@CWindowToBitmapMappingGc@@UAEXW4TDrawMode@CGraphicsContext@@@Z @ 182 NONAME ; void CWindowToBitmapMappingGc::SetDrawMode(enum CGraphicsContext::TDrawMode)
+	?SetOrigin@CWindowToBitmapMappingGc@@UAEXABVTPoint@@@Z @ 183 NONAME ; void CWindowToBitmapMappingGc::SetOrigin(class TPoint const &)
+	?SetPenColor@CWindowToBitmapMappingGc@@UAEXABVTRgb@@@Z @ 184 NONAME ; void CWindowToBitmapMappingGc::SetPenColor(class TRgb const &)
+	?SetPenSize@CWindowToBitmapMappingGc@@UAEXABVTSize@@@Z @ 185 NONAME ; void CWindowToBitmapMappingGc::SetPenSize(class TSize const &)
+	?SetPenStyle@CWindowToBitmapMappingGc@@UAEXW4TPenStyle@CGraphicsContext@@@Z @ 186 NONAME ; void CWindowToBitmapMappingGc::SetPenStyle(enum CGraphicsContext::TPenStyle)
+	?SetStrikethroughStyle@CWindowToBitmapMappingGc@@UAEXW4TFontStrikethrough@@@Z @ 187 NONAME ; void CWindowToBitmapMappingGc::SetStrikethroughStyle(enum TFontStrikethrough)
+	?SetUnderlineStyle@CWindowToBitmapMappingGc@@UAEXW4TFontUnderline@@@Z @ 188 NONAME ; void CWindowToBitmapMappingGc::SetUnderlineStyle(enum TFontUnderline)
+	?SetWordJustification@CWindowToBitmapMappingGc@@UAEXHH@Z @ 189 NONAME ; void CWindowToBitmapMappingGc::SetWordJustification(int, int)
+	?UseBrushPattern@CWindowToBitmapMappingGc@@UAEXPBVCFbsBitmap@@@Z @ 190 NONAME ; void CWindowToBitmapMappingGc::UseBrushPattern(class CFbsBitmap const *)
+	?UseFont@CWindowToBitmapMappingGc@@UAEXPBVCFont@@@Z @ 191 NONAME ; void CWindowToBitmapMappingGc::UseFont(class CFont const *)
+	?HAlignment@TGulAlignment@@QBE?AW4TGulHAlignment@@W4TDirectionality@TBidiText@@@Z @ 192 NONAME ; enum TGulHAlignment TGulAlignment::HAlignment(enum TBidiText::TDirectionality) const
+	?HasAbsoluteHAlignment@TGulAlignment@@QBEHXZ @ 193 NONAME ; int TGulAlignment::HasAbsoluteHAlignment(void) const
+	?InnerRect@TGulAlignment@@QBE?AVTRect@@ABV2@ABVTSize@@W4TDirectionality@TBidiText@@@Z @ 194 NONAME ; class TRect TGulAlignment::InnerRect(class TRect const &, class TSize const &, enum TBidiText::TDirectionality) const
+	?InnerTopLeft@TGulAlignment@@QBE?AVTPoint@@ABVTRect@@ABVTSize@@W4TDirectionality@TBidiText@@@Z @ 195 NONAME ; class TPoint TGulAlignment::InnerTopLeft(class TRect const &, class TSize const &, enum TBidiText::TDirectionality) const
+	?ParaAlign@TGulAlignment@@QBE?AW4TAlignment@CParaFormat@@XZ @ 196 NONAME ; enum CParaFormat::TAlignment TGulAlignment::ParaAlign(void) const
+	?SetAbsoluteHAlignment@TGulAlignment@@QAEXH@Z @ 197 NONAME ; void TGulAlignment::SetAbsoluteHAlignment(int)
+	?SetHAlignment@TGulAlignment@@QAEXW4TAlignment@CParaFormat@@@Z @ 198 NONAME ; void TGulAlignment::SetHAlignment(enum CParaFormat::TAlignment)
+	?TextAlign@TGulAlignment@@QBE?AW4TTextAlign@CGraphicsContext@@W4TDirectionality@TBidiText@@@Z @ 199 NONAME ; enum CGraphicsContext::TTextAlign TGulAlignment::TextAlign(enum TBidiText::TDirectionality) const
+	??0TMargins8@@QAE@CCCC@Z @ 200 NONAME ; TMargins8::TMargins8(signed char, signed char, signed char, signed char)
+	??BTGulAlignment@@QBE?AW4TGulAlignmentValue@@XZ @ 201 NONAME ; TGulAlignment::operator enum TGulAlignmentValue(void) const
+

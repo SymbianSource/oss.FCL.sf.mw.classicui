@@ -1,0 +1,337 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  resources for the module
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME POP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestdompopup.hrh"
+#include "bctestdompopup.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTDOMPOPUP_BMP_FNAME APP_BITMAP_DIR"\\bctestdompopup.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCPopup";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestdompopup_menubar_main;
+    cba = r_bctestdompopup_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestdompopup_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdompopup_view
+//    AVKON_VIEW for CbctestdompopupView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestdompopup_view
+    {
+    menubar = r_bctestdompopup_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdompopup_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestdompopup_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestdompopup_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestdompopup_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdompopup_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestdompopup_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestdompopup_outline1;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline2;
+            txt = qtn_bctestdompopup_outline2;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline3;
+            txt = qtn_bctestdompopup_outline3;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline4;
+            txt = qtn_bctestdompopup_outline4;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdompopup_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestdompopup_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestdompopup_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestdompopup_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestdompopup_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestdompopup_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestDomPopupCbaCmdNext;
+            txt = qtn_bctestdompopup_cba_next;
+            }
+	};
+    }
+
+RESOURCE DIALOG r_demo_singlepage_dialog
+  {
+
+   flags = EEikDialogFlagNoDrag | EEikDialogFlagCbaButtons |  EEikDialogFlagWait;
+   buttons = R_AVKON_SOFTKEYS_OK_BACK; 
+   title = qtn_truncation;
+   items =
+    	{
+        DLG_LINE
+         {
+            type = EEikCtEdwin;
+            id = EBcTestEdwin;
+            prompt = qtn_truncation ;
+            control = EDWIN
+                {
+                flags = EAknEditorFlagDefault;
+                width = qtn_width;
+                lines = qtn_line;
+                maxlength = qtn_base_line;
+                };
+          }
+      };
+   }
+
+RESOURCE DIALOG r_bctestpopups_attrib_set_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+        EEikDialogFlagCbaButtons | ///EEikDialogFlagModeless |
+        EEikDialogFlagNoBorder;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_bctestpopups_attrib_set_form;
+    }
+
+RESOURCE FORM r_bctestpopups_attrib_set_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = qtn_truncation;
+            id = EBCTestPopFieldDlgCtrlIdAttribSet01;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = POPUP_FIELD
+                {
+                width = qtn_width;
+                other = qtn_truncation;
+                };
+            tooltip = qtn_truncation;
+            }
+        };
+    }
+
+RESOURCE ARRAY r_bctestlist_item_single1
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_truncation;
+            },
+        LBUF
+            {
+            txt = qtn_truncation;
+            }
+        };
+    }
+
+RESOURCE FORM r_bctestpopups_two_text_field_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = qtn_truncation;
+            id = EBCTestPopFieldDlgCtrlIdAttribSet01;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = POPUP_FIELD
+                {
+                width = qtn_width;
+                other = qtn_truncation;
+                };
+            tooltip = qtn_truncation;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestpopups_five_text_field_dialog
+//    for Outline16,17
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestpopups_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+        EEikDialogFlagCbaButtons | ///EEikDialogFlagModeless |
+        EEikDialogFlagNoBorder;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_bctestpopups_two_text_field_form;
+    }
+
+RESOURCE DLG_LINE r_bctestpopup_dlg_line
+    {
+        type = EAknCtPopupField;
+        prompt = qtn_truncation;
+        id = EBCTestPopFieldDlgCtrlIdAttribSet01;
+        itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+        control = POPUP_FIELD
+        {
+            width = qtn_width;
+            other = qtn_truncation;
+        };
+        tooltip = qtn_truncation;
+    }
+      
+// End of File

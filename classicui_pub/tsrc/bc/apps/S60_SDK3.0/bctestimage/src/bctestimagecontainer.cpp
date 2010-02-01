@@ -1,0 +1,124 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         container
+*
+*/
+
+
+
+
+
+
+
+
+
+#include "bctestimagecontainer.h"
+
+//#define KAknAtListGray TRgb(0xaaaaaa)
+
+// ======== MEMBER FUNCTIONS ========
+
+// ---------------------------------------------------------------------------
+// C++ default Constructor
+// ---------------------------------------------------------------------------
+//
+CBCTestImageContainer::CBCTestImageContainer()
+    {    
+    }
+
+// ---------------------------------------------------------------------------
+// Destructor
+// ---------------------------------------------------------------------------
+//
+CBCTestImageContainer::~CBCTestImageContainer()
+    {
+    ResetControl();   
+    }
+    
+// ---------------------------------------------------------------------------
+// Symbian 2nd Constructor
+// ---------------------------------------------------------------------------
+//
+void CBCTestImageContainer::ConstructL( const TRect& aRect )
+    {
+    CreateWindowL();
+    SetRect( aRect );
+    ActivateL();
+    }
+
+// ----------------------------------------------------------------------------
+// CBCTestImageContainer::Draw
+// Fills the window's rectangle.
+// ----------------------------------------------------------------------------
+//
+void CBCTestImageContainer::Draw( const TRect& aRect ) const
+    {    
+    CWindowGc& gc = SystemGc();
+    gc.SetPenStyle( CGraphicsContext::ENullPen );
+    gc.SetBrushColor( KRgbGray );
+    gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+    gc.DrawRect( aRect );
+    }
+
+// ---------------------------------------------------------------------------
+// CBCTestImageContainer::CountComponentControls
+// ---------------------------------------------------------------------------
+//
+TInt CBCTestImageContainer::CountComponentControls() const
+    {
+    if ( iControl )
+        {
+        return 1;
+        }
+    else
+        {
+        return 0;
+        }
+    }
+    
+// ---------------------------------------------------------------------------
+// CBCTestImageContainer::ComponentControl
+// ---------------------------------------------------------------------------
+//
+CCoeControl* CBCTestImageContainer::ComponentControl( TInt ) const
+    {
+    return iControl;
+    }
+    
+// ---------------------------------------------------------------------------
+// CBCTestImageContainer::SetControl
+// ---------------------------------------------------------------------------
+//
+void CBCTestImageContainer::SetControl( CCoeControl* aControl )
+    {
+    iControl = aControl;    
+    if ( iControl )
+        {  
+        // You can change the position and size
+        iControl->SetExtent( Rect().iTl, Rect().Size() );
+        iControl->ActivateL();
+        DrawNow();
+        }    
+    }
+    
+// ---------------------------------------------------------------------------
+// CBCTestImageContainer::ResetControl
+// ---------------------------------------------------------------------------
+//
+void CBCTestImageContainer::ResetControl()
+    {
+    delete iControl;
+    iControl = NULL;        
+    }
+

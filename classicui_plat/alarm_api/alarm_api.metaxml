@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="7d5318cab1cc20a438da3d6c5f66c5cd" dataversion="1.0">
+  <name>Alarm API</name>
+  <description>Provides alarm control.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikalert.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

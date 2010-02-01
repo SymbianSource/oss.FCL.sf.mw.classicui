@@ -1,0 +1,1387 @@
+<layer name="classicui">
+  <module name="group_classicui">
+    <component name="group_classicui">
+      <unit unitID="classicui" mrp="" bldFile="&layer_real_source_path;\group" name="classicui" />
+    </component>
+  </module>
+  <module name="applicationinterworkingfw">
+    <component name="applicationinterworkingfw">
+      <unit unitID="classicui_applicationinterworkingfw" mrp="" filter="not_build" bldFile="&layer_real_source_path;\applicationinterworkingfw\group" name="applicationinterworkingfw" />
+    </component>
+  </module>
+  <module name="ServiceHandler">
+    <component name="ServiceHandler">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler" mrp="" filter="not_build" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\group" name="ServiceHandler" />
+    </component>
+  </module>
+  <module name="aiwconsumerbasics">
+    <component name="aiwconsumerbasics">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwconsumerbasics" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwconsumerbasics\group" name="aiwconsumerbasics" />
+    </component>
+  </module>
+  <module name="AIWConsumerBasics_Nokia">
+    <component name="AIWConsumerBasics_Nokia">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_AIWConsumerBasics_Nokia" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\AIWConsumerBasics_Nokia\group" name="AIWConsumerBasics_Nokia" />
+    </component>
+  </module>
+  <module name="AiwSniffer">
+    <component name="AiwSniffer">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_AiwSniffer" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\AiwSniffer\group" name="AiwSniffer" />
+    </component>
+  </module>
+  <module name="aiwprovider_b1_view">
+    <component name="aiwprovider_b1_view">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_b1_view" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_b1_view\group" name="aiwprovider_b1_view" />
+    </component>
+  </module>
+  <module name="aiwprovider_b2_view">
+    <component name="aiwprovider_b2_view">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_b2_view" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_b2_view\group" name="aiwprovider_b2_view" />
+    </component>
+  </module>
+  <module name="aiwprovider_b3_upnpplay">
+    <component name="aiwprovider_b3_upnpplay">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_b3_upnpplay" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_b3_upnpplay\group" name="aiwprovider_b3_upnpplay" />
+    </component>
+  </module>
+  <module name="aiwprovider_m10_obj_multiple">
+    <component name="aiwprovider_m10_obj_multiple">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m10_obj_multiple" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m10_obj_multiple\group" name="aiwprovider_m10_obj_multiple" />
+    </component>
+  </module>
+  <module name="aiwprovider_m11_edit_any_sound">
+    <component name="aiwprovider_m11_edit_any_sound">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m11_edit_any_sound" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m11_edit_any_sound\group" name="aiwprovider_m11_edit_any_sound" />
+    </component>
+  </module>
+  <module name="aiwprovider_m1_print">
+    <component name="aiwprovider_m1_print">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m1_print" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m1_print\group" name="aiwprovider_m1_print" />
+    </component>
+  </module>
+  <module name="aiwprovider_m2_edit">
+    <component name="aiwprovider_m2_edit">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m2_edit" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m2_edit\group" name="aiwprovider_m2_edit" />
+    </component>
+  </module>
+  <module name="aiwprovider_m3_print">
+    <component name="aiwprovider_m3_print">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m3_print" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m3_print\group" name="aiwprovider_m3_print" />
+    </component>
+  </module>
+  <module name="aiwprovider_m4_upload">
+    <component name="aiwprovider_m4_upload">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m4_upload" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m4_upload\group" name="aiwprovider_m4_upload" />
+    </component>
+  </module>
+  <module name="aiwprovider_m5_upload">
+    <component name="aiwprovider_m5_upload">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m5_upload" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m5_upload\group" name="aiwprovider_m5_upload" />
+    </component>
+  </module>
+  <module name="aiwprovider_m6_poc_err">
+    <component name="aiwprovider_m6_poc_err">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m6_poc_err" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m6_poc_err\group" name="aiwprovider_m6_poc_err" />
+    </component>
+  </module>
+  <module name="aiwprovider_m7_print">
+    <component name="aiwprovider_m7_print">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m7_print" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m7_print\group" name="aiwprovider_m7_print" />
+    </component>
+  </module>
+  <module name="aiwprovider_m8_obj_image_jpeg">
+    <component name="aiwprovider_m8_obj_image_jpeg">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m8_obj_image_jpeg" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m8_obj_image_jpeg\group" name="aiwprovider_m8_obj_image_jpeg" />
+    </component>
+  </module>
+  <module name="aiwprovider_m9_obj_phonenumber">
+    <component name="aiwprovider_m9_obj_phonenumber">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwprovider_m9_obj_phonenumber" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwprovider_m9_obj_phonenumber\group" name="aiwprovider_m9_obj_phonenumber" />
+    </component>
+  </module>
+  <module name="aiwtestapp">
+    <component name="aiwtestapp">
+      <unit unitID="classicui_applicationinterworkingfw_ServiceHandler_internal_aiwtestset_aiwtestapp" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\applicationinterworkingfw\ServiceHandler\internal\aiwtestset\aiwtestapp\group" name="aiwtestapp" />
+    </component>
+  </module>
+  <module name="classicui_dom">
+    <component name="classicui_dom">
+      <unit unitID="classicui_classicui_dom" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\group" name="classicui_dom" />
+    </component>
+  </module>
+  <module name="aiw_provider_utility_api">
+    <component name="aiw_provider_utility_api">
+      <unit unitID="classicui_classicui_dom_aiw_provider_utility_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\aiw_provider_utility_api\group" name="aiw_provider_utility_api" />
+    </component>
+  </module>
+  <module name="aiw_service_interface_base_api">
+    <component name="aiw_service_interface_base_api">
+      <unit unitID="classicui_classicui_dom_aiw_service_interface_base_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\aiw_service_interface_base_api\group" name="aiw_service_interface_base_api" />
+    </component>
+  </module>
+  <module name="aiw_service_interface_menu_api">
+    <component name="aiw_service_interface_menu_api">
+      <unit unitID="classicui_classicui_dom_aiw_service_interface_menu_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\aiw_service_interface_menu_api\group" name="aiw_service_interface_menu_api" />
+    </component>
+  </module>
+  <module name="alarm_api">
+    <component name="alarm_api">
+      <unit unitID="classicui_classicui_dom_alarm_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\alarm_api\group" name="alarm_api" />
+    </component>
+  </module>
+  <module name="application_switching_api">
+    <component name="application_switching_api">
+      <unit unitID="classicui_classicui_dom_application_switching_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\application_switching_api\group" name="application_switching_api" />
+    </component>
+  </module>
+  <module name="avkon_anim_dll_api">
+    <component name="avkon_anim_dll_api">
+      <unit unitID="classicui_classicui_dom_avkon_anim_dll_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_anim_dll_api\group" name="avkon_anim_dll_api" />
+    </component>
+  </module>
+  <module name="avkon_fonts_api">
+    <component name="avkon_fonts_api">
+      <unit unitID="classicui_classicui_dom_avkon_fonts_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_fonts_api\group" name="avkon_fonts_api" />
+    </component>
+  </module>
+  <module name="avkon_localised_texts_api">
+    <component name="avkon_localised_texts_api">
+      <unit unitID="classicui_classicui_dom_avkon_localised_texts_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_localised_texts_api\group" name="avkon_localised_texts_api" />
+    </component>
+  </module>
+  <module name="avkon_secondary_display_api">
+    <component name="avkon_secondary_display_api">
+      <unit unitID="classicui_classicui_dom_avkon_secondary_display_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_secondary_display_api\group" name="avkon_secondary_display_api" />
+    </component>
+  </module>
+  <module name="avkon_secondary_display_support_api">
+    <component name="avkon_secondary_display_support_api">
+      <unit unitID="classicui_classicui_dom_avkon_secondary_display_support_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_secondary_display_support_api\group" name="avkon_secondary_display_support_api" />
+    </component>
+  </module>
+  <module name="avkon_settings_api">
+    <component name="avkon_settings_api">
+      <unit unitID="classicui_classicui_dom_avkon_settings_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_settings_api\group" name="avkon_settings_api" />
+    </component>
+  </module>
+  <module name="avkon_status_api">
+    <component name="avkon_status_api">
+      <unit unitID="classicui_classicui_dom_avkon_status_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_status_api\group" name="avkon_status_api" />
+    </component>
+  </module>
+  <module name="avkon_ui_server_api">
+    <component name="avkon_ui_server_api">
+      <unit unitID="classicui_classicui_dom_avkon_ui_server_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\avkon_ui_server_api\group" name="avkon_ui_server_api" />
+    </component>
+  </module>
+  <module name="battery_pane_api">
+    <component name="battery_pane_api">
+      <unit unitID="classicui_classicui_dom_battery_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\battery_pane_api\group" name="battery_pane_api" />
+    </component>
+  </module>
+  <module name="character_conversion_nonpublic_api">
+    <component name="character_conversion_nonpublic_api">
+      <unit unitID="classicui_classicui_dom_character_conversion_nonpublic_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\character_conversion_nonpublic_api\group" name="character_conversion_nonpublic_api" />
+    </component>
+  </module>
+  <module name="common_file_dialogs_filter_factory_api">
+    <component name="common_file_dialogs_filter_factory_api">
+      <unit unitID="classicui_classicui_dom_common_file_dialogs_filter_factory_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\common_file_dialogs_filter_factory_api\group" name="common_file_dialogs_filter_factory_api" />
+    </component>
+  </module>
+  <module name="common_ui_settings_api">
+    <component name="common_ui_settings_api">
+      <unit unitID="classicui_classicui_dom_common_ui_settings_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\common_ui_settings_api\group" name="common_ui_settings_api" />
+    </component>
+  </module>
+  <module name="custom_cursors_api">
+    <component name="custom_cursors_api">
+      <unit unitID="classicui_classicui_dom_custom_cursors_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\custom_cursors_api\group" name="custom_cursors_api" />
+    </component>
+  </module>
+  <module name="eikon_server_extension_client_api">
+    <component name="eikon_server_extension_client_api">
+      <unit unitID="classicui_classicui_dom_eikon_server_extension_client_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\eikon_server_extension_client_api\group" name="eikon_server_extension_client_api" />
+    </component>
+  </module>
+  <module name="emergency_call_support_api">
+    <component name="emergency_call_support_api">
+      <unit unitID="classicui_classicui_dom_emergency_call_support_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\emergency_call_support_api\group" name="emergency_call_support_api" />
+    </component>
+  </module>
+  <module name="extended_aiw_criteria_api">
+    <component name="extended_aiw_criteria_api">
+      <unit unitID="classicui_classicui_dom_extended_aiw_criteria_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_aiw_criteria_api\group" name="extended_aiw_criteria_api" />
+    </component>
+  </module>
+  <module name="extended_animation_api">
+    <component name="extended_animation_api">
+      <unit unitID="classicui_classicui_dom_extended_animation_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_animation_api\group" name="extended_animation_api" />
+    </component>
+  </module>
+  <module name="extended_buttons_api">
+    <component name="extended_buttons_api">
+      <unit unitID="classicui_classicui_dom_extended_buttons_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_buttons_api\group" name="extended_buttons_api" />
+    </component>
+  </module>
+  <module name="extended_dialogs_api">
+    <component name="extended_dialogs_api">
+      <unit unitID="classicui_classicui_dom_extended_dialogs_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_dialogs_api\group" name="extended_dialogs_api" />
+    </component>
+  </module>
+  <module name="extended_editors_api">
+    <component name="extended_editors_api">
+      <unit unitID="classicui_classicui_dom_extended_editors_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_editors_api\group" name="extended_editors_api" />
+    </component>
+  </module>
+  <module name="extended_grids_api">
+    <component name="extended_grids_api">
+      <unit unitID="classicui_classicui_dom_extended_grids_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_grids_api\group" name="extended_grids_api" />
+    </component>
+  </module>
+  <module name="extended_indicators_api">
+    <component name="extended_indicators_api">
+      <unit unitID="classicui_classicui_dom_extended_indicators_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_indicators_api\group" name="extended_indicators_api" />
+    </component>
+  </module>
+  <module name="extended_initialization_api">
+    <component name="extended_initialization_api">
+      <unit unitID="classicui_classicui_dom_extended_initialization_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_initialization_api\group" name="extended_initialization_api" />
+    </component>
+  </module>
+  <module name="extended_input_capabilities_api">
+    <component name="extended_input_capabilities_api">
+      <unit unitID="classicui_classicui_dom_extended_input_capabilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_input_capabilities_api\group" name="extended_input_capabilities_api" />
+    </component>
+  </module>
+  <module name="extended_lists_api">
+    <component name="extended_lists_api">
+      <unit unitID="classicui_classicui_dom_extended_lists_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_lists_api\group" name="extended_lists_api" />
+    </component>
+  </module>
+  <module name="extended_notes_api">
+    <component name="extended_notes_api">
+      <unit unitID="classicui_classicui_dom_extended_notes_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_notes_api\group" name="extended_notes_api" />
+    </component>
+  </module>
+  <module name="extended_notifiers_api">
+    <component name="extended_notifiers_api">
+      <unit unitID="classicui_classicui_dom_extended_notifiers_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_notifiers_api\group" name="extended_notifiers_api" />
+    </component>
+  </module>
+  <module name="extended_queries_api">
+    <component name="extended_queries_api">
+      <unit unitID="classicui_classicui_dom_extended_queries_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_queries_api\group" name="extended_queries_api" />
+    </component>
+  </module>
+  <module name="extended_scroller_api">
+    <component name="extended_scroller_api">
+      <unit unitID="classicui_classicui_dom_extended_scroller_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_scroller_api\group" name="extended_scroller_api" />
+    </component>
+  </module>
+  <module name="extended_setting_pages_api">
+    <component name="extended_setting_pages_api">
+      <unit unitID="classicui_classicui_dom_extended_setting_pages_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_setting_pages_api\group" name="extended_setting_pages_api" />
+    </component>
+  </module>
+  <module name="extended_sounds_api">
+    <component name="extended_sounds_api">
+      <unit unitID="classicui_classicui_dom_extended_sounds_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_sounds_api\group" name="extended_sounds_api" />
+    </component>
+  </module>
+  <module name="extended_status_pane_api">
+    <component name="extended_status_pane_api">
+      <unit unitID="classicui_classicui_dom_extended_status_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_status_pane_api\group" name="extended_status_pane_api" />
+    </component>
+  </module>
+  <module name="extended_ui_framework_definitions_api">
+    <component name="extended_ui_framework_definitions_api">
+      <unit unitID="classicui_classicui_dom_extended_ui_framework_definitions_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_ui_framework_definitions_api\group" name="extended_ui_framework_definitions_api" />
+    </component>
+  </module>
+  <module name="extended_utilities_api">
+    <component name="extended_utilities_api">
+      <unit unitID="classicui_classicui_dom_extended_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\extended_utilities_api\group" name="extended_utilities_api" />
+    </component>
+  </module>
+  <module name="fep_document_navigation_api">
+    <component name="fep_document_navigation_api">
+      <unit unitID="classicui_classicui_dom_fep_document_navigation_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\fep_document_navigation_api\group" name="fep_document_navigation_api" />
+    </component>
+  </module>
+  <module name="findutil_api">
+    <component name="findutil_api">
+      <unit unitID="classicui_classicui_dom_findutil_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\findutil_api\group" name="findutil_api" />
+    </component>
+  </module>
+  <module name="find_item_ui_api">
+    <component name="find_item_ui_api">
+      <unit unitID="classicui_classicui_dom_find_item_ui_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\find_item_ui_api\group" name="find_item_ui_api" />
+    </component>
+  </module>
+  <module name="generic_parameter_api">
+    <component name="generic_parameter_api">
+      <unit unitID="classicui_classicui_dom_generic_parameter_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\generic_parameter_api\group" name="generic_parameter_api" />
+    </component>
+  </module>
+  <module name="global_popup_priority_controller_api">
+    <component name="global_popup_priority_controller_api">
+      <unit unitID="classicui_classicui_dom_global_popup_priority_controller_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\global_popup_priority_controller_api\group" name="global_popup_priority_controller_api" />
+    </component>
+  </module>
+  <module name="global_window_priorities_api">
+    <component name="global_window_priorities_api">
+      <unit unitID="classicui_classicui_dom_global_window_priorities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\global_window_priorities_api\group" name="global_window_priorities_api" />
+    </component>
+  </module>
+  <module name="indicator_plugin_api">
+    <component name="indicator_plugin_api">
+      <unit unitID="classicui_classicui_dom_indicator_plugin_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\indicator_plugin_api\group" name="indicator_plugin_api" />
+    </component>
+  </module>
+  <module name="indicator_touch_observer_api">
+    <component name="indicator_touch_observer_api">
+      <unit unitID="classicui_classicui_dom_indicator_touch_observer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\indicator_touch_observer_api\group" name="indicator_touch_observer_api" />
+    </component>
+  </module>
+  <module name="input_block_api">
+    <component name="input_block_api">
+      <unit unitID="classicui_classicui_dom_input_block_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\input_block_api\group" name="input_block_api" />
+    </component>
+  </module>
+  <module name="item_finder_api">
+    <component name="item_finder_api">
+      <unit unitID="classicui_classicui_dom_item_finder_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\item_finder_api\group" name="item_finder_api" />
+    </component>
+  </module>
+  <module name="japanese_language_utilities_api">
+    <component name="japanese_language_utilities_api">
+      <unit unitID="classicui_classicui_dom_japanese_language_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\japanese_language_utilities_api\group" name="japanese_language_utilities_api" />
+    </component>
+  </module>
+  <module name="japanese_reading_api">
+    <component name="japanese_reading_api">
+      <unit unitID="classicui_classicui_dom_japanese_reading_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\japanese_reading_api\group" name="japanese_reading_api" />
+    </component>
+  </module>
+  <module name="key_event_utilities_api">
+    <component name="key_event_utilities_api">
+      <unit unitID="classicui_classicui_dom_key_event_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\key_event_utilities_api\group" name="key_event_utilities_api" />
+    </component>
+  </module>
+  <module name="key_rotator_api">
+    <component name="key_rotator_api">
+      <unit unitID="classicui_classicui_dom_key_rotator_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\key_rotator_api\group" name="key_rotator_api" />
+    </component>
+  </module>
+  <module name="layout_configuration_api">
+    <component name="layout_configuration_api">
+      <unit unitID="classicui_classicui_dom_layout_configuration_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\layout_configuration_api\group" name="layout_configuration_api" />
+    </component>
+  </module>
+  <module name="legacy_ui_framework_headers_api">
+    <component name="legacy_ui_framework_headers_api">
+      <unit unitID="classicui_classicui_dom_legacy_ui_framework_headers_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\legacy_ui_framework_headers_api\group" name="legacy_ui_framework_headers_api" />
+    </component>
+  </module>
+  <module name="list_effects_api">
+    <component name="list_effects_api">
+      <unit unitID="classicui_classicui_dom_list_effects_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\list_effects_api\group" name="list_effects_api" />
+    </component>
+  </module>
+  <module name="long_tap_animation_api">
+    <component name="long_tap_animation_api">
+      <unit unitID="classicui_classicui_dom_long_tap_animation_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\long_tap_animation_api\group" name="long_tap_animation_api" />
+    </component>
+  </module>
+  <module name="media_shared_document_api">
+    <component name="media_shared_document_api">
+      <unit unitID="classicui_classicui_dom_media_shared_document_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\media_shared_document_api\group" name="media_shared_document_api" />
+    </component>
+  </module>
+  <module name="memory_card_ui_api">
+    <component name="memory_card_ui_api">
+      <unit unitID="classicui_classicui_dom_memory_card_ui_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\memory_card_ui_api\group" name="memory_card_ui_api" />
+    </component>
+  </module>
+  <module name="number_grouping_api">
+    <component name="number_grouping_api">
+      <unit unitID="classicui_classicui_dom_number_grouping_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\number_grouping_api\group" name="number_grouping_api" />
+    </component>
+  </module>
+  <module name="personalisation_application_api">
+    <component name="personalisation_application_api">
+      <unit unitID="classicui_classicui_dom_personalisation_application_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\personalisation_application_api\group" name="personalisation_application_api" />
+    </component>
+  </module>
+  <module name="personalisation_framework_api">
+    <component name="personalisation_framework_api">
+      <unit unitID="classicui_classicui_dom_personalisation_framework_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\personalisation_framework_api\group" name="personalisation_framework_api" />
+    </component>
+  </module>
+  <module name="personalisation_localised_texts_api">
+    <component name="personalisation_localised_texts_api">
+      <unit unitID="classicui_classicui_dom_personalisation_localised_texts_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\personalisation_localised_texts_api\group" name="personalisation_localised_texts_api" />
+    </component>
+  </module>
+  <module name="personalisation_plugin_api">
+    <component name="personalisation_plugin_api">
+      <unit unitID="classicui_classicui_dom_personalisation_plugin_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\personalisation_plugin_api\group" name="personalisation_plugin_api" />
+    </component>
+  </module>
+  <module name="personalisation_slide_show_dialog_api">
+    <component name="personalisation_slide_show_dialog_api">
+      <unit unitID="classicui_classicui_dom_personalisation_slide_show_dialog_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\personalisation_slide_show_dialog_api\group" name="personalisation_slide_show_dialog_api" />
+    </component>
+  </module>
+  <module name="phone_number_text_utilities_api">
+    <component name="phone_number_text_utilities_api">
+      <unit unitID="classicui_classicui_dom_phone_number_text_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\phone_number_text_utilities_api\group" name="phone_number_text_utilities_api" />
+    </component>
+  </module>
+  <module name="popup_form_api">
+    <component name="popup_form_api">
+      <unit unitID="classicui_classicui_dom_popup_form_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\popup_form_api\group" name="popup_form_api" />
+    </component>
+  </module>
+  <module name="screensaver_animation_plugin_definitions_api">
+    <component name="screensaver_animation_plugin_definitions_api">
+      <unit unitID="classicui_classicui_dom_screensaver_animation_plugin_definitions_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\screensaver_animation_plugin_definitions_api\group" name="screensaver_animation_plugin_definitions_api" />
+    </component>
+  </module>
+  <module name="screensaver_runtime_api">
+    <component name="screensaver_runtime_api">
+      <unit unitID="classicui_classicui_dom_screensaver_runtime_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\screensaver_runtime_api\group" name="screensaver_runtime_api" />
+    </component>
+  </module>
+  <module name="screensaver_settings_api">
+    <component name="screensaver_settings_api">
+      <unit unitID="classicui_classicui_dom_screensaver_settings_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\screensaver_settings_api\group" name="screensaver_settings_api" />
+    </component>
+  </module>
+  <module name="server_application_services_api">
+    <component name="server_application_services_api">
+      <unit unitID="classicui_classicui_dom_server_application_services_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\server_application_services_api\group" name="server_application_services_api" />
+    </component>
+  </module>
+  <module name="signal_pane_api">
+    <component name="signal_pane_api">
+      <unit unitID="classicui_classicui_dom_signal_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\signal_pane_api\group" name="signal_pane_api" />
+    </component>
+  </module>
+  <module name="skinnable_clock_api">
+    <component name="skinnable_clock_api">
+      <unit unitID="classicui_classicui_dom_skinnable_clock_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\skinnable_clock_api\group" name="skinnable_clock_api" />
+    </component>
+  </module>
+  <module name="sortutil_api">
+    <component name="sortutil_api">
+      <unit unitID="classicui_classicui_dom_sortutil_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\sortutil_api\group" name="sortutil_api" />
+    </component>
+  </module>
+  <module name="special_character_table_api">
+    <component name="special_character_table_api">
+      <unit unitID="classicui_classicui_dom_special_character_table_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\special_character_table_api\group" name="special_character_table_api" />
+    </component>
+  </module>
+  <module name="stylus_activated_popup_api">
+    <component name="stylus_activated_popup_api">
+      <unit unitID="classicui_classicui_dom_stylus_activated_popup_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\stylus_activated_popup_api\group" name="stylus_activated_popup_api" />
+    </component>
+  </module>
+  <module name="task_list_api">
+    <component name="task_list_api">
+      <unit unitID="classicui_classicui_dom_task_list_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\task_list_api\group" name="task_list_api" />
+    </component>
+  </module>
+  <module name="text_scroller_api">
+    <component name="text_scroller_api">
+      <unit unitID="classicui_classicui_dom_text_scroller_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\text_scroller_api\group" name="text_scroller_api" />
+    </component>
+  </module>
+  <module name="themes_settings_api">
+    <component name="themes_settings_api">
+      <unit unitID="classicui_classicui_dom_themes_settings_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\themes_settings_api\group" name="themes_settings_api" />
+    </component>
+  </module>
+  <module name="transition_effect_parameters_api">
+    <component name="transition_effect_parameters_api">
+      <unit unitID="classicui_classicui_dom_transition_effect_parameters_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\transition_effect_parameters_api\group" name="transition_effect_parameters_api" />
+    </component>
+  </module>
+  <module name="transition_effect_utilities_api">
+    <component name="transition_effect_utilities_api">
+      <unit unitID="classicui_classicui_dom_transition_effect_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\transition_effect_utilities_api\group" name="transition_effect_utilities_api" />
+    </component>
+  </module>
+  <module name="uikon_status_api">
+    <component name="uikon_status_api">
+      <unit unitID="classicui_classicui_dom_uikon_status_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\uikon_status_api\group" name="uikon_status_api" />
+    </component>
+  </module>
+  <module name="volume_popup_api">
+    <component name="volume_popup_api">
+      <unit unitID="classicui_classicui_dom_volume_popup_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_dom\volume_popup_api\group" name="volume_popup_api" />
+    </component>
+  </module>
+  <module name="classicui_sdk">
+    <component name="classicui_sdk">
+      <unit unitID="classicui_classicui_sdk" mrp="" filter="not_build"  bldFile="&layer_real_source_path;\classicui_sdk\group" name="classicui_sdk" />
+    </component>
+  </module>
+  <module name="aiw_criteria_api">
+    <component name="aiw_criteria_api">
+      <unit unitID="classicui_classicui_sdk_aiw_criteria_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\aiw_criteria_api\group" name="aiw_criteria_api" />
+    </component>
+  </module>
+  <module name="aiw_generic_parameter_api">
+    <component name="aiw_generic_parameter_api">
+      <unit unitID="classicui_classicui_sdk_aiw_generic_parameter_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\aiw_generic_parameter_api\group" name="aiw_generic_parameter_api" />
+    </component>
+  </module>
+  <module name="aiw_service_handler_api">
+    <component name="aiw_service_handler_api">
+      <unit unitID="classicui_classicui_sdk_aiw_service_handler_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\aiw_service_handler_api\group" name="aiw_service_handler_api" />
+    </component>
+  </module>
+  <module name="animation_api">
+    <component name="animation_api">
+      <unit unitID="classicui_classicui_sdk_animation_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\animation_api\group" name="animation_api" />
+    </component>
+  </module>
+  <module name="application_framework_api">
+    <component name="application_framework_api">
+      <unit unitID="classicui_classicui_sdk_application_framework_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\application_framework_api\group" name="application_framework_api" />
+    </component>
+  </module>
+  <module name="base_controls_api">
+    <component name="base_controls_api">
+      <unit unitID="classicui_classicui_sdk_base_controls_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\base_controls_api\group" name="base_controls_api" />
+    </component>
+  </module>
+  <module name="buttons_api">
+    <component name="buttons_api">
+      <unit unitID="classicui_classicui_sdk_buttons_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\buttons_api\group" name="buttons_api" />
+    </component>
+  </module>
+  <module name="calendar_api">
+    <component name="calendar_api">
+      <unit unitID="classicui_classicui_sdk_calendar_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\calendar_api\group" name="calendar_api" />
+    </component>
+  </module>
+  <module name="character_conversion_api">
+    <component name="character_conversion_api">
+      <unit unitID="classicui_classicui_sdk_character_conversion_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\character_conversion_api\group" name="character_conversion_api" />
+    </component>
+  </module>
+  <module name="character_conversion_plugin_provider_api">
+    <component name="character_conversion_plugin_provider_api">
+      <unit unitID="classicui_classicui_sdk_character_conversion_plugin_provider_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\character_conversion_plugin_provider_api\group" name="character_conversion_plugin_provider_api" />
+    </component>
+  </module>
+  <module name="choice_list_api">
+    <component name="choice_list_api">
+      <unit unitID="classicui_classicui_sdk_choice_list_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\choice_list_api\group" name="choice_list_api" />
+    </component>
+  </module>
+  <module name="common_file_dialogs_api">
+    <component name="common_file_dialogs_api">
+      <unit unitID="classicui_classicui_sdk_common_file_dialogs_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\common_file_dialogs_api\group" name="common_file_dialogs_api" />
+    </component>
+  </module>
+  <module name="context_pane_api">
+    <component name="context_pane_api">
+      <unit unitID="classicui_classicui_sdk_context_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\context_pane_api\group" name="context_pane_api" />
+    </component>
+  </module>
+  <module name="dialogs_api">
+    <component name="dialogs_api">
+      <unit unitID="classicui_classicui_sdk_dialogs_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\dialogs_api\group" name="dialogs_api" />
+    </component>
+  </module>
+  <module name="dialog_shutter_api">
+    <component name="dialog_shutter_api">
+      <unit unitID="classicui_classicui_sdk_dialog_shutter_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\dialog_shutter_api\group" name="dialog_shutter_api" />
+    </component>
+  </module>
+  <module name="directory_localizer_api">
+    <component name="directory_localizer_api">
+      <unit unitID="classicui_classicui_sdk_directory_localizer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\directory_localizer_api\group" name="directory_localizer_api" />
+    </component>
+  </module>
+  <module name="document_handler_api">
+    <component name="document_handler_api">
+      <unit unitID="classicui_classicui_sdk_document_handler_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\document_handler_api\group" name="document_handler_api" />
+    </component>
+  </module>
+  <module name="editors_api">
+    <component name="editors_api">
+      <unit unitID="classicui_classicui_sdk_editors_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\editors_api\group" name="editors_api" />
+    </component>
+  </module>
+  <module name="error_ui_api">
+    <component name="error_ui_api">
+      <unit unitID="classicui_classicui_sdk_error_ui_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\error_ui_api\group" name="error_ui_api" />
+    </component>
+  </module>
+  <module name="fonts_api">
+    <component name="fonts_api">
+      <unit unitID="classicui_classicui_sdk_fonts_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\fonts_api\group" name="fonts_api" />
+    </component>
+  </module>
+  <module name="form_api">
+    <component name="form_api">
+      <unit unitID="classicui_classicui_sdk_form_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\form_api\group" name="form_api" />
+    </component>
+  </module>
+  <module name="generic_button_api">
+    <component name="generic_button_api">
+      <unit unitID="classicui_classicui_sdk_generic_button_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\generic_button_api\group" name="generic_button_api" />
+    </component>
+  </module>
+  <module name="grids_api">
+    <component name="grids_api">
+      <unit unitID="classicui_classicui_sdk_grids_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\grids_api\group" name="grids_api" />
+    </component>
+  </module>
+  <module name="hierarchical_lists_api">
+    <component name="hierarchical_lists_api">
+      <unit unitID="classicui_classicui_sdk_hierarchical_lists_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\hierarchical_lists_api\group" name="hierarchical_lists_api" />
+    </component>
+  </module>
+  <module name="hotkeys_api">
+    <component name="hotkeys_api">
+      <unit unitID="classicui_classicui_sdk_hotkeys_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\hotkeys_api\group" name="hotkeys_api" />
+    </component>
+  </module>
+  <module name="images_api">
+    <component name="images_api">
+      <unit unitID="classicui_classicui_sdk_images_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\images_api\group" name="images_api" />
+    </component>
+  </module>
+  <module name="indicators_api">
+    <component name="indicators_api">
+      <unit unitID="classicui_classicui_sdk_indicators_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\indicators_api\group" name="indicators_api" />
+    </component>
+  </module>
+  <module name="information_preview_popup_api">
+    <component name="information_preview_popup_api">
+      <unit unitID="classicui_classicui_sdk_information_preview_popup_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\information_preview_popup_api\group" name="information_preview_popup_api" />
+    </component>
+  </module>
+  <module name="info_popup_note_api">
+    <component name="info_popup_note_api">
+      <unit unitID="classicui_classicui_sdk_info_popup_note_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\info_popup_note_api\group" name="info_popup_note_api" />
+    </component>
+  </module>
+  <module name="initialization_api">
+    <component name="initialization_api">
+      <unit unitID="classicui_classicui_sdk_initialization_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\initialization_api\group" name="initialization_api" />
+    </component>
+  </module>
+  <module name="input_frame_api">
+    <component name="input_frame_api">
+      <unit unitID="classicui_classicui_sdk_input_frame_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\input_frame_api\group" name="input_frame_api" />
+    </component>
+  </module>
+  <module name="intermediate_state_api">
+    <component name="intermediate_state_api">
+      <unit unitID="classicui_classicui_sdk_intermediate_state_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\intermediate_state_api\group" name="intermediate_state_api" />
+    </component>
+  </module>
+  <module name="keylock_api">
+    <component name="keylock_api">
+      <unit unitID="classicui_classicui_sdk_keylock_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\keylock_api\group" name="keylock_api" />
+    </component>
+  </module>
+  <module name="labels_api">
+    <component name="labels_api">
+      <unit unitID="classicui_classicui_sdk_labels_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\labels_api\group" name="labels_api" />
+    </component>
+  </module>
+  <module name="lists_api">
+    <component name="lists_api">
+      <unit unitID="classicui_classicui_sdk_lists_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\lists_api\group" name="lists_api" />
+    </component>
+  </module>
+  <module name="misc_controls_api">
+    <component name="misc_controls_api">
+      <unit unitID="classicui_classicui_sdk_misc_controls_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\misc_controls_api\group" name="misc_controls_api" />
+    </component>
+  </module>
+  <module name="navigation_pane_api">
+    <component name="navigation_pane_api">
+      <unit unitID="classicui_classicui_sdk_navigation_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\navigation_pane_api\group" name="navigation_pane_api" />
+    </component>
+  </module>
+  <module name="notes_api">
+    <component name="notes_api">
+      <unit unitID="classicui_classicui_sdk_notes_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\notes_api\group" name="notes_api" />
+    </component>
+  </module>
+  <module name="notifiers_api">
+    <component name="notifiers_api">
+      <unit unitID="classicui_classicui_sdk_notifiers_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\notifiers_api\group" name="notifiers_api" />
+    </component>
+  </module>
+  <module name="options_menu_api">
+    <component name="options_menu_api">
+      <unit unitID="classicui_classicui_sdk_options_menu_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\options_menu_api\group" name="options_menu_api" />
+    </component>
+  </module>
+  <module name="popups_api">
+    <component name="popups_api">
+      <unit unitID="classicui_classicui_sdk_popups_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\popups_api\group" name="popups_api" />
+    </component>
+  </module>
+  <module name="private_ui_framework_api">
+    <component name="private_ui_framework_api">
+      <unit unitID="classicui_classicui_sdk_private_ui_framework_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\private_ui_framework_api\group" name="private_ui_framework_api" />
+    </component>
+  </module>
+  <module name="queries_api">
+    <component name="queries_api">
+      <unit unitID="classicui_classicui_sdk_queries_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\queries_api\group" name="queries_api" />
+    </component>
+  </module>
+  <module name="screen_clearer_api">
+    <component name="screen_clearer_api">
+      <unit unitID="classicui_classicui_sdk_screen_clearer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\screen_clearer_api\group" name="screen_clearer_api" />
+    </component>
+  </module>
+  <module name="screen_mode_api">
+    <component name="screen_mode_api">
+      <unit unitID="classicui_classicui_sdk_screen_mode_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\screen_mode_api\group" name="screen_mode_api" />
+    </component>
+  </module>
+  <module name="screen_saver_api">
+    <component name="screen_saver_api">
+      <unit unitID="classicui_classicui_sdk_screen_saver_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\screen_saver_api\group" name="screen_saver_api" />
+    </component>
+  </module>
+  <module name="scroller_api">
+    <component name="scroller_api">
+      <unit unitID="classicui_classicui_sdk_scroller_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\scroller_api\group" name="scroller_api" />
+    </component>
+  </module>
+  <module name="searchfield_api">
+    <component name="searchfield_api">
+      <unit unitID="classicui_classicui_sdk_searchfield_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\searchfield_api\group" name="searchfield_api" />
+    </component>
+  </module>
+  <module name="server_application_api">
+    <component name="server_application_api">
+      <unit unitID="classicui_classicui_sdk_server_application_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\server_application_api\group" name="server_application_api" />
+    </component>
+  </module>
+  <module name="setting_pages_api">
+    <component name="setting_pages_api">
+      <unit unitID="classicui_classicui_sdk_setting_pages_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\setting_pages_api\group" name="setting_pages_api" />
+    </component>
+  </module>
+  <module name="slider_api">
+    <component name="slider_api">
+      <unit unitID="classicui_classicui_sdk_slider_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\slider_api\group" name="slider_api" />
+    </component>
+  </module>
+  <module name="sounds_api">
+    <component name="sounds_api">
+      <unit unitID="classicui_classicui_sdk_sounds_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\sounds_api\group" name="sounds_api" />
+    </component>
+  </module>
+  <module name="status_pane_api">
+    <component name="status_pane_api">
+      <unit unitID="classicui_classicui_sdk_status_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\status_pane_api\group" name="status_pane_api" />
+    </component>
+  </module>
+  <module name="stylus_popup_menu_api">
+    <component name="stylus_popup_menu_api">
+      <unit unitID="classicui_classicui_sdk_stylus_popup_menu_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\stylus_popup_menu_api\group" name="stylus_popup_menu_api" />
+    </component>
+  </module>
+  <module name="tabs_api">
+    <component name="tabs_api">
+      <unit unitID="classicui_classicui_sdk_tabs_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\tabs_api\group" name="tabs_api" />
+    </component>
+  </module>
+  <module name="title_pane_api">
+    <component name="title_pane_api">
+      <unit unitID="classicui_classicui_sdk_title_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\title_pane_api\group" name="title_pane_api" />
+    </component>
+  </module>
+  <module name="title_pane_touch_observer_api">
+    <component name="title_pane_touch_observer_api">
+      <unit unitID="classicui_classicui_sdk_title_pane_touch_observer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\title_pane_touch_observer_api\group" name="title_pane_touch_observer_api" />
+    </component>
+  </module>
+  <module name="toolbar_api">
+    <component name="toolbar_api">
+      <unit unitID="classicui_classicui_sdk_toolbar_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\toolbar_api\group" name="toolbar_api" />
+    </component>
+  </module>
+  <module name="touch_pane_api">
+    <component name="touch_pane_api">
+      <unit unitID="classicui_classicui_sdk_touch_pane_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\touch_pane_api\group" name="touch_pane_api" />
+    </component>
+  </module>
+  <module name="touch_pane_observer_api">
+    <component name="touch_pane_observer_api">
+      <unit unitID="classicui_classicui_sdk_touch_pane_observer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\touch_pane_observer_api\group" name="touch_pane_observer_api" />
+    </component>
+  </module>
+  <module name="touch_ui_utilities_api">
+    <component name="touch_ui_utilities_api">
+      <unit unitID="classicui_classicui_sdk_touch_ui_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\touch_ui_utilities_api\group" name="touch_ui_utilities_api" />
+    </component>
+  </module>
+  <module name="uikon_core_controls">
+    <component name="uikon_core_controls">
+      <unit unitID="classicui_classicui_sdk_uikon_core_controls" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\uikon_core_controls\group" name="uikon_core_controls" />
+    </component>
+  </module>
+  <module name="ui_framework_definitions_api">
+    <component name="ui_framework_definitions_api">
+      <unit unitID="classicui_classicui_sdk_ui_framework_definitions_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\ui_framework_definitions_api\group" name="ui_framework_definitions_api" />
+    </component>
+  </module>
+  <module name="ui_framework_utilities_api">
+    <component name="ui_framework_utilities_api">
+      <unit unitID="classicui_classicui_sdk_ui_framework_utilities_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\ui_framework_utilities_api\group" name="ui_framework_utilities_api" />
+    </component>
+  </module>
+  <module name="volume_control_api">
+    <component name="volume_control_api">
+      <unit unitID="classicui_classicui_sdk_volume_control_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\volume_control_api\group" name="volume_control_api" />
+    </component>
+  </module>
+  <module name="window_server_event_observer_api">
+    <component name="window_server_event_observer_api">
+      <unit unitID="classicui_classicui_sdk_window_server_event_observer_api" mrp="" filter="not_build" bldFile="&layer_real_source_path;\classicui_sdk\window_server_event_observer_api\group" name="window_server_event_observer_api" />
+    </component>
+  </module>
+  <module name="commonuis">
+    <component name="commonuis">
+      <unit unitID="classicui_commonuis" mrp="" filter="not_build" bldFile="&layer_real_source_path;\commonuis\group" name="commonuis" />
+    </component>
+  </module>
+  <module name="CommonDialogs">
+    <component name="CommonDialogs">
+      <unit unitID="classicui_commonuis_CommonDialogs" mrp="" filter="not_build" bldFile="&layer_real_source_path;\commonuis\CommonDialogs\group" name="CommonDialogs" />
+    </component>
+  </module>
+  <module name="Exa_CommonDialogs">
+    <component name="Exa_CommonDialogs">
+      <unit unitID="classicui_commonuis_CommonDialogs_internal_Exa_CommonDialogs" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\commonuis\CommonDialogs\internal\Exa_CommonDialogs\group" name="Exa_CommonDialogs" />
+    </component>
+  </module>
+  <module name="CommonUi">
+    <component name="CommonUi">
+      <unit unitID="classicui_commonuis_CommonUi" mrp="" filter="not_build" bldFile="&layer_real_source_path;\commonuis\CommonUi\group" name="CommonUi" />
+    </component>
+  </module>
+  <module name="Test">
+    <component name="Test">
+      <unit unitID="classicui_commonuis_CommonUi_internal_Test" mrp="" filter="not_build" bldFile="&layer_real_source_path;\commonuis\CommonUi\internal\Test\group" name="Test" />
+    </component>
+  </module>
+  <module name="DocHandler">
+    <component name="DocHandler">
+      <unit unitID="classicui_commonuis_CommonUi_internal_Test_DocHandler" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\commonuis\CommonUi\internal\Test\DocHandler\group" name="DocHandler" />
+    </component>
+  </module>
+  <module name="FindItemDialog">
+    <component name="FindItemDialog">
+      <unit unitID="classicui_commonuis_CommonUi_internal_Test_FindItemDialog" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\commonuis\CommonUi\internal\Test\FindItemDialog\group" name="FindItemDialog" />
+    </component>
+  </module>
+  <module name="FindItemMenu">
+    <component name="FindItemMenu">
+      <unit unitID="classicui_commonuis_CommonUi_internal_Test_FindItemMenu" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\commonuis\CommonUi\internal\Test\FindItemMenu\group" name="FindItemMenu" />
+    </component>
+  </module>
+  <module name="ItemFinder">
+    <component name="ItemFinder">
+      <unit unitID="classicui_commonuis_CommonUi_internal_Test_ItemFinder" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\commonuis\CommonUi\internal\Test\ItemFinder\group" name="ItemFinder" />
+    </component>
+  </module>
+  <module name="Psln">
+    <component name="Psln">
+      <unit unitID="classicui_Psln" mrp="" filter="not_build" bldFile="&layer_real_source_path;\Psln\group" name="Psln" />
+    </component>
+  </module>
+  <module name="PslnApplicationShellPlugin">
+    <component name="PslnApplicationShellPlugin">
+      <unit unitID="classicui_Psln_PslnApplicationShellPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\Psln\PslnApplicationShellPlugin\group" name="PslnApplicationShellPlugin" />
+    </component>
+  </module>
+  <module name="pslnengine">
+    <component name="pslnengine">
+      <unit unitID="classicui_Psln_pslnengine" mrp="" filter="not_build" bldFile="&layer_real_source_path;\Psln\pslnengine\group" name="pslnengine" />
+    </component>
+  </module>
+  <module name="PslnGSPlugin">
+    <component name="PslnGSPlugin">
+      <unit unitID="classicui_Psln_PslnGSPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\Psln\PslnGSPlugin\group" name="PslnGSPlugin" />
+    </component>
+  </module>
+  <module name="pslnslidesetdialog">
+    <component name="pslnslidesetdialog">
+      <unit unitID="classicui_Psln_pslnslidesetdialog" mrp="" filter="not_build" bldFile="&layer_real_source_path;\Psln\pslnslidesetdialog\group" name="pslnslidesetdialog" />
+    </component>
+  </module>
+  <module name="BmpAnimScrPlugin">
+    <component name="BmpAnimScrPlugin">
+      <unit unitID="classicui_screensaver_plugins_BmpAnimScrPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\screensaver\plugins\BmpAnimScrPlugin\group" name="BmpAnimScrPlugin" />
+    </component>
+  </module>
+  <module name="ScreenSaverAnimPlugin">
+    <component name="ScreenSaverAnimPlugin">
+      <unit unitID="classicui_screensaver_plugins_ScreenSaverAnimPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\screensaver\plugins\ScreenSaverAnimPlugin\group" name="ScreenSaverAnimPlugin" />
+    </component>
+  </module>
+  <module name="ScreenSaverGifAnimPlugin">
+    <component name="ScreenSaverGifAnimPlugin">
+      <unit unitID="classicui_screensaver_plugins_ScreenSaverGifAnimPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\screensaver\plugins\ScreenSaverGifAnimPlugin\group" name="ScreenSaverGifAnimPlugin" />
+    </component>
+  </module>
+  <module name="GifAnimationPerformanceTest">
+    <component name="GifAnimationPerformanceTest">
+      <unit unitID="classicui_screensaver_plugins_ScreenSaverGifAnimPlugin_internal_GifAnimationPerformanceTest" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\screensaver\plugins\ScreenSaverGifAnimPlugin\internal\GifAnimationPerformanceTest\group" name="GifAnimationPerformanceTest" />
+    </component>
+  </module>
+  <module name="GifAnimationTest">
+    <component name="GifAnimationTest">
+      <unit unitID="classicui_screensaver_plugins_ScreenSaverGifAnimPlugin_internal_GifAnimationTest" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\screensaver\plugins\ScreenSaverGifAnimPlugin\internal\GifAnimationTest\group" name="GifAnimationTest" />
+    </component>
+  </module>
+  <module name="SlideshowPlugin">
+    <component name="SlideshowPlugin">
+      <unit unitID="classicui_screensaver_plugins_SlideshowPlugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\screensaver\plugins\SlideshowPlugin\group" name="SlideshowPlugin" />
+    </component>
+  </module>
+  <module name="screensaveraiwplugin">
+    <component name="screensaveraiwplugin">
+      <unit unitID="classicui_screensaver_screensaveraiwplugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\screensaver\screensaveraiwplugin\group" name="screensaveraiwplugin" />
+    </component>
+  </module>
+  <module name="uifw">
+    <component name="uifw">
+      <unit unitID="classicui_uifw" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\group" name="uifw" />
+    </component>
+  </module>
+  <module name="AknGlobalUI">
+    <component name="AknGlobalUI">
+      <unit unitID="classicui_uifw_AknGlobalUI" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AknGlobalUI\group" name="AknGlobalUI" />
+    </component>
+  </module>
+  <module name="AvKon">
+    <component name="AvKon">
+      <unit unitID="classicui_uifw_AvKon" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AvKon\group" name="AvKon" priority="120" />
+    </component>
+  </module>
+  <module name="aknhlist">
+    <component name="aknhlist">
+      <unit unitID="classicui_uifw_AvKon_aknhlist" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AvKon\aknhlist\group" name="aknhlist" />
+    </component>
+  </module>
+  <module name="treelistunittest">
+    <component name="treelistunittest">
+      <unit unitID="classicui_uifw_AvKon_aknhlist_internal_tsrc_treelistunittest" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\aknhlist\internal\tsrc\treelistunittest\group" name="treelistunittest" />
+    </component>
+  </module>
+  <module name="AknKeyRotator">
+    <component name="AknKeyRotator">
+      <unit unitID="classicui_uifw_AvKon_AknKeyRotator" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AvKon\AknKeyRotator\group" name="AknKeyRotator" />
+    </component>
+  </module>
+  <module name="AknListLoaderTfx">
+    <component name="AknListLoaderTfx">
+      <unit unitID="classicui_uifw_AvKon_AknListLoaderTfx" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AvKon\AknListLoaderTfx\group" name="AknListLoaderTfx" />
+    </component>
+  </module>
+  <module name="AknTransitionUtils">
+    <component name="AknTransitionUtils">
+      <unit unitID="classicui_uifw_AvKon_AknTransitionUtils" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\AvKon\AknTransitionUtils\group" name="AknTransitionUtils" />
+    </component>
+  </module>
+  <module name="DirectoryLocalizerEx">
+    <component name="DirectoryLocalizerEx">
+      <unit unitID="classicui_uifw_AvKon_internal_DirectoryLocalizerEx" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\DirectoryLocalizerEx\group" name="DirectoryLocalizerEx" />
+    </component>
+  </module>
+  <module name="bctestlauncher">
+    <component name="bctestlauncher">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_bctestlauncher" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\bctestlauncher\group" name="bctestlauncher" />
+    </component>
+  </module>
+  <module name="bctesttemplate">
+    <component name="bctesttemplate">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_bctesttemplate" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\bctesttemplate\group" name="bctesttemplate" />
+    </component>
+  </module>
+  <module name="bctestutil">
+    <component name="bctestutil">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_bctestutil" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\bctestutil\group" name="bctestutil" />
+    </component>
+  </module>
+  <module name="S60_SDK3.0">
+    <component name="S60_SDK3.0">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\group" name="S60_SDK3.0" />
+    </component>
+  </module>
+  <module name="bctestaknsound">
+    <component name="bctestaknsound">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestaknsound" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestaknsound\group" name="bctestaknsound" />
+    </component>
+  </module>
+  <module name="bctestappfrm">
+    <component name="bctestappfrm">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestappfrm" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestappfrm\group" name="bctestappfrm" />
+    </component>
+  </module>
+  <module name="bctestbuttons">
+    <component name="bctestbuttons">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestbuttons" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestbuttons\group" name="bctestbuttons" />
+    </component>
+  </module>
+  <module name="bctestcmdlg">
+    <component name="bctestcmdlg">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestcmdlg" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestcmdlg\group" name="bctestcmdlg" />
+    </component>
+  </module>
+  <module name="bctestdocandinit">
+    <component name="bctestdocandinit">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestdocandinit" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestdocandinit\group" name="bctestdocandinit" />
+    </component>
+  </module>
+  <module name="bctesteditor">
+    <component name="bctesteditor">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctesteditor" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctesteditor\group" name="bctesteditor" />
+    </component>
+  </module>
+  <module name="bctesteh">
+    <component name="bctesteh">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctesteh" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctesteh\group" name="bctesteh" />
+    </component>
+  </module>
+  <module name="bctesteikbctrl">
+    <component name="bctesteikbctrl">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctesteikbctrl" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctesteikbctrl\group" name="bctesteikbctrl" />
+    </component>
+  </module>
+  <module name="bctesteikfrm">
+    <component name="bctesteikfrm">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctesteikfrm" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctesteikfrm\group" name="bctesteikfrm" />
+    </component>
+  </module>
+  <module name="bctestfontinput">
+    <component name="bctestfontinput">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestfontinput" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestfontinput\group" name="bctestfontinput" />
+    </component>
+  </module>
+  <module name="bctestform">
+    <component name="bctestform">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestform" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestform\group" name="bctestform" />
+    </component>
+  </module>
+  <module name="bctestgrids">
+    <component name="bctestgrids">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestgrids" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestgrids\group" name="bctestgrids" />
+    </component>
+  </module>
+  <module name="bctestimage">
+    <component name="bctestimage">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestimage" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestimage\group" name="bctestimage" />
+    </component>
+  </module>
+  <module name="bctestkeylock">
+    <component name="bctestkeylock">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestkeylock" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestkeylock\group" name="bctestkeylock" />
+    </component>
+  </module>
+  <module name="bctestlabelinfoindicators">
+    <component name="bctestlabelinfoindicators">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestlabelinfoindicators" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestlabelinfoindicators\group" name="bctestlabelinfoindicators" />
+    </component>
+  </module>
+  <module name="bctestlist">
+    <component name="bctestlist">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestlist" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestlist\group" name="bctestlist" />
+    </component>
+  </module>
+  <module name="bctestmenu">
+    <component name="bctestmenu">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestmenu" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestmenu\group" name="bctestmenu" />
+    </component>
+  </module>
+  <module name="bctestmisccontrol">
+    <component name="bctestmisccontrol">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestmisccontrol" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestmisccontrol\group" name="bctestmisccontrol" />
+    </component>
+  </module>
+  <module name="bctestnote">
+    <component name="bctestnote">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestnote" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestnote\group" name="bctestnote" />
+    </component>
+  </module>
+  <module name="bctestnotifier">
+    <component name="bctestnotifier">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestnotifier" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestnotifier\group" name="bctestnotifier" />
+    </component>
+  </module>
+  <module name="bctestpane">
+    <component name="bctestpane">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestpane" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestpane\group" name="bctestpane" />
+    </component>
+  </module>
+  <module name="bctestpopups">
+    <component name="bctestpopups">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestpopups" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestpopups\group" name="bctestpopups" />
+    </component>
+  </module>
+  <module name="bctestprivateuifrm">
+    <component name="bctestprivateuifrm">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestprivateuifrm" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestprivateuifrm\group" name="bctestprivateuifrm" />
+    </component>
+  </module>
+  <module name="bctestptieng">
+    <component name="bctestptieng">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestptieng" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestptieng\group" name="bctestptieng" />
+    </component>
+  </module>
+  <module name="bctestquery">
+    <component name="bctestquery">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestquery" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestquery\group" name="bctestquery" />
+    </component>
+  </module>
+  <module name="bctestscreenclearer">
+    <component name="bctestscreenclearer">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestscreenclearer" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestscreenclearer\group" name="bctestscreenclearer" />
+    </component>
+  </module>
+  <module name="bctestscrollerbar">
+    <component name="bctestscrollerbar">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestscrollerbar" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestscrollerbar\group" name="bctestscrollerbar" />
+    </component>
+  </module>
+  <module name="bctestsearchfield">
+    <component name="bctestsearchfield">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestsearchfield" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestsearchfield\group" name="bctestsearchfield" />
+    </component>
+  </module>
+  <module name="bctestserverapp">
+    <component name="bctestserverapp">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestserverapp" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestserverapp\group" name="bctestserverapp" />
+    </component>
+  </module>
+  <module name="bctestsettingpage">
+    <component name="bctestsettingpage">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestsettingpage" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestsettingpage\group" name="bctestsettingpage" />
+    </component>
+  </module>
+  <module name="bctestskins">
+    <component name="bctestskins">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestskins" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestskins\group" name="bctestskins" />
+    </component>
+  </module>
+  <module name="bctestsliderandicons">
+    <component name="bctestsliderandicons">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestsliderandicons" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestsliderandicons\group" name="bctestsliderandicons" />
+    </component>
+  </module>
+  <module name="bctestutilities">
+    <component name="bctestutilities">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestutilities" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestutilities\group" name="bctestutilities" />
+    </component>
+  </module>
+  <module name="bctestvolume">
+    <component name="bctestvolume">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.0_bctestvolume" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.0\bctestvolume\group" name="bctestvolume" />
+    </component>
+  </module>
+  <module name="S60_SDK3.1">
+    <component name="S60_SDK3.1">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.1" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.1\group" name="S60_SDK3.1" />
+    </component>
+  </module>
+  <module name="bctestlocation">
+    <component name="bctestlocation">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.1_bctestlocation" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.1\bctestlocation\group" name="bctestlocation" />
+    </component>
+  </module>
+  <module name="bctestmisc">
+    <component name="bctestmisc">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.1_bctestmisc" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.1\bctestmisc\group" name="bctestmisc" />
+    </component>
+  </module>
+  <module name="bctestocr">
+    <component name="bctestocr">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.1_bctestocr" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.1\bctestocr\group" name="bctestocr" />
+    </component>
+  </module>
+  <module name="S60_SDK3.2">
+    <component name="S60_SDK3.2">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\group" name="S60_SDK3.2" />
+    </component>
+  </module>
+  <module name="bctestbutton">
+    <component name="bctestbutton">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestbutton" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestbutton\group" name="bctestbutton" />
+    </component>
+  </module>
+  <module name="bctestchoicelist">
+    <component name="bctestchoicelist">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestchoicelist" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestchoicelist\group" name="bctestchoicelist" />
+    </component>
+  </module>
+  <module name="bctestlocalizer">
+    <component name="bctestlocalizer">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestlocalizer" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestlocalizer\group" name="bctestlocalizer" />
+    </component>
+  </module>
+  <module name="bctestmisc32">
+    <component name="bctestmisc32">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestmisc32" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestmisc32\group" name="bctestmisc32" />
+    </component>
+  </module>
+  <module name="bctestservicehandler">
+    <component name="bctestservicehandler">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestservicehandler" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestservicehandler\group" name="bctestservicehandler" />
+    </component>
+  </module>
+  <module name="bctesttouchpane">
+    <component name="bctesttouchpane">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctesttouchpane" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctesttouchpane\group" name="bctesttouchpane" />
+    </component>
+  </module>
+  <module name="bctestuniteditor">
+    <component name="bctestuniteditor">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2_bctestuniteditor" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2\bctestuniteditor\group" name="bctestuniteditor" />
+    </component>
+  </module>
+  <module name="S60_SDK3.2ED">
+    <component name="S60_SDK3.2ED">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2ED" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2ED\group" name="S60_SDK3.2ED" />
+    </component>
+  </module>
+  <module name="bctestpreviewpopup">
+    <component name="bctestpreviewpopup">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2ED_bctestpreviewpopup" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2ED\bctestpreviewpopup\group" name="bctestpreviewpopup" />
+    </component>
+  </module>
+  <module name="bctesttoolbar">
+    <component name="bctesttoolbar">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2ED_bctesttoolbar" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2ED\bctesttoolbar\group" name="bctesttoolbar" />
+    </component>
+  </module>
+  <module name="bctesttreelist">
+    <component name="bctesttreelist">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK3.2ED_bctesttreelist" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK3.2ED\bctesttreelist\group" name="bctesttreelist" />
+    </component>
+  </module>
+  <module name="S60_SDK5.0">
+    <component name="S60_SDK5.0">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK5.0" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK5.0\group" name="S60_SDK5.0" />
+    </component>
+  </module>
+  <module name="bcmultidriver">
+    <component name="bcmultidriver">
+      <unit unitID="classicui_uifw_AvKon_internal_tsrc_bc_S60_SDK5.0_bcmultidriver" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\tsrc\bc\S60_SDK5.0\bcmultidriver\group" name="bcmultidriver" />
+    </component>
+  </module>
+  <module name="uniteditorex">
+    <component name="uniteditorex">
+      <unit unitID="classicui_uifw_AvKon_internal_uniteditorex" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uifw\AvKon\internal\uniteditorex\group" name="uniteditorex" />
+    </component>
+  </module>
+  <module name="eikctl">
+    <component name="eikctl">
+      <unit unitID="classicui_uifw_eikctl" mrp="" filter="not_build"  bldFile="&layer_real_source_path;\uifw\eikctl\group" name="eikctl" priority="110" />
+    </component>
+  </module>
+  <module name="EikStd">
+    <component name="EikStd">
+      <unit unitID="classicui_uifw_EikStd" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\EikStd\group" name="EikStd" priority="130" />
+    </component>
+  </module>
+  <module name="uiklaf">
+    <component name="uiklaf">
+      <unit unitID="classicui_uifw_uiklaf" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uifw\uiklaf\group" name="uiklaf" priority="100" />
+    </component>
+  </module>
+  <module name="uiutils">
+    <component name="uiutils">
+      <unit unitID="classicui_uiutils" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\group" name="uiutils" />
+    </component>
+  </module>
+  <module name="AknJapaneseReading">
+    <component name="AknJapaneseReading">
+      <unit unitID="classicui_uiutils_AknJapaneseReading" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\AknJapaneseReading\group" name="AknJapaneseReading" />
+    </component>
+  </module>
+  <module name="ReadingTest">
+    <component name="ReadingTest">
+      <unit unitID="classicui_uiutils_AknJapaneseReading_internal_ReadingTest" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uiutils\AknJapaneseReading\internal\ReadingTest\group" name="ReadingTest" />
+    </component>
+  </module>
+  <module name="ReadingTest2">
+    <component name="ReadingTest2">
+      <unit unitID="classicui_uiutils_AknJapaneseReading_internal_ReadingTest2" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uiutils\AknJapaneseReading\internal\ReadingTest2\group" name="ReadingTest2" />
+    </component>
+  </module>
+  <module name="ongoing">
+    <component name="ongoing">
+      <unit unitID="classicui_uiutils_Charconv_ongoing" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\Charconv\ongoing\group" name="ongoing" />
+    </component>
+  </module>
+  <module name="Charconvplugin">
+    <component name="Charconvplugin">
+      <unit unitID="classicui_uiutils_Charconvplugin" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\Charconvplugin\group" name="Charconvplugin" />
+    </component>
+  </module>
+  <module name="CommonAdapter">
+    <component name="CommonAdapter">
+      <unit unitID="classicui_uiutils_CommonAdapter" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\CommonAdapter\group" name="CommonAdapter" />
+    </component>
+  </module>
+  <module name="GlobalNoteTestApp">
+    <component name="GlobalNoteTestApp">
+      <unit unitID="classicui_uiutils_CommonAdapter_internal_tsrc_GlobalNoteTestApp" mrp="" filter="not_build,test_internal" bldFile="&layer_real_source_path;\uiutils\CommonAdapter\internal\tsrc\GlobalNoteTestApp\group" name="GlobalNoteTestApp" />
+    </component>
+  </module>
+  <module name="Findutil">
+    <component name="Findutil">
+      <unit unitID="classicui_uiutils_Findutil" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\Findutil\group" name="Findutil" />
+    </component>
+  </module>
+  <module name="gamerecognizer">
+    <component name="gamerecognizer">
+      <unit unitID="classicui_uiutils_gamerecognizer" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\gamerecognizer\group" name="gamerecognizer" />
+    </component>
+  </module>
+  <module name="inlinetext">
+    <component name="inlinetext">
+      <unit unitID="classicui_uiutils_inlinetext" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\inlinetext\group" name="inlinetext" />
+    </component>
+  </module>
+  <module name="JPLangUtil">
+    <component name="JPLangUtil">
+      <unit unitID="classicui_uiutils_JPLangUtil" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\JPLangUtil\group" name="JPLangUtil" />
+    </component>
+  </module>
+  <module name="Localizer">
+    <component name="Localizer">
+      <unit unitID="classicui_uiutils_Localizer" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\Localizer\group" name="Localizer" />
+    </component>
+  </module>
+  <module name="numbergrouping">
+    <component name="numbergrouping">
+      <unit unitID="classicui_uiutils_numbergrouping" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\numbergrouping\group" name="numbergrouping" />
+    </component>
+  </module>
+  <module name="SortUtil">
+    <component name="SortUtil">
+      <unit unitID="classicui_uiutils_SortUtil" mrp="" filter="not_build" bldFile="&layer_real_source_path;\uiutils\SortUtil\group" name="SortUtil" />
+    </component>
+  </module>
+</layer>

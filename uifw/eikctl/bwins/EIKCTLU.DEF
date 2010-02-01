@@ -1,0 +1,548 @@
+EXPORTS
+	??0CAknIpFieldEditor@@QAE@XZ @ 1 NONAME ; CAknIpFieldEditor::CAknIpFieldEditor(void)
+	??0CColumnListBoxData@@IAE@XZ @ 2 NONAME ; CColumnListBoxData::CColumnListBoxData(void)
+	??0CColumnListBoxItemDrawer@@QAE@PAVMTextListBoxModel@@PBVCFont@@PAVCColumnListBoxData@@@Z @ 3 NONAME ; CColumnListBoxItemDrawer::CColumnListBoxItemDrawer(class MTextListBoxModel *, class CFont const *, class CColumnListBoxData *)
+	??0CEikColumnListBox@@QAE@XZ @ 4 NONAME ; CEikColumnListBox::CEikColumnListBox(void)
+	??0CEikColumnListBoxEditor@@QAE@PAVMListBoxModel@@@Z @ 5 NONAME ; CEikColumnListBoxEditor::CEikColumnListBoxEditor(class MListBoxModel *)
+	??0CEikDateEditor@@QAE@XZ @ 6 NONAME ; CEikDateEditor::CEikDateEditor(void)
+	??0CEikDurationEditor@@QAE@XZ @ 7 NONAME ; CEikDurationEditor::CEikDurationEditor(void)
+	??0CEikFixedPointEditor@@QAE@XZ @ 8 NONAME ; CEikFixedPointEditor::CEikFixedPointEditor(void)
+	??0CEikFloatingPointEditor@@QAE@XZ @ 9 NONAME ; CEikFloatingPointEditor::CEikFloatingPointEditor(void)
+	??0CEikGlobalTextEditor@@QAE@ABVTGulBorder@@@Z @ 10 NONAME ; CEikGlobalTextEditor::CEikGlobalTextEditor(class TGulBorder const &)
+	??0CEikGlobalTextEditor@@QAE@XZ @ 11 NONAME ; CEikGlobalTextEditor::CEikGlobalTextEditor(void)
+	??0CEikMfne@@QAE@XZ @ 12 NONAME ; CEikMfne::CEikMfne(void)
+	??0CEikMfneField@@IAE@XZ @ 13 NONAME ; CEikMfneField::CEikMfneField(void)
+	??0CEikNumberEditor@@QAE@XZ @ 14 NONAME ; CEikNumberEditor::CEikNumberEditor(void)
+	??0CEikProgressInfo@@QAE@ABUSInfo@0@@Z @ 15 NONAME ; CEikProgressInfo::CEikProgressInfo(struct CEikProgressInfo::SInfo const &)
+	??0CEikProgressInfo@@QAE@XZ @ 16 NONAME ; CEikProgressInfo::CEikProgressInfo(void)
+	??0CEikRangeEditor@@QAE@XZ @ 17 NONAME ; CEikRangeEditor::CEikRangeEditor(void)
+	??0CEikRichTextEditor@@QAE@ABVTGulBorder@@@Z @ 18 NONAME ; CEikRichTextEditor::CEikRichTextEditor(class TGulBorder const &)
+	??0CEikRichTextEditor@@QAE@XZ @ 19 NONAME ; CEikRichTextEditor::CEikRichTextEditor(void)
+	??0CEikSecretEditor@@QAE@XZ @ 20 NONAME ; CEikSecretEditor::CEikSecretEditor(void)
+	??0CEikSpacer@@QAE@HHVTRgb@@@Z @ 21 NONAME ; CEikSpacer::CEikSpacer(int, int, class TRgb)
+	??0CEikSpacer@@QAE@XZ @ 22 NONAME ; CEikSpacer::CEikSpacer(void)
+	??0CEikTimeAndDateEditor@@QAE@XZ @ 23 NONAME ; CEikTimeAndDateEditor::CEikTimeAndDateEditor(void)
+	??0CEikTimeEditor@@QAE@XZ @ 24 NONAME ; CEikTimeEditor::CEikTimeEditor(void)
+	??0CEikTimeOffsetEditor@@QAE@XZ @ 25 NONAME ; CEikTimeOffsetEditor::CEikTimeOffsetEditor(void)
+	??0TColors@CColumnListBoxData@@QAE@XZ @ 26 NONAME ; CColumnListBoxData::TColors::TColors(void)
+	??1CAknNumericEdwin@@UAE@XZ @ 27 NONAME ; CAknNumericEdwin::~CAknNumericEdwin(void)
+	??1CColumnListBoxData@@UAE@XZ @ 28 NONAME ; CColumnListBoxData::~CColumnListBoxData(void)
+	??1CColumnListBoxItemDrawer@@UAE@XZ @ 29 NONAME ; CColumnListBoxItemDrawer::~CColumnListBoxItemDrawer(void)
+	??1CEikColumnListBoxEditor@@UAE@XZ @ 30 NONAME ; CEikColumnListBoxEditor::~CEikColumnListBoxEditor(void)
+	??1CEikDateEditor@@UAE@XZ @ 31 NONAME ; CEikDateEditor::~CEikDateEditor(void)
+	??1CEikDurationEditor@@UAE@XZ @ 32 NONAME ; CEikDurationEditor::~CEikDurationEditor(void)
+	??1CEikGlobalTextEditor@@UAE@XZ @ 33 NONAME ; CEikGlobalTextEditor::~CEikGlobalTextEditor(void)
+	??1CEikMfne@@UAE@XZ @ 34 NONAME ; CEikMfne::~CEikMfne(void)
+	??1CEikMfneNumber@@UAE@XZ @ 35 NONAME ; CEikMfneNumber::~CEikMfneNumber(void)
+	??1CEikMfneSeparator@@UAE@XZ @ 36 NONAME ; CEikMfneSeparator::~CEikMfneSeparator(void)
+	??1CEikMfneSymbol@@UAE@XZ @ 37 NONAME ; CEikMfneSymbol::~CEikMfneSymbol(void)
+	??1CEikProgressInfo@@UAE@XZ @ 38 NONAME ; CEikProgressInfo::~CEikProgressInfo(void)
+	??1CEikRichTextEditor@@UAE@XZ @ 39 NONAME ; CEikRichTextEditor::~CEikRichTextEditor(void)
+	??1CEikSecretEditor@@UAE@XZ @ 40 NONAME ; CEikSecretEditor::~CEikSecretEditor(void)
+	??1CEikSpacer@@UAE@XZ @ 41 NONAME ; CEikSpacer::~CEikSpacer(void)
+	??1CEikTimeAndDateEditor@@UAE@XZ @ 42 NONAME ; CEikTimeAndDateEditor::~CEikTimeAndDateEditor(void)
+	??1CEikTimeEditor@@UAE@XZ @ 43 NONAME ; CEikTimeEditor::~CEikTimeEditor(void)
+	??1CEikTimeOffsetEditor@@UAE@XZ @ 44 NONAME ; CEikTimeOffsetEditor::~CEikTimeOffsetEditor(void)
+	??1CItem@CEikMfneSymbol@@UAE@XZ @ 45 NONAME ; CEikMfneSymbol::CItem::~CItem(void)
+	?ActivateL@CEikGlobalTextEditor@@UAEXXZ @ 46 NONAME ; void CEikGlobalTextEditor::ActivateL(void)
+	?ActivateL@CEikProgressInfo@@UAEXXZ @ 47 NONAME ; void CEikProgressInfo::ActivateL(void)
+	?ActivateL@CEikRichTextEditor@@UAEXXZ @ 48 NONAME ; void CEikRichTextEditor::ActivateL(void)
+	?AddField@CEikMfne@@QAEXPAVCEikMfneField@@@Z @ 49 NONAME ; void CEikMfne::AddField(class CEikMfneField *)
+	?AddSymbolicItem@CEikMfneSymbol@@QAEXPAVCItem@1@H@Z @ 50 NONAME ; void CEikMfneSymbol::AddSymbolicItem(class CEikMfneSymbol::CItem *, int)
+	?Address@CAknIpFieldEditor@@QBE?AVTInetAddr@@XZ @ 51 NONAME ; class TInetAddr CAknIpFieldEditor::Address(void) const
+	?AknSetAlignment@CEikSecretEditor@@QAEXABW4TTextAlign@CGraphicsContext@@@Z @ 52 NONAME ; void CEikSecretEditor::AknSetAlignment(enum CGraphicsContext::TTextAlign const &)
+	?AknSetFont@CEikSecretEditor@@QAEXABVCFont@@@Z @ 53 NONAME ; void CEikSecretEditor::AknSetFont(class CFont const &)
+	?AppendCharacterL@CEikSecretEditor@@MAEXH@Z @ 54 NONAME ; void CEikSecretEditor::AppendCharacterL(int)
+	?ApplyCharFormatL@CEikGlobalTextEditor@@QAEXAAVTCharFormat@@AAVTCharFormatMask@@@Z @ 55 NONAME ; void CEikGlobalTextEditor::ApplyCharFormatL(class TCharFormat &, class TCharFormatMask &)
+	?ApplyParaFormatL@CEikGlobalTextEditor@@QAEXPAVCParaFormat@@AAVTParaFormatMask@@@Z @ 56 NONAME ; void CEikGlobalTextEditor::ApplyParaFormatL(class CParaFormat *, class TParaFormatMask &)
+	?BaseConstructL@CEikGlobalTextEditor@@IAEXXZ @ 57 NONAME ; void CEikGlobalTextEditor::BaseConstructL(void)
+	?BoldItalicUnderlineEventL@CEikGlobalTextEditor@@QAEXH@Z @ 58 NONAME ; void CEikGlobalTextEditor::BoldItalicUnderlineEventL(int)
+	?BorderMargins@CEikMfne@@QBE?AVTMargins@@XZ @ 59 NONAME ; class TMargins CEikMfne::BorderMargins(void) const
+	?Buffer@CEikSecretEditor@@QBEABVTDesC16@@XZ @ 60 NONAME ; class TDesC16 const & CEikSecretEditor::Buffer(void) const
+	?ButtonGroupFactory@CEikCtlLibrary@@SAP6APAVMEikButtonGroup@@HAAVTCreationData@EikButtonGroupFactory@@AAH@ZXZ @ 61 NONAME ; class MEikButtonGroup * (*)(int, class EikButtonGroupFactory::TCreationData &, int &) CEikCtlLibrary::ButtonGroupFactory(void)
+	?CColumnListBoxItemDrawer_Reserved@CColumnListBoxItemDrawer@@AAEXXZ @ 62 NONAME ; void CColumnListBoxItemDrawer::CColumnListBoxItemDrawer_Reserved(void)
+	?CEikListBox_Reserved@CEikColumnListBox@@EAEXXZ @ 63 NONAME ; void CEikColumnListBox::CEikListBox_Reserved(void)
+	?CEikMfne_Reserved@CAknIpFieldEditor@@EAEXXZ @ 64 NONAME ; void CAknIpFieldEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikDateEditor@@EAEXXZ @ 65 NONAME ; void CEikDateEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikDurationEditor@@EAEXXZ @ 66 NONAME ; void CEikDurationEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikMfne@@EAEXXZ @ 67 NONAME ; void CEikMfne::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikNumberEditor@@EAEXXZ @ 68 NONAME ; void CEikNumberEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikRangeEditor@@EAEXXZ @ 69 NONAME ; void CEikRangeEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikTimeAndDateEditor@@EAEXXZ @ 70 NONAME ; void CEikTimeAndDateEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikTimeEditor@@EAEXXZ @ 71 NONAME ; void CEikTimeEditor::CEikMfne_Reserved(void)
+	?CEikMfne_Reserved@CEikTimeOffsetEditor@@EAEXXZ @ 72 NONAME ; void CEikTimeOffsetEditor::CEikMfne_Reserved(void)
+	?CalcBottomItemIndex@CColumnListBoxView@@UAEXXZ @ 73 NONAME ; void CColumnListBoxView::CalcBottomItemIndex(void)
+	?CancelFepInlineEdit@CEikSecretEditor@@EAEXXZ @ 74 NONAME ; void CEikSecretEditor::CancelFepInlineEdit(void)
+	?CheckForObjectL@CEikRichTextEditor@@QAEHXZ @ 75 NONAME ; int CEikRichTextEditor::CheckForObjectL(void)
+	?ClearAllPropertiesL@CColumnListBoxItemDrawer@@QAEXXZ @ 76 NONAME ; void CColumnListBoxItemDrawer::ClearAllPropertiesL(void)
+	?Column@CEikColumnListBoxEditor@@IBEHXZ @ 77 NONAME ; int CEikColumnListBoxEditor::Column(void) const
+	?ColumnAlignment@CColumnListBoxData@@QBE?AW4TTextAlign@CGraphicsContext@@H@Z @ 78 NONAME ; enum CGraphicsContext::TTextAlign CColumnListBoxData::ColumnAlignment(int) const
+	?ColumnBaselinePos@CColumnListBoxData@@QBEHH@Z @ 79 NONAME ; int CColumnListBoxData::ColumnBaselinePos(int) const
+	?ColumnData@CColumnListBoxItemDrawer@@QBEPAVCColumnListBoxData@@XZ @ 80 NONAME ; class CColumnListBoxData * CColumnListBoxItemDrawer::ColumnData(void) const
+	?ColumnEndX@CColumnListBoxData@@ABEHH@Z @ 81 NONAME ; int CColumnListBoxData::ColumnEndX(int) const
+	?ColumnFont@CColumnListBoxData@@QBEPBVCFont@@H@Z @ 82 NONAME ; class CFont const * CColumnListBoxData::ColumnFont(int) const
+	?ColumnHorizontalGap@CColumnListBoxData@@QBEHH@Z @ 83 NONAME ; int CColumnListBoxData::ColumnHorizontalGap(int) const
+	?ColumnIsGraphics@CColumnListBoxData@@QBEHH@Z @ 84 NONAME ; int CColumnListBoxData::ColumnIsGraphics(int) const
+	?ColumnIsNumber@CColumnListBoxData@@QBEHH@Z @ 85 NONAME ; int CColumnListBoxData::ColumnIsNumber(int) const
+	?ColumnIsOptional@CColumnListBoxData@@QBEHH@Z @ 86 NONAME ; int CColumnListBoxData::ColumnIsOptional(int) const
+	?ColumnMargins@CColumnListBoxData@@QBE?AVTMargins@@H@Z @ 87 NONAME ; class TMargins CColumnListBoxData::ColumnMargins(int) const
+	?ColumnSeparatorStyle@CColumnListBoxData@@QBE?AW4TPenStyle@CGraphicsContext@@H@Z @ 88 NONAME ; enum CGraphicsContext::TPenStyle CColumnListBoxData::ColumnSeparatorStyle(int) const
+	?ColumnTextClipGap@CColumnListBoxData@@QBEHH@Z @ 89 NONAME ; int CColumnListBoxData::ColumnTextClipGap(int) const
+	?ColumnWidthPixel@CColumnListBoxData@@QBEHH@Z @ 90 NONAME ; int CColumnListBoxData::ColumnWidthPixel(int) const
+	?ColumnX@CColumnListBoxData@@ABEHH@Z @ 91 NONAME ; int CColumnListBoxData::ColumnX(int) const
+	?ConstructFromResourceL@CAknIpFieldEditor@@UAEXAAVTResourceReader@@@Z @ 92 NONAME ; void CAknIpFieldEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikColumnListBox@@UAEXAAVTResourceReader@@@Z @ 93 NONAME ; void CEikColumnListBox::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikDateEditor@@UAEXAAVTResourceReader@@@Z @ 94 NONAME ; void CEikDateEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikDurationEditor@@UAEXAAVTResourceReader@@@Z @ 95 NONAME ; void CEikDurationEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikFixedPointEditor@@UAEXAAVTResourceReader@@@Z @ 96 NONAME ; void CEikFixedPointEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikFloatingPointEditor@@UAEXAAVTResourceReader@@@Z @ 97 NONAME ; void CEikFloatingPointEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikGlobalTextEditor@@UAEXAAVTResourceReader@@@Z @ 98 NONAME ; void CEikGlobalTextEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikNumberEditor@@UAEXAAVTResourceReader@@@Z @ 99 NONAME ; void CEikNumberEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikProgressInfo@@UAEXAAVTResourceReader@@@Z @ 100 NONAME ; void CEikProgressInfo::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikRangeEditor@@UAEXAAVTResourceReader@@@Z @ 101 NONAME ; void CEikRangeEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikRichTextEditor@@UAEXAAVTResourceReader@@@Z @ 102 NONAME ; void CEikRichTextEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikSecretEditor@@UAEXAAVTResourceReader@@@Z @ 103 NONAME ; void CEikSecretEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikTimeAndDateEditor@@UAEXAAVTResourceReader@@@Z @ 104 NONAME ; void CEikTimeAndDateEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikTimeEditor@@UAEXAAVTResourceReader@@@Z @ 105 NONAME ; void CEikTimeEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikTimeOffsetEditor@@UAEXAAVTResourceReader@@@Z @ 106 NONAME ; void CEikTimeOffsetEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructL@CEikColumnListBox@@UAEXPBVCCoeControl@@H@Z @ 107 NONAME ; void CEikColumnListBox::ConstructL(class CCoeControl const *, int)
+	?ConstructL@CEikColumnListBoxEditor@@QAEXH@Z @ 108 NONAME ; void CEikColumnListBoxEditor::ConstructL(int)
+	?ConstructL@CEikDateEditor@@QAEXABVTTime@@00H@Z @ 109 NONAME ; void CEikDateEditor::ConstructL(class TTime const &, class TTime const &, class TTime const &, int)
+	?ConstructL@CEikDurationEditor@@QAEXABVTTimeIntervalSeconds@@00K@Z @ 110 NONAME ; void CEikDurationEditor::ConstructL(class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, unsigned long)
+	?ConstructL@CEikFixedPointEditor@@QAEXHH@Z @ 111 NONAME ; void CEikFixedPointEditor::ConstructL(int, int)
+	?ConstructL@CEikFloatingPointEditor@@QAEXABN0H@Z @ 112 NONAME ; void CEikFloatingPointEditor::ConstructL(double const &, double const &, int)
+	?ConstructL@CEikGlobalTextEditor@@QAEXPBVCCoeControl@@HHHHH@Z @ 113 NONAME ; void CEikGlobalTextEditor::ConstructL(class CCoeControl const *, int, int, int, int, int)
+	?ConstructL@CEikNumberEditor@@QAEXHHH@Z @ 114 NONAME ; void CEikNumberEditor::ConstructL(int, int, int)
+	?ConstructL@CEikProgressInfo@@QAEXXZ @ 115 NONAME ; void CEikProgressInfo::ConstructL(void)
+	?ConstructL@CEikRangeEditor@@QAEXHHABUSEikRange@@PAVHBufC16@@@Z @ 116 NONAME ; void CEikRangeEditor::ConstructL(int, int, struct SEikRange const &, class HBufC16 *)
+	?ConstructL@CEikRichTextEditor@@QAEXPBVCCoeControl@@HHHHH@Z @ 117 NONAME ; void CEikRichTextEditor::ConstructL(class CCoeControl const *, int, int, int, int, int)
+	?ConstructL@CEikTimeAndDateEditor@@QAEXABVTTime@@00KPAVHBufC16@@@Z @ 118 NONAME ; void CEikTimeAndDateEditor::ConstructL(class TTime const &, class TTime const &, class TTime const &, unsigned long, class HBufC16 *)
+	?ConstructL@CEikTimeEditor@@QAEXABVTTime@@00K@Z @ 119 NONAME ; void CEikTimeEditor::ConstructL(class TTime const &, class TTime const &, class TTime const &, unsigned long)
+	?ConstructL@CEikTimeOffsetEditor@@QAEXABVTTimeIntervalSeconds@@00K@Z @ 120 NONAME ; void CEikTimeOffsetEditor::ConstructL(class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, unsigned long)
+	?ConstructLD@CColumnListBoxData@@IAEXXZ @ 121 NONAME ; void CColumnListBoxData::ConstructLD(void)
+	?Control@CColumnListBoxData@@QBEPAVCCoeControl@@XZ @ 122 NONAME ; class CCoeControl * CColumnListBoxData::Control(void) const
+	?ControlFactory@CEikCtlLibrary@@SAP6A?AUSEikControlInfo@@H@ZXZ @ 123 NONAME ; struct SEikControlInfo (*)(int) CEikCtlLibrary::ControlFactory(void)
+	?Convert@CEikMfne@@SA?AVTTime@@ABVTTimeIntervalSeconds@@@Z @ 124 NONAME ; class TTime CEikMfne::Convert(class TTimeIntervalSeconds const &)
+	?Convert@CEikMfne@@SA?AVTTimeIntervalSeconds@@ABVTTime@@@Z @ 125 NONAME ; class TTimeIntervalSeconds CEikMfne::Convert(class TTime const &)
+	?CopyDocumentContentL@CEikRichTextEditor@@UAEXAAVCGlobalText@@0@Z @ 126 NONAME ; void CEikRichTextEditor::CopyDocumentContentL(class CGlobalText &, class CGlobalText &)
+	?CreateFepStateL@CEikSecretEditor@@EAEPAVCState@MCoeFepAwareTextEditor_Extension1@@XZ @ 127 NONAME ; class MCoeFepAwareTextEditor_Extension1::CState * CEikSecretEditor::CreateFepStateL(void)
+	?CreateFieldArrayL@CEikMfne@@QAEXH@Z @ 128 NONAME ; void CEikMfne::CreateFieldArrayL(int)
+	?CreateItemDrawerL@CEikColumnListBox@@MAEXXZ @ 129 NONAME ; void CEikColumnListBox::CreateItemDrawerL(void)
+	?CreateModelL@CEikColumnListBox@@MAEXXZ @ 130 NONAME ; void CEikColumnListBox::CreateModelL(void)
+	?CreatePopoutIfRequiredL@CEikMfne@@EAEXXZ @ 131 NONAME ; void CEikMfne::CreatePopoutIfRequiredL(void)
+	?Date@CEikDateEditor@@QBE?AVTTime@@XZ @ 132 NONAME ; class TTime CEikDateEditor::Date(void) const
+	?DecimalPlaces@CEikFixedPointEditor@@QBEHXZ @ 133 NONAME ; int CEikFixedPointEditor::DecimalPlaces(void) const
+	?DefaultIconicDoorSize@CEikRichTextEditor@@QBEABVTSize@@XZ @ 134 NONAME ; class TSize const & CEikRichTextEditor::DefaultIconicDoorSize(void) const
+	?DoCommitFepInlineEditL@CEikSecretEditor@@EAEXXZ @ 135 NONAME ; void CEikSecretEditor::DoCommitFepInlineEditL(void)
+	?DoFindL@CEikGlobalTextEditor@@QAEHXZ @ 136 NONAME ; int CEikGlobalTextEditor::DoFindL(void)
+	?DocumentLengthForFep@CEikSecretEditor@@EBEHXZ @ 137 NONAME ; int CEikSecretEditor::DocumentLengthForFep(void) const
+	?DocumentMaximumLengthForFep@CEikSecretEditor@@EBEHXZ @ 138 NONAME ; int CEikSecretEditor::DocumentMaximumLengthForFep(void) const
+	?Draw@CColumnListBoxData@@UBEXABVTListItemProperties@@AAVCWindowGc@@PBVTDesC16@@ABVTRect@@HABVTColors@1@@Z @ 139 NONAME ; void CColumnListBoxData::Draw(class TListItemProperties const &, class CWindowGc &, class TDesC16 const *, class TRect const &, int, class CColumnListBoxData::TColors const &) const
+	?Draw@CColumnListBoxView@@UBEXPBVTRect@@@Z @ 140 NONAME ; void CColumnListBoxView::Draw(class TRect const *) const
+	?Draw@CEikMfne@@EBEXABVTRect@@@Z @ 141 NONAME ; void CEikMfne::Draw(class TRect const &) const
+	?Draw@CEikProgressInfo@@EBEXABVTRect@@@Z @ 142 NONAME ; void CEikProgressInfo::Draw(class TRect const &) const
+	?Draw@CEikRichTextEditor@@EBEXABVTRect@@@Z @ 143 NONAME ; void CEikRichTextEditor::Draw(class TRect const &) const
+	?Draw@CEikSecretEditor@@EBEXABVTRect@@@Z @ 144 NONAME ; void CEikSecretEditor::Draw(class TRect const &) const
+	?DrawItemMark@CColumnListBoxItemDrawer@@UBEXHHABVTPoint@@@Z @ 145 NONAME ; void CColumnListBoxItemDrawer::DrawItemMark(int, int, class TPoint const &) const
+	?DrawItemText@CColumnListBoxItemDrawer@@UBEXHABVTRect@@HHH@Z @ 146 NONAME ; void CColumnListBoxItemDrawer::DrawItemText(int, class TRect const &, int, int, int) const
+	?DrawNowAndLeaveWithTimeDateFormatInfoMsgL@CEikMfne@@QBEXHABVTTime@@@Z @ 147 NONAME ; void CEikMfne::DrawNowAndLeaveWithTimeDateFormatInfoMsgL(int, class TTime const &) const
+	?DrawText@CColumnListBoxData@@IBEXAAVCWindowGc@@ABVTRect@@ABVTDesC16@@2HW4TTextAlign@CGraphicsContext@@ABVCFont@@HH@Z @ 148 NONAME ; void CColumnListBoxData::DrawText(class CWindowGc &, class TRect const &, class TDesC16 const &, class TDesC16 const &, int, enum CGraphicsContext::TTextAlign, class CFont const &, int, int) const
+	?Duration@CEikDurationEditor@@QBE?AVTTimeIntervalSeconds@@XZ @ 149 NONAME ; class TTimeIntervalSeconds CEikDurationEditor::Duration(void) const
+	?EditItemL@CEikColumnListBox@@QAEXHH@Z @ 150 NONAME ; void CEikColumnListBox::EditItemL(int, int)
+	?EditObserver@CEikRichTextEditor@@MAEXHH@Z @ 151 NONAME ; void CEikRichTextEditor::EditObserver(int, int)
+	?EditPictureFormatL@CEikRichTextEditor@@QAEXXZ @ 152 NONAME ; void CEikRichTextEditor::EditPictureFormatL(void)
+	?EnableExtendedDrawingL@CEikColumnListBox@@QAEXXZ @ 153 NONAME ; void CEikColumnListBox::EnableExtendedDrawingL(void)
+	?EnableMarqueeL@CColumnListBoxData@@QAEXH@Z @ 154 NONAME ; void CColumnListBoxData::EnableMarqueeL(int)
+	?EvaluateText@CEikProgressInfo@@MBEPBVTDesC16@@AAVTDes16@@@Z @ 155 NONAME ; class TDesC16 const * CEikProgressInfo::EvaluateText(class TDes16 &) const
+	?Extension1@CEikSecretEditor@@EAEPAVMCoeFepAwareTextEditor_Extension1@@AAH@Z @ 156 NONAME ; class MCoeFepAwareTextEditor_Extension1 * CEikSecretEditor::Extension1(int &)
+	?ExtensionInterface@CAknIpFieldEditor@@EAEPAXVTUid@@@Z @ 157 NONAME ; void * CAknIpFieldEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CAknNumericEdwin@@EAEPAXVTUid@@@Z @ 158 NONAME ; void * CAknNumericEdwin::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikColumnListBox@@EAEPAXVTUid@@@Z @ 159 NONAME ; void * CEikColumnListBox::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikColumnListBoxEditor@@EAEPAXVTUid@@@Z @ 160 NONAME ; void * CEikColumnListBoxEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikDateEditor@@EAEPAXVTUid@@@Z @ 161 NONAME ; void * CEikDateEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikDurationEditor@@EAEPAXVTUid@@@Z @ 162 NONAME ; void * CEikDurationEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikFixedPointEditor@@EAEPAXVTUid@@@Z @ 163 NONAME ; void * CEikFixedPointEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikFloatingPointEditor@@EAEPAXVTUid@@@Z @ 164 NONAME ; void * CEikFloatingPointEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikGlobalTextEditor@@EAEPAXVTUid@@@Z @ 165 NONAME ; void * CEikGlobalTextEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikMfne@@EAEPAXVTUid@@@Z @ 166 NONAME ; void * CEikMfne::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikNumberEditor@@EAEPAXVTUid@@@Z @ 167 NONAME ; void * CEikNumberEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikProgressInfo@@EAEPAXVTUid@@@Z @ 168 NONAME ; void * CEikProgressInfo::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikRangeEditor@@EAEPAXVTUid@@@Z @ 169 NONAME ; void * CEikRangeEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikRichTextEditor@@EAEPAXVTUid@@@Z @ 170 NONAME ; void * CEikRichTextEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikSecretEditor@@EAEPAXVTUid@@@Z @ 171 NONAME ; void * CEikSecretEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikSpacer@@EAEPAXVTUid@@@Z @ 172 NONAME ; void * CEikSpacer::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikTimeAndDateEditor@@EAEPAXVTUid@@@Z @ 173 NONAME ; void * CEikTimeAndDateEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikTimeEditor@@EAEPAXVTUid@@@Z @ 174 NONAME ; void * CEikTimeEditor::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikTimeOffsetEditor@@EAEPAXVTUid@@@Z @ 175 NONAME ; void * CEikTimeOffsetEditor::ExtensionInterface(class TUid)
+	?Field@CEikMfne@@QBEPAVCEikMfneField@@H@Z @ 176 NONAME ; class CEikMfneField * CEikMfne::Field(int) const
+	?FieldIsAboutToBeDeHighlighted@CEikMfne@@MAEXPAVCEikMfneField@@AAH@Z @ 177 NONAME ; void CEikMfne::FieldIsAboutToBeDeHighlighted(class CEikMfneField *, int &)
+	?FocusChanged@CEikColumnListBox@@UAEXW4TDrawNow@@@Z @ 178 NONAME ; void CEikColumnListBox::FocusChanged(enum TDrawNow)
+	?FocusChanged@CEikMfne@@MAEXW4TDrawNow@@@Z @ 179 NONAME ; void CEikMfne::FocusChanged(enum TDrawNow)
+	?Font@CColumnListBoxData@@QBEPAVCFont@@ABVTListItemProperties@@H@Z @ 180 NONAME ; class CFont * CColumnListBoxData::Font(class TListItemProperties const &, int) const
+	?Font@CEikMfne@@QBEPBVCFont@@XZ @ 181 NONAME ; class CFont const * CEikMfne::Font(void) const
+	?GetColorUseListL@CEikColumnListBox@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 182 NONAME ; void CEikColumnListBox::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetColorUseListL@CEikMfne@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 183 NONAME ; void CEikMfne::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetColorUseListL@CEikProgressInfo@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 184 NONAME ; void CEikProgressInfo::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetColorUseListL@CEikSecretEditor@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 185 NONAME ; void CEikSecretEditor::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetCursorSelectionForFep@CEikSecretEditor@@EBEXAAVTCursorSelection@@@Z @ 186 NONAME ; void CEikSecretEditor::GetCursorSelectionForFep(class TCursorSelection &) const
+	?GetEditorContentForFep@CEikSecretEditor@@EBEXAAVTDes16@@HH@Z @ 187 NONAME ; void CEikSecretEditor::GetEditorContentForFep(class TDes16 &, int, int) const
+	?GetEmbeddedAppL@CEikRichTextEditor@@QAEXAAPAVCApaDoor@@AAPAVCApaDocument@@H@Z @ 188 NONAME ; void CEikRichTextEditor::GetEmbeddedAppL(class CApaDoor * &, class CApaDocument * &, int)
+	?GetFormatForFep@CEikSecretEditor@@EBEXAAVTCharFormat@@H@Z @ 189 NONAME ; void CEikSecretEditor::GetFormatForFep(class TCharFormat &, int) const
+	?GetMinMax@CEikFixedPointEditor@@QBEXAAH0@Z @ 190 NONAME ; void CEikFixedPointEditor::GetMinMax(int &, int &) const
+	?GetMinMax@CEikFloatingPointEditor@@QBEXAAN0@Z @ 191 NONAME ; void CEikFloatingPointEditor::GetMinMax(double &, double &) const
+	?GetMinimumAndMaximum@CAknIpFieldEditor@@UBEXAAVTInetAddr@@0@Z @ 192 NONAME ; void CAknIpFieldEditor::GetMinimumAndMaximum(class TInetAddr &, class TInetAddr &) const
+	?GetMinimumAndMaximum@CEikDateEditor@@UBEXAAVTTime@@0@Z @ 193 NONAME ; void CEikDateEditor::GetMinimumAndMaximum(class TTime &, class TTime &) const
+	?GetMinimumAndMaximum@CEikDurationEditor@@QBEXAAVTTimeIntervalSeconds@@0@Z @ 194 NONAME ; void CEikDurationEditor::GetMinimumAndMaximum(class TTimeIntervalSeconds &, class TTimeIntervalSeconds &) const
+	?GetMinimumAndMaximum@CEikMfneNumber@@QBEXAAH0@Z @ 195 NONAME ; void CEikMfneNumber::GetMinimumAndMaximum(int &, int &) const
+	?GetMinimumAndMaximum@CEikNumberEditor@@QBEXAAH0@Z @ 196 NONAME ; void CEikNumberEditor::GetMinimumAndMaximum(int &, int &) const
+	?GetMinimumAndMaximum@CEikRangeEditor@@QBEXAAH0@Z @ 197 NONAME ; void CEikRangeEditor::GetMinimumAndMaximum(int &, int &) const
+	?GetMinimumAndMaximum@CEikTimeAndDateEditor@@UBEXAAVTTime@@0@Z @ 198 NONAME ; void CEikTimeAndDateEditor::GetMinimumAndMaximum(class TTime &, class TTime &) const
+	?GetMinimumAndMaximum@CEikTimeEditor@@UBEXAAVTTime@@0@Z @ 199 NONAME ; void CEikTimeEditor::GetMinimumAndMaximum(class TTime &, class TTime &) const
+	?GetMinimumAndMaximum@CEikTimeOffsetEditor@@QBEXAAVTTimeIntervalSeconds@@0@Z @ 200 NONAME ; void CEikTimeOffsetEditor::GetMinimumAndMaximum(class TTimeIntervalSeconds &, class TTimeIntervalSeconds &) const
+	?GetScreenCoordinatesForFepL@CEikSecretEditor@@EBEXAAVTPoint@@AAH1H@Z @ 201 NONAME ; void CEikSecretEditor::GetScreenCoordinatesForFepL(class TPoint &, int &, int &, int) const
+	?GetText@CEikSecretEditor@@QBEXAAVTDes16@@@Z @ 202 NONAME ; void CEikSecretEditor::GetText(class TDes16 &) const
+	?GetValueAsInteger@CEikFixedPointEditor@@QAE?AW4TValidationStatus@CAknNumericEdwin@@AAH@Z @ 203 NONAME ; enum CAknNumericEdwin::TValidationStatus CEikFixedPointEditor::GetValueAsInteger(int &)
+	?GetValueAsReal@CEikFloatingPointEditor@@QAE?AW4TValidationStatus@CAknNumericEdwin@@AAN@Z @ 204 NONAME ; enum CAknNumericEdwin::TValidationStatus CEikFloatingPointEditor::GetValueAsReal(double &)
+	?GlobalText@CEikGlobalTextEditor@@QBEPAVCGlobalText@@XZ @ 205 NONAME ; class CGlobalText * CEikGlobalTextEditor::GlobalText(void) const
+	?HandleDeHighlight@CEikMfneField@@UAEXABVCFont@@AAVCEikonEnv@@AAH2@Z @ 206 NONAME ; void CEikMfneField::HandleDeHighlight(class CFont const &, class CEikonEnv &, int &, int &)
+	?HandleInteraction@CEikMfne@@IAEXHHHW4THighlightType@CEikMfneField@@AAH1@Z @ 207 NONAME ; void CEikMfne::HandleInteraction(int, int, int, enum CEikMfneField::THighlightType, int &, int &)
+	?HandleKey@CEikMfneField@@UAEXABVCFont@@ABUTKeyEvent@@HAAH2@Z @ 208 NONAME ; void CEikMfneField::HandleKey(class CFont const &, struct TKeyEvent const &, int, int &, int &)
+	?HandleLeftOrRightArrow@CEikMfneField@@IAEXVTChar@@AAH1@Z @ 209 NONAME ; void CEikMfneField::HandleLeftOrRightArrow(class TChar, int &, int &)
+	?HandleMfneCommandL@CEikMfne@@UAEXH@Z @ 210 NONAME ; void CEikMfne::HandleMfneCommandL(int)
+	?HandlePointerEventL@CAknIpFieldEditor@@UAEXABUTPointerEvent@@@Z @ 211 NONAME ; void CAknIpFieldEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CAknNumericEdwin@@UAEXABUTPointerEvent@@@Z @ 212 NONAME ; void CAknNumericEdwin::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikColumnListBox@@UAEXABUTPointerEvent@@@Z @ 213 NONAME ; void CEikColumnListBox::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikColumnListBoxEditor@@UAEXABUTPointerEvent@@@Z @ 214 NONAME ; void CEikColumnListBoxEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikDateEditor@@UAEXABUTPointerEvent@@@Z @ 215 NONAME ; void CEikDateEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikDurationEditor@@UAEXABUTPointerEvent@@@Z @ 216 NONAME ; void CEikDurationEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikFixedPointEditor@@UAEXABUTPointerEvent@@@Z @ 217 NONAME ; void CEikFixedPointEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikFloatingPointEditor@@UAEXABUTPointerEvent@@@Z @ 218 NONAME ; void CEikFloatingPointEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikGlobalTextEditor@@UAEXABUTPointerEvent@@@Z @ 219 NONAME ; void CEikGlobalTextEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikMfne@@UAEXABUTPointerEvent@@@Z @ 220 NONAME ; void CEikMfne::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikNumberEditor@@UAEXABUTPointerEvent@@@Z @ 221 NONAME ; void CEikNumberEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikProgressInfo@@UAEXABUTPointerEvent@@@Z @ 222 NONAME ; void CEikProgressInfo::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikRangeEditor@@UAEXABUTPointerEvent@@@Z @ 223 NONAME ; void CEikRangeEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikRichTextEditor@@UAEXABUTPointerEvent@@@Z @ 224 NONAME ; void CEikRichTextEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikSecretEditor@@UAEXABUTPointerEvent@@@Z @ 225 NONAME ; void CEikSecretEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikSpacer@@UAEXABUTPointerEvent@@@Z @ 226 NONAME ; void CEikSpacer::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikTimeAndDateEditor@@UAEXABUTPointerEvent@@@Z @ 227 NONAME ; void CEikTimeAndDateEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikTimeEditor@@UAEXABUTPointerEvent@@@Z @ 228 NONAME ; void CEikTimeEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikTimeOffsetEditor@@UAEXABUTPointerEvent@@@Z @ 229 NONAME ; void CEikTimeOffsetEditor::HandlePointerEventL(struct TPointerEvent const &)
+	?HandleResourceChange@CEikColumnListBox@@UAEXH@Z @ 230 NONAME ; void CEikColumnListBox::HandleResourceChange(int)
+	?HandleResourceChange@CEikFixedPointEditor@@UAEXH@Z @ 231 NONAME ; void CEikFixedPointEditor::HandleResourceChange(int)
+	?HandleResourceChange@CEikFloatingPointEditor@@UAEXH@Z @ 232 NONAME ; void CEikFloatingPointEditor::HandleResourceChange(int)
+	?HandleResourceChange@CEikMfne@@UAEXH@Z @ 233 NONAME ; void CEikMfne::HandleResourceChange(int)
+	?HandleResourceChange@CEikProgressInfo@@UAEXH@Z @ 234 NONAME ; void CEikProgressInfo::HandleResourceChange(int)
+	?HandleResourceChange@CEikSecretEditor@@UAEXH@Z @ 235 NONAME ; void CEikSecretEditor::HandleResourceChange(int)
+	?HandleTextPastedL@CEikRichTextEditor@@EAEXHAAH@Z @ 236 NONAME ; void CEikRichTextEditor::HandleTextPastedL(int, int &)
+	?HighlightType@CEikMfneField@@UBE?AW4THighlightType@1@XZ @ 237 NONAME ; enum CEikMfneField::THighlightType CEikMfneField::HighlightType(void) const
+	?IconArray@CColumnListBoxData@@QBEPAV?$CArrayPtr@VCGulIcon@@@@XZ @ 238 NONAME ; class CArrayPtr<class CGulIcon> * CColumnListBoxData::IconArray(void) const
+	?IdOfCurrentSymbolicItem@CEikMfneSymbol@@QBEHXZ @ 239 NONAME ; int CEikMfneSymbol::IdOfCurrentSymbolicItem(void) const
+	?IncrementAndDraw@CEikProgressInfo@@QAEXH@Z @ 240 NONAME ; void CEikProgressInfo::IncrementAndDraw(int)
+	?InitFindL@CEikGlobalTextEditor@@QAEXAAPAUSEdwinFindModel@@AAPAVCDesC16Array@@1@Z @ 241 NONAME ; void CEikGlobalTextEditor::InitFindL(struct SEdwinFindModel * &, class CDesC16Array * &, class CDesC16Array * &)
+	?InitializeDisplay@CEikSecretEditor@@UAEXH@Z @ 242 NONAME ; void CEikSecretEditor::InitializeDisplay(int)
+	?InitializeL@CEikCtlLibrary@@SAXXZ @ 243 NONAME ; void CEikCtlLibrary::InitializeL(void)
+	?InputCapabilities@CEikFixedPointEditor@@UBE?AVTCoeInputCapabilities@@XZ @ 244 NONAME ; class TCoeInputCapabilities CEikFixedPointEditor::InputCapabilities(void) const
+	?InputCapabilities@CEikFloatingPointEditor@@UBE?AVTCoeInputCapabilities@@XZ @ 245 NONAME ; class TCoeInputCapabilities CEikFloatingPointEditor::InputCapabilities(void) const
+	?InputCapabilities@CEikMfne@@UBE?AVTCoeInputCapabilities@@XZ @ 246 NONAME ; class TCoeInputCapabilities CEikMfne::InputCapabilities(void) const
+	?InputCapabilities@CEikSecretEditor@@UBE?AVTCoeInputCapabilities@@XZ @ 247 NONAME ; class TCoeInputCapabilities CEikSecretEditor::InputCapabilities(void) const
+	?InsertObjectL@CEikRichTextEditor@@QAEXABVTDesC16@@VTUid@@W4TObjectFormat@1@@Z @ 248 NONAME ; void CEikRichTextEditor::InsertObjectL(class TDesC16 const &, class TUid, enum CEikRichTextEditor::TObjectFormat)
+	?InsertObjectL@CEikRichTextEditor@@QAEXVTUid@@PAVCBase@@@Z @ 249 NONAME ; void CEikRichTextEditor::InsertObjectL(class TUid, class CBase *)
+	?InsertObjectL@CEikRichTextEditor@@QAEXW4TObjectFormat@1@@Z @ 250 NONAME ; void CEikRichTextEditor::InsertObjectL(enum CEikRichTextEditor::TObjectFormat)
+	?InsertObjectL@CEikRichTextEditor@@QAEXXZ @ 251 NONAME ; void CEikRichTextEditor::InsertObjectL(void)
+	?IsEditable@CEikMfneField@@UBEHXZ @ 252 NONAME ; int CEikMfneField::IsEditable(void) const
+	?IsUninitialised@CEikDateEditor@@QBEHXZ @ 253 NONAME ; int CEikDateEditor::IsUninitialised(void) const
+	?IsUninitialised@CEikMfneNumber@@QBEHXZ @ 254 NONAME ; int CEikMfneNumber::IsUninitialised(void) const
+	?IsUninitialised@CEikMfneSymbol@@QBEHXZ @ 255 NONAME ; int CEikMfneSymbol::IsUninitialised(void) const
+	?IsUninitialised@CEikTimeAndDateEditor@@QBEHXZ @ 256 NONAME ; int CEikTimeAndDateEditor::IsUninitialised(void) const
+	?IsUninitialised@CEikTimeEditor@@QBEHXZ @ 257 NONAME ; int CEikTimeEditor::IsUninitialised(void) const
+	?IsValid@CEikMfneField@@UBEHXZ @ 258 NONAME ; int CEikMfneField::IsValid(void) const
+	?IsValid@CEikMfneNumber@@UBEHXZ @ 259 NONAME ; int CEikMfneNumber::IsValid(void) const
+	?ItemDrawer@CEikColumnListBox@@QBEPAVCColumnListBoxItemDrawer@@XZ @ 260 NONAME ; class CColumnListBoxItemDrawer * CEikColumnListBox::ItemDrawer(void) const
+	?ItemText@CEikColumnListBoxEditor@@UAE?AVTPtrC16@@XZ @ 261 NONAME ; class TPtrC16 CEikColumnListBoxEditor::ItemText(void)
+	?ItemWidthInPixels@CColumnListBoxItemDrawer@@UBEHH@Z @ 262 NONAME ; int CColumnListBoxItemDrawer::ItemWidthInPixels(int) const
+	?LastColumn@CColumnListBoxData@@QBEHXZ @ 263 NONAME ; int CColumnListBoxData::LastColumn(void) const
+	?LayoutData@CColumnListBoxData@@QBEPAVCAknLayoutData@@XZ @ 264 NONAME ; class CAknLayoutData * CColumnListBoxData::LayoutData(void) const
+	?LayoutInit@CColumnListBoxData@@QBEHXZ @ 265 NONAME ; int CColumnListBoxData::LayoutInit(void) const
+	?LineCursorWidth@CEikGlobalTextEditor@@UBEHXZ @ 266 NONAME ; int CEikGlobalTextEditor::LineCursorWidth(void) const
+	?MCoeFepAwareTextEditor_Extension1_Reserved_2@CEikSecretEditor@@EAEXXZ @ 267 NONAME ; void CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_2(void)
+	?MCoeFepAwareTextEditor_Extension1_Reserved_3@CEikSecretEditor@@EAEXXZ @ 268 NONAME ; void CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_3(void)
+	?MCoeFepAwareTextEditor_Extension1_Reserved_4@CEikSecretEditor@@EAEXXZ @ 269 NONAME ; void CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_4(void)
+	?MCoeFepAwareTextEditor_Reserved_2@CEikSecretEditor@@EAEXXZ @ 270 NONAME ; void CEikSecretEditor::MCoeFepAwareTextEditor_Reserved_2(void)
+	?MakeColumnRect@CColumnListBoxData@@QAEHHAAVTRect@@@Z @ 271 NONAME ; int CColumnListBoxData::MakeColumnRect(int, class TRect &)
+	?MakeViewClassInstanceL@CEikColumnListBox@@UAEPAVCListBoxView@@XZ @ 272 NONAME ; class CListBoxView * CEikColumnListBox::MakeViewClassInstanceL(void)
+	?MapKeyEvent@CAknNumericEdwin@@IBEXAAUTKeyEvent@@AAW4TEventCode@@W4TDigitType@@@Z @ 273 NONAME ; void CAknNumericEdwin::MapKeyEvent(struct TKeyEvent &, enum TEventCode &, enum TDigitType) const
+	?MaxLength@CEikSecretEditor@@QBEHXZ @ 274 NONAME ; int CEikSecretEditor::MaxLength(void) const
+	?MfneSize@CEikMfne@@IAE?AVTSize@@H@Z @ 275 NONAME ; class TSize CEikMfne::MfneSize(int)
+	?MfneSize@CEikMfne@@IBE?AVTSize@@XZ @ 276 NONAME ; class TSize CEikMfne::MfneSize(void) const
+	?MinimumCellSize@CColumnListBoxItemDrawer@@UBE?AVTSize@@XZ @ 277 NONAME ; class TSize CColumnListBoxItemDrawer::MinimumCellSize(void) const
+	?MinimumSize@CEikMfne@@UAE?AVTSize@@XZ @ 278 NONAME ; class TSize CEikMfne::MinimumSize(void)
+	?MinimumSize@CEikProgressInfo@@UAE?AVTSize@@XZ @ 279 NONAME ; class TSize CEikProgressInfo::MinimumSize(void)
+	?MinimumSize@CEikSecretEditor@@UAE?AVTSize@@XZ @ 280 NONAME ; class TSize CEikSecretEditor::MinimumSize(void)
+	?Model@CEikColumnListBox@@QBEPAVCTextListBoxModel@@XZ @ 281 NONAME ; class CTextListBoxModel * CEikColumnListBox::Model(void) const
+	?MopSupplyObject@CEikColumnListBox@@UAE?AVPtr@TTypeUid@@V3@@Z @ 282 NONAME ; class TTypeUid::Ptr CEikColumnListBox::MopSupplyObject(class TTypeUid)
+	?NewL@CAknIpFieldEditor@@SAPAV1@AAVTInetAddr@@00@Z @ 283 NONAME ; class CAknIpFieldEditor * CAknIpFieldEditor::NewL(class TInetAddr &, class TInetAddr &, class TInetAddr &)
+	?NewL@CAknIpFieldEditor@@SAPAV1@XZ @ 284 NONAME ; class CAknIpFieldEditor * CAknIpFieldEditor::NewL(void)
+	?NewL@CColumnListBoxData@@SAPAV1@XZ @ 285 NONAME ; class CColumnListBoxData * CColumnListBoxData::NewL(void)
+	?NewL@CEikMfneNumber@@SAPAV1@ABVCFont@@AAVTResourceReader@@@Z @ 286 NONAME ; class CEikMfneNumber * CEikMfneNumber::NewL(class CFont const &, class TResourceReader &)
+	?NewL@CEikMfneNumber@@SAPAV1@ABVCFont@@HHHK@Z @ 287 NONAME ; class CEikMfneNumber * CEikMfneNumber::NewL(class CFont const &, int, int, int, unsigned long)
+	?NewL@CEikMfneSeparator@@SAPAV1@AAVTResourceReader@@@Z @ 288 NONAME ; class CEikMfneSeparator * CEikMfneSeparator::NewL(class TResourceReader &)
+	?NewL@CEikMfneSeparator@@SAPAV1@PAVHBufC16@@@Z @ 289 NONAME ; class CEikMfneSeparator * CEikMfneSeparator::NewL(class HBufC16 *)
+	?NewL@CEikMfneSymbol@@SAPAV1@AAVTResourceReader@@@Z @ 290 NONAME ; class CEikMfneSymbol * CEikMfneSymbol::NewL(class TResourceReader &)
+	?NewL@CEikMfneSymbol@@SAPAV1@H@Z @ 291 NONAME ; class CEikMfneSymbol * CEikMfneSymbol::NewL(int)
+	?NewL@CItem@CEikMfneSymbol@@SAPAV12@AAVTResourceReader@@@Z @ 292 NONAME ; class CEikMfneSymbol::CItem * CEikMfneSymbol::CItem::NewL(class TResourceReader &)
+	?NewL@CItem@CEikMfneSymbol@@SAPAV12@HVTChar@@PAVHBufC16@@@Z @ 293 NONAME ; class CEikMfneSymbol::CItem * CEikMfneSymbol::CItem::NewL(int, class TChar, class HBufC16 *)
+	?NewPictureL@CEikRichTextEditor@@EBEXAAVTPictureHeader@@ABVCStreamStore@@@Z @ 294 NONAME ; void CEikRichTextEditor::NewPictureL(class TPictureHeader &, class CStreamStore const &) const
+	?NotifyExit@CEikRichTextEditor@@EAEXW4TExitMode@MApaEmbeddedDocObserver@@@Z @ 295 NONAME ; void CEikRichTextEditor::NotifyExit(enum MApaEmbeddedDocObserver::TExitMode)
+	?Number@CEikNumberEditor@@QBEHXZ @ 296 NONAME ; int CEikNumberEditor::Number(void) const
+	?ObjectCursorPos@CEikRichTextEditor@@QBEHXZ @ 297 NONAME ; int CEikRichTextEditor::ObjectCursorPos(void) const
+	?OfferKeyEventL@CAknIpFieldEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 298 NONAME ; enum TKeyResponse CAknIpFieldEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikDateEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 299 NONAME ; enum TKeyResponse CEikDateEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikFixedPointEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 300 NONAME ; enum TKeyResponse CEikFixedPointEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikFloatingPointEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 301 NONAME ; enum TKeyResponse CEikFloatingPointEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikGlobalTextEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 302 NONAME ; enum TKeyResponse CEikGlobalTextEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikMfne@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 303 NONAME ; enum TKeyResponse CEikMfne::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikRichTextEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 304 NONAME ; enum TKeyResponse CEikRichTextEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikSecretEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 305 NONAME ; enum TKeyResponse CEikSecretEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikTimeAndDateEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 306 NONAME ; enum TKeyResponse CEikTimeAndDateEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?PictureFormatChangedL@CEikRichTextEditor@@QAEXXZ @ 307 NONAME ; void CEikRichTextEditor::PictureFormatChangedL(void)
+	?PrepareForFocusLossL@CEikDateEditor@@UAEXXZ @ 308 NONAME ; void CEikDateEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikDurationEditor@@UAEXXZ @ 309 NONAME ; void CEikDurationEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikFixedPointEditor@@UAEXXZ @ 310 NONAME ; void CEikFixedPointEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikFloatingPointEditor@@UAEXXZ @ 311 NONAME ; void CEikFloatingPointEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikMfne@@UAEXXZ @ 312 NONAME ; void CEikMfne::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikTimeAndDateEditor@@UAEXXZ @ 313 NONAME ; void CEikTimeAndDateEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikTimeEditor@@UAEXXZ @ 314 NONAME ; void CEikTimeEditor::PrepareForFocusLossL(void)
+	?PrepareForFocusLossL@CEikTimeOffsetEditor@@UAEXXZ @ 315 NONAME ; void CEikTimeOffsetEditor::PrepareForFocusLossL(void)
+	?Properties@CColumnListBoxItemDrawer@@UBE?AVTListItemProperties@@H@Z @ 316 NONAME ; class TListItemProperties CColumnListBoxItemDrawer::Properties(int) const
+	?Range@CEikRangeEditor@@QBE?AUSEikRange@@XZ @ 317 NONAME ; struct SEikRange CEikRangeEditor::Range(void) const
+	?ReEditObjectL@CEikRichTextEditor@@QAEXXZ @ 318 NONAME ; void CEikRichTextEditor::ReEditObjectL(void)
+	?ReadDate@CEikMfne@@SA?AVTTime@@AAVTResourceReader@@@Z @ 319 NONAME ; class TTime CEikMfne::ReadDate(class TResourceReader &)
+	?ReadDuration@CEikMfne@@SA?AVTTimeIntervalSeconds@@AAVTResourceReader@@@Z @ 320 NONAME ; class TTimeIntervalSeconds CEikMfne::ReadDuration(class TResourceReader &)
+	?ReadIPAddress@CAknIpFieldEditor@@QAE?AVTInetAddr@@AAVTResourceReader@@@Z @ 321 NONAME ; class TInetAddr CAknIpFieldEditor::ReadIPAddress(class TResourceReader &)
+	?ReadTime@CEikMfne@@SA?AVTTime@@AAVTResourceReader@@@Z @ 322 NONAME ; class TTime CEikMfne::ReadTime(class TResourceReader &)
+	?ReadTimeAndDate@CEikMfne@@SA?AVTTime@@AAVTResourceReader@@@Z @ 323 NONAME ; class TTime CEikMfne::ReadTimeAndDate(class TResourceReader &)
+	?ReadTimeOffset@CEikMfne@@SA?AVTTimeIntervalSeconds@@AAVTResourceReader@@@Z @ 324 NONAME ; class TTimeIntervalSeconds CEikMfne::ReadTimeOffset(class TResourceReader &)
+	?RefreshParsersL@CEikRichTextEditor@@QAEXXZ @ 325 NONAME ; void CEikRichTextEditor::RefreshParsersL(void)
+	?Reserved_1@CColumnListBoxItemDrawer@@EAEPAXXZ @ 326 NONAME ; void * CColumnListBoxItemDrawer::Reserved_1(void)
+	?Reserved_1@CColumnListBoxView@@EAEPAXXZ @ 327 NONAME ; void * CColumnListBoxView::Reserved_1(void)
+	?Reserved_1@CEikSecretEditor@@AAEXXZ @ 328 NONAME ; void CEikSecretEditor::Reserved_1(void)
+	?Reserved_2@CEikGlobalTextEditor@@EAEXXZ @ 329 NONAME ; void CEikGlobalTextEditor::Reserved_2(void)
+	?Reserved_2@CEikMfne@@EAEXXZ @ 330 NONAME ; void CEikMfne::Reserved_2(void)
+	?Reserved_2@CEikProgressInfo@@EAEXXZ @ 331 NONAME ; void CEikProgressInfo::Reserved_2(void)
+	?Reserved_2@CEikRichTextEditor@@EAEXXZ @ 332 NONAME ; void CEikRichTextEditor::Reserved_2(void)
+	?Reserved_2@CEikSecretEditor@@EAEXXZ @ 333 NONAME ; void CEikSecretEditor::Reserved_2(void)
+	?Reserved_3@CAknNumericEdwin@@EAEXXZ @ 334 NONAME ; void CAknNumericEdwin::Reserved_3(void)
+	?Reserved_3@CEikFixedPointEditor@@EAEXXZ @ 335 NONAME ; void CEikFixedPointEditor::Reserved_3(void)
+	?Reserved_3@CEikFloatingPointEditor@@EAEXXZ @ 336 NONAME ; void CEikFloatingPointEditor::Reserved_3(void)
+	?Reserved_3@CEikGlobalTextEditor@@EAEXXZ @ 337 NONAME ; void CEikGlobalTextEditor::Reserved_3(void)
+	?Reserved_3@CEikRichTextEditor@@EAEXXZ @ 338 NONAME ; void CEikRichTextEditor::Reserved_3(void)
+	?Reset@CEikSecretEditor@@QAEXXZ @ 339 NONAME ; void CEikSecretEditor::Reset(void)
+	?ResourceFile@CEikCtlLibrary@@SA?AV?$TBuf@$0BAA@@@XZ @ 340 NONAME ; class TBuf<256> CEikCtlLibrary::ResourceFile(void)
+	?RevealSecretText@CEikSecretEditor@@QAEXH@Z @ 341 NONAME ; void CEikSecretEditor::RevealSecretText(int)
+	?RichText@CEikRichTextEditor@@QBEPAVCRichText@@XZ @ 342 NONAME ; class CRichText * CEikRichTextEditor::RichText(void) const
+	?RowAndColumnFont@CColumnListBoxData@@QBEPBVCFont@@HH@Z @ 343 NONAME ; class CFont const * CColumnListBoxData::RowAndColumnFont(int, int) const
+	?RunFindAgainDialogL@CEikGlobalTextEditor@@QAEXXZ @ 344 NONAME ; void CEikGlobalTextEditor::RunFindAgainDialogL(void)
+	?RunFindDialogL@CEikGlobalTextEditor@@QAEXXZ @ 345 NONAME ; void CEikGlobalTextEditor::RunFindDialogL(void)
+	?RunFontDialogL@CEikGlobalTextEditor@@QAEHHPAVCGraphicsDevice@@H@Z @ 346 NONAME ; int CEikGlobalTextEditor::RunFontDialogL(int, class CGraphicsDevice *, int)
+	?RunIndentsDialogL@CEikGlobalTextEditor@@QAEXH@Z @ 347 NONAME ; void CEikGlobalTextEditor::RunIndentsDialogL(int)
+	?RunPaginateDialogL@CEikGlobalTextEditor@@QAEHPAVCPrintSetup@@PAV?$CArrayFix@H@@@Z @ 348 NONAME ; int CEikGlobalTextEditor::RunPaginateDialogL(class CPrintSetup *, class CArrayFix<int> *)
+	?RunParaDialogsL@CEikGlobalTextEditor@@QAEXH@Z @ 349 NONAME ; void CEikGlobalTextEditor::RunParaDialogsL(int)
+	?RunReplaceDialogL@CEikGlobalTextEditor@@QAEXXZ @ 350 NONAME ; void CEikGlobalTextEditor::RunReplaceDialogL(void)
+	?RunTabsDialogL@CEikGlobalTextEditor@@QAEXH@Z @ 351 NONAME ; void CEikGlobalTextEditor::RunTabsDialogL(int)
+	?SeparatorLinePosition@CColumnListBoxData@@QBE?AW4TAknSeparatorLinePosition@@XZ @ 352 NONAME ; enum TAknSeparatorLinePosition CColumnListBoxData::SeparatorLinePosition(void) const
+	?SetAddress@CAknIpFieldEditor@@QAEXABVTInetAddr@@@Z @ 353 NONAME ; void CAknIpFieldEditor::SetAddress(class TInetAddr const &)
+	?SetAndDraw@CEikProgressInfo@@QAEXH@Z @ 354 NONAME ; void CEikProgressInfo::SetAndDraw(int)
+	?SetBorder@CEikProgressInfo@@QAEXABVTGulBorder@@@Z @ 355 NONAME ; void CEikProgressInfo::SetBorder(class TGulBorder const &)
+	?SetButtonGroup@CEikGlobalTextEditor@@QAEXPAVCCoeControl@@@Z @ 356 NONAME ; void CEikGlobalTextEditor::SetButtonGroup(class CCoeControl *)
+	?SetClear@CEikSpacer@@QAEXH@Z @ 357 NONAME ; void CEikSpacer::SetClear(int)
+	?SetColor@CEikSpacer@@QAEXVTRgb@@@Z @ 358 NONAME ; void CEikSpacer::SetColor(class TRgb)
+	?SetColumnAlignmentL@CColumnListBoxData@@QAEXHW4TTextAlign@CGraphicsContext@@@Z @ 359 NONAME ; void CColumnListBoxData::SetColumnAlignmentL(int, enum CGraphicsContext::TTextAlign)
+	?SetColumnBaselinePosL@CColumnListBoxData@@QAEXHH@Z @ 360 NONAME ; void CColumnListBoxData::SetColumnBaselinePosL(int, int)
+	?SetColumnEndXL@CColumnListBoxData@@ABEXHH@Z @ 361 NONAME ; void CColumnListBoxData::SetColumnEndXL(int, int) const
+	?SetColumnFontForRowL@CColumnListBoxData@@QAEXHHPBVCFont@@@Z @ 362 NONAME ; void CColumnListBoxData::SetColumnFontForRowL(int, int, class CFont const *)
+	?SetColumnFontL@CColumnListBoxData@@QAEXHPBVCFont@@@Z @ 363 NONAME ; void CColumnListBoxData::SetColumnFontL(int, class CFont const *)
+	?SetColumnHorizontalGapL@CColumnListBoxData@@QAEXHH@Z @ 364 NONAME ; void CColumnListBoxData::SetColumnHorizontalGapL(int, int)
+	?SetColumnMarginsL@CColumnListBoxData@@QAEXHVTMargins@@@Z @ 365 NONAME ; void CColumnListBoxData::SetColumnMarginsL(int, class TMargins)
+	?SetColumnSeparatorStyleL@CColumnListBoxData@@QAEXHW4TPenStyle@CGraphicsContext@@@Z @ 366 NONAME ; void CColumnListBoxData::SetColumnSeparatorStyleL(int, enum CGraphicsContext::TPenStyle)
+	?SetColumnTextClipGapL@CColumnListBoxData@@QAEXHH@Z @ 367 NONAME ; void CColumnListBoxData::SetColumnTextClipGapL(int, int)
+	?SetColumnWidthPixelL@CColumnListBoxData@@QAEXHH@Z @ 368 NONAME ; void CColumnListBoxData::SetColumnWidthPixelL(int, int)
+	?SetColumnXL@CColumnListBoxData@@ABEXHH@Z @ 369 NONAME ; void CColumnListBoxData::SetColumnXL(int, int) const
+	?SetControl@CColumnListBoxData@@QAEXPAVCCoeControl@@@Z @ 370 NONAME ; void CColumnListBoxData::SetControl(class CCoeControl *)
+	?SetCurrentSymbolicItemToId@CEikMfneSymbol@@QAEXH@Z @ 371 NONAME ; void CEikMfneSymbol::SetCurrentSymbolicItemToId(int)
+	?SetCursorSelectionForFepL@CEikSecretEditor@@EAEXABVTCursorSelection@@@Z @ 372 NONAME ; void CEikSecretEditor::SetCursorSelectionForFepL(class TCursorSelection const &)
+	?SetDate@CEikDateEditor@@QAEXABVTTime@@@Z @ 373 NONAME ; void CEikDateEditor::SetDate(class TTime const &)
+	?SetDecimalPlaces@CEikFixedPointEditor@@QAEXH@Z @ 374 NONAME ; void CEikFixedPointEditor::SetDecimalPlaces(int)
+	?SetDefaultIconicDoorSize@CEikRichTextEditor@@QAEXABVTSize@@@Z @ 375 NONAME ; void CEikRichTextEditor::SetDefaultIconicDoorSize(class TSize const &)
+	?SetDefaultInputMode@CEikSecretEditor@@QAEXH@Z @ 376 NONAME ; void CEikSecretEditor::SetDefaultInputMode(int)
+	?SetDuration@CEikDurationEditor@@QAEXABVTTimeIntervalSeconds@@@Z @ 377 NONAME ; void CEikDurationEditor::SetDuration(class TTimeIntervalSeconds const &)
+	?SetFinalValue@CEikProgressInfo@@QAEXH@Z @ 378 NONAME ; void CEikProgressInfo::SetFinalValue(int)
+	?SetFont@CEikMfne@@QAEXPBVCFont@@@Z @ 379 NONAME ; void CEikMfne::SetFont(class CFont const *)
+	?SetGraphicsColumnL@CColumnListBoxData@@QAEXHH@Z @ 380 NONAME ; void CColumnListBoxData::SetGraphicsColumnL(int, int)
+	?SetGraphicsDevice@CEikGlobalTextEditor@@QAEXPAVCGraphicsDevice@@@Z @ 381 NONAME ; void CEikGlobalTextEditor::SetGraphicsDevice(class CGraphicsDevice *)
+	?SetHeight@CEikSpacer@@QAEXH@Z @ 382 NONAME ; void CEikSpacer::SetHeight(int)
+	?SetIconArray@CColumnListBoxData@@QAEXPAV?$CArrayPtr@VCGulIcon@@@@@Z @ 383 NONAME ; void CColumnListBoxData::SetIconArray(class CArrayPtr<class CGulIcon> *)
+	?SetInlineEditingCursorVisibilityL@CEikSecretEditor@@EAEXH@Z @ 384 NONAME ; void CEikSecretEditor::SetInlineEditingCursorVisibilityL(int)
+	?SetItemCellSize@CColumnListBoxData@@QAEXABVTSize@@@Z @ 385 NONAME ; void CColumnListBoxData::SetItemCellSize(class TSize const &)
+	?SetItemCellSize@CColumnListBoxItemDrawer@@UAEXABVTSize@@@Z @ 386 NONAME ; void CColumnListBoxItemDrawer::SetItemCellSize(class TSize const &)
+	?SetLayout@CEikProgressInfo@@QAEXABUSLayout@1@@Z @ 387 NONAME ; void CEikProgressInfo::SetLayout(struct CEikProgressInfo::SLayout const &)
+	?SetLayoutInit@CColumnListBoxData@@QBEXH@Z @ 388 NONAME ; void CColumnListBoxData::SetLayoutInit(int) const
+	?SetLineCursorBitmapL@CEikGlobalTextEditor@@QAEXPAVCFbsBitmap@@@Z @ 389 NONAME ; void CEikGlobalTextEditor::SetLineCursorBitmapL(class CFbsBitmap *)
+	?SetListEndSkinStyle@CColumnListBoxData@@QAEXPBVTAknsItemID@@ABVTRect@@@Z @ 390 NONAME ; void CColumnListBoxData::SetListEndSkinStyle(class TAknsItemID const *, class TRect const &)
+	?SetMarqueeParams@CColumnListBoxData@@QAEXHHH@Z @ 391 NONAME ; void CColumnListBoxData::SetMarqueeParams(int, int, int)
+	?SetMarqueeParams@CColumnListBoxData@@QAEXHHHH@Z @ 392 NONAME ; void CColumnListBoxData::SetMarqueeParams(int, int, int, int)
+	?SetMaxLength@CEikSecretEditor@@QAEXH@Z @ 393 NONAME ; void CEikSecretEditor::SetMaxLength(int)
+	?SetMfneAlignment@CEikMfne@@QAEXH@Z @ 394 NONAME ; void CEikMfne::SetMfneAlignment(int)
+	?SetMinMax@CEikFixedPointEditor@@QAEXHH@Z @ 395 NONAME ; void CEikFixedPointEditor::SetMinMax(int, int)
+	?SetMinMax@CEikFloatingPointEditor@@QAEXNN@Z @ 396 NONAME ; void CEikFloatingPointEditor::SetMinMax(double, double)
+	?SetMinimumAndMaximum@CAknIpFieldEditor@@UAEXABVTInetAddr@@0@Z @ 397 NONAME ; void CAknIpFieldEditor::SetMinimumAndMaximum(class TInetAddr const &, class TInetAddr const &)
+	?SetMinimumAndMaximum@CEikDateEditor@@UAEXABVTTime@@0@Z @ 398 NONAME ; void CEikDateEditor::SetMinimumAndMaximum(class TTime const &, class TTime const &)
+	?SetMinimumAndMaximum@CEikDurationEditor@@QAEXABVTTimeIntervalSeconds@@0@Z @ 399 NONAME ; void CEikDurationEditor::SetMinimumAndMaximum(class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &)
+	?SetMinimumAndMaximum@CEikMfneNumber@@QAEXHHABVCFont@@@Z @ 400 NONAME ; void CEikMfneNumber::SetMinimumAndMaximum(int, int, class CFont const &)
+	?SetMinimumAndMaximum@CEikNumberEditor@@QAEXHH@Z @ 401 NONAME ; void CEikNumberEditor::SetMinimumAndMaximum(int, int)
+	?SetMinimumAndMaximum@CEikRangeEditor@@QAEXHH@Z @ 402 NONAME ; void CEikRangeEditor::SetMinimumAndMaximum(int, int)
+	?SetMinimumAndMaximum@CEikTimeAndDateEditor@@UAEXABVTTime@@0@Z @ 403 NONAME ; void CEikTimeAndDateEditor::SetMinimumAndMaximum(class TTime const &, class TTime const &)
+	?SetMinimumAndMaximum@CEikTimeEditor@@UAEXABVTTime@@0@Z @ 404 NONAME ; void CEikTimeEditor::SetMinimumAndMaximum(class TTime const &, class TTime const &)
+	?SetMinimumAndMaximum@CEikTimeOffsetEditor@@QAEXABVTTimeIntervalSeconds@@0@Z @ 405 NONAME ; void CEikTimeOffsetEditor::SetMinimumAndMaximum(class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &)
+	?SetNumber@CEikNumberEditor@@QAEXH@Z @ 406 NONAME ; void CEikNumberEditor::SetNumber(int)
+	?SetNumberColumnL@CColumnListBoxData@@QAEXHH@Z @ 407 NONAME ; void CColumnListBoxData::SetNumberColumnL(int, int)
+	?SetOptionalColumnL@CColumnListBoxData@@QAEXHH@Z @ 408 NONAME ; void CColumnListBoxData::SetOptionalColumnL(int, int)
+	?SetParserObserver@CEikRichTextEditor@@QAEXPAVMEikRichTextEditorParserObserver@@@Z @ 409 NONAME ; void CEikRichTextEditor::SetParserObserver(class MEikRichTextEditorParserObserver *)
+	?SetPhoneNumberGrouping@CEikRichTextEditor@@QAEXH@Z @ 410 NONAME ; void CEikRichTextEditor::SetPhoneNumberGrouping(int)
+	?SetPropertiesL@CColumnListBoxItemDrawer@@QAEXHVTListItemProperties@@@Z @ 411 NONAME ; void CColumnListBoxItemDrawer::SetPropertiesL(int, class TListItemProperties)
+	?SetRange@CEikRangeEditor@@QAEXABUSEikRange@@@Z @ 412 NONAME ; void CEikRangeEditor::SetRange(struct SEikRange const &)
+	?SetSeparatorLinePosition@CColumnListBoxData@@QAEXW4TAknSeparatorLinePosition@@@Z @ 413 NONAME ; void CColumnListBoxData::SetSeparatorLinePosition(enum TAknSeparatorLinePosition)
+	?SetSkinBackgroundControlContextL@CEikMfne@@QAEXPAVMAknsControlContext@@@Z @ 414 NONAME ; void CEikMfne::SetSkinBackgroundControlContextL(class MAknsControlContext *)
+	?SetSkinBackgroundControlContextL@CEikSecretEditor@@QAEXPAVMAknsControlContext@@@Z @ 415 NONAME ; void CEikSecretEditor::SetSkinBackgroundControlContextL(class MAknsControlContext *)
+	?SetSkinEnabledL@CColumnListBoxData@@QAEXH@Z @ 416 NONAME ; void CColumnListBoxData::SetSkinEnabledL(int)
+	?SetSkinHighlightFrame@CColumnListBoxData@@QAEXPBVTAknsItemID@@0@Z @ 417 NONAME ; void CColumnListBoxData::SetSkinHighlightFrame(class TAknsItemID const *, class TAknsItemID const *)
+	?SetSkinStyle@CColumnListBoxData@@QAEXPBVTAknsItemID@@ABVTRect@@@Z @ 418 NONAME ; void CColumnListBoxData::SetSkinStyle(class TAknsItemID const *, class TRect const &)
+	?SetStateTransferingOwnershipL@CEikSecretEditor@@EAEXPAVCState@MCoeFepAwareTextEditor_Extension1@@VTUid@@@Z @ 419 NONAME ; void CEikSecretEditor::SetStateTransferingOwnershipL(class MCoeFepAwareTextEditor_Extension1::CState *, class TUid)
+	?SetSubCellIconSize@CColumnListBoxData@@QAEXHVTSize@@@Z @ 420 NONAME ; void CColumnListBoxData::SetSubCellIconSize(int, class TSize)
+	?SetText@CEikMfneSeparator@@QAEXPAVHBufC16@@@Z @ 421 NONAME ; void CEikMfneSeparator::SetText(class HBufC16 *)
+	?SetText@CEikSecretEditor@@UAEXABVTDesC16@@@Z @ 422 NONAME ; void CEikSecretEditor::SetText(class TDesC16 const &)
+	?SetText@CItem@CEikMfneSymbol@@QAEXPAVHBufC16@@@Z @ 423 NONAME ; void CEikMfneSymbol::CItem::SetText(class HBufC16 *)
+	?SetTime@CEikTimeEditor@@QAEXABVTTime@@@Z @ 424 NONAME ; void CEikTimeEditor::SetTime(class TTime const &)
+	?SetTimeAndDate@CEikTimeAndDateEditor@@QAEXABVTTime@@@Z @ 425 NONAME ; void CEikTimeAndDateEditor::SetTimeAndDate(class TTime const &)
+	?SetTimeOffset@CEikTimeOffsetEditor@@QAEXABVTTimeIntervalSeconds@@@Z @ 426 NONAME ; void CEikTimeOffsetEditor::SetTimeOffset(class TTimeIntervalSeconds const &)
+	?SetUninitialised@CEikDateEditor@@QAEXH@Z @ 427 NONAME ; void CEikDateEditor::SetUninitialised(int)
+	?SetUninitialised@CEikMfneNumber@@QAEXH@Z @ 428 NONAME ; void CEikMfneNumber::SetUninitialised(int)
+	?SetUninitialised@CEikMfneSymbol@@QAEXH@Z @ 429 NONAME ; void CEikMfneSymbol::SetUninitialised(int)
+	?SetUninitialised@CEikTimeAndDateEditor@@QAEXH@Z @ 430 NONAME ; void CEikTimeAndDateEditor::SetUninitialised(int)
+	?SetUninitialised@CEikTimeEditor@@QAEXH@Z @ 431 NONAME ; void CEikTimeEditor::SetUninitialised(int)
+	?SetUpAndDownKeysConsumed@CEikMfne@@QAEXH@Z @ 432 NONAME ; void CEikMfne::SetUpAndDownKeysConsumed(int)
+	?SetValue@CEikMfneNumber@@QAEXHABVCFont@@@Z @ 433 NONAME ; void CEikMfneNumber::SetValue(int, class CFont const &)
+	?SetValueL@CEikFixedPointEditor@@QAEXPBH@Z @ 434 NONAME ; void CEikFixedPointEditor::SetValueL(int const *)
+	?SetValueL@CEikFloatingPointEditor@@QAEXPBN@Z @ 435 NONAME ; void CEikFloatingPointEditor::SetValueL(double const *)
+	?SetWidth@CEikSpacer@@QAEXH@Z @ 436 NONAME ; void CEikSpacer::SetWidth(int)
+	?SizeChanged@CEikProgressInfo@@UAEXXZ @ 437 NONAME ; void CEikProgressInfo::SizeChanged(void)
+	?SizeChanged@CEikSecretEditor@@MAEXXZ @ 438 NONAME ; void CEikSecretEditor::SizeChanged(void)
+	?SkinBackgroundContext@CColumnListBoxData@@QBEPAVMAknsControlContext@@XZ @ 439 NONAME ; class MAknsControlContext * CColumnListBoxData::SkinBackgroundContext(void) const
+	?StartFepInlineEditL@CEikSecretEditor@@EAEXABVTDesC16@@HHPBVMFormCustomDraw@@AAVMFepInlineTextFormatRetriever@@AAVMFepPointerEventHandlerDuringInlineEdit@@@Z @ 440 NONAME ; void CEikSecretEditor::StartFepInlineEditL(class TDesC16 const &, int, int, class MFormCustomDraw const *, class MFepInlineTextFormatRetriever &, class MFepPointerEventHandlerDuringInlineEdit &)
+	?State@CEikSecretEditor@@EAEPAVCState@MCoeFepAwareTextEditor_Extension1@@VTUid@@@Z @ 441 NONAME ; class MCoeFepAwareTextEditor_Extension1::CState * CEikSecretEditor::State(class TUid)
+	?StreamStoreL@CEikRichTextEditor@@EBEABVCStreamStore@@H@Z @ 442 NONAME ; class CStreamStore const & CEikRichTextEditor::StreamStoreL(int) const
+	?Time@CEikTimeEditor@@QBE?AVTTime@@XZ @ 443 NONAME ; class TTime CEikTimeEditor::Time(void) const
+	?TimeAndDate@CEikTimeAndDateEditor@@QBE?AVTTime@@XZ @ 444 NONAME ; class TTime CEikTimeAndDateEditor::TimeAndDate(void) const
+	?TimeOffset@CEikTimeOffsetEditor@@QBE?AVTTimeIntervalSeconds@@XZ @ 445 NONAME ; class TTimeIntervalSeconds CEikTimeOffsetEditor::TimeOffset(void) const
+	?Update@CEikSecretEditor@@MAEXXZ @ 446 NONAME ; void CEikSecretEditor::Update(void)
+	?UpdateButtonGroup@CEikGlobalTextEditor@@QAEXXZ @ 447 NONAME ; void CEikGlobalTextEditor::UpdateButtonGroup(void)
+	?UpdateFepInlineTextL@CEikSecretEditor@@EAEXABVTDesC16@@H@Z @ 448 NONAME ; void CEikSecretEditor::UpdateFepInlineTextL(class TDesC16 const &, int)
+	?UpdateModelL@CEikColumnListBoxEditor@@UAEHXZ @ 449 NONAME ; int CEikColumnListBoxEditor::UpdateModelL(void)
+	?UpdatePictureFormatL@CEikRichTextEditor@@QAEXHH@Z @ 450 NONAME ; void CEikRichTextEditor::UpdatePictureFormatL(int, int)
+	?UpdatePictureFormatL@CEikRichTextEditor@@QAEXXZ @ 451 NONAME ; void CEikRichTextEditor::UpdatePictureFormatL(void)
+	?UpdatePictureSizeL@CEikRichTextEditor@@QAEXHH@Z @ 452 NONAME ; void CEikRichTextEditor::UpdatePictureSizeL(int, int)
+	?UpdatePictureSizeL@CEikRichTextEditor@@QAEXXZ @ 453 NONAME ; void CEikRichTextEditor::UpdatePictureSizeL(void)
+	?Value@CEikFixedPointEditor@@QBEHXZ @ 454 NONAME ; int CEikFixedPointEditor::Value(void) const
+	?Value@CEikFloatingPointEditor@@QBENXZ @ 455 NONAME ; double CEikFloatingPointEditor::Value(void) const
+	?Value@CEikMfneNumber@@QBEHXZ @ 456 NONAME ; int CEikMfneNumber::Value(void) const
+	?WriteInternalStateL@CEikGlobalTextEditor@@MBEXAAVRWriteStream@@@Z @ 457 NONAME ; void CEikGlobalTextEditor::WriteInternalStateL(class RWriteStream &) const
+	?WriteInternalStateL@CEikMfne@@MBEXAAVRWriteStream@@@Z @ 458 NONAME ; void CEikMfne::WriteInternalStateL(class RWriteStream &) const
+	?WriteInternalStateL@CEikProgressInfo@@MBEXAAVRWriteStream@@@Z @ 459 NONAME ; void CEikProgressInfo::WriteInternalStateL(class RWriteStream &) const
+	?WriteInternalStateL@CEikRichTextEditor@@MBEXAAVRWriteStream@@@Z @ 460 NONAME ; void CEikRichTextEditor::WriteInternalStateL(class RWriteStream &) const
+	?SetSkinTextColorL@CEikMfne@@QAEXHH@Z @ 461 NONAME ; void CEikMfne::SetSkinTextColorL(int, int)
+	?SetSkinTextColorL@CEikSecretEditor@@QAEXHH@Z @ 462 NONAME ; void CEikSecretEditor::SetSkinTextColorL(int, int)
+	?AboutToDrawHighlightAnim@CColumnListBoxData@@QBEXXZ @ 463 NONAME ; void CColumnListBoxData::AboutToDrawHighlightAnim(void) const
+	?ConstructLD@CColumnListBoxData@@IAEXABVTAknsItemID@@@Z @ 464 NONAME ; void CColumnListBoxData::ConstructLD(class TAknsItemID const &)
+	?HighlightAnim@CColumnListBoxData@@QBEPBVCAknsEffectAnim@@XZ @ 465 NONAME ; class CAknsEffectAnim const * CColumnListBoxData::HighlightAnim(void) const
+	?SetHighlightAnimBackgroundDrawer@CColumnListBoxData@@QAEXPAVMColumnListBoxAnimBackgroundDrawer@@@Z @ 466 NONAME ; void CColumnListBoxData::SetHighlightAnimBackgroundDrawer(class MColumnListBoxAnimBackgroundDrawer *)
+	?SetColumnUnderlined@CColumnListBoxData@@QAEXV?$TBitFlagsT@K@@@Z @ 467 NONAME ; void CColumnListBoxData::SetColumnUnderlined(class TBitFlagsT<unsigned long>)
+	?EnableStretching@CEikColumnListBox@@QAEXH@Z @ 468 NONAME ; void CEikColumnListBox::EnableStretching(int)
+	?ResetSLSubCellArray@CColumnListBoxData@@QAEXXZ @ 469 NONAME ; void CColumnListBoxData::ResetSLSubCellArray(void)
+	?SetStretchableConditionalSubCellL@CColumnListBoxData@@QAEXHABVTAknTextComponentLayout@@0HH@Z @ 470 NONAME ; void CColumnListBoxData::SetStretchableConditionalSubCellL(int, class TAknTextComponentLayout const &, class TAknTextComponentLayout const &, int, int)
+	?SetStretchableGraphicSubCellL@CColumnListBoxData@@QAEXHABVTAknWindowComponentLayout@@0@Z @ 471 NONAME ; void CColumnListBoxData::SetStretchableGraphicSubCellL(int, class TAknWindowComponentLayout const &, class TAknWindowComponentLayout const &)
+	?SetStretchableTextSubCellL@CColumnListBoxData@@QAEXHABVTAknTextComponentLayout@@0@Z @ 472 NONAME ; void CColumnListBoxData::SetStretchableTextSubCellL(int, class TAknTextComponentLayout const &, class TAknTextComponentLayout const &)
+	?DrawHighlightAnim@CColumnListBoxData@@QBEHAAVCBitmapContext@@ABVTRect@@@Z @ 473 NONAME ; int CColumnListBoxData::DrawHighlightAnim(class CBitmapContext &, class TRect const &) const
+	?HasHighlightAnim@CColumnListBoxData@@QBEHXZ @ 474 NONAME ; int CColumnListBoxData::HasHighlightAnim(void) const
+	?StretchingEnabled@CColumnListBoxData@@QBEHXZ @ 475 NONAME ; int CColumnListBoxData::StretchingEnabled(void) const
+	??0CAknLocationEditor@@QAE@XZ @ 476 NONAME ; CAknLocationEditor::CAknLocationEditor(void)
+	?ConstructFromResourceL@CAknLocationEditor@@UAEXAAVTResourceReader@@@Z @ 477 NONAME ; void CAknLocationEditor::ConstructFromResourceL(class TResourceReader &)
+	?DisplayableLocationL@CAknLocationEditor@@SAPAVHBufC16@@ABVTPosition@@W4TLocationContext@1@@Z @ 478 NONAME ; class HBufC16 * CAknLocationEditor::DisplayableLocationL(class TPosition const &, enum CAknLocationEditor::TLocationContext)
+	?NewL@CAknLocationEditor@@SAPAV1@AAVTPosition@@W4TLocationContext@1@@Z @ 479 NONAME ; class CAknLocationEditor * CAknLocationEditor::NewL(class TPosition &, enum CAknLocationEditor::TLocationContext)
+	??1CAknLocationEditor@@UAE@XZ @ 480 NONAME ; CAknLocationEditor::~CAknLocationEditor(void)
+	?Get@CAknLocationEditor@@QBEXAAVTPosition@@@Z @ 481 NONAME ; void CAknLocationEditor::Get(class TPosition &) const
+	?Set@CAknLocationEditor@@QAEXABVTPosition@@@Z @ 482 NONAME ; void CAknLocationEditor::Set(class TPosition const &)
+	?SetConditionalSubCellL@CColumnListBoxData@@QAEXHABVTAknTextLineLayout@@H@Z @ 483 NONAME ; void CColumnListBoxData::SetConditionalSubCellL(int, class TAknTextLineLayout const &, int)
+	?SetGraphicSubCellL@CColumnListBoxData@@QAEXHABVTAknWindowLineLayout@@@Z @ 484 NONAME ; void CColumnListBoxData::SetGraphicSubCellL(int, class TAknWindowLineLayout const &)
+	?SetTextSubCellL@CColumnListBoxData@@QAEXHABVTAknTextLineLayout@@@Z @ 485 NONAME ; void CColumnListBoxData::SetTextSubCellL(int, class TAknTextLineLayout const &)
+	?SubCellsMightIntersect@CColumnListBoxData@@QAEXH@Z @ 486 NONAME ; void CColumnListBoxData::SubCellsMightIntersect(int)
+	?PrepareForFocusLossL@CAknLocationEditor@@UAEXXZ @ 487 NONAME ; void CAknLocationEditor::PrepareForFocusLossL(void)
+	?SetSuppressBackgroundDrawing@CEikMfne@@QAEXH@Z @ 488 NONAME ; void CEikMfne::SetSuppressBackgroundDrawing(int)
+	??1CAknExtendedInputCapabilities@@UAE@XZ @ 489 NONAME ; CAknExtendedInputCapabilities::~CAknExtendedInputCapabilities(void)
+	?Capabilities@CAknExtendedInputCapabilities@@QBEIXZ @ 490 NONAME ; unsigned int CAknExtendedInputCapabilities::Capabilities(void) const
+	?NewL@CAknExtendedInputCapabilities@@SAPAV1@XZ @ 491 NONAME ; class CAknExtendedInputCapabilities * CAknExtendedInputCapabilities::NewL(void)
+	?NewLC@CAknExtendedInputCapabilities@@SAPAV1@XZ @ 492 NONAME ; class CAknExtendedInputCapabilities * CAknExtendedInputCapabilities::NewLC(void)
+	?SetCapabilities@CAknExtendedInputCapabilities@@QAEXI@Z @ 493 NONAME ; void CAknExtendedInputCapabilities::SetCapabilities(unsigned int)
+	?SupportsCapabilities@CAknExtendedInputCapabilities@@QBEHI@Z @ 494 NONAME ; int CAknExtendedInputCapabilities::SupportsCapabilities(unsigned int) const
+	?MopSupplyObject@CEikMfne@@UAE?AVPtr@TTypeUid@@V3@@Z @ 495 NONAME ; class TTypeUid::Ptr CEikMfne::MopSupplyObject(class TTypeUid)
+	?MIDPConstrainst@CAknExtendedInputCapabilities@@QBEIXZ @ 496 NONAME ; unsigned int CAknExtendedInputCapabilities::MIDPConstrainst(void) const
+	?SetMIDPConstraints@CAknExtendedInputCapabilities@@QAEXI@Z @ 497 NONAME ; void CAknExtendedInputCapabilities::SetMIDPConstraints(unsigned int)
+	?DigitType@CEikMfneNumber@@QBE?AW4TDigitType@@XZ @ 498 NONAME ; enum TDigitType CEikMfneNumber::DigitType(void) const
+	?RefreshDigitType@CEikMfneNumber@@QAEXABVCFont@@@Z @ 499 NONAME ; void CEikMfneNumber::RefreshDigitType(class CFont const &)
+	?SetDigitType@CEikMfneNumber@@QAEXW4TDigitType@@ABVCFont@@@Z @ 500 NONAME ; void CEikMfneNumber::SetDigitType(enum TDigitType, class CFont const &)
+	?EditorType@CAknExtendedInputCapabilities@@QBEHXZ @ 501 NONAME ; int CAknExtendedInputCapabilities::EditorType(void) const
+	?SetEditorType@CAknExtendedInputCapabilities@@QAEXH@Z @ 502 NONAME ; void CAknExtendedInputCapabilities::SetEditorType(int)
+	??0CColumnListBoxItemDrawer@@QAE@XZ @ 503 NONAME ; CColumnListBoxItemDrawer::CColumnListBoxItemDrawer(void)
+	?OfferKeyEventL@CAknLocationEditor@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 504 NONAME ; enum TKeyResponse CAknLocationEditor::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?ResetFieldArray@CEikMfne@@QAEXXZ @ 505 NONAME ; void CEikMfne::ResetFieldArray(void)
+	?RegisterObserver@CAknExtendedInputCapabilities@@QAEXPAVMAknEventObserver@1@@Z @ 506 NONAME ; void CAknExtendedInputCapabilities::RegisterObserver(class CAknExtendedInputCapabilities::MAknEventObserver *)
+	?ReportEventL@CAknExtendedInputCapabilities@@QAEXHPAX@Z @ 507 NONAME ; void CAknExtendedInputCapabilities::ReportEventL(int, void *)
+	?UnregisterObserver@CAknExtendedInputCapabilities@@QAEXPAVMAknEventObserver@1@@Z @ 508 NONAME ; void CAknExtendedInputCapabilities::UnregisterObserver(class CAknExtendedInputCapabilities::MAknEventObserver *)
+	?CAknLocationEditor_ExtensionInterface@CAknLocationEditor@@MAEPAXVTUid@@@Z @ 509 NONAME ; void * CAknLocationEditor::CAknLocationEditor_ExtensionInterface(class TUid)
+	?SetUseOverrideColors@CEikMfne@@QAEXH@Z @ 510 NONAME ; void CEikMfne::SetUseOverrideColors(int)
+	??1CAknUnitEditor@@UAE@XZ @ 511 NONAME ; CAknUnitEditor::~CAknUnitEditor(void)
+	?ConstructFromResourceL@CAknUnitEditor@@UAEXAAVTResourceReader@@@Z @ 512 NONAME ; void CAknUnitEditor::ConstructFromResourceL(class TResourceReader &)
+	?ConstructL@CAknUnitEditor@@QAEXNNNHHI@Z @ 513 NONAME ; void CAknUnitEditor::ConstructL(double, double, double, int, int, unsigned int)
+	?Flags@CAknUnitEditor@@QBEIXZ @ 514 NONAME ; unsigned int CAknUnitEditor::Flags(void) const
+	?GetMinimumAndMaximum@CAknUnitEditor@@QBEXAAN0@Z @ 515 NONAME ; void CAknUnitEditor::GetMinimumAndMaximum(double &, double &) const
+	?GetUnit@CAknUnitEditor@@QBEHAAVTDes16@@@Z @ 516 NONAME ; int CAknUnitEditor::GetUnit(class TDes16 &) const
+	?MaxFractionalDigits@CAknUnitEditor@@QBEHXZ @ 517 NONAME ; int CAknUnitEditor::MaxFractionalDigits(void) const
+	?NewL@CAknUnitEditor@@SAPAV1@XZ @ 518 NONAME ; class CAknUnitEditor * CAknUnitEditor::NewL(void)
+	?NewLC@CAknUnitEditor@@SAPAV1@XZ @ 519 NONAME ; class CAknUnitEditor * CAknUnitEditor::NewLC(void)
+	?PrepareForFocusLossL@CAknUnitEditor@@UAEXXZ @ 520 NONAME ; void CAknUnitEditor::PrepareForFocusLossL(void)
+	?SetFlags@CAknUnitEditor@@QAEXI@Z @ 521 NONAME ; void CAknUnitEditor::SetFlags(unsigned int)
+	?SetMaxFractionalDigits@CAknUnitEditor@@QAEXH@Z @ 522 NONAME ; void CAknUnitEditor::SetMaxFractionalDigits(int)
+	?SetMinimumAndMaximum@CAknUnitEditor@@QAEXNN@Z @ 523 NONAME ; void CAknUnitEditor::SetMinimumAndMaximum(double, double)
+	?SetUnitL@CAknUnitEditor@@QAEXABVTDesC16@@@Z @ 524 NONAME ; void CAknUnitEditor::SetUnitL(class TDesC16 const &)
+	?SetUnitL@CAknUnitEditor@@QAEXH@Z @ 525 NONAME ; void CAknUnitEditor::SetUnitL(int)
+	?SetValue@CAknUnitEditor@@QAEHN@Z @ 526 NONAME ; int CAknUnitEditor::SetValue(double)
+	?Unit@CAknUnitEditor@@QBEHXZ @ 527 NONAME ; int CAknUnitEditor::Unit(void) const
+	?Value@CAknUnitEditor@@QBENXZ @ 528 NONAME ; double CAknUnitEditor::Value(void) const
+	??0CAknExtendedInputCapabilitiesProvider@CAknExtendedInputCapabilities@@QAE@XZ @ 529 NONAME ; CAknExtendedInputCapabilities::CAknExtendedInputCapabilitiesProvider::CAknExtendedInputCapabilitiesProvider(void)
+	??1CAknExtendedInputCapabilitiesProvider@CAknExtendedInputCapabilities@@UAE@XZ @ 530 NONAME ; CAknExtendedInputCapabilities::CAknExtendedInputCapabilitiesProvider::~CAknExtendedInputCapabilitiesProvider(void)
+	?ExtendedInputCapabilities@CAknExtendedInputCapabilitiesProvider@CAknExtendedInputCapabilities@@QBEPAV2@XZ @ 531 NONAME ; class CAknExtendedInputCapabilities * CAknExtendedInputCapabilities::CAknExtendedInputCapabilitiesProvider::ExtendedInputCapabilities(void) const
+	?SetExtendedInputCapabilities@CAknExtendedInputCapabilitiesProvider@CAknExtendedInputCapabilities@@QAEXPAV2@@Z @ 532 NONAME ; void CAknExtendedInputCapabilities::CAknExtendedInputCapabilitiesProvider::SetExtendedInputCapabilities(class CAknExtendedInputCapabilities *)
+	?SetMopParent@CAknExtendedInputCapabilitiesProvider@CAknExtendedInputCapabilities@@QAEXPAVMObjectProvider@@@Z @ 533 NONAME ; void CAknExtendedInputCapabilities::CAknExtendedInputCapabilitiesProvider::SetMopParent(class MObjectProvider *)
+	?CurrentItemTextWasClipped@CColumnListBoxData@@QBEKXZ @ 534 NONAME ; unsigned long CColumnListBoxData::CurrentItemTextWasClipped(void) const
+	?SupportsUnit@CAknUnitEditor@@QBEHH@Z @ 535 NONAME ; int CAknUnitEditor::SupportsUnit(int) const
+	?GetFeature@CEikMfne@@QBEHHAAH@Z @ 536 NONAME ; int CEikMfne::GetFeature(int, int &) const
+	?SetFeature@CEikMfne@@QAEHHH@Z @ 537 NONAME ; int CEikMfne::SetFeature(int, int)
+	?SupportsFeature@CEikMfne@@QBEHH@Z @ 538 NONAME ; int CEikMfne::SupportsFeature(int) const
+	?GetFeature@CEikSecretEditor@@QBEHHAAH@Z @ 539 NONAME ; int CEikSecretEditor::GetFeature(int, int &) const
+	?SetFeature@CEikSecretEditor@@QAEHHH@Z @ 540 NONAME ; int CEikSecretEditor::SetFeature(int, int)
+	?SupportsFeature@CEikSecretEditor@@QBEHH@Z @ 541 NONAME ; int CEikSecretEditor::SupportsFeature(int) const
+	?MakeVisible@CEikMfne@@UAEXH@Z @ 542 NONAME ; void CEikMfne::MakeVisible(int)
+	?SizeChanged@CEikMfne@@MAEXXZ @ 543 NONAME ; void CEikMfne::SizeChanged(void)
+	?EnableSCT@CEikSecretEditor@@QAEXH@Z @ 544 NONAME ; void CEikSecretEditor::EnableSCT(int)
+	?FocusChanged@CEikSecretEditor@@UAEXW4TDrawNow@@@Z @ 545 NONAME ; void CEikSecretEditor::FocusChanged(enum TDrawNow)
+	?EnableCursor@CEikSecretEditor@@QAEXH@Z @ 546 NONAME ; void CEikSecretEditor::EnableCursor(int)
+

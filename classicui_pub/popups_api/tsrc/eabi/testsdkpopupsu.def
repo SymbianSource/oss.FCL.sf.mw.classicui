@@ -1,0 +1,15 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI16CTestSDKPopupsPF @ 2 NONAME ; #<TI>#
+	_ZTI16CTestSDKPopupsPL @ 3 NONAME ; #<TI>#
+	_ZTI17CTestSDKPopupSPSL @ 4 NONAME ; #<TI>#
+	_ZTI17CTestSDKPopupsCPF @ 5 NONAME ; #<TI>#
+	_ZTI18CTestSDKPopupsSPSP @ 6 NONAME ; #<TI>#
+	_ZTI21CTestSDKPopupsControl @ 7 NONAME ; #<TI>#
+	_ZTV16CTestSDKPopupsPF @ 8 NONAME ; #<VT>#
+	_ZTV16CTestSDKPopupsPL @ 9 NONAME ; #<VT>#
+	_ZTV17CTestSDKPopupSPSL @ 10 NONAME ; #<VT>#
+	_ZTV17CTestSDKPopupsCPF @ 11 NONAME ; #<VT>#
+	_ZTV18CTestSDKPopupsSPSP @ 12 NONAME ; #<VT>#
+	_ZTV21CTestSDKPopupsControl @ 13 NONAME ; #<VT>#
+

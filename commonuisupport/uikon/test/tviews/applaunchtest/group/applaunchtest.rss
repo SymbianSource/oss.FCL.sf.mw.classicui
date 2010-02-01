@@ -1,0 +1,107 @@
+// Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// ALT.RSS
+// 
+//
+
+NAME ALTE
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include "applaunchtest.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{ 
+	menubar=r_alt_menubar;
+	hotkeys=r_alt_hotkeys;
+	}
+
+RESOURCE HOTKEYS r_alt_hotkeys
+	{
+	control=
+		{
+		HOTKEY { command=EEikCmdExit; key='e'; }
+		};
+	}
+
+RESOURCE MENU_BAR r_alt_menubar
+	{
+	titles=
+		{
+		MENU_TITLE { menu_pane=r_alt_file_menu; txt="File"; }
+		};
+	}
+
+RESOURCE MENU_PANE r_alt_file_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=EAltCmdWriteInternalState; txt="Write Internal State Of StackedControls"; },
+		MENU_ITEM { command=EEikCmdExit; txt="Exit"; }
+		};
+	}
+
+RESOURCE STATUS_PANE_SYSTEM_MODEL r_alt_status_pane
+	{
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = EAltSpanePaneUid1;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_alt_pane_content; 
+			}
+		};
+
+	default_layout = r_tspane_layout_bottom;
+	layouts = 
+		{
+		r_tspane_layout_bottom
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_bottom
+	{
+	position = EEikStatusPanePositionBottom;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = EAltSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = 30;
+		sub_panes = 
+			{
+			SPANE_LAYOUT_TREE_NODE
+				{
+				flags = EEikStatusPaneIsStretchable;
+				size = 5;
+				sub_panes = 
+					{
+					SPANE_LAYOUT_TREE_NODE
+						{
+						id = EAltSpanePaneUid1;
+						flags = EEikStatusPaneIsStretchable;
+						size = 15;
+						sub_panes = {};
+						}
+					};
+				}
+			};
+		};
+	}
+
+RESOURCE TXTBUT r_alt_pane_content { txt1 = "AppLaunchTest"; }

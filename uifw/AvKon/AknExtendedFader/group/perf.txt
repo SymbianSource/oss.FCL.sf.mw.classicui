@@ -1,0 +1,23 @@
+First:
+------
+
+Without preload:
+
+876600 pixels in 70.655ms = 12.407Mpix/s or 47.33MB/s
+
+With preload:
+
+876600 pixels in 69.953ms = 12.531Mpix/s or 47.80MB/s
+
+
+Now:
+----
+
+
+Without preload:
+
+876600 pixels in 60ms = 14.610Mpix/s or 55.73MB/s
+
+With preload:
+
+876600 pixels in 49ms = 17.890Mpix/s or 68.24MB/s

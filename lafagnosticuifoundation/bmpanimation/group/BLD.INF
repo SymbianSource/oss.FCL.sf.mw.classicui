@@ -1,0 +1,75 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Bitmap animation utility (Window server plug-in)
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in \epoc32\include
+
+../inc/bmpancli.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(bmpancli.h)
+../inc/bmpansrv.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(bmpansrv.h)
+../inc/bmpanconsts.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(bmpanconsts.h)
+
+../docs/animation_design_spec.doc /epoc32/engdoc/application_framework/bmpanim/animation_design_spec.doc
+../group/BmpAnim.iby	/epoc32/rom/include/bmpanim.iby
+
+PRJ_MMPFILES
+// specify the .mmp files required for building the important component releasables
+// note that you should specify any .mmp files for test programs further down the file.
+//
+// It's best if the .MMP files are specified in the order in which the components are
+// built, but that eventually shouldn't matter
+//
+// Use C++ style #defines to denote that a component is only built for a particular platform
+//
+// specify "tidy" if the component you need to build doesn't need to be released to
+// the rest of the company
+// specify "ignore" if the MMP file exists but should be ignored - William wants this!
+
+../group/BmpAnim.mmp
+../group/BmpAnSrv.mmp
+
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and shouldn't
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+../tef/TBmpAnimTestServer.mmp
+
+
+PRJ_TESTEXPORTS
+
+../group/BmpAnimTest.iby	                /epoc32/rom/include/bmpanimtest.iby
+../tef/scripts/bmpanimtest_run.bat	        z:/bmpanimtest/bmpanimtest_run.bat
+../tef/scripts/bmpanimtest_run.bat              /epoc32/release/winscw/udeb/bmpanimtest_run.bat
+../tef/scripts/bmpanimtest_run.bat              /epoc32/release/winscw/urel/bmpanimtest_run.bat
+../tef/scripts/bmpanimtest_T_AutoAn.script	z:/bmpanimtest/bmpanimtest_t_autoan.script
+../tef/scripts/bmpanimtest_T_BmpAnim.script	z:/bmpanimtest/bmpanimtest_t_bmpanim.script

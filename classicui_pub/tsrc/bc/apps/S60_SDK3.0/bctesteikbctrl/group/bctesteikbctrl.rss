@@ -1,0 +1,439 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "BCTesteikbctrl.hrh"
+#include "BCTesteikbctrl.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctesteikbctrl_BMP_FNAME APP_BITMAP_DIR"\\BCTesteikbctrl.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTesteikbctrl";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctesteikbctrl_menubar_main;
+    cba = r_bctesteikbctrl_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctesteikbctrl_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+           CAPTION_AND_ICON_INFO
+           {
+           caption = qtn_apps_tavl_list; 
+           //number_of_icons = 2;
+           //icon_file = APP_BITMAP_DIR "\\BCTesteikbctrl_aif.mbm";
+           };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctesteikbctrl_view
+//    AVKON_VIEW for CBCTesteikbctrlView
+//
+//-----------------------------------------------------------------------------
+
+RESOURCE AVKON_VIEW r_bctesteikbctrl_view
+    {
+    menubar = r_bctesteikbctrl_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctesteikbctrl_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctesteikbctrl_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctesteikbctrl_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctesteikbctrl_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctesteikbctrl_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctesteikbctrl_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCtrlCreat;
+            txt = qtn_bctestctrlcreat;
+            },
+        MENU_ITEM
+        	{
+        	command = EBCTestAlignApi;
+        	txt	= qtn_bctestalignapi;
+        	},
+        MENU_ITEM
+        	{
+        	 //command =  EBCTestDialgApi;
+	         cascade =  r_bctestbctrl_menu_from_cascade;
+        	 txt = qtn_bctestdialgapi;
+        	}
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctesteikbctrl_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+
+RESOURCE MENU_PANE r_bctesteikbctrl_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctesteikbctrl_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctesteikbctrl_menu_exit;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_bctestbctrl_menu_from_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestBCtrlCmdOutline01;
+            txt = qtn_bctestbctrl_menu_outline01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestBCtrlCmdOutline02;
+            txt = qtn_bctestbctrl_menu_outline02;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestBCtrlCmdOutline03;
+            txt = qtn_bctestbctrl_menu_outline03;
+            }
+	};
+  }    
+
+RESOURCE CBA r_bctest_cba
+	{
+	buttons =  
+		{
+		 CBA_BUTTON 
+            {
+            id  = EAknSoftkeyOptions; 
+            txt = " button ";
+            }
+	     };
+	}
+
+RESOURCE CBA_BUTTON r_bctest_cba_button
+	{
+	version=0;
+	id=0;
+   	txt="";
+	bmpfile="";
+  	bmpid=0xffff;		// -1
+        bmpmask=0xffff;	    // -1
+	}
+
+    
+// ----------------------------------------------------------------------------
+//
+//    r_bctesteikbctrl_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctesteikbctrl_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTesteikbctrlCbaCmdNext;
+            txt = qtn_bctesteikbctrl_cba_next;
+            }
+	};
+    }
+    
+ 
+//----------------------------------------------------------------------------
+//
+//  r_test_cba
+//
+//----------------------------------------------------------------------------
+
+
+RESOURCE DIALOG r_demo_singlepage_dialog
+  {
+
+   flags = EEikDialogFlagNoDrag | EEikDialogFlagCbaButtons |  EEikDialogFlagWait; 
+
+   buttons = R_AVKON_SOFTKEYS_OK_BACK; 
+
+   title=" dialog ";
+
+   items =
+    	{
+    	   
+  	  DLG_LINE
+      	  {
+           type = EEikCtNumberEditor;
+           // The caption(prompt)
+           prompt = "Number1:";
+           id = ESinglePageDlgC1Id;
+           // The control
+          
+           control = NUMBER_EDITOR { min=0; max=999;};
+           // The tag, indicating the measurement unit
+           trailer = "cm";
+       	  },	
+       	DLG_LINE
+      	  {
+          type = EEikCtNumberEditor; 
+          // The caption(prompt)
+          
+          prompt = "Number2:";
+          id = EsinglePageDlgC2Id;
+          // The control
+
+          control = NUMBER_EDITOR { min=0; max=999; };
+          // The tag, indicating the measurement unit
+
+          trailer = "cm";
+         },
+         DLG_LINE
+         {
+          type = EEikCtNumberEditor; 
+          // The caption(prompt)
+          
+          prompt = "Number3:";
+          id = EsinglePageDlgC3Id;
+          // The control
+
+          control = NUMBER_EDITOR { min=0; max=919; };
+          // The tag, indicating the measurement unit
+
+          trailer = "cm";
+         },
+        DLG_LINE
+         {
+            type = EEikCtEdwin;
+            id = EBcTestEdwin;
+            prompt = "bctrl edwin" ;
+            control = EDWIN
+                {
+                flags = EAknEditorFlagDefault;
+                width = 9;
+                lines = 3;
+                maxlength = 19;
+                };
+          },
+        DLG_LINE
+            {
+            type = EEikCtGlobalTextEditor;
+            id = EBcTestGtxted;
+            prompt =  "bc Gtxted ";
+            control = GTXTED
+                {
+                flags = EAknEditorFlagDefault;
+                width = 14;
+                height = 3;
+                numlines =9;
+                textlimit= 19;
+                fontcontrolflags = EGulFontControlAll;
+                fontnameflags = EGulNoSymbolFonts;
+                };
+            }
+      };
+   }
+
+RESOURCE DLG_LINE r_line_page
+ {
+ 	type = EEikCtEdwin;
+ 	prompt = " line ";
+ 	id = EIdInsertLine;
+ 	control = EDWIN
+ 	{
+ 	 flags = KMultiLineExpandingEditorFlags;
+ 	};
+ }
+ 
+ RESOURCE CBA_BUTTON r_bctesteikbctrl_button
+ {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+ }
+ 
+RESOURCE DIALOG r_bctest_form_dialog
+ {
+   flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect | EEikDialogFlagCbaButtons 
+   								|  EEikDialogFlagWait; 
+   buttons =R_AVKON_SOFTKEYS_OK_BACK; 
+   form = r_bctest_form;
+ }
+
+RESOURCE FORM r_bctest_form
+    {
+    flags = 0;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = EBcTestEdwin;
+            prompt = "bctrl edwin" ;
+            control = EDWIN
+                {
+                flags = EAknEditorFlagDefault;
+                width = 9;
+                lines = 3;
+                maxlength = 19;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtGlobalTextEditor;
+            id = EBcTestGtxted;
+            prompt =  "bc Gtxted ";
+            control = GTXTED
+                {
+                flags = EAknEditorFlagDefault;
+                width = 14;
+                height = 3;
+                numlines =9;
+                textlimit= 19;
+                fontcontrolflags = EGulFontControlAll;
+                fontnameflags = EGulNoSymbolFonts;
+                };
+            },
+        DLG_LINE
+	        {
+	        type = EEikCtCommandButton;
+	        id = EBcTestButon ;
+            prompt = " Txt Button";
+            control = TXTBUT
+                {
+                txt1=" one ";
+                txt2=" two ";
+                };
+	        }
+        };
+    }    
+  
+
+RESOURCE TBUF32 r_title_text1 
+    { 
+    buf="title_text "; 
+    }
+
+// End of File

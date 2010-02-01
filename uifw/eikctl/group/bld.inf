@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 1999 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in /epoc32/include
+
+// internal headers - not in SDK!
+
+../inc/EikClockCtrl.hrh	               |../../../inc/EikClockCtrl.hrh
+../inc/EikClock.rh                     |../../../inc/EikClock.rh
+
+// IBY-files
+../rom/eikctl.iby CORE_MW_LAYER_IBY_EXPORT_PATH(eikctl.iby)
+../rom/eikctlResources.iby LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(eikctlresources.iby)
+
+
+PRJ_MMPFILES
+// specify the .mmp files required for building the important component releasables
+// note that you should specify any .mmp files for test programs further down the file.
+//
+// It's best if the .MMP files are specified in the order in which the components are
+// built, but that eventually shouldn't matter
+//
+// Use C++ style #defines to denote that a component is only built for a particular platform
+
+#ifndef TOOLS
+eikctl.mmp
+#endif

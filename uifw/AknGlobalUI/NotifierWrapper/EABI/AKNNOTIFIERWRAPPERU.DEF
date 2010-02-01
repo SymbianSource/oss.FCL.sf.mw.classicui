@@ -1,0 +1,128 @@
+EXPORTS
+	_ZN19CAknNotifierWrapper14CancelNotifierE4TUid @ 1 NONAME
+	_ZN19CAknNotifierWrapper14StartNotifierLE4TUidRK6TDesC8 @ 2 NONAME
+	_ZN19CAknNotifierWrapper14StartNotifierLE4TUidRK6TDesC8iRK12RMessagePtr2 @ 3 NONAME
+	_ZN19CAknNotifierWrapper15UpdateNotifierLE4TUidRK6TDesC8 @ 4 NONAME
+	_ZN19CAknNotifierWrapper21AsyncMessageCompletedEP27CAknNotifierMessageObserver @ 5 NONAME
+	_ZN19CAknNotifierWrapper4NewLE4TUidS0_iS0_j @ 6 NONAME
+	_ZN19CAknNotifierWrapperC1E4TUidS0_i @ 7 NONAME
+	_ZN19CAknNotifierWrapperC2E4TUidS0_i @ 8 NONAME
+	_ZN19CAknNotifierWrapperD0Ev @ 9 NONAME
+	_ZN19CAknNotifierWrapperD1Ev @ 10 NONAME
+	_ZN19CAknNotifierWrapperD2Ev @ 11 NONAME
+	_ZN21CAknNotifierAppServer14CancelNotifierE4TUid @ 12 NONAME
+	_ZN21CAknNotifierAppServer14LoadNotifiersLEv @ 13 NONAME
+	_ZN21CAknNotifierAppServer14StartNotifierLE4TUidRK6TDesC8R5TDes8 @ 14 NONAME
+	_ZN21CAknNotifierAppServer15UpdateNotifierLE4TUidRK6TDesC8R5TDes8 @ 15 NONAME
+	_ZN21CAknNotifierAppServer22AppendNotifierLibNameLERK7TDesC16 @ 16 NONAME
+	_ZN21CAknNotifierAppServer28StartNotifierAndGetResponseLE4TUidR6TDesC8RK12RMessagePtr2i @ 17 NONAME
+	_ZN21CAknNotifierAppServerC1Ev @ 18 NONAME
+	_ZN21CAknNotifierAppServerC2Ev @ 19 NONAME
+	_ZN21CAknNotifierAppServerD0Ev @ 20 NONAME
+	_ZN21CAknNotifierAppServerD1Ev @ 21 NONAME
+	_ZN21CAknNotifierAppServerD2Ev @ 22 NONAME
+	_ZN24CAknNotifierWrapperLight6CancelEv @ 23 NONAME
+	_ZN24CAknNotifierWrapperLight6StartLERK6TDesC8 @ 24 NONAME
+	_ZN24CAknNotifierWrapperLight6StartLERK6TDesC8iRK12RMessagePtr2 @ 25 NONAME
+	_ZN24CAknNotifierWrapperLight7ReleaseEv @ 26 NONAME
+	_ZN24CAknNotifierWrapperLight7UpdateLERK6TDesC8 @ 27 NONAME
+	_ZN24CAknNotifierWrapperLight9RegisterLEv @ 28 NONAME
+	_ZN24CAknNotifierWrapperLightC1ER19MAknNotifierWrapper4TUidS2_i @ 29 NONAME
+	_ZN24CAknNotifierWrapperLightC2ER19MAknNotifierWrapper4TUidS2_i @ 30 NONAME
+	_ZN24CAknNotifierWrapperLightD0Ev @ 31 NONAME
+	_ZN24CAknNotifierWrapperLightD1Ev @ 32 NONAME
+	_ZN24CAknNotifierWrapperLightD2Ev @ 33 NONAME
+	_ZN26CAknNotifierAppServerAppUi10ConstructLEv @ 34 NONAME
+	_ZN26CAknNotifierAppServerAppUi14HandleCommandLEi @ 35 NONAME
+	_ZN26CAknNotifierAppServerAppUi15HandleKeyEventLERK9TKeyEvent10TEventCode @ 36 NONAME
+	_ZN26CAknNotifierAppServerAppUi20SuppressAppSwitchingEi @ 37 NONAME
+	_ZN26CAknNotifierAppServerAppUiC1Ev @ 38 NONAME
+	_ZN26CAknNotifierAppServerAppUiC2Ev @ 39 NONAME
+	_ZN26CAknNotifierAppServerAppUiD0Ev @ 40 NONAME
+	_ZN26CAknNotifierAppServerAppUiD1Ev @ 41 NONAME
+	_ZN26CAknNotifierAppServerAppUiD2Ev @ 42 NONAME
+	_ZN27CAknNotifierMessageObserver17NewServerRequestLE4TUidP19MAknNotifierWrapperRK12RMessagePtr2i @ 43 NONAME
+	_ZN28CAknNotifierServerAppService12AllowClientLERK9RMessage2 @ 44 NONAME
+	_ZN28CAknNotifierServerAppService14HandleMessageLERK9RMessage2 @ 45 NONAME
+	_ZN28CAknNotifierServerAppService8ServiceLERK9RMessage2 @ 46 NONAME
+	_ZN28CAknNotifierServerAppServiceC1ERK21CAknNotifierAppServer @ 47 NONAME
+	_ZN28CAknNotifierServerAppServiceC2ERK21CAknNotifierAppServer @ 48 NONAME
+	_ZN28CAknNotifierServerAppServiceD0Ev @ 49 NONAME
+	_ZN28CAknNotifierServerAppServiceD1Ev @ 50 NONAME
+	_ZN28CAknNotifierServerAppServiceD2Ev @ 51 NONAME
+	_ZN32CAknNotifierAppServerApplication13NewAppServerLERP13CApaAppServer @ 52 NONAME
+	_ZN32CAknNotifierAppServerApplication15CreateDocumentLEv @ 53 NONAME
+	_ZN32CAknNotifierAppServerApplicationC2Ev @ 54 NONAME
+	_ZN32CAknNotifierAppServerApplicationD0Ev @ 55 NONAME
+	_ZN32CAknNotifierAppServerApplicationD1Ev @ 56 NONAME
+	_ZN32CAknNotifierAppServerApplicationD2Ev @ 57 NONAME
+	_ZNK21CAknNotifierAppServer14CreateServiceLE4TUid @ 58 NONAME
+	_ZNK24CAknNotifierWrapperLight4InfoEv @ 59 NONAME
+	_ZTI19CAknNotifierWrapper @ 60 NONAME ; #<TI>#
+	_ZTI21CAknNotifierAppServer @ 61 NONAME ; #<TI>#
+	_ZTI24CAknNotifierWrapperLight @ 62 NONAME ; #<TI>#
+	_ZTI25RAknNotifierAppServClient @ 63 NONAME ; #<TI>#
+	_ZTI26CAknNotifierAppServerAppUi @ 64 NONAME ; #<TI>#
+	_ZTI27CAknNotifierMessageObserver @ 65 NONAME ; #<TI>#
+	_ZTI28CAknNotifierServerAppService @ 66 NONAME ; #<TI>#
+	_ZTI29CAknNotifierAppServerDocument @ 67 NONAME ; #<TI>#
+	_ZTI32CAknNotifierAppServerApplication @ 68 NONAME ; #<TI>#
+	_ZTV19CAknNotifierWrapper @ 69 NONAME ; #<VT>#
+	_ZTV21CAknNotifierAppServer @ 70 NONAME ; #<VT>#
+	_ZTV24CAknNotifierWrapperLight @ 71 NONAME ; #<VT>#
+	_ZTV25RAknNotifierAppServClient @ 72 NONAME ; #<VT>#
+	_ZTV26CAknNotifierAppServerAppUi @ 73 NONAME ; #<VT>#
+	_ZTV27CAknNotifierMessageObserver @ 74 NONAME ; #<VT>#
+	_ZTV28CAknNotifierServerAppService @ 75 NONAME ; #<VT>#
+	_ZTV29CAknNotifierAppServerDocument @ 76 NONAME ; #<VT>#
+	_ZTV32CAknNotifierAppServerApplication @ 77 NONAME ; #<VT>#
+	_ZThn124_N21CAknNotifierAppServer14CancelNotifierE4TUid @ 78 NONAME ; #<thunk>#
+	_ZThn124_N21CAknNotifierAppServer14StartNotifierLE4TUidRK6TDesC8R5TDes8 @ 79 NONAME ; #<thunk>#
+	_ZThn124_N21CAknNotifierAppServer15UpdateNotifierLE4TUidRK6TDesC8R5TDes8 @ 80 NONAME ; #<thunk>#
+	_ZThn40_N19CAknNotifierWrapper14CancelNotifierE4TUid @ 81 NONAME ; #<thunk>#
+	_ZThn40_N19CAknNotifierWrapper14StartNotifierLE4TUidRK6TDesC8 @ 82 NONAME ; #<thunk>#
+	_ZThn40_N19CAknNotifierWrapper14StartNotifierLE4TUidRK6TDesC8iRK12RMessagePtr2 @ 83 NONAME ; #<thunk>#
+	_ZThn40_N19CAknNotifierWrapper15UpdateNotifierLE4TUidRK6TDesC8 @ 84 NONAME ; #<thunk>#
+	_ZThn40_N19CAknNotifierWrapper21AsyncMessageCompletedEP27CAknNotifierMessageObserver @ 85 NONAME ; #<thunk>#
+	_ZThn4_N19CAknNotifierWrapperD0Ev @ 86 NONAME ; #<thunk>#
+	_ZThn4_N19CAknNotifierWrapperD1Ev @ 87 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight6CancelEv @ 88 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight6StartLERK6TDesC8 @ 89 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight6StartLERK6TDesC8iRK12RMessagePtr2 @ 90 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight7ReleaseEv @ 91 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight7UpdateLERK6TDesC8 @ 92 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLight9RegisterLEv @ 93 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLightD0Ev @ 94 NONAME ; #<thunk>#
+	_ZThn4_N24CAknNotifierWrapperLightD1Ev @ 95 NONAME ; #<thunk>#
+	_ZThn4_NK24CAknNotifierWrapperLight4InfoEv @ 96 NONAME ; #<thunk>#
+	_ZN19CAknNotifierWrapper9RegisterLEv @ 97 NONAME
+	_ZThn4_N19CAknNotifierWrapper9RegisterLEv @ 98 NONAME ; #<thunk>#
+	_ZN26CAknNotifierAppServerAppUi10SetManagerEP22MEikSrvNotifierManager @ 99 NONAME
+	_ZN26CAknNotifierAppServerAppUi7ManagerEv @ 100 NONAME
+	_ZN29CAknNotifierControllerUtility19DoStopNotificationsEv @ 101 NONAME
+	_ZN29CAknNotifierControllerUtility20DoAllowNotificationsEv @ 102 NONAME
+	_ZN29CAknNotifierControllerUtility24DoCancelAllNotificatonsLEv @ 103 NONAME
+	_ZN26CAknNotifierAppServerAppUi19SetOrdinalPositionLEi @ 104 NONAME
+	_ZN19CAknNotifierWrapper27DoNotifierControllerCommandEi @ 105 NONAME
+	_ZN26CAknNotifierAppServerAppUi9SetFadedLEi @ 106 NONAME
+	_ZN24CAknNotifierWrapperLight19NotifierCapabilitesEv @ 107 NONAME
+	_ZThn4_N24CAknNotifierWrapperLight19NotifierCapabilitesEv @ 108 NONAME ; #<thunk>#
+	_ZN26CAknNotifierAppServerAppUi13EikSrvBlockedEv @ 109 NONAME
+	_ZN26CAknNotifierAppServerAppUi11HandleErrorEiRK14SExtendedErrorR6TDes16S4_ @ 110 NONAME
+	_ZN26CAknNotifierAppServerAppUi18HandleSystemEventLERK8TWsEvent @ 111 NONAME
+	_ZN25CAknCommonNotifierWrapper24SetCustomSecurityHandlerEP31MAknNotifierCustomSecurityCheck @ 112 NONAME
+	_ZTI25CAknCommonNotifierWrapper @ 113 NONAME ; #<TI>#
+	_ZTV25CAknCommonNotifierWrapper @ 114 NONAME ; #<VT>#
+	_ZN21CAknNotifierAppServer24SetImplementationFinderLEP25MNotifLibraryOwningServer @ 115 NONAME
+	_ZN25CAknCommonNotifierWrapper15PreLoadLibraryLEv @ 116 NONAME
+	_ZN25CAknCommonNotifierWrapper4NewLE4TUidS0_iRK7TDesC16ji @ 117 NONAME
+	_ZN21CAknNotifierAppServer31UnbalanceReferenceCountForNotifE4TUidi @ 118 NONAME
+	_ZN21CAknNotifierAppServer29UpdateNotifierAndGetResponseLE4TUidR6TDesC8RK12RMessagePtr2i @ 119 NONAME
+	_ZN24CAknNotifierWrapperLight7UpdateLERK6TDesC8iRK12RMessagePtr2 @ 120 NONAME
+	_ZThn4_N24CAknNotifierWrapperLight7UpdateLERK6TDesC8iRK12RMessagePtr2 @ 121 NONAME ; #<thunk>#
+	_ZN19CAknNotifierWrapper15UpdateNotifierLE4TUidRK6TDesC8iRK12RMessagePtr2 @ 122 NONAME
+	_ZN19MAknNotifierWrapper15UpdateNotifierLE4TUidRK6TDesC8iRK12RMessagePtr2 @ 123 NONAME
+	_ZTI19MAknNotifierWrapper @ 124 NONAME ; #<TI>#
+	_ZTV19MAknNotifierWrapper @ 125 NONAME ; #<VT>#
+	_ZThn40_N19CAknNotifierWrapper15UpdateNotifierLE4TUidRK6TDesC8iRK12RMessagePtr2 @ 126 NONAME ; #<thunk>#
+

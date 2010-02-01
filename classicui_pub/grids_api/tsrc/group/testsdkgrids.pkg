@@ -1,0 +1,57 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkgrids"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+; ?remembers replacing "your uid3" with your uid3, and deletes this line
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkgrids.ini"-"c:\Testframework\testsdkgrids.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkgridsakncolourselectiongrid.cfg"-"c:\Testframework\tctestsdkgridsakncolourselectiongrid.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkgridsakncolourselectiongrid.cfg"-"c:\Testframework\ui_testsdkgridsakncolourselectiongrid.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkgridsakngmsstylegrid.cfg"-"c:\Testframework\tctestsdkgridsakngmsstylegrid.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkgridsakngmsstylegrid.cfg"-"c:\Testframework\ui_testsdkgridsakngmsstylegrid.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkgridsakngrid.cfg"-"c:\Testframework\tctestsdkgridsakngrid.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkgridsakngrid.cfg"-"c:\Testframework\ui_testsdkgridsakngrid.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkgridsakngridm.cfg"-"c:\Testframework\tctestsdkgridsakngridm.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkgridsakngridm.cfg"-"c:\Testframework\ui_testsdkgridsakngridm.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkgridsakngridview.cfg"-"c:\Testframework\tctestsdkgridsakngridview.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkgridsakngridview.cfg"-"c:\Testframework\ui_testsdkgridsakngridview.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkgrids.dll"-"c:\sys\bin\testsdkgrids.dll", FF
+
+; ?deletes this line, and deletes the follow line if you have not any resource
+"\epoc32\data\Z\resource\testsdkgrids.rsc"-"c:\resource\testsdkgrids.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file.
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          aknnfysrv.exe
+TARGETTYPE      exe
+UID             0x100039CE 0x10281EF2
+
+epocstacksize   0x6000
+#ifdef WINS
+epocheapsize    0x1000 0x0800000	// 8M
+#else
+epocheapsize    0x1000 0x1000000	// 16M
+#endif
+
+VENDORID        VID_DEFAULT
+CAPABILITY      All -TCB -DRM
+
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../CommonInc
+
+SOURCEPATH      ../src
+SOURCE          AknNfySrv.cpp
+SOURCE          AknNfySrvUi.cpp
+
+LIBRARY         euser.lib 
+LIBRARY         apparc.lib 
+LIBRARY         cone.lib 
+LIBRARY         eikcore.lib 
+LIBRARY         apfile.lib 
+LIBRARY         apgrfx.lib
+LIBRARY         avkon.lib 
+LIBRARY         aknnotifierwrapper.lib 
+LIBRARY         ws32.lib 
+LIBRARY         eiksrvc.lib
+LIBRARY         eiksrv.lib
+
+START RESOURCE AknNfySrv_reg.rss
+// Do not change the UID below.
+TARGETPATH /private/10003a3f/apps
+END
+

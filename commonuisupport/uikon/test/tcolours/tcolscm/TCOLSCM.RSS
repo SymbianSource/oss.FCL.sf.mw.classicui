@@ -1,0 +1,121 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+ 
+NAME TCSM
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+
+#include <eikcolor.hrh>
+
+#include "TCOLSCM.HRH"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tdlg_hotkeys;
+	menubar=r_tdlg_menubar;
+	toolbar=r_tdlg_toolbar;
+	}
+
+RESOURCE HOTKEYS r_tdlg_hotkeys
+    {
+    control=
+        {
+		HOTKEY {command=EAppCmdShowDlg; key='s';},
+        HOTKEY {command=EEikCmdExit; key='e';},
+		HOTKEY {command=EAppCmdToggleSpane; key='y';}
+        };
+    }
+
+RESOURCE TOOLBAR r_tdlg_toolbar
+	{
+	controls=
+		{
+        TBAR_BUTTON {id=EEikCmdExit; flags=EEikToolBarCtrlIsStretchable; txt="Exit";},
+		TBAR_BUTTON {id=EAppCmdShowDlg; flags=EEikToolBarCtrlIsStretchable; txt="Show";}
+		};
+	}
+	
+RESOURCE MENU_BAR r_tdlg_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tdlg_file_menu; txt="Menu"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tdlg_file_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=EAppCmdShowDlg;
+            txt="Show";
+            },
+		MENU_ITEM
+			{
+			command=EAppCmdToggleSpane;
+			txt="Toggle Status Pane";
+			},
+        MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Exit";
+            }
+        };
+    }
+
+
+RESOURCE ARRAY r_color_scheme_list
+	{
+	items=
+		{
+		LBUF { txt="ER5"; },
+		LBUF { txt="Gray"; },
+		LBUF { txt="Slate Blue"; },
+		LBUF { txt="Maram Grass"; },
+		LBUF { txt="Sky Blue"; },
+		LBUF { txt="Beach Sand"; },
+		LBUF { txt="Lilac"; }
+		};
+	}
+
+RESOURCE DIALOG r_color_scheme_dialog
+    {
+	title="Color Schemes";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+	flags=EEikDialogFlagWait;
+    items=
+		{
+		DLG_LINE
+            {
+            type=EEikCtChoiceList;
+			id=EAppChoiceListId;
+            prompt="Schemes";
+            control=CHOICELIST
+                {
+                array_id=r_color_scheme_list;
+                };
+            }
+		};
+	}
+
+
+#include "TCOLSCM.RA"

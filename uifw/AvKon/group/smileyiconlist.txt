@@ -1,0 +1,53 @@
+/1 qgn_indi_switch_smiley2.svg
+/1 qgn_indi_switch_sct2.svg
+/c24 qgn_indi_smiley_angry.svg
+/c24 qgn_indi_smiley_bigsmile.svg
+/c24 qgn_indi_smiley_cry.svg
+/c24 qgn_indi_smiley_evil.svg
+/c24 qgn_indi_smiley_eyebrows.svg
+/c24 qgn_indi_smiley_heart.svg
+/c24 qgn_indi_smiley_irritated.svg
+/c24 qgn_indi_smiley_kissing.svg
+/c24 qgn_indi_smiley_nerd.svg
+/c24 qgn_indi_smiley_neutral.svg
+/c24 qgn_indi_smiley_pirate.svg
+/c24 qgn_indi_smiley_sarcastic.svg
+/c24 qgn_indi_smiley_sarcastic_mad.svg
+/c24 qgn_indi_smiley_smile.svg
+/c24 qgn_indi_smiley_spring.svg
+/c24 qgn_indi_smiley_suprised.svg
+/c24 qgn_indi_smiley_tongue.svg
+/c24 qgn_indi_smiley_unhappy.svg
+/c24 qgn_indi_smiley_verycool.svg
+/c24 qgn_indi_smiley_wink.svg
+/c24 qgn_indi_smiley_wink_grin.svg
+/c24 qgn_indi_smiley_wondering.svg
+/c24 qgn_indi_smiley_coffee.svg
+/c24 qgn_indi_smiley_connive.svg
+/c24 qgn_indi_smiley_denial.svg
+/c24 qgn_indi_smiley_flirt.svg
+/c24 qgn_indi_smiley_frustrated.svg
+/c24 qgn_indi_smiley_gum.svg
+/c24 qgn_indi_smiley_idea.svg
+/c24 qgn_indi_smiley_innocent.svg
+/c24 qgn_indi_smiley_laugh.svg
+/c24 qgn_indi_smiley_party.svg
+/c24 qgn_indi_smiley_run.svg
+/c24 qgn_indi_smiley_silly.svg
+/c24 qgn_indi_smiley_sleep.svg
+/c24 qgn_indi_smiley_surprised.svg
+/A /c24 qgn_indi_smiley_anim_coffee.svg
+/A /c24 qgn_indi_smiley_anim_connive.svg
+/A /c24 qgn_indi_smiley_anim_denial.svg
+/A /c24 qgn_indi_smiley_anim_flirt.svg
+/A /c24 qgn_indi_smiley_anim_frustrated.svg
+/A /c24 qgn_indi_smiley_anim_gum.svg
+/A /c24 qgn_indi_smiley_anim_idea.svg
+/A /c24 qgn_indi_smiley_anim_innocent.svg
+/A /c24 qgn_indi_smiley_anim_laugh.svg
+/A /c24 qgn_indi_smiley_anim_party.svg
+/A /c24 qgn_indi_smiley_anim_run.svg
+/A /c24 qgn_indi_smiley_anim_silly.svg
+/A /c24 qgn_indi_smiley_anim_sleep.svg
+/A /c24 qgn_indi_smiley_anim_surprised.svg
+

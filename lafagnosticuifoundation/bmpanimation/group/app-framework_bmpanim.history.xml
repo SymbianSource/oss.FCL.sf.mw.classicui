@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="BMP Animation">
+  <purpose>
+    Animation utility for sequences of bitmaps, plugin to Window Server.
+  </purpose>
+</relnotes>

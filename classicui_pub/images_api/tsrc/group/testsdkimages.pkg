@@ -1,0 +1,37 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Provide value for uid
+#{"testsdkimages"},(0x2001CB80),1,0,0,TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+"..\init\testsdkimages.ini"-"c:\Testframework\testsdkimages.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkimages.cfg"-"c:\Testframework\tctestsdkimages.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkimages.cfg"-"c:\Testframework\ui_testsdkimages.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkimages.dll"-"c:\sys\bin\testsdkimages.dll", FF
+
+; ?deletes this line, and deletes the follow line if you have not any resource
+"\epoc32\data\Z\resource\testsdkimages.rsc"-"c:\resource\testsdkimages.rsc", FF
+

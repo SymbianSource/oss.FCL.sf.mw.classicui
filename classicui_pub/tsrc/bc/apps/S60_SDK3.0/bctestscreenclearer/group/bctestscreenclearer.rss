@@ -1,0 +1,211 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME SCCR
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <bctestscreenclearer.mbg>
+
+#include <appinfo.rh>
+
+#include "bctestscreenclearer.hrh"
+#include "bctestscreenclearer.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTSCREENCLEARER_BMP_FNAME APP_BITMAP_DIR"\
+    \\bctestscreenclearer.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctest_buf;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestscreenclearer_menubar_main;
+    cba = r_bctestscreenclearer_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestscreenclearer_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        number_of_icons = 2;
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestscreenclearer_view
+//    AVKON_VIEW for CBCTestscreenclearerView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestscreenclearer_view
+    {
+    menubar = r_bctestscreenclearer_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestscreenclearer_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestscreenclearer_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestscreenclearer_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestscreenclearer_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestscreenclearer_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestscreenclearer_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdTestL;
+            txt = qtn_bctestscreenclearer_testl;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestscreenclearer_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestscreenclearer_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestscreenclearer_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestscreenclearer_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestscreenclearer_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestscreenclearer_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestScreenClearerCbaCmdNext;
+            txt = qtn_bctestscreenclearer_cba_next;
+            }
+	};
+    }
+

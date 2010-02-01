@@ -1,0 +1,61 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ?Description
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+
+#include <platform_paths.hrh>
+
+
+TARGET          testsdknotifiers.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdknotifiers.def
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+    
+SOURCE          testsdknotifiers.cpp
+SOURCE          testsdknotifiersblocks.cpp 
+SOURCE          testsdknotifiersblocksaknglobalconfirmationquery.cpp 
+SOURCE          testsdknotifiersblocksakngloballistquery.cpp 
+SOURCE          testsdknotifiersblocksaknglobalmsgquery.cpp 
+SOURCE          testsdknotifiersblocksaknglobalnote.cpp 
+SOURCE          testsdknotifiersblocksaknglobalprogressdialog.cpp 
+SOURCE          testsdknotifiersblocksaknnotify.cpp 
+SOURCE          testsdknotifiersblocksaknpopupnotify.cpp
+SOURCE          testsdknotifiersblocksgloballistmsgquery.cpp
+SOURCE          activeexample.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         eiksrv.lib 
+LIBRARY         aknnotify.lib
+LIBRARY         bafl.lib
+LIBRARY         avkon.lib
+LIBRARY         eikcore.lib
+
+LANG            SC
+
+// End of File

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="630592c900049d45b7efeaef4699eb3b" dataversion="1.0">
+  <name>Common UI Settings API</name>
+  <description>Common UI CenRep settings.</description>
+  <type>c++</type>
+  <subsystem>commonuis</subsystem>
+  <libs>
+    <lib name="commonui.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

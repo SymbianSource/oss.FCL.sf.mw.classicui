@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 1997-1999 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+NAME ECTL
+
+
+#include <fontids.hrh>
+
+#include <eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+#include "eikclock.ra"
+#include <avkon.loc>
+//
+// All the text in this file is used in InfoMsg only in Debug
+//
+
+RESOURCE TBUF r_eik_tbuf_before_earliest_allowed_date { buf="Earliest allowed date is %1%/1%2%/2%3"; }
+RESOURCE TBUF r_eik_tbuf_after_latest_allowed_date { buf="Latest allowed date is %1%/1%2%/2%3"; }
+
+// For floating and fixed point editors:
+
+RESOURCE TBUF r_eik_tbuf_fnumber_below_min { buf="Minimum allowed value is %S"; }
+RESOURCE TBUF r_eik_tbuf_fnumber_above_max { buf="Maximum allowed value is %S"; }
+
+// Needed in eikmfne.cpp:
+RESOURCE TBUF2 r_eik_tbuf_nudge_ten_chars { buf="M?"; }
+
+RESOURCE TBUF r_eik_tbuf_no_number_entered { buf="No number has been entered"; }
+RESOURCE TBUF r_eik_tbuf_number_below_min { buf="Minimum allowed value is %d"; }
+RESOURCE TBUF r_eik_tbuf_number_above_max { buf="Maximum allowed value is %d"; }
+
+RESOURCE TBUF r_eik_tbuf_date_invalid { buf="Invalid date"; }
+RESOURCE TBUF r_eik_tbuf_before_earliest_allowed_time { buf="Earliest allowed time is %-B%J%:1%T%:2%S%+B"; }
+RESOURCE TBUF r_eik_tbuf_after_latest_allowed_time { buf="Latest allowed time is %-B%J%:1%T%:2%S%+B"; }
+RESOURCE TBUF r_eik_tbuf_before_earliest_allowed_time_and_date { buf="Earliest allowed time and date is %-B%J%:1%T%:2%S%+B %1%/1%2%/2%3"; }
+RESOURCE TBUF r_eik_tbuf_after_latest_allowed_time_and_date { buf="Latest allowed time and date is %-B%J%:1%T%:2%S%+B %1%/1%2%/2%3"; }
+RESOURCE TBUF r_eik_tbuf_below_shortest_allowed_duration { buf="Minimum allowed duration is %H%:1%T%:2%S"; }
+RESOURCE TBUF r_eik_tbuf_above_longest_allowed_duration { buf="Maximum allowed duration is %H%:1%T%:2%S"; }
+RESOURCE TBUF r_eik_tbuf_below_minimum_time_offset { buf="Minimum GMT offset is %H%:1%T%"; }
+RESOURCE TBUF r_eik_tbuf_above_maximum_time_offset { buf="Maximum GMT offset is %H%:1%T%"; }
+RESOURCE TBUF r_eik_tbuf_below_negative_minimum_time_offset { buf="Minimum GMT offset is -%H%:1%T%"; }
+RESOURCE TBUF r_eik_tbuf_above_negative_maximum_time_offset { buf="Maximum GMT offset is -%H%:1%T%"; }
+
+RESOURCE LATITUDE_AND_LONGITUDE r_eik_latitude_and_longitude
+{
+        degreesign = qtn_editing_coordinate_editor_degree;
+        minutesign = qtn_editing_coordinate_editor_min_mark;
+        secondsign = qtn_editing_coordinate_editor_sec_mark;
+        north = qtn_editing_latitude_editor_north;
+        south = qtn_editing_latitude_editor_south;
+        east = qtn_editing_longitude_editor_east;
+        west = qtn_editing_longitude_editor_west;
+        keytomatchfornorth = 0;
+        keytomatchforsouth = 0;
+        keytomatchforeast = 0;
+        keytomatchforwest = 0;
+}
+
+RESOURCE TBUF r_avkon_unit_editor_meter { buf = qtn_editing_unit_editor_meter; }
+RESOURCE TBUF r_avkon_unit_editor_kilometer { buf = qtn_editing_unit_editor_kilometer; }
+RESOURCE TBUF r_avkon_unit_editor_foot { buf = qtn_editing_unit_editor_foot; }
+RESOURCE TBUF r_avkon_unit_editor_mile { buf = qtn_editing_unit_editor_mile; }
+RESOURCE TBUF r_avkon_unit_editor_metr_speed { buf = qtn_editing_unit_editor_metr_speed; }
+RESOURCE TBUF r_avkon_unit_editor_imper_speed { buf = qtn_editing_unit_editor_imper_speed; }

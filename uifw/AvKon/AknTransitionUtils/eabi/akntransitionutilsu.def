@@ -1,0 +1,12 @@
+EXPORTS
+	_ZN19CAknTransitionUtils10RemoveDataEi @ 1 NONAME
+	_ZN19CAknTransitionUtils11AddObserverEP27MAknTransitionUtilsObserveriPK6TDesC8 @ 2 NONAME
+	_ZN19CAknTransitionUtils13SetAllParentsEPK11CCoeControl @ 3 NONAME
+	_ZN19CAknTransitionUtils14RemoveObserverEP27MAknTransitionUtilsObserveri @ 4 NONAME
+	_ZN19CAknTransitionUtils7GetDataEi @ 5 NONAME
+	_ZN19CAknTransitionUtils7SetDataEiPv @ 6 NONAME
+	_ZN19CAknTransitionUtils8GetStateEiPiP5TDes8 @ 7 NONAME
+	_ZN19CAknTransitionUtils18TransitionsEnabledEi @ 8 NONAME
+	_ZN19CAknTransitionUtils24MakeVisibleSubComponentsEP11CCoeControlNS_29TMakeVisibleSubComponentsInfoE @ 9 NONAME
+	_ZN19CAknTransitionUtils14GetDemarcationENS_15TGfxControlTypeER5TRect @ 10 NONAME
+

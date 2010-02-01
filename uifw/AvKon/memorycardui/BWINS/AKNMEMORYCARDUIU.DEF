@@ -1,0 +1,7 @@
+EXPORTS
+	?NotifierArray@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 1 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * __cdecl NotifierArray(void)	
+	?NewLC@CAknMemoryCardDialog@@SAPAV1@PAVMAknMemoryCardDialogObserver@@@Z @ 2 NONAME ; public: static class CAknMemoryCardDialog * __cdecl CAknMemoryCardDialog::NewLC(class MAknMemoryCardDialogObserver *)
+	?UnlockCardLD@CAknMemoryCardDialog@@QAEXH@Z @ 3 NONAME ; public: void __thiscall CAknMemoryCardDialog::UnlockCardLD(int)
+	?SetSelfPointer@CAknMemoryCardDialog@@QAEXPAPAV1@@Z @ 4 NONAME ; public: void __thiscall CAknMemoryCardDialog::SetSelfPointer(class CAknMemoryCardDialog * *)
+	?UnlockCardLD@CAknMemoryCardDialog@@QAEXAAW4TDriveNumber@@H@Z @ 5  NONAME ; void CAknMemoryCardDialog::UnlockCardLD(enum TDriveNumber &, int)
+

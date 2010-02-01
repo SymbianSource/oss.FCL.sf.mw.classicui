@@ -1,0 +1,201 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project EIKON Server UI.
+*
+*/
+
+NAME ESRV
+
+#include <fontids.hrh>
+#include <eikon.rh>
+#include "EIKSRV.HRH"
+#include <avkon.hrh>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.loc>
+#include <avkon.mbg>
+
+#define help_database_path "z:\\resource\\help"
+
+RESOURCE RSS_SIGNATURE { }
+
+// OOM messages may be displayed in HandleOomEvent in eiksrvui.cpp
+RESOURCE TBUF r_eiksrv_oom_event_top { buf = qtn_err_eikon_mem; }
+RESOURCE TBUF r_eiksrv_oom_event_bot { buf = ""; }
+
+//
+// Notifier resources
+//
+
+RESOURCE DIALOG r_eikserv_notifier_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons | EEikDialogFlagNoShadow |
+            EEikDialogFlagNotifyEsc | EEikDialogFlagNoBackup;
+    title = "";
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EESrvNotifyAlertLabel;
+            control = AVKON_NOTE
+                {
+                layout = ETextualNotificationLayout;
+                singular_label = "";
+                plural_label = "";
+                };
+            }
+        };
+    }
+
+// Window server logging errors.
+// For developers eyes only, users will never see it :^)
+
+RESOURCE TBUF80 r_eiksrv_wserv_logging_error { buf = "WSERV logging error number. %d"; }
+
+// Help database path.
+RESOURCE TBUF256 r_eiksrv_help_database_path { buf = help_database_path; }
+
+RESOURCE TBUF r_confirm_close_app_message { buf = qtn_memlo_confirm_close; }
+
+RESOURCE DIALOG r_confirm_close_app_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationQueryLayout;
+                };
+            }
+        };
+    }
+
+// For panic note.
+RESOURCE TBUF r_program_closed { buf = qtn_err_program_closed; }
+
+// For bitmap cursors.
+// These resource types are read by CEikServAppUi::LoadBitmapCursorsL().
+STRUCT AVKON_CUSTOM_TEXT_CURSOR
+    {
+    LONG cursorId;
+    LONG bmpId;
+    LONG maskId = -1;
+    
+    // See eiksrv.hrh, EAknCustomTextCursorFlagInvertMask, etc.
+    WORD flags = 0; 
+    
+    // See eiksrv.hrh, TAknCustomTextCursorDrawMode, etc. Only has effect if no mask bitmap is set.
+    WORD drawMode = EAknCustomTextCursorDrawModePEN;    
+    
+    WORD offsetX = 0;
+    WORD offsetY = 0;
+    WORD align = EAknCustomTextCursorAlignTop;
+    }
+
+STRUCT AVKON_CUSTOM_TEXT_CURSORS
+    {
+    LTEXT bmpFile = "";
+    STRUCT cursors[];   // AVKON_CUSTOM_TEXT_CURSOR
+    }
+
+// Same icons are used in the two pairs of cursors if the icon is supplied as SVG.
+RESOURCE AVKON_CUSTOM_TEXT_CURSORS r_akn_custom_text_cursors
+    {
+    bmpFile = AVKON_BITMAP_FILE;
+    cursors =
+        {
+        AVKON_CUSTOM_TEXT_CURSOR
+            {
+            cursorId = KAknCustomTextCursorIdLeftToRight;
+            bmpId = EMbmAvkonQgn_indi_cursor_lr; 
+            // Mask is not defined as XOR mode drawing is desired.
+            drawMode = EAknCustomTextCursorDrawModeXOR;
+            offsetX = -2;
+            },
+        AVKON_CUSTOM_TEXT_CURSOR
+            {
+            cursorId = KAknCustomTextCursorIdRightToLeft;
+            bmpId = EMbmAvkonQgn_indi_cursor_rl;
+            // Mask is not defined as XOR mode drawing is desired.
+            drawMode = EAknCustomTextCursorDrawModeXOR;
+            offsetX = -5;
+            },
+        AVKON_CUSTOM_TEXT_CURSOR
+            {
+            cursorId = KAknCustomTextCursorIdLeftToRightThin;
+            bmpId = EMbmAvkonQgn_indi_cursor_lr;
+            // Mask is not defined as XOR mode drawing is desired.
+            drawMode = EAknCustomTextCursorDrawModeXOR;
+            offsetX = -1;
+            },
+        AVKON_CUSTOM_TEXT_CURSOR
+            {
+            cursorId = KAknCustomTextCursorIdRightToLeftThin;
+            bmpId = EMbmAvkonQgn_indi_cursor_rl;
+            // Mask is not defined as XOR mode drawing is desired.
+            drawMode = EAknCustomTextCursorDrawModeXOR;
+            offsetX = -3;
+            }
+        };
+    }
+
+RESOURCE CBA r_akn_notifyui_buttons
+    {
+    buttons =
+        {
+        CBA_BUTTON {id = EAknAlertWinButton1; txt = text_softkey_empty;},
+        CBA_BUTTON {id = EAknAlertWinButton2; txt = text_softkey_empty;}
+        };
+    }
+    
+
+RESOURCE DIALOG r_eikserv_notifier_dialog2
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons | EEikDialogFlagNoShadow |
+            EEikDialogFlagNotifyEsc | EEikDialogFlagNoBackup | 
+            EEikDialogFlagAllKeysToButtons;
+    title = "";
+    buttons = r_akn_notifyui_buttons;
+    items =
+        {
+        DLG_LINE 
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;
+            control = AVKON_MESSAGE_QUERY
+                {
+                };
+            }
+        };
+    }
+
+// End of file

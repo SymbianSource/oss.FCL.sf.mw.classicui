@@ -1,0 +1,237 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestptieng.hrh"
+#include "bctestptieng.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTPTIENG_BMP_FNAME APP_BITMAP_DIR"\\bctestptieng.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestPtiEng";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestptieng_menubar_main;
+    cba = r_bctestptieng_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestptieng_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\bctestptieng_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestptieng_view
+//    AVKON_VIEW for CBCTestPtiEngView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestptieng_view
+    {
+    menubar = r_bctestptieng_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestptieng_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestptieng_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestptieng_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestptieng_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestptieng_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestptieng_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdPtiUserDict;
+            txt = "Test Pti User Dict";
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdPtiLanguage;
+            txt = "Test Pti Language";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdPtiKeymap;
+            txt = "Test Pti Keymap";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdQwertyMap;
+            txt = "Test Qwerty map";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdLanDB;
+            txt = "Test Language DB";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdPtiEng;
+            txt = "Test Pti Engine";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestptieng_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestptieng_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestptieng_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestptieng_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestptieng_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestptieng_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestPtiEngCbaCmdNext;
+            txt = qtn_bctestptieng_cba_next;
+            }
+	};
+    }
+
+
+// End of File

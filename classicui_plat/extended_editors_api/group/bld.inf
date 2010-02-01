@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Extended Editors API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/FormCursorModifierInt.h     MW_LAYER_PLATFORM_EXPORT_PATH(formcursormodifierint.h)
+../inc/AknPhoneNumberEditor.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknPhoneNumberEditor.h)
+../inc/aknedformaccessor.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknedformaccessor.h)
+../inc/AknFormAccessor.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknFormAccessor.h)
+../inc/FepIpExt.h     MW_LAYER_PLATFORM_EXPORT_PATH(fepipext.h)
+../inc/aknedwincustomdrawbase.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknedwincustomdrawbase.h)
+../inc/AknEdwinDrawingModifier.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknedwindrawingmodifier.h)
+../inc/aknedwincustomdrawprivate.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknedwincustomdrawprivate.h)
+../inc/AknInlineText.h		MW_LAYER_PLATFORM_EXPORT_PATH(AknInlineText.h)
+../inc/AknCompositeInlineTextSource.h		MW_LAYER_PLATFORM_EXPORT_PATH(AknCompositeInlineTextSource.h)
+../inc/AknPhoneNumberInlineTextSource.h		MW_LAYER_PLATFORM_EXPORT_PATH(AknPhoneNumberInlineTextSource.h)
+../inc/AknEdwinFormExtendedInterfaceProvider.h		MW_LAYER_PLATFORM_EXPORT_PATH(AknEdwinFormExtendedInterfaceProvider.h)

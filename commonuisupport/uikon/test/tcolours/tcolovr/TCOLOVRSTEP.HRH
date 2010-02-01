@@ -1,0 +1,39 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// TCOLOVR.HRH
+// 
+//
+
+enum TDlgMenuCommand
+	{
+	EAppCmdShowDlg=1,
+	EAppCmdSystemColors,
+	EAppCmdOverrideForeAndBackToLightOnDark,
+	EAppCmdOverrideForeAndBackToDarkOnLight,
+	EAppCmdToggleFloatingMenu,
+	EAppCmdDim,
+	EAppCmdToggleSpane,
+	EAppCmdShowAutoDlg
+	};
+
+
+#define KRgbBlueSlate 		{red=157;green=195;blue=200;}
+#define KRgbDeepBlueSlate	{red=85;green=128;blue=151;}
+#define KRgbMidHighBlueSlate	{red=200;green=225;blue=225;}
+
+
+#define KRgbRedDesert 		{red=213;green=204;blue=170;}
+#define KRgbDeepRedDesert	{red=162;green=141;blue=104;}
+
+

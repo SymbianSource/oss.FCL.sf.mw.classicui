@@ -1,0 +1,46 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+
+; Languages
+&EN
+
+; Header
+#{"testplatphysics"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testplatphysics.ini"-"c:\Testframework\testplatphysics.ini", FF   ; FF stands for Normal file
+; ?adds your cfg file if need
+
+"..\conf\tctestplatphysicsaknphysics.cfg"-"c:\Testframework\tctestplatphysicsaknphysics.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testplatphysicsaknphysics.cfg"-"c:\Testframework\ui_testplatphysicsaknphysics.cfg", FF   ; FF stands for Normal file
+"\epoc32\RELEASE\ARMV5\urel\testplatphysics.dll"-"c:\sys\bin\testplatphysics.dll", FF
+
+; ?deletes this line, and deletes the follow line if you have not any resource
+;"\epoc32\data\Z\resource\testplatphysics.rsc"-"c:\resource\testplatphysics.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later
+

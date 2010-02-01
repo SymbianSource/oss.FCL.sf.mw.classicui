@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<api id="0c60be997b36546b0e69b1a1c5c3b08d" dataversion="1.0">
+  <name>AVKON Secondary Display Support API</name>
+  <description>UI component services for synchronizing the main display with the secondary display.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="aknnotify.lib" />
+    <lib name="eikdlg.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

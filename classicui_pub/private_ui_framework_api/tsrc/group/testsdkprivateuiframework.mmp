@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Mmp file
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#include <platform_paths.hrh>
+
+
+TARGET          testsdkprivateuiframework.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkprivateuiframework.def
+
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+START RESOURCE ../data/testsdkprivateuiframework.rss
+TARGETPATH RESOURCE_FILES_DIR
+HEADER
+END
+
+source          testsdkprivateuiframework.cpp
+source          testsdkprivateuiframeworkblocks.cpp
+source          testsdkprivateuiframeworkblockseikalert.cpp
+source          testsdkprivateuiframeworkblockseikbtpan.cpp
+source          testsdkprivateuiframeworkblockseikdpage.cpp
+source          testsdkprivateuiframeworkblockseikhfdlg.cpp
+source          testsdkprivateuiframobserver.cpp
+
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         eikcoctl.lib 
+LIBRARY         eikcore.lib 
+LIBRARY         avkon.lib 
+LIBRARY         eikcdlg.lib 
+LIBRARY         cone.lib 
+LIBRARY         estor.lib 
+LIBRARY         efsrv.lib 
+LIBRARY         bafl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eiksrv.lib
+
+LANG            SC
+
+// End of File
+
+

@@ -1,0 +1,49 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Tspane app
+// 
+//
+
+enum
+	{
+	ETspaneCmdAutoAll = 1,
+	ETspaneCmdAutoNormal,
+	ETspaneCmdAutoOom,
+	ETspaneCmdManualVis,
+	ETspaneCmdManualDim,
+	ETspaneCmdManualFade,
+	ETspaneCmdManualState,
+	ETspaneCmdManualLayout,
+	ETspaneCmdManualControl,
+	ETspaneCmdManualWg,
+	ETspaneCmdBoundingRegion	
+	};
+
+enum TTspaneSizes
+	{
+	ETspaneTopHeight = 48,
+	ETspaneLeftWidth = 24,
+	ETspaneBottomHeight = 16,
+	ETspaneRightWidth = 32
+	};
+
+#define ETSpanePaneUid1 0x32112301
+#define ETSpanePaneUid2 0x32112302
+#define ETSpanePaneUid3 0x32112303
+#define ETSpanePaneUid4 0x32112304
+#define ETSpanePaneUid5 0x32112305
+#define ETSpanePaneUid6 0x32112306
+#define ETSpanePaneUid7 0x32112307
+
+

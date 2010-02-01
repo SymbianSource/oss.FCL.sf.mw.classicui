@@ -1,0 +1,48 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:   
+;
+&EN
+
+; Header
+#{"testdomextaiwcriteria"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+
+"..\init\testdomextaiwcriteria.ini"-"c:\Testframework\testdomextaiwcriteria.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomextaiwcriteriaconassigndt.cfg"-"c:\Testframework\tctestdomextaiwcriteriaconassigndt.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextaiwcriteriaconassigndt.cfg"-"c:\Testframework\ui_testdomextaiwcriteriaconassigndt.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextaiwcriteriaconselectiondt.cfg"-"c:\Testframework\tctestdomextaiwcriteriaconselectiondt.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextaiwcriteriaconselectiondt.cfg"-"c:\Testframework\ui_testdomextaiwcriteriaconselectiondt.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextaiwcriteriadialdt.cfg"-"c:\Testframework\tctestdomextaiwcriteriadialdt.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextaiwcriteriadialdt.cfg"-"c:\Testframework\ui_testdomextaiwcriteriadialdt.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomextaiwcriteriapocpara.cfg"-"c:\Testframework\tctestdomextaiwcriteriapocpara.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextaiwcriteriapocpara.cfg"-"c:\Testframework\ui_testdomextaiwcriteriapocpara.cfg", FF   ; FF stands for Normal file
+
+
+"\epoc32\RELEASE\ARMV5\urel\testdomextaiwcriteria.dll"-"c:\sys\bin\testdomextaiwcriteria.dll", FF
+
+
+
+; Trim For Mms
+; ------------
+; to be added later

@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI16CTestOptionsMenu @ 2 NONAME ; #<TI>#
+	_ZTI19CTestOptionsMenuMop @ 3 NONAME ; #<TI>#
+	_ZTI28CTestSDKOptionsMenuContainer @ 4 NONAME ; #<TI>#
+	_ZTV16CTestOptionsMenu @ 5 NONAME ; #<VT>#
+	_ZTV19CTestOptionsMenuMop @ 6 NONAME ; #<VT>#
+	_ZTV28CTestSDKOptionsMenuContainer @ 7 NONAME ; #<VT>#
+

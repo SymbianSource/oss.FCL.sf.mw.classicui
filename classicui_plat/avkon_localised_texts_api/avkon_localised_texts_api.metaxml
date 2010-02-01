@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="7755647b5a987bfc5849fc57d6913815" dataversion="1.0">
+  <name>AVKON Localised Texts API</name>
+  <description>Localised text string.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

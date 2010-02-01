@@ -1,0 +1,93 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkqueries"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkqueries.ini"-"c:\Testframework\testsdkqueries.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesdlg.cfg"-"c:\Testframework\tctestsdkqueriesdlg.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesdlg.cfg"-"c:\Testframework\ui_testsdkqueriesdlg.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkquerieslistquerycontrol.cfg"-"c:\Testframework\tctestsdkquerieslistquerycontrol.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkquerieslistquerycontrol.cfg"-"c:\Testframework\ui_testsdkquerieslistquerycontrol.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkquerieslistquerydlg.cfg"-"c:\Testframework\tctestsdkquerieslistquerydlg.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkquerieslistquerydlg.cfg"-"c:\Testframework\ui_testsdkquerieslistquerydlg.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesmessagequerycontrol.cfg"-"c:\Testframework\tctestsdkqueriesmessagequerycontrol.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesmessagequerycontrol.cfg"-"c:\Testframework\ui_testsdkqueriesmessagequerycontrol.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesmessagequerydlg.cfg"-"c:\Testframework\tctestsdkqueriesmessagequerydlg.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesmessagequerydlg.cfg"-"c:\Testframework\ui_testsdkqueriesmessagequerydlg.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesmultilinequerycontrol.cfg"-"c:\Testframework\tctestsdkqueriesmultilinequerycontrol.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesmultilinequerycontrol.cfg"-"c:\Testframework\ui_testsdkqueriesmultilinequerycontrol.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesquerycontrol.cfg"-"c:\Testframework\tctestsdkqueriesquerycontrol.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesquerycontrol.cfg"-"c:\Testframework\ui_testsdkqueriesquerycontrol.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesquerydata.cfg"-"c:\Testframework\tctestsdkqueriesquerydata.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesquerydata.cfg"-"c:\Testframework\ui_testsdkqueriesquerydata.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesquerydlg.cfg"-"c:\Testframework\tctestsdkqueriesquerydlg.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesquerydlg.cfg"-"c:\Testframework\ui_testsdkqueriesquerydlg.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvalue.cfg"-"c:\Testframework\tctestsdkqueriesqueryvalue.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvalue.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvalue.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvaluedate.cfg"-"c:\Testframework\tctestsdkqueriesqueryvaluedate.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvaluedate.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvaluedate.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvalueduration.cfg"-"c:\Testframework\tctestsdkqueriesqueryvalueduration.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvalueduration.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvalueduration.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvaluenumber.cfg"-"c:\Testframework\tctestsdkqueriesqueryvaluenumber.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvaluenumber.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvaluenumber.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvaluephone.cfg"-"c:\Testframework\tctestsdkqueriesqueryvaluephone.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvaluephone.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvaluephone.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvaluetext.cfg"-"c:\Testframework\tctestsdkqueriesqueryvaluetext.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvaluetext.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvaluetext.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkqueriesqueryvaluetime.cfg"-"c:\Testframework\tctestsdkqueriesqueryvaluetime.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkqueriesqueryvaluetime.cfg"-"c:\Testframework\ui_testsdkqueriesqueryvaluetime.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkqueries.dll"-"c:\sys\bin\testsdkqueries.dll", FF
+
+"\epoc32\data\Z\resource\testsdkqueries.rsc"-"c:\resource\testsdkqueries.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later
+
+
+
+
+

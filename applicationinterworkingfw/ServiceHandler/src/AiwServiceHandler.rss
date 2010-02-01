@@ -1,0 +1,172 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     AIW menu resource placeholders are defined here.
+*
+*/
+
+
+
+
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include "AiwMenuSlot.hrh"
+
+NAME AIWR
+
+RESOURCE RSS_SIGNATURE { }
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_0
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot0; }
+        };
+    } 
+
+RESOURCE MENU_PANE r_aiw_empty_menu_1
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot1; }
+        };
+    } 
+
+RESOURCE MENU_PANE r_aiw_empty_menu_2
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot2; }
+        };
+    } 
+
+RESOURCE MENU_PANE r_aiw_empty_menu_3
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot3; }
+        };
+    } 
+
+RESOURCE MENU_PANE r_aiw_empty_menu_4
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot4; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_5
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot5; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_6
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot6; }
+        };
+    } 
+
+RESOURCE MENU_PANE r_aiw_empty_menu_7
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot7; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_8
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot8; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_9
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot9; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_10
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot10; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_11
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot11; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_12
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot12; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_13
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot13; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_14
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot14; }
+        };
+    } 
+
+
+RESOURCE MENU_PANE r_aiw_empty_menu_15
+    {
+    items =
+        {
+        MENU_ITEM { command=EAiwMenuSlot15; }
+        };
+    } 
+
+
+// End of file

@@ -1,0 +1,6 @@
+component           classicui_metadata
+source   \sf\mw\classicui\classicui_info\classicui_metadata 
+source   \sf\mw\classicui\package_definition.xml
+source   \sf\mw\classicui\distribution.policy.s60
+notes_source      \component_defs\release.src
+ipr T 

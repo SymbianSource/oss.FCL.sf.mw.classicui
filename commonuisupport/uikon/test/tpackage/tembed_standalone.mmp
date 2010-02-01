@@ -1,0 +1,42 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Standalone tembedstandalone.mmp
+// 
+//
+
+TARGET        	tembed.exe
+TARGETTYPE    	exe
+TARGETPATH		/sys/bin
+
+UID           	0x100039CE 519 //the original UID
+VENDORID 		0x70000001 
+EPOCSTACKSIZE 	0x5000
+CAPABILITY 		ALL -Tcb //do standalone need this too?
+
+SOURCEPATH    	.
+SOURCE        	tembed_standalone.cpp
+
+USERINCLUDE   	.
+APP_LAYER_SYSTEMINCLUDE 
+
+//reg added for Datacaging
+START RESOURCE	tembed_standalone_reg.rss
+	TARGETPATH	/private/10003a3f/apps
+	LANG		sc
+END
+
+LIBRARY 		euser.lib apparc.lib eikcore.lib cone.lib  
+
+
+SMPSAFE

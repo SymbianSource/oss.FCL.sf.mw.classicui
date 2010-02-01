@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.881" cy="5.012" gradientUnits="userSpaceOnUse" id="shape4grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7" transform="translate(-7.945,-8.079)"/>
+<path d="M14.504,8C14.504,11.59,11.593,14.5,8.004,14.5C4.414,14.5,1.504,11.59,1.504,8C1.504,4.411,4.414,1.5,8.004,1.5C11.593,1.5,14.504,4.411,14.504,8z" fill="url(#shape4grad)" fill-rule="evenodd" transform="translate(-7.945,-8.079)"/>
+<path d="M7.985,12.915C7.391,12.888,6.87,12.481,7.023,12.053C7.15,11.698,7.211,11.247,7.98,11.247C8.749,11.247,8.884,11.756,8.995,12.053C9.113,12.375,8.577,12.945,7.985,12.915z" fill="#E10B0B" fill-rule="evenodd" transform="translate(-7.945,-8.079)">
+<animateTransform additive="replace" attributeName="transform" begin="0.01s" fill="freeze" type="translate" values="0.057,4.002;0.057,4.002"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.01s" dur="0.04s" fill="freeze" keyTimes="0;0.25;0.75;1" type="scale" values="1,1;2.289,2.517;2.289,2.517;0.998,0.75"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.01s" fill="freeze" type="translate" values="-8.002,-12.08;-8.002,-12.08"/>
+</path>
+<g transform="translate(-7.945,-8.079)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-2.195,-0.941;-2.195,-0.941"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.834;1" type="scale" values="1,1;1.44,1.438;1.44,1.438;1.001,0.999"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-5.75,-7.138;-5.75,-7.138"/>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(5.75,7.139)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(5.75,7.139)"/>
+</g>
+<g transform="translate(-7.945,-8.079)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" fill="freeze" type="translate" values="2.425,-0.941;2.425,-0.941"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.834;1" type="scale" values="1,1;1.439,1.439;1.439,1.439;1,1"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-10.369,-7.138;-10.369,-7.138"/>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(10.37,7.139)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(10.37,7.139)"/>
+</g>
+<path d="M-2.352,-0.966C-2.208,-1.357,-1.089,-1.304,0.147,-0.847C1.382,-0.39,2.267,0.297,2.122,0.688C1.978,1.079,1.152,0.233,-0.084,-0.224C-1.319,-0.681,-2.497,-0.575,-2.352,-0.966z" fill="black" fill-rule="evenodd" transform="translate(3.603,-2.861) scale(0.73,0.944)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.05s" fill="freeze" keyTimes="0;0.201;1" type="translate" values="3.603,-2.861;3.647,-3.879;3.647,-3.879"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="scale" values="0.73,0.944;0.73,0.944"/>
+</path>
+<path d="M-2.191,0.412C-2.449,0.055,-1.591,-0.483,-0.275,-0.79C1.042,-1.097,2.318,-1.056,2.576,-0.699C2.834,-0.342,1.453,-0.528,0.137,-0.221C-1.180,0.085,-1.933,0.769,-2.191,0.412z" fill="black" fill-rule="evenodd" transform="translate(-2.983,-3.035) scale(0.781,1.096)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.05s" fill="freeze" keyTimes="0;0.201;1" type="translate" values="-2.983,-3.035;-3.27,-4.178;-3.27,-4.178"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="scale" values="0.781,1.096;0.781,1.096"/>
+</path>
+</g>
+</svg>

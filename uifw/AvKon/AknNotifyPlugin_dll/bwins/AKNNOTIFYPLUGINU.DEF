@@ -1,0 +1,15 @@
+EXPORTS
+	?NotifierArray@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 1 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * __cdecl NotifierArray(void)
+	?CancelNote@CNotifierDialogController@@QAEXH@Z @ 2 NONAME ; public: void __thiscall CNotifierDialogController::CancelNote(int)
+	?DisplayNonNoteDialogL@CNotifierDialogController@@QAEHH@Z @ 3 NONAME ; public: int __thiscall CNotifierDialogController::DisplayNonNoteDialogL(int)
+	?LaunchNoteL@CNotifierDialogController@@QAEHHHH@Z @ 4 NONAME ; public: int __thiscall CNotifierDialogController::LaunchNoteL(int,int,int)
+	?LaunchNoteL@CNotifierDialogController@@QAEHHHHW4TTimeout@CAknNoteDialog@@W4TTone@3@@Z @ 5 NONAME ; public: int __thiscall CNotifierDialogController::LaunchNoteL(int,int,int,enum CAknNoteDialog::TTimeout,enum CAknNoteDialog::TTone)
+	?SetNoteObserver@CNotifierDialogController@@QAEXPAVMNotifierDialogObserver@@@Z @ 6 NONAME ; public: void __thiscall CNotifierDialogController::SetNoteObserver(class MNotifierDialogObserver *)
+	??1CAknSoftNotificationParameters@@UAE@XZ @ 7 NONAME ; public: virtual __thiscall CAknSoftNotificationParameters::~CAknSoftNotificationParameters(void)
+	?NewL@CAknSoftNotificationParameters@@SAPAV1@ABVTDesC16@@HHHW4TTone@CAknNoteDialog@@@Z @ 8 NONAME ; public: static class CAknSoftNotificationParameters * __cdecl CAknSoftNotificationParameters::NewL(class TDesC16 const &,int,int,int,enum CAknNoteDialog::TTone)
+	?NewL@CAknSoftNotificationParameters@@SAPAV1@ABVTDesC16@@HHHW4TTone@CAknNoteDialog@@VTVwsViewId@@VTUid@@HABVTDesC8@@@Z @ 9 NONAME ; public: static class CAknSoftNotificationParameters * __cdecl CAknSoftNotificationParameters::NewL(class TDesC16 const &,int,int,int,enum CAknNoteDialog::TTone,class TVwsViewId,class TUid,int,class TDesC8 const &)
+	?NewL@CAknSoftNotificationParameters@@SAPAV1@XZ @ 10 NONAME ; public: static class CAknSoftNotificationParameters * __cdecl CAknSoftNotificationParameters::NewL(void)
+	?DisplayAlarmL@CNotifierDialogController@@QAEHHABVTDesC16@@0@Z @ 11 NONAME ; public: int __thiscall CNotifierDialogController::DisplayAlarmL(int,class TDesC16 const &,class TDesC16 const &)
+	?NewL@CNotifierDialogController@@CAPAV1@PAVMAknGlobalNoteController@@@Z @ 12 NONAME ; private: static class CNotifierDialogController * __cdecl CNotifierDialogController::NewL(class MAknGlobalNoteController *)
+	?AddAlarmAdditionalInfo@CNotifierDialogController@@QAEXHABVTDesC16@@000@Z @ 13 NONAME ; public: void __thiscall CNotifierDialogController::AddAlarmAdditionalInfo(int,class TDesC16 const &,class TDesC16 const &,class TDesC16 const &,class TDesC16 const &)
+

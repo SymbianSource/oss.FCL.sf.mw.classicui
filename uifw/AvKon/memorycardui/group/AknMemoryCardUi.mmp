@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This dll contains a dialog used to unlock memory card.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          AknMemoryCardUi.dll
+TARGETTYPE      DLL
+UID             0x1000008D 0x101F467A
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+
+USERINCLUDE   . ../inc
+USERINCLUDE   ../../../../inc
+USERINCLUDE   ../../../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+SOURCE          aknMemoryCardDialog.cpp
+
+LIBRARY         euser.lib
+// needed for akncapserverclient:
+LIBRARY         akncapserverclient.lib
+LIBRARY         eikcore.lib
+LIBRARY         apparc.lib
+//----
+
+LIBRARY         centralrepository.lib
+LIBRARY         aknnotify.lib
+LIBRARY         commonengine.lib
+LIBRARY         platformenv.lib // PathInfo
+LIBRARY         efsrv.lib // TDriveUnit
+
+
+
+START WINS
+    BASEADDRESS 0x7e0c0000
+END

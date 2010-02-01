@@ -1,0 +1,119 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization strings for project akncompamode
+*
+*/
+
+
+// d:Text for keypad 1-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_1key "1"
+
+// d:Text for keypad 2-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_2key "2 abc"
+
+// d:Text for keypad 3-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_3key "3 def"
+
+// d:Text for keypad 4-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_4key "4 ghi"
+
+// d:Text for keypad 5-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_5key "5 jkl"
+
+// d:Text for keypad 6-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_6key "6 mno"
+
+// d:Text for keypad 7-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_7key "7 pqrs"
+
+// d:Text for keypad 8-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_8key "8 tuv"
+
+// d:Text for keypad 9-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_9key "9 wxyz"
+
+// d:Text for keypad 0-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_qkey "0"
+
+// d:Text for keypad +-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_pluskey "+"
+
+// d:Text for keypad #-key
+// l: cell_cmode_itu_pane_t2_cp
+// r:5.0
+//
+#define qtn_cmode_hashkey "#"
+
+// d:Compa-mode plugin title in Application settings view
+// l:list_single_large_graphic_pane_t1
+// r:5.0
+//
+#define qtn_set_folder_cmode "Open non-touch applications"
+
+// d:Compa-mode settings view title pane text. Same as qtn_set_folder_cmode.
+// l:title_pane_t1
+// r:5.0
+//
+#define qtn_cmode_view_title "Open non-touch applications"
+
+// d:Settings item. Same as qtn_set_folder_cmode.
+// l:list_setting_pane_t1
+// r:5.0
+//
+#define qtn_cmode_state_setting_label "Open non-touch applications"
+
+// d:Sets applications to open in normal mode
+// l:list_set_graphic_pane_t1
+// r:5.0
+//
+#define qtn_cmode_set_normal_mode "In normal mode"
+
+// d:Sets applications to open in touch compatibility mode
+// l:list_set_graphic_pane_t1
+// r:5.0
+//
+#define qtn_cmode_set_comp_mode "In compatibility mode"

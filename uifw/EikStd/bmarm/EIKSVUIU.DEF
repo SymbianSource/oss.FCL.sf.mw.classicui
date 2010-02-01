@@ -1,0 +1,8 @@
+EXPORTS
+	CreateAppUi__Fv @ 1 NONAME R3UNUSED ; CreateAppUi(void)
+	SuppressAppSwitching__13CEikServAppUii @ 2 NONAME R3UNUSED ; CEikServAppUi::SuppressAppSwitching(int)
+	CEikListBox_Reserved__22CAknFastSwapWindowGrid @ 3 NONAME R3UNUSED ; CAknFastSwapWindowGrid::CEikListBox_Reserved(void)
+	ActivateDisplayIfNeeded__13CEikServAppUi @ 4 NONAME R3UNUSED ; CEikServAppUi::ActivateDisplayIfNeeded(void)
+	HideApplicationFromFswL__13CEikServAppUiii @ 5 NONAME R3UNUSED ; CEikServAppUi::HideApplicationFromFswL(int, int)
+	StartNewServerApplicationL__13CEikServAppUiG4TUid @ 6 NONAME R3UNUSED ; CEikServAppUi::StartNewServerApplicationL(TUid)
+

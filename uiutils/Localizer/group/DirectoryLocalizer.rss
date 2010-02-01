@@ -1,0 +1,189 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file
+*
+*/
+
+
+
+//  RESOURCE IDENTIFIER
+NAME	DLDE		// directory localizer default entries
+
+//  INCLUDES
+#include <uikon.rh>
+#include <bldvariant.hrh>
+#include <pathconfiguration.hrh>
+#include "DirectoryLocalizer.rh"
+#include <directorylocalizer.loc>
+
+//  RESOURCE DEFINITIONS 
+// -----------------------------------------------------------------------------
+//   
+// Standard resource signature
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+            
+// -----------------------------------------------------------------------------
+//   
+// r_directorylocalizer_default_entries
+// A resource containing default entries of the directory localizer
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIRECTORYLOCALIZER r_directorylocalizer_default_entries
+	{
+	directories =
+		{
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_games_path;
+			localizedName = qtn_fmgr_def_fldr_games;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_installs_path;
+			localizedName = qtn_fmgr_def_fldr_install;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_images_path;
+			localizedName = qtn_mg_folder_images;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_gms_pictures_path;
+			localizedName = qtn_mg_folder_gms_pict;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_mms_background_images_path;
+			localizedName = qtn_mg_folder_mms_bc;
+			extraData = ""; iconIndex = 0;
+			},
+#ifdef __DPB
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_presence_logos_path;
+			localizedName = qtn_mg_folder_pres_logos;
+			extraData = ""; iconIndex = 0;
+			},
+#endif
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_others_path;
+			localizedName = qtn_fmgr_def_fldr_others;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_sounds_path;
+			localizedName = qtn_mg_folder_sounds;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_digital_sounds_path;
+			localizedName = qtn_mg_folder_digital_tones;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_simple_sounds_path;
+			localizedName = qtn_mg_folder_simple_tones;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_phone_memory_root_path text_videos_path;
+			localizedName = qtn_mg_folder_videos;
+			extraData = ""; iconIndex = 0; 
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_games_path;
+			localizedName = qtn_fmgr_def_fldr_games;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_installs_path;
+			localizedName = qtn_fmgr_def_fldr_install;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_images_path;
+			localizedName = qtn_mg_folder_images;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_others_path;
+			localizedName = qtn_fmgr_def_fldr_others;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_sounds_path;
+			localizedName = qtn_mg_folder_sounds;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_digital_sounds_path;
+			localizedName = qtn_mg_folder_digital_tones;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_simple_sounds_path;
+			localizedName = qtn_mg_folder_simple_tones;
+			extraData = ""; iconIndex = 0;
+			},
+		DIRECTORY
+			{
+			fullPath = text_memory_card_root_path text_videos_path;
+			localizedName = qtn_mg_folder_videos;
+			extraData = ""; iconIndex = 0; 
+			},
+        DIRECTORY
+            {
+            fullPath = text_memory_card_contacts_path;
+            localizedName = qtn_fmgr_def_fldr_contacts;
+            extraData = ""; iconIndex = 0;
+            },
+        DIRECTORY
+            {
+            fullPath = text_memory_card_links_path;
+            localizedName = qtn_fmgr_def_fldr_links;
+            extraData = ""; iconIndex = 0;
+            },
+        DIRECTORY
+            {
+            fullPath = text_phone_memory_root_path "Links\\";
+            localizedName = qtn_fmgr_def_fldr_links;
+            extraData = ""; iconIndex = 0;
+            }
+		};
+	}
+
+// End of File
+
+

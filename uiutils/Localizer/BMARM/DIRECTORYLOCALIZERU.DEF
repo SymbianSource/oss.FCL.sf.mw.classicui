@@ -1,0 +1,13 @@
+EXPORTS
+	"_._19CDirectoryLocalizer" @ 1 NONAME ; CDirectoryLocalizer::~CDirectoryLocalizer(void)
+	AddFromResourceL__19CDirectoryLocalizeri @ 2 NONAME ; CDirectoryLocalizer::AddFromResourceL(int)
+	ExtraData__C19CDirectoryLocalizer @ 3 NONAME ; CDirectoryLocalizer::ExtraData(void) const
+	Icon__C19CDirectoryLocalizer @ 4 NONAME ; CDirectoryLocalizer::Icon(void) const
+	IsLocalized__C19CDirectoryLocalizer @ 5 NONAME ; CDirectoryLocalizer::IsLocalized(void) const
+	LocalizedName__C19CDirectoryLocalizer @ 6 NONAME ; CDirectoryLocalizer::LocalizedName(void) const
+	NewL__19CDirectoryLocalizer @ 7 NONAME ; CDirectoryLocalizer::NewL(void)
+	NewL__19CDirectoryLocalizerR15TResourceReader @ 8 NONAME ; CDirectoryLocalizer::NewL(TResourceReader &)
+	NewL__19CDirectoryLocalizeri @ 9 NONAME ; CDirectoryLocalizer::NewL(int)
+	SetFullPath__19CDirectoryLocalizerRC7TDesC16 @ 10 NONAME ; CDirectoryLocalizer::SetFullPath(TDesC16 const &)
+	AddFromResourceL__19CDirectoryLocalizerR15TResourceReader @ 11 NONAME ; CDirectoryLocalizer::AddFromResourceL(TResourceReader &)
+

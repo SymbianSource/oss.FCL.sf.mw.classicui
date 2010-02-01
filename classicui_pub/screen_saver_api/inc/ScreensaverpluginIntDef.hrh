@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2003 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+#ifndef _SCREENSAVERPLUGININTDEF_HRH_
+#define _SCREENSAVERPLUGININTDEF_HRH_
+
+// This constant should be used in screensaver ecom plugins to define
+// the ecom plugin interface UID
+#define KCScreensaverPluginInterfaceDefinitionUid 0x101F87F8
+
+// Screen saver plugin capabilities
+enum TScPluginCaps
+    {
+    // Plugin has no special capabilities
+    EScpCapsNone = 0x00,
+    // Plugin implements the configure function
+    EScpCapsConfigure = 0x01,
+    // Plugin wants to be notified when selected as the active screensaver
+    EScpCapsSelectionNotification = 0x02,
+    // Plugin wants to be notified when preview command is selected
+    EScpCapsPreviewNotification = 0x04
+    };
+
+//
+// Screensaver plugins capabilities definition strings
+//
+
+/*
+* Screensaver plugin capabilities definition strings for ECom
+* plugin registration data for convenience. Note that if you define
+* a combination of capabilities, the ORed value as a string must be used
+* (not defined here).
+* E.g. EScpCapsConfigure | EScpCapsSelectionNotification = 3 -> "03"
+* The values MUST be taken from TScPluginCaps
+*/
+#define KScrPluginCapabilitiesNoneStr                  "00"
+#define KScrPluginCapabilitiesConfigureStr             "01"
+#define KScrPluginCapabilitiesSelectionNotificationStr "02"
+#define KScrPluginCapabilitiesPreviewNotificationStr   "04"
+
+#endif  // _SCREENSAVERPLUGININTDEF_HRH_
+// End of file.

@@ -1,0 +1,105 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for AknOldStyleNotif.
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          aknoldstylenotif.dll
+TARGETTYPE      DLL
+UID             0x101fdfae 0x1020721B
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE     ../Inc 
+USERINCLUDE     ../../AknCapServer/inc 
+USERINCLUDE     ../../CommonInc 
+USERINCLUDE     ../../notpiinc
+USERINCLUDE         ../../../../inc
+
+SOURCEPATH      ../Src
+
+SOURCE          aknkeylocknotifier.cpp
+SOURCE          AknNotifyPlugin.cpp
+SOURCE          AknSystemPopup.cpp
+SOURCE          AknSoftNotificationPlugin.cpp
+SOURCE          AknGroupedNotifierNote.cpp
+SOURCE          AknListQueryNotificationDialog.cpp
+SOURCE          AknSystemListPopup.cpp
+SOURCE          aknsystemmsgpopup.cpp
+SOURCE          aknsystemconfirmationpopup.cpp
+SOURCE          aknsystemprogresspopup.cpp
+SOURCE          AknSystemListMsgPopup.cpp
+SOURCE          AknListMsgQueryNotificationDialog.cpp
+SOURCE          OldStylePlugin.cpp
+SOURCE          aknmessagereaderlongpressdetector.cpp
+SOURCE          AknPrivateImageLoader.cpp
+SOURCE          AknDynamicNotificationData.cpp
+
+LIBRARY         viewcli.lib
+LIBRARY         estor.lib
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         ws32.lib
+LIBRARY         bafl.lib
+LIBRARY         cone.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcore.lib
+LIBRARY         eiksrv.lib
+LIBRARY         avkon.lib
+LIBRARY         commonengine.lib
+LIBRARY         apgrfx.lib
+LIBRARY         eiksrvui.lib
+LIBRARY         eikctl.lib
+LIBRARY         cdlengine.lib
+LIBRARY         featmgr.lib
+LIBRARY         aknskins.lib
+LIBRARY         aknnotifyplugin.lib
+LIBRARY         aknnotifierwrapper.lib
+LIBRARY         gdi.lib
+LIBRARY         aknlayout2.lib       
+LIBRARY         aknlayout2scalable.lib
+LIBRARY         aknnotify.lib 
+LIBRARY         mediatorclient.lib
+LIBRARY         apparc.lib
+LIBRARY         centralrepository.lib
+LIBRARY         imageconversion.lib 
+LIBRARY         fbscli.lib
+LIBRARY         aknicon.lib
+LIBRARY         svgengine.lib
+LIBRARY         akndynamicsoftnoteeventmanager.lib
+
+LIBRARY         gfxtrans.lib
+LIBRARY         akntransitionutils.lib
+
+#ifdef __PROTOCOL_CDMA
+LIBRARY         servicehandler.lib
+#endif
+
+LIBRARY         keylockpolicyapi.lib 
+LIBRARY         touchfeedback.lib
+
+START WINS
+    BASEADDRESS 0x7ddb0000
+END

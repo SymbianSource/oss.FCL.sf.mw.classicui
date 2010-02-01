@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Build information file for project AknGlobalUI.
+*
+*/
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+backup_registration.xml           z:/private/10207218/backup_registration.xml
+../ROM/aknglobalui.iby            CORE_MW_LAYER_IBY_EXPORT_PATH(aknglobalui.iby)
+../ROM/aknglobaluiResources.iby   LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(aknglobaluiresources.iby)
+../loc/aknnotifyplugin.loc        MW_LAYER_LOC_EXPORT_PATH(aknnotifyplugin.loc)
+
+PRJ_MMPFILES
+#ifndef TOOLS
+../AknCapServer/group/EComPluginNotifier.mmp
+../AknCapServer/group/AknCapServerClient.mmp
+../NotifierWrapper/group/aknnotifierwrapper.mmp
+../AknDynamicSoftNote/group/AknDynamicSoftNoteEventManager.mmp
+../AknCapServer/group/AknCapServer.mmp
+../group/AknNotifyPlugin2.mmp
+../OldStyleNotif/group/AknOldStyleNotif.mmp
+../AknNfySrv/group/AknNfySrv.mmp
+../avkonstartupextplg/group/avkonstartupextensionplugin.mmp
+../AknDynamicSoftNote/group/AknDynamicSoftNote.mmp
+#endif // TOOLS
+
+#include "../akncustcmds/group/bld.inf"
+
+PRJ_TESTMMPFILES
+// ../internal/oomtestplugin/aknoomtestplugin.mmp
+
+

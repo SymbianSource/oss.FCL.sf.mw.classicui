@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api id="75a65ab57bd8495b08eb357109b50e5e" dataversion="2.0">
+  <name>Alternate FS API</name>
+  <description>ECOM plugin API for providing an alternate fast swap component. If a plugin exists then it will be invoked instead of the built-in FS window.</description>
+  <type>c++</type>
+  <collection>classicui</collection>
+  <libs/>
+  <release category="platform" sinceversion=""/>
+  <attributes>
+    <htmldocprovided>no</htmldocprovided>
+    <adaptation>no</adaptation>
+  </attributes>
+</api>

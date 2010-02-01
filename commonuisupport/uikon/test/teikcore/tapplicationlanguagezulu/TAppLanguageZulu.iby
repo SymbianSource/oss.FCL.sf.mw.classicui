@@ -1,0 +1,26 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __TAPPLANGUAGEZULU_IBY__
+#define __TAPPLANGUAGEZULU_IBY__
+
+#include <messageserv.iby>
+
+file=ABI_DIR\BUILD_DIR\tapplanguagezulu.exe							Sys\bin\tapplanguagezulu.exe
+data=DATAZ_\private\10003a3f\apps\TAppLanguageZulu_reg.rsc	private\10003a3f\apps\TAppLanguageZulu_reg.rsc
+data=DATAZ_\resource\apps\TAppLanguageZulu_loc.r98			resource\apps\TAppLanguageZulu_loc.r98
+data=DATAZ_\resource\apps\TAppLanguageZulu.rsc	        	resource\apps\TAppLanguageZulu.rsc
+
+#endif

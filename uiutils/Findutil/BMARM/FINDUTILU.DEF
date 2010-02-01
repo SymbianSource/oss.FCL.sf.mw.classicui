@@ -1,0 +1,6 @@
+EXPORTS
+	NewL__9CFindUtil @ 1 NONAME R3UNUSED ; CFindUtil::NewL(void)
+	"_._9CFindUtil" @ 2 NONAME R3UNUSED ; CFindUtil::~CFindUtil(void)
+	Close__13CFindUtilBase @ 3 NONAME R3UNUSED ; CFindUtilBase::Close(void)
+	OpenL__13CFindUtilBase @ 4 NONAME R3UNUSED ; CFindUtilBase::OpenL(void)
+

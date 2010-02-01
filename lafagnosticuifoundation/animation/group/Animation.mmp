@@ -1,0 +1,41 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// animation.dll generic animation framework for wserv
+// 
+//
+
+/**
+ @file
+*/
+
+target        animation.dll
+CAPABILITY all -tcb
+targettype    dll
+UID    0x1000008d 0x10204F55
+VENDORID 0x70000001
+
+SOURCEPATH	../src
+source          ICLAnimationDataProvider.cpp ICLAnimationDataLoader.cpp
+source          BasicAnimation.cpp SpriteAnimation.cpp SpriteAnimationClient.cpp AnimationGroup.cpp basicanimationext.cpp spriteanimationext.cpp
+
+userinclude	../inc ../src
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library       euser.lib ws32.lib fbscli.lib bitgdi.lib cone.lib
+library       imageconversion.lib ecom.lib animationshared.lib
+
+deffile       Animation.DEF
+
+
+SMPSAFE

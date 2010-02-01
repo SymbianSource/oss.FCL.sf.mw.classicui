@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization strings for project bctestdomfntlay
+*
+*/
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_name                   "BCTestDomFntlay"
+#define qtn_group_name                  "BCTestDom"
+#define qtn_localization_filename       "\\resource\\app\\BCTestDomFntlay"
+
+// MenuBar
+#define qtn_bctestdomfntlay_menubar         "Option"
+#define qtn_bctestdomfntlay_cba_next        "Next"
+#define qtn_bctestdomfntlay_autotest        "Autotest"
+#define qtn_bctestdomfntlay_menu_exit       "Exit"
+#define qtn_bctestdomfntlay_font_menu       "Font" 
+#define qtn_bctestdomfntlay_skin_menu       "Skin"
+#define qtn_bctestdomfntlay_layoutdata_menu "LayoutData"
+#define qtn_bctestdomfntlay_layoutsystem_menu "LayoutSystem"
+#define qtn_bctestdomfntlay_graphic_menu      "Graphic"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestdomfntlay_outline01     "Outline01"
+#define qtn_bctestdomfntlay_outline02     "Outline02"
+#define qtn_bctestdomfntlay_outline03     "Outline03"
+#define qtn_bctestdomfntlay_outline04     "Outline04"
+#define qtn_bctestdomfntlay_outline05     "Outline05"
+#define qtn_bctestdomfntlay_outline06     "Outline06"
+#define qtn_bctestdomfntlay_outline07     "Outline07"
+#define qtn_bctestdomfntlay_outline08     "Outline08"
+#define qtn_bctestdomfntlay_outline09     "Outline09"
+#define qtn_bctestdomfntlay_outline10     "Outline10"
+#define qtn_bctestdomfntlay_outline11     "Outline11"
+#define qtn_bctestdomfntlay_outline12     "Outline12"
+#define qtn_bctestdomfntlay_outline13     "Outline13"
+#define qtn_bctestdomfntlay_outline14     "Outline14"
+#define qtn_bctestdomfntlay_outline15     "Outline15"
+#define qtn_bctestdomfntlay_outline16     "Outline16"
+#define qtn_bctestdomfntlay_outline17     "Outline17"
+#define qtn_bctestdomfntlay_outline18     "Outline18"
+#define qtn_bctestdomfntlay_outline19     "Outline19"
+#define qtn_bctestdomfntlay_outline20     "Outline20"
+#define qtn_bctestdomfntlay_outline21     "Outline21"

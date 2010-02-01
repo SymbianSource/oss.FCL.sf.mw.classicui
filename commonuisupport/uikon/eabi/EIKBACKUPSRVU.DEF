@@ -1,0 +1,18 @@
+EXPORTS
+	_ZN20CEikServBackupServer4NewLEv @ 1 NONAME
+	_ZTI11CAppShutter @ 2 NONAME ABSENT ; #<TI>#
+	_ZTI11CAppStarter @ 3 NONAME ABSENT ; #<TI>#
+	_ZTI11CAppWatcher @ 4 NONAME ABSENT ; #<TI>#
+	_ZTI18CEikServAppShutter @ 5 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikServBackupServer @ 6 NONAME ABSENT ; #<TI>#
+	_ZTI21CEikServBackupSession @ 7 NONAME ABSENT ; #<TI>#
+	_ZTIN11CAppShutter13CShutterTimerE @ 8 NONAME ABSENT ; #<TI>#
+	_ZTV11CAppShutter @ 9 NONAME ABSENT ; #<VT>#
+	_ZTV11CAppStarter @ 10 NONAME ABSENT ; #<VT>#
+	_ZTV11CAppWatcher @ 11 NONAME ABSENT ; #<VT>#
+	_ZTV18CEikServAppShutter @ 12 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikServBackupServer @ 13 NONAME ABSENT ; #<VT>#
+	_ZTV21CEikServBackupSession @ 14 NONAME ABSENT ; #<VT>#
+	_ZTVN11CAppShutter13CShutterTimerE @ 15 NONAME ABSENT ; #<VT>#
+	KUIKONBackupCloseAllFilesTimeout @ 16 NONAME DATA 4
+

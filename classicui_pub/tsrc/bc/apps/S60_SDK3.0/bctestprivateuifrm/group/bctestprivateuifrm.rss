@@ -1,0 +1,248 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestprivateuifrm.hrh"
+#include "bctestprivateuifrm.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestprivateuifrm_BMP_FNAME APP_BITMAP_DIR"\\bctestprivateuifrm.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "privateuifrm";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestprivateuifrm_menubar_main;
+    cba = r_bctestprivateuifrm_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestprivateuifrm_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\bctestprivateuifrm_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestprivateuifrm_view
+//    AVKON_VIEW for CbctestprivateuifrmView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestprivateuifrm_view
+    {
+    menubar = r_bctestprivateuifrm_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestprivateuifrm_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestprivateuifrm_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestprivateuifrm_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestprivateuifrm_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestprivateuifrm_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestprivateuifrm_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestprivateuifrm_outline1;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestprivateuifrm_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestprivateuifrm_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestprivateuifrm_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestprivateuifrm_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestprivateuifrm_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestprivateuifrm_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+    AVKON_CBA_BUTTON
+        {
+        id = EBCTestPrivateUIFrmCbaCmdNext;
+        txt = qtn_bctestprivateuifrm_cba_next;
+        }
+	};
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctest_lbbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE LBBUT r_bctestprivateui_lbbut
+    {
+    buttontype=0; // EEikCtCommandButton
+    button = CMBUT
+        {
+	version=0;
+  	behavior=0;
+	layout=0; // ETextRightPictureLeft|EEikCmdButShareExcess
+	helptxt="";
+	extension=0;
+ 	txt="";
+	bmpfile="";
+        bmpid=0xffff;
+        bmpmask=0xffff;
+        };
+    hotkey=0;
+    flags=1; // EEikLabeledButtonShowHotKey
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctest_button_panel
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DLG_BUTTONS r_bctest_button_panel
+	{
+	buttons = {};
+	}
+
+// End of File

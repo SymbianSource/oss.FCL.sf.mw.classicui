@@ -1,0 +1,135 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Build information file for Avkon etc.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+
+// OEM headers - not in SDK!
+../inc/aknlegacymode.h                            |../../../inc/aknlegacymode.h
+../inc/aknstatuspanedatasubscriber.h              |../../../inc/aknstatuspanedatasubscriber.h
+../inc/aknstatuspanedatapublisher.h               |../../../inc/aknstatuspanedatapublisher.h
+../inc/avkoninternalpskeys.h                      |../../../inc/avkoninternalpskeys.h
+../inc/AknAdaptiveSearch.h	  		  |../../../inc/AknAdaptiveSearch.h
+../inc/AknAdaptiveSearchGrid.h			  |../../../inc/AknAdaptiveSearchGrid.h
+../inc/AknAdaptiveSearchGridObserver.h		  |../../../inc/AknAdaptiveSearchGridObserver.h
+../notifinc/AknSoftNoteConsts.h                   |../../../inc/aknsoftnoteconsts.h
+../inc/akndiscreetpopupcontrol.h                  |../../../inc/akndiscreetpopupcontrol.h
+../inc/akndiscreetpopupdata.h                     |../../../inc/akndiscreetpopupdata.h
+../inc/akndiscreetpopupdata.inl                   |../../../inc/akndiscreetpopupdata.inl
+
+// IBY-files
+../rom/avkon.iby CORE_MW_LAYER_IBY_EXPORT_PATH(avkon.iby)
+../rom/aknmemcardui.iby CORE_MW_LAYER_IBY_EXPORT_PATH(aknmemcardui.iby)
+../rom/avkonResources.iby LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(avkonresources.iby)
+
+// Generic configuration interface for component cenrep settings  
+../conf/s60/avkon.confml                  APP_LAYER_CONFML(avkon.confml)
+../conf/apac/avkon_apac.confml            CONFML_EXPORT_PATH(avkon_apac.confml,apac)
+../conf/japan/avkon_japan.confml          CONFML_EXPORT_PATH(avkon_japan.confml,japan)
+../conf/s60/avkon_101F876E.crml           APP_LAYER_CRML(avkon_101F876E.crml)
+../conf/s60/avkon_102858F2.crml           APP_LAYER_CRML(avkon_102858F2.crml)
+../conf/s60/testability_2001844B.crml     APP_LAYER_CRML(testability_2001844B.crml)
+
+mif2cdlindex.xml         /epoc32/tools/makefile_templates/s60/mif2cdindex.xml
+mif2cdlindex.flm          /epoc32/tools/makefile_templates/s60/mif2cdlindex.flm
+mif2cdlindex.meta       /epoc32/tools/makefile_templates/s60/mif2cdlindex.meta
+
+PRJ_MMPFILES
+// Specify the .mmp files required for building the important component releasables.
+// Note that you should specify any .mmp files for test programs further down the file.
+//
+// It's best if the .MMP files are specified in the order in which the components are
+// built, but that eventually shouldn't matter.
+//
+
+#ifndef TOOLS
+../notifsrc/aknNotify.mmp
+#ifndef SBSV2
+gnumakefile avkon_icons_dc.mk
+gnumakefile smiley_icons_dc.mk
+#endif
+../group/avkon.mmp
+../initsrc/akninit.mmp
+../AknNotifyPlugin_dll/group/AknNotifyPlugin.mmp
+../animdllsrc/AknAnimDll.mmp
+../memorycardui/group/AknMemoryCardUi.mmp
+../AknKeyRotator/group/AknKeyRotator.mmp
+../Avkon2MifHeader/avkon2mifheader.mmp
+../aknhlist/group/aknhlist.mmp
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+#include "../AknListLoaderTfx/group/bld.inf"
+#endif
+#include "../AknTransitionUtils/group/bld.inf"
+
+// Touch compatibility mode
+#include "../akncompamode/group/bld.inf"
+
+// Fader plugin
+#include "../AknExtendedFader/group/bld.inf"
+
+#endif
+
+
+PRJ_EXTENSIONS
+
+#ifndef TOOLS
+#ifdef SBSV2 //avkon2.mif Iconlist.txt is too big for make used with ABLD, so create all mifs with the original gnu makefile in ABLD case
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE avkon2.mif
+OPTION HEADERFILE avkon.mbg
+OPTION SOURCEFILE Iconlist.txt
+END
+
+START EXTENSION s60/mif2cdlindex
+OPTION TARGETFILE Avkon2mifheader_inst.cpp
+OPTION GENPATH ../Avkon2MifHeader
+OPTION MIFFILE avkon2.mif
+// OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/Z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
+OPTION DLLNAME Avkon2MifHeader
+OPTION DLLUID 0x102827CF
+END
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE callstatus.mif
+OPTION HEADERFILE callstatus.mbg
+OPTION SOURCEFILE Iconlist2.txt
+END
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE aknmemorycardui.mif
+OPTION HEADERFILE aknmemorycardui.mbg
+OPTION SOURCEFILE Iconlist3.txt
+END
+
+START EXTENSION s60/mifconv
+OPTION TARGETFILE smiley.mif
+OPTION HEADERFILE smiley.mbg
+OPTION SOURCEFILE smileyiconlist2.txt
+END
+
+#endif
+#endif
+
+PRJ_TESTMMPFILES
+
+#if defined __SERIES60_MMC
+//../memorycardui/test/testmmcapp.mmp
+#endif

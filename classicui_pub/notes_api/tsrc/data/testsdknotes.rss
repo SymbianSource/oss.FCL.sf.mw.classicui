@@ -1,0 +1,279 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdknotes
+ *
+*/
+
+
+NAME    TSNS
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+#include <avkon.mbg>
+#include <eikctl.rsg>
+
+#include "testsdknotes.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_notesprogi
+// ---------------------------------------------------------------------------
+//
+RESOURCE PROGRESSINFO r_testsdk_notesprogi
+    {
+    text_type = 0;
+    splits_in_block = 0;
+    finalval = 200;
+    width = 120;
+    height = 10;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_andimage
+// ---------------------------------------------------------------------------
+//
+RESOURCE IMAGE r_testsdk_andimage
+    {
+    bmpfile = TESTSDK_NOTES_MAPFILE;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_imagenote
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_imagenote
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETESTSDKNOTESIMAGE;
+            control = AVKON_NOTE
+                {
+                layout = ENoteWithImageLayout;
+                imagefile = TESTSDK_NOTES_MAPFILE;
+                imageid = EMbmAvkonQgn_indi_mic; 
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_notewrapper
+// ---------------------------------------------------------------------------
+//
+RESOURCE AKN_NOTE_WRAPPER r_testsdk_notewrapper
+    {
+    resId = r_testsdk_information_note;
+    timeout = 1500000;
+    tone = 1;
+    text = TESTSDK_NOTES_TXT;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_notewrappernotext
+// ---------------------------------------------------------------------------
+//
+RESOURCE AKN_NOTE_WRAPPER r_testsdk_notewrappernotext
+    {
+    resId = r_testsdk_information_note;
+    timeout = 1500000;
+    tone = 1;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_information_note
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_information_note
+    {
+    flags = EAknInformationNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKInformationNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                imagefile = TESTSDK_NOTES_MAPFILE;
+                imageid = EMbmAvkonQgn_indi_mic;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_progress_note
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_progress_note
+    {
+    flags=EAknProgressNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKProgressNote;
+            control = AVKON_NOTE
+                {
+                layout = EProgressLayout;
+                imagefile = TESTSDK_NOTES_MAPFILE;
+                imageid = EMbmAvkonQgn_indi_mic;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_staticnote
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_staticnote
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar
+          | EEikDialogFlagCbaButtons ;
+    buttons = R_AVKON_SOFTKEYS_READ_EXIT;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKStaticNote;
+            control = AVKON_NOTE 
+                { 
+                layout = ETextualNotificationLayout;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_waitnotewrapper
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_waitnotewrapper
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKWaitNoteWrapper;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                imagefile = TESTSDK_NOTES_MAPFILE;
+                imageid = EMbmAvkonQgn_indi_mic;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_notecontrolimage
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_notecontrolimage
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKNoteControl;
+            control = AVKON_NOTE
+                {
+                layout = ENoteWithImageLayout;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_animationdata
+// ---------------------------------------------------------------------------
+//
+RESOURCE BMPANIM_DATA r_testsdk_animationdata
+    {
+        frameinterval = 400;
+        playmode = EAknBitmapAnimationPlayModeBounce;
+        flash = 0;
+        bmpfile = TESTSDK_NOTES_MAPFILE;
+        frames = r_animation_array ;
+    }
+
+// ---------------------------------------------------------------------------
+// r_animation_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_animation_array
+    {
+        items = 
+        {
+        BMPANIM_FRAME { time = 200; bmpid = EMbmAvkonQgn_indi_mic; }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_notecontrolprogress
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_notecontrolprogress
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ETestSDKNoteControl;
+            control = AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                };
+            }
+        };
+    }
+

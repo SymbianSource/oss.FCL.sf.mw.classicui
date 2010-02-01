@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2002-2004 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Command enumerations
+*
+*/
+
+
+
+
+
+#ifndef AIWPOCPARAMETERS_HRH
+#define AIWPOCPARAMETERS_HRH
+
+// CONSTANTS
+
+// Implementation uid of the S60 default PoC AIW menu provider.
+#define KS60PoCAiwProviderImplUid       0x101F8879
+
+// Implementation uid of the S60 default PoC AIW base provider.
+#define KS60PoCAiwBaseProviderImplUid   0x10282543
+
+// DATA TYPES
+// See AiwPoCParameters.h for more info
+enum TAiwPoCMenuCommandItems
+    {
+    // SINGLE MENU ITEMS / COMMANDS
+    EAiwPoCCmdTalk1to1 =               0x00000001,
+    EAiwPoCCmdTalkMany =               0x00000002,
+    EAiwPoCCmdTalkGroup =              0x00000004,
+    EAiwPoCCmdSendCallBackRequest =    0x00000008,
+    EAiwPoCCmdJoinChatRoom =           0x00000010,
+    EAiwPoCCmdShowCallerDetails =      0x00000020,
+    EAiwPoCCmdShowDetails =            0x00000040
+    };
+
+#endif // AIWPOCPARAMETERS_HRH
+
+// End of File

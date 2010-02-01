@@ -1,0 +1,35 @@
+/*
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     Contains definitions related to Avkon's icons.
+*
+*
+*/
+
+#ifndef __AVKON_ICONS_HRH__
+#define __AVKON_ICONS_HRH__
+
+/**
+* Series 60 platform software may not hardcode Avkon's icon file name anywhere,
+* because its name will be changed.
+*
+* In code, method AknIconUtils::AvkonIconFileName should be used.
+* In resource files, the following macro should be used.
+*/
+
+#define AVKON_ICON_FILE     "z:\\resource\\apps\\avkon2.mbm"
+
+#endif // __AVKON_ICONS_HRH__
+
+// End of file

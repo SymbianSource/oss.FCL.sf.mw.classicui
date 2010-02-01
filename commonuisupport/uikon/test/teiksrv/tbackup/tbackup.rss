@@ -1,0 +1,210 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TBAK
+
+#include <techview/eikon.rh>
+#include "tbackup.hrh"
+#include <eikcoctl.rsg>
+
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf="TBACKUP"; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tbackup_hotkeys;
+	menubar=r_tbackup_menubar;
+	toolbar=r_tbackup_toolbar;
+	}
+
+RESOURCE TOOLBAR r_tbackup_toolbar
+	{
+	controls=
+		{
+        TBAR_BUTTON	{ id=EBackupCmdListApps; flags=EEikToolBarCtrlIsStretchable; txt="List apps"; },
+        TBAR_BUTTON { id=EBackupCmdListOpenFiles; flags=EEikToolBarCtrlIsStretchable; txt="List files"; },
+        TBAR_BUTTON { id=EBackupCmdClose; flags=EEikToolBarCtrlIsStretchable; txt="Close..."; },
+        TBAR_BUTTON { id=EBackupCmdRestart; flags=EEikToolBarCtrlIsStretchable; txt="Restart"; },
+        TBAR_BUTTON { id=EBackupCmdRegisterObs; flags=EEikToolBarCtrlIsStretchable; txt="(De)Regis."; },
+        TBAR_BUTTON { id=EBackupCmdBackupOperation; flags=EEikToolBarCtrlIsStretchable; txt="Start/End"; }
+		};	
+	}
+
+RESOURCE HOTKEYS r_tbackup_hotkeys
+    {
+    control=
+        {
+		HOTKEY {command=EEikCmdExit; key='e';}
+        };
+    }
+
+RESOURCE MENU_BAR r_tbackup_menubar
+	{
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tbackup_menu_file; txt="File"; },
+        MENU_TITLE { menu_pane=r_tbackup_menu_test; txt="Tests"; }
+        };
+	}
+
+RESOURCE MENU_PANE r_tbackup_menu_file
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Exit";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_tbackup_menu_test
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=EBackupCmdListApps;
+            txt="List apps";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdListOpenFiles;
+            txt="List files";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdClose;
+            txt="Close files/apps";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdRestart;
+            txt="Restart";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdRestart;
+            txt="Register(De)";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdBackupOperation;
+            txt="Start/End";
+            },
+		MENU_ITEM
+            {
+            command=EBackupCmdDestroyBackupOperationClient;
+            txt="Kill Backup/Op Client";
+            }
+        };
+    }
+
+RESOURCE DIALOG r_tbackup_file_options
+	{
+	title="Close apps/files";
+	flags=EEikDialogFlagWait;
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	items=
+		{
+		DLG_LINE
+			{
+			type=EEikCtHorOptionButList;
+			prompt="Close";
+			id=EDlgBackupCloseOpButList;
+            control=HOROPBUT 
+                {
+				array_id=r_tbackup_file_opbuts;
+                };
+			},
+		DLG_LINE
+			{
+			type=EEikCtChoiceList;
+			prompt="File";
+			id=EDlgBackupFileList;
+            control=CHOICELIST {};
+			},
+		DLG_LINE
+			{
+			type=EEikCtHorOptionButList;
+			prompt="Flag";
+			id=EDlgBackupFlagOpButList;
+            control=HOROPBUT 
+                {
+				array_id=r_tbackup_flag_opbuts;
+                };
+			}
+		};
+	}
+
+RESOURCE ARRAY r_tbackup_file_opbuts
+	{
+	items=
+		{
+		OPBUT { id=EDlgBackupCloseAll; text="All"; }, 
+		OPBUT { id=EDlgBackupCloseFile; text="File"; }
+		};
+	}
+
+RESOURCE ARRAY r_tbackup_flag_opbuts
+	{
+	items=
+		{
+		OPBUT { id=EDlgBackupReadOnly; text="Read only"; }, 
+		OPBUT { id=EDlgBackupNoAccess; text="No access"; }
+		};
+	}
+
+RESOURCE DIALOG r_tbackup_backup_operation
+	{
+	title="Backup\Restore Operation";
+	flags=EEikDialogFlagWait;
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	items=
+		{
+		DLG_LINE
+			{
+			type=EEikCtHorOptionButList;
+			prompt="Start\End";
+			id=EDlgBackupOperationSel;
+            control=HOROPBUT
+                {
+				array_id=r_tbackup_operations;
+                };
+			}
+		};
+	}
+
+RESOURCE ARRAY r_tbackup_operations
+	{
+	items=
+		{
+		OPBUT { id=EDlgBackupOperationSel1; text="Start"; },
+		OPBUT { id=EDlgBackupOperationSel2; text="End"; }
+		};
+	}
+
+
+
+
+RESOURCE TBUF r_tbackup_restart_dlg_title { buf="Restart apps/files"; }
+RESOURCE TBUF r_tbackup_restart_option_title { buf="Restart"; }
+
+RESOURCE TBUF r_tbackup_lockstate_locked { buf="Locked"; }
+RESOURCE TBUF r_tbackup_lockstate_readonly { buf="Read only"; }
+RESOURCE TBUF r_tbackup_lockstate_noaccess { buf="No access"; }

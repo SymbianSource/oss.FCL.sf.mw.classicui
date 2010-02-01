@@ -1,0 +1,13 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI19CTestSDKQueriesView @ 2 NONAME ; #<TI>#
+	_ZTI24CTestCAknListQueryDialog @ 3 NONAME ; #<TI>#
+	_ZTI24CTestSDKQueriesContainer @ 4 NONAME ; #<TI>#
+	_ZTI27CTestDialogMediatorObserver @ 5 NONAME ; #<TI>#
+	_ZTI33CTestCAknMultiLineDataQueryDialog @ 6 NONAME ; #<TI>#
+	_ZTV19CTestSDKQueriesView @ 7 NONAME ; #<VT>#
+	_ZTV24CTestCAknListQueryDialog @ 8 NONAME ; #<VT>#
+	_ZTV24CTestSDKQueriesContainer @ 9 NONAME ; #<VT>#
+	_ZTV27CTestDialogMediatorObserver @ 10 NONAME ; #<VT>#
+	_ZTV33CTestCAknMultiLineDataQueryDialog @ 11 NONAME ; #<VT>#
+

@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Resource definitions for project bctestmisccontrol
+*
+*/
+
+
+
+
+
+
+
+
+
+#include <appinfo.rh>
+#include <bctestmisccontrol.rsg>
+
+#include "bctestmisccontrol.loc"
+
+UID2 KUidAppRegistrationResourceFile
+UID3 0x20004759  // application UID
+
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file = qtn_apps_name;
+    localisable_resource_file = qtn_localization_filename;
+    localisable_resource_id = R_BCTESTMISCCONTROL_LOCALISABLE_APP_INFO;
+    hidden = KAppIsHidden;
+    embeddability = KAppNotEmbeddable;
+    group_name = qtn_group_name;
+    }

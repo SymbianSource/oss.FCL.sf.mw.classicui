@@ -1,0 +1,21 @@
+/** Unused Enum scan
+ -e???? +e749
+*/
+
+/** Unused header scan
+
+ -e???? +e766
+*/
+/** standard lint check
+*/
+ -w1 -e322
+
+/** Standard include directories */
+-i..\Src
+-i..\Inc
+-i..\Group
+-i\epoc32\include
+-i\epoc32\include\oem 
+
+/** Examined application source directories */
+..\Src\*.cpp

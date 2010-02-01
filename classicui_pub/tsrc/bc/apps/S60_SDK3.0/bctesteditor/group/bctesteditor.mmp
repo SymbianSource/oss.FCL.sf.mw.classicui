@@ -1,0 +1,93 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the BCTestEditor.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          BCTestEditor.exe
+TARGETTYPE      exe
+UID             0x0 0x20004745
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE BCTestEditor.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctestEditorapp.cpp
+SOURCE          bctestEditordocument.cpp
+SOURCE          bctestEditorappui.cpp
+SOURCE          bctestEditorview.cpp
+SOURCE          bctestEditorcontainer.cpp
+SOURCE          bctestEditorcase.cpp
+
+USERINCLUDE     . ../Inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY			efsrv.lib
+LIBRARY         uiklaf.lib
+LIBRARY         form.lib
+LIBRARY         eikctl.lib
+LIBRARY         insock.lib
+LIBRARY         bafl.lib
+LIBRARY         estor.lib
+LIBRARY         field.lib
+LIBRARY         egul.lib
+LIBRARY         etext.lib
+LIBRARY         gdi.lib
+LIBRARY         print.lib
+LIBRARY         fbscli.lib
+
+// Changes for Scalable UI:
+// New registration resource defined.
+// else Normal AIF will work.
+
+START RESOURCE ../group/BCTestEditor_reg.rss
+DEPENDS bctesteditor.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+
+// End of File

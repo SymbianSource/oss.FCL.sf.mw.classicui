@@ -1,0 +1,63 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+
+; Languages
+&EN
+
+; Header
+#{"testsdknotes"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdknotes.ini"-"c:\Testframework\testsdknotes.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdknoteseikinfo.cfg"-"c:\Testframework\tctestsdknoteseikinfo.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknoteseikprogi.cfg"-"c:\Testframework\tctestsdknoteseikprogi.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknotesnc.cfg"-"c:\Testframework\tctestsdknotesnc.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknotesnd.cfg"-"c:\Testframework\tctestsdknotesnd.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknotesnw.cfg"-"c:\Testframework\tctestsdknotesnw.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknotespd.cfg"-"c:\Testframework\tctestsdknotespd.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknotessdn.cfg"-"c:\Testframework\tctestsdknotessdn.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknoteswd.cfg"-"c:\Testframework\tctestsdknoteswd.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdknoteswnw.cfg"-"c:\Testframework\tctestsdknoteswnw.cfg", FF   ; FF stands for Normal file
+
+
+"..\conf\ui_testsdknoteseikinfo.cfg"-"c:\Testframework\ui_testsdknoteseikinfo.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknoteseikprogi.cfg"-"c:\Testframework\ui_testsdknoteseikprogi.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotesnc.cfg"-"c:\Testframework\ui_testsdknotesnc.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotesnd.cfg"-"c:\Testframework\ui_testsdknotesnd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotesnw.cfg"-"c:\Testframework\ui_testsdknotesnw.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotespd.cfg"-"c:\Testframework\ui_testsdknotespd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotessdn.cfg"-"c:\Testframework\ui_testsdknotessdn.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknoteswd.cfg"-"c:\Testframework\ui_testsdknoteswd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknoteswnw.cfg"-"c:\Testframework\ui_testsdknoteswnw.cfg", FF   ; FF stands for Normal file
+
+
+"\epoc32\RELEASE\ARMV5\urel\testsdknotes.dll"-"c:\sys\bin\testsdknotes.dll", FF
+
+"\epoc32\data\Z\resource\testsdknotes.rsc"-"c:\resource\testsdknotes.rsc", FF
+
+
+
+; Trim For Mms
+; ------------
+; to be added later

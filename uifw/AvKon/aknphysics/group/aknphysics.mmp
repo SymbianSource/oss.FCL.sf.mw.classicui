@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is the project specification file for aknphysics.
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET        aknphysics.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x20021194
+
+CAPABILITY    ALL -TCB
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif // !WINSCW
+
+USERINCLUDE   ../inc
+
+MW_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH    ../src
+
+SOURCE        aknphysicsdllmain.cpp
+SOURCE        aknphysics.cpp
+SOURCE        aknphysicsparameterprovider.cpp
+SOURCE        aknphysicscenreplistener.cpp
+SOURCE        aknphysicsrestrictor.cpp
+SOURCE        aknphysicsconeobserver.cpp
+SOURCE        aknphysicskeyconsumer.cpp
+SOURCE        aknphysicsdragobserver.cpp
+SOURCE        aknphysicsengine.cpp
+SOURCE        aknphysicsflicktracker.cpp
+
+LIBRARY      euser.lib
+LIBRARY      ode.lib
+LIBRARY      centralrepository.lib
+LIBRARY      cone.lib
+LIBRARY      avkon.lib
+LIBRARY      alfclient.lib
+LIBRARY      eikcore.lib
+LIBRARY      touchfeedback.lib

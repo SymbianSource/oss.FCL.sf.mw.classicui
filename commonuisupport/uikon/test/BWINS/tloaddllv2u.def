@@ -1,0 +1,5 @@
+EXPORTS
+	?ImplementationGroupProxy@@YAPBUTImplementationProxy@@AAH@Z @ 1 NONAME ; struct TImplementationProxy const * ImplementationGroupProxy(int &)
+	?NewL@CTestEikonDllLoading@@SAPBV1@XZ @ 2 NONAME ; class CTestEikonDllLoading const * CTestEikonDllLoading::NewL(void)
+	?NewL@CTestEikonEComDllLoading@@SAPBV1@XZ @ 3 NONAME ; class CTestEikonEComDllLoading const * CTestEikonEComDllLoading::NewL(void)
+

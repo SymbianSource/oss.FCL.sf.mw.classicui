@@ -1,0 +1,9 @@
+component	app-framework_documentation
+
+source	\sf\mw\classicui\commonuisupport\uifwsdocs\
+
+notes_source	\component_defs\release.src
+
+
+ipr D 
+

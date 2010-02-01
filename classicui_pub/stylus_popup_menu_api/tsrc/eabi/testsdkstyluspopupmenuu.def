@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI20CTestSDKMenuObserver @ 2 NONAME ; #<TI>#
+	_ZTV20CTestSDKMenuObserver @ 3 NONAME ; #<VT>#
+

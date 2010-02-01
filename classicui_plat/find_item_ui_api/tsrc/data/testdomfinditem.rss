@@ -1,0 +1,79 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  test finditemdialog.h and finditemmenu.h
+*
+*/
+
+
+
+//  RESOURCE IDENTIFIER
+NAME    FIND
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+#include "testdomfinditem.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_find_item_menu
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_find_item_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = ETestCmdOutline1;
+            txt = "Outline01";
+            },
+        MENU_ITEM
+            {
+            command = ETestCmdOutline2;
+            txt = "Outline02";
+            },
+        MENU_ITEM
+            {
+            command = ETestCmdOutline3;
+            txt = "Outline03";
+            },
+        MENU_ITEM
+            {
+            command = ETestCmdOutline4;
+            txt = "Outline04";
+            },
+        MENU_ITEM
+            {
+            command = ETestCmdOutline5;
+            txt = "Outline05";
+            }
+        };
+    }
+
+

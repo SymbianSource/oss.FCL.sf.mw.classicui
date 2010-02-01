@@ -1,0 +1,9 @@
+EXPORTS
+	?CreateTfxGc@CAknListLoader@@SAPAVCWindowGc@@AAVCEikListBox@@@Z @ 1 NONAME ; class CWindowGc * CAknListLoader::CreateTfxGc(class CEikListBox &)
+	?CreateTfxGc@CAknListLoader@@SAPAVCWindowGc@@AAVCEikMenuPane@@AAH1@Z @ 2 NONAME ; class CWindowGc * CAknListLoader::CreateTfxGc(class CEikMenuPane &, int &, int &)
+	?InvalidateAll@CAknListLoader@@SAXXZ @ 3 NONAME ; void CAknListLoader::InvalidateAll(void)
+	?RemoveTfxGc@CAknListLoader@@SAXPAVCWindowGc@@@Z @ 4 NONAME ; void CAknListLoader::RemoveTfxGc(class CWindowGc *)
+	?TfxApi@CAknListLoader@@SAPAVMAknListBoxTfx@@PAVCWindowGc@@@Z @ 5 NONAME ; class MAknListBoxTfx * CAknListLoader::TfxApi(class CWindowGc *)
+	?TfxApiInternal@CAknListLoader@@SAPAVMAknListBoxTfxInternal@@PAVCWindowGc@@@Z @ 6 NONAME ; class MAknListBoxTfxInternal * CAknListLoader::TfxApiInternal(class CWindowGc *)
+	?CreateTfxGc@CAknListLoader@@SAPAVCWindowGc@@AAVCAknTreeList@@AAH111@Z @ 7 NONAME ; class CWindowGc * CAknListLoader::CreateTfxGc(class CAknTreeList &, int &, int &, int &, int &)
+	?CreateTfxGc@CAknListLoader@@SAPAVCWindowGc@@AAVCCoeControl@@@Z @ 8 NONAME ; class CWindowGc * CAknListLoader::CreateTfxGc(class CCoeControl &)

@@ -1,0 +1,235 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestskins.hrh"
+#include "bctestskins.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestskins_BMP_FNAME APP_BITMAP_DIR"\\BCTestSkins.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestSkins";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestskins_menubar_main;
+    cba = r_bctestskins_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestskins_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestskins_view
+//    AVKON_VIEW for CBCTestSkinsView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestskins_view
+    {
+    menubar = r_bctestskins_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestskins_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestskins_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestskins_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestskins_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestskins_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestskins_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestskins_outline(1);
+            },
+
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline2;
+            txt = qtn_bctestskins_outline(2);
+            },
+
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline3;
+            txt = qtn_bctestskins_outline(3);
+            },
+
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline4;
+            txt = qtn_bctestskins_outline(4);
+            },
+
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline5;
+            txt = qtn_bctestskins_outline(5);
+            }
+            
+        };                       
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestskins_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestskins_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestskins_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestskins_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestskins_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestskins_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestSkinsCbaCmdNext;
+            txt = qtn_bctestskins_cba_next;
+            }
+	};
+    }
+
+
+// End of File

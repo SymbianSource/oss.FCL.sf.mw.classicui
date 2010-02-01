@@ -1,0 +1,550 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkdialogs
+ *
+*/
+
+
+NAME    DILG
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+
+#include "testsdkdialogs.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dialog
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_dialog
+    {   
+    title = TESTSDK_DIALOGS_TITLE;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = EDialogLine;
+            control = EDWIN
+                {
+                maxlength = 20; 
+                width = 10;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_line
+// ---------------------------------------------------------------------------
+//
+RESOURCE DLG_LINE r_testsdk_line
+    {
+    type = EEikCtEdwin;
+    id = EEdwinLine;
+    control = EDWIN
+        {
+        maxlength = 20; 
+        width = 10;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_line2
+// ---------------------------------------------------------------------------
+//
+RESOURCE DLG_LINE r_testsdk_line2
+    {
+    type = EEikCtEdwin;
+    id = EEdwinLine2;
+    itemflags = EEikDlgItemLatent;
+    control = EDWIN
+        {
+        maxlength = 20; 
+        width = 10;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_caption
+// ---------------------------------------------------------------------------
+//
+RESOURCE TBUF r_testsdk_caption
+    { 
+    buf = TESTSDK_DIALOGS_CAPTIONRESOURCE; 
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_title
+// ---------------------------------------------------------------------------
+//
+RESOURCE TBUF r_testsdk_title
+    { 
+    buf = TESTSDK_DIALOGS_DIALOGTITLE; 
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dialogeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_dialogeditor
+    {   
+    title = TESTSDK_DIALOGS_EDITOR;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = ETESTSDKTextEditor;
+            control = EDWIN
+                {
+                maxlength = 20; 
+                width = 10;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            id = ETESTSDKNumberEditor;
+            control = NUMBER_EDITOR
+                {
+                min = 0;
+                max = 100;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtRangeEditor;
+            id = ETESTSDKRangeEditor;
+            control = RANGE_EDITOR
+                {
+                min = 0;
+                max = 100;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeEditor;
+            id = ETESTSDKTimeEditor;
+            control = TIME_EDITOR
+                {
+                minTime = TIME
+                    {
+                    second = 0;
+                    minute = 0;
+                    hour = 0;
+                    };
+                maxTime = TIME
+                    {
+                    second = 59;
+                    minute = 59;
+                    hour = 23;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDateEditor;
+            id = ETESTSDKDateEditor;
+            control = DATE_EDITOR
+                {
+                minDate = DATE
+                    {
+                    year = 1900;
+                    };
+                maxDate = DATE
+                    {
+                    year = 2100;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeAndDateEditor;
+            id = ETESTSDKTimeAndDateEditor;
+            control = TIME_AND_DATE_EDITOR
+                {
+                minTimeAndDate = TIME_AND_DATE
+                    {
+                    year = 1900;
+                    second = 0;
+                    minute = 0;
+                    hour = 0;
+                    };
+                maxTimeAndDate = TIME_AND_DATE
+                    {
+                    year = 2100;
+                    second = 59;
+                    minute = 59;
+                    hour = 23;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDurationEditor;
+            id = ETESTSDKDurationEditor;
+            control = DURATION_EDITOR
+                {
+                minDuration = DURATION
+                    {
+                    seconds = 0;
+                    };
+                maxDuration = DURATION
+                    {
+                    seconds = 1000000;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeOffsetEditor;
+            id = ETESTSDKTimeOffsetEditor;
+            control = TIME_OFFSET_EDITOR
+                {
+                minTimeOffset = TIME_OFFSET
+                    {
+                    seconds = 0;
+                    };
+                maxTimeOffset = TIME_OFFSET
+                    {
+                    seconds = 1000000;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtFxPtEd;
+            id = ETESTSDKFixPointedEditor;
+            control = FIXPTED
+                {
+                min = 0;
+                max = 9999;
+                decimalplaces = 2;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtSecretEd;
+            id = ETESTSDKSecretEditor;
+            control = SECRETED
+                {
+                num_letters = 8;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dialogaddeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_dialogaddeditor
+    {   
+    title = TESTSDK_DIALOGS_ADDEDITOR;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dialogsgfunction
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_dialogsgfunction
+    {   
+    title = TESTSDK_DIALOGS_SGFUNC;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtLabel;
+            id = ETESTSDKSGLabel;
+            control = LABEL
+                {
+                txt = TESTSDK_DIALOGS_LABEL;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = ETESTSDKSGEdwin;
+            control = EDWIN
+                {
+                maxlength = 20; 
+                width = 10;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtGlobalTextEditor;
+            id = ETESTSDKSGTextEditor;
+            control = GTXTED
+                {
+                numlines = 1; 
+                width = 10;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtSecretEd;
+            id = ETESTSDKSGSecretEditor;
+            control = SECRETED
+               {
+               num_letters = 8;
+               };
+           },
+        DLG_LINE
+            {
+            type = EEikCtFlPtEd;
+            id = ETESTSDKSGFloatPointEditor;
+            control = FLPTED
+               {
+               maxlength = 18;
+               };
+            },
+        DLG_LINE
+            {
+            type = EEikCtFxPtEd;
+            id = ETESTSDKSGFixPointedEditor;
+            control = FIXPTED
+                {
+                min = 0;
+                max = 9999;
+                decimalplaces = 2;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            id = ETESTSDKSGNumberEditor;
+            control = NUMBER_EDITOR
+                {
+                min = 0;
+                max = 100;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            id = ETESTSDKSGNumberEditor;
+            control = NUMBER_EDITOR
+                {
+                min = 0;
+                max = 100;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtRangeEditor;
+            id = ETESTSDKSGRangeEditor;
+            control = RANGE_EDITOR
+                {
+                min = 0;
+                max = 100;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeEditor;
+            id = ETESTSDKSGTimeEditor;
+            control = TIME_EDITOR
+                {
+                minTime = TIME
+                    {
+                    second = 1;
+                    minute = 1;
+                    hour = 1;
+                    };
+                maxTime = TIME
+                    {
+                    second = 12;
+                    minute = 54;
+                    hour = 12;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtDurationEditor;
+            id = ETESTSDKSGDurationEditor;
+            control = DURATION_EDITOR
+                {
+                minDuration = DURATION
+                    {
+                    seconds = 0;
+                    };
+                maxDuration = DURATION
+                    {
+                    seconds = 1000000;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtTimeOffsetEditor;
+            id = ETESTSDKSGTimeOffsetEditor;
+            control = TIME_OFFSET_EDITOR
+                {
+                minTimeOffset = TIME_OFFSET
+                    {
+                    seconds = 10;
+                    };
+                maxTimeOffset = TIME_OFFSET
+                    {
+                    seconds = 2000000;
+                    };
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_label
+// ---------------------------------------------------------------------------
+//
+RESOURCE TBUF r_testsdk_label
+    {
+    buf = TESTSDK_DIALOGS_LABELRESOURCE;
+    }
+
+// ---------------------------------------------------------------------------
+// r_secret
+// ---------------------------------------------------------------------------
+//
+RESOURCE SECRETED r_secret
+    {
+    num_letters = 8;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_page
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_page
+    {   
+    title = TESTSDK_DIALOGS_PAGE;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    pages = r_testsdk_pages;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_pages
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_pages
+    {
+    items=
+        {
+        PAGE 
+            { 
+            text = TESTSDK_DIALOGS_PAGE1;
+            id = 0;
+            lines = r_testsdk_pageline1;
+            },
+        PAGE 
+            { 
+            text = TESTSDK_DIALOGS_PAGE2;
+            id = 1;
+            lines = r_testsdk_pageline2;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_pageline1
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_pageline1
+    {
+    items=
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = ETESTSDKPageLine1Editor;
+            control = EDWIN
+                {
+                maxlength = 20; 
+                width = 10;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_pageline2
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_testsdk_pageline2
+    {
+    items=
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = ETESTSDKPageLine2Editor;
+            control = EDWIN
+                {
+                maxlength = 20; 
+                width = 10;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_listbox
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testsdk_listbox
+    {   
+    title = TESTSDK_DIALOGS_LISTBOX;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtListBox;
+            id = EDialogListBox;
+            control = LISTBOX
+                {
+                height = 5;
+                width = 10;
+                };
+            }
+        };
+    }

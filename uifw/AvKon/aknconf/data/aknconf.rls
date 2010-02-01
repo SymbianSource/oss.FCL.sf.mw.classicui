@@ -1,0 +1,103 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a localisation file for aknconf
+*				 A .rls file is the one and only place where the logical
+*				 strings to be localised are defined. 
+*
+*/
+
+
+//  LOCALISATION STRINGS
+
+// Caption string for app.
+#define qtn_caption_string "AknConf"
+
+#define qtn_reset_values "Reset values"
+
+#define qtn_about "About"
+
+// Third item in "Options" menu pane
+#define qtn_exit "Exit"
+
+#define qtn_loc_resource_file_1 "\\resource\\apps\\aknconf"
+
+#define qtn_about_dialog_title "About"
+
+#define qtn_about_dialog_text "AknConf Version 2.0.0\n\n(c) Copyright © 2009 Nokia.  All rights reserved."
+
+#define qtn_view_physics_conf "Physics"
+
+#define qtn_view_gesture_conf "Gesture"
+
+#define qtn_setting_feature_enabled "Feature enabled"
+
+#define qtn_setting_yes "Yes"
+
+#define qtn_setting_no "No"
+
+#define qtn_setting_mass "Mass"
+
+#define qtn_setting_gravity "Gravity"
+
+#define qtn_setting_sse "Surface soft erp"
+
+#define qtn_setting_cfm "Surface soft cfm"
+
+#define qtn_setting_highlight_timeout "Highlight timeout"
+
+#define qtn_setting_drag_threshold "Drag threshold"
+
+#define qtn_setting_frame_delay "Frame delay"
+
+#define qtn_setting_min_frame_interval "Min frame interval"
+
+#define qtn_setting_short_list_space "Empty space in short lists"
+
+#define qtn_setting_long_list_space "Empty space in long lists"
+
+#define qtn_setting_zero_percent "0 %"
+
+#define qtn_setting_hundred_percent "100 %"
+
+#define qtn_setting_fps_logging_enabled "FPS logging enabled"
+
+#define qtn_setting_tap_threshold "Tap threshold"
+
+#define qtn_setting_long_tap_threshold "Long tap threshold"
+
+#define qtn_setting_double_tap_threshold "Double tap threshold"
+
+#define qtn_setting_gesture_drag_threshold "Drag threshold"
+
+#define qtn_setting_flick_buffer "Flick buffer"
+
+#define qtn_setting_flick_speed_threshold "Flick speed threshold"
+
+#define qtn_setting_flick_detection_time "Flick detection time"
+
+#define qtn_setting_direction_change_sensitivity "Flick direction change sensitivity"
+
+#define qtn_setting_pinch_initial_threshold "Pinch initial threshold"
+
+#define qtn_setting_pinch_movement_threshold "Pinch movement threshold"
+
+#define qtn_setting_pinch_direction_change_sensitivity "Pinch direction change sensitivity"
+
+#define qtn_setting_pinch_direction_reset_sensitivity "Pinch direction reset sensitivity"
+
+#define qtn_setting_pinch_dimension_threshold "Pinch dimension threshold"
+
+#define qtn_setting_pinch_maximum_confirmation_duration "Pinch maximum confirmation duration"
+
+// End of File

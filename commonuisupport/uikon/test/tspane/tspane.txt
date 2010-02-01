@@ -1,0 +1,77 @@
+Status pane testing guidlines.
+
+
+Introduction:
+
+This document describes the testing procedure for the status pane uikon component.
+The testing procedure uses the test application, "TSpane." This application allows
+users to carry out manual tests and run automatic tests, through visible status
+pane components and the application menu.
+
+
+Automatic Tests:
+
+Start the TSpane application.
+Use the auto.all menu option and wait for "complete" to appear on the screen.
+Exit TSpane.
+There should be no Leaves or Panics.
+
+
+Manual Tests:
+
+This section describes the functions available in TSpane to manually test the
+status pane. It also gives a set of things that should be done to test the
+application manually.
+
+The controls available to the user are:
+1) A status pane. There is always a main status pane available to the application. 
+This may consist of one or more panes, which may contain buttons or other controls.
+This status pane can be altered using the manual menu options.
+2) "Swap vis" on the manual menu. This makes the main status pane visible or
+invisible.
+3) "Swap dim" on the manual menu. This switches the dim state of the main status
+pane. The controls inside the status pane should go dim, and stop responding to
+user events.
+4) "Swap fade" on the manual menu. This doesn't do anything yet, as cone does not
+support faded controls.
+5) "State" on the manual menu. This reports the visible, dimmed and faded state of
+the main status pane. It displays an info message containing "vis", "dim" and 
+"fade". If an "!" appears before any of these words, that state is set false.
+6) "Layout" on the manual menu. This switches the layout of the status pane.
+There are six valid and one invalid layouts that this command cycles through.
+7) "Control" on the manual menu. This changes the content of one of the status
+pane sub panes. It cycles through four different contents: an label, an editable
+text field, a clock and a button.
+8) "Window" on the manual menu. This creates a stand alone status pane in its
+own window group. If you can switch application, this status pane should hang over
+all the other applications. The status pane contains a "kill" button which must
+be pressed to delete the status pane and its window group and contents.
+
+The tester should try the following manual tests:
+1) At application start, try clicking on each of the buttons in the main status
+pane. They should all press down ok.
+2) Use the switch vis, dim, fade and state menu options to test that the status
+pane correctly responds to these state changes. Each time you change the state,
+try clicking on the status pane controls to see if they respond as expected for
+the state.
+3) Use the layout menu option to cycle through the seven layout options. There
+should be six different layouts shown and one "not found" leave message. Each
+the layout changes, the applications main rectangle changes. This rectangle is
+grey with a white border. Look for the white border between the status pane and
+the grey rectangle.
+4) Use the control menu option to change the content of one of the panes. Each
+different content should respond to user events in a different way. In particular,
+the edit field should be editable. The control menu option will work with any 
+of the status pane layouts. Try changing the layout and control in combination.
+5) Use the "window" menu option to create a floating status pane in a high 
+priority window group. This should float over all application that you can switch
+to. Dismiss the floating status pane by clicking its kill button.
+6) Run the automatic test using the auto.all menu option, then retry some manual
+tests.
+7) Turn on random memory failure using ctrl-alt-shift-P, and try some more manual
+tests.
+8) Exit the TSpane application. It should exit cleanly, without any panics or
+exceptions.
+
+
+

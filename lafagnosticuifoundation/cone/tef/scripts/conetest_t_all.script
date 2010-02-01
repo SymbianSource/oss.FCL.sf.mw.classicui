@@ -1,0 +1,46 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+PRINT Run All Cone tests
+//
+LOAD_SUITE TConeTestServer
+RUN_TEST_STEP 100 TConeTestServer TBackground
+RUN_TEST_STEP 100 TConeTestServer TConeCoeCntSS
+RUN_TEST_STEP 100 TConeTestServer TCone0
+RUN_TEST_STEP 100 TConeTestServer TCone1
+RUN_TEST_STEP 100 TConeTestServer TCone2
+RUN_TEST_STEP 100 TConeTestServer TCone3
+RUN_TEST_STEP 100 TConeTestServer TCone4Exe
+RUN_TEST_STEP 100 TConeTestServer TCone5
+START_TESTCASE wrap_tcone6
+RUN_TEST_STEP 100 TConeTestServer TCone6
+END_TESTCASE wrap_tcone6
+RUN_TEST_STEP 100 TConeTestServer TCone7
+RUN_TEST_STEP 100 TConeTestServer TConeErrorMsg
+RUN_TEST_STEP 100 TConeTestServer TConeHelpText
+RUN_TEST_STEP 200 TConeTestServer TConeInvalidate
+RUN_TEST_STEP 100 TConeTestServer TConeTransition
+RUN_TEST_STEP 100 TConeTestServer TConeVisibility
+RUN_TEST_STEP 100 TConeTestServer TConeTransparency
+RUN_TEST_STEP 100 TConeTestServer TConeZoomFont
+RUN_TEST_STEP 100 TConeTestServer TConeCoeDataStorage
+RUN_TEST_STEP 100 TConeTestServer tconeresourceloader
+RUN_TEST_STEP 100 TConeTestServer TConeStateObs
+RUN_TEST_STEP 100 TConeTestServer TConeMultiPtr
+RUN_TEST_STEP 500 TConeTestServer TConeMultiPtrCompound
+RUN_TEST_STEP 100 TConeTestServer TConeEvents
+RUN_TEST_STEP 100 TConeTestServer TConeEvents2
+

@@ -1,0 +1,112 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Maximum length for text selection.
+// 
+//
+
+/**
+ @publishedAll 
+ @released 
+*/
+#define KTextSelectionMaxLen			40
+
+/** All font controls.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlAll				0x001
+
+/** Font control name.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlName				0x002
+
+/** Font control size.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlSize				0x004
+
+/** Bold font control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlBold				0x008
+
+/** Italic font control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlItalic			0x010
+
+/** Underline font control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlUnderline		0x020
+
+/** Strikethrough font control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlStrikethrough	0x040
+
+/** Font text color control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlTextColor		0x080
+
+/** Print position font control.
+@publishedAll 
+@released 
+*/
+#define	EGulFontControlPrintPos			0x100 
+
+/** All fonts.
+@publishedAll 
+@released 
+*/
+#define	EGulAllFonts					0x01
+
+/** Monospace fonts only.
+@publishedAll 
+@released 
+*/
+#define	EGulMonospaceFontsOnly			0x02
+
+/** No monospace fonts.
+@publishedAll 
+@released 
+*/
+#define	EGulNoMonospaceFonts			0x04
+
+/** Symbol fonts only.
+@publishedAll 
+@released 
+*/
+#define	EGulSymbolFontsOnly				0x08
+
+/** No symbol fonts.
+@publishedAll 
+@released 
+*/
+#define	EGulNoSymbolFonts				0x10
+
+/** No monospace or symbol fonts.
+@publishedAll 
+@released 
+*/
+#define	EGulNoMonospaceOrSymbolFonts	0x20

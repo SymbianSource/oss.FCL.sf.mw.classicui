@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Common localization strings
+*
+*/
+
+
+#define qtn_testlist_item_s1       " \taaaaaa"
+#define qtn_testlist_item_s2       " \tbbbbbb"
+#define qtn_testlist_item_s3       " \tcccccc"
+#define qtn_testlist_item_s4       " \tdddddd"
+#define qtn_testlist_item_s5       " \teeeeee"
+#define qtn_testlist_item_s6       " \tffffff"
+#define qtn_testlist_item_s7       " \tgggggg"
+#define qtn_testlist_item_s8       " \thhhhhh"
+#define qtn_testlist_item_s9       " \tthis text is way too long and it \
+will be clipped even in widest landscape imaginable."
+
+#define qtn_aknatlist_multi_title    "Multiselection"
+#define qtn_testlist_softkey_next    "Next"
+
+#define qtn_testlist_outline01     "OUTLINE01"
+#define qtn_testlist_outline02     "OUTLINE02"
+#define qtn_testlist_outline03     "OUTLINE03"
+
+#define qtn_drawbuff     "Draw buff"
+
+#define qtn_testlist_item_st1_add     " \tAdd items\t0\toff"
+#define qtn_testlist_item_st2_rm      " \tRemove items\t0\toff"
+#define qtn_testlist_item_st3      " \tCCCCCC\t\toff"
+#define qtn_testlist_item_st4      " \tDDDDDD\t0\t"
+#define qtn_testlist_item_st5      " \tSetting item may also be long\t0\toff"
+#define qtn_testlist_item_st6      " \tFFFFFF\t\toff\t*"
+#define qtn_testlist_item_st7      " \tGGGGGG\t\t\t\tgggg"
+#define qtn_testlist_item_st8      " \tHHHHHH\t0\toff"

@@ -1,0 +1,208 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  rss file
+ *
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME DMEN
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <eikon.hrh>
+#include <appinfo.rh>
+
+#include "testdomoptionsmenu.hrh"
+#include "testdomoptionsmenu.loc"
+
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+// RSS_SIGNATURE
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+// RSS_SIGNATURE
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF 
+    {
+    buf = qtn_menutest_menu_buf;
+    }
+
+//-----------------------------------------------------------------------------
+// EIK_APP_INFO
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_menutestmenu_menubar_main;
+    cba = r_menutestmenu_cba_options_next;
+    }
+
+//-----------------------------------------------------------------------------
+// LOCALISABLE_APP_INFO
+//-----------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_menutestmenu_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+// AVKON_VIEW
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_menutestmenu_view
+    {
+    menubar = r_menutestmenu_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+// MENU_BAR
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_menutestmenu_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_menutestmenu_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_menutestmenu_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+// MENU_PANE
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_menutestmenu_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EMenuTestCmdOutline1;
+            txt = qtn_menutestmenu_outline1;
+            },
+        MENU_ITEM
+            {
+            command = EMenuTestCmdOutline2;
+            txt = qtn_menutestmenu_outline2;
+            },
+        MENU_ITEM
+            {
+            command = EMenuTestCmdOutline3;
+            txt = qtn_menutestmenu_outline3;
+            },
+        MENU_ITEM
+            {
+            command = EMenuTestCmdOutline4;
+            txt = qtn_menutestmenu_outline4;
+            },
+        MENU_ITEM
+            {
+            command = EMenuTestCmdOutline5;
+            txt = qtn_menutestmenu_outline5;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+// MENU_PANE
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_menutestmenu_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_menutestmenu_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_menutestmenu_menu_exit;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+// CBA
+//-----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_menutestmenu_cba_options_next
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id=EAknSoftkeyOptions;
+            txt = text_softkey_option;
+            },
+        AVKON_CBA_BUTTON
+            {
+            id = EMenuTestMenuCbaCmdNext;
+            txt = qtn_menutestmenu_cba_next;
+            }
+        };
+    }
+//-----------------------------------------------------------------------------
+// MENU_ITEM
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_ITEM r_menup_menuitem
+    {
+    command = EMenupId;
+    txt = "test";
+    }
+//-----------------------------------------------------------------------------
+// TBUF40
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF40 r_menutestmenu_new_item
+    {
+    buf = qtn_menutestmenu_menu_sub_new;
+    }
+
+
+// End of File

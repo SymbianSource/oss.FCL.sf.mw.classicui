@@ -1,0 +1,84 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the bctestmix50.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctestmix50.exe
+TARGETTYPE      exe
+UID             0x0 0xA00040AB
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+START RESOURCE bctestmix50.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../src
+SOURCE          bctestmix50app.cpp 
+SOURCE          bctestmix50document.cpp
+SOURCE          bctestmix50appui.cpp
+SOURCE          bctestmix50view.cpp
+SOURCE          bctestmix50container.cpp
+SOURCE          bctestmix50case.cpp
+SOURCE          bctestmix50extendclasses.cpp
+
+
+USERINCLUDE     ./../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include /epoc32/include/middleware /epoc32/include/osextensions /epoc32/include/domain/middleware
+
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         aknskins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY	        efsrv.lib
+LIBRARY         eikdlg.lib
+LIBRARY         fbscli.lib
+LIBRARY         aknicon.lib
+LIBRARY         touchfeedback.lib
+LIBRARY         bafl.lib
+
+
+
+START RESOURCE ../group/bctestmix50_reg.rss
+DEPENDS bctestmix50.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END

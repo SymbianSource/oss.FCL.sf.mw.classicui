@@ -1,0 +1,444 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME MISC
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestmisccontrol.hrh"
+#include "bctestmisccontrol.loc"
+
+//  CONSTANTS
+#define BCTESTMISCCONTROL_EDWIN_WIDTH                  1
+#define BCTESTMISCCONTROL_EDWIN_LINES                  2
+#define BCTESTMISCCONTROL_SLIDER_MIN_VALUE             0
+#define BCTESTMISCCONTROL_SLIDER_MAX_VALUE            20
+#define BCTESTMISCCONTROL_SLIDER_STEP                  2
+
+//  RESOURCE DEFINITIONS
+//----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    TBUF32
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF32
+    {
+    buf = qtn_bctestmisccontrol_buf;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestmisccontrol_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+// ---------------------------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestmisccontrol_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        number_of_icons = 2;
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_view
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestmisccontrol_view
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menubar
+//    MenuBar
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestmisccontrol_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestmisccontrol_menu;
+            txt = qtn_bctestmisccontrol_menubar;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu
+//    Menu pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCaptionControl;
+            cascade = r_bctestmisccontrol_menu_caption_control_cascade;
+            txt = qtn_bctestmisccontrol_menu_caption_control;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlConsoleControl;
+            cascade = r_bctestmisccontrol_menu_console_control_cascade;
+            txt = qtn_bctestmisccontrol_menu_console_control;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlControlGroup;
+            cascade = r_bctestmisccontrol_menu_control_group_cascade;
+            txt = qtn_bctestmisccontrol_menu_control_group;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlKeyWindow;
+            cascade = r_bctestmisccontrol_menu_key_window_cascade;
+            txt = qtn_bctestmisccontrol_menu_key_window;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlEikMover;
+            cascade = r_bctestmisccontrol_menu_eik_mover_cascade;
+            txt = qtn_bctestmisccontrol_menu_eik_mover;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlEikToolBar;
+            cascade = r_bctestmisccontrol_menu_eik_tool_bar_cascade;
+            txt = qtn_bctestmisccontrol_menu_eik_tool_bar;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdAutotest;
+            txt = qtn_bctestmisccontrol_menu_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestmisccontrol_menu_exit;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_caption_control_cascade
+//    Sub menu-pane of "Eik captioned control" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_caption_control_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline01;
+            txt = qtn_bctestmisccontrol_menu_out01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline02;
+            txt = qtn_bctestmisccontrol_menu_out02;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline03;
+            txt = qtn_bctestmisccontrol_menu_out03;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_console_control_cascade
+//    Sub menu-pane of "Eik console control" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_console_control_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline04;
+            txt = qtn_bctestmisccontrol_menu_out04;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline05;
+            txt = qtn_bctestmisccontrol_menu_out05;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline06;
+            txt = qtn_bctestmisccontrol_menu_out06;
+            }                        
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_control_group_cascade
+//    Sub menu-pane of "Eik control group" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_control_group_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline07;
+            txt = qtn_bctestmisccontrol_menu_out07;
+            }
+        };
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_key_window_cascade
+//    Sub menu-pane of "Eik key window" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_key_window_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline08;
+            txt = qtn_bctestmisccontrol_menu_out08;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_eik_mover_cascade
+//    Sub menu-pane of "Eik mover" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_eik_mover_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline09;
+            txt = qtn_bctestmisccontrol_menu_out09;
+            }
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_menu_eik_tool_bar_cascade
+//    Sub menu-pane of "Eik tool bar" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisccontrol_menu_eik_tool_bar_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestMiscControlCmdOutline10;
+            txt = qtn_bctestmisccontrol_menu_out10;
+            }
+        };
+    }    
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_eikline
+//    eik captioned control dialog line
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DLG_LINE r_bctestmisccontrol_eikline
+    {
+    type = EEikCtEdwin;
+    prompt = qtn_bctestmisccontrol_prompt;
+    id = 32777;
+    control = EDWIN
+        {
+        width = 10;
+        maxlength = 8;
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_text_slider_field_dialog
+//    For eik captioned control dialog
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestmisccontrol_text_slider_field_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+	EEikDialogFlagButtonsRight | EEikDialogFlagNoTitleBar |
+	EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_bctestmisccontrol_text_slider_field_form;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_text_slider_field_form
+//    For eik captioned control form
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE FORM r_bctestmisccontrol_text_slider_field_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = qtn_bctestmisccontrol_form_label_edwin;
+            id = EBCTestMiscControlDlgCtrlIdEdwin01;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                width = BCTESTMISCCONTROL_EDWIN_WIDTH;
+                lines = BCTESTMISCCONTROL_EDWIN_LINES;
+                maxlength = EBCTestMiscControlFormEdwinMaxLength;
+                // added to limit expanding in forms. 
+                // If you want full screen use 5 here
+                max_view_height_in_lines = 5; 
+                // if you have the line above, you must have this.  
+                // It's calculable from LAF
+                base_line_delta = 21; 
+                };
+            tooltip = qtn_bctestmisccontrol_hint_text_edwin;
+            },
+        DLG_LINE
+            {
+            type = EAknCtSlider;
+            prompt = qtn_bctestmisccontrol_form_label_slider;
+            id = EBCTestMiscControlDlgCtrlIdSlider01;
+            control = SLIDER
+                {
+                layout = EAknFormSliderLayout1;
+                minvalue = BCTESTMISCCONTROL_SLIDER_MIN_VALUE;
+                maxvalue = BCTESTMISCCONTROL_SLIDER_MAX_VALUE;
+                step = BCTESTMISCCONTROL_SLIDER_STEP;
+                minlabel = qtn_bctestmisccontrol_form_label_sdmin;
+                maxlabel = qtn_bctestmisccontrol_form_label_sdmin;
+                valuetype = EAknSliderValuePercentage;
+                };
+            tooltip = qtn_aknatform_hint_text_slider;
+            }
+        };
+    } 
+    
+// ----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_eik_mover_dialog
+//    Eik mover dialog
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestmisccontrol_eik_mover_dialog
+    {
+    title = qtn_bctestmisccontrol_Title;
+    }     
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestmisccontrol_eik_tool_bar
+//    Eik tool bar
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TOOLBAR r_bctestmisccontrol_eik_tool_bar
+    {
+	breadth = KEikStdToolBarWidth;
+	lines = 1;
+    }
+
+
+
+

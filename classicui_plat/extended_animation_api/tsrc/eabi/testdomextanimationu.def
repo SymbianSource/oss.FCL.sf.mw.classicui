@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI18CTestBitmapContext @ 2 NONAME ; #<TI>#
+	_ZTI24CTestDomExtAnimContainer @ 3 NONAME ; #<TI>#
+	_ZTV18CTestBitmapContext @ 4 NONAME ; #<VT>#
+	_ZTV24CTestDomExtAnimContainer @ 5 NONAME ; #<VT>#
+

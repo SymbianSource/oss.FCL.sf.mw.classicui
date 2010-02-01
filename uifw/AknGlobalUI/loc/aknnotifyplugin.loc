@@ -1,0 +1,188 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+// Soft notifications
+
+//d: Missed calls notification, ungrouped, singular form
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_miss_call_ungroup "1 missed call"
+
+//d: Missed calls notification when there are > 1, ungrouped
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_miss_calls_ungroup "%N missed calls"
+
+//d: Missed calls notification, grouped, singular form
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_miss_call_group "1 missed call"
+
+//d: Missed calls notification when there are > 1, grouped
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_miss_calls_group "%N missed calls"
+
+//d: New messages notification, ungrouped, singular
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_message_ungroup "You have 1 new message"
+
+//d: New messages notification, ungrouped, plural
+//l: popup_snote_single_graphic_window
+// 
+#define qtn_notif_messages_ungroup "You have %N new messages"
+
+//d: New messages notification, grouped, singular
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_message_group "1 new message"
+
+//d: New messages notification, grouped, plural
+//l: list_single_pane_t1_cp2
+// 
+#define qtn_notif_messages_group "%N new messages"
+
+//d: New email notification, ungrouped, singular
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_new_mail_ungroup "You have 1 new mail"
+
+//d: New email notification, ungrouped, plural
+//l: popup_snote_single_graphic_window
+// 
+#define qtn_notif_new_mails_ungroup "You have %N new mails"
+
+//d: New messages notification, grouped, singular
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_new_mail_group "1 new mail"
+
+//d: New messages notification, grouped, plural
+//l: list_single_pane_t1_cp2
+// 
+#define qtn_notif_new_mails_group "%N new mails"
+
+//d: Select network notification text
+//l: popup_snote_single_text_window 
+//
+#define text_please_select_network "Please select network"
+
+//d: Unstructured SS Data notification text
+//l: popup_snote_single_text_window 
+//
+#define text_ussd_message_header "Message: %U "
+
+//d: Voice mail notification, singular
+//l: popup_snote_single_text_window
+//
+#define text_voice_message_waiting "New voice message"
+
+//d: Voice mail notification, plural 
+//l: popup_snote_single_text_window
+//
+#define text_voice_messages_waiting "%N new voice messages"
+
+//d: Separate voice mail notification, concerning new voice mail on line 1
+//l: popup_snote_single_text_window
+//
+#define text_voice_mail_waiting_on_l1 "New voice message on line 1"
+
+//d: Separate voice mail notification, concerning new voice mail on line 2
+//l: popup_snote_single_text_window
+//
+#define text_voice_mail_waiting_on_l2 "New voice message on line 2"
+
+//d: Cell broadcast notification
+//l: popup_snote_single_text_window
+//
+#define text_cb_received "Info message received"
+
+//d: Grouped soft notification header label
+//l: heading_pane_t1
+#define qtn_notif_prmpt_youhave "You have:"
+
+//d: Text for battery low global note
+//l:  popup_note_window
+#define text_battery_low "Battery low"
+
+//d: Text for battery empty global note
+//l:  popup_note_window
+#define qtn_battc_empty_recharge "Battery empty.\nRecharge battery"
+
+//d: Text for battery charging global note
+//l:  popup_note_window
+#define text_charging "Charging"
+
+//d: Text for battery full global note
+//l:  popup_note_window
+#define text_battery_full "Battery full"
+
+//d: Text for abnormal charger global note
+//l:  popup_note_window
+#define  text_wrong_charger "Not charging"
+
+//d: Text for keylock confirmation query when locking keys
+//l: popup_note_window
+#define qtn_keyg_lock_keys "Lock Keys?"
+
+//d: Missed chat messages notification, ungrouped, plural form
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_chat_msgs_ungroup "%N new chat messages"
+
+//d: Missed chat message notification, ungrouped, singular form
+//l: popup_snote_single_graphic_window
+//
+#define qtn_notif_chat_msg_ungroup "1 new chat message" 
+
+//d: Missed chat messages notification, grouped, plural form
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_chat_msgs_group "%N new chat messages" 
+
+//d: Missed chat messages notification, grouped, singular form
+//l: list_single_pane_t1_cp2
+//
+#define qtn_notif_chat_msg_group "1 new chat message"
+
+//d: Separate voice mail notification, concerning new voice mails on line 1, plural 
+//l: popup_snote_single_text_window
+//
+#define qtn_voice_mails_waiting_on_l1 "%N new voice messages on line 1"
+
+//d: Separate voice mail notification, concerning new voice mails on line 2, plural 
+//l: popup_snote_single_text_window
+//
+#define qtn_voice_mails_waiting_on_l2 "%N new voice messages on line 2"
+
+//d: Cell broadcast notification, plural form
+//l: popup_snote_single_text_window
+//w:
+//r: 2.8
+//
+#define text_cb_received_many "%N Cell broadcast messages received"
+
+//d: Text for global note when battery is full and charger should be unplugged
+//l: popup_note_window
+//r: 3.2
+#define qtn_battc_battery_full_unplug "Charging completed. Please unplug power supply to save energy."
+
+//d: Text for global note shown when charger is unplugged
+//l: popup_note_window
+//r: 3.2
+#define qtn_battc_unplug "Please unplug power supply to save energy."

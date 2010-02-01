@@ -1,0 +1,596 @@
+EXPORTS
+	_Z12InternalizeLR12TEikPortFlagR11RReadStream @ 1 NONAME
+	_ZN10CEikMsgWin10ConstructLER12RWindowGroup @ 2 NONAME
+	_ZN10CEikMsgWin12StartDisplayERK7TDesC1613TGulAlignment @ 3 NONAME
+	_ZN10CEikMsgWin13CancelDisplayEv @ 4 NONAME
+	_ZThn24_NK21CEikEmbeddableAppList9MdcaPointEi @ 5 NONAME ; #<thunk>#
+	_ZN10CEikMsgWinC2ER9CEikonEnv @ 6 NONAME
+	_ZN10CEikMsgWinD0Ev @ 7 NONAME
+	_ZN10CEikMsgWinD1Ev @ 8 NONAME
+	_ZN10CEikMsgWinD2Ev @ 9 NONAME
+	_ZN11CEikLibrary20PostAppUiInitializeLEv @ 10 NONAME
+	_ZN11CEikProcess12SetMainStoreEP10CFileStore @ 11 NONAME
+	_ZN11CEikProcess22SaveToDirectFileStoreLEP12CEikDocumentPK4TBufILi256EE @ 12 NONAME
+	_ZN11CEikProcess22SaveToDirectFileStoreLEP12CEikDocumentPK4TBufILi256EEiPS3_ @ 13 NONAME
+	_ZN11CEikProcessD0Ev @ 14 NONAME
+	_ZN11CEikProcessD1Ev @ 15 NONAME
+	_ZN11CEikProcessD2Ev @ 16 NONAME
+	_ZN12CEikDocument9OpenFileLERP10CFileStoreR5RFile @ 17 NONAME
+	_ZN12CEikDocument10Reserved_2Ev @ 18 NONAME
+	_ZN12CEikDocument10SetChangedEi @ 19 NONAME
+	_ZN12CEikDocument12NewDocumentLEv @ 20 NONAME
+	_ZN12CEikDocument13SetEditStoreLEP12CStreamStore @ 21 NONAME
+	_ZN12CEikDocument14PrepareToEditLEP23MApaEmbeddedDocObserveri @ 22 NONAME
+	_ZN12CEikDocument14PrepareToEditLEv @ 23 NONAME
+	_ZN12CEikDocument14SetAppFileModeEj @ 24 NONAME
+	_ZN12CEikDocument15UpdateTaskNameLEP19CApaWindowGroupName @ 25 NONAME
+	_ZN12CEikDocument17CreateFileStoreLCER3RFsRK7TDesC16 @ 26 NONAME
+	_ZN12CEikDocument5EditLEP23MApaEmbeddedDocObserveri @ 27 NONAME
+	_ZN12CEikDocument5SaveLEN13MSaveObserver9TSaveTypeE @ 28 NONAME
+	_ZN12CEikDocument5SaveLEv @ 29 NONAME
+	_ZN12CEikDocument6PrintLERK12CStreamStore @ 30 NONAME
+	_ZN12CEikDocument8RestoreLERK12CStreamStoreRK17CStreamDictionary @ 31 NONAME
+	_ZN12CEikDocument9OpenFileLEiRK7TDesC16R3RFs @ 32 NONAME
+	_ZThn24_NK21CEikEmbeddableAppList9MdcaCountEv @ 33 NONAME ; #<thunk>#
+	_ZN12CEikDocumentC2ER15CEikApplication @ 34 NONAME
+	_ZN12CEikDocumentD0Ev @ 35 NONAME
+	_ZN12CEikDocumentD1Ev @ 36 NONAME
+	_ZN12CEikDocumentD2Ev @ 37 NONAME
+	_ZN12EikFileUtils14AbbreviatePathER7TDesC16RK5CFonti @ 38 NONAME
+	_ZN12EikFileUtils30ValidateFolderNameTypedByUserLERK7TDesC16S2_ @ 39 NONAME
+	_ZN13EikBubbleHelp12IsDisplayingEi @ 40 NONAME
+	_ZN13EikBubbleHelp13CancelTriggerEv @ 41 NONAME
+	_ZN13EikBubbleHelp6CancelEv @ 42 NONAME
+	_ZN13EikBubbleHelp7TriggerERK7TDesC16RK5TRecti @ 43 NONAME
+	_ZN14CEikBubbleHelp17SetTriggeredHelpLEP17MEikTriggeredHelp @ 44 NONAME
+	_ZN14CEikBusyMsgWin34StartDisplaySpecifyingInitialDelayERK7TDesC1613TGulAlignment27TTimeIntervalMicroSeconds32 @ 45 NONAME
+	_ZN14CEikBusyMsgWinC1ER9CEikonEnv @ 46 NONAME
+	_ZN14CEikBusyMsgWinC2ER9CEikonEnv @ 47 NONAME
+	_ZN14CEikInfoMsgWin30StartDisplaySpecifyingDurationERK7TDesC1613TGulAlignment27TTimeIntervalMicroSeconds32 @ 48 NONAME
+	_ZN14CEikInfoMsgWinC1ER9CEikonEnv @ 49 NONAME
+	_ZN14CEikInfoMsgWinC2ER9CEikonEnv @ 50 NONAME
+	_ZN14CEikStatusPane11MakeVisibleEi @ 51 NONAME ABSENT
+	_ZN14CEikStatusPane20HandleResourceChangeEi @ 52 NONAME ABSENT
+	_ZN14CEikStatusPane21ApplyCurrentSettingsLEv @ 53 NONAME ABSENT
+	_ZN14CEikStatusPane4NewLER9CEikonEnvP12RWindowGroupii @ 54 NONAME ABSENT
+	_ZN14CEikStatusPane8SetFadedEi @ 55 NONAME ABSENT
+	_ZN14CEikStatusPane9SetDimmedEi @ 56 NONAME ABSENT
+	_ZN14CEikStatusPaneD0Ev @ 57 NONAME ABSENT
+	_ZN14CEikStatusPaneD1Ev @ 58 NONAME ABSENT
+	_ZN14CEikStatusPaneD2Ev @ 59 NONAME ABSENT
+	_ZN15CEikApplication13NewAppServerLERP13CApaAppServer @ 60 NONAME
+	_ZN15CEikApplication15CreateDocumentLEP11CApaProcess @ 61 NONAME
+	_ZN15CEikApplication16PreDocConstructLEv @ 62 NONAME
+	_ZThn24_N9CEikAppUi11SetEmphasisEP11CCoeControli @ 63 NONAME ; #<thunk>#
+	_ZN15CEikApplicationC2Ev @ 64 NONAME
+	_ZN15CEikApplicationD0Ev @ 65 NONAME
+	_ZN15CEikApplicationD1Ev @ 66 NONAME
+	_ZN15CEikApplicationD2Ev @ 67 NONAME
+	_ZN16EikResourceUtils16ReadResourceIntLEiP9CEikonEnvNS_16TResourceTypeIntE @ 68 NONAME
+	_ZN16EikResourceUtils17CreateColorArrayLEiP9CEikonEnv @ 69 NONAME
+	_ZN16EikResourceUtils17CreateScreenFontLEiP9CEikonEnv @ 70 NONAME
+	_ZN16EikResourceUtils18CreateColorArrayLCEiP9CEikonEnv @ 71 NONAME
+	_ZN16MEikMenuObserver12RestoreMenuLEP11CCoeControliNS_9TMenuTypeE @ 72 NONAME
+	_ZN16MEikMenuObserver14OfferKeyToAppLERK9TKeyEvent10TEventCode @ 73 NONAME
+	_ZN16MEikMenuObserver15DynInitMenuBarLEiP11CEikMenuBar @ 74 NONAME
+	_ZN16MEikMenuObserver16DynInitMenuPaneLEiP12CEikMenuPane @ 75 NONAME
+	_ZN16MEikMenuObserver18HandleSideBarMenuLEiRK6TPointiPK15CEikHotKeyTable @ 76 NONAME
+	_ZN16MEikMenuObserver21CheckHotKeyNotDimmedLEi @ 77 NONAME
+	_ZN16MEikMenuObserver23Reserved_1_MenuObserverEv @ 78 NONAME
+	_ZN16MEikMenuObserver29HandleAttemptDimmedSelectionLEi @ 79 NONAME
+	_ZN17CEikAutoMenuTitle5NewLCENS_9TTitlePosERK7TDesC16R20MEikAutoMenuObserveriP8CGulIcon @ 80 NONAME
+	_ZN17CEikAutoMenuTitleD0Ev @ 81 NONAME
+	_ZN17CEikAutoMenuTitleD1Ev @ 82 NONAME
+	_ZN17CEikAutoMenuTitleD2Ev @ 83 NONAME
+	_ZN17EikControlFactory13CreateByTypeLEi @ 84 NONAME
+	_ZN17MEikTriggeredHelp28MEikTriggeredHelp_Reserved_1Ev @ 85 NONAME
+	_ZN17MEikTriggeredHelp28MEikTriggeredHelp_Reserved_2Ev @ 86 NONAME
+	_ZN17TEikVirtualCursor11CursorStateER7CCoeEnv @ 87 NONAME
+	_ZN17TEikVirtualCursor15SetCursorStateLENS_6TStateER7CCoeEnv @ 88 NONAME
+	_ZN18CEikStatusPaneBase11MakeVisibleEi @ 89 NONAME ABSENT
+	_ZN18CEikStatusPaneBase12SwapControlLE4TUidP11CCoeControl @ 90 NONAME ABSENT
+	_ZN18CEikStatusPaneBase13SwitchLayoutLEi @ 91 NONAME ABSENT
+	_ZN18CEikStatusPaneBase14BaseConstructLEi @ 92 NONAME ABSENT
+	_ZN18CEikStatusPaneBase20HandleResourceChangeEi @ 93 NONAME ABSENT
+	_ZN18CEikStatusPaneBase7CurrentEv @ 94 NONAME ABSENT
+	_ZN18CEikStatusPaneBase8SetFadedEi @ 95 NONAME ABSENT
+	_ZN18CEikStatusPaneBase8SetFlagsEi @ 96 NONAME ABSENT
+	_ZN18CEikStatusPaneBase9SetDimmedEi @ 97 NONAME ABSENT
+	_ZThn24_N21CEikEmbeddableAppListD1Ev @ 98 NONAME ; #<thunk>#
+	_ZN18CEikStatusPaneBaseC2ER9CEikonEnvP12RWindowGroup @ 99 NONAME ABSENT
+	_ZN18CEikStatusPaneBaseD0Ev @ 100 NONAME ABSENT
+	_ZN18CEikStatusPaneBaseD1Ev @ 101 NONAME ABSENT
+	_ZN18CEikStatusPaneBaseD2Ev @ 102 NONAME ABSENT
+	_ZN18MEikPictureFactory29MEikPictureFactory_Reserved_1Ev @ 103 NONAME
+	_ZN18MEikPictureFactory29MEikPictureFactory_Reserved_2Ev @ 104 NONAME
+	_ZN19MEikCommandObserver27CreateCustomCommandControlLEi @ 105 NONAME
+	_ZN20CEikDebugPreferences3NewEv @ 106 NONAME
+	_ZN20CEikDebugPreferences4NewLEv @ 107 NONAME
+	_ZN20CEikDebugPreferences5NewLCEv @ 108 NONAME
+	_ZN20CEikDebugPreferences6StoreLER3RFs @ 109 NONAME
+	_ZN20CEikDebugPreferences7RestoreER3RFs @ 110 NONAME
+	_ZN20CEikDebugPreferences8RestoreLER3RFs @ 111 NONAME
+	_ZN20CEikDebugPreferencesD0Ev @ 112 NONAME
+	_ZN20CEikDebugPreferencesD1Ev @ 113 NONAME
+	_ZN20CEikDebugPreferencesD2Ev @ 114 NONAME
+	_ZN20CEikScreenClearerWin5NewLCEv @ 115 NONAME
+	_ZN20MEikAutoMenuObserver11SetEmphasisEP11CCoeControli @ 116 NONAME
+	_ZN20MEikAutoMenuObserver23Reserved_1_MenuObserverEv @ 117 NONAME
+	_ZN21CEikEmbeddableAppList10ConstructLERK23TApaEmbeddabilityFilter @ 118 NONAME
+	_ZN21CEikEmbeddableAppList10ConstructLEv @ 119 NONAME
+	_ZN21CEikEmbeddableAppList23CreateEmbeddedDocumentLEiP11CApaProcess @ 120 NONAME
+	_ZN21CEikEmbeddableAppListC1Ev @ 121 NONAME
+	_ZN21CEikEmbeddableAppListC2Ev @ 122 NONAME
+	_ZN21CEikEmbeddableAppListD0Ev @ 123 NONAME
+	_ZN21CEikEmbeddableAppListD1Ev @ 124 NONAME
+	_ZN21CEikEmbeddableAppListD2Ev @ 125 NONAME
+	_ZN23CEikStatusPaneModelBase10Reserved_1Ev @ 126 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBase10SetLayoutLEii @ 127 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBase11LoadLayoutLEi @ 128 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBase14BaseConstructLEi @ 129 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBaseC1ER9CEikonEnv @ 130 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBaseC2ER9CEikonEnv @ 131 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBaseD0Ev @ 132 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBaseD1Ev @ 133 NONAME ABSENT
+	_ZN23CEikStatusPaneModelBaseD2Ev @ 134 NONAME ABSENT
+	_ZN6EikDll18RunAppInsideThreadEP15CApaCommandLine @ 135 NONAME ABSENT
+	_ZN6EikDll9StartAppLERK15CApaCommandLine @ 136 NONAME ABSENT
+	_ZN6EikDll9StartDocLERK7TDesC16 @ 137 NONAME ABSENT
+	_ZN6EikDll9StartExeLERK7TDesC16 @ 138 NONAME ABSENT
+	_ZN9CEikAppUi10ClosePopupEv @ 139 NONAME
+	_ZN9CEikAppUi10ConstructLEv @ 140 NONAME
+	_ZThn20_N12CEikDocument5SaveLEN13MSaveObserver9TSaveTypeE @ 141 NONAME ; #<thunk>#
+	_ZN9CEikAppUi10Reserved_3Ev @ 142 NONAME
+	_ZN9CEikAppUi10Reserved_4Ev @ 143 NONAME
+	_ZN9CEikAppUi11CreateFileLERK7TDesC16 @ 144 NONAME
+	_ZN9CEikAppUi11HandleErrorEiRK14SExtendedErrorR6TDes16S4_ @ 145 NONAME
+	_ZN9CEikAppUi11SetDocumentEP12CEikDocument @ 146 NONAME
+	_ZN9CEikAppUi11SetEmphasisEP11CCoeControli @ 147 NONAME
+	_ZN9CEikAppUi13PrepareToExitEv @ 148 NONAME
+	_ZN9CEikAppUi13SetDocChangedEv @ 149 NONAME
+	_ZN9CEikAppUi14BaseConstructLEi @ 150 NONAME
+	_ZN9CEikAppUi14HandleCommandLEi @ 151 NONAME
+	_ZN9CEikAppUi14HandleMessageLEm4TUidRK6TDesC8 @ 152 NONAME
+	_ZN9CEikAppUi14HandleWsEventLERK8TWsEventP11CCoeControl @ 153 NONAME
+	_ZN9CEikAppUi15ProcessCommandLEi @ 154 NONAME
+	_ZN9CEikAppUi15ProcessMessageLE4TUidRK6TDesC8 @ 155 NONAME
+	_ZN9CEikAppUi15SaveAnyChangesLEv @ 156 NONAME
+	_ZN9CEikAppUi16LaunchPopupMenuLEiRK6TPoint19TPopupTargetPosTypePK15CEikHotKeyTable @ 157 NONAME
+	_ZN9CEikAppUi18HandleModelChangeLEv @ 158 NONAME
+	_ZN9CEikAppUi18HandleSideBarMenuLEiRK6TPointiPK15CEikHotKeyTable @ 159 NONAME
+	_ZN9CEikAppUi18HandleSystemEventLERK8TWsEvent @ 160 NONAME
+	_ZN9CEikAppUi18SetEmbeddedDocInfoEP23MApaEmbeddedDocObserveri @ 161 NONAME
+	_ZN9CEikAppUi20CreateHotKeyControlLEi @ 162 NONAME
+	_ZN9CEikAppUi20FadeWhenInBackgroundEv @ 163 NONAME
+	_ZN9CEikAppUi20ReadAppInfoResourceLEi @ 164 NONAME
+	_ZN9CEikAppUi21HandleResourceChangeLEi @ 165 NONAME
+	_ZN9CEikAppUi21StopDisplayingMenuBarEv @ 166 NONAME
+	_ZN9CEikAppUi22HandleForegroundEventLEi @ 167 NONAME
+	_ZN9CEikAppUi25ProcessCommandParametersLE11TApaCommandR4TBufILi256EE @ 168 NONAME
+	_ZN9CEikAppUi25ProcessCommandParametersLE11TApaCommandR4TBufILi256EERK6TDesC8 @ 169 NONAME
+	_ZN9CEikAppUi26HandleScreenDeviceChangedLEv @ 170 NONAME
+	_ZN9CEikAppUi27ReportResourceChangedToAppLEi @ 171 NONAME
+	_ZN9CEikAppUi31HandleApplicationSpecificEventLEiRK8TWsEvent @ 172 NONAME
+	_ZN9CEikAppUi4ExitEv @ 173 NONAME
+	_ZN9CEikAppUi5SaveLEv @ 174 NONAME
+	_ZN9CEikAppUi9OpenFileLERK7TDesC16 @ 175 NONAME
+	_ZN9CEikAppUi9SetFadedLEi @ 176 NONAME
+	_ZN9CEikAppUiC1Ev @ 177 NONAME
+	_ZN9CEikAppUiC2Ev @ 178 NONAME
+	_ZN9CEikAppUiD0Ev @ 179 NONAME
+	_ZN9CEikAppUiD1Ev @ 180 NONAME
+	_ZN9CEikAppUiD2Ev @ 181 NONAME
+	_ZN9CEikonEnv10ConstructLEi @ 182 NONAME
+	_ZN9CEikonEnv10ConstructLEv @ 183 NONAME
+	_ZN9CEikonEnv10DrawCursorEPK11CCoeControlRK6TPointi @ 184 NONAME
+	_ZN9CEikonEnv10DrawCursorEPK11CCoeControlRK6TPointiii @ 185 NONAME
+	_ZN9CEikonEnv10HideCursorEPK11CCoeControl @ 186 NONAME
+	_ZN9CEikonEnv10Reserved_1Ev @ 187 NONAME ABSENT
+	_ZN9CEikonEnv10Reserved_2Ev @ 188 NONAME ABSENT
+	_ZN9CEikonEnv11AddLibraryLEPF15SEikControlInfoiEP4TBufILi256EE @ 189 NONAME
+	_ZN9CEikonEnv11CreateIconLERK7TDesC16ii @ 190 NONAME
+	_ZN9CEikonEnv11HandleErrorEi @ 191 NONAME
+	_ZN9CEikonEnv11SetAlertWinEP12MEikAlertWin @ 192 NONAME
+	_ZN9CEikonEnv12AllocInfoMsgEv @ 193 NONAME
+	_ZN9CEikonEnv12SetDebugKeysEP13MEikDebugKeys @ 194 NONAME
+	_ZN9CEikonEnv12SetExtensionEP5CBase @ 195 NONAME
+	_ZN9CEikonEnv13BringForwardsEii @ 196 NONAME
+	_ZN9CEikonEnv13BusyMsgCancelEv @ 197 NONAME
+	_ZN9CEikonEnv13CreateBitmapLERK7TDesC16i @ 198 NONAME
+	_ZN9CEikonEnv13DestroyScreenEv @ 199 NONAME
+	_ZN9CEikonEnv13InfoMsgCancelEv @ 200 NONAME
+	_ZN9CEikonEnv13RemoveLibraryEPF15SEikControlInfoiEi @ 201 NONAME
+	_ZN9CEikonEnv13SetInfoDialogEP14MEikInfoDialog @ 202 NONAME
+	_ZN9CEikonEnv13VirtualCursorEv @ 203 NONAME
+	_ZN9CEikonEnv14SetQueryDialogEP14MEikInfoDialog @ 204 NONAME
+	_ZN9CEikonEnv14VerboseInfoMsgERK7TDesC16 @ 205 NONAME
+	_ZN9CEikonEnv15AddWindowShadowEP11CCoeControl @ 206 NONAME
+	_ZN9CEikonEnv15DisplayTaskListEv @ 207 NONAME
+	_ZN9CEikonEnv15NotifyIdleErrorEii @ 208 NONAME
+	_ZN9CEikonEnv15RemoveFromStackEP11CCoeControl @ 209 NONAME
+	_ZN9CEikonEnv15UpdateTaskNameLEv @ 210 NONAME
+	_ZN9CEikonEnv16AddAppUiFactoryLEP16MEikAppUiFactory @ 211 NONAME
+	_ZN9CEikonEnv16GetPrinterNamesLEP17CPrinterModelListR12CDesC16Array @ 212 NONAME
+	_ZN9CEikonEnv16InitSystemFontsLEv @ 213 NONAME
+	_ZN9CEikonEnv16LaunchPopupMenuLEiRK6TPoint19TPopupTargetPosTypePK15CEikHotKeyTable @ 214 NONAME
+	_ZN9CEikonEnv16LeaveWithInfoMsgEiz @ 215 NONAME
+	_ZN9CEikonEnv16SetAppUiFactoryLEP16MEikAppUiFactory @ 216 NONAME
+	_ZN9CEikonEnv17AddAutoMenuTitleLEP17CEikAutoMenuTitle @ 217 NONAME
+	_ZN9CEikonEnv17FservAllocInfoMsgEv @ 218 NONAME
+	_ZN9CEikonEnv17SetAutoForwardingEi @ 219 NONAME
+	_ZN9CEikonEnv17SetDocNameIsAFileEi @ 220 NONAME
+	_ZN9CEikonEnv17WservAllocInfoMsgEv @ 221 NONAME
+	_ZN9CEikonEnv18AddPictureFactoryLER18MEikPictureFactory @ 222 NONAME
+	_ZN9CEikonEnv18ControlStackReadyLEv @ 223 NONAME
+	_ZN9CEikonEnv18DestroyEnvironmentEv @ 224 NONAME
+	_ZN9CEikonEnv18RemoveAppUiFactoryEv @ 225 NONAME
+	_ZN9CEikonEnv19InfoMsgWithDurationERK7TDesC1627TTimeIntervalMicroSeconds32 @ 226 NONAME
+	_ZN9CEikonEnv19InfoMsgWithDurationEi27TTimeIntervalMicroSeconds32St9__va_list @ 227 NONAME
+	_ZN9CEikonEnv19InfoMsgWithDurationEi27TTimeIntervalMicroSeconds32z @ 228 NONAME
+	_ZN9CEikonEnv19RouseSleepingDialogEP11CCoeControli @ 229 NONAME
+	_ZN9CEikonEnv20InfoMsgWithAlignmentE13TGulAlignmentRK7TDesC16 @ 230 NONAME
+	_ZN9CEikonEnv20InfoMsgWithAlignmentE13TGulAlignmentiSt9__va_list @ 231 NONAME
+	_ZN9CEikonEnv20InfoMsgWithAlignmentE13TGulAlignmentiz @ 232 NONAME
+	_ZN9CEikonEnv20RemovePictureFactoryE4TUid @ 233 NONAME
+	_ZN9CEikonEnv21LeaveWithErrorContextEiRK7TDesC16 @ 234 NONAME
+	_ZN9CEikonEnv21NewDefaultPrintSetupLEv @ 235 NONAME
+	_ZN9CEikonEnv22HandleErrorWithContextEii @ 236 NONAME
+	_ZN9CEikonEnv22SendEventToEikonServerEiPKvi @ 237 NONAME
+	_ZN9CEikonEnv22SystemCharFormatLayerLEv @ 238 NONAME
+	_ZN9CEikonEnv22SystemParaFormatLayerLEv @ 239 NONAME
+	_ZN9CEikonEnv23SetVerboseInfoReportingEi @ 240 NONAME
+	_ZN9CEikonEnv24SetRequestInfoDialogFuncEPFvvE @ 241 NONAME
+	_ZN9CEikonEnv25AddSleepingDialogToStackLEP11CCoeControl @ 242 NONAME
+	_ZN9CEikonEnv25SetRequestQueryDialogFuncEPFvvE @ 243 NONAME
+	_ZN9CEikonEnv26NewDefaultCharFormatLayerLEv @ 244 NONAME
+	_ZN9CEikonEnv26NewDefaultParaFormatLayerLEv @ 245 NONAME
+	_ZN9CEikonEnv26SetRespondsToShutdownEventEi @ 246 NONAME
+	_ZN9CEikonEnv27CreateIconFromMaskedBitmapLERK16CApaMaskedBitmap @ 247 NONAME
+	_ZN9CEikonEnv28AddDialogLikeControlToStackLEP11CCoeControl @ 248 NONAME
+	_ZN9CEikonEnv28ConstructAppFromCommandLineLERK15CApaCommandLine @ 249 NONAME ABSENT
+	_ZN9CEikonEnv29NotifyIdleErrorWhileRedrawingEi @ 250 NONAME
+	_ZN9CEikonEnv29SetRespondsToSwitchFilesEventEi @ 251 NONAME
+	_ZN9CEikonEnv30AddSleepingAlertDialogToStackLEP11CCoeControl @ 252 NONAME
+	_ZN9CEikonEnv31InfoMsgWithAlignmentAndDurationE13TGulAlignmentRK7TDesC1627TTimeIntervalMicroSeconds32 @ 253 NONAME
+	_ZN9CEikonEnv31InfoMsgWithAlignmentAndDurationE13TGulAlignmenti27TTimeIntervalMicroSeconds32St9__va_list @ 254 NONAME
+	_ZN9CEikonEnv31InfoMsgWithAlignmentAndDurationE13TGulAlignmenti27TTimeIntervalMicroSeconds32z @ 255 NONAME
+	_ZN9CEikonEnv32SystemSingleLineParaFormatLayerLEv @ 256 NONAME
+	_ZN9CEikonEnv33AddAlertDialogLikeControlToStackLEP11CCoeControl @ 257 NONAME
+	_ZN9CEikonEnv36NewDefaultSingleLineParaFormatLayerLEv @ 258 NONAME
+	_ZN9CEikonEnv36WriteInternalStateOfStackedControlsLEv @ 259 NONAME
+	_ZN9CEikonEnv4BeepEv @ 260 NONAME
+	_ZN9CEikonEnv7InfoMsgERK7TDesC16 @ 261 NONAME
+	_ZN9CEikonEnv7InfoMsgEiSt9__va_list @ 262 NONAME
+	_ZN9CEikonEnv7InfoMsgEiz @ 263 NONAME
+	_ZN9CEikonEnv7SetBusyEi @ 264 NONAME
+	_ZN9CEikonEnv7VersionEv @ 265 NONAME
+	_ZN9CEikonEnv8AlertWinERK7TDesC16 @ 266 NONAME
+	_ZN9CEikonEnv8AlertWinERK7TDesC16S2_ @ 267 NONAME
+	_ZN9CEikonEnv8BusyMsgLERK7TDesC16 @ 268 NONAME
+	_ZN9CEikonEnv8BusyMsgLERK7TDesC1613TGulAlignment @ 269 NONAME
+	_ZN9CEikonEnv8BusyMsgLERK7TDesC1613TGulAlignment27TTimeIntervalMicroSeconds32 @ 270 NONAME
+	_ZN9CEikonEnv8BusyMsgLERK7TDesC1627TTimeIntervalMicroSeconds32 @ 271 NONAME
+	_ZN9CEikonEnv8BusyMsgLEi @ 272 NONAME
+	_ZN9CEikonEnv8BusyMsgLEi27TTimeIntervalMicroSeconds32 @ 273 NONAME
+	_ZN9CEikonEnv8InfoWinLERK7TDesC16S2_ @ 274 NONAME
+	_ZN9CEikonEnv9ClockDllLEv @ 275 NONAME
+	_ZN9CEikonEnv9QueryWinLERK7TDesC16S2_ @ 276 NONAME
+	_ZN9CEikonEnv9SetSystemEi @ 277 NONAME
+	_ZN9CEikonEnv9StartAppLERK15CApaCommandLine @ 278 NONAME ABSENT
+	_ZN9CEikonEnvC1Ev @ 279 NONAME
+	_ZN9CEikonEnvC2Ev @ 280 NONAME
+	_ZN9CEikonEnvD0Ev @ 281 NONAME
+	_ZN9CEikonEnvD1Ev @ 282 NONAME
+	_ZN9CEikonEnvD2Ev @ 283 NONAME
+	_ZNK11CEikProcess11AppFromDocLER6TDes16RK7TDesC16 @ 284 NONAME
+	_ZNK11CEikProcess13LastUsedFileLENS_13TLastUsedFileE @ 285 NONAME
+	_ZNK11CEikProcess13MainDocFolderEv @ 286 NONAME
+	_ZNK11CEikProcess14CommandTailEndEv @ 287 NONAME
+	_ZNK11CEikProcess16SetLastUsedFileLENS_13TLastUsedFileERK7TDesC16 @ 288 NONAME
+	_ZNK11CEikProcess9MainStoreEv @ 289 NONAME
+	_ZNK12CEikDocument10AppCaptionEv @ 290 NONAME
+	_ZNK12CEikDocument10HasChangedEv @ 291 NONAME
+	_ZNK12CEikDocument11AppFileModeEv @ 292 NONAME
+	_ZNK12CEikDocument12ExternalizeLER12RWriteStream @ 293 NONAME
+	_ZNK12CEikDocument6StoreLER12CStreamStoreR17CStreamDictionary @ 294 NONAME
+	_ZNK12CEikDocument7IsEmptyEv @ 295 NONAME
+	_ZNK15CEikApplication10CapabilityER5TDes8 @ 296 NONAME
+	_ZNK15CEikApplication13OpenIniFileLCER3RFs @ 297 NONAME
+	_ZNK15CEikApplication15BitmapStoreNameEv @ 298 NONAME
+	_ZNK15CEikApplication16ResourceFileNameEv @ 299 NONAME
+	_ZNK15CEikApplication17OpenAppInfoFileLCEv @ 300 NONAME ABSENT
+	_ZNK15CEikApplication17SetToIniFileNameLER6TParse @ 301 NONAME
+	_ZNK15CEikApplication26GetDefaultDocumentFileNameER4TBufILi256EE @ 302 NONAME
+	_ZNK18CEikStatusPaneBase10ReduceRectER5TRect @ 303 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase16PaneCapabilitiesE4TUid @ 304 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase17ContainerControlLE4TUid @ 305 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase7IsFadedEv @ 306 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase8ControlLE4TUid @ 307 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase8IsDimmedEv @ 308 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase9GetShapeLER7TRegionii @ 309 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase9IsVisibleEv @ 310 NONAME ABSENT
+	_ZNK18CEikStatusPaneBase9PaneRectLE4TUid @ 311 NONAME ABSENT
+	_ZNK18MEikPictureFactory2IdEv @ 312 NONAME
+	_ZNK21CEikEmbeddableAppList9MdcaCountEv @ 313 NONAME
+	_ZNK21CEikEmbeddableAppList9MdcaPointEi @ 314 NONAME
+	_ZNK9CEikAppUi10ClientRectEv @ 315 NONAME
+	_ZNK9CEikAppUi11ApplicationEv @ 316 NONAME
+	_ZNK9CEikAppUi13ValidFileTypeE4TUid @ 317 NONAME
+	_ZNK9CEikAppUi15ApplicationRectEv @ 318 NONAME
+	_ZNK9CEikAppUi8DocumentEv @ 319 NONAME
+	_ZNK9CEikonEnv10GrayBitmapEv @ 320 NONAME
+	_ZNK9CEikonEnv10InfoDialogEv @ 321 NONAME
+	_ZNK9CEikonEnv10LegendFontEv @ 322 NONAME
+	_ZNK9CEikonEnv10SymbolFontEv @ 323 NONAME
+	_ZNK9CEikonEnv11QueryDialogEv @ 324 NONAME
+	_ZNK9CEikonEnv12AppUiFactoryERK9CEikAppUi @ 325 NONAME
+	_ZNK9CEikonEnv12AppUiFactoryEv @ 326 NONAME
+	_ZNK9CEikonEnv12ControlColorE13TLogicalColorRK11CCoeControl @ 327 NONAME
+	_ZNK9CEikonEnv12GetErrorTextER6TDes16i @ 328 NONAME
+	_ZNK9CEikonEnv12GetErrorTextER6TDes16i4TUid @ 329 NONAME
+	_ZNK9CEikonEnv12OptionBitmapEv @ 330 NONAME
+	_ZNK9CEikonEnv12ResolveErrorEi4TUid @ 331 NONAME
+	_ZNK9CEikonEnv13KeyPressLabelEi @ 332 NONAME
+	_ZNK9CEikonEnv14AnnotationFontEv @ 333 NONAME
+	_ZNK9CEikonEnv14DoGetErrorTextER6TDes16i @ 334 NONAME
+	_ZNK9CEikonEnv14DocNameIsAFileEv @ 335 NONAME
+	_ZNK9CEikonEnv14PictureFactoryEv @ 336 NONAME
+	_ZNK9CEikonEnv14TexturedBitmapEv @ 337 NONAME
+	_ZNK9CEikonEnv16OptionMaskBitmapEv @ 338 NONAME
+	_ZNK9CEikonEnv18DefaultDisplayModeEv @ 339 NONAME
+	_ZNK9CEikonEnv22ExtendedPictureFactoryE4TUid @ 340 NONAME
+	_ZNK9CEikonEnv23HighlightedOptionBitmapEv @ 341 NONAME
+	_ZNK9CEikonEnv23RespondsToShutdownEventEv @ 342 NONAME
+	_ZNK9CEikonEnv24ConfirmLossOfAllChangesLEv @ 343 NONAME
+	_ZNK9CEikonEnv25ResourceFileVersionNumberEv @ 344 NONAME
+	_ZNK9CEikonEnv26RespondsToSwitchFilesEventEv @ 345 NONAME
+	_ZNK9CEikonEnv4FontERK12TLogicalFont @ 346 NONAME
+	_ZNK9CEikonEnv6BitmapE4TUid @ 347 NONAME
+	_ZNK9CEikonEnv6IsBusyEv @ 348 NONAME
+	_ZNK9CEikonEnv6LafEnvEv @ 349 NONAME
+	_ZNK9CEikonEnv8InfoWinLEii @ 350 NONAME
+	_ZNK9CEikonEnv8IsSystemEv @ 351 NONAME
+	_ZNK9CEikonEnv9DenseFontEv @ 352 NONAME
+	_ZNK9CEikonEnv9QueryWinLEii @ 353 NONAME
+	_ZNK9CEikonEnv9TitleFontEv @ 354 NONAME
+	_ZTI10CEikMsgWin @ 355 NONAME ; #<TI>#
+	_ZTI11CEikLibrary @ 356 NONAME ; #<TI>#
+	_ZTI12CEikDocument @ 357 NONAME ; #<TI>#
+	_ZTI14CEikBusyMsgWin @ 358 NONAME ; #<TI>#
+	_ZTI14CEikInfoMsgWin @ 359 NONAME ; #<TI>#
+	_ZTI14CEikStatusPane @ 360 NONAME ABSENT ; #<TI>#
+	_ZTI15CEikApplication @ 361 NONAME ; #<TI>#
+	_ZTI16MEikMenuObserver @ 362 NONAME ; #<TI>#
+	_ZTI17MEikTriggeredHelp @ 363 NONAME ; #<TI>#
+	_ZTI18CEikStatusPaneBase @ 364 NONAME ABSENT ; #<TI>#
+	_ZTI18MEikPictureFactory @ 365 NONAME ; #<TI>#
+	_ZTI19MEikCommandObserver @ 366 NONAME ; #<TI>#
+	_ZTI20MEikAutoMenuObserver @ 367 NONAME ; #<TI>#
+	_ZTI21CEikEmbeddableAppList @ 368 NONAME ; #<TI>#
+	_ZTI23CEikStatusPaneModelBase @ 369 NONAME ABSENT ; #<TI>#
+	_ZTI9CEikAppUi @ 370 NONAME ; #<TI>#
+	_ZTI9CEikonEnv @ 371 NONAME ; #<TI>#
+	_ZTV10CEikMsgWin @ 372 NONAME ; #<VT>#
+	_ZTV11CEikLibrary @ 373 NONAME ; #<VT>#
+	_ZTV12CEikDocument @ 374 NONAME ; #<VT>#
+	_ZTV14CEikBusyMsgWin @ 375 NONAME ; #<VT>#
+	_ZTV14CEikInfoMsgWin @ 376 NONAME ; #<VT>#
+	_ZTV14CEikStatusPane @ 377 NONAME ABSENT ; #<VT>#
+	_ZTV15CEikApplication @ 378 NONAME ; #<VT>#
+	_ZTV16MEikMenuObserver @ 379 NONAME ; #<VT>#
+	_ZTV17MEikTriggeredHelp @ 380 NONAME ; #<VT>#
+	_ZTV18CEikStatusPaneBase @ 381 NONAME ABSENT ; #<VT>#
+	_ZTV18MEikPictureFactory @ 382 NONAME ; #<VT>#
+	_ZTV19MEikCommandObserver @ 383 NONAME ; #<VT>#
+	_ZTV20MEikAutoMenuObserver @ 384 NONAME ; #<VT>#
+	_ZTV21CEikEmbeddableAppList @ 385 NONAME ; #<VT>#
+	_ZTV23CEikStatusPaneModelBase @ 386 NONAME ABSENT ; #<VT>#
+	_ZTV9CEikAppUi @ 387 NONAME ; #<VT>#
+	_ZTV9CEikonEnv @ 388 NONAME ; #<VT>#
+	_ZThn136_N9CEikonEnv9StartAppLERK15CApaCommandLine @ 389 NONAME ABSENT ; #<thunk>#
+	_ZThn36_N9CEikAppUi14HandleMessageLEm4TUidRK6TDesC8 @ 390 NONAME ; #<thunk>#
+	_ZThn40_N9CEikAppUi15MopSupplyObjectE8TTypeUid @ 391 NONAME ; #<thunk>#
+	_ZThn40_N9CEikAppUi7MopNextEv @ 392 NONAME ; #<thunk>#
+	_ZThn24_N21CEikEmbeddableAppListD0Ev @ 393 NONAME ; #<thunk>#
+	_ZN8EikStart14RunApplicationE22TApaApplicationFactory @ 394 NONAME
+	_ZN8EikStart14RunApplicationE22TApaApplicationFactoryPK7TDesC16 @ 395 NONAME ABSENT
+	_ZN9CEikonEnv28ConstructAppFromCommandLineLERK22TApaApplicationFactoryRK15CApaCommandLine @ 396 NONAME
+	_ZTI10CEikLafEnv @ 397 NONAME ABSENT ; #<TI>#
+	_ZTI11CEikProcess @ 398 NONAME ABSENT ; #<TI>#
+	_ZTI11CEikShutter @ 399 NONAME ABSENT ; #<TI>#
+	_ZTI13CEikFsMonitor @ 400 NONAME ABSENT ; #<TI>#
+	_ZTI14CEikBubbleHelp @ 401 NONAME ; #<TI>#
+	_ZTI17CEikAutoMenuTitle @ 402 NONAME ABSENT ; #<TI>#
+	_ZTI17CEikErrorResolver @ 403 NONAME ABSENT ; #<TI>#
+	_ZTI17CEikLogicalBorder @ 404 NONAME ABSENT ; #<TI>#
+	_ZTI18CEikPictureFactory @ 405 NONAME ABSENT ; #<TI>#
+	_ZTI18CEikResourceChange @ 406 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikDebugPreferences @ 407 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikScreenClearerWin @ 408 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikStatusPaneLayout @ 409 NONAME ABSENT ; #<TI>#
+	_ZTI21CEikStatusPaneSetInit @ 410 NONAME ABSENT ; #<TI>#
+	_ZTI22CEikAppStatusPaneModel @ 411 NONAME ABSENT ; #<TI>#
+	_ZTI22CEikAutoMenuTitleArray @ 412 NONAME ABSENT ; #<TI>#
+	_ZTI23CEikStatusPaneContainer @ 413 NONAME ABSENT ; #<TI>#
+	_ZTI24CEikStartUpViewActivator @ 414 NONAME ABSENT ; #<TI>#
+	_ZTI24CEikStatusPaneLayoutTree @ 415 NONAME ABSENT ; #<TI>#
+	_ZTI26TStatusPaneRegionCollector @ 416 NONAME ABSENT ; #<TI>#
+	_ZTIN17CEikErrorResolver9CErrorSetE @ 417 NONAME ABSENT ; #<TI>#
+	_ZTIN18CEikStatusPaneBase21TSetRectAndVisibilityE @ 418 NONAME ABSENT ; #<TI>#
+	_ZTIN23CEikStatusPaneModelBase13CIdLayoutPairE @ 419 NONAME ABSENT ; #<TI>#
+	_ZTIN23CEikStatusPaneModelBase14TLayoutCheckerE @ 420 NONAME ABSENT ; #<TI>#
+	_ZTV10CEikLafEnv @ 421 NONAME ABSENT ; #<VT>#
+	_ZTV11CEikProcess @ 422 NONAME ABSENT ; #<VT>#
+	_ZTV11CEikShutter @ 423 NONAME ABSENT ; #<VT>#
+	_ZTV13CEikFsMonitor @ 424 NONAME ABSENT ; #<VT>#
+	_ZTV14CEikBubbleHelp @ 425 NONAME ; #<VT>#
+	_ZTV17CEikAutoMenuTitle @ 426 NONAME ABSENT ; #<VT>#
+	_ZTV17CEikErrorResolver @ 427 NONAME ABSENT ; #<VT>#
+	_ZTV17CEikLogicalBorder @ 428 NONAME ABSENT ; #<VT>#
+	_ZTV18CEikPictureFactory @ 429 NONAME ABSENT ; #<VT>#
+	_ZTV18CEikResourceChange @ 430 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikDebugPreferences @ 431 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikScreenClearerWin @ 432 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikStatusPaneLayout @ 433 NONAME ABSENT ; #<VT>#
+	_ZTV21CEikStatusPaneSetInit @ 434 NONAME ABSENT ; #<VT>#
+	_ZTV22CEikAppStatusPaneModel @ 435 NONAME ABSENT ; #<VT>#
+	_ZTV22CEikAutoMenuTitleArray @ 436 NONAME ABSENT ; #<VT>#
+	_ZTV23CEikStatusPaneContainer @ 437 NONAME ABSENT ; #<VT>#
+	_ZTV24CEikStartUpViewActivator @ 438 NONAME ABSENT ; #<VT>#
+	_ZTV24CEikStatusPaneLayoutTree @ 439 NONAME ABSENT ; #<VT>#
+	_ZTV26TStatusPaneRegionCollector @ 440 NONAME ABSENT ; #<VT>#
+	_ZTVN17CEikErrorResolver9CErrorSetE @ 441 NONAME ABSENT ; #<VT>#
+	_ZTVN18CEikStatusPaneBase21TSetRectAndVisibilityE @ 442 NONAME ABSENT ; #<VT>#
+	_ZTVN23CEikStatusPaneModelBase13CIdLayoutPairE @ 443 NONAME ABSENT ; #<VT>#
+	_ZTVN23CEikStatusPaneModelBase14TLayoutCheckerE @ 444 NONAME ABSENT ; #<VT>#
+	_ZN12CEikLibrary212LoadLibraryLE4TUid @ 445 NONAME
+	_ZN12CEikLibrary2D0Ev @ 446 NONAME
+	_ZN12CEikLibrary2D1Ev @ 447 NONAME
+	_ZN12CEikLibrary2D2Ev @ 448 NONAME
+	_ZTI12CEikLibrary2 @ 449 NONAME ; #<TI>#
+	_ZTV12CEikLibrary2 @ 450 NONAME ; #<VT>#
+	_ZN9CEikonEnv22CreateSystemColorListLERK10CColorList @ 451 NONAME
+	_ZN9CEikonEnv22CreateSystemColorListLEv @ 452 NONAME
+	_ZN9CEikonEnv22UpdateSystemColorListLERK10CColorList @ 453 NONAME
+	_ZN10ColorUtils22CreateSystemColorListLER3RFs @ 454 NONAME
+	_ZN10ColorUtils22CreateSystemColorListLER3RFsRK10CColorList @ 455 NONAME
+	_ZN10ColorUtils22UpdateSystemColorListLER3RFsR10CColorList @ 456 NONAME
+	_ZTI18CEikEnvDataStorage @ 457 NONAME ABSENT
+	_ZTI18CEikSrvDataStorage @ 458 NONAME ABSENT
+	_ZTV18CEikEnvDataStorage @ 459 NONAME ABSENT
+	_ZTV18CEikSrvDataStorage @ 460 NONAME ABSENT
+	_ZN18CEikEnvDataStorage8InstallLEv @ 461 NONAME ABSENT
+	_ZNK9CEikAppUi20ApplicationLanguageLEv @ 462 NONAME
+	_ZTI14CEikAppUiExtra @ 463 NONAME ABSENT ; #<TI>#
+	_ZTV14CEikAppUiExtra @ 464 NONAME ABSENT ; #<VT>#
+	_ZN13CEikAppServer10ConstructLERK7TDesC16 @ 465 NONAME
+	_ZTV18REikAppServiceBase @ 466 NONAME ; #<VT>#
+	_ZN13CEikAppServer18ExtensionInterfaceE4TUidRPv @ 467 NONAME
+	_ZN18REikAppServiceBase14ConnectNewAppLE4TUid @ 468 NONAME
+	_ZN18REikAppServiceBase18ExtensionInterfaceE4TUidRPv @ 469 NONAME
+	_ZN18REikAppServiceBase5CloseEv @ 470 NONAME
+	_ZNK13CEikAppServer14CreateServiceLE4TUid @ 471 NONAME
+	_ZNK9CEikonEnv18StartedAsServerAppEv @ 472 NONAME
+	_ZNK9CEikonEnv9AppServerEv @ 473 NONAME
+	_ZTI13CEikAppServer @ 474 NONAME ; #<TI>#
+	_ZTI18REikAppServiceBase @ 475 NONAME ; #<TI>#
+	_ZTV13CEikAppServer @ 476 NONAME ; #<VT>#
+	_ZN9CEikonEnv15DismissTaskListEv @ 477 NONAME
+	_ZN9CEikAppUi15MopSupplyObjectE8TTypeUid @ 478 NONAME
+	_ZN9CEikAppUi7MopNextEv @ 479 NONAME
+	_ZThn28_N14CEikInfoMsgWin30StartDisplaySpecifyingDurationERK7TDesC1613TGulAlignment27TTimeIntervalMicroSeconds32 @ 480 NONAME ; #<thunk>#
+	_ZThn28_N14CEikInfoMsgWin7ReleaseEv @ 481 NONAME ; #<thunk>#
+	_ZN14CEikBusyMsgWin10ConstructLER12RWindowGroup @ 482 NONAME
+	_ZN14CEikBusyMsgWin12StartDisplayERK7TDesC1613TGulAlignment @ 483 NONAME
+	_ZN14CEikBusyMsgWin7ReleaseEv @ 484 NONAME
+	_ZN14CEikInfoMsgWin10ConstructLER12RWindowGroupi @ 485 NONAME
+	_ZN14CEikInfoMsgWin12StartDisplayERK7TDesC1613TGulAlignment @ 486 NONAME
+	_ZN14CEikInfoMsgWin13CancelDisplayEv @ 487 NONAME
+	_ZN14CEikInfoMsgWin7ReleaseEv @ 488 NONAME
+	_ZThn24_N9CEikAppUi15ProcessCommandLEi @ 489 NONAME ; #<thunk>#
+	_ZThn24_N9CEikAppUi18HandleSideBarMenuLEiRK6TPointiPK15CEikHotKeyTable @ 490 NONAME ; #<thunk>#
+	_ZThn28_N14CEikBusyMsgWin12StartDisplayERK7TDesC1613TGulAlignment @ 491 NONAME ; #<thunk>#
+	_ZThn28_N14CEikBusyMsgWin34StartDisplaySpecifyingInitialDelayERK7TDesC1613TGulAlignment27TTimeIntervalMicroSeconds32 @ 492 NONAME ; #<thunk>#
+	_ZThn28_N14CEikBusyMsgWin7ReleaseEv @ 493 NONAME ; #<thunk>#
+	_ZThn28_N14CEikInfoMsgWin12StartDisplayERK7TDesC1613TGulAlignment @ 494 NONAME ; #<thunk>#
+	_ZThn28_N14CEikInfoMsgWin13CancelDisplayEv @ 495 NONAME ; #<thunk>#
+	_ZN9CEikonEnv20CEikonEnv_Reserved_1Ev @ 496 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_2Ev @ 497 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_3Ev @ 498 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_4Ev @ 499 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_5Ev @ 500 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_6Ev @ 501 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_7Ev @ 502 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_8Ev @ 503 NONAME
+	_ZN9CEikonEnv20CEikonEnv_Reserved_9Ev @ 504 NONAME
+	_ZN9CEikonEnv21CEikonEnv_Reserved_10Ev @ 505 NONAME
+	_ZN9CEikAppUi25ProcessCommandParametersLER15CApaCommandLine @ 506 NONAME
+	_ZN24CEikStatusPaneBackground10ConstructLEv @ 507 NONAME ABSENT
+	_ZN24CEikStatusPaneBackgroundC2Ev @ 508 NONAME ABSENT
+	_ZN24CEikStatusPaneBackgroundD0Ev @ 509 NONAME ABSENT
+	_ZN24CEikStatusPaneBackgroundD1Ev @ 510 NONAME ABSENT
+	_ZN24CEikStatusPaneBackgroundD2Ev @ 511 NONAME ABSENT
+	_ZTI24CEikStatusPaneBackground @ 512 NONAME ABSENT ; #<TI>#
+	_ZTV24CEikStatusPaneBackground @ 513 NONAME ABSENT ; #<VT>#
+	_ZN20CEikDebugPreferences9SetKeysOnERKi @ 514 NONAME
+	_ZN9CEikonEnv18UpdateSystemFontsLEv @ 515 NONAME
+	_ZN9CEikonEnv19PopulateColorArrayLEv @ 516 NONAME
+	_ZNK20CEikDebugPreferences6KeysOnEv @ 517 NONAME
+	_ZN18REikAppServiceBase19ConnectNewChildAppLE4TUidR12RWindowGroup @ 518 NONAME
+	_ZN9CEikonEnv10ConstructLEii @ 519 NONAME
+	_ZN10CEikMsgWin20CEikMsgWin_Reserved1Ev @ 520 NONAME
+	_ZN10CEikMsgWin20CEikMsgWin_Reserved2Ev @ 521 NONAME
+	_ZN12CEikDocumentC2Ev @ 522 NONAME
+	_ZN13CEikAppServer27CreateServiceSecurityCheckLE4TUidRK9RMessage2RiR13TSecurityInfo @ 523 NONAME
+	_ZN14CEikBusyMsgWin20CEikMsgWin_Reserved1Ev @ 524 NONAME
+	_ZN14CEikBusyMsgWin20CEikMsgWin_Reserved2Ev @ 525 NONAME
+	_ZN14CEikBusyMsgWin24CEikBusyMsgWin_Reserved1Ev @ 526 NONAME
+	_ZN14CEikBusyMsgWin24CEikBusyMsgWin_Reserved2Ev @ 527 NONAME
+	_ZN14CEikInfoMsgWin20CEikMsgWin_Reserved1Ev @ 528 NONAME
+	_ZN14CEikInfoMsgWin20CEikMsgWin_Reserved2Ev @ 529 NONAME
+	_ZN14CEikInfoMsgWin24CEikInfoMsgWin_Reserved1Ev @ 530 NONAME
+	_ZN14CEikInfoMsgWin24CEikInfoMsgWin_Reserved2Ev @ 531 NONAME
+	_ZN15CEikApplication25CEikApplication_Reserved1Ev @ 532 NONAME
+	_ZN15CEikApplication25CEikApplication_Reserved2Ev @ 533 NONAME
+	_ZN16MEikMenuObserver23Reserved_2_MenuObserverEv @ 534 NONAME
+	_ZN16MEikMenuObserver27CreateCustomCommandControlLEi @ 535 NONAME
+	_ZN16MEikMenuObserver29MEikCommandObserver_Reserved1Ev @ 536 NONAME
+	_ZN16MEikMenuObserver29MEikCommandObserver_Reserved2Ev @ 537 NONAME
+	_ZN16MEikMenuObserverC2Ev @ 538 NONAME
+	_ZN19MEikCommandObserver29MEikCommandObserver_Reserved1Ev @ 539 NONAME
+	_ZN19MEikCommandObserver29MEikCommandObserver_Reserved2Ev @ 540 NONAME
+	_ZN19MEikCommandObserverC2Ev @ 541 NONAME
+	_ZN20MEikAutoMenuObserver12RestoreMenuLEP11CCoeControliN16MEikMenuObserver9TMenuTypeE @ 542 NONAME
+	_ZN20MEikAutoMenuObserver14OfferKeyToAppLERK9TKeyEvent10TEventCode @ 543 NONAME
+	_ZN20MEikAutoMenuObserver15DynInitMenuBarLEiP11CEikMenuBar @ 544 NONAME
+	_ZN20MEikAutoMenuObserver16DynInitMenuPaneLEiP12CEikMenuPane @ 545 NONAME
+	_ZN20MEikAutoMenuObserver18HandleSideBarMenuLEiRK6TPointiPK15CEikHotKeyTable @ 546 NONAME
+	_ZN20MEikAutoMenuObserver21CheckHotKeyNotDimmedLEi @ 547 NONAME
+	_ZN20MEikAutoMenuObserver23Reserved_2_MenuObserverEv @ 548 NONAME
+	_ZN20MEikAutoMenuObserver27CreateCustomCommandControlLEi @ 549 NONAME
+	_ZN20MEikAutoMenuObserver29HandleAttemptDimmedSelectionLEi @ 550 NONAME
+	_ZN20MEikAutoMenuObserver29MEikCommandObserver_Reserved1Ev @ 551 NONAME
+	_ZN20MEikAutoMenuObserver29MEikCommandObserver_Reserved2Ev @ 552 NONAME
+	_ZN20MEikAutoMenuObserverC2Ev @ 553 NONAME
+	_ZN21CEikEmbeddableAppList31CEikEmbeddableAppList_Reserved1Ev @ 554 NONAME
+	_ZN21CEikEmbeddableAppList31CEikEmbeddableAppList_Reserved2Ev @ 555 NONAME
+	_ZN21MEikCDlgDialogFactory31MEikCDlgDialogFactory_Reserved1Ev @ 556 NONAME
+	_ZN21MEikCDlgDialogFactory31MEikCDlgDialogFactory_Reserved2Ev @ 557 NONAME
+	_ZN21MEikCDlgDialogFactoryC2Ev @ 558 NONAME
+	_ZN21MEikFileDialogFactory31MEikFileDialogFactory_Reserved1Ev @ 559 NONAME
+	_ZN21MEikFileDialogFactory31MEikFileDialogFactory_Reserved2Ev @ 560 NONAME
+	_ZN21MEikFileDialogFactoryC2Ev @ 561 NONAME
+	_ZN22MEikPrintDialogFactory32MEikPrintDialogFactory_Reserved1Ev @ 562 NONAME
+	_ZN22MEikPrintDialogFactory32MEikPrintDialogFactory_Reserved2Ev @ 563 NONAME
+	_ZN22MEikPrintDialogFactoryC2Ev @ 564 NONAME
+	_ZNK12CEikDocument17ValidatePasswordLEv @ 565 NONAME
+	_ZTI21MEikCDlgDialogFactory @ 566 NONAME ; #<TI>#
+	_ZTI21MEikFileDialogFactory @ 567 NONAME ; #<TI>#
+	_ZTI22MEikPrintDialogFactory @ 568 NONAME ; #<TI>#
+	_ZTV21MEikCDlgDialogFactory @ 569 NONAME ; #<VT>#
+	_ZTV21MEikFileDialogFactory @ 570 NONAME ; #<VT>#
+	_ZTV22MEikPrintDialogFactory @ 571 NONAME ; #<VT>#
+	_ZN9CEikAppUi32ReportResourceChangedToAppStackLEPS_i @ 572 NONAME
+	_ZN12MEikAlertWin22MEikAlertWin_Reserved2Ev @ 573 NONAME
+	_ZN12MEikAlertWin22MEikAlertWin_Reserved3Ev @ 574 NONAME
+	_ZN13MEikDebugKeys23MEikDebugKeys_Reserved1Ev @ 575 NONAME
+	_ZN13MEikDebugKeys23MEikDebugKeys_Reserved2Ev @ 576 NONAME
+	_ZN13MEikDebugKeys23MEikDebugKeys_Reserved3Ev @ 577 NONAME
+	_ZTI12MEikAlertWin @ 578 NONAME ; #<TI>#
+	_ZTI13MEikDebugKeys @ 579 NONAME ; #<TI>#
+	_ZTV12MEikAlertWin @ 580 NONAME ; #<VT>#
+	_ZTV13MEikDebugKeys @ 581 NONAME ; #<VT>#
+	_ZN12MEikAlertWin12AsCoeControlEv @ 582 NONAME
+	_ZN18REikAppServiceBase14ConnectNewAppLE4TUidRK15TSecurityPolicy @ 583 NONAME
+	_ZN18REikAppServiceBase19ConnectNewChildAppLE4TUidR12RWindowGroupRK15TSecurityPolicy @ 584 NONAME
+	_ZN15CEikApplication25EnsureCaptionIsLocalisedLERK7TDesC16 @ 585 NONAME
+	_ZN9CEikonEnv13CreateBitmapLERK7TDesC16ii @ 586 NONAME
+	_ZN17CEikErrorResolver12ResolveErrorER6TDes16i4TUid @ 587 NONAME
+	_ZN17CEikErrorResolver4NewLER9CEikonEnv @ 588 NONAME
+	_ZN20CEikDebugPreferences12InternalizeLER11RReadStream @ 589 NONAME
+	_ZNK20CEikDebugPreferences12ExternalizeLER12RWriteStream @ 590 NONAME
+	_ZN17CEikErrorResolver21ResolveErrorWithTitleER6TDes16S1_i @ 591 NONAME
+	_ZN17CEikErrorResolver21ResolveErrorWithTitleER6TDes16S1_iRiRji @ 592 NONAME
+	_ZNK9CEikonEnv20GetErrorTextAndTitleER6TDes16iS1_ @ 593 NONAME
+	_ZNK9CEikonEnv22DoGetErrorTextAndTitleER6TDes16iRiRjS1_i @ 594 NONAME
+

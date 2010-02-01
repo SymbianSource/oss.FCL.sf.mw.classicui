@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:       
+*
+*/
+
+
+
+
+
+
+
+#ifndef __FINDUTIL_VARIANT_IBY__
+#define __FINDUTIL_VARIANT_IBY__
+
+#if defined(__JAPANESE) // Japanese find implementation
+
+file=ABI_DIR\BUILD_DIR\FindUtilImplJapan.dll                   SHARED_LIB_DIR\FindUtilImpl.dll
+
+#elif defined(__CHINESE) // Chinese find implementation
+
+file=ABI_DIR\BUILD_DIR\FindUtilImplChina.dll                   SHARED_LIB_DIR\FindUtilImpl.dll
+
+#elif defined(__THAI) // Thai find implementation
+
+file=ABI_DIR\BUILD_DIR\FindUtilImplThai.dll                    SHARED_LIB_DIR\FindUtilImpl.dll
+
+#else // default implementation
+
+file=ABI_DIR\BUILD_DIR\FindUtilImpl.dll                        SHARED_LIB_DIR\FindUtilImpl.dll
+
+#endif
+
+#endif

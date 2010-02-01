@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="Graphics Effects" purpose="" type="component">
+  <revision major="1" functional="0" minor="0" date="20070831">
+    <ref name="110932" type="defect"/>
+    <description>1. iDeregistered flag (and all related methods) has been renamed to iRegistered to make it less confusing.
+2. IsRegistered method now checks also iRegistered flag value (in addition to check if control is an array). This method now looks as follows:
+return (IsValidIndex(idx) &amp;&amp; iRegistered[idx]-&gt;Registered());
+3. While re-registering a control which is allready in registered controls array we reset iRegistered flag back to ETrue</description>
+  </revision>
+  <purpose>
+  </purpose>
+  <defect number="PDEF106988" title="Symbian: GfxtransEffect problem with adapter creation if leave occurs" revision="002">
+    When CGfxTransEffect::ConstructL() fails the singleton is deleted and the leave in CGfxTransEffect::ConstructL() is removed as it is completely unnecessary and the function is renamed to Construct().
+  </defect>
+  <defect number="PDEF104627" title="GfxTransEffect (replacement for QikTransition) not fully tested" revision="001">
+    Cleanup stack imbalance is fixed.
+  </defect>
+</relnotes>

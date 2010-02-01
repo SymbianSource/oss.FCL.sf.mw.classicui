@@ -1,0 +1,105 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          CommonDialogs.dll
+TARGETTYPE      dll
+UID             0x1000008D  0x101F4688
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../src
+
+// API classes
+SOURCE          CAknCommonDialogsBase.cpp
+SOURCE          CAknMemorySelectionDialog.cpp
+SOURCE          CAknMemorySelectionSettingPage.cpp
+SOURCE          CAknFileSelectionDialog.cpp
+SOURCE          CAknFileNamePromptDialog.cpp
+SOURCE          AknCommonDialogs.cpp
+SOURCE          AknCommonDialogsDynMem.cpp
+
+// Models
+SOURCE          CAknMemorySelectionModel.cpp
+SOURCE          CAknFileSelectionModel.cpp
+
+// Event handlers
+SOURCE          CAknMemorySelectionEventHandler.cpp
+SOURCE          CAknFileSelectionEventHandler.cpp
+
+// Classes derived from AVKON UI classes
+SOURCE          CAknCommonDialogsPopupList.cpp
+SOURCE          CAknCommonDialogsRadioButtonSettingPage.cpp
+SOURCE          CAknCommonDialogsQueryDialog.cpp
+SOURCE          CAknMemorySelectionSettingItem.cpp
+
+// Filter classes
+SOURCE          AknFileFilterFactory.cpp
+SOURCE          CAknFileNameFilter.cpp
+SOURCE          CAknAttributeFilter.cpp
+SOURCE          CCFDCustomFilter.cpp
+SOURCE          CAknDataCagingFilter.cpp
+
+// Utility/Helper class
+SOURCE          CFDUtilityDUMMY.cpp // This is the test version of CFDUtility using dummy drives
+
+USERINCLUDE     .
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../inc
+USERINCLUDE     ../src // private headers
+USERINCLUDE     ../inc // public headers
+USERINCLUDE     ../group // Resource file, loc, etc.
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+START RESOURCE  ../Group/CommonDialogs.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         cone.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikdlg.lib
+LIBRARY         avkon.lib
+LIBRARY         commonengine.lib // StringLoader
+LIBRARY         apparc.lib
+LIBRARY         directorylocalizer.lib // Build this first!
+LIBRARY         featmgr.lib // Feature manager
+LIBRARY         AknSkins.lib // Skins
+LIBRARY         egul.lib // CGulIcon
+LIBRARY         apgrfx.lib // CApaMaskedBitmap,RApaLsSession
+LIBRARY         apmime.lib // TDataType
+LIBRARY         fbscli.lib // CFbsBitmap
+LIBRARY         aknmemorycardui.lib
+LIBRARY         platformenv.lib // PathInfo
+LIBRARY         AknIcon.lib
+
+//#include "CommonDialogsMbm.inc"
+
+// End of file.

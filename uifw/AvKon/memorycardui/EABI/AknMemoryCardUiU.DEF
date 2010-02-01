@@ -1,0 +1,7 @@
+EXPORTS
+	_Z13NotifierArrayv @ 1 NONAME
+	_ZN20CAknMemoryCardDialog12UnlockCardLDEi @ 2 NONAME
+	_ZN20CAknMemoryCardDialog14SetSelfPointerEPPS_ @ 3 NONAME
+	_ZN20CAknMemoryCardDialog5NewLCEP28MAknMemoryCardDialogObserver @ 4 NONAME
+	_ZN20CAknMemoryCardDialog12UnlockCardLDER12TDriveNumberi @ 5  NONAME
+

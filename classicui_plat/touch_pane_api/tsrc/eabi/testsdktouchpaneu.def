@@ -1,0 +1,11 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CTestSDKTPView @ 2 NONAME ; #<TI>#
+	_ZTI19CTestSDKTPContainer @ 3 NONAME ; #<TI>#
+	_ZTI25CTestSDKTPTouchPaneFepPen @ 4 NONAME ; #<TI>#
+	_ZTI27CTestSDKTPTouchPaneObserver @ 5 NONAME ; #<TI>#
+	_ZTV14CTestSDKTPView @ 6 NONAME ; #<VT>#
+	_ZTV19CTestSDKTPContainer @ 7 NONAME ; #<VT>#
+	_ZTV25CTestSDKTPTouchPaneFepPen @ 8 NONAME ; #<VT>#
+	_ZTV27CTestSDKTPTouchPaneObserver @ 9 NONAME ; #<VT>#
+

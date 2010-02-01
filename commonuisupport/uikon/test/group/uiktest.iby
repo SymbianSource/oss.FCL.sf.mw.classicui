@@ -1,0 +1,151 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#ifndef __UIKTEST_IBY__
+#define __UIKTEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+
+// Needed by terrorstep
+#include <commonengine.iby>
+#include <commonengineresources.iby>
+
+ECOM_PLUGIN(tloaddllv2.dll,00000243.rsc)
+data=DATAZ_\system\test\TError\TErrorStep.rsc 				System\Test\TError\TErrorStep.rsc
+data=DATAZ_\system\test\TError\TERROR_ERRORS.RSC			System\Test\TError\TERROR_ERRORS.RSC
+data=DATAZ_\system\test\TError\TError_Test1Step.rsc			System\Test\TError\TError_Test1Step.rsc
+data=DATAZ_\system\test\TError\TError_Test2Step.rsc			System\Test\TError\TError_Test2Step.rsc
+data=DATAZ_\system\test\TError\TError_Test3Step.rsc			System\Test\TError\TError_Test3Step.rsc
+data=DATAZ_\system\test\TError\TError_Test4Step.rsc			System\Test\TError\TError_Test4Step.rsc
+data=DATAZ_\system\test\TError\TError_Test5Step.rsc			System\Test\TError\TError_Test5Step.rsc
+data=DATAZ_\system\test\terror\terror_lang1.r01				system\test\terror\terror_lang1.r01
+data=DATAZ_\system\test\terror\terror_lang2.r02				system\test\terror\terror_lang2.r02
+data=DATAZ_\system\test\terror\terror_lang3.rsc				system\test\terror\terror_lang3.rsc
+data=DATAZ_\system\test\terror\terror_lang4.r18				system\test\terror\terror_lang4.r18
+data=DATAZ_\system\test\terror\terror_lang5.r02				system\test\terror\terror_lang5.r02
+data=DATAZ_\system\test\terror\terror_lang6.r01				system\test\terror\terror_lang6.r01
+data=DATAZ_\system\test\terror\terror_lang7.r10				system\test\terror\terror_lang7.r10
+
+file=ABI_DIR\BUILD_DIR\shutapp.exe										sys\bin\shutapp.exe
+data=DATAZ_\private\10003a3f\apps\shutapp_reg.rsc		private\10003a3f\apps\shutapp_reg.rsc
+
+data=DATAZ_\system\test\Tnotdial\Tnotdial.rsc 		System\Test\Tnotdial\Tnotdial.rsc
+data=DATAZ_\system\test\tbackup\tbackup.rsc 		System\Test\Tbackup\Tbackup.rsc
+
+// Notify DLLs, which needs to be loaded from RAM are taken as 'data' instead of 'file' to avoid in-place execution.
+// New style ecom plugin rom
+ECOM_PLUGIN(newtnotifyv2.dll,10021240.rsc)
+// New style ecom plugin ram
+ECOM_PLUGIN(newTnotify2V2.dll,10021239.rsc)
+
+data=DATAZ_\system\test\taddlib\external.rsc				system\test\taddlib\external.rsc
+data=DATAZ_\system\test\colours\tcolscm\TCOLSCM.RSC 		system\test\colours\tcolscm\TCOLSCM.RSC
+data=DATAZ_\system\test\colours\tcolovr\tcolovrstep.RSC 	system\test\colours\tcolovr\tcolovrstep.RSC
+data=DATAZ_\system\test\tmsg\TMSG.RSC 						system\test\tmsg\TMSG.RSC
+data=DATAZ_\system\test\uiktest\tspane.rsc					system\test\uiktest\tspane.rsc
+
+
+file=ABI_DIR\BUILD_DIR\Tpackage.exe										sys\bin\Tpackage.exe
+data=DATAZ_\private\10003a3f\apps\Tpackage_reg.rsc		private\10003a3f\apps\Tpackage_reg.rsc
+data=ZRESOURCE\apps\Tpackage.rsc 										Resource\apps\Tpackage.rsc
+data=ZRESOURCE\apps\Tpackage_loc.rsc 									Resource\apps\Tpackage_loc.rsc
+
+ECOM_PLUGIN(tembed_embedded.dll,10004c5F.rsc)
+file=ABI_DIR\BUILD_DIR\tembed.exe									sys\bin\tembed.exe
+data=ZRESOURCE\apps\tembed.rsc 										Resource\apps\tembed.rsc
+data=DATAZ_\private\10003a3f\apps\tembed_reg.rsc		private\10003a3f\apps\tembed_reg.rsc
+
+data=DATAZ_\uiktest\Documents\test\tfileutils.agenda		\uiktest\Documents\test\tfileutils.agenda
+data=DATAZ_\uiktest\Documents\test\tfileutils.dummy			\uiktest\Documents\test\tfileutils.dummy
+data=DATAZ_\uiktest\Documents\test\tfileutils.scetch		\uiktest\Documents\test\tfileutils.scetch
+data=DATAZ_\uiktest\Documents\test\tfileutils.word			\uiktest\Documents\test\tfileutils.word
+
+data=DATAZ_\system\test\fileutils\tfileutils.rsc	system\test\fileutils\tfileutils.rsc
+
+data=DATAZ_\system\test\teikenv\teikenv.rsc			system\test\teikenv\teikenv.rsc
+
+file=ABI_DIR\BUILD_DIR\tbitmap.exe										sys\bin\tbitmap.exe
+data=DATAZ_\private\10003a3f\apps\tbitmap_reg.rsc		private\10003a3f\apps\tbitmap_reg.rsc
+data=DATAZ_\resource\apps\tbitmap.mbm                         			\resource\apps\tbitmap.mbm
+
+file=ABI_DIR\BUILD_DIR\tnametest1.exe										sys\bin\tnametest1.exe
+data=DATAZ_\private\10003a3f\apps\tcaptiontest_reg.rsc		private\10003a3f\apps\tcaptiontest_reg.rsc
+
+file=ABI_DIR\BUILD_DIR\terrorapp.exe									sys\bin\terrorapp.exe
+data=DATAZ_\private\10003a3f\apps\terrorapp_reg.rsc		private\10003a3f\apps\terrorapp_reg.rsc
+data=DATAZ_\system\test\terror\terrorapp_errors.rsc				system\test\terror\terrorapp_errors.rsc
+
+file=ABI_DIR\BUILD_DIR\disableexitchecksapp.exe										sys\bin\disableexitchecksapp.exe
+data=DATAZ_\private\10003a3f\apps\disableexitchecksapp_reg.rsc		private\10003a3f\apps\disableexitchecksapp_reg.rsc
+data=ZRESOURCE\apps\disableexitchecksapp.rsc										Resource\apps\disableexitchecksapp.rsc
+
+// Needed by terrorstep from v9.6 onwards
+file=ABI_DIR\BUILD_DIR\terrortextwithtitleapp.exe					sys\bin\terrortextwithtitleapp.exe
+data=DATAZ_\private\10003a3f\apps\terrortextwithtitleapp_reg.rsc		private\10003a3f\apps\terrortextwithtitleapp_reg.rsc
+
+file=ABI_DIR\BUILD_DIR\Contentmgr.dll				System\Libs\Contentmgr.dll
+
+#include <messageserv.iby>
+
+#include <TAppLanguage.iby>
+#include <TAppLanguageSc.iby>
+#include <TAppLanguageFrench.iby>
+#include <TAppLanguageNotSet.iby>
+#include <TAppLanguageZulu.iby>
+
+
+// Unit tests for uikon flexible alarms alert server framework 
+file=ABI_DIR\BUILD_DIR\TAlertServer.exe				SYSTEM_BINDIR\TAlertServer.exe
+file=ABI_DIR\BUILD_DIR\TMultipleAlarmServer.exe 	SYSTEM_BINDIR\TMultipleAlarmServer.exe
+
+data=ABI_DIR\BUILD_DIR\UIKTESTSERVER.exe		sys\bin\UIKTESTSERVER.exe
+
+
+data=DATAZ_\uiktest\uiktest_run.bat                            \uiktest_run.bat
+data=DATAZ_\uiktest\uiktest_t_addlibrary.script                \uiktest\uiktest_t_addlibrary.script
+data=DATAZ_\uiktest\uiktest_t_applicationlanguage.script       \uiktest\uiktest_t_applicationlanguage.script
+data=DATAZ_\uiktest\uiktest_t_applicationlanguagefrench.script \uiktest\uiktest_t_applicationlanguagefrench.script
+data=DATAZ_\uiktest\uiktest_t_applicationlanguagenotset.script \uiktest\uiktest_t_applicationlanguagenotset.script
+data=DATAZ_\uiktest\uiktest_t_applicationlanguagesc.script     \uiktest\uiktest_t_applicationlanguagesc.script
+data=DATAZ_\uiktest\uiktest_t_applicationlanguagezulu.script   \uiktest\uiktest_t_applicationlanguagezulu.script
+data=DATAZ_\uiktest\uiktest_t_autoLib.script                   \uiktest\uiktest_t_autoLib.script
+data=DATAZ_\uiktest\uiktest_t_backup.script      			   \uiktest\uiktest_t_backup.script
+data=DATAZ_\uiktest\uiktest_t_brdrcol.script                   \uiktest\uiktest_t_brdrcol.script
+data=DATAZ_\uiktest\uiktest_t_capability1.script               \uiktest\uiktest_t_capability1.script
+data=DATAZ_\uiktest\uiktest_t_capability2.script               \uiktest\uiktest_t_capability2.script
+data=DATAZ_\uiktest\uiktest_t_colovr.script                    \uiktest\uiktest_t_colovr.script
+data=DATAZ_\uiktest\uiktest_t_colscm.script                    \uiktest\uiktest_t_colscm.script
+data=DATAZ_\uiktest\uiktest_t_disableexitchecks.script         \uiktest\uiktest_t_disableexitchecks.script
+data=DATAZ_\uiktest\uiktest_t_focus.script                     \uiktest\uiktest_t_focus.script
+data=DATAZ_\uiktest\uiktest_t_eikenv.script                    \uiktest\uiktest_t_eikenv.script
+data=DATAZ_\uiktest\uiktest_t_error.script                     \uiktest\uiktest_t_error.script
+data=DATAZ_\uiktest\uiktest_t_fileutils.script                 \uiktest\uiktest_t_fileutils.script
+data=DATAZ_\uiktest\uiktest_t_hlsprite.script                  \uiktest\uiktest_t_hlsprite.script
+data=DATAZ_\uiktest\uiktest_t_msg.script                       \uiktest\uiktest_t_msg.script
+data=DATAZ_\uiktest\uiktest_t_multiplealarm.script 			   \uiktest\uiktest_t_multiplealarm.script
+data=DATAZ_\uiktest\uiktest_t_nonfocus.script                  \uiktest\uiktest_t_nonfocus.script
+data=DATAZ_\uiktest\uiktest_t_notdial.script                   \uiktest\uiktest_t_notdial.script
+data=DATAZ_\uiktest\uiktest_t_package.script                   \uiktest\uiktest_t_package.script
+data=DATAZ_\uiktest\uiktest_t_parent.script                    \uiktest\uiktest_t_parent.script
+data=DATAZ_\uiktest\uiktest_t_shutter.script                   \uiktest\uiktest_t_shutter.script
+data=DATAZ_\uiktest\uiktest_t_spane.script                     \uiktest\uiktest_t_spane.script
+data=DATAZ_\uiktest\uiktest_t_syscolor.script                  \uiktest\uiktest_t_syscolor.script
+
+ECOM_PLUGIN(staticsettingsinit.dll,10203802.rsc)
+
+
+#endif

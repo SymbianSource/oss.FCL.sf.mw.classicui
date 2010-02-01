@@ -1,0 +1,86 @@
+EXPORTS
+	_ZN11LafShutdown17SaveFromAppSwitchEv @ 1 NONAME
+	_ZN11LafShutdown18SaveFromViewSwitchEv @ 2 NONAME
+	_ZN11LafShutdown21CreateShutdownManagerER22MShutdownEventObserver @ 3 NONAME
+	_ZN13LafBusyMsgWin19DefaultInitialDelayEv @ 4 NONAME
+	_ZN13LafInfoMsgWin15DefaultDurationEv @ 5 NONAME
+	_ZN16LafServAppUiBase23ConstructPointerCursorLEiR13TSpriteMemberR7CCoeEnv @ 6 NONAME
+	_ZN16LafServAppUiBase29FreePointerCursorListIfNeededER7CCoeEnv @ 7 NONAME
+	_ZN16LafServAppUiBase30ClaimPointerCursorListIfNeededER7CCoeEnv @ 8 NONAME
+	_ZN16LafServAppUiBase33NumberOfCursorsInSystemCursorListEv @ 9 NONAME
+	_ZN16LafVirtualCursor19PointerCursorOnModeEv @ 10 NONAME
+	_ZN22LafStatusPaneContainer11AllowFadingEv @ 11 NONAME
+	_ZN23CLafEdwinCustomDrawBase18LineSpacingChangedEv @ 12 NONAME
+	_ZN23CLafEdwinCustomDrawBase4NewLERK7MLafEnvRK11CCoeControl @ 13 NONAME
+	_ZN23CLafEdwinCustomDrawBaseC1ERK7MLafEnvRK11CCoeControl @ 14 NONAME
+	_ZN23CLafEdwinCustomDrawBaseC2ERK7MLafEnvRK11CCoeControl @ 15 NONAME
+	_ZN23CLafEdwinCustomWrapBase26MFormCustomWrap_Reserved_1Ev @ 16 NONAME
+	_ZN23CLafEdwinCustomWrapBase26MFormCustomWrap_Reserved_2Ev @ 17 NONAME
+	_ZN23CLafEdwinCustomWrapBase4NewLERK11CCoeControl @ 18 NONAME
+	_ZN23CLafEdwinCustomWrapBaseC1ERK11CCoeControl @ 19 NONAME
+	_ZN23CLafEdwinCustomWrapBaseC2ERK11CCoeControl @ 20 NONAME
+	_ZN23CLafEdwinCustomWrapBaseD0Ev @ 21 NONAME
+	_ZN23CLafEdwinCustomWrapBaseD1Ev @ 22 NONAME
+	_ZN23CLafEdwinCustomWrapBaseD2Ev @ 23 NONAME
+	_ZN6LafEnv11MatchBitmapERK13CArrayPtrFlatI10CFbsBitmapE4TUid @ 24 NONAME
+	_ZN6LafEnv12IsDefaultKeyEj @ 25 NONAME
+	_ZN6LafEnv14GetDefaultPathER6TDes164TUidR13RApaLsSessionR7CCoeEnv @ 26 NONAME
+	_ZN6LafEnv16LoadCoreResFileLER7CCoeEnv @ 27 NONAME
+	_ZN6LafEnv16LoadPrivResFileLER7CCoeEnv @ 28 NONAME
+	_ZN6LafEnv17CoctlResourceFileEv @ 29 NONAME
+	_ZN6LafEnv17CreateTextParserLEi @ 30 NONAME
+	_ZN6LafEnv17DrawLogicalBorderERK10TGulBorderR16CGraphicsContextRK5TRectRKNS0_7TColorsE @ 31 NONAME
+	_ZN6LafEnv18CreateSystemFontsLER7CCoeEnvR9CArrayPtrI14CLafSystemFontE @ 32 NONAME
+	_ZN6LafEnv20CreateSystemBitmapsLER7CCoeEnvR13CArrayPtrFlatI10CFbsBitmapE @ 33 NONAME
+	_ZN6LafEnv20DefaultBusyMsgCornerEv @ 34 NONAME
+	_ZN6LafEnv20LogicalBorderMarginsERK10TGulBorder @ 35 NONAME
+	_ZN6LafEnv20UpdateSystemBitmapsLER7CCoeEnvR13CArrayPtrFlatI10CFbsBitmapERK10CColorList @ 36 NONAME
+	_ZN6LafEnv24PrepareCharFormatAndMaskER11TCharFormatR15TCharFormatMask @ 37 NONAME
+	_ZN6LafEnv25DefaultLineSpacingInTwipsEv @ 38 NONAME
+	_ZN6LafEnv29EditableControlStandardHeightERK7MLafEnv @ 39 NONAME
+	_ZN6LafEnv8ConstantENS_13TConstantTypeE @ 40 NONAME
+	_ZN6LafEnv9MatchFontER9CArrayPtrI14CLafSystemFontERK12TLogicalFont @ 41 NONAME
+	_ZN8LafAppUi10ClientRectERK7CCoeEnvRK22MLafClientRectResolver @ 42 NONAME
+	_ZN8LafAppUi10ReduceRectER5TRect @ 43 NONAME
+	_ZN8LafAppUi20FadeWhenInBackgroundEv @ 44 NONAME
+	_ZN8LafAppUi23CancelBubbleHelpOnEventERK13TPointerEvent @ 45 NONAME
+	_ZN9LafMsgWin13ConfigureTextERNS_18TDisplayParametersERK7MLafEnv @ 46 NONAME
+	_ZN9LafMsgWin16SetUpBlankWindowER12RBlankWindow @ 47 NONAME
+	_ZN9LafMsgWin18TDisplayParametersC1ER6TDes16 @ 48 NONAME
+	_ZN9LafMsgWin18TDisplayParametersC2ER6TDes16 @ 49 NONAME
+	_ZN9LafMsgWin20HandleResourceChangeER14RMessageWindowRK7MLafEnv @ 50 NONAME
+	_ZN9LafMsgWin31CompleteMessageWinConstructionLER14RMessageWindowRK7MLafEnv @ 51 NONAME
+	_ZNK23CLafEdwinCustomDrawBase11SystemColorEj4TRgb @ 52 NONAME
+	_ZNK23CLafEdwinCustomDrawBase14DrawBackgroundERKN15MFormCustomDraw6TParamERK4TRgbR5TRect @ 53 NONAME
+	_ZNK23CLafEdwinCustomWrapBase14LineBreakClassEjRjS0_ @ 54 NONAME
+	_ZNK23CLafEdwinCustomWrapBase17LineBreakPossibleEjji @ 55 NONAME
+	_ZNK23CLafEdwinCustomWrapBase18IsHangingCharacterEj @ 56 NONAME
+	_ZNK23CLafEdwinCustomWrapBase21GetLineBreakInContextERK7TDesC16iiiRi @ 57 NONAME
+	_ZTI23CLafEdwinCustomDrawBase @ 58 NONAME ; #<TI>#
+	_ZTI23CLafEdwinCustomWrapBase @ 59 NONAME ; #<TI>#
+	_ZTV23CLafEdwinCustomDrawBase @ 60 NONAME ; #<VT>#
+	_ZTV23CLafEdwinCustomWrapBase @ 61 NONAME ; #<VT>#
+	_ZThn4_N23CLafEdwinCustomWrapBase26MFormCustomWrap_Reserved_1Ev @ 62 NONAME ; #<thunk>#
+	_ZThn4_N23CLafEdwinCustomWrapBase26MFormCustomWrap_Reserved_2Ev @ 63 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomDrawBase11SystemColorEj4TRgb @ 64 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomDrawBase14DrawBackgroundERKN15MFormCustomDraw6TParamERK4TRgbR5TRect @ 65 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomWrapBase14LineBreakClassEjRjS0_ @ 66 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomWrapBase17LineBreakPossibleEjji @ 67 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomWrapBase18IsHangingCharacterEj @ 68 NONAME ; #<thunk>#
+	_ZThn4_NK23CLafEdwinCustomWrapBase21GetLineBreakInContextERK7TDesC16iiiRi @ 69 NONAME ; #<thunk>#
+	_ZN6LafEnv34IsTaskListDisabledAtInitializationEv @ 70 NONAME
+	_ZN6LafEnv18ReleaseSystemFontsER9CArrayPtrI14CLafSystemFontE @ 71 NONAME
+	_ZN6LafEnv14NewBusyMsgWinLER7CCoeEnv @ 72 NONAME
+	_ZN6LafEnv14NewInfoMsgWinLER7CCoeEnv @ 73 NONAME
+	_ZN6LafEnv14NewInfoMsgWinLER7CCoeEnvR12RWindowGroup @ 74 NONAME
+	_ZN22LafStatusPaneContainer27CreateStatusPaneBackgroundLEv @ 75 NONAME
+	_ZN6LafEnv16UpdateColorListLEP10CColorList @ 76 NONAME
+	_ZN6LafEnv18UpdateSystemFontsLEP7CCoeEnvR9CArrayPtrI14CLafSystemFontE @ 77 NONAME
+	_ZN6LafEnv16CreateColorListLER9CEikonEnv @ 78 NONAME
+	_ZN6LafEnv21HandleExtensionEventLER9CEikonEnvNS_21TLafEnvExtensionEventE @ 79 NONAME
+	_ZN6LafEnv22DisplayAlertAsNotifierERK7TDesC16S2_ @ 80 NONAME
+	_ZN6LafEnv4BeepEv @ 81 NONAME
+	_ZN6LafEnv8InfoNoteEiz @ 82 NONAME
+	_ZN6LafEnv12ClockDllNameEv @ 83 NONAME
+        _ZN6LafEnv10PolicyItemENS_17TLafEnvPolicyItemE @ 84 NONAME
+	_ZN23LafNotifierCapabilities20NotifierCapabilitiesEv @ 85 NONAME

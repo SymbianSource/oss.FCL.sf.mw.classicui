@@ -1,0 +1,37 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+#ifndef __ETULTEST_IBY__
+#define __ETULTEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+
+// We need to build test exe in debug mode if memory allocation test are present,
+// since memory failure simulation macros work in debug mode only.
+file=ABI_DIR\DEBUG_DIR\tetultestserver.exe		sys\bin\tetultestserver.exe
+
+data=EPOCROOT##epoc32\data\z\system\data\addressstringtokenizertestappdata.txt	  	System\data\addressstringtokenizertestappdata.txt
+data=EPOCROOT##epoc32\data\z\system\data\addressstringtokenizertestappdataref.txt	System\data\addressstringtokenizertestappdataref.txt
+data=EPOCROOT##epoc32\data\Z\Resource\Apps\t_textresourceutils.rsc			Resource\Apps\t_textresourceutils.rsc
+
+data=DATAZ_\etultest\etultest_run.bat	           			\etultest_run.bat
+data=DATAZ_\etultest\etultest_t_addressstringtokenizer.script    	\etultest\etultest_t_addressstringtokenizer.script
+data=DATAZ_\etultest\etultest_t_phonenumberutils.script          	\etultest\etultest_t_phonenumberutils.script
+data=DATAZ_\etultest\etultest_t_textresourceutils.script	 	\etultest\etultest_t_textresourceutils.script
+
+#endif

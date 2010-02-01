@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdktabgrp
+*
+*/
+
+
+NAME    TABS
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+#include "testsdktabgrp.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_addtab
+// ---------------------------------------------------------------------------
+//
+RESOURCE TAB r_addtab
+    {
+    id = ETab;
+    txt = "AddTab";
+    }
+
+// ---------------------------------------------------------------------------
+// r_replacetab
+// ---------------------------------------------------------------------------
+//
+RESOURCE TAB r_replacetab
+    {
+    id = ETab;
+    txt = "ReplaceTab";
+    }
+

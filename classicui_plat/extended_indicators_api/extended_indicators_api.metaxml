@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="eb851bf14daa752498f8c1fdd2f0834b" dataversion="1.0">
+  <name>Extended Indicators API</name>
+  <description>Provides UI indicators and functionality related to them.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

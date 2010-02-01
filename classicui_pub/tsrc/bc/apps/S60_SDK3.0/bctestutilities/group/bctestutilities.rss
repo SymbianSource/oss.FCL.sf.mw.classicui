@@ -1,0 +1,515 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME UTIL
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+#include "bctestutilities.hrh"
+#include "bctestutilities.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestUtilities";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestutilities_menubar_main;
+    cba = r_bctestutilities_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestutilities_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+        CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list;        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_view
+//    AVKON_VIEW for CBCTestUtilitiesView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestutilities_view
+    {
+    menubar = r_bctestutilities_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestutilities_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestutilities_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestutilities_case_menu;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestutilities_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            cascade = r_bctestutilities_aknutils_menu;
+            txt = qtn_bctestutilities_aknutils_menu;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknBidiTextUtils;
+            txt = qtn_bctestutilities_aknbiditextutils;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknEnv;
+            txt = qtn_bctestutilities_aknenv;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestutilities_aknutils_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdTextUtils;
+            txt = qtn_bctestutilities_fortextutils;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdSelectionService;
+            txt = qtn_bctestutilities_selection;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknFind;
+            txt = qtn_bctestutilities_aknfind;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknEditUtils;
+            txt = qtn_bctestutilities_akneditutils;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdFilter;
+            txt = qtn_bctestutilities_filter;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknLayoutUtils;
+            txt = qtn_bctestutilities_aknlayoututils;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdAknDraw;
+            txt = qtn_bctestutilities_akndraw;
+            },
+         MENU_ITEM
+            {
+            command = EBCTestCmdOtherAknUtils;
+            txt = qtn_bctestutilities_otheraknutils;
+            }            
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestutilities_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestutilities_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestutilities_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestutilities_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestutilities_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestUtilitiesCbaCmdNext;
+            txt = qtn_bctestutilities_cba_next;
+            }
+	};
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatlist_double
+//    ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestutilities_single
+    {
+    array_id = r_bctestutilities_item_single;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_item_single
+//    Items array for ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestutilities_item_single
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_s8;
+            }
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_ceik_menu_pane_list
+//    Menu Pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_ceik_menu_pane_list
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAknMarkAll;
+            flags = EEikMenuItemDimmed;
+            txt = "item1";
+            },
+        MENU_ITEM
+            {
+            command = EAknUnmarkAll;
+            flags = EEikMenuItemDimmed;
+            txt = "item2";
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdEditTextMenu;
+            flags = EEikMenuItemDimmed | EEikMenuItemSeparatorAfter;
+            txt = "item3";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutilities_double
+//    ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestutilities_double
+    {
+    array_id = r_bctestutilities_item_double;
+    flags = EAknListBoxSelectionList;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestutil_item_double
+//    Items array for ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestutilities_item_double
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestutilities_item_d8;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//    r_bctestutil_edwin
+//----------------------------------------------------
+//
+RESOURCE EDWIN r_bctestutil_edwin
+    {
+    flags = EAknEditorFlagDefault;
+    width = 30;
+    lines= 1;
+    maxlength = 50;
+    }
+    
+//----------------------------------------------------
+//    r_bctestutil_label
+//----------------------------------------------------
+//
+RESOURCE LABEL r_bctestutil_label
+    {
+    flags = 0;
+    horiz_align = EEikLabelAlignHCenter;
+    vert_align = EEikLabelAlignVTop;
+    standard_font = EEikLabelFontNormal;
+    reserve_length = 0;
+    txt = qtn_bctestutilities_label;
+    }
+    
+//----------------------------------------------------
+//    r_bctestutil_image
+//----------------------------------------------------
+//
+RESOURCE IMAGE r_bctestutil_image
+    {
+    horiz_align = EEikLabelAlignHCenter;
+    vert_align = EEikLabelAlignVTop;
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_marked_add;    
+    bmpmask = EMbmAvkonQgn_indi_marked_add_mask;
+    }
+    
+//----------------------------------------------------
+//    r_bctestutil_seced
+//----------------------------------------------------
+//
+RESOURCE SECRETED r_bctestutil_seced
+    {
+    num_letters = 16;
+    }
+
+//----------------------------------------------------
+//    r_bctestutil_layout_text
+//----------------------------------------------------
+//
+RESOURCE AVKON_LAYOUT_TEXT r_bctestutil_layout_text
+    {
+    font = ELatinPlain12;
+    C = 0;
+    l = 5;
+    r = 5;
+    B = 5;
+    W = 100;
+    J = ELayoutAlignLeft;
+    }
+    
+//----------------------------------------------------
+//    r_bctestutil_layout_rect
+//----------------------------------------------------
+//
+RESOURCE AVKON_LAYOUT_RECT r_bctestutil_layout_rect
+    {
+    C = 0;
+    l = 0;
+    t = 0;
+    r = 100;
+    b = 50;
+    W = 100;
+    H = 50;
+    }
+
+//----------------------------------------------------
+//    r_bctestutil_iconarray
+//----------------------------------------------------
+//
+RESOURCE AKN_ICON_ARRAY r_bctestutil_iconarray
+    {
+    bmpfile = AVKON_ICON_FILE;
+    icons = 
+        {
+        AKN_ICON
+            {
+            iconId = EMbmAvkonQgn_indi_marked_add;
+            maskId = EMbmAvkonQgn_indi_marked_add_mask;
+            },
+        AKN_ICON
+            {
+            iconId = EMbmAvkonQgn_indi_alarm_add;
+            maskId = EMbmAvkonQgn_indi_alarm_add_mask;
+            }
+        };
+    }

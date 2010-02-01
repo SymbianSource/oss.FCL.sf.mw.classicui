@@ -1,0 +1,96 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CONE_UNIT_TEST_IBY__
+#define __CONE_UNIT_TEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+#ifdef SYMBIAN_GRAPHICS_USE_GCE
+#include <t_halattprovider.iby>
+#endif
+
+REM Control Framework (Cone) unit test iby file
+data=EPOCROOT##epoc32\data\Z\System\data\Tcone2.rsc	System\data\Tcone2.rsc
+REM End of Control Framework (Cone) unit test iby file
+
+
+	file=ABI_DIR\BUILD_DIR\tconetestserver.exe		System\bin\tconetestserver.exe
+	file=ABI_DIR\BUILD_DIR\tmenutestserver.exe		System\bin\tmenutestserver.exe
+
+
+file=ABI_DIR\BUILD_DIR\tconetestexe.exe				sys\bin\tconetestexe.exe
+
+data=EPOCROOT##epoc32\data\Z\Resource\Apps\tconetestexe.rsc	Resource\Apps\tconetestexe.rsc
+data=EPOCROOT##epoc32\data\Z\private\10003a3f\apps\TConeTestExe_reg.rsc	\private\10003a3f\apps\TConeTestExe_reg.rsc
+
+data=EPOCROOT##epoc32\data\Z\Resource\Apps\tconeresourceloader.rsc		Resource\Apps\tconeresourceloader.rsc	
+data=DATAZ_\Conetest\ConeTestStdFile.txt              \Conetest\ConeTestStdFile.txt
+data=DATAZ_\Conetest\city.mbm                         \Conetest\city.mbm
+data=DATAZ_\Conetest\errandconmsg.mbm	              \conetest\errandconmsg.mbm
+data=DATAZ_\Conetest\errmsg.mbm	                      \conetest\errmsg.mbm
+data=DATAZ_\Conetest\errandconmsgh6.mbm	              \conetest\errandconmsgh6.mbm
+data=DATAZ_\Conetest\errandconmsgh6vga.mbm	              \conetest\errandconmsgh6vga.mbm
+data=DATAZ_\Conetest\errandconmsgnavi.mbm	              \conetest\errandconmsgnavi.mbm
+data=DATAZ_\Conetest\errmsgh6.mbm	                  \conetest\errmsgh6.mbm
+data=DATAZ_\Conetest\errmsgh6vga.mbm	                  \conetest\errmsgh6vga.mbm
+data=DATAZ_\Conetest\errmsgnavi.mbm	                  \conetest\errmsgnavi.mbm
+file=ABI_DIR\BUILD_DIR\terrmsgapp.exe			sys\bin\terrmsgapp.exe
+data=DATAZ_\private\10003a3f\apps\terrmsgapp_reg.rsc	\private\10003a3f\apps\terrmsgapp_reg.rsc
+file=ABI_DIR\BUILD_DIR\twindowposition.exe		sys\bin\twindowposition.exe
+data=EPOCROOTepoc32\data\Z\private\10003a3f\apps\twindowposition_reg.rsc		private\10003a3f\apps\twindowposition_reg.rsc
+
+data=DATAZ_\conetest\conetest_run.bat	              \conetest_run.bat
+data=DATAZ_\conetest\conetest_t_background.script     \conetest\conetest_t_background.script
+data=DATAZ_\conetest\conetest_t_conecoecntss.script	  \conetest\conetest_t_conecoecntss.script
+data=DATAZ_\conetest\conetest_t_cone0.script          \conetest\conetest_t_cone0.script
+data=DATAZ_\conetest\conetest_t_cone1.script          \conetest\conetest_t_cone1.script
+data=DATAZ_\conetest\conetest_t_cone2.script          \conetest\conetest_t_cone2.script
+data=DATAZ_\conetest\conetest_t_cone3.script          \conetest\conetest_t_cone3.script
+data=DATAZ_\conetest\conetest_t_cone4exe.script       \conetest\conetest_t_cone4exe.script
+data=DATAZ_\conetest\conetest_t_cone5.script          \conetest\conetest_t_cone5.script
+data=DATAZ_\conetest\conetest_t_cone6.script          \conetest\conetest_t_cone6.script
+data=DATAZ_\conetest\conetest_t_cone7.script          \conetest\conetest_t_cone7.script
+data=DATAZ_\conetest\conetest_t_coneerrormsg.script   \conetest\conetest_t_coneerrormsg.script
+data=DATAZ_\conetest\conetest_t_conehelptext.script   \conetest\conetest_t_conehelptext.script
+data=DATAZ_\conetest\conetest_t_coneinvalidate.script \conetest\conetest_t_coneinvalidate.script
+data=DATAZ_\conetest\conetest_t_conetransition.script \conetest\conetest_t_conetransition.script
+data=DATAZ_\conetest\conetest_t_conevisibility.script \conetest\conetest_t_conevisibility.script
+data=DATAZ_\conetest\conetest_t_conetransparency.script \conetest\conetest_t_conetransparency.script
+data=DATAZ_\conetest\conetest_t_conezoomfont.script   \conetest\conetest_t_conezoomfont.script
+data=DATAZ_\conetest\conetest_t_coedatastorage.script \conetest\conetest_t_coedatastorage.script
+data=DATAZ_\conetest\conetest_t_coneresourceloader.script  \conetest\conetest_t_coneresourceloader.script
+data=DATAZ_\conetest\conetest_t_conestateobs.script   \conetest\conetest_t_conestateobs.script
+data=DATAZ_\conetest\conetest_t_conemultiptr.script   \conetest\conetest_t_conemultiptr.script
+data=DATAZ_\conetest\conetest_t_conemultiptrcompound.script   \conetest\conetest_t_conemultiptrcompound.script
+data=DATAZ_\conetest\conetest_t_coneevents.script     \conetest\conetest_t_coneevents.script
+
+data=DATAZ_\conetest\menutest_run.bat	              \menutest_run.bat
+data=DATAZ_\conetest\menutest_t_menu0.script          \conetest\menutest_t_menu0.script
+data=DATAZ_\conetest\menutest_t_menu1.script          \conetest\menutest_t_menu1.script
+data=DATAZ_\conetest\menutest_t_vwa.script            \conetest\menutest_t_vwa.script
+
+data=DATAZ_\Conetest\display.mbm	          	      \conetest\display.mbm
+file=ABI_DIR\BUILD_DIR\TMulScreensApp.exe		sys\bin\TMulScreensApp.exe
+data=EPOCROOT##epoc32\data\Z\private\10003a3f\apps\TMulScreensApp_reg.rsc	\private\10003a3f\apps\TMulScreensApp_reg.rsc
+data=DATAZ_\conetest\conetest_T_MultipleScreens.script         \conetest\conetest_T_MultipleScreens.script
+
+#endif
+
+
+ 

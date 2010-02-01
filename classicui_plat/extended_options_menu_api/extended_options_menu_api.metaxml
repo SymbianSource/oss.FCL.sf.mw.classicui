@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<api id="12245111b6c1330a6c31666691cb738b" dataversion="1.0">
+  <name>Extended Options Menu API</name>
+  <description>This API is used to for extended options menu usage.</description>
+  <type>c++</type>
+  <subsystem>eikcoctl</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="domain" sinceversion="5.2" />
+  <attributes>
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

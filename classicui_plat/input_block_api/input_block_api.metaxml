@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="7c188619f0da22a9b1060e37d9a99456" dataversion="1.0">
+  <name>Input Block API</name>
+  <description>A control for the purpose of blocking user input.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

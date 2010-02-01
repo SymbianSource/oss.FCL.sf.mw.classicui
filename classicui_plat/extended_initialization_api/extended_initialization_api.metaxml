@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="a761f36d939539d261b5d60d6c3fb864" dataversion="1.0">
+  <name>Extended Initialization API</name>
+  <description>Initialization settings.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

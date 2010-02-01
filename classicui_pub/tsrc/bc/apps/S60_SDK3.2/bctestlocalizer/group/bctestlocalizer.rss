@@ -1,0 +1,241 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME LOCA
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+//#include <bldvariant.hrh>
+#include <PathConfiguration.hrh>
+#include "bctestlocalizer.hrh"
+#include "bctestlocalizer.loc"
+#include "directorylocalizer.rh"
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTLOCALIZER_BMP_FNAME APP_BITMAP_DIR"\\BCTestLocalizer.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestLocalizer";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestlocalizer_menubar_main;
+    cba = r_bctestlocalizer_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestlocalizer_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\bctestlocalizer_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlocalizer_view
+//    AVKON_VIEW for CbctestlocalizerView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestlocalizer_view
+    {
+    menubar = r_bctestlocalizer_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlocalizer_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestlocalizer_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlocalizer_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlocalizer_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlocalizer_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlocalizer_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestlocalizer_outline1;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlocalizer_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlocalizer_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestlocalizer_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestlocalizer_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestlocalizer_cba_options_next
+//    description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestlocalizer_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestLocalizerCbaCmdNext;
+            txt = qtn_bctestlocalizer_cba_next;
+            }
+	};
+    }
+
+// -----------------------------------------------------------------------------
+//   
+// r_dltest_custom_entries
+// A resource containing default entries of the directory localizer
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIRECTORYLOCALIZER r_dltest_custom_entries
+	{
+    directories =
+        {
+        DIRECTORY 
+            { 
+            fullPath = dl_test_exists_dir; 
+            localizedName = dl_test_exists_name; 
+            extraData = dl_test_exists_extra; 
+            iconIndex = dl_test_exists_icon; 
+            },
+        DIRECTORY 
+            { 
+            fullPath = dl_test_empty_extra_dir; 
+            localizedName = "nothing"; 
+            extraData = ""; 
+            iconIndex = 1; 
+            }
+        };
+    }
+
+// End of File

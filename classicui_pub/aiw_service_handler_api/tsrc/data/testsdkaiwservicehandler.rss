@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:    Resource definitions for project
+*
+*/
+
+
+
+
+
+NAME SRVH
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+#include <AiwCommon.rh>
+
+#include "testskdaiwservicehandler.hrh"
+
+RESOURCE RSS_SIGNATURE {}
+RESOURCE TBUF { buf=""; }
+
+// ---------------------------------------------------------------------------
+// r_aiw_interest_one
+// ---------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST r_aiw_interest_one
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id = 0x8001;
+            serviceCmd = KAiwCmdNone;
+            contentType = "*";
+            serviceClass = KAiwClassMenu;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_aiw_interest_two
+// ---------------------------------------------------------------------------
+//
+RESOURCE AIW_INTEREST r_aiw_interest_two
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM 
+            {
+            id = 0x8003;
+            serviceCmd = KAiwCmdMnShowMap;
+            contentType = "application/x-landmark";
+            serviceClass = KAiwClassBase; 
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_aiw_menu
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_aiw_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = ECommandOne;
+            txt = "command one";
+            },
+        MENU_ITEM
+            {
+            command = ECommandTwo;
+            txt = "command two";
+            }
+        };
+    }

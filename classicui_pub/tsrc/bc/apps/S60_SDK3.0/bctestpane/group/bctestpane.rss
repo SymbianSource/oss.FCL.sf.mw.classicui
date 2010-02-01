@@ -1,0 +1,345 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME PANE
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestpane.hrh"
+#include "bctestpane.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTPANE_BMP_FNAME APP_BITMAP_DIR"\\bctestpane.mbm"
+
+#define BCTESTPANE_VALUE5 5
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_apps_buf;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestpane_menubar_main;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestpane_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list;        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_view
+//    AVKON_VIEW for CbctestpaneView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestpane_view
+    {
+    menubar = r_bctestpane_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestpane_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestpane_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestpane_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestpane_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdTitlePane;
+            txt = qtn_bctestpane_titlepane;
+            },
+	MENU_ITEM
+            {
+            command = EBCTestCmdTabGroup;
+            txt = qtn_bctestpane_tabgroup;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdStatusPane;
+            txt = qtn_bctestpane_statuspane;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdContextPane;
+            txt = qtn_bctestpane_contextpane;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdNaviPane;
+            txt = qtn_bctestpane_navipane;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdDlgShutAndPicto;
+            txt = qtn_bctestpane_shutpicto;
+            }        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestpane_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestpane_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestpane_menu_exit;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_title_pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TITLE_PANE r_bctestpane_title_pane
+    {
+    txt = qtn_bctestpane_title_pane;
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_signal_strength;
+    bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_context_pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE CONTEXT_PANE r_bctestpane_context_pane
+    {
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_signal_strength;
+    bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_tab
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TAB r_bctestpane_tab
+    {
+    id = EBCTestTab1;
+    txt = qtn_bctestpane_tab;
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_signal_strength;
+    bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_tab1
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TAB r_bctestpane_tab1
+    {
+    id = EBCTestTab1;
+    txt = qtn_bctestpane_tab;
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_battery_strength;
+    bmpid = EMbmAvkonQgn_indi_battery_strength_mask;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_tabgroup
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TAB_GROUP r_bctestpane_tabgroup
+    {
+    tab_width = EAknTabWidthWithTwoTabs;
+    active = 0;
+    tabs = 
+        {
+        TAB
+            {
+            id = 0;
+            txt = qtn_bctestpane_tab;
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_indi_signal_strength;
+            bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+            },
+        TAB
+            {
+            id = 1;
+            txt = qtn_bctestpane_tab;
+            bmpfile = AVKON_ICON_FILE;
+            bmpid = EMbmAvkonQgn_indi_battery_strength;
+            bmpid = EMbmAvkonQgn_indi_battery_strength_mask;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_navidecorator
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_bctestpane_navidecorator
+    {
+    type = ENaviDecoratorLabel;
+    control = NAVI_LABEL
+        {
+        txt = qtn_bctestpane_navelabel;
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_naviimage
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE NAVI_IMAGE r_bctestpane_naviimage
+    {
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_battery_strength;
+    bmpid = EMbmAvkonQgn_indi_battery_strength_mask;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_navilabel
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE NAVI_LABEL r_bctestpane_navilabel
+    {
+    txt = qtn_bctestpane_navelabel;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestpane_volume_indicator
+//    For Outline1
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE VOLUME r_bctestpane_volume_indicator
+    {
+    flags = ESettingsVolumeControl;
+    value = BCTESTPANE_VALUE5;
+    }

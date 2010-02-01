@@ -1,0 +1,78 @@
+/*
+* Copyright (c) 2007-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project compamode
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET                  akncompamode.dll
+TARGETTYPE              plugin
+UID                     0x10009D8D 0x2000F863
+
+CAPABILITY              CAP_ECOM_PLUGIN
+VENDORID                VID_DEFAULT
+
+SOURCEPATH              ../data
+
+START RESOURCE          akncomparesources.rss
+TARGETPATH              RESOURCE_FILES_DIR
+HEADER
+LANGUAGE_IDS
+END
+
+START RESOURCE          akncompamode.rss
+DEPENDS akncomparesources.rsg
+TARGETPATH              RESOURCE_FILES_DIR
+HEADER
+LANG                    SC
+END
+
+START RESOURCE          2000f863.rss
+TARGETPATH              ECOM_RESOURCE_DIR
+TARGET                  akncompamode.rsc
+END
+
+SOURCEPATH              ../src
+SOURCE                  akncompakb.cpp
+SOURCE                  akncompautils.cpp
+SOURCE                  akncompaside.cpp
+SOURCE                  akncompasrvclient.cpp
+SOURCE                  akncompabutton.cpp
+SOURCE                  akncompaifimpl.cpp
+SOURCE                  akncompaclearer.cpp
+
+USERINCLUDE             ../inc ../srv/inc ../loc ../../../inc
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         cone.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         gdi.lib
+LIBRARY         ws32.lib
+LIBRARY         avkon.lib
+LIBRARY         aknicon.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         egul.lib
+LIBRARY         aknskins.lib
+LIBRARY         cdlengine.lib
+LIBRARY         touchfeedback.lib
+LIBRARY         AknLayout2Scalable.lib
+LIBRARY         ecom.lib
+LIBRARY         centralrepository.lib
+LIBRARY         AknLayout2.lib
+

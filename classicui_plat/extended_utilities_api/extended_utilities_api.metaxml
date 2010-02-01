@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="bf4005e2e28f66700308f69c8d9084e5" dataversion="1.0">
+  <name>Extended Utilities API</name>
+  <description>Various utilities.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,47 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// egul.dll Graphics utilities
+// 
+//
+
+/**
+ @file
+*/
+
+
+target			egul.dll
+CAPABILITY All -Tcb
+targettype		DLL
+UID		0x1000008D 0x100048A2
+VENDORID 0x70000001
+
+SOURCEPATH	../gulsrc
+userinclude		../gulinc
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source			GULALIGN.CPP  GULBORDR.CPP  GULCOLOR.CPP  GULUTIL.CPP  
+source			GULFONT.CPP   GULSTD.CPP    GULICON.CPP   gulsprite.cpp	gulgcmap.cpp
+
+source			GULCOLORSCHEMESTUB.CPP
+deffile			EGUL_DATACAGED.DEF
+
+library			euser.lib   efsrv.lib   estor.lib   bafl.lib
+library			fntstr.lib  fbscli.lib  gdi.lib  ws32.lib  bitgdi.lib
+library			numberconversion.lib
+
+START WINS
+	baseaddress     0x73d00000
+END
+
+SMPSAFE

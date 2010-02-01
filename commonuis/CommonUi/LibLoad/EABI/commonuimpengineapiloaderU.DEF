@@ -1,0 +1,5 @@
+EXPORTS
+	_Z12GateFunctionv @ 1 NONAME
+	_ZTI26CCommonUiMPEngineApiLoader @ 2 NONAME ; #<TI>#
+	_ZTV26CCommonUiMPEngineApiLoader @ 3 NONAME ; #<VT>#
+

@@ -1,0 +1,48 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Extended Notifiers API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/AknNotifierControllerPlugin.h        MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierControllerPlugin.h)
+../inc/AknNotifierWrapper.h                 MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierWrapper.h)
+../inc/AknNotifierWrapperDefs.h             MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierWrapperDefs.h)
+../inc/AknSoftNotifier.h                    MW_LAYER_PLATFORM_EXPORT_PATH(AknSoftNotifier.h)
+../inc/AknNotifierControllerUtilities.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierControllerUtilities.h)
+../inc/AknBatteryNotify.h                   MW_LAYER_PLATFORM_EXPORT_PATH(AknBatteryNotify.h)
+../inc/AknSmallIndicator.h                  MW_LAYER_PLATFORM_EXPORT_PATH(AknSmallIndicator.h)
+../inc/AknNotifierAppServer.h               MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierAppServer.h)
+../inc/AlarmObserver.h                      MW_LAYER_PLATFORM_EXPORT_PATH(AlarmObserver.h)
+../inc/AknAsyncDemoNotify.h                 MW_LAYER_PLATFORM_EXPORT_PATH(AknAsyncDemoNotify.h)
+../inc/aknkeylocknotifier.h                 MW_LAYER_PLATFORM_EXPORT_PATH(AknKeyLockNotifier.h)
+../inc/AknSignalNotify.h                    MW_LAYER_PLATFORM_EXPORT_PATH(AknSignalNotify.h)
+../inc/AknNotifierAppServerSession.h        MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierAppServerSession.h)
+../inc/AknIncallBubbleNotify.h              MW_LAYER_PLATFORM_EXPORT_PATH(AknIncallBubbleNotify.h)
+../inc/AknNotifySignature.h                 MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifySignature.h)
+../inc/AknSignalNotifyAddition.h            MW_LAYER_PLATFORM_EXPORT_PATH(AknSignalNotifyAddition.h)
+../inc/aknnotifiercontroller.h              MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifierController.h)
+../inc/AknDialogController.h                MW_LAYER_PLATFORM_EXPORT_PATH(akndialogcontroller.h)
+../inc/aknSoftNotificationParameters.h      MW_LAYER_PLATFORM_EXPORT_PATH(AknSoftNotificationParameters.h)
+../inc/AknNotiferAppServerApplication.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknNotiferAppServerApplication.h)
+../inc/AknDynamicSoftNotificationParams.h   MW_LAYER_PLATFORM_EXPORT_PATH(AknDynamicSoftNotificationParams.h)
+../inc/AknDynamicSoftNotifier.h             MW_LAYER_PLATFORM_EXPORT_PATH(AknDynamicSoftNotifier.h)

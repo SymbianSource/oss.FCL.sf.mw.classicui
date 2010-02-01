@@ -1,0 +1,49 @@
+/** EIKCORE.RSG
+@publishedAll
+@released
+*/
+
+/** Resource type: TBUF */
+#define R_EIK_BAFL_ERROR_OFFSET                   0xf3b045
+
+/** Resource type: TBUF */
+#define R_EIK_CONE_ERROR_OFFSET                   0xf3b054
+
+/** Resource type: ARRAY */
+#define R_EIK_KEYPRESS_LABELS                     0xf3b063
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_ERROR_WHILE_REDRAWING          0xf3b064
+
+/** Resource type: TBUF2 */
+#define R_EIK_TBUF_NUDGE_CHARS                    0xf3b065
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_CONFIRM_ALL_LOST               0xf3b066
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_Y_DISCARDS                     0xf3b067
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_NOT_AVAILABLE                  0xf3b068
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_NOT_ENOUGH_MEMORY              0xf3b069
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_DISK_NOT_PRESENT               0xf3b06a
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_CANNOT_BE_READ                 0xf3b06b
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_NO_FOLDERNAME_SPECIFIED        0xf3b06c
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_INVALID_FOLDER_NAME            0xf3b06d
+
+/** Resource type: TBUF */
+#define R_EIK_TBUF_FOLDERNAME_TOO_LONG            0xf3b06e
+
+/** Resource type: TBUF */
+#define R_EIK_ARRAY_FILE_SORT_TABLE               0xf3b06f

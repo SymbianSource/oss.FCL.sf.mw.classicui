@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="UIKON" purpose="" type="component">
+  <revision major="1" functional="0" minor="0" date="20070828">
+    <ref name="1803" type="preq"/>
+    <description>Added new internal method in CEikonEnv API to resolve the error text with title.
+Modified CEikErrorResolver to read the new error text title from the error resource file.</description>
+  </revision>
+  <revision major="1" functional="0" minor="0" date="20070823">
+    <ref name="110130" type="defect"/>
+    <description>For CEikServSecureData(in eiksrv.h)removed the IMPORT_C from the constructor,made it private ,removed the implementation  and removed the two reserved virtual CEikServSecureData_Reserved1()and CEikServSecureData_Reserved2() and the reserved member data  iCEikServSecureData_Reserved1.</description>
+  </revision>
+  <revision major="1" functional="0" minor="0" date="20070816">
+    <ref name="110023" type="defect"/>
+    <description>Apsserv.h is removed from eikapp.cpp and eikembal.cpp  of component uikon as Apsserv.h does not contain any public APIs and will shortly cease to be exported to /epoc32/include/.</description>
+  </revision>
+  <purpose>
+    Concrete framework for GUI applications, makes material many concepts defined by the control environment. Handles the creation and running of an application.
+  </purpose>
+  <defect number="PDEF102492" title="CBaBackupSessionWrapper::CloseAll does not work as assumed" revision="012">
+    Modified CAppShutter::CheckCompleteL to check new BAFL API CBaBackupServer::AreAllRegisteredFilesUpdated before indicating that a backup has started
+  </defect>
+  <defect number="DEF105582" title="CEikonEnv::CreateBitmapL() is using deprecated LeaveWithErrorContext()" revision="011">
+    Removed usage of deprecated LeaveWithErrorContext() and added a new private function ErrorContextL() in CEikonEnv.
+  </defect>
+  <defect number="DEF106099" title="st_sanity_uikon fails with Error -5 while trying to launch an application" revision="010">
+    Fix for break in PDEF102396: Uikon needs cleanup for improved maintainability
+    
+    Reverted the following changes:
+    
+    * Removed two incorrect overrides of MEikCommandObserver reserved virtuals each from
+    MEikMenuObserver and MEikAutoMenuObserver.
+    * Removed two incorrect overrides of CEikMsgWin reserved virtuals each from CEikInfoMsgWin
+    and CEikBusyMsgWin.
+    * CEikServEnv incorrectly override 6 reserved virtual methods. These it clames are
+    defined by CCoeEnv, CEikEnv, and MApaAppStarter, but in fact only the two defined
+    by CCoeEnv has names matching those used by CEikServEnv. This means that four methods
+    are actually new virtual definitions, and the two CCoeEnv virtuals should not be
+    overrided. To fix this, the names of CEikServEnv&#xE2;&#x20AC;&#x2122;s virtual overrides CEikonEnv_Reserved1(),
+    CEikonEnv_Reserved2(), MApaAppStarter_Reserved1(), and MApaAppStarter_Reserved2(),
+    were changed to CEikServEnv_Reserved3 through CEikServEnv_Reserved6, and the CCoeEnv
+    overrides were removed. This preserves v-table layout.
+    
+    (CCoeEnv overrides were reinstated. The other four remains renamed.)
+    
+    Reverted the unintentional reclassification if the following methods (see BR2113):
+    EXPORT_C void CEikonEnv::DestroyEnvironment()
+    EXPORT_C void CEikonEnv::InitSystemFontsL()
+    EXPORT_C void CEikonEnv::DestroyScreen()
+    EXPORT_C void CEikonEnv::UpdateSystemFontsL()
+    EXPORT_C TInt CEikonEnv::ResourceFileVersionNumber() const
+    EXPORT_C void CEikonEnv::ControlStackReadyL()
+  </defect>
+  <defect number="PDEF102396" title="Uikon needs cleanup for improved maintainability" revision="009">
+    Major code cleanup changes. See change list for full details.
+  </defect>
+  <defect number="PDEF104425" title="Crash is detected when pressing Clear Key to exit File mgr." revision="008">
+    In CEikonEnv::DestroyEnvironment() the fonts are deleted after the call to CCoeEnv::DestroyEnvironmentStatic(), as these fonts are used in CCoeEnv::DestroyEnvironmentStatic() for the redraw operation.
+  </defect>
+  <defect number="PDEF102771" title="BaflUtils::SetIdealLanguage usage causes problems for" revision="007">
+    Call to BaflUtils::SetIdealLanguage(iEikEnvExtra-&gt;iAppLanguage); is removed from void CEikonEnv::StoreAppLanguageL() of \uikon\coresrc\EIKENV.CPP to math MOAP requirement.
+  </defect>
+  <defect number="DEF097643" title="Application-specific error code resolution untested and most likely broken" revision="006">
+    Application Specific error code resolution is added.
+  </defect>
+  <defect number="DEF099074" title="Memory leaks and crashes in app startup" revision="005">
+    Part of fix to problem with memory leaks and crashes in app startup, found using the WillHeapChecker tool. See also Cone and AppArc changes.
+  </defect>
+  <defect number="PDEF100775" title="FEP behaviour needs to be configurable by LAF." revision="004">
+    Reclassify Fepswitch as a test component.Stop loading Fepswitch from Eiksrv.Techview will start Fepswitch from SysStart if it is present.
+  </defect>
+  <minorchange revision="003">
+    Added simple example for notifier.
+  </minorchange>
+  <defect number="PDEF099392" title="Adobe Reader application doesn't open, eikcore.dll / User::LeaveIfError()" revision="002">
+    Removed User::LeaveIfError around the call to CApaApplication::GenerateFileName(iEikonEnv-&gt;FsSession(),aDocumentName).
+    Reverted fix which caused the regression.
+  </defect>
+  <defect number="PDEF097507" title="Viewsrv and server app deadlock" revision="001">
+    Implement an api to deactivate the current view, but only if the current view is owned by the session making the request. Uikon has been modified to use this new api.
+  </defect>
+</relnotes>

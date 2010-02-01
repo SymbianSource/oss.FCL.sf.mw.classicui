@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateCAnimDllL@@YAPAVCAnimDll@@XZ @ 1 NONAME ; class CAnimDll * CreateCAnimDllL(void)
+

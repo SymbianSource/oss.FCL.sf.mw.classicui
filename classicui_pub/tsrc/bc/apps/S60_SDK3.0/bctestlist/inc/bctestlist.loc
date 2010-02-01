@@ -1,0 +1,286 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Common localization strings
+*
+*/
+
+
+
+
+
+
+
+
+// Caption
+#define qtn_apps_tals_list          "BCTestLIST"
+#define qtn_apps_tals_grid          "BCTestLIST"
+
+// Menu title
+#define qtn_bctestlist_menu_column        "Column listbox"
+#define qtn_bctestlist_menu_formatted     "Formatted cell listbox"
+#define qtn_bctestlist_menu_setting_list  "Setting listbox"
+#define qtn_bctestlist_menu_popup_list    "Popup listbox"
+#define qtn_bctestlist_menu_grid_list     "Grid pane listbox"
+#define qtn_bctestlist_menu_other         "Other cases"
+#define qtn_bctestlist_menu_columnbase    "EikColumnListBox"
+#define qtn_bctestlist_menu_formatbase    "EikFormattedCellListBox"
+#define qtn_bctestlist_menu_eiklist       "Eikon List Box"
+#define qtn_bctestlist_menu_selection     "Selection lists"
+
+#define qtn_bctestlist_menu_flag_test     "Listbox flags"
+#define qtn_bctestlist_menu_dialog_flag   "Dialog flags"
+#define qtn_bctestlist_menu_dialog        "List dialog"
+#define qtn_bctestlist_menu_misc        "Misc lists"   
+#define qtn_bctestlist_menu10        "Empty list"
+#define qtn_bctestlist_menu11        "Softkey bindings"
+#define qtn_bctestlist_menu12        "Add and remove"
+#define qtn_bctestlist_menu13        "Event action"
+#define qtn_bctestlist_menu14        "Event of markable"
+#define qtn_bctestlist_menu15        "Setting list item"
+#define qtn_bctestlist_menu16        "Flag test"                         
+
+#define qtn_bctestlist_menu17        "List Dialog"
+#define qtn_bctestlist_menu18        "Mark List Dialog"
+#define qtn_bctestlist_menu_selection_service   "Selection service"
+#define qtn_bctestlist_exit          "Exit"
+#define qtn_bctestlist_autotest      "Autotest"
+
+#define qtn_bctestlist_mark_all      "Mark all"
+#define qtn_bctestlist_unmark_all    "Unmark all"
+#define qtn_bctestlist_show_marked   "Show marked items"
+
+// Menu cascade
+#define text_softkey_option "Options"
+#define text_softkey_back "Back"
+#define qtn_bctestlist_outline_title      "Outline%d"
+#define qtn_bctestlist_outline_title_type "Outline%d\nType %d"
+
+#define qtn_bctestlist_outline01     "OUTLINE01"                         
+#define qtn_bctestlist_outline02     "OUTLINE02"                         
+#define qtn_bctestlist_outline03     "OUTLINE03"                         
+#define qtn_bctestlist_outline04     "OUTLINE04"                         
+#define qtn_bctestlist_outline05     "OUTLINE05"                         
+#define qtn_bctestlist_outline06     "OUTLINE06"                         
+#define qtn_bctestlist_outline07     "OUTLINE07"                         
+#define qtn_bctestlist_outline08     "OUTLINE08"                         
+#define qtn_bctestlist_outline09     "OUTLINE09"                         
+#define qtn_bctestlist_outline10     "OUTLINE10"                         
+#define qtn_bctestlist_outline11     "OUTLINE11"                         
+#define qtn_bctestlist_outline12     "OUTLINE12"                         
+#define qtn_bctestlist_outline13     "OUTLINE13"                         
+#define qtn_bctestlist_outline14     "OUTLINE14"                         
+#define qtn_bctestlist_outline15     "OUTLINE15"                         
+#define qtn_bctestlist_outline16     "OUTLINE16"                         
+#define qtn_bctestlist_outline17     "OUTLINE17"                         
+#define qtn_bctestlist_outline18     "OUTLINE18"                         
+#define qtn_bctestlist_outline19     "OUTLINE19"                         
+#define qtn_bctestlist_outline20     "OUTLINE20"                         
+#define qtn_bctestlist_outline21     "OUTLINE21"                         
+#define qtn_bctestlist_outline22     "OUTLINE22"                         
+#define qtn_bctestlist_outline23     "OUTLINE23"
+#define qtn_bctestlist_outline24     "OUTLINE24"
+#define qtn_bctestlist_outline25     "OUTLINE25"                         
+#define qtn_bctestlist_outline26     "OUTLINE26"                         
+#define qtn_bctestlist_outline27     "OUTLINE27"
+#define qtn_bctestlist_outline28     "OUTLINE28"
+#define qtn_bctestlist_outline29     "OUTLINE29"                         
+#define qtn_bctestlist_outline30     "OUTLINE30"                         
+#define qtn_bctestlist_outline31     "OUTLINE31"                         
+#define qtn_bctestlist_outline32     "OUTLINE32"                         
+#define qtn_bctestlist_outline33     "OUTLINE33"
+#define qtn_bctestlist_outline34     "OUTLINE34" 
+#define qtn_bctestlist_outline35     "OUTLINE35" 
+#define qtn_bctestlist_outline36     "OUTLINE36"
+#define qtn_bctestlist_outline37     "OUTLINE37"
+#define qtn_bctestlist_outline38     "OUTLINE38"
+#define qtn_bctestlist_outline39     "OUTLINE39"
+#define qtn_bctestlist_outline40     "OUTLINE40" 
+#define qtn_bctestlist_outline41     "OUTLINE41"                         
+#define qtn_bctestlist_outline42     "OUTLINE42"
+#define qtn_bctestlist_outline43     "OUTLINE43"                         
+#define qtn_bctestlist_outline44     "OUTLINE44"                         
+#define qtn_bctestlist_outline45     "OUTLINE45"                         
+#define qtn_bctestlist_outline46     "OUTLINE46"                         
+#define qtn_bctestlist_outline47     "OUTLINE47"                         
+#define qtn_bctestlist_outline48     "OUTLINE48"                         
+#define qtn_bctestlist_outline49     "OUTLINE49"                         
+#define qtn_bctestlist_outline50     "OUTLINE50"                         
+#define qtn_bctestlist_outline51     "OUTLINE51" 
+#define qtn_bctestlist_outline52     "OUTLINE52" 
+#define qtn_bctestlist_outline53     "OUTLINE53" 
+#define qtn_bctestlist_outline54     "OUTLINE54" 
+#define qtn_bctestlist_outline55     "OUTLINE55" 
+#define qtn_bctestlist_outline56     "OUTLINE56" 
+#define qtn_bctestlist_outline57     "OUTLINE57"                         
+#define qtn_bctestlist_outline58     "OUTLINE58" 
+#define qtn_bctestlist_outline59     "OUTLINE59"                         
+#define qtn_bctestlist_outline60     "OUTLINE60"
+
+// misc:                         
+#define qtn_bctestlist_outline61     "OUTLINE61"                         
+#define qtn_bctestlist_outline62     "OUTLINE62"                         
+#define qtn_bctestlist_outline63     "OUTLINE63 - Java"
+#define qtn_bctestlist_outline64     "OUTLINE64 - Multiselection" 
+
+//shortcut
+#define qtn_bctestlist_outline65     "OUTLINE65 - ShortCuts"
+#define qtn_bctestlist_outline66     "OUTLINE66 - ShortCuts"
+
+// Application Title
+#define qtn_bctestlist_app_title     "ListBox Test\n Application"
+
+// Empty list label
+#define qtn_bctestlist_empty_label1  "Empty list"
+#define qtn_bctestlist_empty_label2  "Two lines\nEmpty list"
+
+// Tab
+#define qtn_bctestlist_tab           "\t"
+
+// resource text
+#define qtn_aknatlist_multi_title    "Multiselection"
+
+// Information message
+#define qtn_bctestlist_msg           "Can not add"
+#define qtn_bctestlist_mark_info     "Marked item(s): "
+#define qtn_bctestlist_format        "%d,"
+#define qtn_bctestlist_no_mark       "none"
+#define qtn_bctestlist_resource_msg  "Made from resource, press 0"
+#define qtn_bctestlist_internal_msg  "Made from code"
+#define qtn_bctestlist_user_num_msg  \
+                      "User defined numbers, press 0 for automatic numbering"
+#define qtn_bctestlist_auto_num_msg  "Automatic numbering"
+#define qtn_bctestlist_item_count    "Number of items: "
+#define qtn_bctestlist_item_open     "Open"
+
+// sub item
+#define qtn_bctestlist_item_open1    " \tOpen 1"
+#define qtn_bctestlist_item_open2    " \tOpen 2"
+#define qtn_bctestlist_item_sub1     " \tback"
+
+#define qtn_bctestlist_add_item_s    " \tAdded item"
+#define qtn_bctestlist_add_item_d    " \tAdded\tITEM"
+#define qtn_bctestlist_add_item_st   " \tADDED ITEM\t0\toff"
+
+// ListBox type number
+#define qtn_bctestlist_type_1        "Type 1"
+#define qtn_bctestlist_type_2        "Type 2"
+#define qtn_bctestlist_type_3        "Type 3"
+#define qtn_bctestlist_type_4        "Type 4"
+#define qtn_bctestlist_type_5        "Type 5"
+#define qtn_bctestlist_type_6        "Type 6"
+#define qtn_bctestlist_type_7        "Type 7"
+#define qtn_bctestlist_type_8        "Type 8"
+#define qtn_bctestlist_type_9        "Type 9"
+#define qtn_bctestlist_type_10       "Type 10"
+#define qtn_bctestlist_type_11       "Type 11"
+#define qtn_bctestlist_type_12       "Type 12"
+#define qtn_bctestlist_type_13       "Type 13"
+#define qtn_bctestlist_type_14       "Type 14"
+#define qtn_bctestlist_type_15       "Type 15"
+#define qtn_bctestlist_type_16       "Type 16"
+
+// Double2SytleLstBox item
+#define qtn_bctestlist_double2_1    "\tFirstLabel\t\t0"
+#define qtn_bctestlist_double2_2    "\tSecondLabel\t\t0"
+#define qtn_bctestlist_double2_3    "\tThirdLabel\t\t0"
+#define qtn_bctestlist_double2_4    "\tthis text is way too long and it \
+will be clipped even in widest landscape imaginable.\t\t0"
+
+// Form double graphic list box item
+#define qtn_bctestlist_formdoublegraphic_1    "1\tFirstLabel\tSecondLabel\t0"
+
+// Style of findbox
+#define qtn_bctestlist_find_fixed    "Fixed"
+#define qtn_bctestlist_find_popup    "Popup"
+
+#define qtn_bctestlist_setpage_empty_title "Empty"
+#define qtn_bctestlist_setpage_empty_item   "Empty"
+#define qtn_bctestlist_setpage_empty_label  "Empty"
+
+#define qtn_bctestlist_listdlg_itemselected "Item %d is selected." 
+#define qtn_bctestlist_listdlg_cancelled    "Cancel is selected."
+
+// For observer test for list dialog
+#define qtn_bctestlist_listdlg_rec_obsevent "Received observer event"
+
+// For List dialog menu
+#define qtn_bctestlist_listdlg_sellist_proccmd_menu     "Process command" 
+#define qtn_bctestlist_listdlg_multilist_proccmd_menu   "MultiSel ProcCmd"
+#define qtn_bctestlist_listdlg_marklist_proccmd_menu    "Process command"
+#define qtn_bctestlist_listdlg_sim_key_menu             "Simulate KeyEvent"
+#define qtn_bctestlist_listdlg_marklist_initmpane1_menu "Init menu pane-1"  
+#define qtn_bctestlist_listdlg_marklist_initmpane2_menu "Init menu pane-2"  
+#define qtn_bctestlist_listdlg_marklist_initmitem1_menu "Init menu item-1" 
+#define qtn_bctestlist_listdlg_marklist_initmitem2_menu "Init menu item-2" 
+#define qtn_bctestlist_listdlg_marklist_aftercmd_menu   "Update after cmd" 
+#define qtn_bctestlist_listdlg_item_removal_menu        "Item removal"
+#define qtn_bctestlist_listdlg_item_obstext_menu        "Observer test"  
+
+#define qtn_bctestlist_listdlg_none_menu                "None"
+ 
+#define qtn_bctestlist_listdlg_sim_key_num_menu         "Number"
+#define qtn_bctestlist_listdlg_sim_key_delete_menu      "Delete"
+#define qtn_bctestlist_listdlg_sim_key_lshift_menu      "Left shift" 
+#define qtn_bctestlist_listdlg_sim_key_rshift_menu      "Right shift"
+#define qtn_bctestlist_listdlg_sim_key_up_menu          "Up"
+#define qtn_bctestlist_listdlg_sim_key_down_menu        "Down"
+
+// For next softkey
+#define qtn_bctestlist_softkey_next                     "Next"
+
+#define qtn_bctestlist_empty_label                      "Empty"
+
+#define qtn_bctestlist_flagtest_dialog_label "-Press left arrow key\n"\
+   "show list of previous type\n\n-Press right arrow key\n"\
+   "show list of next type"
+
+// grid text
+#define qtn_bctestlist_grid_item_1 "0"
+#define qtn_bctestlist_grid_item_2 "1\t1"
+#define qtn_bctestlist_grid_item_3 "2\t2\t2"
+#define qtn_bctestlist_grid_item_4 "3\t\t3"
+#define qtn_bctestlist_grid_item_5 "0"
+#define qtn_bctestlist_grid_item_6 "1\t1"
+#define qtn_bctestlist_grid_item_7 "2\t2\t2"
+#define qtn_bctestlist_grid_item_8 "3\t\t3"
+#define qtn_bctestlist_empty_selection_grid "empty"
+
+//-----------------------------------------------------------------------------
+// double2 large graphic large
+//
+// test graphics positions
+#define qtn_bctestlist_item_d2lgl1     "1\t4\tThe Quick\tBrown Fox\t2\t4"
+// swap positions, test truncation
+#define qtn_bctestlist_item_d2lgl2     "1\t4\tjumps over the lazy\tdog\t4\t2"
+// test only 1 optional icon and truncation
+#define qtn_bctestlist_item_d2lgl3     "1\t4\tThis is a multiselection\tlist\t2\t2"
+// test only 1 optional icon in other position and truncation
+#define qtn_bctestlist_item_d2lgl4     "1\t4\tThis is a multiselection\tlist\t4\t2"
+// test truncation both lines
+#define qtn_bctestlist_item_d2lgl5     "1\t4\tThis is (again) a long item\
+\tAnd has probably even longer counterpart\t4\t2"
+// 2 otional icons, no truncation
+#define qtn_bctestlist_item_d2lgl6     "1\t2\tEEEEEE\teeeeee\t4\t2"
+// no optional icon,s no truncation
+#define qtn_bctestlist_item_d2lgl7     "1\t4\tFFFFFF\tffffff"
+// 1 optional icon, no truncation
+#define qtn_bctestlist_item_d2lgl8     "1\t4\tGGGGGG\tgggggg\t4"
+// 1 optional icon in second pos, no truncation
+#define qtn_bctestlist_item_d2lgl9     "1\t4\tHHHHHH\thhhhhh\t\t4"
+// long 1st line, no 2nd line - needs a space for 2nd tough...
+#define qtn_bctestlist_item_d2lgl10    "1\t4\tLong line no 2nd line yeah\t \t"
+// long 2nd line
+#define qtn_bctestlist_item_d2lgl11    "1\t4\t\tlong line long line long line\t4"
+
+// End Of file

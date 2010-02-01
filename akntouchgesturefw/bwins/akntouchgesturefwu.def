@@ -1,0 +1,6 @@
+EXPORTS
+	?NewL@CAknTouchGestureFw@AknTouchGestureFw@@SAPAV12@AAVMAknTouchGestureFwObserver@2@AAVCCoeControl@@@Z @ 1 NONAME ; class AknTouchGestureFw::CAknTouchGestureFw * AknTouchGestureFw::CAknTouchGestureFw::NewL(class AknTouchGestureFw::MAknTouchGestureFwObserver &, class CCoeControl &)
+	?SetGestureInterestL@CAknTouchGestureFw@AknTouchGestureFw@@QAEXII@Z @ 2 NONAME ; void AknTouchGestureFw::CAknTouchGestureFw::SetGestureInterestL(unsigned int, unsigned int)
+	?SetFeedbackForGroupsL@CAknTouchGestureFw@AknTouchGestureFw@@QAEXI@Z @ 3 NONAME ; void AknTouchGestureFw::CAknTouchGestureFw::SetFeedbackForGroupsL(unsigned int)
+	?SetFeedbackForTypesL@CAknTouchGestureFw@AknTouchGestureFw@@QAEXW4TAknTouchGestureFwGroup@2@II@Z @ 4 NONAME ; void AknTouchGestureFw::CAknTouchGestureFw::SetFeedbackForTypesL(enum AknTouchGestureFw::TAknTouchGestureFwGroup, unsigned int, unsigned int)
+

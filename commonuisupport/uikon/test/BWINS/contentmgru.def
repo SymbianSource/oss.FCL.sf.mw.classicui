@@ -1,0 +1,5 @@
+EXPORTS
+	??1CEikTestContentManager@@UAE@XZ @ 1 NONAME ; CEikTestContentManager::~CEikTestContentManager(void)
+	?GetPictureTypeFromDataL@CEikTestContentManager@@QBEXAAVTUid@@AAPAVCBase@@ABVTDesC16@@ABVTDesC8@@@Z @ 2 NONAME ; void CEikTestContentManager::GetPictureTypeFromDataL(class TUid &, class CBase * &, class TDesC16 const &, class TDesC8 const &) const
+	?NewL@CEikTestContentManager@@SAPAV1@AAVRFs@@@Z @ 3 NONAME ; class CEikTestContentManager * CEikTestContentManager::NewL(class RFs &)
+

@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI17CTestUiFwUtilView @ 2 NONAME ; #<TI>#
+	_ZTI22CTestUiFwUtilContainer @ 3 NONAME ; #<TI>#
+	_ZTV17CTestUiFwUtilView @ 4 NONAME ; #<VT>#
+	_ZTV22CTestUiFwUtilContainer @ 5 NONAME ; #<VT>#
+

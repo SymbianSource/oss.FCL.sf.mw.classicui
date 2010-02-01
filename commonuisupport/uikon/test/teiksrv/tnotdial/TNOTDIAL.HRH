@@ -1,0 +1,39 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+enum TDlgMenuCommand
+	{
+	EAppRingPhone =111,
+	EAppLowBattery=112,
+	EAppCancelLowBattery=113,
+	EAppCancelRingPhone=114,
+	EAppAgendaAlarm=115,
+	EAppCancelAgendaAlarm=116,
+	EAppUpdateRingPhone =117,
+	EAppUpdateLowBattery=118,
+	EAppUpdateAgendaAlarm=119,
+	EAppStartAgendaAlarmStatus=120,
+	EAppBatteryNotifiyOnTimer=121,
+	EAppNewSms =122,
+	EAppCancelSms=123,
+	EAppNewEmail=124,
+	EAppCancelEmail=125,
+	EAppUpdateSms =126,
+	EAppUpdateEmail=127,
+	EAppStartEmailStatus=128,
+	EAppCheckErrorCode=129,
+	EAppUpdateAgendaAlarmStatus=130,
+	EAppUpdateEmailStatus=131
+	};

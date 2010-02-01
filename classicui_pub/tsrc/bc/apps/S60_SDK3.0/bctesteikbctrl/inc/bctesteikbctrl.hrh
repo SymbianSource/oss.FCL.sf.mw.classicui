@@ -1,0 +1,60 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTesteikbctrl resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTeikbctrl_HRH
+#define BCTESTeikbctrl_HRH
+
+enum TBCTesteikbctrlMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestCtrlCreat,
+    EBCTestAlignApi,
+    EBCTestDialgApi,
+    EBCTestBCtrlCmdOutline01,
+	EBCTestBCtrlCmdOutline02,
+	EBCTestBCtrlCmdOutline03,
+    EProgCmdAutoTest,
+    EBCTestCmdMaxOutline
+    };
+
+enum TBCTesteikbctrlCba
+    {
+    EBCTesteikbctrlCbaCmdNext = 0x6300
+    };
+
+enum TBCtestDialgCba
+	{
+	ESinglePageDlgCId = 0x6400,
+	ESinglePageDlgC1Id,
+	EsinglePageDlgC2Id,
+	EsinglePageDlgC3Id,
+	EIdInsertLine,
+	EBcTestEdwin,
+	EBcTestGtxted,
+	EBcTestButon 
+	};
+#endif // BCTESTeikbctrl_HRH
+
+// End of File

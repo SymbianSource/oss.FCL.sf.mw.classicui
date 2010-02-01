@@ -1,0 +1,180 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  resource header file
+*
+*/
+
+
+#ifndef BCTESTMIX50_HRH
+#define BCTESTMIX50_HRH
+
+enum TBCTestMix50MenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestCmdOutline1,
+    EBCTestCmdOutline2,
+    EBCTestCmdOutline3,
+    EBCTestCmdOutline4,
+    EBCTestCmdMaxOutline,
+    EAknAtSetPageCmdSetItemArrayAndSelection,
+    EAknAtSetPageCmdSelectCurrentItem,
+    EProgSoftkeyNextOutline, 
+    // for listbox
+    EBCTestCmdOutline01,
+    EBCTestCmdOutline02,
+    EBCTestCmdOutline03,
+    EBCTestCmdOutline04,
+    EBCTestCmdOutline05,
+    EBCTestCmdOutline06,
+    EBCTestCmdOutline07,
+    EBCTestCmdOutline08,
+    EBCTestCmdOutline09,
+    EBCTestCmdOutline10,
+    EBCTestCmdOutline18,
+    EBCTestCmdOutline43,
+    EBCTestCmdOutline44,
+    
+    EProgCmdAutoTest
+    };
+
+enum TBCTestMix50Cba
+    {
+    EBCTestMix50CbaCmdNext = 0x6300,
+    EBcTestEdwin
+    };
+
+
+enum TBCTestMix50PatchCba
+    {
+    EBCTestMix50PatchCbaCmdNext = 0x6300,
+    EBCTestMix50PatchTempToolbarCbaCmdNext,
+    EBCTestMix50PatchEnhancedCBAButton
+    };
+
+enum TBCTestix50PatchCtlId
+    {
+    EBCTestMix50PatchNoteCtrlIdNoImageNote = 0x6400,
+    EBCTestMix50PatchLabelledButton,
+    EBCTestMix50PatchTab1,
+    EBCTestMix50PatchToolbarCtrl,
+    EBCTestMix50PatchCtlIdNumber
+    };
+
+
+enum TBCTestListSetPageItemIndex
+    {
+    EBCTestListEmptyItem = 1
+    };
+    
+enum TBCTestListSelListDlgMenuCmd
+    {
+    EBCTestMix50CmdListDlgNone = 0x7600,
+    EBCTestListCmdListDlgSelListProcCmd,
+    EBCTestListCmdListDlgMultiSelListProcCmd,
+    EBCTestListCmdListDlgMarkListProcCmd,
+    EBCTestListCmdListDlgSimKey,
+    EBCTestListCmdListDlgSimKeyNumber,
+    EBCTestListCmdListDlgSimKeyDelete,
+    EBCTestListCmdListDlgSimKeyLeftShift,
+    EBCTestListCmdListDlgSimKeyRightShift,
+    EBCTestListCmdListDlgSimKeyUp,
+    EBCTestListCmdListDlgSimKeyDown,                
+    EBCTestListCmdListDlgMarkListInitMPane1,
+    EBCTestListCmdListDlgMarkListInitMPane2,
+    EBCTestListCmdListDlgMarkListInitMItem1,
+    EBCTestListCmdListDlgMarkListInitMItem2,
+    EBCTestListCmdListDlgMarkListUpdateAfterCmd,
+    EBCTestListCmdListDlgItemRemoval,
+    EBCTestListCmdListDlgObserverTest
+    };
+
+enum TBCTestListDlgCtrl
+    {
+    EBCTestMix50ListDlgLbx = 1
+    };
+
+// for column list box
+//#define AVKON_BMP_FILENAME "z:"APP_BITMAP_DIR"\\avkon2.mbm"
+#define BCTESTLIST_BMP_FILENAME APP_BITMAP_DIR"\\bctestlist.mbm"
+#define CHECKBOX_SETTING_PAGE_NUMBER     1
+
+#define AKNEIK_SLIDER_MINIMUM_VALUE 0
+#define AKNEIK_SLIDER_MAXIMUM_VALUE 100
+#define AKNEIK_SLIDER_STEP_SIZE 2
+#define AKNEIK_TEXT_SETTING_PAGE_NUMBER 1
+#define AKNEIK_TEXT_SETTING_PAGE_WIDTH 9
+#define AKNEIK_TEXT_SETTING_PAGE_LINES 5
+#define AKNEIK_TEXT_SETTING_PAGE_MAXLENGTH20 20
+#define AKNEIK_VOLUME_SETTING_VALUE 5
+
+#define AKNEIK_EDITOR_MIN_VALUE 0
+#define AKNEIK_EDITOR_MAX_VALUE 20
+#define AKNEIK_EDITOR_MAXFRACT_VALUE 2
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestuifw_BMP_FNAME APP_BITMAP_DIR"\\BCTestuifw.mbm"
+
+// for Volume Setting Page
+#define BCTEST_MIX50PATCH_VOLUME_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_VOLUME_SETTING_PAGE_VALUE 8
+
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_WIDTH 9
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_WIDTH 9
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_LINES 5
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_MAXLENGTH10 10
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_MAXLENGTH20 20
+#define BCTEST_MIX50PATCH_TEXT_SETTING_PAGE_MAXLENGTH30 30
+
+// for Slider Setting Page
+#define BCTEST_MIX50PATCH_SLIDER_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_SLIDER_SETTING_PAGE_MINVALUE 0
+#define BCTEST_MIX50PATCH_SLIDER_SETTING_PAGE_MAXVALUE 101
+#define BCTEST_MIX50PATCH_SLIDER_SETTING_PAGE_STEP 1
+
+// for AknSettingPage
+#define BCTEST_MIX50PATCH_AKNEIK_TEXT_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_AKNEIK_TEXT_SETTING_PAGE_WIDTH 9
+#define BCTEST_MIX50PATCH_AKNEIK_TEXT_SETTING_PAGE_LINES 5
+#define BCTEST_MIX50PATCH_AKNEIK_TEXT_SETTING_PAGE_MAXLENGTH20 20
+
+// for Alpha Password Setting Page
+#define BCTEST_MIX50PATCH_ALPHA_PASSWORD_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_ALPHA_PASSWORD_LENGTH_OF_STRING 8
+
+//For Ip address editor
+#define BCTEST_MIX50PATCH_IPADDRESS_MIN_FIRST_FIELD_VALUE     0
+#define BCTEST_MIX50PATCH_IPADDRESS_MIN_SECOND_FIELD_VALUE    0
+#define BCTEST_MIX50PATCH_IPADDRESS_MIN_THIRD_FIELD_VALUE     0
+#define BCTEST_MIX50PATCH_IPADDRESS_MIN_FOURTH_FIELD_VALUE    0
+#define BCTEST_MIX50PATCH_IPADDRESS_MAX_FIRST_FIELD_VALUE     255
+#define BCTEST_MIX50PATCH_IPADDRESS_MAX_SECOND_FIELD_VALUE    255
+#define BCTEST_MIX50PATCH_IPADDRESS_MAX_THIRD_FIELD_VALUE     255
+#define BCTEST_MIX50PATCH_IPADDRESS_MAX_FOURTH_FIELD_VALUE    255
+
+// for Time Setting Page
+#define BCTEST_MIX50PATCH_TIME_SETTING_PAGE_NUMBER 1
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MIN_SECOND 0
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MIN_MINUTE 0
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MIN_HOUR 0
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MAX_SECOND 59
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MAX_MINUTE 59
+#define BCTEST_MIX50PATCH_TIME_EDITOR_MAX_HOUR 23
+
+#define BCTEST_MIX50PATCH_CHECKBOX_SETTING_PAGE_NUMBER     1
+#define AKNTAQUERY_EDWIN_WIDTH 5
+#define AKNTAQUERY_EDWIN_MAXLENGTH 128
+#endif // BCTESTMIX50_HRH

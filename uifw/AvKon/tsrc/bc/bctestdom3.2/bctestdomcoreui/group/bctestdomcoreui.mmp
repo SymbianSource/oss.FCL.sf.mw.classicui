@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  project specification file for the BCTestDomCoreUi.
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          bctestdomcoreui.exe
+TARGETTYPE      exe
+UID             0x0 0xA000409F
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+START RESOURCE bctestdomcoreui.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+LANG            01
+
+SOURCEPATH      ../src
+SOURCE          bctestdomcoreuiapp.cpp
+SOURCE          bctestdomcoreuidocument.cpp
+SOURCE          bctestdomcoreuiappui.cpp
+SOURCE          bctestdomcoreuiview.cpp
+SOURCE          bctestdomcoreuicontainer.cpp
+SOURCE          bctestdomcoreuicase.cpp
+SOURCE          bctestdommenusatinterface.cpp
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../../bctestutil/inc
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         aknskins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY         efsrv.lib
+LIBRARY         menuinterface.lib
+LIBRARY         voiceuinamedialer.lib
+LIBRARY         pbkeng.lib 
+LIBRARY         eikdlg.lib 
+LIBRARY         eikctl.lib
+LIBRARY         eikcdlg.lib 
+LIBRARY         voiceuirecognition.lib
+
+START RESOURCE ../group/bctestdomcoreui_reg.rss
+DEPENDS bctestdomcoreui.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+

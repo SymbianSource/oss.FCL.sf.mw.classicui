@@ -1,0 +1,10 @@
+EXPORTS
+	_ZN13CFindUtilBase5CloseEv @ 1 NONAME
+	_ZN13CFindUtilBase5OpenLEv @ 2 NONAME
+	_ZN9CFindUtil4NewLEv @ 3 NONAME
+	_ZN9CFindUtilD0Ev @ 4 NONAME
+	_ZN9CFindUtilD1Ev @ 5 NONAME
+	_ZN9CFindUtilD2Ev @ 6 NONAME
+	_ZTI13CFindUtilBase @ 7 NONAME ; #<TI>#
+	_ZTV13CFindUtilBase @ 8 NONAME ; #<VT>#
+

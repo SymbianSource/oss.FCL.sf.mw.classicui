@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestAppFrm localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTAPPFRM"
+#define qtn_apps_tavl_grid              "BCTESTAPPFRM"
+
+// MenuBar
+#define qtn_bctestappfrm_menubar         "Option"
+#define qtn_bctestappfrm_cba_next        "Next"
+#define qtn_bctestappfrm_autotest        "Autotest"
+#define qtn_bctestappfrm_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestappfrm_outline1     "Outline01"
+#define qtn_bctestappfrm_outline2     "Outline02"
+
+#define qtn_bctestappfrm_aknappui     "AknAppUi"
+#define qtn_bctestappfrm_aknview      "AknView"
+#define qtn_bctestappfrm_eikappui     "EikAppUi"
+#define qtn_bctestappfrm_eiksrv       "EikSrv"
+
+#define qtn_bctestappfrm_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+

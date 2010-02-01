@@ -1,0 +1,128 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file.
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          akncapserver.exe
+TARGETTYPE      exe
+UID             0x100039CE 0x10207218
+
+epocstacksize   0x8000
+#ifdef WINS
+epocheapsize    0x1000 0x0800000	// 8M
+#else
+epocheapsize    0x1000 0x1000000	// 16M
+#endif
+
+VENDORID        VID_DEFAULT
+CAPABILITY      All -TCB
+
+MACRO TFX_USE_WCHANGE_EVENT    // Enable these if TfxServer CRP supports the EWindowGroupChanged event 
+#define TFX_USE_WCHANGE_EVENT  // Note: must be enabled also in avkon.mmp and wsdrawer.mmp
+
+USERINCLUDE     ../inc 
+USERINCLUDE     ../../CommonInc
+USERINCLUDE     ../../../inc
+USERINCLUDE     ../../../../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// and applications layer specific include directories
+APP_LAYER_SYSTEMINCLUDE
+
+
+SOURCEPATH      ../src
+SOURCE          AknCapServerEntry.cpp
+SOURCE          AknCapServer.cpp
+SOURCE          AknFastswapWindowControl.cpp
+SOURCE          AknFastswapWindowGrid.cpp
+SOURCE          AknMemoryCardDialogImpl.cpp
+SOURCE          AknMemoryCardUi.cpp
+SOURCE          AknEikSgcs.cpp
+SOURCE          eiksrvsp.cpp
+SOURCE          AknBlankWin.cpp
+SOURCE          aknKeyFilter.cpp
+SOURCE          AknCapServerShutdown.cpp
+SOURCE          aknphonekeyforwarder.cpp
+SOURCE          akncapserverdiscreetpopuphandler.cpp
+
+START RESOURCE  AknMemoryCardUi.rss
+HEADER
+TARGETPATH      /private/10207218
+LANGUAGE_IDS
+END
+
+#ifndef TFX_USE_WCHANGE_EVENT
+SOURCE          winchangemonitor.cpp
+#endif
+
+LIBRARY         euser.lib 
+LIBRARY         apparc.lib 
+LIBRARY         cone.lib 
+LIBRARY         eikcore.lib 
+LIBRARY         eikcoctl.lib 
+LIBRARY         ws32.lib 
+LIBRARY         aknskins.lib 
+LIBRARY         apfile.lib 
+LIBRARY         apgrfx.lib
+LIBRARY         avkon.lib 
+LIBRARY         aknnotifierwrapper.lib 
+LIBRARY         commonengine.lib 
+LIBRARY         aknicon.lib 
+LIBRARY         egul.lib 
+LIBRARY         fbscli.lib
+LIBRARY         eiksrvc.lib
+LIBRARY         efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         cdlengine.lib
+LIBRARY         aknlayout2scalable.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eiksrv.lib
+LIBRARY         ecom.lib
+LIBRARY         ptiengine.lib
+LIBRARY         oommonitor.lib
+LIBRARY         akncapserverclient.lib
+LIBRARY         hal.lib
+LIBRARY         featmgr.lib
+LIBRARY         gfxtrans.lib
+LIBRARY         syslangutil.lib
+LIBRARY         centralrepository.lib
+LIBRARY         akntransitionutils.lib
+LIBRARY         widgetregistryclient.lib
+LIBRARY         akndynamicsoftnoteeventmanager.lib
+LIBRARY         ecompluginnotifier.lib
+LIBRARY         touchfeedback.lib
+LIBRARY         AknNotify.lib
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+LIBRARY         aknlistloadertfx.lib
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+#ifdef SYMBIAN_BUILD_GCE
+LIBRARY         alfclient.lib
+#endif // SYMBIAN_BUILD_GCE
+
+// #define WCPLOG WCPLOG
+#ifdef WCPLOG
+LIBRARY         flogger.lib
+MACRO           WCPLOG
+#endif
+
+START RESOURCE AknCapServer_reg.rss
+// Do not change the UID below.
+TARGETPATH /private/10003a3f/apps
+END
+

@@ -1,0 +1,970 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <BCTestsettingpage.mbg>
+
+#include <appinfo.rh>
+
+#include "BCTestsettingpage.hrh"
+#include "BCTestsettingpage.loc"
+
+#ifdef LANGUAGE_01
+#include "BCTestsettingpage_01.loc"
+#endif
+
+#ifdef LANGUAGE_31
+#include "BCTestsettingpage_31.loc"
+#endif
+
+#ifdef LANGUAGE_37
+#include "BCTestsettingpage_37.loc"
+#endif
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctesttemplate_BMP_FNAME APP_BITMAP_DIR"\\BCTestSettingpage.mbm"
+
+// for Popup Setting Page
+#define POPUP_SETTING_PAGE_NUMBER 1
+
+#define CHECKBOX_SETTING_PAGE_NUMBER     1
+#define TEXT_SETTING_PAGE_NUMBER 1
+#define TEXT_SETTING_PAGE_WIDTH 9
+#define TEXT_SETTING_PAGE_LINES 5
+#define TEXT_SETTING_PAGE_MAXLENGTH10 10
+#define TEXT_SETTING_PAGE_MAXLENGTH20 20
+#define TEXT_SETTING_PAGE_MAXLENGTH30 30
+
+// for Alpha Password Setting Page
+#define ALPHA_PASSWORD_SETTING_PAGE_NUMBER 1
+#define ALPHA_PASSWORD_LENGTH_OF_STRING 8
+
+// for Numeric Password Setting Page
+#define NUMERIC_PASSWORD_SETTING_PAGE_NUMBER 2
+#define NUMERIC_PASSWORD_OL58_SETTING_PAGE_NUMBER 1
+#define NUMERIC_PASSWORD_LENGTH_OF_STRING 8
+
+// for Slider Setting Page
+#define SLIDER_SETTING_PAGE_NUMBER 1
+#define SLIDER_SETTING_PAGE_MINVALUE 0
+#define SLIDER_SETTING_PAGE_MAXVALUE 101
+#define SLIDER_SETTING_PAGE_STEP 1
+
+// for Volume Setting Page
+#define VOLUME_SETTING_PAGE_NUMBER 1
+#define VOLUME_SETTING_PAGE_VALUE 8
+
+// for Time Setting Page
+#define TIME_SETTING_PAGE_NUMBER 1
+#define TIME_EDITOR_MIN_SECOND 0
+#define TIME_EDITOR_MIN_MINUTE 0
+#define TIME_EDITOR_MIN_HOUR 0
+#define TIME_EDITOR_MAX_SECOND 59
+#define TIME_EDITOR_MAX_MINUTE 59
+#define TIME_EDITOR_MAX_HOUR 23
+
+// for Duration Setting Page
+#define DURATION_SETTING_PAGE_NUMBER 1
+#define DURATION_EDITOR_MIN_SECOND 0
+#define DURATION_EDITOR_MAX_SECOND 43200 // 12h00m00s
+
+
+//For Ip address editor
+#define IPADDRESS_MIN_FIRST_FIELD_VALUE     0
+#define IPADDRESS_MIN_SECOND_FIELD_VALUE    0
+#define IPADDRESS_MIN_THIRD_FIELD_VALUE     0
+#define IPADDRESS_MIN_FOURTH_FIELD_VALUE    0
+#define IPADDRESS_MAX_FIRST_FIELD_VALUE     255
+#define IPADDRESS_MAX_SECOND_FIELD_VALUE    255
+#define IPADDRESS_MAX_THIRD_FIELD_VALUE     255
+#define IPADDRESS_MAX_FOURTH_FIELD_VALUE    255
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestSPage";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestsettingpage_menubar_main;
+    cba = r_bctestsettingpage_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestsettingpage_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        number_of_icons = 2;
+//      icon_file = APP_BITMAP_DIR"\\BCTestsettingpage_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsettingpage_view
+//    AVKON_VIEW for CBCTestSettingpageView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestsettingpage_view
+    {
+    menubar = r_bctestsettingpage_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsettingpage_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestsettingpage_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestsettingpage_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestsettingpage_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsettingpage_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestsettingpage_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestsettingpage_outline1;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsettingpage_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestsettingpage_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestsettingpage_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestsettingpage_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestsettingpage_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestsettingpage_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestSettingPageCbaCmdNext;
+            txt = qtn_bctestsettingpage_cba_next;
+            }
+	};
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_checkbox_setting_page
+//    For outline03,16,17,27,37,40.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestsetpage_checkbox_setting_page
+    {
+    number = CHECKBOX_SETTING_PAGE_NUMBER;
+    label = qtn_aknatsetpage_multi_title;
+    type = EAknSetListBox;
+    editor_resource_id = r_bctestsetpage_listbox;
+    menubar = r_bctestsetpage_checkbox_menubar;
+    }
+    
+RESOURCE MENU_BAR r_bctestsetpage_checkbox_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestsetpage_checkbox_menupane;
+            txt = "test";
+            }
+        };
+    }
+    
+RESOURCE MENU_PANE r_bctestsetpage_checkbox_menupane
+    {
+    items =
+        {
+        MENU_ITEM 
+            {
+            command = EBCTestMenuItem;
+            txt = "test";
+            }
+        };
+    }
+
+RESOURCE LISTBOX r_bctestsetpage_listbox
+    {
+    flags = EAknListBoxMultipleSelection;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctest_password_setting_page
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctest_password_setting_page
+    {
+    number = ALPHA_PASSWORD_SETTING_PAGE_NUMBER;
+    label = qtn_bctestpassword_setpage_title;
+    type = EEikCtSecretEd;
+    editor_resource_id = r_bctest_setpage_password;
+    }
+
+RESOURCE SECRETED r_bctest_setpage_password
+    {
+    num_letters = ALPHA_PASSWORD_LENGTH_OF_STRING;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_numeric_password_setting_page
+//    For outline73.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_numeric_password_setting_page
+    {
+    number = NUMERIC_PASSWORD_SETTING_PAGE_NUMBER;
+    label = qtn_aknatsetpage_numeric_title;
+    type = EAknCtNumericSecretEditor;
+    editor_resource_id = r_aknatsetpage_numeric_password;
+    }
+
+RESOURCE NUMSECRETED r_aknatsetpage_numeric_password
+    {
+    num_code_chars = NUMERIC_PASSWORD_LENGTH_OF_STRING;
+    }
+
+RESOURCE AVKON_PASSWORD_CONFIRMATION r_aknatsetpage_numeric_password_new_confirmation
+    {
+    password_query_resource = r_aknatsetpage_alpha_password_new_pw_conf_query;
+    success_note_resource = r_aknatsetpage_right_confirmation_note;
+    failure_note_resource = r_aknatsetpage_wrong_confirmation_note;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_alpha_password_new_pw_conf_query
+//    Alphanumeric Passwords.
+//    For Outline32.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknatsetpage_alpha_password_new_pw_conf_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY 
+                { 
+                layout = ECodeLayout;
+                label = "Please re-enter your new password";
+                control = SECRETED
+                    {
+                    num_letters = 10;
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_alpha_password_old_confirmation
+//    Old password confirmation of Alphanumeric Passwords.
+//    For Outline73.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknatsetpage_alpha_password_old_pw_conf_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY 
+                { 
+                layout = ECodeLayout;
+                label = "Please Enter Old Password:";
+                control = SECRETED
+                    {
+                    num_letters = 10;
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_right_confirmation_note
+//    Alphanumeric Passwords.
+//    For Outline73.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknatsetpage_right_confirmation_note
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons;
+    buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EAknAtSetPageConfirmation;
+            control = AVKON_NOTE
+                { 
+                layout = EGeneralLayout;
+                singular_label = "Password confirmed";
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_wrong_confirmation_note
+//    Alphanumeric Passwords.
+//    For Outline73.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknatsetpage_wrong_confirmation_note
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+            EEikDialogFlagCbaButtons;
+    buttons=R_AVKON_SOFTKEYS_OK_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EAknAtSetPageConfirmation;
+            control= AVKON_NOTE 
+                { 
+                layout = EGeneralLayout;
+                singular_label = "Please try again";
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_alpha_password_old_confirmation
+//    Alphanumeric passwords
+//    For Outline73.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_PASSWORD_CONFIRMATION r_aknatsetpage_alpha_password_old_confirmation
+    {
+    password_query_resource = r_aknatsetpage_alpha_password_old_pw_conf_query;
+    success_note_resource = r_aknatsetpage_right_confirmation_note;
+    failure_note_resource = r_aknatsetpage_wrong_confirmation_note;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_text_setting_page
+//    For outline01,06,09,11,12, 25,28, 64.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_text_setting_page
+    {
+    number = TEXT_SETTING_PAGE_NUMBER;
+    label = qtn_aknatsetpage_text_title;
+    menubar = r_aknatsetpage_radiobtn_setpage_menubar;
+    type = EEikCtEdwin;
+    editor_resource_id = r_aknatsetpage_edwin;
+    }
+
+RESOURCE EDWIN r_aknatsetpage_edwin
+    {
+    width = TEXT_SETTING_PAGE_WIDTH;
+    lines = TEXT_SETTING_PAGE_LINES;
+    maxlength = TEXT_SETTING_PAGE_MAXLENGTH20;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_slider_setting_page
+//    For outline04,18,19.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_slider_setting_page
+    {
+    number = SLIDER_SETTING_PAGE_NUMBER;
+    label = qtn_aknatsetpage_slider_title;
+    type = EAknCtSlider;
+    editor_resource_id = r_aknatsetpage_slider;
+    }
+
+RESOURCE SLIDER r_aknatsetpage_slider
+    {
+    layout = EAknSettingsItemSliderLayout;
+    minvalue = SLIDER_SETTING_PAGE_MINVALUE;
+    maxvalue = SLIDER_SETTING_PAGE_MAXVALUE;
+    step = SLIDER_SETTING_PAGE_STEP;
+    valuetype = EAknSliderValuePercentage;
+    minlabel = qtn_slider_minlabel;
+    maxlabel = qtn_slider_maxlabel;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_volume_setting_page
+//    For outline05,20,21.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_volume_setting_page
+    {
+    number = VOLUME_SETTING_PAGE_NUMBER;
+    label = qtn_aknatsetpage_volume_title;
+    type = EAknCtVolumeControl;
+    editor_resource_id = r_aknatsetpage_volume;
+    }
+
+RESOURCE VOLUME r_aknatsetpage_volume
+    {
+    flags = ESettingsVolumeControl;
+    value = VOLUME_SETTING_PAGE_VALUE;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_radiobtn_setpage
+//    Setting page for radio button.
+//    It is for outline .
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_radiobtn_setpage
+    { 
+    label = qtn_aknatsetpage_radiobtn_title;
+    softkey_resource = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    type = EAknSetListBox;
+    editor_resource_id = r_aknatsetpage_radiobtn_setpage_listbox;
+    menubar = r_aknatsetpage_radiobtn_setpage_menubar;
+    }
+
+RESOURCE LISTBOX r_aknatsetpage_radiobtn_setpage_listbox 
+    {
+    flags = EEikListBoxMultipleSelection;
+    }
+
+RESOURCE MENU_BAR r_aknatsetpage_radiobtn_setpage_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_aknatsetpage_radiobtn_setpage_menupane;
+            txt = qtn_aknatsetpage_menubar;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_aknatsetpage_radiobtn_setpage_menupane
+    {
+    items =
+        {
+        MENU_ITEM 
+            {
+            command = EAknAtSetPageCmdSetItemArrayAndSelection;
+            txt = qtn_aknatsetpage_radiobtn_setarray_select_item;
+            },
+        MENU_ITEM 
+            {
+            command = EAknAtSetPageCmdSelectCurrentItem;
+            txt = qtn_aknatsetpage_radiobtn_selcur_item;
+            }
+        };
+    }
+
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_aknatsetpage_popup_setting_list2
+    {
+    setting_texts_resource = r_aknatsetpage_page_list;
+    popped_up_texts_resource = r_aknatsetpage_list_item_array;
+    }
+
+RESOURCE ARRAY r_aknatsetpage_page_list
+    {
+    items =
+        {
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 0;
+            text = qtn_aknatsetpage_item_list0;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 1;
+            text = qtn_aknatsetpage_item_list1;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 2;
+            text = qtn_aknatsetpage_item_list2;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 3;
+            text = qtn_aknatsetpage_item_list3;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 4;
+            text = qtn_aknatsetpage_item_list4;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 5;
+            text = qtn_aknatsetpage_item_list5;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 6;
+            text = qtn_aknatsetpage_item_list6;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 7;
+            text = qtn_aknatsetpage_item_list7;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 8;
+            text = qtn_aknatsetpage_item_list8;
+            },
+        AVKON_ENUMERATED_TEXT
+            {
+            value = 9;
+            text = qtn_aknatsetpage_item_list9;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_list_item_array
+//    For Popup Setting Page and radio button setting page.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_aknatsetpage_list_item_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list0;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list1;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list2;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list3;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list4;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list5;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list6;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list7;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list8;
+            },
+        LBUF
+            {
+            txt = qtn_aknatsetpage_item_list9;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_time_setting_page
+//    For outline30.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_time_setting_page
+    {
+    number = TIME_SETTING_PAGE_NUMBER;
+    label = "time";
+    type = EEikCtTimeEditor;
+    editor_resource_id = r_aknatsetpage_time_editor;
+    }
+
+RESOURCE TIME_EDITOR r_aknatsetpage_time_editor
+    {
+    minTime = TIME
+        {
+        second = TIME_EDITOR_MIN_SECOND;
+        minute = TIME_EDITOR_MIN_MINUTE;
+        hour = TIME_EDITOR_MIN_HOUR;
+        };
+    maxTime = TIME
+        {
+        second = TIME_EDITOR_MAX_SECOND;
+        minute = TIME_EDITOR_MAX_MINUTE;
+        hour = TIME_EDITOR_MAX_HOUR;
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_time_setting_page
+//    For outline30.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_timeoffset_setting_page
+    {
+    number = TIME_SETTING_PAGE_NUMBER;
+    label = "time";
+	type = EEikCtTimeEditor;
+    editor_resource_id = r_aknatsetpage_time_editor;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_duration_setting_page
+//    For outline31.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_duration_setting_page
+    {
+    number = DURATION_SETTING_PAGE_NUMBER;
+    label = "Duration";
+    type = EEikCtDurationEditor;
+    editor_resource_id = r_aknatsetpage_duration_editor;
+    }
+
+RESOURCE DURATION_EDITOR r_aknatsetpage_duration_editor
+    {
+    minDuration = DURATION
+        {
+        seconds = DURATION_EDITOR_MIN_SECOND;
+        };
+    maxDuration = DURATION
+        {
+        seconds = DURATION_EDITOR_MAX_SECOND;
+        };
+    }
+
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_ipaddress_setting_page
+    {   
+    label= "IP";
+    type = EAknCtIpFieldEditor;
+    editor_resource_id = r_aknatsetpage_ipaddress_editor;
+    }
+
+
+RESOURCE IP_FIELD_EDITOR r_aknatsetpage_ipaddress_editor
+    {
+    min_field_values = IP_FIELD
+        { 
+        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+        };
+    max_field_values = IP_FIELD
+        {
+        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+        };
+    flags = 0;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_enumtext_setting_page
+//    Setting page
+//    For Outline53.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_enumtext_setting_page
+    {   
+    number= 1;
+    label= "Enum";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_aknatsetpage_popup_setting_list_new_entry;
+    }
+
+RESOURCE POPUP_SETTING_LIST r_aknatsetpage_popup_setting_list_new_entry
+    {
+    flags = EAknPopupSettingListFlagAllowsUserDefinedEntry;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_popup_setting_page
+//    For outline02,13,14,15,26,33,35,36,38,39.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_popup_setting_page
+    {
+    number = POPUP_SETTING_PAGE_NUMBER;
+    label = "popupsetpage";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_aknatsetpage_popup_setting_list;
+    }
+
+RESOURCE POPUP_SETTING_LIST r_aknatsetpage_popup_setting_list
+    {
+    flags = EAknPopupSettingListFlagInitialised;
+    }
+
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_binary_setting_page
+    {   
+    number= 0;
+    label= "Binary";
+    type = EAknCtPopupSettingList;
+    //editor_resource_id = r_setting_app_on_off_popup_setting_list;
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_setting_list_setting_integer
+//    ListBox( Setting style )
+//
+//----------------------------------------------------------------------------
+//
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_aknatsetpage_setting_list_setting_integer
+    {
+    flags= EAknSettingItemNumberedStyle;
+    title = "Item list";
+    initial_number = 1;
+    items =
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknAtSettingInteger;
+            setting_page_resource = r_aknatsetpage_number_setting_page;
+            name = "Integer";
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_number_setting_page
+//    For outline29.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_number_setting_page
+    {
+    number = TEXT_SETTING_PAGE_NUMBER;
+    label = "Number Editor";
+    type = EAknCtIntegerEdwin; // EEikCtNumberEditor;
+    editor_resource_id = r_aknatsetpage_number_editor;
+    }
+
+RESOURCE AVKON_INTEGER_EDWIN r_aknatsetpage_number_editor
+    {
+    maxlength = 20;
+    min = 1;
+    max = 10;
+    }
+    
+// Its page is also used in outline 73.
+RESOURCE AVKON_SETTING_PAGE r_aknatsetpage_date_setting_page
+    {
+    label = "Date";
+    type = EEikCtDateEditor;
+    editor_resource_id = r_aknatsetpage_date;
+    }
+
+RESOURCE DATE_EDITOR r_aknatsetpage_date
+    {
+    minDate = DATE 
+        {
+        year = TAknAtSetPageDateSettingMinYear;
+        };
+    maxDate = DATE 
+        {
+        year = TAknAtSetPageDateSettingMaxYear;
+        };
+    flags = 0;
+    }
+ RESOURCE MENU_BAR r_aknsettingpage_menu_bar
+      {
+      titles = 
+          {
+          MENU_TITLE
+              {
+              txt = "";
+              }
+          };
+      }
+
+// End of File

@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI16CAknPopupFormExt @ 2 NONAME ; #<TI>#
+	_ZTV16CAknPopupFormExt @ 3 NONAME ; #<VT>#
+

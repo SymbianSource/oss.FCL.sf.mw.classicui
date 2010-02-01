@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI26CTestTextScrollerContainer @ 2 NONAME ; #<TI>#
+	_ZTV26CTestTextScrollerContainer @ 3 NONAME ; #<VT>#
+

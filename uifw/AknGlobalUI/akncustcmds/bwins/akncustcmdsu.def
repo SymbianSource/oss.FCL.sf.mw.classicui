@@ -1,0 +1,5 @@
+EXPORTS
+	?CmdAknCapServerStartNewL@AknCustCmdFactory@@SAPAVMSsmCustomCommand@@XZ @ 1 NONAME ; class MSsmCustomCommand * AknCustCmdFactory::CmdAknCapServerStartNewL(void)
+	?CmdEnableAppsKeyAndGlobalNotesNewL@AknCustCmdFactory@@SAPAVMSsmCustomCommand@@XZ @ 2 NONAME ; class MSsmCustomCommand * AknCustCmdFactory::CmdEnableAppsKeyAndGlobalNotesNewL(void)
+	?CmdAknShutdownAppsNewL@AknCustCmdFactory@@SAPAVMSsmCustomCommand@@XZ @ 3 NONAME ; class MSsmCustomCommand * AknCustCmdFactory::CmdAknShutdownAppsNewL(void)
+

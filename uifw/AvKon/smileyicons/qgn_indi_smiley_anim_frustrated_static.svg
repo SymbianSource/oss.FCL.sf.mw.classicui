@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.999,-8) scale(1.001,1)">
+<g transform="translate(0.001)">
+<rect x="0.0" y="0.0" transform="translate(0.001)" fill="none" width="15.999" fill-rule="evenodd" height="16"/>
+<circle fill="black" r="7" fill-rule="evenodd" cx="8.0" cy="8.0"/>
+<path fill="url(#shape7grad)" d="M 14.5 8.0 C 14.5 11.59 11.59 14.5 8.0 14.5 C 4.411 14.5 1.5 11.59 1.5 8.0 C 1.5 4.411 4.411 1.5 8.0 1.5 C 11.59 1.5 14.5 4.411 14.5 8.0 z" fill-rule="evenodd"/>
+</g>
+<g transform="translate(0.001)">
+<polygon fill="black" fill-rule="evenodd" transform="translate(0,0)" points="7.452,6.685 7.452,6.685 4.141,4.772 3.833,5.825 6.452,6.64 3.72,7.191 4.117,8.214"/>
+<polygon fill="black" fill-rule="evenodd" transform="translate(0,0)" points="8.546,6.685 8.546,6.685 11.858,4.772 12.167,5.825 9.549,6.64 12.28,7.191 11.882,8.214"/>
+</g>
+<path fill="black" d="M 3.918 11.499 L 5.433 10.257 C 5.599 10.12 5.836 10.12 6.003 10.255 L 6.003 10.255 L 6.85 10.943 L 7.733 10.25 C 7.897 10.12 8.131 10.124 8.294 10.254 L 8.294 10.254 L 9.145 10.944 L 10.049 10.248 C 10.212 10.119 10.445 10.123 10.606 10.254 L 10.606 10.254 L 12.084 11.455 L 11.516 12.151 L 10.316 11.176 L 9.41 11.877 C 9.245 12.004 9.014 12.0 8.853 11.867 L 8.853 11.867 L 8.005 11.179 L 7.123 11.874 C 6.957 12.003 6.724 12.003 6.561 11.867 L 6.561 11.867 L 5.719 11.183 L 4.836 11.909 L 4.488 12.195 L 3.918 11.499 L 3.918 11.499 z" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<g transform="translate(0,0) scale(1)">
+<path fill="black" d="M 11.594 10.952 C 11.594 12.61 9.986 13.684 8.0 13.684 C 6.016 13.684 4.408 12.61 4.408 10.952 C 4.408 9.297 6.016 7.684 8.0 7.684 C 9.985 7.685 11.594 9.296 11.594 10.952 z" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path fill="#FF2E00" d="M 8.0 13.044 C 6.533 13.044 5.047 12.325 5.047 10.952 C 5.047 9.712 6.31 8.325 8.0 8.325 C 9.691 8.325 10.952 9.712 10.952 10.952 C 10.952 12.325 9.469 13.044 8.0 13.044 L 8.0 13.044 z" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+</g>
+</g>
+</svg>

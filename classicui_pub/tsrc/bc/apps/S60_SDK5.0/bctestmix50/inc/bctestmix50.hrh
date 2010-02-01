@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTMIX50_HRH
+#define BCTESTMIX50_HRH
+
+enum TBCTestMix50MenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestCmdOutline1,
+    EBCTestCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestMix50Cba
+    {
+    EBCTestMix50CbaCmdNext = 0x6300,
+    EBcTestEdwin
+    };
+
+#define AKNEIK_SLIDER_MINIMUM_VALUE 0
+#define AKNEIK_SLIDER_MAXIMUM_VALUE 100
+#define AKNEIK_SLIDER_STEP_SIZE 2
+#define AKNEIK_TEXT_SETTING_PAGE_NUMBER 1
+#define AKNEIK_TEXT_SETTING_PAGE_WIDTH 9
+#define AKNEIK_TEXT_SETTING_PAGE_LINES 5
+#define AKNEIK_TEXT_SETTING_PAGE_MAXLENGTH20 20
+#define AKNEIK_VOLUME_SETTING_VALUE 5
+
+#define AKNEIK_EDITOR_MIN_VALUE 0
+#define AKNEIK_EDITOR_MAX_VALUE 20
+#define AKNEIK_EDITOR_MAXFRACT_VALUE 2
+
+#endif // BCTESTMIX50_HRH

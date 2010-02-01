@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI27CTestServiceIfBaseProtected @ 2 NONAME ; #<TI>#
+	_ZTV27CTestServiceIfBaseProtected @ 3 NONAME ; #<VT>#
+

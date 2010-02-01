@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="589c5d113565d4721f252a5c430da1e4" dataversion="1.0">
+  <name>Indicator Touch Observer API</name>
+  <description>An observer interface for detecting touch events in indicators.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

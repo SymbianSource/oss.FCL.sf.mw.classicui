@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.999,-8) scale(1.001,1)">
+<g transform="translate(0.001)">
+<rect fill="none" fill-rule="evenodd" height="16" transform="translate(0.001)" width="15.999" x="0" y="0"/>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape7grad)" fill-rule="evenodd"/>
+</g>
+<path d="M7.731,6.626C7.731,7.731,6.836,8.626,5.728,8.626C4.624,8.626,3.73,7.731,3.73,6.626C3.73,5.521,4.625,4.626,5.728,4.626C6.836,4.626,7.731,5.521,7.731,6.626z" fill="white" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<path d="M12.351,6.626C12.351,7.731,11.455,8.626,10.351,8.626C9.246,8.626,8.351,7.731,8.351,6.626C8.351,5.522,9.246,4.626,10.351,4.626C11.455,4.626,12.351,5.522,12.351,6.626z" fill="white" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<g transform="translate(0.001)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="1.90s" fill="freeze" keyTimes="0;0.216;0.316;0.427;0.632;0.737;0.843;1" type="translate" values="8.041,6.627;8.041,6.627;9.041,6.627;9.041,6.627;7.041,6.627;7.041,6.627;8.041,6.627;8.041,6.627"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-8.04,-6.626;-8.04,-6.626"/>
+<path d="M6.731,6.626C6.731,7.179,6.283,7.626,5.731,7.626C5.178,7.626,4.731,7.179,4.731,6.626C4.731,6.074,5.178,5.626,5.731,5.626C6.283,5.626,6.731,6.074,6.731,6.626z" fill="black" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<path d="M11.351,6.626C11.351,7.179,10.904,7.626,10.351,7.626C9.799,7.626,9.351,7.179,9.351,6.626C9.351,6.074,9.799,5.626,10.351,5.626C10.904,5.626,11.351,6.074,11.351,6.626z" fill="black" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+</g>
+<g transform="translate(0)">
+<g transform="translate(0)">
+<g transform="translate(0)">
+<path d="M8.042,12.507C6.138,12.507,4.558,11.212,4.072,9.461L3.21,9.461C3.716,11.685,5.667,13.356,8.042,13.356C10.418,13.356,12.37,11.683,12.875,9.461L12.014,9.461C11.528,11.212,9.947,12.507,8.042,12.507z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+</g>
+</g>
+<polygon fill="black" fill-rule="evenodd" points="4.874,4.031 4.874,4.031 5.319,3.135 7.319,4.136 6.871,5.031" transform="translate(0.001,0.001)"/>
+<polygon fill="black" fill-rule="evenodd" points="8.707,4.136 8.707,4.136 10.707,3.135 11.153,4.031 9.153,5.031" transform="translate(0.001,0.001)"/>
+</g>
+</g>
+</svg>

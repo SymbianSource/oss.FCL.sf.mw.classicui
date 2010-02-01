@@ -1,0 +1,462 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+ 
+NAME TBMP
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+
+#include <tbmpanim.mbg>
+#include "TBMPAnim.hrh"
+
+#define TPlay			0
+#define TPlayModeCycle	1
+#define TPlayModeBounce	2
+
+
+STRUCT ANIM_DATA
+    {
+    WORD frameinterval		= -1;
+    WORD playmode			= 0;
+    BYTE flash				= 0;
+	LTEXT bmpfile			= "";
+    LLINK frames			= 0;
+	LLINK backgroundframe	= 0;
+ 	}
+
+STRUCT ANIM_FRAME
+    {
+	WORD time		= -1;
+	WORD posx		= 0;
+	WORD posy		= 0;
+    WORD bmpid		= 0xffff;
+    WORD maskid		= 0xffff;
+    }
+
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_anim_hotkeys;
+	menubar=r_anim_menubar;
+	toolbar=r_tanim_toolbar;
+	}
+
+RESOURCE HOTKEYS r_anim_hotkeys
+    {
+    control=
+        {
+        HOTKEY {command=EEikCmdExit; key='e';},
+		HOTKEY {command=ETBmpAnimCmdStart; key='a';},
+		HOTKEY {command=ETBmpAnimCmdStop; key='c';}
+        };
+    }
+
+
+
+RESOURCE TOOLBAR r_tanim_toolbar
+	{
+	controls=
+		{
+		TBAR_BUTTON {id=ETBmpAnimCmdStart; flags=EEikToolBarCtrlIsStretchable; txt="Animate";},
+		TBAR_BUTTON {id=ETBmpAnimCmdStop; flags=EEikToolBarCtrlIsStretchable; txt="Cancel";},
+        TBAR_BUTTON {id=EEikCmdExit; flags=EEikToolBarCtrlIsStretchable|EEikButLatches; txt="Exit";},
+		TBAR_CTRL
+			{
+			type=EEikCtClock;
+			id=0;
+			control=CLOCK 
+				{
+				digitalresourceid=R_EIK_DIGITAL_CLOCK;
+				analogresourceid=R_EIK_ANALOG_CLOCK;
+				};
+			}
+		};
+	}
+	
+
+RESOURCE MENU_BAR r_anim_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tbmpanim_file_menu; txt="File"; },
+		MENU_TITLE { menu_pane=r_tbmpanim_animation_menu; txt="More Animation"; },
+		MENU_TITLE { menu_pane=r_tbmpanim_other_menu; txt="Other Test"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tbmpanim_other_menu
+	{
+	items=
+		{
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdMemoryTest; txt="Memory Test";
+			},
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdDlgWithAnim1; txt="Dialog with Animated Ball";
+			},
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdDlgWithAnim2; txt="Dialog with \"Copying File\"";
+			}
+		};
+	}
+
+RESOURCE MENU_PANE r_tbmpanim_file_menu
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EEikCmdExit; txt="Close";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_tbmpanim_animation_menu
+	{
+	items=
+		{
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdDefault; txt="Show defalut animation";
+			},
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdDefaultSh; txt="Show defalut animation (sh=100)";
+			},
+		MENU_ITEM
+			{
+			command=ETBmpAnimCmdBall; txt="Show ball animation";
+			}
+		};
+	}
+
+RESOURCE ARRAY r_tbmpanim_play_mode
+	{
+	items=
+		{
+		LBUF { txt="Play";   },
+		LBUF { txt="Cycle";  },
+		LBUF { txt="Bounce";  }
+		};
+	}
+
+RESOURCE DIALOG r_tbmpanim_animation_attributes
+	{
+	title="Animation Attributes";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+	flags=EEikDialogFlagWait;
+    items=
+		{
+		DLG_LINE
+            {
+            type=EEikCtCheckBox;
+			id=ETbmpAnimOnOff;
+            prompt="Animation On";
+            },
+		DLG_LINE
+            {
+            type=EEikCtChoiceList;
+			id=ETBmpAnimPlayMode;
+            prompt="Play Mode";
+            control=CHOICELIST
+                {
+                array_id=r_tbmpanim_play_mode;
+                };
+            },
+		DLG_LINE
+            {
+            type=EEikCtNumberEditor;
+			id=ETBmpAnimFrameInterval;
+            prompt="Frame Interval";
+            control=NUMBER_EDITOR
+                {
+				min = 0;
+				max = 1000000;
+                };
+            },
+		DLG_LINE
+            {
+            type=EEikCtNumberEditor;
+			id=ETBmpAnimNumOfCycles;
+            prompt="Number Of Cycles";
+            control=NUMBER_EDITOR
+                {
+				min = -1;
+				max = 10;
+                };
+            }
+		};
+	}
+
+RESOURCE ANIM_DATA r_tbmpanim_image1
+    {
+	frameinterval=1; // ms
+	playmode=TPlayModeCycle;
+	frames = r_tbmpanim_image_array1;
+	backgroundframe = r_tbmpanim_backgroundframe1;
+	}
+
+RESOURCE ANIM_FRAME r_tbmpanim_backgroundframe1
+    {
+	bmpid=EMbmTbmpanimTextured;// maskid=EMbmTbmpanimLink0m;
+    }
+	
+RESOURCE ARRAY r_tbmpanim_image_array1
+    {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink0; maskid=EMbmTbmpanimLink0m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink1; maskid=EMbmTbmpanimLink1m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink2; maskid=EMbmTbmpanimLink2m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink3; maskid=EMbmTbmpanimLink3m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink4; maskid=EMbmTbmpanimLink4m;}
+		};
+    }
+	
+RESOURCE ANIM_DATA r_tbmpanim_image2
+    {
+	frameinterval=100; // ms
+	playmode=TPlayModeBounce;
+	frames = r_tbmpanim_image_array2;
+	}
+
+RESOURCE ARRAY r_tbmpanim_image_array2
+    {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink0; maskid=EMbmTbmpanimLink0m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink1; maskid=EMbmTbmpanimLink1m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink2; maskid=EMbmTbmpanimLink2m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink3; maskid=EMbmTbmpanimLink3m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimLink4; maskid=EMbmTbmpanimLink4m;}
+		};
+    }
+	
+RESOURCE ANIM_DATA r_tbmpanim_image3
+    {
+	frameinterval=100; // ms
+	playmode=TPlayModeBounce;
+	frames = r_tbmpanim_image_array3;
+	}
+
+RESOURCE ARRAY r_tbmpanim_image_array3
+    {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=0; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=10; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=20; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=30; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=40; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=50; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=60; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=70; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=80; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=90; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=100; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=110; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=120; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=130; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=140; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=150; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=160; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=170; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=180; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=190; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedball; maskid=EMbmTbmpanimRedballm; posx=200; posy=90;}
+		};
+    }
+
+
+RESOURCE ANIM_DATA r_tbmpanim_image4
+    {
+	frameinterval=100; // ms
+	playmode=TPlayModeBounce;
+	frames = r_tbmpanim_image_array4;
+	backgroundframe = r_tbmpanim_backgroundframe4;
+	}
+
+RESOURCE ARRAY r_tbmpanim_image_array4
+   {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=0; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=10; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=11; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=20; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=30; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=40; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=50; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=60; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=70; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=80; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=90; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=100; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=110; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=120; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=130; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=140; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=150; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=160; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=170; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=180; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=190; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimRedpurpball; maskid=EMbmTbmpanimRedpurpballm; posx=200; posy=90;}
+		};
+    }
+
+
+RESOURCE ANIM_FRAME r_tbmpanim_backgroundframe4
+    {
+	bmpid=EMbmTbmpanimBackground4;
+	maskid=EMbmTbmpanimBackground4m;
+    }
+
+RESOURCE ANIM_DATA r_tbmpanim_image5
+    {
+	frameinterval=100; // ms
+	playmode=TPlayModeBounce;
+	frames = r_tbmpanim_image_array5;
+	}
+
+RESOURCE ARRAY r_tbmpanim_image_array5
+    {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=0; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=10; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=20; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=30; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=40; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=50; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=60; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=70; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=80; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=90; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=100; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=110; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=120; posy=90;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=130; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=140; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=150; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=160; posy=50;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=170; posy=60;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=180; posy=70;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=190; posy=80;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimYellowbrownball; maskid=EMbmTbmpanimYellowbrownballm; posx=200; posy=90;}
+		};
+    }
+
+RESOURCE ARRAY r_tbmpanim_color_list
+	{
+	items=
+		{
+		LBUF { txt="Black"; },
+		LBUF { txt="Blue";  },
+		LBUF { txt="Gray";  },
+		LBUF { txt="Red";   },
+		LBUF { txt="White"; },
+		LBUF { txt="Yellow";  }
+		};
+	}
+
+RESOURCE DIALOG r_tbmpanim_color_dialog
+    {
+	title="Color Schemes";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+	flags=EEikDialogFlagWait;
+    items=
+		{
+		DLG_LINE
+            {
+            type=EEikCtChoiceList;
+			id=EColorChoiceListId;
+            prompt="Schemes";
+            control=CHOICELIST
+                {
+                array_id=r_tbmpanim_color_list;
+                };
+            }
+		};
+	}
+
+RESOURCE DIALOG r_tbmpanim_dialog_with_animated_ball
+    {
+	title="Dialog with Animation";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+	flags=EEikDialogFlagWait;
+    items=
+		{
+        DLG_LINE
+            {
+			type=EEikCtLabel;
+			control=LABEL{txt="This is a bouncing ball animation";};
+            },
+		DLG_LINE
+            {
+            type=EBmpAnimationCtlType;
+            id=EBmpAnimationCtlId;
+            control=ANIM_DATA
+				{
+//				bmpfile	= "z:\\System\\Programs\\TBmpanim\\TBmpanimstep.mbm";
+				frameinterval=1; // ms
+				playmode = TPlayModeBounce;
+				frames = r_tbmpanim_image_array3;
+				};
+            }
+		};
+	}
+
+RESOURCE DIALOG r_tbmpanim_dialog_with_floating_sheet
+    {
+	title="Dialog with Animation";
+    buttons=R_EIK_BUTTONS_CANCEL_OK;
+	flags=EEikDialogFlagWait;
+    items=
+		{
+		DLG_LINE
+            {
+            type=EBmpAnimationCtlType;
+            id=EBmpAnimationCtlId;
+            control=ANIM_DATA
+				{
+				frameinterval=1; // ms
+				playmode = TPlayModeCycle;
+				frames = r_copy_move_animation_image_array;
+				};
+            }
+		};
+	}
+
+
+RESOURCE ARRAY r_copy_move_animation_image_array
+    {
+	items=
+		{
+		ANIM_FRAME { bmpid=EMbmTbmpanimCopymov1; maskid=EMbmTbmpanimCopymov1m;},
+		ANIM_FRAME { bmpid=EMbmTbmpanimCopymov2; maskid=EMbmTbmpanimCopymov2m;},
+        ANIM_FRAME { bmpid=EMbmTbmpanimCopymov3; maskid=EMbmTbmpanimCopymov3m;},
+        ANIM_FRAME { bmpid=EMbmTbmpanimCopymov4; maskid=EMbmTbmpanimCopymov4m;},
+        ANIM_FRAME { bmpid=EMbmTbmpanimCopymov5; maskid=EMbmTbmpanimCopymov5m;},
+        ANIM_FRAME { bmpid=EMbmTbmpanimCopymov6; maskid=EMbmTbmpanimCopymov6m;}
+		};
+    }

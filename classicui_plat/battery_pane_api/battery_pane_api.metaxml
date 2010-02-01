@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="734b2d89b46dd297b7a183a8182f7e99" dataversion="1.0">
+  <name>Battery Pane API</name>
+  <description>Provides the battery pane UI component.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

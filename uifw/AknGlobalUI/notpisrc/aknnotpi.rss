@@ -1,0 +1,1202 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for AVKON Notifiers.
+*
+*/
+
+
+NAME TNFP
+
+#include <eikon.rh>
+#include <eikcore.rsg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include "AknNotifyPlugin.hrh"
+#include <aknnotifyplugin.loc>
+#include <avkon.loc>
+#include "avkon.hrh"
+#include <AiwCommon.rh>
+
+// For bitmap indexes
+#include <avkon.mbg>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+// KeyLock resources
+
+RESOURCE CBA r_keylock_softkeys_unlock_empty
+    {
+    buttons =
+        {
+        CBA_BUTTON{id=EAknSoftkeyUnlock; txt= text_softkey_unlock; },
+        CBA_BUTTON{id=EAknSoftkeyEmpty; txt=text_softkey_empty; },
+        CBA_BUTTON{id=EAknSoftkeyEmpty; txt=text_softkey_empty; }
+        };
+    }
+
+RESOURCE CBA r_keylock_softkeys_empty_ok
+    {
+    buttons =
+        {
+        CBA_BUTTON{txt=text_softkey_empty; },
+        CBA_BUTTON{id=EAknSoftkeyOk; txt= text_softkey_ok; }
+        };
+    }
+
+RESOURCE CBA r_keylock_softkeys_lock_confirmation
+    {
+    buttons =
+        {
+        CBA_BUTTON{id=EAknSoftkeyLock; txt= text_softkey_yes; },
+        CBA_BUTTON{id=EAknSoftkeyExit; txt= text_softkey_no; }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_keylocked
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = r_keylock_softkeys_unlock_empty;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                
+#ifndef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_err_unaccept_press;
+                plural_label = qtn_keyg_err_unaccept_press;
+#endif //#ifndef SERIES60_KEYPAD_NO_SLIDER
+
+#ifdef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_err_unaccept_presses;
+                plural_label = qtn_keyg_err_unaccept_presses;
+#endif //#ifdef SERIES60_KEYPAD_NO_SLIDER
+                
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+    
+RESOURCE DIALOG r_keylock_note_keylocked_switch
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = r_keylock_softkeys_unlock_empty;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+#ifndef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_info_note_keyguard_switch;
+                plural_label = qtn_keyg_info_note_keyguard_switch;
+#endif //#ifndef SERIES60_KEYPAD_NO_SLIDER
+
+#ifdef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_info_note_keyguard_switch;
+                plural_label = qtn_keyg_info_note_keyguard_switch;
+#endif //#ifdef SERIES60_KEYPAD_NO_SLIDER
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_keylocked_switch_no_cba
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+#ifndef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_info_note_keyguard_switch;
+                plural_label = qtn_keyg_info_note_keyguard_switch;
+#endif //#ifndef SERIES60_KEYPAD_NO_SLIDER
+
+#ifdef __SERIES60_KEYPAD_NO_SLIDER
+                singular_label = qtn_keyg_info_note_keyguard_switch;
+                plural_label = qtn_keyg_info_note_keyguard_switch;
+#endif //#ifdef SERIES60_KEYPAD_NO_SLIDER
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_unlock_confirm
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = r_keylock_softkeys_empty_ok;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_quest_unlock_keypad;
+                plural_label = qtn_keyg_quest_unlock_keypad;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_unlock_asterisk
+    {
+#ifdef RD_SCALABLE_UI_V2
+    flags = EAknDialogGenericNoteFlags;
+#else
+    flags = EAknConfirmationNoteFlags;
+#endif // RD_SCALABLE_UI_V2    
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_info_nowpress;
+                plural_label = qtn_keyg_info_nowpress;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_lock_on
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_keypad_locked;
+                plural_label = qtn_keyg_conf_keypad_locked;
+                animation = R_QGN_NOTE_KEYGUARD_LOCKED_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_lock_off
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_keypad_active;
+                plural_label = qtn_keyg_conf_keypad_active;
+                animation = R_QGN_NOTE_KEYGUARD_OPEN_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_offer_lock_note
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = r_keylock_softkeys_lock_confirmation;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_lock_keys;
+                plural_label = qtn_keyg_lock_keys;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_global_note
+    {
+    flags = EAknDialogGenericNoteFlags | EEikDialogFlagNotifyEsc;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIGlobalNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = "";
+                plural_label = "";
+                };
+            }
+        };
+    }
+
+RESOURCE AVKON_NOTE r_information_control
+    {
+    layout = EGeneralLayout;
+    singular_label = "";
+    plural_label = "";
+    animation = R_QGN_NOTE_INFO_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_warning_control
+    {
+    layout = EGeneralLayout;
+    singular_label = "";
+    plural_label = "";
+    animation = R_QGN_NOTE_WARNING_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_confirmation_control
+    {
+    layout = EGeneralLayout;
+    singular_label = "";
+    plural_label = "";
+    animation = R_QGN_NOTE_OK_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_error_control
+    {
+    layout = EGeneralLayout;
+    singular_label = "";
+    plural_label = "";
+    animation = R_QGN_NOTE_ERROR_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_wait_control
+    {
+    layout = EWaitLayout;
+    singular_label = "";
+    plural_label = "";
+    animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_permanent_control
+    {
+    layout = EGeneralLayout;
+    singular_label = "";
+    plural_label = "";
+    }
+
+RESOURCE AVKON_NOTE r_battery_charging_control
+    {
+    layout = EGeneralLayout;
+    singular_label = text_charging;
+    plural_label = "";
+    animation = R_QGN_NOTE_BATT_CHARGING_ANIM;
+    }
+
+
+RESOURCE AVKON_NOTE r_battery_not_charging_control
+    {
+    layout = EGeneralLayout;
+    singular_label = text_wrong_charger;
+    plural_label = "";
+    animation = R_QGN_NOTE_BATT_NOT_CHARGING_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_battery_full_control
+    {
+    layout = EGeneralLayout;
+    singular_label = text_battery_full;
+    plural_label = "";
+    animation = R_QGN_NOTE_BATT_FULL_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_battery_low_control
+    {
+    layout = EGeneralLayout;
+    singular_label = text_battery_low;
+    plural_label = "";
+    animation = R_QGN_NOTE_BATT_LOW_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_recharge_battery_control
+    {
+    layout = EGeneralLayout;
+    singular_label = qtn_battc_empty_recharge;
+    plural_label = "";
+    animation = R_QGN_NOTE_BATT_RECHARGE_ANIM;
+    }
+
+RESOURCE AVKON_NOTE r_missed_calls_note
+    {
+    layout = ENotificationWithGraphicsLayout;
+    singular_label = qtn_notif_miss_call_ungroup;
+    plural_label = qtn_notif_miss_calls_ungroup;
+    imagefile = AVKON_BITMAP_FILE;
+    imageid = EMbmAvkonQgn_note_call;
+    imagemask = EMbmAvkonQgn_note_call_mask;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_new_messages_note
+    {
+    layout = ENotificationWithGraphicsLayout;
+    singular_label = qtn_notif_message_ungroup;
+    plural_label = qtn_notif_messages_ungroup;
+    imagefile = AVKON_BITMAP_FILE;
+    imageid = EMbmAvkonQgn_note_message;
+    imagemask = EMbmAvkonQgn_note_message_mask;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_new_mail_note
+    {
+    layout = ENotificationWithGraphicsLayout;
+    singular_label = qtn_notif_new_mail_ungroup;
+    plural_label = qtn_notif_new_mails_ungroup;
+    imagefile = AVKON_BITMAP_FILE;
+    imageid = EMbmAvkonQgn_note_mail;
+    imagemask = EMbmAvkonQgn_note_mail_mask;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_network_information_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = "";
+    plural_label = "";
+    }
+
+RESOURCE AVKON_NOTE r_select_network_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_please_select_network;
+    plural_label = "";
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_unstructured_ss_data_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_ussd_message_header;
+    plural_label = "";
+    }
+
+RESOURCE AVKON_NOTE r_voice_mail_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_voice_message_waiting;
+    plural_label = text_voice_messages_waiting;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_voice_mail_on_line1_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_voice_mail_waiting_on_l1;
+    plural_label = qtn_voice_mails_waiting_on_l1;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_voice_mail_on_line2_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_voice_mail_waiting_on_l2;
+    plural_label = qtn_voice_mails_waiting_on_l2;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE AVKON_NOTE r_cell_broadcast_note
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = text_cb_received;
+    plural_label = text_cb_received_many;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE ARRAY r_grouped_notifier_texts
+    {
+    items =
+        {
+        LBUF { txt = qtn_notif_miss_call_group; },
+        LBUF { txt = qtn_notif_message_group; },
+        LBUF { txt = qtn_notif_chat_msg_group; },
+        LBUF { txt = qtn_notif_new_mail_group; }
+        };
+    }
+
+RESOURCE ARRAY r_grouped_notifier_texts_plural
+    {
+    items =
+        {
+        LBUF { txt = qtn_notif_miss_calls_group; },
+        LBUF { txt = qtn_notif_messages_group; },
+        LBUF { txt = qtn_notif_chat_msgs_group; },
+        LBUF { txt = qtn_notif_new_mails_group; }
+        };
+    }
+
+RESOURCE DIALOG r_grouped_soft_notification
+    {
+    flags = EAknSoftNotificationNoteFlags | EEikDialogFlagNotifyEsc;
+    buttons = R_AVKON_SOFTKEYS_SHOW_EXIT__SHOW;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxMenuList;
+                    height = 3;
+                    width = 3;
+                    };
+                heading = qtn_notif_prmpt_youhave;
+                };
+            }
+        };
+    }
+
+RESOURCE ARRAY r_global_list_query_list
+    {
+    items=
+        {
+        LBUF {txt = ""; }
+        };
+    }
+
+RESOURCE AVKON_LIST_QUERY r_global_list_query
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar | EEikDialogFlagCbaButtons | 
+        EEikDialogFlagNotifyEsc;
+        
+    items =
+        {
+        AVKON_LIST_QUERY_DLG_LINE
+            {
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = AVKON_LIST_QUERY_LIST
+                    {
+                    flags = EAknListBoxLoopScrolling;
+                    array_id = r_global_list_query_list;
+                    };
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_global_message_query
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar | EEikDialogFlagCbaButtons | 
+        EEikDialogFlagNoBorder | EEikDialogFlagNoShadow | EEikDialogFlagNotifyEsc;
+        
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknMessageQueryHeaderId;
+            control = AVKON_HEADING
+                {
+                headinglayout = R_AVKON_WML_SIGN_QUERY_HEADING_PANE;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;
+            control = AVKON_MESSAGE_QUERY
+                {
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_global_confirmation_query
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar | EEikDialogFlagCbaButtons | 
+        EEikDialogFlagNoBorder | EEikDialogFlagNoShadow | EEikDialogFlagNotifyEsc;
+        
+    buttons = R_AVKON_SOFTKEYS_YES_NO__YES;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationLayout;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_global_progress_dialog
+    {
+    flags = EAknProgressNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIGlobalProgressNote;
+            control = AVKON_NOTE
+                {
+                layout = EProgressLayout;
+                singular_label = " ";
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_progress;
+                imagemask = EMbmAvkonQgn_note_progress_mask;
+                };
+            }
+        };
+    }
+
+RESOURCE AVKON_NOTE r_new_chat_messages_note
+    {
+    layout = ENotificationWithGraphicsLayout;
+    singular_label = qtn_notif_chat_msg_ungroup;
+    plural_label = qtn_notif_chat_msgs_ungroup;
+    imagefile = AVKON_BITMAP_FILE;
+    imageid = EMbmAvkonQgn_note_im_message;
+    imagemask = EMbmAvkonQgn_note_im_message_mask;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+// Temporary animations for Alerts until the official graphics in builds.
+
+RESOURCE BMPANIM_DATA r_anim_clock_alarm
+    {
+    frameinterval = 500;
+    playmode = EAknBitmapAnimationPlayModeCycle;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_qgn_alarm_clock_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_alarm_clock_anim_frames
+    {
+    items =
+        {
+        BMPANIM_FRAME 
+            {
+            bmpid = EMbmAvkonQgn_note_alarm_clock; 
+            maskid = EMbmAvkonQgn_note_alarm_clock_mask;
+            },
+        BMPANIM_FRAME 
+            {
+            bmpid = EMbmAvkonQgn_note_empty; 
+            maskid = EMbmAvkonQgn_note_empty_mask;
+            }
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_anim_calendar_alarm
+    {
+    frameinterval = 500;
+    playmode = EAknBitmapAnimationPlayModeCycle;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_qgn_alarm_calendar_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_alarm_calendar_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME 
+            {
+            bmpid = EMbmAvkonQgn_note_alarm_calendar; 
+            maskid = EMbmAvkonQgn_note_alarm_calendar_mask;
+            },
+        BMPANIM_FRAME 
+            {
+            bmpid = EMbmAvkonQgn_note_empty; 
+            maskid = EMbmAvkonQgn_note_empty_mask;
+            }
+        };
+    }
+
+RESOURCE AVKON_NOTE r_alarm_control
+    {
+    layout = EGeneralLayout;
+    singular_label = " ";
+    plural_label = " ";
+    }
+
+RESOURCE CBA r_alert_softkeys_stop_snooze
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id = EAlertSnooze;
+            txt = qtn_clk_softkey_snooze;
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyEmpty; 
+            txt = text_softkey_empty; 
+            }
+        };
+    }
+
+RESOURCE AVKON_LIST_QUERY r_global_list_query_with_heading
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar | EEikDialogFlagCbaButtons | 
+        EEikDialogFlagNotifyEsc;
+            
+    items =
+        {
+        AVKON_LIST_QUERY_DLG_LINE
+            {
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = AVKON_LIST_QUERY_LIST
+                    {
+                    flags = EAknListBoxLoopScrolling;
+                    array_id=r_global_list_query_list;
+                    };
+                // You cannot set the heading afterwards unless you give dummy string in resources.
+                heading = " "; 
+                };
+            }
+        };
+    }
+
+// bit awkward way, but allows us to use existing APIs
+RESOURCE CBA r_alert_softkeys_stop_silent
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id = EAlertSilence;
+            txt = text_softkey_silent;
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyEmpty; 
+            txt = text_softkey_empty; 
+            }
+        };
+    }
+
+RESOURCE AVKON_NOTE r_note_plain_text_control
+    {
+    layout = ETextualNotificationLayout;
+    singular_label = "";
+    plural_label = "";
+    }
+
+// Resource for phone number query. This is not intended for non-avkon use.
+RESOURCE DIALOG r_avkon_lock_phone_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_CALL_CANCEL__CALL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EPhoneLayout;
+                label = text_insert_number_query;
+                control = EDWIN
+                    {
+                    flags = EEikEdwinNoHorizScrolling | EEikEdwinNoAutoSelection | 
+                        EEikEdwinJustAutoCurEnd;
+                    width = 10;
+                    lines = 1;
+                    maxlength = KPhoneNumberMaxLength;
+                    default_input_mode = EAknEditorNumericInputMode;
+                    allowed_input_modes = EAknEditorNumericInputMode;
+                    numeric_keymap = EAknEditorSATHiddenNumberModeKeymap;
+                    };
+                };
+            }
+        };
+    }
+
+// For AIW: r_aknnotifyplugin_interest
+RESOURCE AIW_INTEREST r_aknnotifyplugin_interest
+    {
+    items =
+        {
+        AIW_CRITERIA_ITEM
+            {
+            id              = KAknnotifypluginAiwId;
+            serviceCmd      = KAiwCmdCall;
+            serviceClass    = KAiwClassMenu;
+            contentType     = "*";
+            defaultProvider = 0x101F868E;
+            maxProviders    = 1;
+            }
+        };
+    }
+
+RESOURCE AVKON_NOTE r_battery_full_unplug_control
+    {
+    layout         = EGeneralLayout;
+    singular_label = qtn_battc_battery_full_unplug;
+    plural_label   = "";
+    animation      = R_QGN_NOTE_BATT_FULL_ANIM;
+    }
+    
+RESOURCE AVKON_NOTE r_unplug_charger_control
+    {
+    layout         = EGeneralLayout;
+    singular_label = qtn_battc_unplug;
+    plural_label   = "";
+    }
+    
+// ---------------------------------------------------------------------------
+// r_alert_softkeys_stop_snooze__open
+// "STOP - OPEN - SNOOZE" softkeys for alarm notification.
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_alert_softkeys_stop_snooze__open
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id  = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id  = EAlertSnooze;
+            txt = qtn_clk_softkey_snooze;
+            },
+        CBA_BUTTON
+            {
+            id  = EAlertOpen; 
+            txt = qtn_msk_open;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_alert_softkeys_stop_silent__open
+// "STOP - OPEN - SILENCE" softkeys for alarm notification.
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_alert_softkeys_stop_silent__open
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id  = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id  = EAlertSilence;
+            txt = text_softkey_silent;
+            },
+        CBA_BUTTON
+            {
+            id  = EAlertOpen;
+            txt = qtn_msk_open;
+            }
+        };
+    }
+// ---------------------------------------------------------------------------
+// r_alert_softkeys_stop_empty__empty
+// "STOP - (EMPTY) - (EMPTY)" softkeys for alarm notification.
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_alert_softkeys_stop_empty__empty
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id  = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id  = EAknSoftkeyEmpty;
+            txt = text_softkey_empty;
+            },
+        CBA_BUTTON
+            {
+            id  = EAknSoftkeyEmpty;
+            txt = text_softkey_empty;
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_alert_softkeys_stop_empty__open
+// "STOP - OPEN - (EMPTY)" softkeys for alarm notification.
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_alert_softkeys_stop_empty__open
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id  = EAlertStop;
+            txt = qtn_clk_softkey_stop;
+            },
+        CBA_BUTTON
+            {
+            id  = EAknSoftkeyEmpty;
+            txt = text_softkey_empty;
+            },
+        CBA_BUTTON
+            {
+            id  = EAlertOpen;
+            txt = qtn_msk_open;
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_lock_on
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_display_keys_locked;
+                plural_label = qtn_keyg_conf_display_keys_locked;
+                animation = R_QGN_NOTE_KEYGUARD_LOCKED_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_lock_off
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_display_keys_active;
+                plural_label = qtn_keyg_conf_display_keys_active;
+                animation = R_QGN_NOTE_KEYGUARD_OPEN_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_lock_confirm
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = r_keylock_softkeys_lock_confirmation;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_lock_display;
+                plural_label = qtn_keyg_lock_display;
+                animation = R_QGN_NOTE_QUERY_ANIM;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_locked
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_info_note_display_lock_switch;
+                plural_label = qtn_keyg_info_note_display_lock_switch;
+                animation = R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+
+// Empty graphics avkon note for dynamic soft notification
+RESOURCE AVKON_NOTE r_new_dynamic_notifier_note
+    {
+    layout = ENotificationWithGraphicsLayout;
+    flags = EAknNoteLeftSoftkeyWhenTapped;
+    }
+
+RESOURCE DIALOG r_keylock_note_display_lock_on_touch
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_display_keys_locked;
+                plural_label = qtn_keyg_conf_display_keys_locked;
+                //animation = R_QGN_NOTE_KEYGUARD_LOCKED_TOUCH_ANIM;
+                animation = r_qgn_note_keyguard_locked_touch_anim;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_lock_off_touch
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_conf_display_keys_active;
+                plural_label = qtn_keyg_conf_display_keys_active;
+                //animation = R_QGN_NOTE_KEYGUARD_UNLOCKED_TOUCH_ANIM;
+                animation = r_qgn_note_keyguard_unlocked_touch_anim;
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_display_locked_touch
+    {
+    flags = EAknConfirmationNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_info_note_display_lock_switch;
+                plural_label = qtn_keyg_info_note_display_lock_switch;
+                //animation = R_QGN_NOTE_KEYGUARD_TOUNLOCK_TOUCH_ANIM;
+                animation = r_qgn_note_keyguard_tounlock_touch_anim;
+                };
+            }
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_qgn_note_keyguard_locked_touch_anim
+    {
+    frameinterval = 250;
+    playmode = EAknBitmapAnimationPlayModePlay;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_qgn_note_keyguard_locked_touch_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_note_keyguard_locked_touch_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_locked_anim_1; maskid=EMbmAvkonQgn_note_keyguard_locked_anim_1_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_locked_anim_2; maskid=EMbmAvkonQgn_note_keyguard_locked_anim_2_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_locked_anim_3; maskid=EMbmAvkonQgn_note_keyguard_locked_anim_3_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_locked_anim_4; maskid=EMbmAvkonQgn_note_keyguard_locked_anim_4_mask;}
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_qgn_note_keyguard_unlocked_touch_anim
+    {
+    frameinterval = 250;
+    playmode = EAknBitmapAnimationPlayModePlay;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_qgn_note_keyguard_unlocked_touch_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_note_keyguard_unlocked_touch_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_unlocked_anim_1; maskid=EMbmAvkonQgn_note_keyguard_unlocked_anim_2_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_unlocked_anim_2; maskid=EMbmAvkonQgn_note_keyguard_unlocked_anim_2_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_unlocked_anim_3; maskid=EMbmAvkonQgn_note_keyguard_unlocked_anim_3_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_unlocked_anim_4; maskid=EMbmAvkonQgn_note_keyguard_unlocked_anim_4_mask;}
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_qgn_note_keyguard_tounlock_touch_anim
+    {
+    frameinterval = 250;
+    playmode = EAknBitmapAnimationPlayModePlay;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_qgn_note_keyguard_tounlock_touch_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_note_keyguard_tounlock_touch_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_tounlock_anim_1; maskid=EMbmAvkonQgn_note_keyguard_tounlock_anim_2_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_tounlock_anim_2; maskid=EMbmAvkonQgn_note_keyguard_tounlock_anim_2_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_tounlock_anim_3; maskid=EMbmAvkonQgn_note_keyguard_tounlock_anim_3_mask;},
+        BMPANIM_FRAME {bmpid=EMbmAvkonQgn_note_keyguard_tounlock_anim_4; maskid=EMbmAvkonQgn_note_keyguard_tounlock_anim_4_mask;}
+        };
+    }
+
+RESOURCE AVKON_LIST_QUERY r_global_list_msg_query
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagCbaButtons | EEikDialogFlagNotifyEsc;
+    items =
+        {
+        AVKON_LIST_QUERY_DLG_LINE
+            {
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL_WITH_MSGBOX
+                {
+                actuallisttype = EAknCtSinglePopupMenuListBox;
+                heading = " ";
+                message = " ";
+                listbox = AVKON_LIST_QUERY_LIST
+                    {
+                    flags = EAknListBoxLoopScrolling;
+                    array_id = r_global_list_query_list;
+                    };
+                };
+            }
+        };
+    }
+
+RESOURCE DIALOG r_keylock_note_unlock_asterisk_anim_untouch
+    {
+#ifdef RD_SCALABLE_UI_V2
+    flags = EAknDialogGenericNoteFlags;
+#else
+    flags = EAknConfirmationNoteFlags;
+#endif // RD_SCALABLE_UI_V2    
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = ENPIKeylockNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_keyg_info_nowpress;
+                plural_label = qtn_keyg_info_nowpress;
+                animation = r_qgn_note_keyguard_unlock_asterisk_untouch_anim;
+                };
+            }
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_qgn_note_keyguard_unlock_asterisk_untouch_anim
+    {
+    frameinterval = 400;
+    playmode = EAknBitmapAnimationPlayModePlay;
+    bmpfile = UNLOCKKEY_MIF_FILE;
+    frames = r_qgn_note_keyguard_unlock_asterisk_untouch_anim_frames;
+    }
+
+RESOURCE ARRAY r_qgn_note_keyguard_unlock_asterisk_untouch_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME {bmpid=16384; maskid=16385;},
+        BMPANIM_FRAME {bmpid=16386; maskid=16387;},
+        BMPANIM_FRAME {bmpid=16388; maskid=16389;}
+        };
+    }
+
+// End of File

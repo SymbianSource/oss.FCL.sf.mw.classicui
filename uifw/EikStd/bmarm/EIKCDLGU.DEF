@@ -1,0 +1,12 @@
+EXPORTS
+	__14CEikInfoDialogRC7TDesC16T1Q214CEikInfoDialog9TExitKeys @ 1 NONAME ; CEikInfoDialog::CEikInfoDialog(TDesC16 const &, TDesC16 const &, CEikInfoDialog::TExitKeys)
+	InitializeL__15CEikCDlgLibrary @ 2 NONAME R3UNUSED ; CEikCDlgLibrary::InitializeL(void)
+	NewL__21CEikCDlgDialogFactory @ 3 NONAME R3UNUSED ; CEikCDlgDialogFactory::NewL(void)
+	RequestInfoDialogL__15CEikCDlgLibrary @ 4 NONAME R3UNUSED ; CEikCDlgLibrary::RequestInfoDialogL(void)
+	RequestQueryDialogL__15CEikCDlgLibrary @ 5 NONAME R3UNUSED ; CEikCDlgLibrary::RequestQueryDialogL(void)
+	ResourceFile__15CEikCDlgLibrary @ 6 NONAME R3UNUSED ; CEikCDlgLibrary::ResourceFile(void)
+	RunDlgLD__14CEikInfoDialogRC7TDesC16T1Q214CEikInfoDialog9TExitKeys @ 7 NONAME R3UNUSED ; CEikInfoDialog::RunDlgLD(TDesC16 const &, TDesC16 const &, CEikInfoDialog::TExitKeys)
+	ControlFactory__15CEikCDlgLibrary @ 8 NONAME R3UNUSED ; CEikCDlgLibrary::ControlFactory(void)
+	CEikDialog_Reserved_2__14CEikInfoDialog @ 9 NONAME R3UNUSED ; CEikInfoDialog::CEikDialog_Reserved_2(void)
+	CEikDialog_Reserved_1__14CEikInfoDialog @ 10 NONAME R3UNUSED ; CEikInfoDialog::CEikDialog_Reserved_1(void)
+

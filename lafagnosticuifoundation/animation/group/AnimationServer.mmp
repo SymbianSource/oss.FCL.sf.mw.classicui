@@ -1,0 +1,40 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// AnimationServer.dll generic animation framework for wserv - server side
+// 
+//
+
+/**
+ @file
+*/
+
+target        animationserver.dll
+CAPABILITY PowerMgmt ReadDeviceData WriteDeviceData ProtServ
+targettype    dll
+UID    0x10003B22 0x10204F56
+VENDORID 0x70000001
+
+SOURCEPATH	../src
+source          SpriteAnimationServer.cpp SpriteAnimationDll.cpp
+
+userinclude	../inc ../src
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library       euser.lib fbscli.lib bitgdi.lib
+library       ecom.lib animationshared.lib
+
+deffile       AnimationServer.DEF
+
+
+SMPSAFE

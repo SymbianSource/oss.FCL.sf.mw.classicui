@@ -1,0 +1,51 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+	
+
+TARGETTYPE      DLL
+TARGET 			messageserv.dll
+UID				0x1000008D 0x10004c65
+VENDORID 		0x70000001
+
+CAPABILITY 		ALL -Tcb
+
+SOURCEPATH		.
+SOURCE 			messageactive.cpp messageservserver.cpp messageservsession.cpp
+SOURCE 			messageservclient.cpp
+
+USERINCLUDE		.
+MW_LAYER_SYSTEMINCLUDE 
+
+LIBRARY 		euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+
+
+#ifdef WINS
+DEFFILE 		../../test/BWINS/messageserv.def
+#else
+DEFFILE 		../../test/EABI/messageserv.def
+#endif
+
+
+
+
+SMPSAFE

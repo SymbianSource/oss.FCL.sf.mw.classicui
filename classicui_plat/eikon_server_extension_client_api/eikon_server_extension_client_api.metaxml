@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="1e5410baa3cfd9148a28e5572adee4da" dataversion="1.0">
+  <name>EIKON Server Extension Client API</name>
+  <description>A client interface for AVKON's extensions to EIKON server.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

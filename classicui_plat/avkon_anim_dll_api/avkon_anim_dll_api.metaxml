@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="b72e8a346bc97c1e5df14f3ef488e206" dataversion="1.0">
+  <name>AVKON Anim DLL API</name>
+  <description>AVKON Anim DLL (window server plugin) implementation.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="aknanimdll.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

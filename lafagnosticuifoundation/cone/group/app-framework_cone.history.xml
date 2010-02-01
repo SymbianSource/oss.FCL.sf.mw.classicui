@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="Control Environment" purpose="" type="component">
+  <revision major="1" functional="0" minor="1" date="20071024">
+    <ref name="113055" type="defect"/>
+    <description>Resetting active view record in CCoeViewManagr::DoDeactivation() if event type is EVwsDeactivateViewDifferentInstance</description>
+  </revision>
+  <revision major="1" functional="0" minor="0" date="20070828">
+    <ref name="1803" type="preq"/>
+    <description>Added RCoeResourceLoader Class which encapsulates methods for opening and closing localised resource files in the CONE environment.</description>
+  </revision>
+  <purpose>
+    UI policy-free application control environment defining the user/application interaction model via Control Environment controls i.e. interactive screen elements. Provides application interface to user events, keyboard focus control stack, and view server encapsulation. Applications create and use controls directly, within the application framework context.
+  </purpose>
+  <defect number="DEF104737" title="CCoeControl's HitTest mechanism does not work for some controls with no children" revision="010">
+    Added code to CCoeControl::ProcessPointerEventL() such that for window owning controls with a MCoeControlHitTest object attached for which the test failed (pointer event occurred on &quot;transparent&quot; part) we look for the closest window owning parent control up the control tree and continue processing the pointer events from there. This will resolve the EOLAS patent restriction issue covered by the withdrawn PREQ1842. This fix depends on the fix for DEF104579.
+  </defect>
+  <defect number="DEF104580" title="CCoeControl SetGc() and GetGc() should be renamed SetCustomGc() and CustomGc()" revision="009">
+    Changed the names of CCoeControl&#xE2;&#x20AC;&#x2122;s SetGc() and GetGc() to SetCustomGc() and CustomGc(). Added deprecated inline SetGc() and GetGc() for source compatibility, forwarding calls to the new methods. Covered by BR 2078.
+  </defect>
+  <defect number="DEF104579" title="CCoeControl parent pointer can be enabled for customer devices" revision="008">
+    Changed the implementation of CCoeControl::SetParent(CCoeControl*) such that any cyclic parent-child relatationships are detected and avoided before they have occurred. This means that SetPatent is &quot;safe&quot; and thus the opt-out mechanism of the automatic setting of parent pointer has been removed. This changes is covered by BR2077.
+  </defect>
+  <defect number="PDEF103681" title="some MCoeView APIs are not documented in sysdoc" revision="007">
+    Comments for the following API&#xE2;&#x20AC;&#x2122;s ViewScreenDeviceChangedL(), ViewConstructL() and ViewScreenModeCompatible() in the Coeview.cpp are changed as per the doxygen documentation standard.
+    Comment has been added to PrepareForViewActivation() API.
+  </defect>
+  <defect number="PDEF102178" title="Web appln crashes when history is viewed druing a web page loading" revision="006">
+    change the while loop at line 725 of /common/generic/app-framework/cone/src/coetextdrawer.cpp from:
+    while (startText != endText)
+    to:
+    while (startText &lt; endText)
+    
+    And additionaly change the if statement at line 728 from:
+    if (*startText == KCharacterLF)
+    to
+    if (*startText == KCharacterLF &amp;&amp; startText &lt; endText)
+  </defect>
+  <defect number="DEF091723" title="Multiple Screens test code does not perform as intended" revision="005">
+    Fix the test code in MultipleScreens test step so the panic code for ECoePanicInvalidScreenNumber is exerciced as it was intended to.
+  </defect>
+  <defect number="DEF099074" title="Memory leaks and crashes in app startup" revision="004">
+    Part of fix to problem with memory leaks and crashes in app startup, found using the WillHeapChecker tool. See also Uikon and AppArc changes.
+  </defect>
+  <defect number="DEF099523" title="DP: [TBAS] conetest_t_coneerrormsg.script fails on Functional DP-ROM." revision="003">
+    Changes have been made in Cone test code.Due to paging Cone component under Functional configuration of DP, the test app (TErrMsgApp.EXE) takes time to close the dialogs. As a solution a delay of 5sec is introduced sufficient enough for the test app to close the dialog.
+  </defect>
+  <defect number="PDEF097507" title="Viewsrv and server app deadlock" revision="002">
+    Implement an api to deactivate the current view, but only if the current view is owned by the session making the request. Uikon has been modified to use this new api.
+  </defect>
+  <defect number="DEF094599" title="TGulHAlignment does not allow for an absolute Left/Right position" revision="001">
+    Part of fix for DEF094599 &quot;TGulHAlignment does not allow for an absolute Left/Right position&quot;
+    
+    * Significantly improved the in-line documentation for all text drawer APIs.
+    
+    Changes to CCoeTextDrawerBase:
+    * Added a new CCoeTextDrawerBase::SetAppLanguage(TLanguage) method. Calling this method at the time of construction will make the text drawer consider the application language directionality when swapping left and right alignment (instead of the directionality of the text being printed).
+    
+    * Added a new protected CCoeTextDrawerBase::ActualHorizontalAlignment(const TCoeTextTypeAdaptor&amp;) method for use by CCoeTextDrawerBase implementations. This method will return the horizontal alignment, where left and right has been swapped as appropriate.
+    
+    Changes to XCoeTextDrawer:
+    * Replaced the XCoeTextDrawer::operator-&gt; with inline access methods for access to the CCoeTextDrawerBase&#xE2;&#x20AC;&#x2122;s color, alignment, margins, line gap for more consistent use of XCoeTextDrawer APIs.
+    
+    Improved the Cone unit test code.
+  </defect>
+</relnotes>

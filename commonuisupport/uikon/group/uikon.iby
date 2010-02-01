@@ -1,0 +1,52 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+#ifndef __UIKON_IBY__
+#define __UIKON_IBY__
+
+#include "uiklaf.iby"
+#include "loadlafshutdown.iby"
+
+REM Uikon
+
+file=ABI_DIR\DEBUG_DIR\eikcore.dll		System\Libs\EikCore.dll
+file=ABI_DIR\BUILD_DIR\eiksrv.dll		System\Libs\EikSrv.dll
+file=ABI_DIR\DEBUG_DIR\eiksrvs.exe 		System\Programs\EikSrvs.exe // explanation as given for EikCore.dll
+file=ABI_DIR\BUILD_DIR\eiksrvc.dll 		System\Libs\EikSrvc.dll
+file=ABI_DIR\BUILD_DIR\eikbackupsrv.dll	System\Libs\eikbackupsrv.dll
+file=ABI_DIR\BUILD_DIR\eikshtsrv.dll	System\Libs\eikshtsrv.dll
+
+REM DFRD-specific implementations of the interfaces specified by UIKLAFGT
+
+file=ABI_DIR\BUILD_DIR\uiklaf.dll		System\Libs\UikLaf.dll
+data=EPOCROOT##epoc32\data\Z\Resource\Apps\default_app_icon.mbm Resource\Apps\default_app_icon.mbm
+
+REM ErrorResGt
+
+data=MULTI_LINGUIFY(RSC ZRESOURCE\Errors\ERRORRESGT	Resource\Errors\ErrorResGt)
+
+REM Viewsrv
+
+file=ABI_DIR\BUILD_DIR\viewsrv.dll 		System\Libs\viewsrv.dll
+file=ABI_DIR\BUILD_DIR\viewcli.dll 		System\Libs\viewcli.dll
+
+file=ABI_DIR\BUILD_DIR\updatesystemcolorlist.exe 		Sys\Bin\updatesystemcolorlist.exe
+REM Test code for Uikon Subsystem - kept in \uikon\group\
+REM #include "uikon_subsytem_unit_test.iby"
+
+patchdata eiksrv.dll @ KEikAlarmDefaultSnoozeInMinutes 5
+
+#endif

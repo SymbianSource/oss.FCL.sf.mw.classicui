@@ -1,0 +1,527 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+RESOURCE COLORLIST r_color_scheme_er5
+	{
+	array_id=r_color_items_er5;
+	}
+
+RESOURCE COLORLIST r_color_scheme_gray
+	{
+	array_id=r_color_items_gray;
+	}
+
+RESOURCE COLORLIST r_color_scheme_blue_slate
+	{
+	array_id=r_color_items_blue_slate;
+	}
+
+RESOURCE COLORLIST r_color_scheme_maram_grass
+	{
+	array_id=r_color_items_maram_grass;
+	}
+
+RESOURCE COLORLIST r_color_scheme_beach_sand
+	{
+	array_id=r_color_items_beach_sand;
+	}
+
+RESOURCE COLORLIST r_color_scheme_sky_blue
+	{
+	array_id=r_color_items_sky_blue;
+	}
+
+RESOURCE COLORLIST r_color_scheme_lilac
+	{
+	array_id=r_color_items_lilac;
+	}
+
+
+RESOURCE ARRAY r_color_items_er5
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KEikRgbBlack; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_gray
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KEikRgbDarkBlue; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KEikRgbGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KEikRgbDarkBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KEikRgbDarkBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KEikRgbDarkBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KEikRgbDarkBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KEikRgbDarkBlue; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_blue_slate
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KRgbDeepBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KRgbMidHighBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KRgbMidHighBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KRgbMidHighBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KRgbMidHighBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KRgbBlueSlate; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KRgbDeepBlueSlate; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_maram_grass
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KRgbDeepMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KRgbMaramGrassGreen; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KRgbDeepMaramGrassGreen; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_beach_sand
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KRgbBeachSand; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KRgbDeepBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KRgbBeachGreen; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KRgbDeepBeachGreen; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_sky_blue
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KRgbDeepSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KRgbSkyBlue; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KRgbDeepSkyBlue; }
+		};
+	}
+
+RESOURCE ARRAY r_color_items_lilac
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EEikColorWindowBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorWindowText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlBackground;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorControlText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundBackground;			color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorControlSurroundText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightBackground;			color=COLOR KRgbLilac; },
+		CTRL_COLOR { logical_color=EEikColorControlHighlightText;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedBackground;			color=COLOR KRgbLilac; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightBackground;	color=COLOR KRgbDeepLilac; },
+		CTRL_COLOR { logical_color=EEikColorControlDimmedHighlightText;			color=COLOR KRgbLilac; },
+		CTRL_COLOR { logical_color=EEikColorDialogBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorDialogText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitle;						color=COLOR KRgbLilac; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitlePressed;					color=COLOR KRgbLilac; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorDialogTitleTextPressed;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenubarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleBackground;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenubarTitleText;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneHighlight;					color=COLOR KRgbDeepLilac; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneTextHighlight;				color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedHighlight;			color=COLOR KRgbDeepLilac; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMenuPaneDimmedTextHighlight;		color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClear;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSet;						color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceSetPressed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonFaceClearPressed;				color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorButtonText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextPressed;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorButtonTextDimmed;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinForeground;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorMsgWinBackground;					color=COLOR KRgbDeepLilac; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarBorder;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaft;						color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftDimmed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarShaftPressed;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollBarNoShaftOrThumb;			color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIcon;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconPressed;			color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonIconDimmed;				color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackground;		color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollButtonThumbBackgroundPressed;	color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbDimmed;					color=COLOR KEikRgb1in4DitheredGray; },
+		CTRL_COLOR { logical_color=EEikColorScrollThumbEdge;					color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorToolbarBackground;					color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorToolbarText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneBackground;				color=COLOR KEikRgbDitheredLightGray; },
+		CTRL_COLOR { logical_color=EEikColorStatusPaneText;						color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelText;							color=COLOR KEikRgbBlack; },
+		CTRL_COLOR { logical_color=EEikColorLabelTextEmphasis;					color=COLOR KEikRgbWhite; },
+		CTRL_COLOR { logical_color=EEikColorLabelDimmedText;					color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightPartialEmphasis;		color=COLOR KEikRgbDarkGray; },
+		CTRL_COLOR { logical_color=EEikColorLabelHighlightFullEmphasis;			color=COLOR KRgbDeepLilac; }
+		};
+	}
+
+RESOURCE COLORLIST r_custom_extra_colors
+	{
+	array_id=r_custom_extra_color_items;
+	}
+
+
+RESOURCE ARRAY r_custom_extra_color_items
+	{
+	items=
+		{
+		CTRL_COLOR { logical_color=EExtraSystemBackground;						color=COLOR KEikRgbRed; },
+		CTRL_COLOR { logical_color=EExtraSystemText;							color=COLOR KEikRgbGreen; }
+		};
+	}

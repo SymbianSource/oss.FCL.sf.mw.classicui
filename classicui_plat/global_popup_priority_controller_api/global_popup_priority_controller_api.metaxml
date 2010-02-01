@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="ba610ddd1e9add232c2d260385d7400f" dataversion="1.0">
+  <name>Global Popup Priority Controller API</name>
+  <description>Public interface of the global popup priority system. This system is used in place of the CEikonEnv::BringForwards and SetAutoForwarding APIs to give finer control over window group priority when notifiers and other global popups are displayed.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

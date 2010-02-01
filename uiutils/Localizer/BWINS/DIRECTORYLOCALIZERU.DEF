@@ -1,0 +1,13 @@
+EXPORTS
+	??1CDirectoryLocalizer@@UAE@XZ @ 1 NONAME ; public: virtual __thiscall CDirectoryLocalizer::~CDirectoryLocalizer(void)
+	?AddFromResourceL@CDirectoryLocalizer@@QAEXAAVTResourceReader@@@Z @ 2 NONAME ; public: void __thiscall CDirectoryLocalizer::AddFromResourceL(class TResourceReader &)
+	?AddFromResourceL@CDirectoryLocalizer@@QAEXH@Z @ 3 NONAME ; public: void __thiscall CDirectoryLocalizer::AddFromResourceL(int)
+	?ExtraData@CDirectoryLocalizer@@QBEABVTDesC16@@XZ @ 4 NONAME ; public: class TDesC16 const & __thiscall CDirectoryLocalizer::ExtraData(void)const 
+	?Icon@CDirectoryLocalizer@@QBEHXZ @ 5 NONAME ; public: int __thiscall CDirectoryLocalizer::Icon(void)const 
+	?IsLocalized@CDirectoryLocalizer@@QBEHXZ @ 6 NONAME ; public: int __thiscall CDirectoryLocalizer::IsLocalized(void)const 
+	?LocalizedName@CDirectoryLocalizer@@QBEABVTDesC16@@XZ @ 7 NONAME ; public: class TDesC16 const & __thiscall CDirectoryLocalizer::LocalizedName(void)const 
+	?NewL@CDirectoryLocalizer@@SAPAV1@AAVTResourceReader@@@Z @ 8 NONAME ; public: static class CDirectoryLocalizer * __cdecl CDirectoryLocalizer::NewL(class TResourceReader &)
+	?NewL@CDirectoryLocalizer@@SAPAV1@H@Z @ 9 NONAME ; public: static class CDirectoryLocalizer * __cdecl CDirectoryLocalizer::NewL(int)
+	?NewL@CDirectoryLocalizer@@SAPAV1@XZ @ 10 NONAME ; public: static class CDirectoryLocalizer * __cdecl CDirectoryLocalizer::NewL(void)
+	?SetFullPath@CDirectoryLocalizer@@QAEXABVTDesC16@@@Z @ 11 NONAME ; public: void __thiscall CDirectoryLocalizer::SetFullPath(class TDesC16 const &)
+

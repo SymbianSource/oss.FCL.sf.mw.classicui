@@ -1,0 +1,65 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          akninit.dll
+TARGETTYPE      plugin
+UID             0x10009D8D 0x100056C8
+CAPABILITY All -Tcb
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../initsrc
+
+USERINCLUDE     .
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../inc
+USERINCLUDE     ../initinc
+USERINCLUDE     ../../EikStd/dlginc
+USERINCLUDE     ../../EikStd/cdlginc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+SOURCE          akninit.cpp
+
+LIBRARY         euser.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         avkon.lib
+LIBRARY         eikctl.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         ws32.lib
+
+start resource 100056C8.rss
+#ifdef SYMBIAN_SECURE_ECOM
+target akninit.rsc
+#endif
+END
+
+START WINS
+BASEADDRESS     0x7dd80000
+END
+
+START MARM
+END

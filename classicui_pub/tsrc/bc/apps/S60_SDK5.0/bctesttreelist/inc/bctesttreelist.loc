@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestTemplate localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTTREELIST"
+#define qtn_apps_tavl_grid              "BCTESTTREELIST"
+
+// MenuBar
+#define qtn_bctesttreelist_autotest        "Autotest"
+#define qtn_bctesttreelist_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+#define text_softkey_back   "Back"
+
+// outline 
+#define qtn_bctesttreelist_outline1     "Outline01"
+
+// End of File

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Clock">
+  <purpose>
+    Animated clock support, plugin to Window Server.
+  </purpose>
+</relnotes>

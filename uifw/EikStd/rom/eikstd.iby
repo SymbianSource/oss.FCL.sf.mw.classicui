@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __EIKSTD_IBY__
+#define __EIKSTD_IBY__
+
+#include "uiklaf.iby"
+
+REM RefUI implementation of UIKON components
+
+file=ABI_DIR\BUILD_DIR\eikcoctl.dll                         SHARED_LIB_DIR\eikcoctl.dll
+
+file=ABI_DIR\BUILD_DIR\eikdlg.dll                           SHARED_LIB_DIR\eikdlg.dll
+//data=MULTI_LINGUIFY(RSC ZSYSTEM\data\eikdlg               RESOURCE_FILES_DIR\eikdlg)
+
+file=ABI_DIR\BUILD_DIR\eikcdlg.dll                          SHARED_LIB_DIR\eikcdlg.dll
+data=ZRESOURCE\eikcdlg.rsc                                  RESOURCE_FILES_DIR\eikcdlg.rsc
+
+//file=ABI_DIR\BUILD_DIR\eikprint.dll                       SHARED_LIB_DIR\eikprint.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eikprint        RESOURCE_FILES_DIR\eikprint)
+
+//file=ABI_DIR\BUILD_DIR\eikfile.dll                        SHARED_LIB_DIR\eikfile.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eikfile         RESOURCE_FILES_DIR\eikfile)
+
+//file=ABI_DIR\BUILD_DIR\eikir.dll                          SHARED_LIB_DIR\eikir.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eikir           RESOURCE_FILES_DIR\eikir)
+
+//file=ABI_DIR\BUILD_DIR\eikmisc.dll                        SHARED_LIB_DIR\eikmisc.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eikmisc         RESOURCE_FILES_DIR\eikmisc)
+//data=ABI_DIR\BUILD_DIR\eikmisc.mbm                        RESOURCE_FILES_DIR\eikmisc.mbm
+
+file=ABI_DIR\BUILD_DIR\eiksrvui.dll                         SHARED_LIB_DIR\eiksrvui.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eiksrvui        RESOURCE_FILES_DIR\eiksrvui)
+
+file=ABI_DIR\BUILD_DIR\eikalert.dll                         SHARED_LIB_DIR\eikalert.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\eikalert        RESOURCE_FILES_DIR\eikalert)
+//The resource file is removed in Timantti40
+
+file=ABI_DIR\BUILD_DIR\econseik.dll                         SHARED_LIB_DIR\econs.dll uid3=0x100039e7
+
+#endif

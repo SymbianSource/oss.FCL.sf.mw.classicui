@@ -1,0 +1,240 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+ 
+NAME TDLG
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include "TNOTDIAL.HRH"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	menubar=r_tdlg_menubar;
+	toolbar=r_tdlg_toolbar;
+	hotkeys=r_tnot_hotkeys;
+	}
+
+RESOURCE HOTKEYS r_tnot_hotkeys { control={HOTKEY {command=EEikCmdExit; key='e';}};}
+
+RESOURCE TOOLBAR r_tdlg_toolbar
+	{
+	breadth=0;
+	lines=2;
+	flags=EEikToolBarDistributeControlsEvenlyBetweenLines|EEikToolBarAllControlsSameSize;
+	controls=
+		{
+		TBAR_BUTTON {id=EAppRingPhone;flags=EEikToolBarCtrlIsStretchable; txt="phone rings";},
+ 		TBAR_BUTTON {id=EAppLowBattery;flags=EEikToolBarCtrlIsStretchable; txt="Low battery";},
+      	TBAR_BUTTON {id=EAppAgendaAlarm;flags=EEikToolBarCtrlIsStretchable; txt="Agenda Alarm";},
+		TBAR_BUTTON {id=EAppUpdateRingPhone;flags=EEikToolBarCtrlIsStretchable; txt="Update phone";}, 
+		TBAR_BUTTON {id=EAppUpdateLowBattery; flags=EEikToolBarCtrlIsStretchable;txt="Update Low battery";},
+		TBAR_BUTTON {id=EAppUpdateAgendaAlarm;flags=EEikToolBarCtrlIsStretchable; txt="Update Agenda";},
+		TBAR_BUTTON {id=EAppCancelRingPhone;flags=EEikToolBarCtrlIsStretchable; txt="Cancel phone";}, 
+		TBAR_BUTTON {id=EAppCancelLowBattery;flags=EEikToolBarCtrlIsStretchable; txt="Cancel Low battery";},
+		TBAR_BUTTON {id=EAppCancelAgendaAlarm;flags=EEikToolBarCtrlIsStretchable; txt="Cancel Agenda";},
+		TBAR_BUTTON {id=EAppStartAgendaAlarmStatus;flags=EEikToolBarCtrlIsStretchable; txt="Starts Agenda (status request)";},
+		TBAR_BUTTON {id=EAppNewSms;flags=EEikToolBarCtrlIsStretchable; txt="New Sms(transient load)";},
+        TBAR_BUTTON {id=EAppNewEmail;flags=EEikToolBarCtrlIsStretchable; txt="New Email(transient load)";},  
+      	TBAR_BUTTON {id=EAppCancelEmail;flags=EEikToolBarCtrlIsStretchable; txt="cancel email(transient unload)";},
+        TBAR_BUTTON {id=EAppCancelSms;flags=EEikToolBarCtrlIsStretchable;txt=" cancel sms(transient unload)";}, 
+		TBAR_BUTTON {id=EAppUpdateSms;flags=EEikToolBarCtrlIsStretchable;txt="update sms";},
+        TBAR_BUTTON {id=EAppUpdateEmail;flags=EEikToolBarCtrlIsStretchable; txt="update email";}, 
+        TBAR_BUTTON {id=EAppStartEmailStatus;flags=EEikToolBarCtrlIsStretchable; txt="Starts Email(status request, transient unload)";}
+		};
+	}
+		
+
+RESOURCE MENU_BAR r_tdlg_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_commands; txt="Commands"; },
+        MENU_TITLE { menu_pane=r_transient; txt="transient load\unload"; }
+         };
+    }
+
+RESOURCE MENU_PANE r_commands
+    {
+    items=
+        {
+        MENU_ITEM
+            {
+            command=EAppRingPhone;
+            txt="phone rings";
+            },
+        MENU_ITEM
+            {
+            command=EAppLowBattery;
+            txt="low batteries";
+            },
+		MENU_ITEM
+			{
+			command=EAppAgendaAlarm; 
+			txt="Agenda alarm ";
+			},
+		MENU_ITEM
+			{
+			command=EAppBatteryNotifiyOnTimer; 
+			txt="Low Bat Notifier In 3 Secs";
+			},
+		MENU_ITEM
+			{
+			command=EAppCheckErrorCode;
+			txt="Check Error Code";
+			flags=EEikMenuItemSeparatorAfter;
+			},	
+		MENU_ITEM
+			{
+			command=EEikCmdExit;
+			txt="Exit";
+			}
+		};
+     }
+
+RESOURCE MENU_PANE r_transient
+    {
+     items=
+        {
+        MENU_ITEM
+            {
+            command=EAppNewSms;
+            txt="New Sms";
+            },
+        MENU_ITEM
+            {
+            command=EAppNewEmail;
+            txt="New Email";
+			flags=EEikMenuItemSeparatorAfter;
+            },
+		MENU_ITEM
+			{
+			command=EAppStartEmailStatus; 
+			txt="Starts Email(status request) ";
+			},
+		MENU_ITEM
+			{
+			command=EEikCmdExit;
+			txt="Exit";
+			}	
+		};
+     }
+
+RESOURCE DIALOG r_not_implemented
+	{
+	title="Not implemented";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	}
+
+
+RESOURCE DIALOG r_agenda_alarm
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="DIALOG Channel: Agenda alarm";
+	buttons=r_eik_alarm_ok;
+	}
+
+RESOURCE DIALOG r_sms_alert
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="DIALOG Channel: new sms..";
+	buttons=r_eik_sms_ok;
+	}
+
+RESOURCE DIALOG r_email_alert
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="DIALOG Channel: new email..";
+	buttons=r_eik_email_ok;
+	}
+
+RESOURCE DIALOG r_phone_rings
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="DIALOG Channel: Ring ring....";
+	buttons=r_eik_phone_answer_ok;
+	}
+
+RESOURCE DIALOG r_low_battery
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="DIALOG Channel: Low battery";
+	buttons=r_eik_low_battery_ok;
+	}
+
+
+RESOURCE DIALOG r_led_low_battery
+	{
+	flags=EEikDialogFlagNotifyEsc;
+	title="LED Channel: Low battery";
+	buttons=r_eik_led_low_battery_ok;
+	}
+
+RESOURCE DLG_BUTTONS r_eik_phone_answer_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+RESOURCE DLG_BUTTONS r_eik_sms_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+RESOURCE DLG_BUTTONS r_eik_email_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+RESOURCE DLG_BUTTONS r_eik_alarm_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+
+
+RESOURCE DLG_BUTTONS r_eik_low_battery_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+
+RESOURCE DLG_BUTTONS r_eik_led_low_battery_ok
+    {
+    buttons=
+        {
+		DLG_BUTTON {id=0 ; button=CMBUT {txt="OK";}; flags=0; }
+        };
+    }
+
+
+

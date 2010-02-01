@@ -1,0 +1,5 @@
+EXPORTS
+	_ZN17AknCustCmdFactory24CmdAknCapServerStartNewLEv @ 1 NONAME
+	_ZN17AknCustCmdFactory34CmdEnableAppsKeyAndGlobalNotesNewLEv @ 2 NONAME
+	_ZN17AknCustCmdFactory22CmdAknShutdownAppsNewLEv @ 3 NONAME
+

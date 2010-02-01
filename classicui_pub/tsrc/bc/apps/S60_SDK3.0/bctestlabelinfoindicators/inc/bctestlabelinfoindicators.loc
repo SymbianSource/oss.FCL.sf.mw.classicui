@@ -1,0 +1,64 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestlabelinfoindicators localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                  "BCTESTLABELINFOINDICATORS"
+#define qtn_apps_tavl_grid                  "BCTESTLABELINFOINDICATORS"
+
+// MenuBar
+#define qtn_bctestlabelinfoindicators_menubar             "Options"
+#define qtn_bctestlabelinfoindicators_menu_filenamelabel  "Eik filename label"
+#define qtn_bctestlabelinfoindicators_menu_label          "Eik label"
+#define qtn_bctestlabelinfoindicators_menu_indicators     "Indicators"
+#define qtn_bctestlabelinfoindicators_menu_infopopupnote  "Info popup note"
+#define qtn_bctestlabelinfoindicators_menu_autotest       "Autotest"
+#define qtn_bctestlabelinfoindicators_menu_exit           "Exit"
+
+// Sub menubar of "Eik filename label" menu
+#define qtn_bctestlabelinfoindicators_menu_out01    "OUTLINE01"
+
+// Sub menubar of "Eik label" menu
+#define qtn_bctestlabelinfoindicators_menu_out02    "OUTLINE02"
+
+// Sub menubar of "Info popup note" menu
+#define qtn_bctestlabelinfoindicators_menu_out03    "OUTLINE03" 
+                                                   
+// Sub menubar of "Indicators" menu
+#define qtn_bctestlabelinfoindicators_menu_out04    "OUTLINE04"
+
+// Eik Label
+#define qtn_bctestlabelinfoindicators_label    "This is eik label"  
+
+// registraton string
+#define qtn_apps_name                   "bctestlabelinfoindicators"
+#define qtn_localization_filename    \
+    "\\resource\\apps\\bctestlabelinfoindicators"
+#define qtn_group_name                  "BCTest"
+
+#define qtn_bctestmisccontrol_buf       "LabelInfoIndi"  
+  
+

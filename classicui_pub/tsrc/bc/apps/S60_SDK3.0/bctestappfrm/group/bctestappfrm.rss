@@ -1,0 +1,283 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <e32keys.h>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+#include "bctestappfrm.hrh"
+#include "bctestappfrm.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTAPPFRM_BMP_FNAME APP_BITMAP_DIR"\\BCTestAppFrm.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "AppFrm";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestappfrm_menubar_main;
+    cba = r_bctestappfrm_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestappfrm_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\BCTestAppFrm_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_view
+//    AVKON_VIEW for CBCTestAppFrmView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestappfrm_view
+    {
+    menubar = r_bctestappfrm_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestappfrm_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestappfrm_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestappfrm_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestappfrm_case_menu
+    {
+    items = 
+        {
+		MENU_ITEM
+			{
+			command = EBCTestCmdApplication;
+			txt = "Test CAknApplication";
+			},
+		MENU_ITEM
+			{
+			command = EBCTestCmdDocument;
+			txt = "Test CAknDocument";
+			},
+		MENU_ITEM
+			{
+			command = EBCTestCmdViewAppUi;
+			txt = "Test CAknViewAppUi";
+			},
+		MENU_ITEM
+			{
+			command = EBCTestCmdEikMObserver;
+			txt = "Test MEikCmddObserver";
+			},
+		MENU_ITEM
+			{
+			command = EBCTestCmdVCursor;
+			txt = "Test Virtual Cursor";
+			},
+		MENU_ITEM
+			{
+			command = EBCTestCmdEikenv;
+			txt = "Test Eikenv";
+			},			
+        MENU_ITEM
+            {
+            command = EBCTestAknAppUi;
+            txt = qtn_bctestappfrm_aknappui;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestAknView;
+            txt = qtn_bctestappfrm_aknview;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestEikAppUi;
+            txt = qtn_bctestappfrm_eikappui;
+            },           
+        MENU_ITEM
+            {
+            command = EBCTestEikSrv;
+            txt = qtn_bctestappfrm_eiksrv;
+            }
+
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestappfrm_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestappfrm_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestappfrm_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_eikonenv_message
+//    Message Info
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_bctestappfrm_msginfo
+	{
+		buf = "Message";
+	}
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_eikonenv_busymessage
+//    Busy Message Info
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_bctestappfrm_busymsginfo
+	{
+		buf = "Busy Message";
+	}
+
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestappfrm_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestappfrm_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestAppFrmCbaCmdNext;
+            txt = qtn_bctestappfrm_cba_next;
+            }
+	};
+    }
+
+
+

@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to
+:                Extended Sounds API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/eikkeysound.h               MW_LAYER_PLATFORM_EXPORT_PATH(eikkeysound.h)
+../inc/ataudioeventapi.h           MW_LAYER_PLATFORM_EXPORT_PATH(ataudioeventapi.h)
+../inc/ataudioeventconstants.hrh   MW_LAYER_PLATFORM_EXPORT_PATH(ataudioeventconstants.hrh)
+../inc/mateventcompleteobserver.h  MW_LAYER_PLATFORM_EXPORT_PATH(mateventcompleteobserver.h)
+
+// TEMP
+// TEMP
+// Temp solution to remove original version exported from audiothemes
+// To be removed after one release cycle to platform
+../inc/ataudioeventapi.h                  MW_LAYER_PLATFORM_EXPORT_PATH(../../ataudioeventapi.h)
+../inc/mateventcompleteobserver.h  MW_LAYER_PLATFORM_EXPORT_PATH(../../mateventcompleteobserver.h)
+// TEMP
+// TEMP

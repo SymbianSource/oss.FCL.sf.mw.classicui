@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test notifiers_api
+*
+*/
+
+#ifndef TESTSDKNOTIFIERS_H
+#define TESTSDKNOTIFIERS_H
+
+_LIT(KMbmFile,"\\resource\\apps\\avkon2.mbm");
+_LIT( KTestString, "It is a test!" );
+_LIT(KTom, "Tom");
+_LIT(KJack, "Jack");
+_LIT(KMary, "Mary");
+
+const TInt KZero = 0;
+const TInt KOne = 1;
+const TInt KTwo = 2;
+const TInt KSize = 5;
+const TInt KBufSize = 32;
+const TInt KTimeDelay = 2000;
+const TInt16 KShortIntOne = 1;
+const TInt KHundred = 100;
+
+#endif
+
+//End file

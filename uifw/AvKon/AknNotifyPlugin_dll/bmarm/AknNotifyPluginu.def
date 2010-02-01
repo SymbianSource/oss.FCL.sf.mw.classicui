@@ -1,0 +1,15 @@
+EXPORTS
+	NotifierArray__Fv @ 1 NONAME R3UNUSED ; NotifierArray(void)
+	CancelNote__25CNotifierDialogControlleri @ 2 NONAME R3UNUSED ; CNotifierDialogController::CancelNote(int)
+	DisplayNonNoteDialogL__25CNotifierDialogControlleri @ 3 NONAME R3UNUSED ; CNotifierDialogController::DisplayNonNoteDialogL(int)
+	LaunchNoteL__25CNotifierDialogControlleriii @ 4 NONAME ; CNotifierDialogController::LaunchNoteL(int, int, int)
+	LaunchNoteL__25CNotifierDialogControlleriiiQ214CAknNoteDialog8TTimeoutQ214CAknNoteDialog5TTone @ 5 NONAME ; CNotifierDialogController::LaunchNoteL(int, int, int, CAknNoteDialog::TTimeout, CAknNoteDialog::TTone)
+	SetNoteObserver__25CNotifierDialogControllerP23MNotifierDialogObserver @ 6 NONAME R3UNUSED ; CNotifierDialogController::SetNoteObserver(MNotifierDialogObserver *)
+	"_._30CAknSoftNotificationParameters" @ 7 NONAME R3UNUSED ; CAknSoftNotificationParameters::~CAknSoftNotificationParameters(void)
+	NewL__30CAknSoftNotificationParameters @ 8 NONAME R3UNUSED ; CAknSoftNotificationParameters::NewL(void)
+	NewL__30CAknSoftNotificationParametersRC7TDesC16iiiQ214CAknNoteDialog5TTone @ 9 NONAME ; CAknSoftNotificationParameters::NewL(TDesC16 const &, int, int, int, CAknNoteDialog::TTone)
+	NewL__30CAknSoftNotificationParametersRC7TDesC16iiiQ214CAknNoteDialog5TToneG10TVwsViewIdG4TUidiRC6TDesC8 @ 10 NONAME ; CAknSoftNotificationParameters::NewL(TDesC16 const &, int, int, int, CAknNoteDialog::TTone, TVwsViewId, TUid, int, TDesC8 const &)
+	DisplayAlarmL__25CNotifierDialogControlleriRC7TDesC16T2 @ 11 NONAME ; CNotifierDialogController::DisplayAlarmL(int, TDesC16 const &, TDesC16 const &)
+	NewL__25CNotifierDialogControllerP24MAknGlobalNoteController @ 12 NONAME R3UNUSED ; CNotifierDialogController::NewL(MAknGlobalNoteController *)
+	AddAlarmAdditionalInfo__25CNotifierDialogControlleriRC7TDesC16N32 @ 13 NONAME ; CNotifierDialogController::AddAlarmAdditionalInfo(int, TDesC16 const &, TDesC16 const &, TDesC16 const &, TDesC16 const &)
+

@@ -1,0 +1,355 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME LIIN
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestlabelinfoindicators.hrh"
+#include "bctestlabelinfoindicators.loc"
+
+//  RESOURCE DEFINITIONS
+//----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctestmisccontrol_buf;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestlabelinfoindicators_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+// ---------------------------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestlabelinfoindicators_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_view
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestlabelinfoindicators_view
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menubar
+//    MenuBar
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestlabelinfoindicators_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlabelinfoindicators_menu;
+            txt = qtn_bctestlabelinfoindicators_menubar;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menu
+//    Menu pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlabelinfoindicators_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsFilenameLabel;
+            cascade = r_bctestlabelinfoindicators_menu_filename_label_cascade;
+            txt = qtn_bctestlabelinfoindicators_menu_filenamelabel;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsLabel;
+            cascade = r_bctestlabelinfoindicators_menu_label_cascade;
+            txt = qtn_bctestlabelinfoindicators_menu_label;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsIndicators;
+            cascade = r_bctestlabelinfoindicators_menu_indicators_cascade;
+            txt = qtn_bctestlabelinfoindicators_menu_indicators;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsInfoPopupNote;
+            cascade = r_bctestlabelinfoindicators_menu_infopopupnote_cascade;
+            txt = qtn_bctestlabelinfoindicators_menu_infopopupnote;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsCmdAutotest;
+            txt = qtn_bctestlabelinfoindicators_menu_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestlabelinfoindicators_menu_exit;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menu_filename_label_cascade
+//    Sub menu-pane of "Eik filename label" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlabelinfoindicators_menu_filename_label_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsCmdOutline01;
+            txt = qtn_bctestlabelinfoindicators_menu_out01;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menu_label_cascade
+//    Sub menu-pane of "Eik label" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlabelinfoindicators_menu_label_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsCmdOutline02;
+            txt = qtn_bctestlabelinfoindicators_menu_out02;
+            }                      
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menu_indicators_cascade
+//    Sub menu-pane of "Indicators" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlabelinfoindicators_menu_indicators_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsCmdOutline03;
+            txt = qtn_bctestlabelinfoindicators_menu_out03;
+            }
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_menu_infopopupnote_cascade
+//    Sub menu-pane of "Info popup note" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlabelinfoindicators_menu_infopopupnote_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestLabelInfoIndicatorsCmdOutline04;
+            txt = qtn_bctestlabelinfoindicators_menu_out04;
+            }
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_label
+//    label
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE LABEL r_bctestlabelinfoindicators_label
+    {
+	horiz_align = EEikLabelAlignHCenter;
+	vert_align = EEikLabelAlignVTop;
+	standard_font = EEikLabelFontNormal;
+	reserve_length = 20;
+    txt = qtn_bctestlabelinfoindicators_label;
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_indicator_pane
+//    indicator_pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE INDICATOR_PANE r_bctestlabelinfoindicators_indicator_pane
+    {
+    indicators =
+        {
+        INDICATOR
+            {
+            uid = EAknIndicatorIrActive;
+            npriority = 10;
+            wpriority = 20;
+            bmpfile = AVKON_BITMAP_FILE;
+            states = INDICATOR_STATE
+                {
+                id = EAknIndicatorStateAnimate;
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_ir_blank;
+                    narrowbmpid = EMbmAvkonQgn_stat_ir_uni_blank;
+                    };
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_ir;
+                    narrowbmpid = EMbmAvkonQgn_stat_ir_uni;
+                    };
+                };
+            },
+        INDICATOR
+            {
+            uid = EAknIndicatorEnvelope;
+            npriority = 20;
+            wpriority = 30;
+            bmpfile = AVKON_BITMAP_FILE;
+            states = INDICATOR_STATE
+                {
+                id = EAknIndicatorStateAnimate;
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_message_blank;
+                    narrowbmpid = EMbmAvkonQgn_stat_message_uni_blank;
+                    };
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_message;
+                    narrowbmpid = EMbmAvkonQgn_stat_message_uni;
+                    };
+                };
+            },
+        INDICATOR
+            {
+            uid = EAknIndicatorMissedCalls;
+            npriority = 20;
+            wpriority = 30;
+            states = INDICATOR_STATE
+                {
+                id = EAknIndicatorStateOn;
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_missed_calls_uni;
+                    narrowbmpid = EMbmAvkonQgn_stat_missed_calls_uni;
+                    };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestlabelinfoindicators_indicator
+//    indicator
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE INDICATOR r_bctestlabelinfoindicators_indicator
+	{
+    npriority = 0xffff;
+	wpriority = 0xffff; 
+	}  	  
+
+
+
+
+
+

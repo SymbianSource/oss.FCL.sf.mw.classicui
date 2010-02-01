@@ -1,0 +1,70 @@
+/*
+* Copyright (c) 2005, 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Constants for touch pane elements
+*
+*/
+
+
+#ifndef AKNTOUCHPANE_HRH
+#define AKNTOUCHPANE_HRH
+
+
+/** 
+ * Flags usable with AVKON_TOUCHPANE resource structure.
+ */
+enum TAknTouchPaneResourceFlags
+    {
+    /** Indicates that no touch pane is constructed for the application. This
+        flag preceeds any other flags defined here. */
+    EAknNoTouchPane        = 0x01,
+    /** Indicates use of customized touch pane content. */
+    EAknCustomTouchPane    = 0x02
+    };
+
+/**
+ * Pre-defined functional buttons for touch pane. These enumerations can be
+ * used when defining the content of a touch pane in its resource structure.
+ */
+enum TTouchPaneElement
+    {
+    /** Empty touch pane element. */
+    ETouchPaneElementNone,
+    /** Button for launching application shell. */
+    ETouchPaneElementAppsGrid,
+    /** Button for launching application swappper window. */
+    ETouchPaneElementAppSwapper,
+    /** Button for launching active idle application. */
+    ETouchPaneElementIdle,
+    /** Button for launching dialler application. */
+    ETouchPaneElementDialler,
+    /** Button for rotating the screen between normal and alternate
+        orientation. */
+    ETouchPaneElementRotateScreen,
+    /** Button for launching context sensitive help. */
+    ETouchPaneElementHelp,
+    /** Button for opening or closing input method window. */
+    ETouchPaneElementInput,
+    /** Button for opening or closing application's toolbar. */
+    ETouchPaneElementToolbar,
+    /** Button for launching contacts application. */
+    ETouchPaneElementContacts,
+
+    /** Button is implemented as a ECom plug-in. */
+    ETouchPaneElementPlugin = 0xff
+    };
+
+
+#endif // AKNTOUCHPANE_HRH
+
+// End of File

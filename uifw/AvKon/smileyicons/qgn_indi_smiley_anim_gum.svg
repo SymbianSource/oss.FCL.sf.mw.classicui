@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.998,-8.046)">
+<g transform="translate(0.001)">
+<rect fill="none" fill-rule="evenodd" height="16" transform="translate(0.001)" width="15.999" x="0" y="0"/>
+<path d="M14.999,8C14.999,11.866,11.865,15,8,15C4.134,15,1,11.866,1,8C1,4.135,4.134,1.001,8,1.001C11.865,1.001,14.999,4.135,14.999,8z" fill="black" fill-rule="evenodd" transform="translate(0)"/>
+<path d="M14.501,8C14.501,11.591,11.591,14.501,8,14.501C4.41,14.501,1.5,11.591,1.5,8C1.5,4.41,4.41,1.5,8,1.5C11.591,1.5,14.501,4.41,14.501,8z" fill="url(#shape7grad)" fill-rule="evenodd"/>
+</g>
+<g>
+<path d="M7.69,6.626C7.69,7.731,6.795,8.626,5.688,8.626C4.584,8.626,3.69,7.731,3.69,6.626C3.69,5.521,4.585,4.626,5.688,4.626C6.796,4.626,7.69,5.521,7.69,6.626z" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M6.69,6.626C6.69,7.179,6.242,7.626,5.69,7.626C5.137,7.626,4.69,7.179,4.69,6.626C4.69,6.074,5.137,5.626,5.69,5.626C6.242,5.626,6.69,6.074,6.69,6.626z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+<g>
+<path d="M12.31,6.626C12.31,7.731,11.414,8.626,10.31,8.626C9.205,8.626,8.310,7.731,8.310,6.626C8.310,5.522,9.205,4.626,10.31,4.626C11.414,4.626,12.31,5.522,12.31,6.626z" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M11.31,6.626C11.31,7.179,10.862,7.626,10.31,7.626C9.757,7.626,9.310,7.179,9.310,6.626C9.310,6.074,9.757,5.626,10.31,5.626C10.862,5.626,11.31,6.074,11.31,6.626z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+<g transform="translate(0)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1s" fill="freeze" keyTimes="0;1" values="inline;none"/>
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="1s" fill="freeze" keyTimes="0;0.201;0.401;0.601;0.801;1" type="translate" values="10.059,10.783;9.213,10.994;10.059,10.783;9.213,10.994;10.059,10.783;8.156,11.206"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="1s" fill="freeze" keyTimes="0;0.201;0.401;0.601;0.801;1" type="rotate" values="0;9.256;0;10.008;0;29.142"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-10.058,-10.782;-10.058,-10.782"/>
+<g transform="translate(0.001,0.001)">
+<path d="M7.051,11.629C8.658,12.004,10.403,11.395,11.402,9.958L12.098,10.444C10.916,12.142,8.866,12.881,6.959,12.478C6.995,12.32,6.995,11.877,7.051,11.629z" fill="black" fill-rule="evenodd" transform="translate(0.001)"/>
+</g>
+<path d="M13.032,10.014C12.349,10.131,11.702,9.672,11.587,8.99L10.851,9.117C11.038,10.205,12.071,10.938,13.159,10.752L13.032,10.014z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+<g display="none" transform="translate(0.001)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1s" fill="freeze" keyTimes="0;1" values="none;inline"/>
+<g transform="translate(0)">
+<path d="M6.606,11.224C7.462,11.497,8.412,11.495,9.317,11.155L9.615,11.951C8.536,12.356,7.405,12.363,6.382,12.046C6.41,11.851,6.567,11.4,6.606,11.224z" fill="black" fill-rule="evenodd" transform="translate(0.001,0)"/>
+</g>
+<g transform="translate(0.001)">
+<path d="M10.625,12.186C9.997,11.895,9.726,11.151,10.016,10.523L9.338,10.21C8.873,11.212,9.309,12.401,10.311,12.864L10.625,12.186z" fill="black" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<path d="M5.972,10.563C6.262,11.183,5.994,11.919,5.375,12.211L5.688,12.879C6.678,12.414,7.105,11.237,6.642,10.248L5.972,10.563z" fill="black" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+</g>
+</g>
+<g display="none" transform="translate(0,0.001)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.10s" fill="freeze" keyTimes="0;1" values="none;inline"/>
+<animateTransform additive="replace" attributeName="transform" begin="1.10s" dur="0.63s" fill="freeze" keyTimes="0;0.953;1" type="translate" values="5.491,14.356;0.558,18.091;-5.312,22.535"/>
+<animateTransform additive="sum" attributeName="transform" begin="1.10s" dur="0.63s" fill="freeze" keyTimes="0;0.953;1" type="scale" values="1,1;3,3;5.381,5.381"/>
+<animateTransform additive="sum" attributeName="transform" begin="1.10s" fill="freeze" type="translate" values="-5.49,-14.355;-5.49,-14.355"/>
+<g>
+<path d="M9.266,11.655C9.266,12.373,8.683,12.955,7.965,12.955C7.246,12.955,6.664,12.373,6.664,11.655C6.664,10.936,7.246,10.354,7.965,10.354C8.683,10.354,9.266,10.936,9.266,11.655z" fill="#ED1E79" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<ellipse cx="0" cy="0" fill="#FFA6EB" fill-rule="evenodd" rx="0.552" ry="0.482" transform="matrix(0.823 -0.569 0.57 0.823 7.557 11.203)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.72s" fill="freeze" keyTimes="0;1" values="inline;none"/>
+</ellipse>
+</g>
+</g>
+<g display="none">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="3.01s" fill="freeze" keyTimes="0;0.864;1" values="none;inline;inline"/>
+<path d="M7.69,6.626C7.69,7.731,6.795,8.626,5.688,8.626C4.584,8.626,3.69,7.731,3.69,6.626C3.69,5.521,4.585,4.626,5.688,4.626C6.796,4.626,7.69,5.521,7.69,6.626z" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M6.69,6.626C6.69,7.179,6.242,7.626,5.69,7.626C5.137,7.626,4.69,7.179,4.69,6.626C4.69,6.074,5.137,5.626,5.69,5.626C6.242,5.626,6.69,6.074,6.69,6.626z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+<g display="none">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="3s" fill="freeze" keyTimes="0;0.774;1" values="none;inline;inline"/>
+<path d="M12.31,6.626C12.31,7.731,11.414,8.626,10.31,8.626C9.205,8.626,8.310,7.731,8.310,6.626C8.310,5.522,9.205,4.626,10.31,4.626C11.414,4.626,12.31,5.522,12.31,6.626z" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M11.31,6.626C11.31,7.179,10.862,7.626,10.31,7.626C9.757,7.626,9.310,7.179,9.310,6.626C9.310,6.074,9.757,5.626,10.31,5.626C10.862,5.626,11.31,6.074,11.31,6.626z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="yes"?>
+<backup_registration version="1.0">
+    <proxy_data_manager sid = "0x10202BE9" />
+
+  <public_backup>
+        <include_directory name = "C:\Predic" />
+  </public_backup>
+
+    <restore requires_reboot = "no"/>
+</backup_registration>

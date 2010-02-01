@@ -1,0 +1,23 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+PRINT Run T_Synch Animation Test
+//
+LOAD_SUITE AnimationTestServer
+
+// Delay added to stop uiframework notifier "mail: init nothing todo" from appearing while running the image comparison algorithm 
+DELAY 5000
+RUN_TEST_STEP 200 AnimationTestServer Synch

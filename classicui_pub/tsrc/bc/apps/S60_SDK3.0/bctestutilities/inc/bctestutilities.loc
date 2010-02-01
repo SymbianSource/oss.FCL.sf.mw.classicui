@@ -1,0 +1,80 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestUtilities localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTestUtilities"
+#define qtn_apps_tavl_grid              "BCTestUtilities"
+
+// MenuBar
+#define qtn_bctestutilities_menubar         "Option"
+#define qtn_bctestutilities_cba_next        "Next"
+#define qtn_bctestutilities_autotest        "Autotest"
+#define qtn_bctestutilities_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestutilities_aknutils_menu    "Test AknUtils"
+#define qtn_bctestutilities_fortextutils     "Test AknTextUtils"
+#define qtn_bctestutilities_selection        "Test AknSelectionService"
+#define qtn_bctestutilities_aknfind          "Test AknFind"
+#define qtn_bctestutilities_akneditutils     "Test AknEditUtils"
+#define qtn_bctestutilities_filter           "Test filter model and item"
+#define qtn_bctestutilities_aknlayoututils   "Test AknLayoutUtils"
+#define qtn_bctestutilities_akndraw          "Test AknDraw"
+#define qtn_bctestutilities_otheraknutils    "Test others"
+
+#define qtn_bctestutilities_aknbiditextutils "Test AknBidiTextUtils"
+#define qtn_bctestutilities_aknenv           "Test CAknEnv"
+
+// label
+#define qtn_bctestutilities_label        "Test Utilities"
+
+//-----------------------------------------------------------------------------
+// single item 
+#define qtn_bctestutilities_item_s1       " \taaaaaa"
+#define qtn_bctestutilities_item_s2       " \tbbbbbb"
+#define qtn_bctestutilities_item_s3       " \tcccccc"
+#define qtn_bctestutilities_item_s4       " \tdddddd"
+#define qtn_bctestutilities_item_s5       " \teeeeee"
+#define qtn_bctestutilities_item_s6       " \tffffff"
+#define qtn_bctestutilities_item_s7       " \tgggggg"
+#define qtn_bctestutilities_item_s8       " \thhhhhh"
+
+// double item
+#define qtn_bctestutilities_item_d1       " \tAAAAAA\taaaaaa"
+#define qtn_bctestutilities_item_d2       " \tBBBBBB\tbbbbbb"
+#define qtn_bctestutilities_item_d3       " \tCCCCCC\tcccccc"
+#define qtn_bctestutilities_item_d4       " \tThis is a very long item text which will be truncated always\t\
+  but this may be even longer item"
+#define qtn_bctestutilities_item_d5       " \tEEEEEE\teeeeee"
+#define qtn_bctestutilities_item_d6       " \tFFFFFF\tffffff"
+#define qtn_bctestutilities_item_d7       " \tGGGGGG\tgggggg"
+#define qtn_bctestutilities_item_d8       " \tHHHHHH\thhhhhh"
+
+// End of File

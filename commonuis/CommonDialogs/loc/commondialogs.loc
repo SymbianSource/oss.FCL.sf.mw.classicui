@@ -1,0 +1,210 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is a localisation file for Common File Dialogs.
+*                A .loc file is the one and only place where the logical strings
+*                to be localised are defined.
+*
+*/
+
+
+//d:Default heading text for memory selection.
+//l:popup_list_heading_pane_1
+#define qtn_memc_select_memory "Select memory"
+
+//d:Text for phone memory in memory selection.
+//l:list_single_graphic_popup_menu_pane_1
+#define qtn_memc_phone "Phone memory"
+
+//d:Text for memory card in memory selection when the memory card has no volume label.
+//l:list_single_graphic_popup_menu_pane_1
+#define qtn_memc_mmc "Memory card"
+
+//d:Text for memory card in memory selection when the memory card is locked.
+//l:list_single_graphic_popup_menu_pane_1
+#define qtn_memc_mmc_locked "Memory card locked"
+
+//d:Text for memory card in memory selection when the memory card is unavailable (not inserted).
+//l:list_single_graphic_popup_menu_pane_1
+#define qtn_memc_mmc_unavailable "Memory card unavailable"
+
+//d:Default heading text for default memory selection.
+//l:list_setting_pane_1
+#define qtn_memc_default_store "Default store"
+
+//d:Text for phone memory in default memory selection.
+//l:list_setting_pane_2
+#define qtn_database_phone "Phone memory"
+
+//d:Text for memory card in default memory selection when the memory card has no volume label.
+//l:list_setting_pane_2
+#define qtn_memc_mce_default "Memory card"
+
+//d:Text for memory card in default memory selection when the memory card is locked.
+//l:list_setting_pane_2
+#define qtn_database_locked "Memory card locked"
+
+//d:Text for memory card in default memory selection when the memory card is unavailable (not inserted).
+//l:list_setting_pane_2
+#define qtn_database_unavailable "Memory card unavailable"
+
+//d:Heading text for memory and file selection when user wants to save a file.
+//l:popup_list_heading_pane_1
+#define qtn_memc_save_heading "Save to"
+
+//d:Default heading text for filename prompt. User is prompted for a filename.
+//l:popup_query_data_window_1
+#define qtn_memc_filename_prompt "File name"
+
+//d:Default heading text for file selection.
+//l:popup_list_heading_pane_1
+#define qtn_memc_select_heading "Select file"
+
+//d:Left softkey text in file selection dialog when a folder is focused
+//l:control_pane_1
+#define text_softkey_open "Open"
+
+//d:Left softkey text in move dialog
+//l:control_pane_1
+#define text_softkey_move "Move"
+
+//d:Text for phone memory in double line memory selection.
+//l:list_double_large_graphic_popup_menu_pane_1
+#define qtn_memc_phone_double_list "Phone memory"
+
+//d:Amount of free memory in double line memory selection, second row.
+//l:list_double_large_graphic_popup_menu_pane_2
+#define qtn_memc_free_memory "%N kB"
+
+//d:Amount of free memory in double line memory selection, unit byte, second row.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_units_byte "B"
+
+//d:Amount of free memory in double line memory selection, unit kilobyte, second row.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_units_kilobyte "kB"
+
+//d:Amount of free memory in double line memory selection, unit megabyte, second row.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_units_megabyte "MB"
+
+//d:Amount of free memory in double line memory selection, unit gigabyte, second row.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_units_gigabyte "GB"
+
+//d:Amount of free memory in double line memory selection, second row.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_free_memory_var_units "Free: %N %U"
+
+//d:Amount of free memory in double line memory selection, second row, with dot.
+//l:list_double_large_graphic_pane_t2
+#define qtn_memc_free_memory_var_units_dot "Free: %0U[05] %1U"
+
+//d:Text for memory card in double line memory selection.
+//l:list_double_large_graphic_popup_menu_pane_1
+#define qtn_memc_mmc_double_list "Memory card"
+
+//d:Text for locked memory card in double line memory selection, second row.
+//l:list_double_large_graphic_popup_menu_pane_2
+#define qtn_memc_mmc_locked_double "Locked"
+
+//d:Text for unavailable memory card in double line memory selection, second row.
+//l:list_double_large_graphic_popup_menu_pane_2
+#define qtn_memc_mmc_unavailable_double "Unavailable"
+
+//d:Wrong password note, changing password. (Duplicate string to MMC Application)
+//l:popup_note_window_1
+#define qtn_memc_change_pwd_error1 "The password is incorrect, try again!"
+
+//d:Text for remote drive item in memory selection.
+//l:list_single_graphic_popup_menu_pane
+#define qtn_memc_remote_drive "Remote drive"
+
+//d:If the amount of free memory is not available in the remote drive
+//l:list_double_large_graphic_popup_menu_pane_2
+#define qtn_memc_space_not_available "Disk space not available"
+
+// New strings for multiple drives
+//
+
+// For single popup layout
+//
+
+//d:Text for device memory in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_device_memory "%U: Device memory"
+
+//d:Text for mass storage in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_mass_storage "%U: Mass storage"
+
+//d:Text for mass storage in memory selection when mass storage drive
+//  is unavailable
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_mass_storage_unavailable "%U: Unavailable mass storage"
+
+//d:Text for named memory card in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_named_memory_card "%0U %1U"
+
+//d:Text for default memory card (no name) in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_memory_card_default "%U: Memory card"
+
+//d:Text for locked memory card in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_memory_card_locked "%U: Locked memory card"
+
+//d:Text for locked memory card in memory selection when memory card is
+//  unavailable
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_mem_memory_card_unavailable "%U: Unavailable memory card"
+
+// For double popup layout
+//
+
+//d:Text for device memory in memory selection
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_mem_device_memory_double_list "%U: Device memory"
+
+///d:Text for mass storage in memory selection
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_mem_mass_storage_double_list "%U: Mass storage"
+
+//d:Text for named memory card in memory selection
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_mem_named_memory_card_double "%0U %1U"
+
+//d:Text for default memory card (no name) in memory selection
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_mem_memory_card_default_double "%U: Memory card"
+
+// For settings
+//
+
+//d:Text for device memory in default memory selection
+//l:list_set_graphic_pane_t1
+#define qtn_mem_device_memory_setting_list "%U: Device memory"
+
+//d:Text for mass storage in default memory selection
+//l:list_set_graphic_pane_t1
+#define qtn_mem_mass_storage_setting_list "%U: Mass storage"
+
+//d:Text for named memory card in default memory selection
+//l:list_set_graphic_pane_t1
+#define qtn_mem_named_memory_card_setting_list "%0U %1U"
+
+//d:Text for default memory card (no name) in default memory selection
+//l:list_set_graphic_pane_t1
+#define qtn_mem_memory_card_defaul_setting_list "%U: Memory card"
+

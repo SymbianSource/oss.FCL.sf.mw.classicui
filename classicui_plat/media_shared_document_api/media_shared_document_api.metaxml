@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="bb49a13f8e3a9f21f21cdc2bc6a2e47a" dataversion="1.0">
+  <name>Media Shared Document API</name>
+  <description>Offers embedded applications sharing documents of this type the means to exchange data.</description>
+  <type>c++</type>
+  <subsystem>commonuis</subsystem>
+  <libs>
+    <lib name="commonui.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

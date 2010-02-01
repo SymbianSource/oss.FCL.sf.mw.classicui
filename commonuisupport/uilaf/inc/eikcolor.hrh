@@ -1,0 +1,510 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// RGB colour constant: black.
+// 
+//
+
+/**
+ @publishedAll 
+ @released 
+*/
+#define KEikRgbBlack				{red=0x00;green=0x00;blue=0x00;}
+
+/** RGB colour constant: dark gray.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkGray				{red=0x55;green=0x55;blue=0x55;}
+
+/** RGB colour constant: dark red.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkRed				{red=0x80;green=0x00;blue=0x00;}
+
+/** RGB colour constant: dark green.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkGreen			{red=0x00;green=0x80;blue=0x00;}
+
+/** RGB colour constant: dark yellow.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkYellow			{red=0x80;green=0x80;blue=0x00;}
+
+/** RGB colour constant: dark blue.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkBlue				{red=0x00;green=0x00;blue=0x80;}
+
+/** RGB colour constant: dark magenta.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkMagenta			{red=0x80;green=0x00;blue=0x80;}
+
+/** RGB colour constant: dark cyan.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDarkCyan				{red=0x00;green=0x80;blue=0x80;}
+
+/** RGB colour constant: red.
+@publishedAll 
+@released 
+*/
+#define KEikRgbRed					{red=0xff;green=0x00;blue=0x00;}
+
+/** RGB colour constant: green.
+@publishedAll 
+@released 
+*/
+#define KEikRgbGreen				{red=0x00;green=0xff;blue=0x00;}
+
+/** RGB colour constant: yellow.
+@publishedAll 
+@released 
+*/
+#define KEikRgbYellow				{red=0xff;green=0xff;blue=0x00;}
+
+/** RGB colour constant: blue.
+@publishedAll 
+@released 
+*/
+#define KEikRgbBlue					{red=0x00;green=0x00;blue=0xff;}
+
+/** RGB colour constant: magenta.
+@publishedAll 
+@released 
+*/
+#define KEikRgbMagenta				{red=0xff;green=0x00;blue=0xff;}
+
+/** RGB colour constant: cyan.
+@publishedAll 
+@released 
+*/
+#define KEikRgbCyan					{red=0x00;green=0xff;blue=0xff;}
+
+/** RGB colour constant: gray.
+@publishedAll 
+@released 
+*/
+#define KEikRgbGray					{red=0xaa;green=0xaa;blue=0xaa;}
+
+/** RGB colour constant: dithered light gray.
+@publishedAll 
+@released 
+*/
+#define KEikRgbDitheredLightGray	{red=0xcc;green=0xcc;blue=0xcc;}
+
+/** RGB colour constant: 1-in-4 dithered gray.
+@publishedAll 
+@released 
+*/
+#define KEikRgb1in4DitheredGray		{red=0xed;green=0xed;blue=0xed;}
+
+/** RGB colour constant: white.
+@publishedAll 
+@released 
+*/
+#define KEikRgbWhite				{red=0xff;green=0xff;blue=0xff;}
+
+
+/** RGB colour constant: Symbian green.
+@publishedAll 
+@released 
+*/
+#define KEikRgbSymbianGreen 		{red=0x00;green=153;blue=153;}
+
+/** RGB colour constant: Symbian light green.
+@publishedAll 
+@released 
+*/
+#define KEikRgbSymbianGreenLight	{red=0x00;green=183;blue=183;}
+
+/** RGB colour constant: Symbian blue.
+@publishedAll 
+@released 
+*/
+#define KEikRgbSymbianBlue 			{red=0x00;green=102;blue=153;}
+
+/** RGB colour constant: Symbian dark blue.
+@publishedAll 
+@released 
+*/
+#define KEikRgbSymbianBlueDark		{red=0x00;green=72;blue=123;}
+
+/** RGB colour constant: Symbian orange.
+@publishedAll 
+@released 
+*/
+#define KEikRgbSymbianOrange		{red=255;green=218;blue=155;}
+
+
+/** Logical colour value for use in resources: The colour of a window's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorWindowBackground						0
+
+/** Logical colour value for use in resources: The colour of text in a window. 
+@publishedAll 
+@released 
+*/
+#define EEikColorWindowText								1
+
+/** Logical colour value for use in resources: The colour of the background contents of a control. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlBackground						2
+
+/** Logical colour value for use in resources: The colour of the text inside a control. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlText							3 
+
+/** Logical colour value for use in resources: The background colour of a control's border. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlSurroundBackground				4
+
+/** Logical colour value for use in resources: The colour of text in a control's border. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlSurroundText					5
+
+/** Logical colour value for use in resources: The colour of a control's background when highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlHighlightBackground				6 
+
+/** Logical colour value for use in resources: The colour of the text in a control when highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlHighlightText					7
+
+/** Logical colour value for use in resources: The colour of a control's background when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlDimmedBackground				8
+
+/** Logical colour value for use in resources: The colour of the text in a control when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlDimmedText						9
+
+/** Logical colour value for use in resources: The colour of a control's background when dimmed and highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlDimmedHighlightBackground		10
+
+/** Logical colour value for use in resources: The colour of the text in a control when dimmed and highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorControlDimmedHighlightText				11
+
+/** Logical colour value for use in resources: The colour of a dialog's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogBackground						12
+
+/** Logical colour value for use in resources: The colour of text inside a dialog. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogText								13
+
+/** Logical colour value for use in resources: A dialog title's background colour. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogTitle							14
+
+/** Logical colour value for use in resources: A dialog title's background colour when pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogTitlePressed						15
+
+/** Logical colour value for use in resources: The text colour in a dialog's title. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogTitleText						16
+
+/** Logical colour value for use in resources: The text colour in a dialog's title when pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorDialogTitleTextPressed					17
+
+/** Logical colour value for use in resources: The colour of the menubar's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenubarBackground						18
+
+/** Logical colour value for use in resources: The colour of text in the menubar. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenubarText							19
+
+/** Logical colour value for use in resources: The colour of the menubar title's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenubarTitleBackground					20
+
+/** Logical colour value for use in resources: The colour of text in the menubar title. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenubarTitleText						21
+
+/** Logical colour value for use in resources: The colour of the menupane's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneBackground						22
+
+/** Logical colour value for use in resources: The colour of text in the menu pane. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneText							23
+
+/** Logical colour value for use in resources: The colour of the menu pane background when highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneHighlight						24
+
+/** Logical colour value for use in resources: The colour of text in the menu pane when highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneTextHighlight					25
+
+/** Logical colour value for use in resources: The colour of the menu pane background when dimmed and highlighted. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneDimmedHighlight				26
+
+/** Logical colour value for use in resources: The colour of text in the menu pane when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneDimmedText						27
+
+/** Logical colour value for use in resources: The colour of text in the menu pane when dimmed and highlighted for selection. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMenuPaneDimmedTextHighlight			28
+
+/** Logical colour value for use in resources: The colour of the button background, when the button is in the unset state. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonFaceClear						29
+
+/** Logical colour value for use in resources: The colour of the button background when the button is in the set state. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonFaceSet							30
+
+/** Logical colour value for use in resources: The colour of the button background when the button is in the set state and is pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonFaceSetPressed					31
+
+/** Logical colour value for use in resources: The colour of the button background when the button is in the unset state and is pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonFaceClearPressed					32
+
+/** Logical colour value for use in resources: The colour of the button text. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonText								33
+
+/** Logical colour value for use in resources: The colour of the button text when the button is pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonTextPressed						34
+
+/** Logical colour value for use in resources: The colour of the button text when the button is dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorButtonTextDimmed						35		
+
+/** Logical colour value for use in resources: The colour of the message window foreground. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMsgWinForeground						36
+
+/** Logical colour value for use in resources: The colour of the message window background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorMsgWinBackground						37
+
+/** Logical colour value for use in resources: The colour of the scroll bar border. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollBarBorder						38
+
+/** Logical colour value for use in resources: The colour of the scroll bar shaft background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollBarShaft							39
+
+/** Logical colour value for use in resources: The colour of the scroll bar shaft background when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollBarShaftDimmed					40
+
+/** Logical colour value for use in resources: The colour of the scroll bar shaft background when pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollBarShaftPressed					41
+
+/** Logical colour value for use in resources: The colour of the background for scroll bars with no thumb and no shaft. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollBarNoShaftOrThumb				42
+
+/** Logical colour value for use in resources: The colour of scroll bar buttons. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollButtonIcon						43
+
+/** Logical colour value for use in resources: The colour of scroll bar buttons when pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollButtonIconPressed				44
+
+/** Logical colour value for use in resources: The colour of scroll bar buttons when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollButtonIconDimmed					45
+
+/** Logical colour value for use in resources: The colour of a scroll bar thumb's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollButtonThumbBackground			46
+
+/** Logical colour value for use in resources: The colour of a scroll bar thumb's background when pressed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollButtonThumbBackgroundPressed		47
+
+/** Logical colour value for use in resources: The colour of a scroll bar thumb's background when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollThumbDimmed						48
+
+/** Logical colour value for use in resources: The colour of a scroll bar thumb's edge. 
+@publishedAll 
+@released 
+*/
+#define EEikColorScrollThumbEdge						49
+
+/** Logical colour value for use in resources: The colour of a toolbar's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorToolbarBackground						50
+
+/** Logical colour value for use in resources: The colour of the text in a toolbar. 
+@publishedAll 
+@released 
+*/
+#define EEikColorToolbarText							51
+
+/** Logical colour value for use in resources: The colour of a status pane's background. 
+@publishedAll 
+@released 
+*/
+#define EEikColorStatusPaneBackground					52
+
+/** Logical colour value for use in resources: The colour of the text in a status pane. 
+@publishedAll 
+@released 
+*/
+#define EEikColorStatusPaneText							53
+
+/** Logical colour value for use in resources: The colour of the text in a label. 
+@publishedAll 
+@released 
+*/
+#define EEikColorLabelText								54
+
+/** Logical colour value for use in resources: The colour of emphasised text in a label. 
+@publishedAll 
+@released 
+*/
+#define EEikColorLabelTextEmphasis						55
+
+/** Logical colour value for use in resources: The colour of the text in a label when dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorLabelDimmedText						56
+
+/** Logical colour value for use in resources: The colour of the label background when highlighted and dimmed. 
+@publishedAll 
+@released 
+*/
+#define EEikColorLabelHighlightPartialEmphasis			57
+
+/** Logical colour value for use in resources: The colour of the label background when highlighted. 
+@publishedAll 
+@released 
+*/
+#define EEikColorLabelHighlightFullEmphasis				58

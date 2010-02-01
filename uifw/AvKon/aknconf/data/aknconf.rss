@@ -1,0 +1,261 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains all the resources for the aknconf.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME ODEC	// 4 letter ID
+
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <appinfo.rh>
+#include "aknconf.hrh"
+#include "aknconf.rls"
+
+//  RESOURCE DEFINITIONS
+// -----------------------------------------------------------------------------
+//
+//	Define the resource file signature
+//	This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+	{
+	}
+
+// -----------------------------------------------------------------------------
+//
+//	Default Document Name
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_default_document_name
+	{
+	buf="ODEC";
+	}
+
+// -----------------------------------------------------------------------------
+//
+//	Define default menu and CBA key.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    status_pane = r_status_pane;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//  Status pane
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE STATUS_PANE_APP_MODEL r_status_pane
+    {
+    panes=
+        {
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidNavi;
+            type = EAknCtNaviPane;
+            resource = r_navi_decorator;
+            }
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//  Physics settings view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_physics_view
+    {
+    menubar = r_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//  Gesture settings view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_gesture_view
+    {
+    menubar = r_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//  Navi pane
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_navi_decorator
+    {
+    type = ENaviDecoratorControlTabGroup;
+    control = TAB_GROUP
+        {
+        tab_width = EAknTabWidthWithTwoTabs;
+        active = 0;
+        tabs = {
+            TAB
+                {
+                id = EAknConfView;
+                txt = qtn_view_physics_conf;
+                },
+            TAB
+                {
+                id = EGestureConfView;
+                txt = qtn_view_gesture_conf;
+                }
+            };
+        };
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//   r_menubar
+//   Main menubar
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_menubar
+	{
+	titles =
+		{
+		MENU_TITLE { menu_pane = r_menu; }
+		};
+	}
+
+
+// -----------------------------------------------------------------------------
+//
+//   r_menu
+//   Menu for "Options"
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_menu
+	{
+	items =
+		{
+	MENU_ITEM
+		{
+		command = EResetValues;
+		txt = qtn_reset_values;
+		},
+        MENU_ITEM
+                {
+                command = EAknConfView;
+                txt = qtn_view_physics_conf;
+                },
+        MENU_ITEM
+                {
+                command = EGestureConfView;
+                txt = qtn_view_gesture_conf;
+                },
+        MENU_ITEM
+		{
+		command = EAbout;
+		txt = qtn_about;
+		},
+	MENU_ITEM
+		{
+		command = EAknSoftkeyExit;
+		txt = qtn_exit;
+		}
+		};
+	}
+
+// -----------------------------------------------------------------------------
+//
+// About dialog resource.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_about_query_dialog
+	{
+	flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+	buttons = R_AVKON_SOFTKEYS_OK_EMPTY;
+	items=
+		{
+		DLG_LINE 
+			{
+			type = EAknCtPopupHeadingPane;
+			id = EAknMessageQueryHeaderId;
+			itemflags = EEikDlgItemNonFocusing;
+			control = AVKON_HEADING
+				{
+				};
+			},
+		DLG_LINE
+			{
+			type = EAknCtMessageQuery;
+			id = EAknMessageQueryContentId;
+			control = AVKON_MESSAGE_QUERY
+				{
+				};
+			}
+		};
+	}
+
+
+// -----------------------------------------------------------------------------
+//
+// Resources for messages.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_caption_string { buf=qtn_caption_string; }
+RESOURCE TBUF32 r_about_dialog_title { buf=qtn_about_dialog_title; }
+RESOURCE TBUF r_about_dialog_text { buf=qtn_about_dialog_text; }
+
+// ---------------------------------------------------------------------------- 
+//
+// r_localisable_app_info
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE LOCALISABLE_APP_INFO r_localisable_app_info
+	{
+	short_caption = qtn_caption_string;
+	caption_and_icon = 
+	CAPTION_AND_ICON_INFO
+		{
+		caption = qtn_caption_string;
+
+		number_of_icons = 1;
+		icon_file = "\\resource\\apps\\aknconf.mif";
+		};
+	}
+
+
+// End of File

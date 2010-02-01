@@ -1,0 +1,354 @@
+/*
+* Copyright (c) 2002 - 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*  Symbian OS mmp file for the avkon UI framework component
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          avkon.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x100056C6
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../srcdata
+
+START RESOURCE  avkon.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+START RESOURCE  AknPriv.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+START RESOURCE  smiley.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif // !WINSCW
+
+MACRO TFX_USE_WCHANGE_EVENT    // Enable these if TfxServer CRP supports the EWindowGroupChanged event
+                                             // Note: must be enabled also in akncapserver.mmp and wsdrawer.mmp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../inc
+USERINCLUDE   ../../../inc
+USERINCLUDE   ../../eikctl/inc
+USERINCLUDE   ../../EikStd/coctlinc
+USERINCLUDE   . ../inc ../animdllinc ../akncompamode/inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// and applications layer specific include directories
+APP_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+
+SOURCEPATH      ../src
+
+SOURCE          aknview.cpp
+SOURCE          aknApp.cpp
+SOURCE          AknAppUi.cpp
+SOURCE          aknlib.cpp
+SOURCE          eikfrlb.cpp
+SOURCE          eikfrlbd.cpp
+SOURCE          eikslb.cpp
+SOURCE          eikslbd.cpp
+#if defined __SERIES60_SETTINGS_PROTECTION
+SOURCE          eikslbProt.cpp
+SOURCE          EikslbProtFactoryEnabled.cpp
+#else
+SOURCE          eikslbProtFactoryDisabled.cpp
+#endif
+SOURCE          aknutils.cpp
+SOURCE          akntitle.cpp
+SOURCE          akncontext.cpp
+SOURCE          akncontextidle.cpp
+SOURCE          akntabgrp.cpp
+SOURCE          aknnavi.cpp
+SOURCE          aknnavide.cpp
+SOURCE          aknenv.cpp
+SOURCE          aknPopup.cpp
+SOURCE          Aknslider.cpp
+SOURCE          akngridview.cpp
+SOURCE          akngrid.cpp
+SOURCE          akngridm.cpp
+SOURCE          aknbattery.cpp
+SOURCE          aknsignal.cpp
+SOURCE          AknIndicatorContainer.cpp
+SOURCE          aknindicator.cpp
+SOURCE          aknprogresstimer.cpp
+SOURCE          AknProgressDialog.cpp
+SOURCE          AknNoteDialog.cpp
+SOURCE          aknnotecontrol.cpp
+SOURCE          aknnoteattributes.cpp
+SOURCE          AknStaticNoteDialog.cpp
+SOURCE          AknViewAppUi.cpp
+#ifdef RD_SPLIT_VIEW
+SOURCE          AknViewNavigator.cpp
+#endif
+SOURCE          AknPopupField.cpp
+SOURCE          AknPopupFieldText.cpp
+SOURCE          AknPopupFieldList.cpp
+SOURCE          AknDesCArrayDecorator.cpp
+SOURCE          AknQueryValue.cpp
+SOURCE          AknQueryValueText.cpp
+SOURCE          AknQueryValueNumber.cpp
+SOURCE          AknQueryValuePhone.cpp
+SOURCE          AknQueryValueTime.cpp
+SOURCE          AknQueryValueDate.cpp
+SOURCE          AknQueryValueDuration.cpp
+SOURCE          AknQueryDialog.cpp
+SOURCE          aknmessagequerydialog.cpp
+SOURCE          AknQueryControl.cpp
+SOURCE          AknMultilineQueryControl.cpp
+SOURCE          aknlistquerycontrol.cpp
+SOURCE          aknqueryeditorindicator.cpp
+SOURCE          aknmessagequerycontrol.cpp
+SOURCE          aknlists.cpp
+SOURCE          aknshortcuts.cpp
+SOURCE          Aknvolumecontrol.cpp
+SOURCE          akndialog.cpp
+SOURCE          AknForm.cpp
+SOURCE          aknAnimGc.cpp
+SOURCE          aknAnimView.cpp
+SOURCE          aknAnimData.cpp
+SOURCE          aknAnimCtrl.cpp
+SOURCE          aknsfld.cpp
+SOURCE          aknSfldIndicatorFactory.cpp
+SOURCE          aknsfldIndicator.cpp
+SOURCE          akninfrm.cpp
+SOURCE          AknBitmapAnimation.cpp
+SOURCE          aknkeys.cpp
+SOURCE          AknSettingPage.cpp
+SOURCE          AknTextSettingPage.cpp
+SOURCE          AknVolumeSettingPage.cpp
+SOURCE          AknSliderSettingPage.cpp
+SOURCE          AknRadioButtonSettingPage.cpp
+SOURCE          AknCheckBoxSettingPage.cpp
+SOURCE          AknPhedModel.cpp
+SOURCE          AknPhedView.cpp
+SOURCE          AknPhoneNumberEditor.cpp
+SOURCE          AknPhoneNumberGrouping.cpp
+
+SOURCE          aknPopupHeadingPane.cpp
+SOURCE          aknpopuplayout.cpp
+SOURCE          AknSctDialog.cpp
+SOURCE          AknCharMap.cpp
+SOURCE          AknListBoxLayoutDecorator.cpp
+SOURCE          aknnavilabel.cpp
+SOURCE          AknIconArray.cpp
+SOURCE          aknsoundsystem.cpp
+SOURCE          aknsoundplayer.cpp
+SOURCE          AknMfneSettingPage.cpp
+SOURCE          AknPasswordSettingPage.cpp
+SOURCE          AknPopupSettingPage.cpp
+SOURCE          AknSettingItemList.cpp
+SOURCE          aknshut.cpp
+SOURCE          AknKeyLock.cpp
+SOURCE          AknIncallStatusBubble.cpp
+SOURCE          AknEcs.cpp
+SOURCE          AknNumEdwin.cpp
+SOURCE          AknDlgShut.cpp
+SOURCE          AknGMSStyleGrid.cpp
+SOURCE          aknnotewrappers.cpp
+SOURCE          AknSelectionList.cpp
+SOURCE          Aknnumseced.cpp
+SOURCE          AknListBoxSettingPage.cpp
+SOURCE          aknwaitdialog.cpp
+SOURCE          AknDoc.cpp
+SOURCE          AknWaitNoteWrapper.cpp
+SOURCE          aknnotifiercontroller.cpp
+SOURCE          aknpopupfader.cpp
+SOURCE          akntext.cpp
+SOURCE          akntextcontrol.cpp
+SOURCE          aknlistquerydialog.cpp
+SOURCE          aknquerydata.cpp
+SOURCE          aknsgcc.cpp
+SOURCE          AknSyncDraw.cpp
+SOURCE          AknSettingCache.cpp
+SOURCE          AknLineBreaker.cpp
+SOURCE          AknSkinnableClock.cpp
+SOURCE          AknSkinnableClockFace.cpp
+SOURCE          akncolourselectiongrid.cpp
+SOURCE          AknTextWrapper.cpp
+SOURCE          AknBuildVariant.cpp
+SOURCE          AknBidiTextUtils.cpp
+SOURCE          AknBitmapMirrorUtils.cpp
+SOURCE          AknDateFormatUtils.cpp
+SOURCE          AknNaviForegroundObserver.cpp
+SOURCE          AknMarqueeControl.cpp
+SOURCE          Aknpopupform.cpp
+SOURCE          AknPhoneNumberTextUtils.cpp
+SOURCE          aknlegacymode.cpp
+SOURCE          AknVolumePopup.cpp
+SOURCE          AknTransparentCameraSettingPage.cpp
+SOURCE          AknLayoutFont.cpp
+SOURCE          AknFontIdLayoutFont.cpp
+SOURCE          AknBatteryIcon.cpp
+SOURCE          AknBatteryStrength.cpp
+SOURCE          AknSignalIcon.cpp
+SOURCE          AknSignalStrength.cpp
+SOURCE          AknServerApp.cpp
+SOURCE          AknOpenFileService.cpp
+SOURCE          AknNullService.cpp
+SOURCE          AknTextDecorationMetrics.cpp
+SOURCE          AknStatuspaneUtils.cpp
+SOURCE          AknIndicatorFader.cpp
+SOURCE          AknTabGrpGraphics.cpp
+SOURCE          AknLaunchAppService.cpp
+SOURCE          AknTitlePaneLabel.cpp
+SOURCE          AKNEIKSRVC.CPP
+SOURCE          AknWsEventObserver.cpp
+SOURCE          PictograhGrouping.cpp
+SOURCE          AknDef.cpp
+
+SOURCE          AknInfoPopupNoteController.cpp
+SOURCE          AknInfoPopupNote.cpp
+
+SOURCE          AknControl.cpp
+
+SOURCE          AknFontRegistry.cpp
+SOURCE          AknFontSpecificationLayoutFont.cpp
+SOURCE          AknTaskList.cpp
+SOURCE          aknfontaccess.cpp
+SOURCE          AknCustomCursorSupport.cpp
+SOURCE          AknSystemFont.cpp
+
+SOURCE          AknPreviewPopUpController.cpp
+SOURCE          AknPreviewPopUp.cpp
+
+SOURCE          aknlongtapdetector.cpp
+SOURCE          aknchoicelist.cpp
+
+SOURCE      AknLayoutConfig.cpp
+SOURCE          AknIndicatorPlugin.cpp
+SOURCE          aknstylusactivatedpopupcontent.cpp
+SOURCE          aknstatuspanedigitalclock.cpp
+SOURCE          akndigitalclock.cpp
+SOURCE          aknemptycontrol.cpp
+SOURCE          AknInputBlock.cpp
+SOURCE          aknlongtapanimation.cpp
+SOURCE          AknScreenMode.cpp
+SOURCE          AknLayoutUtilsHelpers.cpp
+SOURCE          transitionmanager.cpp
+SOURCE          aknstatuspanedatasubscriber.cpp
+SOURCE          aknstatuspanedatapublisher.cpp
+SOURCE          aknbatterydataobserver.cpp
+SOURCE          aknsignaldataobserver.cpp
+SOURCE          aknindicatordataobserver.cpp
+SOURCE          aknuniversalindicatorcontainer.cpp
+SOURCE          aknbatteryindicatorcontainer.cpp
+SOURCE          aknsignalindicatorcontainer.cpp
+SOURCE          aknglobalpopupprioritycontroller.cpp
+SOURCE          AknAdaptiveSearch.cpp
+SOURCE          AknAdaptiveSearchGrid.cpp
+
+SOURCE          aknindicatorpopup.cpp
+SOURCE          aknindicatorpopupcontent.cpp
+SOURCE          aknkeypad.cpp
+
+SOURCE          AknTasHook.cpp
+SOURCE          aknpointereventmodifier.cpp
+SOURCE          aknpointereventsuppressor.cpp
+SOURCE          akndiscreetpopup.cpp
+SOURCE          akndiscreetpopupcontrol.cpp
+SOURCE          akndiscreetpopupdrawer.cpp
+SOURCE          akndiscreetpopupdata.cpp
+SOURCE          akndiscreetpopupserverhandler.cpp
+
+SOURCE          AknSmileyModel.cpp
+SOURCE          AknSmileyImage.cpp
+
+LIBRARY         FontProvider.lib
+LIBRARY         FontUtils.lib
+
+LIBRARY         EUSER.LIB
+LIBRARY         EIKCORE.LIB
+LIBRARY         cone.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         egul.lib
+LIBRARY         bafl.lib
+LIBRARY         gdi.lib
+LIBRARY         fbscli.lib
+LIBRARY         APGRFX.LIB
+LIBRARY         ws32.lib
+LIBRARY         eikdlg.lib
+LIBRARY         bitgdi.lib
+LIBRARY         etext.lib
+LIBRARY         BMPANIM.LIB
+LIBRARY         fepbase.lib
+LIBRARY         form.lib
+LIBRARY         estor.lib
+LIBRARY         CommonEngine.lib
+LIBRARY         phoneclient.lib
+LIBRARY         apparc.lib
+LIBRARY         aknnotify.lib // Global Note
+LIBRARY         INSOCK.LIB // For IP address copying in CAknIpFieldSettingPage
+LIBRARY         efsrv.lib
+LIBRARY         eiksrvc.lib
+LIBRARY         AknSkins.lib // Skins support
+LIBRARY         linebreak.lib
+LIBRARY         FeatMgr.lib
+LIBRARY         NumberConversion.lib
+LIBRARY         findutil.lib
+LIBRARY         aknpictograph.lib
+LIBRARY         CdlEngine.lib
+LIBRARY         AknIcon.lib
+LIBRARY         ECom.lib
+LIBRARY         oommonitor.lib
+LIBRARY         akncapserverclient.lib
+LIBRARY         Apmime.lib
+LIBRARY         servicehandler.lib
+LIBRARY         numbergrouping.lib
+LIBRARY         AknLayout2.lib
+LIBRARY         AknLayout2Scalable.lib
+LIBRARY         centralrepository.lib
+LIBRARY         cenrepnotifhandler.lib
+LIBRARY         PtiEngine.lib
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+LIBRARY         aknlistloadertfx.lib
+#endif //RD_UI_TRANSITION_EFFECTS_LIST
+
+LIBRARY         akntransitionutils.lib
+
+LIBRARY         gfxtrans.lib
+LIBRARY         hlplch.lib
+LIBRARY         touchfeedback.lib
+LIBRARY         tacticon.lib
+LIBRARY         viewcli.lib
+LIBRARY         aknphysics.lib
+LIBRARY         HWRMLightClient.lib
+
+DEFFILE AVKON.DEF
+
+START WINS
+    baseaddress     0x7dc00000
+END
+
+START MARM
+END

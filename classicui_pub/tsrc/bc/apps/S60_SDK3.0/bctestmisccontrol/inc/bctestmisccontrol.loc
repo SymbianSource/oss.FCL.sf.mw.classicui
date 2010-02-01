@@ -1,0 +1,94 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestmisccontrol localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                  "BCTESTMISCCONTROL"
+#define qtn_apps_tavl_grid                  "BCTESTMISCCONTROL"
+
+// MenuBar
+#define qtn_bctestmisccontrol_menubar                 "Options"
+#define qtn_bctestmisccontrol_menu_caption_control    "Eik captioned control"
+#define qtn_bctestmisccontrol_menu_console_control    "Eik console control"
+#define qtn_bctestmisccontrol_menu_control_group      "Eik control group"
+#define qtn_bctestmisccontrol_menu_key_window         "Eik key window"
+#define qtn_bctestmisccontrol_menu_eik_mover          "Eik mover"
+#define qtn_bctestmisccontrol_menu_eik_tool_bar       "Eik tool bar"
+#define qtn_bctestmisccontrol_menu_autotest           "Autotest"
+#define qtn_bctestmisccontrol_menu_exit               "Exit"
+
+// Sub menubar of "Eik captioned control" menu
+#define qtn_bctestmisccontrol_menu_out01    "OUTLINE01"
+#define qtn_bctestmisccontrol_menu_out02    "OUTLINE02"
+#define qtn_bctestmisccontrol_menu_out03    "OUTLINE03"
+
+// Sub menubar of "Eik console control" menu
+#define qtn_bctestmisccontrol_menu_out04    "OUTLINE04"
+#define qtn_bctestmisccontrol_menu_out05    "OUTLINE05"
+#define qtn_bctestmisccontrol_menu_out06    "OUTLINE06"
+
+// Sub menubar of "Eik control group" menu   
+#define qtn_bctestmisccontrol_menu_out07    "OUTLINE07" 
+
+// Sub menubar of "Eik key window" menu    
+#define qtn_bctestmisccontrol_menu_out08    "OUTLINE08"   
+
+// Sub menubar of "Eik mover" menu
+#define qtn_bctestmisccontrol_menu_out09    "OUTLINE09" 
+
+// Sub menubar of "Eik tool bar" menu  
+#define qtn_bctestmisccontrol_menu_out10    "OUTLINE10" 
+  
+#define qtn_bctestmisccontrol_menu_out11    "OUTLINE11"   
+#define qtn_bctestmisccontrol_menu_out12    "OUTLINE12"   
+#define qtn_bctestmisccontrol_menu_out13    "OUTLINE13"   
+#define qtn_bctestmisccontrol_menu_out14    "OUTLINE14"   
+#define qtn_bctestmisccontrol_menu_out15    "OUTLINE15"   
+#define qtn_bctestmisccontrol_menu_out16    "OUTLINE16"   
+#define qtn_bctestmisccontrol_menu_out17    "OUTLINE17"   
+#define qtn_bctestmisccontrol_menu_out18    "OUTLINE18"   
+#define qtn_bctestmisccontrol_menu_out19    "OUTLINE19"   
+#define qtn_bctestmisccontrol_menu_out20    "OUTLINE20"
+
+#define qtn_bctestmisccontrol_form_label_edwin  "edwin"
+
+// Hint text
+#define qtn_bctestmisccontrol_hint_text_edwin   "Text Editor"
+
+// Slider label text
+#define qtn_bctestmisccontrol_form_label_sdmin  "min"
+#define qtn_bctestmisccontrol_form_label_sdmax  "max"
+#define qtn_bctestmisccontrol_form_label_slider "slider"   
+
+// registraton string
+#define qtn_apps_name                   "bctestmisccontrol"
+#define qtn_localization_filename       "\\resource\\apps\\bctestmisccontrol"
+#define qtn_group_name                  "BCTest"
+
+#define qtn_bctestmisccontrol_buf       "BCTestMiscControl"
+#define qtn_bctestmisccontrol_prompt    "New Line"
+#define qtn_bctestmisccontrol_Title     "Eik mover"
+

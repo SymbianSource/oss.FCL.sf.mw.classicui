@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<api id="6f4d0b390e2de8dda484d3067867b297" dataversion="1.0">
+  <name>Initialization API</name>
+  <description>Initialization stuff.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+    <lib name="eikctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project ?myapp
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME PANE
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testsdk_context_pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE CONTEXT_PANE r_testsdk_context_pane
+    {
+    bmpfile = AVKON_ICON_FILE;
+    bmpid = EMbmAvkonQgn_indi_signal_strength;
+    bmpid = EMbmAvkonQgn_indi_signal_strength_mask;
+    }

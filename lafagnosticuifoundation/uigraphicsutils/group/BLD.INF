@@ -1,0 +1,102 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// UI Graphics utilities
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_EXPORTS
+
+// EGUL
+../gulinc/GULALIGN.H	SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulalign.h)
+../gulinc/GULBORDR.H	SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulbordr.h)
+../gulinc/GULCOLOR.H	SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulcolor.h)
+../gulinc/GULDEF.H		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(guldef.h)
+../gulinc/GULFONT.H		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulfont.h)
+../gulinc/GULPANIC.H	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gulpanic.h)
+../gulinc/GULUTIL.H		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulutil.h)
+../gulinc/GULICON.H		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(gulicon.h)
+../gulinc/gulsprite.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gulsprite.h)
+../gulinc/gulgcmap.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gulgcmap.h)
+../gulinc/GULFONT.HRH	/epoc32/include/gulfont.hrh
+../gulinc/GULFTFLG.HRH	/epoc32/include/gulftflg.hrh
+../gulinc/gullogicalborder.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/uigraphicsutils/gullogicalborder.h)
+../gulinc/gullogicalborder.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/uigraphicsutils/gulutls.h)
+
+../group/Egul.iby    /epoc32/rom/include/egul.iby
+
+// ETUL
+../tulinc/tulpanics.h				SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(tulpanics.h)
+../tulinc/tultextresourceutils.h		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(tultextresourceutils.h)
+../tulinc/tulphonenumberutils.h		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(tulphonenumberutils.h)
+../tulinc/tuladdressstringtokenizer.h		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(tuladdressstringtokenizer.h)
+../tulinc/tulstringresourcereader.h		SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(tulstringresourcereader.h)
+
+
+
+PRJ_MMPFILES
+
+../group/EGUL.MMP
+../group/etul.mmp
+
+
+PRJ_TESTEXPORTS
+
+../group/EgulTest.iby                        /epoc32/rom/include/egultest.iby
+../tef/scripts/egultest_run.bat	             z:/egultest/egultest_run.bat
+../tef/scripts/egultest_run.bat              /epoc32/release/winscw/udeb/egultest_run.bat
+../tef/scripts/egultest_run.bat              /epoc32/release/winscw/urel/egultest_run.bat
+../tef/scripts/egultest_T_Color.script       z:/egultest/egultest_t_color.script
+../tef/scripts/egultest_T_Border.script      z:/egultest/egultest_t_border.script
+../tef/scripts/egultest_T_DigitWidth.script  z:/egultest/egultest_t_digitwidth.script
+../tef/scripts/egultest_T_Alignment.script   z:/egultest/egultest_t_alignment.script
+
+../group/etultest.iby                        				/epoc32/rom/include/etultest.iby
+../tef/scripts/etultest_run.bat              				/epoc32/release/winscw/udeb/etultest_run.bat
+../tef/scripts/etultest_run.bat              				/epoc32/release/winscw/urel/etultest_run.bat
+../tef/scripts/etultest_run.bat	             				z:/etultest/etultest_run.bat
+../tef/scripts/etultest_t_textresourceutils.script   			z:/etultest/etultest_t_textresourceutils.script
+../tef/scripts/etultest_t_addressstringtokenizer.script   		z:/etultest/etultest_t_addressstringtokenizer.script
+../tef/scripts/etultest_t_phonenumberutils.script			z:/etultest/etultest_t_phonenumberutils.script
+
+// epoc32/data
+../tef/tdatasrc/addressstringtokenizertestappdata.txt		/epoc32/data/z/system/data/addressstringtokenizertestappdata.txt
+../tef/tdatasrc/addressstringtokenizertestappdataref.txt		/epoc32/data/z/system/data/addressstringtokenizertestappdataref.txt
+
+// WINSCW UDEB
+
+../tef/tdatasrc/addressstringtokenizertestappdata.txt		/epoc32/release/winscw/udeb/z/system/data/addressstringtokenizertestappdata.txt
+../tef/tdatasrc/addressstringtokenizertestappdataref.txt		/epoc32/release/winscw/udeb/z/system/data/addressstringtokenizertestappdataref.txt
+
+// WINSCW UREL
+../tef/tdatasrc/addressstringtokenizertestappdata.txt		/epoc32/release/winscw/urel/z/system/data/addressstringtokenizertestappdata.txt
+../tef/tdatasrc/addressstringtokenizertestappdataref.txt		/epoc32/release/winscw/urel/z/system/data/addressstringtokenizertestappdataref.txt
+
+// ARMV5 UDEB
+../tef/tdatasrc/addressstringtokenizertestappdata.txt		/epoc32/release/armv5/udeb/z/system/data/addressstringtokenizertestappdata.txt
+../tef/tdatasrc/addressstringtokenizertestappdataref.txt		/epoc32/release/armv5/udeb/z/system/data/addressstringtokenizertestappdataref.txt
+
+// ARMV5 UREL
+../tef/tdatasrc/addressstringtokenizertestappdata.txt		/epoc32/release/armv5/urel/z/system/data/addressstringtokenizertestappdata.txt
+../tef/tdatasrc/addressstringtokenizertestappdataref.txt		/epoc32/release/armv5/urel/z/system/data/addressstringtokenizertestappdataref.txt
+
+PRJ_TESTMMPFILES
+
+../tef/TEgulTestServer.mmp
+../tef/tetultestserver.mmp
+

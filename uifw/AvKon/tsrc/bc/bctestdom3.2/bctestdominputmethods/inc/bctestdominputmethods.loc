@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  BCTestDomInputMethods localise file
+*
+*/
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTDomInputMethods"
+#define qtn_apps_tavl_grid              "BCTESTDomInputMethods"
+
+// MenuBar
+#define qtn_bctestdominputmethods_menubar         "Option"
+#define qtn_bctestdominputmethods_cba_next        "Next"
+#define qtn_bctestdominputmethods_autotest        "Autotest"
+#define qtn_bctestdominputmethods_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestdominputmethods_outline1     "Outline01"
+
+#define qtn_localization_filename   "\\resource\\app\\bctestDomInputMethods"
+
+#define qtn_apps_name   "bctestDomInputMethods"
+
+#define qtn_apps_buf   "DomInputMtd"
+
+#define qtn_group_name  "BCTest"
+
+// End of File

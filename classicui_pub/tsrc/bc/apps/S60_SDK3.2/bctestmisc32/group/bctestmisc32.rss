@@ -1,0 +1,313 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "BCTestmisc32.hrh"
+#include "BCTestmisc32.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTMISC32_BMP_FNAME APP_BITMAP_DIR"\\BCTestmisc32.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestmisc32";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestmisc32_menubar_main;
+    cba = r_bctestmisc32_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestmisc32_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\BCTestmisc_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_view
+//    AVKON_VIEW for CBCTestmiscView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestmisc32_view
+    {
+    menubar = r_bctestmisc32_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestmisc32_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestmisc32_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestmisc32_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisc32_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestmisc32_outline1;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctest_listdata_menu;
+            txt = qtn_bctest_listdata;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline6;
+            txt = qtn_bctestmisc32_outline6;
+            }                        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmisc32_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestmisc32_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestmisc32_menu_exit;
+            }
+        };
+    }
+    
+// ----------------------------------------------------------------------------
+//
+//    r_bctest_listdata_menu
+//    cascade menu 
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctest_listdata_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline2;
+            txt = qtn_bctestmisc32_outline2;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline3;
+            txt = qtn_bctestmisc32_outline3;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline4;
+            txt = qtn_bctestmisc32_outline4;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline5;
+            txt = qtn_bctestmisc32_outline5;
+            }
+        };
+    }
+          
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_single_shortitem
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestmisc32_single_shortitem
+    {
+    array_id = r_bctestmisc32_single_short;
+    flags = EAknListBoxSelectionList;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_single_longitem
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestmisc32_single_longitem
+    {
+    array_id = r_bctestmisc32_single_long;
+    flags = EAknListBoxSelectionList;
+    }
+            
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_single_short
+//    Items array for ListBox( shorttext )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestmisc32_single_short
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestmisc32_single_1; },
+        LBUF { txt = qtn_bctestmisc32_single_2; }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_single_long
+//    Items array for ListBox( longtext )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestmisc32_single_long
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestmisc32_single_2; },
+        LBUF { txt = qtn_bctestmisc32_single_1; }
+        };
+    }
+            
+// ----------------------------------------------------------------------------
+//
+//    r_bctestmisc32_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE CBA r_bctestmisc32_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestmisc32CbaCmdNext;
+            txt = qtn_bctestmisc32_cba_next;
+            }
+	};
+    }
+
+
+// End of File

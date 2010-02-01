@@ -1,0 +1,40 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// animationshared.dll functionality shared by various animation dlls
+// 
+//
+
+/**
+ @file
+*/
+
+target        animationshared.dll
+CAPABILITY all -tcb
+targettype    dll
+UID    0x1000008d 0x10204F57
+VENDORID 0x70000001
+
+SOURCEPATH	../src
+source		AnimationTls.cpp AnimationTicker.cpp
+source		Animator.cpp AnimationFrame.cpp AnimationDataProvider.cpp
+
+userinclude	../inc ../src
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+library       euser.lib fbscli.lib bitgdi.lib ecom.lib
+
+deffile       AnimationShared.DEF
+
+
+SMPSAFE

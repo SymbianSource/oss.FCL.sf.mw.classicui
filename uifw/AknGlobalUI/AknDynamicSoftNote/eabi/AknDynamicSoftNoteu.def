@@ -1,0 +1,25 @@
+EXPORTS
+	_ZN23CAknDynamicSoftNotifier13StopObservingEi @ 1 NONAME
+	_ZN23CAknDynamicSoftNotifier15StartObservingLEiP27MAknDynamicSoftNoteObserver @ 2 NONAME
+	_ZN23CAknDynamicSoftNotifier23AddDynamicNotificationLER33TAknDynamicSoftNotificationParamsii @ 3 NONAME
+	_ZN23CAknDynamicSoftNotifier26CancelDynamicNotificationLEi @ 4 NONAME
+	_ZN23CAknDynamicSoftNotifier28SetDynamicNotificationCountLER33TAknDynamicSoftNotificationParamsii @ 5 NONAME
+	_ZN23CAknDynamicSoftNotifier4NewLEv @ 6 NONAME
+	_ZN23CAknDynamicSoftNotifier5NewLCEv @ 7 NONAME
+	_ZN23CAknDynamicSoftNotifierD0Ev @ 8 NONAME
+	_ZN23CAknDynamicSoftNotifierD1Ev @ 9 NONAME
+	_ZN23CAknDynamicSoftNotifierD2Ev @ 10 NONAME
+	_ZN27CAknDynamicSoftNoteObserver4NewLER23CAknDynamicSoftNotifierP27MAknDynamicSoftNoteObserveri @ 11 NONAME
+	_ZN27CAknDynamicSoftNoteObserver5NewLCER23CAknDynamicSoftNotifierP27MAknDynamicSoftNoteObserveri @ 12 NONAME
+	_ZN33TAknDynamicSoftNotificationParams11SetSoftkeysERK7TDesC16S2_ @ 13 NONAME
+	_ZN33TAknDynamicSoftNotificationParams12SetImageDataERK6TDesC8 @ 14 NONAME
+	_ZN33TAknDynamicSoftNotificationParams13SetNoteLabelsERK7TDesC16S2_ @ 15 NONAME
+	_ZN33TAknDynamicSoftNotificationParams14EnableObserverEv @ 16 NONAME
+	_ZN33TAknDynamicSoftNotificationParams14SetGroupLabelsERK7TDesC16S2_ @ 17 NONAME
+	_ZN33TAknDynamicSoftNotificationParams23SetViewActivationParamsE10TVwsViewIdS0_4TUidRK6TDesC8 @ 18 NONAME
+	_ZN33TAknDynamicSoftNotificationParamsC1EiN14CAknNoteDialog5TToneE @ 19 NONAME
+	_ZN33TAknDynamicSoftNotificationParamsC2EiN14CAknNoteDialog5TToneE @ 20 NONAME
+	_ZTI27CAknDynamicSoftNoteObserver @ 21 NONAME ; #<TI>#
+	_ZTV27CAknDynamicSoftNoteObserver @ 22 NONAME ; #<VT>#
+	_ZN23CAknDynamicSoftNotifier23SetSecondaryDisplayDataEP10CAknSDData @ 23 NONAME
+

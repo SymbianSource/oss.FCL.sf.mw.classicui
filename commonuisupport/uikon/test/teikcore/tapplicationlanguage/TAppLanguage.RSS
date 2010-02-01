@@ -1,0 +1,132 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file tapplanguage.rss
+ @internalComponent - Internal Symbian test code 
+*/
+
+
+NAME TAPL
+
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include <appinfo.rh>
+#include "TAppLanguage.HRH"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf="ObjectPackager"; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tpck_hotkeys;
+	menubar=r_tpck_menubar;
+	}
+
+RESOURCE HOTKEYS r_tpck_hotkeys
+    {
+    control=
+        {
+        HOTKEY {command=EEikCmdExit; key='e';}
+        };
+    }
+
+RESOURCE MENU_BAR r_tpck_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tpck_file_menu; txt="File"; },
+        MENU_TITLE { menu_pane=r_tpck_object_menu; txt="Object"; }
+		};
+    }
+
+RESOURCE MENU_PANE r_tpck_file_menu
+    {
+    items=
+        {
+	    MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Close file";
+            },
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdNew;
+            txt="New file";
+            },
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdOpen;
+			// flags=EEikMenuItemSeparatorAfter;
+            txt="Open file";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_tpck_object_menu
+    {
+    items=
+        {
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdInsertObject;
+            txt="Insert object";
+            },
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdEditObject;
+            txt="Edit object";
+            },
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdDeleteObject;
+            txt="Delete object";
+            },
+	    MENU_ITEM
+            {
+            command=ETPackagerCmdDeleteObject;
+            txt="Rename object";
+            }
+        };
+    }
+
+RESOURCE TBUF r_tpck_tbuf_no_embeddable_apps_found { buf="No embeddable applications found"; }
+RESOURCE TBUF r_tpck_tbuf_no_objects_to_xxx { buf="No objects to %S - use \"Insert object\" first"; }
+RESOURCE TBUF r_tpck_tbuf_edit { buf="edit"; }
+RESOURCE TBUF r_tpck_tbuf_delete { buf="delete"; }
+RESOURCE TBUF r_tpck_tbuf_rename { buf="rename"; }
+RESOURCE TBUF r_tpck_tbuf_edit_dlg_title { buf="Pick object to edit"; }
+RESOURCE TBUF r_tpck_tbuf_delete_dlg_title { buf="Pick object to delete"; }
+RESOURCE TBUF r_tpck_tbuf_dlg_prompt { buf="Object"; }
+
+RESOURCE DIALOG r_tpck_dlg_insert_object
+	{
+	flags=EEikDialogFlagButtonsBelow|EEikDialogFlagWait;
+	title="Insert object";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	items=
+		{
+        DLG_LINE
+			{
+			type=EEikCtChoiceList;
+			prompt="Application";
+			id=ETPackagerInsertObjectDlgApps;
+			control=CHOICELIST { flags=EEikChlistArrayOwnedExternally; };
+            }
+		};
+	}
+

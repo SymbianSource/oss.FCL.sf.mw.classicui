@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="4d4ce1a5bfabffc75a6fa2e575b254cc" dataversion="1.0">
+  <name>Personalisation Application API</name>
+  <description>Definitions for the personalisation application.</description>
+  <type>c++</type>
+  <subsystem>Psln</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

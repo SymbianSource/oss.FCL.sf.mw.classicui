@@ -1,0 +1,1 @@
+EXPORTS ?NewLibraryL@@YAPAVCEikLibrary@@XZ @ 1 NONAME ; class CEikLibrary * __cdecl NewLibraryL(void)

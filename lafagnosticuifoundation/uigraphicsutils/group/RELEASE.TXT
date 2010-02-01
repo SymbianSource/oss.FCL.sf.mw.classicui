@@ -1,0 +1,170 @@
+Version 1.00.021
+================
+Made by SimonC 4 October 1999
+
+Uses mainline 00019
+
+Added new methods to ColorUtils
+
+	IMPORT_C static CColorList* CreateSystemColorListL(RFs& aFs);
+	IMPORT_C static void UpdateSystemColorListL(RFs& aFs,CColorList& aColorList);
+
+CreateSystemColorListL returns NULL if no list is saved to file.  The caller is
+expected to fall back to some other mechanism in this case (e.g. resource file)
+
+Added test code for all colour utilities in T_COLOR
+
+
+Version 1.00.020
+================
+Made by DianaB 14 September 1999
+
+Mainline Release
+
+Added Simons changes from version 012
+
+Added function CreateNamedScreenFontInPixelsL
+
+
+Version 1.00.011
+================
+Made by SimonC 1 September 1999
+
+Source and binary compatible with 010
+
+Added missing forward declaration to gulutil.h
+
+
+
+Version 1.00.010
+================
+Made by SimonC 31 August 1999
+
+First mainline release.  Based on 006 from ER5u.
+
+Binary and source compatible with 006
+
+Added CreateGradientBitmapL to ColorUtils which creates a gradient filled bitmap
+of given orientation and start/end color suitable for use as a background brush.
+
+
+
+Version 1.00.006
+================
+Made by Mark Donohoe 23 July 1999
+
+Uses bafl=091,bitgdi=095,brdcst=005,cone=164,e32=186,e32tools=120,e32toolp=107,e32utils=027,
+eiktools=133,f32=145,fbserv=087,fntstore=059,fonts=085,gdi=070,store=062,wserv=107,
+freetype=011
+
+Binary compatible with 005
+
+1) Fixes for
+	EDNMDOE-49XCVH [EGUL 005] Potential alloc heaven in CGulIcon 
+
+2) Added new method ResourceUtils::CreateNamedScreenFont() which reads a font name, size in twips
+and attribute flags and creates a screen font with this information. This allows fix of eikon defect
+	EDNGASR-49LHH6 System fonts should be specified by name, not by UID
+
+3) BLD.INF added by William Roberts
+
+
+Version 1.00.005
+================
+Made by Mark Donohoe 28 June 1999
+
+Uses bafl=091,bitgdi=095,brdcst=005,cone=164,e32=186,e32tools=120,e32toolp=107,e32utils=027,
+eiktools=133,f32=145,fbserv=087,fntstore=059,fonts=085,gdi=070,store=062,wserv=107,
+freetype=011
+
+Released wins urel, wins udeb, marm urel and marm udeb
+Binary incompatible with 004
+
+1) Fixes for
+	EDNNSIH-48JFHN [EGUL] GULUTIL.H needs to include gdi.h?
+
+2) Implementation of border drawing of the legacy styles EHorizontalBar, EVerticalBar and
+   ESingleGray in CGulBorder.
+
+3) Addition of query method BitmapsOwnedExternally() to CGulIcon
+
+
+Version 1.00.004
+================
+DavidK 27 May 1999
+
+Uses bafl=091,bitgdi=095,brdcst=005,cone=164,e32=166,e32tools=120,e32toolp=107,e32utils=027,
+eiktools=133,f32=133,fbserv=087,fntstore=059,fonts=085,gdi=070,store=062,wserv=107,
+freetype=011
+
+Released wins deb wins udeb marm rel and marm udeb
+Removed 2 functions from gulicon.* to remove dependency on apparc created in 002
+Source and binary incompatible with any previous release.
+
+
+Version 1.00.003
+================
+Made by Mark Donohoe 20 May 1999
+
+Uses:   BAFL/087 BITGDI/082 BRDCST/004 CONE/162 E32/166
+		E32TOOLS/110 E32TOOLP/100 E32UTILS/026 EIKTOOLS/132
+		F32/132 FBSERV/086FNTSTORE/058 GDI/063 STORE/051
+		WSERV/105
+
+Not binary compatible with 002.
+
+Replaced TGulBorder with improved version capable of drawing many different
+types of border.
+Added TGulBorderColors class which packages up the six colors needed to draw 
+the new borders. 
+
+
+
+Version 1.00.002
+================
+Made by Mark Donohoe 20 May 1999
+
+Uses:   BAFL/087 BITGDI/082 BRDCST/004 CONE/162 E32/166
+		E32TOOLS/110 E32TOOLP/100 E32UTILS/026 EIKTOOLS/132
+		F32/132 FBSERV/086FNTSTORE/058 GDI/063 STORE/051
+		WSERV/105
+
+Not binary compatible with 001.
+
+Added CGulIcon class which packages two bitmaps, one each for an icon image and its mask.
+Added JavaDoc comments to TGulAlignment.
+Added USERINCLUDE line to EGUl.MMP
+
+
+
+Version 1.00.001
+================
+Made by SimonC 25 April 1999
+
+Uses:   BAFL/087 BITGDI/082 BRDCST/004 CONE/162 E32/166
+		E32TOOLS/110 E32TOOLP/100 E32UTILS/026 EIKTOOLS/132
+		F32/132 FBSERV/086FNTSTORE/058 GDI/063 STORE/051
+		WSERV/105
+		
+First release of graphics utilities previously included in Cone and Eikon.
+
+The classes that have migrated to Egul are:
+
+	TCoeAlignment                                                           ->      TGulAlignment
+	TEikBorder                                                                      ->      TGulBorder
+	CEikColorList                                                           ->      CColorList
+	CEikColorArray                                                          ->      CColorArray
+	TMargins8                                                                       ->      TMargins8
+	EikDrawUtils                                                            ->      DrawUtils
+	TextUtils                                                                       ->      TextUtils
+	TEikFindWidthOfWidestTextItem                           ->      TFindWidthOfWidestTextItem
+	TEikFindWidthOfWidestDigit                                      ->      TFindWidthOfWidestDigit
+	TEikFindWidthOfWidestAmPmName                           ->      TFindWidthOfWidestAmPmName
+	TEikFindWidthOfWidestAbbreviatedDayName         ->      TFindWidthOfWidestAbbreviatedDayName
+	TEikFindWidthOfWidestDayName                            ->      TFindWidthOfWidestDayName
+	TEikFindWidthOfWidestAbbreviatedMonthName       ->      TFindWidthOfWidestAbbreviatedMonthName
+	TEikFindWidthOfWidestMonthName                          ->      TFindWidthOfWidestMonthName
+	TEikFindWidthOfWidestDateSuffix                         ->      TFindWidthOfWidestDateSuffix
+	EikFontUtils                                                            ->      FontUtils
+	EikResourceUtils                                                        ->      ResourceUtils
+	CEikCleanupStackableFont                                        ->      CCleanupStackableFont

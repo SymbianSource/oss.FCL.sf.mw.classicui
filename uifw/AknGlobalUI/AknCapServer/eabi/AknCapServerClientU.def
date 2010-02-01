@@ -1,0 +1,70 @@
+EXPORTS
+	_ZN12RAknUiServer11UnlockMediaEiiR14TRequestStatus @ 1 NONAME
+	_ZN12RAknUiServer14EnableTaskListEi @ 2 NONAME
+	_ZN12RAknUiServer17CancelUnlockMediaEv @ 3 NONAME
+	_ZN12RAknUiServer19MakeTaskListVisibleEi @ 4 NONAME
+	_ZN12RAknUiServer22HideApplicationFromFswEii @ 5 NONAME
+	_ZN12RAknUiServer29ConnectAndSendAppsKeySuppressEi @ 6 NONAME
+	_ZN12RAknUiServer14UpdateTaskListEv @ 7 NONAME
+	_ZN12RAknUiServer12SetSgcParamsEi10TBitFlagsTImEii @ 8 NONAME
+	_ZN12RAknUiServer14SetSystemFadedEi @ 9 NONAME
+	_ZN12RAknUiServer17PrepareForAppExitEi @ 10 NONAME
+	_ZN12RAknUiServer22RedrawServerStatusPaneEv @ 11 NONAME
+	_ZN12RAknUiServer28BlockServerStatusPaneRedrawsEv @ 12 NONAME
+	_ZN12RAknUiServer7ConnectEv @ 13 NONAME
+	_ZNK12RAknUiServer11BlankScreenEv @ 14 NONAME
+	_ZNK12RAknUiServer13IsSystemFadedERi @ 15 NONAME
+	_ZNK12RAknUiServer13UnblankScreenEv @ 16 NONAME
+	_ZNK12RAknUiServer18SetStatusPaneFlagsEi @ 17 NONAME
+	_ZNK12RAknUiServer19SetStatusPaneLayoutEi @ 18 NONAME
+	_ZNK12RAknUiServer10ServiceUidEv @ 19 NONAME
+	_ZTI12RAknUiServer @ 20 NONAME ; #<TI>#
+	_ZTV12RAknUiServer @ 21 NONAME ; #<VT>#
+	_ZN12RAknUiServer15SetKeyblockModeE18TAknKeySoundOpcode @ 22 NONAME
+	_ZN12RAknUiServer21SetKeyboardRepeatRateE29TAknDefaultKeyboardRepeatRate @ 23 NONAME
+	_ZN12RAknUiServer20DoEikonServerConnectEv @ 24 NONAME
+	_ZN12RAknUiServer18ShowKeysLockedNoteERi @ 25 NONAME
+	_ZNK12RAknUiServer12ShutdownAppsE4TUidiR14TRequestStatus @ 26 NONAME
+	_ZN12RAknUiServer15ShowGlobalNoteLERK7TDesC16i @ 27 NONAME
+	_ZN12RAknUiServer20StatusPaneResourceIdEv @ 28 NONAME
+	_ZN12RAknUiServer24CreateActivateViewEventLERK10TVwsViewId4TUidRK6TDesC8 @ 29 NONAME
+	_ZN12RAknUiServer33RelinquishPriorityToForegroundAppEv @ 30 NONAME
+	_ZNK12RAknUiServer16GetPackedConfigLEv @ 31 NONAME
+	_ZN12RAknUiServer28CurrentAppStatuspaneResourceEv @ 32 NONAME
+	_ZN12RAknUiServer31SetCurrentAppStatuspaneResourceEi @ 33 NONAME
+	_ZN12RAknUiServer12RotateScreenEv @ 34 NONAME
+	_ZN12RAknUiServer22TaskSwitchingSupressedEv @ 35 NONAME
+	_ZN12RAknUiServer20HideLongTapAnimationEv @ 36 NONAME
+	_ZN12RAknUiServer20ShowLongTapAnimationERK13TPointerEvent @ 37 NONAME
+	_Z26AknStartupApaServerProcessv @ 38 NONAME
+	_ZN12RAknUiServer18StartAknCapserverLEv @ 39 NONAME
+	_ZN20CAknOomMonitorPlugin10ConstructLEv @ 40 NONAME ABSENT
+	_ZN20CAknOomMonitorPlugin18ExtensionInterfaceE4TUidRPv @ 41 NONAME ABSENT
+	_ZN20CAknOomMonitorPluginC2Ev @ 42 NONAME ABSENT
+	_ZN20CAknOomMonitorPluginD0Ev @ 43 NONAME ABSENT
+	_ZN20CAknOomMonitorPluginD1Ev @ 44 NONAME ABSENT
+	_ZN20CAknOomMonitorPluginD2Ev @ 45 NONAME ABSENT
+	_ZN21RAknOomMonitorSession17RequestFreeMemoryEi @ 46 NONAME ABSENT
+	_ZN21RAknOomMonitorSession17RequestFreeMemoryEiR14TRequestStatus @ 47 NONAME ABSENT
+	_ZN21RAknOomMonitorSession19ThisAppIsNotExitingEi @ 48 NONAME ABSENT
+	_ZN21RAknOomMonitorSession23CancelRequestFreeMemoryEv @ 49 NONAME ABSENT
+	_ZN21RAknOomMonitorSession7ConnectEv @ 50 NONAME ABSENT
+	_ZTI20CAknOomMonitorPlugin @ 51 NONAME ABSENT; #<TI>#
+	_ZTV20CAknOomMonitorPlugin @ 52 NONAME ABSENT; #<VT>#
+	_ZN12RAknUiServer15GetAliasKeyCodeERjRK9TKeyEvent10TEventCode @ 53 NONAME
+	_Z22SetAknMemoryMonitorTlsP17CAknMemoryMonitor @ 54 NONAME ABSENT
+	_ZN20CAknOomMonitorPlugin9FsSessionEv @ 55 NONAME ABSENT
+	_ZN20CAknOomMonitorPlugin9WsSessionEv @ 56 NONAME ABSENT
+	_ZN23CAknAppOomMonitorPlugin4NewLE4TUid @ 57 NONAME ABSENT
+	_ZN12RAknUiServer12SetSgcParamsEi10TBitFlagsTImEiii @ 58 NONAME
+	_ZN12RAknUiServer27DoNotifierControllerCommandEi @ 59 NONAME
+	_ZN12RAknUiServer23SetFgSpDataSubscriberIdEi @ 60 NONAME
+	_ZN12RAknUiServer18CancelShutdownAppsEv @ 61 NONAME
+	_ZN12RAknUiServer18GetPhoneIdleViewIdER10TVwsViewId @ 62 NONAME
+	_ZN12RAknUiServer26NotifyDynamicSoftNoteEventER14TRequestStatusR5TDes8 @ 63 NONAME
+	_ZN12RAknUiServer31PreAllocateDynamicSoftNoteEventEi @ 64 NONAME
+	_ZN12RAknUiServer38CancelDynamicSoftNoteEventNotificationEv @ 65 NONAME
+	_ZN12RAknUiServer15MoveAppInZOrderEii @ 66 NONAME
+	_ZN12RAknUiServer21DoDiscreetPopupActionEP21TAknDiscreetPopupDataP14TRequestStatus @ 67 NONAME
+	_ZN12RAknUiServer31GetInUseGlobalDiscreetPopupRectEv @ 68 NONAME
+

@@ -1,0 +1,66 @@
+EXPORTS
+	_Z11CreateAppUiv @ 1 NONAME
+	_ZN13CEikServAppUi14CreateSessionLEv @ 2 NONAME
+	_ZN13CEikServAppUi20SuppressAppSwitchingEi @ 3 NONAME
+	_ZN13CEikServAppUi23ActivateDisplayIfNeededEv @ 4 NONAME
+	_ZN13CEikServAppUi23HideApplicationFromFswLEii @ 5 NONAME
+	_ZN13CEikServAppUi26StartNewServerApplicationLE4TUid @ 6 NONAME
+	_ZN17CEikServAppUiBase10ConstructLEv @ 7 NONAME
+	_ZN17CEikServAppUiBase11CycleTasksLE19TTaskCycleDirection @ 8 NONAME
+	_ZN17CEikServAppUiBase11InitializeLER21TEikServCtrlFactories @ 9 NONAME
+	_ZN17CEikServAppUiBase12BlankScreenLEv @ 10 NONAME
+	_ZN17CEikServAppUiBase13ShutdownAppsLE4TUidRK9RMessage2i @ 11 NONAME
+	_ZN17CEikServAppUiBase13UnblankScreenEv @ 12 NONAME
+	_ZN17CEikServAppUiBase14HandleWsEventLERK8TWsEventP11CCoeControl @ 13 NONAME
+	_ZN17CEikServAppUiBase15EnableTaskListLEv @ 14 NONAME
+	_ZN17CEikServAppUiBase15HandleKeyEventLERK9TKeyEvent10TEventCode @ 15 NONAME
+	_ZN17CEikServAppUiBase15LaunchTaskListLEv @ 16 NONAME
+	_ZN17CEikServAppUiBase17HandleThreadExitLER7RThread @ 17 NONAME
+	_ZN17CEikServAppUiBase18HandleSystemEventLERK8TWsEvent @ 18 NONAME
+	_ZN17CEikServAppUiBase18SetStatusPaneFlagsEi @ 19 NONAME
+	_ZN17CEikServAppUiBase20HandleSwitchOnEventLEP11CCoeControl @ 20 NONAME
+	_ZN17CEikServAppUiBase20SetStatusPaneLayoutLEi @ 21 NONAME
+	_ZN17CEikServAppUiBase21HandleResourceChangeLEi @ 22 NONAME
+	_ZN17CEikServAppUiBase22HandleForegroundEventLEi @ 23 NONAME
+	_ZN17CEikServAppUiBase26BringAlertGroupWinForwardsEi @ 24 NONAME
+	_ZN17CEikServAppUiBase30NotifyAlarmServerOfTaskChangeLEv @ 25 NONAME
+	_ZN17CEikServAppUiBase31HandleApplicationSpecificEventLEiRK8TWsEvent @ 26 NONAME
+	_ZN17CEikServAppUiBase5NewLCEv @ 27 NONAME
+	_ZN17CEikServAppUiBaseC1Ev @ 28 NONAME
+	_ZN17CEikServAppUiBaseC2Ev @ 29 NONAME
+	_ZN17CEikServAppUiBaseD0Ev @ 30 NONAME
+	_ZN17CEikServAppUiBaseD1Ev @ 31 NONAME
+	_ZN17CEikServAppUiBaseD2Ev @ 32 NONAME
+	_ZN22CAknNotifierController32RegisterNotifierControllerPluginEP19CAknNotifierWrapperi @ 33 NONAME
+	_ZTI13CEikSgcServer @ 34 NONAME ABSENT ; #<TI>#
+	_ZTI17CEikServAppUiBase @ 35 NONAME ; #<TI>#
+	_ZTI18CEikLafShutStarter @ 36 NONAME ; #<TI>#
+	_ZTI18CEikServAppStarter @ 37 NONAME ; #<TI>#
+	_ZTI18CEikServStatusPane @ 38 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikLafShutScheduler @ 39 NONAME ; #<TI>#
+	_ZTI22CAknNotifierController @ 40 NONAME ; #<TI>#
+	_ZTI23CAknEikServAppUiSession @ 41 NONAME ; #<TI>#
+	_ZTI23CEikServStatusPaneModel @ 42 NONAME ABSENT; #<TI>#
+	_ZTIN17CEikServAppUiBase16CAppExitNotifierE @ 43 NONAME ABSENT ; #<TI>#
+	_ZTV13CEikSgcServer @ 44 NONAME ABSENT ; #<VT>#
+	_ZTV17CEikServAppUiBase @ 45 NONAME ; #<VT>#
+	_ZTV18CEikLafShutStarter @ 46 NONAME ; #<VT>#
+	_ZTV18CEikServAppStarter @ 47 NONAME ; #<VT>#
+	_ZTV18CEikServStatusPane @ 48 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikLafShutScheduler @ 49 NONAME ; #<VT>#
+	_ZTV22CAknNotifierController @ 50 NONAME ; #<VT>#
+	_ZTV23CAknEikServAppUiSession @ 51 NONAME ; #<VT>#
+	_ZTV23CEikServStatusPaneModel @ 52 NONAME ABSENT; #<VT>#
+	_ZTVN17CEikServAppUiBase16CAppExitNotifierE @ 53 NONAME ABSENT ; #<VT>#
+	_ZThn180_N13CEikServAppUi14CreateSessionLEv @ 54 NONAME ; #<thunk>#
+	_ZThn88_N17CEikServAppUiBase17HandleThreadExitLER7RThread @ 55 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase11CycleTasksLE19TTaskCycleDirection @ 56 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase12BlankScreenLEv @ 57 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase13UnblankScreenEv @ 58 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase15EnableTaskListLEv @ 59 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase15LaunchTaskListLEv @ 60 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase18SetStatusPaneFlagsEi @ 61 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase20SetStatusPaneLayoutLEi @ 62 NONAME ; #<thunk>#
+	_ZThn92_N17CEikServAppUiBase30NotifyAlarmServerOfTaskChangeLEv @ 63 NONAME ; #<thunk>#
+	_ZN22CAknNotifierController22RegisterPreloadPluginLEP25CAknCommonNotifierWrapper @ 64 NONAME
+

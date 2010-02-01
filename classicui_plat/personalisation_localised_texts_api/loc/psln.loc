@@ -1,0 +1,475 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localized strings for Personalisation application
+*
+*/
+
+
+//  LOCALISATION STRINGS
+
+// **CAPTIONS
+
+// d:Application title for aif caption file
+// d:Long string
+// l:list_single_large_graphic_pane_1
+// w:
+// r:2.0
+//
+#define qtn_apps_skins_list "Personalisation"
+
+// d:Application title for aif caption file
+// d:Short string
+// l:cell_app_pane_1
+// w:
+// r:2.0
+//
+#define qtn_apps_skins_grid "Psln"
+
+// **OPTIONS MENU
+
+// d:Command in Options list
+// d:Previews the highlighted item (either screen saver or theme)
+// l:list_single_popup_menu_pane_1
+// w:
+// r:2.0
+//
+#define qtn_skins_option_preview "Preview"
+
+// d:Command in Options list
+// d:Activate the highlighted skin item
+// l:list_single_popup_menu_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_option_activate "Apply"
+
+// d:Command in Options list
+// d:Sets the highlighted item
+// l:list_single_popup_menu_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_option_set "Apply"
+
+// **COMMON TITLES
+
+// d:Name of the skin in title pane
+// d:Name of the original appearance
+// l:title_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_s60    "Default theme"
+
+// d:Name of the skin in title pane
+// d:Name of Skin 1
+// l:title_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_skin1    "Theme 1"
+
+// d:Name of the skin in title pane
+// d:Name of Skin 2
+// l:title_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_skin2    "Theme 2"
+
+// d:Name of the skin in title pane
+// d:Name of Skin 3
+// l:title_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_skin3    "Theme 3"
+
+// **MAIN VIEW
+
+// d:Text in title pane
+// d:Main view
+// l:title_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title "Themes"
+
+// d:Text of a list item in main view's folder list
+// d:Item opens original appearance
+// l:list_single_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_list_namenoktheme "Default theme"
+
+// d:Text of a list item in main view's folder list
+// d:Item opens Skin1
+// l:list_single_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_list_nameskin1 "Theme 1"
+
+// d:Text of a list item in main view's folder list
+// d:Item opens Skin2
+// l:list_single_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_list_nameskin2 "Theme 2"
+
+// d:Text of a list item in main view's folder list
+// d:Item opens Skin3
+// l:list_single_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_list_nameskin3 "Theme 3"
+
+// **SCREEN SAVER SETTING PAGE
+
+// d:Text in setting list item's current value field
+// d:Item in Screen saver view's list.
+// d:Setting value S60 Date&Time screen saver
+// l:list_setting_pane_2
+// w:
+// r:3.2
+//
+#define qtn_sanim_object_date "Date"
+
+// d:Text in setting list item's current value field
+// d:Item in Screen saver view's list.
+// d:Setting value S60 Text screen saver
+// l:list_setting_pane_2
+// w:
+// r:3.2
+//
+#define qtn_sanim_object_text "Text"
+
+// **BACKGROUND IMAGE SETTING PAGE
+
+// d:Text in setting list item's current value field
+// d:Item in Background image both in idle state and the favouriate folder setting page's list
+// d:Setting value "None" means no background image
+// l:list_setting_pane_2
+// w:
+// r:2.0
+//
+#define qtn_skins_settings_none "None"
+
+// **PREVIEW VIEW
+
+// d:Command text associated to a softkey in the control pane.
+// d:Activates the preview skin.
+// l:control_pane_1
+// w:
+// r:2.0
+//
+#define text_softkey_activate "Activate"
+
+// ** NOTES
+
+// **SKIN ACTIVATING CONFIRMATION NOTE
+// d: Confirmation for Activate a skin item in main list operation.
+// d: %U is the name of selected skin.
+// l: popup_note_window_1
+// w:
+// r:3.1
+//
+#define qtn_skins_theme_act_note "Selected theme %U"
+
+// **IMAGE LOADING WAIT NOTE
+
+// d:Text for image loading wait note
+// d:Shown when welcome note image or background image has been selected from image list
+// l:popup_note_wait_window_1
+// w:
+// r:3.1
+//
+#define qtn_skins_loading_image "Loading image"
+
+// **IMAGE ERROR INFORMATION NOTES
+
+// d:Text for image corrupted information note
+// d:Shown when selected background or welcome note image is corrupted or in wrong format.
+// l:popup_note_window_1
+// w:
+// r:3.1
+//
+#define qtn_skins_image_format_wrong "Image is corrupted or in wrong format"
+
+// d:Text for image too large information note
+// d:Shown when selected background or welcome note image is too large to be opened in memory
+// l:popup_note_window_1
+// w:
+// r:3.1
+//
+#define qtn_skins_image_too_large "The image consumes too much memory"
+
+// **EMBEDDED LINKS
+
+// d:List item that initiates skin downloading when selected.
+// d:Shown as the first element in main state if enhanced embedded links are supported.
+// l:list_single_graphic_pane_1
+// w:
+// r:2.0
+//
+#define qtn_skins_download_skins "Download themes"
+
+// d:Download command in options menu.
+// d:Shown in options menu when Download themes -item is currently selected.
+// l:list_single_popup_menu_pane_1
+// w:
+// r:2.0
+//
+#define qtn_skins_option_dltheme "Download"
+
+// **SKIN CORRUPTED NOTE
+
+// d:Text for corrupted skin error note.
+// d:Shown when selected skin can not be activated.
+// l:popup_note_window_1
+// w:
+// r:2.0
+//
+#define qtn_skins_error_corrupted "Theme is corrupted and can not be used"
+
+// **SOUNDS IN SKINS
+
+// d:Confirmation query shown to ask the user whether he wants to activate
+// d:the sound file associated with the theme (singular form).
+// l:popup_note_window_1
+// w:
+// r:2.8
+//
+#define qtn_skins_query_activate_tone "Activate received sound file?"
+
+// d:Confirmation query shown to ask the user whether he wants to activate
+// d:the sound files associated with the theme (plural form).
+// l:popup_note_window_1
+// w:
+// r:2.8
+//
+#define qtn_skins_query_activate_tones "Activate received sound files?"
+
+// d:Confirmation note shown to indicate that the sound file associated with
+// d:the theme has been activated (singular form).
+// l:popup_note_window_1
+// w:
+// r:2.8
+//
+#define qtn_skins_note_tone_activated "Sound activated"
+
+// d:Confirmation note shown to indicate that the sound files associated with
+// d:the theme has been activated (plural form).
+// l:popup_note_window_1
+// w:
+// r:2.8
+//
+#define qtn_skins_note_tones_activated "Sounds activated"
+
+// **SCREENSAVER SETTINGS
+
+// d:Screensaver settings command in options menu.
+// d:Opens settings view for the currently selected screensaver
+// l:list_single_popup_menu_pane_1
+// w:
+// r:3.2
+//
+#define qtn_skins_options_ss_settings "Screen saver settings"
+
+// ** APPLICATION SPECIFIC SKINNING
+
+// d:Text of a list item in Main state's folder list.
+// d:Item opens General Theme folder.
+// l:list_single_large_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_general "General theme"
+
+// d:Text of a list item in Main state's folder list.
+// d:Item opens Wallpaper folder.
+// l:list_single_large_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_wallpaper "Wallpaper"
+
+// d:Text of a list item in Main state's folder list.
+// d:Item opens Screen Saver folder.
+// l:list_single_large_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_title_screensaver "Screen saver"
+
+// d:Text of a tab group item General in Personalisation app's tab group.
+// d:Shown in tabgroup when a folder has been activated from Main state.
+// l:navi_tabs_3_long_pane
+// w:
+// r:3.1
+//
+#define qtn_skins_tabs_general "General theme"
+
+// d:Text of a tab group item Wallpaper in Personalisation app's tab group.
+// d:Shown in tabgroup when a folder has been activated from Main state.
+// l:navi_tabs_3_long_pane
+// w:
+// r:3.1
+//
+#define qtn_skins_tabs_wallpaper "Wallpaper"
+
+// d:Text of a tab group item Screen Saver in Personalisation app's tab group.
+// d:Shown in tabgroup when a folder has been activated from Main state.
+// l:navi_tabs_3_long_pane
+// w:
+// r:3.1
+//
+#define qtn_skins_tabs_screensaver "Screen saver"
+
+// d:List item that skins specific application using main application skin.
+// d:Shown as second element of application specific skin views' list.
+// l:list_single_graphic_pane_1
+// w:
+// r:3.1
+//
+#define qtn_skins_list_general_theme "General theme"
+
+// d:Text in Wallpaper setting view's selection listbox
+// d:User defined wallpaper image
+// l:list_setting_pane_2
+// w:
+// r:3.1
+//
+#define qtn_skins_settings_wp_image "Image"
+
+//  ** SLIDESET SCREENSAVER AND WALLPAPER
+
+// d:Command in Options list
+// d:Opens slide set setting dialog.
+// l:list_single_pane_t1_cp2
+// w:
+// r:3.2
+//
+#define qtn_skins_option_wp_settings "Slide set settings"
+
+// d:List item in Wallpaper view list. Shown as third item in the list.
+// d:Selects slide set as used wallpaper.
+// l:list_setting_pane_2
+// w:
+// r:3.2
+//
+#define qtn_skins_wp_slide_set "Slide set"
+
+// d:Confirmation note shown to indicate that the wallpaper has been changed.
+// l:popup_note_window_1
+// w:
+// r:3.2
+//
+#define qtn_skins_note_image_changed "Image changed to idle"
+
+// ** TRANSITION EFFECTS
+
+// d:Command in Options list (opens cascading menu)
+// l:list_single_pane_t1_cp2/opt3
+// w:
+// r:3.2
+//
+#define qtn_skins_option_effects "Theme effects"
+
+// d:Cascade menu command in Options list
+// l:list_single_popup_submenu_pane_t1/opt1
+// w:
+// r:3.2
+//
+#define qtn_skins_option_effects_on "On"
+
+// d:Cascade menu command in Options list
+// l:list_single_popup_submenu_pane_t1/opt1
+// w:
+// r:3.2
+//
+#define qtn_skins_option_effects_off "Off"
+
+// ** CONTROL PANEL CHANGES
+
+// d:Title pane text in General theme view.
+// l:title_pane_t2/opt9
+// w:
+// r:5.0
+//
+#define qtn_skins_title_pane_general "General theme"
+
+// d:Title pane text in Wallpaper view.
+// l:title_pane_t2/opt9
+// w:
+// r:5.0
+//
+#define qtn_skins_title_pane_wallpaper "Wallpaper"
+
+// d:Title pane text in Screensaver view.
+// l:title_pane_t2/opt9
+// w:
+// r:5.0
+//
+#define qtn_skins_title_pane_screensaver "Screensaver"
+
+// d:Text in Wallpaper setting view's selection listbox
+// d:Default wallpaper image
+// l:list_single_graphic_pane_t1
+// w:
+// r:5.0
+//
+#define qtn_skins_settings_default "Default"
+
+// d:Text in setting list item's current value field
+// d:Item in Screen saver view's list.
+// d:Setting value for no screensaver.
+// l:list_set_graphic_pane_t1
+// w:
+// r:5.0
+//
+#define qtn_sanim_object_none "None"
+
+// d:Error note shown when editing is blocked because of power save mode
+// l:popup_note_window
+// w:
+// r:5.1
+//
+#define qtn_power_saving_protected_settings_infonote "Power saving is active. Unable to edit."
+
+// d:Command in Options list (opens cascading menu)
+// l:list_single_pane_t1_cp2/opt3
+// w:
+// r:9.2
+//
+#define qtn_skins_option_anim_bg "Animation Background"
+
+// d:Cascade menu command in Options list
+// l:list_single_popup_submenu_pane_t1/opt1
+// w:
+// r:9.2
+//
+#define qtn_skins_option_anim_bg_on "On"
+
+// d:Cascade menu command in Options list
+// l:list_single_popup_submenu_pane_t1/opt1
+// w:
+// r:9.2
+//
+#define qtn_skins_option_anim_bg_off "Off"
+
+// End of File

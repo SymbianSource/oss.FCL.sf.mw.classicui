@@ -1,0 +1,104 @@
+/*
+* Copyright (c) 2002 - 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     Project definition file
+*
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          eikdlg.dll
+TARGETTYPE      DLL
+UID             0x1000008D 0x10004898
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif // !WINSCW
+
+SOURCEPATH      ../dlgsrc
+
+USERINCLUDE     .
+USERINCLUDE     ../dlginc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../../inc
+USERINCLUDE   ../../inc
+
+
+SOURCE          EIKDLIB.CPP
+SOURCE          EIKCAPC.CPP
+SOURCE          EIKCAPCA.CPP
+SOURCE          EIKMOVER.CPP
+SOURCE          EIKDBCOB.CPP
+SOURCE          EIKDIALG.CPP
+SOURCE          EIKDLGUT.CPP
+SOURCE          EIKDPAGE.CPP
+SOURCE          EIKDPSEL.CPP
+SOURCE          EIKFANIM.CPP
+#ifndef __SERIES60_30__  
+SOURCE      AknMediatorFacade.cpp   
+#endif
+SOURCE          aknrecordinggc.cpp
+SOURCE          aknformphysics.cpp
+
+LIBRARY         euser.lib
+LIBRARY         bafl.lib
+LIBRARY         ws32.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         egul.lib
+LIBRARY         avkon.lib
+LIBRARY         form.lib
+LIBRARY         fepbase.lib
+LIBRARY         cdlengine.lib
+LIBRARY         gdi.lib
+LIBRARY         aknskins.lib
+LIBRARY         fbscli.lib
+LIBRARY         aknicon.lib
+LIBRARY         AknLayout2Scalable.lib
+
+#ifndef __SERIES60_30__
+LIBRARY         mediatorclient.lib      
+LIBRARY         estor.lib
+LIBRARY         bitgdi.lib 
+LIBRARY         efsrv.lib 
+#endif
+
+LIBRARY         gfxtrans.lib
+LIBRARY         akntransitionutils.lib
+
+LIBRARY         touchfeedback.lib
+
+LIBRARY         aknphysics.lib
+
+DEFFILE         EIKDLG.DEF
+
+START WINS
+    BASEADDRESS 0x74800000
+END
+
+START MARM
+END

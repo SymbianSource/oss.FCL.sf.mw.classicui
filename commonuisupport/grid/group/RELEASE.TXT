@@ -1,0 +1,2618 @@
+Version 200
+===========
+Made by Davidk, 12 October 1999
+
+Added functionality for resizing rows and columns from the keyboard, and added
+testcode to tgrid0 for this (press Ctrl+Shift+R). Made slight changes to 
+TGrid0 and TCogrid to get them working again.
+Slightly modified pointer resizing behaviour, so that the resizing lines do not 
+draw over the border of the grid anymore.
+
+Essentially 119 re-released onto the mainline share for version 6 development.
+
+Version 119-WITHDARWN
+===========
+Made by Davidk, 11 October 1999
+
+Added functionality for resizing rows and columns from the keyboard, and added
+testcode to tgrid0 for this (press Ctrl+Shift+R). Made slight changes to 
+TGrid0 and TCogrid to get them working again.
+Slightly modified pointer resizing behaviour, so that the resizing lines do not 
+draw over the border of the grid anymore.
+
+
+Version 117
+===========
+made by Rob Gregson, 20th May 1999
+ Release for automatic build proces
+ UNICODE only
+
+Version 114
+===========
+(made by DanH, 3/6/98)
+
+GRID uses E32TOOLS 092,E32TOOLP 091,EIKTOOLS 123,E32 125,E32UTILS 019,F32 095,STORE 047,
+GDI 059,FNTSTORE 047,FBS 077,BITGDI 065,WSERV 097,BAFL 078
+
+Testcode also uses CONE 145
+
+MARM DEBUG and MARM UNICODE DEBUG variants are binary incompatible for debug/release interoperability. All other variants are binary compatible from 103 onwards.
+
+Passes MNT VALID
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINS UNICODE DEBUG      
+WINS UNICODE RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+WINC UNICODE DEBUG      
+WINC UNICODE RELEASE    
+MARM DEBUG      
+MARM RELEASE
+MARM UNICODE DEBUG      
+MARM UNICODE RELEASE
+
+No code changes.
+
+1) Moved up to CONE 145 + dependencies to facilitate a compatible REL/DEB release.
+
+2) Converted to using makmake, creating the conventional BWINS/BMARM directories. Created the new EBLD.BAT batch file, following CONE's footsteps as much as possible. Some modifications were needed to support the WINC builds.
+
+PGETBLD GRID GROUP followed by EBLD BLDALL should build all 12 variants.
+
+3) Altered base.iby as in CONE 145.
+
+4) Added a DUMMY test project to dll_list.txt since there now seems to be a problem in the window server shell whereby trying to start the first dll in the list, emulates a machine switch off. Also added a custom system.ini which is copied to \epoc32\data when building the test code. Without this, all the test apps fail under WINS with KErrNoMemory. This problem also exists in the CONE test code.
+
+
+Version 113
+===========
+(made by JamesD, 13/2/98)
+
+GRID uses E32TOOLS 082,EIKTOOLS 122,E32 120,E32UTILS 019,F32 090,STORE 043,
+GDI 057,FNTSTORE 046,FBS 075,BITGDI 062,WSERV 094,BAFL 075
+
+Testcode also uses CONE 143
+
+First Unicode release.
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINS UNICODE DEBUG      
+WINS UNICODE RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+WINC UNICODE DEBUG      
+WINC UNICODE RELEASE    
+MARM DEBUG      
+MARM RELEASE
+MARM UNICODE DEBUG      
+MARM UNICODE RELEASE
+
+No code changes.
+
+Version 112
+===========
+(made by DanH, 25/7/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 107,E32UTILS 011,F32 074,STORE 043,
+GDI 053,FNTSTORE 043,FBS 066,BITGDI 058,WSERV 085,BAFL 075
+
+Testcode also uses CONE 138
+(EPOC32 Platform 001)
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+1) Fixed CSW3-1701 - 'Embedded sheet not printed correctly'. Worked around some low level (BITGDI?) ditthering problem by printing all grid lines black instead of light gray.
+
+2) Fixed SW1-94 - 'If you change printers while in print preview in SHEET, the print preview is formatted incorrectly'. The grid layout is now notified of printer device changes in its graphics device map.
+
+
+Version 111
+===========
+(made by DanH, 10/7/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 107,E32UTILS 011,F32 074,STORE 043,
+GDI 053,FNTSTORE 043,FBS 066,BITGDI 058,WSERV 085,BAFL 075
+
+Testcode also uses CONE 138
+(EPOC32 Platform 001)
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+1) Fixed bug CSW3-1443. Simple out by one error in the function CGridLay::PageToRange() which caused the range of page 2 to be incorrectly calculated when the total number of columns fit exactly on one page.
+
+
+Version 110
+===========
+(made by DanH, 1/7/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 107,E32UTILS 011,F32 074,STORE 043,
+GDI 053,FNTSTORE 043,FBS 066,BITGDI 058,WSERV 085,BAFL 075
+
+Testcode also uses CONE 138
+(EPOC32 Platform 001)
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+1) Fixed bug SW3-1131 'Cannot print a sheet spreadsheet (a GRID) to a fax'.
+
+2) Fixed bug SW3-1316 'Opening/closing a gap can get in a mess when titles are on'.
+
+
+Version 109
+===========
+(made by DanH, 27/5/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 107,E32UTILS 011,F32 074,STORE 043,
+GDI 053,FNTSTORE 043,FBS 066,BITGDI 058,WSERV 085,BAFL 075
+
+Testcode also uses CONE 138
+(EPOC32 Platform 001)
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+1) Fixed bug SW3-466 whereby changing the row height/column width of grids with title lines on could leave GRID's internal reference points incorrectly set. The fix was to call CGridImg::ResetReferencePoints() in several places.
+
+
+Version 108
+===========
+(made by DanH, 19/5/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 105,E32UTILS 011,F32 072,STORE 042,
+GDI 051,FNTSTORE 042,FBS 063,BITGDI 056,WSERV 083,BAFL 075
+
+Testcode also uses CONE 137
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+1) Allowed the following functions to be called when there is a NULL graphics device map:-
+	void CGridLay::SetColumnWidthInTwipsL(TInt aCol,TInt aWidthInTwips);
+	TInt CGridLay::SetColumnWidthInTwipsL(TInt aStartCol,TInt aEndCol,TInt aWidthInTwips);
+	void CGridLay::SetDefaultColumnWidthInTwips(TInt aWidthInTwips);
+	void CGridLay::SetRowHeightInTwipsL(TInt aRow,TInt aHeightInTwips);
+	TInt CGridLay::SetRowHeightInTwipsL(TInt aStartRow,TInt aEndRow,TInt aHeightInTwips);
+	void CGridLay::SetDefaultRowHeightInTwips(TInt aHeightInTwips);
+
+This is in response to bug report SW3-470.
+
+2) Updated test code to test the above.
+
+
+Version 107
+===========
+(made by DanH, 14/5/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 105,E32UTILS 011,F32 072,STORE 042,
+GDI 051,FNTSTORE 042,FBS 063,BITGDI 056,WSERV 083,BAFL 075
+
+Testcode also uses CONE 137
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE    
+
+1) Moved up to use the platform versions.
+
+2) Added new EXPORT : void CGridPrinter::PaginateL() which should be called in order to paginate the printing CGridLay object (as oppose to calling iGridPrinter->GridLay().PaginateL()).
+
+Any component using this should state their dependancy on this release as oppose to the first frozen grid release (103). The only known client of this function is SHEET.
+
+3) Ensured that the default column width/row height in pixels is never zero and asserted this fact in several places. This fixes SW-5349.
+
+4) Added the .map files to the EMARMXX.PRJ releaseables.
+
+
+Version 106
+===========
+(made by DanH, 9/5/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 098,E32UTILS 011,F32 068,STORE 042,
+GDI 047,FNTSTORE 038,FBS 054,BITGDI 053,WSERV 079,BAFL 069
+
+Testcode also uses CONE 134
+
+Binary compatible from 103 onwards
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE    
+
+1) New function: inline void CGridimg::SetGridLay(CGridLay* aGridLay)
+which simply does as the name implies.
+
+2) There is now more visual feedback when dragging on rows/columns. 4 pairs of arrows should appear around the right hand side of the column (bottom side of the row) while dragging in addition to the dotted lines.
+
+2) Its now possible to reopen zero width columns (and rows) via the pointer. If the left hand side of the closed column is clicked on, then the previous column will be altered as before. If the right hand side is clicked on though, then the closed column will be reopened. Only right pointing arrows will be visible in this case.
+
+3) Many internal changes to support the above.
+
+
+Version 105
+===========
+(made by DanH, 25/4/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 098,E32UTILS 011,F32 068,STORE 042,
+GDI 047,FNTSTORE 038,FBS 054,BITGDI 053,WSERV 079,BAFL 069
+
+Testcode also uses CONE 134
+
+Binary compatible with 104
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE    
+
+1) Fix to CGridLay::ConstructL(CGridLay* aGridLay,CGridImg* aGridImg) where GRIDS constructed for printing that weren't paginated, failed to construct an array of hard page breaks. Any subsequent pagination on this type of grid resulted in a panic.
+
+
+Version 104
+===========
+(made by DanH, 25/4/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 098,E32UTILS 011,F32 068,STORE 042,
+GDI 047,FNTSTORE 038,FBS 054,BITGDI 053,WSERV 079,BAFL 069
+
+Testcode also uses CONE 134
+
+Binary compatible with 103
+
+Variant released        Size
+WINS DEBUG              102,400
+WINS RELEASE            40,448
+WINC DEBUG              100,352
+WINC RELEASE            38,912
+MARM DEBUG              55,392
+MARM RELEASE            51,204
+
+1) New CGridLay function:-
+
+inline void SetHasChanged(TBool aHasChanged);
+
+to allow the client to override the iHasChanged flag.
+
+2) New CGridPrinter functions:-
+
+IMPORT_C SetPageSizeInTwipsL(const TSize& aSizeInTwips);
+inline CGridLay& GridLay();
+
+The first allows the page size of the GridLay owned by CGridPrinter to be changed during the lifetime of the CGridPrinter object. The second is a simple accessor function. Various internal changes to CGridLay were needed to support this.
+
+3) Added 2 new values to the enum, TMoveDirectionAndAmount:-
+
+EMoveColumnStart        and
+EMoveColumnEnd
+
+for use in CGridImg::MoveCursorL(...).
+
+4) When printing, GRID no longer draws a black rectangle around each page if EIsPrintedGridLabels and EIsPrintedGridLines are off.
+
+5) Added some OOM protection to GRID printing.
+
+6) Set KSharedLibraryUid for uid[1] in ARM builds.
+
+
+Version 103
+===========
+(made by DanH, 18/4/97)
+
+GRID uses E32TOOLS 063,EIKTOOLS 122,E32 098,E32UTILS 011,F32 068,STORE 042,
+GDI 047,FNTSTORE 038,FBS 054,BITGDI 053,WSERV 079,BAFL 069
+
+Testcode also uses CONE 134
+
+Variant released        Size
+WINS DEBUG              101,888
+WINS RELEASE            39,936
+WINC DEBUG              99,840
+WINC RELEASE            38,400
+MARM DEBUG              54,960
+MARM RELEASE            50,792
+
+Not binary compatible with last release
+
+Changes following binary compatibility review:-
+
+1) Provided CGridCellRegion::NewL(const TRangeRef& aRange) and made the constructor and ConstructL private.
+
+2) Split panic definitions off into a separate, private header, GRDPANIC.
+
+3) Split off classes TSizeElement and CSparseMap into new, private module GRDMAP.H
+
+4) Constructor of CGridLabelImg becomes protected.
+
+5) As does that of CGridCellImg. Also added reserved virtual function for possible future development.
+
+6) The overload CGridImg::CGridImg(CGridCellImg* aGridCellImg,CGridLay* aGridLay), used in GRID printing has now gone private. Another NewL(...) is provided instead.
+
+7) CGridImg::SetGridImg(...) gains a trailing L.
+
+8) CGridLay becomes a friend of CGridImg (the reverse is already true) and CGridImg::ConstructSelectedL() goes private.
+
+9) Made the protected parts of CGridPrinter private. It is not intended to be derived from.
+
+Other changes:-
+
+10) Removed TEKGRD.* from the \tsrc directory. It was a remnant of when GRID's testcode depended on EIKON.
+
+11) TGLAY fails under WINC REL and DEB due to a known problem in F32. This will be fixed in a forthcoming release.
+
+
+Version 102
+===========
+(made by DanH, 14/4/97)
+
+GRID uses E32TOOLS 060,EIKTOOLS 120,E32 097,E32UTILS 010,F32 067,STORE 041,
+GDI 047,FNTSTORE 038,FBS 053,BITGDI 053,WSERV 078,BAFL 067
+
+Testcode also uses CONE 133
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+Not binary compatible
+
+1) Took new BAFL
+
+2) Made CGridImg a friend of CGridLabelImg and CGridCellImg and made their virtual functions private.
+
+3) Bug fixes for GRIDs with no rows/cols.
+
+
+Version 101
+===========
+(made by DanH, 11/4/97)
+
+GRID uses E32TOOLS 060,EIKTOOLS 120,E32 097,E32UTILS 010,F32 067,STORE 041,
+GDI 047,FNTSTORE 038,FBS 053,BITGDI 053,WSERV 078,BAFL 065
+
+Testcode also uses CONE 132
+
+Variant released
+WINS DEBUG      
+WINS RELEASE    
+WINC DEBUG      
+WINC RELEASE    
+MARM DEBUG      
+MARM RELEASE
+
+Not binary compatible
+
+1) Took new components
+
+2) Implemented freeze technology and type safe linking
+
+3) Added CGridCellImg::IsHorizontalGridLines() and CGridCellImg::IsVerticalGridLines(), plus other getter functions for the member data of CGridCellImg and made the member data private.
+
+4) New flag CGridLay::EIsPageBreakLinesHidden that allows page break lines to be displayed the same as normal grid lines.
+
+5) Fixed a couple of (potential) bugs that unfortunately mean the file format has changed again.
+
+
+Version 100
+===========
+(made by DanH, 7/4/97)
+
+GRID uses E32TOOLS 055,EIKTOOLS 121,E32 094,E32UTILS 009,F32 063,STORE 038,
+GDI 045,FNTSTORE 036,FBS 051,BITGDI 051,WSERV 074,BAFL 059
+
+Testcode also uses CONE 131
+
+Not remotely binary compatible with last release.
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      115,200
+WINS RELEASE                    51,200
+WINC DEBUG                      112,640
+WINC RELEASE                    49,152
+MARM DEBUG                      1,444,872
+MARM RELEASE                    51,808
+
+
+1) Everthing leaves. Most significantly CGridImg::Draw(...) becomes DrawL(...). This allows the EIKON layer over GRID to handle leaves during draws more elegantly using the new functionality in CEikonEnv. Other new leavers are:-
+
+void CGridImg::ScrollL(...);
+void CGridImg::ResetSelectedL();
+void CGridImg::DrawCellL(...);
+void CGridImg::DrawRangeL(...);
+void CGridImg::DrawSelectedL();
+void CGridImg::ClearTitleLineRegionL();
+void CGridImg::PrintGridLinesAndCellsInRangeL(...);
+void CGridImg::CheckSideLabelWidthAndScrollL();
+
+void CGridLay::SetTitleLinesL(...);     both variants
+void CGridLay::ToggleTitleLinesL();
+
+void CGridLabelImg::DrawRowLabelL(...);         **
+void CGridLabelImg::DrawColLabelL(...);         **
+void CGridLabelImg::DrawTopLeftLabelL();        **
+void CGridLabelImg::DrawRowCursorL(...);        **
+
+TInt CGridCellImg::DataWidthInPixelsL(...);     **
+TBool CGridCellImg::DoesCellContainDataL(...);  **
+
++ many other private functions
+
+** Important - these are virtual.
+
+2) New function: void CGridLay::SetGridTable(const MGridTable* aGridTable);
+to allow clients to change the grid table during the lifetime of gridlay (or not set the table until after gridlay is constructed).
+
+3) class TCursorMoveCallBack becomes MGridCursorMoveCallBack and its function is now called HandleCursorMoveL() (instead of operator()()) but its use within CGridImg is otherwise unchanged.
+
+4) CGridImg no longer takes ownership of the CursorMoveCallBack so SetCursorMoveCallBack(...) becomes a simple inline function and DeleteCursorMoveCallBack() disappears altogether.
+
+5) Hard page breaks are now persisted by CGridLay and so its file format has also changed.
+
+
+Version 099
+===========
+(made by DanH, 3/4/97)
+
+GRID uses E32TOOLS 055,EIKTOOLS 121,E32 094,E32UTILS 009,F32 063,STORE 038,
+GDI 045,FNTSTORE 036,FBS 051,BITGDI 051,WSERV 074,BAFL 059
+
+Testcode also uses CONE 131
+
+Binary compatible with 098.
+
+1) Added callbacks to the AddRangeToSelectedL(...) type functions introduced in 098.
+
+2) Used TRegionFix instead of RRegion where possible.
+
+
+Version 098
+===========
+(made by DanH, 1/4/97)
+
+GRID uses E32TOOLS 055,EIKTOOLS 121,E32 094,E32UTILS 009,F32 063,STORE 038,
+GDI 045,FNTSTORE 036,FBS 051,BITGDI 051,WSERV 074,BAFL 059
+
+Testcode also uses CONE 131
+
+*Not* binary compatible with any previous release
+
+1) New CGridImg functions...
+
+IMPORT_C void ResetSelected();
+IMPORT_C void AddRangeToSelectedL(const TRangeRef& aRange,TSelectType   aType=ESelectOverwrite);
+IMPORT_C void AddRegionToSelectedL(const CArrayFix<TRangeRef>* aCellRegion,TSelectType  aType=ESelectOverwrite);
+IMPORT_C void AddRowToSelectedL(TInt aRow,TSelectType aType=ESelectOverwrite);
+IMPORT_C void AddColToSelectedL(TInt aCol,TSelectType aType=ESelectOverwrite);
+
+... to allow manipulation of the selected region. ESelectOverwrite means any previous selection will be overwritten (as oppose to ESelectAppend). These functions mean that CGridImg::Selected() can return a const CCellRegion* again (instead of a non-const pointer).
+
+2) New CGridLay function...
+
+IMPORT_C void SetGridImg(CGridImg* aGridImg);
+
+Grid now supports the construction of a CGridLay with a NULL CGridImg passed into it and  with SetGridImg(...) being called at some later point. Simple getter/setter and In/Externalize are available while CGridLay is in this state; other, more complex functions may panic.
+
+3) Updated test code to test 2).
+
+4) New CGridPrinter function...
+
+inline void SetRealPrintingDeviceMap(const MGraphicsDeviceMap* aGraphicsDeviceMap);
+
+This should be called if there is any change in the printing device map used by the zoom factor passed into CGridPrinter on construction.
+
+5) Created new files grdstd.inl and grdprint.inl, making a whole host of one line functions inline.
+
+6) Made CGridLay::RecalcPixelSparseMaps() set the default value of the sparse maps to some arbitrary non-zero value if iGraphicsDeviceMap is NULL (Avoids /0 exceptions).
+
+7) Fixed a couple of navigation bugs.
+
+
+Version 097
+===========
+(made by DanH, 24/3/97)
+
+GRID uses E32TOOLS 055,EIKTOOLS 121,E32 094,E32UTILS 009,F32 063,STORE 038,
+GDI 045,FNTSTORE 036,FBS 051,BITGDI 051,WSERV 074,BAFL 059
+
+Testcode also uses CONE 131
+
+Maintainence release taking new binary incompatible BAFL.
+
+
+Version 096
+===========
+(made by DanH, 18/3/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 090,E32UTILS 008,F32 058,STORE 036,
+GDI 045,FNTSTORE 036,FBS 049,BITGDI 049,WSERV 073,BAFL 055
+
+Testcode also uses CONE 129
+
+*Not* binary compatible with any previous release
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      110,592
+WINS RELEASE                    52,224
+MARM DEBUG                      1,334,943
+MARM RELEASE                    50,244
+
+1) Took GDI 045 to take advantage of new TZoomFactor functionality.
+
+2) As a result of 1), CGridPrinter::NewL(...) no longer needs to take a CGraphicsDevice* parameter.
+
+3) CGridLabelImg now attempts to release its font on destruction if it has a non NULL graphics device map. This was not done before because it is difficult to guarantee that the graphics device map has not changed since the last call to NotifyGraphicsDeviceMapChange(). This fixes bug SW-1492.
+
+4) To support 3), there is new function:-
+
+CGridLabelImg::SetGraphicsDeviceMap(MGraphicsDeviceMap* aGraphicsDeviceMap);
+
+If there is to be any change to the graphics device map, then the client should call ReleaseFont() before the change and NotifyGraphicsDeviceMapChange() after. Also, if the device map is in a bad state at any time, then SetGraphicsDeviceMap(NULL) should be called to ensure the font is not released by this.
+
+
+Version 095
+===========
+(made by DanH, 12/3/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 090,E32UTILS 008,F32 058,STORE 036,
+GDI 043,FNTSTORE 036,FBS 049,BITGDI 049,WSERV 073,BAFL 055
+
+Testcode also uses CONE 129
+
+Binary compatible with 094
+
+1) CGridImg::SetCursorMoveCallBack(...) now deletes any previous iCursorMoveCallBack before taking ownership of the passed one.
+
+2) CGridLay::PageToRange(...) now assumes 0 to be the first page (as oppose to 1).
+
+3) CGridLay::RecalcPixelSparseMaps() and CGridLay::PaginateL() now return without doing anything if iGraphicsDeviceMap is NULL.
+
+4) Fixed bug when redrawing cells in the far right column of the GRID.
+
+
+Version 094
+===========
+(made by DanH, 3/3/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 090,E32UTILS 008,F32 058,STORE 036,
+GDI 043,FNTSTORE 036,FBS 049,BITGDI 049,WSERV 073,BAFL 055
+
+Testcode also uses CONE 129
+
+1) Introduced new virtual function in CGridCellImg:-
+	virtual TBool DoesCellContainData(const TCellRef& aCell) const;
+
+which by default returns ETrue. Grids that require cell bursting should override this. This removes the need for the second parameter in the function DataWidthInPixels(...) and therefore should also be removed from overridden versions.
+
+2) Updated some internal code and test code to support the above.
+
+3) Changed CGridImg::Selected() to return a non-const handle to CGridCellRegion* as there is now a requirement for apps to explicitly set selection regions.
+
+4) Fixed bug in CGridLay::ExposeCell() which caused some unexpected results when title lines were set beyond the edge of the screen.
+
+
+
+Version 093
+===========
+(made by DanH, 3/3/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 090,E32UTILS 008,F32 058,STORE 036,
+GDI 043,FNTSTORE 036,FBS 049,BITGDI 049,WSERV 073,BAFL 055
+
+Testcode also uses CONE 129
+
+Variant released        Size of GRID.DLL
+WINS DEBUG              109,568
+WINS RELEASE            52,224
+ARM RELEASE             50,164
+
+1) Takes new binary incompatible components listed above.
+
+2) CGridPrinter::NewL takes an extra parameter, CGraphicsDevice* which it stores and is used in the first print band of each page. This fixes a bug apparent in SHEET which meant the print preview scaling went wrong the second time around.
+
+2) Fixed bug where CTRL-END at the far right of a grid can cause a panic (by asking for a cell outside the grid range to be drawn).
+
+3) Upped the maximum number of columns/rows that can be changed in one go to 256 (from 200) which means any number of columns in SHEET can be changed at one time.
+
+4) Also changed CGridImg::SetCursorPosL() and SetAnchorPosL() so that the new cursor/anchor position is no longer exposed automatically. This is now left to the caller.
+
+
+Version 092
+===========
+(made by DanH, 20/2/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 087,E32UTILS 005,F32 051,STORE 035,
+GDI 042,FNTSTORE 035,FBS 045,BITGDI 045,WSERV 067,BAFL 053
+
+Testcode also uses CONE 126
+
+Binary compatible with 089-091
+
+Variant released        Size of GRID.DLL
+WINS DEBUG              108,032
+WINS RELEASE            52,224
+ARM RELEASE             50,576
+ARM DEBUG               1,312,616
+
+1) More bug fixes for cases where there a low number of columns/rows visible and title lines are on.
+
+
+Version 091
+===========
+(made by DanH, 18/2/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 087,E32UTILS 005,F32 051,STORE 035,
+GDI 042,FNTSTORE 035,FBS 045,BITGDI 045,WSERV 067,BAFL 053
+
+Testcode also uses CONE 126
+
+Binary compatible with 089-090
+
+1) Fixed bug in CGridImg::DrawCellsToGc(...) that sometimes caused
+cell drawing to be offset from the wrong position.
+
+2) Fixed bug that meant when no grid lines were on, the area where the grid lines should be was not drawn.
+
+2) Improved efficiency of CGridImg::DrawCell(...) so that when column bursting is on, the cells to the right of a given cell are read to check whether they also need to be drawn. Previously, *all* cells to the right of the cell were drawn.
+
+3) Fixed bug spotted by Lane where a printed grid wasn't repositioning itself after a second print preview. There is still an existing bug where the scaling of the grid goes wrong after the first print (preview) but this requires a binary incompatible change to fix.
+
+
+Version 090
+===========
+(made by DanH, 12/2/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 120,E32 087,E32UTILS 005,F32 051,STORE 035,
+GDI 042,FNTSTORE 035,FBS 045,BITGDI 045,WSERV 067,BAFL 053
+
+Testcode also uses CONE 126
+
+Binary compatible with 089
+
+Variant released        Size of GRID.DLL
+WINS DEBUG              107,520
+WINS RELEASE            51,712
+ARM RELEASE             50,196
+ARM DEBUG               1,311,718
+
+1) Fixed out by 1 bug when setting title lines.
+
+2) Changed TBool CGridLay::LimitRow(TInt& aRow) slightly so that the
+row is limited even when the return value is EFalse.
+
+
+Version 089
+===========
+(made by DanH, 4/2/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 119,E32 086,E32UTILS 005,F32 050,STORE 034,
+GDI 042,FNTSTORE 035,FBS 045,BITGDI 045,WSERV 065,BAFL 051
+
+Testcode also uses CONE 123
+
+Variant released        Size of GRID.DLL
+WINS DEBUG              107,520
+WINS RELEASE            51,712
+ARM RELEASE             50,184
+ARM DEBUG               1,309,818
+WINC DEBUG              104,960
+
+1) Released WINC DEBUG for the first time. Other variants should be identical to 089.
+
+2) Wrote new test program TGLAY that tests CGridLay without referring to the graphical functions of CGridImg. This was necessary as its only way to test the WINC version.
+
+3) Some MNT.CMD changes.
+
+
+Version 088
+===========
+(made by DanH, 31/1/97)
+
+GRID uses E32TOOLS 051,EIKTOOLS 119,E32 086,E32UTILS 005,F32 050,STORE 034,
+GDI 042,FNTSTORE 035,FBS 045,BITGDI 045,WSERV 065,BAFL 051
+
+Testcode also uses CONE 123
+
+Variant released        Size of GRID.DLL
+WINS DEBUG              107,520
+WINS RELEASE            51,712
+ARM RELEASE             50,164
+ARM DEBUG               1,309,768
+
+1) Took new components as above.
+
+
+Version 087
+===========
+(made by DanH, 31/1/97)
+
+GRID uses E32TOOLS 050,EIKTOOLS 119,E32 085,E32UTILS 005,F32 049,STORE 033,
+GDI 041,FNTSTORE 034,FBS 044,BITGDI 044,WSERV 064,BAFL 050
+
+Testcode also uses CONE 122
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      107,520
+WINS RELEASE                    51,712
+ARM RELEASE                     50,164
+ARM DEBUG                       1,307,912
+
+1) New Functions added to CGridLay:-
+	TBool IsGridLabelSeparators() const;
+	void SetGridLabelSeparators(TBool aState);
+	TBool IsHighlightVisible() const;
+	void SetHighlightVisible(TBool aVisible);
+
+These allow support of the new screen layout in DATA.
+
+2) Changed:-
+	TBool IsCursor() const;         and
+	void SetCursorState(TBool aState);
+
+to:-
+	TBool IsCursorVisible() const;  and
+	void SetCursorVisible(TBool aVisible);  
+
+3) Updated testcode to test the above.
+
+
+Version 086
+===========
+(made by DanH, 22/1/97)
+
+GRID uses E32TOOLS 050,EIKTOOLS 119,E32 085,E32UTILS 005,F32 049,STORE 033,
+GDI 041,FNTSTORE 034,FBS 044,BITGDI 044,WSERV 064,BAFL 050
+
+Testcode also uses CONE 122
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      107,008
+WINS RELEASE                    51,712
+ARM RELEASE                     49,700
+ARM DEBUG                       1,305,317
+
+1) Took new B5 chain of components.
+
+2) Changed:     virtual TInt MGridTable::RequestRow(TInt aRow) const; to
+		virtual TBool MGridTable::RequestRow(TInt aRow,TInt& aReturnRow) const;
+
+Where the second parameter is what the function previously returned. If the function returns EFalse then no rows at all can be returned. This enables this grid to display correctly when there are no rows at all.
+
+3) Changed various internal code to support 2) above.
+
+4) Tested 2) in TCOGRD. Pressing CTRL-Z toggles between a grid with some rows and one with none.
+
+
+Version 085
+===========
+(made by DanH, 13/1/97)
+
+GRID uses E32TOOLS 049,EIKTOOLS 119,E32 082,E32UTILS 004,F32 046,STORE 032,
+GDI 040,FNTSTORE 033,FBS 043,BITGDI 043,WSERV 063,BAFL 049
+
+Testcode also uses CONE 121
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      106,496
+WINS RELEASE                    51,712
+ARM RELEASE                     49,236
+(No ARM DEBUG released)
+
+1) Took new components as above
+
+2) Removed the #define KRgbGridLabels from grddef.h as this is no longer used.
+
+3) The color of the top left grid label now defaults to KRgbBackground (as oppose to KRgbGridLabels).
+
+4) Added new function void CGridLay::SetGridEdgeColor(TRgb aColor); This determines what color the edges of the grid beyond the grid range are. It defaults to white (was previously KRgbGridLabels).
+
+
+Version 084
+===========
+(made by DanH, 8/1/97)
+
+GRID uses E32TOOLS 049,EIKTOOLS 119,E32 081,E32UTILS 004,F32 045,STORE 032,
+GDI 039,FNTSTORE 032,FBS 041,BITGDI 042,WSERV 060,BAFL 048
+
+Testcode also uses CONE 120
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      105,984
+WINS RELEASE                    51,200
+ARM RELEASE                     49,024
+ARM DEBUG                       1,390,277
+
+1) Fixed slight drawing bug for grids with no side labels and permanently selected rows (e.g DATA).
+
+2) Fixed bug that allowed grids with no side labels to drag their row height.
+
+3) Changed CGridImg::StartLabelDrag(...) and CGridImg::UpdateLabelDrag(...) to return TBools instead of TInts.
+
+4) Changed all functions of the form ConstructXxxL(...) to ConstructL(...) in line with other components.
+
+5) Added CGridImg::DeleteCursorMoveCallBack() which does as the name suggests.
+
+6) Changed the name of CCellRegion to CGridCellRegion.
+
+7) Calling CGridImg::SetTitleLines(EFalse) no longer exposes the cursor after clearing the title lines - this is left for the application to decide. Also, calling SetTitleLines(ETrue) will clear any current title lines and attempt to put new ones at the current cursor position. Previously, calling this function when there were already title lines had no effect.
+
+8) Made column bursting more efficient for grids with a large number of columns (e.g. SHEET) by limiting the number of columns that are checked to the left of each cell (currently 20).
+
+9) CGridLay and CGridLabelImg now store MGraphicsDeviceMap pointers as oppose to TZoomFactor pointers. All related functions now take the mixin parameter and NotifyZoomFactorChangeL(...) becomes NotifyGraphicsDeviceMapChangeL(...). Also there is a new function CGridLay::SetGraphicsDeviceMap(...).
+
+
+Version 083
+===========
+(made by DanH, 18/12/96)
+
+GRID uses E32TOOLS 049,EIKTOOLS 119,E32 081,E32UTILS 004,F32 045,STORE 032,
+GDI 039,FNTSTORE 032,FBS 041,BITGDI 042,WSERV 060,BAFL 048
+
+Testcode also uses CONE 120
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      104,448
+WINS RELEASE                    50,176
+ARM RELEASE                     48,592
+ARM DEBUG                       1,452,880
+
+Binary compatible with 082
+
+1) Took new E32TOOLS, EIKTOOLS, E32, F32, STORE, FBS, BITGDI, WSERV, BAFL and CONE.
+
+2) Fixed bug whereby the GRID was activating and deactivating its internal GC even when using a GC provided externally. This caused problems when sheet was trying to draw GRID as a glass door.
+
+
+Version 082
+===========
+(made by DanH, 9/12/96)
+
+GRID uses E32TOOLS 048,EIKTOOLS 118,E32 076,E32UTILS 004,F32 042,STORE 030,
+GDI 039,FNTSTORE 032,FBS 039,BITGDI 041,WSERV 056,BAFL 047
+
+Testcode also uses CONE 119
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      104,448
+WINS RELEASE                    50,176
+ARM RELEASE                     48,576
+ARM DEBUG                       1,448,602
+
+1) The CGridImg::Draw(...) functions now take a CGraphicsContext* as oppose to a CWindowGc* as requested by MartinB.
+
+2) CGridLabelImg::DrawRowCursor(...) also now takes a CGraphicsContext* so overidden versions of this must remember to change.
+
+
+Version 081
+===========
+(made by DanH, 4/12/96)
+
+GRID uses E32TOOLS 048,EIKTOOLS 118,E32 076,E32UTILS 004,F32 042,STORE 030,
+GDI 039,FNTSTORE 032,FBS 039,BITGDI 041,WSERV 056,BAFL 047
+
+Testcode also uses CONE 119
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      104,448
+WINS RELEASE                    50,176
+ARM RELEASE                     48,576
+ARM DEBUG                       1,361,786
+
+1) Took new BASE etc...
+
+2) Note ARM DEBUG released for the first time.
+
+
+Version 080
+===========
+(made by DanH, 27/11/96)
+
+GRID uses E32TOOLS 045,EIKTOOLS 115,E32 074,E32UTILS 003,F32 041,STORE 029,
+GDI 038,FNTSTORE 031,FBS 038,BITGDI 040,WSERV 054,BAFL 046
+
+Testcode also uses CONE 118
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      104,448
+WINS RELEASE                    50,176
+ARM RELEASE                     48,520
+
+1) Took new GDI et al. The migration of MPageRegionPrinter to the GDI means that GRID is no longer dependant on FORM.
+
+2) Set base address to 0x41a00000 as requested by MartinB.
+
+
+Version 079
+===========
+(made by DanH, 15/11/96)
+
+GRID uses E32TOOLS 045,EIKTOOLS 115,E32 072,E32UTILS 002,F32 038,STORE 028,
+GDI 036,FNTSTORE 030,FBS 036,BITGDI 039,WSERV 050,BAFL 043,FORM 079
+
+Testcode also uses CONE 115
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      104,448
+WINS RELEASE                    50,176
+ARM RELEASE                     50,100
+
+1) CGridTable has become MGridTable and no longer has the virtual function GetL(TInt aRow,TInt aCol). Becoming a mixin also means that it loses its constructor and destructor. The function RowCount() has become RowExtent() and there is also a ColumnExtent(). These 2 functions enable all references to 'LastCell' in CGridImg to be removed. They are used in calculating the scrollspan of scrollbars and pagination of the grid.
+
+2) CGridCellImg no longer takes a CGridTable* on construction. Only CGridLay now uses it.
+
+3) New function : TBool CGridLay::HasChanged() const.
+This simply tells the caller whether there has been any change in the grid layout since it was constructed or from the last In/Externalize.
+
+4) CGridLay::CheckPaginationStateL() has changed name to NotifyPaginationOutOfDate().
+
+5) CGridLabellImg::UpdateFontAfterZoom() has changed name to NotifyZoomFactorChangeL() and can now leave.
+
+6) New functions CGridLabelImg::ConstructL() (which should replace the UpdateFontAfterZoom() required after construction from the last release) and CGridLabelImg::ReleaseFont().
+
+7) Fixed several minor pagination and printing bugs.
+
+8) Altered label dragging so that the sensitivity of 'picking up' the grid line is dependant on the size of the row/columns. This should make it easier to select rows/columns when they are very narrow.
+
+9) Updated testcode to match the above.
+
+
+===========
+(made by DanH, 7/11/96)
+
+GRID uses E32TOOLS 045,EIKTOOLS 115,E32 072,E32UTILS 002,F32 038,STORE 028,
+GDI 036,FNTSTORE 030,FBS 036,BITGDI 039,WSERV 050,BAFL 043,FORM 079
+
+Testcode also uses CONE 114
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      102,912
+WINS RELEASE                    49,664
+ARM RELEASE                     49,088
+
+Binary compatible with 077
+
+1) Fixed bug in destructor of CGridPrinter. Order of destruction was incorrect.
+
+2) Releasing the font in the destructor of CGridLabelImg was a bad thing because the device of the zoomfactor may have changed from construction. This has been removed.
+
+3) The function CGridLabelImg::UpdateFontAfterZoom() was previously called in the constructor of CGridLabelImg. This has been removed, so anyone creating one of these objects (i.e SHEET and DATA) should now call UpdateFontAfterZoom() immediately after construction (despite the binary compatability). This will be wrapped up into the normal two phase construction post B3 day.
+
+
+Version 077
+===========
+(made by DanH, 31/10/96)
+
+GRID uses E32TOOLS 045,EIKTOOLS 115,E32 072,E32UTILS 002,F32 038,STORE 028,
+GDI 036,FNTSTORE 030,FBS 036,BITGDI 039,WSERV 050,BAFL 043,FORM 079
+
+Testcode also uses CONE 114
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      102,912
+WINS RELEASE                    49,664
+ARM RELEASE                     49,088
+
+1) Took new E32 etc...
+
+2) Used new Ex/Internalize functions for TCellRef/TRangeRef in BAFL (they were bugged before).
+
+2) On MartinB's request added...
+	const CArrayFix<TRangeRef>* CCellRegion::RangeList() const;
+
+... to allow the user to get handle to the array of selected TRangeRefs.
+
+3) Removed In/Externalize functions from CGridImg (as they were only streaming the cursor position) and reinstated them in CGridLay.
+
+4) Also Added...
+	TStreamId CGridLay::StoreL(CStreamStore& aStore) const;
+	void CGridLay::RestoreL(CStreamStore& aStore,TStreamId aStreamId);
+
+... for convenience.
+
+5) Updated testcode to reflect above changes.
+
+
+Version 076
+===========
+(made by DanH, 18/10/96)
+
+GRID uses E32TOOLS 044,EIKTOOLS 113,E32 071,F32 036,STORE 026,
+GDI 035,FNTSTORE 029,FBS 035,BITGDI 038,WSERV 049,BAFL 042,FORM 078
+
+Testcode also uses CONE 113
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      102,400
+WINS RELEASE                    49,664
+ARM RELEASE                     48,564
+
+1) Took new E32, GDI etc...
+
+2) The build flag AUTO_CLEAR_GRID_CELLS has been removed from grddef.h and is now part of CGridLay's flags. Setter/getter functions have been added to CGridLay.
+
+3) CGridImg::In/Externalize() now in/externalizes CGridLay and so its no longer necessary to do them separately.
+
+4) Added functions CGridLay::InsertDeleteColumns(TInt aStartCol, TInt aNoOfCols, TFixGridRange aFixGridRange) and InsertDeleteRows(...). These insert aNoOfCols (or delete if aNoOfCols is negative) into aStartCol, adjusting the column widths as necessary. aFixGridRange specifies whether the size of the grid is changed by this operation (as in DATA) or not (as in SHEET).
+
+
+Version 075
+===========
+(made by DanH, 4/10/96)
+
+GRID uses E32TOOLS 042,EIKTOOLS 113,E32 069,F32 035,STORE 024,
+GDI 034,FNTSTORE 027,FBS 033,BITGDI 035,WSERV 048,BAFL 042,FORM 076
+
+Testcode also uses CONE 112
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      100,352
+WINS RELEASE                    48,128
+ARM RELEASE                     47,352
+
+1) Fixed a couple of bugs that arose when dragging around the grid
+with column/row selection disabled.
+
+2) Fixed a bug in CGridImg::SetCursorPosL(...) that didn't take account of grids with permanently selected rows.
+
+3) Added another virtual function CGridTable::RowCount() const. This makes it possible for grids with indefinite row boundaries (like DATA) to have a vertical scrollbar. These type of grids should *always* override this function.
+
+
+Version 074
+===========
+(made by DavidW, 30/9/96)
+
+GRID uses E32TOOLS 042,EIKTOOLS 113,E32 069,F32 035,STORE 024,
+GDI 034,FNTSTORE 027,FBS 033,BITGDI 035,WSERV 048,BAFL 042,FORM 076
+
+Testcode also uses CONE 112
+
+1) Took new E32 plus other downstream components.
+
+
+Version 073
+===========
+(made by JulianL, 26/9/96)
+
+GRID uses E32TOOLS 042,EIKTOOLS 113,E32 068,F32 034,STORE 023,
+GDI 033,FNTSTORE 026,FBS 033,BITGDI 034,WSERV 047,BAFL 041,FORM 075
+
+Testcode also uses CONE 111
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      100,352
+WINS RELEASE                    48,128
+ARM RELEASE                     44,044
+
+1) Took new E32 plus other downstream components.
+
+
+Version 072
+===========
+(made by DanH, 19/9/96)
+
+GRID uses E32TOOLS 041,EIKTOOLS 111,E32 067,F32 033,STORE 021,
+GDI 032,FNTSTORE 025,FBS 032,BITGDI 033,WSERV 046,BAFL 040,FORM 074
+
+Testcode also uses CONE 109
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      100,352
+WINS RELEASE                    48,128
+ARM RELEASE                     47,012
+
+1) Took new GDI et al.
+
+2) Moved all the image building stuff into new \rom directory.
+
+
+Version 071
+===========
+(made by DanH, 17/9/96)
+
+GRID uses E32TOOLS 040,EIKTOOLS 109,E32 067,F32 033,STORE 021,
+GDI 031,FNTSTORE 024,FBS 031,BITGDI 032,WSERV 045,BAFL 040,FORM 073
+
+Testcode also uses CONE 107
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      100,352
+WINS RELEASE                    48,128
+ARM RELEASE                     47,012
+
+1) Took binary compatible versions of E32,F32,FBSERV,WSERV and FORM. This release is not binary compatible with 070, however.
+
+2) Altered the way the row cursor is drawn in the grid. A bitmap is no longer needed to use this feature and so the CFbsBitmap* parameter has been removed from the constructor of CGridLabelImg. Just override the virtual function DrawRowCursor() if you want a row cursor. Hence the flag used in CGridLay (EIsRowCursor) has also been removed.
+
+3) The Labels themselves are also drawn differently. Derived classes of CGridLabelImg should draw to every pixel supplied by the rect in DrawRowLabel()/DrawColumnLabel() (instead of relying on the background being filled in the grid label color). There is also a new virtual function DrawTopLeftLabel which by default just fills the rect with the label color.
+
+4) Added flag EIsRowPermanentlySelected in CGridLay which when set does as its name implies. See the project TCOGRD for an example of this.
+
+5) Similarly, added flags EIsColumnSelectionDisabled and EIsRowSelectionDisabled.
+
+
+Version 070
+===========
+(made by DanH, 5/9/96)
+
+GRID uses E32TOOLS 039,GDITOOLS 023,EIKTOOLS 109,E32 066,F32 031,STORE 021,
+GDI 031,FNTSTORE 024,FBS 030,BITGDI 032,WSERV 044,BAFL 039,FORM 071
+
+Testcode also uses CONE 107
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      99,840
+WINS RELEASE                    47,616 
+ARM RELEASE                     47,524
+
+1) Converted to new STORE etc...
+
+2) Added dependency on EIKTOOLS to help maintain mnt.cmd.
+
+
+Version 069
+===========
+(made by DanH, 30/8/96)
+
+GRID uses E32TOOLS 039,GDITOOLS 023,E32 066,F32 030,STORE 020,GDI 030,
+FNTSTORE 023,FBS 029,BITGDI 031,WSERV 043,BAFL 038,TBOX 070
+
+Testcode also uses CONE 105
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      99,840
+WINS RELEASE                    47,616
+ARM RELEASE                     47,524
+
+1) Converted to new directory structure (E32 066 etc...)
+
+2) Rewrote the mnt.cmd to match CONE's.
+
+3) Made more efficient use of the pointer repeat stuff in the testcode
+(to be used in EIKON later).
+
+
+Version 068
+===========
+(made by DanH, 15/8/96)
+
+GRID uses E32 064,F32 028,STORE 019,WSERV 042,BAFL 037,GDI 029,
+BITGDI 030,FBSERV 028,FNTSTORE 022,TBOX 068,E32TOOLS 036
+
+Testcode also uses CONE 100
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      99,840
+WINS RELEASE                    48,128
+ARM RELEASE                     47,512
+
+1) Took new WSERV plus other downstream components.
+
+2) Fixed a bug in testcode that wasn't releasing a screen font on destruction.
+
+
+Version 067
+===========
+(made by DanH, 13/8/96)
+
+GRID uses E32 064,F32 028,STORE 019,WSERV 041,BAFL 036,GDI 028,
+BITGDI 029,FBSERV 027,FNTSTORE 021,TBOX 066,E32TOOLS 036
+
+Testcode also uses CONE 098
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      99,840
+WINS RELEASE                    48,128
+ARM RELEASE                     47,512
+
+1) Took new BAFL and TBOX
+
+2) Converted all colors used in grid to be #define KRgbGridXxx as oppose to
+member data in CGridImg. These (together with the other definitions used in GRID)
+are in the new header file grddef.h which is automatically included from grdstd.h.
+
+
+Version 066
+===========
+(made by DanH, 1/8/96)
+
+GRID uses E32 064,F32 028,STORE 019,WSERV 041,BAFL 035,GDI 028,
+BITGDI 029,FBSERV 027,FNTSTORE 021,TBOX 065,E32TOOLS 036
+
+Testcode also uses CONE 094
+
+Variant released                Size of GRID.DLL
+WINS DEBUG                      99,328
+WINS RELEASE                    48,128
+ARM RELEASE                     47,528 (9% smaller than last release)
+
+1) Converted to E32 064 plus other components. Note that the printing
+part of GRID now depends on TBOX rather than PRINT.
+
+2) Converted test code to new CONE architecture.
+
+3) As a result of the recent WSERV changes, there is no flicker of
+the GRID labels when scrolling. I've also introduced a build flag
+AUTO_CLEAR_GRID_CELLS that clears the grid cells to the background
+color before calling CGridCellImg::Draw(). This causes the grid lines
+to flicker slightly but is much faster than forcing each cell to draw
+its background individually.
+
+
+Version 065
+===========
+(made by DanH, 10/7/96)
+
+GRID uses E32 062,F32 026,STORE 016,WSERV 037,BAFL 032,GDI 024,
+BITGDI 026,FBSERV 024,FNTSTORE 018,PDRSTORE 007,PRINT 015,
+E32TOOLS 028
+
+Testcode also uses CONE 079
+
+Variants released
+WINS ASCII DEBUG
+WINS ASCII RELEASE
+ARM ASCII RELEASE
+
+Released files
+The released files are as follows (MNT BLDALL or MNT GETREL get
+these):
+
+File                    File size       Description
+-----------------------------------     -----------    
+----------------------------------------------------------
+\e32sys\gridd.dll       98816           Grid DLL: WINS ASCII DEBUG
+\e32sys\gridd.lib                       Grid library
+\e32sys\gridd.pdb                       Debugging file
+\e32sys\grid.dll        47616           Grid DLL: WINS ASCII RELEASE
+\e32sys\grid.lib                        
+\work\emarm\grid.dll    52228           Grid DLL: ARM ASCII RELEASE
+\work\emarm\grid.lib
+\work\emarm\grid.map                    Map file
+
+
+1) CGridPrinter now takes a CGridCellImg object on construction to allow
+cells to be printed. The CGridImg constructor used for creating a partial
+CGridImg also takes a CGridCellImg parameter. Most of the grid can now be printed
+to file. The exceptions are bursting cells, shaded cells and drawing with colors
+other than black. Awaiting more support from FORM and PDRSTORE for these.
+
+2) Added a trailing L to the Draw() of CGridCellImg and trapped this within the
+CGridImg Draw(). I'm as yet unclear as to what to do if the drawing of a cell
+fails.
+
+3) Also released the test project TCOGRD and removed the dependancy on the 
+Sheet engine as work on SHEET has effectively ceased.
+
+
+Version 064
+===========
+(made by DanH, 26/6/96)
+
+GRID uses E32 062,F32 026,STORE 016,WSERV 037,BAFL 032,GDI 024,
+BITGDI 026,FBSERV 024,FNTSTORE 018,PDRSTORE 007,PRINT 015,
+E32TOOLS 028
+
+Testcode also uses CONE 079,ETEXT 040
+
+1) Took new GDI,WSERV,FNTSTORE and PRINT.
+
+2) Added some internal flags so that the grid redraws itself more
+efficiently when there are no partially visible rows/columns. This
+involved some fundamental changes in the movement logic which has not
+been fully tested yet.
+
+3) Added flag EIsEncroachingCellBorders so that users of the grid
+other than SHEET don't take the hit of drawing unnecessary regions.
+
+
+Version 063
+===========
+(made by DanH, 19/6/96)
+
+GRID uses E32 062,F32 026,STORE 016,WSERV 036,BAFL 032,GDI 023,
+BITGDI 025,FBSERV 023,FNTSTORE 017,PDRSTORE 007,PRINT 014,
+E32TOOLS 028
+
+Testcode also uses EIKON 074,ETEXT 039,TBOX 057,CONE 078,FONTS 026,
+CLOCK 019,SHENG 049,EALWL 021,C32 016,ESOCK 019,NCP 005,
+EIKTOOLS 105,RCOMP 304
+
+Variants released
+WINS ASCII DEBUG
+WINS ASCII RELEASE
+ARM ASCII RELEASE
+
+Released files
+The released files are as follows (MNT BLDALL or MNT GETREL get
+these):
+
+File                    File size       Description
+-----------------------------------     -----------    
+----------------------------------------------------------
+\e32sys\gridd.dll       96256           Grid DLL: WINS ASCII DEBUG
+\e32sys\gridd.lib                       Grid library
+\e32sys\gridd.pdb                       Debugging file
+\e32sys\grid.dll        46592           Grid DLL: WINS ASCII RELEASE
+\e32sys\grid.lib                        
+\work\emarm\grid.dll    50692           Grid DLL: ARM ASCII RELEASE
+\work\emarm\grid.lib
+\work\emarm\grid.map                    Map file                    
+
+1) Added CellToRect(...) function in CGridLay. This gives the rect
+occupied by a cell relative to the top left of the window, not
+including the grid lines around it.
+
+2) Fixed simple bug in SetRowHeightInTwipsL().
+
+3) Restructured column bursting logic.
+
+
+Version 062
+===========
+(made by DanH, 14/6/96)
+
+GRID uses E32 062,F32 026,STORE 016,WSERV 036,BAFL 032,GDI 023,
+BITGDI 025,FBSERV 023,FNTSTORE 017,PDRSTORE 007,PRINT 014,
+E32TOOLS 028
+
+Testcode also uses EIKON 074,ETEXT 039,TBOX 057,CONE 078,FONTS 026,
+CLOCK 019,SHENG 049,EALWL 021,C32 016,ESOCK 019,NCP 005,
+EIKTOOLS 105,RCOMP 304
+
+Variants released
+WINS ASCII DEBUG
+WINS ASCII RELEASE
+ARM ASCII RELEASE
+
+Released files
+The released files are as follows (MNT BLDALL or MNT GETREL get
+these):
+
+File                    File size       Description
+-----------------------------------     -----------    
+----------------------------------------------------------
+\e32sys\gridd.dll       95232           Grid DLL: WINS ASCII DEBUG
+\e32sys\gridd.lib                       Grid library
+\e32sys\gridd.pdb                       Debugging file
+\e32sys\grid.dll        46592           Grid DLL: WINS ASCII RELEASE
+\e32sys\grid.lib                        
+\work\emarm\grid.dll    50180           Grid DLL: ARM ASCII RELEASE
+\work\emarm\grid.lib
+\work\emarm\grid.map                    Map file                    
+
+Not binary compatible with 061
+
+1) The draw function of CGridCellImg now looks like this:-
+   Draw(CGraphicsContext* aGc,const TCellRef& aCell,
+       const TRect& aDrawRect,const TRect& aClipRect);
+
+Derived classes of this should now handle their own clipping using 
+aClipRect (e.g aGc->SetClippingRect(aClipRect)). Note that the
+cell bursting parameter is now in its own function.
+
+2) Split SetColumnWidth() etc... functions in CGridLay into
+SetXXXInPixels() and SetXXXInTwips() but only the latter is in the public
+interface.
+
+3) Added trailing L to some pagination functions.
+
+
+Version 061
+===========
+(made by DanH, 31/5/96 - J day)
+
+GRID uses E32 062,F32 026,STORE 016,WSERV 036,BAFL 032,GDI 023,
+BITGDI 025,FBSERV 023,FNTSTORE 017,PDRSTORE 007,PRINT 014,
+E32TOOLS 028
+
+Testcode also uses EIKON 074,ETEXT 039,TBOX 057,CONE 078,FONTS 026,
+CLOCK 019,SHENG 049,EALWL 021,C32 016,ESOCK 019,NCP 005,
+EIKTOOLS 105,RCOMP 304
+
+***Rebased 5/6/96 taking J day releases of dependancies***
+
+Variants released
+WINS ASCII DEBUG
+WINS ASCII RELEASE
+ARM ASCII RELEASE
+
+Released files
+The released files are as follows (MNT BLDALL or MNT GETREL get
+these):
+
+File                    File size       Description
+-----------------------------------     -----------    
+----------------------------------------------------------
+\e32sys\gridd.dll       94208           Grid DLL: WINS ASCII DEBUG
+\e32sys\gridd.lib                       Grid library
+\e32sys\gridd.pdb                       Debugging file
+\e32sys\grid.dll        45568           Grid DLL: WINS ASCII RELEASE
+\e32sys\grid.lib                        
+\work\emarm\grid.dll    50180           Grid DLL: ARM ASCII RELEASE
+\work\emarm\grid.lib
+\work\emarm\grid.map                    Map file                    
+
+Binary compatible with 060
+
+1) Changed CGridLay to stream UInt32's instead of UInt16's as there
+are now more than 16 flags stored.
+
+2) Changes to mnt.cmd and oby file in line with new EIKON.
+
+
+Version 060
+===========
+(made by DanH, 29/5/96)
+
+GRID uses E32 060,F32 024,STORE 015,WSERV 034,BAFL 032,GDI 023,
+BITGDI 023,FBSERV 023,FNTSTORE 017,PDRSTORE 007,PRINT 014,
+E32TOOLS 026
+
+Testcode also uses EIKON 071,ETEXT 037,TBOX 054,CONE 078,FONTS 026,
+CLOCK 019,SHENG 047,EALWL 021,EIKTOOLS 104,RCOMP 304
+
+Size of GRID.DLL(arm): 50,180 bytes
+
+Binararily(!) compatible with version 059
+
+1) All test code runs on WINS and ARM in this release via the eikon
+shell. The problems in 059 were due to using an out of date SHENG.
+
+2) Used the new versions of E32,F32,STORE,PDRSTORE,PRINT and
+E32TOOLS. The latter means much reduced image sizes.
+
+3) Fixed slight bug with the internal printing gc.
+
+
+Version 059
+===========
+(made by DanH, 24/5/96)
+
+GRID uses E32 059,F32 023,STORE 014,WSERV 034,BAFL 032,GDI 023,
+BITGDI 023,FBSERV 023,FNTSTORE 017,PDRSTORE 006,PRINT 013,
+E32TOOLS 023
+
+Testcode also uses ETEXT 037,SHENG 044,CONE 078,FONTS 026
+
+Size of GRID.DLL(arm): 50,180 bytes
+
+1) GRID now depends on BAFL since the classes TCellRef and TRangeRef
+that were previously part of GRID have moved there.
+
+2) Printing is now much more fully implemented. The grid lines and
+labels can be printed - cell printing is coming soon. Note the new
+dependancy on PDRSTORE.
+
+3) As a result of 2), the DrawColLabel() and DrawRowLabel() functions
+in CGridLabelImg now take the more general CGraphicsContext* as
+oppose to a window gc.
+
+4) Only TGRID0 is working currently. Not sure why yet.
+
+Section Table
+  01 .text     VirtSize: 0000AC6C  VirtAddr:  00001000
+    raw data offs:   00000400  raw data size: 0000AE00
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 60000020
+      CODE  MEM_EXECUTE  MEM_READ
+
+  02 .rdata    VirtSize: 00000170  VirtAddr:  0000C000
+    raw data offs:   0000B200  raw data size: 00000200
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  03 .edata    VirtSize: 00000370  VirtAddr:  0000D000
+    raw data offs:   0000B400  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  04 .idata    VirtSize: 00000664  VirtAddr:  00011000
+    raw data offs:   0000B800  raw data size: 00000800
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: C0000040
+      INITIALIZED_DATA  MEM_READ  MEM_WRITE
+
+  05 .reloc    VirtSize: 000002E4  VirtAddr:  00012000
+    raw data offs:   0000C000  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 42000040
+      INITIALIZED_DATA  MEM_DISCARDABLE  MEM_READ
+
+Code & Data               :0xADDC
+   (.text+.data+.rdata) 
+EPOC Headers              :0x40
+   (0x36+sizeof(grid.dll)
+50% Imports & Exports     :0x4EA
+   (half of .idata+.edata)
+---------------------------------
+Minimum ROM size          :0xB306 = 45,830 bytes
+---------------------------------
+50% Imports & Exports     :0x4EA
+NT Headers                :0x1d8
+---------------------------------
+Maximum ROM size          :0xB9C8 = 47,560 bytes
+---------------------------------
+
+
+Version 058
+===========
+(made by DanH, 15/5/96)
+
+GRID uses E32 059,F32 023,STORE 013,WSERV 032,GDI 021,BITGDI 021,
+FBSERV 021,FNTSTORE 015,PRINT 012
+
+Testcode also uses BAFL 030,ETEXT 034,TBOX 052,SHENG 043,CONE 076,
+EIKON 063,CLOCK 017,PDRSTORE 005,FONTS 023,EALWL 018,RCOMP 304,
+EIKTOOLS 104,E32TOOLS 023
+
+Size of GRID.DLL (arm): 47,620 bytes
+
+1) TGRID0 and TCOGRD are working currently. TEKGRD only works under
+WINS due to some problem in the grid control in EIKON 063.
+
+2) Made DataWidthInPixels() in CGridCellImg non pure-virtual since it
+is only needed when column bursting is required.
+
+Section Table
+  01 .text     VirtSize: 0000A4A8  VirtAddr:  00001000
+    raw data offs:   00000400  raw data size: 0000A600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 60000020
+      CODE  MEM_EXECUTE  MEM_READ
+
+  02 .rdata    VirtSize: 00000140  VirtAddr:  0000C000
+    raw data offs:   0000AA00  raw data size: 00000200
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  03 .edata    VirtSize: 00000340  VirtAddr:  0000D000
+    raw data offs:   0000AC00  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  04 .idata    VirtSize: 00000574  VirtAddr:  00010000
+    raw data offs:   0000B000  raw data size: 00000600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: C0000040
+      INITIALIZED_DATA  MEM_READ  MEM_WRITE
+
+  05 .reloc    VirtSize: 00000290  VirtAddr:  00011000
+    raw data offs:   0000B600  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 42000040
+      INITIALIZED_DATA  MEM_DISCARDABLE  MEM_READ
+
+Code & Data               :0xA5e8
+   (.text+.data+.rdata) 
+EPOC Headers              :0x40
+   (0x36+sizeof(grid.dll)
+50% Imports & Exports     :0x45A
+   (half of .idata+.edata)
+---------------------------------
+Minimum ROM size          :0xAA82 = 43,650 bytes
+---------------------------------
+50% Imports & Exports     :0x45A
+NT Headers                :0x1d8
+---------------------------------
+Maximum ROM size          :0xB0B4 = 45,236 bytes
+---------------------------------
+
+
+Version 057
+===========
+(made by DanH, 13/5/96)
+
+GRID uses E32 058,F32 023,STORE 013,WSERV 032,GDI 021,BITGDI 021,
+FBSERV 021,FNTSTORE 015,PRINT 011
+
+Testcode also uses BAFL 030,CONE 076,E32TOOLS 023
+
+Size of GRID.DLL (arm): 47,620 bytes
+
+1) Converted to E32 058. Only TGRID0 is working currently since EIKON
+now depends on GRID. This is likely to be common since some of my test
+code uses EIKON. Note though that there is a huge speed increase on
+the rack.
+
+2) Fixed colour setting problem in last release. I never did track
+down exactly what this was. Sorry to Steve and Lane for wasting some of
+their time.
+
+3) Persistent data storage now works on the rack.
+
+Section Table
+  01 .text     VirtSize: 0000A4F8  VirtAddr:  00001000
+    raw data offs:   00000400  raw data size: 0000A600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 60000020
+      CODE  MEM_EXECUTE  MEM_READ
+
+  02 .rdata    VirtSize: 00000140  VirtAddr:  0000C000
+    raw data offs:   0000AA00  raw data size: 00000200
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  03 .edata    VirtSize: 00000340  VirtAddr:  0000D000
+    raw data offs:   0000AC00  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  04 .idata    VirtSize: 00000574  VirtAddr:  00010000
+    raw data offs:   0000B000  raw data size: 00000600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: C0000040
+      INITIALIZED_DATA  MEM_READ  MEM_WRITE
+
+  05 .reloc    VirtSize: 00000294  VirtAddr:  00011000
+    raw data offs:   0000B600  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 42000040
+      INITIALIZED_DATA  MEM_DISCARDABLE  MEM_READ
+
+Code & Data               :0xA638
+   (.text+.data+.rdata) 
+EPOC Headers              :0x40
+   (0x36+sizeof(grid.dll)
+50% Imports & Exports     :0x45A
+   (half of .idata+.edata)
+---------------------------------
+Minimum ROM size          :0xAAD2 = 43,730 bytes
+---------------------------------
+50% Imports & Exports     :0x45A
+NT Headers                :0x1d8
+---------------------------------
+Maximum ROM size          :0xB104 = 45,316 bytes
+---------------------------------
+
+
+Version 056
+===========
+(made by DanH, 8/5/96)
+
+GRID uses E32 057,STORE 012,WSERV 031,GDI 020,FBSERV 020,PRINT 010
+
+Testcode also uses F32 021,BAFL 028,ETEXT 033,TBOX 050,BITGDI 020,
+SHENG 042,CONE 074,EIKON 057,FNTSTORE 014,CLOCK 016,PDRSTORE 004,
+FONTS 022,EALWL 017,RCOMP 304,EIKTOOLS 104,E32TOOLS 022
+
+1) All 3 test apps now run on the rack. TGRID0 and TCOGRD are cone
+apps. TEKGRD is an eikon app (used to be TGRID).
+
+2) Temporary fix with setting pen and brush colors. Setting TRgbs with
+SetGray4 doesn't seem to be working properly.
+
+3) All the test apps fail to exit properly (on the rack). This is
+due to the persistent data not writing correctly. I've yet to track
+this down.
+
+
+Version 055
+===========
+(made by DanH, 3/5/96)
+
+GRID uses E32 057,STORE 012,WSERV 030,GDI 019,BITGDI 019,
+FBSERV 019,PRINT 009
+
+Testcode also uses F32 021,BAFL 028,ETEXT 032,TBOX 049,SHENG 038,
+CONE 072,EIKON 055,FNTSTORE 013,CLOCK 015,PDRSTORE 003,FONTS 022,
+EALWL 017,RCOMP 304,EIKTOOLS 104,E32TOOLS 022
+
+1) No grid.img file in this release as grid is temporarily not
+working on the rack.
+
+2) CGridCellImg now takes a TFontSpec on construction (as oppose to a
+CFont*) allowing the label fonts to be zoomed.
+
+3) Took advantage of SetClippingRect() function in WSERV.
+
+4) Pagination now takes account of hard page breaks. Hard page breaks
+are drawn as dot dashed lines and soft page breaks as dashed lines
+for now but this likely to change.
+
+
+Version 054
+===========
+(made by MartinB, 27/4/96)
+
+GRID uses E32 057,STORE 012,WSERV 029,GDI 019,BITGDI 019,
+FBSERV 019,PRINT 008
+
+1) E32 v057.
+
+
+Version 053
+===========
+(made by MartinB, 27/4/96)
+
+GRID uses E32 056,STORE 011,WSERV 028,GDI 018,BITGDI 018,
+FBSERV 018,PRINT 007
+
+1) Rationalised header files.
+
+
+Version 052
+===========
+(made by DanH, 25/4/96)
+
+GRID uses E32 056,STORE 011,WSERV 028,GDI 018,BITGDI 018,
+FBSERV 018,PRINT 007
+
+Testcode also uses F32 020,BAFL 026,ETEXT 031,TBOX 048,SHENG 038,
+CONE 070,EIKON 049,FNTSTORE 012,CLOCK 013,PDRSTORE 002,FONTS 019,
+EALWL 016,RCOMP 303,EIKTOOLS 103,E32TOOLS 021
+
+Size of GRID.DLL (ARM): 49,668 bytes
+
+1) Made a couple of functions in CGridLay EXPORT_C.
+
+2) The test projects TCOGRD and TGRID now build but won't run
+properly yet due to a problem in SHENG 038.
+
+
+Version 051
+===========
+(made by DanH, 23/4/96)
+
+GRID uses E32 056,STORE 011,WSERV 028,GDI 018,BITGDI 018,
+FBSERV 018,PRINT 007
+
+Testcode also uses F32 020,BAFL 026,ETEXT 031,TBOX 048,SHENG 038,
+CONE 070,EIKON 047,FNTSTORE 012,CLOCK 011,PDRSTORE 002,FONTS 019,
+EALWL 016,RCOMP 303,EIKTOOLS 103,E32TOOLS 020
+
+Size of GRID.DLL (ARM): 49,668 bytes
+
+1) Note that most of the above dependancies are only linked to
+indirectly via EIKON. 
+
+2) TGRID0 is still the only test app working. This release is to
+enable a smooth transition when EIKON is fully on the rack. To get
+TGRID0 to work, do the following:-
+	i) After PGETBLD ...., call MNT GETTCOMPS. This will get the
+	releasables required by the test code.
+
+	ii) Unfortunately getting eikon overwrites the window server
+	shell. For now, an MNT GETWSERV will solve this.
+
+	iii) Also getting PDRSTORE causes a font problem. Delete
+	\e32data\tfont5.gdr.
+
+	iv) Finally copy my dll_list.txt in the tsrc directory to
+	\e32data.
+
+
+
+Version 050
+===========
+(made by DanH, 19/4/96)
+
+GRID uses E32 056,STORE 011,WSERV 028,GDI 018,BITGDI 018,FBSERV 018
+
+Testcode also uses F32 020,BAFL 026,CONE 069
+
+Size of GRID.DLL (ARM): 49,156 bytes
+
+Section Table
+  01 .text     VirtSize: 0000A6A4  VirtAddr:  00001000
+    raw data offs:   00000400  raw data size: 0000A800
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 60000020
+      CODE  MEM_EXECUTE  MEM_READ
+
+  02 .rdata    VirtSize: 000005F0  VirtAddr:  0000C000
+    raw data offs:   0000AC00  raw data size: 00000600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  03 .edata    VirtSize: 00000320  VirtAddr:  0000D000
+    raw data offs:   0000B200  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 40000040
+      INITIALIZED_DATA  MEM_READ
+
+  04 .idata    VirtSize: 00000564  VirtAddr:  00010000
+    raw data offs:   0000B600  raw data size: 00000600
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: C0000040
+      INITIALIZED_DATA  MEM_READ  MEM_WRITE
+
+  05 .reloc    VirtSize: 000003C0  VirtAddr:  00011000
+    raw data offs:   0000BC00  raw data size: 00000400
+    relocation offs: 00000000  relocations:   00000000
+    line # offs:     00000000  line #'s:      00000000
+    characteristics: 42000040
+      INITIALIZED_DATA  MEM_DISCARDABLE  MEM_READ
+
+Code & Data               :0xAE00
+   (.text+.data+.rdata) 
+EPOC Headers              :0x40
+   (0x36+sizeof(grid.dll)
+50% Imports & Exports     :0x500
+   (half of .idata+.edata)
+---------------------------------
+Minimum ROM size          :0xB340
+---------------------------------
+50% Imports & Exports     :0x500
+NT Headers                :0x1d8
+---------------------------------
+Maximum ROM size          :0xBA18
+---------------------------------
+
+
+Note: No Dependance on PRINT,EIKON,SHENG,TBOX,ETEXT or EIKGRID in
+this release as only the basic testcode TGRID0 is working.
+
+1) The arm version of GRID.DLL is included fot the first time. See
+table above for code sizes. TGRID0 works OK on the rack except for a
+few problems with pen movement.
+
+2) The releasables are under the names EWINS,EWINSDB and EMARM as per
+the other components. In addition the grid.img file is released in
+ROM.PRJ.
+
+3) The zooming object, TZoomFactor has now moved to the GDI and is no
+longer part of GRID.
+
+4) Provided some new functions in CGridLay to allow manual page
+breaks to be set. I will give more details when this is complete.
+
+
+
+Version 049
+===========
+(made by DanH, 15/4/96)
+
+Test code uses EIKON 042 and CONE 068. It also requires eikgrid.*
+which for now is part of the sheet project. A temporary verb in the
+mnt.cmd called GETEIKGRID puts these two files into \e32inc.
+
+Grid DLL only depends on the corresponding versions of 
+E32,STORE,WSERV,GDI,FBS,PRINT.
+
+1> Improved the mnt.cmd to allow other components to be downloaded.
+Split the test code into its own directory.
+
+2) Limited the number of column/row widths/heights that can be
+changed in 1 go to avoid memory problems (defined as EMaxArrayChanges
+in CGridLay).
+
+3) Introduced pagination in the grid. Once a page size in twips is
+set, Paginate() in gridlay will do this. If a row/column size is
+changed, pagination is cancelled unless the flag EIsAutoPagination is
+set in which case the grid is re-paginated.
+
+
+
+Version 048
+===========
+(made by DanH, 28/3/96)
+
+First release to grid group.
+Uses EIKON 031
+
+
+Version 047
+===========
+(made by DanH, 25/3/96)
+
+Uses EIKON 031
+
+1) Split the EIsTitleLines flag into horizontal and vertical flags
+since its possible to have title lines in only 1 dimension.
+
+2) Added flag EIsLabelDragging disabled and changed EIsFixed*** to
+EIsUniform***
+
+3) Started on allowing columns/rows to be selected from the keyboard
+but hit a problem when I found that I can't get the CTRL-SPACE
+keypress. I'll come back to it later.
+
+
+Version 046
+===========
+(made by DanH, 13/3/96)
+
+DLL uses E32 043,STORE 009,WSERV 027,GDI 014,FBS 014,PRINT ?
+
+Testcode uses EIKON 025,CONE 062,SHENG ?
+
+1> To get a compatible PRINT, the latest source code should be built
+with the given components (an immediately compatible DLL is not
+available).
+
+2> Some problems concerning the LastCell have been fixed. A
+SetLastCell() function has been added to allow an app to update this
+as necessary.
+
+3> Ctrl-Home/End keypresses have been reintroduced after
+clarification of the case of indefinite row boundaries.
+
+
+Version 045
+===========
+(made by DanH, 13/3/96)
+
+Uses EIKON 020
+
+1) Dragging on labels with several columns/rows selected now causes
+all the selected columns/row to change width/height.
+
+2) Created new project files grid.prj and incc.prj to inlcude the
+.dll's and grid headers respectively.
+
+
+Version 044
+===========
+(made by DanH, 12/3/96)
+
+Uses same as EIKON 020 (inc E32 054)
+
+1) Uses the new single phase destruct base.
+
+2> Created a new test app TCOGRD which does much the same as TGRID
+except it only uses CONE (not EIKON). Hence there are no dialogs
+etc..
+
+3> renamed hcigrid.* to eikgrid.* and created a coegrid.* for use in
+TCOGRD.
+
+4> eikgrid.* has the new funky scrollbars. This hasn't been tested
+properly yet, however.
+
+
+Version 043
+===========
+(made by DanH, 7/3/96)
+
+Uses EIKON 017, E32 053, ...
+
+1) This build is under the new MSVC4 environment. The new .mdp files
+are included in the li.prj. There are quite a few warnings at the moment
+that will be dealt with in due course.
+
+2) The streaming of arrays has been temporarily disabled due to a
+problem in STORE. This will be fixed when we move to E32 054.
+
+3) I neglected to mention earlier that only the test code depends on
+EIKON and CONE. The GRID.DLL is independant of these.
+
+
+Version 042
+===========
+(made by DanH, 6/3/96)
+
+Uses EIKON 016, E32 053
+
+1) A few minor changes to get this build to work
+
+
+Version 041
+===========
+(made by DanH, 6/3/96)
+
+Uses EIKON 004, ...
+
+1> Released just prior to moving to EIKON 016.
+
+2> LI.PRJ now includes GRID.MAK & GRDMAIN.CPP so for the first time a
+grid .dll is available.
+
+3> Reintroduced tgrid.mak, the test makefile for grid. This exposed
+some bugs in grids with indefinite row sets. These have hopefully
+been resolved.
+
+4> The bugs mentioned in release 040 have been fixed.
+
+
+Version 040
+===========
+(made by DanH, 1/3/96)
+
+Uses EIKON 004, ...
+
+1) The cursor is now allowed beyond the title lines. This has some
+subtle implications most of which have been resolved. There are still
+a few outstanding minor bugs.
+
+
+Version 039
+===========
+(made by DanH, 29/2/96)
+
+Uses EIKON 004, ...
+
+1) Released just prior to making changes to title lines (again) to be
+more like excel, not the S3a.
+
+2) Added PrintGridLinesAndCells() function to GridImg so that a print
+preview dialog is now possible in the sheet app. GridCellImg::Draw()
+now takes an RGraphicsContext as oppose to an RWindowGc to allow
+cells to be drawn to printer gc's as well.
+
+
+Version 038
+===========
+(made by DanH, 27/2/96)
+
+Uses EIKON 004, CONE 051, E32 052, ...
+
+1) Added grdprint.cpp/h to the li.prj. The grid is now hooked up with
+PRINT but doesn't do anything as yet. The next release will contain
+printing function(s) in GridImg. Extra constructors for
+gridlay/gridimg have been added to allow partial copies of them to be
+made for printing.
+
+
+Version 037
+===========
+(made by DanH, 21/2/96)
+
+Uses CONE 045, ...
+
+1) Had a clearout of the li.prj. The test make file and source files
+have been removed since they don't build anyway. All testing will be
+done through the sheet makefile for now.
+
+2) Added zoomfac.h/zoomfac.cpp to the project. CGridLay and
+CGridLblImg have handles to this zooming object. The sparse map in
+CGridLay stores both the value in pixels and in twips but the
+interface to CGridImg remains in pixels.
+
+
+Version 036
+===========
+(made by DanH, 15/2/96)
+
+Uses CONE 045
+
+1) Now draw title lines differently by redrawing to a thin rect
+rather than drawing the lines explicitly because this was causing
+problems with cell borders.
+
+2) Test code currently doesn't run as all testing is done through the
+sheet app.
+
+
+Version 035
+===========
+(made by DanH, 7/2/96)
+
+Uses CONE 037
+
+This release is just prior to moving to CONE 042.
+
+1) A few bug fixes here and there - I'm now mainly working on the
+sheet app rather then this test make file.
+
+
+
+Version 034
+===========
+(made by DanH, 1/2/96)
+
+Uses CONE 037, E32 052, ...
+
+1) Changed DrawToRegion to Draw(TRect) as it wasn't proving as
+efficient as I thought.
+
+2) Fixed bug in CheckSideLabelWidth()
+
+3) Still messing about with cell borders - better, but not perfect
+
+4) The jump dialog is back in my test code!
+
+5) The border around the gridWin is back but I now need to do some
+clipping in CGridImg::Draw() which could prove troublesome for
+printing.
+
+
+Version 033
+===========
+(made by DanH, 29/1/96)
+
+Uses CONE 032, ...
+
+1) Changed instances of DoStreamInL/DoStreamOutL to RestoreL/StoreL.
+
+2) Introduced flags EIsFixedRowHeights/EIsFixedColumnWidths that when
+set cause label drags to change the height/width of all rows/columns.
+Also enabled a minimum row height to be set to stop the whole grid
+being shrunk to nothing.
+
+
+Version 032
+===========
+(made by DanH, 25/1/96)
+
+Uses CONE 032, E32 051, WSERV 023, ...
+
+1) Released to enable compatability with the rest of the spreadsheet
+team.
+
+2) Managed to disable selection of columns when the indefinite row
+boundaries flag is set. This required an extra member variable
+iDoIgnoreDragEvent in CGridImg that stores whether the last pointer
+event was within the top label.
+
+3) Allowed better access to the CCellRegion object through CGridImg
+and added some extra functions to CCellRegion for completeness.
+
+
+Version 031
+===========
+(made by DanH, 24/1/96)
+
+Uses CONE 030, E32 051, WSERV 023, ...
+
+1) Grid now runs (in a limited form) on CONE. Scrollbars and the
+dialogs in the test app have been disabled for the time being.
+
+2) Some bug fixes plus more access to the default row heights and
+column widths has been made available.
+
+
+
+Version 030
+===========
+(made by DanH, 22/1/96)
+
+Uses HCIL 114, ...
+
+1) Last release before moving over to CONE. As CONE is not yet in as
+good a state as HCIL, this may be a slight backward step.
+
+2) Fixed a few bugs that the request row stuff caused. Amongst these
+were some unnecessary assertions in GridLay concerning invalid 
+rows/columns.
+
+
+Version 029
+===========
+(made by DanH, 17/1/96)
+
+Uses HCIL 114,...
+
+1) The CGridWin NewL() now has an overload that takes a min/max grid
+column as oppose to the full grid range. This is for clients that
+require a grid with indefinite row boundaries. If this overload is
+used then the virtual function RequestRow() in CGridTable must be
+overridden else a Panic will occur. This function takes a row that is
+requested by the grid and returns the nearest possible row to this
+row. In this state then columns can no longer be selected and only a
+vertical title line is available. Ctrl-Home/End don't work at the
+moment because it is unclear what they should do in this case.
+
+
+Version 028
+===========
+(made by DanH, 11/1/96)
+
+Uses HCIL 114,...
+
+Precautionary version before making some extensive changes to the
+boundary checking in grid that will allow the row grid range to be
+unspecified.
+
+
+Version 027
+===========
+(made by DanH, 9/1/96)
+
+Uses HCIL 114, ...
+
+1) Fixed a few bugs that the new TBool caused without me realizing
+it.
+
+2) More cell borders are now in the test code. They seem to work O.K
+at the moment but not a great deal of testing has been done. There's
+a special case when a cell bursts onto another cell with thick
+borders in which the thick border get clipped to be a thin one. This
+is sufficiently rare to not worry about.
+
+3) The Draw() function in CGridCellImg now takes an extra parameter,
+aBurstWidth. This is the extra width that is added to aRect.iBr.iX to
+allow the bursting cell data to be seen. It defaults to zero if no
+parameter is given.
+
+4) There are the SetCursorPos() and CursorPos() in GridWin. The
+latter moves to a given cursor position, scrolling the grid and
+adjusting the scrollbars if necssary. These have been available for a
+while but I forgot to mention them earlier.
+
+
+Version 026
+===========
+(made by DanH, 5/1/96)
+
+Uses HCIL 114, E32 050, WSERV 022, ...
+
+1) Converted to new E32 which uses the *new* TBool stuff. Didn't cause
+too many problems.
+
+2) Made a start with cell borders. Currently the test code has only 1
+cell with borders but I hope this will be more flexible and less
+rough and ready RSN.
+
+3) A few obscure bug fixes.
+
+
+Version 025
+===========
+(made by DanH, 15/12/95)
+
+Uses HCIL 113, E32 049, WSERV 021, ...
+
+Fixed some bugs in 024 and converted to new HCIL.
+
+
+Version 024
+===========
+(made by DanH, 12/12/95)
+
+Uses HCIL 110, ...
+
+1) Introduced the concept of title lines. When these are on, only
+part of the grid scrolls. This was more complicated than it sounds.
+There are 2 new member variables in CGridImg - iTitlePoint and
+iMainPoint. The former is the top left point on the grid not
+including the grid labels. The latter is the top left corner of the
+cell where the title lines intersect (if they're on). In the test
+program, ctrl-T sets title lines on and ctrl-U cancels them.
+
+2) I've started getting a few strange things happening at the
+boundaries of the grid - should be fixed soon.
+
+3) The width of the side labels now changes dynamically depending on
+size of the largest number visible in the labels. The question arises
+whether this can now be persistent. I have made it not so for now.
+
+
+Version 023
+===========
+(made by DanH, 4/12/95)
+
+Uses HCIL 110, ...
+
+A few fixes made to scrollbars. They don't panic now but there's
+still a few problems with the way the thumb moves.
+
+
+
+Version 022
+===========
+(made by DanH, 29/11/95)
+
+Uses HCIL 110, E32 048, WSERV 020, ...
+
+1) Fixed a bug in CGridImg::DrawCell(..). Should now column burst
+properly (although its difficult to test at the moment bacause I
+don't use it).
+
+2) Fixed yet another bug in the page navigation that caused
+ExposeCell to sometimes be unnecessarily called.
+
+
+
+Version 021
+===========
+(made by DanH, 28/11/95)
+
+Uses HCIL 107
+
+1) Now provided streaming functions in CGridLay and CGridImg so the
+grid now has some persistence. Each time the test app is run it will
+remember the state of the grid (and the cursor position) from the
+last time it was run. There's also a reset option on the toolbar to
+put things back to normal.
+
+2) Lots of the source file and header file names have changed to
+reflect the lack of connection with FORM.
+
+
+
+Version 020
+===========
+(made by DanH, 21/11/95)
+
+Uses HCIL 107, E32 048, WSERV 020, ...
+
+Converted to the new EON architecture. The test app is now tgridd.APP not
+testgrid.EXE. It is started via HCIRUND.EXE in /hcil/group/.
+
+Scrollbars are still sick.
+
+
+
+Version 019
+===========
+(made by DanH, 20/11/95)
+
+Uses HCIL 100
+
+Interim release before going to latest HCIL.
+
+1) A first attempt at column bursting has been made. This works for
+most cases but to cater for all possibilities requires a significant
+overhead if I pursue my current implementation. I'm going to wait
+until we link to the spreadsheet engine proper before going any
+further on this because that will apparently provide an efficient
+form of the function I need.
+
+2) Tweaked the Row/Column dragging code so that very narrow
+columns/rows can still be selected by mouse.
+
+
+
+Version 018
+===========
+(made by DanH)
+
+Uses HCIL 100, E32 047, WSERV 018, GDI 002, ...
+
+1) Simple toolbar with options dialog is now available in the test
+code. Grid lines, labels, cursors and scrollbars can be turned on and
+off at will. This exposed some minor drawing bugs which have been
+fixed. When a dialog is brought up, the whole window now gets
+validated unneccesarily. This is apparently a bug in the window
+server.
+
+2) Used my DrawToRegion function in CGridImg in the virtual CGridWin
+function Draw(RGc, TRect&). This speeds up the redraw when dialogs
+are exited. It is still painfully slow, however.
+
+3) Still a few problems with scrollbars - They panic occasionally.
+This isn't really worth resolving until its clear how they should
+look in the grid (fixed thumb size or not).
+
+4) When unusual column width/row heights are created (e.g one column
+in the whole visible grid) then the ctrl movements sometimes do
+strange things. Minor tweaks to the movement algorithms are needed.
+
+
+
+Version 017
+===========
+(made by DanielH)
+
+Uses HCIL 090, ...
+
+This release is being made just prior to going to HCIL 100 (woo)
+
+1) The bug in 4) of release 016 ha been fixed (just needed to
+increase the validation region).
+
+2) Have improved the efficiency of the PointToCell and CellToPoint
+functions in CGridLay. Contiguous stretches of rows/columns with the
+default height/width are skipped over thereby reducing the number of
+array accesses needed and improving the drawing speed.
+
+3) A first attempt to have dialogs in the test code has been made.
+This is not working yet and it was considered sensible to get the new
+HCIL (and corresponding resource compiler) before proceeding further.
+
+
+
+Version 016
+===========
+(made by DanielH)
+
+Uses HCIL 090, E32 047, WSERV 017, ...
+
+1) A fairly major release this containing for the first time, the
+ability to have multiple selection regions by control and clicking. This
+was made by possible by using SteveT's region code that converts a
+number of overlapping rectangles into the minimum number of
+non-overlapping rectangles that covers the same region. In this way I
+was able to highlight complex regions without having to worry about
+whether overlapping regions were highlighted twice. This has the
+happy side effect of only drawing the minimum number of rectangles
+between selection changes, reducing the screen flicker I was getting.
+With many regions selected at the same time, however, things
+inevitably start to get S..L.....O............W.
+
+2) A row cursor has also been introduced that lies in the side grid
+labels if required. (For use by the database)
+
+3> The way that column widths/row heights are stored and accessed has
+been changed by MartinB. The widths/heights that are different from
+the default are now stored in sequence which means they can accessed
+with a binary search, improving the overall speed (especially for
+large grids).
+
+4> I have reintroduced the white border around selected regions
+because 1> above makes it easy for me to do. This causes a bug when
+dragging a row or column to zero height/width at the edge of selected
+regions. I haven't decided on the best way to deal with this.
+
+
+Version 015
+===========
+(made by MartinB)
+
+1) App now has ownership of GridTable (previously was GridWin).
+2) Cleared up various alloc heaven and wserv heaven.
+3) Moved TDragState into scope of CGridImg (to avoid clash with HCIL
+092).
+
+
+Version 014
+===========
+(made by DanielH)
+
+Uses HCIL 085,....
+
+Selected regions now cover the whole of the selected cells (including
+the grid lines) with no white border around the whole region. This is
+due to complications when lining up the extra rectangles that are
+needed when updating the selected regions. This is possibly a
+temporary measure until a better way to draw selected regions is
+found (coming soon).
+
+This has in effect stopped the drawing bugs that I was getting.
+
+
+Version 013
+===========
+(made by DanielH)
+
+Uses HCIL 085, E32 047, WSERV 017
+
+DrawText in a box now working.
+
+Have Fixed cursor drawing problem by using four filled rectangles.
+
+Label Drag bugs have been fixed.
+
+Other, more subtle bugs have arisen from the fact the zero
+width/height column/rows are now possible. Only some of these have
+been fixed.
+
+
+Version 012
+===========
+(made by DanielH)
+
+Uses HCIL 083, E32 045, WSERV 015
+
+In a similar state to 011 but using the new GDI and has the following
+problems:-
+
+(1) Due to HCIL 083 not using the latest WSERV release, the function
+DrawText() in a box is not working. This wasn't available before
+anyway so there is no difference in the appearance of the text.
+
+(2) The cursor is not drawn properly since thick lines now have
+rounded ends. Thick lines with square lines are not likely to be
+implemented according to Lane.
+
+(3) Thick lines are not centred correctly either. This apparently is
+a GDI bug and will be fixed shortly.
+
+(4) The GDI SDK claims that thick lines can only be drawn in
+EDrawModePen. Although drawing them in EDrawModeNOTXOR seems to work at
+the moment, it probably won't in future releases. Due to this and (2)
+above, it may be necessary to find a different way to draw thick
+lines in GRID.
+
+(5) The function ResetDotParam() is no longer available causing the
+label drag lines to be erased incorrectly. I am looking for an
+alternative solution.
+
+
+Version 011
+===========
+(made by DanielH)
+
+Uses HCIL 080, E32 045.
+
+Last release before going to new GDI.
+
+-All page navigation is working
+
+-Simple selection (i.e. only one region at a time) is working
+
+-Scrolling is working
+
+-Resizing of Columns/Rows by dragging on labels is now working.
+
+-Scrollbars are working to some extent. The thumb drag is jerky due to
+the varying thumb size and some other resizing problems. Also get
+panicked in certain scrollbar circumstances. This will hopefully be
+corrected in the next release.
+
+-The grid now uses 'real' data from Jal's table code
+
+
+
+Version 001
+===========
+(Made by DanielH)
+
+Initial release.
+
+
+

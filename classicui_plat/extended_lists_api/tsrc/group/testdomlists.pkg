@@ -1,0 +1,46 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testdomlists"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testdomlists.ini"-"c:\Testframework\testdomlists.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomlistsaknjavalists.cfg"-"c:\Testframework\tctestdomlistsaknjavalists.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomlistsaknjavalists.cfg"-"c:\Testframework\ui_testdomlistsaknjavalists.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomlistsaknshortcuts.cfg"-"c:\Testframework\tctestdomlistsaknshortcuts.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomlistsaknshortcuts.cfg"-"c:\Testframework\ui_testdomlistsaknshortcuts.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestdomlistseikslbd.cfg"-"c:\Testframework\tctestdomlistseikslbd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomlistseikslbd.cfg"-"c:\Testframework\ui_testdomlistseikslbd.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testdomlists.dll"-"c:\sys\bin\testdomlists.dll", FF
+
+"\epoc32\data\Z\resource\testdomlists.rsc"-"c:\resource\testdomlists.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

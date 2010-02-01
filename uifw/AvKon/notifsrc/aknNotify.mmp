@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          AknNotify.DLL
+TARGETTYPE      DLL
+UID             0x1000008D 0x010f9a43
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../notifsrc
+
+LANG            SC
+
+USERINCLUDE   ../../inc
+USERINCLUDE   ../../../inc
+USERINCLUDE     . ../notifinc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+
+SOURCEPATH      ../notifsrc
+SOURCE          aknNotify.cpp
+SOURCE          AknPopupNotify.cpp
+SOURCE          AknSignalNotify.cpp
+SOURCE          AknBatteryNotify.cpp
+SOURCE          AknSmallIndicator.cpp
+SOURCE          AknGlobalNote.cpp
+SOURCE          AknGlobalListQuery.cpp
+SOURCE          AknSoftNotifier.cpp
+SOURCE          AknIncallBubbleNotify.cpp
+SOURCE          aknglobalmsgquery.cpp
+SOURCE          aknglobalconfirmationquery.cpp
+SOURCE          aknglobalprogressdialog.cpp
+SOURCE          AknSignalNotifyAddition.cpp
+SOURCE          AknGlobalListMsgQuery.cpp
+SOURCE          AknSDData.cpp
+SOURCE		akntrace.cpp
+
+LIBRARY         euser.lib
+LIBRARY         estor.lib
+LIBRARY 	gfxtrans.lib
+
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+LIBRARY    akntransitionutils.lib
+#endif
+
+DEFFILE AknNotify.DEF
+
+START WINS
+    BASEADDRESS 0x7dd30000
+END

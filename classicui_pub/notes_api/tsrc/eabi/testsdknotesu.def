@@ -1,0 +1,17 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI17CTestNotesControl @ 2 NONAME ; #<TI>#
+	_ZTI23CTestSDKNotesNoteDialog @ 3 NONAME ; #<TI>#
+	_ZTI25CTestSDKNotesProgressInfo @ 4 NONAME ; #<TI>#
+	_ZTI27CTestSDKNotesProgressDialog @ 5 NONAME ; #<TI>#
+	_ZTI29CTestSDKNotesStaticNoteDialog @ 6 NONAME ; #<TI>#
+	_ZTI30CTestSDKNotesBackGroundProcess @ 7 NONAME ; #<TI>#
+	_ZTV17CTestNotesControl @ 8 NONAME ; #<VT>#
+	_ZTV23CTestSDKNotesNoteDialog @ 9 NONAME ; #<VT>#
+	_ZTV25CTestSDKNotesProgressInfo @ 10 NONAME ; #<VT>#
+	_ZTV27CTestSDKNotesProgressDialog @ 11 NONAME ; #<VT>#
+	_ZTV29CTestSDKNotesStaticNoteDialog @ 12 NONAME ; #<VT>#
+	_ZTV30CTestSDKNotesBackGroundProcess @ 13 NONAME ; #<VT>#
+	_ZTI24CTestSDKNotesNoteControl @ 14 NONAME
+	_ZTV24CTestSDKNotesNoteControl @ 15 NONAME
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="b595f490ab7158a0b43590fc8124234f" dataversion="1.0">
+  <name>Application Switching API</name>
+  <description>Provides an interface for enabling or disabling application switching.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eiksrvui.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

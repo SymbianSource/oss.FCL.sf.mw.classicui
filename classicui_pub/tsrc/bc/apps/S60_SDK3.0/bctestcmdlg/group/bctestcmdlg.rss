@@ -1,0 +1,637 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+#include <commondialogs.rh>
+
+#include "bctestcmdlg.hrh"
+#include "bctestcmdlg.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTCMDLG_BMP_FNAME APP_BITMAP_DIR"\\bctestcmdlg.mbm"
+#define PHONE    "C:\\Data\\"
+#define MMC      "E:\\"
+
+//  MACROS
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestCmDlg";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestcmdlg_menubar_main;
+    cba = r_bctestcmdlg_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestcmdlg_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\bctestcmdlg_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_view
+//    AVKON_VIEW for CBCTestCmDlgView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestcmdlg_view
+    {
+    menubar = r_bctestcmdlg_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestcmdlg_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestcmdlg_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestcmdlg_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_mem_sel_menu;
+            txt = "Test Mem select dlg";
+            },
+		MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_mem_sel_page;
+            txt = "Test Mem select page";
+            },
+		MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_file_sel_dlg;
+            txt = "Test File select dlg";
+            },
+		MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_file_name_dlg;
+            txt = "Test File prompt dlg";
+            },
+		MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_common_dlg;
+            txt = "Test common dlg";
+            },
+		MENU_ITEM
+            {
+            cascade = r_bctestcmdlg_mem_sel_setting_item;
+            txt = "Test mem select item";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_mem_sel_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_mem_sel_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgCreate;
+            txt = "Test NewL and ExecuteL";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgCreateWithRes;
+            txt = "Test NewL with Res";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgWithRoot;
+            txt = "Test With Root";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgQuick;
+            txt = "Test RunDlgL";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgQuickTitle;
+            txt = "Test RunDlgL with title";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgQuickRes;
+            txt = "Test RunDlgL with ResID";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelDlgSetting;
+            txt = "Test Settings";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_mem_sel_page
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_mem_sel_page
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdMemSelPageCreate;
+            txt = "Test NewL and ExecuteL";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelPageCreateRes;
+            txt = "Test Create with Res";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelPageQuickCreate;
+            txt = "Test Quick Create";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelPageQuickCreateTitle;
+            txt = "Test Quick Create with Title";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelPageQuickCreateRes;
+            txt = "Test Quick Create with Res";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_file_sel_dlg
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_file_sel_dlg
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgCreate;
+            txt = "Test NewL and ExecuteL";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgCreateRes;
+            txt = "Test Create with ResID";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgQuickCreate;
+            txt = "Test Quick Create";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgQuickCreateTitle;
+            txt = "Test Quick Create with Title";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgQuickCreateRes;
+            txt = "Test Quick Create with Res";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileSelDlgSettings;
+            txt = "Test Settings";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_file_name_dlg
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_file_name_dlg
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgCreate;
+            txt = "Test NewL and ExecuteL";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgCreateRes;
+            txt = "Test Create with ResID";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgQuickCreate;
+            txt = "Test Quick Create";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgQuickCreateTitle;
+            txt = "Test Quick Create with Title";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgQuickCreateRes;
+            txt = "Test Quick Create with Res";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdFileNameDlgSettings;
+            txt = "Test Settings";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_file_name_dlg
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_mem_sel_setting_item
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdMemSelSettingItemCreate;
+            txt = "Test Create";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelSettingItemEdit;
+            txt = "Test Edit";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelSettingItemStore;
+            txt = "Test Quick Create";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdMemSelSettingItemSetting;
+            txt = "Test Setting";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_common_dlg
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_common_dlg
+    {
+    items = 
+        {
+		//select
+        MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect1;
+            txt = "Test Select 1";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect2;
+            txt = "Test Select 2";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect3;
+            txt = "Test Select 3";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect4;
+            txt = "Test Select 4";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect5;
+            txt = "Test Select 5";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect6;
+            txt = "Test Select 6";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect7;
+            txt = "Test Select 7";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSelect8;
+            txt = "Test Select 8";
+            },
+		//move
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgMove1;
+            txt = "Test Move 1";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgMove2;
+            txt = "Test Move 2";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgMove3;
+            txt = "Test Move 3";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgMove4;
+            txt = "Test Move 4";
+            },
+		//save
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave1;
+            txt = "Test Save 1";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave2;
+            txt = "Test Save 2";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave3;
+            txt = "Test Save 3";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave4;
+            txt = "Test Save 4";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave5;
+            txt = "Test Save 5";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave6;
+            txt = "Test Save 6";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgSave7;
+            txt = "Test Save 7";
+            },
+		//copy
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgCopy1;
+            txt = "Test Copy 1";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgCopy2;
+            txt = "Test Copy 2";
+            },
+		MENU_ITEM
+            {
+            command = EBCTestCmdCommonDlgCopy3;
+            txt = "Test Copy 3";
+            }
+        };
+    }
+
+
+
+
+            
+            
+//-----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestcmdlg_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestcmdlg_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestcmdlg_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestcmdlg_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestcmdlg_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestCmDlgCbaCmdNext;
+            txt = qtn_bctestcmdlg_cba_next;
+            }
+	};
+    }
+
+RESOURCE MEMORYSELECTIONDIALOG r_bctest_memory_selection_locations
+	{
+	locations =
+		{
+		LOCATION { root_path = PHONE; },
+		LOCATION { root_path = MMC; }
+		};
+	}
+
+RESOURCE FILESELECTIONDIALOG r_bctest_file_selection_all
+	{
+	title = "resTitle";
+	softkey_1_file = "resSk1";
+	softkey_1_folder = "resSk2";
+	softkey_2_root_level = "resSk3";
+	softkey_2_subfolder = "resSk4";
+	root_path = "C:\\Data\\";
+	default_folder = "Sounds\\";
+	}
+
+RESOURCE MENU_BAR r_vr_settings_menubar
+	{
+	titles=
+		{
+		MENU_TITLE { menu_pane = r_vr_settings_menupane; }
+		};
+	}
+
+RESOURCE MENU_PANE r_vr_settings_menupane
+	{
+	items=
+		{
+		MENU_ITEM { command = ECmdChange;		txt = "change"; }
+		};
+	}
+
+RESOURCE TBUF r_qtn_vorec_set_store { buf = "set store"; }
+
+RESOURCE DIALOG r_vr_settings_dialog
+	{
+	buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+	flags = EEikDialogFlagWait | EEikDialogFlagNoDrag
+			| EEikDialogFlagCbaButtons | EEikDialogFlagNoTitleBar
+			| EEikDialogFlagFillAppClientRect;
+	items =
+		{
+		DLG_LINE
+			{
+			type = EAknCtSettingListBox;
+			id = EVRSettingsListboxId;
+			itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+			control = LISTBOX
+				{
+				flags = EAknListBoxSelectionList;
+				};
+			}
+		};
+	}
+// End of File

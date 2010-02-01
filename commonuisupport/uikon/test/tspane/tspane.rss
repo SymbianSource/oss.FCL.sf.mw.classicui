@@ -1,0 +1,445 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Tspane app
+// 
+//
+
+NAME TSPA
+
+#include <techview/eikon.rh>
+#include "tspane.hrh"
+#include <techview/eikon.rsg>
+#include <eikctl.rsg>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf="Tspane"; }
+
+RESOURCE EIK_APP_INFO
+	{
+	menubar=r_tspane_menubar;
+	hotkeys=r_tspane_hotkeys;
+	}
+
+RESOURCE HOTKEYS r_tspane_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=EEikCmdExit; key='e'; }
+        };
+    }
+
+RESOURCE MENU_BAR r_tspane_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tspane_file_menu; txt="File"; },
+        MENU_TITLE { menu_pane=r_tspane_auto_menu; txt="Auto"; },
+        MENU_TITLE { menu_pane=r_tspane_manual_menu; txt="Manual"; },
+		MENU_TITLE { menu_pane=r_tspane_other_menu; txt="Other"; }
+		};
+    }
+
+RESOURCE MENU_PANE r_tspane_file_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=EEikCmdExit; txt="Exit"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tspane_auto_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=ETspaneCmdAutoAll; txt="All"; },
+		MENU_ITEM { command=ETspaneCmdAutoNormal; txt="Normal"; },
+		MENU_ITEM { command=ETspaneCmdAutoOom; txt="OOM"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tspane_manual_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=ETspaneCmdManualVis; txt="Swap Vis"; },
+		MENU_ITEM { command=ETspaneCmdManualDim; txt="Swap Dim"; },
+		MENU_ITEM { command=ETspaneCmdManualFade; txt="Swap Fade"; },
+		MENU_ITEM { command=ETspaneCmdManualState; flags=EEikMenuItemSeparatorAfter; txt="State"; },
+		MENU_ITEM { command=ETspaneCmdManualLayout; txt="Layout"; },
+		MENU_ITEM { command=ETspaneCmdManualControl; txt="Control"; },
+		MENU_ITEM { command=ETspaneCmdManualWg; txt="Window"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tspane_other_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=ETspaneCmdBoundingRegion; txt="Display Status Pane Bounding Rect"; }
+        };
+    }
+
+RESOURCE STATUS_PANE_SYSTEM_MODEL r_tspane_status_pane
+	{
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid1;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane1_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid2;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane2_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid3;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane3_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid4;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane4_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid5;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane5_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid6;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane6_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid7;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtTextButton;
+			resource = r_tspane_pane7_content; 
+			}
+		};
+
+	default_layout = r_tspane_layout_complex;
+	layouts = 
+		{
+		r_tspane_layout_top, 
+		r_tspane_layout_left, 
+		r_tspane_layout_bottom, 
+		r_tspane_layout_right, 
+		r_tspane_layout_complex, 
+		r_tspane_layout_difsize
+		};
+	}
+
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_top
+	{
+	position = EEikStatusPanePositionTop;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = ETspaneTopHeight;
+		sub_panes = {};
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_left
+	{
+	position = EEikStatusPanePositionLeft;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = ETspaneLeftWidth;
+		sub_panes = {};
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_bottom
+	{
+	position = EEikStatusPanePositionBottom;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = ETspaneBottomHeight;
+		sub_panes = {};
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_right
+	{
+	position = EEikStatusPanePositionRight;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = ETspaneRightWidth;
+		sub_panes = {};
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_complex
+	{
+	position = EEikStatusPanePositionTop;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		size = ETspaneTopHeight;
+		sub_panes = 
+			{
+			SPANE_LAYOUT_TREE_NODE
+				{
+				flags = EEikStatusPaneIsStretchable;
+				size = 1;
+				sub_panes = 
+					{
+					SPANE_LAYOUT_TREE_NODE
+						{
+						id = ETSpanePaneUid1;
+						flags = EEikStatusPaneIsStretchable;
+						size = 1;
+						sub_panes = {};
+						},
+					SPANE_LAYOUT_TREE_NODE
+						{
+						id = ETSpanePaneUid2;
+						flags = EEikStatusPaneIsStretchable;
+						size = 1;
+						sub_panes = {};
+						}
+					};
+				},
+			SPANE_LAYOUT_TREE_NODE
+				{
+				id = ETSpanePaneUid3;
+				flags = EEikStatusPaneIsStretchable;
+				size = 1;
+				sub_panes = {};
+				},
+			SPANE_LAYOUT_TREE_NODE
+				{
+				flags = EEikStatusPaneIsStretchable;
+				size = 1;
+				sub_panes = 
+					{
+					SPANE_LAYOUT_TREE_NODE
+						{
+						id = ETSpanePaneUid4;
+						flags = EEikStatusPaneIsStretchable;
+						size = 1;
+						sub_panes = {};
+						},
+					SPANE_LAYOUT_TREE_NODE
+						{
+						flags = EEikStatusPaneIsStretchable;
+						size = 1;
+						sub_panes = 
+							{
+							SPANE_LAYOUT_TREE_NODE
+								{
+								id = ETSpanePaneUid5;
+								flags = EEikStatusPaneIsStretchable;
+								size = 1;
+								sub_panes = {};
+								},
+							SPANE_LAYOUT_TREE_NODE
+								{
+								id = ETSpanePaneUid6;
+								flags = EEikStatusPaneIsStretchable;
+								size = 1;
+								sub_panes = {};
+								}
+							};
+						}
+					};
+				},
+			SPANE_LAYOUT_TREE_NODE
+				{
+				id = ETSpanePaneUid7;
+				flags = EEikStatusPaneIsStretchable;
+				size = 1;
+				sub_panes = {};
+				}
+			};
+		};
+	}
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_layout_difsize
+	{
+	position = EEikStatusPanePositionTop;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = ETspaneBottomHeight;
+		sub_panes = {};
+		};
+	}
+
+
+RESOURCE TXTBUT r_tspane_pane1_content { txt1 = "1"; }
+RESOURCE TXTBUT r_tspane_pane2_content { txt1 = "2"; }
+RESOURCE TXTBUT r_tspane_pane3_content { txt1 = "3"; }
+RESOURCE TXTBUT r_tspane_pane4_content { txt1 = "4"; }
+RESOURCE TXTBUT r_tspane_pane5_content { txt1 = "5"; }
+RESOURCE TXTBUT r_tspane_pane6_content { txt1 = "6"; }
+RESOURCE TXTBUT r_tspane_pane7_content { txt1 = "7"; }
+
+RESOURCE CLOCK r_tspane_clock
+	{ 
+	digitalresourceid=R_EIK_DIGITAL_CLOCK; 
+	analogresourceid=R_EIK_ANALOG_CLOCK; 
+	}
+
+
+RESOURCE STATUS_PANE_SYSTEM_MODEL r_tspane_floating_status_pane
+	{
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid1;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtLabel;
+			resource = r_tspane_float_pane1_content; 
+			},
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid2;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtLabel;
+			resource = r_tspane_float_pane2_content; 
+			}
+		};
+
+	default_layout = r_tspane_float_layout;
+	layouts = 
+		{
+		r_tspane_float_layout
+		};
+	}
+
+RESOURCE LABEL r_tspane_float_pane1_content { txt = "New WG"; }
+RESOURCE LABEL r_tspane_float_pane2_content { txt = "Kill"; }
+
+RESOURCE STATUS_PANE_LAYOUT r_tspane_float_layout
+	{
+	position = EEikStatusPanePositionBottom;
+	pane_tree = SPANE_LAYOUT_TREE_NODE
+		{
+		id = ETSpanePaneUid1;
+		flags = EEikStatusPaneIsStretchable;
+		size = 32;
+		sub_panes = 
+			{
+			SPANE_LAYOUT_TREE_NODE
+				{
+				id = ETSpanePaneUid1;
+				flags = EEikStatusPaneIsStretchable;
+				size = 3;			// split space 3:1
+				sub_panes = {};
+				},
+			SPANE_LAYOUT_TREE_NODE
+				{
+				id = ETSpanePaneUid2;
+				flags = EEikStatusPaneIsStretchable;
+				size = 1;			// split space 3:1
+				sub_panes = {};
+				}
+			};
+		};
+	}
+
+RESOURCE STATUS_PANE_APP_MODEL r_tspane_app_overrides
+	{
+	layout = r_tspane_layout_top;
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid1;
+			type = EEikCtLabel;
+			resource = r_tspane_pane1_content_override; 
+			}
+		};
+	}
+
+RESOURCE LABEL r_tspane_pane1_content_override { txt = "A"; }
+
+
+RESOURCE STATUS_PANE_SYSTEM_MODEL r_tspane_bad_layout_status_pane
+	{
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid1;
+			flags = EEikStatusPaneAppOwned;
+			type = EEikCtLabel;
+			resource = r_tspane_float_pane1_content; 
+			}
+		};
+
+	default_layout = 0x12345678;
+	layouts = 
+		{
+		r_tspane_float_layout
+		};
+	}
+
+
+RESOURCE STATUS_PANE_APP_MODEL r_tspane_app_bad_override_layout
+	{
+	layout = 0x12345678;
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid1;
+			type = EEikCtLabel;
+			resource = r_tspane_pane1_content_override; 
+			}
+		};
+	}
+
+RESOURCE STATUS_PANE_APP_MODEL r_tspane_app_bad_override_pane
+	{
+	layout = r_tspane_float_layout;
+	panes = 
+		{
+		SPANE_PANE
+			{
+			id = ETSpanePaneUid3;
+			type = EEikCtLabel;
+			resource = r_tspane_pane1_content_override; 
+			}
+		};
+	}

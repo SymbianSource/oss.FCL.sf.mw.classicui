@@ -1,0 +1,165 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 10 (filtered)">
+<title>Licensees need to update any overrides of CEikAppUi::HandleSystemEventL
+on the same pattern as Symbian will do</title>
+
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Courier;
+	panose-1:2 7 4 9 2 2 5 2 4 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+pre
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 90.0pt;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-GB link=blue vlink=purple>
+
+<div class=Section1>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>UI Framework provides a function </span><span
+style='font-size:10.0pt;font-family:"Courier New"'><a
+href="http://lon-xref.intra/lxr/ident?i=CEikonEnv"><span style='color:windowtext'>CEikonEnv</span></a>::<a
+href="http://lon-xref.intra/lxr/ident?i=SetSystem"><span style='color:windowtext'>SetSystem</span></a></span>
+to be used by applications that should not be possible to close from another
+application. Currently this mechanism does not work and changes to Symbian code
+alone will not be enough to close this vulnerability. </p>
+
+<pre><span style='font-size:12.0pt;font-family:"Times New Roman"'>&nbsp;</span></pre><pre><span
+style='font-size:12.0pt;font-family:"Times New Roman"'>Updates to licensee code are required to prevent that applications having called </span><a
+href="http://lon-xref.intra/lxr/ident?i=CEikonEnv"><span style='color:windowtext'>CEikonEnv</span></a>::<a
+href="http://lon-xref.intra/lxr/ident?i=SetSystem"><span style='color:windowtext'>SetSystem</span></a><span
+style='font-size:12.0pt;font-family:"Times New Roman"'> (e.g. Telephony) to be possible to close from another application. </span></pre>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>To close the security vulnerability all implementations of
+the virtual </span><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>CCoeAppUi::HandleSystemEventL</span><span style='color:black'> needs
+to:</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-family:Symbol;color:black'>·          </span><span
+style='color:black'>Change so that an application marked as “system” does not
+close itself when it receives an </span><span style='font-size:10.0pt;
+font-family:"Courier New";color:black'>EApaSystemEventShutdown</span><span
+style='color:black'> event</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-family:Symbol;color:black'>·          </span><span
+style='color:black'>Add functionality so that an application is closed when it
+receives an</span><span style='font-size:10.0pt;font-family:Courier;color:black'>
+</span><span style='font-size:10.0pt;font-family:"Courier New";color:black'>EApaSystemEventSecureShutdown</span><span
+style='font-size:10.0pt;font-family:Courier;color:black'> </span><span
+style='color:black'>event</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>In code this can be expressed like this.</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='color:black'>&nbsp;</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>EXPORT_C void CXxxAppUi::HandleSystemEventL(const
+TWsEvent&amp; aEvent)</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>      {</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:12.0pt;text-autospace:
+none'><i><span style='font-size:10.0pt;font-family:Courier;color:black'>&lt;skip&gt;</span></i></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>          case EApaSystemEventShutdown:</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+</span><span
+style='font-size:10.0pt;font-family:Courier;color:black'>           </span><span
+style='font-size:10.0pt;font-family:Courier;color:green'>      // This event
+must no longer be allowed to close system-applications</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+              if((static_cast&lt;CEikonEnv*&gt;(iCoeEnv)-&gt;IsSystem()))</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+                      break;</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+</span><span
+style='font-size:10.0pt;font-family:Courier;color:black'>       </span><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>case EApaSystemEventSecureShutdown:</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+</span><span
+style='font-size:10.0pt;font-family:Courier;color:green'>              // If
+shutter is already running we don’t need to launch another one</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+              if(iAppUiExtra
+&amp;&amp; iAppUiExtra-&gt;IsSet(CEikAppUiExtra::EShutterPending))</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+                      break;</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+              </span><span
+style='font-size:10.0pt;font-family:Courier;color:green'>// Launch a shutter to
+gracefully close the application</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>               CEikShutter::DeferredExecuteL(*iEikonEnv);</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+              if(iAppUiExtra)</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:blue'>+                      iAppUiExtra-&gt;Set(CEikAppUiExtra::EShutterPending);</span></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>            break;</span></p>
+
+<p class=MsoNormal style='text-indent:36.0pt;line-height:12.0pt;text-autospace:
+none'><i><span style='font-size:10.0pt;font-family:Courier;color:black'>&lt;skip&gt;</span></i></p>
+
+<p class=MsoNormal style='line-height:12.0pt;text-autospace:none'><span
+style='font-size:10.0pt;font-family:Courier;color:black'>      }</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,2 @@
+EXPORTS
+	?WinsMain@@YAHPAX@Z @ 1 NONAME ; int __cdecl WinsMain(void *)

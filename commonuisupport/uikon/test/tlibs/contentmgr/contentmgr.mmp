@@ -1,0 +1,47 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          contentmgr.dll
+TARGETTYPE      DLL
+UID				0x1000008d 0x00005711
+VENDORID 		0x70000001
+CAPABILITY		ALL -Tcb
+
+SOURCEPATH		../contentmgr
+
+USERINCLUDE		.
+MW_LAYER_SYSTEMINCLUDE 
+
+SOURCE			contentmgr.cpp
+
+LIBRARY			euser.lib   efsrv.lib   estor.lib    gdi.lib  fbscli.lib
+LIBRARY			apmime.lib  apgrfx.lib  eikcore.lib
+LIBRARY			mediaclientaudio.lib
+
+
+#ifdef WINS
+DEFFILE 		../../../test/BWINS/contentmgr.def
+#else
+DEFFILE 		../../../test/EABI/CONTENTMGR.DEF
+#endif
+
+
+START BITMAP 	contentmgr.mbm
+	HEADER
+	TARGETPATH 	/system/data
+	SOURCE 		c8 em24.bmp em24m.bmp
+END
+
+SMPSAFE

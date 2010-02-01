@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI25CTestDomUtilitiesObserver @ 2 NONAME ; #<TI>#
+	_ZTI26CTestDomUtilitiesContainer @ 3 NONAME ; #<TI>#
+	_ZTV25CTestDomUtilitiesObserver @ 4 NONAME ; #<VT>#
+	_ZTV26CTestDomUtilitiesContainer @ 5 NONAME ; #<VT>#
+

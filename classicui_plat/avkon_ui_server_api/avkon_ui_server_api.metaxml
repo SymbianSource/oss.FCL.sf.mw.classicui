@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="edd59ec9b24ae35f50480f4940260fa0" dataversion="1.0">
+  <name>AVKON UI Server API</name>
+  <description>A client interface to AVKON UI server (AknCapServer).</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="akncapserverclient.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

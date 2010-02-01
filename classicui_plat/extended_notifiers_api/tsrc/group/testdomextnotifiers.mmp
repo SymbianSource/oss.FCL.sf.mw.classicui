@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*  Version:   %version: 2.1.2 %
+*
+* Contributors:
+*
+* Description:  mmp file
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#include <platform_paths.hrh>
+#include <platform_paths.hrh>
+
+
+TARGET          testdomextnotifiers.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testdomextnotifiers.def
+
+USERINCLUDE     ../inc 
+SOURCEPATH      ../src
+
+MW_LAYER_SYSTEMINCLUDE
+
+
+SOURCE          testdomextnotifiers.cpp
+SOURCE          testdomextnotifiersblocks.cpp
+SOURCE          testdomextnotifiersblocksdsnparams.cpp
+SOURCE          testdomextnotifiersblocksdsnotifier.cpp
+SOURCE          testdomextnotifiersblocksincallbn.cpp
+SOURCE          testdomextnotifiersblocksnasrvapp.cpp
+SOURCE          testdomextnotifiersblocksnappsrv.cpp
+SOURCE          testdomextnotifiersblocksnassession.cpp
+SOURCE          testdomextnotifiersblocksnctl.cpp
+SOURCE          testdomextnotifiersblocksncutil.cpp
+SOURCE          testdomextnotifiersblocksnwrapper.cpp
+SOURCE          testdomextnotifiersblockssmalli.cpp
+SOURCE          testdomextnotifiersblockssoftnpara.cpp
+SOURCE          testdomextnotifiersblockssoftnotifier.cpp
+
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         aknnotifyplugin.lib
+LIBRARY         akndynamicsoftnote.lib
+LIBRARY         aknnotify.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         avkon.lib
+LIBRARY         aknnotifierwrapper.lib
+LIBRARY         eiksrvui.lib
+LIBRARY         eiksrv.lib
+LIBRARY         akncapserverclient.lib
+LIBRARY         eikcdlg.lib 
+LIBRARY         eikctl.lib
+LIBRARY         bluetooth.lib
+
+
+LANG            SC
+
+// End of File

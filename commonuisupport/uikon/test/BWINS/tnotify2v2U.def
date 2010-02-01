@@ -1,0 +1,6 @@
+EXPORTS
+	?ImplementationGroupProxy@@YAPBUTImplementationProxy@@AAH@Z @ 1 NONAME ; struct TImplementationProxy const * ImplementationGroupProxy(int &)
+	?NotifierArray1@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 2 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * NotifierArray1(void)
+	?NotifierArray2@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 3 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * NotifierArray2(void)
+	?NotifierArray@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 4 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * NotifierArray(void)
+

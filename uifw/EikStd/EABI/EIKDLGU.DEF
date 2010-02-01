@@ -1,0 +1,298 @@
+EXPORTS
+	_ZN10CEikDialog10DeleteLineEii @ 1 NONAME
+	_ZN10CEikDialog10Reserved_2Ev @ 2 NONAME
+	_ZN10CEikDialog11BorderStyleEv @ 3 NONAME
+	_ZN10CEikDialog11DialogFlagsEv @ 4 NONAME
+	_ZN10CEikDialog11InsertLineLEiii @ 5 NONAME
+	_ZN10CEikDialog11MakeVisibleEi @ 6 NONAME
+	_ZN10CEikDialog11MinimumSizeEv @ 7 NONAME
+	_ZN10CEikDialog11SizeChangedEv @ 8 NONAME
+	_ZN10CEikDialog11UpdatePageLEi @ 9 NONAME
+	_ZN10CEikDialog12LineChangedLEi @ 10 NONAME
+	_ZN10CEikDialog12PageChangedLEi @ 11 NONAME
+	_ZN10CEikDialog12SetEditableLEi @ 12 NONAME
+	_ZN10CEikDialog12SetFileNameLEiPK7TDesC16 @ 13 NONAME
+	_ZN10CEikDialog13SetEdwinTextLEiPK7TDesC16 @ 14 NONAME
+	_ZN10CEikDialog14FadedComponentEi @ 15 NONAME
+	_ZN10CEikDialog14OfferKeyEventLERK9TKeyEvent10TEventCode @ 16 NONAME
+	_ZN10CEikDialog14RotateFocusByLEi @ 17 NONAME
+	_ZN10CEikDialog15DeclareItemAutoEiiPv @ 18 NONAME
+	_ZN10CEikDialog15MakeLineVisibleEii @ 19 NONAME
+	_ZN10CEikDialog15MappedCommandIdEi @ 20 NONAME
+	_ZN10CEikDialog15MopSupplyObjectE8TTypeUid @ 21 NONAME
+	_ZN10CEikDialog16SetLineDimmedNowEii @ 22 NONAME
+	_ZN10CEikDialog16SetPageDimmedNowEii @ 23 NONAME
+	_ZN10CEikDialog17CreateLineByTypeLERK7TDesC16iiPv @ 24 NONAME
+	_ZN10CEikDialog17CreateLineByTypeLERK7TDesC16iiiPv @ 25 NONAME
+	_ZN10CEikDialog17GetTextEditorTextERP11CGlobalTexti @ 26 NONAME
+	_ZN10CEikDialog17PreLayoutDynInitLEv @ 27 NONAME
+	_ZN10CEikDialog17ResetSecretEditorEi @ 28 NONAME
+	_ZN10CEikDialog17SwitchLineLatencyEii @ 29 NONAME
+	_ZN10CEikDialog17TryChangeFocusToLEi @ 30 NONAME
+	_ZN10CEikDialog18AddAutoDateEditorLERK7TDesC16iRK5TTimeS5_iPS3_ @ 31 NONAME
+	_ZN10CEikDialog18AddAutoTextEditorLERK7TDesC16iiiiP6TDes16 @ 32 NONAME
+	_ZN10CEikDialog18AddAutoTimeEditorLERK7TDesC16iRK5TTimeS5_iPS3_ @ 33 NONAME
+	_ZN10CEikDialog18AdjustAllIdsOnPageEii @ 34 NONAME
+	_ZN10CEikDialog18ExitSleepingDialogEv @ 35 NONAME
+	_ZN10CEikDialog18ExtensionInterfaceE4TUid @ 36 NONAME
+	_ZN10CEikDialog18GetCustomAutoValueEPviPK11CCoeControl @ 37 NONAME
+	_ZN10CEikDialog18PostLayoutDynInitLEv @ 38 NONAME
+	_ZN10CEikDialog18SetControlCaptionLEiRK7TDesC16 @ 39 NONAME
+	_ZN10CEikDialog18SetControlCaptionLEii @ 40 NONAME
+	_ZN10CEikDialog18SetLineNonFocusingEi @ 41 NONAME
+	_ZN10CEikDialog18SetSizeAndPositionERK5TSize @ 42 NONAME
+	_ZN10CEikDialog18SetTextEditorTextLEiPK11CGlobalText @ 43 NONAME
+	_ZN10CEikDialog19AddAutoFloatEditorLERK7TDesC16iRKdS4_Pd @ 44 NONAME
+	_ZN10CEikDialog19AddAutoRangeEditorLERK7TDesC16iiiP7HBufC16P9SEikRange @ 45 NONAME
+	_ZN10CEikDialog19HandleControlEventLEP11CCoeControlN19MCoeControlObserver9TCoeEventE @ 46 NONAME
+	_ZN10CEikDialog19HandlePointerEventLERK13TPointerEvent @ 47 NONAME
+	_ZN10CEikDialog19RouseSleepingDialogEv @ 48 NONAME
+	_ZN10CEikDialog19SetPageDensePackingEii @ 49 NONAME
+	_ZN10CEikDialog19SetRangeEditorValueEiRK9SEikRange @ 50 NONAME
+	_ZN10CEikDialog19SetTTimeEditorValueEiRK5TTime @ 51 NONAME
+	_ZN10CEikDialog20AddAutoNumberEditorLERK7TDesC16iiiPi @ 52 NONAME
+	_ZN10CEikDialog20AddAutoSecretEditorLERK7TDesC16iP6TDes16 @ 53 NONAME
+	_ZN10CEikDialog20CountFadedComponentsEv @ 54 NONAME
+	_ZN10CEikDialog20CreateCustomControlLEi @ 55 NONAME
+	_ZN10CEikDialog20HandleResourceChangeEi @ 56 NONAME
+	_ZN10CEikDialog20MakeWholeLineVisibleEii @ 57 NONAME
+	_ZN10CEikDialog20SetFloatEditorValueLEid @ 58 NONAME
+	_ZN10CEikDialog20SetNumberEditorValueEii @ 59 NONAME
+	_ZN10CEikDialog21CEikDialog_Reserved_1Ev @ 60 NONAME
+	_ZN10CEikDialog21CEikDialog_Reserved_2Ev @ 61 NONAME
+	_ZN10CEikDialog21ConstructAutoDialogLCEii @ 62 NONAME
+	_ZN10CEikDialog21DeclareAutoDateEditorEiP5TTime @ 63 NONAME
+	_ZN10CEikDialog21DeclareAutoTimeEditorEiP5TTime @ 64 NONAME
+	_ZN10CEikDialog21GetAutoValuesFromPageEP13CEikCapCArray @ 65 NONAME
+	_ZN10CEikDialog21ResetLineMinimumSizesEv @ 66 NONAME
+	_ZN10CEikDialog21SetInitialCurrentLineEv @ 67 NONAME
+	_ZN10CEikDialog21SetListBoxCurrentItemEii @ 68 NONAME
+	_ZN10CEikDialog22AddAutoDurationEditorLERK7TDesC16iRK20TTimeIntervalSecondsS5_iPS3_ @ 69 NONAME
+	_ZN10CEikDialog22AddAutoRichTextEditorLERK7TDesC16iiiiiP11CGlobalTextii @ 70 NONAME
+	_ZN10CEikDialog22ConstructFromResourceLER15TResourceReader @ 71 NONAME
+	_ZN10CEikDialog22DeclareAutoRangeEditorEiP9SEikRange @ 72 NONAME
+	_ZN10CEikDialog22DeclareAutoTextEditorLEiP6TDes16 @ 73 NONAME
+	_ZN10CEikDialog22HandleDialogPageEventLEi @ 74 NONAME
+	_ZN10CEikDialog22MakePanelButtonVisibleEii @ 75 NONAME
+	_ZN10CEikDialog22SetDurationEditorValueEiRK20TTimeIntervalSeconds @ 76 NONAME
+	_ZN10CEikDialog22SetLabelReserveLengthLEii @ 77 NONAME
+	_ZN10CEikDialog23DeclareAutoNumberEditorEiPi @ 78 NONAME
+	_ZN10CEikDialog23DeclareAutoSecretEditorEiP6TDes16 @ 79 NONAME
+	_ZN10CEikDialog23FormFlagsFromActivePageEv @ 80 NONAME
+	_ZN10CEikDialog23SetFloatEditorMinAndMaxEiii @ 81 NONAME
+	_ZN10CEikDialog23SetRangeEditorMinAndMaxEiii @ 82 NONAME
+	_ZN10CEikDialog23SetTTimeEditorMinAndMaxEiRK5TTimeS2_ @ 83 NONAME
+	_ZN10CEikDialog24AddAutoFixedPointEditorLERK7TDesC16iiiPii @ 84 NONAME
+	_ZN10CEikDialog24AddAutoGlobalTextEditorLERK7TDesC16iiiiiP11CGlobalTextii @ 85 NONAME
+	_ZN10CEikDialog24AddAutoTimeOffsetEditorLERK7TDesC16iRK20TTimeIntervalSecondsS5_iPS3_ @ 86 NONAME
+	_ZN10CEikDialog24ConstructSleepingDialogLEi @ 87 NONAME
+	_ZN10CEikDialog24HandleInteractionRefusedEi @ 88 NONAME
+	_ZN10CEikDialog24SetNumberEditorMinAndMaxEiii @ 89 NONAME
+	_ZN10CEikDialog24SetTimeOffsetEditorValueEiRK20TTimeIntervalSeconds @ 90 NONAME
+	_ZN10CEikDialog24SwapButtonGroupContainerEP24CEikButtonGroupContainer @ 91 NONAME
+	_ZN10CEikDialog25AddAutoTimeAndDateEditorLERK7TDesC16iRK5TTimeS5_iiP7HBufC16PS3_ @ 92 NONAME
+	_ZN10CEikDialog25DeclareAutoDurationEditorEiP20TTimeIntervalSeconds @ 93 NONAME
+	_ZN10CEikDialog25HandleControlStateChangeLEi @ 94 NONAME
+	_ZN10CEikDialog25SetFixedPointEditorValueLEii @ 95 NONAME
+	_ZN10CEikDialog26PrepareForFocusTransitionLEv @ 96 NONAME
+	_ZN10CEikDialog26SetDurationEditorMinAndMaxEiRK20TTimeIntervalSecondsS2_ @ 97 NONAME
+	_ZN10CEikDialog26SetFixedPointEditorDecimalEii @ 98 NONAME
+	_ZN10CEikDialog27DeclareAutoFixedPointEditorEiPi @ 99 NONAME
+	_ZN10CEikDialog27DeclareAutoTimeOffsetEditorEiP20TTimeIntervalSeconds @ 100 NONAME
+	_ZN10CEikDialog28DeclareAutoTimeAndDateEditorEiP5TTime @ 101 NONAME
+	_ZN10CEikDialog28SetFloatingPointEditorValueLEiPKd @ 102 NONAME
+	_ZN10CEikDialog28SetTimeOffsetEditorMinAndMaxEiRK20TTimeIntervalSecondsS2_ @ 103 NONAME
+	_ZN10CEikDialog29ConstructSleepingAlertDialogLEi @ 104 NONAME
+	_ZN10CEikDialog29GetFirstLineOnFirstPageOrNullEv @ 105 NONAME
+	_ZN10CEikDialog5RunLDEv @ 106 NONAME
+	_ZN10CEikDialog6LayoutEv @ 107 NONAME
+	_ZN10CEikDialog8TryExitLEi @ 108 NONAME
+	_ZN10CEikDialog9ExecuteLDEi @ 109 NONAME
+	_ZN10CEikDialog9OkToExitLEi @ 110 NONAME
+	_ZN10CEikDialog9PrepareLCEi @ 111 NONAME
+	_ZN10CEikDialog9SetLabelLEiRK7TDesC16 @ 112 NONAME
+	_ZN10CEikDialog9SetLabelLEii @ 113 NONAME
+	_ZN10CEikDialog9SetTitleLERK7TDesC16 @ 114 NONAME
+	_ZN10CEikDialog9SetTitleLEi @ 115 NONAME
+	_ZN10CEikDialogC1Ev @ 116 NONAME
+	_ZN10CEikDialogC2Ev @ 117 NONAME
+	_ZN10CEikDialogD0Ev @ 118 NONAME
+	_ZN10CEikDialogD1Ev @ 119 NONAME
+	_ZN10CEikDialogD2Ev @ 120 NONAME
+	_ZN13CEikCapCArray10DeleteLineEi @ 121 NONAME
+	_ZN13CEikCapCArray11MinimumSizeEv @ 122 NONAME
+	_ZN13CEikCapCArray12AdjustAllIdsEi @ 123 NONAME
+	_ZN13CEikCapCArray15SetDensePackingEi @ 124 NONAME
+	_ZN13CEikCapCArray17ResetMinimumSizesEv @ 125 NONAME
+	_ZN13CEikCapCArray7SetRectERK5TRect @ 126 NONAME
+	_ZN13CEikCapCArrayC1Ei @ 127 NONAME
+	_ZN13CEikCapCArrayC2Ei @ 128 NONAME
+	_ZN13CEikCapCArrayD0Ev @ 129 NONAME
+	_ZN13CEikCapCArrayD1Ev @ 130 NONAME
+	_ZN13CEikCapCArrayD2Ev @ 131 NONAME
+	_ZN14CEikDialogPage13SetFormLayoutENS_20TFormLayoutSelectionE @ 132 NONAME
+	_ZN14CEikDialogPage18ExtensionInterfaceE4TUid @ 133 NONAME
+	_ZN14CEikDlgLibrary12ResourceFileEv @ 134 NONAME
+	_ZN14CEikDlgLibrary14ControlFactoryEv @ 135 NONAME
+	_ZN20CEikCaptionedControl10Reserved_2Ev @ 136 NONAME
+	_ZN20CEikCaptionedControl10SetCurrentEi @ 137 NONAME
+	_ZN20CEikCaptionedControl11MinimumSizeEv @ 138 NONAME
+	_ZN20CEikCaptionedControl11SetCaptionLERK7TDesC16 @ 139 NONAME
+	_ZN20CEikCaptionedControl11SetTrailerLERK7TDesC16 @ 140 NONAME
+	_ZN20CEikCaptionedControl11SetUsesEarsEv @ 141 NONAME
+	_ZN20CEikCaptionedControl11SizeChangedEv @ 142 NONAME
+	_ZN20CEikCaptionedControl12FocusChangedE8TDrawNow @ 143 NONAME
+	_ZN20CEikCaptionedControl12SetEditableLEii @ 144 NONAME
+	_ZN20CEikCaptionedControl14OfferKeyEventLERK9TKeyEvent10TEventCode @ 145 NONAME
+	_ZN20CEikCaptionedControl14SetExtraAscentEv @ 146 NONAME
+	_ZN20CEikCaptionedControl15MopSupplyObjectE8TTypeUid @ 147 NONAME
+	_ZN20CEikCaptionedControl15SetDividerAfterEi @ 148 NONAME
+	_ZN20CEikCaptionedControl15SetOfferHotKeysEi @ 149 NONAME
+	_ZN20CEikCaptionedControl15SetToolTipTextLERK7TDesC16 @ 150 NONAME
+	_ZN20CEikCaptionedControl16SetTakesEnterKeyEi @ 151 NONAME
+	_ZN20CEikCaptionedControl17ResetMinimumSizesEv @ 152 NONAME
+	_ZN20CEikCaptionedControl18ExtensionInterfaceE4TUid @ 153 NONAME
+	_ZN20CEikCaptionedControl18SetBitmapFromFileLERK7TDesC16ii @ 154 NONAME
+	_ZN20CEikCaptionedControl19HandleControlEventLEP11CCoeControlN19MCoeControlObserver9TCoeEventE @ 155 NONAME
+	_ZN20CEikCaptionedControl19HandlePointerEventLERK13TPointerEvent @ 156 NONAME
+	_ZN20CEikCaptionedControl20HandleResourceChangeEi @ 157 NONAME
+	_ZN20CEikCaptionedControl20SetSpaceSharingFlagsEi @ 158 NONAME
+	_ZN20CEikCaptionedControl22ConstructFromResourceLER15TResourceReader @ 159 NONAME
+	_ZN20CEikCaptionedControl23CheckDimmedDisplayStateEv @ 160 NONAME
+	_ZN20CEikCaptionedControl24SetDrawNoWhiteBackgroundEi @ 161 NONAME
+	_ZN20CEikCaptionedControl25SetLatentGroupLineFollowsEi @ 162 NONAME
+	_ZN20CEikCaptionedControl37MCoeCaptionRetrieverForFep_Reserved_1Ev @ 163 NONAME
+	_ZN20CEikCaptionedControl37MCoeCaptionRetrieverForFep_Reserved_2Ev @ 164 NONAME
+	_ZN20CEikCaptionedControl8SetIconLEP10CFbsBitmapS1_ @ 165 NONAME
+	_ZN20CEikCaptionedControl9SetDimmedEi @ 166 NONAME
+	_ZN20CEikCaptionedControl9SetLatentEi @ 167 NONAME
+	_ZN20CEikCaptionedControlC1Ev @ 168 NONAME
+	_ZN20CEikCaptionedControlC2Ev @ 169 NONAME
+	_ZN20CEikCaptionedControlD0Ev @ 170 NONAME
+	_ZN20CEikCaptionedControlD1Ev @ 171 NONAME
+	_ZN20CEikCaptionedControlD2Ev @ 172 NONAME
+	_ZN9CEikMover10Reserved_2Ev @ 173 NONAME
+	_ZN9CEikMover11MinimumSizeEv @ 174 NONAME
+	_ZN9CEikMover18ExtensionInterfaceE4TUid @ 175 NONAME
+	_ZN9CEikMover18SetTitleLeftMarginEi @ 176 NONAME
+	_ZN9CEikMover19HandlePointerEventLERK13TPointerEvent @ 177 NONAME
+	_ZN9CEikMover19SetContainerWindowLERK11CCoeControl @ 178 NONAME
+	_ZN9CEikMover20HandleResourceChangeEi @ 179 NONAME
+	_ZN9CEikMover22ConstructFromResourceLER15TResourceReader @ 180 NONAME
+	_ZN9CEikMover7SetFontEPK5CFont @ 181 NONAME
+	_ZN9CEikMover7SetTextEP7HBufC16 @ 182 NONAME
+	_ZN9CEikMover8SetTextLERK7TDesC16 @ 183 NONAME
+	_ZN9CEikMover9SetActiveEi @ 184 NONAME
+	_ZN9CEikMoverC1Ev @ 185 NONAME
+	_ZN9CEikMoverC2Ev @ 186 NONAME
+	_ZN9CEikMoverD0Ev @ 187 NONAME
+	_ZN9CEikMoverD1Ev @ 188 NONAME
+	_ZN9CEikMoverD2Ev @ 189 NONAME
+	_ZNK10CEikDialog10IsEditableEv @ 190 NONAME
+	_ZNK10CEikDialog11CurrentLineEv @ 191 NONAME
+	_ZNK10CEikDialog11GetFileNameEP4TBufILi256EEi @ 192 NONAME
+	_ZNK10CEikDialog12ActivePageIdEv @ 193 NONAME
+	_ZNK10CEikDialog12GetEdwinTextER6TDes16i @ 194 NONAME
+	_ZNK10CEikDialog12GetLabelTextER6TDes16i @ 195 NONAME
+	_ZNK10CEikDialog13ControlOrNullEi @ 196 NONAME
+	_ZNK10CEikDialog13FindLineIndexERK11CCoeControl @ 197 NONAME
+	_ZNK10CEikDialog13PreferredSizeERK5TSize @ 198 NONAME
+	_ZNK10CEikDialog14ControlCaptionEi @ 199 NONAME
+	_ZNK10CEikDialog14ControlsOnPageER6RArrayIP20CEikCaptionedControlEi @ 200 NONAME
+	_ZNK10CEikDialog14PrepareContextER9CWindowGc @ 201 NONAME
+	_ZNK10CEikDialog15ActivePageIndexEv @ 202 NONAME
+	_ZNK10CEikDialog16ComponentControlEi @ 203 NONAME
+	_ZNK10CEikDialog16FloatEditorValueEi @ 204 NONAME
+	_ZNK10CEikDialog16GetColorUseListLER9CArrayFixI12TCoeColorUseE @ 205 NONAME
+	_ZNK10CEikDialog16GetNumberOfPagesEv @ 206 NONAME
+	_ZNK10CEikDialog16IdOfFocusControlEv @ 207 NONAME
+	_ZNK10CEikDialog16RangeEditorValueEi @ 208 NONAME
+	_ZNK10CEikDialog16TTimeEditorValueEi @ 209 NONAME
+	_ZNK10CEikDialog17InputCapabilitiesEv @ 210 NONAME
+	_ZNK10CEikDialog17NumberEditorValueEi @ 211 NONAME
+	_ZNK10CEikDialog18ActivateFirstPageLEv @ 212 NONAME
+	_ZNK10CEikDialog18ListBoxCurrentItemEi @ 213 NONAME
+	_ZNK10CEikDialog19DurationEditorValueEi @ 214 NONAME
+	_ZNK10CEikDialog19GetSecretEditorTextER6TDes16i @ 215 NONAME
+	_ZNK10CEikDialog19WriteInternalStateLER12RWriteStream @ 216 NONAME
+	_ZNK10CEikDialog20ButtonGroupContainerEv @ 217 NONAME
+	_ZNK10CEikDialog21ButtonCommandObserverEv @ 218 NONAME
+	_ZNK10CEikDialog21FixedPointEditorValueEi @ 219 NONAME
+	_ZNK10CEikDialog21TimeOffsetEditorValueEi @ 220 NONAME
+	_ZNK10CEikDialog22CountComponentControlsEv @ 221 NONAME
+	_ZNK10CEikDialog22GetNumberOfLinesOnPageEi @ 222 NONAME
+	_ZNK10CEikDialog23FixedPointEditorDecimalEi @ 223 NONAME
+	_ZNK10CEikDialog24FloatingPointEditorValueEi @ 224 NONAME
+	_ZNK10CEikDialog25GetLineByLineAndPageIndexEii @ 225 NONAME
+	_ZNK10CEikDialog41ConvertCustomControlTypeToBaseControlTypeEi @ 226 NONAME
+	_ZNK10CEikDialog4DrawERK5TRect @ 227 NONAME
+	_ZNK10CEikDialog4LineEi @ 228 NONAME
+	_ZNK10CEikDialog5TitleEv @ 229 NONAME
+	_ZNK10CEikDialog7ControlEi @ 230 NONAME
+	_ZNK10CEikDialog9ExtensionEv @ 231 NONAME
+	_ZNK13CEikCapCArray13FindLineIndexEPK11CCoeControl @ 232 NONAME
+	_ZNK13CEikCapCArray15LineIndexFromIdEi @ 233 NONAME
+	_ZNK14CEikDialogPage10FormLayoutEv @ 234 NONAME
+	_ZNK19CEikDialogExtension14LayoutCategoryEv @ 235 NONAME
+	_ZNK20CEikCaptionedControl11ToolTipTextEv @ 236 NONAME
+	_ZNK20CEikCaptionedControl12DividerAfterEv @ 237 NONAME
+	_ZNK20CEikCaptionedControl12OfferHotKeysEv @ 238 NONAME
+	_ZNK20CEikCaptionedControl13TakesEnterKeyEv @ 239 NONAME
+	_ZNK20CEikCaptionedControl16ComponentControlEi @ 240 NONAME
+	_ZNK20CEikCaptionedControl16GetCaptionForFepER6TDes16 @ 241 NONAME
+	_ZNK20CEikCaptionedControl16GetColorUseListLER9CArrayFixI12TCoeColorUseE @ 242 NONAME
+	_ZNK20CEikCaptionedControl17InputCapabilitiesEv @ 243 NONAME
+	_ZNK20CEikCaptionedControl18GetFullCaptionTextEv @ 244 NONAME
+	_ZNK20CEikCaptionedControl19WriteInternalStateLER12RWriteStream @ 245 NONAME
+	_ZNK20CEikCaptionedControl22CountComponentControlsEv @ 246 NONAME
+	_ZNK20CEikCaptionedControl22LatentGroupLineFollowsEv @ 247 NONAME
+	_ZNK20CEikCaptionedControl4DrawERK5TRect @ 248 NONAME
+	_ZNK20CEikCaptionedControl8IsLatentEv @ 249 NONAME
+	_ZNK9CEikMover16GetColorUseListLER9CArrayFixI12TCoeColorUseE @ 250 NONAME
+	_ZNK9CEikMover19WriteInternalStateLER12RWriteStream @ 251 NONAME
+	_ZNK9CEikMover4DrawERK5TRect @ 252 NONAME
+	_ZNK9CEikMover6ActiveEv @ 253 NONAME
+	_ZTI10CEikDialog @ 254 NONAME ; #<TI>#
+	_ZTI13CEikCapCArray @ 255 NONAME ; #<TI>#
+	_ZTI20CEikCaptionedControl @ 256 NONAME ; #<TI>#
+	_ZTI9CEikMover @ 257 NONAME ; #<TI>#
+	_ZTV10CEikDialog @ 258 NONAME ; #<VT>#
+	_ZTV13CEikCapCArray @ 259 NONAME ; #<VT>#
+	_ZTV20CEikCaptionedControl @ 260 NONAME ; #<VT>#
+	_ZTV9CEikMover @ 261 NONAME ; #<VT>#
+	_ZThn100_NK10CEikDialog14PrepareContextER9CWindowGc @ 262 NONAME ; #<thunk>#
+	_ZThn108_N10CEikDialog14FadedComponentEi @ 263 NONAME ; #<thunk>#
+	_ZThn108_N10CEikDialog20CountFadedComponentsEv @ 264 NONAME ; #<thunk>#
+	_ZThn4_N10CEikDialog15MopSupplyObjectE8TTypeUid @ 265 NONAME ; #<thunk>#
+	_ZThn4_N20CEikCaptionedControl15MopSupplyObjectE8TTypeUid @ 266 NONAME ; #<thunk>#
+	_ZThn76_N20CEikCaptionedControl37MCoeCaptionRetrieverForFep_Reserved_1Ev @ 267 NONAME ; #<thunk>#
+	_ZThn76_N20CEikCaptionedControl37MCoeCaptionRetrieverForFep_Reserved_2Ev @ 268 NONAME ; #<thunk>#
+	_ZThn76_NK20CEikCaptionedControl16GetCaptionForFepER6TDes16 @ 269 NONAME ; #<thunk>#
+	_ZThn80_N20CEikCaptionedControl19HandleControlEventLEP11CCoeControlN19MCoeControlObserver9TCoeEventE @ 270 NONAME ; #<thunk>#
+	_ZThn88_N10CEikDialog19HandleControlEventLEP11CCoeControlN19MCoeControlObserver9TCoeEventE @ 271 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog12LineChangedLEi @ 272 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog12PageChangedLEi @ 273 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog18GetCustomAutoValueEPviPK11CCoeControl @ 274 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog20CreateCustomControlLEi @ 275 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog22HandleDialogPageEventLEi @ 276 NONAME ; #<thunk>#
+	_ZThn96_N10CEikDialog26PrepareForFocusTransitionLEv @ 277 NONAME ; #<thunk>#
+	_ZThn96_NK10CEikDialog41ConvertCustomControlTypeToBaseControlTypeEi @ 278 NONAME ; #<thunk>#
+	_Z17AknMediatorFacadePK15MObjectProvider @ 279 NONAME
+	_ZN10CEikDialog14PublishDialogLEi4TUid @ 280 NONAME
+	_ZN10CEikDialog19SetMediatorObserverEP26MAknDialogMediatorObserver @ 281 NONAME
+	_ZN18CAknMediatorFacade11ResetBufferEv @ 282 NONAME
+	_ZN18CAknMediatorFacade11SetObserverEP26MAknDialogMediatorObserver @ 283 NONAME
+	_ZN18CAknMediatorFacade12IssueCommandEv @ 284 NONAME
+	_ZN18CAknMediatorFacade13CancelCommandEv @ 285 NONAME
+	_ZN18CAknMediatorFacade4NewLEP10CEikDialog @ 286 NONAME
+	_ZN10CEikDialog12FocusChangedE8TDrawNow @ 287 NONAME
+	_ZN18CAknMediatorFacade16PostUpdatedDataLEi @ 288 NONAME
+	_ZN10CEikDialog11SlideDialogEv @ 289 NONAME
+	_ZN20CEikCaptionedControl17SetIndicatorIconLEiP10CFbsBitmapS1_ @ 290 NONAME
+	_ZTI15CEikTabPreStore @ 291 NONAME ; #<TI>#
+	_ZTV15CEikTabPreStore @ 292 NONAME ; #<VT>#
+	_ZN10CEikDialog14ReadResourceLCEi @ 293 NONAME
+	_ZN20CEikCaptionedControl23SetPointerEventObserverEP21MPointerEventObserver @ 294 NONAME
+	_ZN20CEikCaptionedControl12SetFormFlagsEi @ 295 NONAME
+	_ZN10CEikDialog17SetMultilineQueryEi @ 296 NONAME
+

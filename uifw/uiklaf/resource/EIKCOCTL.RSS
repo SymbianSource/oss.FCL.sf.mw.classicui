@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 1997-1999 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+NAME ECOC
+
+
+#include <uikon.rh>
+#include <eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+#include "eiktxted.ra"
+#include <avkon.loc>
+
+
+
+// Digitizer side bar menu resources
+
+RESOURCE MENU_PANE r_eik_sidebar_edit_menu
+	{
+	items=
+		{
+		MENU_ITEM					 
+			{
+			command=EEikCmdEditCut;
+			txt="Cut";
+			},
+		MENU_ITEM					 
+			{
+			command=EEikCmdEditCopy;
+			txt="Copy";
+			},
+		MENU_ITEM					 
+			{
+			command=EEikCmdEditPaste;
+			txt="Paste";
+			}
+		};
+	}
+
+RESOURCE MENU_PANE r_eik_sidebar_irda_menu
+	{
+	items=
+		{
+		MENU_ITEM					 
+			{
+			command=EEikCmdIrdaSend;
+			txt="Infrared send";
+			},
+		MENU_ITEM					 
+			{
+			command=EEikCmdIrdaReceive;
+			txt="Infrared receive";
+	}
+		};
+	}
+
+RESOURCE TBUF r_eik_tbuf_max_characters_reached { buf="Maximum number of characters reached"; }
+RESOURCE TBUF80 r_eik_tbuf_readonlyfile { buf="This editor is read-only"; } // used in info messages only (DEBUG)
+RESOURCE TBUF r_eik_tbuf_nothing_to_undo { buf="Cannot undo";}
+RESOURCE TBUF r_eik_tbuf_nothing_to_redo { buf="Cannot redo";}
+RESOURCE TBUF r_eik_tbuf_nothing_to_paste { buf="Nothing to paste"; }
+RESOURCE TBUF r_eik_tbuf_nothing_to_copy { buf="Nothing to copy"; }
+RESOURCE TBUF r_eik_tbuf_nothing_to_cut { buf="Nothing to cut"; }
+RESOURCE TBUF r_eik_tbuf_copied { buf="Copied"; }
+RESOURCE TBUF r_eik_tbuf_importing { buf="Importing"<KEllipsis>; }
+RESOURCE TBUF r_eik_tbuf_pasting { buf="Pasting"<KEllipsis>; }
+RESOURCE TBUF80 r_eik_tbuf_unsuitable_ir_type { buf="Nothing suitable received"; } 
+RESOURCE TBUF r_eik_tbuf_searching { buf="Searching"<KEllipsis>; }
+RESOURCE TBUF r_eik_tbuf_cannot_find_text { buf="Cannot find "<KLeftDoubleQuote>"%S"<KRightDoubleQuote>; }
+
+RESOURCE TBUF r_eik_tbuf_press_space_menp { buf="Press Enter to select this item"; }
+RESOURCE TBUF32 r_eik_tbuf_menup_mod_ctrl { buf="Ctrl+%c"; }
+RESOURCE TBUF32 r_eik_tbuf_menup_mod_shift_ctrl { buf="Shift+Ctrl+%c"; }
+RESOURCE TBUF r_eik_tbuf_menup_del { buf="Del"; }
+RESOURCE TBUF r_eik_tbuf_menup_space { buf="Space"; }
+RESOURCE TBUF r_eik_tbuf_menup_tab { buf="Tab"; }
+
+RESOURCE TBUF r_eik_allowed_StandardNumberModeKeymap { buf="0123456789*+pw#"; }
+RESOURCE TBUF r_eik_allowed_PlainNumberModeKeymap { buf="0123456789"; }
+RESOURCE TBUF r_eik_allowed_CalculatorNumberModeKeymap { buf="0123456789+-*/"text_calc_decimal_separator; }
+RESOURCE TBUF r_eik_allowed_ConverterNumberModeKeymap { buf="0123456789+-E"qtn_cnv_decimal_separator; }
+RESOURCE TBUF r_eik_allowed_ToFieldNumberModeKeymap { buf="0123456789+;"; }
+RESOURCE TBUF r_eik_allowed_FixedDiallingNumberModeKeymap { buf="0123456789*+pw?#"; }
+

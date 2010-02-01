@@ -1,0 +1,82 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test AknBitmapAnimation.h
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+
+TARGET          testsdkanimation.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkanimation.def
+
+#ifdef SBSV2
+    SOURCEPATH     ../data
+    START RESOURCE  testsdkanimation.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    LANGUAGE_IDS
+    END
+#else // SBSV2 not defined
+SOURCEPATH     ../data
+    START RESOURCE  testsdkanimation.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    LANGUAGE_IDS
+    END
+#endif // SBSV2
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc
+    
+    MW_LAYER_SYSTEMINCLUDE
+
+    SOURCEPATH      ../src
+#else // SBSV2 not defined
+USERINCLUDE     ../inc
+            
+MW_LAYER_SYSTEMINCLUDE
+        
+SOURCEPATH      ../src
+#endif // SBSV2
+
+
+SOURCE          testsdkanimation.cpp
+SOURCE          testsdkanimationblocks.cpp
+SOURCE          testsdkacontrol.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         bmpanim.lib
+LIBRARY         bafl.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+
+LANG            SC
+
+// End of File

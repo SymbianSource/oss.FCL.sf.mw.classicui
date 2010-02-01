@@ -1,0 +1,95 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testdompopupform
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME POPF
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+#include "testdompopupform.hrh"
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+
+// ---------------------------------------------------------------------------
+// r_popupform_dialog
+// ---------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_popupform_dialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+        EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+        EEikDialogFlagCbaButtons | EEikDialogFlagModeless |
+        EEikDialogFlagNoBorder;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_popupform_form;
+    }
+
+// ---------------------------------------------------------------------------
+// r_popupform_form
+// ---------------------------------------------------------------------------
+//
+RESOURCE FORM r_popupform_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupField;
+            prompt = "";
+            id = EPopupFormDlgCtrlId;
+            itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control = POPUP_FIELD
+                {
+                width = 8;
+                other = "";
+                };
+            tooltip = "";
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_popupform_dlg_line
+// ---------------------------------------------------------------------------
+//
+RESOURCE DLG_LINE r_popupform_dlg_line
+    {
+        type = EAknCtPopupField;
+        prompt = qtn_truncation;
+        id = EPopupFormDlgCtrlId;
+        itemflags = EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+        control = POPUP_FIELD
+        {
+            width = 8;
+            other = "";
+        };
+        tooltip = "";
+    }

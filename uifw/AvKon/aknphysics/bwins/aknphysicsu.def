@@ -1,0 +1,17 @@
+EXPORTS
+	?NewL@CAknPhysics@@SAPAV1@AAVMAknPhysicsObserver@@PAVCCoeControl@@@Z @ 1 NONAME ; class CAknPhysics * CAknPhysics::NewL(class MAknPhysicsObserver &, class CCoeControl *)
+	?InitPhysicsL@CAknPhysics@@QAEXABVTSize@@0H@Z @ 2 NONAME ; void CAknPhysics::InitPhysicsL(class TSize const &, class TSize const &, int)
+	?StartPhysics@CAknPhysics@@QAEHAAVTPoint@@ABVTTime@@@Z @ 3 NONAME ; int CAknPhysics::StartPhysics(class TPoint &, class TTime const &)
+	?StopPhysics@CAknPhysics@@QAEXXZ @ 4 NONAME ; void CAknPhysics::StopPhysics(void)
+	?OngoingPhysicsAction@CAknPhysics@@QBEHXZ @ 5 NONAME ; int CAknPhysics::OngoingPhysicsAction(void) const
+	?RegisterPanningPosition@CAknPhysics@@QAEXABVTPoint@@@Z @ 6 NONAME ; void CAknPhysics::RegisterPanningPosition(class TPoint const &)
+	?SetFriction@CAknPhysics@@QAEXN@Z @ 7 NONAME ; void CAknPhysics::SetFriction(double)
+	?ResetFriction@CAknPhysics@@QAEXXZ @ 8 NONAME ; void CAknPhysics::ResetFriction(void)
+	?HighlightTimeout@CAknPhysics@@QBEHXZ @ 9 NONAME ; int CAknPhysics::HighlightTimeout(void) const
+	?DragThreshold@CAknPhysics@@QBEHXZ @ 10 NONAME ; int CAknPhysics::DragThreshold(void) const
+	?FeatureEnabled@CAknPhysics@@SAHXZ @ 11 NONAME ; int CAknPhysics::FeatureEnabled(void)
+	?EventHandlingAllowed@CAknPhysics@@QBEHXZ @ 12 NONAME ; int CAknPhysics::EventHandlingAllowed(void) const
+	?UpdateViewWindowControl@CAknPhysics@@QAEXPAVCCoeControl@@@Z @ 13 NONAME ; void CAknPhysics::UpdateViewWindowControl(class CCoeControl *)
+	?SuspendPhysics@CAknPhysics@@QAEXXZ @ 14 NONAME ; void CAknPhysics::SuspendPhysics(void)
+	?ResumePhysics@CAknPhysics@@QAEXXZ @ 15 NONAME ; void CAknPhysics::ResumePhysics(void)
+

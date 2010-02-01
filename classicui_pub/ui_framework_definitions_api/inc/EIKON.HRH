@@ -1,0 +1,1397 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#if !defined(__EIKON_HRH__)
+#define __EIKON_HRH__
+
+#include <uikon.hrh>
+
+#include <lafpublc.hrh>
+
+#include <eikcolor.hrh>
+
+
+// EIKBTGPC.HRH
+
+#define EEikButtonGroupAddToStack       0x01
+#define EEikButtonGroupDelayActivation  0x02
+#define EEikButtonGroupUseMaxSize       0x04
+
+// These are for Enhanced Cba
+#define EEikEnhancedButtonGroup         0x08
+#define EEikCbaButtonLink               0x10
+#define EEikEnhancedCbaButton           0x20
+
+/**
+ * Button group transparency flag. This flag can be set with CBA resource or
+ * by using CEikCba::SetButtonGroupFlags(TInt) method. CBA background is not
+ * drawn and outline font is used when the flag is set. This flag has effect
+ * in landscape mode in touch devices currently.
+ * @since 5.0 */
+#define EEikCbaFlagTransparent          0x40
+
+/**
+ * Button group outline font flag. This flag can be set with CBA resource or
+ * by using CEikCba::SetButtonGroupFlags(TInt) method. CBA texts are drawn 
+ * with outline font when this flag is set.
+ * @since 5.0 */
+#define EEikCbaFlagOutlineFont          0x80
+
+/**
+ * Button group semi-transparncy flag. This flag can be set with CBA resource
+ * or by using CEikCba::SetButtonGroupFlags(TInt) method. CBA background using
+ * special skin theme to draw the window background.
+ */
+#define EEikCbaFlagSemiTransparent      0x100
+
+
+// EIKBUTB.HRH
+//
+//
+
+#define EEikButStaysClear           0x000
+#define EEikButStaysSet             0x100
+#define EEikButLatches              0x200
+#define EEikButReportOnPointerDown  0x400// EIKCHLST.HRH
+
+// EIKEDWIN.HRH
+//
+//
+
+// Introduced in avkon temporarily and deprecated:
+#define EEikEdwinAutoSelection          0x00000000
+
+// CEikEdwin Flags ('flags' in EDWIN resource)
+#define EEikEdwinKeepDocument           0x00000001
+#define EEikEdwinSegmentedStorage       0x00000002
+#define EEikEdwinWidthInPixels          0x00000004
+#define EEikEdwinNoAutoSelection        0x00000008
+#define EEikEdwinJustAutoCurEnd         0x00000010
+#define EEikEdwinNoWrap                 0x00000020
+#define EEikEdwinLineCursor             0x00000040 
+#define EEikEdwinNoHorizScrolling       0x00000080 
+#define EEikEdwinInclusiveSizeFixed     0x00000100 
+#define EEikEdwinUserSuppliedText       0x00000200
+#define EEikEdwinOwnsWindow             0x00000400
+#define EEikEdwinDisplayOnly            0x00000800
+#define EEikEdwinAlwaysShowSelection    0x00001000
+#define EEikEdwinReadOnly               0x00002000
+#define EEikEdwinAllowPictures          0x00004000
+#define EEikEdwinAllowUndo              0x00008000
+#define EEikEdwinNoLineOrParaBreaks     0x00010000
+#define EEikEdwinOnlyASCIIChars         0x00020000
+#define EEikEdwinResizable              0x00040000
+#define EEikEdwinIgnoreVirtualCursor    0x00080000
+#define EEikEdwinNoCustomDraw           0x01000000
+#define EEikEdwinAvkonDisableCursor     0x04000000
+#define EEikEdwinAvkonNotEditable       0x08000000
+
+#define EEikEdwinAlternativeWrapping    0x10000000
+#define EEikCidFontBoldBut          1
+#define EEikCidFontItalicBut        2
+#define EEikCidFontUnderlineBut     3
+
+// AVKON EDWIN CONSTANTS
+
+// Number input mode keymappings for * and # keys ('numeric_keymap' in EDWIN resource)
+// If only the number mode is permitted in an editor, special characters can be
+// entered by pressing # key or multitapping '*' key.
+// If also text input mode is available in the editor, special characters entered
+// with '*' key are shown inside special character table pop-up.
+// - Default keymapping for editors that allows both number and 
+// text input modes: EAknEditorAlphanumericNumberModeKeymap.
+// - Default keymapping for editors that allows only number input 
+// mode: EAknEditorStandardNumberModeKeymap.
+//
+// EAknEditorAlphanumericNumberModeKeymap value is not valid for 
+// number input mode only editors. Use avkon_flags 
+// EAknEditorFlagUseSCTNumericCharmap flag instead.
+enum TAknEditorNumericKeymap
+    {
+                                            // Available characters:
+    EAknEditorStandardNumberModeKeymap,     // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, *, +, p, w, #
+    EAknEditorPlainNumberModeKeymap,        // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+    EAknEditorCalculatorNumberModeKeymap,   // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, +, ? *, /, <decimal separator>
+    EAknEditorConverterNumberModeKeymap,    // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, +, ? E, <decimal separator>
+    EAknEditorToFieldNumberModeKeymap,      // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, +, ;
+    EAknEditorFixedDiallingNumberModeKeymap,// 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, *, +, p, w, ?, #
+    EAknEditorSATNumberModeKeymap,          // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, *, +, #
+    EAknEditorSATHiddenNumberModeKeymap,    // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, *, #
+    EAknEditorAlphanumericNumberModeKeymap, // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, #, <all alpha mode special characters>
+    EAknEditorReservedInternalUseKeymap = 100   // do not use - for internal use only 
+    };
+
+// Case mode flags for input languages that supports case.
+// 'default_case' and 'allowed_case_modes' in EDWIN resource.
+#define EAknEditorUpperCase     0x1
+#define EAknEditorLowerCase     0x2
+#define EAknEditorTextCase      0x4
+#define EAknEditorAllCaseModes  EAknEditorUpperCase | EAknEditorLowerCase | EAknEditorTextCase
+
+// Input mode flags for editors.
+// 'default_input_mode' and 'allowed_input_modes' in EDWIN resource.
+#define EAknEditorNullInputMode             0x0
+// All text input modes that are available in current language.
+#define EAknEditorTextInputMode             0x1
+#define EAknEditorNumericInputMode          0x2
+#define EAknEditorSecretAlphaInputMode      0x4
+// Japanese input modes - only effective in Japanese variant.
+#define EAknEditorKatakanaInputMode             0x8   // half-width Katakana
+#define EAknEditorFullWidthTextInputMode        0x10  // full-width latin alphabet
+#define EAknEditorFullWidthNumericInputMode     0x20  // full-width numeric (0-9)
+#define EAknEditorFullWidthKatakanaInputMode    0x40  // full-width Katakana
+#define EAknEditorHiraganaKanjiInputMode        0x80  // Hiragana/Kanji
+#define EAknEditorHiraganaInputMode             0x100 // only Hiragana
+#define EAknEditorHalfWidthTextInputMode        0x200 // half-width Latin alphabet
+#define EAknEditorHangulInputMode				0x400 // Hangul input mode
+
+#define EAknEditorAllInputModes EAknEditorTextInputMode | EAknEditorNumericInputMode | EAknEditorSecretAlphaInputMode | EAknEditorKatakanaInputMode | EAknEditorFullWidthTextInputMode | EAknEditorFullWidthNumericInputMode | EAknEditorFullWidthKatakanaInputMode | EAknEditorHiraganaKanjiInputMode | EAknEditorHalfWidthTextInputMode
+
+// Following two are deprecated
+#define EAknEditorAlphaInputMode            EAknEditorTextInputMode
+#define EAknEditorPredictiveInputMode       EAknEditorTextInputMode
+//
+
+// Avkon editor flags ('avkon_flags' in EDWIN resource).
+// -----------------------------------------------------
+#define EAknEditorFlagDefault                   0x000
+#define EAknEditorFlagFixedCase                 0x001 // case changes are not allowed
+#define EAknEditorFlagNoT9                      0x002 // predictive text entry is not allowed
+#define EAknEditorFlagNoEditIndicators          0x004 // editor indicators are not shown
+#define EAknEditorFlagNoLRNavigation            0x008 // the cursor cannot be moved
+#define EAknEditorFlagSupressShiftMenu          0x010 // edit menu cannot be opened from edit key
+#define EAknEditorFlagEnableScrollBars          0x020
+// The character next to the cursor (if exists) is replaced by a new entered character.
+// This flag has effect only in latin multitap input.
+#define EAknEditorFlagMTAutoOverwrite           0x040
+// The number input mode uses same special character table character set
+// as alpha input mode if the flag is set. The flag overrides
+// number mode keymapping if they are in conflict. This flag can be used
+// also with number input mode only editors.
+#define EAknEditorFlagUseSCTNumericCharmap      0x080
+// Input language is changed to English locally in the editor.
+#define EAknEditorFlagLatinInputModesOnly       0x100
+// Chinese find mode input.
+#define EAknEditorFlagForceTransparentFepModes  0x200
+// Line feed character is added with scroll down key event 
+// if the cursor is at the end of the buffer. The functionality is 
+// available only in certain variants.
+#define EAknEditorFlagAllowEntersWithScrollDown 0x400
+#define EAknEditorFlagEnablePictographInput     0x800
+#define EAknEditorFlagFindPane                  0x1000
+/**
+* If this flag is defined, the Virtual Keyboard and Handwriting
+* Recognition features generate key events just like the physical keypad.
+* Those events are handled in application side just like normal key events.
+* The default behaviour (if this flag is not defined) is that those
+* events are communicated directly to the focused editor by the
+* framework.
+*
+* @since 3.2
+*/
+#define EAknEditorFlagDeliverVirtualKeyEventsToApplication	0x2000
+#define EAknEditorFlagTouchInputModeOpened            0x4000
+#define EAknEditorFlagNumberGrouping                  0x8000
+#define EAknEditorFlagAdaptiveSearch                  0x10000
+#define EAknEditorFlagChinesePopup                    0x20000
+#define EAknEditorFlagFnLock                          0x40000
+#define EAknEditorFlagTextCursorVisible               0x80000
+#define EAknEditorFlagSelectionVisible                0x100000
+#define EAknEditorFlagEnablePartialScreen             0x200000
+#define EAknEditorFlagLaunchPenInputAutomatic         0x400000
+// NOTICE! Flag value 0x80000000 is reserved for internal use by FEP.
+
+// EIKLABEL.HRH
+//
+//
+
+#define EEikLabelAlignHLeft     0x00
+#define EEikLabelAlignHCenter   0x01
+#define EEikLabelAlignHRight    0x02
+#define EEikLabelAlignVTop      0x00
+#define EEikLabelAlignVCenter   0x10
+#define EEikLabelAlignVBottom   0x20
+
+#define EikLabelUnderline   0x01
+#define EikLabelStrikeThrough   0x02
+
+enum EEikLabelStandardFont
+    {
+    EEikLabelFontNormal,
+    EEikLabelFontLegend,
+    EEikLabelFontAnnotation
+    };
+    
+// EIKLBBUT.HRH
+//
+//
+
+#define EEikLabeledButtonShowHotKey     0x01
+#define EEikLabeledButtonPlainHotKey    0x02
+#define EEikLabeledButtonIsDefault              0x04
+
+// EIKLBX.HRH
+//
+//
+
+#define EEikListBoxMultipleSelection            0x0001
+#define EEikListBoxNoExtendedSelection          0x0002
+#define EEikListBoxIncrementalMatching          0x0004
+#define EEikListBoxScrollBarSizeExcluded        0x0080
+#define EEikListBoxCreateOwnWindow              0x0200
+#define EEikListBoxNoFirstLetterMatching        0x0400
+#define EEikListBoxPaintedSelection             0x0800
+
+// EIKMENU.HRH
+//
+//
+
+#define EEikMenuItemDimmed              0x0001
+#define EEikMenuItemSeparatorAfter      0x0002
+#define EEikMenuItemCheckBox            0x0008
+#define EEikMenuItemRadioStart          0x0010
+#define EEikMenuItemRadioMiddle         0x0020
+#define EEikMenuItemRadioEnd            0x0040
+#define EEikMenuItemSymbolOn            0x0080
+#define EEikMenuItemSymbolIndeterminate 0x0100
+
+// more flags to determine the type of scroll bar to be used
+// deprecated in Uikon 1.2
+#define EEikMenuItemScrollBarLeft       0x0200
+#define EEikMenuItemScrollBarArrowHead  0x0400
+
+// following flags only used internally
+#define EEikMenuItemFlagCtrlHK          0x001000
+#define EEikMenuItemFlagShiftCtrlHK     0x002000
+#define EEikMenuTitleIsChangeable       0x004000
+#define EEikMenuItemUpdateTitle         0x008000
+#define EEikMenuTitleRightAlign         0x010000
+//The following value is reserved       0x020000
+#define EEikMenuTitleIconRightAlign     0x040000  //(Added by GT)
+// item specific command flags
+#define EEikMenuItemAction              0x080000
+#define EEikMenuItemSpecific            0x100000
+#define EEikMenuItemSpecificListQuery   0x200000
+
+// EIKTBAR.HRH
+//
+//
+
+// Toolbar flags
+
+#define EEikToolBarHorizontal                           0x01
+#define EEikToolBarDelayActivation                      0x02
+#define EEikToolBarDistributeControlsEvenlyBetweenLines 0x04
+#define EEikToolBarAllControlsSameSize                  0x08
+
+// Toolbar control flags
+
+#define EEikToolBarCtrlHasSetMinLength      0x01
+#define EEikToolBarCtrlIsStretchable        0x02
+
+// standard toolbat sizes
+
+#define KEikStdToolBarWidth             70
+#define KEikStdToolBandHeight           25
+#define KEikStdFileNameLabelHeight      24
+#define KEikStdFileNameLabelWidth       68
+#define KEikStdToolBarButtonHeight      37
+#define KEikStdGapBelowClock            2
+
+#define EEikStdTwoStateIconicToolBandButtonWidth    35
+#define EEikStdIconicPopoutToolBandButtonWidth      51
+#define EEikStdShortTextPopoutToolBandButtonWidth   68
+#define EEikStdLongTextPopoutToolBandButtonWidth    115
+
+// EIKCMBUT.HRH
+//
+//
+
+#define EEikCmdButTextRightPictureLeft  0x000
+#define EEikCmdButTextBottomPictureTop  0x001
+#define EEikCmdButTextTopPictureBottom  0x002
+#define EEikCmdButTextLeftPictureRight  0x003
+
+#define EEikCmdButDenseFont             0x0008
+
+#define EEikCmdButShareExcess           0x0000
+#define EEikCmdButExcessToText          0x0010
+#define EEikCmdButExcessToPicture       0x0020
+
+#define EEikCmdButFirstRightSecondLeft  0x000
+#define EEikCmdButFirstBottomSecondTop  0x001
+#define EEikCmdButFirstTopSecondBottom  0x002
+#define EEikCmdButFirstLeftSecondRight  0x003
+
+#define EEikCmdButShareExcess           0x0000
+#define EEikCmdButExcessToFirst         0x0010
+#define EEikCmdButExcessToSecond        0x0020
+
+//to be removed ...  (Comment added by GT)
+#define EEikCmdButNormal                0x0000
+#define EEikCmdButInverter              0x1000
+#define EEikCmdButChangeWithImage       0x2000
+#define EEikCmdButChangeWithoutImage    0x3000
+
+// EIKLBBUT.HRH
+//
+//
+
+#define EEikLabeledButtonShowHotKey     0x01
+#define EEikLabeledButtonPlainHotKey    0x02
+
+// EIKDEF.HRH
+//
+//
+
+
+#ifdef LANGUAGE_10
+#if !defined LANGUAGE_US
+#define LANGUAGE_US
+#endif
+#endif
+
+
+#define EEikEdwinFindStringMaxLen  500
+
+
+
+// Built-in app UIDs
+
+#if !defined(_UNICODE)
+#define KEikUidDataAppValue         268435590
+#define KEikUidAgendaAppValue       268435588
+#define KEikUidWordAppValue         268435583
+#define KEikUidSheetAppValue        268435592
+#else
+#define KEikUidDataAppValue         0x10003A61
+#define KEikUidAgendaAppValue       0x10003A5C
+#define KEikUidWordAppValue         0x10003A64
+#define KEikUidSheetAppValue        0x10003A7D
+#endif
+
+#if !defined(_UNICODE)
+#define KEikUidPaintAppValue        268435581
+#define KEikUidCommsAppValue        268435591
+#define KEikUidTextEdAppValue       268435589
+#define KEikUidJotterAppValue       268438762
+#define KEikUidContactsAppValue     0x1000183C
+#define KEikUidShellAppValue            268435574
+#else
+#define KEikUidPaintAppValue        0x10003A62
+#define KEikUidCommsAppValue        0x10003A60
+#define KEikUidTextEdAppValue       0x10003A63
+#define KEikUidJotterAppValue       0x10003a70
+#define KEikUidContactsAppValue     0x10003a74
+#define KEikUidShellAppValue            0x10003A5D
+#endif
+
+#define KEikUidCalcAppValue         268435587
+#define KEikUidTimewAppValue        268435584
+#define KEikUidRecordAppValue       268435582
+#define KEikUidSpellAppValue        268435586
+#define KEikUidBombsAppValue        268435753
+
+#define KUidUikonLibraryValue   0x10004CC1
+
+// EIKCMDS.HRH
+//
+//
+
+#define EEikCmdCanceled        0
+
+#define EEikCmdExit             0x100
+#define EEikCmdFileOpen         0x101
+#define EEikCmdFileOpenAnother  0x102
+#define EEikCmdFileSaveAs       0x103
+#define EEikCmdFileNew          0x104
+#define EEikCmdFileSave         0x105
+#define EEikCmdFileImport       0x106
+#define EEikCmdFileExport       0x107
+#define EEikCmdFileRevert       0x108
+#define EEikCmdFileMerge        0x109
+
+#define EEikCmdHelpContents     0x110
+#define EEikCmdHelpSearch       0x111
+#define EEikCmdHelpAbout        0x112
+
+#define EEikCmdEditCut          0x120
+#define EEikCmdEditCopy         0x121
+#define EEikCmdEditPaste        0x122
+#define EEikCmdEditUndo         0x123
+#define EEikCmdEditRedo         0x124
+#define EEikCmdEditSelectAll    0x125
+#define EEikCmdEditPicture      0x126
+#define EEikCmdEditPictureFormat        0x127
+#define EEikCmdEditUpdateCurrentField   0x128
+#define EEikCmdEditUpdateAllFields      0x129
+
+#define EEikCmdIrdaSend         0x130
+#define EEikCmdIrdaReceive      0x131
+
+#define EEikCmdZoomNormal       0x140
+#define EEikCmdZoomIn           0x141
+#define EEikCmdZoomOut          0x142
+
+#define EEikCmdInsertSymbol     0x150
+#define EEikCmdInsertField      0x151
+#define EEikCmdInsertPicture    0x152
+
+#define EEikCmdSearchFind       0x160
+#define EEikCmdSearchFindAgain  0x161
+#define EEikCmdSearchReplace    0x162
+
+#define EEikCmdPrintSetup       0x170
+#define EEikCmdPrintPreview     0x171
+#define EEikCmdPrintPrint       0x172
+#define EEikCmdPrintPaginate    0x173
+
+#define EEikCmdFontChange       0x180
+#define EEikCmdFontBold         0x181
+#define EEikCmdFontItalic       0x182
+#define EEikCmdFontUnderline    0x183
+
+#define EEikCmdParaAlign        0x184
+#define EEikCmdParaBorder       0x185
+#define EEikCmdParaSpacing      0x186
+#define EEikCmdParaIndent       0x187
+#define EEikCmdParaTabs         0x188
+#define EEikCmdFormatObject     0x189
+
+#define EEikCmdFieldFileName        0x190
+#define EEikCmdFieldPageNumber      0x191
+#define EEikCmdFieldCurrentTime     0x192
+#define EEikCmdFieldCurrentDate     0x193
+#define EEikCmdFieldNumberOfPages   0x194
+#define EEikCmdFieldInsertObject    0x195
+
+#define EEikBidYes              0x195
+
+// EIKCTRLS.HRH
+//
+//
+
+enum TEikStockControls
+    {
+    EEikCtCommandButton,
+    EEikCtLabeledButton,
+    EEikCtEdwin,
+    EEikCtRichTextEditor,
+    EEikCtSecretEd,
+    EEikCtCheckBox,
+    EEikCtChoiceList,
+    EEikCtOptionButton,
+    EEikCtHorOptionButList,
+    EEikCtFileNameSel,
+    EEikCtFileNameEd,
+    EEikCtFolderNameSel,
+    EEikCtFolderNameEd,
+    EEikCtDriveNameSel,
+    EEikCtListBox,
+    EEikCtCharMap,
+    EEikCtCharEd,
+    EEikCtImage,
+    EEikCtImageArray,
+    EEikCtLabel,
+    EEikCtComboBox,
+    EEikCtProgInfo,
+    EEikCtFlPtEd,
+    EEikCtFxPtEd,
+    EEikCtTwipsEd,
+    EEikCtNumberEditor,
+    EEikCtRangeEditor,
+    EEikCtTimeEditor,
+    EEikCtDateEditor,
+    EEikCtTimeAndDateEditor,
+    EEikCtDurationEditor,
+    EEikCtTimeOffsetEditor,
+    EEikCtLatitudeEditor_Not_Supported,
+    EEikCtLongitudeEditor_Not_Supported,
+    EEikCtBorderPreview,
+    EEikCtFontPreview,
+    EEikCtGraySelector,
+    EEikCtWorldSelector,
+    EEikCtGlobalTextEditor,
+    EEikCtSoundSelector,
+    EEikCtClock,
+    EEikCtPrintPreview,
+    EEikCtMenuButton,
+    EEikCtDirContentsListBox,
+    EAknCtIpFieldEditor,
+    EEikCtCalendar,
+    EEikCtSpacer,
+    EEikCtColListBox,
+    EEikCtRangeRefEditor,
+    EEikCtTextButton,
+    EEikCtBitmapButton,
+    EEikCtDialogToolBar,
+    EEikCtFileBrowser,
+    EEikCtFileNameLabel,
+    EEikCtUnifiedFileSel,
+    EEikCtTelephoneNumberEditor,
+    EEikCtTwoPictureCommandButton,
+    EEikCtInverterCommandButton,
+    EEikCtScrollBar,
+    EEikCtArrowHeadScrollBar,
+    EAknCtLocationEditor,
+    EAknCtUnitEditor
+    };
+
+// not available before Release 6.1
+enum TEikStockButtonGroupControls
+    {
+    EEikBgToolBar,
+    EEikBgButtonPanel,
+    EEikBgCba
+    };
+
+// EIKPRIV.HRH
+//
+//
+
+#define EEikCidAlertText1       1
+#define EEikCidAlertText2       2
+
+#define EEikCidInfoText         1
+
+#define EEikCidTitleBarLabel            1
+#define EEikCidTitleBatFileNameLabel    2
+
+#define EEikCidHeapRateNumed    1
+
+#define EEikCidFileOpenFilSel   1
+#define EEikCidFileSelBrowse    201   // > EEikBidDeferValidateFocusControl
+#define EEikCidFileDirectoryEd  1
+#define EEikCidFileSaveAsFilEd  1
+
+#define EEikCidFontNameList         1
+#define EEikCidFontSizeList         2
+#define EEikCidFontBoldTkBx         3
+#define EEikCidFontItalicTkBx       4
+#define EEikCidFontUnderlineTkBx    5
+#define EEikCidFontPreviewLabelOne  6
+#define EEikCidFontStrikethruTkBx   7
+#define EEikCidFontPrintPosList     8
+#define EEikCidTextColor            9
+#define EEikCidFontPreviewLabelTwo  10
+
+#define EEikCidSpecialChar          1
+#define EEikCidSpecialCharLabel     2
+
+#define EEikCidProgButsNameList     1
+#define EEikCidProgButsModsList     2
+#define EEikCidProgButsEdwin        3
+
+#define EEikCidAlignList            1
+
+#define EEikCidIndentLeftEd         1
+#define EEikCidIndentRightEd        2
+#define EEikCidIndentFirstLineEd    3
+
+#define EEikCidLineSpaceList            1
+#define EEikCidLineSpaceEd              2   
+#define EEikCidSpaceAboveEd             3   
+#define EEikCidSpaceBelowEd             4
+#define EEikCidSpaceTogetherTkBx        5
+#define EEikCidSpaceNextTkBx            6
+#define EEikCidSpaceNewPageTkBx         7
+#define EEikCidSpaceWidowOrphanTkBx     8
+
+#define EEikCidBorderLeft       1
+#define EEikCidBorderRight      2
+#define EEikCidBorderTop        3
+#define EEikCidBorderBottom     4
+#define EEikCidBorderMarginEd   5
+#define EEikCidBorderPreview    6
+#define EEikCidColorLeftBorder      7
+#define EEikCidColorRightBorder     8
+#define EEikCidColorTopBorder       9
+#define EEikCidColorBottomBorder    10
+#define EEikCidColorBackground      11
+#define EEikCidBorderColorPreview   12
+
+#define EEikCidColorLeftBorder2     13
+#define EEikCidColorRightBorder2    14
+#define EEikCidColorTopBorder2      15
+#define EEikCidColorBottomBorder2   16
+#define EEikCidColorBackground2     17
+
+#define EEikCidFindStringEd         1
+#define EEikCidFindDirectionRbGp    2
+#define EEikCidFindWholeWordTkBx    3
+#define EEikCidFindCaseSenTkBx      4
+#define EEikCidFindUpRb             5  
+#define EEikCidFindDownRb           6  
+#define EEikCidReplaceStringEd      7
+
+#define EEikBidReplaceSkip          1
+#define EEikBidReplaceAll           2
+
+//preview dialog
+
+#define EEikCidPrintPrev                1
+#define EEikBidPrintPrevGoToPageBut     2
+#define EEikBidSetup                    3
+
+#define EEikCidSingleNumberEd       1
+
+// setup menubutton
+
+#define EEikCmdPageSetup        1
+#define EEikCmdPrinterSetup     2
+#define EEikCmdPreviewSetup     3
+#define EEikCmdRangeSetup       4
+
+//printer setup
+
+#define EEikCidPrintPrinterModels   1 
+#define EEikCidPrinterPort          2
+#define EEikBidPortSetup            3
+#define EEikBidPrinterProperties    4
+
+//serial port setup
+
+#define EEikCidSerialBaudRate       1
+#define EEikCidSerialDataBits       2
+#define EEikCidSerialStopBits       3
+#define EEikCidSerialParity         4
+#define EEikCidSerialIgnoreParitykBx    5
+#define EEikCidXonOffTkBx       6
+#define EEikCidRtsCtsTkBx       7
+#define EEikCidDsrDtrTkBx       8
+#define EEikCidDcdTkBx          9
+
+//printrange setup
+
+#define EEikCidPrinterName          1
+#define EEikCidPrintAll             2
+#define EEikCidPrintPageRange       3
+#define EEikCidPrintNoOfCopies      4
+#define EEikBidPrinterSetup         5
+
+//print progress
+                                     
+#define EEikCidPrintProgressBar     1
+#define EEikCidPrinterNameWithPort  2
+
+//previewrange setup
+
+#define EEikCidPerviewNoOfPages     1
+#define EEikCidPreviewMarginsTkBx   2
+
+//page setup
+
+#define EEikCidPageSpecSizeName     1
+#define EEikCidPageSpecWidth        2
+#define EEikCidPageSpecHeight       3
+#define EEikCidPageSpecOrientation  4
+#define EEikCidPageSpecPortrait     5
+#define EEikCidPageSpecLandscape    6
+#define EEikCidPageMarginLeft       7
+#define EEikCidPageMarginRight      8
+#define EEikCidPageMarginTop        9
+#define EEikCidPageMarginBottom     10 
+#define EEikCidPageHeaderTxt        11
+#define EEikCidHeaderRTxtTBar       12
+#define EEikCidHeaderMargin         13
+#define EEikCidPageFooterTxt        14
+#define EEikCidFooterRTxtTBar       15
+#define EEikCidFooterMargin         16
+#define EEikCidNumOfFirstPage       17
+#define EEikCidIncludeHeaderOnFPage 18
+#define EEikCidIncludeFooterOnFPage 19
+#define EEikCidDone                 20
+
+#define EEikPidFooter               1
+
+#define EEikCidFontDialog           6
+#define EEikCidPageSetupFormat      7
+#define EEikCidPageSetupInsert      8
+
+#define EEikCidPaginate     1
+
+#define EEikCidHeapFailRate                     1
+#define EEikCidHeapFailTypeBack                 2
+#define EEikCidHeapFailTypeBackRandom           3
+#define EEikCidHeapFailTypeBackDeterministic    4
+#define EEikCidHeapFailOff                      5
+#define EEikCidWservHeapFailRate                        6
+#define EEikCidWservHeapFailTypeBack                    7
+#define EEikCidWservHeapFailTypeBackRandom              8
+#define EEikCidWservHeapFailTypeBackDeterministic       9
+#define EEikCidWservHeapFailOff                         10
+
+#define EEikCidFileFailRate                 10
+#define EEikCidFileFailChbx                 11
+
+#define EEikCidPictureScaleWidth    1
+#define EEikCidPictureScaleHeight   2
+#define EEikCidPictureDisplayWidth  3
+#define EEikCidPictureDisplayHeight 4
+#define EEikCidPictureOriginalWidth     5
+#define EEikCidPictureOriginalHeight    6
+#define EEikCidPictureCropLeft      7
+#define EEikCidPictureCropRight     8
+#define EEikCidPictureCropTop       9
+
+#define EEikCidPictureCropBottom    10
+#define EEikCidFselCreateFolder         1
+#define EEikCidFSelAvailableDriveList   1
+#define EEikCidFSelDirTreeListBox       2
+#define EEikCidFSelDirContentsListBox   3
+#define EEikCidFSelOrderAToZ            4
+#define EEikCidFSelOrderByExt           5
+#define EEikCidFSelOrderBySize          6
+#define EEikCidFSelOrderByDate          7
+#define EEikCidFSelReadOnly             1
+#define EEikCidFselCreateFolder     1
+#define EEikCidFselDummy            2
+#define EEikCidFieldTypeList                1
+#define EEikCidFSelReadOnly     1
+#define EEikCidFSelHidden       2
+#define EEikCidFSelSystem       3
+#define EEikCidFSelSize         4
+#define EEikCidFSelDate         5
+#define EEikCidDefaultTab               1
+#define EEikCidFieldTypeList            1
+#define EEikCidIrDialogTopLabel         1
+#define EEikCidDefaultTab       1
+#define EEikCidNewTabStop       2
+#define EEikCidTabAlignment     3
+#define EEikCidTabsList         4
+#define EEikCidCurrentTab       5
+#define EEikCidTabTBar          6
+#define EEikCidSetTab           7
+#define EEikCidClearTab         8
+#define EEikCidClearAllTabs     9
+#define EEikCidInsertObjectApps         1
+#define EEikCidIrDialogTopLabel     1
+#define EEikCidIrDialogBottomLabel  2
+#define EEikCidIrDialogProgInfo     3
+#define EEikCidIrDialogImageArray   4
+#define EEikCidIrSaveAsLabelId      5
+#define EEikCidPassword                                 1
+#define EEikCidInsertObjectApps     1
+#define EEikCidFileBrowse               1
+#define EEikCidPassword                 1
+#define EEikCidPasswordConfirm          2
+#define EEikCidPictureScaleWidth                        1
+#define EEikCidFileBrowse       1
+
+#define EEikCidPictureScaleWidth            1
+#define EEikCidPictureScaleHeight           2
+#define EEikCidPictureDisplayWidth          3
+#define EEikCidPictureDisplayHeight         4
+#define EEikCidPictureOriginalWidth         5
+#define EEikCidPictureOriginalHeight        6
+#define EEikCidPictureCropLeft              7
+#define EEikCidPictureCropRight             8
+#define EEikCidPictureCropTop               9
+#define EEikCidPictureCropBottom            10
+#define EEikCidObjectFormatDlgLabel         11
+#define EEikCidObjectFormatIconicCheckBox   12
+// EIKDIALG.HRH
+//
+//
+ 
+#define EEikDialogFlagWait              0x001
+#define EEikDialogFlagNotifyEsc         0x002
+#define EEikDialogFlagButtonsBelow      0x004
+#define EEikDialogFlagButtonsRight      0x008
+#define EEikDialogFlagNoUserExit        0x010
+#define EEikDialogFlagModeless          0x020
+#define EEikDialogFlagNoTitleBar        0x040
+#define EEikDialogFlagAllKeysToButtons  0x080
+#define EEikDialogFlagFillScreen        0x100
+#define EEikDialogFlagNoDrag            0x200
+#define EEikDialogFlagDensePacking      0x400
+#define EEikDialogFlagNoBackup          0x800
+#define EEikDialogFlagFillAppClientRect 0x1000
+#define EEikDialogFlagCbaButtons        0x2000
+#define EEikDialogFlagNoBorder          0x4000
+#define EEikDialogFlagNoShadow          0x8000
+// eikdialg.cpp seems to define 0x10000, 0x20000, 0x40000
+#define EEikDialogFlagNoBackgroundFade  0x80000
+// eikdialg.cpp seems to define 0x100000
+#define EEikDialogFlagDontEatUpDownEvents 0x200000
+#define EEikDialogFlagCloseDialogWhenTapped   0x400000
+#define EEikDialogFlagVirtualInput            0x800000
+
+
+#define EEikDlgItemNoSeparator          0
+#define EEikDlgItemNoSeparator      0
+// EEikDlgItemSeparatorAfter has been deprecated.
+#define EEikDlgItemSeparatorAfter   1 
+#define EEikDlgItemSeparatorBefore  1
+#define EEikDlgItemColumnEnd        2
+#define EEikDlgItemSeparatorMask    0x03
+#define EEikDlgItemLatent           0x04
+#define EEikDlgItemLglf             0x08
+#define EEikDlgItemTakesEnterKey    0x10
+#define EEikDlgItemOfferAllHotKeys  0x20
+#define EEikDlgItemNoBorder         0x40
+#define EEikDlgItemNonFocusing      0x80
+#define EEikDlgItemAsLabel          0xc0
+#define EEikDlgItemTrailerAfterEar  0x100
+#define EEikDlgItemCtlMinHeightOrLess   0x200
+#define EEikDlgItemCtlMinWidthOrLess    0x400
+#define EEikDlgItemCtlMinSizeOrLess     0x600
+#define EEikDlgItemCtlGetsWidthFirst    0x800
+#define EEikDlgItemCtlSharesWidth       0x1000
+#define EEikDlgItemCtlRefusesStrecth    0x2000
+
+
+
+#define EEikDlgPagePreAllocScrollBarBreadth     0x0001
+
+#define EEikDlgItemIndirect     -1
+#define EEikDlgMainPageIndirect -1
+
+#define EEikBidCancel       -1
+#define EEikBidOk           -2
+#define EEikBidTab          -3
+#define EEikBidDelete       -4
+#define EEikBidSpace        -5
+#define EEikBidSelect       -6   // AKNLAF
+#define EEikBidBlank        -7   // (Added by GT)
+
+#define EEikFormShowEmptyFields     0   // default
+#define EEikFormHideEmptyFields     1
+#define EEikFormShowBitmaps         2
+#define EEikFormEditModeOnly        4
+#define EEikFormUseDoubleSpacedFormat   8
+
+// EIKSPANE.HRH
+//
+//
+
+// Status pane server, pane declaration flags
+#define EEikStatusPaneServerOwned 0
+#define EEikStatusPaneAppOwned 1
+
+
+// Status pane server, top level layout flags
+#define EEikStatusPanePositionTop 0
+#define EEikStatusPanePositionBottom 1
+#define EEikStatusPanePositionLeft 2
+#define EEikStatusPanePositionRight 3
+
+#define EEikStatusPaneLayoutHorizontal 0
+#define EEikStatusPaneLayoutVertical 4
+
+
+// Status pane server, pane layout flags
+#define EEikStatusPaneIsStretchable 1
+
+
+// Status pane app constants
+#define EEikStatusPaneUseDefaults 0
+
+
+// Redefine the base-defined keys (TKeyCode) to S60 platform specific names.
+// These key events are reserved for S60 Platform.
+#define EKeyOK          EKeyDevice3
+#define EKeyCBA1        EKeyDevice0
+#define EKeyCBA2        EKeyDevice1
+#define EKeyPhoneSend   EKeyYes
+#define EKeyPhoneEnd    EKeyNo
+#define EKeyApplication EKeyApplication0
+#define EKeyPowerOff    EKeyDevice2
+#define EKeyGripOpen    EKeyDevice4
+#define EKeyGripClose   EKeyDevice5
+#define EKeySide        EKeyDevice6  // Voice key
+#define EKeyCamera      EKeyDevice7
+#define EKeyTwistOpen   EKeyDevice8
+#define EKeyTwistClose  EKeyDevice9
+#define EKeyVolumeUp    EKeyIncVolume
+#define EKeyVolumeDown  EKeyDecVolume
+#define EKeyFlipOpen    EKeyDeviceA
+#define EKeyFlipClose   EKeyDeviceB
+#define EKeyPoC         EKeyApplication1
+#define EKeyPlay        EKeyApplication2
+#define EKeyStop        EKeyApplication3
+#define EKeyForward     EKeyApplication4
+#define EKeyRewind      EKeyApplication5
+#define EKeyOperator    EKeyApplication6
+#define EKeyQwertyOn    EKeyApplication7
+#define EKeyQwertyOff   EKeyApplication8
+#define EKeyNext        EKeyApplication9
+#define EKeyPrevious    EKeyApplicationA
+#define EKeyHoldSwitch  EKeyApplicationB
+#define EKeyZoomIn      EKeyApplicationC
+#define EKeyZoomOut     EKeyApplicationD
+#define EKey4x10QwertyOn     EKeyApplicationE
+#define EKey3x11QwertyOn     EKeyApplication10
+#define EKeyHalfQwertyOn     EKeyApplication11
+#define EKeyCustomKeyboardOn EKeyApplication12
+
+#define EKeyLeftUpArrow      EKeyDevice10  // Diagonal arrow event
+#define EKeyRightUpArrow     EKeyDevice11  // Diagonal arrow event
+#define EKeyRightDownArrow   EKeyDevice12  // Diagonal arrow event
+#define EKeyLeftDownArrow    EKeyDevice13  // Diagonal arrow event
+
+
+// Following key events are reserved by S60 Platform:
+// EKeyF19, EKeyF20, EKeyF21, EKeyF22, EKeyF23, EKeyF24,
+// EKeyDeviceC - EKeyDeviceE,
+// EKeyDevice14 - EKeyDevice1F,
+// EKeyApplication13 - EKeyApplication16,
+// EKeyApplicationF for list functionality,
+// EKeyDeviceF for resolution change and Qwerty input mode in emulator.
+
+
+// Scancodes (TStdScanCode) EStdKeyApplication17 - EStdKeyApplication1F (0xE0 - 0xE8)
+// and key codes (TKeyCode) EKeyApplication17 - EKeyApplication1F (0xF880 - 0xF888)
+// are reserved for product specific use by S60 platform. The meaning of the events
+// can vary in different products.
+// Scancodes (TStdScanCode) 0xE9 - 0xF7 and key codes (TKeyCode) 0xF889 - 0xF897 
+// are also used by products for product specific use. The meaning of the events
+// can vary in different products.
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+// TStdScanCode aliases
+#define EStdKeyLeftUpArrow      EStdKeyDevice10  // Diagonal arrow event
+#define EStdKeyRightUpArrow     EStdKeyDevice11  // Diagonal arrow event
+#define EStdKeyRightDownArrow   EStdKeyDevice12  // Diagonal arrow event
+#define EStdKeyLeftDownArrow    EStdKeyDevice13  // Diagonal arrow event
+
+//////////////////////////////////////////////////////////////////////////////
+
+#define R_AKN_DEFAULT_FORM_EDITOR EDWIN {flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable; max_view_height_in_lines=6; base_line_delta=21; }
+
+
+// EIKCFDLG.HRH
+//
+//
+ 
+#define EEikCidFileNameSel			10
+#define EEikCidFileNameEd			20 
+#define EEikCidFolderNameSel		30
+#define EEikCidFolderNameEd			40
+#define EEikCidDriveNameSel			50
+
+#define EEikCidUseNewFileChbx		100
+
+#define EEikBidCreateFile			150
+
+#define EEikBidBrowse				200
+
+// EIKDIAL.HRH
+//
+//
+
+#define EDialPhoneNumberEdwinWidth 15
+#define EDialPhoneNumberMaxLength  27
+#define EDialDialogMaxLabelLength  12
+
+enum
+	{
+	EDialDlgButFreeDial=1,
+	EDialDlgButDial,
+	EDialDlgButDialOut,
+	EFreeDialDlgButClear,
+	EFreeDialDlgButRedial,
+	EDialDlgEdwin1,
+	EDialDlgEdwin2,
+	EDialDlgEdwin3,
+	EDialDlgEdwin4,
+	EDialDlgEdwin5,
+	EFreeDialDlgEdwin
+	};
+
+// EIKFBROW.HRH
+//
+//
+
+//#define EEikFileBrowseHideRom				0x0001
+//#define EEikFileBrowseShowSystem			0x0020
+//#define EEikFileBrowseShowHidden			0x0040
+//#define EEikFileBrowseAllowFolderCreation	0x0200
+
+// EIKTIME.HRH
+//
+//
+
+#define KEikTimeMaxYear					2060
+#define KEikTimeMinYear					1940
+
+/*
+#define KEikTimeCityCountryNameWidth	15
+
+#define EEikTimeCidSetCityCity			0x1901
+#define EEikTimeCidSetCityCountry		0x1902
+#define EEikTimeCidSetTimeTime			0x1911
+#define EEikTimeCidSetTimeDate			0x1912
+#define EEikTimeCidDstHome				0x1971
+#define EEikTimeCidDstEuropean			0x1972
+#define EEikTimeCidDstNorthern			0x1973
+#define EEikTimeCidDstSouthern			0x1974
+#define EEikTimeCidTimeFormat			0x1802
+#define EEikTimeCidTimeSeparator		0x1803
+#define EEikTimeCidDateFormat			0x1813
+#define EEikTimeCidDateSeparator		0x1814
+#define EEikTimeCidWorkayMonday			0x1770
+#define EEikTimeCidWorkayTuesday		0x1771
+#define EEikTimeCidWorkayWednesday		0x1772
+#define EEikTimeCidWorkayThursday		0x1773
+#define EEikTimeCidWorkayFriday			0x1774
+#define EEikTimeCidWorkaySaturday		0x1775
+#define EEikTimeCidWorkaySunday			0x1776
+#define EEikTimeCidDialogDescription	0x1961
+*/
+
+// EIKCHLST.HRH
+//
+//
+/*
+#define EEikChlistArrayOwnedExternally	0x01
+#define EEikChlistIncrementalMatching	0x02
+#define EEikChlistNoPopout				0x04
+*/
+// EIKCAL.HRH
+//
+//
+/*
+#define EEikCalendarFlagStartMonthIsAlwaysJanuary	0x01
+#define EEikCalendarFlagNavigateChronologically		0x02
+*/
+// EIKCLOCK.HRH
+//
+//
+/* by H.Domon,K3 19 Apr 2001
+enum
+	{
+	EEikLocaleConformantClockTypeChangesFormatAccordingToLocale,
+	EEikLocaleConformantClockTypeDigital,
+	EEikLocaleConformantClockTypeAnalog,
+	EEikUsesDefaultSystemColors = 0x04
+	};
+
+enum
+	{
+	EEikResourceConstructedClockDigitalDisplayHorizontalTextAlignmentLeft,
+	EEikResourceConstructedClockDigitalDisplayHorizontalTextAlignmentCenter,
+	EEikResourceConstructedClockDigitalDisplayHorizontalTextAlignmentRight
+	};
+
+enum
+	{
+	EEikResourceConstructedClockDigitalDisplayVerticalTextAlignmentTop,
+	EEikResourceConstructedClockDigitalDisplayVerticalTextAlignmentCenterInclDescent,
+	EEikResourceConstructedClockDigitalDisplayVerticalTextAlignmentCenterExclDescent,
+	EEikResourceConstructedClockDigitalDisplayVerticalTextAlignmentBottomInclDescent,
+	EEikResourceConstructedClockDigitalDisplayVerticalTextAlignmentBottomExclDescent
+	};
+
+enum
+	{
+	EEikResourceConstructedClockAnalogDisplayHandOneRevPer12Hours,
+	EEikResourceConstructedClockAnalogDisplayHandOneRevPerHour,
+	EEikResourceConstructedClockAnalogDisplayHandOneRevPerMinute
+	};
+
+enum
+	{
+	EEikResourceConstructedClockAnalogDisplayHandFeatureLine,
+	EEikResourceConstructedClockAnalogDisplayHandFeaturePolyLine,
+	EEikResourceConstructedClockAnalogDisplayHandFeatureCircle
+	};
+by H.Domon,K3 19 Apr 2001
+*/
+// EIKGYSEL.HRH
+//
+//
+/*
+#define EEikGraySelIncrementalMatching		0x0001
+#define EEikGraySelDisplay4Gray				0x0002
+#define EEikGraySelDisplay16Gray			0x0004
+#define EEikGraySelDisplayNoText			0x0010
+#define EEikGraySelDisplay16Color			0x0020
+#define EEikGraySelColorIfAvailable			0x1000
+*/
+// EIKMFNE.HRH
+//
+//
+
+#define EEikMfneNumberFlagFillWithLeadingZeros			0x1
+#define EEikMfneNumberFlagPreserveOldWidthBeforeEditing	0x2
+#define EEikMfneNumberFlagRepresentsYear				0x4
+//
+#define EEikMfneLatLongFlagAddSecondsField				0x8
+#define EEikMfneLatLongFlagAddTrailingSign				0x10
+#define EEikMfneLatLongFlagDirectionIsPrefix			0x20 // default is that the direction is a suffix
+//
+// The values of the following must be reflected in CTimeEditor in eikmfne.cpp
+//
+#define EEikTimeWithoutSecondsField		0x1
+#define EEikDateWithoutPopoutCalendar	0x2
+#define EEikTimeWithoutHoursField		0x4
+#define EEikTimeForce24HourFormat		0x8
+#define EEikTimeZoneOffsetFormat		0x10
+
+
+// EIKPROGI.HRH
+//
+//
+
+
+enum TEikProgressTextType
+	{
+	EEikProgressTextNone,
+	EEikProgressTextPercentage,
+	EEikProgressTextFraction
+	};
+
+// EIKRTED.HRH
+//
+//
+
+#define EEikRTedShowAllPicturesAsIconic	0x00100000
+#define EEikRTedNoTextParsers			0x00200000
+/**
+ * When pasting text into the editor, the text is
+ * stripped of all formatting.
+ *
+ * @since 3.2
+ */
+#define EEikRTedPasteAsPlainText        0x00400000
+
+
+// EIKSPACE.HRH
+//
+//
+
+#define EEikSpacerClear			0
+#define EEikSpacerWhite			1
+#define EEikSpacerDitheredGray	2
+#define EEikSpacerGray			3
+#define EEikSpacerDarkGray		4
+#define EEikSpacerBlack			5
+
+
+/*
+// EIKWSEL.HRH
+//
+//
+
+#define EEikWorldSelNoBorder				0x0001
+#define EEikWorldSelSecondSelector			0x0008
+#define EEikWorldSelCountrySelector			0x1000
+*/
+
+// EIKCFDLG.HRH
+//
+//
+/* 
+#define EEikCidFileNameSel			10
+#define EEikCidFileNameEd			20 
+#define EEikCidFolderNameSel		30
+#define EEikCidFolderNameEd			40
+#define EEikCidDriveNameSel			50
+
+#define EEikCidUseNewFileChbx		100
+
+#define EEikBidCreateFile			150
+
+#define EEikBidBrowse				200
+*/
+// EIKFBROW.HRH
+//
+//
+/*
+#define EEikFileBrowseHideRom				0x0001
+#define EEikFileBrowseShowSystem			0x0020
+#define EEikFileBrowseShowHidden			0x0040
+#define EEikFileBrowseAllowFolderCreation	0x0200
+*/
+
+
+enum
+	{
+	EEikCidImageType=1
+	};
+
+// Used to inform current foreground window group of popup windows that require it
+// to fade.
+enum
+	{
+	EEikPopupOnTop = 1100,
+	EEikPopupGone
+	};
+
+// Used to tell SysAp that keylock is enabled or disabled
+enum
+	{
+	EEikKeyLockEnabled = 1110,
+	EEikKeyLockDisabled = 1111,
+	EEikLeyLockDisabled = 1111,  // This should be removed
+	EEikKeyLockPowerKeyPressed,
+	EEikKeyLockLightsOnRequest, // unlock query
+    EEikEcsQueryLights, // emergency note is showed
+    EEikSecurityQueryLights // for device lock security query
+	};
+
+//
+// EIKHFDLG
+//
+// Constants used in resource for heap fail dialog
+//
+
+enum
+	{
+	EEikHeapFailSettingListId = 999
+	};
+
+
+// COmmand operationtypes for enhanced cba
+enum TEikCommandOperationTypes
+	{
+	EEikCommandTypeAnyCommand,
+	EEikCommandTypeMenu,
+	EEikCommandTypeOpenItem,
+	EEikCommandTypeDeleteItem,
+	EEikCommandTypeOperatesItem,
+	EEikCommandTypeCreateItem,
+	EEikCommandTypePositiveAnswer,
+	EEikCommandTypeNegativeAnswer,
+	EEikCommandTypeCancel,
+	EEikCommandTypeExitOrBack,
+	EEikCommandTypeExitApplication
+	};
+
+//
+// Flags for CAknButton
+//
+
+// For Text&Icon button, by default text is on the right side.
+#define KAknButtonTextLeft                      0x00000001  
+// MinimumSize() will return the width to fit the text.
+#define KAknButtonSizeFitText                   0x00000002 
+// No frame is drawn for the button, useful for icon buttons.
+#define KAknButtonNoFrame                       0x00000004  
+// Reports CAknButton::ELongPressEvent, when button is pressed for a long time.
+#define KAknButtonReportOnLongPress             0x00000008
+// Reports of state change on key down event, instead of key up event.
+#define KAknButtonReportOnKeyDown               0x00000010  
+// When button has frame frame won't be changed on press event.
+#define KAknButtonNoFramePressEvent             0x00000020  
+// Button requests exit on button up event.
+#define KAknButtonRequestExitOnButtonUpEvent    0x00000040
+// Reports state changed events repeatedly, when button is kept pressed.
+#define KAknButtonKeyRepeat                     0x00000080 
+// Test if pointer hits other than transparent area
+#define KAknButtonHitTest                       0x00000100 
+// Button control area will not be cleared. Usefull if using 
+// overlapping button control areas with KAknButtonHitTest flag.
+#define KAknButtonNoClear                       0x00000200
+// Text is not drawn over the frame
+#define KAknButtonTextInsideFrame               0x00000400
+// Pressed down frame is generated for no frame button
+#define KAknButtonPressedDownFrame              0x00000800
+
+//
+// Flags for CAknButtonState
+//
+
+// Button state has latchable frame.
+#define KAknButtonStateHasLatchedFrame          0x00000001
+
+
+//
+// Flags for CAknToolbar
+//
+
+// Position of the toolbar can be changed with SetPosition() before
+// toolbar is shown, by default it is fixed.
+#define KAknToolbarFlexiblePosition             0x00000001
+// Middle item will be initially focused instead of the first item.
+#define KAknToolbarMiddleItemFocused            0x00000002
+// Toolbar is always opened as focusing.
+#define KAknToolbarAlwaysFocusing               0x00000004
+// Toolbar keeps focus on the last used Item
+#define KAknToolbarLastUsedItemFocused          0x00000008
+// Toolbar does not have internally owned CBA
+#define KAknToolbarWithoutCba                   0x00000010
+// Toolbar uses transparent graphics
+#define KAknToolbarTransparent                  0x00000020
+// Narrow toolbar 
+#define KAknToolbarSmall                        0x00000040
+// Fixed toolbar
+#define KAknToolbarFixed                        0x00000080
+// Drawing when application uses Direct screen access 
+#define KAknToolbarDsaMode                      0x00000100
+// No background drawing - Requires window transparency
+#define KAknToolbarNoBackground                 0x00000200
+// Toolbar does not use transparence
+#define KAknToolbarFloatingUnTransparent        0x00000400
+// Toolbar semi-tranparent
+#define KAknToolbarSemiTransparent              0x00000800
+//
+// Location editor flags
+//
+enum TLocationEditorFlags
+	{
+	ELocationEdFlagLatitude = 1,
+	ELocationEdFlagLongitude = 2
+	};
+
+
+/**
+ * Unit editor flags
+ * Used with CAknUnitEditor. Can be used dynamically at runtime and
+ * with resource, AVKON_UNIT_EDITOR.
+ * @see CAknUnitEditor
+ */
+enum TAknUnitEditorFlags
+    {
+    EAknUnitEditorAllowUninitialized = 0x00000001
+    };
+    
+/**
+ * Unit editor units
+ * Used with CAknUnitEditor. Can be used dynamically at runtime and
+ * with resource, AVKON_UNIT_EDITOR.
+ * @see CAknUnitEditor
+ */
+enum TAknUnitEditorUnits
+    {
+    EAknUnitEditorCustomUnit,
+    EAknUnitEditorMeter,
+    EAknUnitEditorKilometer,
+    EAknUnitEditorFoot,
+    EAknUnitEditorMile,
+    EAknUnitEditorMetricSpeed,
+    EAknUnitEditorImperialSpeed
+    };
+
+
+// Flags for Toolbar extension
+// This has the same effect as KAknButtonNoFrame, affects only
+// the toolbar extension button inside toolbar.  
+#define KAknTbExtensionButtonNoFrame                0x00000004
+// Toolbar extension uses transparent graphics. 
+#define KAknTbExtensionTransparent                  0x00000020
+// Drawing when application uses Direct screen access 
+#define KAknTbExtensionDsaMode                      0x00000100
+
+
+    
+#endif

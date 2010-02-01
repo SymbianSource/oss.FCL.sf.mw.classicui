@@ -1,0 +1,42 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET 			tloaddllv2.dll
+TARGETTYPE 		plugin
+UID 			0x10009D8D 0x00000243
+VENDORID 		0x70000001
+
+CAPABILITY		ALL -Tcb 
+
+SOURCEPATH		.
+SOURCE			TLOADDLLV2.CPP TLOADDLL.CPP
+
+USERINCLUDE		../tloaddll ../contentmgr
+APP_LAYER_SYSTEMINCLUDE 
+
+LIBRARY			euser.lib  cone.lib  eikcore.lib  eikcoctl.lib  contentmgr.lib
+
+
+#ifdef WINS
+DEFFILE 		../../../test/BWINS/tloaddllv2.def
+#else
+DEFFILE 		../../../test/EABI/tloaddllv2.def
+#endif
+
+START RESOURCE 	00000243.rss
+	TARGET 		tloaddllv2.rsc
+END
+
+SMPSAFE

@@ -1,0 +1,33 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  aknconf iby file
+*
+*/
+
+#ifndef AKNCONF_IBY
+#define AKNCONF_IBY
+
+#include <data_caging_paths_for_iby.hrh>
+
+// =============================================================================
+// Aknconf test application
+// =============================================================================
+file=ABI_DIR\BUILD_DIR\aknconf.exe                         PROGRAMS_DIR\aknconf.exe
+data=DATAZ_\APP_RESOURCE_DIR\aknconf.rsc                   APP_RESOURCE_DIR\aknconf.rsc
+data=DATAZ_\APP_RESOURCE_DIR\aknconfphysics.rsc            APP_RESOURCE_DIR\aknconfphysics.rsc
+data=DATAZ_\APP_RESOURCE_DIR\aknconfgesture.rsc            APP_RESOURCE_DIR\aknconfgesture.rsc
+data=DATAZ_\APP_BITMAP_DIR\aknconf.mif                     APP_BITMAP_DIR\aknconf.mif
+data=\epoc32\data\z\private\10003a3f\apps\aknconf_reg.rsc  private\10003a3f\apps\aknconf_reg.rsc
+
+#endif // AKNCONF_IBY

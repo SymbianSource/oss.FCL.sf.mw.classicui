@@ -1,0 +1,5 @@
+EXPORTS
+	_Z12GateFunctionv @ 1 NONAME
+	_ZTI21CCommonUiNpdApiLoader @ 2 NONAME ; #<TI>#
+	_ZTV21CCommonUiNpdApiLoader @ 3 NONAME ; #<VT>#
+

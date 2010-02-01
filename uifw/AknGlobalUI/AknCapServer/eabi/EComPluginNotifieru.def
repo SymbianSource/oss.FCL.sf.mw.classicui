@@ -1,0 +1,11 @@
+EXPORTS
+	_ZN15EComPluginUtils13GetInfoArrayLE4TUidR6RArrayI15TEComPluginInfoE @ 1 NONAME
+	_ZN15EComPluginUtils15CreateInfoArrayE13RPointerArrayI26CImplementationInformationER6RArrayI15TEComPluginInfoE @ 2 NONAME
+	_ZN15TEComPluginInfoC1ERK4TUidiRK10TDriveUnit @ 3 NONAME
+	_ZN15TEComPluginInfoC2ERK4TUidiRK10TDriveUnit @ 4 NONAME
+	_ZN19CEComPluginNotifier4NewLERK4TUidR9TCallBack @ 5 NONAME
+	_ZN19CEComPluginNotifier5NewLCERK4TUidR9TCallBack @ 6 NONAME
+	_ZN19CEComPluginNotifier5StartEv @ 7 NONAME
+	_ZTI19CEComPluginNotifier @ 8 NONAME ; #<TI>#
+	_ZTV19CEComPluginNotifier @ 9 NONAME ; #<VT>#
+

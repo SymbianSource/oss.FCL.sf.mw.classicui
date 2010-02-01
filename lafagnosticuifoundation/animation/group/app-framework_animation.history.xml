@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Animation">
+  <purpose>
+    DLL that is required in order to provide animated graphics support. It provides a base set of data types and allows for animation to be incorporated into the normal drawing of a window from the client, or to be managed on the server side as a sprite. It also allows new data types to be added as easily as possible and without modification of the DLL.
+  </purpose>
+</relnotes>

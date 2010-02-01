@@ -1,0 +1,42 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testdomsetpage"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testdomsetpage.ini"-"c:\Testframework\testdomsetpage.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomsetpage.cfg"-"c:\Testframework\tctestdomsetpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomsetpage.cfg"-"c:\Testframework\ui_testdomsetpage.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testdomsetpage.dll"-"c:\sys\bin\testdomsetpage.dll", FF
+
+"\epoc32\data\Z\resource\testdomsetpage.rsc"-"c:\resource\testdomsetpage.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

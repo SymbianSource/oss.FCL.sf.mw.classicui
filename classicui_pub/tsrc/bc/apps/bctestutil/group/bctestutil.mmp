@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2006-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Project definition file for project bctestutil
+*
+*/
+
+
+
+
+
+
+
+
+TARGET        bctestutil.dll
+TARGETTYPE    dll
+UID           0x1000008d 0x20004742
+
+CAPABILITY    ALL -TCB
+VENDORID      0x101FB657
+
+SOURCEPATH    ../src
+SOURCE        bctestLogger.cpp
+SOURCE        bctestAssert.cpp
+SOURCE        bctestcase.cpp
+SOURCE        bctestsuite.cpp
+SOURCE        bctestutil.cpp
+SOURCE        bctestKeyFeeder.cpp
+SOURCE        bctestEndCase.cpp
+
+USERINCLUDE     . ../inc
+
+SYSTEMINCLUDE   /epoc32/include 
+
+LIBRARY    efsrv.lib
+LIBRARY    ws32.lib
+LIBRARY    fbscli.lib
+LIBRARY    euser.lib
+LIBRARY    cone.lib
+LIBRARY    eikcore.lib
+LIBRARY    aknnotify.lib
+LIBRARY    commonengine.lib
+LIBRARY    avkon.lib
+LIBRARY    CentralRepository.lib
+LIBRARY    sysutil.lib
+LIBRARY		 estor.lib
+
+#if defined(WINS) && !defined(WINSB)
+    deffile ../BWINS/bctestutil.def
+#elif defined(WINSB)
+    deffile ../BWINSB/bctestutil.def
+#elif defined(ARM)
+    deffile ../BMARM/bctestutil.def
+#elif defined(ARMCC)
+    deffile ../BMARMV5/bctestutil.def
+#endif

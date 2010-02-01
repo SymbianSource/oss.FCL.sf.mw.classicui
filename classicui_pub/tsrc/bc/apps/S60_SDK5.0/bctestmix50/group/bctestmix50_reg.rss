@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+#include <appinfo.rh>
+#include <bctestmix50.rsg>
+
+
+#define qtn_bctestmix50_group "BCTest"
+#define qtn_bctestmix50_appfile "bctestmix50"
+#define qtn_bctestmix50_resource_path "\\resource\\apps\\bctestmix50"
+
+
+UID2 KUidAppRegistrationResourceFile
+UID3 0xA00040AB // application UID
+
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file = qtn_bctestmix50_appfile;
+    localisable_resource_file = qtn_bctestmix50_resource_path;
+    localisable_resource_id = R_BCTESTMIX50_LOCALISABLE_APP_INFO;
+    hidden = KAppNotHidden;
+    embeddability = KAppNotEmbeddable;
+    group_name = qtn_bctestmix50_group;
+    }

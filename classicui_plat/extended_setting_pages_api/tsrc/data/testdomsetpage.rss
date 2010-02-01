@@ -1,0 +1,86 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  test akntransparentcamerasettingpage.h
+*
+*/
+
+
+
+//  RESOURCE IDENTIFIER
+NAME PAGE
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rh>
+#include <avkon.rsg>
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_setting_page
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_setting_page
+    {
+    number = 1;
+    label = qtn_aknatlist_multi_title;
+    type = EAknSetListBox;
+    editor_resource_id = r_listbox;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_listbox
+//
+//-----------------------------------------------------------------------------
+//
+
+RESOURCE LISTBOX r_listbox
+    {
+    array_id = r_item_array;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_item_array
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_item_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "first";
+            },
+        LBUF
+            {
+            txt = "second";
+            }
+        };
+    }
+

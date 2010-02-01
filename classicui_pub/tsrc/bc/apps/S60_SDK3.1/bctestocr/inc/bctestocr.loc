@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestocr localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                  "BCTESTOCR"
+#define qtn_apps_tavl_grid                  "BCTESTOCR"
+
+// MenuBar
+#define qtn_bctestocr_menubar            "Options"
+#define qtn_bctestocr_menu_ocr           "OCR"
+#define qtn_bctestocr_menu_autotest      "Autotest"
+#define qtn_bctestocr_menu_exit          "Exit"
+
+// Sub menubar of "OCR" menu
+#define qtn_bctestocr_menu_out01    "OUTLINE01"
+#define qtn_bctestocr_menu_out02    "OUTLINE02"
+#define qtn_bctestocr_menu_out03    "OUTLINE03"
+#define qtn_bctestocr_menu_out04    "OUTLINE04"
+#define qtn_bctestocr_menu_out05    "OUTLINE05"
+#define qtn_bctestocr_menu_out06    "OUTLINE06"   
+
+// registraton string
+#define qtn_apps_name                   "bctestocr"
+#define qtn_localization_filename       "\\resource\\apps\\bctestocr"
+#define qtn_group_name                  "BCTest"
+
+#define qtn_bctestocr_buf       "BCTestOCR"
+#define qtn_bctestocr_label     "Exercise in progress..."
+ 
+  
+

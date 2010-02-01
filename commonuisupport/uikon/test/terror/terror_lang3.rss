@@ -1,0 +1,202 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME ELTH
+
+#include <techview/eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE ERROR_SET r_terror_res_base_list
+	{
+	errorarrays=
+		{
+		ERROR_ARRAY
+			{
+			startError=30000;
+			errors=r_terror_res_test_errors_1;
+			}
+		};
+	}
+
+RESOURCE ARRAY r_terror_res_test_errors_1
+	{
+	items=
+		{
+		SINGLE_ERROR
+			{
+			text=r_terror_err_text1;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			}
+		};
+	}
+
+RESOURCE TBUF r_terror_err_text1			{ buf="A default error"; }
+

@@ -1,0 +1,28 @@
+EXPORTS
+	??0REikAppUiSession@@QAE@XZ @ 1 NONAME ; public: __thiscall REikAppUiSession::REikAppUiSession(void)
+	?Close@REikAppUiSession@@QAEXXZ @ 2 NONAME ; public: void __thiscall REikAppUiSession::Close(void)
+	?Connect@REikAppUiSession@@QAEHXZ @ 3 NONAME ; public: int __thiscall REikAppUiSession::Connect(void)
+	?CycleTasks@REikAppUiSession@@QBEXW4TTaskCycleDirection@@@Z @ 4 NONAME ; void REikAppUiSession::CycleTasks(enum TTaskCycleDirection) const
+	?LaunchTaskList@REikAppUiSession@@QBEXXZ @ 5 NONAME ; public: void __thiscall REikAppUiSession::LaunchTaskList(void)const 
+	?Version@REikAppUiSession@@QBE?AVTVersion@@XZ @ 6 NONAME ; public: class TVersion  __thiscall REikAppUiSession::Version(void)const 
+	?SetStatusPaneFlags@REikAppUiSession@@QBEHH@Z @ 7 NONAME ; public: int __thiscall REikAppUiSession::SetStatusPaneFlags(int)const 
+	?SetStatusPaneLayout@REikAppUiSession@@QBEHH@Z @ 8 NONAME ; public: int __thiscall REikAppUiSession::SetStatusPaneLayout(int)const 
+	?BlankScreen@REikAppUiSession@@QBEHXZ @ 9 NONAME ; public: int __thiscall REikAppUiSession::BlankScreen(void)const 
+	?UnblankScreen@REikAppUiSession@@QBEHXZ @ 10 NONAME ; public: int __thiscall REikAppUiSession::UnblankScreen(void)const 
+	?ResolveError@REikAppUiSession@@QBE?AW4TErrorValidity@CEikonEnv@@AAVTDes16@@HVTUid@@@Z @ 11 NONAME ; public: enum CEikonEnv::TErrorValidity  __thiscall REikAppUiSession::ResolveError(class TDes16 &,int,class TUid)const 
+	?Extension@REikAppUiSession@@QBEXVTUid@@ABVTDesC8@@AAVTRequestStatus@@@Z @ 12 NONAME ; void REikAppUiSession::Extension(class TUid, class TDesC8 const &, class TRequestStatus &) const
+	?GetInstalledFepName@REikAppUiSession@@QBEHAAVTDes16@@@Z @ 13 NONAME ; int REikAppUiSession::GetInstalledFepName(class TDes16 &) const
+	?SetInstalledFepName@REikAppUiSession@@QBEHABVTDesC16@@H@Z @ 14 NONAME ; int REikAppUiSession::SetInstalledFepName(class TDesC16 const &, int) const
+	?GetSystemColorsL@REikAppUiSession@@QBEPAVCColorList@@XZ @ 15 NONAME ; class CColorList * REikAppUiSession::GetSystemColorsL(void) const
+	?SetSystemColorsL@REikAppUiSession@@QBEXABVCColorList@@@Z @ 16 NONAME ; void REikAppUiSession::SetSystemColorsL(class CColorList const &) const
+	?CloseFepAttributes@REikAppUiSession@@QBEXXZ @ 17 NONAME ; void REikAppUiSession::CloseFepAttributes(void) const
+	?CommitFepAttributes@REikAppUiSession@@QBEHXZ @ 18 NONAME ; int REikAppUiSession::CommitFepAttributes(void) const
+	?GetFepAttribute@REikAppUiSession@@QBEHVTUid@@AAVTDes8@@@Z @ 19 NONAME ; int REikAppUiSession::GetFepAttribute(class TUid, class TDes8 &) const
+	?OpenFepAttributes@REikAppUiSession@@QBEHXZ @ 20 NONAME ; int REikAppUiSession::OpenFepAttributes(void) const
+	?SetFepAttribute@REikAppUiSession@@QBEHVTUid@@ABVTDesC8@@@Z @ 21 NONAME ; int REikAppUiSession::SetFepAttribute(class TUid, class TDesC8 const &) const
+	?EnableTaskList@REikAppUiSession@@QBEHXZ @ 22 NONAME ; int REikAppUiSession::EnableTaskList(void) const
+	?REikAppUiSession_Reserved1@REikAppUiSession@@UAEXXZ @ 23 NONAME ; void REikAppUiSession::REikAppUiSession_Reserved1(void)
+	?REikAppUiSession_Reserved2@REikAppUiSession@@UAEXXZ @ 24 NONAME ; void REikAppUiSession::REikAppUiSession_Reserved2(void)
+	?GetDebugPreferencesL@REikAppUiSession@@QBEPAVCEikDebugPreferences@@XZ @ 25 NONAME ; class CEikDebugPreferences * REikAppUiSession::GetDebugPreferencesL(void) const
+	?ResolveErrorWithTitleL@REikAppUiSession@@QBE?AW4TErrorValidity@CEikonEnv@@AAVTDes16@@HAAHAAI0H@Z @ 26 NONAME ; enum CEikonEnv::TErrorValidity REikAppUiSession::ResolveErrorWithTitleL(class TDes16 &, int, int &, unsigned int &, class TDes16 &, int) const
+

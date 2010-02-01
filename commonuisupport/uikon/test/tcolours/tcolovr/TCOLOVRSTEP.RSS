@@ -1,0 +1,240 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// TCOLOVR.RSS
+// 
+//
+ 
+NAME TCOV
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+
+//#include <eikcolor.rh>
+
+#include "TCOLOVRSTEP.HRH"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	hotkeys=r_tcolovr_hotkeys;
+	menubar=r_tcolovr_menubar;
+	toolbar=r_tcolovr_toolbar;
+	}
+
+RESOURCE HOTKEYS r_tcolovr_hotkeys
+    {
+    control=
+        {
+		HOTKEY {command=EAppCmdShowDlg; key='s';},
+        HOTKEY {command=EEikCmdExit; key='e';},
+		HOTKEY {command=EAppCmdToggleSpane; key='y';}
+        };
+    }
+
+RESOURCE TOOLBAR r_tcolovr_toolbar
+	{
+	controls=
+		{
+        TBAR_BUTTON {id=EEikCmdExit; txt="Exit";},
+		TBAR_BUTTON {id=EAppCmdShowDlg; txt="Show";}
+		};
+	}
+	
+RESOURCE MENU_BAR r_tcolovr_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tcolovr_file_menu; txt="Menu"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_tcolovr_file_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=EAppCmdShowDlg;
+            txt="Show";
+		    },
+		MENU_ITEM
+            {
+            command=EAppCmdSystemColors;
+            txt="Set normal system colors";
+            },
+		MENU_ITEM
+            {
+            command=EAppCmdOverrideForeAndBackToLightOnDark;
+            txt="Set fore/back colors to light on dark";
+            },
+		MENU_ITEM
+            {
+            command=EAppCmdOverrideForeAndBackToDarkOnLight;
+            txt="Set fore/back colors to dark on light";
+            },
+		MENU_ITEM
+            {
+            command=EAppCmdDim;
+            txt="Dim controls";
+            },
+		MENU_ITEM
+            {
+            command=EAppCmdToggleFloatingMenu;
+            txt="Toggle floating menu";
+            },
+		MENU_ITEM
+			{
+			command=EAppCmdToggleSpane;
+			txt="Toggle Status Pane";
+			},
+        MENU_ITEM
+            {
+            command=EEikCmdExit;
+            txt="Exit";
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_tcolovr_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=0;
+            txt="Menu item";
+		    },
+		MENU_ITEM
+            {
+            command=0;
+            txt="Menu item";
+            }
+        };
+    }
+
+RESOURCE MENU_BAR r_tcolovr_menus
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_tcolovr_menu; txt="Menu title"; }
+        };
+    }
+
+RESOURCE ARRAY r_tcolovr_fruit_list
+	{
+	items=
+		{
+		LBUF {txt="Apple";}, 
+		LBUF {txt="Banana";},
+		LBUF {txt="Blackberry";},
+		LBUF {txt="Blueberry";},
+		LBUF {txt="Cherry";},
+		LBUF {txt="Clementine";},
+		LBUF {txt="Coconut";},
+		LBUF {txt="Gooseberry";},
+		LBUF {txt="Grape";},
+		LBUF {txt="Kiwi";},
+		LBUF {txt="Mandarin";},
+		LBUF {txt="Peach";},
+		LBUF {txt="Plum";},
+		LBUF {txt="Rasberry";},
+		LBUF {txt="Rhubarb";},
+		LBUF {txt="Strawberry";},
+		LBUF {txt="Tomato";}
+		};
+	}
+
+RESOURCE ARRAY r_tcolovr_list
+	{
+	items=
+		{
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";},
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}, 
+		LBUF {txt="List item";}
+		};
+	}
+
+RESOURCE ARRAY r_tcolovr_choices
+	{
+	items=
+		{
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}, 
+		LBUF {txt="Choice";}
+		};
+	}
+
+
+RESOURCE LISTBOX r_tcolovr_lbx
+	{
+	array_id=r_tcolovr_list;
+	}
+
+RESOURCE DIALOG r_tcolovr_dialog
+    {
+	title="Colour Override Dialog";
+    buttons=R_EIK_BUTTONS_CONTINUE;
+	flags=EEikDialogFlagWait;
+    items=
+		{ 
+        DLG_LINE
+            {
+            type=EEikCtChoiceList;
+            prompt="Fruit";
+            control=CHOICELIST
+                {
+                array_id=r_tcolovr_fruit_list;
+                };
+            }
+		};
+	}
+
+RESOURCE DIALOG r_tcolovr_auto_dialog
+    {
+	title="Colour Override Dialog";
+    buttons=R_EIK_BUTTONS_CONTINUE;
+    items=
+		{ 
+        DLG_LINE
+            {
+            type=EEikCtChoiceList;
+            prompt="Fruit";
+            control=CHOICELIST
+                {
+                array_id=r_tcolovr_fruit_list;
+                };
+            }
+		};
+	}
+
+RESOURCE CLOCK r_tcolovr_clock
+	{
+	type=EEikLocaleConformantClockTypeChangesFormatAccordingToLocale;
+	digitalresourceid=R_EIK_DIGITAL_CLOCK;
+	analogresourceid=R_EIK_ANALOG_CLOCK;
+	}
+

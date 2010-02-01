@@ -1,0 +1,195 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localisation strings for find item dialog.
+*
+*/
+
+
+// LOCALISATION STRINGS
+
+
+/*
+* FindItemDialog
+*/
+
+//d:Command in options menu.
+//d:Calls to selected item (text containing a phone number).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_call "Call"
+
+//d:Command in options menu.
+//d:Opens sms editor and allows user to send a sms to found item (phone number)
+//l:list_single_popup_submenu_pane_1
+//
+#define qtn_nren_send_sms "Short message"
+
+//d:Command in options menu.
+//d:Copy operation to a selected item(text) (an e-mail address, a phone number 
+//d: or an URL-address).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_copy "Copy"
+
+//d:Command in options menu.
+//d:Moves the selection to next item (a phone number).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_next_number "Next Number"
+
+//d:Command in options menu.
+//d:Moves the selection to previous item (a phone number).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_previous_number "Previous Number"
+
+//d:Command in options menu.
+//d:Opens help application and shows context sensitive help related to the 
+//d:current state or item.
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_help "Help"
+
+//d:Command in options menu.
+//d:Opens WAP browser and goes to url which is currently selected.
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_go_to_url "Go to URL"
+
+//d:Command in options menu.
+//d:Adds selected item (URL) to URL boorkmarks. After that, the selection 
+//d:returns back
+//d:focused string in Find state.
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_add_to_bookmarks "Add to Bookmarks"
+
+//d:Command in options menu.
+//d:Moves the selection to next item (URL-address).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_next_url "Next URL address"
+
+//d:Command in options menu.
+//d:Moves the selection to previous item (URL-address).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_previous_url "Previous URL address"
+
+//d:Command in options menu.
+//d:After selecting this function, mail editor is opened and user is able to 
+//d:write and send mail message. After sending the focus will be back at 
+//d:Find state.
+//l:list_single_popup_submenu_pane_1
+//
+#define qtn_find_send_mail "E-mail"
+
+//d:Command in options menu.
+//d:Opens a submenu where a user can choose if he wants to create a new contact
+//d:card or add the found item (phone number or e-mail address) to existing 
+//d:contact card. After that a contact card is created/updated.
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_options_contacts "Add to contacts"
+
+//d:Command in options menu.
+//d:Moves the selection to next item (e-mail address).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_next_mail "Next e-mail address"
+
+//d:Command in options menu.
+//d:Moves the selection to previous item (e-mail address).
+//l:list_single_popup_menu_pane_1
+//
+#define qtn_find_previous_mail "Previous e-mail address"
+
+//d:Title pane text in Find Item when searching for phone numbers.
+//l:title_pane_2
+//
+#define qtn_find_title_find_number "Find phone number"
+
+//d:Title pane text in Find Item when searching for URL addresses.
+//l:title_pane_2
+//
+#define qtn_find_title_find_url "Find URL address"
+
+//d:Title pane text in Find Item when searching for e-mail addresses
+//l:title_pane_2
+//
+#define qtn_find_title_find_mail "Find e-mail address"
+
+//d:Confirmation note text which is shown (when Find Item is started) if no
+//d:items were found.
+//l:popup_note_window_1
+//
+#define qtn_find_conf_no_items "No items found."
+
+//d:Default name for bookmark item
+//d:Will be used when a bookmark is added to database from Find Item.
+//d:Will be made unique by favourites db, e.g. Find Item, Find Item 1,
+//d:Find Item 2... (unique number will be automatically added).
+//l:list_single_graphic_pane_1
+//
+#define qtn_find_default_bookmark_name "Find Item"
+
+//d:Submenu in options menu.
+//l:list_single_popup_menu_pane_1
+//
+#define text_number_send_sms "Send message"
+
+//d:Command in options menu (send submenu).
+//d:After selecting this function, MMS editor is opened and user is able to
+//d:write and send MMS. After sending the focus will be back at Find state.
+//l:list_single_popup_submenu_pane_1
+//
+#define qtn_nren_send_mms "Multimedia message"
+
+//d:Command in options menu.
+//d:Moves the selection to next item (VoIP address).
+//l:list_single_popup_menu_pane_1
+//w:
+//r: 3.0
+//
+#define qtn_find_next_voip "Next VoIP address"
+
+//d:Command in options menu.
+//d:Moves the selection to previous item (VoIP address).
+//l:list_single_popup_menu_pane_1
+//w:
+//r: 3.0
+//
+#define qtn_find_previous_voip "Previous VoIP address"
+
+//d:Title pane text in Find Item when searching for tel internet number
+//l:title_pane_2
+//w:
+//r: 3.0
+//
+#define qtn_find_title_find_voip "Find VoIP address"
+
+// d: It is text of Message of the create message submenu in find item.
+// l:list_single_popup_submenu_pane_1
+// r: 3.2
+//
+#define qtn_phob_opt_send_message "Message"
+
+// d: It is text of Audio Message of the create message submenu in find
+// d: item.
+// l:list_single_popup_submenu_pane_1
+// r: 3.2
+//
+#define qtn_phob_opt_send_audio_message "Audio Message"
+
+// End of File

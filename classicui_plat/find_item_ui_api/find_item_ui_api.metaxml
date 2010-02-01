@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<api id="fe5f8a70c9f746ea019ac00eae947f86" dataversion="1.0">
+<name>Find Item UI API</name>
+<description>Provides the Find Item feature.</description>
+<type>c++</type>
+<subsystem>commonuis</subsystem>
+<libs><lib name="commonui.lib"/>
+</libs>
+<release category="domain" sinceversion=""/>
+<attributes>
+<htmldocprovided>no</htmldocprovided>
+<adaptation>no</adaptation>
+</attributes>
+</api>

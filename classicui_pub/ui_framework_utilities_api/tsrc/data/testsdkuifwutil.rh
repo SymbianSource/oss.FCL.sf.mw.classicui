@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Define resource struct to feed some classes
+*
+*/
+
+
+#ifndef TESTSDKUIFWUTIL_RH
+#define TESTSDKUIFWUTIL_RH
+
+
+// ---------------------------------------------------------------------------
+// STRUCT OF CEikMfne
+// ---------------------------------------------------------------------------
+//
+STRUCT CEIKMFNE_RESOURCE
+    {
+    WORD fontid;
+    WORD c;
+    WORD lm;
+    WORD rm;
+    WORD b;
+    WORD w;
+    WORD j;
+    }
+
+STRUCT CAKNGENERICREADER_RESOURCE
+    {
+    WORD gfx;
+    WORD txt;
+    WORD cmd;
+    WORD area;
+    }
+
+#endif // TESTSDKUIFWUTIL_RH
+

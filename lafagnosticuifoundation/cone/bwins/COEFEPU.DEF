@@ -1,0 +1,10 @@
+EXPORTS ?NewFepL@@YAPAVCCoeFep@@AAVCCoeEnv@@ABVTDesC16@@ABVCCoeFepParameters@@@Z @1 NONAME
+EXPORTS ?SynchronouslyExecuteSettingsDialogL@@YAXAAVCCoeEnv@@ABVTDesC16@@@Z @2 NONAME
+	?Reserved_1@@YAXXZ @ 3 NONAME ; void __cdecl Reserved_1(void)
+	?Reserved_2@@YAXXZ @ 4 NONAME ; void __cdecl Reserved_2(void)
+	?Reserved_3@@YAXXZ @ 5 NONAME ; void __cdecl Reserved_3(void)
+	?Reserved_4@@YAXXZ @ 6 NONAME ; void __cdecl Reserved_4(void)
+	?Reserved_5@@YAXXZ @ 7 NONAME ; void __cdecl Reserved_5(void)
+	?Reserved_6@@YAXXZ @ 8 NONAME ; void __cdecl Reserved_6(void)
+	?Reserved_7@@YAXXZ @ 9 NONAME ; void __cdecl Reserved_7(void)
+	?Reserved_8@@YAXXZ @ 10 NONAME ; void __cdecl Reserved_8(void)

@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+enum
+    {
+    ENPIGlobalInformationNote = 1001,
+    ENPIGlobalWarningNote,
+    ENPIGlobalConfirmationNote,
+    ENPIGlobalErrorNote,
+    ENPIGlobalWaitNote,
+    ENPIGlobalPermanentNote,
+    ENPIGlobalBatteryChargingNote,
+    ENPIGlobalBatteryNotChargingNote,
+    ENPIGlobalBatteryFullNote,
+    ENPIGlobalBatteryLowNote,
+    ENPIGlobalRechargeBatteryNote,
+    ENPIGlobalSwitchingOffNote,
+    ENPIGlobalNote,
+    ENPISoftNotification,
+    ENPIKeylockNote,
+    ENPIGlobalProgressNote
+    };
+
+enum 
+    {
+    EAlertStop = 0x6001,
+    EAlertSnooze,
+    EAlertSilence,
+    EAlertOpen
+    };
+
+#define KAknnotifypluginAiwId    1
+#define KPhoneNumberMaxLength   48
+
+#define UNLOCKKEY_MIF_FILE              "z:\\resource\\apps\\unlockkeyanim.mif"
+#define UNLOCKKEY_MIF_FILE_UNICODE      _L("z:\\resource\\apps\\unlockkeyanim.mif")

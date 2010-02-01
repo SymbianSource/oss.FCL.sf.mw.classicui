@@ -1,0 +1,28 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __ANIMATION_IBY__
+#define __ANIMATION_IBY__
+
+REM Animation
+
+file=ABI_DIR\BUILD_DIR\animation.dll 		System\Libs\animation.dll
+file=ABI_DIR\BUILD_DIR\animationshared.dll 	System\Libs\animationshared.dll
+file=ABI_DIR\BUILD_DIR\animationserver.dll 	System\Libs\animationserver.dll
+ECOM_PLUGIN(animators.dll,animators.rsc)
+
+#endif

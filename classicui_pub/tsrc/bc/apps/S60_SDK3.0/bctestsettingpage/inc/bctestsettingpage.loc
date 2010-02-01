@@ -1,0 +1,82 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestSettingPage localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTSETTINGPAGE"
+#define qtn_apps_tavl_grid              "BCTESTSETTINGPAGE"
+
+//Title for slider settingpage
+#define qtn_aknatsetpage_slider_title   "Slider"
+//Title for volume settingpage
+#define qtn_aknatsetpage_volume_title   "Volume"
+
+//Title for radio button settingpage
+#define qtn_aknatsetpage_radiobtn_title "Radio buttons"
+#define qtn_aknatsetpage_menubar        "Option"
+#define qtn_aknatsetpage_radiobtn_setarray_select_item "SetArray & Select"
+#define qtn_aknatsetpage_radiobtn_selcur_item "SelectCurrentItem"
+
+// List style Setting Page
+#define qtn_aknatsetpage_item_list0     "aaaaaa"
+#define qtn_aknatsetpage_item_list1     "bbbbbb"
+#define qtn_aknatsetpage_item_list2     "cccccc"
+#define qtn_aknatsetpage_item_list3     "dddddd"
+#define qtn_aknatsetpage_item_list4     "eeeeee"
+#define qtn_aknatsetpage_item_list5     "ffffff"
+#define qtn_aknatsetpage_item_list6     "gggggg"
+#define qtn_aknatsetpage_item_list7     "hhhhhh"
+#define qtn_aknatsetpage_item_list8     "iiiiii"
+#define qtn_aknatsetpage_item_list9     "jjjjjj"
+
+// Slider Setting Page
+#define qtn_slider_minlabel             "darker"
+#define qtn_slider_maxlabel             "lighter"
+
+//Title for password settingpage
+#define qtn_bctestpassword_setpage_title "Password SettingPage"
+#define qtn_aknatsetpage_text_title "Text SettingPage"
+
+// MenuBar
+#define qtn_aknatsetpage_multi_title    "Multiselection"
+#define qtn_bctestsettingpage_menubar         "Option"
+#define qtn_bctestsettingpage_cba_next        "Next"
+#define qtn_bctestsettingpage_autotest        "Autotest"
+#define qtn_bctestsettingpage_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestsettingpage_outline1     "Outline01"
+
+
+#define qtn_bctestsettingpage_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+#define qtn_bctestsettingpage_text_other_app_name     "BCTestSoftkey"
+// End of File

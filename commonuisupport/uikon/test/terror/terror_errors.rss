@@ -1,0 +1,201 @@
+// Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TER2
+
+#include <techview/eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE ERROR_SET r_terror_res_base_list
+	{
+	errorarrays=
+		{
+		ERROR_ARRAY
+			{
+			startError=130;
+			errors=r_terror_res_app_errors;
+			}
+		};
+	}
+
+RESOURCE ARRAY r_terror_res_app_errors
+	{
+	items=
+		{
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			text=r_terror_app_err_text;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			},
+		SINGLE_ERROR
+			{
+			flags=EErrorResBlankErrorFlag;
+			}
+		};
+	}
+
+RESOURCE TBUF r_terror_app_err_text			{ buf="App test error"; }

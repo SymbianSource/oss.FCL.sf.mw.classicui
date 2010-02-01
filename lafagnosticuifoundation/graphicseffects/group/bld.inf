@@ -1,0 +1,39 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// GfxTransEffect
+// 
+//
+
+/**
+ @file
+*/
+
+//include test code
+#include "../test/group/bld.inf"
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/GfxTransEffect.h				SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gfxtranseffect/gfxtranseffect.h)
+../Adapter/inc/GfxTransAdapter.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gfxtranseffect/gfxtransadapter.h)
+../Adapter/inc/GfxTransClient.h		SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gfxtranseffect/gfxtransclient.h)
+../Adapter/inc/GfxTransDataType.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(gfxtranseffect/gfxtransdatatype.h)
+
+../group/gfxtranseffect.iby			/epoc32/rom/include/gfxtranseffect.iby
+
+PRJ_MMPFILES
+GfxTransAdapterStub.mmp
+GfxTransEffect.mmp

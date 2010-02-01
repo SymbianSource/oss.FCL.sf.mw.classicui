@@ -1,0 +1,72 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkeditors"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkeditors.ini"-"c:\Testframework\testsdkeditors.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdkeditorsedsts.cfg"-"c:\Testframework\tctestsdkeditorsedsts.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorslocationed.cfg"-"c:\Testframework\tctestsdkeditorslocationed.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsnipfed.cfg"-"c:\Testframework\tctestsdkeditorsnipfed.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsnumed.cfg"-"c:\Testframework\tctestsdkeditorsnumed.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsnumedwin.cfg"-"c:\Testframework\tctestsdkeditorsnumedwin.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsnumseced.cfg"-"c:\Testframework\tctestsdkeditorsnumseced.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsuniteditor.cfg"-"c:\Testframework\tctestsdkeditorsuniteditor.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsccpu.cfg"-"c:\Testframework\tctestsdkeditorsccpu.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsfpointeditor.cfg"-"c:\Testframework\tctestsdkeditorsfpointeditor.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsedwin.cfg"-"c:\Testframework\tctestsdkeditorsedwin.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsglobaltext.cfg"-"c:\Testframework\tctestsdkeditorsglobaltext.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsrichtext.cfg"-"c:\Testframework\tctestsdkeditorsrichtext.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorssecrettext.cfg"-"c:\Testframework\tctestsdkeditorssecrettext.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkeditorsmfne.cfg"-"c:\Testframework\tctestsdkeditorsmfne.cfg", FF   ; FF stands for Normal file
+
+"..\conf\ui_testsdkeditorsedsts.cfg"-"c:\Testframework\ui_testsdkeditorsedsts.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorslocationed.cfg"-"c:\Testframework\ui_testsdkeditorslocationed.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsnipfed.cfg"-"c:\Testframework\ui_testsdkeditorsnipfed.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsnumed.cfg"-"c:\Testframework\ui_testsdkeditorsnumed.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsnumedwin.cfg"-"c:\Testframework\ui_testsdkeditorsnumedwin.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsnumseced.cfg"-"c:\Testframework\ui_testsdkeditorsnumseced.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsuniteditor.cfg"-"c:\Testframework\ui_testsdkeditorsuniteditor.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsccpu.cfg"-"c:\Testframework\ui_testsdkeditorsccpu.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsfpointeditor.cfg"-"c:\Testframework\ui_testsdkeditorsfpointeditor.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsedwin.cfg"-"c:\Testframework\ui_testsdkeditorsedwin.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsglobaltext.cfg"-"c:\Testframework\ui_testsdkeditorsglobaltext.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsrichtext.cfg"-"c:\Testframework\ui_testsdkeditorsrichtext.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorssecrettext.cfg"-"c:\Testframework\ui_testsdkeditorssecrettext.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkeditorsmfne.cfg"-"c:\Testframework\ui_testsdkeditorsmfne.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkeditors.dll"-"c:\sys\bin\testsdkeditors.dll", FF
+
+"\epoc32\data\Z\resource\testsdkeditors.rsc"-"c:\resource\testsdkeditors.rsc", FF
+
+
+
+; Trim For Mms
+; ------------
+; to be added later

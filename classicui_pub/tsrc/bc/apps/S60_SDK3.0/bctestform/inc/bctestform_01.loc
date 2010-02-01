@@ -1,0 +1,232 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         english localization
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Label field text
+#define qtn_bctest_form_label_edwin  "edwin"
+#define qtn_bctest_form_label_ed1    "ed1"
+#define qtn_bctest_form_label_ed2    "ed2"
+#define qtn_bctest_form_label_ed3    "ed3"
+#define qtn_bctest_form_label_ed4    "ed4"
+#define qtn_bctest_form_label_ed5    "ed5"
+#define qtn_bctest_form_label_ed6    "ed6"
+#define qtn_bctest_form_label_ed7    "ed7"
+#define qtn_bctest_form_label_ed8    "ed8"
+#define qtn_bctest_form_label_ed9    "ed9"
+#define qtn_bctest_form_label_ed10   "ed10"
+#define qtn_bctest_form_label_ed11   "ed11"
+#define qtn_bctest_form_label_ed12   "ed12"
+#define qtn_bctest_form_label_ed13   "ed13"
+#define qtn_bctest_form_label_ed14   "ed14"
+#define qtn_bctest_form_label_ed15   "ed15"
+#define qtn_bctest_form_label_ed16   "ed16"
+#define qtn_bctest_form_label_ed17   "ed17"
+#define qtn_bctest_form_label_number "value"
+#define qtn_bctest_form_label_num1   "num1"
+#define qtn_bctest_form_label_num2   "num2"
+#define qtn_bctest_form_label_num3   "num3"
+#define qtn_bctest_form_label_num4   "num4"
+#define qtn_bctest_form_label_num5   "num5"
+#define qtn_bctest_form_label_num6   "num6"
+#define qtn_bctest_form_label_date   "date"
+#define qtn_bctest_form_label_date1  "date1"
+#define qtn_bctest_form_label_date2  "date2"
+#define qtn_bctest_form_label_date3  "date3"
+#define qtn_bctest_form_label_date4  "date4"
+#define qtn_bctest_form_label_date5  "date5"
+#define qtn_bctest_form_label_date6  "date6"
+#define qtn_bctest_form_label_time   "time"
+#define qtn_bctest_form_label_time1  "time1"
+#define qtn_bctest_form_label_time2  "time2"
+#define qtn_bctest_form_label_time3  "time3"
+#define qtn_bctest_form_label_time4  "time4"
+#define qtn_bctest_form_label_time5  "time5"
+#define qtn_bctest_form_label_time6  "time6"
+#define qtn_bctest_form_label_durat  "durat"
+#define qtn_bctest_form_label_durat1 "durat1"
+#define qtn_bctest_form_label_durat2 "durat2"
+#define qtn_bctest_form_label_durat3 "durat3"
+#define qtn_bctest_form_label_durat4 "durat4"
+#define qtn_bctest_form_label_durat5 "durat5"
+#define qtn_bctest_form_label_durat6 "durat6"
+#define qtn_bctest_form_label_secret "pswd"
+#define qtn_bctest_form_label_secr1  "pswd1"
+#define qtn_bctest_form_label_secr2  "pswd2"
+#define qtn_bctest_form_label_secr3  "pswd3"
+#define qtn_bctest_form_label_secr4  "pswd4"
+#define qtn_bctest_form_label_secr5  "pswd5"
+#define qtn_bctest_form_label_secr6  "pswd6"
+#define qtn_bctest_form_label_slider "slider"
+#define qtn_bctest_form_label_sldr1  "slider1"
+#define qtn_bctest_form_label_sldr2  "slider2"
+#define qtn_bctest_form_label_sldr3  "slider3"
+
+// Hint text
+#define qtn_bctest_hint_text_edwin   "Text Editor"
+#define qtn_bctest_hint_text_number  "Number Editor"
+#define qtn_bctest_hint_text_date    "Date Editor"
+#define qtn_bctest_hint_text_time    "Time Editor"
+#define qtn_bctest_hint_text_durat   "Duration Editor"
+#define qtn_bctest_hint_text_secret  "Secret Editor"
+#define qtn_bctest_hint_text_slider  "Slider"
+
+// Navipane page label text
+#define qtn_bctest_form_label_page1  "Page1"
+#define qtn_bctest_form_label_page2  "Page2"
+#define qtn_bctest_form_label_page3  "Page3"
+#define qtn_bctest_form_label_page4  "Page4"
+#define qtn_bctest_form_label_edwin  "edwin"
+#define qtn_bctest_form_label_num    "num"
+#define qtn_bctest_form_label_date   "date"
+#define qtn_bctest_form_label_time   "time"
+#define qtn_bctest_form_label_durat  "durat"
+#define qtn_bctest_form_label_pass   "pass"
+
+// Slider label text
+#define qtn_bctest_form_label_sdmin  "min"
+#define qtn_bctest_form_label_sdmax  "max"
+#define qtn_bctest_form_value_label  "%U"
+#define qtn_bctest_form_header_label "HeaderLabel"
+
+// Sample Editor text
+#define qtn_bctest_form_edwin_text   "Edwin text."
+#define qtn_bctest_form_secret_text  "Password"
+
+// Derived Form Menu text
+#define qtn_bctest_menu_change_focus	              "Change Focus"
+#define qtn_bctest_menu_try_change_focus           "Try To Focus"
+#define qtn_bctest_menu_try_change_focus_to_first  "Try To Focus First"
+#define qtn_bctest_menu_try_change_focus_to_middle "Try To Focus Middle"
+#define qtn_bctest_menu_try_change_focus_to_last   "Try To Focus Last"
+#define qtn_bctest_menu_rotate_focus_by_one        "Rotate Focus +1"
+#define qtn_bctest_menu_rotate_focus_by_three      "Rotate Focus +3"
+#define qtn_bctest_menu_rotate_focus_by_minus_two  "Rotate Focus -2"
+
+#define qtn_bctest_menu_set_caption                "Set Caption"
+#define qtn_bctest_menu_set_caption_from_resource  "From Resource"
+#define qtn_bctest_menu_set_caption_from_user      "From User"
+
+
+#define qtn_bctest_menu_activate_page              "Activate Page"
+#define qtn_bctest_menu_activate_first_page        "First Page"
+
+#define qtn_bctest_menu_checks                     "Show"
+#define qtn_bctest_menu_active_page                "Active Page"
+#define qtn_bctest_menu_get_border_style           "Get Border Style"
+#define qtn_bctest_menu_get_flags                  "Get PageFlags"
+#define qtn_bctest_menu_get_line                   "1st Line on 1st page"
+#define qtn_bctest_menu_dialog_flags               "Dialog Flags"
+
+#define qtn_bctest_menu_reset_line                 "Reset Line"
+#define qtn_bctest_menu_reset_line_minimum_sizes   "Minimum Sizes"
+
+#define qtn_bctest_menu_pre_n_post                 "Pre N Post"
+
+#define qtn_bctest_menu_size_n_pos                 "Size N Pos"
+#define qtn_bctest_menu_size_n_pos_10x10           "10 x 10"
+#define qtn_bctest_menu_size_n_pos_100x100         "100 x 100"
+
+#define qtn_bctest_menu_save_test                  "Save Test"
+#define qtn_bctest_menu_set_changes_pending_true   "Changes Pending True"
+#define qtn_bctest_menu_set_changes_pending_false  "Changes Pending False"
+
+#define qtn_bctest_menu_set_page_dimmed            "Page Dimmed"
+#define qtn_bctest_menu_set_page_dimmed_true       "(Active) true"
+#define qtn_bctest_menu_set_page_dimmed_false      "(Active) false"
+
+#define qtn_bctest_menu_set_line_dimmed            "Line Dimmed"
+#define qtn_bctest_menu_set_line_dimmed_true	      "true"
+#define qtn_bctest_menu_set_line_dimmed_false      "false"
+
+#define qtn_bctest_menu_set_line_visible           "Line Visible"
+#define qtn_bctest_menu_set_line_visible_true      "true"
+#define qtn_bctest_menu_set_line_visible_false     "false"
+
+#define qtn_bctest_menu_set_whole_line_visible     "Whole Line Visible"
+#define qtn_bctest_menu_set_whole_line_visible_true		"true"
+#define qtn_bctest_menu_set_whole_line_visible_false		"false"
+
+#define qtn_bctest_menu_create_line_by_typea       "Create Line By TypeA"
+#define qtn_bctest_menu_create_line_by_typea_next  "Next"
+
+#define qtn_bctest_menu_create_line_by_typeb	      "Create Line By TypeB"
+#define qtn_bctest_menu_create_line_by_typeb_end   "End Of Page"
+
+#define qtn_bctest_menu_control_caption                   "ControlCaption"
+#define qtn_bctest_menu_control_caption_change_caption    "ChangeCaption"
+
+#define qtn_bctest_menu_control                    "Control (Edwin)"
+#define qtn_bctest_menu_control_set_text           "Set Text"
+
+#define qtn_bctest_menu_control_or_null            "ControlOrNull(Edwin)"
+#define qtn_bctest_menu_control_or_null_set_text   "Set Text"
+
+#define qtn_bctest_menu_active_page                "Active Page"
+#define qtn_bctest_menu_active_page_index_show     " Index (show)"
+#define qtn_bctest_menu_active_page_id_show        " Id (show)"
+
+#define qtn_bctest_menu_find_line_index            "Find Line Index"
+#define qtn_bctest_menu_find_line_index_current    "current"
+
+#define qtn_bctest_menu_cba_methods                "Cba Methods"
+#define qtn_bctest_menu_cba_btn_grp_container      "Btn Grp Container"
+#define qtn_bctest_menu_cba_swap_btn_grp_container "Swap Btn Grp Container"
+#define qtn_bctest_menu_cba_btn_command_obs        "BtnCommandObserver"
+
+#define qtn_bctest_menu_title                      "Title"
+#define qtn_bctest_menu_title_test                 "Test"
+
+#define qtn_bctest_menu_id_of_focus                "Id Of Focus"
+#define qtn_bctest_menu_id_of_focus_test           "Test"
+
+#define qtn_bctest_menu_adjust_ids_on_page         "AdjustAllIdsOnPage"
+#define qtn_bctest_menu_adjust_ids_on_page_test    "Test"
+
+#define qtn_bctest_menu_set_line_focusing          "Set Line Non Focusing"
+#define qtn_bctest_menu_set_line_focusing_true     "true"
+#define qtn_bctest_menu_set_line_focusing_false    "false"
+
+#define qtn_bctest_menu_set_form_flag                     "Set Form Flag"
+#define qtn_bctest_menu_set_form_flag_deleting_true       "deleting true"
+#define qtn_bctest_menu_set_form_flag_deleting_false      "deleting false"
+#define qtn_bctest_menu_set_form_flag_usaved_edit_true    "unsaved edit true"
+#define qtn_bctest_menu_set_form_flag_usaved_edit_false   "unsaved edit false"
+
+#define qtn_bctest_menu_view_form_flags            "View form flags"
+
+
+#define qtn_bctest_menu_set_title_test             "Set Title"
+#define qtn_bctest_menu_set_title_des_test         "from Descriptor"
+#define qtn_bctest_menu_set_title_res_test         "from Resource"
+
+
+
+// texts used in derived form
+#define qtn_bctest_resource_caption                "Resource"
+
+
+
+// End of File

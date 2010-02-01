@@ -1,0 +1,446 @@
+/*
+* Copyright (c) 2004-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Private resource definitions for project AVKON.
+*
+*/
+
+NAME AKPV
+
+#include <uikon.rh>
+#include <eikon.rh>
+#include <AknPriv.rh>
+#include <avkon.hrh>
+#include <AknPriv.hrh>
+
+// note: e32keys.h happens to be the correct format for use in an RSS file.
+#include <e32keys.h>
+
+#include <avkon.loc>
+
+RESOURCE RSS_SIGNATURE { }
+
+
+// WSINI.INI overrides these layout configuration resources.
+// It is recommended that layout is configured in wsini.ini.
+// See Series60Extras\src\wsini.ini and hw_wsini.ini for examples.
+
+
+
+// -----------------------------------------------------------------------------------------
+// HARDWARE CONFIGURATION SECTION STARTS. Emulator configuration section later in this file.
+
+RESOURCE AKNPRIV_HARDWARE_STATE_KEY_MAP r_aknpriv_hardware_state_key_map
+    {
+// This resource is overridden by the use of the new wsini.ini keyword:
+// S60_HWSTATE_KEYCODEn <keycode>
+// for example, the first entry in this table can be replaced by adding
+// the following line to wsini.ini:
+// S60_HWSTATE_KEYCODE0 EKeyApplication9
+    key_state_map =
+        {
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplication9;  // Product needs to configure which key event activates state 0 etc.
+            state = 0;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationA;
+            state = 1;
+            }
+        };
+    }
+
+RESOURCE AKNPRIV_HARDWARE_STATE_SCREEN_MAP r_aknpriv_hardware_state_screen_map
+    {
+// This resource is overridden by the use of the new wsini.ini keywords:
+// S60_HWSTATE_SCREENMODEn <screenModeNumber>
+// S60_HWSTATE_ALT_SCREENMODEn <screenModeNumberForOtherOrientation>
+// For example, Series60Extras\src\hw_wsini.ini overrides the first entry
+// in this table with the following:
+// S60_HWSTATE_SCREENMODE0 1
+// S60_HWSTATE_ALT_SCREENMODE0 2
+    state_screen_map = 
+        {
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 0;
+            screen_width = 352;
+            screen_height = 416;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 1;
+            screen_width = 416;
+            screen_height = 352;
+            screen_rotation = EAknPrivScreenRotationRotated90;
+            rotation_for_other_orientation = EAknPrivScreenRotationNormal;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 2;
+            screen_width = 240;
+            screen_height = 320;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 3;
+            screen_width = 320;
+            screen_height = 240;
+            screen_rotation = EAknPrivScreenRotationRotated90;
+            rotation_for_other_orientation = EAknPrivScreenRotationNormal;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 4;
+            screen_width = 176;
+            screen_height = 208;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 5;
+            screen_width = 208;
+            screen_height = 176;
+            screen_rotation = EAknPrivScreenRotationRotated90;
+            rotation_for_other_orientation = EAknPrivScreenRotationNormal;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 6;
+            screen_width = 320;
+            screen_height = 480;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 7;
+            screen_width = 480;
+            screen_height = 320;
+            screen_rotation = EAknPrivScreenRotationNormal; 
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            }
+        };
+    default_portrait_rotation = EAknPrivScreenRotationNormal;
+    default_landscape_rotation = EAknPrivScreenRotationRotated90;
+    }
+
+RESOURCE AKNPRIV_HARDWARE_SOFTKEY_LOCATION r_aknpriv_softkey_location_landscape_rotated90
+    {
+// This resource is overridden by the use of the new wsini.ini keyword:
+// S60_SCR_SOFTKEY_LOCATIONn <location>
+// which associates softkey locations directly with screen modes.
+// For example, to say that screen mode 0 has softkeys on the left, use:
+// S60_SCR_SOFTKEY_LOCATION0 left
+    location = EAknPrivSoftkeyLocationRight;
+    }
+
+
+
+
+
+// -----------------------------------------------------------------------------------------
+// EMULATOR CONFIGURATION SECTION STARTS
+
+RESOURCE AKNPRIV_HARDWARE_STATE_KEY_MAP r_aknpriv_hardware_state_key_map_emul
+    {
+    key_state_map =
+        {
+// This resource is overridden by the use of the new wsini.ini keyword:
+// S60_HWSTATE_KEYCODEn <keycode>
+// for example, the first entry in this table can be replaced by adding
+// the following line to wsini.ini:
+// S60_HWSTATE_KEYCODE0 EKeyApplication9
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplication9;
+            state = 0;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationA;
+            state = 1;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationB;
+            state = 2;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyDeviceE;
+            state = 3;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyDeviceF; // QWERTY
+            state = 4;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationE;
+            state = 5;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationD;
+            state = 6;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyApplicationC;
+            state = 7;
+            },
+        AKNPRIV_HARDWARE_STATE_KEY
+            {
+            keycode = EKeyDeviceD;
+            state = 8;
+            }
+        };
+    }
+
+RESOURCE AKNPRIV_HARDWARE_STATE_SCREEN_MAP r_aknpriv_hardware_state_screen_map_emul
+    {
+// This resource is overridden by the use of the new wsini.ini keywords:
+// S60_HWSTATE_SCREENMODEn <screenModeNumber>
+// S60_HWSTATE_ALT_SCREENMODEn <screenModeNumberForOtherOrientation>
+// For example, Series60Extras\src\wsini.ini overrides the first entry
+// in this table with the following:
+// S60_HWSTATE_SCREENMODE0 1
+// S60_HWSTATE_ALT_SCREENMODE0 2
+    state_screen_map = 
+        {
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 0;
+            screen_width = 352;
+            screen_height = 416;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 1;
+            screen_width = 176;
+            screen_height = 208;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 2;
+            screen_width = 240;
+            screen_height = 320;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 3;
+            screen_width = 320;
+            screen_height = 480;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 4;              // Qwerty
+            screen_width = 352;
+            screen_height = 416;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 5;
+            screen_width = 416;
+            screen_height = 352;
+            screen_rotation = EAknPrivScreenRotationNormal; 
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 6;
+            screen_width = 208;
+            screen_height = 176;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 7;
+            screen_width = 320;
+            screen_height = 240;
+            screen_rotation = EAknPrivScreenRotationNormal;
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            },
+        AKNPRIV_HARDWARE_STATE_SCREEN
+            {
+            state = 8;
+            screen_width = 480;
+            screen_height = 320;
+            screen_rotation = EAknPrivScreenRotationNormal; 
+            rotation_for_other_orientation = EAknPrivScreenRotationRotated90;
+            }
+        };
+    default_portrait_rotation = EAknPrivScreenRotationNormal;
+    default_landscape_rotation = EAknPrivScreenRotationRotated90;
+    }
+
+RESOURCE AKNPRIV_HARDWARE_SOFTKEY_LOCATION r_aknpriv_softkey_location_landscape_rotated90_emul
+    {
+// This resource is overridden by the use of the new wsini.ini keyword:
+// S60_SCR_SOFTKEY_LOCATIONn <location>
+// which associates softkey locations directly with screen modes.
+// For example, to say that screen mode 0 has softkeys on the left, use:
+// S60_SCR_SOFTKEY_LOCATION0 left
+    location = EAknPrivSoftkeyLocationRight;
+    }
+
+RESOURCE TBUF r_aknpriv_default_console_fontspec_typeface { buf="System One"; }
+RESOURCE INT16 r_aknpriv_default_console_fontspec_height { value=70; }
+
+
+// this is JUST an EXAMPLE of use (enhanced cba)
+RESOURCE CBA_PRIORITIES r_eik_cba_priorities
+	{
+	buttons = 
+		{
+		BUTTON_PRIORITY // SK1
+			{
+			priority_order = 
+				{
+				EEikCommandTypePositiveAnswer,
+				EEikCommandTypeMenu,
+				EEikCommandTypeOpenItem				
+				};
+			},
+		BUTTON_PRIORITY // SK2
+			{
+			priority_order = 
+				{
+				EEikCommandTypeExitOrBack,
+				EEikCommandTypeExitApplication,
+				EEikCommandTypeNegativeAnswer,
+				EEikCommandTypeAnyCommand
+				};
+			},
+		BUTTON_PRIORITY // SK3
+			{
+			priority_order = 
+				{
+				EEikCommandTypeDeleteItem,
+				EEikCommandTypeNegativeAnswer,
+				EEikCommandTypeAnyCommand
+				};
+			},
+		BUTTON_PRIORITY // SK4
+			{
+			priority_order = 
+				{
+				EEikCommandTypeAnyCommand,
+				EEikCommandTypeCancel
+				};
+			}
+		};
+	}
+
+RESOURCE AKNPRIV_TOUCHPANE r_aknpriv_touchpane
+    {
+    flags = 0;
+    items =
+        {
+        AKNPRIV_TOUCHPANE_ITEM
+            {
+            priority = 0; // Mandatory item.
+            id = ETouchPaneElementAppsGrid;
+            },
+        AKNPRIV_TOUCHPANE_ITEM
+            {
+            priority = 0; // Mandatory item.
+            id = ETouchPaneElementDialler;
+            },
+        AKNPRIV_TOUCHPANE_ITEM
+            {
+            priority = 1; // Optional item.
+            id = ETouchPaneElementContacts;
+            }
+        };
+    }
+
+RESOURCE AVKON_TOOLBAR r_aknpriv_toolbar
+    {
+    flags = KAknToolbarFixed | KAknToolbarDefault;
+    items =
+        {
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = 0;
+            control = AVKON_BUTTON
+                {
+                flags = 0;
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        txt = "";
+                        helptxt = "";
+                        }  
+                    };
+                };
+            },
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = 1;
+            control = AVKON_BUTTON
+                {
+                flags = 0;
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        txt = "";
+                        helptxt = "";
+                        }  
+                    };
+                };
+            },
+        TBAR_CTRL
+            {
+            type = EAknCtButton;
+            id = 2;
+            control = AVKON_BUTTON
+                {
+                flags = 0;
+                states =
+                    {
+                    AVKON_BUTTON_STATE
+                        {
+                        txt = "";
+                        helptxt = "";
+                        }  
+                    };
+                };
+            }
+
+        };
+    }

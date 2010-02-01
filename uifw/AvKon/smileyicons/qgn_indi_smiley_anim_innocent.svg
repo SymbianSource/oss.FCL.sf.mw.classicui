@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<radialGradient cx="12.407" cy="9.421" gradientUnits="userSpaceOnUse" id="shape17grad" r="1.421">
+<stop offset="0" stop-color="#F15A24"/>
+<stop offset="0.426" stop-color="#F78614"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<radialGradient cx="3.637" cy="9.421" gradientUnits="userSpaceOnUse" id="shape18grad" r="1.314">
+<stop offset="0" stop-color="#F15A24"/>
+<stop offset="0.426" stop-color="#F78614"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.999,-8) scale(1.001)">
+<g transform="translate(0.001)">
+<rect fill="none" fill-rule="evenodd" height="16" transform="translate(0.001)" width="15.999" x="0" y="0"/>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape7grad)" fill-rule="evenodd"/>
+</g>
+<path d="M7.69,6.29C7.69,7.395,6.795,8.29,5.688,8.29C4.584,8.29,3.69,7.395,3.69,6.29C3.69,5.185,4.585,4.29,5.688,4.29C6.796,4.29,7.69,5.185,7.69,6.29z" fill="white" fill-rule="evenodd" transform="translate(0,0)"/>
+<path d="M12.311,6.29C12.311,7.395,11.415,8.29,10.311,8.29C9.206,8.29,8.311,7.395,8.311,6.29C8.311,5.186,9.206,4.29,10.311,4.29C11.415,4.29,12.311,5.186,12.311,6.29z" fill="white" fill-rule="evenodd" transform="translate(0,0)"/>
+<g transform="translate(0.001,0.001)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="1.61s" fill="freeze" keyTimes="0;0.504;0.684;1" type="translate" values="8,6.291;8,6.291;8.568,5.651;8.568,5.651"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-7.999,-6.29;-7.999,-6.29"/>
+<path d="M6.69,6.29C6.69,6.843,6.242,7.29,5.69,7.29C5.137,7.29,4.69,6.843,4.69,6.29C4.69,5.738,5.137,5.29,5.69,5.29C6.242,5.29,6.69,5.738,6.69,6.29z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+<path d="M11.311,6.29C11.311,6.843,10.863,7.29,10.311,7.29C9.758,7.29,9.311,6.843,9.311,6.29C9.311,5.738,9.758,5.29,10.311,5.29C10.863,5.29,11.311,5.738,11.311,6.29z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+<g transform="translate(0,0.001)">
+<g>
+<g>
+<path d="M8,12.507C6.096,12.507,4.516,11.212,4.030,9.461L3.168,9.461C3.672,11.685,5.625,13.358,8,13.358C10.375,13.358,12.33,11.685,12.834,9.462L11.973,9.462C11.485,11.212,9.905,12.507,8,12.507z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+</g>
+</g>
+</g>
+<path d="M13.832,9.429C13.832,10.212,13.198,10.846,12.415,10.846C11.633,10.846,10.999,10.212,10.999,9.429C10.999,8.647,11.633,8.013,12.415,8.013C13.198,8.013,13.832,8.647,13.832,9.429z" fill="url(#shape17grad)" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<path d="M5.002,9.429C5.002,10.212,4.367,10.846,3.585,10.846C2.802,10.846,2.168,10.212,2.168,9.429C2.168,8.647,2.802,8.013,3.585,8.013C4.367,8.013,5.002,8.647,5.002,9.429z" fill="url(#shape18grad)" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<g display="none">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="0.40s" fill="freeze" keyTimes="0;1" values="none;inline"/>
+<path d="M8,0.334C5.376,0.334,3.25,1.191,3.25,2.25C3.25,3.31,5.376,4.166,8,4.166C10.625,4.166,12.75,3.308,12.75,2.249C12.75,1.190,10.624,0.334,8,0.334M8,3.168C5.861,3.168,4.571,2.562,4.288,2.25C4.571,1.941,5.861,1.333,8,1.333C10.141,1.333,11.428,1.939,11.714,2.25C11.429,2.562,10.141,3.168,8,3.168" fill="black" fill-opacity="0.403" fill-rule="evenodd" stroke-opacity="0.403" transform="translate(0,0)"/>
+<path d="M8,0C5.376,0,3.25,0.859,3.25,1.918C3.25,2.977,5.376,3.833,8,3.833C10.625,3.833,12.75,2.975,12.75,1.916C12.75,0.857,10.624,0,8,0M8,2.833C5.861,2.833,4.571,2.227,4.288,1.916C4.571,1.607,5.861,1,8,1C10.141,1,11.428,1.606,11.714,1.918C11.429,2.228,10.141,2.833,8,2.833" fill="white" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,419 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Declares common constants to be used in both resources and
+*                C++ code of consumers and providers.
+*
+*/
+
+
+
+
+
+#ifndef AIW_COMMON_HRH
+#define AIW_COMMON_HRH
+
+// DATA TYPES
+
+// CONSTANTS
+
+/**
+* Predefined service commands (UIDs).
+*/
+enum TAiwServiceCommands
+    {
+    /** Null value. */
+    KAiwCmdNone = 0,
+
+    /** Create new content. */
+    KAiwCmdNew = 0x101F864C,
+        
+    /** Edit existing content. */
+    KAiwCmdEdit = 0x101F864D,
+        
+    /** Select content. */
+    KAiwCmdSelect = 0x101F864E,
+    
+    /** View content. */
+    KAiwCmdView = 0x101F864F,
+
+    /** Create call. */
+    KAiwCmdCall = 0x101F86B0,
+
+    /** Send content. */
+    KAiwCmdSend = 0x101F86B3,
+
+    /** Print content. */
+    KAiwCmdPrint = 0x101F8666,
+
+    /** Assign content. */
+    KAiwCmdAssign = 0x101F8716,
+
+    /** Share content. */
+    KAiwCmdShare = 0x101F871E,
+
+    /** Synchronize content. */
+    KAiwCmdSynchronize = 0x101F8724,
+
+    /** Synchronize selected. */
+    KAiwCmdSynchronizeSelected = 0x1020720C,
+
+    /** Search content. */
+    KAiwCmdSearch = 0x101F87DF,
+
+    /** Copy content. */
+    KAiwCmdCopy = 0x101F87DE,
+
+    /** Show print preview. */
+    KAiwCmdPrintPreview = 0x101FD656,
+    
+    /** Push to talk. */
+    KAiwCmdPoC = 0x101FD657,
+    
+    /** View content in online store. */
+    KAiwCmdViewOnline = 0x102072EA,
+    
+    /** Upload content. */
+    KAiwCmdUpload = 0x102072EB,
+    
+    /** Transfer a range of media files to a remote storage device. */
+    KAiwCmdXpressTransfer = 0x10207430,
+    
+    /** UPnP copy content. */
+    KAiwCmdUPnPCopy = 0x10207431,
+           
+    /** UPnP move content. */          
+    KAiwCmdUPnPMove = 0x10207432,
+
+    /** UPnP play content. */
+    KAiwCmdUPnPPlay = 0x10207433,
+
+    /** UPnP open content. */
+    KAiwCmdUPnPOpen = 0x10207434,
+    
+    /** UPnP enable external. */
+    KAiwCmdUPnPEnableExternal = 0x10207435,
+    
+    /** Show help content. */
+    KAiwCmdHelp = 0x10275075,
+    
+    /** Add or remove items from intent. (Should be used as a menu service command). */
+    KAiwCmdIntent = 0x10275114,
+    
+    /** Add items to intent. (Should be used as a base service command). */
+    KAiwCmdAddToIntent = 0x10275115,
+    
+    /** Remove items from intent. (Should be used as a base service command). */
+    KAiwCmdRemoveFromIntent = 0x10275116,
+    
+    /** Client can request that map should be displayed on screen. */ 
+    KAiwCmdMnShowMap = 0x10206904,
+    
+    /** Allows to start navigation to desired destination. */
+    KAiwCmdMnNavigateTo = 0x10206905,
+    
+    /** Starts reverse geocoding request: finding address for given coordinate. */
+    KAiwCmdMnAddrByCoord = 0x10206906,
+    
+    /** Starts geocoding request: finding coordinate by given address. */
+    KAiwCmdMnCoordByAddr = 0x10206907,    
+    
+    /** Allows client to request that user shall select a location from map. */
+    KAiwCmdMnSelectFromMap = 0x10206908,
+    
+    /** Send via Bluetooth. */
+    KAiwCmdSendViaBT = 0x10281894,   
+	
+    /** Send via Irda. */
+    KAiwCmdSendViaIR = 0x10281895,
+    
+    /** Enterprise telephony. */
+    KAiwCmdEnterpriseTel = 0x20001FC6,  
+
+    /** Rotate image etc. */
+    KAiwCmdRotate = 0x10281F96,
+    
+    /** Rotate device screen. */
+    KAiwCmdRotateScreen = 0x10281F97,
+    
+    /** Set call image. */
+    KAiwCmdCallImage = 0x1028245E,
+    
+    /** Give different objects to another device using Near Field Communications. */
+    KAiwCmdNFCGive = 0x1028245F,
+    
+    /** Start listening secondary bearer (e.g. Bluetooth) setup events via Near Field Communication. */
+    KAiwCmdNFCEasySetup = 0x2001FE32,
+    
+    /** SettingWizard Email view activation. */
+    KAiwCmdSettingWizardEmailView = 0x10281C95,
+    
+    /** In-device search. */
+    KAiwCmdContentSearch = 0x10282844,
+    
+	/** A special service command enabling consumer to attach for all relevant 
+	AIW services for a certain object. */
+	KAiwCmdAnyCmdForObject = 0x102823F1,
+	
+	/** To support VoIP settings provisioning with plugins **/
+	KAiwCmdEasyVoIPProvisioning = 0x10283099,
+	
+	/** Assign Screensaver*/
+    KAiwCmdAssignScreenSaver = 0x1028309A,      
+	
+	/*Location Trail*/ 
+	KAiwCmdLocationTrail=0x10282845
+/*<branchInfo originator="gronoff" since="08-04-18" category="new_feature" error=”none”>
+<pf_5250_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 08-04-18 : gronoff
+        ,
+	/** Converged service plugin and UI extension plugin*/
+	KAiwCmdCSCServicePlugins = 0x1020E56F,
+	KAiwCmdCSCUiExtensionPlugins = 0x10282EF7,
+	KAiwCmdSaveToCalendar = 0x2002A507
+// BRANCH_END 08-04-18 : gronoff
+    };
+
+
+// Service command strings. These strings are used in service provider's
+// opaque data field to specify what service command(s) the provider implements.
+
+#define KAiwCmdNoneStr                    "00000000"
+#define KAiwCmdNewStr                     "101F864C"
+#define KAiwCmdEditStr                    "101F864D"
+#define KAiwCmdSelectStr                  "101F864E"
+#define KAiwCmdViewStr                    "101F864F"
+#define KAiwCmdPrintStr                   "101F8666"
+#define KAiwCmdCallStr                    "101F86B0"
+#define KAiwCmdSendStr                    "101F86B3"
+#define KAiwCmdAssignStr                  "101F8716"
+#define KAiwCmdShareStr                   "101F871E"
+#define KAiwCmdSynchronizeStr             "101F8724"
+#define KAiwCmdSearchStr                  "101F87DF"
+#define KAiwCmdCopy                       "101F87DE"
+#define KAiwCmdPrintPreviewStr            "101FD656"
+#define KAiwCmdPoCStr                     "101FD657" 
+#define KAiwCmdSynchronizeSelectedStr     "1020720C"
+#define KAiwCmdViewOnlineStr              "102072EA" 
+#define KAiwCmdUploadStr                  "102072EB"
+#define KAiwCmdXpressTransferStr          "10207430"
+#define KAiwCmdUPnPCopyStr                "10207431"
+#define KAiwCmdUPnPMoveStr                "10207432"
+#define KAiwCmdUPnPPlayStr                "10207433"
+#define KAiwCmdUPnPOpenStr                "10207434"
+#define KAiwCmdUPnPEnableExternalStr      "10207435"
+#define KAiwCmdHelpStr                    "10275075"
+#define KAiwCmdIntentStr                  "10275114"
+#define KAiwCmdAddToIntentStr             "10275115"
+#define KAiwCmdRemoveFromIntentStr        "10275116"
+#define KAiwCmdMnShowMapStr               "10206904"
+#define KAiwCmdMnNavigateToStr            "10206905"
+#define KAiwCmdMnAddrByCoordStr           "10206906"
+#define KAiwCmdMnCoordByAddrStr           "10206907"
+#define KAiwCmdMnSelectFromMapStr         "10206908"
+#define KAiwCmdSendViaBTStr               "10281894"
+#define KAiwCmdSendViaIRStr               "10281895"
+#define KAiwCmdEnterpriseTelStr           "20001FC6"
+#define KAiwCmdRotateStr                  "10281F96"
+#define KAiwCmdRotateScreenStr            "10281F97"
+#define KAiwCmdCallImageStr               "1028245E"
+#define KAiwCmdNFCGiveStr                 "1028245F"
+#define KAiwCmdNFCEasySetupStr            "2001FE32"
+#define KAiwCmdSettingWizardEmailViewStr  "10281C95"
+#define KAiwCmdContentSearchStr           "10282844"
+#define KAiwCmdAnyCmdForObjectStr         "102823F1"
+#define KAiwCmdEasyVoIPProvisioningStr    "10283099"
+#define KAiwCmdAssignScreenSaverStr       "1028309A"
+#define KAiwCmdLocationTrail              "10282845"
+/*<branchInfo originator="gronoff" since="08-04-18" category="new_feature" error=”none”>
+<pf_5250_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 08-04-18 : gronoff
+#define	KAiwCmdCSCServicePluginsStr  	  "1020E56F"
+#define	KAiwCmdCSCUiExtensionPluginsStr   "10282EF7"
+#define KAiwCmdSaveToCalendarStr          "2002A507"
+// BRANCH_END 08-04-18 : gronoff
+
+/**
+* Service command options (bits) to alter command handling behaviour.
+*/
+enum TAiwServiceCmdOptions
+    {
+    /**
+    * Consumer wants asynchronous command handling.
+    * The default is synchronous command handling.
+    * In asynchronous case consumer needs to pass a callback to provider.
+    */
+    KAiwOptASyncronous = 0x0001,
+
+    /**
+    * Consumer wants provider to make a callback to check coming output
+    * parameters prior returning from service command handling.
+    * Consumer needs to pass a callback to provider.
+    */
+    KAiwOptOutParamCheck = 0x0002,
+
+    /**
+    * Consumer tells provider that it is prepared to handle
+    * callback events for possibly incomplete/wrong parameter list. 
+    */
+    KAiwOptInParamCheck = 0x0004,
+    
+    /**
+    * Consumer wants to cancel an asynchronous AIW service. 
+    * When a consumer wants to cancel the asynchronous service that a provider
+    * is executing, it should call ExecuteMenuCmdL() or ExecuteServiceCmdL() 
+    * with the same parameters as when requesting the service, but set this 
+    * cancel bit on. The cancel operation itself is synchronous, i.e. the 
+    * provider must call the consumer's callback with KAiwEventCanceled before 
+    * the Execute*CmdL() returns.
+    */
+    KAiwOptCancel = 0x0008
+    };
+
+
+/**
+* Service classes (UID). Technically these are same as service interface UIDs.
+*/
+enum TAiwServiceClass
+    {
+    /** 
+    * None. 
+    */
+    KAiwClassNone = 0x0,
+
+    /**
+    * Base service (no UI expected). 
+    * Every other class must implement this always!
+    */
+    KAiwClassBase = 0x101F8650,
+
+    /** 
+    * Filter service class. 
+    */
+    KAiwClassFilter = 0x101F8651,
+
+    /** 
+    * Menu service class (offers menu based services).
+    */
+    KAiwClassMenu = 0x101F8652,
+
+    /** 
+    * Stub service class.
+    */
+    KAiwClassStub = 0x101F8653,
+       
+    /** 
+    * View service class (offers view based services).
+    */
+    KAiwClassView = 0x101F8654,
+
+    /** 
+    * This class is for R&D purposes.  
+    */
+    KAiwClassDebug = 0x101F866B
+    };
+
+
+/**
+* Event codes. To be used with HandleNotifyL method.
+*/
+enum
+    {
+    /**
+    * Asynchronous service informs consumer to prepare itself for 
+    * action. 
+    */
+    KAiwEventStarted = 1,
+
+    /**
+    * Asynchronous service request completed.
+    */
+    KAiwEventCompleted = 2,
+
+    /**
+    * Asynchronous service request canceled.
+    */
+    KAiwEventCanceled = 3,
+    
+    /**
+    * Error during asynchronous service request.
+    */
+    KAiwEventError = 4,
+    
+    /**
+    * Relates to KAiwOptOutParamCheck.
+    */
+    KAiwEventOutParamCheck = 5,
+    
+    /**
+    * Relates to KAiwOptInParamCheck.
+    */
+    KAiwEventInParamCheck = 6,
+    
+    /**
+    * Provider informs consumer that service is no longer available or 
+    * has stopped.
+    */
+    KAiwEventStopped = 7,
+    
+    /**
+    * Provider asks consumer whether Exit can be done (needed at least in 
+    * embedded use cases where server application offers Exit possibility 
+    * to end user, but consumer can not allow Exit due to fact that for
+    * example network connections owned by consumer are open and they need 
+    * to be kept alive).    
+    */
+    KAiwEventQueryExit = 8
+    };
+    
+// ============================================================================
+// Menu item flags for AIW consumers.   
+// ============================================================================ 
+/** 
+ * Always keep the provider menu items in a submenu. 
+ */
+#define AIW_CASCADE_ID               0x01010001
+
+/** 
+ * Menu item is placed intelligently either to the main level or a submenu. 
+ */
+#define AIW_INTELLIGENT_CASCADE_ID   0x01010010
+
+/** 
+ * Consumer defines the menu title. 
+ */
+#define AIW_LOCK_SUBMENU_TITLE       0x00000020
+
+// ============================================================================
+// Criteria item flags for AIW consumers.    
+// ============================================================================
+/** 
+ * Criteria item loadOptions bit, only providers in ROM are accepted. 
+ */
+#define AIW_OPTIONS_ROM_ONLY         0x01
+
+// ============================================================================
+// Menu item flags for AIW providers.
+// ============================================================================
+/** 
+ * For providers only: Provider suggests the submenu title. 
+ */
+#define AIW_SUBMENU_TITLE            0x0ff11012
+
+#endif // AIW_COMMON_HRH
+
+// End of file
+
+

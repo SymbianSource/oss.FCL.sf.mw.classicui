@@ -1,0 +1,11 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI11CTestButton @ 2 NONAME ; #<TI>#
+	_ZTI16CTestButtonState @ 3 NONAME ; #<TI>#
+	_ZTI18CTestParentControl @ 4 NONAME ; #<TI>#
+	_ZTI27CPictographAnimatorCallBack @ 5 NONAME ; #<TI>#
+	_ZTV11CTestButton @ 6 NONAME ; #<VT>#
+	_ZTV16CTestButtonState @ 7 NONAME ; #<VT>#
+	_ZTV18CTestParentControl @ 8 NONAME ; #<VT>#
+	_ZTV27CPictographAnimatorCallBack @ 9 NONAME ; #<VT>#
+

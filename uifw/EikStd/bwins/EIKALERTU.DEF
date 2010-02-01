@@ -1,0 +1,5 @@
+EXPORTS
+	??0CEikAlarmControl@@QAE@PAVCEikAlmControlSupervisor@@PAVCEikServAppUiBase@@@Z @ 1 NONAME ; CEikAlarmControl::CEikAlarmControl(class CEikAlmControlSupervisor *, class CEikServAppUiBase *)
+	??1CEikAlarmControl@@UAE@XZ @ 2 NONAME ; CEikAlarmControl::~CEikAlarmControl(void)
+	?ConstructL@CEikAlarmControl@@QAEXXZ @ 3 NONAME ; void CEikAlarmControl::ConstructL(void)
+

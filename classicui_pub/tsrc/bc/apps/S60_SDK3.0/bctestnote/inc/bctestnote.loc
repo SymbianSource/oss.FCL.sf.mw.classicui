@@ -1,0 +1,245 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestnote localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                  "BCTESTNOTE"
+#define qtn_apps_tavl_grid                  "BCTESTNOTE"
+
+#define qtn_bctestnote_buf                  "BCTestNote"
+#define qtn_bctestnote_notewrapper          "Akn Note Wrapper Test"
+
+// registration string 
+#define qtn_apps_name                       "bctestnote"
+#define qtn_localization_filename           "\\resource\\apps\\bctestnote"
+#define qtn_group_name                      "BCTest"
+
+// MenuBar
+#define qtn_bctestnote_menubar              "Option"
+#define qtn_bctestnote_menu_notewrappers    "Note wrappers"
+#define qtn_bctestnote_menu_waitdialog      "Wait dialog"
+#define qtn_bctestnote_menu_staticnote      "Static note"                    
+#define qtn_bctestnote_menu_eikinfodialog   "Eik info dialog"                    
+#define qtn_bctestnote_menu_eikprogressinfo "Eik progress info"          
+#define qtn_bctestnote_menu_waitnotewrapper "Wait note wrapper"                        
+#define qtn_bctestnote_menu_notedialog      "Note dialog"                
+#define qtn_bctestnote_menu_notecontrol     "Note control"                   
+#define qtn_bctestnote_autotest		        "Autotest"           
+#define qtn_bctestnote_menu_exit            "Exit"
+
+#define qtn_bctestnote_menu_outline_number  "OUTLINE%d"
+#define qtn_bctestnote_menu_outline(x)	    "OUTLINE"#x
+
+// Softkey text
+#define qtn_bctestnote_softkey_empty        ""
+#define qtn_bctestnote_softkey_ok           "Ok"
+#define qtn_bctestnote_softkey_cancel       "Cancel"
+
+// Application name
+#define qtn_bctestnote_other_app_name       "bctestSoftkey"
+
+// wrapper note text
+#define qtn_bctestnote_confirmationnote_text "Confirmation Note"
+#define qtn_bctestnote_warningnote_text		 "Warning Note"
+#define qtn_bctestnote_errornote_text		 "Error Note"
+#define qtn_bctestnote_informationnote_text	 "Information Note"
+
+#define qtn_bctestnote_setpriority_label     "SetPriority"
+#define qtn_bctestnote_setsoftkey_label      "SetSoftKey"
+#define qtn_bctestnote_setgraphic_label      "SetGraphic"
+#define qtn_bctestnote_setanimation_label    "SetAnimation"
+
+#define qtn_bctestnote_progresssetcurrentlabell_label \
+        "Loading \nPlease wait..."
+
+#define qtn_bctestnote_cancelnotel_text      "CancelNoteL"
+#define qtn_bctestnote_text_current_label    "Current Label"
+
+#define qtn_bctestnote_shownotel_globalinformationnote_text \
+        "ShowNoteL\nEAknGlobalInformationNote"
+#define qtn_bctestnote_shownotel_globalwarningnote_text \
+        "ShowNoteL\nEAknGlobalWarningNote"
+#define qtn_bctestnote_shownotel_globalconfirmationnote_text \
+        "ShowNoteL\nEAknGlobalConfirmationNote"
+#define qtn_bctestnote_shownotel_globalerrornote_text \
+        "ShowNoteL\nEAknGlobalErrorNote"
+#define qtn_bctestnote_shownotel_globalchargingnote_text \
+        "ShowNoteL\nEAknGlobalChargingNote"
+#define qtn_bctestnote_shownotel_globalwaitnote_text \
+        "ShowNoteL\nEAknGlobalWaitNote"
+#define qtn_bctestnote_shownotel_globalpermanentnote_text \
+        "ShowNoteL\nEAknGlobalPermanentNote"
+#define qtn_bctestnote_shownotel_globalnotchargingnote_text \
+        "ShowNoteL\nEAknGlobalNotChargingNote"
+#define qtn_bctestnote_shownotel_globalbatteryfullnote_text \
+        "ShowNoteL\nEAknGlobalBatteryFullNote"
+#define qtn_bctestnote_shownotel_globalbatterylownote_text \
+        "ShowNoteL\nEAknGlobalBatteryLowNote"
+#define qtn_bctestnote_shownotel_globalrechargebatterynote_text \
+        "ShowNoteL\nEAknGlobalRechargeBatteryNote"
+#define qtn_bctestnote_shownotel_globalswitchingoffnote_text \
+        "ShowNoteL\nEAknGlobalSwitchingOffNote"
+#define qtn_bctestnote_shownotel_cancelglobalnote_text  \
+        "ShowNoteL\nEAknCancelGlobalNote"
+#define qtn_bctestnote_shownotel_empty_text ""
+
+#define qtn_bctestnote_text_current_empty_label ""
+
+#define qtn_bctestnote_text_for_aknwaitdialog "Test for CAknWaitDialog"
+#define qtn_bctestnote_text_gw_empty_softkeys \
+        "GlobalWaitNote - empty softkeys"
+
+#define qtn_bctestnote_cba_next "Next"
+
+#define text_softkey_option "Options"
+
+// Messages
+#define qtn_bctestnote_label_title        "BCTestNotes\nSample Application"
+#define qtn_bctestnote_label_operation \
+        "Press right softkey to\ndisplay next outline" 
+
+// Error Note Lavel
+#define qtn_bctestnote_error_singular     "Too long !"
+#define qtn_bctestnote_error_plural       "Not found !"
+
+// Warning Note Lavel
+#define qtn_bctestnote_warning_singular   "Battery low !"
+#define qtn_bctestnote_warning_plural     "Memory low !"
+
+// Information Note Lavel
+#define qtn_bctestnote_inf_singular       "Received\nmessage !"
+#define qtn_bctestnote_inf_plural         "Received\nsome messages !"
+
+// Confirmation Note Lavel
+#define qtn_bctestnote_cnf_singular       "Done !"
+#define qtn_bctestnote_cnf_plural         "Success !"
+
+// Progress Note Label
+#define qtn_bctestnote_progress_singular   "Loading\nPlease wait..."
+#define qtn_bctestnote_progress_plural     "Loading\nPlease wait..."
+
+// Permanent Note Label
+#define qtn_bctestnote_perm_label          "Discharging\nbattery !"
+
+// Dynamic Text Label
+#define qtn_bctestnote_dym_text_singular   "Received\n%d message !"
+#define qtn_bctestnote_dym_text_plural     "Received\n%d messages !"
+
+// Image Note Label
+#define qtn_bctestnote_image_singular      "Received\nmessages !\n1234567890"
+#define qtn_bctestnote_image_plural        "Sent\nmessages !\n1234567890"
+
+// Own Layout Note Label
+#define qtn_bctestnote_layout_singular \
+        "Number\ntoo long!\nPlease input again"
+#define qtn_bctestnote_layout_plural \
+        "Number\ntoo long!\nPlease input again"
+
+// Wait Note Label
+#define qtn_bctestnote_wait_singular \
+    "As you may already\nnotice, this note truly\nRULEZ!!"
+#define qtn_bctestnote_wait_plural \
+       "All the y %d notes\nrulez!!\nYuyu!"
+#define qtn_bctestnote_wait_prompt         "Connecting, please wait."
+
+// Global note text
+#define qtn_bctestnote_global_gen_text     "General note"
+#define qtn_bctestnote_global_war_text     "Warning note"
+#define qtn_bctestnote_global_con_text     "Confirmation\nnote"
+#define qtn_bctestnote_global_err_text     "Error note"
+
+// Note label for priority test
+#define qtn_bctestnote_prty_loc_err_text   "Local\nerror note"
+#define qtn_bctestnote_prty_loc_war_text   "Local\nwarning note"
+#define qtn_bctestnote_prty_gbl_err_text   "Global\nerror note"
+#define qtn_bctestnote_prty_gbl_war_text   "Global\nwarning note"
+
+// Tone list item label
+#define qtn_bctestnote_error_tone          "Error tone"
+#define qtn_bctestnote_warning_tone        "Warning tone"
+#define qtn_bctestnote_confirmation_tone   "Confirmation tone"
+
+// General list item label
+#define qtn_bctestnote_error_note          "Error note"
+#define qtn_bctestnote_warning_note        "Warning note"
+#define qtn_bctestnote_information_note    "Information note"
+#define qtn_bctestnote_confirmation_note   "Confirmation note"
+
+// Animation list item label
+#define qtn_bctestnote_wait_note           "Wait note"
+#define qtn_bctestnote_progress_note       "Progress note"
+
+// OwnLayout list item label
+#define qtn_bctestnote_ownlayout_case1     "Case1"
+#define qtn_bctestnote_ownlayout_case2     "Case2"
+#define qtn_bctestnote_ownlayout_case3     "Case3"
+
+// TwoLabel list item label
+#define qtn_bctestnote_singular_label      "Singular label"
+#define qtn_bctestnote_plural_label        "Plural label"
+
+// Global note list item label
+#define qtn_bctestnote_global_general     "General note"
+#define qtn_bctestnote_global_warning     "Warning note"
+#define qtn_bctestnote_global_confirmat   "Confirmation note"
+#define qtn_bctestnote_global_error       "Error note"
+#define qtn_bctestnote_global_charging    "Charging note"
+#define qtn_bctestnote_global_not_charg   "Not charging note"
+#define qtn_bctestnote_global_btry_full   "Battery full note"
+#define qtn_bctestnote_global_btry_low    "Battery low note"
+#define qtn_bctestnote_global_recha_btry  "Recharging note"
+#define qtn_bctestnote_global_progress    "Global progress note"
+
+// Priority note list item label
+#define qtn_bctestnote_local_local         "Local  -> Local"
+#define qtn_bctestnote_global_global       "Global -> Global"
+#define qtn_bctestnote_local_global        "Local  -> Global"
+#define qtn_bctestnote_global_local        "Global -> Local"
+
+#define qtn_bctestnote_fast         "fast"
+#define qtn_bctestnote_medium       "medium"
+#define qtn_bctestnote_slow         "slow"
+
+#define qtn_bctestnote_progress_increase_1	"increase-200-1"
+#define qtn_bctestnote_progress_increase_2	"increase-500-6"
+#define qtn_bctestnote_progress_set_1		"set-200-2"
+#define qtn_bctestnote_progress_set_2		"set-900-13"	
+#define qtn_bctestnote_shownotel_5line_text \
+    "0123456789012345678901234567890123456789012345678901234567890"
+#define qtn_bctestnote_shownotel_5line_over_text \
+    "012345678901234567890123456789012345678901234567890123456789012345678901\
+    234567890"
+#define qtn_bctestnote_text_current_5line_label \
+    "0123456789012345678901234567890123456789012345678901234567890"
+#define qtn_bctestnote_text_current_5line_over_label \
+    "012345678901234567890123456789012345678901234567890123456789012345678901\
+    234567890"
+#define qtn_bctestnote_text_current_label_deffrent \
+    "012345678901234567890123456789012345678901234567890123456789012345678901\
+    234567890"
+
+
+

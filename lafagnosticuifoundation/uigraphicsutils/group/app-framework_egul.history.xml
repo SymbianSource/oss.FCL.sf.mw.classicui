@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<relnotes schema="1.0.0" name="UI Graphics Utilities" purpose="" type="component">
+  <revision major="1" functional="0" minor="0" date="20070828">
+    <ref name="1803" type="preq"/>
+    <description>Added new dll for text utilities (etul.dll).  Following utilities are added as part of this new dll:
+1.CTulAddressStringTokenizer class which offers methods for parsing phone numbers and e-mail,URL and URI addresses from the given text.
+2. TulPhoneNumberUtils class which offers static methods for parsing and validating phone numbers.  This API provides methods which are used to parse and validate the phone numbers.
+3. CTulStringResourceReader class which reads strings from resource without using CCoeEnv.
+4. TulTextResourceUtils API which provides an interface to load and format resource strings
+that may contain parameter(s) (\%U for (unicode) text or or \%N for numerical).</description>
+  </revision>
+  <purpose>
+    General purpose UI graphics utilities, includes drawing window borders, sprite support, etc.
+  </purpose>
+  <defect number="DEF094599" title="TGulHAlignment does not allow for an absolute Left/Right position" revision="001">
+    Fix for DEF094599 &quot;TGulHAlignment does not allow for an absolute Left/Right position&quot;
+    See also app-framework_cone change for the second part of this fix.
+    
+    * Added TGulAlignment unit test in the form of TEgulAlignmentStep.h/cpp and egultest_t_alignment.script
+    
+    Changes to the TGulAlignment class:
+    * Added SetAbsoluteHAlignment(TBool) and HasAbsoluteHAlignment() methods for setting the horizontal alignment to be absolute. Absolute horizontal alignments will not be swapped by the new HAlignment(TBidiText::TDirectionality). Default is non-absolute
+    (i.e. relative) alignment, and any calls to any horizontal set-method will reset the alignement to be non-absolute.
+    
+    * Added a new HAlignment() overload taking TBidiText::TDirectionality. This version of HAlignment() will swap left and right alignment if the directionality given as argument is right-to-left, UNLESS absolute alignment has been specified.
+    
+    * Added a new TextAlign() overload that takes a TBidiText::TDirectionality argument, swapping left and right for right-to-left scripts.
+    
+    * Added a new ParaAlign() returning the alignment as a CParaFormat::TAlignment. The CParaFormat::TAlignment has the consept of absolute horizontal alignment, so does not need to swap right and left.
+    
+    * Added a new SetHAlignment() overload, taking a CParaFormat::TAlignment as argument.
+    
+    * Added new InnerTopLeft() and InnerRect() overloads taking a TBidiText::TDirectionality. When calling these new methods with a right-to-left directionality, left and right alignment will be swapped, UNLESS absolute alignment has been specified.
+    
+    Also, as per SCB request:
+    * Changed TGulAlignment::operator() from inline to exported.
+    * Added Doxygen comment to TGulAlignment::SetAbsoluteHAlignment() mentioning the problems of using this method with code compiled against earlier versions of the API.
+    
+    Other:
+    * Added new TMargins8(TInt8 aLeft, TInt8 aTop, TInt8 aRight, TInt8 aBottom) constructor.
+  </defect>
+</relnotes>

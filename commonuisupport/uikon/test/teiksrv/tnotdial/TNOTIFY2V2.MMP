@@ -1,0 +1,47 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET 			newtnotify2v2.dll
+TARGETTYPE 		plugin
+UID	 			0x10009D8D 0x10021239
+VENDORID 		0x70000001
+
+CAPABILITY		TrustedUI ProtServ
+
+SOURCEPATH	    .
+SOURCE  		tnotify2v2.cpp 
+
+USERINCLUDE 	../../tuiktestserver
+USERINCLUDE		../../../../../../appsupport/appfw/uiftestfw/inc
+USERINCLUDE     ../../../srvinc
+APP_LAYER_SYSTEMINCLUDE 
+
+LIBRARY 		euser.lib cone.lib bafl.lib eikcore.lib
+LIBRARY 		eiksrv.lib eikcoctl.lib eikdlg.lib ecom.lib efsrv.lib
+
+RESOURCE  		TNOTDIAL.RSS
+LANG            SC
+
+START RESOURCE 	10021239.rss
+	TARGET 		newtnotify2v2.rsc
+END
+
+#ifdef WINS
+DEFFILE 		../../../test/BWINS/tnotify2v2.def
+#else
+DEFFILE 		../../../test/EABI/TNOTIFY2V2.def
+#endif
+
+SMPSAFE

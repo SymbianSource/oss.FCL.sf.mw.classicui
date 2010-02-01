@@ -1,0 +1,51 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TEIK
+
+#include <techview/eikon.rh>
+#include "teikenv.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+
+RESOURCE TBUF  r_eikenv_app_err_text { buf="App error text";}
+RESOURCE TBUF  r_eikenv_app_err_handle { buf="error handled";}
+
+RESOURCE MENU_PANE r_eikenv_menu
+    {
+    items=
+        {
+		MENU_ITEM
+            {
+            command=ETestUiCmd1;
+            txt="Command one";
+            },
+		MENU_ITEM
+            {
+            command=ETestUiCmd2;
+            txt="Command two";
+            }
+        };
+    }
+
+RESOURCE HOTKEYS r_test_env_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=ETestUiCmd1; key='b'; },
+        HOTKEY { command=ETestUiCmd2; key='c'; }
+        };
+    }

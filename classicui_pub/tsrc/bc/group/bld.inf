@@ -1,0 +1,154 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         build information
+*
+*/
+
+
+
+
+
+
+
+
+
+
+#include <BC_PLAT.h>
+
+
+PRJ_EXPORTS
+../sis/UIFW.bat		/epoc32/winscw/c/UIFW.bat
+
+PRJ_MMPFILES
+
+
+
+#include "../apps/bctestutil/group/bld.inf"
+
+#include "../apps/bctestlauncher/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestbuttons/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestsliderandicons/group/bld.inf"
+
+#ifdef __SERIES60_30__       
+
+#include "../apps/S60_SDK3.0/bctestaknsound/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestappfrm/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestcmdlg/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestdocandinit/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctesteditor/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctesteh/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctesteikbctrl/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctesteikfrm/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestfontinput/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestform/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestgrids/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestimage/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestkeylock/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestlabelinfoindicators/group/bld.inf"
+
+gnumakefile ../apps/S60_SDK3.0/bctestlist/group/icons_list.mk
+#include "../apps/S60_SDK3.0/bctestlist/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestmenu/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestmisccontrol/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestnote/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestnotifier/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestpane/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestpopups/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestprivateuifrm/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestptieng/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestquery/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestscreenclearer/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestscrollerbar/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestsearchfield/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestserverapp/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestsettingpage/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestskins/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestutilities/group/bld.inf"
+
+#include "../apps/S60_SDK3.0/bctestvolume/group/bld.inf"
+
+#endif 
+
+
+#ifdef __SERIES60_31__       
+
+#include "../apps/S60_SDK3.1/bctestocr/group/bld.inf"
+
+#include "../apps/S60_SDK3.1/bctestmisc/group/bld.inf"
+
+#include "../apps/S60_SDK3.1/bctestlocation/group/bld.inf"
+
+#endif 
+
+#ifdef __S60_32__       
+
+#include "../apps/S60_SDK3.2/bctestuniteditor/group/bld.inf"
+
+#include "../apps/S60_SDK3.2/bctestmisc32/group/bld.inf"
+
+#include "../apps/S60_SDK3.2/bctestlocalizer/group/bld.inf"
+
+#include "../apps/S60_SDK3.2/bctestpreviewpopup/group/bld.inf"
+
+#include "../apps/S60_SDK3.2/bctestservicehandler/group/bld.inf"
+
+#endif 
+
+
+#ifdef __S60_50__
+
+#include "../apps/S60_SDK5.0/bctestbutton/group/bld.inf"
+
+#include "../apps/S60_SDK5.0/bctestchoicelist/group/bld.inf"
+
+#include "../apps/S60_SDK5.0/bctestmix50/group/bld.inf"
+
+#include "../apps/S60_SDK5.0/bctesttoolbar/group/bld.inf"
+
+#include "../apps/S60_SDK5.0/bctesttouchpane/group/bld.inf"
+
+#include "../apps/S60_SDK5.0/bctesttreelist/group/bld.inf"
+
+#endif 

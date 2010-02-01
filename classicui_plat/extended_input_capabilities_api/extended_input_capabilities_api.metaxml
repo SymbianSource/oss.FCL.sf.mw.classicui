@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="b5b80f847b379eafaba5f8823ea8ab33" dataversion="1.0">
+  <name>Extended Input Capabilities API</name>
+  <description>Provides extended information of the input capabilities of an editor.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikctl.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

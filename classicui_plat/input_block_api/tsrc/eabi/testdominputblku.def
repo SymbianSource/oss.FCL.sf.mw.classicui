@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CActiveExample @ 2 NONAME ; #<TI>#
+	_ZTI19CBlockCancelHandler @ 3 NONAME ; #<TI>#
+	_ZTV14CActiveExample @ 4 NONAME ; #<VT>#
+	_ZTV19CBlockCancelHandler @ 5 NONAME ; #<VT>#
+

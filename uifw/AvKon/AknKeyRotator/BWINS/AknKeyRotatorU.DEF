@@ -1,0 +1,3 @@
+EXPORTS
+	?CreateAknKeyRotatorL@AknKeyRotatorFactory@@SAPAVCAknKeyRotator@@XZ @ 1 NONAME ; class CAknKeyRotator * AknKeyRotatorFactory::CreateAknKeyRotatorL(void)
+

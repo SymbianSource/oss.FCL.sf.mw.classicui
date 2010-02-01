@@ -1,0 +1,73 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdktoolbar
+*
+*/
+
+
+NAME    TEST
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include "testsdktoolbar.hrh"
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_toolbar
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_TOOLBAR r_toolbar
+    {
+    flags = KAknToolbarFixed;
+    items = 
+        {
+        TBAR_CTRL
+            {
+            type = EEikCtGlobalTextEditor;
+            id = EtCmdToolbarTextEditor;
+            control=GTXTED
+                {
+                width = 100;
+                height = 20;
+                };
+            }
+        };
+    }
+
+RESOURCE AVKON_TOOLBAR_EXTENSION r_toolbar_extension
+    {
+    items = 
+        {
+        TBAR_CTRL
+            {
+            type = EEikCtGlobalTextEditor;
+            id = EtCmdToolbarTextEditor;
+            control=GTXTED
+                {
+                width = 100;
+                height = 20;
+                };
+            }
+        };
+    }

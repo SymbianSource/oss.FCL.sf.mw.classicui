@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#include <bldvariant.hrh>
+#include <platform_paths.hrh>
+#include "aknextendedfader_traces.cfg"
+
+
+TARGET		AknExtendedFader_ARM11.dll
+
+TARGETTYPE	PLUGIN
+UID		0x10009D8D 0x2001B298
+CAPABILITY	All -Tcb
+VENDORID	0x70000001
+
+// Compiler optimization flags
+OPTION ARMCC --cpu ARM1136JF-S -O3 -Otime
+ALWAYS_BUILD_AS_ARM
+UNPAGED
+
+// Notify code that we have ARM11 support
+MACRO __ARM11_SUPPORT
+
+#ifndef USERINCLUDE_WSGRAPHICDRAWERINTERFACE_H
+macro USERINCLUDE_WSGRAPHICDRAWERINTERFACE_H
+#endif
+
+MW_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE ../inc ../../inc
+
+SOURCEPATH	../src
+SOURCE      AknExtendedFaderPlugin.cpp
+SOURCE      AknExtendedFaderImpl.cpp
+SOURCE      AknExtendedFaderStartupWatcher.cpp
+SOURCE      AknExtendedFaderColorSchemeWatcher.cpp
+SOURCE      AknExtendedFaderGfx.cpp
+SOURCE      AknExtendedFaderGfx_ARM11.s
+
+SOURCEPATH ../data
+START RESOURCE AknExtendedFader.rss
+TARGET AknExtendedFader_ARM11
+END
+
+LIBRARY     ecom.lib
+LIBRARY     estor.lib
+LIBRARY     fbscli.lib
+LIBRARY     euser.lib
+LIBRARY     gdi.lib
+LIBRARY     bitgdi.lib
+LIBRARY     wsgraphicdrawer.lib
+
+noexportlibrary
+

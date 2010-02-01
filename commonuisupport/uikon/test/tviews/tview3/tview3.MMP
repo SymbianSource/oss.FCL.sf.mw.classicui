@@ -1,0 +1,64 @@
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+
+
+TARGET			tview3.exe
+TARGETTYPE		EXE
+TARGETPATH		/sys/bin
+
+UID				0X100039CE	0x10207F73
+VENDORID 		0x70000001
+CAPABILITY 		ALL -Tcb
+EPOCSTACKSIZE 	0x5000
+
+APP_LAYER_SYSTEMINCLUDE 
+
+USERINCLUDE		. ../tvw
+
+SOURCEPATH		.
+SOURCE			tview3.CPP 
+
+SOURCEPATH		../tvw
+SOURCE			tvwappui.CPP tvwview.CPP
+
+LIBRARY			euser.lib
+LIBRARY			apparc.lib
+LIBRARY			cone.lib
+LIBRARY			eikcore.lib
+LIBRARY			eikdlg.lib
+LIBRARY			eikcoctl.lib
+LIBRARY			eikctl.lib
+LIBRARY			etext.lib
+LIBRARY			ws32.lib
+
+SOURCEPATH		.
+START RESOURCE  tview3.RSS
+	HEADER
+	TARGETPATH	/resource/apps
+END
+
+RESOURCE  		tview3_reg.rss
+START RESOURCE	tview3_reg.rss
+	TARGETPATH	/private/10003a3f/apps
+	LANG		sc
+END
+
+SMPSAFE

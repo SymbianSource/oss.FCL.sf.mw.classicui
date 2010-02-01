@@ -1,0 +1,35 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __GRIDTEST_IBY__
+#define __GRIDTEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+
+REM Test code for the Grid component
+
+file=ABI_DIR\BUILD_DIR\tgridtestserver.exe		System\bin\tgridtestserver.exe
+
+
+data=DATAZ_\gridtest\gridtest_run.bat          \gridtest_run.bat
+data=DATAZ_\gridtest\gridtest_t_cogrid.script  \gridtest\gridtest_t_cogrid.script
+data=DATAZ_\gridtest\gridtest_t_grid0.script   \gridtest\gridtest_t_grid0.script
+data=DATAZ_\gridtest\gridtest_t_glay.script    \gridtest\gridtest_t_glay.script
+
+#endif

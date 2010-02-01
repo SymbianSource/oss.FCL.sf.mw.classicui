@@ -1,0 +1,103 @@
+EXPORTS
+	??0CAiwMenuPane@@QAE@AAVCEikMenuPane@@H@Z @ 1 NONAME ; public: __thiscall CAiwMenuPane::CAiwMenuPane(class CEikMenuPane &,int)
+	??0TAiwVariant@@QAE@ABV0@@Z @ 2 NONAME ; public: __thiscall TAiwVariant::TAiwVariant(class TAiwVariant const &)
+	??1CAiwCriteriaItem@@UAE@XZ @ 3 NONAME ; public: virtual __thiscall CAiwCriteriaItem::~CAiwCriteriaItem(void)
+	??1CAiwMenuPane@@UAE@XZ @ 4 NONAME ; public: virtual __thiscall CAiwMenuPane::~CAiwMenuPane(void)
+	??1CAiwServiceHandler@@UAE@XZ @ 5 NONAME ; public: virtual __thiscall CAiwServiceHandler::~CAiwServiceHandler(void)
+	??1CAiwServiceIfBase@@UAE@XZ @ 6 NONAME ; public: virtual __thiscall CAiwServiceIfBase::~CAiwServiceIfBase(void)
+	??4TAiwVariant@@QAEAAV0@ABV0@@Z @ 7 NONAME ; public: class TAiwVariant & __thiscall TAiwVariant::operator=(class TAiwVariant const &)
+	??8@YAHABVTAiwGenericParam@@0@Z @ 8 NONAME ; int __cdecl operator==(class TAiwGenericParam const &,class TAiwGenericParam const &)
+	??8@YAHABVTAiwVariant@@0@Z @ 9 NONAME ; int __cdecl operator==(class TAiwVariant const &,class TAiwVariant const &)
+	??8CAiwCriteriaItem@@QAEHABV0@@Z @ 10 NONAME ; public: int __thiscall CAiwCriteriaItem::operator==(class CAiwCriteriaItem const &)
+	??ACAiwGenericParamList@@QBEABVTAiwGenericParam@@H@Z @ 11 NONAME ; public: class TAiwGenericParam const & __thiscall CAiwGenericParamList::operator[](int)const 
+	?AddMenuItemL@CAiwMenuPane@@QAEXHAAUSData@CEikMenuPaneItem@@H@Z @ 12 NONAME ; public: void __thiscall CAiwMenuPane::AddMenuItemL(int,struct CEikMenuPaneItem::SData &,int)
+	?AddMenuItemsL@CAiwMenuPane@@QAEXAAV?$TBuf@$0BAA@@@HHHH@Z @ 13 NONAME ; public: void __thiscall CAiwMenuPane::AddMenuItemsL(class TBuf<256> &,int,int,int,int)
+	?AddMenuItemsL@CAiwMenuPane@@QAEXAAVTResourceReader@@HHH@Z @ 14 NONAME ; public: void __thiscall CAiwMenuPane::AddMenuItemsL(class TResourceReader &,int,int,int)
+	?AppendL@CAiwGenericParamList@@QAEXABVTAiwGenericParam@@@Z @ 15 NONAME ; public: void __thiscall CAiwGenericParamList::AppendL(class TAiwGenericParam const &)
+	?AsData@TAiwVariant@@QBE?AVTPtrC8@@XZ @ 16 NONAME ; public: class TPtrC8  __thiscall TAiwVariant::AsData(void)const 
+	?AsDes@TAiwVariant@@QBE?AVTPtrC16@@XZ @ 17 NONAME ; public: class TPtrC16  __thiscall TAiwVariant::AsDes(void)const 
+	?AsTInt32@TAiwVariant@@QBEJXZ @ 18 NONAME ; public: long __thiscall TAiwVariant::AsTInt32(void)const 
+	?AsTTime@TAiwVariant@@QBE?AVTTime@@XZ @ 19 NONAME ; public: class TTime  __thiscall TAiwVariant::AsTTime(void)const 
+	?AsTUid@TAiwVariant@@QBE?AVTUid@@XZ @ 20 NONAME ; public: class TUid  __thiscall TAiwVariant::AsTUid(void)const 
+	?AttachL@CAiwServiceHandler@@QAEXABV?$RPointerArray@VCAiwCriteriaItem@@@@@Z @ 21 NONAME ; public: void __thiscall CAiwServiceHandler::AttachL(class RPointerArray<class CAiwCriteriaItem> const &)
+	?AttachL@CAiwServiceHandler@@QAEXH@Z @ 22 NONAME ; public: void __thiscall CAiwServiceHandler::AttachL(int)
+	?AttachMenuL@CAiwServiceHandler@@QAEXAAVTResourceReader@@H@Z @ 23 NONAME ; public: void __thiscall CAiwServiceHandler::AttachMenuL(class TResourceReader &,int)
+	?AttachMenuL@CAiwServiceHandler@@QAEXHAAVTResourceReader@@@Z @ 24 NONAME ; public: void __thiscall CAiwServiceHandler::AttachMenuL(int,class TResourceReader &)
+	?AttachMenuL@CAiwServiceHandler@@QAEXHH@Z @ 25 NONAME ; public: void __thiscall CAiwServiceHandler::AttachMenuL(int,int)
+	?ContentType@CAiwCriteriaItem@@QBEABVTDesC8@@XZ @ 26 NONAME ; public: class TDesC8 const & __thiscall CAiwCriteriaItem::ContentType(void)const 
+	?Count@CAiwGenericParamList@@QBEHXZ @ 27 NONAME ; public: int __thiscall CAiwGenericParamList::Count(void)const 
+	?DefaultProvider@CAiwCriteriaItem@@QBE?AVTUid@@XZ @ 28 NONAME ; public: class TUid  __thiscall CAiwCriteriaItem::DefaultProvider(void)const 
+	?DetachL@CAiwServiceHandler@@QAEXABV?$RPointerArray@VCAiwCriteriaItem@@@@@Z @ 29 NONAME ; public: void __thiscall CAiwServiceHandler::DetachL(class RPointerArray<class CAiwCriteriaItem> const &)
+	?DetachL@CAiwServiceHandler@@QAEXH@Z @ 30 NONAME ; public: void __thiscall CAiwServiceHandler::DetachL(int)
+	?DetachMenu@CAiwServiceHandler@@QAEXHH@Z @ 31 NONAME ; public: void __thiscall CAiwServiceHandler::DetachMenu(int,int)
+	?DynCmdId@CAiwMenuPane@@QBEHH@Z @ 32 NONAME ; public: int __thiscall CAiwMenuPane::DynCmdId(int)const 
+	?ExecuteMenuCmdL@CAiwServiceHandler@@QAEXHABVCAiwGenericParamList@@AAV2@IPAVMAiwNotifyCallback@@@Z @ 33 NONAME ; public: void __thiscall CAiwServiceHandler::ExecuteMenuCmdL(int,class CAiwGenericParamList const &,class CAiwGenericParamList &,unsigned int,class MAiwNotifyCallback *)
+	?ExecuteServiceCmdL@CAiwServiceHandler@@QAEXABHABVCAiwGenericParamList@@AAV2@IPAVMAiwNotifyCallback@@@Z @ 34 NONAME ; public: void __thiscall CAiwServiceHandler::ExecuteServiceCmdL(int const &,class CAiwGenericParamList const &,class CAiwGenericParamList &,unsigned int,class MAiwNotifyCallback *)
+	?ExternalizeL@CAiwGenericParamList@@QBEXAAVRWriteStream@@@Z @ 35 NONAME ; public: void __thiscall CAiwGenericParamList::ExternalizeL(class RWriteStream &)const 
+	?FindFirst@CAiwGenericParamList@@QBEPBVTAiwGenericParam@@AAHW4TGenericParamId@@W4TVariantTypeId@@@Z @ 36 NONAME ; public: class TAiwGenericParam const * __thiscall CAiwGenericParamList::FindFirst(int &,enum TGenericParamId,enum TVariantTypeId)const 
+	?FindNext@CAiwGenericParamList@@QBEPBVTAiwGenericParam@@AAHW4TGenericParamId@@W4TVariantTypeId@@@Z @ 37 NONAME ; public: class TAiwGenericParam const * __thiscall CAiwGenericParamList::FindNext(int &,enum TGenericParamId,enum TVariantTypeId)const 
+	?Get@TAiwVariant@@QBEHAAJ@Z @ 38 NONAME ; public: int __thiscall TAiwVariant::Get(long &)const 
+	?Get@TAiwVariant@@QBEHAAVTPtrC16@@@Z @ 39 NONAME ; public: int __thiscall TAiwVariant::Get(class TPtrC16 &)const 
+	?Get@TAiwVariant@@QBEHAAVTPtrC8@@@Z @ 40 NONAME ; public: int __thiscall TAiwVariant::Get(class TPtrC8 &)const 
+	?Get@TAiwVariant@@QBEHAAVTTime@@@Z @ 41 NONAME ; public: int __thiscall TAiwVariant::Get(class TTime &)const 
+	?Get@TAiwVariant@@QBEHAAVTUid@@@Z @ 42 NONAME ; public: int __thiscall TAiwVariant::Get(class TUid &)const 
+	?GetCriteria@CAiwServiceHandler@@QAEPBVCAiwCriteriaItem@@H@Z @ 43 NONAME ; public: class CAiwCriteriaItem const * __thiscall CAiwServiceHandler::GetCriteria(int)
+	?GetInterest@CAiwServiceHandler@@QAEXAAV?$RPointerArray@VCAiwCriteriaItem@@@@@Z @ 44 NONAME ; public: void __thiscall CAiwServiceHandler::GetInterest(class RPointerArray<class CAiwCriteriaItem> &)
+	?Id@CAiwCriteriaItem@@QBEHXZ @ 45 NONAME ; public: int __thiscall CAiwCriteriaItem::Id(void)const 
+	?InParamListL@CAiwServiceHandler@@QAEAAVCAiwGenericParamList@@XZ @ 46 NONAME ; public: class CAiwGenericParamList & __thiscall CAiwServiceHandler::InParamListL(void)
+	?InitializeMenuPaneL@CAiwServiceHandler@@QAEXAAVCEikMenuPane@@HABVCAiwGenericParamList@@@Z @ 47 NONAME ; public: void __thiscall CAiwServiceHandler::InitializeMenuPaneL(class CEikMenuPane &,int,class CAiwGenericParamList const &)
+	?IsSubMenuEmpty@CAiwServiceHandler@@QAEHH@Z @ 48 NONAME ; public: int __thiscall CAiwServiceHandler::IsSubMenuEmpty(int)
+	?MaxProviders@CAiwCriteriaItem@@QBEHXZ @ 49 NONAME ; public: int __thiscall CAiwCriteriaItem::MaxProviders(void)const 
+	?MenuCmdId@CAiwMenuPane@@QBEHH@Z @ 50 NONAME ; public: int __thiscall CAiwMenuPane::MenuCmdId(int)const 
+	?MenuPane@CAiwServiceIfMenu@@QBEPBVCAiwMenuPane@@XZ @ 51 NONAME ; public: class CAiwMenuPane const * __thiscall CAiwServiceIfMenu::MenuPane(void)const 
+	?NbrOfProviders@CAiwServiceHandler@@QAEHPBVCAiwCriteriaItem@@@Z @ 52 NONAME ; public: int __thiscall CAiwServiceHandler::NbrOfProviders(class CAiwCriteriaItem const *)
+	?NewL@CAiwCriteriaItem@@SAPAV1@HHABVTDesC8@@@Z @ 53 NONAME ; public: static class CAiwCriteriaItem * __cdecl CAiwCriteriaItem::NewL(int,int,class TDesC8 const &)
+	?NewL@CAiwCriteriaItem@@SAPAV1@XZ @ 54 NONAME ; public: static class CAiwCriteriaItem * __cdecl CAiwCriteriaItem::NewL(void)
+	?NewL@CAiwGenericParamList@@SAPAV1@AAVRReadStream@@@Z @ 55 NONAME ; public: static class CAiwGenericParamList * __cdecl CAiwGenericParamList::NewL(class RReadStream &)
+	?NewL@CAiwGenericParamList@@SAPAV1@XZ @ 56 NONAME ; public: static class CAiwGenericParamList * __cdecl CAiwGenericParamList::NewL(void)
+	?NewL@CAiwServiceHandler@@SAPAV1@XZ @ 57 NONAME ; public: static class CAiwServiceHandler * __cdecl CAiwServiceHandler::NewL(void)
+	?NewLC@CAiwCriteriaItem@@SAPAV1@HHABVTDesC8@@@Z @ 58 NONAME ; public: static class CAiwCriteriaItem * __cdecl CAiwCriteriaItem::NewLC(int,int,class TDesC8 const &)
+	?NewLC@CAiwCriteriaItem@@SAPAV1@XZ @ 59 NONAME ; public: static class CAiwCriteriaItem * __cdecl CAiwCriteriaItem::NewLC(void)
+	?NewLC@CAiwGenericParamList@@SAPAV1@AAVRReadStream@@@Z @ 60 NONAME ; public: static class CAiwGenericParamList * __cdecl CAiwGenericParamList::NewLC(class RReadStream &)
+	?NewLC@CAiwGenericParamList@@SAPAV1@XZ @ 61 NONAME ; public: static class CAiwGenericParamList * __cdecl CAiwGenericParamList::NewLC(void)
+	?NewLC@CAiwServiceHandler@@SAPAV1@XZ @ 62 NONAME ; public: static class CAiwServiceHandler * __cdecl CAiwServiceHandler::NewLC(void)
+	?Options@CAiwCriteriaItem@@QBEIXZ @ 63 NONAME ; public: unsigned int __thiscall CAiwCriteriaItem::Options(void)const 
+	?OutParamListL@CAiwServiceHandler@@QAEAAVCAiwGenericParamList@@XZ @ 64 NONAME ; public: class CAiwGenericParamList & __thiscall CAiwServiceHandler::OutParamListL(void)
+	?ReadFromResoureL@CAiwCriteriaItem@@QAEXAAVTResourceReader@@@Z @ 65 NONAME ; public: void __thiscall CAiwCriteriaItem::ReadFromResoureL(class TResourceReader &)
+	?Reset@CAiwGenericParamList@@QAEXXZ @ 66 NONAME ; public: void __thiscall CAiwGenericParamList::Reset(void)
+	?Reset@CAiwServiceHandler@@QAEXXZ @ 67 NONAME ; public: void __thiscall CAiwServiceHandler::Reset(void)
+	?Reset@TAiwVariant@@QAEXXZ @ 68 NONAME ; public: void __thiscall TAiwVariant::Reset(void)
+	?ServiceClass@CAiwCriteriaItem@@QBEABVTUid@@XZ @ 69 NONAME ; public: class TUid const & __thiscall CAiwCriteriaItem::ServiceClass(void)const 
+	?ServiceCmd@CAiwCriteriaItem@@QBEHXZ @ 70 NONAME ; public: int __thiscall CAiwCriteriaItem::ServiceCmd(void)const 
+	?ServiceCmdByMenuCmd@CAiwServiceHandler@@QBEHH@Z @ 71 NONAME ; public: int __thiscall CAiwServiceHandler::ServiceCmdByMenuCmd(int)const 
+	?ServiceCmdId@CAiwMenuPane@@QBEHH@Z @ 72 NONAME ; public: int __thiscall CAiwMenuPane::ServiceCmdId(int)const 
+	?Set@TAiwVariant@@QAEXABVTDesC16@@@Z @ 73 NONAME ; public: void __thiscall TAiwVariant::Set(class TDesC16 const &)
+	?Set@TAiwVariant@@QAEXABVTDesC8@@@Z @ 74 NONAME ; public: void __thiscall TAiwVariant::Set(class TDesC8 const &)
+	?Set@TAiwVariant@@QAEXABVTTime@@@Z @ 75 NONAME ; public: void __thiscall TAiwVariant::Set(class TTime const &)
+	?Set@TAiwVariant@@QAEXABVTUid@@@Z @ 76 NONAME ; public: void __thiscall TAiwVariant::Set(class TUid const &)
+	?Set@TAiwVariant@@QAEXJ@Z @ 77 NONAME ; public: void __thiscall TAiwVariant::Set(long)
+	?SetContentTypeL@CAiwCriteriaItem@@QAEXABVTDesC8@@@Z @ 78 NONAME ; public: void __thiscall CAiwCriteriaItem::SetContentTypeL(class TDesC8 const &)
+	?SetDefaultProvider@CAiwCriteriaItem@@QAEXH@Z @ 79 NONAME ; public: void __thiscall CAiwCriteriaItem::SetDefaultProvider(int)
+	?SetId@CAiwCriteriaItem@@QAEXH@Z @ 80 NONAME ; public: void __thiscall CAiwCriteriaItem::SetId(int)
+	?SetOptions@CAiwCriteriaItem@@QAEXI@Z @ 81 NONAME ; public: void __thiscall CAiwCriteriaItem::SetOptions(unsigned int)
+	?SetServiceClass@CAiwCriteriaItem@@QAEXABVTUid@@@Z @ 82 NONAME ; public: void __thiscall CAiwCriteriaItem::SetServiceClass(class TUid const &)
+	?SetServiceCmd@CAiwCriteriaItem@@QAEXH@Z @ 83 NONAME ; public: void __thiscall CAiwCriteriaItem::SetServiceCmd(int)
+	?Size@CAiwGenericParamList@@QBEHXZ @ 84 NONAME ; public: int __thiscall CAiwGenericParamList::Size(void)const 
+	?IsAiwMenu@CAiwServiceHandler@@QAEHH@Z @ 85 NONAME ; public: int __thiscall CAiwServiceHandler::IsAiwMenu(int)
+	?HandleSubmenuL@CAiwServiceHandler@@QAEHAAVCEikMenuPane@@@Z @ 86 NONAME ; public: int __thiscall CAiwServiceHandler::HandleSubmenuL(class CEikMenuPane &)
+	?InitializeMenuPaneL@CAiwServiceHandler@@QAEXAAVCEikMenuPane@@HHABVCAiwGenericParamList@@@Z @ 87 NONAME ; public: void __thiscall CAiwServiceHandler::InitializeMenuPaneL(class CEikMenuPane &,int,int,class CAiwGenericParamList const &)
+	?Remove@CAiwGenericParamList@@QAEHH@Z @ 88 NONAME ; public: int __thiscall CAiwGenericParamList::Remove(int)
+	?SetMaxProviders@CAiwCriteriaItem@@QAEXH@Z @ 89 NONAME ; public: void __thiscall CAiwCriteriaItem::SetMaxProviders(int)
+	?AsFileHandle@TAiwVariant@@QBE?AVRFile@@XZ @ 90 NONAME ; public: class RFile  __thiscall TAiwVariant::AsFileHandle(void)const 
+	?Get@TAiwVariant@@QBEHAAVRFile@@@Z @ 91 NONAME ; public: int __thiscall TAiwVariant::Get(class RFile &)const 
+	?Set@TAiwVariant@@QAEXABVRFile@@@Z @ 92 NONAME ; public: void __thiscall TAiwVariant::Set(class RFile const &)
+	?AppendL@CAiwGenericParamList@@QAEXABV1@@Z @ 93 NONAME ; public: void __thiscall CAiwGenericParamList::AppendL(class CAiwGenericParamList const &)
+	?InternalizeL@CAiwGenericParamList@@QAEXAAVRReadStream@@@Z @ 94 NONAME ; public: void __thiscall CAiwGenericParamList::InternalizeL(class RReadStream &)
+	?PackForServerL@CAiwGenericParamList@@QAEPAVHBufC8@@AAVTIpcArgs@@@Z @ 95 NONAME ; public: class HBufC8 * __thiscall CAiwGenericParamList::PackForServerL(class TIpcArgs &)
+	?UnpackFromClientL@CAiwGenericParamList@@QAEXABVRMessage2@@@Z @ 96 NONAME ; public: void __thiscall CAiwGenericParamList::UnpackFromClientL(class RMessage2 const &)
+	?AddTitleItemL@CAiwMenuPane@@QAEXABVTDesC16@@H@Z @ 97 NONAME ; public: void __thiscall CAiwMenuPane::AddTitleItem(class TDesC16 const &,int)
+	?MenuCmdId@CAiwServiceHandler@@QBEHH@Z @ 98 NONAME ; int CAiwServiceHandler::MenuCmdId(int) const
+	?Count@CAiwGenericParamList@@QBEHW4TGenericParamId@@W4TVariantTypeId@@@Z @ 99 NONAME ; int CAiwGenericParamList::Count(enum TGenericParamId, enum TVariantTypeId) const
+	?ReportMenuLaunch@CAiwServiceHandler@@SAXXZ @ 100 NONAME ; void CAiwServiceHandler::ReportMenuLaunch(void)
+	??1CAiwServiceIfMenu@@UAE@XZ @ 101 NONAME ; CAiwServiceIfMenu::~CAiwServiceIfMenu(void)
+

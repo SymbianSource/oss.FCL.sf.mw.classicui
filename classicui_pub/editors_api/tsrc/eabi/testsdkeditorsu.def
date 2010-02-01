@@ -1,0 +1,27 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI17TTestSDKIrFactory @ 2 NONAME ; #<TI>#
+	_ZTI19CTestEditorsControl @ 3 NONAME ; #<TI>#
+	_ZTI19CTestSDKEditorsMFNE @ 4 NONAME ; #<TI>#
+	_ZTI20CTestSDKEditorsEdwin @ 5 NONAME ; #<TI>#
+	_ZTI22CTestSDKEditorsEIKMFNE @ 6 NONAME ; #<TI>#
+	_ZTI23CTestSDKEditorsRichText @ 7 NONAME ; #<TI>#
+	_ZTI25CTestSDKEditorsGloablText @ 8 NONAME ; #<TI>#
+	_ZTI25CTestSDKEditorsLocationEd @ 9 NONAME ; #<TI>#
+	_ZTI25CTestSDKEditorsSecretText @ 10 NONAME ; #<TI>#
+	_ZTI28CTestSDKEditorsDialogFactory @ 11 NONAME ; #<TI>#
+	_ZTI30CTestSDKEditorsEdStateObserver @ 12 NONAME ; #<TI>#
+	_ZTV17TTestSDKIrFactory @ 13 NONAME ; #<VT>#
+	_ZTV19CTestEditorsControl @ 14 NONAME ; #<VT>#
+	_ZTV19CTestSDKEditorsMFNE @ 15 NONAME ; #<VT>#
+	_ZTV20CTestSDKEditorsEdwin @ 16 NONAME ; #<VT>#
+	_ZTV22CTestSDKEditorsEIKMFNE @ 17 NONAME ; #<VT>#
+	_ZTV23CTestSDKEditorsRichText @ 18 NONAME ; #<VT>#
+	_ZTV25CTestSDKEditorsGloablText @ 19 NONAME ; #<VT>#
+	_ZTV25CTestSDKEditorsLocationEd @ 20 NONAME ; #<VT>#
+	_ZTV25CTestSDKEditorsSecretText @ 21 NONAME ; #<VT>#
+	_ZTV28CTestSDKEditorsDialogFactory @ 22 NONAME ; #<VT>#
+	_ZTV30CTestSDKEditorsEdStateObserver @ 23 NONAME ; #<VT>#
+	_ZTI15TestEdwinDialog @ 24 NONAME ; #<TI>#
+	_ZTV15TestEdwinDialog @ 25 NONAME ; #<VT>#
+

@@ -1,0 +1,72 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+// caption
+#define qtn_apps_short_caption "Mix50"
+#define qtn_apps_caption "BCTestMix50"
+
+// MenuBar
+#define qtn_bctestmix50_menubar         "Option"
+#define qtn_bctestmix50_cba_next        "Next"
+#define qtn_bctestmix50_autotest        "Autotest"
+#define qtn_bctestmix50_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+
+// outline 
+#define qtn_bctestmix50_outline1     "Outline01"
+#define qtn_bctestmix50_outline2     "Outline02"
+#define qtn_bctestmix50_outline3     "Outline03"
+#define qtn_bctestmix50_outline4     "Outline04"
+#define qtn_bctestmix50_outline5     "Outline05"
+#define qtn_bctestmix50_outline6     "Outline06"
+#define qtn_bctestmix50_outline7     "Outline07"
+#define qtn_bctestmix50_outline8     "Outline08"
+#define qtn_bctestmix50_outline9     "Outline09"
+#define qtn_bctestmix50_outline10    "Outline10"
+#define qtn_bctestmix50_outline11    "Outline11"
+#define qtn_bctestmix50_outline12    "Outline12"
+#define qtn_bctestmix50_outline13    "Outline13"
+#define qtn_bctestmix50_outline14    "Outline14"
+#define qtn_bctestmix50_outline15    "Outline15"
+#define qtn_bctestmix50_outline16    "Outline16"
+#define qtn_bctestmix50_outline17    "Outline17"
+#define qtn_bctestmix50_outline18    "Outline18"
+#define qtn_bctestmix50_outline19    "Outline19"
+#define qtn_bctestmix50_outline20    "Outline20"
+#define qtn_bctestmix50_outline21    "Outline21"
+
+#define qtn_eikdialog_width   8
+#define qtn_eikdialog_line    5
+#define qtn_eikdialog_base_line   21
+
+#define qtn_bctestmix50_min_txt "min"
+#define qtn_bctestmix50_max_txt "max"
+#define qtn_bctestmix50_value_txt "value"
+#define qtn_bctestmix50_singular_txt "singular"
+
+#define qtn_bctestmix50_buff "bctestmix50"

@@ -1,0 +1,183 @@
+EXPORTS
+	_ZN11CEikServEnv18DestroyEnvironmentEv @ 1 NONAME
+	_ZN11CEikServEnvC1Ev @ 2 NONAME
+	_ZN11CEikServEnvC2Ev @ 3 NONAME
+	_ZN11CEikServEnvD0Ev @ 4 NONAME
+	_ZN11CEikServEnvD1Ev @ 5 NONAME
+	_ZN11CEikServEnvD2Ev @ 6 NONAME
+	_ZN14CEikUndertaker4NewLER22MEikUndertakerObserver @ 7 NONAME
+	_ZN14CEikUndertakerD0Ev @ 8 NONAME
+	_ZN14CEikUndertakerD1Ev @ 9 NONAME
+	_ZN14CEikUndertakerD2Ev @ 10 NONAME
+	_ZN19CEikServAppUiServer4NewLEv @ 11 NONAME
+	_ZN19MEikSrvNotifierBase18HandleSystemEventLE4TUid @ 12 NONAME ABSENT
+	_ZN19MEikSrvNotifierBase19NotifierCapabilitesEv @ 13 NONAME ABSENT
+	_ZN19MEikSrvNotifierBase7UpdateLERK6TDesC8iRK12RMessagePtr2 @ 14 NONAME ABSENT
+	_ZN20CEikServNotifyServer15DisplayNotifierERK7TDesC16S2_S2_S2_P33MEikNotifyAlertCompletionObserver @ 15 NONAME
+	_ZN20CEikServNotifyServer16DisplayInfoPrintERK7TDesC16 @ 16 NONAME
+	_ZN20CEikServNotifyServerC1Ei @ 17 NONAME ABSENT
+	_ZN20CEikServNotifyServerC2Ei @ 18 NONAME ABSENT
+	_ZN20CEikServNotifyServerD0Ev @ 19 NONAME
+	_ZN20CEikServNotifyServerD1Ev @ 20 NONAME
+	_ZN20CEikServNotifyServerD2Ev @ 21 NONAME
+	_ZN20MEikSrvNotifierBase218HandleSystemEventLE4TUid @ 22 NONAME
+	_ZN20MEikSrvNotifierBase219NotifierCapabilitesEv @ 23 NONAME
+	_ZN20MEikSrvNotifierBase27UpdateLERK6TDesC8iRK12RMessagePtr2 @ 24 NONAME
+	_ZN20MEikSrvNotifierBase231MEikSrvNotifierBase2_Reserved_2Ev @ 25 NONAME
+	_ZN20MEikSrvNotifierBase2C2Ev @ 26 NONAME
+	_ZN20MEikSrvNotifierBase2D0Ev @ 27 NONAME
+	_ZN20MEikSrvNotifierBase2D1Ev @ 28 NONAME
+	_ZN20MEikSrvNotifierBase2D2Ev @ 29 NONAME
+	_ZN24CEikAlmControlSupervisor10ConstructLEP20MEikServAlarmFactory @ 30 NONAME ABSENT
+	_ZN24CEikAlmControlSupervisor19CmdAcknowledgeAlarmEv @ 31 NONAME
+	_ZN24CEikAlmControlSupervisor19CmdPauseAlarmSoundLEi @ 32 NONAME
+	_ZN24CEikAlmControlSupervisor20CmdSilenceAlarmSoundEv @ 33 NONAME
+	_ZN24CEikAlmControlSupervisor21CmdTaskAwayFromAlarmLEv @ 34 NONAME
+	_ZN24CEikAlmControlSupervisorC1Ev @ 35 NONAME ABSENT
+	_ZN24CEikAlmControlSupervisorC2Ev @ 36 NONAME ABSENT
+	_ZN24CEikPasswordModeCategory16SetPasswordModeLE13TPasswordMode @ 37 NONAME
+	_ZN24CEikPasswordModeCategory5NewLCER3RFs @ 38 NONAME
+	_ZN24CEikPasswordModeCategoryD0Ev @ 39 NONAME
+	_ZN24CEikPasswordModeCategoryD1Ev @ 40 NONAME
+	_ZN24CEikPasswordModeCategoryD2Ev @ 41 NONAME
+	_ZN24CEikServAlarmAlertServer19HandleSwitchOnEventEv @ 42 NONAME
+	_ZNK24CEikPasswordModeCategory16GetPasswordModeLER13TPasswordMode @ 43 NONAME
+	_ZTI11CEikServEnv @ 44 NONAME ABSENT ; #<TI>#
+	_ZTI19MEikSrvNotifierBase @ 45 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikServNotifyServer @ 46 NONAME ABSENT ; #<TI>#
+	_ZTI20MEikSrvNotifierBase2 @ 47 NONAME ; #<TI>#
+	_ZTI24CEikAlmControlSupervisor @ 48 NONAME ABSENT ; #<TI>#
+	_ZTV11CEikServEnv @ 49 NONAME ABSENT ; #<VT>#
+	_ZTV19MEikSrvNotifierBase @ 50 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikServNotifyServer @ 51 NONAME ABSENT ; #<VT>#
+	_ZTV20MEikSrvNotifierBase2 @ 52 NONAME ; #<VT>#
+	_ZTV24CEikAlmControlSupervisor @ 53 NONAME ABSENT ; #<VT>#
+	_ZTI10CQueueItem @ 54 NONAME ABSENT ; #<TI>#
+	_ZTI12CPluginTrack @ 55 NONAME ABSENT ; #<TI>#
+	_ZTI14CEikUndertaker @ 56 NONAME ; #<TI>#
+	_ZTI16CActivityMonitor @ 57 NONAME ABSENT ; #<TI>#
+	_ZTI17CNotifierActivity @ 58 NONAME ABSENT ; #<TI>#
+	_ZTI18CEikServStatusPane @ 59 NONAME ABSENT ; #<TI>#
+	_ZTI19CEikServAppUiServer @ 60 NONAME ABSENT ; #<TI>#
+	_ZTI20CEikServAppUiSession @ 61 NONAME ; #<TI>#
+	_ZTI21CEikServNotifySession @ 62 NONAME ABSENT ; #<TI>#
+	_ZTI22CEikSrvNotifierManager @ 63 NONAME ABSENT ; #<TI>#
+	_ZTI22CEikSrvNotifierRemover @ 64 NONAME ABSENT ; #<TI>#
+	_ZTI22CEikSrvNotifierWrapper @ 65 NONAME ABSENT ; #<TI>#
+	_ZTI23CEikServStatusPaneModel @ 66 NONAME ABSENT ; #<TI>#
+	_ZTI24CEikPasswordModeCategory @ 67 NONAME ABSENT ; #<TI>#
+	_ZTI24CEikServAlarmAlertServer @ 68 NONAME ABSENT ; #<TI>#
+	_ZTI25CEikServAlarmAlertSession @ 69 NONAME ABSENT ; #<TI>#
+	_ZTI26CDiscoverNewImplementation @ 70 NONAME ABSENT ; #<TI>#
+	_ZTI27CEikSrvNotifierRemoverTimer @ 71 NONAME ABSENT ; #<TI>#
+	_ZTI27TSynchronousNotifierStarter @ 72 NONAME ; #<TI>#
+	_ZTI28TAsynchronousNotifierStarter @ 73 NONAME ABSENT ; #<TI>#
+	_ZTIN21CEikServNotifySession19CEikSrvPendingAlertE @ 74 NONAME ABSENT ; #<TI>#
+	_ZTV10CQueueItem @ 75 NONAME ABSENT ; #<VT>#
+	_ZTV12CPluginTrack @ 76 NONAME ABSENT ; #<VT>#
+	_ZTV14CEikUndertaker @ 77 NONAME ; #<VT>#
+	_ZTV16CActivityMonitor @ 78 NONAME ABSENT ; #<VT>#
+	_ZTV17CNotifierActivity @ 79 NONAME ABSENT ; #<VT>#
+	_ZTV18CEikServStatusPane @ 80 NONAME ABSENT ; #<VT>#
+	_ZTV19CEikServAppUiServer @ 81 NONAME ABSENT ; #<VT>#
+	_ZTV20CEikServAppUiSession @ 82 NONAME ; #<VT>#
+	_ZTV21CEikServNotifySession @ 83 NONAME ABSENT ; #<VT>#
+	_ZTV22CEikSrvNotifierManager @ 84 NONAME ABSENT ; #<VT>#
+	_ZTV22CEikSrvNotifierRemover @ 85 NONAME ABSENT ; #<VT>#
+	_ZTV22CEikSrvNotifierWrapper @ 86 NONAME ABSENT ; #<VT>#
+	_ZTV23CEikServStatusPaneModel @ 87 NONAME ABSENT ; #<VT>#
+	_ZTV24CEikPasswordModeCategory @ 88 NONAME ABSENT ; #<VT>#
+	_ZTV24CEikServAlarmAlertServer @ 89 NONAME ABSENT ; #<VT>#
+	_ZTV25CEikServAlarmAlertSession @ 90 NONAME ABSENT ; #<VT>#
+	_ZTV26CDiscoverNewImplementation @ 91 NONAME ABSENT ; #<VT>#
+	_ZTV27CEikSrvNotifierRemoverTimer @ 92 NONAME ABSENT ; #<VT>#
+	_ZTV27TSynchronousNotifierStarter @ 93 NONAME ; #<VT>#
+	_ZTV28TAsynchronousNotifierStarter @ 94 NONAME ABSENT ; #<VT>#
+	_ZTVN21CEikServNotifySession19CEikSrvPendingAlertE @ 95 NONAME ABSENT ; #<VT>#
+	_ZN24CEikAlmControlSupervisor21CmdTaskAwayFromAlarmLEi @ 96 NONAME
+	_ZNK11CEikServEnv26EikServAppUiSessionFactoryEv @ 97 NONAME
+	_ZN11CEikServEnv29SetEikServAppUiSessionFactoryEP27MEikServAppUiSessionFactory @ 98 NONAME
+	_ZN18CEikServSecureData16GetFepAttributeLE4TUidR5TDes8 @ 99 NONAME
+	_ZN18CEikServSecureData16SetFepAttributeLE4TUidRK6TDesC8 @ 100 NONAME
+	_ZN18CEikServSecureData18CloseFepAttributesEv @ 101 NONAME
+	_ZN18CEikServSecureData18OpenFepAttributesLEv @ 102 NONAME
+	_ZN18CEikServSecureData20CommitFepAttributesLEv @ 103 NONAME
+	_ZN18CEikServSecureData20GetInstalledFepNameLER6TDes16 @ 104 NONAME
+	_ZN18CEikServSecureData20SetInstalledFepNameLERK7TDesC16i @ 105 NONAME
+	_ZN18CEikServSecureData27GetBufferedSystemColorListLEv @ 106 NONAME
+	_ZN18CEikServSecureData27SetBufferedSystemColorListLERK6TDesC8 @ 107 NONAME
+	_ZN20CEikServAppUiSession10ConstructLEv @ 108 NONAME
+	_ZN20CEikServAppUiSession8ServiceLERK9RMessage2 @ 109 NONAME
+	_ZN20CEikServAppUiSessionC1EP27MEikServAppUiSessionHandler @ 110 NONAME
+	_ZN20CEikServAppUiSessionC2EP27MEikServAppUiSessionHandler @ 111 NONAME
+	_ZN20CEikServAppUiSessionD0Ev @ 112 NONAME
+	_ZN20CEikServAppUiSessionD1Ev @ 113 NONAME
+	_ZN20CEikServAppUiSessionD2Ev @ 114 NONAME
+	_ZN20CEikServNotifyServer4NewLEP19MEikServNotifyAlert @ 115 NONAME
+	_ZN24CEikServAlarmAlertServer15TaskKeyPressedLEv @ 116 NONAME
+	_ZN24CEikServAlarmAlertServer4NewLEP20MEikServAlarmFactory @ 117 NONAME
+	_ZN11CEikServEnv8SetUiDllER8RLibrary @ 118 NONAME
+	_ZN18CEikServStatusPane4NewLER9CEikonEnvP12RWindowGroupi @ 119 NONAME ABSENT
+	_ZN20CEikServAppUiSession12ServiceErrorERK9RMessage2i @ 120 NONAME
+	_ZN20CEikServNotifyServer6StartLEv @ 121 NONAME
+	_ZN11CEikServEnv14EnableTaskListEv @ 122 NONAME
+	_ZNK11CEikServEnv17IsTaskListEnabledEv @ 123 NONAME
+	_ZNK20CEikServAppUiSession14SessionHandlerEv @ 124 NONAME
+	_ZN11CEikServEnv10Reserved_1Ev @ 125 NONAME
+	_ZN11CEikServEnv10Reserved_2Ev @ 126 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved1Ev @ 127 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved2Ev @ 128 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved3Ev @ 129 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved4Ev @ 130 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved5Ev @ 131 NONAME
+	_ZN11CEikServEnv21CEikServEnv_Reserved6Ev @ 132 NONAME
+	_ZN13MEikServAlarm23MEikServAlarm_Reserved1Ev @ 133 NONAME
+	_ZN13MEikServAlarm23MEikServAlarm_Reserved2Ev @ 134 NONAME
+	_ZN13MEikServAlarmC2Ev @ 135 NONAME
+	_ZN18CEikServSecureData28CEikServSecureData_Reserved1Ev @ 136 NONAME ABSENT
+	_ZN18CEikServSecureData28CEikServSecureData_Reserved2Ev @ 137 NONAME ABSENT
+	_ZN18CEikServSecureDataC1Ev @ 138 NONAME ABSENT
+	_ZN18CEikServSecureDataC2Ev @ 139 NONAME ABSENT
+	_ZN19MEikServNotifyAlert29MEikServNotifyAlert_Reserved1Ev @ 140 NONAME
+	_ZN19MEikServNotifyAlert29MEikServNotifyAlert_Reserved2Ev @ 141 NONAME
+	_ZN19MEikServNotifyAlertC2Ev @ 142 NONAME
+	_ZN20MEikServAlarmFactory30MEikServAlarmFactory_Reserved1Ev @ 143 NONAME
+	_ZN20MEikServAlarmFactory30MEikServAlarmFactory_Reserved2Ev @ 144 NONAME
+	_ZN20MEikServAlarmFactoryC2Ev @ 145 NONAME
+	_ZN22MEikSrvNotifierManager32MEikSrvNotifierManager_Reserved1Ev @ 146 NONAME
+	_ZN22MEikSrvNotifierManager32MEikSrvNotifierManager_Reserved2Ev @ 147 NONAME
+	_ZN22MEikSrvNotifierManagerC2Ev @ 148 NONAME
+	_ZN24CEikAlmControlSupervisor34CEikAlmControlSupervisor_Reserved1Ev @ 149 NONAME
+	_ZN24CEikAlmControlSupervisor34CEikAlmControlSupervisor_Reserved2Ev @ 150 NONAME
+	_ZN27MEikServAppUiSessionFactory37MEikServAppUiSessionFactory_Reserved1Ev @ 151 NONAME
+	_ZN27MEikServAppUiSessionFactory37MEikServAppUiSessionFactory_Reserved2Ev @ 152 NONAME
+	_ZN27MEikServAppUiSessionFactoryC2Ev @ 153 NONAME
+	_ZN27MEikServAppUiSessionHandler37MEikServAppUiSessionHandler_Reserved1Ev @ 154 NONAME
+	_ZN27MEikServAppUiSessionHandler37MEikServAppUiSessionHandler_Reserved2Ev @ 155 NONAME
+	_ZN27MEikServAppUiSessionHandlerC2Ev @ 156 NONAME
+	_ZN33MEikNotifyAlertCompletionObserver43MEikNotifyAlertCompletionObserver_Reserved1Ev @ 157 NONAME
+	_ZN33MEikNotifyAlertCompletionObserver43MEikNotifyAlertCompletionObserver_Reserved2Ev @ 158 NONAME
+	_ZN33MEikNotifyAlertCompletionObserverC2Ev @ 159 NONAME
+	_ZTI13MEikServAlarm @ 160 NONAME ; #<TI>#
+	_ZTI18CEikServSecureData @ 161 NONAME ABSENT ; #<TI>#
+	_ZTI19MEikServNotifyAlert @ 162 NONAME ; #<TI>#
+	_ZTI20MEikServAlarmFactory @ 163 NONAME ; #<TI>#
+	_ZTI22MEikSrvNotifierManager @ 164 NONAME ; #<TI>#
+	_ZTI27MEikServAppUiSessionFactory @ 165 NONAME ; #<TI>#
+	_ZTI27MEikServAppUiSessionHandler @ 166 NONAME ; #<TI>#
+	_ZTI33MEikNotifyAlertCompletionObserver @ 167 NONAME ; #<TI>#
+	_ZTV13MEikServAlarm @ 168 NONAME ; #<VT>#
+	_ZTV18CEikServSecureData @ 169 NONAME ABSENT ; #<VT>#
+	_ZTV19MEikServNotifyAlert @ 170 NONAME ; #<VT>#
+	_ZTV20MEikServAlarmFactory @ 171 NONAME ; #<VT>#
+	_ZTV22MEikSrvNotifierManager @ 172 NONAME ; #<VT>#
+	_ZTV27MEikServAppUiSessionFactory @ 173 NONAME ; #<VT>#
+	_ZTV27MEikServAppUiSessionHandler @ 174 NONAME ; #<VT>#
+	_ZTV33MEikNotifyAlertCompletionObserver @ 175 NONAME ; #<VT>#
+	_ZN24CEikServAlarmAlertServer15ClearAllAlarmsLEv @ 176 NONAME
+	_ZN24CEikServAlarmAlertServer15SetQuietPeriodLE5TTime @ 177 NONAME
+	_ZN24CEikServAlarmAlertServer4NewLEP20MEikServAlarmFactoryi @ 178 NONAME
+	_ZNK24CEikAlmControlSupervisor9AlarmDataEv @ 179 NONAME
+	_ZN24CEikAlmControlSupervisor23CmdAcknowledgeAllAlarmsEv @ 180 NONAME
+	KEikAlarmDefaultSnoozeInMinutes @ 181 NONAME DATA 4
+

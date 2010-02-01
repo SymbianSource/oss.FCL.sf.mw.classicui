@@ -1,0 +1,101 @@
+/*
+* Copyright (c) 1998 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+NAME EIK
+
+#include <fontids.hrh>
+
+#include <uikon.rh>
+#include <avkon.loc>
+
+
+RESOURCE RSS_SIGNATURE { }
+
+#include "EIKSYSER.RA"
+#include "EIKBAFL.RA"
+#include "EIKCONE.RA"
+
+#include <gulfont.hrh>
+
+
+RESOURCE ARRAY r_eik_keypress_labels
+    {
+    items=
+        {
+        LBUF { txt="Esc"; },
+        LBUF { txt="Enter"; },
+        LBUF { txt="Tab"; },
+		LBUF { txt="Del"; },
+		LBUF { txt="Space"; },
+		LBUF { txt="Ctrl+X"; }
+        };
+    }
+
+
+
+
+
+RESOURCE TBUF r_eik_tbuf_error_while_redrawing { buf="Display may be temporarily incomplete"; }
+RESOURCE TBUF2 r_eik_tbuf_nudge_chars { buf="m."; }
+
+
+RESOURCE TBUF r_eik_tbuf_confirm_all_lost { buf="Confirm the loss of all changes"; }
+RESOURCE TBUF r_eik_tbuf_y_discards { buf="("<KLeftSingleQuote>"Yes"<KRightSingleQuote>" discards all changes)"; }
+
+
+RESOURCE TBUF r_eik_tbuf_not_available { buf="This item is not available"; }
+
+RESOURCE TBUF r_eik_tbuf_not_enough_memory { buf="Not enough memory";}
+
+// These don't really belong here as they are file related, but are
+// use by eikdll and the file utils
+RESOURCE TBUF r_eik_tbuf_disk_not_present { buf="Disk not present"; }
+RESOURCE TBUF r_eik_tbuf_cannot_be_read { buf="Disk corrupt"; }
+RESOURCE TBUF r_eik_tbuf_no_foldername_specified { buf="No folder name entered"; }
+RESOURCE TBUF r_eik_tbuf_invalid_folder_name { buf="Invalid folder name"; }
+RESOURCE TBUF r_eik_tbuf_foldername_too_long { buf="Folder name is too long"; }
+
+
+
+
+//RESOURCE TBUF r_eik_tbuf_num { buf="Number"; }
+
+
+
+
+
+RESOURCE ARRAY r_eik_array_file_sort_table
+	{
+	items=
+		{
+#if 0
+		NUMBER_INT32 {value=KEikUidWordAppValue;},		// Word
+		NUMBER_INT32 {value=KEikUidSheetAppValue;},		// Sheet
+		NUMBER_INT32 {value=KEikUidDataAppValue;},		// Data
+		NUMBER_INT32 {value=KEikUidAgendaAppValue;},	// Agenda
+		NUMBER_INT32 {value=KEikUidPaintAppValue;},		// Sketch
+		NUMBER_INT32 {value=KEikUidTextEdAppValue;},	// Program	above Sheet
+		NUMBER_INT32 {value=KEikUidCommsAppValue;},		// Comms	above Data
+		NUMBER_INT32 {value=KEikUidRecordAppValue;}		// Record	above Agenda
+#endif  // To be removed 
+		};
+	}
+
+
+
+

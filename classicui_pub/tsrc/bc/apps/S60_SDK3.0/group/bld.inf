@@ -1,0 +1,101 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         build information
+*
+*/
+
+
+
+
+
+
+
+
+
+
+PRJ_MMPFILES
+
+../../bctestutil/group/bctestutil.mmp
+
+../bctestaknsound/group/bctestaknsound.mmp
+
+../bctestappfrm/group/bctestappfrm.mmp 
+
+../bctestbuttons/group/bctestbuttons.mmp
+
+../bctestcmdlg/group/bctestcmdlg.mmp
+
+../bctestdocandinit/group/bctestdocandinit.mmp
+
+../bctesteditor/group/bctesteditor.mmp
+
+../bctesteh/group/bctesteh.mmp 
+
+../bctesteikbctrl/group/bctesteikbctrl.mmp
+
+../bctesteikfrm/group/bctesteikfrm.mmp
+
+../bctestfontinput/group/bctestfontinput.mmp
+
+../bctestform/group/bctestform.mmp
+
+../bctestgrids/group/bctestgrids.mmp
+
+../bctestimage/group/bctestimage.mmp
+
+../bctestkeylock/group/bctestkeylock.mmp
+
+../bctestlabelinfoindicators/group/bctestlabelinfoindicators.mmp
+
+../../bctestlauncher/group/bctestlauncher.mmp
+
+gnumakefile ../bctestlist/group/icons_list.mk
+../bctestlist/group/bctestlist.mmp
+
+../bctestmenu/group/bctestmenu.mmp
+
+../bctestmisccontrol/group/bctestmisccontrol.mmp
+
+../bctestnote/group/bctestnote.mmp
+
+../bctestnotifier/group/bctestnotifier.mmp
+
+../bctestpane/group/bctestpane.mmp
+
+../bctestpopups/group/bctestpopups.mmp
+
+../bctestprivateuifrm/group/bctestprivateuifrm.mmp
+
+../bctestptieng/group/bctestptieng.mmp
+
+../bctestquery/group/bctestquery.mmp
+
+../bctestscreenclearer/group/bctestscreenclearer.mmp
+
+../bctestscrollerbar/group/bctestscroller.mmp
+
+../bctestsearchfield/group/bctestsearchfield.mmp
+
+../bctestserverapp/group/bctestserverapp.mmp
+
+../bctestsettingpage/group/bctestsettingpage.mmp
+
+../bctestskins/group/bctestskins.mmp
+
+../bctestsliderandicons/group/bctestsliderandicons.mmp
+
+../bctestutilities/group/bctestutilities.mmp
+
+../bctestvolume/group/bctestvolume.mmp
+

@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Includes all the SDK API specific bld.inf files, which 
+*                export files.
+*
+*/
+
+
+
+#include "../input_frame_api/group/bld.inf"
+#include "../window_server_event_observer_api/group/bld.inf"
+#include "../application_framework_api/group/bld.inf"
+#include "../scroller_api/group/bld.inf"
+#include "../ui_framework_utilities_api/group/bld.inf"
+#include "../ui_framework_definitions_api/group/bld.inf"
+#include "../buttons_api/group/bld.inf"
+#include "../queries_api/group/bld.inf"
+#include "../aiw_generic_parameter_api/group/bld.inf"
+#include "../editors_api/group/bld.inf"
+#include "../common_file_dialogs_api/group/bld.inf"
+#include "../dialog_shutter_api/group/bld.inf"
+#include "../fonts_api/group/bld.inf"
+#include "../screen_clearer_api/group/bld.inf"
+#include "../notifiers_api/group/bld.inf"
+#include "../notes_api/group/bld.inf"
+#include "../screen_saver_api/group/bld.inf"
+#include "../status_pane_api/group/bld.inf"
+#include "../base_controls_api/group/bld.inf"
+#include "../grids_api/group/bld.inf"
+#include "../context_pane_api/group/bld.inf"
+#include "../lists_api/group/bld.inf"
+#include "../popups_api/group/bld.inf"
+#include "../misc_controls_api/group/bld.inf"
+#include "../keylock_api/group/bld.inf"
+#include "../options_menu_api/group/bld.inf"
+#include "../hierarchical_lists_api/group/bld.inf"
+#include "../navigation_pane_api/group/bld.inf"
+#include "../tabs_api/group/bld.inf"
+#include "../title_pane_touch_observer_api/group/bld.inf"
+#include "../choice_list_api/group/bld.inf"
+#include "../info_popup_note_api/group/bld.inf"
+#include "../setting_pages_api/group/bld.inf"
+#include "../screen_mode_api/group/bld.inf"
+#include "../indicators_api/group/bld.inf"
+#include "../error_ui_api/group/bld.inf"
+#include "../animation_api/group/bld.inf"
+#include "../searchfield_api/group/bld.inf"
+#include "../labels_api/group/bld.inf"
+#include "../hotkeys_api/group/bld.inf"
+#include "../initialization_api/group/bld.inf"
+#include "../volume_control_api/group/bld.inf"
+#include "../title_pane_api/group/bld.inf"
+#include "../sounds_api/group/bld.inf"
+#include "../aiw_service_handler_api/group/bld.inf"
+#include "../aiw_criteria_api/group/bld.inf"
+#include "../touch_ui_utilities_api/group/bld.inf"
+#include "../generic_button_api/group/bld.inf"
+#include "../form_api/group/bld.inf"
+#include "../uikon_core_controls/group/bld.inf"
+#include "../calendar_api/group/bld.inf"
+#include "../toolbar_api/group/bld.inf"
+#include "../server_application_api/group/bld.inf"
+#include "../slider_api/group/bld.inf"
+#include "../private_ui_framework_api/group/bld.inf"
+#include "../dialogs_api/group/bld.inf"
+#include "../document_handler_api/group/bld.inf"
+#include "../images_api/group/bld.inf"
+#include "../stylus_popup_menu_api/group/bld.inf"
+#include "../information_preview_popup_api/group/bld.inf"
+#include "../intermediate_state_api/group/bld.inf"

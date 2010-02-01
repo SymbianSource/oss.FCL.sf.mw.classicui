@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="9e74a5230f0b0953ca61c35beefc9b63" dataversion="1.0">
+  <name>Key Rotator API</name>
+  <description>A utility for managing rotation of raw key events of the arrow keys based on the screen orientation.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

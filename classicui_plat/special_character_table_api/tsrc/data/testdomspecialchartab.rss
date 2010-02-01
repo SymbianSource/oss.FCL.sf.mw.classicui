@@ -1,0 +1,98 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  rss file
+*
+*/
+
+
+NAME SPCH
+
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+
+#include "testdomspecialchartab.hrh"
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+// RSS_SIGNATURE
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE{ }
+//-----------------------------------------------------------------------------
+// TBUF
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF 
+    {
+    buf=""; 
+    }
+//-----------------------------------------------------------------------------
+// DIALOG
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_test_dialog
+
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_hewb_command_inputwords_text ;
+                control = EDWIN
+                    {
+                    width = 15;
+                    lines = 1;
+                    maxlength = 15;
+                    allowed_input_modes = EAknEditorNumericInputMode;
+                    default_input_mode = EAknEditorNumericInputMode;
+                    };
+                };
+            }
+        };
+    }
+//-----------------------------------------------------------------------------
+// SPECIAL_CHAR_TABLE
+//-----------------------------------------------------------------------------
+//
+
+RESOURCE SPECIAL_CHAR_TABLE r_specialchartable
+    {
+    contents =
+        {
+        SCT_CHAR_SET
+            {
+            id = EAknSCTUpperCase;
+            chars = "ASDFGHJK";
+            },
+        SCT_CHAR_SET
+            {
+            id = EAknSCTLowerCase;
+            chars = "abcdefg";
+            }
+        };
+    }
+
+//End of File
+
+

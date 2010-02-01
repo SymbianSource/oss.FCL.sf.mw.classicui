@@ -1,0 +1,209 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME OCRE
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestocr.hrh"
+#include "bctestocr.loc"
+
+//  RESOURCE DEFINITIONS
+//----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctestocr_buf;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestocr_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+// ---------------------------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestocr_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        number_of_icons = 2;
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestocr_view
+//
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestocr_view
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestocr_menubar
+//    MenuBar
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestocr_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestocr_menu;
+            txt = qtn_bctestocr_menubar;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestocr_menu
+//    Menu pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestocr_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestOCRCmd1;
+            cascade = r_bctestocr_menu_ocr_cascade;
+            txt = qtn_bctestocr_menu_ocr;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestOCRCmdAutotest;
+            txt = qtn_bctestocr_menu_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestocr_menu_exit;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestocr_menu_ocr_cascade
+//    Sub menu-pane of "OCR" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestocr_menu_ocr_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestOCRCmdOutline01;
+            txt = qtn_bctestocr_menu_out01;
+            }                   
+        };
+    }
+
+
+//----------------------------------------------------
+//   
+//    r_commons60ui_wait_note
+//
+//    Dialog resource for wait dialog
+//
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_commons60ui_wait_note
+    {
+    flags   = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type    = EAknCtNote;
+            id      = 10;
+            control = AVKON_NOTE
+                {
+                layout         = EWaitLayout;
+                singular_label = qtn_bctestocr_label;
+                plural_label   = "";
+                animation      = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+
+
+

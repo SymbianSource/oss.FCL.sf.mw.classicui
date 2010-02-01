@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestScreenClearer localise file
+*
+*/
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTSCREENCLEARER"
+#define qtn_apps_tavl_grid              "BCTESTSCREENCLEARER"
+
+// MenuBar
+#define qtn_bctestscreenclearer_menubar         "Option"
+#define qtn_bctestscreenclearer_cba_next        "Next"
+#define qtn_bctestscreenclearer_autotest        "Autotest"
+#define qtn_bctestscreenclearer_menu_exit       "Exit"
+
+//Name
+#define qtn_bctest_buf             "bctestsc"
+#define qtn_bctest_app_file        "bctestscreenclearer"
+#define qtn_bctest_resource        "\\resource\\apps\\bctestscreenclearer"
+#define qtn_bctest_group           "BCTest"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctestscreenclearer_testl     "TestL"
+
+
+#define qtn_bctestvolume_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 \
+    to change label"
+
+// Application name
+#define qtn_bctestvolume_text_other_app_name     "BCTestSoftkey"

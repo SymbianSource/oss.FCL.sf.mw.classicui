@@ -1,0 +1,384 @@
+
+(object Petal
+    version    	35)
+
+(object Design "<Top Level>"
+    is_unit    	TRUE
+    file_name  	"c:\wserv\clock\clock.mdl"
+    is_loaded  	TRUE
+    defaults   	(object defaults
+	rightMargin 	0.25
+	leftMargin 	0.25
+	topMargin  	0.25
+	bottomMargin 	0.5
+	pageOverlap 	0.25
+	clipIconLabels 	TRUE
+	autoResize 	FALSE
+	snapToGrid 	TRUE
+	gridX      	31
+	gridY      	31
+	defaultFont 	(object Font
+	    size       	10
+	    face       	"helvetica"
+	    bold       	FALSE
+	    italics    	FALSE
+	    underline  	FALSE
+	    strike     	FALSE
+	    color      	0
+	    default_color 	TRUE)
+	showMessageNum 	3)
+    root_category 	(object Class_Category "<Top Level>"
+	exportControl 	"Public"
+	global     	TRUE
+	subsystem  	"<Top Level>"
+	logical_models 	(list unit_reference_list
+	    (object Class "CClock"
+		documentation 	
+|This class has the following properties:-
+|(i) RWindow * pointing to a window owned elsewhere;
+|(ii) CPeriodic * pointing to a periodic timer owned by the class;
+|(iii) TPoint storing the position of the centre of the clock;
+|(iv) TDateTime storing the date and time;
+|(v) TSize iSize;
+|(vi) TUint iNumTicksPerUpdate.
+		
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			supplier   	"CPeriodic"))
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			supplier   	"CBase"))
+		abstract   	TRUE
+		operations 	(list Operations
+		    (object Operation "SetTime"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "updateDisplay"
+			concurrency 	"Sequential"
+			opExportControl 	"Private"
+			uid        	0)))
+	    (object Class "TDigitalClock"
+		documentation 	"Not yet considered."
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			supplier   	"CClock")))
+	    (object Class "CAnalogueClock"
+		documentation 	"Has no properties of its own. Needs to be constructed, initilised, optionally have child clocks added, and started up. All setting up of the hands is done by its base class. A second hand is optional."
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			supplier   	"CAnalogueDial"))
+		operations 	(list Operations
+		    (object Operation "CAnalogueClock"
+			parameters 	(list Parameters
+			    (object Parameter "aTime"
+				type       	"TDateTime")
+			    (object Parameter "aCentre"
+				type       	"TPoint")
+			    (object Parameter "aSize"
+				type       	"TSize")
+			    (object Parameter "aHandStyle"
+				type       	"THandStyle"))
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Init"
+			parameters 	(list Parameters
+			    (object Parameter "aBitmap"
+				type       	"TDesC"))
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "CBase"
+		documentation 	"Provided by E32.")
+	    (object Class "CPeriodic"
+		documentation 	"Provided by E32.")
+	    (object Class "CAnalogueDial"
+		documentation 	
+|Properties:
+|(i) RBitmap iDialFace;
+|(iii) a list of CHands.
+|(iv) CAnalogueDial *
+		
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			supplier   	"CAnalogueDialHand"
+			supplier_cardinality 	(value cardinality "n")
+			client_cardinality 	(value cardinality "1")))
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			supplier   	"CClock"))
+		used_nodes 	(list uses_relationship_list
+		    (object Uses_Relationship
+			supplier   	"TClockMathsUtils"))
+		abstract   	TRUE)
+	    (object Class "CAnalogueDialHand"
+		documentation 	
+|This class models the behaviour of a clock hand, NOT its visual appearance. It has the following properties:-
+|(i) TPoint storing the position of the tip of the hand
+|(ii) TUint storing how long one revolution of the dial takes;
+|(iii) TUint storing how many updates per second are required;
+|Appearance and behaviour have been separated out since the former is decided upon by the USER-programmer, whereas the latter is determined by the SUBCLASSER-programmer.
+		
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			supplier   	"CHandAppearance"
+			supplier_cardinality 	(value cardinality "1")
+			client_cardinality 	(value cardinality "1")))
+		collaborators 	(list association_list
+		    (object Association
+			supplier   	"CHandAppearance")))
+	    (object Class "CHandAppearance"
+		documentation 	
+|This class is solely concerned with the visual form of the hand on the screen (see documentation on class "CAnalogueDialHand"). It has the following properties:
+|(i) TUint storing the length of the hand (i.e the distance from the centre to the furthest point);
+|(ii) TUint storing the length backwards (i.e. the distance the hand extends the other way).
+		
+		superclasses 	(list inheritance_relationship_list
+		    (object Inheritance_Relationship
+			supplier   	"CVectorDrawing")))
+	    (object Class "TClockMathsUtils"
+		documentation 	"This class has no properties and consists solely of static functions."
+		operations 	(list Operations
+		    (object Operation "Hcf"
+			documentation 	"Calculates and returns the highest common factor of the input list of TUints."
+			parameters 	(list Parameters
+			    (object Parameter "numUints"
+				type       	"TUint")
+			    (object Parameter "aUints"
+				type       	"TUint*"))
+			result     	"TUint"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Hcf"
+			documentation 	"Finds the highest common factor of the two input parameters."
+			parameters 	(list Parameters
+			    (object Parameter "aFirstUint"
+				type       	"TUint")
+			    (object Parameter "aSecondUint"
+				type       	"TUint"))
+			result     	"TUint"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Lcm"
+			documentation 	"Calculates and returns the highest common factor of the input list of TUints."
+			parameters 	(list Parameters
+			    (object Parameter "aNumUints"
+				type       	"TUint")
+			    (object Parameter "aUints"
+				type       	"TUint *"))
+			result     	"TUint"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)
+		    (object Operation "Lcm"
+			documentation 	"Calculates and returns the highest common factor of the two TUints."
+			parameters 	(list Parameters
+			    (object Parameter "aFirstUint"
+				type       	"TUint")
+			    (object Parameter "aSecondUint"
+				type       	"TUint"))
+			result     	"TUint"
+			concurrency 	"Sequential"
+			opExportControl 	"Public"
+			uid        	0)))
+	    (object Class "TUint"
+		nonclass   	TRUE)
+	    (object Class "CVectorDrawing"
+		fields     	(list has_relationship_list
+		    (object Has_Relationship
+			supplier   	"CShadow"
+			supplier_cardinality 	(value cardinality "1")
+			client_cardinality 	(value cardinality "0,1"))))
+	    (object Class "CShadow"
+		cardinality 	(value Cardinality "1")))
+	logical_presentations 	(list unit_reference_list
+	    (object ClassDiagram "Main"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object ClassView "Class" "CClock" @1
+			location   	(775, 403)
+			label      	(object ItemLabel
+			    location   	(632, 283)
+			    nlines     	2
+			    max_width  	336
+			    justify    	0
+			    label      	"CClock")
+			compartment 	(object Compartment
+			    location   	(301, 349)
+			    anchor     	2
+			    nlines     	3
+			    max_width  	1008
+			    justify    	0
+			    compartmentItems 	(list Compartment
+				"||  updateDisplay( )"
+				"SetTime( )"))
+			width      	487
+			height     	356
+			annotation 	8)
+		    (object ClassView "Class" "TDigitalClock" @2
+			location   	(403, 992)
+			label      	(object ItemLabel
+			    location   	(258, 872)
+			    nlines     	2
+			    max_width  	340
+			    justify    	0
+			    label      	"TDigitalClock")
+			width      	494
+			height     	356
+			annotation 	8)
+		    (object ClassView "Class" "CPeriodic" @3
+			location   	(1519, 403)
+			label      	(object ItemLabel
+			    location   	(1376, 283)
+			    nlines     	2
+			    max_width  	336
+			    justify    	0
+			    label      	"CPeriodic")
+			width      	487
+			height     	356
+			annotation 	8)
+		    (object ClassView "Class" "CAnalogueDial" @4
+			location   	(1023, 992)
+			label      	(object ItemLabel
+			    location   	(877, 872)
+			    nlines     	2
+			    max_width  	344
+			    justify    	0
+			    label      	"CAnalogueDial")
+			width      	500
+			height     	357
+			annotation 	8)
+		    (object ClassView "Class" "CAnalogueDialHand" @5
+			location   	(1736, 992)
+			label      	(object ItemLabel
+			    location   	(1591, 872)
+			    nlines     	2
+			    max_width  	340
+			    justify    	0
+			    label      	"CAnalogueDialHand")
+			width      	493
+			height     	356
+			annotation 	8)
+		    (object HasView ""
+			client     	@4
+			supplier   	@5)
+		    (object InheritView ""
+			client     	@4
+			supplier   	@1)
+		    (object InheritView ""
+			client     	@2
+			supplier   	@1)
+		    (object HasView ""
+			client     	@1
+			supplier   	@3)
+		    (object ClassView "Class" "CAnalogueClock" @6
+			location   	(1271, 1581)
+			label      	(object ItemLabel
+			    location   	(1126, 1461)
+			    nlines     	2
+			    max_width  	340
+			    justify    	0
+			    label      	"CAnalogueClock")
+			width      	494
+			height     	356
+			annotation 	8)
+		    (object InheritView ""
+			client     	@6
+			supplier   	@4)
+		    (object ClassView "Class" "CHandAppearance" @7
+			location   	(2480, 992)
+			label      	(object ItemLabel
+			    location   	(2334, 872)
+			    nlines     	2
+			    max_width  	344
+			    justify    	0
+			    label      	"CHandAppearance")
+			width      	500
+			height     	356
+			annotation 	8)
+		    (object HasView ""
+			client     	@5
+			supplier   	@7)
+		    (object ClassView "Class" "TClockMathsUtils" @8
+			location   	(2108, 651)
+			label      	(object ItemLabel
+			    location   	(1930, 500)
+			    nlines     	2
+			    max_width  	422
+			    justify    	0
+			    label      	"TClockMathsUtils")
+			compartment 	(object Compartment
+			    location   	(1512, 566)
+			    anchor     	2
+			    nlines     	5
+			    max_width  	1268
+			    justify    	0
+			    compartmentItems 	(list Compartment
+				"Hcf( )"
+				"Hcf( )"
+				"Lcm( )"
+				"Lcm( )"))
+			width      	613
+			height     	444
+			annotation 	8)
+		    (object UsesView ""
+			client     	@4
+			supplier   	@8
+			vertices   	(list Points
+			    (1182, 858)
+			    (1426, 651)
+			    (1803, 651)))
+		    (object ClassView "Class" "CVectorDrawing" @9
+			location   	(2232, 1767)
+			label      	(object ItemLabel
+			    location   	(2128, 1683)
+			    nlines     	2
+			    max_width  	240
+			    justify    	0
+			    label      	"CVectorDrawing")
+			annotation 	8)
+		    (object ClassView "Class" "CShadow" @10
+			location   	(2728, 1767)
+			label      	(object ItemLabel
+			    location   	(2624, 1683)
+			    nlines     	2
+			    max_width  	240
+			    justify    	0
+			    label      	"CShadow")
+			annotation 	8)
+		    (object InheritView ""
+			client     	@7
+			supplier   	@9)
+		    (object HasView ""
+			client     	@9
+			supplier   	@10)))))
+    root_subsystem 	(object SubSystem "<Top Level>"
+	physical_models 	(list unit_reference_list)
+	physical_presentations 	(list unit_reference_list
+	    (object Module_Diagram "Main"
+		title      	"Main"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    process_structure 	(object Processes
+	ProcsNDevs 	(list
+	    (object Process_Diagram ""
+		title      	""
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list))))
+    properties 	(object Properties))

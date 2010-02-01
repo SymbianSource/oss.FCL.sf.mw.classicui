@@ -1,0 +1,431 @@
+EXPORTS
+	__Q218CColumnListBoxData7TColors @ 1 NONAME R3UNUSED ; CColumnListBoxData::TColors::TColors(void)
+	ActivateL__18CEikRichTextEditor @ 2 NONAME R3UNUSED ; CEikRichTextEditor::ActivateL(void)
+	ActivateL__20CEikGlobalTextEditor @ 3 NONAME R3UNUSED ; CEikGlobalTextEditor::ActivateL(void)
+	ActivateL__9CEikClock @ 4 NONAME R3UNUSED ; CEikClock::ActivateL(void)
+	AddField__8CEikMfneP13CEikMfneField @ 5 NONAME R3UNUSED ; CEikMfne::AddField(CEikMfneField *)
+	AddSymbolicItem__14CEikMfneSymbolPQ214CEikMfneSymbol5CItemi @ 6 NONAME R3UNUSED ; CEikMfneSymbol::AddSymbolicItem(CEikMfneSymbol::CItem *, int)
+	Address__C17CAknIpFieldEditor @ 7 NONAME R3UNUSED ; CAknIpFieldEditor::Address(void) const
+	AknSetAlignment__16CEikSecretEditorRCQ216CGraphicsContext10TTextAlign @ 8 NONAME R3UNUSED ; CEikSecretEditor::AknSetAlignment(CGraphicsContext::TTextAlign const &)
+	AknSetFont__16CEikSecretEditorRC5CFont @ 9 NONAME R3UNUSED ; CEikSecretEditor::AknSetFont(CFont const &)
+	AppendCharacterL__16CEikSecretEditori @ 10 NONAME R3UNUSED ; CEikSecretEditor::AppendCharacterL(int)
+	ApplyCharFormatL__20CEikGlobalTextEditorR11TCharFormatR15TCharFormatMask @ 11 NONAME R3UNUSED ; CEikGlobalTextEditor::ApplyCharFormatL(TCharFormat &, TCharFormatMask &)
+	ApplyParaFormatL__20CEikGlobalTextEditorP11CParaFormatR15TParaFormatMask @ 12 NONAME R3UNUSED ; CEikGlobalTextEditor::ApplyParaFormatL(CParaFormat *, TParaFormatMask &)
+	BaseConstructL__20CEikGlobalTextEditor @ 13 NONAME R3UNUSED ; CEikGlobalTextEditor::BaseConstructL(void)
+	BoldItalicUnderlineEventL__20CEikGlobalTextEditori @ 14 NONAME R3UNUSED ; CEikGlobalTextEditor::BoldItalicUnderlineEventL(int)
+	BorderMargins__C8CEikMfne @ 15 NONAME R3UNUSED ; CEikMfne::BorderMargins(void) const
+	Buffer__C16CEikSecretEditor @ 16 NONAME R3UNUSED ; CEikSecretEditor::Buffer(void) const
+	ButtonGroupFactory__14CEikCtlLibrary @ 17 NONAME R3UNUSED ; CEikCtlLibrary::ButtonGroupFactory(void)
+	CColumnListBoxItemDrawer_Reserved__24CColumnListBoxItemDrawer @ 18 NONAME R3UNUSED ; CColumnListBoxItemDrawer::CColumnListBoxItemDrawer_Reserved(void)
+	CEikListBox_Reserved__17CEikColumnListBox @ 19 NONAME R3UNUSED ; CEikColumnListBox::CEikListBox_Reserved(void)
+	CEikMfne_Reserved__14CEikDateEditor @ 20 NONAME R3UNUSED ; CEikDateEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__14CEikTimeEditor @ 21 NONAME R3UNUSED ; CEikTimeEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__15CEikRangeEditor @ 22 NONAME R3UNUSED ; CEikRangeEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__16CEikNumberEditor @ 23 NONAME R3UNUSED ; CEikNumberEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__17CAknIpFieldEditor @ 24 NONAME R3UNUSED ; CAknIpFieldEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__18CEikDurationEditor @ 25 NONAME R3UNUSED ; CEikDurationEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__8CEikMfne @ 26 NONAME R3UNUSED ; CEikMfne::CEikMfne_Reserved(void)
+	CancelFepInlineEdit__16CEikSecretEditor @ 27 NONAME R3UNUSED ; CEikSecretEditor::CancelFepInlineEdit(void)
+	CheckForObjectL__18CEikRichTextEditor @ 28 NONAME R3UNUSED ; CEikRichTextEditor::CheckForObjectL(void)
+	ClearAllPropertiesL__24CColumnListBoxItemDrawer @ 29 NONAME R3UNUSED ; CColumnListBoxItemDrawer::ClearAllPropertiesL(void)
+	ColumnAlignment__C18CColumnListBoxDatai @ 30 NONAME R3UNUSED ; CColumnListBoxData::ColumnAlignment(int) const
+	ColumnBaselinePos__C18CColumnListBoxDatai @ 31 NONAME R3UNUSED ; CColumnListBoxData::ColumnBaselinePos(int) const
+	ColumnData__C24CColumnListBoxItemDrawer @ 32 NONAME R3UNUSED ; CColumnListBoxItemDrawer::ColumnData(void) const
+	ColumnEndX__C18CColumnListBoxDatai @ 33 NONAME R3UNUSED ; CColumnListBoxData::ColumnEndX(int) const
+	ColumnFont__C18CColumnListBoxDatai @ 34 NONAME R3UNUSED ; CColumnListBoxData::ColumnFont(int) const
+	ColumnHorizontalGap__C18CColumnListBoxDatai @ 35 NONAME R3UNUSED ; CColumnListBoxData::ColumnHorizontalGap(int) const
+	ColumnIsGraphics__C18CColumnListBoxDatai @ 36 NONAME R3UNUSED ; CColumnListBoxData::ColumnIsGraphics(int) const
+	ColumnIsOptional__C18CColumnListBoxDatai @ 37 NONAME R3UNUSED ; CColumnListBoxData::ColumnIsOptional(int) const
+	ColumnMargins__C18CColumnListBoxDatai @ 38 NONAME R3UNUSED ; CColumnListBoxData::ColumnMargins(int) const
+	ColumnSeparatorStyle__C18CColumnListBoxDatai @ 39 NONAME R3UNUSED ; CColumnListBoxData::ColumnSeparatorStyle(int) const
+	ColumnTextClipGap__C18CColumnListBoxDatai @ 40 NONAME R3UNUSED ; CColumnListBoxData::ColumnTextClipGap(int) const
+	ColumnWidthPixel__C18CColumnListBoxDatai @ 41 NONAME R3UNUSED ; CColumnListBoxData::ColumnWidthPixel(int) const
+	ColumnX__C18CColumnListBoxDatai @ 42 NONAME R3UNUSED ; CColumnListBoxData::ColumnX(int) const
+	Column__C23CEikColumnListBoxEditor @ 43 NONAME R3UNUSED ; CEikColumnListBoxEditor::Column(void) const
+	ConstructFromResourceL__14CEikDateEditorR15TResourceReader @ 44 NONAME R3UNUSED ; CEikDateEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__14CEikTimeEditorR15TResourceReader @ 45 NONAME R3UNUSED ; CEikTimeEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__15CEikRangeEditorR15TResourceReader @ 46 NONAME R3UNUSED ; CEikRangeEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__16CEikNumberEditorR15TResourceReader @ 47 NONAME R3UNUSED ; CEikNumberEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__16CEikProgressInfoR15TResourceReader @ 48 NONAME R3UNUSED ; CEikProgressInfo::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__16CEikSecretEditorR15TResourceReader @ 49 NONAME R3UNUSED ; CEikSecretEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__17CAknIpFieldEditorR15TResourceReader @ 50 NONAME R3UNUSED ; CAknIpFieldEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__17CEikColumnListBoxR15TResourceReader @ 51 NONAME R3UNUSED ; CEikColumnListBox::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__18CEikDurationEditorR15TResourceReader @ 52 NONAME R3UNUSED ; CEikDurationEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__18CEikRichTextEditorR15TResourceReader @ 53 NONAME R3UNUSED ; CEikRichTextEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__20CEikFixedPointEditorR15TResourceReader @ 54 NONAME R3UNUSED ; CEikFixedPointEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__20CEikGlobalTextEditorR15TResourceReader @ 55 NONAME R3UNUSED ; CEikGlobalTextEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__23CEikFloatingPointEditorR15TResourceReader @ 56 NONAME R3UNUSED ; CEikFloatingPointEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__9CEikClockR15TResourceReader @ 57 NONAME R3UNUSED ; CEikClock::ConstructFromResourceL(TResourceReader &)
+	ConstructLD__18CColumnListBoxData @ 58 NONAME R3UNUSED ; CColumnListBoxData::ConstructLD(void)
+	ConstructL__14CEikDateEditorRC5TTimeN21i @ 59 NONAME ; CEikDateEditor::ConstructL(TTime const &, TTime const &, TTime const &, int)
+	ConstructL__14CEikTimeEditorRC5TTimeN21Ul @ 60 NONAME ; CEikTimeEditor::ConstructL(TTime const &, TTime const &, TTime const &, unsigned long)
+	ConstructL__15CEikRangeEditoriiRC9SEikRangeP7HBufC16 @ 61 NONAME ; CEikRangeEditor::ConstructL(int, int, SEikRange const &, HBufC16 *)
+	ConstructL__16CEikNumberEditoriii @ 62 NONAME ; CEikNumberEditor::ConstructL(int, int, int)
+	ConstructL__16CEikProgressInfo @ 63 NONAME R3UNUSED ; CEikProgressInfo::ConstructL(void)
+	ConstructL__17CEikColumnListBoxPC11CCoeControli @ 64 NONAME R3UNUSED ; CEikColumnListBox::ConstructL(CCoeControl const *, int)
+	ConstructL__18CEikDurationEditorRC20TTimeIntervalSecondsN21Ul @ 65 NONAME ; CEikDurationEditor::ConstructL(TTimeIntervalSeconds const &, TTimeIntervalSeconds const &, TTimeIntervalSeconds const &, unsigned long)
+	ConstructL__18CEikRichTextEditorPC11CCoeControliiiii @ 66 NONAME ; CEikRichTextEditor::ConstructL(CCoeControl const *, int, int, int, int, int)
+	ConstructL__20CEikFixedPointEditorii @ 67 NONAME R3UNUSED ; CEikFixedPointEditor::ConstructL(int, int)
+	ConstructL__20CEikGlobalTextEditorPC11CCoeControliiiii @ 68 NONAME ; CEikGlobalTextEditor::ConstructL(CCoeControl const *, int, int, int, int, int)
+	ConstructL__23CEikColumnListBoxEditori @ 69 NONAME R3UNUSED ; CEikColumnListBoxEditor::ConstructL(int)
+	ConstructL__23CEikFloatingPointEditorRCdT1i @ 70 NONAME ; CEikFloatingPointEditor::ConstructL(double const &, double const &, int)
+	ControlFactory__14CEikCtlLibrary @ 71 NONAME R3UNUSED ; CEikCtlLibrary::ControlFactory(void)
+	Convert__8CEikMfneRC20TTimeIntervalSeconds @ 72 NONAME R3UNUSED ; CEikMfne::Convert(TTimeIntervalSeconds const &)
+	Convert__8CEikMfneRC5TTime @ 73 NONAME R3UNUSED ; CEikMfne::Convert(TTime const &)
+	CopyDocumentContentL__18CEikRichTextEditorR11CGlobalTextT1 @ 74 NONAME R3UNUSED ; CEikRichTextEditor::CopyDocumentContentL(CGlobalText &, CGlobalText &)
+	CreateFepStateL__16CEikSecretEditor @ 75 NONAME R3UNUSED ; CEikSecretEditor::CreateFepStateL(void)
+	CreateFieldArrayL__8CEikMfnei @ 76 NONAME R3UNUSED ; CEikMfne::CreateFieldArrayL(int)
+	CreateItemDrawerL__17CEikColumnListBox @ 77 NONAME R3UNUSED ; CEikColumnListBox::CreateItemDrawerL(void)
+	CreateModelL__17CEikColumnListBox @ 78 NONAME R3UNUSED ; CEikColumnListBox::CreateModelL(void)
+	CreatePopoutIfRequiredL__8CEikMfne @ 79 NONAME R3UNUSED ; CEikMfne::CreatePopoutIfRequiredL(void)
+	Date__C14CEikDateEditor @ 80 NONAME R3UNUSED ; CEikDateEditor::Date(void) const
+	DecimalPlaces__C20CEikFixedPointEditor @ 81 NONAME R3UNUSED ; CEikFixedPointEditor::DecimalPlaces(void) const
+	DefaultIconicDoorSize__C18CEikRichTextEditor @ 82 NONAME R3UNUSED ; CEikRichTextEditor::DefaultIconicDoorSize(void) const
+	DoCommitFepInlineEditL__16CEikSecretEditor @ 83 NONAME R3UNUSED ; CEikSecretEditor::DoCommitFepInlineEditL(void)
+	DoFindL__20CEikGlobalTextEditor @ 84 NONAME R3UNUSED ; CEikGlobalTextEditor::DoFindL(void)
+	DocumentLengthForFep__C16CEikSecretEditor @ 85 NONAME R3UNUSED ; CEikSecretEditor::DocumentLengthForFep(void) const
+	DocumentMaximumLengthForFep__C16CEikSecretEditor @ 86 NONAME R3UNUSED ; CEikSecretEditor::DocumentMaximumLengthForFep(void) const
+	DrawItemMark__C24CColumnListBoxItemDraweriiRC6TPoint @ 87 NONAME ; CColumnListBoxItemDrawer::DrawItemMark(int, int, TPoint const &) const
+	DrawItemText__C24CColumnListBoxItemDraweriRC5TRectiii @ 88 NONAME ; CColumnListBoxItemDrawer::DrawItemText(int, TRect const &, int, int, int) const
+	DrawNowAndLeaveWithTimeDateFormatInfoMsgL__C8CEikMfneiRC5TTime @ 89 NONAME R3UNUSED ; CEikMfne::DrawNowAndLeaveWithTimeDateFormatInfoMsgL(int, TTime const &) const
+	Draw__C16CEikProgressInfoRC5TRect @ 90 NONAME R3UNUSED ; CEikProgressInfo::Draw(TRect const &) const
+	Draw__C16CEikSecretEditorRC5TRect @ 91 NONAME R3UNUSED ; CEikSecretEditor::Draw(TRect const &) const
+	Draw__C18CColumnListBoxDataRC19TListItemPropertiesR9CWindowGcPC7TDesC16RC5TRectiRCQ218CColumnListBoxData7TColors @ 92 NONAME ; CColumnListBoxData::Draw(TListItemProperties const &, CWindowGc &, TDesC16 const *, TRect const &, int, CColumnListBoxData::TColors const &) const
+	Draw__C18CColumnListBoxViewPC5TRect @ 93 NONAME R3UNUSED ; CColumnListBoxView::Draw(TRect const *) const
+	Draw__C18CEikRichTextEditorRC5TRect @ 94 NONAME R3UNUSED ; CEikRichTextEditor::Draw(TRect const &) const
+	Draw__C8CEikMfneRC5TRect @ 95 NONAME R3UNUSED ; CEikMfne::Draw(TRect const &) const
+	Duration__C18CEikDurationEditor @ 96 NONAME R3UNUSED ; CEikDurationEditor::Duration(void) const
+	EditItemL__17CEikColumnListBoxii @ 97 NONAME R3UNUSED ; CEikColumnListBox::EditItemL(int, int)
+	EditObserver__18CEikRichTextEditorii @ 98 NONAME R3UNUSED ; CEikRichTextEditor::EditObserver(int, int)
+	EditPictureFormatL__18CEikRichTextEditor @ 99 NONAME R3UNUSED ; CEikRichTextEditor::EditPictureFormatL(void)
+	EvaluateText__C16CEikProgressInfoR6TDes16 @ 100 NONAME R3UNUSED ; CEikProgressInfo::EvaluateText(TDes16 &) const
+	Extension1__16CEikSecretEditorRi @ 101 NONAME R3UNUSED ; CEikSecretEditor::Extension1(int &)
+	FieldIsAboutToBeDeHighlighted__8CEikMfneP13CEikMfneFieldRi @ 102 NONAME R3UNUSED ; CEikMfne::FieldIsAboutToBeDeHighlighted(CEikMfneField *, int &)
+	Field__C8CEikMfnei @ 103 NONAME R3UNUSED ; CEikMfne::Field(int) const
+	FocusChanged__8CEikMfne8TDrawNow @ 104 NONAME R3UNUSED ; CEikMfne::FocusChanged(TDrawNow)
+	Font__C18CColumnListBoxDataRC19TListItemPropertiesi @ 105 NONAME R3UNUSED ; CColumnListBoxData::Font(TListItemProperties const &, int) const
+	Format__C9CEikClock @ 106 NONAME R3UNUSED ; CEikClock::Format(void) const
+	GetColorUseListL__C16CEikProgressInfoRt9CArrayFix1Z12TCoeColorUse @ 107 NONAME R3UNUSED ; CEikProgressInfo::GetColorUseListL(CArrayFix<TCoeColorUse> &) const
+	GetColorUseListL__C16CEikSecretEditorRt9CArrayFix1Z12TCoeColorUse @ 108 NONAME R3UNUSED ; CEikSecretEditor::GetColorUseListL(CArrayFix<TCoeColorUse> &) const
+	GetColorUseListL__C17CEikColumnListBoxRt9CArrayFix1Z12TCoeColorUse @ 109 NONAME R3UNUSED ; CEikColumnListBox::GetColorUseListL(CArrayFix<TCoeColorUse> &) const
+	GetColorUseListL__C8CEikMfneRt9CArrayFix1Z12TCoeColorUse @ 110 NONAME R3UNUSED ; CEikMfne::GetColorUseListL(CArrayFix<TCoeColorUse> &) const
+	GetCursorSelectionForFep__C16CEikSecretEditorR16TCursorSelection @ 111 NONAME R3UNUSED ; CEikSecretEditor::GetCursorSelectionForFep(TCursorSelection &) const
+	GetEditorContentForFep__C16CEikSecretEditorR6TDes16ii @ 112 NONAME ; CEikSecretEditor::GetEditorContentForFep(TDes16 &, int, int) const
+	GetEmbeddedAppL__18CEikRichTextEditorRP8CApaDoorRP12CApaDocumenti @ 113 NONAME ; CEikRichTextEditor::GetEmbeddedAppL(CApaDoor *&, CApaDocument *&, int)
+	GetFormatForFep__C16CEikSecretEditorR11TCharFormati @ 114 NONAME R3UNUSED ; CEikSecretEditor::GetFormatForFep(TCharFormat &, int) const
+	GetMinMax__C20CEikFixedPointEditorRiT1 @ 115 NONAME R3UNUSED ; CEikFixedPointEditor::GetMinMax(int &, int &) const
+	GetMinMax__C23CEikFloatingPointEditorRdT1 @ 116 NONAME R3UNUSED ; CEikFloatingPointEditor::GetMinMax(double &, double &) const
+	GetMinimumAndMaximum__C14CEikDateEditorR5TTimeT1 @ 117 NONAME R3UNUSED ; CEikDateEditor::GetMinimumAndMaximum(TTime &, TTime &) const
+	GetMinimumAndMaximum__C14CEikMfneNumberRiT1 @ 118 NONAME R3UNUSED ; CEikMfneNumber::GetMinimumAndMaximum(int &, int &) const
+	GetMinimumAndMaximum__C14CEikTimeEditorR5TTimeT1 @ 119 NONAME R3UNUSED ; CEikTimeEditor::GetMinimumAndMaximum(TTime &, TTime &) const
+	GetMinimumAndMaximum__C15CEikRangeEditorRiT1 @ 120 NONAME R3UNUSED ; CEikRangeEditor::GetMinimumAndMaximum(int &, int &) const
+	GetMinimumAndMaximum__C16CEikNumberEditorRiT1 @ 121 NONAME R3UNUSED ; CEikNumberEditor::GetMinimumAndMaximum(int &, int &) const
+	GetMinimumAndMaximum__C17CAknIpFieldEditorR9TInetAddrT1 @ 122 NONAME R3UNUSED ; CAknIpFieldEditor::GetMinimumAndMaximum(TInetAddr &, TInetAddr &) const
+	GetMinimumAndMaximum__C18CEikDurationEditorR20TTimeIntervalSecondsT1 @ 123 NONAME R3UNUSED ; CEikDurationEditor::GetMinimumAndMaximum(TTimeIntervalSeconds &, TTimeIntervalSeconds &) const
+	GetScreenCoordinatesForFepL__C16CEikSecretEditorR6TPointRiT2i @ 124 NONAME ; CEikSecretEditor::GetScreenCoordinatesForFepL(TPoint &, int &, int &, int) const
+	GetText__C16CEikSecretEditorR6TDes16 @ 125 NONAME R3UNUSED ; CEikSecretEditor::GetText(TDes16 &) const
+	GetValueAsInteger__20CEikFixedPointEditorRi @ 126 NONAME R3UNUSED ; CEikFixedPointEditor::GetValueAsInteger(int &)
+	GetValueAsReal__23CEikFloatingPointEditorRd @ 127 NONAME R3UNUSED ; CEikFloatingPointEditor::GetValueAsReal(double &)
+	GlobalText__C20CEikGlobalTextEditor @ 128 NONAME R3UNUSED ; CEikGlobalTextEditor::GlobalText(void) const
+	HandleDeHighlight__13CEikMfneFieldRC5CFontR9CEikonEnvRiT3 @ 129 NONAME ; CEikMfneField::HandleDeHighlight(CFont const &, CEikonEnv &, int &, int &)
+	HandleInteraction__8CEikMfneiiiQ213CEikMfneField14THighlightTypeRiT5 @ 130 NONAME ; CEikMfne::HandleInteraction(int, int, int, CEikMfneField::THighlightType, int &, int &)
+	HandleKey__13CEikMfneFieldRC5CFontRC9TKeyEventiRiT4 @ 131 NONAME ; CEikMfneField::HandleKey(CFont const &, TKeyEvent const &, int, int &, int &)
+	HandleLeftOrRightArrow__13CEikMfneFieldG5TCharRiT2 @ 132 NONAME ; CEikMfneField::HandleLeftOrRightArrow(TChar, int &, int &)
+	HandlePointerEventL__18CEikRichTextEditorRC13TPointerEvent @ 133 NONAME R3UNUSED ; CEikRichTextEditor::HandlePointerEventL(TPointerEvent const &)
+	HandlePointerEventL__8CEikMfneRC13TPointerEvent @ 134 NONAME R3UNUSED ; CEikMfne::HandlePointerEventL(TPointerEvent const &)
+	HandleResourceChange__16CEikProgressInfoi @ 135 NONAME R3UNUSED ; CEikProgressInfo::HandleResourceChange(int)
+	HandleResourceChange__16CEikSecretEditori @ 136 NONAME R3UNUSED ; CEikSecretEditor::HandleResourceChange(int)
+	HandleResourceChange__17CEikColumnListBoxi @ 137 NONAME R3UNUSED ; CEikColumnListBox::HandleResourceChange(int)
+	HandleResourceChange__8CEikMfnei @ 138 NONAME R3UNUSED ; CEikMfne::HandleResourceChange(int)
+	HandleTextPastedL__18CEikRichTextEditoriRi @ 139 NONAME R3UNUSED ; CEikRichTextEditor::HandleTextPastedL(int, int &)
+	HighlightType__C13CEikMfneField @ 140 NONAME R3UNUSED ; CEikMfneField::HighlightType(void) const
+	IconArray__C18CColumnListBoxData @ 141 NONAME R3UNUSED ; CColumnListBoxData::IconArray(void) const
+	IdOfCurrentSymbolicItem__C14CEikMfneSymbol @ 142 NONAME R3UNUSED ; CEikMfneSymbol::IdOfCurrentSymbolicItem(void) const
+	IncrementAndDraw__16CEikProgressInfoi @ 143 NONAME R3UNUSED ; CEikProgressInfo::IncrementAndDraw(int)
+	InitFindL__20CEikGlobalTextEditorRP15SEdwinFindModelRP12CDesC16ArrayT2 @ 144 NONAME ; CEikGlobalTextEditor::InitFindL(SEdwinFindModel *&, CDesC16Array *&, CDesC16Array *&)
+	InitializeDisplay__16CEikSecretEditori @ 145 NONAME R3UNUSED ; CEikSecretEditor::InitializeDisplay(int)
+	InitializeL__14CEikCtlLibrary @ 146 NONAME R3UNUSED ; CEikCtlLibrary::InitializeL(void)
+	InputCapabilities__C16CEikSecretEditor @ 147 NONAME R3UNUSED ; CEikSecretEditor::InputCapabilities(void) const
+	InputCapabilities__C20CEikFixedPointEditor @ 148 NONAME R3UNUSED ; CEikFixedPointEditor::InputCapabilities(void) const
+	InputCapabilities__C23CEikFloatingPointEditor @ 149 NONAME R3UNUSED ; CEikFloatingPointEditor::InputCapabilities(void) const
+	InputCapabilities__C8CEikMfne @ 150 NONAME R3UNUSED ; CEikMfne::InputCapabilities(void) const
+	InsertObjectL__18CEikRichTextEditor @ 151 NONAME R3UNUSED ; CEikRichTextEditor::InsertObjectL(void)
+	InsertObjectL__18CEikRichTextEditorG4TUidP5CBase @ 152 NONAME R3UNUSED ; CEikRichTextEditor::InsertObjectL(TUid, CBase *)
+	InsertObjectL__18CEikRichTextEditorQ218CEikRichTextEditor13TObjectFormat @ 153 NONAME R3UNUSED ; CEikRichTextEditor::InsertObjectL(CEikRichTextEditor::TObjectFormat)
+	InsertObjectL__18CEikRichTextEditorRC7TDesC16G4TUidQ218CEikRichTextEditor13TObjectFormat @ 154 NONAME ; CEikRichTextEditor::InsertObjectL(TDesC16 const &, TUid, CEikRichTextEditor::TObjectFormat)
+	IsEditable__C13CEikMfneField @ 155 NONAME R3UNUSED ; CEikMfneField::IsEditable(void) const
+	IsValid__C13CEikMfneField @ 156 NONAME R3UNUSED ; CEikMfneField::IsValid(void) const
+	IsValid__C14CEikMfneNumber @ 157 NONAME R3UNUSED ; CEikMfneNumber::IsValid(void) const
+	ItemDrawer__C17CEikColumnListBox @ 158 NONAME R3UNUSED ; CEikColumnListBox::ItemDrawer(void) const
+	ItemText__23CEikColumnListBoxEditor @ 159 NONAME R3UNUSED ; CEikColumnListBoxEditor::ItemText(void)
+	ItemWidthInPixels__C24CColumnListBoxItemDraweri @ 160 NONAME R3UNUSED ; CColumnListBoxItemDrawer::ItemWidthInPixels(int) const
+	LastColumn__C18CColumnListBoxData @ 161 NONAME R3UNUSED ; CColumnListBoxData::LastColumn(void) const
+	LineCursorWidth__C20CEikGlobalTextEditor @ 162 NONAME R3UNUSED ; CEikGlobalTextEditor::LineCursorWidth(void) const
+	MakeColumnRect__18CColumnListBoxDataiR5TRect @ 163 NONAME R3UNUSED ; CColumnListBoxData::MakeColumnRect(int, TRect &)
+	MakeViewClassInstanceL__17CEikColumnListBox @ 164 NONAME R3UNUSED ; CEikColumnListBox::MakeViewClassInstanceL(void)
+	MakeVisible__9CEikClocki @ 165 NONAME R3UNUSED ; CEikClock::MakeVisible(int)
+	MaxLength__C16CEikSecretEditor @ 166 NONAME R3UNUSED ; CEikSecretEditor::MaxLength(void) const
+	MfneSize__8CEikMfnei @ 167 NONAME R3UNUSED ; CEikMfne::MfneSize(int)
+	MfneSize__C8CEikMfne @ 168 NONAME R3UNUSED ; CEikMfne::MfneSize(void) const
+	MinimumCellSize__C24CColumnListBoxItemDrawer @ 169 NONAME R3UNUSED ; CColumnListBoxItemDrawer::MinimumCellSize(void) const
+	MinimumSize__16CEikProgressInfo @ 170 NONAME R3UNUSED ; CEikProgressInfo::MinimumSize(void)
+	MinimumSize__16CEikSecretEditor @ 171 NONAME R3UNUSED ; CEikSecretEditor::MinimumSize(void)
+	MinimumSize__8CEikMfne @ 172 NONAME R3UNUSED ; CEikMfne::MinimumSize(void)
+	MinimumSize__9CEikClock @ 173 NONAME R3UNUSED ; CEikClock::MinimumSize(void)
+	MinimumSize__9CEikClocki @ 174 NONAME R3UNUSED ; CEikClock::MinimumSize(int)
+	Model__C17CEikColumnListBox @ 175 NONAME R3UNUSED ; CEikColumnListBox::Model(void) const
+	NewL__14CEikMfneNumberRC5CFontR15TResourceReader @ 176 NONAME R3UNUSED ; CEikMfneNumber::NewL(CFont const &, TResourceReader &)
+	NewL__14CEikMfneNumberRC5CFontiiiUl @ 177 NONAME ; CEikMfneNumber::NewL(CFont const &, int, int, int, unsigned long)
+	NewL__14CEikMfneSymbolR15TResourceReader @ 178 NONAME R3UNUSED ; CEikMfneSymbol::NewL(TResourceReader &)
+	NewL__14CEikMfneSymboli @ 179 NONAME R3UNUSED ; CEikMfneSymbol::NewL(int)
+	NewL__17CAknIpFieldEditor @ 180 NONAME R3UNUSED ; CAknIpFieldEditor::NewL(void)
+	NewL__17CAknIpFieldEditorR9TInetAddrN21 @ 181 NONAME R3UNUSED ; CAknIpFieldEditor::NewL(TInetAddr &, TInetAddr &, TInetAddr &)
+	NewL__17CEikMfneSeparatorP7HBufC16 @ 182 NONAME R3UNUSED ; CEikMfneSeparator::NewL(HBufC16 *)
+	NewL__17CEikMfneSeparatorR15TResourceReader @ 183 NONAME R3UNUSED ; CEikMfneSeparator::NewL(TResourceReader &)
+	NewL__18CColumnListBoxData @ 184 NONAME R3UNUSED ; CColumnListBoxData::NewL(void)
+	NewL__Q214CEikMfneSymbol5CItemR15TResourceReader @ 185 NONAME R3UNUSED ; CEikMfneSymbol::CItem::NewL(TResourceReader &)
+	NewL__Q214CEikMfneSymbol5CItemiG5TCharP7HBufC16 @ 186 NONAME R3UNUSED ; CEikMfneSymbol::CItem::NewL(int, TChar, HBufC16 *)
+	NewPictureL__C18CEikRichTextEditorR14TPictureHeaderRC12CStreamStore @ 187 NONAME R3UNUSED ; CEikRichTextEditor::NewPictureL(TPictureHeader &, CStreamStore const &) const
+	NotifyExit__18CEikRichTextEditorQ223MApaEmbeddedDocObserver9TExitMode @ 188 NONAME R3UNUSED ; CEikRichTextEditor::NotifyExit(MApaEmbeddedDocObserver::TExitMode)
+	Number__C16CEikNumberEditor @ 189 NONAME R3UNUSED ; CEikNumberEditor::Number(void) const
+	ObjectCursorPos__C18CEikRichTextEditor @ 190 NONAME R3UNUSED ; CEikRichTextEditor::ObjectCursorPos(void) const
+	OfferKeyEventL__14CEikDateEditorRC9TKeyEvent10TEventCode @ 191 NONAME R3UNUSED ; CEikDateEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__16CEikSecretEditorRC9TKeyEvent10TEventCode @ 192 NONAME R3UNUSED ; CEikSecretEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__17CAknIpFieldEditorRC9TKeyEvent10TEventCode @ 193 NONAME R3UNUSED ; CAknIpFieldEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__18CEikRichTextEditorRC9TKeyEvent10TEventCode @ 194 NONAME R3UNUSED ; CEikRichTextEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__20CEikGlobalTextEditorRC9TKeyEvent10TEventCode @ 195 NONAME R3UNUSED ; CEikGlobalTextEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__8CEikMfneRC9TKeyEvent10TEventCode @ 196 NONAME R3UNUSED ; CEikMfne::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	PictureFormatChangedL__18CEikRichTextEditor @ 197 NONAME R3UNUSED ; CEikRichTextEditor::PictureFormatChangedL(void)
+	PrepareForFocusLossL__14CEikDateEditor @ 198 NONAME R3UNUSED ; CEikDateEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__14CEikTimeEditor @ 199 NONAME R3UNUSED ; CEikTimeEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__18CEikDurationEditor @ 200 NONAME R3UNUSED ; CEikDurationEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__20CEikFixedPointEditor @ 201 NONAME R3UNUSED ; CEikFixedPointEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__23CEikFloatingPointEditor @ 202 NONAME R3UNUSED ; CEikFloatingPointEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__8CEikMfne @ 203 NONAME R3UNUSED ; CEikMfne::PrepareForFocusLossL(void)
+	Properties__C24CColumnListBoxItemDraweri @ 204 NONAME R3UNUSED ; CColumnListBoxItemDrawer::Properties(int) const
+	Range__C15CEikRangeEditor @ 205 NONAME R3UNUSED ; CEikRangeEditor::Range(void) const
+	ReEditObjectL__18CEikRichTextEditor @ 206 NONAME R3UNUSED ; CEikRichTextEditor::ReEditObjectL(void)
+	ReadDate__8CEikMfneR15TResourceReader @ 207 NONAME R3UNUSED ; CEikMfne::ReadDate(TResourceReader &)
+	ReadDuration__8CEikMfneR15TResourceReader @ 208 NONAME R3UNUSED ; CEikMfne::ReadDuration(TResourceReader &)
+	ReadIPAddress__17CAknIpFieldEditorR15TResourceReader @ 209 NONAME R3UNUSED ; CAknIpFieldEditor::ReadIPAddress(TResourceReader &)
+	ReadTimeAndDate__8CEikMfneR15TResourceReader @ 210 NONAME R3UNUSED ; CEikMfne::ReadTimeAndDate(TResourceReader &)
+	ReadTimeOffset__8CEikMfneR15TResourceReader @ 211 NONAME R3UNUSED ; CEikMfne::ReadTimeOffset(TResourceReader &)
+	ReadTime__8CEikMfneR15TResourceReader @ 212 NONAME R3UNUSED ; CEikMfne::ReadTime(TResourceReader &)
+	Reserved_1__16CEikSecretEditor @ 213 NONAME R3UNUSED ; CEikSecretEditor::Reserved_1(void)
+	Reserved_1__18CColumnListBoxView @ 214 NONAME R3UNUSED ; CColumnListBoxView::Reserved_1(void)
+	Reserved_1__24CColumnListBoxItemDrawer @ 215 NONAME R3UNUSED ; CColumnListBoxItemDrawer::Reserved_1(void)
+	Reserved_2__16CEikProgressInfo @ 216 NONAME R3UNUSED ; CEikProgressInfo::Reserved_2(void)
+	Reserved_2__16CEikSecretEditor @ 217 NONAME R3UNUSED ; CEikSecretEditor::Reserved_2(void)
+	Reserved_2__18CEikRichTextEditor @ 218 NONAME R3UNUSED ; CEikRichTextEditor::Reserved_2(void)
+	Reserved_2__20CEikGlobalTextEditor @ 219 NONAME R3UNUSED ; CEikGlobalTextEditor::Reserved_2(void)
+	Reserved_2__8CEikMfne @ 220 NONAME R3UNUSED ; CEikMfne::Reserved_2(void)
+	Reserved_3__16CAknNumericEdwin @ 221 NONAME R3UNUSED ; CAknNumericEdwin::Reserved_3(void)
+	Reserved_3__18CEikRichTextEditor @ 222 NONAME R3UNUSED ; CEikRichTextEditor::Reserved_3(void)
+	Reserved_3__20CEikFixedPointEditor @ 223 NONAME R3UNUSED ; CEikFixedPointEditor::Reserved_3(void)
+	Reserved_3__20CEikGlobalTextEditor @ 224 NONAME R3UNUSED ; CEikGlobalTextEditor::Reserved_3(void)
+	Reserved_3__23CEikFloatingPointEditor @ 225 NONAME R3UNUSED ; CEikFloatingPointEditor::Reserved_3(void)
+	Reset__16CEikSecretEditor @ 226 NONAME R3UNUSED ; CEikSecretEditor::Reset(void)
+	ResourceFile__14CEikCtlLibrary @ 227 NONAME R3UNUSED ; CEikCtlLibrary::ResourceFile(void)
+	RevealSecretText__16CEikSecretEditori @ 228 NONAME R3UNUSED ; CEikSecretEditor::RevealSecretText(int)
+	RichText__C18CEikRichTextEditor @ 229 NONAME R3UNUSED ; CEikRichTextEditor::RichText(void) const
+	RunFindAgainDialogL__20CEikGlobalTextEditor @ 230 NONAME R3UNUSED ; CEikGlobalTextEditor::RunFindAgainDialogL(void)
+	RunFindDialogL__20CEikGlobalTextEditor @ 231 NONAME R3UNUSED ; CEikGlobalTextEditor::RunFindDialogL(void)
+	RunFontDialogL__20CEikGlobalTextEditoriP15CGraphicsDevicei @ 232 NONAME ; CEikGlobalTextEditor::RunFontDialogL(int, CGraphicsDevice *, int)
+	RunIndentsDialogL__20CEikGlobalTextEditori @ 233 NONAME R3UNUSED ; CEikGlobalTextEditor::RunIndentsDialogL(int)
+	RunPaginateDialogL__20CEikGlobalTextEditorP11CPrintSetupPt9CArrayFix1Zi @ 234 NONAME R3UNUSED ; CEikGlobalTextEditor::RunPaginateDialogL(CPrintSetup *, CArrayFix<int> *)
+	RunParaDialogsL__20CEikGlobalTextEditori @ 235 NONAME R3UNUSED ; CEikGlobalTextEditor::RunParaDialogsL(int)
+	RunReplaceDialogL__20CEikGlobalTextEditor @ 236 NONAME R3UNUSED ; CEikGlobalTextEditor::RunReplaceDialogL(void)
+	RunTabsDialogL__20CEikGlobalTextEditori @ 237 NONAME R3UNUSED ; CEikGlobalTextEditor::RunTabsDialogL(int)
+	SetAddress__17CAknIpFieldEditorRC9TInetAddr @ 238 NONAME R3UNUSED ; CAknIpFieldEditor::SetAddress(TInetAddr const &)
+	SetAndDraw__16CEikProgressInfoi @ 239 NONAME R3UNUSED ; CEikProgressInfo::SetAndDraw(int)
+	SetBorder__16CEikProgressInfoRC10TGulBorder @ 240 NONAME R3UNUSED ; CEikProgressInfo::SetBorder(TGulBorder const &)
+	SetButtonGroup__20CEikGlobalTextEditorP11CCoeControl @ 241 NONAME R3UNUSED ; CEikGlobalTextEditor::SetButtonGroup(CCoeControl *)
+	SetClear__10CEikSpaceri @ 242 NONAME R3UNUSED ; CEikSpacer::SetClear(int)
+	SetColor__10CEikSpacerG4TRgb @ 243 NONAME R3UNUSED ; CEikSpacer::SetColor(TRgb)
+	SetColumnAlignmentL__18CColumnListBoxDataiQ216CGraphicsContext10TTextAlign @ 244 NONAME R3UNUSED ; CColumnListBoxData::SetColumnAlignmentL(int, CGraphicsContext::TTextAlign)
+	SetColumnBaselinePosL__18CColumnListBoxDataii @ 245 NONAME R3UNUSED ; CColumnListBoxData::SetColumnBaselinePosL(int, int)
+	SetColumnEndXL__C18CColumnListBoxDataii @ 246 NONAME R3UNUSED ; CColumnListBoxData::SetColumnEndXL(int, int) const
+	SetColumnFontL__18CColumnListBoxDataiPC5CFont @ 247 NONAME R3UNUSED ; CColumnListBoxData::SetColumnFontL(int, CFont const *)
+	SetColumnHorizontalGapL__18CColumnListBoxDataii @ 248 NONAME R3UNUSED ; CColumnListBoxData::SetColumnHorizontalGapL(int, int)
+	SetColumnMarginsL__18CColumnListBoxDataiG8TMargins @ 249 NONAME ; CColumnListBoxData::SetColumnMarginsL(int, TMargins)
+	SetColumnSeparatorStyleL__18CColumnListBoxDataiQ216CGraphicsContext9TPenStyle @ 250 NONAME R3UNUSED ; CColumnListBoxData::SetColumnSeparatorStyleL(int, CGraphicsContext::TPenStyle)
+	SetColumnTextClipGapL__18CColumnListBoxDataii @ 251 NONAME R3UNUSED ; CColumnListBoxData::SetColumnTextClipGapL(int, int)
+	SetColumnWidthPixelL__18CColumnListBoxDataii @ 252 NONAME R3UNUSED ; CColumnListBoxData::SetColumnWidthPixelL(int, int)
+	SetColumnXL__C18CColumnListBoxDataii @ 253 NONAME R3UNUSED ; CColumnListBoxData::SetColumnXL(int, int) const
+	SetCurrentSymbolicItemToId__14CEikMfneSymboli @ 254 NONAME R3UNUSED ; CEikMfneSymbol::SetCurrentSymbolicItemToId(int)
+	SetCursorSelectionForFepL__16CEikSecretEditorRC16TCursorSelection @ 255 NONAME R3UNUSED ; CEikSecretEditor::SetCursorSelectionForFepL(TCursorSelection const &)
+	SetDate__14CEikDateEditorRC5TTime @ 256 NONAME R3UNUSED ; CEikDateEditor::SetDate(TTime const &)
+	SetDecimalPlaces__20CEikFixedPointEditori @ 257 NONAME R3UNUSED ; CEikFixedPointEditor::SetDecimalPlaces(int)
+	SetDefaultIconicDoorSize__18CEikRichTextEditorRC5TSize @ 258 NONAME R3UNUSED ; CEikRichTextEditor::SetDefaultIconicDoorSize(TSize const &)
+	SetDuration__18CEikDurationEditorRC20TTimeIntervalSeconds @ 259 NONAME R3UNUSED ; CEikDurationEditor::SetDuration(TTimeIntervalSeconds const &)
+	SetFinalValue__16CEikProgressInfoi @ 260 NONAME R3UNUSED ; CEikProgressInfo::SetFinalValue(int)
+	SetFormatL__9CEikClock15TEikClockFormat @ 261 NONAME R3UNUSED ; CEikClock::SetFormatL(TEikClockFormat)
+	SetGraphicsColumnL__18CColumnListBoxDataii @ 262 NONAME R3UNUSED ; CColumnListBoxData::SetGraphicsColumnL(int, int)
+	SetGraphicsDevice__20CEikGlobalTextEditorP15CGraphicsDevice @ 263 NONAME R3UNUSED ; CEikGlobalTextEditor::SetGraphicsDevice(CGraphicsDevice *)
+	SetHeight__10CEikSpaceri @ 264 NONAME R3UNUSED ; CEikSpacer::SetHeight(int)
+	SetIconArray__18CColumnListBoxDataPt9CArrayPtr1Z8CGulIcon @ 265 NONAME R3UNUSED ; CColumnListBoxData::SetIconArray(CArrayPtr<CGulIcon> *)
+	SetInlineEditingCursorVisibilityL__16CEikSecretEditori @ 266 NONAME R3UNUSED ; CEikSecretEditor::SetInlineEditingCursorVisibilityL(int)
+	SetLayout__16CEikProgressInfoRCQ216CEikProgressInfo7SLayout @ 267 NONAME R3UNUSED ; CEikProgressInfo::SetLayout(CEikProgressInfo::SLayout const &)
+	SetLineCursorBitmapL__20CEikGlobalTextEditorP10CFbsBitmap @ 268 NONAME R3UNUSED ; CEikGlobalTextEditor::SetLineCursorBitmapL(CFbsBitmap *)
+	SetMaxLength__16CEikSecretEditori @ 269 NONAME R3UNUSED ; CEikSecretEditor::SetMaxLength(int)
+	SetMfneAlignment__8CEikMfnei @ 270 NONAME R3UNUSED ; CEikMfne::SetMfneAlignment(int)
+	SetMinMax__20CEikFixedPointEditorii @ 271 NONAME R3UNUSED ; CEikFixedPointEditor::SetMinMax(int, int)
+	SetMinMax__23CEikFloatingPointEditordd @ 272 NONAME ; CEikFloatingPointEditor::SetMinMax(double, double)
+	SetMinimumAndMaximum__14CEikDateEditorRC5TTimeT1 @ 273 NONAME R3UNUSED ; CEikDateEditor::SetMinimumAndMaximum(TTime const &, TTime const &)
+	SetMinimumAndMaximum__14CEikMfneNumberiiRC5CFont @ 274 NONAME ; CEikMfneNumber::SetMinimumAndMaximum(int, int, CFont const &)
+	SetMinimumAndMaximum__14CEikTimeEditorRC5TTimeT1 @ 275 NONAME R3UNUSED ; CEikTimeEditor::SetMinimumAndMaximum(TTime const &, TTime const &)
+	SetMinimumAndMaximum__15CEikRangeEditorii @ 276 NONAME R3UNUSED ; CEikRangeEditor::SetMinimumAndMaximum(int, int)
+	SetMinimumAndMaximum__16CEikNumberEditorii @ 277 NONAME R3UNUSED ; CEikNumberEditor::SetMinimumAndMaximum(int, int)
+	SetMinimumAndMaximum__17CAknIpFieldEditorRC9TInetAddrT1 @ 278 NONAME R3UNUSED ; CAknIpFieldEditor::SetMinimumAndMaximum(TInetAddr const &, TInetAddr const &)
+	SetMinimumAndMaximum__18CEikDurationEditorRC20TTimeIntervalSecondsT1 @ 279 NONAME R3UNUSED ; CEikDurationEditor::SetMinimumAndMaximum(TTimeIntervalSeconds const &, TTimeIntervalSeconds const &)
+	SetNumber__16CEikNumberEditori @ 280 NONAME R3UNUSED ; CEikNumberEditor::SetNumber(int)
+	SetOptionalColumnL__18CColumnListBoxDataii @ 281 NONAME R3UNUSED ; CColumnListBoxData::SetOptionalColumnL(int, int)
+	SetParserObserver__18CEikRichTextEditorP32MEikRichTextEditorParserObserver @ 282 NONAME R3UNUSED ; CEikRichTextEditor::SetParserObserver(MEikRichTextEditorParserObserver *)
+	SetPropertiesL__24CColumnListBoxItemDraweriG19TListItemProperties @ 283 NONAME ; CColumnListBoxItemDrawer::SetPropertiesL(int, TListItemProperties)
+	SetRange__15CEikRangeEditorRC9SEikRange @ 284 NONAME R3UNUSED ; CEikRangeEditor::SetRange(SEikRange const &)
+	SetStateTransferingOwnershipL__16CEikSecretEditorPQ233MCoeFepAwareTextEditor_Extension16CStateG4TUid @ 285 NONAME R3UNUSED ; CEikSecretEditor::SetStateTransferingOwnershipL(MCoeFepAwareTextEditor_Extension1::CState *, TUid)
+	SetText__16CEikSecretEditorRC7TDesC16 @ 286 NONAME R3UNUSED ; CEikSecretEditor::SetText(TDesC16 const &)
+	SetText__17CEikMfneSeparatorP7HBufC16 @ 287 NONAME R3UNUSED ; CEikMfneSeparator::SetText(HBufC16 *)
+	SetText__Q214CEikMfneSymbol5CItemP7HBufC16 @ 288 NONAME R3UNUSED ; CEikMfneSymbol::CItem::SetText(HBufC16 *)
+	SetTimeOffset__9CEikClockG20TTimeIntervalSeconds @ 289 NONAME R3UNUSED ; CEikClock::SetTimeOffset(TTimeIntervalSeconds)
+	SetTime__14CEikTimeEditorRC5TTime @ 290 NONAME R3UNUSED ; CEikTimeEditor::SetTime(TTime const &)
+	SetUpAndDownKeysConsumed__8CEikMfnei @ 291 NONAME R3UNUSED ; CEikMfne::SetUpAndDownKeysConsumed(int)
+	SetValueL__20CEikFixedPointEditorPCi @ 292 NONAME R3UNUSED ; CEikFixedPointEditor::SetValueL(int const *)
+	SetValueL__23CEikFloatingPointEditorPCd @ 293 NONAME R3UNUSED ; CEikFloatingPointEditor::SetValueL(double const *)
+	SetValue__14CEikMfneNumberiRC5CFont @ 294 NONAME R3UNUSED ; CEikMfneNumber::SetValue(int, CFont const &)
+	SetWidth__10CEikSpaceri @ 295 NONAME R3UNUSED ; CEikSpacer::SetWidth(int)
+	SizeChanged__16CEikProgressInfo @ 296 NONAME R3UNUSED ; CEikProgressInfo::SizeChanged(void)
+	SizeChanged__16CEikSecretEditor @ 297 NONAME R3UNUSED ; CEikSecretEditor::SizeChanged(void)
+	StartFepInlineEditL__16CEikSecretEditorRC7TDesC16iiPC15MFormCustomDrawR29MFepInlineTextFormatRetrieverR39MFepPointerEventHandlerDuringInlineEdit @ 298 NONAME ; CEikSecretEditor::StartFepInlineEditL(TDesC16 const &, int, int, MFormCustomDraw const *, MFepInlineTextFormatRetriever &, MFepPointerEventHandlerDuringInlineEdit &)
+	State__16CEikSecretEditorG4TUid @ 299 NONAME R3UNUSED ; CEikSecretEditor::State(TUid)
+	StreamStoreL__C18CEikRichTextEditori @ 300 NONAME R3UNUSED ; CEikRichTextEditor::StreamStoreL(int) const
+	Time__C14CEikTimeEditor @ 301 NONAME R3UNUSED ; CEikTimeEditor::Time(void) const
+	UpdateButtonGroup__20CEikGlobalTextEditor @ 302 NONAME R3UNUSED ; CEikGlobalTextEditor::UpdateButtonGroup(void)
+	UpdateFepInlineTextL__16CEikSecretEditorRC7TDesC16i @ 303 NONAME R3UNUSED ; CEikSecretEditor::UpdateFepInlineTextL(TDesC16 const &, int)
+	UpdateModelL__23CEikColumnListBoxEditor @ 304 NONAME R3UNUSED ; CEikColumnListBoxEditor::UpdateModelL(void)
+	UpdatePictureFormatL__18CEikRichTextEditor @ 305 NONAME R3UNUSED ; CEikRichTextEditor::UpdatePictureFormatL(void)
+	UpdatePictureFormatL__18CEikRichTextEditorii @ 306 NONAME R3UNUSED ; CEikRichTextEditor::UpdatePictureFormatL(int, int)
+	UpdatePictureSizeL__18CEikRichTextEditor @ 307 NONAME R3UNUSED ; CEikRichTextEditor::UpdatePictureSizeL(void)
+	UpdatePictureSizeL__18CEikRichTextEditorii @ 308 NONAME R3UNUSED ; CEikRichTextEditor::UpdatePictureSizeL(int, int)
+	Update__16CEikSecretEditor @ 309 NONAME R3UNUSED ; CEikSecretEditor::Update(void)
+	Value__C14CEikMfneNumber @ 310 NONAME R3UNUSED ; CEikMfneNumber::Value(void) const
+	Value__C20CEikFixedPointEditor @ 311 NONAME R3UNUSED ; CEikFixedPointEditor::Value(void) const
+	Value__C23CEikFloatingPointEditor @ 312 NONAME R3UNUSED ; CEikFloatingPointEditor::Value(void) const
+	WriteInternalStateL__C16CEikProgressInfoR12RWriteStream @ 313 NONAME R3UNUSED ; CEikProgressInfo::WriteInternalStateL(RWriteStream &) const
+	WriteInternalStateL__C18CEikRichTextEditorR12RWriteStream @ 314 NONAME R3UNUSED ; CEikRichTextEditor::WriteInternalStateL(RWriteStream &) const
+	WriteInternalStateL__C20CEikGlobalTextEditorR12RWriteStream @ 315 NONAME R3UNUSED ; CEikGlobalTextEditor::WriteInternalStateL(RWriteStream &) const
+	WriteInternalStateL__C8CEikMfneR12RWriteStream @ 316 NONAME R3UNUSED ; CEikMfne::WriteInternalStateL(RWriteStream &) const
+	"_._10CEikSpacer" @ 317 NONAME R3UNUSED ; CEikSpacer::~CEikSpacer(void)
+	"_._14CEikDateEditor" @ 318 NONAME R3UNUSED ; CEikDateEditor::~CEikDateEditor(void)
+	"_._14CEikMfneNumber" @ 319 NONAME R3UNUSED ; CEikMfneNumber::~CEikMfneNumber(void)
+	"_._14CEikMfneSymbol" @ 320 NONAME R3UNUSED ; CEikMfneSymbol::~CEikMfneSymbol(void)
+	"_._14CEikTimeEditor" @ 321 NONAME R3UNUSED ; CEikTimeEditor::~CEikTimeEditor(void)
+	"_._16CEikProgressInfo" @ 322 NONAME R3UNUSED ; CEikProgressInfo::~CEikProgressInfo(void)
+	"_._16CEikSecretEditor" @ 323 NONAME R3UNUSED ; CEikSecretEditor::~CEikSecretEditor(void)
+	"_._17CEikMfneSeparator" @ 324 NONAME R3UNUSED ; CEikMfneSeparator::~CEikMfneSeparator(void)
+	"_._18CColumnListBoxData" @ 325 NONAME R3UNUSED ; CColumnListBoxData::~CColumnListBoxData(void)
+	"_._18CEikDurationEditor" @ 326 NONAME R3UNUSED ; CEikDurationEditor::~CEikDurationEditor(void)
+	"_._18CEikRichTextEditor" @ 327 NONAME R3UNUSED ; CEikRichTextEditor::~CEikRichTextEditor(void)
+	"_._20CEikGlobalTextEditor" @ 328 NONAME R3UNUSED ; CEikGlobalTextEditor::~CEikGlobalTextEditor(void)
+	"_._23CEikColumnListBoxEditor" @ 329 NONAME R3UNUSED ; CEikColumnListBoxEditor::~CEikColumnListBoxEditor(void)
+	"_._24CColumnListBoxItemDrawer" @ 330 NONAME R3UNUSED ; CColumnListBoxItemDrawer::~CColumnListBoxItemDrawer(void)
+	"_._8CEikMfne" @ 331 NONAME R3UNUSED ; CEikMfne::~CEikMfne(void)
+	"_._9CEikClock" @ 332 NONAME R3UNUSED ; CEikClock::~CEikClock(void)
+	"_._Q214CEikMfneSymbol5CItem" @ 333 NONAME R3UNUSED ; CEikMfneSymbol::CItem::~CItem(void)
+	__10CEikSpacer @ 334 NONAME R3UNUSED ; CEikSpacer::CEikSpacer(void)
+	__10CEikSpaceriiG4TRgb @ 335 NONAME ; CEikSpacer::CEikSpacer(int, int, TRgb)
+	__13CEikMfneField @ 336 NONAME R3UNUSED ; CEikMfneField::CEikMfneField(void)
+	__14CEikDateEditor @ 337 NONAME R3UNUSED ; CEikDateEditor::CEikDateEditor(void)
+	__14CEikTimeEditor @ 338 NONAME R3UNUSED ; CEikTimeEditor::CEikTimeEditor(void)
+	__15CEikRangeEditor @ 339 NONAME R3UNUSED ; CEikRangeEditor::CEikRangeEditor(void)
+	__16CEikNumberEditor @ 340 NONAME R3UNUSED ; CEikNumberEditor::CEikNumberEditor(void)
+	__16CEikProgressInfo @ 341 NONAME R3UNUSED ; CEikProgressInfo::CEikProgressInfo(void)
+	__16CEikProgressInfoRCQ216CEikProgressInfo5SInfo @ 342 NONAME R3UNUSED ; CEikProgressInfo::CEikProgressInfo(CEikProgressInfo::SInfo const &)
+	__16CEikSecretEditor @ 343 NONAME R3UNUSED ; CEikSecretEditor::CEikSecretEditor(void)
+	__17CAknIpFieldEditor @ 344 NONAME R3UNUSED ; CAknIpFieldEditor::CAknIpFieldEditor(void)
+	__17CEikColumnListBox @ 345 NONAME R3UNUSED ; CEikColumnListBox::CEikColumnListBox(void)
+	__18CColumnListBoxData @ 346 NONAME R3UNUSED ; CColumnListBoxData::CColumnListBoxData(void)
+	__18CEikDurationEditor @ 347 NONAME R3UNUSED ; CEikDurationEditor::CEikDurationEditor(void)
+	__18CEikRichTextEditor @ 348 NONAME R3UNUSED ; CEikRichTextEditor::CEikRichTextEditor(void)
+	__18CEikRichTextEditorRC10TGulBorder @ 349 NONAME R3UNUSED ; CEikRichTextEditor::CEikRichTextEditor(TGulBorder const &)
+	__20CEikFixedPointEditor @ 350 NONAME R3UNUSED ; CEikFixedPointEditor::CEikFixedPointEditor(void)
+	__20CEikGlobalTextEditor @ 351 NONAME R3UNUSED ; CEikGlobalTextEditor::CEikGlobalTextEditor(void)
+	__20CEikGlobalTextEditorRC10TGulBorder @ 352 NONAME R3UNUSED ; CEikGlobalTextEditor::CEikGlobalTextEditor(TGulBorder const &)
+	__23CEikColumnListBoxEditorP13MListBoxModel @ 353 NONAME R3UNUSED ; CEikColumnListBoxEditor::CEikColumnListBoxEditor(MListBoxModel *)
+	__23CEikFloatingPointEditor @ 354 NONAME R3UNUSED ; CEikFloatingPointEditor::CEikFloatingPointEditor(void)
+	__24CColumnListBoxItemDrawerP17MTextListBoxModelPC5CFontP18CColumnListBoxData @ 355 NONAME ; CColumnListBoxItemDrawer::CColumnListBoxItemDrawer(MTextListBoxModel *, CFont const *, CColumnListBoxData *)
+	__8CEikMfne @ 356 NONAME R3UNUSED ; CEikMfne::CEikMfne(void)
+	__9CEikClock @ 357 NONAME R3UNUSED ; CEikClock::CEikClock(void)
+	__9CEikClocki @ 358 NONAME R3UNUSED ; CEikClock::CEikClock(int)
+	ActivateL__16CEikProgressInfo @ 359 NONAME R3UNUSED ; CEikProgressInfo::ActivateL(void)
+	CEikMfne_Reserved__20CEikTimeOffsetEditor @ 360 NONAME R3UNUSED ; CEikTimeOffsetEditor::CEikMfne_Reserved(void)
+	CEikMfne_Reserved__21CEikTimeAndDateEditor @ 361 NONAME R3UNUSED ; CEikTimeAndDateEditor::CEikMfne_Reserved(void)
+	ConstructFromResourceL__20CEikTimeOffsetEditorR15TResourceReader @ 362 NONAME R3UNUSED ; CEikTimeOffsetEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructFromResourceL__21CEikTimeAndDateEditorR15TResourceReader @ 363 NONAME R3UNUSED ; CEikTimeAndDateEditor::ConstructFromResourceL(TResourceReader &)
+	ConstructL__20CEikTimeOffsetEditorRC20TTimeIntervalSecondsN21Ul @ 364 NONAME ; CEikTimeOffsetEditor::ConstructL(TTimeIntervalSeconds const &, TTimeIntervalSeconds const &, TTimeIntervalSeconds const &, unsigned long)
+	ConstructL__21CEikTimeAndDateEditorRC5TTimeN21UlP7HBufC16 @ 365 NONAME ; CEikTimeAndDateEditor::ConstructL(TTime const &, TTime const &, TTime const &, unsigned long, HBufC16 *)
+	GetMinimumAndMaximum__C20CEikTimeOffsetEditorR20TTimeIntervalSecondsT1 @ 366 NONAME R3UNUSED ; CEikTimeOffsetEditor::GetMinimumAndMaximum(TTimeIntervalSeconds &, TTimeIntervalSeconds &) const
+	GetMinimumAndMaximum__C21CEikTimeAndDateEditorR5TTimeT1 @ 367 NONAME R3UNUSED ; CEikTimeAndDateEditor::GetMinimumAndMaximum(TTime &, TTime &) const
+	OfferKeyEventL__21CEikTimeAndDateEditorRC9TKeyEvent10TEventCode @ 368 NONAME R3UNUSED ; CEikTimeAndDateEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	PrepareForFocusLossL__20CEikTimeOffsetEditor @ 369 NONAME R3UNUSED ; CEikTimeOffsetEditor::PrepareForFocusLossL(void)
+	PrepareForFocusLossL__21CEikTimeAndDateEditor @ 370 NONAME R3UNUSED ; CEikTimeAndDateEditor::PrepareForFocusLossL(void)
+	SetMinimumAndMaximum__20CEikTimeOffsetEditorRC20TTimeIntervalSecondsT1 @ 371 NONAME R3UNUSED ; CEikTimeOffsetEditor::SetMinimumAndMaximum(TTimeIntervalSeconds const &, TTimeIntervalSeconds const &)
+	SetMinimumAndMaximum__21CEikTimeAndDateEditorRC5TTimeT1 @ 372 NONAME R3UNUSED ; CEikTimeAndDateEditor::SetMinimumAndMaximum(TTime const &, TTime const &)
+	SetTimeAndDate__21CEikTimeAndDateEditorRC5TTime @ 373 NONAME R3UNUSED ; CEikTimeAndDateEditor::SetTimeAndDate(TTime const &)
+	SetTimeOffset__20CEikTimeOffsetEditorRC20TTimeIntervalSeconds @ 374 NONAME R3UNUSED ; CEikTimeOffsetEditor::SetTimeOffset(TTimeIntervalSeconds const &)
+	TimeAndDate__C21CEikTimeAndDateEditor @ 375 NONAME R3UNUSED ; CEikTimeAndDateEditor::TimeAndDate(void) const
+	TimeOffset__C20CEikTimeOffsetEditor @ 376 NONAME R3UNUSED ; CEikTimeOffsetEditor::TimeOffset(void) const
+	"_._20CEikTimeOffsetEditor" @ 377 NONAME R3UNUSED ; CEikTimeOffsetEditor::~CEikTimeOffsetEditor(void)
+	"_._21CEikTimeAndDateEditor" @ 378 NONAME R3UNUSED ; CEikTimeAndDateEditor::~CEikTimeAndDateEditor(void)
+	__20CEikTimeOffsetEditor @ 379 NONAME R3UNUSED ; CEikTimeOffsetEditor::CEikTimeOffsetEditor(void)
+	__21CEikTimeAndDateEditor @ 380 NONAME R3UNUSED ; CEikTimeAndDateEditor::CEikTimeAndDateEditor(void)
+	MCoeFepAwareTextEditor_Extension1_Reserved_2__16CEikSecretEditor @ 381 NONAME R3UNUSED ; CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_2(void)
+	MCoeFepAwareTextEditor_Extension1_Reserved_3__16CEikSecretEditor @ 382 NONAME R3UNUSED ; CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_3(void)
+	MCoeFepAwareTextEditor_Extension1_Reserved_4__16CEikSecretEditor @ 383 NONAME R3UNUSED ; CEikSecretEditor::MCoeFepAwareTextEditor_Extension1_Reserved_4(void)
+	MCoeFepAwareTextEditor_Reserved_2__16CEikSecretEditor @ 384 NONAME R3UNUSED ; CEikSecretEditor::MCoeFepAwareTextEditor_Reserved_2(void)
+	Font__C8CEikMfne @ 385 NONAME R3UNUSED ; CEikMfne::Font(void) const
+	SetFont__8CEikMfnePC5CFont @ 386 NONAME R3UNUSED ; CEikMfne::SetFont(CFont const *)
+	Control__C18CColumnListBoxData @ 387 NONAME R3UNUSED ; CColumnListBoxData::Control(void) const
+	MopSupplyObject__17CEikColumnListBoxG8TTypeUid @ 388 NONAME R3UNUSED ; CEikColumnListBox::MopSupplyObject(TTypeUid)
+	SetControl__18CColumnListBoxDataP11CCoeControl @ 389 NONAME R3UNUSED ; CColumnListBoxData::SetControl(CCoeControl *)
+	SetSkinStyle__18CColumnListBoxDataPC11TAknsItemIDRC5TRect @ 390 NONAME R3UNUSED ; CColumnListBoxData::SetSkinStyle(TAknsItemID const *, TRect const &)
+	SkinBackgroundContext__C18CColumnListBoxData @ 391 NONAME R3UNUSED ; CColumnListBoxData::SkinBackgroundContext(void) const
+	ColumnIsNumber__C18CColumnListBoxDatai @ 392 NONAME R3UNUSED ; CColumnListBoxData::ColumnIsNumber(int) const
+	SetNumberColumnL__18CColumnListBoxDataii @ 393 NONAME R3UNUSED ; CColumnListBoxData::SetNumberColumnL(int, int)
+	SetSkinEnabledL__18CColumnListBoxDatai @ 394 NONAME R3UNUSED ; CColumnListBoxData::SetSkinEnabledL(int)
+	SetListEndSkinStyle__18CColumnListBoxDataPC11TAknsItemIDRC5TRect @ 395 NONAME R3UNUSED ; CColumnListBoxData::SetListEndSkinStyle(TAknsItemID const *, TRect const &)
+	SetSkinHighlightFrame__18CColumnListBoxDataPC11TAknsItemIDT1 @ 396 NONAME R3UNUSED ; CColumnListBoxData::SetSkinHighlightFrame(TAknsItemID const *, TAknsItemID const *)
+	SetSkinBackgroundControlContextL__16CEikSecretEditorP19MAknsControlContext @ 397 NONAME R3UNUSED ; CEikSecretEditor::SetSkinBackgroundControlContextL(MAknsControlContext *)
+	IsUninitialised__C14CEikDateEditor @ 398 NONAME R3UNUSED ; CEikDateEditor::IsUninitialised(void) const
+	IsUninitialised__C14CEikMfneNumber @ 399 NONAME R3UNUSED ; CEikMfneNumber::IsUninitialised(void) const
+	IsUninitialised__C14CEikMfneSymbol @ 400 NONAME R3UNUSED ; CEikMfneSymbol::IsUninitialised(void) const
+	IsUninitialised__C14CEikTimeEditor @ 401 NONAME R3UNUSED ; CEikTimeEditor::IsUninitialised(void) const
+	SetUninitialised__14CEikDateEditori @ 402 NONAME R3UNUSED ; CEikDateEditor::SetUninitialised(int)
+	SetUninitialised__14CEikMfneNumberi @ 403 NONAME R3UNUSED ; CEikMfneNumber::SetUninitialised(int)
+	SetUninitialised__14CEikMfneSymboli @ 404 NONAME R3UNUSED ; CEikMfneSymbol::SetUninitialised(int)
+	SetUninitialised__14CEikTimeEditori @ 405 NONAME R3UNUSED ; CEikTimeEditor::SetUninitialised(int)
+	MapKeyEvent__C16CAknNumericEdwinR9TKeyEventR10TEventCode10TDigitType @ 406 NONAME ; CAknNumericEdwin::MapKeyEvent(TKeyEvent &, TEventCode &, TDigitType) const
+	SetSkinBackgroundControlContextL__8CEikMfneP19MAknsControlContext @ 407 NONAME R3UNUSED ; CEikMfne::SetSkinBackgroundControlContextL(MAknsControlContext *)
+	HandleResourceChange__20CEikFixedPointEditori @ 408 NONAME R3UNUSED ; CEikFixedPointEditor::HandleResourceChange(int)
+	HandleResourceChange__23CEikFloatingPointEditori @ 409 NONAME R3UNUSED ; CEikFloatingPointEditor::HandleResourceChange(int)
+	OfferKeyEventL__20CEikFixedPointEditorRC9TKeyEvent10TEventCode @ 410 NONAME R3UNUSED ; CEikFixedPointEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	OfferKeyEventL__23CEikFloatingPointEditorRC9TKeyEvent10TEventCode @ 411 NONAME R3UNUSED ; CEikFloatingPointEditor::OfferKeyEventL(TKeyEvent const &, TEventCode)
+	IsUninitialised__C21CEikTimeAndDateEditor @ 412 NONAME R3UNUSED ; CEikTimeAndDateEditor::IsUninitialised(void) const
+	SetUninitialised__21CEikTimeAndDateEditori @ 413 NONAME R3UNUSED ; CEikTimeAndDateEditor::SetUninitialised(int)
+	SetDefaultInputMode__16CEikSecretEditori @ 414 NONAME R3UNUSED ; CEikSecretEditor::SetDefaultInputMode(int)
+	RefreshParsersL__18CEikRichTextEditor @ 415 NONAME R3UNUSED ; CEikRichTextEditor::RefreshParsersL(void)
+	EnableMarqueeL__18CColumnListBoxDatai @ 416 NONAME R3UNUSED ; CColumnListBoxData::EnableMarqueeL(int)
+	SetPhoneNumberGrouping__18CEikRichTextEditori @ 417 NONAME R3UNUSED ; CEikRichTextEditor::SetPhoneNumberGrouping(int)
+	"_._16CAknNumericEdwin" @ 418 NONAME R3UNUSED ; CAknNumericEdwin::~CAknNumericEdwin(void)
+	EnableExtendedDrawingL__17CEikColumnListBox @ 419 NONAME R3UNUSED ; CEikColumnListBox::EnableExtendedDrawingL(void)
+	RowAndColumnFont__C18CColumnListBoxDataii @ 420 NONAME R3UNUSED ; CColumnListBoxData::RowAndColumnFont(int, int) const
+	SetColumnFontForRowL__18CColumnListBoxDataiiPC5CFont @ 421 NONAME ; CColumnListBoxData::SetColumnFontForRowL(int, int, CFont const *)
+	DrawText__C18CColumnListBoxDataR9CWindowGcRC5TRectRC7TDesC16T3iQ216CGraphicsContext10TTextAlignRC5CFontii @ 422 NONAME ; CColumnListBoxData::DrawText(CWindowGc &, TRect const &, TDesC16 const &, TDesC16 const &, int, CGraphicsContext::TTextAlign, CFont const &, int, int) const
+	SetMarqueeParams__18CColumnListBoxDataiii @ 423 NONAME ; CColumnListBoxData::SetMarqueeParams(int, int, int)
+	SetMarqueeParams__18CColumnListBoxDataiiii @ 424 NONAME ; CColumnListBoxData::SetMarqueeParams(int, int, int, int)
+	SetSubCellIconSize__18CColumnListBoxDataiG5TSize @ 425 NONAME ; CColumnListBoxData::SetSubCellIconSize(int, TSize)
+	LayoutData__C18CColumnListBoxData @ 426 NONAME R3UNUSED ; CColumnListBoxData::LayoutData(void) const
+	SeparatorLinePosition__C18CColumnListBoxData @ 427 NONAME R3UNUSED ; CColumnListBoxData::SeparatorLinePosition(void) const
+	SetSeparatorLinePosition__18CColumnListBoxData25TAknSeparatorLinePosition @ 428 NONAME R3UNUSED ; CColumnListBoxData::SetSeparatorLinePosition(TAknSeparatorLinePosition)
+	CalcBottomItemIndex__18CColumnListBoxView @ 429 NONAME R3UNUSED ; CColumnListBoxView::CalcBottomItemIndex(void)
+

@@ -1,0 +1,164 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+#ifndef __ataudioeventconstants_HRH__
+#define __ataudioeventconstants_HRH__
+
+enum TAudioThemeEvent
+	{
+
+	ENoEvent= EAvkonSIDNoSound, //== 1000 Starts here
+
+	EGeneralDefaultSoundEvent			= EAvkonSIDDefaultSound, //1001
+	EKeyKeyPressEvent					= EAvkonSIDStandardKeyClick, //1002
+	EGeneralConfirmationToneEvent		= EAvkonSIDConfirmationTone,	//1003
+	EGeneralInformationToneEvent		= EAvkonSIDInformationTone,		//1003
+
+	EGeneralWarningToneEvent			= EAvkonSIDWarningTone,			//1004
+	EGeneralErrorToneEvent				= EAvkonSIDErrorTone,			//1005
+	EKeyVolumeMaximumEvent				= EAvkonSIDVolumeMaxTone,		//1006
+	EKeyVolumeMinimumEvent				= EAvkonSIDVolumeMinTone,		//1007
+	ECallingRedialCompletedEvent		= EAvkonSIDReadialCompleteTone,	//1008
+	EBatteryLowBatteryEvent				= EAvkonSIDBatteryLowTone,		//1009
+	EBatteryBatteryChargingEvent		= EAvkonSIDChargingBatteryTone,	//1010
+
+	EConnectivityNetworkOnEvent			= EAvkonSIDConnectionStartTone,	//1011
+	EConnectivityNetworkOffEvent		= EAvkonSIDConnectionStopTone,	//1012
+	EGeneralOperationReadyEvent			= EAvkonSIDOperationReadyTone,	//1013
+	ENameDialStart						= EAvkonSIDNameDiallerStartTone,//1014
+	ENameDialError						= EAvkonSIDNameDiallerErrorTone,//1015
+	ENameDialAbort						= EAvkonSIDNameDiallerAbortTone,//1016
+	EKeyPhoneShutdownEvent				= EAvkonSIDPowerOffTone,		//1017
+	EPowerOn							= EAvkonSIDPowerOnTone,			//1018
+	EBatteryRechargerEvent				= EAvkonSIDRechargeBatteryTone,	//1019
+	EVoiceRecTone						= EAvkonSIDVoiceRecordingTone,	//1020
+
+	EVoiceRecStart						= EAvkonSIDVoiceRecordingStartTone,//1021
+	EVoiceRecStop						= EAvkonSIDVoiceRecordingStopTone,//1022
+	EBatteryWrongChargerEvent			= EAvkonSIDWrongCharger,		//1023
+	ENetBusy							= EAvkonSIDNetBusy,				//1024
+	ENetCallWaiting						= EAvkonSIDNetCallWaiting,		//1025
+	ENetReorder							= EAvkonSIDNetReorder,			//1026
+	ENetCongestion						= EAvkonSIDNetCongestion,		//1027
+	ENetSpecialInfo						= EAvkonSIDNetSpecialInformation,//1028
+	ENetRadioNotAvailable				= EAvkonSIDNetRadioNotAvailable,//1029
+	EModeChangingLoudspeakerOnEvent		= EAvkonSIDIHFActive,			//1030
+
+	ERadioPathAck						= EAvkonSIDRadioPathAcknowledge,//1031
+	EDial								= EAvkonSIDDial,				//1032
+	ECallingRingGoingEvent				= EAvkonSIDRingGoing,			//1033
+	EConnectivityLocationRequestEvent	= EAvkonSIDLocationRequest, 	//1034
+
+
+	EBatteryBatteryFullEvent,						//1035
+	EBatteryDisconnectChargerEvent,					//1036
+	EGeneralSoftNotificationEvent,					//1037
+	ECallingRingingToneLine1Event,					//1038
+	ECallingRingingToneLine2Event,					//1039
+	ECallingVideoRingingToneEvent,					//1040
+	ECallingPTTRingingToneEvent,					//1041
+	ECallingCallEndEvent,							//1042
+	EMessagingNewMessageEvent,						//1043
+	EMessagingNewEmailEvent,						//1044
+
+	EMessagingNewInstantMessageEvent,				//1045
+	EMessagingMessageSentEvent,						//1046
+	ETimeManagementCalendarAlarmEvent,				//1047
+	ETimeManagementAlarmClockEvent,					//1048
+	EConnectivityBtOnEvent,							//1049
+	EConnectivityBtOffEvent,						//1050
+	EConnectivityPocOnEvent,						//1051
+	EConnectivityPocOffEvent,						//1052
+	EConnectivityWlanOnEvent,						//1053
+	EConnectivityWlanOffEvent,						//1054
+
+	EConnectivityUsbTransferStartEvent,				//1055
+	EConnectivityUsbTransferStopEvent,				//1056
+	EAccessoriesHSConnectedEvent,					//1057
+	EAccessoriesHSDisconnectedEvent, 				//1058
+	EAccessoriesCarkitConnectedEvent,				//1059
+	EAccessoriesCarkitDisconnectedEvent,			//1060
+	EAccessoriesBTHSConnectedEvent,					//1061
+	EAccessoriesBTHSDisconnectedEvent,				//1062
+	EAccessoriesBTCarkitConnectedEvent,				//1063
+	EAccessoriesBTCarkitDisconnectedEvent,			//1064
+
+	EAccessoriesTTYConnectedEvent,					//1065
+	EAccessoriesTTYDisconnectedEvent,				//1066
+	EAccessoriesDataCableConnectedEvent,			//1067
+	EAccessoriesDataCableDisconnectedEvent,			//1068
+	EAccessoriesLoopsetConnectedEvent,				//1069
+	EAccessoriesLoopsetDisconnectedEvent,			//1070
+	EAccessoriesMicConnectedEvent,					//1071
+	EAccessoriesMicDisconnectedEvent,				//1072
+	EModeChangingActivateProfileEvent,				//1073
+	EKeyAutolockEvent,								//1074
+
+	EGridBackgroundMusicEvent,						//1075
+	EGridOpeningGridEvent,							//1076
+	EGridExitGridEvent,								//1077
+	EGridScrollingUpSoundEvent,						//1078
+	EGridScrollingDownSoundEvent,					//1079
+	EGridScrollingLeftSoundEvent,					//1080
+	EGridScrollingRightSoundEvent,					//1081
+	EGridSelectItemEvent,							//1082
+	EGridActiveIdleUpSoundEvent,					//1083
+	EGridActiveIdleDownSoundEvent,					//1084
+
+	EGridActiveIdleLeftSoundEvent,					//1085
+	EGridActiveIdleRightSoundEvent,					//1086
+	EMechanicalOpenSlideEvent,						//1087
+	EMechanicalCloseSlideEvent,						//1088
+	EMechanicalOpenFoldEvent,						//1089
+	EMechanicalCloseFoldEvent,						//1090
+	EMechanicalOpenTwistEvent,						//1091
+	EMechanicalCloseTwistEvent,						//1092
+	EMechanicalOpenSwivelEvent,						//1093
+	EMechanicalCloseSwivelEvent,					//1094
+
+	EMechanicalMemoryCardRemovedEvent,				//1095
+	EMechanicalMemoryCardInsertedEvent,				//1096
+	ETouchpad,										//1097
+	ERotator,										//1098
+	EAudioTrackChanged,								//1099
+	ECaptureImage,									//1100
+	EMMMOpen,										//1101
+	EMMMSelect,										//1102
+	EOptionsOpen,									//1103
+	EOptionsCancel,									//1104
+	EIdleNoApps,									//1105
+	EIdleNoAppsRunning								//1106
+
+};
+
+// AT Sound server errors
+enum TATError
+    {
+    ESilencedError = 10,
+    EBadRequest,
+    EEventCurrentlyPlaying,
+    EBothSoundAndTTSActiveError,
+    ESettingsError,
+    EStoppedError,
+    EEmulatorDoesNotSupportTTS,
+    ECallersNameSettingIsOn
+    };
+
+#endif // __ataudioeventconstants_HRH__
+
+// End of File

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<api id="09ad1eb496672231e3388ad44bec6558" dataversion="1.0">
+  <name>Misc Controls API</name>
+  <description>Provides miscellaneous UI controls.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+    <lib name="eikdlg.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

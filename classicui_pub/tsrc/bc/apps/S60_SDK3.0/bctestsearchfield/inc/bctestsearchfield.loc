@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Localization strings for project bctestsearchfield
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_bctestsearchfield_short_caption     "BCTESTSEARCHFIELD"
+#define qtn_bctestsearchfield_long_caption      "BCTESTSEARCHFIELD"
+
+// MenuBar
+#define qtn_bctestsearchfield_menubar         "Option"
+#define qtn_bctestsearchfield_autotest        "Autotest"
+#define qtn_bctestsearchfield_menu_exit       "Exit"
+
+#define qtn_bctestsearchfield_outline01  "OUTLINE01"
+#define qtn_bctestsearchfield_outline02  "OUTLINE02"
+#define qtn_bctestsearchfield_outline03  "OUTLINE03"
+
+// softkey
+#define text_softkey_option "Options"
+
+// registraton string
+#define qtn_apps_name               "bctestsearchfield"
+#define qtn_localization_filename   "\\resource\\apps\\bctestsearchfield"
+#define qtn_group_name              "BCTest"

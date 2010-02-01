@@ -1,0 +1,364 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file contains the resources for the aknconf.
+*
+*/
+
+//  INCLUDES
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <appinfo.rh>
+#include "aknconf.hrh"
+#include "aknconf.rls"
+
+NAME ACPH // AknConfPhysics
+
+
+// --------------------------------------------------------------------------
+// RSS_SIGNATURE
+// Standard resource signature
+// --------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE { }
+
+// ---------------------------------------------------------------------------- 
+//
+// Physics setting item list
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_ITEM_LIST r_aknconf_physics_settingitemlist
+    {
+    flags = EAknSettingItemNumberedStyle;
+    title = "Settings";
+    initial_number = 1;
+    items =     
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingFeatureEnabled;
+            setting_page_resource = r_aknconf_feature_enabled_setting_page;
+            associated_resource = r_aknconf_setting_binary_yes_no_texts;
+            name = qtn_setting_feature_enabled;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingMass;
+            setting_page_resource = r_aknconf_mass_setting_page;
+            name = qtn_setting_mass;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingGravity;
+            setting_page_resource = r_aknconf_gravity_setting_page;
+            name = qtn_setting_gravity;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingSurfaceSoftErp;
+            setting_page_resource = r_aknconf_surface_soft_erp_setting_page;
+            name = qtn_setting_sse;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingSurfaceSoftCfm;
+            setting_page_resource = r_aknconf_surface_soft_cfm_setting_page;
+            name = "Surface soft cfm";
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingHighlightTimeout;
+            setting_page_resource = r_aknconf_highlight_timeout_setting_page;
+            name = qtn_setting_highlight_timeout;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingDragThreshold;
+            setting_page_resource = r_aknconf_drag_threshold_setting_page;
+            name = qtn_setting_drag_threshold;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingFrameDelay;
+            setting_page_resource = r_aknconf_frame_delay_setting_page;
+            name = qtn_setting_frame_delay;
+            },   
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingMinFrameInterval;
+            setting_page_resource = r_aknconf_min_frame_interval_setting_page;
+            name = qtn_setting_min_frame_interval;
+            },      
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingShortListEmptySpace;
+            setting_page_resource = r_aknconf_short_list_empty_setting_page;
+            name = qtn_setting_short_list_space;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingLongListEmptySpace;
+            setting_page_resource = r_aknconf_long_list_empty_setting_page;
+            name = qtn_setting_long_list_space;
+            },
+        AVKON_SETTING_ITEM
+            {
+            identifier = EAknConfPhysicsSettingFpsLoggingEnabled;
+            setting_page_resource = r_aknconf_fps_logging_enabled;
+            associated_resource = r_aknconf_setting_binary_yes_no_texts;
+            name = qtn_setting_fps_logging_enabled;
+            }
+        };  
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Mass setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_feature_enabled_setting_page
+    {
+    label= qtn_setting_feature_enabled;
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_aknconf_binary_editor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Mass setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_mass_setting_page
+    {
+    label=qtn_setting_mass;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Gravity setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_gravity_setting_page
+    {
+    label=qtn_setting_gravity;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Surface soft erp setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_surface_soft_erp_setting_page
+    {
+    label=qtn_setting_sse;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Surface soft cfm setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_surface_soft_cfm_setting_page
+    {
+    label=qtn_setting_cfm;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Highlight timeout setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_highlight_timeout_setting_page
+    {
+    label=qtn_setting_highlight_timeout;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Drag threshold setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_drag_threshold_setting_page
+    {
+    label=qtn_setting_drag_threshold;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+// ---------------------------------------------------------------------------- 
+//
+// Frame delay setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_frame_delay_setting_page
+    {
+    label=qtn_setting_frame_delay;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }
+
+// ---------------------------------------------------------------------------- 
+//
+// Min frame interval setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_min_frame_interval_setting_page
+    {
+    label=qtn_setting_min_frame_interval;
+    type = EAknCtIntegerEdwin;
+    editor_resource_id = r_aknconf_numericeditor;
+    }   
+
+// ---------------------------------------------------------------------------- 
+//
+// Short list empty space setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_short_list_empty_setting_page
+    {
+    number = 1;
+    label = qtn_setting_short_list_space;
+    type = EAknCtSlider;
+    editor_resource_id = r_aknconf_slider;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Long list empty space setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_long_list_empty_setting_page
+    {
+    number = 1;
+    label = qtn_setting_long_list_space;
+    type = EAknCtSlider;
+    editor_resource_id = r_aknconf_slider;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Fps logging setting page
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_SETTING_PAGE r_aknconf_fps_logging_enabled
+    {
+    label= qtn_setting_fps_logging_enabled;
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_aknconf_binary_editor;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Numeric editor
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_INTEGER_EDWIN r_aknconf_numericeditor
+    {
+    maxlength = 100;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Binary editor
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE POPUP_SETTING_LIST r_aknconf_binary_editor
+    {
+    flags= 0;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Slider
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE SLIDER r_aknconf_slider
+    {
+    layout = EAknSettingsItemSliderLayout;
+    minvalue = 0;
+    maxvalue = 100;
+    step = 1;
+    valuetype = EAknSliderValueDecimal;
+    minlabel = qtn_setting_zero_percent;
+    maxlabel = qtn_setting_hundred_percent;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Binary popup texts
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_aknconf_setting_binary_yes_no_texts
+    {
+    flags = 0;
+    setting_texts_resource = r_aknconf_yes_no_texts;
+    }
+
+
+// ---------------------------------------------------------------------------- 
+//
+// Yes - No text array
+//
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE ARRAY r_aknconf_yes_no_texts
+    {
+    items =
+        {
+        AVKON_ENUMERATED_TEXT { value = 1; text = qtn_setting_yes; },
+        AVKON_ENUMERATED_TEXT { value = 0; text = qtn_setting_no; }
+        };
+    }
+
+// End of File

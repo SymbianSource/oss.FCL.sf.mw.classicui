@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="7df5248e6d91e9d0a306e571708697ab" dataversion="1.0">
+  <name>Common File Dialogs API</name>
+  <description>Provides common file dialogs.</description>
+  <type>c++</type>
+  <subsystem>commonuis</subsystem>
+  <libs>
+    <lib name="commondialogs.lib" />
+  </libs>
+  <release category="sdk" sinceversion="2.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,57 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// eikcore.dll Shared application environment
+// 
+//
+
+/**
+ @file
+*/
+
+target eikcore.dll
+CAPABILITY All -Tcb
+VENDORID 0x70000001
+
+targettype      DLL
+uid				0x1000008D 0x10004892
+
+userinclude		../coreinc
+userinclude     ../srvinc
+userinclude	../../../../../mw/classicui/commonuisupport/uikon/coresrc
+userinclude	../../../../../mw/appsupport/appfw/apparchitecture/inc
+userinclude	../../../../../mw/classicui/lafagnosticuifoundation/cone/inc
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+sourcepath		../coresrc
+source  EIKENV.CPP    EIKAPPUI.CPP  eikamnt.cpp   EIKAPP.CPP    eikbhelp.cpp
+source  EIKDEBUG.CPP  EIKDOC.CPP    EIKEMBAL.CPP  eikerror.cpp  EikServerApp.cpp
+source  EIKFCTRY.CPP  EIKFUTIL.CPP  eiklibry.cpp  EIKMOBS.CPP   EIKMSG.CPP
+source  EIKPROC.CPP   EIKRUTIL.CPP  EIKSCNCL.CPP  EIKSHUT.CPP   eikvcurs.cpp
+source  EIKSTART.CPP  eikprivate.cpp eikenvextra.cpp
+source  EIKGULUTIL.CPP
+
+library  euser.lib    efsrv.lib   estor.lib    bafl.lib    etext.lib
+library  gdi.lib      ws32.lib    fbscli.lib   egul.lib    cone.lib
+library  clock.lib    apparc.lib  apgrfx.lib   apfile.lib  apserv.lib
+library  fepbase.lib  uiklaf.lib  eiksrvc.lib  hal.lib	   ecom.lib
+
+START WINS
+	baseaddress	0x40B40000
+	win32_library	kernel32.lib
+END
+
+START MARM
+END
+
+SMPSAFE

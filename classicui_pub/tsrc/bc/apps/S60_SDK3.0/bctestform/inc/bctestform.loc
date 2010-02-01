@@ -1,0 +1,199 @@
+/*
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         common localised strings for bctestForm
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tafm_list          "BCTESTFORM"
+#define qtn_apps_tafm_grid          "BCTESTFORM"
+
+// MenuBar
+#define qtn_bctestform_menubar           "Option"
+#define qtn_bctestform_menu_softkey      "OUTLINE1"
+#define qtn_bctestform_menu_form_states  "Form states"
+#define qtn_bctestform_menu_move_in_form "Moving"
+#define qtn_bctestform_menu_hint_text    "Hint text"
+#define qtn_bctestform_menu_gen_form_prm "General form prm"
+#define qtn_bctestform_menu_component    "Form component"
+#define qtn_bctestform_menu_field_label  "Field label"
+#define qtn_bctestform_menu_text_field   "Text field"
+#define qtn_bctestform_menu_separator    "Separator"
+#define qtn_bctestform_menu_empty_form   "Empty form"
+#define qtn_bctestform_menu_add_field    "Add field"
+#define qtn_bctestform_menu_remove_field "Remove field"
+#define qtn_bctestform_menu_laf          "For LAF"
+#define qtn_bctestform_menu_savetest     "Save test"
+#define qtn_bctestform_menu_exit         "Exit"
+#define qtn_bctestform_menu_autotest     "Autotest"
+#define qtn_bctestform_menu_double_line  "Double Line"
+#define qtn_bctestform_menu_api_test     "API Test"
+#define qtn_bctestform_menu_api_test2     "API Test2"
+
+#define qtn_bctestform_menu_outline101   "OUTLINE101"
+#define qtn_bctestform_menu_outline102   "OUTLINE102"
+#define qtn_bctestform_menu_outline103   "OUTLINE103"
+#define qtn_bctestform_menu_outline104   "OUTLINE104"
+#define qtn_bctestform_menu_outline105   "OUTLINE105"
+#define qtn_bctestform_menu_outline106   "OUTLINE106"
+#define qtn_bctestform_menu_outline107   "OUTLINE107"
+#define qtn_bctestform_menu_outline108   "OUTLINE108"
+#define qtn_bctestform_menu_outline109   "OUTLINE109"
+#define qtn_bctestform_menu_outline110   "OUTLINE110"
+#define qtn_bctestform_menu_outline111   "OUTLINE111"
+#define qtn_bctestform_menu_outline112   "OUTLINE112"
+#define qtn_bctestform_menu_outline113   "OUTLINE113"
+#define qtn_bctestform_menu_outline114   "OUTLINE114"
+#define qtn_bctestform_menu_outline115   "OUTLINE115"
+#define qtn_bctestform_menu_outline116   "OUTLINE116"
+#define qtn_bctestform_menu_outline117   "OUTLINE117"
+#define qtn_bctestform_menu_outline118   "OUTLINE118"
+#define qtn_bctestform_menu_outline119   "OUTLINE119 to 160"
+#define qtn_bctestform_menu_outline120   "OUTLINE120"
+#define qtn_bctestform_menu_outline121   "OUTLINE121"
+#define qtn_bctestform_menu_outline122   "OUTLINE122"
+#define qtn_bctestform_menu_outline123   "OUTLINE123"
+#define qtn_bctestform_menu_outline124   "OUTLINE124"
+#define qtn_bctestform_menu_outline125   "OUTLINE125"
+#define qtn_bctestform_menu_outline126   "OUTLINE126"
+#define qtn_bctestform_menu_outline127   "OUTLINE127"
+#define qtn_bctestform_menu_outline128   "OUTLINE128"
+#define qtn_bctestform_menu_outline129   "OUTLINE129"
+#define qtn_bctestform_menu_outline130   "OUTLINE130"
+#define qtn_bctestform_menu_outline131   "OUTLINE131"
+#define qtn_bctestform_menu_outline132   "OUTLINE132"
+#define qtn_bctestform_menu_outline133   "OUTLINE133"
+#define qtn_bctestform_menu_outline134   "OUTLINE134"
+#define qtn_bctestform_menu_outline135   "OUTLINE135"
+#define qtn_bctestform_menu_outline136   "OUTLINE136"
+#define qtn_bctestform_menu_outline137   "OUTLINE137"
+#define qtn_bctestform_menu_outline138   "OUTLINE138"
+#define qtn_bctestform_menu_outline139   "OUTLINE139"
+#define qtn_bctestform_menu_outline140   "OUTLINE140"
+#define qtn_bctestform_menu_outline141   "OUTLINE141"
+#define qtn_bctestform_menu_outline142   "OUTLINE142"
+#define qtn_bctestform_menu_outline143   "OUTLINE143"
+#define qtn_bctestform_menu_outline144   "OUTLINE144"
+#define qtn_bctestform_menu_outline145   "OUTLINE145"
+#define qtn_bctestform_menu_outline146   "OUTLINE146"
+#define qtn_bctestform_menu_outline147   "OUTLINE147"
+#define qtn_bctestform_menu_outline148   "OUTLINE148"
+#define qtn_bctestform_menu_outline149   "OUTLINE149"
+#define qtn_bctestform_menu_outline150   "OUTLINE150"
+#define qtn_bctestform_menu_outline151   "OUTLINE151"
+#define qtn_bctestform_menu_outline152   "OUTLINE152"
+#define qtn_bctestform_menu_outline153   "OUTLINE153"
+#define qtn_bctestform_menu_outline154   "OUTLINE154"
+#define qtn_bctestform_menu_outline155   "OUTLINE155"
+#define qtn_bctestform_menu_outline156   "OUTLINE156"
+#define qtn_bctestform_menu_outline157   "OUTLINE157"
+#define qtn_bctestform_menu_outline158   "OUTLINE158"
+#define qtn_bctestform_menu_outline159   "OUTLINE159"
+#define qtn_bctestform_menu_outline160   "OUTLINE160"
+
+
+
+
+
+
+
+
+// Sub menubar of "Softkey" menu
+#define qtn_bctestform_menu_outline01    "OUTLINE01"
+
+// Sub menubar of "Form states" menu
+#define qtn_bctestform_menu_outline02    "OUTLINE02"
+#define qtn_bctestform_menu_outline03    "OUTLINE03"
+#define qtn_bctestform_menu_outline04    "OUTLINE04"
+#define qtn_bctestform_menu_outline05    "OUTLINE05"
+#define qtn_bctestform_menu_outline06    "OUTLINE06"
+#define qtn_bctestform_menu_outline07    "OUTLINE07"
+#define qtn_bctestform_menu_outline08    "OUTLINE08"
+#define qtn_bctestform_menu_outline09    "OUTLINE09"
+#define qtn_bctestform_menu_outline10    "OUTLINE10"
+
+// Sub menubar of "Moving" menu
+#define qtn_bctestform_menu_outline11    "OUTLINE11"
+#define qtn_bctestform_menu_outline12    "OUTLINE12"
+#define qtn_bctestform_menu_outline13    "OUTLINE13"
+#define qtn_bctestform_menu_outline14    "OUTLINE14"
+#define qtn_bctestform_menu_outline15    "OUTLINE15"
+#define qtn_bctestform_menu_outline16    "OUTLINE16"
+#define qtn_bctestform_menu_outline17    "OUTLINE17"
+
+// Sub menubar of "Hint text" menu
+#define qtn_bctestform_menu_outline18    "OUTLINE18"
+#define qtn_bctestform_menu_outline20    "OUTLINE20"
+
+// Sub menubar of "General form parameter" menu
+#define qtn_bctestform_menu_outline21    "OUTLINE21"
+#define qtn_bctestform_menu_outline22    "OUTLINE22"
+
+// Sub menubar of "Form component" menu
+#define qtn_bctestform_menu_outline23    "OUTLINE23"
+
+// Sub menubar of "Field label" menu
+#define qtn_bctestform_menu_outline25    "OUTLINE25"
+#define qtn_bctestform_menu_outline26    "OUTLINE26"
+#define qtn_bctestform_menu_outline27    "OUTLINE27"
+
+// Sub menubar of "Text field" menu
+#define qtn_bctestform_menu_outline28    "OUTLINE28"
+#define qtn_bctestform_menu_outline29    "OUTLINE29"
+#define qtn_bctestform_menu_outline30    "OUTLINE30"
+#define qtn_bctestform_menu_outline31    "OUTLINE31"
+#define qtn_bctestform_menu_outline32    "OUTLINE32"
+
+// Sub menubar of "Separator" menu
+#define qtn_bctestform_menu_outline52    "OUTLINE52"
+
+// Sub menubar of "Empty form" menu
+#define qtn_bctestform_menu_outline53    "OUTLINE53"
+#define qtn_bctestform_menu_outline54    "OUTLINE54"
+
+// Sub menubar of "Adding a field" menu
+#define qtn_bctestform_menu_outline55    "OUTLINE55"
+#define qtn_bctestform_menu_outline56    "OUTLINE56"
+
+// Sub menubar of "Removing a field" menu
+#define qtn_bctestform_menu_outline57    "OUTLINE57"
+#define qtn_bctestform_menu_outline58    "OUTLINE58"
+
+// Sub menubar of "For LAF" menu
+#define qtn_bctestform_menu_outline59    "OUTLINE59"
+#define qtn_bctestform_menu_outline60    "OUTLINE60"
+#define qtn_bctestform_menu_outline67    "OUTLINE67"
+#define qtn_bctestform_menu_outline68    "OUTLINE68"
+#define qtn_bctestform_menu_outline70    "OUTLINE70"
+
+// Sub menubar of "For LAF" menuSave test
+#define qtn_bctestform_menu_outline83    "OUTLINE83"
+#define qtn_bctestform_menu_outline84    "OUTLINE84"
+
+// Messages
+#define qtn_bctestform_label_title       "BCTestForm\nSample Application"
+#define qtn_bctestform_label_operation   "Press space key to\ndisplay next outline"
+
+
+// End of File

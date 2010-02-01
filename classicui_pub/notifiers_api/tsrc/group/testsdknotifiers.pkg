@@ -1,0 +1,56 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Provide value for uid
+#{"testsdknotifiers"},(0x2001CB80),1,0,0,TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+"..\init\testsdknotifiers.ini"-"c:\Testframework\testsdknotifiers.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknglobalconfirmationquery.cfg"-"c:\Testframework\tctestsdknotifiersaknglobalconfirmationquery.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknglobalconfirmationquery.cfg"-"c:\Testframework\ui_testsdknotifiersaknglobalconfirmationquery.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersakngloballistquery.cfg"-"c:\Testframework\tctestsdknotifiersakngloballistquery.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersakngloballistquery.cfg"-"c:\Testframework\ui_testsdknotifiersakngloballistquery.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknglobalmsgquery.cfg"-"c:\Testframework\tctestsdknotifiersaknglobalmsgquery.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknglobalmsgquery.cfg"-"c:\Testframework\ui_testsdknotifiersaknglobalmsgquery.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknglobalnote.cfg"-"c:\Testframework\tctestsdknotifiersaknglobalnote.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknglobalnote.cfg"-"c:\Testframework\ui_testsdknotifiersaknglobalnote.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknglobalprogressdialog.cfg"-"c:\Testframework\tctestsdknotifiersaknglobalprogressdialog.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknglobalprogressdialog.cfg"-"c:\Testframework\ui_testsdknotifiersaknglobalprogressdialog.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknnotify.cfg"-"c:\Testframework\tctestsdknotifiersaknnotify.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknnotify.cfg"-"c:\Testframework\ui_testsdknotifiersaknnotify.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersaknpopupnotify.cfg"-"c:\Testframework\tctestsdknotifiersaknpopupnotify.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersaknpopupnotify.cfg"-"c:\Testframework\ui_testsdknotifiersaknpopupnotify.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdknotifiersgloballistmsgquery.cfg"-"c:\Testframework\tctestsdknotifiersgloballistmsgquery.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdknotifiersgloballistmsgquery.cfg"-"c:\Testframework\ui_testsdknotifiersgloballistmsgquery.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdknotifiers.dll"-"c:\sys\bin\testsdknotifiers.dll", FF
+
+

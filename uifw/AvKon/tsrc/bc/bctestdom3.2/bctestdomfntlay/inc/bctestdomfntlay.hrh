@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource headers for project bctestdomfntlay
+*
+*/
+
+
+#ifndef BCTESTDOMFNTLAY_HRH
+#define BCTESTDOMFNTLAY_HRH
+
+enum TBCTestDomFntlayMenuCommands
+    {
+    EBCTestDomCmdEmptyOutline = 0x6000,
+    EBCTestDomCmdOutline01,
+    EBCTestDomCmdOutline02,
+    EBCTestDomCmdOutline03,
+    EBCTestDomCmdOutline04,
+    EBCTestDomCmdOutline05,
+    EBCTestDomCmdOutline06,
+    EBCTestDomCmdOutline07,
+    EBCTestDomCmdOutline08,
+    EBCTestDomCmdOutline09,
+    EBCTestDomCmdOutline10,
+    EBCTestDomCmdOutline11,
+    EBCTestDomCmdOutline12,
+    EBCTestDomCmdOutline13,
+    EBCTestDomCmdOutline14,
+    EBCTestDomCmdOutline15,
+    EBCTestDomCmdOutline16,
+    EBCTestDomCmdOutline17,
+    EBCTestDomCmdOutline18,
+    EBCTestDomCmdOutline19,
+    EBCTestDomCmdOutline20,
+    EBCTestDomCmdOutline21,
+    EBCTestDomCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestDomFntlayCba
+    {
+    EBCTestDomFntlayCbaCmdNext = 0x6300
+    };
+
+#endif // BCTESTDOMFNTLAY_HRH

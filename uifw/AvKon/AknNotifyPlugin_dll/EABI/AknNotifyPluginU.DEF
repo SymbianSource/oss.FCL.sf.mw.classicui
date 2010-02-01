@@ -1,0 +1,19 @@
+EXPORTS
+	_Z13NotifierArrayv @ 1 NONAME
+	_ZN25CNotifierDialogController10CancelNoteEi @ 2 NONAME
+	_ZN25CNotifierDialogController11LaunchNoteLEiii @ 3 NONAME
+	_ZN25CNotifierDialogController11LaunchNoteLEiiiN14CAknNoteDialog8TTimeoutENS0_5TToneE @ 4 NONAME
+	_ZN25CNotifierDialogController13DisplayAlarmLEiRK7TDesC16S2_ @ 5 NONAME
+	_ZN25CNotifierDialogController15SetNoteObserverEP23MNotifierDialogObserver @ 6 NONAME
+	_ZN25CNotifierDialogController21DisplayNonNoteDialogLEi @ 7 NONAME
+	_ZN25CNotifierDialogController22AddAlarmAdditionalInfoEiRK7TDesC16S2_S2_S2_ @ 8 NONAME
+	_ZN25CNotifierDialogController4NewLEP24MAknGlobalNoteController @ 9 NONAME
+	_ZN30CAknSoftNotificationParameters4NewLERK7TDesC16iiiN14CAknNoteDialog5TToneE @ 10 NONAME
+	_ZN30CAknSoftNotificationParameters4NewLERK7TDesC16iiiN14CAknNoteDialog5TToneE10TVwsViewId4TUidiRK6TDesC8 @ 11 NONAME
+	_ZN30CAknSoftNotificationParameters4NewLEv @ 12 NONAME
+	_ZN30CAknSoftNotificationParametersD0Ev @ 13 NONAME
+	_ZN30CAknSoftNotificationParametersD1Ev @ 14 NONAME
+	_ZN30CAknSoftNotificationParametersD2Ev @ 15 NONAME
+	_ZTI30CAknSoftNotificationParameters @ 16 NONAME ; #<TI>#
+	_ZTV30CAknSoftNotificationParameters @ 17 NONAME ; #<VT>#
+

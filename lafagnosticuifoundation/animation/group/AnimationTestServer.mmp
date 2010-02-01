@@ -1,0 +1,97 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// AnimationTestServer.exe test cases for Animation
+// 
+//
+
+/**
+ @file
+*/
+
+TARGET        	animationtestserver.exe
+TARGETTYPE    	exe
+UID    			0x1000008d 0x10204F5B
+VENDORID 		0x70000001
+CAPABILITY  	SwEvent
+
+SOURCEPATH	../tef
+SOURCE		AnimationTestServer.cpp AnimationTestStep.cpp
+SOURCE		TBasic.cpp TFrames.cpp TSynch.cpp TMng.cpp
+SOURCE		TOomStep.cpp TCustomStep.cpp
+SOURCE      ActiveWait.cpp ActiveTestStep.cpp
+SOURCE		TestEventHandler.cpp TestRedrawHandler.cpp TestWindows.cpp
+
+SOURCEPATH	../../../../appsupport/appfw/uiftestfw/src
+SOURCE      	appfwk_tmsteststep.cpp
+
+USERINCLUDE	../tef ../inc ../../../../appsupport/appfw/uiftestfw/inc
+MW_LAYER_SYSTEMINCLUDE h
+
+LIBRARY		  testexecuteutils.lib testexecutelogclient.lib 
+LIBRARY		  appfwk_test_appui.lib
+LIBRARY       euser.lib ws32.lib fbscli.lib bitgdi.lib gdi.lib ecom.lib
+LIBRARY       imageconversion.lib efsrv.lib charconv.lib
+LIBRARY       animation.lib animationshared.lib
+LIBRARY		  bafl.lib
+
+START BITMAP disposal.mbm
+TARGETPATH   private/10204f5b
+SOURCEPATH   ../testdata
+SOURCE       c4,1 disposal1.bmp disposal1m.bmp
+SOURCE       c4,1 disposal2.bmp disposal2m.bmp
+SOURCE       c4,1 disposal3.bmp disposal3m.bmp
+SOURCE       c4,1 disposal4.bmp disposal4m.bmp
+SOURCE       c4,1 disposal5.bmp disposal5m.bmp
+SOURCE       c4,1 disposal6.bmp disposal6m.bmp
+SOURCE       c4,1 disposal7.bmp disposal7m.bmp
+END
+
+START BITMAP sqdisp1.mbm
+TARGETPATH   private/10204f5b
+SOURCEPATH   ../testdata
+SOURCE       c4,1 sqdisp10.bmp sqdispm.bmp
+SOURCE       c4,1 sqdisp11.bmp sqdispm.bmp
+SOURCE       c4,1 sqdisp12.bmp sqdispm.bmp
+SOURCE       c4,1 sqdisp13.bmp sqdispm.bmp
+END
+
+START BITMAP sqdisp2.mbm
+TARGETPATH   private/10204f5b
+SOURCEPATH   ../testdata
+SOURCE       c4,1 sqdisp20.bmp sqdispm.bmp
+SOURCE       c4,1 sqdisp21.bmp sqdisp21m.bmp
+SOURCE       c4,1 sqdisp22.bmp sqdisp22m.bmp
+SOURCE       c4,1 sqdisp23.bmp sqdisp23m.bmp
+END
+
+START BITMAP previous.mbm
+targetpath   private/10204f5b
+SOURCEPATH   ../testdata
+SOURCE       c4,1 prev0.bmp prevm.bmp
+SOURCE       c4,1 prev1.bmp prevm.bmp
+SOURCE       c4,1 prev2.bmp prevm.bmp
+SOURCE       c4,1 prev3.bmp prevm.bmp
+SOURCE       c4,1 prev4.bmp prevm.bmp
+END
+
+START BITMAP moving.mbm
+TARGETPATH   private/10204f5b
+SOURCEPATH   ../testdata
+SOURCE       c4,1 moving0.bmp moving0m.bmp
+SOURCE       c4,1 moving1.bmp moving1m.bmp
+SOURCE       c4,1 moving2.bmp moving2m.bmp
+SOURCE       c4,1 moving3.bmp moving3m.bmp
+END
+
+SMPSAFE

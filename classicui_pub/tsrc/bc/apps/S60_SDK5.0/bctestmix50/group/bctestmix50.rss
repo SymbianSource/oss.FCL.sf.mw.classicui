@@ -1,0 +1,330 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME MIX5
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestmix50.hrh"
+#include "bctestmix50.loc"
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctestmix50_buff;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestmix50_menubar_main;
+    cba = r_bctestmix50_cba_options_next;
+    }
+
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestmix50_localisable_app_info
+    {
+    short_caption = qtn_apps_short_caption; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_caption; 
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50_view
+//    AVKON_VIEW for CBCTestMix50View
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestmix50_view
+    {
+    menubar = r_bctestmix50_menubar_main;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestmix50_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestmix50_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestmix50_case_menu;
+            }
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmix50_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestmix50_outline1;
+            }
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestmix50_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestmix50_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestmix50_menu_exit;
+            }
+        };
+    }
+
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestmix50_cba_options_next
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestmix50_cba_options_next
+    {
+    buttons =
+        {
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestMix50CbaCmdNext;
+            txt = qtn_bctestmix50_cba_next;
+            }
+        };
+    }
+
+
+// ----------------------------------------------------------------------------
+//
+//  r_bctestmix50_eikdialog
+//
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestmix50_eikdialog
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagCbaButtons
+             | EEikDialogFlagWait;
+    buttons = R_AVKON_SOFTKEYS_OK_BACK; 
+    title = qtn_truncation;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            id = EBcTestEdwin;
+            prompt = qtn_truncation;
+            control = EDWIN
+                {
+                flags = EAknEditorFlagDefault;
+                width = qtn_eikdialog_width;
+                lines = qtn_eikdialog_line;
+                maxlength = qtn_eikdialog_base_line;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMessageQuery;
+            id = EAknMessageQueryContentId;
+            control = AVKON_MESSAGE_QUERY
+                {
+                };
+            }
+        };
+    }
+
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestmix50_slider
+//    bc test for slider resource
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE SLIDER r_bctestmix50_slider
+    {
+    layout = EAknFormSliderLayout1;
+    minvalue = AKNEIK_SLIDER_MINIMUM_VALUE;
+    maxvalue = AKNEIK_SLIDER_MAXIMUM_VALUE;
+    step = AKNEIK_SLIDER_STEP_SIZE;
+    valuetype = EAknSliderValueBareFigure;
+    decimalplaces = 0;
+    singular_valuelabel = qtn_bctestmix50_singular_txt;
+    minlabel = qtn_bctestmix50_min_txt;
+    maxlabel = qtn_bctestmix50_max_txt;
+    valuelabel = qtn_bctestmix50_value_txt;
+    graphical_image=0;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50setpage_text_setting_page
+//    For outline01,06,09,11,12, 25,28, 64.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestmix50setpage_text_setting_page
+    {
+    number = AKNEIK_TEXT_SETTING_PAGE_NUMBER;
+    label = qtn_bctestmix50setpage_text_title;
+    type = EEikCtEdwin;
+    editor_resource_id = r_bctestmix50_edwin;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestmix50_edwin
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EDWIN r_bctestmix50_edwin
+    {
+    width = AKNEIK_TEXT_SETTING_PAGE_WIDTH;
+    lines = AKNEIK_TEXT_SETTING_PAGE_LINES;
+    maxlength = AKNEIK_TEXT_SETTING_PAGE_MAXLENGTH20;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//      r_bctestmix50_volumecontrol
+//      bc test for CAknVolumeControl
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE VOLUME r_bctestmix50_volumecontrol
+    {
+    flags = ESettingsVolumeControl;
+    value = AKNEIK_VOLUME_SETTING_VALUE;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//      r_bctestmix50_editor_edwin
+//      bc test for CAknUnitEditor
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_UNIT_EDITOR r_bctestmix50_editor_edwin 
+    {
+    min = AKNEIK_EDITOR_MIN_VALUE;
+    max = AKNEIK_EDITOR_MAX_VALUE;
+    maxfractionaldigits = AKNEIK_EDITOR_MAXFRACT_VALUE;
+    flags = EAknUnitEditorAllowUninitialized;
+    }
+
+

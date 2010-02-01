@@ -1,0 +1,133 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestpopups resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTPOPUPS_HRH
+#define BCTESTPOPUPS_HRH
+
+enum TBCTestPopupsMenuGroupCommands
+        {
+        EBCTestPopupsCmdPopupsFieldText = 0x6000,
+        EBCTestPopupsCmdPopupsList,
+        EBCTestPopupsCmdPopupsHeadingPane,
+        EBCTestPopupsCmdPopupsSettingPage,
+        EBCTestPopupsCmdPopupsLayout,
+        EBCTestPopupsCmdAutotest
+        };
+        
+enum TBCTestPopupsMenuCommands
+    {
+        EBCTestPopupsCmdEmptyOutline = 0x6020,            
+        EBCTestPopupsCmdOutline01,
+        EBCTestPopupsCmdOutline02,
+        EBCTestPopupsCmdOutline03,
+        EBCTestPopupsCmdOutline04,
+        EBCTestPopupsCmdOutline05,
+        EBCTestPopupsCmdOutline06,
+        EBCTestPopupsCmdOutline07,
+        EBCTestPopupsCmdOutline08,
+        EBCTestPopupsCmdOutline09,
+        EBCTestPopupsCmdOutline10,
+        EBCTestPopupsCmdOutline11,
+        EBCTestPopupsCmdOutline12,
+        EBCTestPopupsCmdMaxOutline
+    };
+
+enum TBCTestPopFieldDialogControlIds
+    {
+    EBCTestPopFieldDlgCtrlIdPop00 = 0x100,
+    EBCTestPopFieldDlgCtrlIdPop01,
+    EBCTestPopFieldDlgCtrlIdPop02,
+    EBCTestPopFieldDlgCtrlIdPop03,
+    EBCTestPopFieldDlgCtrlIdPop04,
+    EBCTestPopFieldDlgCtrlIdPop05,
+    EBCTestPopFieldDlgCtrlIdPop06,
+    EBCTestPopFieldDlgCtrlIdPop07,
+    EBCTestPopFieldDlgCtrlIdPop08,
+    EBCTestPopFieldDlgCtrlIdPop09,
+    EBCTestPopFieldDlgCtrlIdPop10,
+    EBCTestPopFieldDlgCtrlIdPop11,
+    EBCTestPopFieldDlgCtrlIdPop12,
+    EBCTestPopFieldDlgCtrlIdText01,
+    EBCTestPopFieldDlgCtrlIdText02,
+    EBCTestPopFieldDlgCtrlIdText03,
+    EBCTestPopFieldDlgCtrlIdText04,
+    EBCTestPopFieldDlgCtrlIdText05,
+    EBCTestPopFieldDlgCtrlIdText06,
+    EBCTestPopFieldDlgCtrlIdNum01,
+    EBCTestPopFieldDlgCtrlIdNum02,
+    EBCTestPopFieldDlgCtrlIdNum03,
+    EBCTestPopFieldDlgCtrlIdNum04,
+    EBCTestPopFieldDlgCtrlIdNum05,
+    EBCTestPopFieldDlgCtrlIdNum06,
+    EBCTestPopFieldDlgCtrlIdPhon01,
+    EBCTestPopFieldDlgCtrlIdPhon02,
+    EBCTestPopFieldDlgCtrlIdPhon03,
+    EBCTestPopFieldDlgCtrlIdPhon04,
+    EBCTestPopFieldDlgCtrlIdPhon05,
+    EBCTestPopFieldDlgCtrlIdPhon06,
+    EBCTestPopFieldDlgCtrlIdTime01,
+    EBCTestPopFieldDlgCtrlIdTime02,
+    EBCTestPopFieldDlgCtrlIdTime03,
+    EBCTestPopFieldDlgCtrlIdTime04,
+    EBCTestPopFieldDlgCtrlIdTime05,
+    EBCTestPopFieldDlgCtrlIdTime06,
+    EBCTestPopFieldDlgCtrlIdDate01,
+    EBCTestPopFieldDlgCtrlIdDate02,
+    EBCTestPopFieldDlgCtrlIdDate03,
+    EBCTestPopFieldDlgCtrlIdDate04,
+    EBCTestPopFieldDlgCtrlIdDate05,
+    EBCTestPopFieldDlgCtrlIdDate06,
+    EBCTestPopFieldDlgCtrlIdDura01,
+    EBCTestPopFieldDlgCtrlIdDura02,
+    EBCTestPopFieldDlgCtrlIdDura03,
+    EBCTestPopFieldDlgCtrlIdDura04,
+    EBCTestPopFieldDlgCtrlIdDura05,
+    EBCTestPopFieldDlgCtrlIdDura06,
+    EBCTestPopFieldDlgCtrlIdFldText01,
+    EBCTestPopFieldDlgCtrlIdFldText02,
+    EBCTestPopFieldDlgCtrlIdAttribSet01,
+    EBCTestPopFieldDlgCtrlIdAttribSet02
+    };
+
+enum TBCTestPopFieldPageControlIds
+    {
+    EBCTestPopFieldPageCtrlIdPage01 = 1,
+    EBCTestPopFieldPageCtrlIdPage02,
+    EBCTestPopFieldPageCtrlIdPage03,
+    EBCTestPopFieldPageCtrlIdPage04,
+    EBCTestPopFieldPageCtrlIdPage05,
+    EBCTestPopFieldPageCtrlIdPage06
+    };
+
+enum TBCTestPopupsCba
+    {
+    EBCTestPopFieldCbaCmdExit = 0x6300
+    };
+
+enum TBCTestPopFieldNoteIds
+	{
+	EBCTestPopFieldEmptyListNoteId = 1
+	};
+#endif      // BCTESTPOPUPS_HRH

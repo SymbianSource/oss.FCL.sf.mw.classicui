@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="0006f779581e01c285557d21d9700efd" dataversion="1.0">
+  <name>Transition Effect Parameters API</name>
+  <description>Defines parameters used with the transition effects by the client side code, which controls the effects via Symbian's GfxTransEffect interfaces.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

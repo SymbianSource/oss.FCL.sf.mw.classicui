@@ -1,0 +1,44 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code
+*/
+
+TARGET			t_gfxtransadapter.dll
+TARGETTYPE		dll
+UID    			0x1000008D 0x102822A5
+VENDORID		0x70000001
+TARGETPATH		/sys/bin
+
+CAPABILITY	All -Tcb
+
+MW_LAYER_SYSTEMINCLUDE 
+
+SOURCEPATH		../src
+SOURCE 	t_gfxtransadapterstub.cpp
+
+USERINCLUDE		../inc
+LIBRARY       euser.lib
+
+#if defined(WINSCW)
+DEFFILE ../../Adapter/bwins/GFXTRANSADAPTER.DEF
+#else
+DEFFILE ../../Adapter/eabi/GFXTRANSADAPTER.DEF
+#endif
+
+SMPSAFE

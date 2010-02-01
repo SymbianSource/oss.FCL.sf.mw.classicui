@@ -1,0 +1,216 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+ *     This is a localisation file for AVKON special character tables
+ *     A .loc file is the one and only place where the logical strings
+ *     to be localised are defined. 
+ * >>>
+ * The text between >>> and <<< is just to document the syntax and
+ * you can remove it if you like.
+ *
+ * Syntax of a logical name entry in this file is the following:
+ *
+ * // d:context description (line 1)
+ * // d:context description (line N)
+ * // l:P_No
+ * //
+ * #define qtn_?feature/?module_name_?freetext "?text"
+ * #define text_?feature/?module_name_?freetext "?text"
+ *
+ *   where
+ *         "qtn_" or "text_" starts a logical name, which does not
+ *          not contain dots.
+ *         "d:" starts description line(s), which
+ *              clarify entry's context with information like:
+ *              1. Is a word a verb in imperative or is it a noun ?
+ *                   - what does text "Set" mean ?
+ *              2. What will replace %U (unicode text parameter) or
+ *                 %N (number parameter) included in texts ?
+ *                   - is it phone number or email address ?
+ *         "l:" starts a layout information (one line).
+ *              "P" and "No" are symbols in LAF's information table
+ *                 - "P" is parent pane or current pane
+ *                 - "No" is reference number in table
+ *  <<<
+ *  -------------------------------------------------------------------
+ *
+*/
+
+
+
+// LOCALISATION STRINGS
+
+
+// Special character table
+
+//d: Special character table character set. Maximum 255 characters.
+//d: Lower case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_special_characters_lower ".,'?!\"-()"<0x0040>"/:_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A1><0x00BF><0x00A7>"#|"<0x0020><0x2029>
+
+//d: Special character table character set. Maximum 255 characters.
+//d: Upper case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_special_characters_upper ".,'?!\"-()"<0x0040>"/:_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A1><0x00BF><0x00A7>"#|"<0x0020><0x2029>
+
+//d: Special character table character set for Qwerty keyboard. 
+//d: Maximum 255 characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_special_characters_qwerty ".,'?!\"-()"<0x0040>"/:_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A1><0x00BF><0x00A7>"#|"
+
+//d: Special character table character set to url address editor.
+//d: Maximum 255 characters. Lower case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_url_special_characters_lower "/.:"<0x0040>",'?!\"-()_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A1><0x00BF><0x00A7>"#|"<0x2029>
+
+//d: Special character table character set to url address editor.
+//d: Maximum 255 characters. Upper case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_url_special_characters_upper "/.:"<0x0040>",'?!\"-()_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A1><0x00BF><0x00A7>"#|"<0x2029>
+
+//d: Special character table character set to email address editor.
+//d: Maximum 255 characters. Lower case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_email_speci_chars_lower ".@;?'-_&/~*+="
+
+//d: Special character table character set to email address editor.
+//d: Maximum 255 characters. Upper case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_email_speci_chars_upper ".@;?'-_&/~*+="
+
+//d: Special character table character set to currency name editor in logs.
+//d: Maximum 255 characters. Lower case characters.
+//d: Must contain ONLY characters that fit in 7-bit ascii!
+//d: ie. ascii code is 0x00...0x7f.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_currency_name_speci_chars_lower ".,'?!\"-()"<0x0040>"/:_;+&%*=<>$[]{}\\~^#|"<0x0020><0x2029>
+
+//d: Special character table character set to currency name editor in logs.
+//d: Maximum 255 characters. Upper case characters.
+//d: Must contain ONLY characters that fit in 7-bit ascii!
+//d: ie. ascii code is 0x00...0x7f.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_currency_name_speci_chars_upper ".,'?!\"-()"<0x0040>"/:_;+&%*=<>$[]{}\\~^#|"<0x0020><0x2029>
+
+//d: Special character table character set for Chinese Zhuyin symbol input tone mark.
+//d: Special characters for zhuyin tone mark symbols.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x02D9><0x02CA><0x02C7><0x02CB> etc.
+//d: <0x02D9> = invalid tone mark. <0x02CA> = the fourth tone mark.
+//d: <0x02C7> = the third tone mark. <0x02CB> = the fourth tone mark.
+//d: Only Chinese, only Taiwan variant
+//l:(none)
+//
+#define qtn_chi_star_zhuyin_tonemarks <0x02D9><0x02CA><0x02C7><0x02CB>
+
+//d: Special character table character set for APAC build.
+//d: Special characters for pinyin, zhuyin and stroke input methods.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//d: Only Chinese.
+//l:(none)
+//
+#define text_chi_input_star_key <0x0020><0x2029>
+
+//d: Special character table character set for APAC build.
+//d: Special characters for latin input methods.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//d: Only Chinese.
+//l:(none)
+//
+#define text_chi_input_star_key2 <0x0020><0x2029>
+
+
+//d: Special character table character set for Japanese variant.
+//d: Special characters for half width input.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//d: Only Japanese
+//l:(none)
+//
+#define qtn_sct_special_characters_halfwidth <0xFF64><0xFF61><0xFF9E><0xFF9F>".,'?!\"-()@/:_;+&%*=<>"<0x00A3><0x20AC>"$"<0x00A5><0x00A4>"[]{}\\~^"<0x00A7>"#|"<0x0020><0x2029>
+
+//d: Special character table character set for Japanese variant.
+//d: Special characters for full width input.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//d: Only Japanese
+//l:(none)
+#define qtn_sct_special_characters_fullwidth1 <0x3001><0x3002><0x3000><0x2029><0xff0c><0xff0e><0x30fb><0xff1a><0xff1b><0xff1f><0xff01><0x309b><0x309c><0x00b4><0xff40><0x00a8><0xff3e><0xffe3><0xff3f><0x30fd><0x30fe><0x309d><0x309e><0x3003><0x4edd><0x3005><0x3006><0x3007><0x30fc><0x2015><0x2010><0xff0f><0xff3c><0xff5e><0x2225><0xff5c><0x2026><0x2025><0x2018><0x2019><0x201c><0x201d><0xff08><0xff09><0x3014><0x3015><0xff3b><0xff3d><0xff5b><0xff5d><0x3008><0x3009><0x300a><0x300b><0x300c><0x300d><0x300e><0x300f><0x3010><0x3011><0xff0b><0xff0d><0x00b1><0x00d7><0x00f7><0xff1d><0x2260><0xff1c><0xff1e><0x2266><0x2267><0x221e><0x2234><0x2642><0x2640><0x00b0><0x2032><0x2033><0x2103><0xffe5><0xff04><0xffe0><0xffe1><0xff05><0xff03><0xff06><0xff0a><0xff20><0x00a7><0x2606><0x2605><0x25cb><0x25cf><0x25ce><0x25c7><0x25c6><0x25a1><0x25a0><0x25b3><0x25b2><0x25bd><0x25bc><0x203b><0x3012><0x2192><0x2190><0x2191><0x2193><0x3013><0x2208><0x220b><0x2286><0x2287><0x2282><0x2283><0x222a><0x2229><0x2227><0x2228><0xffe2><0x21d2><0x21d4><0x2200><0x2203><0x2220><0x22a5><0x2312><0x2202><0x2207><0x2261><0x2252><0x226a><0x226b><0x223d><0x221d><0x2235><0x222b><0x222c><0x212b><0x2030><0x266f><0x266d><0x266a><0x2020><0x2021><0x00b6><0x25ef><0x308e><0x3090><0x3091><0x30ee><0x30f0><0x30f1><0x30f4><0x30f5><0x30f6><0x0391><0x0392><0x0393><0x0394><0x0395><0x0396><0x0397><0x0398><0x0399><0x039A><0x039B><0x039C><0x039D><0x039E><0x039F><0x03A0><0x03A1><0x03A3><0x03A4><0x03A5><0x03A6><0x03A7><0x03A8><0x03A9><0x03B1><0x03B2><0x03B3><0x03B4><0x03B5><0x03B6><0x03B7><0x03B8><0x03B9><0x03BA><0x03BB><0x03BC><0x03BD><0x03BE><0x03BF><0x03C0><0x03C1><0x03C3><0x03C4><0x03C5><0x03C6><0x03C7><0x03C8>
+
+//d: Special character table character set for Japanese variant.
+//d: Special characters for full width input.
+//d: Maximum 255 characters. 
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//d: Only Japanese
+//l:(none)
+//
+#define qtn_sct_special_characters_fullwidth2  <0x03C9><0x0410><0x0411><0x0412><0x0413><0x0414><0x0415><0x0401><0x0416><0x0417><0x0418><0x0419><0x041A><0x041B><0x041C><0x041D><0x041E><0x041F><0x0420><0x0421><0x0422><0x0423><0x0424><0x0425><0x0426><0x0427><0x0428><0x0429><0x042A><0x042B><0x042C><0x042D><0x042E><0x042F><0x0430><0x0431><0x0432><0x0433><0x0434><0x0435><0x0451><0x0436><0x0437><0x0438><0x0439><0x043A><0x043B><0x043C><0x043D><0x043E><0x043F><0x0440><0x0441><0x0442><0x0443><0x0444><0x0445><0x0446><0x0447><0x0448><0x0449><0x044A><0x044B><0x044C><0x044D><0x044E><0x044F><0x2500><0x2502><0x250c><0x2510><0x2518><0x2514><0x251c><0x252c><0x2524><0x2534><0x253c><0x2501><0x2503><0x250f><0x2513><0x251b><0x2517><0x2523><0x2533><0x252b><0x253b><0x254b><0x2520><0x252f><0x2528><0x2537><0x253f><0x251d><0x2530><0x2525><0x2538><0x2542><0x2460><0x2461><0x2462><0x2463><0x2464><0x2465><0x2466><0x2467><0x2468><0x2469><0x246a><0x246b><0x246c><0x246d><0x246e><0x246f><0x2470><0x2471><0x2472><0x2473><0x2160><0x2161><0x2162><0x2163><0x2164><0x2165><0x2166><0x2167><0x2168><0x2169><0x3349><0x3314><0x3322><0x334d><0x3318><0x3327><0x3303><0x3336><0x3351><0x3357><0x330d><0x3326><0x3323><0x332b><0x334a><0x333b><0x339c><0x339d><0x339e><0x338e><0x338f><0x33c4><0x33a1><0x337b><0x301d><0x301f><0x2116><0x33cd><0x2121><0x32a4><0x32a5><0x32a6><0x32a7><0x32a8><0x3231><0x3232><0x3239><0x337e><0x337d><0x337c><0x222e><0x2211><0x221a><0x221f><0x22bf>
+
+
+//d: Special character table character set to CDMA sms.
+//d: Maximum 255 characters. Lower case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_cdma_sp_sms_speci_chars_lower ".@?!-,&:'\"+=/$*#%;\<>{}[]_()"<0x2029>"~^`|"
+ 
+//d: Special character table character set to CDMA sms editor.
+//d: Maximum 255 characters. Upper case characters.
+//d: Unicode format: <0x0041><0x0042><0x0043> etc.
+//d: <0x2029> = line feed. <0x0020> = space
+//l:(none)
+//
+#define qtn_sct_cdma_sp_sms_speci_chars_upper ".@?!-,&:'\"+=/$*#%;\<>{}[]_()"<0x2029>"~^`|"
+
+
+
+// End of File
+
+
+

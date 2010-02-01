@@ -1,0 +1,294 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkbuttons
+ *
+*/
+
+
+NAME    UIFU
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.hrh>
+#include <eikon.rh>
+#include <eikon.hrh>
+#include <avkon.mbg>
+
+#include "testsdkuifwutil.hrh"
+#include "testsdkuifwutil.rh"
+
+// CONSTANTS
+#define ELeftBt 0x8000
+#define ERightBt 0x8001
+
+//  RESOURCE DEFINITIONS
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+
+RESOURCE TBUF32 r_akntextutils_buf { buf = "example"; }
+RESOURCE TBUF32 r_akntextutils_bufzero { buf = ""; }
+// ---------------------------------------------------------------------------
+// r_cakniconarray_icon_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE AKN_ICON_ARRAY r_cakniconarray_icon_array
+    {
+    type = EAknIconArraySimple;
+    bmpfile = "\\resource\\apps\\avkon2.mbm";
+    icons = 
+        {
+        AKN_ICON
+            {
+            iconId = EMbmAvkonQgn_indi_mic;
+            maskId = EMbmAvkonQgn_indi_mic_mask;
+            }
+        };
+    }
+// ---------------------------------------------------------------------------
+// r_aknselectionservice_menupane
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_aknselectionservice_menupane
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = ETestAknSelectionService;
+            txt = "test";
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_single_listbox
+// ---------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_single_listbox
+    {
+    flags = 0;
+    array_id = r_single_listbox_array;
+    
+    }
+
+//-----------------------------------------------------------------------------
+// r_single_listbox_array
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_single_listbox_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "item1";
+            },
+        LBUF
+            {
+            txt = "item2";
+            },
+        LBUF
+            {
+            txt = "item3";
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_double_listbox
+// ---------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_double_listbox
+    {
+    flags = 0;
+    array_id = r_double_listbox_array;
+    
+    }
+
+//-----------------------------------------------------------------------------
+// r_double_listbox_array
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_double_listbox_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "item1";
+            },
+        LBUF
+            {
+            txt = "item2";
+            },
+        LBUF
+            {
+            txt = "item3";
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+// r_akneditutils_edwin
+//-----------------------------------------------------------------------------
+//
+
+RESOURCE EDWIN r_akneditutils_edwin
+    {
+    flags = EAknEditorFlagDefault;
+    width = 10;
+    lines = 1;
+    maxlength = 20;
+    }
+
+
+//----------------------------------------------------
+// r_test_view_menubar
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_test_view
+    {
+    menubar = r_test_view_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+//----------------------------------------------------
+// r_test_view_menubar
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_test_view_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_test_view_menupane; txt="test";}
+        };
+    }
+
+//----------------------------------------------------
+// r_test_view_menupane
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_test_view_menupane
+    {
+    items=
+        {
+        MENU_ITEM { command = ETestViewMenuCmd; txt = "test"; }
+        };
+    }
+
+//----------------------------------------------------
+// r_test_view_menupane
+//----------------------------------------------------
+//
+RESOURCE LABEL r_aknlayoututils_label
+    {
+    flags = 0;
+    txt = "test";
+    }
+
+//----------------------------------------------------
+// r_test_view_menupane
+//----------------------------------------------------
+//
+RESOURCE EDWIN r_aknlayoututils_edwin
+    {
+    flags = 0;
+    width = 20;
+    lines = 1;
+    maxlength = 30;
+    max_view_height_in_lines = 5;
+    base_line_delta = 21;
+    }
+
+//----------------------------------------------------
+// r_test_view_menupane
+//----------------------------------------------------
+//
+RESOURCE NUMBER_EDITOR r_aknlayoututils_numberedwin
+    {
+    min = 0;
+    max = 1000;
+    }
+
+//----------------------------------------------------
+// r_ceikmfne_layout
+//----------------------------------------------------
+//
+
+RESOURCE CEIKMFNE_RESOURCE r_ceikmfne_layout
+    {
+    fontid = 0;
+    c = 1;
+    lm = 1;
+    rm = 2;
+    b = 5;
+    w = 8;
+    j = 10;
+    }
+
+//----------------------------------------------------
+// r_aknlayoututils_image
+//----------------------------------------------------
+//
+RESOURCE IMAGE r_aknlayoututils_image
+    {
+    horiz_align = EEikLabelAlignHCenter;
+    vert_align = EEikLabelAlignVTop;
+    bmpfile = "z:\\resource\\apps\\avkon2.mbm";
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    }
+
+RESOURCE SECRETED r_aknlayoututils_secreteditor
+    {
+    num_letters = 8;
+    }
+
+
+
+RESOURCE CAKNGENERICREADER_RESOURCE r_cakngenericreader_resource
+    {
+    gfx = 0;
+    txt = 0;
+    cmd = 0;
+    area = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_gps_cbabutton
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_cbabutton
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id = ELeftBt; txt = "left";},
+        CBA_BUTTON {id = ERightBt; txt = "right";}
+        };
+    }
+
+
+// End of file
+
+
+
+

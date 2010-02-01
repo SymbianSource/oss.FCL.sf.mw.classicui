@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestFontInput resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTFONTINPUT_HRH
+#define BCTESTFONTINPUT_HRH
+
+enum TBCTestFontInputMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestInputFrame,
+    EBCTestInputInfo,
+    EBCTestFontSpec,
+    EBCTestLafEnv,
+    EBCTestCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestFontInputCba
+    {
+    EBCTestFontInputCbaCmdNext = 0x6300
+    };
+
+#endif // BCTESTFONTINPUT_HRH
+
+// End of File

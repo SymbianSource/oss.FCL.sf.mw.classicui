@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestImage resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTIMAGE_HRH
+#define BCTESTIMAGE_HRH
+
+enum TBCTestImageMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestCmdOutline1,
+    EBCTestCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestImageCba
+    {
+    EBCTestImageCbaCmdNext = 0x6300
+    };
+
+#endif // BCTESTIMAGE_HRH
+
+// End of File

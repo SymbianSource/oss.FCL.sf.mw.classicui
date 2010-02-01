@@ -1,0 +1,126 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  test Aknedsts.h aknipfed.h AknLocationEd.h aknnumed.h AknNumEdwin.h
+                      Aknnumseced.h aknuniteditor.h EikCcpu.h EIKEDWIN.H EIKFPNE.H
+                      EIKGTED.H EIKMFNE.H EIKRTED.H EIKSECED.H
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+TARGET          testsdkeditors.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkeditors.def
+
+#ifdef SBSV2
+    SOURCEPATH     ../data
+    START RESOURCE  testsdkeditors.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#else // SBSV2 not defined
+SOURCEPATH     ../data
+    START RESOURCE  testsdkeditors.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#endif // SBSV2
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc 
+
+    MW_LAYER_SYSTEMINCLUDE
+
+    SOURCEPATH      ../src
+#else // SBSV2 not defined
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+#endif // SBSV2
+
+SOURCE          testsdkeditors.cpp
+SOURCE          testsdkeditorsblocks.cpp
+SOURCE          testsdkeditorsblocksedsts.cpp
+SOURCE          testsdkeditorsedstateobserver.cpp
+SOURCE          testsdkeditorsblockslocationed.cpp
+SOURCE          testsdkeditorsblocksnipfed.cpp
+SOURCE          testsdkeditorsblocksnumed.cpp
+SOURCE          testsdkeditorsblocksnumedwin.cpp
+SOURCE          testsdkeditorsnumed.cpp
+SOURCE          testsdkeditorslocationed.cpp
+SOURCE          testsdkeditorsblocksnumseced.cpp
+SOURCE          testsdkeditorsblocksuniteditor.cpp
+SOURCE          testsdkeditorsblocksccpu.cpp
+SOURCE          testsdkeditorsblocksfpointeditor.cpp
+SOURCE          testsdkeditorsblocksedwin.cpp
+SOURCE          testsdkeditorsedwin.cpp
+SOURCE          testsdkeditorscontrol.cpp
+SOURCE          testsdkirfactory.cpp
+SOURCE          testsdkeditorsblocksglobaltext.cpp
+SOURCE          testsdkeditorsglobaltext.cpp
+SOURCE          testsdkeditorsdialogfactory.cpp
+SOURCE          testsdkeditorsblocksrichtext.cpp
+SOURCE          testsdkeditorsblockssecrettext.cpp
+SOURCE          testsdkeditorsrichtext.cpp
+SOURCE          testsdkeditorssecrettext.cpp
+SOURCE          testsdkeditorsblocksmfne.cpp
+SOURCE          testsdkeditorsmfne.cpp
+SOURCE          testsdkeditorseikmfne.cpp
+SOURCE          testedwindialog.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         eikctl.lib
+LIBRARY         bafl.lib
+LIBRARY         cone.lib
+LIBRARY         egul.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         estor.lib
+LIBRARY         eikdlg.lib
+LIBRARY         ws32.lib
+LIBRARY         form.lib
+LIBRARY         uiklaf.lib
+LIBRARY         eikcore.lib
+LIBRARY         Lbs.lib
+LIBRARY         insock.lib
+LIBRARY         fepbase.lib
+LIBRARY         etext.lib
+LIBRARY         field.lib
+LIBRARY         efsrv.lib
+LIBRARY         gdi.lib
+LIBRARY         aknskins.lib 
+LIBRARY         aknskinsrv.lib 
+LIBRARY         aknswallpaperutils.lib
+LIBRARY         fbscli.lib
+LIBRARY         print.lib
+LIBRARY         apparc.lib
+
+LANG            SC
+
+// End of File

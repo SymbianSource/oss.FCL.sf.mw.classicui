@@ -1,0 +1,25 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+#include <CdlEcom.rh>
+#include <CdlEcom.hrh>
+
+#include "avkon2mifheader_inst.hrh"
+
+CDL_ECOM_REG_DETAIL_START
+	CDL_ECOM_DETAIL_IMPL(Avkon2MifHeader_inst)
+CDL_ECOM_REG_DETAIL_END

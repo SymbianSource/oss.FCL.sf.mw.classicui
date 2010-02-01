@@ -1,0 +1,50 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET          tembed_embedded.dll
+TARGETTYPE      PLUGIN
+TARGETPATH		/sys/bin
+
+UID             0x10009d8d 0x10004c5F // old UID3: 519
+VENDORID 		0x70000001
+EPOCSTACKSIZE 	0x5000
+CAPABILITY 		ALL -Tcb
+
+SOURCEPATH		.
+SOURCE   		tembed.cpp
+
+USERINCLUDE     ../tpackage
+APP_LAYER_SYSTEMINCLUDE 
+
+LIBRARY			euser.lib  ws32.lib  cone.lib  apparc.lib
+LIBRARY         eikcore.lib gdi.lib  
+
+//reg added for Datacaging
+START RESOURCE	tembed_reg.rss
+	TARGETPATH	/private/10003a3f/apps
+END
+
+START RESOURCE 	10004c5F.rss
+	TARGET 		tembed_embedded.rsc
+END
+
+// Application exe specific resource which is localised to the application
+START RESOURCE  tembed.rss
+HEADER
+	TARGETPATH	/resource/apps
+	LANG		sc
+END
+
+SMPSAFE

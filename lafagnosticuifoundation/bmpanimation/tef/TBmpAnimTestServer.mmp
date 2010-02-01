@@ -1,0 +1,110 @@
+// TBmpAnimTestServer.mmp
+
+// Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Using relative paths for sourcepath and user includes
+// 
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+
+TARGET      	tbmpanimtestserver.exe
+TARGETTYPE  	exe
+UID             0x1000007A 0x101F777C
+CAPABILITY 		All -Tcb
+
+SOURCEPATH  	.
+SOURCE			TBmpAnimTestServer.cpp 
+SOURCE			TAutoAnStep.cpp 
+SOURCE			TBMPAnimStep.cpp 
+SOURCE			Tanctl.cpp 
+
+RESOURCE		TBMPAnim.rss 
+START RESOURCE	TBMPAnim.rss 
+TARGETPATH      /resource/apps/tbmpanim
+HEADER
+LANG			SC
+END
+
+USERINCLUDE		../../../../appsupport/appfw/uiftestfw/inc
+USERINCLUDE		../inc
+APP_LAYER_SYSTEMINCLUDE 
+
+LIBRARY     	euser.lib 	fbscli.lib 	bmpanim.lib 	bafl.lib 	
+LIBRARY	    	eikdlg.lib 	eikcore.lib eikcoctl.lib 	cone.lib
+LIBRARY	    	testexecuteutils.lib 	ws32.lib 	appfwk_test_appui.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY     	ecom.lib
+LIBRARY     	bitgdi.lib
+
+// Colour Multiple Bitmap
+START BITMAP 	tbmpanim.mbm
+TARGETPATH		/resource/apps/tbmpanim/mbm
+HEADER
+SOURCEPATH 		../tdata
+SOURCE 			c8 LINK0.BMP
+SOURCE 			2 Link0m.bmp
+SOURCE 			c8 Link1.bmp
+SOURCE 			2 LINK1M.BMP
+SOURCE 			c8 LINK2.BMP
+SOURCE 			2 LINK2M.BMP
+SOURCE 			c8 LINK3.BMP
+SOURCE 			2 LINK3M.BMP
+SOURCE 			c8 LINK4.BMP
+SOURCE 			2 LINK4M.BMP
+SOURCE 			c8 LINK5.BMP
+SOURCE 			2 LINK5M.BMP
+SOURCE 			c8 RedBall.bmp
+SOURCE 			2 RedBallm.bmp
+SOURCE 			c8 TEXTURED.BMP
+SOURCE 			c8 Copymov1.bmp
+SOURCE 			c8 Copymov1m.bmp
+SOURCE 			c8 Copymov2.bmp
+SOURCE 			c8 Copymov2m.bmp
+SOURCE 			c8 Copymov3.bmp
+SOURCE 			c8 Copymov3m.bmp
+SOURCE			c8 Copymov4.bmp
+SOURCE 			c8 Copymov4m.bmp
+SOURCE 			c8 Copymov5.bmp
+SOURCE 			c8 Copymov5m.bmp
+SOURCE 			c8 Copymov6.bmp
+SOURCE 			c8 Copymov6m.bmp
+SOURCE 			c8 background4.bmp
+SOURCE 			2 background4m.bmp
+SOURCE 			c8 RedPurpBall.bmp
+SOURCE 			2 RedPurpBallm.bmp
+SOURCE 			c8 YellowBrownBall.bmp
+SOURCE 			2 YellowBrownBallm.bmp
+END
+
+// B&W bitmap
+
+START BITMAP 	tautoan.mbm
+HEADER
+TARGETPATH		/resource/apps/tautoan
+SOURCEPATH 		../tdata
+SOURCE 			2 RedBall.bmp RedBallm.bmp TEXTURED.BMP
+END
+
+DEFFILE TBMPANIMTESTSERVER
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x6000
+VENDORID 0x70000001
+
+SMPSAFE

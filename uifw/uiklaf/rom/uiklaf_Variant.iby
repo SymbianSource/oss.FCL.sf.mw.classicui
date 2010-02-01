@@ -1,0 +1,26 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  iby file for Uiklaf
+*
+*/
+
+
+#ifndef UIKLAF_VARIANT_IBY
+#define UIKLAF_VARIANT_IBY
+
+data=ZRESOURCE\uiklaf\EIKPRIV.rsc                                                   RESOURCE_FILES_DIR\uiklaf\EikPriv.rsc
+
+#endif // UIKLAF_VARIANT_IBY
+
+//  End of File  

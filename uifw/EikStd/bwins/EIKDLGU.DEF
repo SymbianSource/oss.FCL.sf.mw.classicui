@@ -1,0 +1,259 @@
+EXPORTS
+	??0CEikCapCArray@@QAE@H@Z @ 1 NONAME ; CEikCapCArray::CEikCapCArray(int)
+	??0CEikCaptionedControl@@QAE@XZ @ 2 NONAME ; CEikCaptionedControl::CEikCaptionedControl(void)
+	??0CEikDialog@@QAE@XZ @ 3 NONAME ; CEikDialog::CEikDialog(void)
+	??0CEikMover@@QAE@XZ @ 4 NONAME ; CEikMover::CEikMover(void)
+	??1CEikCapCArray@@UAE@XZ @ 5 NONAME ; CEikCapCArray::~CEikCapCArray(void)
+	??1CEikCaptionedControl@@UAE@XZ @ 6 NONAME ; CEikCaptionedControl::~CEikCaptionedControl(void)
+	??1CEikDialog@@UAE@XZ @ 7 NONAME ; CEikDialog::~CEikDialog(void)
+	??1CEikMover@@UAE@XZ @ 8 NONAME ; CEikMover::~CEikMover(void)
+	?ActivateFirstPageL@CEikDialog@@QBEXXZ @ 9 NONAME ; void CEikDialog::ActivateFirstPageL(void) const
+	?Active@CEikMover@@QBEHXZ @ 10 NONAME ; int CEikMover::Active(void) const
+	?ActivePageId@CEikDialog@@QBEHXZ @ 11 NONAME ; int CEikDialog::ActivePageId(void) const
+	?ActivePageIndex@CEikDialog@@IBEHXZ @ 12 NONAME ; int CEikDialog::ActivePageIndex(void) const
+	?AddAutoDateEditorL@CEikDialog@@QAEXABVTDesC16@@HABVTTime@@1HPAV3@@Z @ 13 NONAME ; void CEikDialog::AddAutoDateEditorL(class TDesC16 const &, int, class TTime const &, class TTime const &, int, class TTime *)
+	?AddAutoDurationEditorL@CEikDialog@@QAEXABVTDesC16@@HABVTTimeIntervalSeconds@@1HPAV3@@Z @ 14 NONAME ; void CEikDialog::AddAutoDurationEditorL(class TDesC16 const &, int, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, int, class TTimeIntervalSeconds *)
+	?AddAutoFixedPointEditorL@CEikDialog@@QAEXABVTDesC16@@HHHPAHH@Z @ 15 NONAME ; void CEikDialog::AddAutoFixedPointEditorL(class TDesC16 const &, int, int, int, int *, int)
+	?AddAutoFloatEditorL@CEikDialog@@QAEXABVTDesC16@@HABN1PAN@Z @ 16 NONAME ; void CEikDialog::AddAutoFloatEditorL(class TDesC16 const &, int, double const &, double const &, double *)
+	?AddAutoGlobalTextEditorL@CEikDialog@@QAEXABVTDesC16@@HHHHHPAVCGlobalText@@HH@Z @ 17 NONAME ; void CEikDialog::AddAutoGlobalTextEditorL(class TDesC16 const &, int, int, int, int, int, class CGlobalText *, int, int)
+	?AddAutoNumberEditorL@CEikDialog@@QAEXABVTDesC16@@HHHPAH@Z @ 18 NONAME ; void CEikDialog::AddAutoNumberEditorL(class TDesC16 const &, int, int, int, int *)
+	?AddAutoRangeEditorL@CEikDialog@@QAEXABVTDesC16@@HHHPAVHBufC16@@PAUSEikRange@@@Z @ 19 NONAME ; void CEikDialog::AddAutoRangeEditorL(class TDesC16 const &, int, int, int, class HBufC16 *, struct SEikRange *)
+	?AddAutoRichTextEditorL@CEikDialog@@QAEXABVTDesC16@@HHHHHPAVCGlobalText@@HH@Z @ 20 NONAME ; void CEikDialog::AddAutoRichTextEditorL(class TDesC16 const &, int, int, int, int, int, class CGlobalText *, int, int)
+	?AddAutoSecretEditorL@CEikDialog@@QAEXABVTDesC16@@HPAVTDes16@@@Z @ 21 NONAME ; void CEikDialog::AddAutoSecretEditorL(class TDesC16 const &, int, class TDes16 *)
+	?AddAutoTextEditorL@CEikDialog@@QAEXABVTDesC16@@HHHHPAVTDes16@@@Z @ 22 NONAME ; void CEikDialog::AddAutoTextEditorL(class TDesC16 const &, int, int, int, int, class TDes16 *)
+	?AddAutoTimeAndDateEditorL@CEikDialog@@QAEXABVTDesC16@@HABVTTime@@1HHPAVHBufC16@@PAV3@@Z @ 23 NONAME ; void CEikDialog::AddAutoTimeAndDateEditorL(class TDesC16 const &, int, class TTime const &, class TTime const &, int, int, class HBufC16 *, class TTime *)
+	?AddAutoTimeEditorL@CEikDialog@@QAEXABVTDesC16@@HABVTTime@@1HPAV3@@Z @ 24 NONAME ; void CEikDialog::AddAutoTimeEditorL(class TDesC16 const &, int, class TTime const &, class TTime const &, int, class TTime *)
+	?AddAutoTimeOffsetEditorL@CEikDialog@@QAEXABVTDesC16@@HABVTTimeIntervalSeconds@@1HPAV3@@Z @ 25 NONAME ; void CEikDialog::AddAutoTimeOffsetEditorL(class TDesC16 const &, int, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &, int, class TTimeIntervalSeconds *)
+	?AdjustAllIds@CEikCapCArray@@QAEXH@Z @ 26 NONAME ; void CEikCapCArray::AdjustAllIds(int)
+	?AdjustAllIdsOnPage@CEikDialog@@IAEXHH@Z @ 27 NONAME ; void CEikDialog::AdjustAllIdsOnPage(int, int)
+	?BorderStyle@CEikDialog@@MAEHXZ @ 28 NONAME ; int CEikDialog::BorderStyle(void)
+	?ButtonCommandObserver@CEikDialog@@IBEPAVMEikCommandObserver@@XZ @ 29 NONAME ; class MEikCommandObserver * CEikDialog::ButtonCommandObserver(void) const
+	?ButtonGroupContainer@CEikDialog@@QBEAAVCEikButtonGroupContainer@@XZ @ 30 NONAME ; class CEikButtonGroupContainer & CEikDialog::ButtonGroupContainer(void) const
+	?CEikDialog_Reserved_1@CEikDialog@@EAEXXZ @ 31 NONAME ; void CEikDialog::CEikDialog_Reserved_1(void)
+	?CEikDialog_Reserved_2@CEikDialog@@EAEXXZ @ 32 NONAME ; void CEikDialog::CEikDialog_Reserved_2(void)
+	?CheckDimmedDisplayState@CEikCaptionedControl@@QAEXXZ @ 33 NONAME ; void CEikCaptionedControl::CheckDimmedDisplayState(void)
+	?ComponentControl@CEikCaptionedControl@@EBEPAVCCoeControl@@H@Z @ 34 NONAME ; class CCoeControl * CEikCaptionedControl::ComponentControl(int) const
+	?ComponentControl@CEikDialog@@MBEPAVCCoeControl@@H@Z @ 35 NONAME ; class CCoeControl * CEikDialog::ComponentControl(int) const
+	?ConstructAutoDialogLC@CEikDialog@@QAEXHH@Z @ 36 NONAME ; void CEikDialog::ConstructAutoDialogLC(int, int)
+	?ConstructFromResourceL@CEikCaptionedControl@@UAEXAAVTResourceReader@@@Z @ 37 NONAME ; void CEikCaptionedControl::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikDialog@@EAEXAAVTResourceReader@@@Z @ 38 NONAME ; void CEikDialog::ConstructFromResourceL(class TResourceReader &)
+	?ConstructFromResourceL@CEikMover@@UAEXAAVTResourceReader@@@Z @ 39 NONAME ; void CEikMover::ConstructFromResourceL(class TResourceReader &)
+	?ConstructSleepingAlertDialogL@CEikDialog@@IAEXH@Z @ 40 NONAME ; void CEikDialog::ConstructSleepingAlertDialogL(int)
+	?ConstructSleepingDialogL@CEikDialog@@IAEXH@Z @ 41 NONAME ; void CEikDialog::ConstructSleepingDialogL(int)
+	?Control@CEikDialog@@QBEPAVCCoeControl@@H@Z @ 42 NONAME ; class CCoeControl * CEikDialog::Control(int) const
+	?ControlCaption@CEikDialog@@QBEPAVCEikLabel@@H@Z @ 43 NONAME ; class CEikLabel * CEikDialog::ControlCaption(int) const
+	?ControlFactory@CEikDlgLibrary@@SAP6A?AUSEikControlInfo@@H@ZXZ @ 44 NONAME ; struct SEikControlInfo (*)(int) CEikDlgLibrary::ControlFactory(void)
+	?ControlOrNull@CEikDialog@@QBEPAVCCoeControl@@H@Z @ 45 NONAME ; class CCoeControl * CEikDialog::ControlOrNull(int) const
+	?ControlsOnPage@CEikDialog@@IBEXAAV?$RArray@PAVCEikCaptionedControl@@@@H@Z @ 46 NONAME ; void CEikDialog::ControlsOnPage(class RArray<class CEikCaptionedControl *> &, int) const
+	?ConvertCustomControlTypeToBaseControlType@CEikDialog@@UBE?AW4TFormControlTypes@MEikDialogPageObserver@@H@Z @ 47 NONAME ; enum MEikDialogPageObserver::TFormControlTypes CEikDialog::ConvertCustomControlTypeToBaseControlType(int) const
+	?CountComponentControls@CEikCaptionedControl@@EBEHXZ @ 48 NONAME ; int CEikCaptionedControl::CountComponentControls(void) const
+	?CountComponentControls@CEikDialog@@MBEHXZ @ 49 NONAME ; int CEikDialog::CountComponentControls(void) const
+	?CountFadedComponents@CEikDialog@@EAEHXZ @ 50 NONAME ; int CEikDialog::CountFadedComponents(void)
+	?CreateCustomControlL@CEikDialog@@UAE?AUSEikControlInfo@@H@Z @ 51 NONAME ; struct SEikControlInfo CEikDialog::CreateCustomControlL(int)
+	?CreateLineByTypeL@CEikDialog@@QAEPAVCCoeControl@@ABVTDesC16@@HHHPAX@Z @ 52 NONAME ; class CCoeControl * CEikDialog::CreateLineByTypeL(class TDesC16 const &, int, int, int, void *)
+	?CreateLineByTypeL@CEikDialog@@QAEPAVCCoeControl@@ABVTDesC16@@HHPAX@Z @ 53 NONAME ; class CCoeControl * CEikDialog::CreateLineByTypeL(class TDesC16 const &, int, int, void *)
+	?CurrentLine@CEikDialog@@IBEPAVCEikCaptionedControl@@XZ @ 54 NONAME ; class CEikCaptionedControl * CEikDialog::CurrentLine(void) const
+	?DeclareAutoDateEditor@CEikDialog@@QAEXHPAVTTime@@@Z @ 55 NONAME ; void CEikDialog::DeclareAutoDateEditor(int, class TTime *)
+	?DeclareAutoDurationEditor@CEikDialog@@QAEXHPAVTTimeIntervalSeconds@@@Z @ 56 NONAME ; void CEikDialog::DeclareAutoDurationEditor(int, class TTimeIntervalSeconds *)
+	?DeclareAutoFixedPointEditor@CEikDialog@@QAEXHPAH@Z @ 57 NONAME ; void CEikDialog::DeclareAutoFixedPointEditor(int, int *)
+	?DeclareAutoNumberEditor@CEikDialog@@QAEXHPAH@Z @ 58 NONAME ; void CEikDialog::DeclareAutoNumberEditor(int, int *)
+	?DeclareAutoRangeEditor@CEikDialog@@QAEXHPAUSEikRange@@@Z @ 59 NONAME ; void CEikDialog::DeclareAutoRangeEditor(int, struct SEikRange *)
+	?DeclareAutoSecretEditor@CEikDialog@@QAEXHPAVTDes16@@@Z @ 60 NONAME ; void CEikDialog::DeclareAutoSecretEditor(int, class TDes16 *)
+	?DeclareAutoTextEditorL@CEikDialog@@QAEXHPAVTDes16@@@Z @ 61 NONAME ; void CEikDialog::DeclareAutoTextEditorL(int, class TDes16 *)
+	?DeclareAutoTimeAndDateEditor@CEikDialog@@QAEXHPAVTTime@@@Z @ 62 NONAME ; void CEikDialog::DeclareAutoTimeAndDateEditor(int, class TTime *)
+	?DeclareAutoTimeEditor@CEikDialog@@QAEXHPAVTTime@@@Z @ 63 NONAME ; void CEikDialog::DeclareAutoTimeEditor(int, class TTime *)
+	?DeclareAutoTimeOffsetEditor@CEikDialog@@QAEXHPAVTTimeIntervalSeconds@@@Z @ 64 NONAME ; void CEikDialog::DeclareAutoTimeOffsetEditor(int, class TTimeIntervalSeconds *)
+	?DeclareItemAuto@CEikDialog@@QAEXHHPAX@Z @ 65 NONAME ; void CEikDialog::DeclareItemAuto(int, int, void *)
+	?DeleteLine@CEikCapCArray@@QAEXH@Z @ 66 NONAME ; void CEikCapCArray::DeleteLine(int)
+	?DeleteLine@CEikDialog@@QAEXHH@Z @ 67 NONAME ; void CEikDialog::DeleteLine(int, int)
+	?DialogFlags@CEikDialog@@QAEHXZ @ 68 NONAME ; int CEikDialog::DialogFlags(void)
+	?DividerAfter@CEikCaptionedControl@@QBEHXZ @ 69 NONAME ; int CEikCaptionedControl::DividerAfter(void) const
+	?Draw@CEikCaptionedControl@@MBEXABVTRect@@@Z @ 70 NONAME ; void CEikCaptionedControl::Draw(class TRect const &) const
+	?Draw@CEikDialog@@EBEXABVTRect@@@Z @ 71 NONAME ; void CEikDialog::Draw(class TRect const &) const
+	?Draw@CEikMover@@EBEXABVTRect@@@Z @ 72 NONAME ; void CEikMover::Draw(class TRect const &) const
+	?DurationEditorValue@CEikDialog@@IBE?AVTTimeIntervalSeconds@@H@Z @ 73 NONAME ; class TTimeIntervalSeconds CEikDialog::DurationEditorValue(int) const
+	?ExecuteLD@CEikDialog@@UAEHH@Z @ 74 NONAME ; int CEikDialog::ExecuteLD(int)
+	?ExitSleepingDialog@CEikDialog@@IAEXXZ @ 75 NONAME ; void CEikDialog::ExitSleepingDialog(void)
+	?Extension@CEikDialog@@QBEPAVCEikDialogExtension@@XZ @ 76 NONAME ; class CEikDialogExtension * CEikDialog::Extension(void) const
+	?ExtensionInterface@CEikCaptionedControl@@EAEPAXVTUid@@@Z @ 77 NONAME ; void * CEikCaptionedControl::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikDialog@@EAEPAXVTUid@@@Z @ 78 NONAME ; void * CEikDialog::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikDialogPage@@EAEPAXVTUid@@@Z @ 79 NONAME ; void * CEikDialogPage::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikMover@@EAEPAXVTUid@@@Z @ 80 NONAME ; void * CEikMover::ExtensionInterface(class TUid)
+	?FadedComponent@CEikDialog@@EAEPAVCCoeControl@@H@Z @ 81 NONAME ; class CCoeControl * CEikDialog::FadedComponent(int)
+	?FindLineIndex@CEikCapCArray@@QBEHPBVCCoeControl@@@Z @ 82 NONAME ; int CEikCapCArray::FindLineIndex(class CCoeControl const *) const
+	?FindLineIndex@CEikDialog@@IBEHABVCCoeControl@@@Z @ 83 NONAME ; int CEikDialog::FindLineIndex(class CCoeControl const &) const
+	?FixedPointEditorDecimal@CEikDialog@@IBEHH@Z @ 84 NONAME ; int CEikDialog::FixedPointEditorDecimal(int) const
+	?FixedPointEditorValue@CEikDialog@@IBEHH@Z @ 85 NONAME ; int CEikDialog::FixedPointEditorValue(int) const
+	?FloatEditorValue@CEikDialog@@IBENH@Z @ 86 NONAME ; double CEikDialog::FloatEditorValue(int) const
+	?FloatingPointEditorValue@CEikDialog@@IBENH@Z @ 87 NONAME ; double CEikDialog::FloatingPointEditorValue(int) const
+	?FocusChanged@CEikCaptionedControl@@EAEXW4TDrawNow@@@Z @ 88 NONAME ; void CEikCaptionedControl::FocusChanged(enum TDrawNow)
+	?FormFlagsFromActivePage@CEikDialog@@IAEHXZ @ 89 NONAME ; int CEikDialog::FormFlagsFromActivePage(void)
+	?FormLayout@CEikDialogPage@@QBE?AW4TFormLayoutSelection@1@XZ @ 90 NONAME ; enum CEikDialogPage::TFormLayoutSelection CEikDialogPage::FormLayout(void) const
+	?GetAutoValuesFromPage@CEikDialog@@IAEXPAVCEikCapCArray@@@Z @ 91 NONAME ; void CEikDialog::GetAutoValuesFromPage(class CEikCapCArray *)
+	?GetCaptionForFep@CEikCaptionedControl@@EBEXAAVTDes16@@@Z @ 92 NONAME ; void CEikCaptionedControl::GetCaptionForFep(class TDes16 &) const
+	?GetColorUseListL@CEikCaptionedControl@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 93 NONAME ; void CEikCaptionedControl::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetColorUseListL@CEikDialog@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 94 NONAME ; void CEikDialog::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetColorUseListL@CEikMover@@UBEXAAV?$CArrayFix@VTCoeColorUse@@@@@Z @ 95 NONAME ; void CEikMover::GetColorUseListL(class CArrayFix<class TCoeColorUse> &) const
+	?GetCustomAutoValue@CEikDialog@@UAEXPAXHPBVCCoeControl@@@Z @ 96 NONAME ; void CEikDialog::GetCustomAutoValue(void *, int, class CCoeControl const *)
+	?GetEdwinText@CEikDialog@@IBEXAAVTDes16@@H@Z @ 97 NONAME ; void CEikDialog::GetEdwinText(class TDes16 &, int) const
+	?GetFileName@CEikDialog@@IBEXPAV?$TBuf@$0BAA@@@H@Z @ 98 NONAME ; void CEikDialog::GetFileName(class TBuf<256> *, int) const
+	?GetFirstLineOnFirstPageOrNull@CEikDialog@@MAEPAVCEikCaptionedControl@@XZ @ 99 NONAME ; class CEikCaptionedControl * CEikDialog::GetFirstLineOnFirstPageOrNull(void)
+	?GetFullCaptionText@CEikCaptionedControl@@QBE?BVTPtrC16@@XZ @ 100 NONAME ; class TPtrC16 const CEikCaptionedControl::GetFullCaptionText(void) const
+	?GetLabelText@CEikDialog@@IBEXAAVTDes16@@H@Z @ 101 NONAME ; void CEikDialog::GetLabelText(class TDes16 &, int) const
+	?GetLineByLineAndPageIndex@CEikDialog@@IBEPAVCEikCaptionedControl@@HH@Z @ 102 NONAME ; class CEikCaptionedControl * CEikDialog::GetLineByLineAndPageIndex(int, int) const
+	?GetNumberOfLinesOnPage@CEikDialog@@IBEHH@Z @ 103 NONAME ; int CEikDialog::GetNumberOfLinesOnPage(int) const
+	?GetNumberOfPages@CEikDialog@@IBEHXZ @ 104 NONAME ; int CEikDialog::GetNumberOfPages(void) const
+	?GetSecretEditorText@CEikDialog@@IBEXAAVTDes16@@H@Z @ 105 NONAME ; void CEikDialog::GetSecretEditorText(class TDes16 &, int) const
+	?GetTextEditorText@CEikDialog@@IAEXAAPAVCGlobalText@@H@Z @ 106 NONAME ; void CEikDialog::GetTextEditorText(class CGlobalText * &, int)
+	?HandleControlEventL@CEikCaptionedControl@@UAEXPAVCCoeControl@@W4TCoeEvent@MCoeControlObserver@@@Z @ 107 NONAME ; void CEikCaptionedControl::HandleControlEventL(class CCoeControl *, enum MCoeControlObserver::TCoeEvent)
+	?HandleControlEventL@CEikDialog@@MAEXPAVCCoeControl@@W4TCoeEvent@MCoeControlObserver@@@Z @ 108 NONAME ; void CEikDialog::HandleControlEventL(class CCoeControl *, enum MCoeControlObserver::TCoeEvent)
+	?HandleControlStateChangeL@CEikDialog@@MAEXH@Z @ 109 NONAME ; void CEikDialog::HandleControlStateChangeL(int)
+	?HandleDialogPageEventL@CEikDialog@@UAEXH@Z @ 110 NONAME ; void CEikDialog::HandleDialogPageEventL(int)
+	?HandleInteractionRefused@CEikDialog@@MAEXH@Z @ 111 NONAME ; void CEikDialog::HandleInteractionRefused(int)
+	?HandlePointerEventL@CEikCaptionedControl@@UAEXABUTPointerEvent@@@Z @ 112 NONAME ; void CEikCaptionedControl::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikDialog@@UAEXABUTPointerEvent@@@Z @ 113 NONAME ; void CEikDialog::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikMover@@UAEXABUTPointerEvent@@@Z @ 114 NONAME ; void CEikMover::HandlePointerEventL(struct TPointerEvent const &)
+	?HandleResourceChange@CEikCaptionedControl@@UAEXH@Z @ 115 NONAME ; void CEikCaptionedControl::HandleResourceChange(int)
+	?HandleResourceChange@CEikDialog@@UAEXH@Z @ 116 NONAME ; void CEikDialog::HandleResourceChange(int)
+	?HandleResourceChange@CEikMover@@UAEXH@Z @ 117 NONAME ; void CEikMover::HandleResourceChange(int)
+	?IdOfFocusControl@CEikDialog@@IBEHXZ @ 118 NONAME ; int CEikDialog::IdOfFocusControl(void) const
+	?InputCapabilities@CEikCaptionedControl@@UBE?AVTCoeInputCapabilities@@XZ @ 119 NONAME ; class TCoeInputCapabilities CEikCaptionedControl::InputCapabilities(void) const
+	?InputCapabilities@CEikDialog@@UBE?AVTCoeInputCapabilities@@XZ @ 120 NONAME ; class TCoeInputCapabilities CEikDialog::InputCapabilities(void) const
+	?InsertLineL@CEikDialog@@QAEXHHH@Z @ 121 NONAME ; void CEikDialog::InsertLineL(int, int, int)
+	?IsEditable@CEikDialog@@QBEHXZ @ 122 NONAME ; int CEikDialog::IsEditable(void) const
+	?IsLatent@CEikCaptionedControl@@QBEHXZ @ 123 NONAME ; int CEikCaptionedControl::IsLatent(void) const
+	?LatentGroupLineFollows@CEikCaptionedControl@@QBEHXZ @ 124 NONAME ; int CEikCaptionedControl::LatentGroupLineFollows(void) const
+	?Layout@CEikDialog@@QAEXXZ @ 125 NONAME ; void CEikDialog::Layout(void)
+	?LayoutCategory@CEikDialogExtension@@QBE?AW4TLayoutCategory@1@XZ @ 126 NONAME ; enum CEikDialogExtension::TLayoutCategory CEikDialogExtension::LayoutCategory(void) const
+	?Line@CEikDialog@@IBEPAVCEikCaptionedControl@@H@Z @ 127 NONAME ; class CEikCaptionedControl * CEikDialog::Line(int) const
+	?LineChangedL@CEikDialog@@MAEXH@Z @ 128 NONAME ; void CEikDialog::LineChangedL(int)
+	?LineIndexFromId@CEikCapCArray@@QBEHH@Z @ 129 NONAME ; int CEikCapCArray::LineIndexFromId(int) const
+	?ListBoxCurrentItem@CEikDialog@@IBEHH@Z @ 130 NONAME ; int CEikDialog::ListBoxCurrentItem(int) const
+	?MCoeCaptionRetrieverForFep_Reserved_1@CEikCaptionedControl@@EAEXXZ @ 131 NONAME ; void CEikCaptionedControl::MCoeCaptionRetrieverForFep_Reserved_1(void)
+	?MCoeCaptionRetrieverForFep_Reserved_2@CEikCaptionedControl@@EAEXXZ @ 132 NONAME ; void CEikCaptionedControl::MCoeCaptionRetrieverForFep_Reserved_2(void)
+	?MakeLineVisible@CEikDialog@@QAEXHH@Z @ 133 NONAME ; void CEikDialog::MakeLineVisible(int, int)
+	?MakePanelButtonVisible@CEikDialog@@QAEXHH@Z @ 134 NONAME ; void CEikDialog::MakePanelButtonVisible(int, int)
+	?MakeVisible@CEikDialog@@UAEXH@Z @ 135 NONAME ; void CEikDialog::MakeVisible(int)
+	?MakeWholeLineVisible@CEikDialog@@QAEXHH@Z @ 136 NONAME ; void CEikDialog::MakeWholeLineVisible(int, int)
+	?MappedCommandId@CEikDialog@@MAEHH@Z @ 137 NONAME ; int CEikDialog::MappedCommandId(int)
+	?MinimumSize@CEikCapCArray@@QAE?AVTSize@@XZ @ 138 NONAME ; class TSize CEikCapCArray::MinimumSize(void)
+	?MinimumSize@CEikCaptionedControl@@UAE?AVTSize@@XZ @ 139 NONAME ; class TSize CEikCaptionedControl::MinimumSize(void)
+	?MinimumSize@CEikDialog@@EAE?AVTSize@@XZ @ 140 NONAME ; class TSize CEikDialog::MinimumSize(void)
+	?MinimumSize@CEikMover@@UAE?AVTSize@@XZ @ 141 NONAME ; class TSize CEikMover::MinimumSize(void)
+	?MopSupplyObject@CEikCaptionedControl@@MAE?AVPtr@TTypeUid@@V3@@Z @ 142 NONAME ; class TTypeUid::Ptr CEikCaptionedControl::MopSupplyObject(class TTypeUid)
+	?MopSupplyObject@CEikDialog@@MAE?AVPtr@TTypeUid@@V3@@Z @ 143 NONAME ; class TTypeUid::Ptr CEikDialog::MopSupplyObject(class TTypeUid)
+	?NumberEditorValue@CEikDialog@@IBEHH@Z @ 144 NONAME ; int CEikDialog::NumberEditorValue(int) const
+	?OfferHotKeys@CEikCaptionedControl@@QBEHXZ @ 145 NONAME ; int CEikCaptionedControl::OfferHotKeys(void) const
+	?OfferKeyEventL@CEikCaptionedControl@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 146 NONAME ; enum TKeyResponse CEikCaptionedControl::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OfferKeyEventL@CEikDialog@@UAE?AW4TKeyResponse@@ABUTKeyEvent@@W4TEventCode@@@Z @ 147 NONAME ; enum TKeyResponse CEikDialog::OfferKeyEventL(struct TKeyEvent const &, enum TEventCode)
+	?OkToExitL@CEikDialog@@MAEHH@Z @ 148 NONAME ; int CEikDialog::OkToExitL(int)
+	?PageChangedL@CEikDialog@@MAEXH@Z @ 149 NONAME ; void CEikDialog::PageChangedL(int)
+	?PostLayoutDynInitL@CEikDialog@@MAEXXZ @ 150 NONAME ; void CEikDialog::PostLayoutDynInitL(void)
+	?PreLayoutDynInitL@CEikDialog@@MAEXXZ @ 151 NONAME ; void CEikDialog::PreLayoutDynInitL(void)
+	?PreferredSize@CEikDialog@@QBE?AVTSize@@ABV2@@Z @ 152 NONAME ; class TSize CEikDialog::PreferredSize(class TSize const &) const
+	?PrepareContext@CEikDialog@@MBEXAAVCWindowGc@@@Z @ 153 NONAME ; void CEikDialog::PrepareContext(class CWindowGc &) const
+	?PrepareForFocusTransitionL@CEikDialog@@MAEXXZ @ 154 NONAME ; void CEikDialog::PrepareForFocusTransitionL(void)
+	?PrepareLC@CEikDialog@@UAEXH@Z @ 155 NONAME ; void CEikDialog::PrepareLC(int)
+	?RangeEditorValue@CEikDialog@@IBE?AUSEikRange@@H@Z @ 156 NONAME ; struct SEikRange CEikDialog::RangeEditorValue(int) const
+	?Reserved_2@CEikCaptionedControl@@EAEXXZ @ 157 NONAME ; void CEikCaptionedControl::Reserved_2(void)
+	?Reserved_2@CEikDialog@@EAEXXZ @ 158 NONAME ; void CEikDialog::Reserved_2(void)
+	?Reserved_2@CEikMover@@EAEXXZ @ 159 NONAME ; void CEikMover::Reserved_2(void)
+	?ResetLineMinimumSizes@CEikDialog@@IAEXXZ @ 160 NONAME ; void CEikDialog::ResetLineMinimumSizes(void)
+	?ResetMinimumSizes@CEikCapCArray@@QAEXXZ @ 161 NONAME ; void CEikCapCArray::ResetMinimumSizes(void)
+	?ResetMinimumSizes@CEikCaptionedControl@@QAEXXZ @ 162 NONAME ; void CEikCaptionedControl::ResetMinimumSizes(void)
+	?ResetSecretEditor@CEikDialog@@IAEXH@Z @ 163 NONAME ; void CEikDialog::ResetSecretEditor(int)
+	?ResourceFile@CEikDlgLibrary@@SA?AV?$TBuf@$0BAA@@@XZ @ 164 NONAME ; class TBuf<256> CEikDlgLibrary::ResourceFile(void)
+	?RotateFocusByL@CEikDialog@@IAEHH@Z @ 165 NONAME ; int CEikDialog::RotateFocusByL(int)
+	?RouseSleepingDialog@CEikDialog@@IAEHXZ @ 166 NONAME ; int CEikDialog::RouseSleepingDialog(void)
+	?RunLD@CEikDialog@@UAEHXZ @ 167 NONAME ; int CEikDialog::RunLD(void)
+	?SetActive@CEikMover@@QAEXH@Z @ 168 NONAME ; void CEikMover::SetActive(int)
+	?SetBitmapFromFileL@CEikCaptionedControl@@QAEXABVTDesC16@@HH@Z @ 169 NONAME ; void CEikCaptionedControl::SetBitmapFromFileL(class TDesC16 const &, int, int)
+	?SetCaptionL@CEikCaptionedControl@@QAEXABVTDesC16@@@Z @ 170 NONAME ; void CEikCaptionedControl::SetCaptionL(class TDesC16 const &)
+	?SetContainerWindowL@CEikMover@@UAEXABVCCoeControl@@@Z @ 171 NONAME ; void CEikMover::SetContainerWindowL(class CCoeControl const &)
+	?SetControlCaptionL@CEikDialog@@QAEXHABVTDesC16@@@Z @ 172 NONAME ; void CEikDialog::SetControlCaptionL(int, class TDesC16 const &)
+	?SetControlCaptionL@CEikDialog@@QAEXHH@Z @ 173 NONAME ; void CEikDialog::SetControlCaptionL(int, int)
+	?SetCurrent@CEikCaptionedControl@@QAEXH@Z @ 174 NONAME ; void CEikCaptionedControl::SetCurrent(int)
+	?SetDensePacking@CEikCapCArray@@QAEXH@Z @ 175 NONAME ; void CEikCapCArray::SetDensePacking(int)
+	?SetDimmed@CEikCaptionedControl@@UAEXH@Z @ 176 NONAME ; void CEikCaptionedControl::SetDimmed(int)
+	?SetDividerAfter@CEikCaptionedControl@@QAEXH@Z @ 177 NONAME ; void CEikCaptionedControl::SetDividerAfter(int)
+	?SetDrawNoWhiteBackground@CEikCaptionedControl@@QAEXH@Z @ 178 NONAME ; void CEikCaptionedControl::SetDrawNoWhiteBackground(int)
+	?SetDurationEditorMinAndMax@CEikDialog@@IAEXHABVTTimeIntervalSeconds@@0@Z @ 179 NONAME ; void CEikDialog::SetDurationEditorMinAndMax(int, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &)
+	?SetDurationEditorValue@CEikDialog@@IAEXHABVTTimeIntervalSeconds@@@Z @ 180 NONAME ; void CEikDialog::SetDurationEditorValue(int, class TTimeIntervalSeconds const &)
+	?SetEditableL@CEikCaptionedControl@@QAEXHH@Z @ 181 NONAME ; void CEikCaptionedControl::SetEditableL(int, int)
+	?SetEditableL@CEikDialog@@QAEXH@Z @ 182 NONAME ; void CEikDialog::SetEditableL(int)
+	?SetEdwinTextL@CEikDialog@@IAEXHPBVTDesC16@@@Z @ 183 NONAME ; void CEikDialog::SetEdwinTextL(int, class TDesC16 const *)
+	?SetExtraAscent@CEikCaptionedControl@@QAEXXZ @ 184 NONAME ; void CEikCaptionedControl::SetExtraAscent(void)
+	?SetFileNameL@CEikDialog@@IAEXHPBVTDesC16@@@Z @ 185 NONAME ; void CEikDialog::SetFileNameL(int, class TDesC16 const *)
+	?SetFixedPointEditorDecimal@CEikDialog@@IAEXHH@Z @ 186 NONAME ; void CEikDialog::SetFixedPointEditorDecimal(int, int)
+	?SetFixedPointEditorValueL@CEikDialog@@IAEXHH@Z @ 187 NONAME ; void CEikDialog::SetFixedPointEditorValueL(int, int)
+	?SetFloatEditorMinAndMax@CEikDialog@@IAEXHHH@Z @ 188 NONAME ; void CEikDialog::SetFloatEditorMinAndMax(int, int, int)
+	?SetFloatEditorValueL@CEikDialog@@IAEXHN@Z @ 189 NONAME ; void CEikDialog::SetFloatEditorValueL(int, double)
+	?SetFloatingPointEditorValueL@CEikDialog@@IAEXHPBN@Z @ 190 NONAME ; void CEikDialog::SetFloatingPointEditorValueL(int, double const *)
+	?SetFont@CEikMover@@QAEXPBVCFont@@@Z @ 191 NONAME ; void CEikMover::SetFont(class CFont const *)
+	?SetFormLayout@CEikDialogPage@@QAEXW4TFormLayoutSelection@1@@Z @ 192 NONAME ; void CEikDialogPage::SetFormLayout(enum CEikDialogPage::TFormLayoutSelection)
+	?SetIconL@CEikCaptionedControl@@QAEXPAVCFbsBitmap@@0@Z @ 193 NONAME ; void CEikCaptionedControl::SetIconL(class CFbsBitmap *, class CFbsBitmap *)
+	?SetInitialCurrentLine@CEikDialog@@MAEXXZ @ 194 NONAME ; void CEikDialog::SetInitialCurrentLine(void)
+	?SetLabelL@CEikDialog@@IAEXHABVTDesC16@@@Z @ 195 NONAME ; void CEikDialog::SetLabelL(int, class TDesC16 const &)
+	?SetLabelL@CEikDialog@@IAEXHH@Z @ 196 NONAME ; void CEikDialog::SetLabelL(int, int)
+	?SetLabelReserveLengthL@CEikDialog@@IAEXHH@Z @ 197 NONAME ; void CEikDialog::SetLabelReserveLengthL(int, int)
+	?SetLatent@CEikCaptionedControl@@QAEXH@Z @ 198 NONAME ; void CEikCaptionedControl::SetLatent(int)
+	?SetLatentGroupLineFollows@CEikCaptionedControl@@QAEXH@Z @ 199 NONAME ; void CEikCaptionedControl::SetLatentGroupLineFollows(int)
+	?SetLineDimmedNow@CEikDialog@@QAEXHH@Z @ 200 NONAME ; void CEikDialog::SetLineDimmedNow(int, int)
+	?SetLineNonFocusing@CEikDialog@@QAEXH@Z @ 201 NONAME ; void CEikDialog::SetLineNonFocusing(int)
+	?SetListBoxCurrentItem@CEikDialog@@IAEXHH@Z @ 202 NONAME ; void CEikDialog::SetListBoxCurrentItem(int, int)
+	?SetNumberEditorMinAndMax@CEikDialog@@IAEXHHH@Z @ 203 NONAME ; void CEikDialog::SetNumberEditorMinAndMax(int, int, int)
+	?SetNumberEditorValue@CEikDialog@@IAEXHH@Z @ 204 NONAME ; void CEikDialog::SetNumberEditorValue(int, int)
+	?SetOfferHotKeys@CEikCaptionedControl@@QAEXH@Z @ 205 NONAME ; void CEikCaptionedControl::SetOfferHotKeys(int)
+	?SetPageDensePacking@CEikDialog@@QAEXHH@Z @ 206 NONAME ; void CEikDialog::SetPageDensePacking(int, int)
+	?SetPageDimmedNow@CEikDialog@@QAEXHH@Z @ 207 NONAME ; void CEikDialog::SetPageDimmedNow(int, int)
+	?SetRangeEditorMinAndMax@CEikDialog@@IAEXHHH@Z @ 208 NONAME ; void CEikDialog::SetRangeEditorMinAndMax(int, int, int)
+	?SetRangeEditorValue@CEikDialog@@IAEXHABUSEikRange@@@Z @ 209 NONAME ; void CEikDialog::SetRangeEditorValue(int, struct SEikRange const &)
+	?SetRect@CEikCapCArray@@QAEXABVTRect@@@Z @ 210 NONAME ; void CEikCapCArray::SetRect(class TRect const &)
+	?SetSizeAndPosition@CEikDialog@@MAEXABVTSize@@@Z @ 211 NONAME ; void CEikDialog::SetSizeAndPosition(class TSize const &)
+	?SetSpaceSharingFlags@CEikCaptionedControl@@QAEXH@Z @ 212 NONAME ; void CEikCaptionedControl::SetSpaceSharingFlags(int)
+	?SetTTimeEditorMinAndMax@CEikDialog@@IAEXHABVTTime@@0@Z @ 213 NONAME ; void CEikDialog::SetTTimeEditorMinAndMax(int, class TTime const &, class TTime const &)
+	?SetTTimeEditorValue@CEikDialog@@IAEXHABVTTime@@@Z @ 214 NONAME ; void CEikDialog::SetTTimeEditorValue(int, class TTime const &)
+	?SetTakesEnterKey@CEikCaptionedControl@@QAEXH@Z @ 215 NONAME ; void CEikCaptionedControl::SetTakesEnterKey(int)
+	?SetText@CEikMover@@QAEXPAVHBufC16@@@Z @ 216 NONAME ; void CEikMover::SetText(class HBufC16 *)
+	?SetTextEditorTextL@CEikDialog@@IAEXHPBVCGlobalText@@@Z @ 217 NONAME ; void CEikDialog::SetTextEditorTextL(int, class CGlobalText const *)
+	?SetTextL@CEikMover@@QAEXABVTDesC16@@@Z @ 218 NONAME ; void CEikMover::SetTextL(class TDesC16 const &)
+	?SetTimeOffsetEditorMinAndMax@CEikDialog@@IAEXHABVTTimeIntervalSeconds@@0@Z @ 219 NONAME ; void CEikDialog::SetTimeOffsetEditorMinAndMax(int, class TTimeIntervalSeconds const &, class TTimeIntervalSeconds const &)
+	?SetTimeOffsetEditorValue@CEikDialog@@IAEXHABVTTimeIntervalSeconds@@@Z @ 220 NONAME ; void CEikDialog::SetTimeOffsetEditorValue(int, class TTimeIntervalSeconds const &)
+	?SetTitleL@CEikDialog@@QAEXABVTDesC16@@@Z @ 221 NONAME ; void CEikDialog::SetTitleL(class TDesC16 const &)
+	?SetTitleL@CEikDialog@@QAEXH@Z @ 222 NONAME ; void CEikDialog::SetTitleL(int)
+	?SetTitleLeftMargin@CEikMover@@QAEXH@Z @ 223 NONAME ; void CEikMover::SetTitleLeftMargin(int)
+	?SetToolTipTextL@CEikCaptionedControl@@QAEXABVTDesC16@@@Z @ 224 NONAME ; void CEikCaptionedControl::SetToolTipTextL(class TDesC16 const &)
+	?SetTrailerL@CEikCaptionedControl@@QAEXABVTDesC16@@@Z @ 225 NONAME ; void CEikCaptionedControl::SetTrailerL(class TDesC16 const &)
+	?SetUsesEars@CEikCaptionedControl@@QAEXXZ @ 226 NONAME ; void CEikCaptionedControl::SetUsesEars(void)
+	?SizeChanged@CEikCaptionedControl@@EAEXXZ @ 227 NONAME ; void CEikCaptionedControl::SizeChanged(void)
+	?SizeChanged@CEikDialog@@EAEXXZ @ 228 NONAME ; void CEikDialog::SizeChanged(void)
+	?SwapButtonGroupContainer@CEikDialog@@IAEPAVCEikButtonGroupContainer@@PAV2@@Z @ 229 NONAME ; class CEikButtonGroupContainer * CEikDialog::SwapButtonGroupContainer(class CEikButtonGroupContainer *)
+	?SwitchLineLatency@CEikDialog@@QAEXHH@Z @ 230 NONAME ; void CEikDialog::SwitchLineLatency(int, int)
+	?TTimeEditorValue@CEikDialog@@IBE?AVTTime@@H@Z @ 231 NONAME ; class TTime CEikDialog::TTimeEditorValue(int) const
+	?TakesEnterKey@CEikCaptionedControl@@QBEHXZ @ 232 NONAME ; int CEikCaptionedControl::TakesEnterKey(void) const
+	?TimeOffsetEditorValue@CEikDialog@@IBE?AVTTimeIntervalSeconds@@H@Z @ 233 NONAME ; class TTimeIntervalSeconds CEikDialog::TimeOffsetEditorValue(int) const
+	?Title@CEikDialog@@QBEAAVCEikMover@@XZ @ 234 NONAME ; class CEikMover & CEikDialog::Title(void) const
+	?ToolTipText@CEikCaptionedControl@@QBEPBVTDesC16@@XZ @ 235 NONAME ; class TDesC16 const * CEikCaptionedControl::ToolTipText(void) const
+	?TryChangeFocusToL@CEikDialog@@QAEXH@Z @ 236 NONAME ; void CEikDialog::TryChangeFocusToL(int)
+	?TryExitL@CEikDialog@@IAEXH@Z @ 237 NONAME ; void CEikDialog::TryExitL(int)
+	?UpdatePageL@CEikDialog@@IAEXH@Z @ 238 NONAME ; void CEikDialog::UpdatePageL(int)
+	?WriteInternalStateL@CEikCaptionedControl@@MBEXAAVRWriteStream@@@Z @ 239 NONAME ; void CEikCaptionedControl::WriteInternalStateL(class RWriteStream &) const
+	?WriteInternalStateL@CEikDialog@@MBEXAAVRWriteStream@@@Z @ 240 NONAME ; void CEikDialog::WriteInternalStateL(class RWriteStream &) const
+	?WriteInternalStateL@CEikMover@@MBEXAAVRWriteStream@@@Z @ 241 NONAME ; void CEikMover::WriteInternalStateL(class RWriteStream &) const
+	?AknMediatorFacade@@YAPAVCAknMediatorFacade@@PBVMObjectProvider@@@Z @ 242 NONAME ; class CAknMediatorFacade * AknMediatorFacade(class MObjectProvider const *)
+	?CancelCommand@CAknMediatorFacade@@QAEXXZ @ 243 NONAME ; void CAknMediatorFacade::CancelCommand(void)
+	?IssueCommand@CAknMediatorFacade@@QAEXXZ @ 244 NONAME ; void CAknMediatorFacade::IssueCommand(void)
+	?NewL@CAknMediatorFacade@@SAPAV1@PAVCEikDialog@@@Z @ 245 NONAME ; class CAknMediatorFacade * CAknMediatorFacade::NewL(class CEikDialog *)
+	?PublishDialogL@CEikDialog@@QAEXHVTUid@@@Z @ 246 NONAME ; void CEikDialog::PublishDialogL(int, class TUid)
+	?ResetBuffer@CAknMediatorFacade@@QAEXXZ @ 247 NONAME ; void CAknMediatorFacade::ResetBuffer(void)
+	?SetMediatorObserver@CEikDialog@@QAEXPAVMAknDialogMediatorObserver@@@Z @ 248 NONAME ; void CEikDialog::SetMediatorObserver(class MAknDialogMediatorObserver *)
+	?SetObserver@CAknMediatorFacade@@QAEXPAVMAknDialogMediatorObserver@@@Z @ 249 NONAME ; void CAknMediatorFacade::SetObserver(class MAknDialogMediatorObserver *)
+	?FocusChanged@CEikDialog@@UAEXW4TDrawNow@@@Z @ 250 NONAME ; void CEikDialog::FocusChanged(enum TDrawNow)
+	?PostUpdatedDataL@CAknMediatorFacade@@QAEXH@Z @ 251 NONAME ; void CAknMediatorFacade::PostUpdatedDataL(int)
+	?SlideDialog@CEikDialog@@QAEXXZ @ 252 NONAME ; void CEikDialog::SlideDialog(void)
+	?SetIndicatorIconL@CEikCaptionedControl@@QAEXHPAVCFbsBitmap@@0@Z @ 253 NONAME ; void CEikCaptionedControl::SetIndicatorIconL(int, class CFbsBitmap *, class CFbsBitmap *)
+	?ReadResourceLC@CEikDialog@@QAEXH@Z @ 254 NONAME ; void CEikDialog::ReadResourceLC(int)
+	?SetPointerEventObserver@CEikCaptionedControl@@QAEXPAVMPointerEventObserver@@@Z @ 255 NONAME ; void CEikCaptionedControl::SetPointerEventObserver(class MPointerEventObserver *)
+	?SetFormFlags@CEikCaptionedControl@@QAEXH@Z @ 256 NONAME ; void CEikCaptionedControl::SetFormFlags(int)
+	?SetMultilineQuery@CEikDialog@@QAEXH@Z @ 257 NONAME ; void CEikDialog::SetMultilineQuery(int)
+

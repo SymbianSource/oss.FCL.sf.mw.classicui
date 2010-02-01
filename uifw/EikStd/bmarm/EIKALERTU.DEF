@@ -1,0 +1,5 @@
+EXPORTS
+	ConstructL__16CEikAlarmControl @ 1 NONAME R3UNUSED ; CEikAlarmControl::ConstructL(void)
+	"_._16CEikAlarmControl" @ 2 NONAME R3UNUSED ; CEikAlarmControl::~CEikAlarmControl(void)
+	__16CEikAlarmControlP24CEikAlmControlSupervisorP17CEikServAppUiBase @ 3 NONAME R3UNUSED ; CEikAlarmControl::CEikAlarmControl(CEikAlmControlSupervisor *, CEikServAppUiBase *)
+

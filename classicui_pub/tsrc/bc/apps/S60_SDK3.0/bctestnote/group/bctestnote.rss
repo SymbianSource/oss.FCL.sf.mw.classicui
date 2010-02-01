@@ -1,0 +1,1513 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME NOTE
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <bctestnote.mbg>
+
+#include <appinfo.rh>
+
+#include "bctestnote.hrh"
+#include "bctestnote.loc"
+
+//   CONSTANTS
+#define BCTESTNOTE_IMAGE_MASK 0xffff
+
+#define BCTESTNOTE_BMPFILE_NAME "\\resource\\apps\\bctestnote.mbm"
+                                                                              
+//----------------------------------------------------------------------------
+//
+//  RESOURCE DEFINITIONS
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//   TBUF16
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctestnote_buf;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    status_pane = R_AVKON_STATUS_PANE_LAYOUT_USUAL;
+    menubar = r_bctestnote_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    Provide Caption and Icon Info for Scalable UI
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestnote_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid;
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list;
+        number_of_icons = 2;        
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_view
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestnote_view
+    {
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_menubar
+//    MenuBar
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestnote_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestnote_menu;
+            txt = qtn_bctestnote_menubar;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_view_menu
+//    Menu pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestnote_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdNoteWrapper;
+            cascade = r_bctestnote_menu_from_notewrapper_cascade;
+            txt = qtn_bctestnote_menu_notewrappers;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdWaitDialog;
+            cascade = r_bctestnote_menu_from_waitdialog_cascade;
+            txt = qtn_bctestnote_menu_waitdialog;
+            },
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdStaticNote;                                 
+            cascade = r_bctestnote_menu_from_staticnote_cascade;                
+            txt = qtn_bctestnote_menu_staticnote;                               
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdEikInfoDialog;                                
+            cascade = r_bctestnote_menu_from_eikinfodialog_cascade;               
+            txt = qtn_bctestnote_menu_eikinfodialog;                              
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdEikProgessInfo;                       
+            cascade = r_bctestnote_menu_from_eikprogressinfo_cascade;           
+            txt = qtn_bctestnote_menu_eikprogressinfo;                             
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdWaitNoteWrapper;                                    
+            cascade = r_bctestnote_menu_from_waitnotewrapper_cascade;                   
+            txt = qtn_bctestnote_menu_waitnotewrapper;                                  
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdNoteDialog;                             
+            cascade = r_bctestnote_menu_from_notedialog_cascade;            
+            txt = qtn_bctestnote_menu_notedialog;                           
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdNoteControl;                               
+            cascade = r_bctestnote_menu_from_notecontrol_cascade;              
+            txt = qtn_bctestnote_menu_notecontrol;                             
+            },                                                              
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestnote_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestnote_menu_exit;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_menu_from_notewrapper_cascade
+//    Sub mune-pane of "Note wrapper" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestnote_menu_from_notewrapper_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline01;
+            txt = qtn_bctestnote_menu_outline(01);
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline02;
+            txt = qtn_bctestnote_menu_outline(02);
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline03;
+            txt = qtn_bctestnote_menu_outline(03);
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline04;
+            txt = qtn_bctestnote_menu_outline(04);
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline05;
+            txt = qtn_bctestnote_menu_outline(05);
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline06;                               
+            txt = qtn_bctestnote_menu_outline(06);                             
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_menu_from_waitdialog_cascade
+//    Sub menu-pane of "Wait dialog" menu
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestnote_menu_from_waitdialog_cascade
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline07;
+            txt = qtn_bctestnote_menu_outline(07);
+            },
+        MENU_ITEM
+            {
+            command = EBCTestNoteCmdOutline08;
+            txt = qtn_bctestnote_menu_outline(08);
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline09;                               
+            txt = qtn_bctestnote_menu_outline(09);                             
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//                                                                              
+//    r_bctestnote_menu_from_staticnote_cascade                                     
+//    Sub menu-pane of "Static note" menu                                           
+//                                                                              
+//---------------------------------------------------------------------------- 
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_staticnote_cascade                    
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline10;                               
+            txt = qtn_bctestnote_menu_outline(10);
+            },                                                              
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline11;                               
+            txt = qtn_bctestnote_menu_outline(11);                             
+            }                                                           
+        };                                                                  
+    }                                                                       
+                                                                            
+//---------------------------------------------------------------------------- 
+//                                                                              
+//    r_bctestnote_menu_from_eikinfodialog_cascade                                    
+//    Sub menu-pane of "Eik info dialog" menu                                          
+//                                                                              
+//----------------------------------------------------------------------------
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_eikinfodialog_cascade                   
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {
+            command = EBCTestNoteCmdOutline12;
+            txt = qtn_bctestnote_menu_outline(12);                             
+            }
+        };                                                                  
+    }                                                                       
+                                                                            
+//---------------------------------------------------------------------------- 
+//                                                                              
+//    r_bctestnote_menu_from_eikprogressinfo_cascade                           
+//    Sub menu-pane "Eik progress info" menu                                    
+//                                                                              
+//---------------------------------------------------------------------------- 
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_eikprogressinfo_cascade               
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline13;                               
+            txt = qtn_bctestnote_menu_outline(13);                             
+            },                                                              
+         MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline14;                               
+            txt = qtn_bctestnote_menu_outline(14);                             
+            }
+        };                                                                  
+    }                                                                       
+                                                                            
+//---------------------------------------------------------------------------- 
+//                                                                              
+//    r_bctestnote_menu_from_waitnotewrapper_cascade                                        
+//    Sub menu-pane of "Waitnotewrapper" menu                                              
+//                                                                              
+//---------------------------------------------------------------------------- 
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_waitnotewrapper_cascade                       
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline15;                               
+            txt = qtn_bctestnote_menu_outline(15);                             
+            },                                                               
+         MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline16;                               
+            txt = qtn_bctestnote_menu_outline(16);                             
+            } 
+        };                                                                  
+    }                                                                       
+                                                                            
+//---------------------------------------------------------------------------- 
+//                                                                              
+//    r_bctestnote_menu_from_notedialog_cascade                                 
+//    Sub menu-pane of "Notedialog" menu                                       
+//                                                                              
+//----------------------------------------------------------------------------
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_notedialog_cascade                
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline17;                               
+            txt = qtn_bctestnote_menu_outline(17);                             
+            },                                                               
+         MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline18;                               
+            txt = qtn_bctestnote_menu_outline(18);                             
+            },
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline19;                               
+            txt = qtn_bctestnote_menu_outline(19);                             
+            }            
+        };                                                                  
+    }                                                                       
+                                                                            
+//---------------------------------------------------------------------------- 
+//                                                                              
+//    r_bctestnote_menu_from_notecontrol_cascade                                   
+//    Sub menu-pane of "Notecontrol" menu                                         
+//                                                                              
+//----------------------------------------------------------------------------
+//                                                                              
+RESOURCE MENU_PANE r_bctestnote_menu_from_notecontrol_cascade                  
+    {                                                                       
+    items =                                                                 
+        {                                                                   
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline20;                               
+            txt = qtn_bctestnote_menu_outline(20);                             
+            },  
+        MENU_ITEM                                                           
+            {                                                               
+            command = EBCTestNoteCmdOutline21;                               
+            txt = qtn_bctestnote_menu_outline(21);                             
+            }                                                                         
+        };                                                                  
+    }                                                                       
+                                                                   
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_text_label_title
+//    Text which is used by label
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_text_label_title
+    {
+    buf = qtn_bctestnote_label_title;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_text_label_operation
+//    Text which is used by label
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_text_label_operation
+    {
+    buf = qtn_bctestnote_label_operation;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_text_status_pane_title??
+//    Text which is used on status pane
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_text_status_pane_title_number
+    {
+    buf = qtn_bctestnote_menu_outline_number;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_global_??_note_text
+//    Text which is used on global note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_global_general_note_text
+    {
+    buf = qtn_bctestnote_global_gen_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_global_warning_note_text
+    {
+    buf = qtn_bctestnote_global_war_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_global_confirmation_note_text
+    {
+    buf = qtn_bctestnote_global_con_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_global_error_note_text
+    {
+    buf = qtn_bctestnote_global_err_text;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_priority_global_error/warning_text
+//    Text which is used on global note for priority.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_priority_global_error_text
+    {
+    buf = qtn_bctestnote_prty_gbl_err_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_priority_global_warning_text
+    {
+    buf = qtn_bctestnote_prty_gbl_war_text;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_other_application_name
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_other_application_name
+    {
+    buf = qtn_bctestnote_other_app_name;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_perm_note_label
+//    Label of permanent note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_perm_note_label
+    {
+    buf = qtn_bctestnote_perm_label;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_error_note
+//    For error note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_error_note
+    {
+    flags = EAknErrorNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdErrorNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_error_singular;
+                plural_label = qtn_bctestnote_error_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteerroricon;
+                imagemask = EMbmBctestnoteBctestnoteerroriconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_warning_note
+//    For warning note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_warning_note
+    {
+    flags = EAknWarningNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWarningNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_warning_singular;
+                plural_label = qtn_bctestnote_warning_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnotewarningicon;
+                imagemask = EMbmBctestnoteBctestnotewarningicon;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_information_note
+//    For information note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_information_note
+    {
+    flags = EAknInformationNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdInformationNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_inf_singular;
+                plural_label = qtn_bctestnote_inf_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteinformationicon;
+                imagemask = EMbmBctestnoteBctestnoteinformationiconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_confirmation_note
+//    For confirmation note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_confirmation_note
+    {
+    flags = EAknConfirmationNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdConfirmationNote;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_cnf_singular;
+                plural_label = qtn_bctestnote_cnf_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteconfirmationicon;
+                imagemask = EMbmBctestnoteBctestnoteconfirmationiconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_progress_note
+//    For progress note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_progress_note
+    {
+    flags = EAknProgressNoteFlags;
+    buttons = r_bctestnote_softkeys_ok_cancel;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdProgressNote;
+            control = AVKON_NOTE
+                {
+                layout = EProgressLayout;
+                singular_label = qtn_bctestnote_progress_singular;
+                plural_label = qtn_bctestnote_progress_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteprogressicon;
+                imagemask = EMbmBctestnoteBctestnoteprogressiconm;
+                };
+            }
+        };
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_dynamic_text
+//    For Dynamic text.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_dynamic_text
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdDynamicText;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_dym_text_singular;
+                plural_label = qtn_bctestnote_dym_text_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteinformationicon;
+                imagemask = EMbmBctestnoteBctestnoteinformationiconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_no_icon
+//    No graphic icon.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_no_icon
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdNoImageNote;
+            control = AVKON_NOTE
+                {
+                layout = ENoteWithImageLayout;
+                singular_label = qtn_bctestnote_cnf_singular;
+                plural_label = qtn_bctestnote_cnf_plural;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_image_note
+//    For note with image.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_image_note
+    {
+    flags = EAknDialogGenericNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdImageNote;
+            control = AVKON_NOTE
+                {
+                layout = ENoteWithImageLayout;
+                singular_label = qtn_bctestnote_image_singular;
+                plural_label = qtn_bctestnote_image_plural;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnotePhoto; 
+                imagemask = EMbmBctestnotePhotom;
+                iconfile = BCTESTNOTE_BMPFILE_NAME;
+                iconid = EMbmBctestnoteIndicato; //EMbmAvkonIndicato;
+                iconmask = EMbmBctestnoteIndicatom;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_wait_note_wrapper
+//    Wait note wrapper.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_wait_note_wrapper
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWaitNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_bctestnote_wait_prompt;
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_voice;
+                imagemask = EMbmAvkonQgn_note_voice_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_wait_note_softkey_cancel
+//    Wait note with softkey Cancel.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_wait_note_softkey_cancel
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWaitNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_bctestnote_wait_prompt;
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_voice;
+                imagemask = EMbmAvkonQgn_note_voice_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_wait_note_softkey_ok_back
+//    Wait note with softkey Ok_Back.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_wait_note_softkey_ok_back
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_BACK;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWaitNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_bctestnote_wait_prompt;
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_voice;
+                imagemask = EMbmAvkonQgn_note_voice_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_wait_note_softkey_empty
+//    Wait note with softkey empty.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_wait_note_softkey_empty
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWaitNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_bctestnote_wait_prompt;
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_sml;
+                imagemask = EMbmAvkonQgn_note_sml_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_priority_local_error_note
+//    Error local note for priority test.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_priority_local_error_note
+    {
+    flags = EAknErrorNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdPriorityLocalError;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_prty_loc_err_text;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnoteerroricon;
+                imagemask = EMbmBctestnoteBctestnoteerroriconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_priority_local_warning_note
+//    Warning local note for priority test.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_priority_local_warning_note
+    {
+    flags = EAknWarningNoteFlags;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdPriorityLocalWarning;
+            control = AVKON_NOTE
+                {
+                layout = EGeneralLayout;
+                singular_label = qtn_bctestnote_prty_loc_war_text;
+                imagefile = BCTESTNOTE_BMPFILE_NAME;
+                imageid = EMbmBctestnoteBctestnotewarningicon;
+                imagemask = EMbmBctestnoteBctestnotewarningiconm;
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_tone_list_item
+//    For tone list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestnote_wait_note_for_aknwaitdialog
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteCtrlIdWaitNote;
+            control= AVKON_NOTE 
+                { 
+                layout = EWaitLayout;
+                singular_label = qtn_bctestnote_text_for_aknwaitdialog;
+                imagefile = AVKON_BITMAP_FILE;
+                imageid = EMbmAvkonQgn_note_voice;
+                imagemask = EMbmAvkonQgn_note_voice_mask;
+                animation =R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctest_for_progressinfo
+//    For progressinfo.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE PROGRESSINFO r_bctest_for_progressinfo
+    {
+    text_type = 0;
+	splits_in_block = 0;
+	finalval = 200;
+	width = 120;
+	height = 10;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_tone_list_item
+//    For tone list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_tone_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_error_tone;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_warning_tone;
+            },
+	LBUF
+            {
+            txt = qtn_bctestnote_confirmation_tone;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_general_list_item
+//    For general list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_general_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_error_note;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_warning_note;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_information_note;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_confirmation_note;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_animation_list_item
+//    For animation list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_animation_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_wait_note;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_progress_note;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_twolabel_list_item
+//    For twolabel list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_twolabels_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_singular_label;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_plural_label;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_global_note_list_item
+//    For global note list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_global_note_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_global_general;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_warning;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_confirmat;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_error;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_charging;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_not_charg;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_btry_full;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_btry_low;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_recha_btry;
+            },        
+        LBUF
+            {
+            txt = qtn_bctestnote_global_progress;
+            }
+        };
+    }
+
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_priority_note_list_item
+//    For priority of note list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_priority_note_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_local_local;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_global;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_local_global;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_global_local;
+            }
+        };
+    }
+
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_wait_note_list_item
+//    For priority of note list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_wait_note_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_fast;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_medium;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_slow;
+            }
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_progress_note_list_item
+//    For priority of note list item.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_progress_note_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestnote_progress_increase_1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_progress_increase_2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_progress_set_1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestnote_progress_set_2;
+            }
+        };
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_softkeys_cancel
+//    For Softkey of wait note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE CBA r_bctestnote_softkeys_ok_cancel
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id = EAknSoftkeySelect;
+            txt = qtn_bctestnote_softkey_ok;
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyCancel;
+            txt = qtn_bctestnote_softkey_cancel;
+            }
+        };
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_confirmationnote_text
+//    For Note Wrappers confirmation note.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_confirmationnote_text
+    {
+    buf = qtn_bctestnote_confirmationnote_text;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_waringnote_text
+//    For Note Wrappers waring query.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_warningnote_text
+    {
+    buf = qtn_bctestnote_warningnote_text;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_errornote_text
+//    For Note Wrappers error query.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_errornote_text
+    {
+    buf = qtn_bctestnote_errornote_text;
+    }
+
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_informationnote_text
+//    For Note Wrappers information query.
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestnote_informationnote_text
+    {
+    buf = qtn_bctestnote_informationnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_setpriority_label
+    {
+    buf = qtn_bctestnote_setpriority_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_setsoftkey_label
+    {
+    buf = qtn_bctestnote_setsoftkey_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_setgraphic_label
+    {
+    buf = qtn_bctestnote_setgraphic_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_setanimation_label
+    {
+    buf = qtn_bctestnote_setanimation_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_progresssetcurrentlabell_label
+    {
+    buf = qtn_bctestnote_progresssetcurrentlabell_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_cancelnotel_text
+    {
+    buf = qtn_bctestnote_cancelnotel_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_current_label
+    {
+    buf = qtn_bctestnote_text_current_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_current_label_deffrent
+    {
+    buf = qtn_bctestnote_text_current_label_deffrent;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalinformationnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalinformationnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalwarningnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalwarningnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalconfirmationnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalconfirmationnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalerrornote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalerrornote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalchargingnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalchargingnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalwaitnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalwaitnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalpermanentnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalpermanentnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalnotchargingnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalnotchargingnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalbatteryfullnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalbatteryfullnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalbatterylownote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalbatterylownote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalrechargebatterynote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalrechargebatterynote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_globalswitchingoffnote_text
+    {
+    buf = qtn_bctestnote_shownotel_globalswitchingoffnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_cancelglobalnote_text
+    {
+    buf = qtn_bctestnote_shownotel_cancelglobalnote_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_empty_text
+    {
+    buf = qtn_bctestnote_shownotel_empty_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_5line_text
+    {
+    buf = qtn_bctestnote_shownotel_5line_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_shownotel_5line_over_text
+    {
+    buf = qtn_bctestnote_shownotel_5line_over_text;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_current_empty_label
+    {
+    buf = qtn_bctestnote_text_current_empty_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_current_5line_label
+    {
+    buf = qtn_bctestnote_text_current_5line_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_current_5line_over_label
+    {
+    buf = qtn_bctestnote_text_current_5line_over_label;
+    }
+
+RESOURCE TBUF256 r_bctestnote_text_gw_empty_softkeys
+    {
+    buf = qtn_bctestnote_text_gw_empty_softkeys;
+    }
+
+RESOURCE AKN_NOTE_WRAPPER r_bctestnote_wrapper
+    {
+    resId = r_bctestnote_information_note;
+	timeout = 1500000;	//see aknnotedialog.h CAknNoteDialog::ELongTimeout
+	tone = 1;
+	text = qtn_bctestnote_notewrapper;
+    }
+    
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_bitmap_animation
+//    Bitmap Animation
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE BMPANIM_DATA r_bctestnote_bitmap_animation
+	{
+        identifier = 0;
+        frameinterval = 1;
+        playmode = 0;
+        flash = 0;
+        bmpfile = "\\resource\\apps\\bctestnote.mbm";
+        frames = 0;
+        backgroundframe = 0;
+ 	}  
+
+//----------------------------------------------------
+//
+//    r_aknatnotif_text_notification
+//    Dialog definition for Soft notifications (Static text)
+//
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_bctest_static_text_note
+    {
+    flags = EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar
+          | EEikDialogFlagCbaButtons | EEikDialogFlagWait ;
+    buttons = R_AVKON_SOFTKEYS_READ_EXIT;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EBCTestNoteTextNotification;
+            control = AVKON_NOTE 
+                { 
+                layout = ETextualNotificationLayout;
+                singular_label = "singular label";
+                plural_label = "plural label";
+                };
+            }
+        };
+    }
+	 	
+//----------------------------------------------------------------------------
+//
+//    r_bctestnote_animation_array
+//    Animation Array
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestnote_animation_array
+	{
+    items = 
+        {
+        BMPANIM_FRAME
+            {
+            bmpid = EMbmBctestnote30x40;
+            maskid = EMbmBctestnote30x40m;
+            },
+         BMPANIM_FRAME
+            {
+            bmpid = EMbmBctestnotePhoto;
+            maskid = EMbmBctestnotePhotom;
+            }           
+        };
+	}    
+

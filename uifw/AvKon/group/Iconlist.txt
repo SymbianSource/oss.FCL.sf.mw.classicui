@@ -1,0 +1,838 @@
+/c8,8 qgn_graf_tab_21.bmp
+/c8,8 qgn_graf_tab_22.bmp
+/c8,8 qgn_graf_tab_31.bmp
+/c8,8 qgn_graf_tab_32.bmp
+/c8,8 qgn_graf_tab_33.bmp
+/c8,8 qgn_graf_tab_41.bmp
+/c8,8 qgn_graf_tab_42.bmp
+/c8,8 qgn_graf_tab_43.bmp
+/c8,8 qgn_graf_tab_44.bmp
+/c8,8 qgn_graf_tab_long_21.bmp
+/c8,8 qgn_graf_tab_long_22.bmp
+/c8,8 qgn_graf_tab_long_31.bmp
+/c8,8 qgn_graf_tab_long_32.bmp
+/c8,8 qgn_graf_tab_long_33.bmp
+
+/1,1 qgn_prop_signal_icon.bmp
+/1,1 qgn_indi_signal_gprs_attach.bmp
+/1,1 qgn_indi_signal_gprs_context.bmp
+/1,1 qgn_indi_signal_gprs_suspended.bmp
+
+/c8,1 qgn_indi_signal_strength.bmp
+/c8,1 qgn_indi_battery_strength.bmp
+/1,1 qgn_prop_battery_icon.bmp
+
+/c8,1 qgn_indi_navi_arrow_left.bmp
+/c8,1 qgn_indi_navi_arrow_right.bmp
+
+/c8,1 qgn_stat_case_capital.bmp
+/c8,1 qgn_stat_case_small.bmp
+/c8,1 qgn_stat_case_text.bmp
+/c8,1 qgn_stat_case_title.bmp
+/c8,1 qgn_stat_case_numeric.bmp
+/c8,1 qgn_stat_query.bmp
+/c8,1 qgn_stat_t9.bmp
+
+/c8,1 qgn_stat_case_capital_query.bmp
+/c8,1 qgn_stat_case_small_query.bmp
+/c8,1 qgn_stat_case_text_query.bmp
+/c8,1 qgn_stat_case_title_query.bmp
+/c8,1 qgn_stat_case_numeric_query.bmp
+/c8,1 qgn_stat_query_query.bmp
+/c8,1 qgn_stat_t9_query.bmp
+
+/c8,8 qgn_indi_find_glass.bmp
+/c8,1 qgn_indi_find_glass_pinb.bmp
+
+/c8,1 qgn_indi_slider_edit.bmp
+/c8,1 qgn_indi_slider_set.bmp
+
+/1,1 qgn_indi_radiobutt_on.bmp
+/1,1 qgn_indi_radiobutt_off.bmp
+/1,1 qgn_indi_checkbox_on.bmp
+/1,1 qgn_indi_checkbox_off.bmp
+/c8,1 qgn_indi_alarm_add.bmp
+/1,8 qgn_indi_marked_add.bmp
+/c8,1 qgn_indi_marked_grid_add.bmp
+
+/c8,1 qgn_indi_level_back.bmp
+
+/c8,1 qgn_indi_speaker_active.bmp
+/c8,1 qgn_indi_speaker_passive.bmp
+/1,1 qgn_indi_mic.bmp
+/c8,1 qgn_indi_earpiece_active.bmp
+/c8,1 qgn_indi_earpiece_passive.bmp
+/1,1 qgn_indi_attach_audio.bmp
+/1,1 qgn_indi_attach_image.bmp
+/1,1 qgn_indi_object_gene.bmp
+/1,1 qgn_indi_attach_gene.bmp
+
+/c8,1 qgn_indi_bt_paired_add.bmp
+/c8,1 qgn_indi_bt_trusted_add.bmp
+
+/c8,1 qgn_prop_checkbox_on.bmp
+/c8,1 qgn_prop_checkbox_off.bmp
+/c8,1 qgn_prop_radiobutt_on.bmp
+/c8,1 qgn_prop_radiobutt_off.bmp
+/c8,1 qgn_prop_group_small.bmp
+/c8,8 qgn_prop_group_medium.bmp
+/c8,8 qgn_prop_group_large.bmp
+
+/c8,1 qgn_prop_folder_small.bmp
+/c8,8 qgn_prop_folder_medium.bmp
+/c8,8 qgn_prop_folder_large.bmp
+/c8,1 qgn_prop_folder_small_new.bmp
+/c8,1 qgn_prop_folder_temp.bmp
+
+/c8,1 qgn_prop_nrtyp_address.bmp
+/c8,1 qgn_prop_nrtyp_email.bmp
+/c8,1 qgn_prop_nrtyp_fax.bmp
+/c8,1 qgn_prop_nrtyp_home.bmp
+/c8,1 qgn_prop_nrtyp_mobile.bmp
+/c8,1 qgn_prop_nrtyp_note.bmp
+/c8,1 qgn_prop_nrtyp_pager.bmp
+/c8,1 qgn_prop_nrtyp_phone.bmp
+/c8,1 qgn_prop_nrtyp_url.bmp
+/c8,1 qgn_prop_nrtyp_work.bmp
+
+/c8,8 qgn_note_alarm_calendar.bmp
+/c8,8 qgn_note_alarm_clock.bmp
+/c8,8 qgn_note_alarm_misc.bmp
+/c8,8 qgn_note_batt_charging.bmp
+/c8,8 qgn_note_batt_full.bmp
+/c8,8 qgn_note_batt_low.bmp
+/c8,8 qgn_note_batt_not_charging.bmp
+/c8,8 qgn_note_batt_recharge.bmp
+/c8,8 qgn_note_bt.bmp
+/c8,8 qgn_note_call.bmp
+/c8,8 qgn_note_copy.bmp
+/c8,8 qgn_note_erased.bmp
+/c8,8 qgn_note_error.bmp
+/c8,8 qgn_note_info.bmp
+/c8,8 qgn_note_mail.bmp
+/c8,8 qgn_note_message.bmp
+/c8,8 qgn_note_mms.bmp
+/c8,8 qgn_note_move.bmp
+/c8,8 qgn_note_ok.bmp
+/c8,8 qgn_note_progress.bmp
+/c8,8 qgn_note_query.bmp
+/c8,8 qgn_note_remote_mailbox.bmp
+/c8,8 qgn_note_sml.bmp
+/c8,8 qgn_note_voice.bmp
+/c8,8 qgn_note_voice_found.bmp
+/c8,8 qgn_note_warning.bmp
+/c8,8 qgn_note_warr.bmp
+
+/1,8 qgn_stat_alarm.bmp
+/1,8 qgn_stat_bt.bmp
+/1,8 qgn_stat_bt_uni.bmp
+/1,8 qgn_stat_bt_blank.bmp
+/1,8 qgn_stat_bt_uni_blank.bmp
+/1,8 qgn_stat_mod_bt.bmp
+/1,8 qgn_stat_divert_vm.bmp
+/1,8 qgn_stat_divert0.bmp
+/1,8 qgn_stat_divert1.bmp
+/1,8 qgn_stat_divert2.bmp
+/1,8 qgn_stat_divert12.bmp
+/1,8 qgn_stat_ir.bmp
+/1,8 qgn_stat_ir_blank.bmp
+/1,8 qgn_stat_ir_uni.bmp
+/1,8 qgn_stat_ir_uni_blank.bmp
+/1,8 qgn_stat_keyguard.bmp
+/1,8 qgn_stat_line2.bmp
+/1,8 qgn_stat_message.bmp
+/1,8 qgn_stat_message_blank.bmp
+/1,8 qgn_stat_message_uni.bmp
+/1,8 qgn_stat_message_uni_blank.bmp
+/1,8 qgn_stat_message_mail.bmp
+/1,8 qgn_stat_message_mail_uni.bmp
+/1,8 qgn_stat_message_data.bmp
+/1,8 qgn_stat_message_data_uni.bmp
+/1,8 qgn_stat_message_fax.bmp
+/1,8 qgn_stat_message_fax_uni.bmp
+/1,8 qgn_stat_cyphering_on.bmp
+/1,8 qgn_stat_cyphering_on_uni.bmp
+/1,8 qgn_stat_zone_home.bmp
+/1,8 qgn_stat_outbox.bmp
+/1,8 qgn_stat_outbox_uni.bmp
+/1,8 qgn_stat_vm0.bmp
+/1,8 qgn_stat_vm0_uni.bmp
+/1,8 qgn_stat_vm1.bmp
+/1,8 qgn_stat_vm1_uni.bmp
+/1,8 qgn_stat_vm2.bmp
+/1,8 qgn_stat_vm2_uni.bmp
+/1,8 qgn_stat_vm12.bmp
+/1,8 qgn_stat_vm12_uni.bmp
+/1 qgn_stat_zone_viag.bmp
+/1,8 qgn_stat_headset.bmp
+/1,8 qgn_stat_loopset.bmp
+/1,8 qgn_stat_ihf_uni.bmp
+
+/1 qgn_indi_scroll_a.bmp
+/1 qgn_indi_scroll_b.bmp
+
+/c8,1 qgn_note_empty.bmp
+
+/c8,1 qgn_menu_unknown_cxt.bmp
+/c8,1 qgn_menu_unknown_lst.bmp
+
+/c8,1 qgn_prop_bt_carkit.bmp
+/c8,1 qgn_prop_bt_computer.bmp
+/c8,1 qgn_prop_bt_headset.bmp
+/c8,1 qgn_prop_bt_misc.bmp
+/c8,1 qgn_prop_bt_phone.bmp
+/c8,1 qgn_prop_bt_unknown.bmp
+
+/c8,8 qgn_note_batt_charging_2.bmp
+/c8,8 qgn_note_batt_charging_3.bmp
+/c8,8 qgn_note_batt_charging_4.bmp
+/c8,8 qgn_note_batt_charging_5.bmp
+
+/c8,8 qgn_note_batt_full_2.bmp
+
+/c8,8 qgn_note_batt_low_2.bmp
+
+/c8,8 qgn_note_batt_not_charging_2.bmp
+/c8,8 qgn_note_batt_not_charging_3.bmp
+
+/c8,8 qgn_note_batt_recharge_2.bmp
+/c8,8 qgn_note_batt_recharge_3.bmp
+/c8,8 qgn_note_batt_recharge_4.bmp
+
+/c8,8 qgn_note_query_2.bmp
+/c8,8 qgn_note_query_3.bmp
+/c8,8 qgn_note_query_4.bmp
+/c8,8 qgn_note_query_5.bmp
+
+/c8,8 qgn_note_ok_2.bmp
+/c8,8 qgn_note_ok_3.bmp
+/c8,8 qgn_note_ok_4.bmp
+/c8,8 qgn_note_ok_5.bmp
+
+/c8,8 qgn_note_erased_2.bmp
+/c8,8 qgn_note_erased_3.bmp
+/c8,8 qgn_note_erased_4.bmp
+/c8,8 qgn_note_erased_5.bmp
+/c8,8 qgn_note_erased_6.bmp
+/c8,8 qgn_note_erased_7.bmp
+/c8,8 qgn_note_erased_8.bmp
+
+/c8,8 qgn_note_info_2.bmp
+/c8,8 qgn_note_info_3.bmp
+/c8,8 qgn_note_info_4.bmp
+/c8,8 qgn_note_info_5.bmp
+
+/c8,8 qgn_note_warning_2.bmp
+
+/c8,8 qgn_note_error_2.bmp
+
+/c8,1 qgn_graf_progress_bar.bmp
+/c8,1 qgn_graf_vorec_progress_bar.bmp
+/c8,1 qgn_graf_vorec_bar_background.bmp
+/c8,1 qgn_graf_wait_bar_background.bmp
+
+/c8,1 qgn_graf_wait_bar_1.bmp
+/c8,1 qgn_graf_wait_bar_2.bmp
+/c8,1 qgn_graf_wait_bar_3.bmp
+/c8,1 qgn_graf_wait_bar_4.bmp
+/c8,1 qgn_graf_wait_bar_5.bmp
+/c8,1 qgn_graf_wait_bar_6.bmp
+/c8,1 qgn_graf_wait_bar_7.bmp
+
+/c16,8 qgn_graf_navi_wipe_blue.bmp
+/c16 qgn_graf_navi_wipe_green.bmp
+/c16 qgn_graf_navi_wipe_purple.bmp
+
+/c8,8 qgn_note_keyguard.bmp
+/c8,8 qgn_note_keyguard_2.bmp
+/c8,8 qgn_note_keyguard_3.bmp
+/c8,8 qgn_note_keyguard_4.bmp
+/c8,8 qgn_note_keyguard_5.bmp
+/c8,8 qgn_note_keyguard_6.bmp
+/c8,8 qgn_note_keyguard_7.bmp
+/c8,8 qgn_note_keyguard_8.bmp
+
+/1,1 qgn_stat_chi_pinyin.bmp
+/c8,1 qgn_stat_chi_pinyin_query.bmp
+/1,1 qgn_stat_chi_stroke.bmp
+/c8,1 qgn_stat_chi_stroke_query.bmp
+/1,1 qgn_stat_chi_zhuyin.bmp
+/c8,1 qgn_stat_chi_zhuyin_query.bmp
+
+/c8 qgn_indi_missed_call_one.bmp
+/c8 qgn_indi_missed_call_two.bmp
+/c8 qgn_indi_missed_mess_one.bmp
+/c8 qgn_indi_missed_mess_two.bmp
+
+/c8 qgn_graf_contrast.bmp
+/c8 qgn_graf_splash_screen.bmp
+
+/c8 LShellIcon.bmp
+/c8 LShellIconM.bmp
+
+/1,1 qgn_indi_speaker.bmp
+/c8,1 qgn_indi_earpiece.bmp
+/c8,8 qgn_menu_smsvo_cxt.bmp
+
+/1,1 qgn_stat_chi_zhuyin_find.bmp
+/c8,1 qgn_stat_chi_zhuyin_find_query.bmp
+/1,1 qgn_stat_chi_stroke_find.bmp
+/c8,1 qgn_stat_chi_stroke_find_query.bmp
+
+/c8,1 qgn_indi_chi_find_small.bmp
+/c8,1 qgn_indi_chi_find_numeric.bmp
+/c8,1 qgn_indi_chi_find_pinyin.bmp
+/c8,1 qgn_indi_chi_find_zhuyin.bmp
+/c8,1 qgn_indi_chi_find_zhuyin_symbol.bmp
+/c8,1 qgn_indi_chi_find_stroke_simple.bmp
+/c8,1 qgn_indi_chi_find_stroke_trad.bmp
+/c8,1 qgn_indi_chi_find_stroke_symbol.bmp
+
+/1,1 qgn_stat_chi_stroke_trad.bmp
+/c8,1 qgn_stat_chi_stroke_trad_query.bmp
+
+/1,8 qgn_stat_im_uni.bmp
+
+/c8,1 qgn_prop_empty.bmp
+
+/c8,1 qgn_bt_connect_on.bmp
+
+/1,8 qgn_stat_tty.bmp
+
+/c8,1 qgn_prop_bt_audio.bmp
+
+/c8,1 qgn_prop_file_small.bmp
+
+/c8,1 qgn_prop_phone_memc.bmp
+
+/c8,1 qgn_indi_no_signal.bmp
+
+/1,8 qgn_stat_usb.bmp
+/1,8 qgn_stat_usb_uni.bmp
+/1,8 qgn_stat_missed_calls_uni.bmp
+
+/1,1 qgn_stat_case_arabic.bmp
+/c8,1 qgn_stat_case_arabic_query.bmp
+/1,1 qgn_stat_case_hebrew.bmp
+/c8,1 qgn_stat_case_hebrew_query.bmp
+/1,1 qgn_stat_case_arabic_numeric.bmp
+/c8,1 qgn_stat_case_arabic_numeric_query.bmp
+
+/1 qgn_stat_message_ps.bmp
+/1 qgn_stat_missed_call_ps.bmp
+
+/c8,1 qgn_indi_submenu.bmp
+
+/c8,8 qgn_graf_fswap_ext.bmp
+
+/c8,1 qgn_graf_snot_add_1.bmp
+/c8,1 qgn_graf_snot_add_2.bmp
+
+/1,1 qgn_indi_signal_gprs_multipdp.bmp
+
+/c8,8 qgn_prop_phone_memc_large.bmp
+
+/c8,8 qgn_prop_mmc_memc_large.bmp
+
+/c8,1 qgn_indi_dst_add.bmp
+
+/1,8 qgn_stat_message_remote.bmp
+/1,8 qgn_stat_message_remote_uni.bmp
+/1,8 qgn_stat_message_other.bmp
+/1,8 qgn_stat_message_other_uni.bmp
+
+/c16 qgn_graf_navi_wipe_grey.bmp
+/c16 qgn_graf_navi_wipe_1.bmp
+/c16 qgn_graf_navi_wipe_2.bmp
+/c16 qgn_graf_navi_wipe_3.bmp
+/c16 qgn_graf_navi_wipe_4.bmp
+/c16 qgn_graf_navi_wipe_5.bmp
+/c16 qgn_graf_navi_wipe_6.bmp
+/c16 qgn_graf_navi_wipe_7.bmp
+/c16 qgn_graf_navi_wipe_8.bmp
+/c16 qgn_graf_navi_wipe_9.bmp
+/c16 qgn_graf_navi_wipe_10.bmp
+/c16 qgn_graf_navi_wipe_11.bmp
+/c16 qgn_graf_navi_wipe_12.bmp
+/c16 qgn_graf_navi_wipe_13.bmp
+
+/1,8 qgn_stat_loc.bmp
+
+/c8,1 qgn_prop_folder_sub_small.bmp
+
+/c8,1 qgn_prop_folder_current.bmp
+
+/c8,1 qgn_graf_status_small_prog.bmp
+/c8,1 qgn_graf_status_small_wait_01.bmp
+/c8,1 qgn_graf_status_small_wait_02.bmp
+/c8,1 qgn_graf_status_small_wait_03.bmp
+/c8,1 qgn_graf_status_small_wait_04.bmp
+/c8,1 qgn_graf_status_small_wait_05.bmp
+/c8,1 qgn_graf_status_small_wait_06.bmp
+/c8,1 qgn_graf_status_small_wait_07.bmp
+/c8,1 qgn_graf_wml_wait_globe_01.bmp
+/c8,1 qgn_graf_wml_wait_globe_02.bmp
+/c8,1 qgn_graf_wml_wait_globe_03.bmp
+/c8,1 qgn_graf_wml_wait_globe_04.bmp
+/c8,1 qgn_graf_wml_wait_globe_05.bmp
+/c8,1 qgn_graf_wml_wait_globe_06.bmp
+/c8,1 qgn_graf_wml_wait_globe_07.bmp
+/c8,1 qgn_graf_wml_wait_globe_08.bmp
+/c8,1 qgn_graf_wml_wait_globe_09.bmp
+/c8,1 qgn_graf_wml_wait_globe_10.bmp
+/c8,1 qgn_graf_wml_wait_globe_11.bmp
+/c8,1 qgn_graf_wml_wait_globe_12.bmp
+/c8,1 qgn_graf_wml_wait_globe_13.bmp
+/c8,1 qgn_graf_wml_wait_globe_14.bmp
+
+/1,8 qgn_indi_cursor_lr.svg
+/1,8 qgn_indi_cursor_rl.svg
+/1,8 qgn_indi_cursor_lr_12.svg
+/1,8 qgn_indi_cursor_rl_12.svg
+
+/1,8 qgn_stat_ihf.bmp
+
+/c8,8 qgn_indi_find_goto.bmp
+
+/c8,8 qgn_note_im_message.bmp
+
+/c8,8 qgn_prop_folder_apps_medium.bmp
+
+/1,8 qgn_stat_headset_unavailable.bmp
+
+/1,1 qgn_stat_case_thai.bmp
+
+/1 qgn_indi_earpiece_muted.bmp
+/1 qgn_indi_cam_zoom_2_video.bmp
+
+/1,8 qgn_indi_signal_pd_attach.bmp
+/1,8 qgn_indi_signal_pd_context.bmp
+/1,8 qgn_indi_signal_pd_multipdp.bmp
+/1,8 qgn_indi_signal_pd_suspended.bmp
+/1,8 qgn_indi_signal_wcdma_icon.bmp
+/1,8 qgn_indi_signal_wcdma_attach.bmp
+/1,8 qgn_indi_signal_wcdma_context.bmp
+/1,8 qgn_indi_signal_wcdma_multipdp.bmp
+
+/1,8 qgn_stat_case_capital_full.bmp
+/1,8 qgn_stat_case_numeric_full.bmp
+/1,8 qgn_stat_case_small_full.bmp
+/1,8 qgn_stat_case_text_full.bmp
+/1,8 qgn_stat_japin_hiragana.bmp
+/1,8 qgn_stat_japin_hiragana_only.bmp
+/1,8 qgn_stat_japin_katakana_full.bmp
+/1,8 qgn_stat_japin_katakana_half.bmp
+
+/1 qgn_stat_loc_off.bmp
+/1 qgn_stat_loc_on.bmp
+/1 qgn_stat_cdma_roaming.bmp
+
+/c8,1 qgn_prop_nrtyp_video.bmp
+
+/1 qgn_stat_cdma_roaming_uni.bmp
+/1,8 qgn_stat_case_shift.bmp
+
+/c8,1 qgn_indi_jap_find_hiragana.bmp
+/c8,1 qgn_indi_jap_find_hiragana_only.bmp
+/c8,1 qgn_indi_jap_find_katakana_full.bmp
+/c8,1 qgn_indi_jap_find_katakana_half.bmp
+/c8,1 qgn_indi_jap_find_predictive.bmp
+/c8,1 qgn_indi_jap_find_case_small_full.bmp
+/c8,1 qgn_indi_jap_find_case_numeric_full.bmp
+
+/c8,1 qgn_indi_thai_find_small.bmp
+
+/c8,8 qgn_graf_bar_wait_1.bmp
+/c8,8 qgn_graf_bar_wait_2.bmp
+/c8,8 qgn_graf_bar_wait_3.bmp
+/c8,8 qgn_graf_bar_wait_4.bmp
+/c8,8 qgn_graf_bar_wait_5.bmp
+/c8,8 qgn_graf_bar_wait_6.bmp
+/c8,8 qgn_graf_bar_wait_7.bmp
+/c8 qgn_graf_bar_wait_idle.bmp
+/c8 qgn_graf_bar_wait_increm.bmp
+/c8 qgn_graf_bar_wait_increm_02.bmp
+/c8 qgn_graf_bar_wait_increm_03.bmp
+/c8 qgn_graf_bar_wait_increm_04.bmp
+/c8 qgn_graf_bar_wait_increm_05.bmp
+/c8 qgn_graf_bar_wait_increm_06.bmp
+/c8 qgn_graf_bar_wait_increm_07.bmp
+/c8 qgn_graf_bar_wait_increm_08.bmp
+/c8 qgn_graf_bar_wait_increm_09.bmp
+/c8 qgn_graf_bar_wait_increm_10.bmp
+/c8 qgn_graf_bar_wait_increm_11.bmp
+/c8 qgn_graf_bar_wait_increm_12.bmp
+/c8 qgn_graf_bar_wait_increm_13.bmp
+/c8 qgn_graf_bar_wait_increm_14.bmp
+/c8 qgn_graf_bar_wait_increm_15.bmp
+/c8 qgn_graf_bar_wait_increm_16.bmp
+/c8 qgn_graf_bar_wait_increm_17.bmp
+/c8 qgn_graf_bar_wait_increm_18.bmp
+/c8 qgn_graf_bar_wait_increm_19.bmp
+/c8 qgn_graf_bar_wait_increm_idle.bmp
+/c8,8 qgn_graf_bar_progress.svg
+/c8,1 qgn_graf_bar_frame_long.bmp
+
+/1,1 qgn_indi_speaker_muted.bmp
+
+/1 qgn_indi_signal_receiving_cdma_01.bmp
+/1 qgn_indi_signal_receiving_cdma_02.bmp
+/1 qgn_indi_signal_receiving_cdma_03.bmp
+/1 qgn_indi_signal_receiving_cdma_04.bmp
+/1 qgn_indi_signal_receiving_cdma_05.bmp
+/1 qgn_indi_signal_receiving_cdma_06.bmp
+/1 qgn_indi_signal_receiving_cdma_07.bmp
+/1 qgn_indi_signal_receiving_cdma_08.bmp
+/1 qgn_indi_signal_receiving_cdma_09.bmp
+/1 qgn_indi_signal_receiving_cdma_10.bmp
+/1 qgn_indi_signal_receiving_cdma_11.bmp
+/1 qgn_indi_signal_receiving_cdma_12.bmp
+/1 qgn_indi_signal_receiving_cdma_13.bmp
+/1 qgn_indi_signal_receiving_cdma_14.bmp
+
+/1 qgn_indi_signal_sending_cdma_01.bmp
+/1 qgn_indi_signal_sending_cdma_02.bmp
+/1 qgn_indi_signal_sending_cdma_03.bmp
+/1 qgn_indi_signal_sending_cdma_04.bmp
+/1 qgn_indi_signal_sending_cdma_05.bmp
+/1 qgn_indi_signal_sending_cdma_06.bmp
+/1 qgn_indi_signal_sending_cdma_07.bmp
+/1 qgn_indi_signal_sending_cdma_08.bmp
+/1 qgn_indi_signal_sending_cdma_09.bmp
+/1 qgn_indi_signal_sending_cdma_10.bmp
+/1 qgn_indi_signal_sending_cdma_11.bmp
+/1 qgn_indi_signal_sending_cdma_12.bmp
+/1 qgn_indi_signal_sending_cdma_13.bmp
+/1 qgn_indi_signal_sending_cdma_14.bmp
+
+/1 qgn_indi_signal_active_cdma.bmp
+/1 qgn_indi_signal_dormant_cdma.bmp
+/1 qgn_indi_signal_not_avail_cdma.bmp
+/1 qgn_indi_signal_no_service.bmp
+/c8,1 qgn_graf_bar_frame_short.bmp
+/c8,1 qgn_graf_bar_frame_vorec.bmp
+
+/1,8 qgn_indi_signal_wcdma_suspended.bmp
+
+/c8,8 qgn_graf_tab_active_l.bmp
+/c8,8 qgn_graf_tab_active_m.bmp
+/c8,8 qgn_graf_tab_active_r.bmp
+/c8,8 qgn_graf_tab_passive_l.bmp
+/c8,8 qgn_graf_tab_passive_m.bmp
+/c8,8 qgn_graf_tab_passive_r.bmp
+
+/c8,8 qgn_indi_battery_strength_lsc.bmp
+/c8,8 qgn_indi_signal_strength_lsc.bmp
+
+/c8,8 qgn_graf_volume_set_1_off.svg
+/c8,8 qgn_graf_volume_set_2_off.svg
+/c8,8 qgn_graf_volume_set_3_off.svg
+/c8,8 qgn_graf_volume_set_4_off.svg
+/c8,8 qgn_graf_volume_set_5_off.svg
+/c8,8 qgn_graf_volume_set_6_off.svg
+/c8,8 qgn_graf_volume_set_7_off.svg
+/c8,8 qgn_graf_volume_set_8_off.svg
+/c8,8 qgn_graf_volume_set_9_off.svg
+/c8,8 qgn_graf_volume_set_10_off.svg
+/c8,8 qgn_graf_volume_set_1_on.svg
+/c8,8 qgn_graf_volume_set_2_on.svg
+/c8,8 qgn_graf_volume_set_3_on.svg
+/c8,8 qgn_graf_volume_set_4_on.svg
+/c8,8 qgn_graf_volume_set_5_on.svg
+/c8,8 qgn_graf_volume_set_6_on.svg
+/c8,8 qgn_graf_volume_set_7_on.svg
+/c8,8 qgn_graf_volume_set_8_on.svg
+/c8,8 qgn_graf_volume_set_9_on.svg
+/c8,8 qgn_graf_volume_set_10_on.svg
+/c8,8 qgn_graf_volume_small_1_off.svg
+/c8,8 qgn_graf_volume_small_2_off.svg
+/c8,8 qgn_graf_volume_small_3_off.svg
+/c8,8 qgn_graf_volume_small_4_off.svg
+/c8,8 qgn_graf_volume_small_5_off.svg
+/c8,8 qgn_graf_volume_small_6_off.svg
+/c8,8 qgn_graf_volume_small_7_off.svg
+/c8,8 qgn_graf_volume_small_8_off.svg
+/c8,8 qgn_graf_volume_small_9_off.svg
+/c8,8 qgn_graf_volume_small_10_off.svg
+/c8,8 qgn_graf_volume_small_1_on.svg
+/c8,8 qgn_graf_volume_small_2_on.svg
+/c8,8 qgn_graf_volume_small_3_on.svg
+/c8,8 qgn_graf_volume_small_4_on.svg
+/c8,8 qgn_graf_volume_small_5_on.svg
+/c8,8 qgn_graf_volume_small_6_on.svg
+/c8,8 qgn_graf_volume_small_7_on.svg
+/c8,8 qgn_graf_volume_small_8_on.svg
+/c8,8 qgn_graf_volume_small_9_on.svg
+/c8,8 qgn_graf_volume_small_10_on.svg
+
+/1,8 qgn_stat_poc_on.svg
+/1,8 qgn_stat_poc_on_uni.svg
+
+/c8,1 qgn_prop_sub_current.bmp
+/c8,1 qgn_prop_sub_marked.bmp
+
+/c8,8 qgn_prop_nrtyp_voip.bmp
+/c8,1 qgn_graf_line_primary_horizontal.svg
+/c8,8 qgn_stat_voip_readiness.bmp
+
+/c8,8 qgn_graf_line_primary_vertical_dashed.bmp
+/c8,8 qgn_graf_line_primary_horizontal_dashed.bmp
+/c8,8 qgn_graf_bar_frame_center.svg
+/c8,8 qgn_graf_bar_frame_side_l.svg
+/c8,8 qgn_graf_bar_frame_side_r.svg
+
+/1,8 qgn_stat_viet_case_capital.svg
+/1,8 qgn_stat_viet_case_small.svg
+/1,8 qgn_stat_viet_case_text.svg
+/1,8 qgn_stat_wlan_active.svg
+/1,8 qgn_stat_wlan_active_secure.svg
+/1,8 qgn_stat_wlan_active_secure_uni.svg
+/1,8 qgn_stat_wlan_active_uni.svg
+/1,8 qgn_stat_wlan_avail.svg
+/1,8 qgn_stat_wlan_avail_uni.svg
+/1,8 qgn_stat_carkit.svg
+
+/1,8 qgn_indi_signal_egprs_attach.bmp
+/1,8 qgn_indi_signal_egprs_context.bmp
+/1,8 qgn_indi_signal_egprs_multipdp.bmp
+/1,8 qgn_indi_signal_egprs_suspended.bmp
+/1,8 qgn_stat_poc_dnd.svg
+/1,8 qgn_indi_wml_windows.svg
+/1,8 qgn_stat_poc_missed.svg
+/1,8 qgn_stat_poc_missed_uni.svg
+
+/1,8 qgn_indi_mce_priority_high.svg
+/1,8 qgn_indi_mce_priority_low.svg
+
+/1,8 qgn_stat_chi_cangjie.bmp
+/c8,8 qgn_indi_chi_find_cangjie.bmp
+
+/1,8 qgn_stat_tvout.svg
+/1,8 qgn_stat_indi_mtv_on.svg
+/1,8 qgn_stat_tarm.svg
+/1,8 qgn_stat_mod_tarm.svg
+
+/c8,8 qgn_stat_farsi_case.svg
+
+/c8,8 qgn_stat_case_devanagari.svg
+/c8,8 qgn_stat_case_devanagari_numeric.svg
+/c8,8 qgn_stat_t9_auto.svg
+
+/c8,8 qgn_stat_case_upper_hindi_phonetic.svg
+/c8,8 qgn_stat_case_lower_hindi_phonetic.svg
+/1,8 qgn_stat_indi_mtv_rec.svg
+
+/c8,8 qgn_graf_long_press_01.svg
+/c8,8 qgn_graf_long_press_02.svg
+/c8,8 qgn_graf_long_press_03.svg
+/c8,8 qgn_graf_long_press_04.svg
+/c8,8 qgn_graf_long_press_05.svg
+/c8,8 qgn_graf_long_press_06.svg
+
+/c8,8 qgn_prop_nrtyp_voip_div.bmp
+/c8,8 qgn_prop_set_conn_voip.bmp
+
+/1,8 qgn_stat_hac.svg
+
+/c8,8 qgn_indi_sett_protected_add.svg
+
+/c8,8 qgn_prop_msk_menu.svg
+/c8,8 qgn_prop_msk_select.svg
+
+/1,8 qgn_stat_case_capital_select.bmp
+/1,8 qgn_stat_case_small_select.bmp
+/1,8 qgn_stat_case_text_select.bmp
+/1,8 qgn_stat_case_numeric_select.bmp
+/1,8 qgn_stat_memc.svg
+/1,8 qgn_stat_memc_uni.svg
+/c8,8 qgn_indi_app_open_add.svg
+
+/1,8 qgn_indi_signal_hsdpa_attach.svg
+/1,8 qgn_indi_signal_hsdpa_context.svg
+/1,8 qgn_indi_signal_hsdpa_multipdp.svg
+/1,8 qgn_indi_signal_hsdpa_suspended.svg
+
+/c8,8 qgn_prop_nrtyp_car.bmp
+/c8,8 qgn_prop_nrtyp_assistant.bmp
+
+
+/c8,8 qgn_prop_set_button.svg
+
+/c8,8 qgn_prop_usb.bmp
+
+/1,8 qgn_indi_signal_hsdpa_icon.svg
+/1,8 qgn_indi_signal_egprs_icon.svg
+
+/c8,8 qgn_indi_button_increase.svg
+/c8,8 qgn_indi_button_increase_pressed.svg
+
+/c8,8 qgn_prop_remote_drive_memc.bmp
+/c8,8 qgn_prop_remote_drive_memc_large.bmp
+/c8,8 qgn_indi_connection_on_add.svg
+
+/c8,8 qgn_indi_s60.svg
+
+/c8,8 qgn_indi_hl_col_super
+/c8,8 qgn_indi_hl_exp_super.svg
+/c8,8 qgn_indi_hl_line_branch.svg
+/c8,8 qgn_indi_hl_line_end.svg
+/c8,8 qgn_indi_hl_line_straight.svg
+/c8,8 qgn_prop_hl_file.svg
+/c8,8 qgn_prop_hl_folder.svg
+/c8,8 qgn_prop_hl_folder_open.svg
+
+/1,8 qgn_stat_chi_pinyin_phrase.svg
+/1,8 qgn_stat_chi_zhuyin_phrase.svg
+/1,8 qgn_stat_chi_stroke_phrase.svg
+/1,8 qgn_stat_chi_stroke_trad_phrase.svg
+
+/1,8 qgn_stat_video_sharing.svg
+/1,8 qgn_stat_sync_uni.svg
+
+/c8,8 qgn_graf_volume_set_on.svg
+/c8,8 qgn_graf_volume_set_off.svg
+/c8,8 qgn_graf_volume_small_on.svg
+/c8,8 qgn_graf_volume_small_off.svg
+
+/c8,8 qgn_indi_button_decrease.svg
+/c8,8 qgn_indi_button_decrease_pressed.svg
+
+/c8,8 qgn_indi_midp_trusted.svg
+/c8,8 qgn_indi_midp_untrusted.svg
+
+/c8,8 qgn_indi_col_super.svg
+/c8,8 qgn_indi_exp_super.svg
+
+/1,8 qgn_stat_loc_gps_uni.svg
+/1,8 qgn_stat_bt_invisible_uni.svg
+/1,8 qgn_stat_mod_bt_invisible_uni.svg
+
+/c8,8 qgn_indi_tp_appsgrid.svg
+/c8,8 qgn_indi_tp_appswapper.svg
+/c8,8 qgn_indi_tp_contacts.svg
+/c8,8 qgn_indi_tp_dialler.svg
+/c8,8 qgn_indi_tp_help.svg
+/c8,8 qgn_indi_tp_idle.svg
+/c8,8 qgn_indi_tp_input.svg
+/c8,8 qgn_indi_tp_rotate_screen.svg
+/c8,8 qgn_indi_tp_toolbar.svg
+
+/c8,8 qgn_graf_nslider_end_left.svg
+/c8,8 qgn_graf_nslider_end_right.svg
+/c8,8 qgn_graf_nslider_middle.svg
+/c8,8 qgn_graf_nslider_marker.svg
+/c8,8 qgn_graf_nslider_marker_selected.svg
+/c8,8 qgn_graf_nslider_mup_end_top.svg
+/c8,8 qgn_graf_nslider_mup_end_bottom.svg
+/c8,8 qgn_graf_nslider_mup_middle.svg
+/c8,8 qgn_graf_nslider_mup_marker.svg
+/c8,8 qgn_graf_nslider_mup_tab.svg
+
+/1,8 qgn_prop_battery_ps_activate.svg
+
+/1,8 qgn_stat_fmtx_on_uni.svg
+/1,8 qgn_stat_fmtx_off_uni.svg
+
+/c8,8 qgn_indi_cmode_clear.svg
+/c8,8 qgn_indi_cmode_pen.svg
+/c8,8 qgn_indi_cmode_rocker_down.svg
+/c8,8 qgn_indi_cmode_rocker_left.svg
+/c8,8 qgn_indi_cmode_rocker_right.svg
+/c8,8 qgn_indi_cmode_rocker_select.svg
+/c8,8 qgn_indi_cmode_rocker_up.svg
+/c8,8 qgn_indi_keypad_shift.svg
+/c8,8 qgn_indi_keypad_space.svg
+/c8,8 qgn_indi_keypad_star.svg
+/c8,8 qgn_indi_lsk_horizontal.svg
+/c8,8 qgn_indi_rsk_horizontal.svg
+/c8,8 qgn_indi_adapt_search_backspace.svg
+/c8,8 qgn_indi_sct_close.svg
+/c8,8 qgn_indi_sct_page_next.svg
+/c8,8 qgn_indi_sct_page_prev.svg
+
+/1,8 qgn_stat_cale_uni.svg
+/1,8 qgn_indi_signal_offline.svg
+
+
+/1,8 qgn_stat_usb_memc_connect_uni.svg
+/1,8 qgn_stat_usb_memc_transfer_uni.svg
+
+/c8,8 qgn_indi_nslider_level_increase.svg
+/c8,8 qgn_indi_nslider_level_decrease.svg
+/c8,8 qgn_indi_nslider_muted.svg
+/c8,8 qgn_indi_nslider_unmuted.svg
+
+/1,8 qgn_prop_link_connection_manager.svg
+/c8,8 qgn_stat_fn_mode.svg
+/c8,8 qgn_stat_fn_lock.svg
+/c8,1 qgn_stat_input_pred.svg
+/c8,8 qgn_graf_nslider_vertical_top.svg
+/c8,8 qgn_graf_nslider_vertical_bottom.svg
+/c8,8 qgn_graf_nslider_vertical_middle.svg
+/c8,8 qgn_graf_nslider_vertical_marker.svg
+/c8,8 qgn_graf_nslider_vertical_tick_major.svg
+/c8,8 qgn_graf_nslider_vertical_tick_minor.svg
+
+/c8,8 qgn_indi_volume_arrow_up.svg
+/c8,8 qgn_indi_volume_arrow_up_inactive.svg
+/c8,8 qgn_indi_volume_arrow_up_selected.svg
+/c8,8 qgn_indi_volume_arrow_down.svg
+/c8,8 qgn_indi_volume_arrow_down_inactive.svg
+/c8,8 qgn_indi_volume_arrow_down_selected.svg
+
+/c8,8 qgn_graf_volume_small_vertical_on.svg
+/c8,8 qgn_graf_volume_small_vertical_off.svg
+/c8,8 qgn_graf_volume_small_vertical_marker.svg
+/c8,8 qgn_graf_volume_small_vertical_marker_selected.svg
+
+/c8,8 qgn_prop_bt_keyboard.svg
+/c8,8 qgn_prop_bt_keyboard_connect.svg
+/c8,8 qgn_prop_bt_mouse.svg
+/c8,8 qgn_prop_bt_mouse_connect.svg
+/c8,8 qgn_prop_bt_printer.svg
+/c8,8 qgn_prop_bt_printer_connect.svg
+/c8,8 qgn_prop_bt_generic_dev.svg
+/c8,8 qgn_prop_bt_generic_dev_connect.svg
+/c8,8 qgn_prop_bt_car_kit_connect.svg
+
+/c8,8 qgn_indi_fep_sct_docomo1.svg
+/c8,8 qgn_indi_fep_sct_docomo1_dimmed.svg
+/c8,8 qgn_indi_fep_sct_docomo2.svg
+/c8,8 qgn_indi_fep_sct_docomo2_dimmed.svg
+/c8,8 qgn_indi_fep_sct_fw_symbols.svg
+/c8,8 qgn_indi_fep_sct_fw_symbols_dimmed.svg
+/c8,8 qgn_indi_fep_sct_hw_symbols.svg
+/c8,8 qgn_indi_fep_sct_hw_symbols_dimmed.svg
+/c8,8 qgn_indi_fep_sct_softbank.svg
+/c8,8 qgn_indi_fep_sct_softbank_dimmed.svg
+/c8,8 qgn_indi_button_preview_close.svg
+
+/c8,8 qgn_note_keyguard_locked_anim_1.svg
+/c8,8 qgn_note_keyguard_locked_anim_2.svg
+/c8,8 qgn_note_keyguard_locked_anim_3.svg
+/c8,8 qgn_note_keyguard_locked_anim_4.svg
+/c8,8 qgn_note_keyguard_unlocked_anim_1.svg
+/c8,8 qgn_note_keyguard_unlocked_anim_2.svg
+/c8,8 qgn_note_keyguard_unlocked_anim_3.svg
+/c8,8 qgn_note_keyguard_unlocked_anim_4.svg
+/c8,8 qgn_note_keyguard_tounlock_anim_1.svg
+/c8,8 qgn_note_keyguard_tounlock_anim_2.svg
+/c8,8 qgn_note_keyguard_tounlock_anim_3.svg
+/c8,8 qgn_note_keyguard_tounlock_anim_4.svg
+
+/c8,8 qgn_stat_kor_case.svg
+/c8,8 qgn_stat_kor_case_select.svg
+
+/1,8 qgn_stat_clk_stp_watch_uni.svg
+
+/1,8 qgn_stat_case_greek_capital.svg
+/1,8 qgn_stat_case_greek_small.svg
+/1,8 qgn_stat_case_greek_text.svg
+
+/1,8 qgn_stat_case_cyrillic_capital.svg
+/1,8 qgn_stat_case_cyrillic_small.svg
+/1,8 qgn_stat_case_cyrillic_text.svg
+
+/1,8 qgn_stat_servtab_uni.svg
+
+/1,8 qgn_stat_hdmi_connect.svg

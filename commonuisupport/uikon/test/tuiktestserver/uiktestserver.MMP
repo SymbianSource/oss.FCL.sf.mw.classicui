@@ -1,0 +1,403 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code
+*/
+
+TARGET			uiktestserver.exe
+TARGETTYPE		exe
+UID             0x1000007A 0x10004c6A
+VENDORID 		0x70000001
+CAPABILITY  	WriteDeviceData SwEvent ProtServ
+
+
+USERINCLUDE 	../tuiktestserver
+USERINCLUDE 	../tmessageserv
+USERINCLUDE		../../../../../appsupport/appfw/uiftestfw/inc
+USERINCLUDE     ../../srvinc
+USERINCLUDE		../../coreinc
+
+APP_LAYER_SYSTEMINCLUDE 
+
+
+SOURCEPATH		../tuiktestserver
+SOURCE			uiktestserver.cpp
+
+
+//-------START taddlib
+USERINCLUDE		../tlibs/taddlib
+SOURCEPATH		../tlibs/taddlib
+SOURCE			TADDLIB.CPP
+//-------END taddlib
+
+
+//-------START tautolib
+USERINCLUDE		../tlibs/tautolib
+USERINCLUDE		../tlibs/tloaddll
+SOURCEPATH		../tlibs/tautolib
+SOURCE			TAUTOLIB.CPP
+
+SOURCEPATH		../resource
+
+RESOURCE		EXTERNAL.RSS
+START RESOURCE	EXTERNAL.RSS
+	TARGETPATH	system/test/taddlib
+	LANG		SC
+END
+//-------END tautolib
+
+
+//-------START tspane
+USERINCLUDE		../tspane
+SOURCEPATH		../tspane
+SOURCE			tspane.cpp
+
+RESOURCE		tspane.rss
+START RESOURCE	tspane.rss
+	TARGETPATH	/system/test/uiktest
+END
+//-------END tspane
+
+
+//-------START TMSG
+USERINCLUDE		../tmsg
+SOURCEPATH		../tmsg
+SOURCE			TMSG.CPP
+
+RESOURCE		TMSG.RSS
+START RESOURCE	TMSG.RSS
+	TARGETPATH	/system/test/tmsg
+	LANG		SC
+END
+//-------END TMSG
+
+//-------START tcolovr
+SOURCEPATH		../tcolours/tcolovr
+USERINCLUDE		../tcolours/tcolovr
+SOURCE			TCOLOVRSTEP.CPP
+
+RESOURCE		TCOLOVRSTEP.RSS
+START RESOURCE	TCOLOVRSTEP.RSS
+	TARGETPATH	/system/test/colours/tcolovr
+	LANG		SC
+END
+//---------------END tcolovr
+
+
+//-------START THLSPRITE
+SOURCEPATH		../tsprites/thlsprite
+USERINCLUDE		../tsprites/thlsprite
+SOURCE			thlsprite.cpp
+//---------------END THLSPRITE
+
+
+//-------START tbrdrcol
+SOURCEPATH		../tborders/tbrdrcol
+USERINCLUDE		../tborders/tbrdrcol
+SOURCE			tbrdrcol.CPP
+//---------------END tbrdrcol
+
+
+//-------START TBACKUP
+SOURCEPATH		../teiksrv/tbackup
+USERINCLUDE		../teiksrv/tbackup
+SOURCE			tbackup.cpp
+
+RESOURCE		tbackup.rss
+START RESOURCE	tbackup.rss
+	TARGETPATH	/system/test/tbackup
+	LANG		SC
+END
+//---------------END TBACKUP
+
+
+//-------START TNOTDIAL
+SOURCEPATH		../teiksrv/tnotdial
+USERINCLUDE		../teiksrv/tnotdial
+SOURCE			TNOTDIAL.CPP
+
+RESOURCE		TNOTDIAL.RSS
+START RESOURCE	TNOTDIAL.RSS
+	TARGETPATH	/system/test/tnotdial
+	LANG		SC
+END
+//---------------END TNOTDIAL
+
+
+//-------START tcolscm
+SOURCEPATH		../tcolours/tcolscm
+USERINCLUDE		../tcolours/tcolscm
+SOURCE			TCOLSCM.CPP
+
+RESOURCE		TCOLSCM.RSS
+START RESOURCE	TCOLSCM.RSS
+	TARGETPATH	/system/test/colours/tcolscm
+	LANG		SC
+END
+//---------------END tcolscm
+
+
+//---------------START TPACKAGEStarter
+SOURCEPATH		../tpackage
+USERINCLUDE		../tpackage
+SOURCE 			TPACKAGEStarter.CPP
+//---------------END   TPACKAGEStarter
+
+
+//-------START terror
+SOURCEPATH		../terror
+USERINCLUDE		../terror
+SOURCE			terrorstep.cpp
+
+RESOURCE		terrorstep.rss
+START RESOURCE	terrorstep.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_errors.rss
+START RESOURCE	terror_errors.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_test1step.rss
+START RESOURCE	terror_test1step.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_test2step.rss
+START RESOURCE	terror_test2step.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_test3step.rss
+START RESOURCE	terror_test3step.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_test4step.rss
+START RESOURCE	terror_test4step.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_test5step.rss
+START RESOURCE	terror_test5step.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_lang1.rss
+START RESOURCE	terror_lang1.rss
+	TARGETPATH  /system/test/terror
+	LANG		01
+END
+
+RESOURCE		terror_lang2.rss
+START RESOURCE	terror_lang2.rss
+	TARGETPATH  /system/test/terror
+	LANG		02
+END
+
+RESOURCE		terror_lang3.rss
+START RESOURCE	terror_lang3.rss
+	TARGETPATH  /system/test/terror
+	LANG		SC
+END
+
+RESOURCE		terror_lang4.rss
+START RESOURCE	terror_lang4.rss
+	TARGETPATH  /system/test/terror
+	LANG		18
+END
+
+RESOURCE		terror_lang5.rss
+START RESOURCE	terror_lang5.rss
+	TARGETPATH  /system/test/terror
+	LANG		02
+END
+
+RESOURCE		terror_lang6.rss
+START RESOURCE	terror_lang6.rss
+	TARGETPATH  /system/test/terror
+	LANG		01
+END
+
+RESOURCE		terror_lang7.rss
+START RESOURCE	terror_lang7.rss
+	TARGETPATH  /system/test/terror
+	LANG		10
+END
+//---------------END terror
+
+
+//-------START TShutter
+SOURCEPATH		../teikcore/tshutter
+USERINCLUDE		../teikcore/tshutter
+//USERINCLUDE	../teikcore/tshutter/shutapp
+SOURCE			tshutter.CPP
+//----------------END TShutter
+
+
+//----------start fileutils
+SOURCEPATH		../tfileutils
+USERINCLUDE		../tfileutils
+SOURCE			tfileutils.CPP
+
+RESOURCE		tfileutils.rss
+START RESOURCE	tfileutils.rss
+	TARGETPATH  /system/test/fileutils
+	LANG		SC
+END
+//----------end fileutils
+
+
+//----------start teikenv
+SOURCEPATH		../teikenv
+USERINCLUDE		../teikenv
+SOURCE			teikenv.cpp
+
+RESOURCE		teikenv.rss
+START RESOURCE	teikenv.rss
+	TARGETPATH  /system/test/teikenv
+	LANG		SC
+END
+//----------end teikenv
+
+
+//---------------START TAPPLICATIONLANGUAGE
+SOURCEPATH		../teikcore/tapplicationlanguage
+USERINCLUDE		../teikcore/tapplicationlanguage
+SOURCE			TAppLangStarter.CPP
+//---------------END   TAPPLICATIONLANGUAGE
+
+
+//---------------START TAPPLICATIONLANGUAGEFRENCH
+SOURCEPATH		../teikcore/tapplicationlanguagefrench
+USERINCLUDE		../teikcore/tapplicationlanguagefrench
+SOURCE			TAppLangFrenchStarter.CPP
+//---------------END   TAPPLICATIONLANGUAGEFRENCH
+
+
+//---------------START TAPPLICATIONLANGUAGEZULU
+SOURCEPATH		../teikcore/tapplicationlanguagezulu
+USERINCLUDE		../teikcore/tapplicationlanguagezulu
+SOURCE			TAppLangZuluStarter.CPP
+//---------------END   TAPPLICATIONLANGUAGEZULU
+
+
+//---------------START TAPPLICATIONLANGUAGENOTSET
+SOURCEPATH		../teikcore/tapplicationlanguagenotset
+USERINCLUDE		../teikcore/tapplicationlanguagenotset
+SOURCE			TAppLangNotSetStarter.CPP
+//---------------END   TAPPLICATIONLANGUAGENOTSET
+
+
+//---------------START TAPPLICATIONLANGUAGESC
+SOURCEPATH		../teikcore/tapplicationlanguagesc
+USERINCLUDE		../teikcore/tapplicationlanguagesc
+SOURCE			TAppLangScStarter.CPP
+//---------------END   TAPPLICATIONLANGUAGESC
+
+
+//---------------START TFOCUS
+SOURCEPATH		../tfocus
+USERINCLUDE		../tfocus
+SOURCE			T_FocusStep.CPP
+SOURCE			T_NonFocusStep.CPP
+//---------------END   TFOCUS
+
+
+//---------------START TPARENT
+SOURCEPATH		../tparent
+USERINCLUDE		../tparent
+SOURCE			T_ParentStep.CPP
+//---------------END   TPARENT
+
+
+//---------------START TCAPABILITY
+USERINCLUDE		../teiksrv/tcapability
+SOURCEPATH		../teiksrv/tcapability
+SOURCE 			TCapability1.cpp
+SOURCE 			TCapability2.cpp
+//---------------END TCAPABILITY
+
+
+//---------------START TSYSCOLOR
+USERINCLUDE		../teiksrv/tsyscolor
+SOURCEPATH		../teiksrv/tsyscolor
+SOURCE 			TSysColor.cpp
+//---------------END   TSYSCOLOR
+
+
+//---------------START TDISABLEEXITCHECKS
+SOURCEPATH		../tdisableexitchecks
+USERINCLUDE		../tdisableexitchecks
+SOURCE			TDisableExitChecksStep.cpp
+//---------------END   TDISABLEEXITCHECKS
+
+
+//---------------START TBITMAP
+USERINCLUDE		../teikenv/tbitmap
+//---------------END   TBITMAP
+
+
+//---------------START TERRORAPP
+USERINCLUDE		../terror/terrorapp
+//---------------END   TERRORAPP
+
+
+//---------------START TDISABLEEXITCHECKSAPP
+USERINCLUDE		../tdisableexitchecks/disableexitchecksapp
+//---------------END   TDISABLEEXITCHECKSAPP
+
+
+library			appfwk_test_utils.lib
+library			euser.lib 
+library			cone.lib
+library			ws32.lib
+library			ecom.lib
+library			eikcore.lib
+library			eikcoctl.lib
+library			eiksrvc.lib
+library			messageserv.lib
+library			eikctl.lib 
+library			egul.lib
+library			bafl.lib
+library			hal.lib
+library			gdi.lib
+library			fbscli.lib
+library			eikdlg.lib
+library			apgrfx.lib
+library			efsrv.lib
+library			apserv.lib
+library			apparc.lib
+library			testexecuteutils.lib
+library			testexecutelogclient.lib
+library			appfwk_test_appui.lib
+library			commonengine.lib
+
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x5000
+
+SMPSAFE

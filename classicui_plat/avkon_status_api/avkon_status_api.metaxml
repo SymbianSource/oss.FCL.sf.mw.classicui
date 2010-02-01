@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="c7743b26f838eee8a187a33a9f5d4c3a" dataversion="1.0">
+  <name>AVKON Status API</name>
+  <description>Avkon PubSub settings.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

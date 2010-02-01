@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __EIKSTD_IBY__
+#define __EIKSTD_IBY__
+
+//#include "uikon.iby"
+
+REM RefUI implementation of UIKON components
+
+file=ABI_DIR\BUILD_DIR\eikinit.dll 			        System\Libs\uikon_init\EikInit.dll
+
+file=ABI_DIR\BUILD_DIR\eikdlg.dll 			        System\Libs\EikDlg.dll
+data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKDLG	System\Data\EikDlg)
+
+file=ABI_DIR\BUILD_DIR\eikcdlg.dll 			        System\Libs\EikCdlg.dll
+data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKCDLG	System\Data\EikCDlg)
+
+//file=ABI_DIR\BUILD_DIR\eikprint.dll 		        System\Libs\EikPrint.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKPRINT	System\Data\EikPrint)
+
+//file=ABI_DIR\BUILD_DIR\eikfile.dll 			        System\Libs\EikFile.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKFILE	System\Data\EikFile)
+
+//file=ABI_DIR\BUILD_DIR\eikir.dll 			        System\Libs\EikIR.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKIR	    System\Data\EikIR)
+
+//file=ABI_DIR\BUILD_DIR\eikmisc.dll 			        System\Libs\EikMisc.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKMISC	System\Data\EikMisc)
+//data=ABI_DIR\BUILD_DIR\EIKMISC.mbm                  System\Data\EikMisc.mbm
+
+file=ABI_DIR\BUILD_DIR\eiksrvui.dll 		        System\Libs\EikSrvUi.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKSRVUI 	System\Data\EiksrvUi)
+
+file=ABI_DIR\BUILD_DIR\exparser.dll		            System\Libs\exparser.dll
+
+file=ABI_DIR\BUILD_DIR\eikalert.dll		            System\Libs\EikAlert.dll
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\EIKALERT 	System\Data\EikAlert)
+//The resource file is removed in Timantti40
+
+#endif

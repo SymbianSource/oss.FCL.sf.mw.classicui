@@ -1,0 +1,88 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localisation strings definition file
+*
+*/
+
+
+
+// LOCALISATION STRINGS
+
+//d:Default folder name for default games folder (from File Manager)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_fmgr_def_fldr_games "Games"
+
+//d:Default folder name for default installs folder (from File Manager)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_fmgr_def_fldr_install "Install packages"
+
+//d:Default folder name for default others folder (from File Manager)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_fmgr_def_fldr_others "Others"
+
+//d:Default folder name for default links folder (from File Manager)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_fmgr_def_fldr_links "Links"
+
+//d:Default folder name for default contacts folder (from File Manager)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_fmgr_def_fldr_contacts "Contacts"
+
+//d:Default folder name for default images folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_images "Images"
+
+//d:Localized name for default sounds folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_sounds "Sounds"
+
+//d:Localized name for digital tones folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_digital_tones "Digital tones"
+
+//d:Localized name for simple tones folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_simple_tones "Simple tones"
+
+//d:Localized name for default videos folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_videos "Videos"
+
+//d:Localized name for GMS pictures folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_gms_pict "GMS pictures"
+
+//d:Localized name for default MMS background  (from Media Gallery)
+//d:images folder
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_mms_bc "MMS background images"
+
+//d:Localized name for default presence logos folder (from Media Gallery)
+//l:list_double_large_graphic_pane_t1_cp2
+//
+#define qtn_mg_folder_pres_logos "Presence logos"
+
+// End of File

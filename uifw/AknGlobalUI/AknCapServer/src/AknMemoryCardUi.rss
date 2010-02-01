@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+NAME MCUI
+
+#include <avkon.loc>
+#include <eikon.rh>
+#include <eikcore.rsg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include "avkon.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE TBUF r_qtn_mem_card_unlock_prompt {buf = qtn_mem_card_unlock_prompt;}
+RESOURCE TBUF r_qtn_mem_card_unlock_error  {buf = qtn_mem_card_unlock_error;}
+
+RESOURCE TBUF r_qtn_fsw_styluspopupmenu_open {buf = qtn_ispm_open;} 
+RESOURCE TBUF r_qtn_fsw_styluspopupmenu_exit {buf = qtn_ispm_exit;}
+RESOURCE DIALOG r_mmc_password_query
+    {
+    flags = EEikDialogFlagNoDrag|EEikDialogFlagNoTitleBar|EEikDialogFlagCbaButtons|
+        EEikDialogFlagNoBorder|EEikDialogFlagNoShadow|EEikDialogFlagNotifyEsc|
+        EEikDialogFlagVirtualInput;
+        
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    items =
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_DATA_QUERY 
+                { 
+                layout = ECodeLayout;
+                label = "";
+                control=SECRETED 
+                    {
+                    num_letters=16;
+                    };
+                };
+            }
+        };
+    }

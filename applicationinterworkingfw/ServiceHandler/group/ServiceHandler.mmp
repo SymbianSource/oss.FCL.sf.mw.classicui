@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     AIW project file.
+*
+*/
+
+
+
+
+
+#include "../inc/AiwUids.hrh"
+#include <platform_paths.hrh>
+
+TARGET          ServiceHandler.dll
+TARGETTYPE      DLL
+UID             0x1000008d KAiwServiceHandlerDLLUidValue
+
+CAPABILITY      CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+SOURCE          AiwCommon.cpp
+SOURCE          AiwServiceHandler.cpp
+SOURCE          AiwServiceHandlerImpl.cpp
+SOURCE          AiwMenu.cpp
+SOURCE          AiwBinding.cpp
+SOURCE          AiwMenuBinding.cpp
+SOURCE          AiwServiceIfBase.cpp
+SOURCE          AiwServiceIfMenu.cpp
+SOURCE          AiwGenericParam.cpp
+SOURCE          AiwVariant.cpp
+SOURCE          AiwEcomMonitor.cpp
+SOURCE          AiwTlsData.cpp
+
+USERINCLUDE     . 
+USERINCLUDE     ../inc
+USERINCLUDE     ../external
+
+SYSTEMINCLUDE   .
+SYSTEMINCLUDE   ../../../inc
+SYSTEMINCLUDE   ../../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+#include <data_caging_paths.hrh>
+
+START RESOURCE AiwServiceHandler.rss
+DEPENDS avkon.rsg
+HEADER    
+TARGETPATH   RESOURCE_FILES_DIR 
+LANGUAGE_IDS 
+END
+
+LIBRARY         euser.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         ecom.lib
+LIBRARY         cone.lib
+LIBRARY         bafl.lib 
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         eikcore.lib 
+
+START WINS
+END
+
+START MARM
+END
+
+//  End of File

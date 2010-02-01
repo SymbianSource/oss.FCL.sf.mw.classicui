@@ -1,0 +1,434 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         English / chinese localization strings
+*
+*/
+
+
+
+
+
+
+
+
+
+#include "bctestList.loc"
+//  LOCALISATION STRINGS
+
+// ListBox items
+
+//-----------------------------------------------------------------------------
+// single item 
+#define qtn_bctestlist_item_s1       " \taaaaaa"
+#define qtn_bctestlist_item_s2       " \tbbbbbb"
+#define qtn_bctestlist_item_s3       " \tcccccc"
+#define qtn_bctestlist_item_s4       " \tdddddd"
+#define qtn_bctestlist_item_s5       " \teeeeee"
+#define qtn_bctestlist_item_s6       " \tffffff"
+#define qtn_bctestlist_item_s7       " \tgggggg"
+#define qtn_bctestlist_item_s8       " \thhhhhh"
+#define qtn_bctestlist_item_s9       " \tthis text is way too long and it \
+will be clipped even in widest landscape imaginable."
+#define qtn_bctestlist_item_s10      " \taaaaaa\t1"
+#define qtn_bctestlist_item_s11      " \tdddddd\t1\t2"
+#define qtn_bctestlist_item_s12      " \tcccccc\t1"
+#define qtn_bctestlist_item_s13      " \tiiiiii"
+#define qtn_bctestlist_item_s14      " \tjjjjjj"
+#define qtn_bctestlist_item_s15      " \tkkkkkk"
+#define qtn_bctestlist_item_s16      " \tllllll"
+#define qtn_bctestlist_item_s17      " \tmmmmmm"
+#define qtn_bctestlist_item_s18      " \tnnnnnn"
+#define qtn_bctestlist_item_s19      " \toooooo"
+
+#define qtn_bctestlist_item_this_is        " \tThis is a" 
+#define qtn_bctestlist_item_markable_list  " \tmarkable list"
+#define qtn_bctestlist_item_multisel_list  " \tmultiselection list"
+#define qtn_bctestlist_item_press_0        " \tPress 0!"
+#define qtn_bctestlist_item_popupfind      " \tPopup findbox"
+
+#define qtn_bctestlist_item_s1_add         " \tAdd Items"
+#define qtn_bctestlist_item_s2_rm          " \tRemove Items"
+
+#define qtn_bctestlist_item_sgh_mulsel_list "1\tThis\tis multiselection list\t1"
+
+//-----------------------------------------------------------------------------
+// single item with number
+#define qtn_bctestlist_item_sn1      "8\taaaaaa"
+#define qtn_bctestlist_item_sn2      "7\tbbbbbb"
+#define qtn_bctestlist_item_sn3      "6\tcccccc"
+#define qtn_bctestlist_item_sn4      "5\tdddddd"
+#define qtn_bctestlist_item_sn5      "4\teeeeee"
+#define qtn_bctestlist_item_sn6      "3\tffffff"
+#define qtn_bctestlist_item_sn7      "2\tgggggg"
+#define qtn_bctestlist_item_sn8      "1\thhhhhh"
+#define qtn_bctestlist_item_sn9      "0\tiiiiii"
+#define qtn_bctestlist_item_sn10     "0\tjjjjjj"
+#define qtn_bctestlist_item_sn11     "0\tkkkkkk"
+#define qtn_bctestlist_item_sn12     "0\tllllll"
+#define qtn_bctestlist_item_sn13     "0\tmmmmmm"
+#define qtn_bctestlist_item_sn14     "0\tnnnnnn"
+#define qtn_bctestlist_item_sn15     "0\toooooo"
+
+
+//-----------------------------------------------------------------------------
+
+#define qtn_bctestlist_item_sni1     "17\t0%"
+#define qtn_bctestlist_item_sni2     "16\t1-7%"
+#define qtn_bctestlist_item_sni3     "15\t7-13%"
+#define qtn_bctestlist_item_sni4     "14\t13-20%"
+#define qtn_bctestlist_item_sni5     "13\t20-27%"
+#define qtn_bctestlist_item_sni6     "12\t27-33%"
+#define qtn_bctestlist_item_sni7     "11\t33-40%"
+#define qtn_bctestlist_item_sni8     "9\t40-47%"
+#define qtn_bctestlist_item_sni9     "10\t47-53%"
+#define qtn_bctestlist_item_sni10    "8\t53-60%"
+#define qtn_bctestlist_item_sni11    "6\t60-67%"
+#define qtn_bctestlist_item_sni12    "5\t67-73%"
+#define qtn_bctestlist_item_sni13    "4\t73-80%"
+#define qtn_bctestlist_item_sni14    "7\t80-87%"
+#define qtn_bctestlist_item_sni15    "3\t87-93%"
+#define qtn_bctestlist_item_sni16    "2\t93-99%"
+#define qtn_bctestlist_item_sni17    "1\t100%"
+
+//-----------------------------------------------------------------------------
+// single item with heading
+#define qtn_bctestlist_item_sh1      " Head1\taaaaaa"
+#define qtn_bctestlist_item_sh2      " Head2\tbbbbbb"
+#define qtn_bctestlist_item_sh3      " Head3\tcccccc"
+#define qtn_bctestlist_item_sh4      " Head4\tdddddd"
+#define qtn_bctestlist_item_sh5      " Head5\teeeeee"
+#define qtn_bctestlist_item_sh6      " Head6\tffffff"
+#define qtn_bctestlist_item_sh7      " Head7\tgggggg"
+#define qtn_bctestlist_item_sh8      " Head8\thhhhhh"
+#define qtn_bctestlist_item_sh9      " Head9\tiiiiii"
+#define qtn_bctestlist_item_sh10     " Head10\tjjjjjj"
+#define qtn_bctestlist_item_sh11     " Head11\tkkkkkk"
+#define qtn_bctestlist_item_sh12     " Head12\tllllll"
+#define qtn_bctestlist_item_sh13     " Head13\tmmmmmm"
+#define qtn_bctestlist_item_sh14     " Head14\tnnnnnn"
+#define qtn_bctestlist_item_sh15     " Head15\toooooo"
+
+//-----------------------------------------------------------------------------
+// single item with graphic
+#define qtn_bctestlist_item_sg1      "1\taaaaaa"
+#define qtn_bctestlist_item_sg2      "1\tbbbbbb"
+#define qtn_bctestlist_item_sg3      "1\tcccccc"
+#define qtn_bctestlist_item_sg4      "1\tdddddd"
+#define qtn_bctestlist_item_sg5      "1\teeeeee"
+#define qtn_bctestlist_item_sg6      "1\tffffff"
+#define qtn_bctestlist_item_sg7      "1\tgggggg"
+#define qtn_bctestlist_item_sg8      "1\thhhhhh"
+#define qtn_bctestlist_item_sg9      "1\tiiiiii"
+#define qtn_bctestlist_item_sg10     "1\tjjjjjj"
+#define qtn_bctestlist_item_sg11     "1\tkkkkkk"
+#define qtn_bctestlist_item_sg12     "1\tllllll"
+#define qtn_bctestlist_item_sg13     "1\tmmmmmm"
+#define qtn_bctestlist_item_sg14     "1\tnnnnnn"
+#define qtn_bctestlist_item_sg15     "1\toooooo"
+
+//-----------------------------------------------------------------------------
+// single item with large graphic
+#define qtn_bctestlist_item_slg1     "1\taaaaaa"
+#define qtn_bctestlist_item_slg2     "1\tbbbbbb"
+#define qtn_bctestlist_item_slg3     "1\tcccccc"
+#define qtn_bctestlist_item_slg4     "1\tdddddd"
+#define qtn_bctestlist_item_slg5     "1\teeeeee"
+#define qtn_bctestlist_item_slg6     "1\tffffff"
+#define qtn_bctestlist_item_slg7     "1\tgggggg"
+#define qtn_bctestlist_item_slg8     "1\thhhhhh"
+#define qtn_bctestlist_item_slg9     "1\tiiiiii"
+#define qtn_bctestlist_item_slg10    "1\tjjjjjj"
+#define qtn_bctestlist_item_slg11    "1\tkkkkkk"
+#define qtn_bctestlist_item_slg12    "1\tllllll"
+#define qtn_bctestlist_item_slg13    "1\tmmmmmm"
+#define qtn_bctestlist_item_slg14    "1\tnnnnnn"
+#define qtn_bctestlist_item_slg15    "1\toooooo"
+
+//-----------------------------------------------------------------------------
+// single item with graphics and heading
+#define qtn_bctestlist_item_sgh1     "1\tHead1\taaaaaa"
+#define qtn_bctestlist_item_sgh2     "1\tHead2\tbbbbbb"
+#define qtn_bctestlist_item_sgh3     "1\tHead3\tcccccc"
+#define qtn_bctestlist_item_sgh4     "1\tHead4\tdddddd"
+#define qtn_bctestlist_item_sgh5     "1\tHead5\teeeeee"
+#define qtn_bctestlist_item_sgh6     "1\tHead6\tffffff"
+#define qtn_bctestlist_item_sgh7     "1\tHead7\tgggggg"
+#define qtn_bctestlist_item_sgh8     "1\tHead8\thhhhhh"
+#define qtn_bctestlist_item_sgh9     "2\t   B \t    C               D"
+#define qtn_bctestlist_item_sgh10    "1\tHead8\taaaaaa\t1"
+#define qtn_bctestlist_item_sgh11    "1\tHead11\tiiiiii"
+#define qtn_bctestlist_item_sgh12    "1\tHead12\tjjjjjj"
+#define qtn_bctestlist_item_sgh13    "1\tHead13\tkkkkkk"
+#define qtn_bctestlist_item_sgh14    "1\tHead14\tllllll"
+#define qtn_bctestlist_item_sgh15    "1\tHead15\tmmmmmm"
+#define qtn_bctestlist_item_sgh16    "1\tHead16\tnnnnnn"
+#define qtn_bctestlist_item_sgh17    "1\tHead17\toooooo"
+
+//-----------------------------------------------------------------------------
+// single item with number and heading
+#define qtn_bctestlist_item_snh1     "8\tHead1\taaaaaa"
+#define qtn_bctestlist_item_snh2     "7\tHead2\tbbbbbb"
+#define qtn_bctestlist_item_snh3     "6\tHead3\tcccccc"
+#define qtn_bctestlist_item_snh4     "5\tHead4\tdddddd"
+#define qtn_bctestlist_item_snh5     "4\tHead5\teeeeee"
+#define qtn_bctestlist_item_snh6     "3\tHead6\tffffff"
+#define qtn_bctestlist_item_snh7     "2\tHead7\tgggggg"
+#define qtn_bctestlist_item_snh8     "1\tHead8\thhhhhh"
+#define qtn_bctestlist_item_snh9     "0\tHead9\tiiiiii"
+#define qtn_bctestlist_item_snh10    "0\tHead10\tjjjjjj"
+#define qtn_bctestlist_item_snh11    "0\tHead11\tkkkkkk"
+#define qtn_bctestlist_item_snh12    "0\tHead12\tllllll"
+#define qtn_bctestlist_item_snh13    "0\tHead13\tmmmmmm"
+#define qtn_bctestlist_item_snh14    "0\tHead14\tnnnnnn"
+#define qtn_bctestlist_item_snh15    "0\tHead15\toooooo"
+
+//-----------------------------------------------------------------------------
+// big single item
+#define qtn_bctestlist_item_bs1      " \taaaaaa\t "
+#define qtn_bctestlist_item_bs2      " \tbbbbbb\t "
+#define qtn_bctestlist_item_bs3      " \tcccccc\t "
+#define qtn_bctestlist_item_bs4      " \tThis is a very long item text which will be truncated always\t "
+#define qtn_bctestlist_item_bs5      " \teeeeee\t "
+#define qtn_bctestlist_item_bs6      " \tffffff\t "
+#define qtn_bctestlist_item_bs7      " \tgggggg\t "
+#define qtn_bctestlist_item_bs8      " \thhhhhh\t "
+#define qtn_bctestlist_item_bs9      " \tiiiiii\t "
+#define qtn_bctestlist_item_bs10     " \tjjjjjj\t "
+#define qtn_bctestlist_item_bs11     " \tkkkkkk\t "
+#define qtn_bctestlist_item_bs12     " \tllllll\t "
+#define qtn_bctestlist_item_bs13     " \tmmmmmm\t "
+#define qtn_bctestlist_item_bs14     " \tnnnnnn\t "
+#define qtn_bctestlist_item_bs15     " \toooooo\t "
+
+//-----------------------------------------------------------------------------
+// big single item with number
+#define qtn_bctestlist_item_bsn1     "8\taaaaaa\t "
+#define qtn_bctestlist_item_bsn2     "7\tbbbbbb\t "
+#define qtn_bctestlist_item_bsn3     "6\tcccccc\t "
+#define qtn_bctestlist_item_bsn4     "5\tThis is a very long item text which will be truncated always\t "
+#define qtn_bctestlist_item_bsn5     "4\teeeeee\t "
+#define qtn_bctestlist_item_bsn6     "3\tffffff\t "
+#define qtn_bctestlist_item_bsn7     "2\tgggggg\t "
+#define qtn_bctestlist_item_bsn8     "1\thhhhhh\t "
+#define qtn_bctestlist_item_bsn9     "0\tiiiiii\t "
+#define qtn_bctestlist_item_bsn10    "0\tjjjjjj\t "
+#define qtn_bctestlist_item_bsn11    "0\tkkkkkk\t "
+#define qtn_bctestlist_item_bsn12    "0\tllllll\t "
+#define qtn_bctestlist_item_bsn13    "0\tmmmmmm\t "
+#define qtn_bctestlist_item_bsn14    "0\tnnnnnn\t "
+#define qtn_bctestlist_item_bsn15    "0\toooooo\t "
+
+//-----------------------------------------------------------------------------
+// big single item with large graphic
+#define qtn_bctestlist_item_bsg1     "1\taaaaaa\t "
+#define qtn_bctestlist_item_bsg2     "1\tbbbbbb\t "
+#define qtn_bctestlist_item_bsg3     "1\tcccccc\t "
+#define qtn_bctestlist_item_bsg4     "1\tThis is a very long item text which will be truncated always\t "
+#define qtn_bctestlist_item_bsg5     "1\teeeeee\t "
+#define qtn_bctestlist_item_bsg6     "1\tffffff\t "
+#define qtn_bctestlist_item_bsg7     "1\tgggggg\t "
+#define qtn_bctestlist_item_bsg8     "1\thhhhhh\t "
+#define qtn_bctestlist_item_bsg9     "1\tiiiiii\t "
+#define qtn_bctestlist_item_bsg10    "1\tjjjjjj\t "
+#define qtn_bctestlist_item_bsg11    "1\tkkkkkk\t "
+#define qtn_bctestlist_item_bsg12    "1\tllllll\t "
+#define qtn_bctestlist_item_bsg13    "1\tmmmmmm\t "
+#define qtn_bctestlist_item_bsg14    "1\tnnnnnn\t "
+#define qtn_bctestlist_item_bsg15    "1\toooooo\t "
+
+//-----------------------------------------------------------------------------
+
+// double item
+#define qtn_bctestlist_item_d1       " \tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_d2       " \tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_d3       " \tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_d4       " \tThis is a very long item text which will be truncated always\t\
+  but this may be even longer item"
+#define qtn_bctestlist_item_d5       " \tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_d6       " \tFFFFFF\tffffff"
+#define qtn_bctestlist_item_d7       " \tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_d8       " \tHHHHHH\thhhhhh"
+#define qtn_bctestlist_item_d9       " \tIIIIII\tiiiiii"
+#define qtn_bctestlist_item_d10      " \tJJJJJJ\tjjjjjj"
+#define qtn_bctestlist_item_d11      " \tKKKKKK\tkkkkkk"
+#define qtn_bctestlist_item_d12      " \tLLLLLL\tllllll"
+#define qtn_bctestlist_item_d13      " \tMMMMMM\tmmmmmm"
+#define qtn_bctestlist_item_d14      " \tNNNNNN\tnnnnnn"
+#define qtn_bctestlist_item_d15      " \tOOOOOO\toooooo"
+
+//-----------------------------------------------------------------------------
+// double item with number
+#define qtn_bctestlist_item_dn1      "8\tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_dn2      "7\tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_dn3      "6\tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_dn4      "5\tThis is a very long item text which will be truncated always\t\
+this may be even longer item dddddd"
+#define qtn_bctestlist_item_dn5      "4\tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_dn6      "3\tFFFFFF\tffffff"
+#define qtn_bctestlist_item_dn7      "2\tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_dn8      "1\tHHHHHH\thhhhhh"
+#define qtn_bctestlist_item_dn9      "0\tIIIIII\tiiiiii"
+#define qtn_bctestlist_item_dn10     "0\tJJJJJJ\tjjjjjj"
+#define qtn_bctestlist_item_dn11     "0\tKKKKKK\tkkkkkk"
+#define qtn_bctestlist_item_dn12     "0\tLLLLLL\tllllll"
+#define qtn_bctestlist_item_dn13     "0\tMMMMMM\tmmmmmm"
+#define qtn_bctestlist_item_dn14     "0\tNNNNNN\tnnnnnn"
+#define qtn_bctestlist_item_dn15     "0\tOOOOOO\toooooo"
+
+//-----------------------------------------------------------------------------
+// double item with graphic
+#define qtn_bctestlist_item_dg1      "1\tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_dg2      "1\tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_dg3      "1\tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_dg4      "1\tThis is a very long item text which will be truncated always\t\
+this may be even longer item"
+#define qtn_bctestlist_item_dg5      "1\tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_dg6      "1\tFFFFFF\tffffff"
+#define qtn_bctestlist_item_dg7      "1\tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_dg8      "1\tHHHHHH\thhhhhh"
+#define qtn_bctestlist_item_dg9      "1\tIIIIII\tiiiiii"
+#define qtn_bctestlist_item_dg10     "1\tJJJJJJ\tjjjjjj"
+#define qtn_bctestlist_item_dg11     "1\tKKKKKK\tkkkkkk"
+#define qtn_bctestlist_item_dg12     "1\tLLLLLL\tllllll"
+#define qtn_bctestlist_item_dg13     "1\tMMMMMM\tmmmmmm"
+#define qtn_bctestlist_item_dg14     "1\tNNNNNN\tnnnnnn"
+#define qtn_bctestlist_item_dg15     "1\tOOOOOO\toooooo"
+
+//-----------------------------------------------------------------------------
+// double item with large graphic
+#define qtn_bctestlist_item_dlg1     "1\tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_dlg2     "1\tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_dlg3     "1\tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_dlg4     "1\tThis is (again) a long item\t\
+And has probably even longer counterpart"
+#define qtn_bctestlist_item_dlg5     "1\tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_dlg6     "1\tFFFFFF\tffffff"
+#define qtn_bctestlist_item_dlg7     "1\tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_dlg8     "1\tHHHHHH\thhhhhh"
+#define qtn_bctestlist_item_dlg9     "1\tIIIIII\tiiiiii"
+#define qtn_bctestlist_item_dlg10    "1\tJJJJJJ\tjjjjjj"
+#define qtn_bctestlist_item_dlg11    "1\tKKKKKK\tkkkkkk"
+#define qtn_bctestlist_item_dlg12    "1\tLLLLLL\tllllll"
+#define qtn_bctestlist_item_dlg13    "1\tMMMMMM\tmmmmmm"
+#define qtn_bctestlist_item_dlg14    "1\tNNNNNN\tnnnnnn"
+#define qtn_bctestlist_item_dlg15    "1\tOOOOOO\toooooo"
+
+//-----------------------------------------------------------------------------
+// double2 item with large graphic
+#define qtn_bctestlist_item_dl2g1     "1\t1\tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_dl2g2     "1\t1\tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_dl2g3     "1\t1\tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_dl2g4     "1\t1\tThis is (again) a long item\t\
+And has probably even longer counterpart"
+#define qtn_bctestlist_item_dl2g5     "1\t1\tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_dl2g6     "1\t1\tFFFFFF\tffffff"
+#define qtn_bctestlist_item_dl2g7     "1\t1\tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_dl2g8     "1\t1\tHHHHHH\thhhhhh"
+#define qtn_bctestlist_item_dl2g9     "1\t1\tIIIIII\tiiiiii"
+#define qtn_bctestlist_item_dl2g10    "1\t1\tJJJJJJ\tjjjjjj"
+#define qtn_bctestlist_item_dl2g11    "1\t1\tKKKKKK\tkkkkkk"
+#define qtn_bctestlist_item_dl2g12    "1\t1\tLLLLLL\tllllll"
+#define qtn_bctestlist_item_dl2g13    "1\t1\tMMMMMM\tmmmmmm"
+#define qtn_bctestlist_item_dl2g14    "1\t1\tNNNNNN\tnnnnnn"
+#define qtn_bctestlist_item_dl2g15    "1\t1\tOOOOOO\toooooo"
+
+//-----------------------------------------------------------------------------
+// double2 item with large
+#define qtn_bctestlist_item_dl21     "1\tAAAAAA\taaaaaa\t1"
+#define qtn_bctestlist_item_dl22     "1\tBBBBBB\tbbbbbb\t1"
+#define qtn_bctestlist_item_dl23     "1\tCCCCCC\tcccccc\t1"
+#define qtn_bctestlist_item_dl24     "1\tThis is (again) a long item\t\
+And has probably even longer counterpart\t1"
+#define qtn_bctestlist_item_dl25     "1\tEEEEEE\teeeeee\t1"
+#define qtn_bctestlist_item_dl26     "1\tFFFFFF\tffffff\t1"
+#define qtn_bctestlist_item_dl27     "1\tGGGGGG\tgggggg\t1"
+#define qtn_bctestlist_item_dl28     "1\tHHHHHH\thhhhhh\t1"
+#define qtn_bctestlist_item_dl29     "1\tIIIIII\tiiiiii\t1"
+#define qtn_bctestlist_item_dl210    "1\tJJJJJJ\tjjjjjj\t1"
+#define qtn_bctestlist_item_dl211    "1\tKKKKKK\tkkkkkk\t1"
+#define qtn_bctestlist_item_dl212    "1\tLLLLLL\tllllll\t1"
+#define qtn_bctestlist_item_dl213    "1\tMMMMMM\tmmmmmm\t1"
+#define qtn_bctestlist_item_dl214    "1\tNNNNNN\tnnnnnn\t1"
+#define qtn_bctestlist_item_dl215    "1\tOOOOOO\toooooo\t1"
+
+//-----------------------------------------------------------------------------
+// double item with time
+#define qtn_bctestlist_item_dt1      "11:00\tam\tAAAAAA\taaaaaa"
+#define qtn_bctestlist_item_dt2      "12:00\t \tBBBBBB\tbbbbbb"
+#define qtn_bctestlist_item_dt3      " 1:00\tpm\tCCCCCC\tcccccc"
+#define qtn_bctestlist_item_dt4      "14:00\t \tDDDDDD\tdddddd"
+#define qtn_bctestlist_item_dt5      "15:00\t \tEEEEEE\teeeeee"
+#define qtn_bctestlist_item_dt6      "16:00\t \tFFFFFF\tffffff"
+#define qtn_bctestlist_item_dt7      "17:00\t \tGGGGGG\tgggggg"
+#define qtn_bctestlist_item_dt8      "18:00\t \tIt is really getting late\t\
+And this line is so long"
+
+//-----------------------------------------------------------------------------
+// setting item
+/*
+#define qtn_bctestlist_item_st1      " \tAAAAAA\t0\toff"
+#define qtn_bctestlist_item_st2      " \tBBBBBB\t0\toff"
+#define qtn_bctestlist_item_st3      " \tCCCCCC\t0\toff"
+#define qtn_bctestlist_item_st4      " \tDDDDDD\t0\toff"
+#define qtn_bctestlist_item_st5      " \tSetting item may also be long\t0\toff"
+#define qtn_bctestlist_item_st6      " \tFFFFFF\t0\toff"
+#define qtn_bctestlist_item_st7      " \tGGGGGG\t0\toff"
+#define qtn_bctestlist_item_st8      " \tHHHHHH\t0\toff"
+#define qtn_bctestlist_item_st9      " \tIIIIII\t0\toff"
+#define qtn_bctestlist_item_st10     " \tJJJJJJ\t0\toff"
+#define qtn_bctestlist_item_st11     " \tKKKKKK\t0\toff"
+#define qtn_bctestlist_item_st12     " \tLLLLLL\t0\toff"
+#define qtn_bctestlist_item_st13     " \tMMMMMM\t0\toff"
+#define qtn_bctestlist_item_st14     " \tNNNNNN\t0\toff"
+#define qtn_bctestlist_item_st15     " \tOOOOOO\t0\toff"
+*/
+
+#define qtn_bctestlist_item_st1      " \tAAAAAA\t0\toff"
+#define qtn_bctestlist_item_st2      " \tBBBBBB\t0\toff"
+#define qtn_bctestlist_item_st3      " \tCCCCCC\t\toff"
+#define qtn_bctestlist_item_st4      " \tDDDDDD\t0\t"
+#define qtn_bctestlist_item_st5      " \tSetting item may also be long\t0\toff"
+#define qtn_bctestlist_item_st6      " \tFFFFFF\t\toff\t*"
+#define qtn_bctestlist_item_st7      " \tGGGGGG\t\t\t\tgggg"
+#define qtn_bctestlist_item_st8      " \tHHHHHH\t0\toff"
+#define qtn_bctestlist_item_st9      " \tIIIIII\t0\toff"
+#define qtn_bctestlist_item_st10     " \tJJJJJJ\t0\toff"
+#define qtn_bctestlist_item_st11     " \tKKKKKK\t0\toff"
+#define qtn_bctestlist_item_st12     " \tLLLLLL\t0\toff"
+#define qtn_bctestlist_item_st13     " \tMMMMMM\t0\toff"
+#define qtn_bctestlist_item_st14     " \tNNNNNN\t0\toff"
+#define qtn_bctestlist_item_st15     " \tOOOOOO\t0\toff"
+
+#define qtn_bctestlist_item_st1_add      " \tAdd items\t0\toff"
+#define qtn_bctestlist_item_st2_rm      " \tRemove items\t0\toff"
+
+//-----------------------------------------------------------------------------
+// setting number item
+#define qtn_bctestlist_item_stn1     "8\tAAAAAA\t0\toff"
+#define qtn_bctestlist_item_stn2     "7\tBBBBBB\t0\toff"
+#define qtn_bctestlist_item_stn3     "6\tCCCCCC\t0\toff"
+#define qtn_bctestlist_item_stn4     "5\tNumbered setting items\t0\toff"
+#define qtn_bctestlist_item_stn5     "4\tEEEEEE\t0\toff"
+#define qtn_bctestlist_item_stn6     "3\tFFFFFF\t0\toff"
+#define qtn_bctestlist_item_stn7     "2\tGGGGGG\t0\toff"
+#define qtn_bctestlist_item_stn8     "1\tHHHHHH\t0\toff"
+#define qtn_bctestlist_item_stn9     "0\tIIIIII\t0\toff"
+#define qtn_bctestlist_item_stn10    "0\tJJJJJJ\t0\toff"
+#define qtn_bctestlist_item_stn11    "0\tKKKKKK\t0\toff"
+#define qtn_bctestlist_item_stn12    "0\tLLLLLL\t0\toff"
+#define qtn_bctestlist_item_stn13    "0\tMMMMMM\t0\toff"
+#define qtn_bctestlist_item_stn14    "0\tNNNNNN\t0\toff"
+#define qtn_bctestlist_item_stn15    "0\tOOOOOO\t0\toff"
+
+// End of File

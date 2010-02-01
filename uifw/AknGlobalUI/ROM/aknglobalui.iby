@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Image description file for project AknGlobalUI.
+*
+*/
+
+#ifndef __AKNGLOBALUI_IBY__
+#define __AKNGLOBALUI_IBY__
+
+// Old style notif plugin.
+file=ABI_DIR\BUILD_DIR\aknoldstylenotif.dll                 SHARED_LIB_DIR\aknoldstylenotif.dll
+
+// Notifier Wrapper library.
+file=ABI_DIR\BUILD_DIR\AKNNOTIFIERWRAPPER.DLL               SHARED_LIB_DIR\aknNotifierWrapper.dll
+
+// New style entry point.
+ECOM_PLUGIN(aknnotifyplugin2.dll,1020721A.rsc)
+
+// App Server.
+file=ABI_DIR\BUILD_DIR\akncapserver.exe                     PROGRAMS_DIR\akncapserver.exe
+data=ZSYSTEM\..\PRIVATE\10003A3F\APPS\Akncapserver_REG.RSC  Private\10003a3f\apps\akncapserver_reg.rsc
+
+// App Server.
+file=ABI_DIR\BUILD_DIR\aknnfysrv.exe                        PROGRAMS_DIR\aknnfysrv.exe
+data=ZSYSTEM\..\PRIVATE\10003A3F\APPS\aknnfysrv_REG.RSC     Private\10003a3f\apps\aknnfysrv_reg.rsc
+
+// Client for app server.
+file=ABI_DIR\BUILD_DIR\akncapserverclient.dll               SHARED_LIB_DIR\akncapserverclient.dll
+
+// Avkon Startup Extension plug-in.
+ECOM_PLUGIN( avkonstartupextensionplugin.dll, avkonstartupextensionplugin.rsc )
+
+// Backup registration.
+data=ZPRIVATE\10207218\backup_registration.xml              private\10207218\backup_registration.xml
+
+// Dynamic soft notes library.
+file=ABI_DIR\BUILD_DIR\akndynamicsoftnote.dll               SHARED_LIB_DIR\akndynamicsoftnote.dll
+
+// Dynamic soft note event manager library.
+file=ABI_DIR\BUILD_DIR\akndynamicsoftnoteeventmanager.dll   SHARED_LIB_DIR\akndynamicsoftnoteeventmanager.dll
+
+// ECom plugin notifier for ILD installation monitoring
+file=ABI_DIR\BUILD_DIR\ecompluginnotifier.dll   SHARED_LIB_DIR\ecompluginnotifier.dll
+
+#endif // __AKNGLOBALUI_IBY__

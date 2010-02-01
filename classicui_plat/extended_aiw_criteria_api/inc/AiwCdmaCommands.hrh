@@ -1,0 +1,54 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Service command definitions for CDMA specific AMS provider.
+*
+*/
+
+
+
+
+#ifndef _AIW_CDMA_COMMANDS_HRH
+#define _AIW_CDMA_COMMANDS_HRH
+
+// These are service command definitions for CDMA specific providers.
+enum 
+    {
+    KAIWCmdAmsGetNew                = 0x101F86E8,
+    KAIWCmdAmsOnlineVault           = 0x101F86E9,
+    KAIWCmdAmsMemoryDetails         = 0x101F86EA,
+    KAIWCmdAmsOnlineInfo            = 0x101F86EB,
+    KAIWCmdAmsOpen                  = 0x101F86EC,
+    KAIWCmdAmsProperties            = 0x101F86ED,
+    KAIWCmdAmsExtendedLightSurfData = 0x101F86F5,
+    KAIWCmdAmsSetAsMessageAlert     = 0x101F878B,
+    KAIWCmdAmsSetAsCalendarAlarm    = 0x101F878C,
+    KAIWCmdLightSurfUpload          = 0x101F87FA,
+    KAIWCmdLightSurfPictureMail     = 0x101F87FB
+    };
+
+#define KAIWCmdAmsGetNewStr                "101F86E8"
+#define KAIWCmdAmsOnlineVaultStr           "101F86E9"
+#define KAIWCmdAmsMemoryDetailsStr         "101F86EA"
+#define KAIWCmdAmsOnlineInfoStr            "101F86EB"
+#define KAIWCmdAmsOpenStr                  "101F86EC"
+#define KAIWCmdAmsPropertiesStr            "101F86ED"
+#define KAIWCmdAmsExtendedLightSurfDataStr "101F86F5"
+#define KAIWCmdAmsSetAsMessageAlertStr     "101F878B"
+#define KAIWCmdAmsSetAsCalendarAlarmStr    "101F878C"
+#define KAIWCmdLightSurfUploadStr          "101F87FA"
+#define KAIWCmdLightSurfPictureMailStr     "101F87FB"
+
+#endif
+
+// End of file

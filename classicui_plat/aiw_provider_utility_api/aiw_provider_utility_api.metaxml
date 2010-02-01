@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="1bf6539bb3ff79253d533260ed64363b" dataversion="1.0">
+  <name>AIW Provider Utility API</name>
+  <description>Utilities that help implementing AIW providers.</description>
+  <type>c++</type>
+  <subsystem>applicationinterworkingfw</subsystem>
+  <libs>
+    <lib name="servicehandler.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

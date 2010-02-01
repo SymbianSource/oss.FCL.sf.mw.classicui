@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<api id="d01b1bb20ce78a1524be21b6e40613e3" dataversion="1.0">
+  <name>Extended Notifiers API</name>
+  <description>Provides various notifiers and related utilities.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="aknnotifierwrapper.lib" />
+    <lib name="aknnotify.lib" />
+    <lib name="aknnotifyplugin.lib" />
+    <lib name="eiksrvui.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

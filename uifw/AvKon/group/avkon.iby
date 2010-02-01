@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __AVKON_IBY__
+#define __AVKON_IBY__
+
+#include <bldvariant.hrh>
+
+REM AVKON
+
+/*
+file=ABI_DIR\BUILD_DIR\eikctl.dll			System\Libs\EikCtl.dll
+file=ABI_DIR\BUILD_DIR\eikdlg.dll			System\Libs\EikDlg.dll
+file=ABI_DIR\BUILD_DIR\eikcdlg.dll			System\Libs\EikCdlg.dll
+file=ABI_DIR\BUILD_DIR\eikprint.dll 		System\Libs\EikPrint.dll
+file=ABI_DIR\BUILD_DIR\eikfile.dll			System\Libs\EikFile.dll
+file=ABI_DIR\BUILD_DIR\eikir.dll			System\Libs\EikIR.dll
+file=ABI_DIR\BUILD_DIR\eikmisc.dll			System\Libs\EikMisc.dll
+file=ABI_DIR\BUILD_DIR\eikinit.dll			System\Libs\EikInit.dll
+file=ABI_DIR\BUILD_DIR\uiklaf.dll			System\Libs\UikLaf.dll
+file=ABI_DIR\BUILD_DIR\lafext.dll			System\Libs\LafExt.dll
+file=ABI_DIR\BUILD_DIR\exparser.dll 		System\Libs\exparser.dll
+file=ABI_DIR\BUILD_DIR\eiksrvui.dll 		System\Libs\EikSrvUi.dll
+file=ABI_DIR\BUILD_DIR\viewsrv.dll			System\Libs\viewsrv.dll
+file=ABI_DIR\BUILD_DIR\viewcli.dll			System\Libs\viewcli.dll
+*/
+
+file=ABI_DIR\BUILD_DIR\avkon.dll			System\Libs\avkon.dll
+file=ABI_DIR\BUILD_DIR\akninit.dll			System\Libs\uikon_init\akninit.dll
+file=ABI_DIR\BUILD_DIR\AknNotify.dll		System\Libs\AknNotify.dll
+file=ABI_DIR\BUILD_DIR\AknNotifyPlugin.dll	System\Notifiers\AknNotifyPlugin.dll
+file=ABI_DIR\BUILD_DIR\AknAnimDll.dll		System\Libs\AknAnimDll.dll
+
+#if defined __SERIES60_MMC
+file=ABI_DIR\BUILD_DIR\AknMemoryCardUi.dll	System\Notifiers\AknMemoryCardUi.dll
+#endif
+
+#ifdef RD_SCALABLE_UI_V2
+file=ABI_DIR\BUILD_DIR\aknhlist.dll			System\Libs\aknhlist.dll
+#endif
+
+//file=ABI_DIR\BUILD_DIR\lafext.dll				   System\Libs\Lafext.dll
+
+/* Bitmaps */
+//data=ABI_DIR\BUILD_DIR\eikmisc.mbm					System\Data\Eikmisc.mbm
+//data=ABI_DIR\BUILD_DIR\cuiklaf.mbm					System\Data\Cuiklaf.mbm
+
+// The below resource files are in Locales_xx.iby
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\Avkon 	System\Data\Avkon)
+//data=MULTI_LINGUIFY(RSC ABI_DIR\BUILD_DIR\Aknnotpi 	System\Notifiers\Aknnotpi)
+data=ABI_DIR\BUILD_DIR\avkon.mbm					System\Data\Avkon.mbm
+data=ABI_DIR\BUILD_DIR\callstatus.mbm					System\Data\callstatus.mbm
+
+data=ABI_DIR\BUILD_DIR\Ceurope.gdr		System\Fonts\Ceurope.gdr
+data=ABI_DIR\BUILD_DIR\CalcEur.gdr		System\Fonts\CalcEur.gdr
+
+#ifdef __AVKON_APAC__
+data=ABI_DIR\BUILD_DIR\11x12_latin.gdr		System\Fonts\11x12_latin.gdr
+data=ABI_DIR\BUILD_DIR\15x16_latin.gdr		System\Fonts\15x16_latin.gdr
+#endif
+
+#endif

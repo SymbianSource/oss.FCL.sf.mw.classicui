@@ -1,0 +1,256 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "BCTestserverapp.hrh"
+#include "BCTestserverapp.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestserverapp_BMP_FNAME APP_BITMAP_DIR"\\BCTestServerapp.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestServerapp";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestserverapp_menubar_main;
+    cba = r_bctestserverapp_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestserverapp_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\BCTestserverapp_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestserverapp_view
+//    AVKON_VIEW for CBCTestServerappView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestserverapp_view
+    {
+    menubar = r_bctestserverapp_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestserverapp_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestserverapp_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestserverapp_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestserverapp_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestserverapp_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestserverapp_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestserverapp_outline1;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline2;
+            txt = qtn_bctestserverapp_outline2;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline3;
+            txt = qtn_bctestserverapp_outline3;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestserverapp_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestserverapp_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestserverapp_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestserverapp_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestserverapp_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestserverapp_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestServerappCbaCmdNext;
+            txt = qtn_bctestserverapp_cba_next;
+            }
+	};
+    }
+
+//===============================================================================
+//  user defined
+//
+//===============================================================================
+RESOURCE BMPANIM_DATA r_bctest_bmpanim_data_org
+    {
+    //identifier = 0;
+    frameinterval = 300; // ms
+    playmode = EAknBitmapAnimationPlayModePlay;
+    flash = 0;
+    bmpfile = AVKON_BITMAP_FILE;
+    frames = r_bctest_note_error_anim_frames;
+    backgroundframe = R_QGN_NOTE_QUERY_ANIM_FRAMES;    
+    }
+    
+RESOURCE ARRAY r_bctest_note_error_anim_frames
+    {
+    items=
+        {
+        BMPANIM_FRAME {time=300; bmpid=EMbmAvkonQgn_note_error_2; maskid=EMbmAvkonQgn_note_error_2_mask;},
+        BMPANIM_FRAME {time=300; bmpid=EMbmAvkonQgn_note_error; maskid=EMbmAvkonQgn_note_error_mask;},
+        BMPANIM_FRAME {time=300; bmpid=EMbmAvkonQgn_note_error_2; maskid=EMbmAvkonQgn_note_error_2_mask;},
+        BMPANIM_FRAME {time=300; bmpid=EMbmAvkonQgn_note_error; maskid=EMbmAvkonQgn_note_error_mask;}
+        };
+    }
+
+RESOURCE BMPANIM_DATA r_bctest_bmpanim_data
+    {
+    //identifier = 0;
+    frameinterval = 300; // ms
+    playmode = EAknBitmapAnimationPlayModePlay;
+    bmpfile = AVKON_BITMAP_FILE;
+    }
+
+
+// End of File

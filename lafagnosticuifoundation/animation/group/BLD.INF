@@ -1,0 +1,111 @@
+// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// animation library
+// 
+//
+
+/**
+ @file
+*/
+
+PRJ_PLATFORMS
+
+DEFAULT
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in \epoc32\include
+../inc/Animation.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animation.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/AnimationCmd.h /epoc32/include/animationcmd.h
+#endif
+../inc/AnimationConfig.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationconfig.h)
+../inc/AnimationDataProvider.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationdataprovider.h)
+../inc/AnimationEvents.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationevents.h)
+../inc/AnimationFrame.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationframe.h)
+../inc/AnimationGroup.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationgroup.h)
+../inc/AnimationMixins.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationmixins.h)
+../inc/AnimationTicker.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationticker.h)
+../inc/AnimationTls.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationtls.h)
+../inc/Animator.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animator.h)
+../inc/BasicAnimation.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(basicanimation.h)
+../inc/ICLAnimationDataProvider.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(iclanimationdataprovider.h)
+../inc/SpriteAnimation.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(spriteanimation.h)
+../inc/animationdataloaderobserver.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(animationdataloaderobserver.h)
+
+../group/Animation.iby	/epoc32/rom/include/animation.iby
+
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../src/SpriteAnimationClient.h /epoc32/include/spriteanimationclient.h
+#endif
+#endif //SYMBIAN_ENABLE_SPLIT_HEADERS
+
+PRJ_MMPFILES
+// specify the .mmp files required for building the important component releasables
+// note that you should specify any .mmp files for test programs further down the file.
+//
+// It's best if the .MMP files are specified in the order in which the components are
+// built, but that eventually shouldn't matter
+//
+// Use C++ style #defines to denote that a component is only built for a particular platform
+//
+// specify "tidy" if the component you need to build doesn't need to be released to
+// the rest of the company
+// specify "ignore" if the MMP file exists but should be ignored - William wants this!
+
+../group/AnimationShared.mmp
+../group/Animation.mmp
+../group/AnimationServer.mmp
+../group/Animators.mmp
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and shouldn't
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+../group/AnimationTestServer.mmp
+../group/TestAnimators.mmp		support
+
+PRJ_TESTEXPORTS
+../tef/scripts/animationtest_run.bat          z:/animationtest/animationtest_run.bat
+../tef/scripts/animationtest_run.bat          /epoc32/release/winscw/udeb/animationtest_run.bat
+../tef/scripts/animationtest_run.bat          /epoc32/release/winscw/urel/animationtest_run.bat
+../tef/scripts/AnimationTest_T_Basic.script   z:/animationtest/animationtest_t_basic.script
+../tef/scripts/AnimationTest_T_Custom.script  z:/animationtest/animationtest_t_custom.script
+../tef/scripts/AnimationTest_T_Frames.script  z:/animationtest/animationtest_t_frames.script
+../tef/scripts/AnimationTest_T_Mng.script  	  z:/animationtest/animationtest_t_mng.script
+../tef/scripts/AnimationTest_T_Oom.script     z:/animationtest/animationtest_t_oom.script
+../tef/scripts/AnimationTest_T_Synch.script   z:/animationtest/animationtest_t_synch.script
+../testdata/disposal.gif	              z:/private/10204f5b/disposal.gif
+../testdata/moving.gif		              z:/private/10204f5b/moving.gif
+../testdata/previous.gif	              z:/private/10204f5b/previous.gif
+../testdata/rgb1.gif		              z:/private/10204f5b/rgb1.gif
+../testdata/rgb2.gif		              z:/private/10204f5b/rgb2.gif
+../testdata/sqdisp1.gif		              z:/private/10204f5b/sqdisp1.gif
+../testdata/sqdisp2.gif		              z:/private/10204f5b/sqdisp2.gif
+../testdata/symball.gif		              z:/private/10204f5b/symball.gif
+../testdata/symwave.gif		              z:/private/10204f5b/symwave.gif
+../testdata/simple_b.mng		          z:/private/10204f5b/simple_b.mng
+
+../group/AnimationTest.iby	              /epoc32/rom/include/animationtest.iby

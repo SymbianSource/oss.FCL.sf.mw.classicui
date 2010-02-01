@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test AknListBoxLayoutDecorator.h AknListBoxSettingPage.h
+*                aknlists.h AknSelectionList.h EIKCLB.H EIKCLBD.H eikfrlb.h
+*                eikfrlbd.h EIKLBD.H EIKLBED.H EIKLBI.H EIKLBM.H EIKLBO.H EIKLBV.H
+*                EIKLBX.H  eikslb.h EIKTXLBM.H EIKTXLBX.H
+*
+*/
+
+
+#ifndef C_TESTSDKNOTES_HRH
+#define C_TESTSDKNOTES_HRH
+
+enum TTestMenuCommands
+    {
+    EProgSoftkeyNextOutline = 0x6100,
+    
+    ETestCmdOutline01,
+    ETestCmdOutline02,
+    ETestCmdOutline03
+    };
+
+enum TTestListDlgCtrl
+    {
+    ETestListDlgLbx = 1
+    };
+
+#define TESTSDK_NOTES_MAPFILE "z:\\resource\\apps\\avkon2.mbm"
+#define TESTSDK_NOTES_TXT "NoteWrapper"
+
+#endif /*C_TESTSDKNOTES_HRH*/

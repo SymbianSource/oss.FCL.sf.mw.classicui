@@ -1,0 +1,82 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file 
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+
+//  RESOURCE IDENTIFIER
+NAME    AWIZ // 4 letter ID
+
+//  INCLUDES
+
+#include <techview/eikon.rh>
+#include <uikon.hrh>
+
+//  RESOURCE DEFINITIONS 
+// ---------------------------------------------------------
+//    Define the resource file signature 
+//    This resource should be empty.
+// ---------------------------------------------------------
+RESOURCE RSS_SIGNATURE 
+	{ 
+	}
+
+// ---------------------------------------------------------
+//    Default Document Name
+// ---------------------------------------------------------
+RESOURCE TBUF 
+	{ 
+	buf = "t_textresourceutils"; 
+	}
+
+RESOURCE TBUF r_text_example_1 { buf = "Humblemumble";}
+RESOURCE TBUF r_text_example_2 { buf = "Humble %%U mumble"; }
+RESOURCE TBUF r_text_example_3 { buf = "You have %R%N undone tasks.";}
+RESOURCE TBUF r_text_example_4 { buf = "I'm %11 %2U%1U %3U%0U fine.";} 
+RESOURCE TBUF r_text_example_5 { buf = "You have missed %N messages from %U."<0x0001>"Missed %N msgs from %U."<0x0001>"Missed %N msgs.";}
+RESOURCE TBUF r_text_example_6 { buf = "Multiple numeric 1:%2N indexes 1:%0N"<0x0001>"2:%1N in separate"<0x0001>"substrings"; }
+RESOURCE TBUF r_text_example_7 { buf = "Multiple numeric and strings mixed One: %1U %0U reading %0N %2U %4U %1N %3U %4"; }
+RESOURCE TBUF r_text_example_8 { buf = "Here %U"; }
+RESOURCE TBUF r_text_example_9 { buf = "Humble %N times...%"; }
+RESOURCE TBUF r_text_example_10 { buf = "Testing substring separator at end of the %U "<0x0001>"";}
+RESOURCE TBUF r_text_example_11 { buf = "Testing substring separator at end of the %U "<0x0001>" ";}
+
+RESOURCE TBUF r_text_example_a1 { buf = "Humble mumble%U"; }
+RESOURCE TBUF r_text_example_a2 { buf = "%U Humble mumble"; }
+RESOURCE TBUF r_text_example_b { buf = "Humble mumble"; }
+RESOURCE TBUF r_text_example_c { buf = "%U mumble %N times."; }
+RESOURCE TBUF r_text_example_d { buf = "No memory allocated"; }
+RESOURCE TBUF r_text_example_e { buf = "%2UHere %1U%0U "; }
+RESOURCE TBUF r_text_example_f { buf = "I allocated %N bytes"; }
+RESOURCE TBUF r_text_example_g { buf = "%3NI %1Nallocated %0N bytes%2N"; }
+RESOURCE TBUF r_text_example_new_1 { buf = "Substrings"<0x0001>"no param\neters"<0x0001>"at all"; }
+RESOURCE TBUF r_text_example_new_2 { buf = ""<0x0001>""; }
+RESOURCE TBUF r_text_example_new_3 { buf = ""<0x0001>""<0x0001>""; }
+RESOURCE TBUF r_text_example_new_4 { buf = ""<0x0001>"Substring inside"<0x0001>""; }
+RESOURCE TBUF r_text_example_new_5 { buf = "Strongly right-to-left(%U) directional"<0x0001>" characters (%U) in "<0x0001>"substring"; }
+RESOURCE TBUF r_text_example_new_6 { buf = "Multiple (%2N) Strongly right-to-left(%0U,%1U) directional"<0x0001>" characters (%1U)(%0U) in "<0x0001>"substring"; }
+RESOURCE TBUF r_text_example_new_7 { buf = "Testing string length limiting Five:%0U[05] Three:%1U[03]"<0x0001>"Seven:%0U[07] Nine:%1U[09] Three:%2U[03]"; }
+RESOURCE TBUF r_text_example_new_8 { buf = ""<0x0001>" Strongly right-to-left(%U) directional"<0x0001>" characters (%U) in "<0x0001>"substring"; }
+RESOURCE TBUF r_text_example_new_9 { buf = ""<0x0002>" Strongly right-to-left(%U) directional"<0x0001>" characters (%U) in "<0x0001>"substring"; }
+
+RESOURCE TBUF r_text_stringresourcereader_1 { buf = "Some string to be read"; }
+RESOURCE TBUF r_text_stringresourcereader_2 { buf = "Some other string to be read"; }
+RESOURCE TBUF r_text_stringresourcereader_3 { buf = "Very long text. ~1000 characters. 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"; }
+RESOURCE TBUF r_text_stringresourcereader_4 { buf = "Short string to be read"; }
+
+// End of File

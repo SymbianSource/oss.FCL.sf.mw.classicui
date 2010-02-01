@@ -1,0 +1,948 @@
+CLOCK Group Release Notes
+~~~~~~~~~~~~~~~~~~~~~~~~~
+This component consists of two DLL's, a shared-library which provides the
+component's API (CLOCK.DLL), and a polymorphic DLL which plugs into the
+window-server's "WSANIM" interface (CLOCKA.DLL).
+N.B. It is necessary to run "ebld mbm" before running "ebld test..."
+
+
+
+Version 0.01.063
+================
+Made by MarcoS, 14 April 1999
+
+Uses:   GDITOOLS/048 E32TOOLS/095 E32/156 F32/122 STORE/050 GDI/061
+		FNTSTORE/052 FBSERV/082 BITGDI/072 WSERV/101 BAFL/086 CONE/156
+		FONTS/075 E32TOOLP/096
+
+The background and text colors of the clock can be changed. 
+It supports an extra TRgb to be used for the border color of the message window.
+
+
+Version 0.01.062
+================
+Made by ChrisD, 14 December 1998
+
+Uses:   GDITOOLS/048 E32TOOLS/095 E32/156 F32/122 STORE/050 GDI/061
+		FNTSTORE/052 FBSERV/082 BITGDI/072 WSERV/101 BAFL/086 CONE/156
+		FONTS/075 E32TOOLP/096
+
+Built using VC5 and Service Pack 3.  
+Source boilerplated and WINS base address added to MMP files.
+
+
+Version 0.01.061
+================
+Made by MattM, 2 November 1998
+
+Uses:   GDITOOLS/048 E32TOOLS/095 E32/156 F32/122 STORE/050 GDI/061
+		FNTSTORE/052 FBSERV/082 BITGDI/072 WSERV/101 BAFL/086 CONE/156
+		FONTS/075 E32TOOLP/096
+
+Deb/rel and Unicode UID interoperable release.
+
+
+Version 0.01.060
+================
+(Made by DavidB, 19 Feb 1998)
+
+Uses:   GDITOOLS=043 E32TOOLS=090 E32=120 F32=090 STORE=043 GDI=057
+		FNTSTORE=046 FBSERV=075 BITGDI=062 WSERV=094 BAFL=075 CONE=143
+		FONTS=075
+
+- Binary compatible with 059
+- Split MNT.CMD into MNT.BAT and EBLD.BAT
+- Converted to makmake
+- Released all Unicode builds (the test-code now also builds in Unicode)
+- The release can be (and has been) validated with the following procedure:
+      pgetbld clock group 060
+      ebld bldall
+      mnt valid
+
+
+
+Version 0.01.059
+================
+(Made by DavidB, 27 Aug 1997)
+
+Uses:   E32/107 F32/074 STORE/043 GDI/053 FNTSTORE/043 
+	FBSERV/066 BITGDI/058 WSERV/085 BAFL/075 CONE/138 
+	FONTS/071 GDITOOLS/039 E32TOOLS/067
+
+- Binary compatible with 058
+- Fixed bug CSW3-214
+- The release can be (and has been) validated with the following procedure:
+      pgetbld clock group 059
+      mnt armall
+      mnt valid
+
+
+
+Version 0.01.058
+===============
+(Made by BruceW, 30 May 1997)
+
+Uses:   Using EPOC Platform 001 releases
+E32/107  F32/074  STORE/043  GDI/053  FNTSTORE/043  FBSERV/066  BITGDI/058
+WSERV/085 BAFL/075 CONE/138 and FONTS/071 GDITOOLS/039 E32TOOLS/067
+
+- Binary Compatible with 057
+- Fixed showstopper SW3-720
+
+
+Version 0.01.057
+================
+(Made by BruceW, 28 May 1997)
+
+Uses:   Using EPOC Platform 001 releases
+E32/107  F32/074  STORE/043  GDI/053  FNTSTORE/043  FBSERV/066  BITGDI/058
+WSERV/085 BAFL/075 CONE/138 and FONTS/071 GDITOOLS/039 E32TOOLS/067
+
+- Binary Compatible with 056
+- Added a VALID mnt verb
+	All the mnt verbs working correctly.
+- Map files added to the EMARMXX components.
+
+
+Version 0.01.056
+================
+(Made by DavidB, 24 Apr 1997)
+
+Uses:   E32/099 F32/069 STORE/042 GDI/048 FNTSTORE/038 
+	FBSERV/055 BITGDI/055 WSERV/080 BAFL/069 CONE/135 
+	FONTS/064 GDITOOLS/034 E32TOOLS/063
+
+- Binary compatible with 054 (almost - one enum has 
+  been removed which has been replaced by a new 
+  function)
+- Uses WSERV's WINSAD.* releaseables which I thought I 
+  was using last time, but wasn't
+- CLOCK has now had the chilling experience of being 
+  frozen by the BC police
+- This was tested against later versions of components 
+  than it was built with
+- Thanks to Chris Wilson for his help sorting out my 
+  non-booting ROM
+
+
+Version 0.01.055
+================
+(Made by DavidB, 18 Apr 1997)
+
+Uses:   E32/097 F32/067 STORE/041 GDI/047 FNTSTORE/038 
+	FBSERV/053 BITGDI/053 WSERV/079 BAFL/065 CONE/132 
+	FONTS/060 GDITOOLS/031 E32TOOLS/060
+
+- Binary compatible with 054
+- Added uids for WINS builds of CLOCKA.DLL
+- Fixed bug where "%+", "%-", "%:" and "%/" errors in 
+  the digital clock format string would be ignored
+
+
+Version 0.01.054
+================
+(Made by DavidB, 15 Apr 1997)
+
+Uses:   E32/097 F32/067 STORE/041 GDI/047 FNTSTORE/038 
+	FBSERV/053 BITGDI/053 WSERV/079 BAFL/065 CONE/132 
+	FONTS/060 GDITOOLS/031 E32TOOLS/060
+
+- Binary compatible with 053, although it must be 
+  taken with WSERV 079
+- Uses WSERV's WINSAD.* EMARMAD.* releaseables (i.e. 
+  the *.DEF and *.FRZ for the run-time linked DLL)
+
+
+Version 0.01.053
+================
+(Made by DavidB, 11 Apr 1997)
+
+Uses:   E32/097 F32/067 STORE/041 GDI/047 FNTSTORE/038 
+	FBSERV/053 BITGDI/053 WSERV/078 BAFL/065 CONE/132 
+	FONTS/060 GDITOOLS/031 E32TOOLS/060
+
+- NOT binary compatible with 052
+- Implemented WINS link-by-ordinal and added def and 
+  frz files to the project
+- CLOCKA's uid2 is now KUidWservAnimDll, its uid3 is 
+  KUidClockServerSideDll and CLOCK's uid3 is 
+  KUidClockClientSideDll
+
+
+Version 0.01.052
+================
+(Made by DavidB, 12 Mar 1997)
+
+Uses:   E32/090 F32/058 STORE/036 GDI/043 FNTSTORE/036 
+	FBSERV/049 BITGDI/049 WSERV/073 BAFL/055 CONE/129 
+	FONTS/056 GDITOOLS/030 E32TOOLS/051
+
+- Binary compatible with 051
+- Fixed the x-positioning of text (which was causing 
+  the tool-bar digital clock in EIKON to be too far 
+  to the right)
+
+
+Version 0.01.051
+================
+(Made by DavidB, 4 Mar 1997)
+
+Uses:   E32/090 F32/058 STORE/036 GDI/043 FNTSTORE/036 
+	FBSERV/049 BITGDI/049 WSERV/073 BAFL/055 CONE/129 
+	FONTS/056 GDITOOLS/030 E32TOOLS/051
+
+- Binary compatible with 050
+- Fixed a bug to do with backed-up windows
+
+
+Version 0.01.050
+================
+(Made by DavidB, 3 Mar 1997)
+
+Uses:   E32/090 F32/058 STORE/036 GDI/043 FNTSTORE/036 
+	FBSERV/049 BITGDI/049 WSERV/073 BAFL/055 CONE/129 
+	FONTS/056 GDITOOLS/030 E32TOOLS/051
+
+- NOT binary compatible with 049
+- Added Draw function to RTimeDevice
+
+
+Version 0.01.049
+================
+(Made by DavidB, 12 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/067 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- Binary compatible with 048
+- Just rebuilt everything since 048 was apparently not 
+  built properly
+
+
+Version 0.01.048
+================
+(Made by DavidB, 12 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/067 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- Binary compatible with 047
+- Rebuilt ARM builds with GCC 111 (rather than 112)
+
+
+Version 0.01.047
+================
+(Made by DavidB, 10 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/067 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- Binary compatible with 046
+- RMessageWindow now has nicely drawn borders as 
+  needed for EIKON info-messages and busy-messages
+- Message windows can now have text up to 80 characters 
+  long, any characters beyond this are truncated off
+
+
+Version 0.01.046
+================
+(Made by DavidB, 7 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/066 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- NOT binary compatible with 045
+- RFlashingText has gone, RMessageWindow has come, 
+  which is slightly more flexible and can be used for 
+  both EIKON info-messages and busy-messages
+
+
+Version 0.01.045
+================
+(Made by DavidB, 6 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/066 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- Binary compatible with 044
+- Fixed bug where clocks in backed-up windows were not 
+  initially being drawn
+- stopped animating an invisible or a hidden clock 
+  doing unnecessary work
+
+
+Version 0.01.044
+================
+(Made by DavidB, 4 Feb 1997)
+
+Uses:   E32/086 F32/050 STORE/034 GDI/042 FNTSTORE/035 
+	FBSERV/045 BITGDI/045 WSERV/066 BAFL/051 CONE/123 
+	FONTS/051 GDITOOLS/028 E32TOOLS/051
+
+- Uses GDI 042 etc, therefore not binary compatible
+
+
+Version 0.01.043
+================
+(Made by DavidB, 23 Jan 1997)
+
+Uses:   E32/086 F32/049 STORE/034 GDI/041 FNTSTORE/034 
+	FBSERV/044 BITGDI/044 WSERV/064 BAFL/050 CONE/122 
+	FONTS/049 GDITOOLS/028 E32TOOLS/051
+
+- Uses E32 086 etc, therefore not binary compatible
+- Removed intelligent updating of digital clocks 
+  (which only drew the characters that it needed to), 
+  in order not to waste CPU.
+
+
+Version 0.01.042
+================
+(Made by DavidB, 15 Jan 1997)
+
+Uses:   E32/082 F32/046 STORE/032 GDI/040 FNTSTORE/033 
+	FBSERV/043 BITGDI/043 WSERV/063 BAFL/049 CONE/121 
+	FONTS/048 GDITOOLS/028 E32TOOLS/049
+
+- Uses GDI 040 etc, therefore not binary compatible
+- Removed dates from analog clocks
+- Added am/pm displays to analog clocks
+- Partially fixed a bug that caused the normally 
+  masked-out edge of the face of an analog clock to 
+  be displayed wrongly in low memory conditions. This 
+  is only damage limitation as it is not possible to 
+  fix this completely. Normal tool-bar clocks would 
+  rarely manifest this. The time of the low-memory 
+  would have to be either 2:59 or 8:59, or something 
+  similar
+
+
+Version 0.01.041
+================
+(Made by DavidB, 4 Dec 1996)
+
+Uses:   E32/076 F32/042 STORE/030 GDI/039 FNTSTORE/032 
+	FBSERV/039 BITGDI/041 WSERV/056 BAFL/047 CONE/119 
+	FONTS/042 GDITOOLS/027 E32TOOLS/048
+
+- Uses E32 076 etc, therefore not binary compatible
+- ARM ASCII DEBUG version is released for first time
+
+
+Version 0.01.040
+================
+(Made by DavidB, 29 Nov 1996)
+
+Uses:   E32/074 F32/041 STORE/029 GDI/038 FNTSTORE/031 
+	FBSERV/038 BITGDI/040 WSERV/054 BAFL/046 CONE/118 
+	FONTS/042 GDITOOLS/027 E32TOOLS/046
+
+- Binary compatible with 039
+- Fixes OOM bug in DFlashingText (thanks to DavidW and 
+  Bruce for pointing it out)
+- Changed all struct members from xxxxx to iXxxxx
+
+
+Version 0.01.039
+================
+(Made by DavidB, 27 Nov 1996)
+
+Uses:   E32/074 F32/041 STORE/029 GDI/038 FNTSTORE/031 
+	FBSERV/038 BITGDI/040 WSERV/054 BAFL/046 CONE/118 
+	FONTS/042 GDITOOLS/027 E32TOOLS/046
+
+- Not binary compatible with 038
+
+
+Version 0.01.038
+================
+(Made by DavidB, 21 Nov 1996)
+
+Uses:   E32/074 F32/040 STORE/029 GDI/037 FNTSTORE/030 
+	FBSERV/037 BITGDI/039 WSERV/053 BAFL/045 CONE/116 
+	FONTS/040 GDITOOLS/026 E32TOOLS/046
+
+- Binary compatible with 037
+- Set output base addresses as specified on Lotus Notes
+- Flashing text now always starts flashing in the "on" 
+  state
+
+
+Version 0.01.037
+================
+(Made by DavidB, 5 Nov 1996)
+
+Uses:   E32/072 F32/038 STORE/028 GDI/036 FNTSTORE/030 
+	FBSERV/036 BITGDI/039 WSERV/051 BAFL/043 CONE/115 
+	FONTS/035 GDITOOLS/026 E32TOOLS/046
+
+- Binary compatible with 036
+- All test-code now passes
+- Flashing-text now cancels itself on destruction
+
+
+Version 0.01.036
+================
+(Made by DavidB, 31 Oct 1996)
+
+Uses:   E32/072 F32/038 STORE/028 GDI/036 FNTSTORE/030 
+	FBSERV/036 BITGDI/039 WSERV/050 BAFL/043 CONE/114 
+	FONTS/035 GDITOOLS/026 E32TOOLS/045
+
+- Not binary compatible with 035
+- Changed API to RFlashingText (see clock.h)
+- Not all test-code passes, but I'm releasing anyway, 
+  so that dependant software doesn't get held up
+
+
+Version 0.01.035
+================
+(Made by DavidB, 18 Oct 1996)
+
+Uses:   E32/071 F32/036 STORE/026 GDI/035 FNTSTORE/029 
+	FBSERV/035 BITGDI/038 WSERV/049 BAFL/042 CONE/113 
+	FONTS/032 GDITOOLS/026 E32TOOLS/045
+
+- Not binary compatible with 034
+- Added TMargins to RDigitalClock::ContructL and 
+  RAnalogClock::ConstructL which specifies an extra 
+  border to invalidate
+
+
+Version 0.01.034
+================
+(Made by DavidB, 7 Oct 1996)
+
+Uses:   E32/069 F32/035 STORE/024 GDI/034 FNTSTORE/027 
+	FBSERV/034 BITGDI/035 WSERV/048 BAFL/042 CONE/112 
+	FONTS/030 GDITOOLS/024 E32TOOLS/042
+
+- Binary compatible with 033
+- Fixes problem of clocks not being updated when in 
+  a hidden window
+
+
+Version 0.01.033
+================
+(Made by DavidB, 30 Sep 1996)
+
+Uses:   E32/069 F32/035 STORE/024 GDI/034 FNTSTORE/027 
+	FBSERV/034 BITGDI/035 WSERV/048 BAFL/042 CONE/112 
+	FONTS/030 GDITOOLS/024 E32TOOLS/042
+
+- Uses E32 069 etc, therefore not binary compatible 
+  with previous release
+
+
+Version 0.01.032
+================
+(Made by DavidB, 27 Sep 1996)
+
+Uses:   E32/068 F32/034 STORE/023 GDI/033 FNTSTORE/026 
+	FBSERV/033 BITGDI/034 WSERV/047 BAFL/041 CONE/111 
+	FONTS/030 GDITOOLS/024 E32TOOLS/041
+
+- Binary compatible with 031
+- Fixes infinite recursion bug in FocusChanged
+
+
+Version 0.01.031
+================
+(Made by DavidB, 26 Sep 1996)
+
+Uses:   E32/068 F32/034 STORE/023 GDI/033 FNTSTORE/026 
+	FBSERV/033 BITGDI/034 WSERV/047 BAFL/041 CONE/111 
+	FONTS/030 GDITOOLS/024 E32TOOLS/041
+
+- Build compatible, but not binary compatible, with 030
+- Fully working RFlashingText with new test program 
+  TFLSH0.* to test it
+
+
+Version 0.01.030
+================
+(Made by DavidB, 25 Sep 1996)
+
+Uses:   E32/068 F32/034 STORE/023 GDI/033 FNTSTORE/026 
+	FBSERV/033 BITGDI/034 WSERV/047 BAFL/041 CONE/111 
+	FONTS/030 GDITOOLS/024 E32TOOLS/041
+
+- Uses E32 068 etc, therefore not binary compatible 
+  with previous release
+- Nearly implemented RFlashingText (but not quite!)
+- A few internal changes to prepare way for RFlashingText
+
+
+Version 0.01.029
+================
+(Made by DavidB, 19 Sep 1996)
+
+Uses:   E32/067 F32/033 STORE/022 GDI/032 FNTSTORE/025 
+	FBSERV/032 BITGDI/033 WSERV/046 BAFL/040 CONE/109 
+	FONTS/030 GDITOOLS/024 E32TOOLS/041
+
+- Uses WSERV 046 etc, therefore not binary compatible 
+  with previous release
+- Internal changes so that updating/invalidating is 
+  only done when carrying out a command if the display 
+  is visible
+- Added SetPosition and SetSize functions to RTimeDevice
+
+
+Version 0.01.028
+================
+(Made by DavidB, 10 Sep 1996)
+
+Uses:   E32/067 F32/032 STORE/021 GDI/031 FNTSTORE/024 
+	FBSERV/031 BITGDI/032 WSERV/044 BAFL/040 CONE/107 
+	FONTS/029 GDITOOLS/024 E32TOOLS/040
+
+- Moved SetVisible, SetPosition and SetSize from RClock 
+  to RTimeDevice and combined the latter two functions 
+  into one, SetPositionAndSize
+- New UpdateDisplay function in RTimeDevice
+- Some tweaks to TCLCK1.CPP
+
+
+Version 0.01.027
+================
+(Made by DavidB, 5 Sep 1996)
+
+Uses:   E32/066 F32/031 STORE/021 GDI/031 FNTSTORE/024 
+	FBSERV/030 BITGDI/032 WSERV/044 BAFL/039 CONE/107 
+	FONTS/029 GDITOOLS/023 E32TOOLS/039
+
+- Uses new E32 etc
+- Added line as an analog hand-feature (alongside the 
+  existing poly-line and circle)
+- Fixed a bug where ownership of fonts got confused
+- Moved RDigitalClock::SetSize into RClock
+- Added new test-code module TCLCK1 (this is a "place- 
+  holder" at the moment and doesn't do anything that 
+  TCLCK0 doesn't do)
+
+
+Version 0.01.026
+================
+(Made by DavidB, 22 Aug 1996)
+
+Uses:   E32/064 F32/028 STORE/019 GDI/029 FNTSTORE/022 
+	FBSERV/028 BITGDI/030 WSERV/042 BAFL/037 CONE/101 
+	FONTS/029 GDITOOLS/023 E32TOOLS/036
+
+- Moved RAnalogClock::SetPosition into RClock and changed 
+  RDigitalClock::SetRect to RDigitalClock::SetSize
+- Other internal changes
+
+
+Version 0.01.025
+================
+(Made by DavidB, 21 Aug 1996)
+
+Uses:   E32/064 F32/028 STORE/019 GDI/029 FNTSTORE/022 
+	FBSERV/028 BITGDI/030 WSERV/042 BAFL/037 CONE/101 
+	FONTS/029 GDITOOLS/023 E32TOOLS/036
+
+- Uses new GDI etc
+- Changed all TTimeIntervalMicroSeconds parameters to 
+  TTimeIntervalSeconds
+- Changed all references to "TimeNow" to "UniversalTime"
+- All functions that change color, time-to-be-shown etc, 
+  draw themselves directly, whereas those functions 
+  altering visibility, position etc, invalidate the 
+  relevant areas
+- Fixed bug in RDigitalClock::SetRect
+
+
+Version 0.01.024
+================
+(Made by DavidB, 12 Aug 1996)
+
+Uses:   E32/064 F32/028 STORE/019 GDI/028 FNTSTORE/021 
+	FBSERV/027 BITGDI/029 WSERV/041 BAFL/035 CONE/097 
+	FONTS/029 GDITOOLS/023 E32TOOLS/036
+
+- Uses new E32 etc
+- Removed EDigitalDisplayLayoutCharLineDelimiter
+
+
+Version 0.01.023
+================
+(Made by DavidB, 23 Jul 1996)
+
+Uses:   E32/063 F32/027 STORE/018 GDI/025 FNTSTORE/019 
+	FBSERV/025 BITGDI/027 WSERV/039 BAFL/034 CONE/088 
+	FONTS/028 GDITOOLS/020 E32TOOLS/035
+
+- improved test-code
+- "RAnalogClock::SetBackGroundColor" has become 
+  "RAnalogClock::SetBackgroundColor"
+- ARM build fully working
+
+
+Version 0.01.022
+================
+(Made by DavidB, 12 Jul 1996)
+
+Uses:   E32/063 F32/027 STORE/018 GDI/025 FNTSTORE/019 
+	FBSERV/025 BITGDI/027 WSERV/039 BAFL/034 CONE/087 
+	FONTS/028 GDITOOLS/020 E32TOOLS/035
+
+- Uses new E32 etc
+- No ARM build
+
+
+Version 0.01.021
+================
+(Made by DavidB, 28 Jun 1996)
+
+Uses:   E32/062 F32/026 STORE/016 GDI/024 FNTSTORE/018 
+	FBSERV/024 BITGDI/026 WSERV/038 BAFL/032 CONE/080 
+	FONTS/027 GDITOOLS/019 E32TOOLS/028
+
+- Uses new WSERV etc
+- forgot to mention last release, that all "TInt aPenWidth"
+  parameters have changed to "const TSize& aPenSize"
+
+
+Version 0.01.020
+================
+(Made by DavidB, 21 Jun 1996)
+
+Uses:   E32/062 F32/026 STORE/016 GDI/024 FNTSTORE/018 
+	FBSERV/024 BITGDI/026 WSERV/037 BAFL/032 CONE/079 
+	FONTS/026 GDITOOLS/019 E32TOOLS/028
+
+- Uses new BITGDI, WSERV etc
+- (N.B. to run test-code delete \e32data\EON6.GDR and 
+  do a "getrel fntstore fntdata 018")
+- pressing any of $%^&+-*/Ss\: will change the time- 
+  separator to that character (which takes effect on 
+  the next animate)
+
+
+Version 0.01.019
+================
+(Made by DavidB, 27 May 1996)
+
+Uses:   E32/059 F32/023 STORE/014 GDI/023 FNTSTORE/017 
+	FBSERV/023 BITGDI/023 WSERV/034 BAFL/032 CONE/078 
+	FONTS/026 GDITOOLS/016 E32TOOLS/024
+
+- Fixed bug where RAnalogClock::SetPosition assumed that 
+  the clock had a date (thanks to Simon Chisholm).
+
+
+Version 0.01.018
+================
+(Made by DavidB, 24 May 1996)
+
+Uses:   E32/059 F32/023 STORE/014 GDI/023 FNTSTORE/017 
+	FBSERV/023 BITGDI/023 WSERV/034 BAFL/032 CONE/078 
+	FONTS/026 GDITOOLS/016 E32TOOLS/024
+
+- Added SetVisible function to RClock. By default clocks 
+  are invisible.
+- Added functions SetRect and SetPosition to RDigitalClock 
+  and RAnalogClock repectively.
+- Fixed bug in MNT.CMD where .MAK files were not being 
+  "putsrc"-ed.
+
+
+Version 0.01.017
+================
+(Made by DavidB, 13 May 1996)
+
+Uses:   E32/058 F32/023 STORE/013 GDI/021 FNTSTORE/015 
+	FBSERV/021 BITGDI/021 WSERV/032 FONTS/023 GDITOOLS/016 
+	E32TOOLS/023
+
+- No changes - just uses E32 058, etc.
+
+
+Version 0.01.016
+================
+(Made by DavidB, 3 May 1996)
+
+Uses:   E32/057 F32/021 GDI/020 FNTSTORE/014 FBSERV/020 
+	BITGDI/020 STORE/012 WSERV/031 FONTS/022 GDITOOLS/015 
+	E32TOOLS/022
+
+- No changes - just uses BITGDI 020, etc.
+
+
+Version 0.01.015
+================
+(Made by DavidB, 1 May 1996)
+
+Uses:   E32/057 F32/021 GDI/019 FNTSTORE/013 FBSERV/019 
+	BITGDI/019 STORE/012 WSERV/030 FONTS/021 GDITOOLS/015 
+	E32TOOLS/021
+
+- Uses WSERV 030.
+- Fixed bug where RAnalogClock::Close() and 
+  RDigitalClock::Close() could not be called multiple 
+  times.
+- Digital clocks are now more intelligent in determining 
+  how often they need to update themselves.
+
+
+Version 0.01.014
+================
+(Made by DavidB, 29 Apr 1996)
+
+Uses:   E32/057 F32/021 GDI/019 FNTSTORE/013 FBSERV/019 
+	BITGDI/019 STORE/012 WSERV/029 FONTS/021 GDITOOLS/015 
+	E32TOOLS/021
+
+- Uses E32 057 etc.
+- Fixed a bug where digital clocks did not always update 
+  themselves properly.
+- Implemented optional masked-blt for analog clocks which 
+  masks out any black pixels in the mask bitmap. However, 
+  since this is ***very*** CPU intensive, the masked-blt 
+  will only be done for redraws and not for any other 
+  drawing. From the user's point of view, this means that 
+  the hands/date must *never* be able to "cover" any 
+  masked-out pixels in the mask bitmap. There will be no 
+  internal checking for this.
+- Added RDigitalClock::SetBackGroundColor for dynamically 
+  setting the background color and shadow color.
+- (Don't panic if debug builds of the test code panic lots, 
+  they're meant to. Release builds do too, but you won't 
+  notice it.)
+- RAnalogClock->Destroy() and RDigitalClock->Destroy() can 
+  now be safely called
+
+
+Version 0.01.013
+================
+(Made by DavidB, 24 Apr 1996)
+
+Uses:   E32/056 F32/020 GDI/018 FNTSTORE/012 FBSERV/018 
+	BITGDI/018 STORE/011 WSERV/028 FONTS/016 GDITOOLS/009 
+	E32TOOLS/021
+
+- Uses E32TOOLS 021
+- Fixed a major memory-leak embarrassment
+- Digital clocks with flashing sections will go twice as slowly 
+  as they should (!) - this is due to a WSERV bug, which has 
+  been diagnosed.
+
+
+Version 0.01.012
+================
+(Made by DavidB, 23 Apr 1996)
+
+Uses:   E32/056 F32/020 GDI/018 FNTSTORE/012 FBSERV/018 
+	BITGDI/018 STORE/011 WSERV/028 FONTS/016 GDITOOLS/009 
+	E32TOOLS/020
+
+- Digital clocks now work on the rack.
+- Forgot to mention in the release notes for 011: parameters to 
+  ConstructL() functions of RAnalogClock and RDigitalClock have 
+  changed order to become more consistent with each other.
+- Structs in clock.h have had names of members changed from 
+  xxx to iXxx.
+- Changed the order of the parameters of 
+  TAnalogDisplayHand::AddCircle to be more consistent with 
+  TAnalogDisplayHand::AddPolyLine.
+- Lots more test code, especially to test degenerate creation 
+  of clocks is handled correctly.
+- Created bwins and bmarm directories.
+- There are some warnings when building the test-code as this 
+  release was made in a hurry.
+
+
+Version 0.01.011
+================
+(Made by DavidB, 22 Apr 1996)
+
+Uses:   E32/056 F32/020 GDI/018 FNTSTORE/012 FBSERV/018 
+	BITGDI/018 STORE/011 WSERV/028 FONTS/016 GDITOOLS/009 
+	E32TOOLS/020
+
+- First ARM release.
+
+Limitations with this release:
+- ***** Digital clocks do *not* work on the rack *****
+- Still no flashing in digital clocks.
+- Panicing the client from the server thread still needs sorting out.
+- Still no masked-blt of analog-clock backgrounds.
+- Digital digits are not cleared properly when updated. This has 
+  now been diagnosed in that the width of Italic characters is not 
+  correctly returned by CFbsFont.
+
+
+Version 0.01.010
+================
+(Made by DavidB, 18 Apr 1996)
+
+Uses:   E32/056 F32/020 GDI/018 FNTSTORE/012 FBSERV/018 
+	BITGDI/018 STORE/011 WSERV/028 FONTS/016 GDITOOLS/009 
+	E32TOOLS/020
+
+- Changed both E32Dll()'s to return KErrNone rather than ETrue
+- You now get paniced if you try to contruct a time-device more 
+  than once
+- Got rid of all trace of stopwatches as they don't really fit 
+  into the scheme of things.
+- The aPointList parameter to TAnalogDisplayHand::AddPolyLine() no 
+  longer is destroyed by this function (this was the case with the 
+  last release as well, but I forgot to mention it in the release 
+  notes for 009).
+- N.B. do *not* attempt to use RAnim::Destroy() to destroy an 
+  RDigitalClock or RAnalogClock with this release. As a workaround 
+  do a Close() followed by a delete. (RAnim::Close() needs to be 
+  virtual for RAnim::Destroy() to work properly.)
+
+Limitations with this release:
+- No ARM release.
+- No flashing in digital clocks with this release.
+- Panicing the client from the server thread needs sorting out.
+- No masked-blt of analog-clock backgrounds.
+- Digital digits are not always cleared properly when updated.
+
+
+Version 0.01.009
+================
+(Made by DavidB, 11 Mar 1996)
+
+Uses:   E32/054 F32/018 GDI/014 FNTSTORE/008 FBSERV/014 
+	BITGDI/014 STORE/009 FONTS/008 WSERV/027 GDITOOLS/008
+
+- No changes to the interface since previous release.
+- Fixed a bug in the test-code (the wrong format was passed 
+  to the digital stopwatch)
+- Tested setting the clock offset from current time
+- Setting the clock offset from current time no longer upsets any 
+  flashing blocks of text
+- Tested starting/stopping/freezing/unfreezing stopwatches
+- Areas drawn to are now validated to prevent redraw flicker
+- Improvements to test code
+- RTimeDevice now destroys its temporary buffer if construction was 
+  not complete - however, there is a bug in the window server 
+  causing an access violation when attemptying to Close() a 
+  non-fully-created time-device (this has been fixed for the next 
+  window server release).
+- The aPointList parameter to TAnalogDisplayHand::AddPolyLine() no 
+  longer is destroyed by this function
+
+
+Version 0.01.008
+================
+(Made by DavidB, 7 Mar 1996)
+
+Uses:   E32/054 F32/018 GDI/014 FNTSTORE/008 FBSERV/014 
+	BITGDI/014 STORE/009 FONTS/008 WSERV/026 GDITOOLS/008
+
+The interface has been changed again (not as drastically as 
+last time, though). Again, look at "\clock\tsrc\tclock.cpp" 
+functions ConstructDigitalL (line 99) and ConstructAnalogL 
+(line 160).
+Unicode bug has been fixed (although again I have only tested 
+the DEBUG ASCII build).
+Only the basics of clocks (i.e. just chugging along by 
+themselves) is guaranteed to work.
+New features for analog displays:
+- The hands are now made up of *polylines* and circles. 
+  Polylines may be open or closed, and, in the latter case, 
+  empty or filled.
+- Circles no longer leave bits of themselves behind on screen 
+  (thanks to SimonC for spotting that).
+
+
+Version 0.01.007
+================
+(Made by DavidB, 16 Feb 1996)
+
+Uses:   E32/053 F32/017 GDI/012 FNTSTORE/007 FBSERV/013 
+	BITGDI/013 STORE/008 FONTS/008 WSERV/025 GDITOOLS/007
+
+Completely new code for clocks. To see how the new interface 
+is to be used, look at "\clock\tsrc\tclock.cpp" functions 
+ConstructDigitalL (line 97) and ConstructAnalogL (line 137); 
+(note especially the explanation of how analog hands are to be 
+set up). Also now uses the new time and date classes in E32.
+The Unicode builds won't work correctly for digital displays 
+using true 16-bit characters (I have only tested the DEBUG ASCII 
+build as I'm doing this release in a rush).
+New features for digital displays:
+- they can have flashing blocks of text
+- they can shadow the text
+New features for analog displays:
+- they can have hands made up of lines and/or circles, which 
+  can be thick, thin, filled (not lines), any colour you like.
+- they can have shadows
+- they can no longer have nested dials (is this a feature? :-))
+
+
+Version 0.01.006
+================
+(Made by DavidB, 29 Jan 1996)
+
+Uses:   E32/052 F32/016 GDI/010 FNTSTORE/005 FBSERV/012 
+	BITGDI/012 STORE/007 FONTS/003 WSERV/024 GDITOOLS/007
+
+Re-release compatible with E32(052) and F32(016) etc
+
+
+Version 0.01.005
+================
+(Made by TimG, 4 Jan 1996)
+
+Uses:   E32/051 F32/015 GDI/008 FNTSTORE/003 FBSERV/010 
+	BITGDI/010 STORE/006 FONTS/003 WSERV/023
+
+Latest (interim) release containing bodges to allow clocks to work with new Time/Date classes.
+A proper release will be available following some proper internal remodelling of the code.
+
+
+Version 0.01.004
+================
+(Made by TimG, 18 Dec 1995)
+
+Uses:   E32/050 F32/014 GDI/007 FNTSTORE/002 FBSERV/009 
+	BITGDI/009 STORE/005 FONTS/003 WSERV/022
+
+Minor changes to make clocks compatible with latest versions of everything, including WSERV 022
+
+
+Version 0.01.003
+================
+(Made by TimG, 4 Dec 1995)
+
+ Uses:   E32/049 F32/013 STORE/004 FONTS/00  GDI/006 
+	 FNTSTORE/001 BITGDI/008 FBS/007 WSERV/021
+
+Now compatible with the most recent builds of everything, including E32 (049) 
+and WSERV (021). Biggest change is that clocks now use FNTSTORE rather than
+the old GDSTORE, for fonts etc.
+
+
+Version 0.01.002
+================
+(Made by DavidW, 16 Nov 1995)
+
+Uses:   E32/048 F32/012 STORE/003
+	GDI/005 GDSTORE/007 BITGDI/007 FBS/006 WSERV/020
+
+Re-release compatible with E32(048) and F32(012) etc
+
+Mainly this just involved changing things in the test code, like
+changing every RGc to RWindowGc
+
+NB made in a hurry and only the Ascii Debug version released.
+
+
+Version 0.01.001
+================
+Author: T.Gillott
+Release: 001
+
+First (experimental) release of Clock group

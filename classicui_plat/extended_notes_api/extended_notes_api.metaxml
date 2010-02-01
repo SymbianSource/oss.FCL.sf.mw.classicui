@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="e992fb47a5026a1487f7add84570d834" dataversion="1.0">
+  <name>Extended Notes API</name>
+  <description>Extended interfaces related to note dialogs.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

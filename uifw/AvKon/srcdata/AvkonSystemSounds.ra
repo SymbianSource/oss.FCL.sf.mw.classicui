@@ -1,0 +1,698 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+//
+// Avkon Default KeySounds
+//
+
+RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
+	{
+	list=
+		{
+
+		// This sound info (key click) must be the first on table, 
+		// other apps (profiles) may rely on this exact position.
+		AVKON_SOUND_INFO 
+			{   
+			sid=EAvkonSIDStandardKeyClick; 
+			priority=EAvkonKeyClickPriority; 
+			preference=EAvkonKeyClickPreference;
+			sequencelength=6;
+			sequence={0,17,10,118,2,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54 = AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x02 = 2 = tone_tick = 20ms
+			// 0x0B = 11 = OPCODE_END 
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDConfirmationTone; 
+			priority=EAvkonConfirmationNotePriority; 
+			preference=EAvkonConfirmationNotePreference;
+			sequencelength=6;
+			sequence={0,17,10,118,17,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+            // 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x11 = 17 = tone_tick = 170ms
+			// 0x0B = 11 = OPCODE_END 
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDErrorTone; 
+			priority=EAvkonErrorNotePriority;
+			preference=EAvkonErrorNotePreference;
+			sequencelength=6;
+			sequence={0,17,10,108,25,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
+			// 0x19 = 25 = tone_tick = 250ms
+			// 0x0B = 11 = OPCODE_END 
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDWarningTone; 
+			priority=EAvkonWarningNotePriority; 
+			preference=EAvkonWarningNotePreference;
+			sequencelength=6;
+			sequence={0,17,10,108,25,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
+			// 0x19 = 25 = tone_tick = 250ms
+			// 0x0B = 11 = OPCODE_END 
+			volume = 5;
+			},
+
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDVolumeMinTone; 
+			priority=EAvkonVolumeSettingTonesPriority; 
+			preference=EAknAudioPrefAudioVolumeMin;
+			sequencelength=6;
+			sequence={0,17,10,113,6,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x71 = 113 => 113-64=49=AUD_TONE_RING_FREQ_C2	 = 1047Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 9;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDVolumeMaxTone; 
+			priority=EAvkonVolumeSettingTonesPriority; 
+			preference=EAknAudioPrefAudioVolumeMax;
+			sequencelength=6;
+			sequence={0,17,10,122,6,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x7A = 122 => 122-64=58=AUD_TONE_RING_FREQ_A3	 = 1760Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 6;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDReadialCompleteTone; 
+			priority=EAvkonRingingTonesPriority; 
+			preference=EAknAudioPrefAutoRedialCompleted;
+			sequencelength=10;
+			sequence={0,17,10,98,10,105,10,110,7,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x62 = 98 => 98-64=34=AUD_TONE_RING_FREQ_A1	 = 440Hz
+			// 0x0A = 10 = tone_tick = 100ms
+			// 0x69 = 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x0A = 10 = tone_tick = 100ms
+			// 0x6E = 110 => 110-64=46=AUD_TONE_RING_FREQ_A2	 = 880Hz
+			// 0x07 = 7 = tone_tick = 70ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDBatteryLowTone; 
+			priority=EAvkonChargingTonesPriority; 
+			preference=EAknAudioPrefBatteryLow;
+			sequencelength=10;
+			sequence={0,17,10,104,15,102,22,99,30,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x68 = 104 => 104-64=40=AUD_TONE_RING_FREQ_E1b	 = 622Hz
+			// 0x0F = 15 = tone_tick = 150ms
+			// 0x66 = 102 => 102-64=38=AUD_TONE_RING_FREQ_D1b	 = 554Hz
+			// 0x16 = 22 = tone_tick = 220ms
+			// 0x63 = 99 => 99-64=35=AUD_TONE_RING_FREQ_A1    = 440Hz
+			// 0x1E = 30 = tone_tick = 300ms
+			// 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDChargingBatteryTone; 
+			priority=EAvkonLowLevelNotesPriority; 
+			preference=EAknAudioPrefCharging;
+			sequencelength=6;
+			sequence={0,17,10,118,17,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x11 = 17 = tone_tick = 170ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDConnectionStartTone; 
+			priority=EAvkonConnectionTonesPriority; 
+			preference=EAknAudioPrefConnectionStart;
+			sequencelength=8;
+			sequence={0,17,10,91,12,98,18,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x5B = 91 => 91-64=27=AUD_TONE_RING_FREQ_D0	 = 294Hz
+			// 0x0C = 12 = tone_tick = 120ms
+			// 0x62 = 98 => 98-64=34=AUD_TONE_RING_FREQ_A1	 = 440Hz
+			// 0x12 = 18 = tone_tick = 180ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDConnectionStopTone; 
+			priority=EAvkonConnectionTonesPriority; 
+			preference=EAknAudioPrefConnectionStop;
+			sequencelength=8;
+			sequence={0,17,10,98,12,91,18,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x62 = 98 => 98-64=34=AUD_TONE_RING_FREQ_A1	 = 440Hz
+			// 0x0C = 12 = tone_tick = 120ms
+			// 0x5B = 91 => 91-64=27=AUD_TONE_RING_FREQ_D0	 = 294Hz
+			// 0x12 = 18 = tone_tick = 180ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDDefaultSound; 
+			priority=EAvkonLowLevelNotesPriority;
+			preference=EAknAudioPrefDefaultTone;
+			sequencelength=6;
+			sequence={0,17,10,118,10,11};
+		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x0A = 10 = tone_tick = 100ms
+			// 0x0B = 11 = OPCODE_END
+  			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDOperationReadyTone; 
+			priority=EAvkonConnectionTonesPriority;
+			preference=EAknAudioPrefOperationReady;
+			sequencelength=10;
+			sequence={0,17,10,98,7,105,7,103,11,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x62 = 98 => 98-64=34=AUD_TONE_RING_FREQ_A1	 = 440Hz
+			// 0x07 = 7 = tone_tick = 70ms
+			// 0x69 = 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x07 = 7 = tone_tick = 70ms
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x0B = 11 = tone_tick = 110ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNameDiallerStartTone; 
+			priority=EAvkonVoiceDiallingTonesPriority;
+			preference=EAknAudioPrefVoiceStarting;
+			sequencelength=16;
+			sequence={0,17,10,103,8,64,11,110,6,108,6,110,6,115,9,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x08 = 8 = tone_tick = 80ms
+			// 0x04 = 64 => 64-64=0=AUD_TONE_FREQ_OFF	     = 0Hz
+			// 0x0B = 11 = tone_tick = 110ms
+			// 0x6E = 110 => 110-64=46=AUD_TONE_RING_FREQ_A2	 = 880Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x6E = 110 => 110-64=46=AUD_TONE_RING_FREQ_A2	 = 880Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x73 = 115 => 115-64=51=AUD_TONE_RING_FREQ_D2	 = 1175Hz
+			// 0x09 = 9 = tone_tick = 90ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNameDiallerAbortTone; 
+			priority=EAvkonVoiceDiallingTonesPriority;
+			preference=EAknAudioPrefVoiceAbort;
+			sequencelength=8;
+			sequence={0,17,10,105,7,103,7,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x69 = 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x07 = 7 = tone_tick = 70ms
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x07 = 7 = tone_tick = 70ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNameDiallerErrorTone; 
+			priority=EAvkonVoiceDiallingTonesPriority;
+			preference=EAknAudioPrefVoiceError;
+			sequencelength=12;
+			sequence={0,17,10,103,6,64,19,106,6,97,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF	     = 0Hz
+			// 0x13 = 19 = tone_tick = 190ms
+			// 0x6A = 106 => 106-64=42=AUD_TONE_RING_FREQ_F1	 = 698Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x61 = 97 => 97-64=33=AUD_TONE_RING_FREQ_A1b	 = 416Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDPowerOffTone; 
+			priority=EAvkonPoweringTonesPriority;
+			preference=EAknAudioPrefPowerOff;
+			sequencelength=6;
+			sequence={0,17,10,118,10,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x0A = 10 = tone_tick = 100ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDPowerOnTone; 
+			priority=EAvkonPoweringTonesPriority;
+			preference=EAknAudioPrefPowerOn;
+			sequencelength=6;
+			sequence={0,17,10,118,10,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
+			// 0x0A = 10 = tone_tick = 100ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDRechargeBatteryTone; 
+			priority=EAvkonChargingTonesPriority;
+			preference=EAknAudioPrefRechargeBattery;
+			sequencelength=12;
+			sequence={0,17,10,104,15,102,22,99,30,96,45,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x68 = 104 => 104-64=40=AUD_TONE_RING_FREQ_E1b	 = 622Hz
+			// 0x0F = 15 = tone_tick = 150ms
+			// 0x66 = 102 => 102-64=38=AUD_TONE_RING_FREQ_D1b	 = 554Hz
+			// 0x16 = 22 = tone_tick = 220ms
+			// 0x63 = 99 => 99-64=35=AUD_TONE_RING_FREQ_A1    = 440Hz
+			// 0x1E = 30 = tone_tick = 300ms
+			// 0x60 = 96 => 96-64=32=AUD_TONE_RING_FREQ_G0    = 392Hz
+			// 0x2D = 45 = tone_tick = 450ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDVoiceRecordingTone; 
+			priority=EAvkonRecordingTonesPriority;
+			preference=EAknAudioPrefVoiceRecRecording;
+			sequencelength=6;
+			sequence={0,17,10,105,3,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x69= 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x03 = 3 = tone_tick = 30ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDVoiceRecordingStartTone; 
+			priority=EAvkonRecordingTonesPriority;
+			preference=EAknAudioPrefVoiceRecStart;
+			sequencelength=8;
+			sequence={0,17,10,103,6,105,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x69 = 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDVoiceRecordingStopTone; 
+			priority=EAvkonRecordingTonesPriority;
+			preference=EAknAudioPrefVoiceRecStop;
+			sequencelength=8;
+			sequence={0,17,10,105,6,103,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x69 = 105 => 105-64=41=AUD_TONE_RING_FREQ_E1	 = 659Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x67 = 103 => 103-64=39=AUD_TONE_RING_FREQ_D1	 = 587Hz
+			// 0x06 = 6 = tone_tick = 60ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDWrongCharger; 
+			priority=EAvkonChargingTonesPriority;
+			preference=EAknAudioPrefWrongCharger;
+			sequencelength=6;
+			sequence={0,17,10,108,25,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x06 = 6  = repeat 6 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x30 = 48 = tone_tick = 480ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF	     = 0Hz
+			// 0x30 = 48 = tone_tick = 480ms
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetBusy; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefBusy;
+			sequencelength=11;
+			// ETSI spec says 425Hz on 500ms, off 500ms.
+			// Seems to be close but on/off time is 480ms. 
+			sequence={0,17,10,5,6,78,50,64,50,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x06 = 6  = repeat 6 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x32 = 50 = tone_tick = 500ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF	     = 0Hz
+			// 0x32 = 50 = tone_tick = 50ms
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetCallWaiting; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefCallWaiting;
+			sequencelength=22;
+			// ETSI spec says: "425 Hz (tolerance 15Hz), 
+			// on for 200ms, off for 600ms on for 200ms, off for 3s,
+			// on for 200ms, off for 600ms on for 200ms. This tone is 
+			// superimposed on the audio traffic received by the
+			// called user. Alternate tones are acceptable but not preferred."
+			
+			// Seems to be so:
+			sequence={0,17,10,78,20,64,60,78,20,64,100,64,100,64,100,78,20,64,60,78,20,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x3C = 60 = tone_tick = 600ms
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x64 = 100 = tone_tick = 1000ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x64 = 100 = tone_tick = 1000ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x64 = 100 = tone_tick = 1000ms
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x3C = 60 = tone_tick = 600ms
+			// 0x4E = 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetReorder; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefReorder;
+			sequencelength=11;
+			// Don't know if this is defined in ETSI spec at all
+			sequence={0,17,10,5,3,93,25,64,25,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x03 = 3  = repeat 3 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x5D = 93 => 93-64=29=AUD_TONE_RING_FREQ_E0	 = 330Hz
+			// 0x19 = 25 = tone_tick = 250ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x19 = 25 = tone_tick = 250ms
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetCongestion; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefCongestion;
+			sequencelength=11;
+			// ETSI spec says 425Hz on 200ms, off 200ms
+			// Seems to be so (but repeated only 15 times):
+			sequence={0,17,10,5,15,78,20,64,20,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x0F = 15  = repeat 15 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetSpecialInformation; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefSpecialInformation;
+			sequencelength=17;
+			sequence={0,17,10,5,3,79,33,80,33,81,33,64,50,64,50,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x03 = 3  = repeat 3 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x4F = 79 => 79-64=15=AUD_TONE_NETWORK_FREQ_2	 = 950Hz
+			// 0x21 = 33 = tone_tick = 330ms
+			// 0x50 = 80 => 80-64=16=AUD_TONE_NETWORK_FREQ_3	 = 1400Hz
+			// 0x21 = 33 = tone_tick = 330ms
+			// 0x51 = 81 => 81-64=17=AUD_TONE_NETWORK_FREQ_4	 = 1800Hz
+			// 0x21 = 33 = tone_tick = 330ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x32 = 50 = tone_tick = 500ms
+			// 0x40 = 64 => 64-64 = 0 = AUD_TONE_FREQ_OFF	 = 0Hz
+			// 0x32 = 50 = tone_tick = 500ms  
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 3;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDNetRadioNotAvailable; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefRadioNotAvailable;
+			sequencelength=11;
+			// ETSI spec says: 425Mhz on 200ms, off 200ms, 3 bursts
+			// Seems to be so:
+			sequence={0,17,10,5,3,78,20,64,20,6,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x05 = 5  = OPCODE_REPEAT
+			// 0x03 = 3  = repeat 3 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND  
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x06 = 6  = OPCODE_REPEATEND
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDIHFActive; 
+			priority=EAvkonVolumeSettingTonesPriority;
+			preference=EAknAudioPrefIHFActive;
+			sequencelength=14;
+			sequence={0,17,10,103,3,64,3,103,3,64,3,115,8,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x67 = 103 => 103-64=39 = AUD_TONE_RING_FREQ_D1    = 587Hz
+			// 0x03 = 3  = tone_tick = 30ms  
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF			= 0Hz
+			// 0x03 = 3 = tone_tick = 30ms
+			// 0x67 = 103 => 103-64=39 = AUD_TONE_RING_FREQ_D1	= 587Hz
+			// 0x03 = 3  = tone_tick = 30ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF			= 0Hz
+			// 0x03 = 3 = tone_tick = 30ms
+			// 0x73 = 115 => 115-64=51=AUD_TONE_RING_FREQ_D2		= 1109Hz
+			// 0x08 = 8 = tone_tick = 80ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDRadioPathAcknowledge; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefRadioPathAck;
+			sequencelength=12;
+			// ETSI spec says that should be single 200ms tone
+			// Seems to be so:
+			sequence={0,17,10,2,252,10,128,78,20,10,127,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x02 = 2  = OPCODE_CONTINUE_MASK (obsolete from DCT4 onwards)
+			// 0xFC = 252 = continue mask value
+			// 0x0A = 10 = OPCODE_TONE_INDICATION
+			// 0x80 = 128 = TONE_INFO_TONE_ON
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x14 = 20 = tone_tick = 200ms
+			// 0x0A = 10 = OPCODE_TONE_INDICATION
+			// 0x7F = 127 = TONE_INFO_TONE_OFF
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDDial; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefDial;
+			sequencelength=10;
+			// ETSI spec says continuous 425Hz tone
+			// Seems to be so but contains weird TONE_INFO_TONE_ON
+			sequence={0,17,10,2,252,10,128,78,0,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x02 = 2  = OPCODE_CONTINUE_MASK (obsolete from DCT4 onwards)
+			// 0xFC = 252 = continue mask value
+			// 0x0A = 10 = OPCODE_TONE_INDICATION
+			// 0x80 = 128 = TONE_INFO_TONE_ON
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x00 = 0 = tone_tick = TONE_FOREVER
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDRingGoing; 
+			priority=EAvkonNetworkingTonesPriority;
+			preference=EAknAudioPrefRingGoing;
+			sequencelength=14;
+			// ETSI spec says 425Hz Tone on 1s, silence 4s
+			// Seems to be so:
+			sequence={0,17,10,2,252,78,100,5,4,64,100,6,7,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x02 = 2  = OPCODE_CONTINUE_MASK (obsolete from DCT4 onwards)
+			// 0xFC = 252 = continue mask value
+			// 0x4E = 78 => 78-64=14=AUD_TONE_NETWORK_FREQ_1	 = 425Hz
+			// 0x64 = 100 = tone_tick = 1000ms
+			// 0x05 = 5 = OPCODE_REPEAT
+			// 0x04 = 4 = repeat 4 times sequence between OPCODE_REPEAT and OPCODE_REPEATEND
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF
+			// 0x64 = 100 = tone_tick = 1000ms
+			// 0x07 = 7 = OPCODE_RESTART
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			},
+		AVKON_SOUND_INFO 
+			{
+			sid=EAvkonSIDLocationRequest; 
+			priority=EAvkonLowLevelNotesPriority;
+			preference=EAknAudioPrefDefaultTone; 
+			sequencelength=20;
+			sequence={0,17,10,64,21,118,5,64,8,115,5,64,8,120,5,64,8,118,5,11};
+			// 0x00 = 0  = OPCODE_SEQUENCE_START
+			// 0x11 = 17 = OPCODE_DURATION_UNIT
+			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF         = 0Hz
+			// 0x15 = 21 = tone_tick = 210ms
+			// 0x76 = 118 => 118-64=54 = AUD_TONE_RING_FREQ_F2 = 1397Hz
+			// 0x05 = 5 = tone_tick = 50ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF         = 0Hz
+			// 0x08 = 8 = tone_tick = 80ms
+			// 0x73 = 115 => 115-64=51=AUD_TONE_RING_FREQ_D2   = 1175Hz
+			// 0x05 = 5 = tone_tick = 50ms
+			// 0x40 = 64 => 64-64=0=AUD_TONE_FREQ_OFF         = 0Hz
+			// 0x08 = 8 = tone_tick = 80ms 
+			// 0x78 = 120 =>120-64=56=AUD_TONE_RING_FREQ_G2   = 1568Hz
+			// 0x05 = 5 = tone_tick = 50ms
+			// 0x40 = 64-64=0=AUD_TONE_FREQ_OFF		 = 0Hz
+			// 0x08 = 8 = tone_tick = 80ms
+			// 0x76 = 118 => 118-64=54 = AUD_TONE_RING_FREQ_F2 = 1397Hz
+			// 0x05 = 5 = tone_tick = 50ms
+			// 0x0B = 11 = OPCODE_END
+			volume = 5;
+			}
+		};
+	}

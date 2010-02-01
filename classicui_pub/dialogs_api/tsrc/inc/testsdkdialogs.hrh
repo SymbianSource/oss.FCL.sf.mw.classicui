@@ -1,0 +1,150 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test EIKDIALG.H
+*
+*/
+
+
+#ifndef C_TESTSDKDIALOGS_HRH
+#define C_TESTSDKDIALOGS_HRH
+
+// ---------------------------------------------------------------------------
+// enum TTestSDKDialog
+// ---------------------------------------------------------------------------
+//
+enum TTestSDKDialog
+    {
+    EDialogLine = 0x6001,
+    EEdwinLine,
+    EDialogButton,
+    EEdwinLine2,
+    ELineByType,
+    ETESTSDKTextEditor,
+    ETESTSDKNumberEditor,
+    ETESTSDKRangeEditor,
+    ETESTSDKTimeEditor,
+    ETESTSDKDateEditor,
+    ETESTSDKTimeAndDateEditor,
+    ETESTSDKDurationEditor,
+    ETESTSDKTimeOffsetEditor,
+    ETESTSDKFixPointedEditor,
+    ETESTSDKSecretEditor,
+    ETESTSDKAddTextEditor,
+    ETESTSDKAddGlobalTextEditor,
+    ETESTSDKAddSecretEditor,
+    ETESTSDKAddRichTextEditor,
+    ETESTSDKADDNumberEditor,
+    ETESTSDKADDRangeEditor,
+    ETESTSDKADDTimeEditor,
+    ETESTSDKADDDateEditor,
+    ETESTSDKAddTimeAndDateEditor,
+    ETESTSDKAddDurationEditor,
+    ETESTSDKAddTimeOffsetEditor,
+    ETESTSDKAddFloatEditorEditor,
+    ETESTSDKAddFixPointedEditor,
+    ETESTSDKPageLine1Editor,
+    ETESTSDKPageLine2Editor,
+    ETESTSDKSGLabel,
+    ETESTSDKSGEdwin,
+    ETESTSDKSGTextEditor,
+    ETESTSDKSGSecretEditor,
+    ETESTSDKSGFloatPointEditor,
+    ETESTSDKSGFixPointedEditor,
+    ETESTSDKSGNumberEditor,
+    ETESTSDKSGRangeEditor,
+    ETESTSDKSGTimeEditor,
+    ETESTSDKSGDurationEditor,
+    ETESTSDKSGTimeOffsetEditor,
+    EDialogListBox
+    };
+
+// ---------------------------------------------------------------------------
+// CONST timeoffset
+// ---------------------------------------------------------------------------
+//
+#define TIMEOFFSET 1000;
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_title
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_TITLE "Title"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_captionresource
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_CAPTIONRESOURCE "CaptionResource"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_dialogtitle
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_DIALOGTITLE "TestSDKDialogTitle"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_editor
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_EDITOR "Editor"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_addeditor
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_ADDEDITOR "AddEditor"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_sgfunc
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_SGFUNC "SGFunc"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_label
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_LABEL "Label"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_labelresource
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_LABELRESOURCE "LabelResource"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_page
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_PAGE "Page"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_page1
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_PAGE1 "Page1"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_page2
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_PAGE2 "Page2"
+
+// ---------------------------------------------------------------------------
+// testsdk_dialogs_listbox
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_DIALOGS_LISTBOX "ListBox"
+
+#endif /*C_TESTSDKDIALOGS_HRH*/

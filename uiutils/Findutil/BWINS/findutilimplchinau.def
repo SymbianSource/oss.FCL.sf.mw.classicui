@@ -1,0 +1,3 @@
+EXPORTS
+	?FindUtilFactoryFunctionL@@YAPAVMFindUtil@@XZ @ 1 NONAME ; class MFindUtil * FindUtilFactoryFunctionL(void)
+

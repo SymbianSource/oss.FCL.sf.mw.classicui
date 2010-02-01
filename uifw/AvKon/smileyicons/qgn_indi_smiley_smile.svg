@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg baseProfile="tiny" height="16px" version="1.1" viewBox="0 0 15.999 16" width="15.999px" x="0px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px">
+<g>
+<g>
+<circle cx="8" cy="8" r="7"/>
+<radialGradient cx="7.8779" cy="5.0117" gradientUnits="userSpaceOnUse" id="SVGID_1_" r="8.363">
+<stop offset="0" style="stop-color:#FFF000"/>
+<stop offset="1" style="stop-color:#FFBF00"/>
+</radialGradient>
+<circle cx="8" cy="8" fill="url(#SVGID_1_)" r="6.5"/>
+<g display="none">
+<g display="inline">
+<path d="M5.354,7.193c0.639,0.369,1.454,0.15,1.82-0.486C6.639,6.396,5.37,5.663,4.869,5.373      C4.501,6.011,4.719,6.827,5.354,7.193z M11.132,5.373c-0.539,0.312-1.731,1-2.31,1.333c0.367,0.638,1.182,0.855,1.819,0.488      C11.282,6.826,11.498,6.011,11.132,5.373z" fill="#FFFFFF"/>
+</g>
+</g>
+</g>
+<ellipse cx="5.746" cy="5.826" fill="#FFFFFF" rx="1.89" ry="1.985"/>
+<ellipse cx="5.745" cy="5.826" rx="1.097" ry="1.151"/>
+<g>
+<ellipse cx="10.366" cy="5.826" fill="#FFFFFF" rx="1.89" ry="1.985"/>
+<ellipse cx="10.365" cy="5.826" rx="1.097" ry="1.151"/>
+</g>
+<g>
+<g>
+<g>
+<path d="M8.042,12.508c-1.905,0-3.485-1.297-3.97-3.047H3.209c0.506,2.223,2.457,3.896,4.833,3.896s4.328-1.673,4.833-3.896      h-0.862C11.527,11.211,9.947,12.508,8.042,12.508z"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

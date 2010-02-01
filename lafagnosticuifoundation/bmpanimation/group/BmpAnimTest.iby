@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __BMPANIMTEST_IBY__
+#define __BMPANIMTEST_IBY__
+
+#ifndef __APPFWK_TEST_FRAMEWORK_IBY__
+	#include <appfwk_test_framework.iby>
+#endif
+
+define ZRESOURCE    EPOCROOT##epoc32\data\Z\RESOURCE
+
+data=ZRESOURCE\apps\Tautoan\tautoan.mbm		resource\apps\Tautoan\tautoan.mbm
+data=ZRESOURCE\apps\TBmpanim\mbm\tbmpanim.mbm		resource\apps\TBmpanim\mbm\tbmpanim.mbm
+data=ZRESOURCE\apps\TBmpanim\TBmpanim.rsc		resource\apps\TBmpanim\TBmpanim.rsc
+
+
+file=ABI_DIR\BUILD_DIR\tbmpanimtestserver.exe		System\bin\tbmpanimtestserver.exe
+
+data=DATAZ_\bmpanimtest\bmpanimtest_run.bat          \bmpanimtest_run.bat
+data=DATAZ_\bmpanimtest\bmpanimtest_t_autoan.script  \bmpanimtest\bmpanimtest_t_autoan.Script
+data=DATAZ_\bmpanimtest\bmpanimtest_t_bmpanim.script \bmpanimtest\bmpanimtest_t_bmpanim.Script
+
+#endif

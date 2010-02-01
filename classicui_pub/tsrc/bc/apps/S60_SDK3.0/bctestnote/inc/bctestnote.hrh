@@ -1,0 +1,190 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestnote resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTNOTE_HRH
+#define BCTESTNOTE_HRH
+
+enum TBCTestNoteMenuGroupCommands
+        {
+        EBCTestNoteCmdNoteWrapper = 0x6000,
+        EBCTestNoteCmdWaitDialog,
+        EBCTestNoteCmdStaticNote,
+        EBCTestNoteCmdEikInfoDialog,
+        EBCTestNoteCmdEikProgessInfo,
+        EBCTestNoteCmdWaitNoteWrapper,       
+        EBCTestNoteCmdNoteDialog,
+        EBCTestNoteCmdNoteControl,
+        EProgCmdAutoTest
+        };
+
+#define OUTLINE(x)        EBCTestNoteCmdOutline##x
+
+#define OUTLINES(x) \
+        OUTLINE(x)##0, OUTLINE(x)##1, OUTLINE(x)##2, OUTLINE(x)##3, \
+        OUTLINE(x)##4, OUTLINE(x)##5, OUTLINE(x)##6, OUTLINE(x)##7, \
+        OUTLINE(x)##8, OUTLINE(x)##9
+
+enum TBCTestNoteMenuCommands
+    {
+        EBCTestNoteCmdEmptyOutline = 0x6020,
+   
+        OUTLINE(01), OUTLINE(02), OUTLINE(03), OUTLINE(04), OUTLINE(05), 
+        OUTLINE(06), OUTLINE(07), OUTLINE(08), OUTLINE(09), OUTLINE(10), 
+        OUTLINE(11), OUTLINE(12), OUTLINE(13), OUTLINE(14), OUTLINE(15), 
+        OUTLINE(16), OUTLINE(17), OUTLINE(18), OUTLINE(19), OUTLINE(20), 
+        OUTLINE(21), OUTLINE(22), OUTLINE(23), OUTLINE(24), OUTLINE(25), 
+        OUTLINE(26), OUTLINE(27), OUTLINE(28), OUTLINE(29), OUTLINE(30), 
+        OUTLINE(31), OUTLINE(32), OUTLINE(33), OUTLINE(34), OUTLINE(35),  
+        OUTLINE(36), OUTLINE(37), OUTLINE(38), OUTLINE(39), OUTLINE(40), 
+        OUTLINE(41), OUTLINE(42), OUTLINE(43), OUTLINE(44), OUTLINE(45), 
+        OUTLINE(46), OUTLINE(47), OUTLINE(48), OUTLINE(49), OUTLINE(50), 
+        OUTLINE(51), OUTLINE(52), OUTLINE(53), OUTLINE(54), OUTLINE(55), 
+        OUTLINE(56), OUTLINE(57), OUTLINE(58), OUTLINE(59), OUTLINE(60), 
+        OUTLINE(61), OUTLINE(62), OUTLINE(63), OUTLINE(64), OUTLINE(65), 
+        OUTLINE(66), OUTLINE(67), OUTLINE(68), OUTLINE(69), OUTLINE(70), 
+        OUTLINE(71), OUTLINE(72), OUTLINE(73), OUTLINE(74), OUTLINE(75), 
+        OUTLINE(76), OUTLINE(77), OUTLINE(78), OUTLINE(79), OUTLINE(80), 
+        OUTLINE(81), OUTLINE(82), OUTLINE(83), OUTLINE(84), OUTLINE(85), 
+        OUTLINE(86), OUTLINE(87), OUTLINE(88), OUTLINE(89), OUTLINE(90), 
+        OUTLINE(91), OUTLINE(92), OUTLINE(93), OUTLINE(94), OUTLINE(95), 
+        OUTLINE(96), OUTLINE(97), OUTLINE(98), OUTLINE(99), OUTLINE(100),
+        OUTLINE(101), OUTLINE(102), OUTLINE(103), OUTLINE(104), OUTLINE(105),
+        OUTLINE(106), OUTLINE(107), OUTLINE(108), OUTLINE(109), OUTLINE(110),
+        OUTLINE(111), OUTLINE(112), OUTLINE(113), OUTLINE(114), OUTLINE(115),
+        OUTLINE(116), OUTLINE(117), OUTLINE(118), OUTLINE(119), OUTLINE(120),
+        OUTLINE(121), OUTLINE(122), OUTLINE(123), OUTLINE(124), OUTLINE(125),
+        OUTLINE(126), OUTLINE(127), OUTLINE(128), OUTLINE(129), OUTLINE(130),
+        OUTLINE(131), OUTLINE(132), OUTLINE(133), OUTLINE(134), OUTLINE(135),
+        OUTLINE(136), OUTLINE(137), OUTLINE(138), OUTLINE(139), OUTLINE(140),
+        OUTLINE(141), OUTLINE(142), OUTLINE(143), OUTLINE(144), OUTLINE(145),
+        OUTLINE(146), OUTLINE(147), OUTLINE(148), OUTLINE(149), OUTLINE(150),
+        OUTLINE(151), OUTLINE(152), OUTLINE(153), OUTLINE(154), OUTLINE(155),
+        OUTLINE(156), OUTLINE(157), OUTLINE(158), OUTLINE(159)
+    };
+
+#define MAX_OUTLINE        159
+
+enum TBCTestNoteNoteControlIds
+    {
+    EBCTestNoteCtrlIdErrorNote = 0x100,
+    EBCTestNoteCtrlIdWarningNote,
+    EBCTestNoteCtrlIdInformationNote,
+    EBCTestNoteCtrlIdConfirmationNote,
+    EBCTestNoteCtrlIdProgressNote,
+    EBCTestNoteCtrlIdWaitNote,
+    EBCTestNoteCtrlIdPermanentNote,
+    EBCTestNoteCtrlIdDynamicText,
+    EBCTestNoteCtrlIdNoImageNote,
+    EBCTestNoteCtrlIdImageNote,
+    EBCTestNoteCtrlIdLayoutCase1,
+    EBCTestNoteCtrlIdLayoutCase2,
+    EBCTestNoteCtrlIdLayoutCase3,
+    EBCTestNoteCtrlIdPriorityLocalError,
+    EBCTestNoteCtrlIdPriorityLocalWarning
+    };
+
+enum TBCTestNoteToneListBoxCommands
+    {
+    EBCTestNoteListBoxCmdErrorTone,
+    EBCTestNoteListBoxCmdWarningTone,
+    EBCTestNoteListBoxCmdConfirmationTone
+    };
+
+enum TBCTestNoteGeneralListBoxCommands
+    {
+    EBCTestNoteListBoxCmdErrorNote,
+    EBCTestNoteListBoxCmdWarningNote,
+    EBCTestNoteListBoxCmdInformationNote,
+    EBCTestNoteListBoxCmdConfirmationNote
+    };
+
+enum TBCTestNoteAnimationListBoxCommands
+    {
+    EBCTestNoteListBoxCmdWaitNote,
+    EBCTestNoteListBoxCmdProgressNote
+    };
+
+enum TBCTestNoteOwnLayoutListBoxCommands
+    {
+    EBCTestNoteListBoxCmdOwnLayoutCase1,
+    EBCTestNoteListBoxCmdOwnLayoutCase2,
+    EBCTestNoteListBoxCmdOwnLayoutCase3
+    };
+
+enum TBCTestNoteTwoLabelsListBoxCommands
+    {
+    EBCTestNoteListBoxCmdSingularLabel,
+    EBCTestNoteListBoxCmdPluralLabel
+    };
+
+enum TBCTestNoteGlobalNoteListBoxCommands
+    {
+    EBCTestNoteListBoxCmdGlobalGeneralNote,
+    EBCTestNoteListBoxCmdGlobalWarningNote,
+    EBCTestNoteListBoxCmdGlobalConfirmationNote,
+    EBCTestNoteListBoxCmdGlobalErrorNote,
+    EBCTestNoteListBoxCmdGlobalChargingNote,
+    EBCTestNoteListBoxCmdGlobalNotChargingNote,
+    EBCTestNoteListBoxCmdGlobalBatteryFullNote,
+    EBCTestNoteListBoxCmdGlobalBatteryLowNote,
+    EBCTestNoteListBoxCmdGlobalRechargeBatteryNote,
+    EBCTestNoteListBoxCmdGlobalProgressNote
+    };
+
+enum TBCTestNotePriorityNoteListBoxCommands
+    {
+    EBCTestNoteListBoxCmdPriorityLocalLocal,
+    EBCTestNoteListBoxCmdPriorityGlobalGlobal,
+    EBCTestNoteListBoxCmdPriorityLocalGlobal,
+    EBCTestNoteListBoxCmdPriorityGlobalLocal
+    };
+
+enum TBCTestNoteWaitNoteListBoxCommands
+    {
+    EBCTestNoteListBoxCmdWaitFast,
+    EBCTestNoteListBoxCmdWaitMedium,
+    EBCTestNoteListBoxCmdWaitSlow
+    };
+
+enum TBCTestNoteProgressNoteListBoxCommands
+    {
+    EBCTestNoteListBoxCmdIncrease1,
+    EBCTestNoteListBoxCmdIncrease2,
+    EBCTestNoteListBoxCmdSet1,
+    EBCTestNoteListBoxCmdSet2
+    };
+
+enum TBCTestNoteCba
+        {
+        EBCTestNoteCbaCmdNext = 0x6300
+        };
+
+// Dialog element ID
+enum TBCTestNoteDialogID
+    {
+    EBCTestNoteTextNotification = 0x800
+    };
+
+#endif      // BCTESTNOTE_HRH

@@ -1,0 +1,4 @@
+EXPORTS
+	_ZN16MGfxTransAdapter7CreateLEP15MGfxTransClient @ 1 NONAME
+	_ZN16MGfxTransAdapter7DestroyEPS_ @ 2 NONAME
+

@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project aknhlist
+*
+*/
+
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET                  aknhlist.dll
+TARGETTYPE              dll
+UID                     0x1000008D 0x102823D7
+
+CAPABILITY              CAP_GENERAL_DLL
+VENDORID                VID_DEFAULT
+
+#ifndef WINSCW
+EPOCALLOWDLLDATA
+#endif // !WINSCW
+
+USERINCLUDE             .
+USERINCLUDE             ..
+USERINCLUDE             ../inc
+USERINCLUDE             ../../../inc  
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+OS_LAYER_LIBC_SYSTEMINCLUDE
+
+SOURCEPATH              ../src
+SOURCE                  aknhlistlib.cpp
+SOURCE                  akntreelist.cpp
+SOURCE                  akntreelistview.cpp
+SOURCE                  akntreelistviewitem.cpp
+SOURCE                  akntreeitem.cpp
+SOURCE                  akntreeleaf.cpp
+SOURCE                  akntreenode.cpp
+SOURCE                  akntree.cpp
+SOURCE                  akntreeordering.cpp
+SOURCE                  akntreeiterator.cpp
+SOURCE                  akntreelisticon.cpp
+
+SOURCE                  aknsinglestyletreelist.cpp
+SOURCE                  aknsinglestyletreeleaf.cpp
+SOURCE                  aknsinglestyletreenode.cpp
+SOURCE                  aknsinglestyletreeordering.cpp
+
+#ifdef RD_HIERARCHICAL_COLUMN_LIST
+SOURCE                  aknsinglecolumnstylecoredatarow.cpp
+SOURCE                  aknsinglecolumnstylesimpledatarow.cpp
+SOURCE                  aknsinglecolumnstylesubtitlerow.cpp
+#endif // RD_HIERARCHICAL_COLUMN_LIST
+SOURCE                  aknsinglecolumnstyletreelist.cpp
+SOURCE                  akntreelistphysicshandler.cpp
+
+LIBRARY                 euser.lib
+LIBRARY                 avkon.lib
+LIBRARY                 eikcoctl.lib
+LIBRARY                 cone.lib
+LIBRARY                 aknlayout2scalable.lib
+LIBRARY                 cdlengine.lib
+LIBRARY                 aknskins.lib
+LIBRARY                 ws32.lib 
+LIBRARY                 egul.lib
+LIBRARY                 aknicon.lib
+LIBRARY                 bafl.lib
+LIBRARY                 gdi.lib
+LIBRARY                 eikcore.lib
+
+LIBRARY                 aknphysics.lib    
+library                 touchfeedback.lib
+LIBRARY                 AknNotify.lib // akntrace
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+LIBRARY         aknlistloadertfx.lib
+#endif //RD_UI_TRANSITION_EFFECTS_LIST
+DEFFILE                 aknhlist.def

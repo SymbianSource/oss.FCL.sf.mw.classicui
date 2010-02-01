@@ -1,0 +1,55 @@
+do_nothing :
+	@rem do_nothing
+
+MAKMAKE :do_nothing
+
+BLD : do_nothing
+
+CLEAN : do_nothing
+
+LIB : do_nothing
+
+CLEANLIB : do_nothing
+
+RESOURCE :
+	echo Prebuild Uiklaf, EikCtl, Avkon and Eikstd
+	cd \s60\uiklaf\group; \
+	bldmake bldfiles
+	cd \s60\uiklaf\group; \
+	abld export
+	cd \s60\uiklaf\group; \
+	abld makefile $(PLATFORM)
+	cd \s60\uiklaf\group; \
+	abld resource $(PLATFORM) $(CFG)
+	cd \s60\eikctl\group; \
+	bldmake bldfiles
+	cd \s60\eikctl\group; \
+	abld export
+	cd \s60\eikctl\group; \
+	abld makefile $(PLATFORM)
+	cd \s60\eikctl\group; \
+	abld resource $(PLATFORM) $(CFG)
+	cd \s60\avkon\group; \
+	bldmake bldfiles
+	cd \s60\avkon\group; \
+	abld export
+	cd \s60\avkon\group; \
+	abld makefile $(PLATFORM)
+	cd \s60\avkon\group; \
+	abld resource $(PLATFORM) $(CFG) avkon
+	cd \s60\eikstd\group; \
+	abld makefile $(PLATFORM)
+	cd \s60\eikstd\group; \
+	abld resource $(PLATFORM) $(CFG)
+	cd \s60\avkon\group; \
+	abld makefile $(PLATFORM)
+	cd \s60\avkon\group; \
+	abld resource $(PLATFORM) $(CFG)
+
+FREEZE : do_nothing
+
+SAVESPACE : do_nothing
+
+RELEASABLES : do_nothing
+
+FINAL : do_nothing

@@ -1,0 +1,217 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project akncompamode
+*
+*/
+
+
+NAME ACMK
+
+#include <eikon.rh>
+#include <badef.rh>
+#include <e32keys.h>
+#include <avkon.mbg>
+#include <akncomparesources.rsg>
+
+RESOURCE RSS_SIGNATURE {}
+
+STRUCT COMPA_MODE_INT_ARRAY
+    {
+    LONG elements[];
+    }
+
+STRUCT COMPA_BUTTONS
+    {
+    WORD flags = KAknButtonReportOnKeyDown;
+    STRUCT buttons[];
+    }
+
+STRUCT COMPA_BUTTON
+    {
+    WORD scancode;
+    LLINK txt = 0;
+    WORD bmp_id = 0xffff;
+    WORD bmp_mask_id = 0xffff;
+    }
+
+// ---------------------------------------------------------------------------
+// Secure IDs of applications that are not put into compatibility mode
+// ---------------------------------------------------------------------------
+RESOURCE COMPA_MODE_INT_ARRAY r_compamode_non_compa_apps
+    {
+    elements=
+        {
+        // By default rom-applications are not put into compa mode even if
+        // they don't have EAknTouchCompatible flag set. For testing purposes,
+        // to put all rom applications into compa-mode, a CenRep flag
+        // EFlagRomAppCompaMode can be set. For this case system applications
+        // below are left out of compa-mode.
+        0x10003a4a, // eiksrv.exe
+        0x10207218, // akncapserver.exe
+        0x10281ef2, // aknnfysrv.exe
+        0x100058f3, // sysap.exe
+        0x100058b3, // phoneui.exe
+        0x102750f0, // ailaunch.exe (idle screen)
+        0x100058f4, // startup.exe (startup splash screen)
+        0x101f4cd2, // menu2.exe (applications grid)
+        0x100056cf, // screensaver.exe
+        0x102818e7, // vcommandmanager.exe
+        0x100059b5, // autolock.exe
+        0x102828BC  // touchscreencalib.exe
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// Secure IDs of applications that require compatibility mode
+// ---------------------------------------------------------------------------
+RESOURCE COMPA_MODE_INT_ARRAY r_compamode_compa_apps
+    {
+    elements=
+        {
+        //0x102072D8, // unieditor.exe
+        //0x10005902, // calcsoft.exe
+        //0x10005a3e  // realplayer
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// Buttons. Buttons belonging to rocker pane come first in order. Then itu-t
+// pane buttons.
+// ---------------------------------------------------------------------------
+RESOURCE COMPA_BUTTONS r_compamode_buttons
+    {
+    buttons = 
+        {
+        COMPA_BUTTON
+            {
+            scancode=EStdKeyDevice0;
+            bmp_id=EMbmAvkonQgn_indi_lsk_horizontal;
+            bmp_mask_id=EMbmAvkonQgn_indi_lsk_horizontal_mask;
+            },
+       COMPA_BUTTON
+            {
+            scancode=EStdKeyUpArrow;
+            bmp_id=EMbmAvkonQgn_indi_cmode_rocker_up;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_rocker_up_mask;
+            },
+       COMPA_BUTTON
+            {
+            scancode=EStdKeyDevice1;
+            bmp_id=EMbmAvkonQgn_indi_rsk_horizontal;
+            bmp_mask_id=EMbmAvkonQgn_indi_rsk_horizontal_mask;
+            },
+       COMPA_BUTTON
+            {
+            scancode=EStdKeyLeftArrow;
+            bmp_id=EMbmAvkonQgn_indi_cmode_rocker_left;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_rocker_left_mask;
+            },	
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyDevice3;
+            bmp_id=EMbmAvkonQgn_indi_cmode_rocker_select;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_rocker_select_mask;
+            },
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyRightArrow;
+            bmp_id=EMbmAvkonQgn_indi_cmode_rocker_right;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_rocker_right_mask;
+            },
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyRightShift;
+            bmp_id=EMbmAvkonQgn_indi_cmode_pen;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_pen_mask;
+            },
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyDownArrow;
+            bmp_id=EMbmAvkonQgn_indi_cmode_rocker_down;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_rocker_down_mask;
+            },
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyBackspace;
+            bmp_id=EMbmAvkonQgn_indi_cmode_clear;
+            bmp_mask_id=EMbmAvkonQgn_indi_cmode_clear_mask;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x31;
+            txt = R_AKNCOMPAMODE_TEXT_1KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x32;
+            txt = R_AKNCOMPAMODE_TEXT_2KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x33;
+            txt = R_AKNCOMPAMODE_TEXT_3KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x34;
+            txt = R_AKNCOMPAMODE_TEXT_4KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x35;
+            txt = R_AKNCOMPAMODE_TEXT_5KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x36;
+            txt = R_AKNCOMPAMODE_TEXT_6KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x37;
+            txt = R_AKNCOMPAMODE_TEXT_7KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x38;
+            txt = R_AKNCOMPAMODE_TEXT_8KEY;
+            },
+      COMPA_BUTTON
+            {
+            scancode=0x39;
+            txt = R_AKNCOMPAMODE_TEXT_9KEY;
+            },	
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyNkpAsterisk;
+            txt = R_AKNCOMPAMODE_TEXT_PLUSKEY;
+            bmp_id=EMbmAvkonQgn_indi_keypad_star;
+            bmp_mask_id=EMbmAvkonQgn_indi_keypad_star_mask;
+            },	
+      COMPA_BUTTON
+            {
+            scancode=0x30;
+            txt = R_AKNCOMPAMODE_TEXT_QKEY;
+            bmp_id=EMbmAvkonQgn_indi_keypad_space;
+            bmp_mask_id=EMbmAvkonQgn_indi_keypad_space_mask;
+            },				
+      COMPA_BUTTON
+            {
+            scancode=EStdKeyHash;
+            txt = R_AKNCOMPAMODE_TEXT_HASHKEY;
+            bmp_id=EMbmAvkonQgn_indi_keypad_shift;
+            bmp_mask_id=EMbmAvkonQgn_indi_keypad_shift_mask;
+            }
+        };
+    }

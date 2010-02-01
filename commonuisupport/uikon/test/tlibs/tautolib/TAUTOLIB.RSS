@@ -1,0 +1,63 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TALB
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include "tautolib.hrh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO test_app_info
+    {
+    hotkeys=testautolib_hot_keys;
+	menubar=testautolib_menu_bar;
+    }
+
+RESOURCE HOTKEYS testautolib_hot_keys
+	{
+	control=
+		{
+        HOTKEY { key='e'; command=EEikCmdExit; }
+		};
+	}
+
+RESOURCE MENU_BAR testautolib_menu_bar
+	{
+    titles=
+        {
+		MENU_TITLE
+			{
+			menu_pane=testautolib_menu_file;
+			txt="File";
+			}
+		};
+	}
+
+RESOURCE MENU_PANE testautolib_menu_file
+	{
+    items =
+        {
+        MENU_ITEM
+			{
+			command=EEikCmdExit;
+			txt="Exit";
+			}
+		};
+	}
+

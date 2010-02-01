@@ -1,0 +1,99 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Contains common resource declarations for the AIWFW.
+*
+*/
+
+
+
+
+
+//  INCLUDES
+#include <AiwCommon.hrh>
+
+//  MACROS  
+
+//  STRUCTURE DEFINITIONS
+
+// -----------------------------------------------------------------------------
+// Option item for a criteria.
+// -----------------------------------------------------------------------------
+STRUCT AIW_CRITERIA_OPTION
+    {
+    }
+
+// -----------------------------------------------------------------------------
+// Criteria item.
+// Resource structure to define criteria item consumer.
+// -----------------------------------------------------------------------------
+//
+// Criteria item
+//
+STRUCT AIW_CRITERIA_ITEM
+    {
+    // Criteria ID to be used in UI elements referring to this criteria
+    // By default the ID should be same as the serviceCmd, but it can be
+    // different as well e.g. for mapping old menu items to use AIW
+    // This can be consumer defined or predefined, if common interest
+    // is allocated.
+    LONG id;
+
+    // --------------------------------------------------------------
+    // Actual criteria data used when resolving providers from which
+    // a consumer is interested in.
+    // --------------------------------------------------------------
+
+    // Command ID for service command, mandatory.
+    LONG serviceCmd = KAiwCmdNone;
+
+    // Content MIME type, event type or any agreed one.
+    LTEXT8 contentType = "";
+
+    // Services class tells what kind of service is expected from
+    // provider. See TAiwServiceClass enum for allowed values.
+    // Optional, if not defined the default (KAiwClassMenu) is used.
+    LONG serviceClass = KAiwClassMenu;
+
+    // --------------------------------------------------------------
+    // Additional options, if any.
+    // --------------------------------------------------------------
+
+    // Defines UID for default provider. If provider for this
+    // UID exists, all the setup calls will be forwarded to it
+    // first (eg. if default provider implements 'menu' service class, it will
+    // be the first provider to insert its menu items to the consumer menu).
+    LONG defaultProvider = 0;
+
+    // The maximum number of providers allowed for the criteria item.
+    // There might be cases to limit the number of providers, e.g. for
+    // limiting the number of menu items. Maximum is 255 providers per interest.
+    BYTE maxProviders = 0xff;
+
+    // Other options bits (8 bits reserved).
+    BYTE loadOptions=0;
+
+    // Reserved for extensions.
+    LLINK reserved = 0; 
+    }
+
+//
+// Interest is an array of criteria items.
+//
+STRUCT AIW_INTEREST
+    {
+    STRUCT items[]; // AIW_CRITERIA_ITEM's
+    }
+
+
+// End of File

@@ -1,0 +1,40 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testdomcustomcursors"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testdomcustomcursors.ini"-"c:\Testframework\testdomcustomcursors.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomcustomcursors.cfg"-"c:\Testframework\tctestdomcustomcursors.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomcustomcursors.cfg"-"c:\Testframework\ui_testdomcustomcursors.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testdomcustomcursors.dll"-"c:\sys\bin\testdomcustomcursors.dll", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

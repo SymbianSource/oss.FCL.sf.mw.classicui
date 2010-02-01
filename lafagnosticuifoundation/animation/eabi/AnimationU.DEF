@@ -1,0 +1,56 @@
+EXPORTS
+	_ZN15CAnimationGroup10AnimationsEv @ 1 NONAME
+	_ZN15CAnimationGroup4NewLEv @ 2 NONAME
+	_ZN15CAnimationGroupD0Ev @ 3 NONAME
+	_ZN15CAnimationGroupD1Ev @ 4 NONAME
+	_ZN15CAnimationGroupD2Ev @ 5 NONAME
+	_ZN15CBasicAnimation4NewLEP22CAnimationDataProviderRK6TPointR10RWsSessionR7RWindowP18MAnimationObserver @ 6 NONAME
+	_ZN15CBasicAnimation4NewLEP22CAnimationDataProviderRK6TPointR10RWsSessionR7RWindowRK6TDesC8P18MAnimationObserver @ 7 NONAME
+	_ZN15CBasicAnimationD0Ev @ 8 NONAME
+	_ZN15CBasicAnimationD1Ev @ 9 NONAME
+	_ZN15CBasicAnimationD2Ev @ 10 NONAME
+	_ZN16CSpriteAnimation4NewLEP22CAnimationDataProviderRK6TPointR10RWsSessionR7RWindowP18MAnimationObserver @ 11 NONAME
+	_ZN16CSpriteAnimation4NewLEP22CAnimationDataProviderRK6TPointR10RWsSessionR7RWindowRK6TDesC8P18MAnimationObserver @ 12 NONAME
+	_ZN16CSpriteAnimationD0Ev @ 13 NONAME
+	_ZN16CSpriteAnimationD1Ev @ 14 NONAME
+	_ZN16CSpriteAnimationD2Ev @ 15 NONAME
+	_ZNK23CICLAnimationDataLoader10FrameCountEv @ 16 NONAME
+	_ZNK23CICLAnimationDataLoader12CurrentFrameEv @ 17 NONAME
+	_ZN23CICLAnimationDataLoader13GetNextFrameLEP15CAnimationFrame @ 18 NONAME
+	_ZN23CICLAnimationDataLoader14LoadImageDataLERK4TBufILi256EE @ 19 NONAME
+	_ZN23CICLAnimationDataLoader4NewLER3RFsR31MICLAnimationDataLoaderObserver @ 20 NONAME
+	_ZNK23CICLAnimationDataLoader9FrameInfoEi @ 21 NONAME
+	_ZN25CICLAnimationDataProvider8SetFileLER3RFsRK4TBufILi256EE @ 22 NONAME
+	_ZN25CICLAnimationDataProviderC1Ev @ 23 NONAME
+	_ZN25CICLAnimationDataProviderC2Ev @ 24 NONAME
+	_ZN25CICLAnimationDataProviderD0Ev @ 25 NONAME
+	_ZN25CICLAnimationDataProviderD1Ev @ 26 NONAME
+	_ZN25CICLAnimationDataProviderD2Ev @ 27 NONAME
+	_ZNK15CAnimationGroup10AnimationsEv @ 28 NONAME
+	_ZNK15CBasicAnimation4DrawER9CWindowGc @ 29 NONAME
+	_ZTI15CAnimationGroup @ 30 NONAME ; #<TI>#
+	_ZTI15CBasicAnimation @ 31 NONAME ; #<TI>#
+	_ZTI16CSpriteAnimation @ 32 NONAME ; #<TI>#
+	_ZTI25CICLAnimationDataProvider @ 33 NONAME ; #<TI>#
+	_ZTV15CAnimationGroup @ 34 NONAME ; #<VT>#
+	_ZTV15CBasicAnimation @ 35 NONAME ; #<VT>#
+	_ZTV16CSpriteAnimation @ 36 NONAME ; #<VT>#
+	_ZTV25CICLAnimationDataProvider @ 37 NONAME ; #<VT>#
+	_ZN15CAnimationGroup25CAnimationGroup_Reserved1Ev @ 38 NONAME
+	_ZN15CAnimationGroup25CAnimationGroup_Reserved2Ev @ 39 NONAME
+	_ZN16CSpriteAnimation8SetHostLEPK11CCoeControl @ 40 NONAME
+	_ZN16CSpriteAnimation26CSpriteAnimation_Reserved2Ev @ 41 NONAME
+	_ZN25CICLAnimationDataProvider32CAnimationDataProvider_Reserved1Ev @ 42 NONAME
+	_ZN25CICLAnimationDataProvider32CAnimationDataProvider_Reserved2Ev @ 43 NONAME
+	_ZN25CICLAnimationDataProvider35CICLAnimationDataProvider_Reserved1Ev @ 44 NONAME
+	_ZN25CICLAnimationDataProvider35CICLAnimationDataProvider_Reserved2Ev @ 45 NONAME
+	_ZN15CBasicAnimation25CBasicAnimation_Reserved1Ev @ 46 NONAME
+	_ZN15CBasicAnimation25CBasicAnimation_Reserved2Ev @ 47 NONAME
+	_ZN16CSpriteAnimation4NewLEP22CAnimationDataProviderRK6TPointP18MAnimationObserverPK11CCoeControl @ 48 NONAME
+	_ZN15CBasicAnimation4NewLEP22CAnimationDataProviderRK6TPointP18MAnimationObserverPK11CCoeControl @ 49 NONAME
+	_ZN15CBasicAnimation4NewLEP22CAnimationDataProviderRK6TPointRK6TDesC8P18MAnimationObserverPK11CCoeControl @ 50 NONAME
+	_ZN16CSpriteAnimation4NewLEP22CAnimationDataProviderRK6TPointRK6TDesC8P18MAnimationObserverPK11CCoeControl @ 51 NONAME
+	_ZNK16CSpriteAnimation4SizeEv @ 52 NONAME
+	_ZN15CBasicAnimation8SetHostLEPK11CCoeControl @ 53 NONAME
+	_ZN25CICLAnimationDataProvider8DataTypeEv @ 54 NONAME
+

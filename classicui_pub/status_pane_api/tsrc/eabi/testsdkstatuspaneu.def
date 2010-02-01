@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI21CTestSDKStatusPaneEXT @ 2 NONAME ; #<TI>#
+	_ZTI25TTestSDKStatusPaneVisitor @ 3 NONAME ; #<TI>#
+	_ZTV21CTestSDKStatusPaneEXT @ 4 NONAME ; #<VT>#
+	_ZTV25TTestSDKStatusPaneVisitor @ 5 NONAME ; #<VT>#
+

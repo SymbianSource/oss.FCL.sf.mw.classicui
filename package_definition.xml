@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition schema="3.0.0">
+  <package id="classicui" name="Classic UI" levels="base support server generic specific">
+    <collection id="psln" name="Personalization" level="specific">
+      <component id="pslnengine" filter="s60" name="Personalization Engine">
+        <!-- <unit bldFile="psln/pslnengine/group"/> -->
+      </component>
+      <component id="pslnframework" filter="s60" name="Personalization Framework">
+        <!-- <unit bldFile="psln/pslnframework"/> -->
+      </component>
+      <component id="pslnlibraryloaders" filter="s60" name="Personalization Library Loaders">
+          <!-- no bld.inf, need to create one or remove component -->
+      </component>
+      <component id="pslnslidesetdialog" filter="s60" name="Personalization Slideset Dialog" class="plugin">
+        <!-- <unit bldFile="psln/pslnslidesetdialog/group"/> -->
+      </component>
+      <component id="pslngsplugin" filter="s60" name="Personalization GS Plugin" class="plugin">
+        <unit bldFile="psln/pslngsplugin/group"/>
+      </component>
+      <component id="psln_help" filter="s60" name="Personalization Help">
+        <unit bldFile="psln/help/group"/>
+      </component>
+      <component id="psln_build" filter="s60" name="Personalization Build">
+             <!-- the Psln group bld.inf should be distributed into the individual components, or they should be collapsed in a single component -->
+        <unit bldFile="psln/group"/>
+      </component>
+    </collection>
+    <collection id="applicationinterworkingfw" name="Application Interworking Framework" level="generic">
+      <component id="aifwservicehandler" filter="s60" name="Application Interworking Service Handle">
+        <unit bldFile="applicationinterworkingfw/servicehandler/group"/>
+      </component>
+    </collection>
+    <collection id="commonuis" name="Common UIs" level="specific">
+      <component id="commonui" filter="s60" name="Common UI">
+        <unit bldFile="commonuis/commonui/group"/>
+      </component>
+      <component id="commondialogs" filter="s60" name="Common Dialogs">
+        <unit bldFile="commonuis/commondialogs/group"/>
+        <!-- <unit bldFile="commonuis/commondialogs/group_test"/> -->
+      </component>
+    </collection>
+    <collection id="uifw" name="UI Framework" level="server">
+      <component id="uiklaf" filter="s60" name="Uikon Look-and-Feel">
+        <unit bldFile="uifw/uiklaf/group"/>
+      </component>
+      <component id="eikctl" filter="s60" name="Eikon Controls">
+        <unit bldFile="uifw/eikctl/group"/>
+      </component>
+      <component id="avkon" filter="s60" name="Avkon">
+        <unit bldFile="uifw/avkon/aknphysics/group"/>
+        <unit bldFile="uifw/avkon/group"/>
+        <unit bldFile="uifw/avkon/odeconf/group"/>
+        <!-- <unit bldFile="uifw/avkon/aknhlist/group"/> -->
+        <!-- <unit bldFile="uifw/avkon/aknkeyrotator/group"/> -->
+        <!-- <unit bldFile="uifw/avkon/prebuilder"/> -->
+        <!-- <unit bldFile="uifw/avkon/tsrc/bc/s60_sdkmcl/bctestmixmcl/group"/> -->
+      </component>
+      <component id="eikstd" filter="s60" name="Eikon Standard">
+        <unit bldFile="uifw/eikstd/group"/>
+      </component>
+      <component id="aknglobalui" filter="s60" name="Avkon Global UI">
+        <unit bldFile="uifw/aknglobalui/group"/>
+      </component>
+      <component id="ganes" filter="s60" name="Ganes">
+        <unit bldFile="uifw/ganes/group"/>
+      </component>
+      <component id="uifw_test" filter="s60" name="UI Framework Test" purpose="development">
+        <!-- <unit bldFile="uifw/tsrc/group"/> -->
+      </component>
+    </collection>
+    <collection id="commonadapter" name="Common Adapter" level="support">
+      <component id="commonadapter_build" filter="s60" name="Common Adapter Build">
+        <unit bldFile="commonadapter/group"/>
+      </component>
+    </collection>
+    <collection id="ode" name="Open Dynamics Engine" level="support">
+      <component id="ode_build" filter="s60" name="ODE">
+        <unit bldFile="ode/group"/>
+      </component>
+    </collection>
+    <collection id="commonuisupport" name="Common UI Support" level="support">
+      <component id="uikon" name="Uikon" introduced="6.0" purpose="mandatory">
+        <unit bldFile="commonuisupport/uikon/group" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
+      </component>
+      <component id="errorresolverdata" name="Error Resolver Data" purpose="mandatory">
+        <unit bldFile="commonuisupport/errorresolverdata/group" mrp="commonuisupport/errorresolverdata/group/app-framework_errorresgt.mrp"/>
+      </component>
+      <component id="uilaf" name="UI Look and Feel" introduced="6.0" purpose="mandatory">
+        <unit bldFile="commonuisupport/uilaf/GROUP" mrp="commonuisupport/uilaf/GROUP/app-framework_uiklafgt.mrp"/>
+      </component>
+      <component id="grid" name="Grid" purpose="optional">
+        <unit bldFile="commonuisupport/grid/group" mrp="commonuisupport/grid/group/app-framework_grid.mrp"/>
+      </component>
+      <component id="uifwsdocs" name="UI Frameworks Documentation" purpose="development" class="doc">
+        <unit mrp="commonuisupport/uifwsdocs/app-framework_documentation.mrp"/>
+      </component>
+    </collection>
+    <collection id="lafagnosticuifoundation" name="Look-and-Feel Agnostic UI Foundation" level="base">
+      <component id="cone" name="Control Environment" purpose="mandatory">
+        <unit bldFile="lafagnosticuifoundation/cone/group" mrp="lafagnosticuifoundation/cone/group/app-framework_cone.mrp"/>
+      </component>
+      <component id="graphicseffects" name="Graphics Effects" introduced="9.2" purpose="optional">
+        <unit bldFile="lafagnosticuifoundation/graphicseffects/group" mrp="lafagnosticuifoundation/graphicseffects/group/app-framework_gfxtranseffect.mrp"/>
+      </component>
+      <component id="uigraphicsutils" name="UI Graphics Utilities" purpose="mandatory">
+        <unit bldFile="lafagnosticuifoundation/uigraphicsutils/group" mrp="lafagnosticuifoundation/uigraphicsutils/group/app-framework_egul.mrp"/>
+      </component>
+      <component id="clockanim" name="Clock" purpose="optional" class="plugin">
+        <unit bldFile="lafagnosticuifoundation/clockanim/group" mrp="lafagnosticuifoundation/clockanim/group/app-framework_clock.mrp"/>
+      </component>
+      <component id="bmpanimation" name="BMP Animation" introduced="6.0" purpose="optional">
+        <unit bldFile="lafagnosticuifoundation/bmpanimation/group" mrp="lafagnosticuifoundation/bmpanimation/group/app-framework_bmpanim.mrp"/>
+      </component>
+      <component id="animation" name="Animation" introduced="9.1" purpose="optional">
+        <unit bldFile="lafagnosticuifoundation/animation/group" mrp="lafagnosticuifoundation/animation/group/app-framework_animation.mrp"/>
+      </component>
+    </collection>
+    <collection id="classicui_info" name="Classic UI Info" level="specific">
+       <!-- the multiple units in the API components need to be resolved -->
+      <component id="classicui_pub" filter="s60" name="Classic UI Public Interfaces" class="api">
+        <unit bldFile="classicui_pub/group"/>
+      </component>
+      <component id="classicui_plat" filter="s60" name="Classic UI Platform Interfaces" class="api">
+        <unit bldFile="classicui_plat/group"/>
+      </component>
+      <component id="classicui_test" filter="s60" name="Classic UI Tests" purpose="development">
+        <unit bldFile="classicui_plat/tsrc/group"/>
+        <unit bldFile="classicui_pub/document_handler_api/tsrc/group"/>
+        <unit bldFile="classicui_pub/server_application_api/tsrc/group"/>
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/bctesttemplate/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.0/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.1/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.2/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk5.0/bctestpane/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk5.0/group"/> -->
+        <!-- <unit bldFile="classicui_pub/tsrc/bc/group"/> -->
+        <!-- <unit bldFile="classicui_plat/avkon_testability_api/tsrc/group"/> -->
+        <!-- <unit bldFile="classicui_plat/extended_sounds_api/tsrc/group"/> -->
+        <unit bldFile="classicui_plat/ganes_api/tsrc/group"/>
+        <unit bldFile="classicui_plat/physics_api/tsrc/group"/>
+      </component>
+      <component id="classicui_metadata" name="Classic UI Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+        <unit mrp="classicui_info/classicui_metadata/classicui_metadata.mrp"/>
+      </component>
+    </collection>
+  </package>
+</SystemDefinition>

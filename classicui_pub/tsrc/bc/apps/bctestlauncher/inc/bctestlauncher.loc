@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2006-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         This is a localisation file for BCTestLauncher.
+*                A .loc file is the one and only place where the logical
+*                strings to be localized are defined.
+*
+*/
+
+
+
+
+
+
+
+
+
+
+// Caption
+#define qtn_apps_tapb_list          "BCTestLauncher"
+#define qtn_apps_tapb_grid          "BCTestLauncher"
+
+//  LOCALISATION STRINGS
+
+#define qtn_aktaautotester_menu        "Menu"
+
+#define qtn_bctestlauncher_view1_tab  ""
+#define qtn_bctestlauncher_caption    "BCTestLauncher"
+
+
+#define qtn_bctestlauncher_softkey_run "Run"
+#define qtn_bctestlauncher_exit        "Exit"
+
+#define qtn_bctestlauncher_query_caption "Please input SDK version,eg.30,31,32,50:"
+// Test applications
+#define qtn_bctestlauncher_sdkversion        "Set SDK version"
+#define qtn_bctestlauncher_all               "Full test"
+#define qtn_bctestlauncher_partial           "Partial test"
+#define qtn_bctestlauncher_selection         "Select tests"
+#define qtn_bctestlauncher_selection_title   "Select tests:"
+#define qtn_bctestlauncher_separate          "Separate tests"
+
+#define qtn_bctestlauncher_editor       "AknAtEditor"
+#define qtn_bctestlauncher_aheditor     "AknAtAHEditor"
+#define qtn_bctestlauncher_fastswap     "AknAtFastSwap"
+#define qtn_bctestlauncher_fep          "AknAtFep"
+#define qtn_bctestlauncher_form         "AknAtForm"
+#define qtn_bctestlauncher_fsw1         "AknAtFSW1"
+#define qtn_bctestlauncher_fsw2         "AknAtFSW2"
+#define qtn_bctestlauncher_fsw3         "AknAtFSW3"
+#define qtn_bctestlauncher_fsw4         "AknAtFSW4"
+#define qtn_bctestlauncher_grid         "AknAtGrid"
+#define qtn_bctestlauncher_layoutswitch "AknAtLayoutSwitch"
+#define qtn_bctestlauncher_list         "AknAtList"
+#define qtn_bctestlauncher_menu         "AknAtMenu"
+#define qtn_bctestlauncher_mfneeditor   "AknAtMfneEditor"
+#define qtn_bctestlauncher_note         "AknAtNote"
+#define qtn_bctestlauncher_notif        "AknAtNotif"
+#define qtn_bctestlauncher_pbar         "AknAtPbar"
+#define qtn_bctestlauncher_pnumeditor   "AknAtPnumEditor"
+#define qtn_bctestlauncher_popfield     "AknAtPopField"
+#define qtn_bctestlauncher_popform      "AknAtPopForm"
+#define qtn_bctestlauncher_poplist      "AknAtPopList"
+#define qtn_bctestlauncher_query        "AknAtQuery"
+#define qtn_bctestlauncher_scroller     "AknAtScroller"
+#define qtn_bctestlauncher_sct          "AknAtSct"
+#define qtn_bctestlauncher_setpage      "AknAtSetPage"
+#define qtn_bctestlauncher_slider       "AknAtSlider"
+#define qtn_bctestlauncher_softkey      "AknAtSoftkey"
+#define qtn_bctestlauncher_spane        "AknAtSpane"
+#define qtn_bctestlauncher_volume       "AknAtVolume"
+
+// End of File

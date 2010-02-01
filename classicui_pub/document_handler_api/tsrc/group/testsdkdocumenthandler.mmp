@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  test document_handler_api 
+*
+*/
+
+#include <data_caging_paths.hrh> 
+
+#include <platform_paths.hrh>
+
+
+TARGET          testsdkdocumenthandler.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkdocumenthandler.def
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+
+SOURCE          testsdkdocumenthandler.cpp
+SOURCE          testsdkdocumenthandlerblocks.cpp 
+SOURCE          testsdkdocumenthandlerobserver.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         commonui.lib
+LIBRARY         eikcore.lib
+LIBRARY         cone.lib
+LIBRARY         efsrv.lib
+LIBRARY         apmime.lib
+LIBRARY         avkon.lib
+LIBRARY         APPARC.LIB
+LIBRARY         PlatformEnv.lib
+
+LANG            SC
+
+// End of File

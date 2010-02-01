@@ -1,0 +1,90 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localized resources for project akncompamode
+*
+*/
+
+
+NAME ACMT
+
+#include <eikon.rh>
+#include <badef.rh>
+
+#include "akncompamode.loc"
+
+RESOURCE RSS_SIGNATURE {}
+
+// ---------------------------------------------------------------------------
+// Texts for keypad buttons. Some buttons don't have text (e.g. rockers) and
+// a corresponding resource.
+// ---------------------------------------------------------------------------
+RESOURCE TBUF r_akncompamode_text_1key
+    {
+    buf = qtn_cmode_1key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_2key
+    {
+    buf = qtn_cmode_2key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_3key
+    {
+    buf = qtn_cmode_3key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_4key
+    {
+    buf = qtn_cmode_4key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_5key
+    {
+    buf = qtn_cmode_5key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_6key
+    {
+    buf = qtn_cmode_6key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_7key
+    {
+    buf = qtn_cmode_7key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_8key
+    {
+    buf = qtn_cmode_8key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_9key
+    {
+    buf = qtn_cmode_9key;
+    }
+
+RESOURCE TBUF r_akncompamode_text_qkey
+    {
+    buf = qtn_cmode_qkey;
+    }
+
+RESOURCE TBUF r_akncompamode_text_pluskey
+    {
+    buf = qtn_cmode_pluskey;
+    }
+
+RESOURCE TBUF r_akncompamode_text_hashkey
+    {
+    buf = qtn_cmode_hashkey;
+    }

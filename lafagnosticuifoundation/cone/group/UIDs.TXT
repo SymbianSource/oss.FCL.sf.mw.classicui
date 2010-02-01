@@ -1,0 +1,7 @@
+This file contains a list of UID's allocated for use by cone.
+Please use ones in this list before getting some more allocated.
+
+Cone UID's:			Decimal		Hexadecimal
+MCoeControlStateObserver	271080005	10285A45
+Start Range moved to SSMA	271080006	10285A46
+End Range moved to SSMA		271080020	10285A54

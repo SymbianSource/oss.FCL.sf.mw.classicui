@@ -1,0 +1,195 @@
+// Copyright (c) 2000-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TVW3
+
+#include <techview/eikon.rh>
+#include <techview/eikon.rsg>
+#include <eikon.mbg>
+
+#include "tvwview.RH"
+#include "tview3.HRH"
+
+//
+// Essential resources.
+//
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	menubar=r_vw_menubar;
+	hotkeys=r_vw_hotkeys;
+	}
+
+//
+// Hot keys.
+//
+
+RESOURCE HOTKEYS r_vw_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=EEikCmdExit; key='e'; },
+        HOTKEY { command=EDisplayTaskList; key='t'; },
+        HOTKEY { command=ESwitchView; key='s'; }
+        };
+    }
+
+//
+// Menu bar.
+//
+
+RESOURCE MENU_BAR r_vw_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_vw_file_menu; txt="File"; },
+	    MENU_TITLE { menu_pane=r_vw_display_menu; txt="Display"; },
+	    MENU_TITLE { menu_pane=r_vw_exception_test_menu; txt="Excptn. Test"; },
+	    MENU_TITLE { menu_pane=r_vw_abuse_test_menu; txt="Abuse Test"; }
+ 		};
+    }
+
+RESOURCE MENU_PANE r_vw_display_menu
+	{
+	items=
+		{
+        MENU_ITEM { command=ESwitchView; txt="Switch view dialog"; },
+		MENU_ITEM { command=EDisplayRichText; txt="Rich text dialog"; },
+        MENU_ITEM { command=EDisplayTaskList; txt="Task list"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_vw_file_menu
+	{
+	items=
+		{
+		MENU_ITEM { command=EEikCmdExit; txt="Close"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_vw_exception_test_menu
+	{
+	items=
+		{
+        MENU_ITEM { command=ESuccesiveAllocFail; txt="Test Succesive Alloc Failure"; },
+        MENU_ITEM { command=EActivationOOM; txt="Test Activation OOM"; },
+        MENU_ITEM { command=EStartMissingApp; txt="Test Start Missing App"; },
+        MENU_ITEM { command=EPanicedActivation; txt="Test Paniced Activation"; },
+        MENU_ITEM { command=EPanicedDeactivation; txt="Test Paniced Deactivation"; },
+        MENU_ITEM { command=EPanicApp; txt="Test Panic"; },
+        MENU_ITEM { command=ESlowActivation; txt="Test Slow Activation"; },
+        MENU_ITEM { command=ESlowDeactivation; txt="Test Slow Deactivation"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_vw_abuse_test_menu
+	{
+	items=
+		{
+        MENU_ITEM { command=EWaitingActivation; txt="Test Waiting Activation"; }
+        };
+    }
+
+//
+// View switch dialog.
+//
+	
+RESOURCE DIALOG r_vw_view_switch_dialog
+    {
+	flags=EEikDialogFlagWait|EEikDialogFlagButtonsRight;
+    title="Switch view";
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EEikCtChoiceList;
+            prompt="App:";
+            id=ESwitchDlg_AppChoice;
+            control=CHOICELIST
+                {
+                array_id=r_vw_switch_dlg_app_choice_array;
+                flags=EEikChlistIncrementalMatching;
+                };
+            },
+        DLG_LINE
+            {
+            type=EEikCtChoiceList;
+            prompt="View:";
+            id=ESwitchDlg_ViewChoice;
+            control=CHOICELIST
+                {
+                array_id=r_vw_switch_dlg_view_choice_array;
+                flags=EEikChlistIncrementalMatching;
+                };
+            },
+		DLG_LINE
+			{
+            prompt="Custom msg:";
+            type=EEikCtEdwin;
+            id=ESwitchDlg_CustomMsg;
+			itemflags=0;
+            control=EDWIN { maxlength=256; width=8; };
+            }
+        };
+    }
+
+RESOURCE ARRAY r_vw_switch_dlg_app_choice_array
+	{
+	items=
+		{
+		LBUF { txt="TVIEW1"; },
+		LBUF { txt="TVIEW2"; }
+		};
+	}
+
+RESOURCE ARRAY r_vw_switch_dlg_view_choice_array
+	{
+	items=
+		{
+		LBUF { txt="View 1"; },
+		LBUF { txt="View 2"; }
+		};
+	}
+
+//
+// Rich text dialog
+//
+
+RESOURCE DIALOG r_vw_rtexted_dialog
+	{
+	flags=EEikDialogFlagWait;
+	buttons=R_EIK_BUTTONS_CANCEL_OK;
+	title="Embed objects in editor";
+	items=
+		{
+		DLG_LINE
+			{
+			type=EEikCtRichTextEditor;
+			id=ERtextedDlg_Editor;
+			control=RTXTED
+				{
+				width=200;
+				height=80;
+				numlines=0;
+				};
+			}
+		};
+	}
+

@@ -1,0 +1,6036 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Resource definitions for project bctestlist
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME    BCLT
+
+//  INCLUDES
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#include <appinfo.rh>
+
+#include <bctestlist.mbg>
+#include "bctestlist.hrh"
+#include "bctestList.loc"
+#include "bctestlist_01.loc"
+
+#define AVKON_BMP_FILENAME "z:"APP_BITMAP_DIR"\\avkon2.mbm"
+#define BCTESTLIST_BMP_FILENAME APP_BITMAP_DIR"\\bctestlist.mbm"
+
+#define CHECKBOX_SETTING_PAGE_NUMBER     1
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF { buf="BCTestList"; }
+
+// ----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    cba = r_bctestlist_softkeys_options_next;
+    }
+    
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestlist_localisable_app_info
+    {
+    short_caption = qtn_apps_tals_grid;
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tals_list;
+        number_of_icons = 2;
+            //icon_file = "\\resource\\apps\\AknAtList_aif.mbm";
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_softkeys_options_next
+//    Softkey 
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE CBA r_bctestlist_softkeys_options_next
+    {
+    buttons =
+        {
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyBack; 
+            txt = text_softkey_back; 
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_view
+//    AVKON_VIEW for CAknAtColumnView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestlist_view
+    {
+    menubar = r_bctestlist_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_menubar_main
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestlist_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlist_exit;
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlist_main_menu;
+            }        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_main_menu
+//    Menu Pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_main_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_column_menu;
+            txt = qtn_bctestlist_menu_column;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_formatted_menu;
+            txt = qtn_bctestlist_menu_formatted;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_setting_menu;
+            txt = qtn_bctestlist_menu_setting_list;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_popup_menu;
+            txt = qtn_bctestlist_menu_popup_list;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_grid_menu;
+            txt = qtn_bctestlist_menu_grid_list;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_other_menu;
+            txt = qtn_bctestlist_menu_other;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_columnbase_menu;
+            txt = qtn_bctestlist_menu_columnbase;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_formatbase_menu;
+            txt = qtn_bctestlist_menu_formatbase;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_eiklist_menu;
+            txt = qtn_bctestlist_menu_eiklist;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestlist_selection_menu;
+            txt = qtn_bctestlist_menu_selection;
+            }               
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_column_menu
+//    cascade menu for column list boxes
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_column_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline01;
+            txt = qtn_bctestlist_outline01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline02;
+            txt = qtn_bctestlist_outline02;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline03;
+            txt = qtn_bctestlist_outline03;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline04;
+            txt = qtn_bctestlist_outline04;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline05;
+            txt = qtn_bctestlist_outline05;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline06;
+            txt = qtn_bctestlist_outline06;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline07;
+            txt = qtn_bctestlist_outline07;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline08;
+            txt = qtn_bctestlist_outline08;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline09;
+            txt = qtn_bctestlist_outline09;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline10;
+            txt = qtn_bctestlist_outline10;
+            }        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_formatted_menu
+//    cascade menu for column list boxes
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_formatted_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline10;
+            txt = qtn_bctestlist_outline10;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline11;
+            txt = qtn_bctestlist_outline11;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline12;
+            txt = qtn_bctestlist_outline12;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline13;
+            txt = qtn_bctestlist_outline13;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline14;
+            txt = qtn_bctestlist_outline14;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline15;
+            txt = qtn_bctestlist_outline15;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline16;
+            txt = qtn_bctestlist_outline16;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline17;
+            txt = qtn_bctestlist_outline17;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline18;
+            txt = qtn_bctestlist_outline18;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline19;
+            txt = qtn_bctestlist_outline19;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline20;
+            txt = qtn_bctestlist_outline20;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline21;
+            txt = qtn_bctestlist_outline21;
+            }       
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_setting_menu
+//    cascade menu for setting list boxes
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_setting_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline23;
+            txt = qtn_bctestlist_outline23;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline24;
+            txt = qtn_bctestlist_outline24;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline25;
+            txt = qtn_bctestlist_outline25;
+            }       
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_popup_menu
+//    cascade menu for popup list boxes
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_popup_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline26;
+            txt = qtn_bctestlist_outline26;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline27;
+            txt = qtn_bctestlist_outline27;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline28;
+            txt = qtn_bctestlist_outline28;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline29;
+            txt = qtn_bctestlist_outline29;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline30;
+            txt = qtn_bctestlist_outline30;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline31;
+            txt = qtn_bctestlist_outline31;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline32;
+            txt = qtn_bctestlist_outline32;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline33;
+            txt = qtn_bctestlist_outline33;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline34;
+            txt = qtn_bctestlist_outline34;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline35;
+            txt = qtn_bctestlist_outline35;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline36;
+            txt = qtn_bctestlist_outline36;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline37;
+            txt = qtn_bctestlist_outline37;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline38;
+            txt = qtn_bctestlist_outline38;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline39;
+            txt = qtn_bctestlist_outline39;
+            }       
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_grid_menu
+//    cascade menu for grid pane list boxes
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_grid_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline40;
+            txt = qtn_bctestlist_outline40;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline41;
+            txt = qtn_bctestlist_outline41;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline42;
+            txt = qtn_bctestlist_outline42;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_other_menu
+//    cascade menu for other cases
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_other_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline43;
+            txt = qtn_bctestlist_outline43;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline44;
+            txt = qtn_bctestlist_outline44;
+            }        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_columnbase_menu
+//    cascade menu for column base class cases
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_columnbase_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline45;
+            txt = qtn_bctestlist_outline45;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline46;
+            txt = qtn_bctestlist_outline46;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline47;
+            txt = qtn_bctestlist_outline47;
+            }         
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_formatbase_menu
+//    cascade menu for column base class cases
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_formatbase_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline48;
+            txt = qtn_bctestlist_outline48;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline49;
+            txt = qtn_bctestlist_outline49;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline50;
+            txt = qtn_bctestlist_outline50;
+            }         
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_eiklist_menu
+//    cascade menu for list class in eikstd
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_eiklist_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline51;
+            txt = qtn_bctestlist_outline51;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline52;
+            txt = qtn_bctestlist_outline52;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline53;
+            txt = qtn_bctestlist_outline53;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline54;
+            txt = qtn_bctestlist_outline54;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline55;
+            txt = qtn_bctestlist_outline55;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selection_menu
+//    cascade menu for selection list
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_selection_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline56;
+            txt = qtn_bctestlist_outline56;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline57;
+            txt = qtn_bctestlist_outline57;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_exit
+//    Menu Pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestlist_exit
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestlist_autotest;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestlist_exit;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_popupfind
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_popupfind
+    {
+    array_id = r_bctestlist_item_single_popupfind;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_1_add_rm
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_1_add_rm
+    {
+    array_id = r_bctestlist_item_single1_add_rm;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_markable
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_markable
+    {
+    array_id = r_bctestlist_item_single_markable;
+    flags = EAknListBoxMarkableList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_markable_shortcut
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_markable_shortcut
+    {
+    array_id = r_bctestlist_item_single_markable;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_3
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_3
+    {
+    array_id = r_bctestlist_item_single3;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_4
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_4
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMarkableList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_5
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_5
+    {
+    array_id = r_bctestlist_item_single4;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_6
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_6
+    {
+    array_id = r_bctestlist_item_single5;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_7
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_7
+    {
+    array_id = r_bctestlist_item_single6;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_sub
+//    ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+/*RESOURCE LISTBOX r_bctestlist_single_sub
+    {
+    array_id = r_bctestlist_item_single_sub;
+    flags = EAknListBoxSelectionList;
+    }
+*/
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_number
+//    ListBox( Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_number_indicator
+//    ListBox( Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_number_indicator
+    {
+    array_id = r_bctestlist_item_single_number_indicator;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_heading
+//    ListBox( Single Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_graphic
+//    ListBox( Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_graphic_multi
+//    ListBox( Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_graphic_multi
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_large_graphic
+//    ListBox( Single Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_graphic_heading
+//    ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_graphic_heading_multi
+//    ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_graphic_heading_multi
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_number_heading
+//    ListBox( Single Number Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_big_single
+//    ListBox( Big Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_big_single_number
+//    ListBox( Big Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_big_single_graphic
+//    ListBox( Big Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double
+//    ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double_add_rm
+//    ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double_add_rm
+    {
+    array_id = r_bctestlist_item_double_add_rm;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double_number
+//    ListBox( Double Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double_graphic
+//    ListBox( Double Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double2_graphic
+//    ListBox( Double2 Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double2_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double_large_graphic
+//    ListBox( Double Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double2_large_graphic
+//    ListBox( Double2 Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double2_large_graphic
+    {
+    array_id = r_bctestlist_item_double2_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double2_graphic_large_graphic
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double2_graphic_large_graphic
+    {
+    array_id = r_bctestlist_item_double2_graphic_large_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double2_large
+//    ListBox( Double2 Large )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double2_large
+    {
+    array_id = r_bctestlist_item_double2_large;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double_time
+//    ListBox( Double Time )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_double_time
+    {
+    array_id = r_bctestlist_item_double_time;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_layout1
+//    ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_layout1
+    {
+    array_id = r_bctestlist_pane_layout1;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_layout2
+//    ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_layout2
+    {
+    array_id = r_bctestlist_pane_layout2;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_setting
+//    ListBox( Setting style )
+//
+//-----------------------------------------------------------------------------
+//
+/*RESOURCE LISTBOX r_bctestlist_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionList;
+    }
+*/
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_setting
+//    ListBox( Setting style )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_setting_add_rm
+    {
+    array_id = r_bctestlist_item_setting_add_rm;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_setting_number
+//    ListBox( Setting style )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selectionlist_??
+//    ListBox( EAknListBoxSelectionList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_selectionlist_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_setting_add_rm
+    {
+    array_id = r_bctestlist_item_setting_add_rm;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selectionlist_withs_??
+//    ListBox( EAknListBoxSelectionListWithShortcuts )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single
+    {
+    array_id = r_bctestlist_item_single_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_number
+    {
+    array_id = r_bctestlist_item_single_number_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_big_single
+    {
+    array_id = r_bctestlist_item_big_single_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_double
+    {
+    array_id = r_bctestlist_item_double_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_double_number
+    {
+    array_id = r_bctestlist_item_double_number_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_setting
+    {
+    array_id = r_bctestlist_item_setting_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectionlist_withs_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic_for_withs;
+    flags = EAknListBoxSelectionListWithShortcuts;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_menulist_??
+//    ListBox( EAknListBoxMenuList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_menulist_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menulist_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_markablelist_??
+//    ListBox( EAknListBoxMarkableList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_markablelist_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_markablelist_withs_??
+//    ListBox( EAknListBoxMarkableList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single
+    {
+    array_id = r_bctestlist_item_single_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_number
+    {
+    array_id = r_bctestlist_item_single_number_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_big_single
+    {
+    array_id = r_bctestlist_item_big_single_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_double
+    {
+    array_id = r_bctestlist_item_double_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_double_number
+    {
+    array_id = r_bctestlist_item_double_number_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_setting
+    {
+    array_id = r_bctestlist_item_setting_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablelist_withs_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic_for_withs;
+    flags = EAknListBoxMarkableListWithShortcuts;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_multiselectionlist_??
+//    ListBox( EAknListBoxMultiselectionList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_multiselectionlist_??
+//    ListBox( EAknListBoxMultiselectionListWithShortcuts )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single
+    {
+    array_id = r_bctestlist_item_single_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_number
+    {
+    array_id = r_bctestlist_item_single_number_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_big_single
+    {
+    array_id = r_bctestlist_item_big_single_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_double
+    {
+    array_id = r_bctestlist_item_double_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_double_number
+    {
+    array_id = r_bctestlist_item_double_number_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_setting
+    {
+    array_id = r_bctestlist_item_setting_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_multiselectionlist_withs_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic_for_withs;
+    flags = EAknListBoxMultiselectionListWithShortcuts;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selectiongrid_??
+//    ListBox( EAknListBoxSelectionGrid )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionGrid;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selection_grid
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE GRID r_bctestlist_selection_grid
+    {
+    flags = EAknListBoxSelectionGrid;
+    array_id = r_bctestlist_item_selection_grid;
+    flags = EAknListBoxMarkableGrid;
+    emptytext = qtn_bctestlist_empty_selection_grid;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_selectiongrid_withs_??
+//    ListBox( EAknListBoxSelectionGridWithShortcuts )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single
+    {
+    array_id = r_bctestlist_item_single_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_number
+    {
+    array_id = r_bctestlist_item_single_number_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_big_single
+    {
+    array_id = r_bctestlist_item_big_single_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_double
+    {
+    array_id = r_bctestlist_item_double_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_double_number
+    {
+    array_id = r_bctestlist_item_double_number_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_setting
+    {
+    array_id = r_bctestlist_item_setting_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_selectiongrid_withs_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic_for_withs;
+    flags = EAknListBoxSelectionGridWithShortcuts;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_markablegrid_??
+//    ListBox( EAknListBoxMarkableGrid )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_markablegrid_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMarkableGrid;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_markablegrid_withs_??
+//    ListBox( EAknListBoxMarkableGridWithShortcuts )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single
+    {
+    array_id = r_bctestlist_item_single_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_number
+    {
+    array_id = r_bctestlist_item_single_number_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_big_single
+    {
+    array_id = r_bctestlist_item_big_single_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_double
+    {
+    array_id = r_bctestlist_item_double_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_double_number
+    {
+    array_id = r_bctestlist_item_double_number_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_setting
+    {
+    array_id = r_bctestlist_item_setting_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+RESOURCE LISTBOX r_bctestlist_markablegrid_withs_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic_for_withs;
+    flags = EAknListBoxMarkableGridWithShortcuts;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_menugrid_??
+//    ListBox( EAknListBoxMenuGrid )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_menugrid_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMenuGrid;
+    }
+
+RESOURCE LISTBOX r_bctestlist_menugrid_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMenuGrid;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_dialogselection_??
+//    ListBox( EAknListBoxSelectionList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_dialogselection_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogselection_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_dialogmenu_??
+//    ListBox( EAknListBoxMenuList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMenuList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmenu_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMenuList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_viewer_??
+//    ListBox( EAknListBoxViewerFlags )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_viewer_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+RESOURCE LISTBOX r_bctestlist_viewer_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxViewerFlags;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_dialogmarkable_??
+//    ListBox( EAknListBoxMarkableList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMarkableList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmarkable_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMarkableList;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_dialogmulti_??
+//    ListBox( EAknListBoxMultiselectionList )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+RESOURCE LISTBOX r_bctestlist_dialogmulti_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxMultiselectionList;
+    }
+
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_loop_??
+//    ListBox( EAknListBoxLoopScrolling )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_bctestlist_loop_single
+    {
+    array_id = r_bctestlist_item_single1;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_number
+    {
+    array_id = r_bctestlist_item_single_number;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_heading
+    {
+    array_id = r_bctestlist_item_single_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_graphic
+    {
+    array_id = r_bctestlist_item_single_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_graphic_heading
+    {
+    array_id = r_bctestlist_item_single_graphic_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_number_heading
+    {
+    array_id = r_bctestlist_item_single_number_heading;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_single_large_graphic
+    {
+    array_id = r_bctestlist_item_single_large_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_big_single
+    {
+    array_id = r_bctestlist_item_big_single;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_big_single_number
+    {
+    array_id = r_bctestlist_item_big_single_number;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_big_single_graphic
+    {
+    array_id = r_bctestlist_item_big_single_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_double
+    {
+    array_id = r_bctestlist_item_double;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_double_number
+    {
+    array_id = r_bctestlist_item_double_number;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_double_large_graphic
+    {
+    array_id = r_bctestlist_item_double_large_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_setting
+    {
+    array_id = r_bctestlist_item_setting;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_setting_number
+    {
+    array_id = r_bctestlist_item_setting_number;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+RESOURCE LISTBOX r_bctestlist_loop_double_graphic
+    {
+    array_id = r_bctestlist_item_double_graphic;
+    flags = EAknListBoxSelectionList | EAknListBoxLoopScrolling;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single1
+//    Items array for ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single1
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s9;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single1_add_rm
+//    Items array for ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single1_add_rm
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestlist_item_s1_add; },
+        LBUF { txt = qtn_bctestlist_item_s2_rm;  },
+        LBUF { txt = qtn_bctestlist_item_s3;     },
+        LBUF { txt = qtn_bctestlist_item_s4;     },
+        LBUF { txt = qtn_bctestlist_item_s5;     },
+        LBUF { txt = qtn_bctestlist_item_s6;     },
+        LBUF { txt = qtn_bctestlist_item_s7;     },
+        LBUF { txt = qtn_bctestlist_item_s8;     },
+        LBUF { txt = qtn_bctestlist_item_s9;     }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_popupfind
+//    Items array for ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_popupfind
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestlist_item_popupfind; },
+        LBUF { txt = qtn_bctestlist_item_s1; },
+        LBUF { txt = qtn_bctestlist_item_s1; },
+        LBUF { txt = qtn_bctestlist_item_s2; },
+        LBUF { txt = qtn_bctestlist_item_s3; },
+        LBUF { txt = qtn_bctestlist_item_s4; },
+        LBUF { txt = qtn_bctestlist_item_s5; },
+        LBUF { txt = qtn_bctestlist_item_s6; },
+        LBUF { txt = qtn_bctestlist_item_s7; },
+        LBUF { txt = qtn_bctestlist_item_s8; },
+        LBUF { txt = qtn_bctestlist_item_s9; }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_item_bctestlist_single_markable
+//    Items array for ListBox
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_markable
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_this_is;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_markable_list;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single3
+//    Items array for ListBox( Single 3 )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single3
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single4
+//    Items array for ListBox( Single 4 )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single4
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_this_is;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_multisel_list;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_press_0;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single5
+//    Items array for ListBox( Single 5 )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single5
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s7;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single6
+//    Items array for ListBox( Single 6 )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single6
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_open1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_open2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_number
+//    Items array for ListBox( Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_number
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_number_indicator
+//    Items array for ListBox( Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_number_indicator
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni15;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni16;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sni17;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_heading
+//    Items array for ListBox( Single Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_heading
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_graphic
+//    Items array for ListBox( Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_graphic
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestlist_item_sg1; },
+        LBUF { txt = qtn_bctestlist_item_sg2; },
+        LBUF { txt = qtn_bctestlist_item_sg3; },
+        LBUF { txt = qtn_bctestlist_item_sg4; },
+        LBUF { txt = qtn_bctestlist_item_sg5; },
+        LBUF { txt = qtn_bctestlist_item_sg6; },
+        LBUF { txt = qtn_bctestlist_item_sg7; },
+        LBUF { txt = qtn_bctestlist_item_sg8; }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_large_graphic
+//    Items array for ListBox( Singl Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_large_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_graphic_heading
+//    Items array for ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_graphic_heading
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_number_heading
+//    Items array for ListBox( Single Number Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_number_heading
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single
+//    Items array for ListBox( Big Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single_number
+//    Items array for ListBox( Big Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single_number
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single_graphic
+//    Items array for ListBox( Big Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double
+//    Items array for ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_add_rm
+//    Items array for ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_add_rm
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestlist_item_s1_add; },
+        LBUF { txt = qtn_bctestlist_item_s2_rm; },
+        LBUF { txt = qtn_bctestlist_item_d3; },
+        LBUF { txt = qtn_bctestlist_item_d4; },
+        LBUF { txt = qtn_bctestlist_item_d5; },
+        LBUF { txt = qtn_bctestlist_item_d6; },
+        LBUF { txt = qtn_bctestlist_item_d7; },
+        LBUF { txt = qtn_bctestlist_item_d8; }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_number
+//    Items array for ListBox( Double Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_number
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_graphic
+//    Items array for ListBox( Double Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_large_graphic
+//    Items array for ListBox( Double Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_large_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double2_large_graphic
+//    Items array for ListBox( Double Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double2_large_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl2g8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double2_graphic_large_graphic
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double2_graphic_large_graphic
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2lgl11;
+            }
+        };
+    }
+
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double2_large
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double2_large
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl21;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl22;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl23;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl24;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl25;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl26;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl27;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dl28;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_time
+//    Items array for ListBox( Double Time )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_time
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dt8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_pane_layout1
+//    Items array for ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_pane_layout1
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh_mulsel_list;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_pane_layout2
+//    Items array for ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_pane_layout2
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh_mulsel_list;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_setting
+//    Items array for ListBox( Setting )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_setting
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st8;
+            }
+        };
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_setting_add_rm
+//    Items array for ListBox( Setting )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_setting_add_rm
+    {
+    items =
+        {
+        LBUF { txt = qtn_bctestlist_item_st1_add; },
+        LBUF { txt = qtn_bctestlist_item_st2_rm; },
+        LBUF { txt = qtn_bctestlist_item_st3; },
+        LBUF { txt = qtn_bctestlist_item_st4; },
+        LBUF { txt = qtn_bctestlist_item_st5; },
+        LBUF { txt = qtn_bctestlist_item_st6; },
+        LBUF { txt = qtn_bctestlist_item_st7; },
+        LBUF { txt = qtn_bctestlist_item_st8; }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_setting_number
+//    Items array for ListBox( Setting Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_setting_number
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn8;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_for_withs
+//    Items array for ListBox( Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s15;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s16;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s17;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s18;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_s19;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_number_for_withs
+//    Items array for ListBox( Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_number_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sn15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_heading_for_withs
+//    Items array for ListBox( Single Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_heading_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sh15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_graphic_for_withs
+//    Items array for ListBox( Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_graphic_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sg15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_large_graphic_for_withs
+//    Items array for ListBox( Singl Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_large_graphic_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_slg15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_graphic_heading_for_withs
+//    Items array for ListBox( Single Graphic Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_graphic_heading_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh15;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh16;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_sgh17;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_single_number_heading_for_withs
+//    Items array for ListBox( Single Number Heading )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_single_number_heading_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_snh15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single_for_withs
+//    Items array for ListBox( Big Single )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bs15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single_number_for_withs
+//    Items array for ListBox( Big Single Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single_number_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsn15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_big_single_graphic_for_withs
+//    Items array for ListBox( Big Single Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_big_single_graphic_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_bsg15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_for_withs
+//    Items array for ListBox( Double )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_d15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_number_for_withs
+//    Items array for ListBox( Double Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_number_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dn15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_graphic_for_withs
+//    Items array for ListBox( Double Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_graphic_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dg15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_double_large_graphic_for_withs
+//    Items array for ListBox( Double Large Graphic )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_double_large_graphic_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_dlg15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_setting_for_withs
+//    Items array for ListBox( Setting )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_setting_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_st15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_setting_number_for_withs
+//    Items array for ListBox( Setting Number )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_setting_number_for_withs
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn5;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn6;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn7;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn8;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn9;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn10;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn11;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn12;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn13;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn14;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_item_stn15;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_double2_item
+//    Items array for ListBox( Double2 Style )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_double2_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestlist_double2_1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_double2_2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_double2_3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestlist_double2_4;
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_selection_grid
+//    Items array for ListBox( PinbGrid )
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestlist_item_selection_grid
+    {
+    items = 
+        {
+        LBUF { txt = qtn_bctestlist_grid_item_1; },
+        LBUF { txt = qtn_bctestlist_grid_item_2; },
+        LBUF { txt = qtn_bctestlist_grid_item_3; },
+        LBUF { txt = qtn_bctestlist_grid_item_4; },
+        LBUF { txt = qtn_bctestlist_grid_item_5; },
+        LBUF { txt = qtn_bctestlist_grid_item_6; },
+        LBUF { txt = qtn_bctestlist_grid_item_7; },
+        LBUF { txt = qtn_bctestlist_grid_item_8; }        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_app_title
+//    Apprication title
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_app_title
+    {
+    buf = qtn_bctestlist_app_title;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_empty_label
+//    Empty list label
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_empty_label
+    {
+    buf = qtn_bctestlist_empty_label1;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_two_lines_empty_label
+//    Two lines empty list label
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_two_lines_empty_label
+    {
+    buf = qtn_bctestlist_empty_label2;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_add_item_single
+//    Add list item
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_add_item_single
+    {
+    buf = qtn_bctestlist_add_item_s;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_add_item_double
+//    Add list item
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_add_item_double
+    {
+    buf = qtn_bctestlist_add_item_d;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_add_item_setting
+//    Add list item
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_add_item_setting
+    {
+    buf = qtn_bctestlist_add_item_st;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_message
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_msg
+    {
+    buf = qtn_bctestlist_msg;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_mark_info
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_mark_info
+    {
+    buf = qtn_bctestlist_mark_info;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_format
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_format
+    {
+    buf = qtn_bctestlist_format;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_no_mark
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_no_mark
+    {
+    buf = qtn_bctestlist_no_mark;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_resource_msg
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_resource_msg
+    {
+    buf = qtn_bctestlist_resource_msg;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_internal_msg
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_internal_msg
+    {
+    buf = qtn_bctestlist_internal_msg;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_user_defined_numbering_msg
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_user_defined_numbering_msg
+    {
+    buf = qtn_bctestlist_user_num_msg;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_auto_numbering_msg
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_auto_numbering_msg
+    {
+    buf = qtn_bctestlist_auto_num_msg;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_tab
+//    Tab.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_tab
+    {
+    buf = qtn_bctestlist_tab;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_count
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_item_count
+    {
+    buf = qtn_bctestlist_item_count;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_item_open
+//    Information message.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_item_open
+    {
+    buf = qtn_bctestlist_item_open;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_outline_title
+//    Outline title
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF64 r_bctestlist_outline_title
+    {
+    buf = qtn_bctestlist_outline_title;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_app_outline2
+//    Outline number2
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF64 r_bctestlist_outline_title_type
+    {
+    buf = qtn_bctestlist_outline_title_type;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_flagtest_dialog_label
+//    Label text of outline 100, 101, 103, 104.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_flagtest_dialog_label
+    {
+    buf = qtn_bctestlist_flagtest_dialog_label;
+    }
+
+// ================================
+// Following is for Outline 16.
+// ================================
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_empty_item_list
+//    For outline 16.
+//
+//-----------------------------------------------------------------------------
+//
+/*RESOURCE AVKON_SETTING_ITEM_LIST r_bctestlist_empty_item_list
+    {
+    flags= EAknSettingItemNumberedStyle;
+    title = qtn_bctestlist_setpage_empty_title;
+    //initial_number = 1;
+    items =     
+        {
+        AVKON_SETTING_ITEM
+            {
+            identifier = EBCTestListEmptyItem;
+            name = qtn_bctestlist_setpage_empty_item;         
+            setting_page_resource = r_bctestlist_empty_setting_page;            
+            associated_resource = r_bctestlist_empty_popup_setting_pages;       
+            }
+        };
+    }
+*/
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_empty_setting_page
+//    For outline 16.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestlist_empty_setting_page
+    {   
+    label= qtn_bctestlist_setpage_empty_label;
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_bctestlist_empty_setting_list;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_empty_setting_list
+//    For outline 16.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE POPUP_SETTING_LIST r_bctestlist_empty_setting_list
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_empty_popup_setting_pages
+//    For outline 16.
+//
+//-----------------------------------------------------------------------------
+//
+/*RESOURCE AVKON_POPUP_SETTING_TEXTS r_bctestlist_empty_popup_setting_pages
+    {
+    flags = 0; // Possible EINVERTORDER;
+    setting_texts_resource = r_bctestlist_empty_array;
+    popped_up_texts_resource = r_bctestlist_empty_array;
+    }//*/
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_listdlg_cancelled
+//    Note prompt for outline 109. 
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_listdlg_cancelled
+    {
+    buf = qtn_bctestlist_listdlg_cancelled;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    qtn_bctestlist_listdlg_rec_obsevent
+//    Note prompt for receiving observer event of list dialog. 
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestlist_listdlg_rec_obsevent
+    {
+    buf = qtn_bctestlist_listdlg_rec_obsevent;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_markable_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestlist_markable_dialog
+    {
+    flags = EAknDialogMarkableList;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtSingleListBox;
+            id = ESelectionListControl; 
+            control = LISTBOX
+                {
+                flags = EAknListBoxMarkableList;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestlist_single_selection_list_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestlist_single_selection_list_dialog
+    {
+    flags = EAknDialogSelectionList;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtSingleListBox;
+            id = EBCTestListDlgLbx;
+            control = LISTBOX
+                {
+                flags = EAknListBoxSelectionList;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_checkbox_setting_page
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestlist_checkbox_setting_page
+    {
+    number = CHECKBOX_SETTING_PAGE_NUMBER;
+    label = qtn_aknatlist_multi_title;
+    type = EAknSetListBox;
+    editor_resource_id = r_bctestlist_single_3;
+    menubar = r_bctestlist_checkbox_menubar;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknatsetpage_checkbox_setting_page
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestlist_checkbox_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestlist_checkbox_menupane;            
+            }
+        };
+    }
+    
+RESOURCE MENU_PANE r_bctestlist_checkbox_menupane
+    {
+    items =
+        {
+        MENU_ITEM 
+            {
+            command = EProgSoftkeyNextOutline;
+            txt = qtn_bctestlist_softkey_next;
+            }
+        };
+    }
+
+// End of File

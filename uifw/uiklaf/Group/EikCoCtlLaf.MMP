@@ -1,0 +1,101 @@
+/*
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project file for EikCoCtlLaf module.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          EikCoCtlLaf.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x10207F62
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+SOURCEPATH      ../resource
+
+
+START RESOURCE  EIKCOCTL.RSS
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+SOURCEPATH      ../src
+
+USERINCLUDE     .
+USERINCLUDE     ../inc
+USERINCLUDE     ../../inc
+USERINCLUDE     ../../../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+
+SOURCE          LAFBTGPC.CPP
+SOURCE          lafbtpan.cpp
+SOURCE          lafbutb.cpp
+SOURCE          LAFCMBUT.CPP
+SOURCE          lafcommn.cpp
+SOURCE          LAFEDWIN.CPP
+SOURCE          LAFFNLAB.CPP
+SOURCE          lafimage.cpp
+SOURCE          laflabel.cpp
+SOURCE          laflbbut.cpp
+SOURCE          laflbd.cpp
+SOURCE          LAFLBED.CPP
+SOURCE          laflbi.cpp
+SOURCE          laflbv.cpp
+SOURCE          laflbx.cpp
+SOURCE          LAFMENUB.CPP
+SOURCE          LAFMENUP.CPP
+SOURCE          lafmnbut.cpp
+SOURCE          LAFSBFRM.CPP
+SOURCE          LAFSCBUT.CPP
+SOURCE          LAFSCRLB.CPP
+SOURCE          LAFTBAR.CPP
+SOURCE          lafthumb.cpp
+SOURCE          laftxlbx.cpp
+SOURCE          lafvcurs.cpp
+SOURCE          EikCoCtlLafStd.CPP
+
+LIBRARY         euser.lib
+LIBRARY         efsrv.lib
+LIBRARY         gdi.lib
+LIBRARY         bafl.lib
+LIBRARY         fbscli.lib
+LIBRARY         ws32.lib
+LIBRARY         egul.lib
+LIBRARY         cone.lib
+LIBRARY         clock.lib
+LIBRARY         form.lib
+LIBRARY         avkon.lib
+LIBRARY         apgrfx.lib
+LIBRARY         aknnotify.lib
+LIBRARY         commonengine.lib
+LIBRARY         eikcore.lib
+LIBRARY         aknskins.lib
+LIBRARY         cdlengine.lib
+LIBRARY		    ESTOR.LIB 
+LIBRARY         Uiklaf.lib
+
+deffile EIKCOCTLLAF.DEF
+
+
+
+// End of file.

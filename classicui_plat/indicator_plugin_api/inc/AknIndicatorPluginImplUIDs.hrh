@@ -1,0 +1,83 @@
+/*
+* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains implementation UID definitions for indicators's
+*                 ECOM plugins.
+*
+*/
+
+
+#ifndef AVKON_INDICATOR_PLUGIN_IMPL_UIDS_HRH
+#define AVKON_INDICATOR_PLUGIN_IMPL_UIDS_HRH
+
+// Interface UID of the ECOM indicator plugins.
+#define KAknIndicatorPluginInterfaceUid             0x10275092
+
+
+// UID for the bluetooth indicators plugin
+#define KImplUIDBTIndicatorsPlugin                  0x10275093
+
+// UID for the clock indicators plugin
+#define KImplUIDClockIndicatorsPlugin               0x10275094
+
+// UID for the stopwatch indicators plugin
+#define KImplUIDStopwatchIndicatorsPlugin           0x2001FE39
+
+// UID for the call related indicators plugin
+#define KImplUIDCallRelatedIndicatorsPlugin         0x10275095
+
+// UID for the messaging indicators plugin
+#define KImplUIDMessagingIndicatorsPlugin           0x10275096
+
+// UID for the location indicators plugin
+#define KImplUIDLocationIndicatorsPlugin            0x10275097
+
+// UID for the infrared indicators plugin
+#define KImplUIDIRIndicatorsPlugin                  0x10275098
+
+// UID for the profile indicators plugin
+#define KImplUIDProfileIndicatorsPlugin             0x10275099
+
+// UID for the USB indicators plugin
+#define KImplUIDUSBIndicatorsPlugin                 0x1027509A
+
+// UID for the instant messaging indicators plugin
+#define KImplUIDInstantMessageIndicatorsPlugin      0x102823BD
+
+// UID for the PoC indicators plugin
+#define KImplUIDPoCIndicatorsPlugin                 0x10282E7D
+
+// UID for the battery indicator plugin
+#define KImplUIDBatteryIndicatorPlugin              0x2000E51D
+
+// UID for the signal indicator plugin
+#define KImplUIDSignalIndicatorPlugin               0x200100DC
+
+// UID for the WLAN indicators plugin
+#define KImplUIDWlanIndicatorPlugin                 0x2001247E
+
+// UID for the Missed Calendar Alarm indicator plugin
+#define KImplUIDMissedCalendarAlarmIndicatorPlugin  0x20011119
+
+// UID for the FMTX indicators plugin
+#define KImplUIDFMTxIndicatorPlugin                 0x20021188
+
+// UID for the Meco Service Tab indicator plugin
+#define KImplUIDMecoServiceTabIndicatorPlugin       0x20026767
+
+//UID for the USB MEM indicator plugin
+#define KImplUIDUSBMEMIndicatorsPlugin              0x20026FC4
+
+#endif // AVKON_INDICATOR_PLUGIN_IMPL_UIDS_HRH
+
+// End of file

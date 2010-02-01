@@ -1,0 +1,12 @@
+/c8,1 qgn_indi_mmc_add.bmp
+/c8,1 qgn_indi_mmc_marked_add.bmp
+/c8,1 qgn_indi_xhtml_mmc.bmp
+/c8,8 qgn_menu_mce_mmc_cxt.bmp
+/c8,8 qgn_menu_mmc_cxt.bmp
+/c8,8 qgn_menu_mmc_lst.bmp
+/c8,1 qgn_prop_memc_mmc_tab.bmp
+/c8,1 qgn_prop_memc_mmc_tab2.bmp
+/c8,1 qgn_prop_mmc_locked.bmp
+/c8,1 qgn_prop_mmc_memc.bmp
+/c8,1 qgn_prop_mmc_non.bmp
+/c8,1 qgn_prop_phone_memc.bmp

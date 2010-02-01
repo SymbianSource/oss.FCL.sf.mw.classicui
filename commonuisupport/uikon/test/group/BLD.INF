@@ -1,0 +1,133 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code 
+*/
+
+
+PRJ_PLATFORMS
+DEFAULT WINC
+
+
+PRJ_EXPORTS
+// only test code here
+
+
+PRJ_MMPFILES
+// only test code here
+
+
+PRJ_TESTMMPFILES
+// This is some server that is used to communicate between 2 processes so
+// that the process that runs the tests can write in the log
+// Used by tpackage and the tapplanguage<XYZ> tests.
+../tmessageserv/messageserv.mmp support
+
+../tpackage/TPACKAGE_v2.MMP	support
+../tpackage/tembed_embedded.mmp 			support
+../tpackage/tembed_standalone.mmp 			support
+../teikcore/tshutter/shutapp_v2.mmp 		support
+
+../tviews/applaunchtest/group/applaunchtest.mmp	support
+../tviews/tview1/tview1.MMP support
+../tviews/tview2/tview2.MMP support
+../tviews/tview3/tview3.MMP support
+../tviews/tview4/tview4.mmp support
+
+../tStaticSettingsInit/staticsettingsinit.mmp
+
+../teikcore/tapplicationlanguage/TAppLanguage.MMP
+../teikcore/tapplicationlanguagefrench/TAppLanguageFrench.MMP
+../teikcore/tapplicationlanguagezulu/TAppLanguageZulu.MMP
+../teikcore/tapplicationlanguagenotset/TAppLanguageNotSet.MMP
+../teikcore/tapplicationlanguagesc/TAppLanguageSc.MMP
+
+../teikenv/tbitmap/tbitmap.MMP
+../teikenv/tcaptiontest/tcaptiontest.mmp
+
+../teiksrv/tnotdial/TNotifyV2.MMP
+../teiksrv/tnotdial/TNOTIFY2V2.MMP support
+
+../tlibs/contentmgr/contentmgr.mmp support	// Needed by tloaddllv2
+../tlibs/tloaddll/TLOADDLLV2.MMP support	// Needed by autolib test
+
+../tmultiplealarm/TMultipleAlarmServer.mmp
+../tmultiplealarm/TAlertServer.mmp
+
+../terror/terrorapp/terrorapp.MMP
+../terror/terrortextwithtitleapp/terrortextwithtitleapp.mmp
+
+../tdisableexitchecks/disableexitchecksapp/DisableExitChecksApp.mmp
+
+../tuiktestserver/uiktestserver.MMP
+
+
+PRJ_TESTEXPORTS
+../group/uiktest.iby											/epoc32/rom/include/uiktest.iby
+
+../teikcore/tapplicationlanguage/TAppLanguage.iby 				/epoc32/rom/include/tapplanguage.iby
+../teikcore/tapplicationlanguagezulu/TAppLanguageZulu.iby 		/epoc32/rom/include/tapplanguagezulu.iby
+../teikcore/tapplicationlanguagefrench/TAppLanguageFrench.iby 	/epoc32/rom/include/tapplanguagefrench.iby
+../teikcore/tapplicationlanguagenotset/TAppLanguageNotSet.iby 	/epoc32/rom/include/tapplanguagenotset.iby
+../teikcore/tapplicationlanguagesc/TAppLanguageSc.iby 			/epoc32/rom/include/tapplanguagesc.iby
+../tmessageserv/messageserv.iby 								/epoc32/rom/include/messageserv.iby
+../tmultiplealarm/TMultipleAlarm.iby							/epoc32/rom/include/tmultiplealarm.iby
+
+../tfileutils/tfileutils.agenda	z:/uiktest/documents/test/tfileutils.agenda
+../tfileutils/tfileutils.dummy	z:/uiktest/documents/test/tfileutils.dummy
+../tfileutils/tfileutils.scetch	z:/uiktest/documents/test/tfileutils.scetch
+../tfileutils/tfileutils.word	z:/uiktest/documents/test/tfileutils.word
+
+../teikenv/tbitmap/tbitmap.MBM		z:/resource/apps/tbitmap.mbm
+
+../scripts/uiktest_run.bat                            z:/uiktest/uiktest_run.bat
+../scripts/uiktest_run.bat                            /epoc32/release/winscw/udeb/uiktest_run.bat
+../scripts/uiktest_run.bat                            /epoc32/release/winscw/urel/uiktest_run.bat
+
+../scripts/uiktest_T_AddLibrary.script                z:/uiktest/uiktest_t_addlibrary.script
+../scripts/uiktest_T_ApplicationLanguage.script       z:/uiktest/uiktest_t_applicationlanguage.script
+../scripts/uiktest_T_ApplicationLanguageFrench.script z:/uiktest/uiktest_t_applicationlanguagefrench.script
+../scripts/uiktest_T_ApplicationLanguageNotSet.script z:/uiktest/uiktest_t_applicationlanguagenotset.script
+../scripts/uiktest_T_ApplicationLanguageSC.script     z:/uiktest/uiktest_t_applicationlanguagesc.script
+../scripts/uiktest_T_ApplicationLanguageZulu.script   z:/uiktest/uiktest_t_applicationlanguagezulu.script
+../scripts/uiktest_T_AutoLib.script                   z:/uiktest/uiktest_t_autolib.script
+../scripts/uiktest_T_Backup.script      		  	  z:/uiktest/uiktest_t_backup.script
+../scripts/uiktest_T_BrdrCol.script                   z:/uiktest/uiktest_t_brdrcol.script
+../scripts/uiktest_T_Capability1.script               z:/uiktest/uiktest_t_capability1.script
+../scripts/uiktest_T_Capability2.script               z:/uiktest/uiktest_t_capability2.script
+../scripts/uiktest_T_ColOvr.script                    z:/uiktest/uiktest_t_colovr.script
+../scripts/uiktest_T_Colscm.script                    z:/uiktest/uiktest_t_colscm.script
+../scripts/uiktest_T_DisableExitChecks.script	      z:/uiktest/uiktest_t_disableexitchecks.script
+../scripts/uiktest_T_Focus.script                     z:/uiktest/uiktest_t_focus.script
+../scripts/uiktest_T_EikEnv.script                    z:/uiktest/uiktest_t_eikenv.script
+../scripts/uiktest_T_Error.script                     z:/uiktest/uiktest_t_error.script
+../scripts/uiktest_T_FileUtils.script                 z:/uiktest/uiktest_t_fileutils.script
+../scripts/uiktest_T_HlSprite.script                  z:/uiktest/uiktest_t_hlsprite.script
+../scripts/uiktest_T_Msg.script                       z:/uiktest/uiktest_t_msg.script
+../scripts/uiktest_T_MultipleAlarm.script             z:/uiktest/uiktest_t_multiplealarm.script
+../scripts/uiktest_T_NonFocus.script                  z:/uiktest/uiktest_t_nonfocus.script
+../scripts/uiktest_T_NotDial.script                   z:/uiktest/uiktest_t_notdial.script
+../scripts/uiktest_T_Package.script                   z:/uiktest/uiktest_t_package.script
+../scripts/uiktest_T_Parent.script                    z:/uiktest/uiktest_t_parent.script
+../scripts/uiktest_T_Shutter.script                   z:/uiktest/uiktest_t_shutter.script
+../scripts/uiktest_T_Spane.script                     z:/uiktest/uiktest_t_spane.script
+../scripts/uiktest_T_SysColor.script                  z:/uiktest/uiktest_t_syscolor.script
+
+// TMultiplealarm batch files for emulator test execution
+../scripts/multiplealarm_setup.bat     		  				z:/uiktest/multiplealarm_setup.bat
+

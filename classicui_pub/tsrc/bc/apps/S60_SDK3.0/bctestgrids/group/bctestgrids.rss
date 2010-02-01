@@ -1,0 +1,331 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME GRID
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestgrids.hrh"
+#include "bctestgrids.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestgrids_BMP_FNAME APP_BITMAP_DIR"\\bctestgrids.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctest_buf;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestgrids_menubar_main;
+    cba = r_bctestgrids_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestgrids_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\bctestgrids_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_view
+//    AVKON_VIEW for CBCTestGridsView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestgrids_view
+    {
+    menubar = r_bctestgrids_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestgrids_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestgrids_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestgrids_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestgrids_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {            
+            txt = qtn_bctestforcolourandgms;
+            cascade = r_bctestgrids_colourandgms_submenu_case_menu;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestForCAknGrid;
+            txt = qtn_bctestforcakngrid;
+            },
+        MENU_ITEM
+            {
+            txt = qtn_bctestformandview;
+            cascade = r_bctestgrids_mandview_submenu_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_colourandgms_submenu_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestgrids_colourandgms_submenu_case_menu
+{
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestForColour;
+            txt = qtn_bctestforcolour;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestForGms;
+            txt = qtn_bctestforgms;
+            }
+        };
+    }
+ 
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_mandview_submenu_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestgrids_mandview_submenu_case_menu
+{
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestForCAknGridM;
+            txt = qtn_bctestforcakngridm;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestForCAknGridView;
+            txt = qtn_bctestforcakngridview;
+            }
+        };
+    }   
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestgrids_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestgrids_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestgrids_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestgrids_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestgrids_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestgrids_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestGridsCbaCmdNext;
+            txt = qtn_bctestgrids_cba_next;
+            }
+	};
+    }
+
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestgrids_grid
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE GRID r_bctestgrids_grid
+	{
+	version = 0;
+	flags = 0;
+	height = 5;		// in items
+	width = 10;		// in chars
+	array_id = 0;
+	emptytext = "";
+	style = 0; 
+	}
+	
+// ----------------------------------------------------------------------------
+//
+//    r_bctestgrids_grid_two
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE GRID r_bctestgrids_grid_two
+	{
+	version = 1;
+	flags = 1;
+	height = 5;		// in items
+	width = 10;		// in chars
+	array_id = 0;
+	emptytext = "";
+	style = 0; 
+	}
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestgrids_array
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//	
+RESOURCE ARRAY r_bctestgrids_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestgrids_item_1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestgrids_item_2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestgrids_item_3;
+            }
+        };
+    }
+

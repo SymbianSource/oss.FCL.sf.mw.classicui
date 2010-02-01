@@ -1,0 +1,8 @@
+EXPORTS
+	??0TEComPluginInfo@@QAE@ABVTUid@@HABVTDriveUnit@@@Z @ 1 NONAME ; TEComPluginInfo::TEComPluginInfo(class TUid const &, int, class TDriveUnit const &)
+	?CreateInfoArray@EComPluginUtils@@SAHV?$RPointerArray@VCImplementationInformation@@@@AAV?$RArray@UTEComPluginInfo@@@@@Z @ 2 NONAME ; int EComPluginUtils::CreateInfoArray(class RPointerArray<class CImplementationInformation>, class RArray<struct TEComPluginInfo> &)
+	?GetInfoArrayL@EComPluginUtils@@SAHVTUid@@AAV?$RArray@UTEComPluginInfo@@@@@Z @ 3 NONAME ; int EComPluginUtils::GetInfoArrayL(class TUid, class RArray<struct TEComPluginInfo> &)
+	?NewL@CEComPluginNotifier@@SAPAV1@ABVTUid@@AAVTCallBack@@@Z @ 4 NONAME ; class CEComPluginNotifier * CEComPluginNotifier::NewL(class TUid const &, class TCallBack &)
+	?NewLC@CEComPluginNotifier@@SAPAV1@ABVTUid@@AAVTCallBack@@@Z @ 5 NONAME ; class CEComPluginNotifier * CEComPluginNotifier::NewLC(class TUid const &, class TCallBack &)
+	?Start@CEComPluginNotifier@@QAEXXZ @ 6 NONAME ; void CEComPluginNotifier::Start(void)
+

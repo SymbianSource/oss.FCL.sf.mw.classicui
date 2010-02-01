@@ -1,0 +1,123 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Localization strings for project BCTestQuery
+*
+*/
+
+
+
+
+
+
+
+
+
+// Caption
+#define qtn_apps_bcqe_list          "BCTestQuery"
+#define qtn_apps_bcqe_grid          "BCTestQuery"
+
+// Menu title
+#define qtn_bctestquery_autotest     "AutoTest"
+#define qtn_bctestquery_menu_exit    "Exit"
+#define text_softkey_option          "Options"
+#define qtn_bctestquery_cba_next     "Next"
+
+#define qtn_bctestlist_menu_listquery  "List Query"
+#define qtn_bctestlist_menu_querydlg   "Query Dialog"
+#define qtn_bctestlist_menu_queryvalue "Query Value"
+
+// Item text
+#define qtn_bctestquery_selection_title   "Ringing :"
+#define qtn_bctestquery_selection_item1   "1\tVIP"
+#define qtn_bctestquery_selection_item2   "1\tFamily"
+#define qtn_bctestquery_selection_item3   "1\tColleogues"
+#define qtn_bctestquery_selection_item4   "1\tClients"
+#define qtn_bctestquery_selection_item5   "1\tFriends"
+
+
+#define qtn_bctestquery_num_label_text    "Enter number :"
+#define qtn_bctestquery_ip_query_label_text  "IP Address"
+
+#define qtn_bctestquery_date_format "%2d/%2d/%2d"
+#define qtn_bctestquery_time_format "%2d:%2d:%2d:"
+#define qtn_bctestquery_number_format "%d"
+
+#define qtn_bctestquery_query_caption "Query"
+
+// Menu
+#define qtn_bctestquery_outline01     "OUTLINE01"                         
+#define qtn_bctestquery_outline02     "OUTLINE02"                         
+#define qtn_bctestquery_outline03     "OUTLINE03"                         
+#define qtn_bctestquery_outline04     "OUTLINE04"                         
+#define qtn_bctestquery_outline05     "OUTLINE05"                         
+#define qtn_bctestquery_outline06     "OUTLINE06"                         
+#define qtn_bctestquery_outline07     "OUTLINE07"                         
+#define qtn_bctestquery_outline08     "OUTLINE08"                         
+#define qtn_bctestquery_outline09     "OUTLINE09"                         
+#define qtn_bctestquery_outline10     "OUTLINE10"                         
+#define qtn_bctestquery_outline11     "OUTLINE11"                         
+#define qtn_bctestquery_outline12     "OUTLINE12"                         
+#define qtn_bctestquery_outline13     "OUTLINE13"                         
+#define qtn_bctestquery_outline14     "OUTLINE14"                         
+#define qtn_bctestquery_outline15     "OUTLINE15"                         
+#define qtn_bctestquery_outline16     "OUTLINE16"                         
+#define qtn_bctestquery_outline17     "OUTLINE17"                         
+#define qtn_bctestquery_outline18     "OUTLINE18"                         
+#define qtn_bctestquery_outline19     "OUTLINE19"                         
+#define qtn_bctestquery_outline20     "OUTLINE20"                         
+#define qtn_bctestquery_outline21     "OUTLINE21"                         
+#define qtn_bctestquery_outline22     "OUTLINE22"                         
+#define qtn_bctestquery_outline23     "OUTLINE23"
+#define qtn_bctestquery_outline24     "OUTLINE24"
+#define qtn_bctestquery_outline25     "OUTLINE25"                         
+#define qtn_bctestquery_outline26     "OUTLINE26"                         
+#define qtn_bctestquery_outline27     "OUTLINE27"
+#define qtn_bctestquery_outline28     "OUTLINE28"
+#define qtn_bctestquery_outline29     "OUTLINE29"                         
+#define qtn_bctestquery_outline30     "OUTLINE30"                         
+#define qtn_bctestquery_outline31     "OUTLINE31"                         
+#define qtn_bctestquery_outline32     "OUTLINE32"                         
+#define qtn_bctestquery_outline33     "OUTLINE33"
+#define qtn_bctestquery_outline34     "OUTLINE34" 
+#define qtn_bctestquery_outline35     "OUTLINE35" 
+#define qtn_bctestquery_outline36     "OUTLINE36"
+#define qtn_bctestquery_outline37     "OUTLINE37"
+#define qtn_bctestquery_outline38     "OUTLINE38"
+#define qtn_bctestquery_outline39     "OUTLINE39"
+#define qtn_bctestquery_outline40     "OUTLINE40" 
+#define qtn_bctestquery_outline41     "OUTLINE41"                         
+#define qtn_bctestquery_outline42     "OUTLINE42"
+#define qtn_bctestquery_outline43     "OUTLINE43"                         
+#define qtn_bctestquery_outline44     "OUTLINE44"                         
+#define qtn_bctestquery_outline45     "OUTLINE45"                         
+#define qtn_bctestquery_outline46     "OUTLINE46"                         
+#define qtn_bctestquery_outline47     "OUTLINE47"                         
+#define qtn_bctestquery_outline48     "OUTLINE48"                         
+#define qtn_bctestquery_outline49     "OUTLINE49"                         
+#define qtn_bctestquery_outline50     "OUTLINE50"                         
+#define qtn_bctestquery_outline51     "OUTLINE51" 
+#define qtn_bctestquery_outline52     "OUTLINE52" 
+#define qtn_bctestquery_outline53     "OUTLINE53" 
+#define qtn_bctestquery_outline54     "OUTLINE54" 
+#define qtn_bctestquery_outline55     "OUTLINE55" 
+#define qtn_bctestquery_outline56     "OUTLINE56" 
+#define qtn_bctestquery_outline57     "OUTLINE57"                         
+#define qtn_bctestquery_outline58     "OUTLINE58" 
+#define qtn_bctestquery_outline59     "OUTLINE59"                         
+#define qtn_bctestquery_outline60     "OUTLINE60"
+
+// Application Title
+#define qtn_bctestquery_app_title     "Query Test\n Application"
+
+// End Of file

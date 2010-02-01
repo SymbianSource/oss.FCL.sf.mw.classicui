@@ -1,0 +1,11 @@
+EXPORTS
+	?CreateL@CAknJapaneseReading@@SAXPAVCPtiEngine@@@Z @ 1 NONAME ; public: static void __cdecl CAknJapaneseReading::CreateL(class CPtiEngine *)
+	?ReadingTextL@CAknJapaneseReading@@SA?AVTPtrC16@@XZ @ 2 NONAME ; public: static class TPtrC16  __cdecl CAknJapaneseReading::ReadingTextL(void)
+	?HandleCompletionOfTransactionL@CReadingConverter@@UAEXXZ @ 3 NONAME ; public: virtual void __thiscall CReadingConverter::HandleCompletionOfTransactionL(void)
+	?MainEditor@CReadingConverter@@QBEAAVCEikEdwin@@XZ @ 4 NONAME ; public: class CEikEdwin & __thiscall CReadingConverter::MainEditor(void)const 
+	?NewL@CReadingConverter@@SAPAV1@AAVCEikEdwin@@0@Z @ 5 NONAME ; public: static class CReadingConverter * __cdecl CReadingConverter::NewL(class CEikEdwin &,class CEikEdwin &)
+	?NewL@CReadingConverter@@SAPAV1@XZ @ 6 NONAME ; public: static class CReadingConverter * __cdecl CReadingConverter::NewL(void)
+	?ReadingEditor@CReadingConverter@@QBEAAVCEikEdwin@@XZ @ 7 NONAME ; public: class CEikEdwin & __thiscall CReadingConverter::ReadingEditor(void)const 
+	?SetMainEditor@CReadingConverter@@QAEXAAVCEikEdwin@@@Z @ 8 NONAME ; public: void __thiscall CReadingConverter::SetMainEditor(class CEikEdwin &)
+	?SetReadingEditor@CReadingConverter@@QAEXAAVCEikEdwin@@@Z @ 9 NONAME ; public: void __thiscall CReadingConverter::SetReadingEditor(class CEikEdwin &)
+

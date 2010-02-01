@@ -1,0 +1,46 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// etul.dll Text utilities
+// 
+//
+
+/**
+ @file
+*/
+
+
+target		etul.dll	// text utils
+CAPABILITY 	All -Tcb
+targettype	DLL
+UID		0x1000008D 0x102834FF
+VENDORID 	0x70000001
+
+SOURCEPATH	../tulsrc
+userinclude	../tulinc
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+source		tultextresourceutils.cpp
+source		tulphonenumberutils.cpp
+source		tuladdressstringtokenizer.cpp
+source		languagespecificnumberconverter.cpp
+source		tulstringresourcereader.cpp
+deffile		etul.def
+
+library		euser.lib   cone.lib  gdi.lib  bafl.lib  efsrv.lib
+
+// START WINS
+//	baseaddress     0x73d00000
+// END
+
+SMPSAFE

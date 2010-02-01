@@ -1,0 +1,48 @@
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET 			tmultiplealarmserver.exe
+TARGETTYPE 		exe
+CAPABILITY		ProtServ PowerMgmt
+
+// Use the AlarmServer UID else security check will fail!
+UID				0x1000008c 0x101f5027
+
+SOURCEPATH		.
+
+SOURCE			TMultipleAlarmServer.cpp
+
+// Copy of app-services/alarmserver/AlarmAlert/Source/ASAltClientSession.cpp
+// if you experience strange errors when running tests it might be because 
+// the original ASAltClientSession.cpp has changed and the local copy hasn't been
+// updated. 
+SOURCE			ASAltClientSession.cpp
+SOURCE			TMultipleAlarmStep.cpp
+
+SOURCEPATH		../../../../../appsupport/appfw/uiftestfw/src
+SOURCE      	appfwk_tmsteststep.cpp
+
+MW_LAYER_SYSTEMINCLUDE 
+
+USERINCLUDE		. ../../../../../appsupport/appfw/uiftestfw/inc
+
+LIBRARY			euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY			alarmshared.lib
+LIBRARY			bafl.lib efsrv.lib
+
+
+SMPSAFE

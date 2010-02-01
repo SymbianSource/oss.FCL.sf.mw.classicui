@@ -1,0 +1,65 @@
+// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Using relative paths for sourcepath and user includes
+// 
+//
+
+/**
+ @file
+ @test
+ @internalComponent - Internal Symbian test code  
+*/
+
+TARGET		tetultestserver.exe
+TARGETTYPE	exe
+UID           	0x1000007A 0xA0002E22
+
+CAPABILITY	ProtServ WriteDeviceData
+
+VENDORID 	0x70000001
+
+SOURCEPATH		../tef
+SOURCE			tetultestserver.cpp 
+SOURCE			t_textresourceutils.cpp
+SOURCE			t_addressstringtokenizer.cpp
+SOURCE			t_phonenumberutils.cpp
+
+START RESOURCE 	t_textresourceutils.rss
+HEADER
+TARGETPATH 		/resource/apps
+LANG     SC
+END 	// RESOURCE
+
+userinclude		../../../../appsupport/appfw/uiftestfw/inc
+userinclude		../tef
+
+SYSTEMINCLUDE 	/epoc32/include
+SYSTEMINCLUDE 	/epoc32/include/test
+
+MW_LAYER_SYSTEMINCLUDE 
+
+LIBRARY     		euser.lib
+LIBRARY     		efsrv.lib
+LIBRARY     		bafl.lib
+LIBRARY     		cone.lib
+LIBRARY     		eikcore.lib
+LIBRARY	    		testexecuteutils.lib
+LIBRARY	    		testexecutelogclient.lib
+LIBRARY	    		appfwk_test_appui.lib
+LIBRARY	    		etul.lib
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x6000
+
+SMPSAFE

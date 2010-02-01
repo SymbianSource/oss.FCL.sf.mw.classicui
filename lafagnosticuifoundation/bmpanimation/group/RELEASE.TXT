@@ -1,0 +1,23 @@
+BmpAnim Group Release Notes
+~~~~~~~~~~~~~~~~~~~~~~~~~
+This component consists of two DLL's, a shared-library which provides the
+component's API (BmpAnim.DLL), and a polymorphic DLL which plugs into the
+window-server's "WSANIM" interface (BmpAnimSrv.DLL). 
+It is able to display a series of bitmap frames at different times and position.
+
+
+Version 0.01.002
+================
+Made by MarcoS, 06 December 1999
+Release: 002
+
+Most of the API changed. See animation specs.
+Added test code.
+
+
+Version 0.01.001
+================
+Made by MarcoS, 18 October 1999
+Release: 001
+
+First (experimental) release of BmpAnim.

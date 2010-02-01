@@ -1,0 +1,4 @@
+EXPORTS
+	?NewL@CEikServBackupServer@@SAPAV1@XZ @ 1 NONAME ; public: static class CEikServBackupServer * __cdecl CEikServBackupServer::NewL(void)
+	?KUIKONBackupCloseAllFilesTimeout@@3HB @ 2 NONAME ; int const KUIKONBackupCloseAllFilesTimeout
+

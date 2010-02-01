@@ -1,0 +1,82 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestmisccontrol resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTMISCCONTROL_HRH
+#define BCTESTMISCCONTROL_HRH
+
+enum TBCTestMiscControlMenuGroupCommands
+        {
+        EBCTestMiscControlCaptionControl = 0x6000,
+        EBCTestMiscControlConsoleControl,
+        EBCTestMiscControlControlGroup,
+        EBCTestMiscControlKeyWindow,
+        EBCTestMiscControlEikMover,
+        EBCTestMiscControlEikToolBar,
+        EBCTestMiscControlCmdAutotest
+        };
+        
+enum TBCTestPopupsMenuCommands
+    {
+        EBCTestMiscControlCmdEmptyOutline = 0x6020,            
+        EBCTestMiscControlCmdOutline01,
+        EBCTestMiscControlCmdOutline02,
+        EBCTestMiscControlCmdOutline03,
+        EBCTestMiscControlCmdOutline04,
+        EBCTestMiscControlCmdOutline05,
+        EBCTestMiscControlCmdOutline06,
+        EBCTestMiscControlCmdOutline07,
+        EBCTestMiscControlCmdOutline08,
+        EBCTestMiscControlCmdOutline09,
+        EBCTestMiscControlCmdOutline10,
+        EBCTestMiscControlCmdOutline11,
+        EBCTestMiscControlCmdOutline12,
+        EBCTestMiscControlCmdOutline13,
+        EBCTestMiscControlCmdOutline14,
+        EBCTestMiscControlCmdOutline15,
+        EBCTestMiscControlCmdOutline16,
+        EBCTestMiscControlCmdOutline17,
+        EBCTestMiscControlCmdOutline18,
+        EBCTestMiscControlCmdOutline19,
+        EBCTestMiscControlCmdOutline20,
+        EBCTestMiscControlCmdMaxOutline
+    };
+
+enum TBCTestMiscControlFormFieldInfo
+    {
+    EBCTestMiscControlFormEdwinMaxLength = 64
+    };
+    
+enum TBCTestMiscControlDlgCtrlId
+    {
+    EBCTestMiscControlDlgCtrlIdEdwin01 = 100,
+    EBCTestMiscControlDlgCtrlIdSlider01    
+    };
+    
+enum TBCTestMiscControlCba
+    {
+    EBCTestMiscControlCbaCmdExit = 0x6300
+    };
+
+#endif      // BCTESTMISCCONTROL_HRH

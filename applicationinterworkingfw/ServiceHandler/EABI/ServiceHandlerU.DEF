@@ -1,0 +1,131 @@
+EXPORTS
+	_ZN11TAiwVariant3SetERK4TUid @ 1 NONAME
+	_ZN11TAiwVariant3SetERK5RFile @ 2 NONAME
+	_ZN11TAiwVariant3SetERK5TTime @ 3 NONAME
+	_ZN11TAiwVariant3SetERK6TDesC8 @ 4 NONAME
+	_ZN11TAiwVariant3SetERK7TDesC16 @ 5 NONAME
+	_ZN11TAiwVariant3SetEl @ 6 NONAME
+	_ZN11TAiwVariant5ResetEv @ 7 NONAME
+	_ZN11TAiwVariantC1ERKS_ @ 8 NONAME
+	_ZN11TAiwVariantC2ERKS_ @ 9 NONAME
+	_ZN11TAiwVariantaSERKS_ @ 10 NONAME
+	_ZN12CAiwMenuPane12AddMenuItemLEiRN16CEikMenuPaneItem5SDataEi @ 11 NONAME
+	_ZN12CAiwMenuPane13AddMenuItemsLER15TResourceReaderiii @ 12 NONAME
+	_ZN12CAiwMenuPane13AddMenuItemsLER4TBufILi256EEiiii @ 13 NONAME
+	_ZN12CAiwMenuPane13AddTitleItemLERK7TDesC16i @ 14 NONAME
+	_ZN12CAiwMenuPaneC1ER12CEikMenuPanei @ 15 NONAME
+	_ZN12CAiwMenuPaneC2ER12CEikMenuPanei @ 16 NONAME
+	_ZN12CAiwMenuPaneD0Ev @ 17 NONAME
+	_ZN12CAiwMenuPaneD1Ev @ 18 NONAME
+	_ZN12CAiwMenuPaneD2Ev @ 19 NONAME
+	_ZN16CAiwCriteriaItem10SetOptionsEj @ 20 NONAME
+	_ZN16CAiwCriteriaItem13SetServiceCmdEi @ 21 NONAME
+	_ZN16CAiwCriteriaItem15SetContentTypeLERK6TDesC8 @ 22 NONAME
+	_ZN16CAiwCriteriaItem15SetMaxProvidersEi @ 23 NONAME
+	_ZN16CAiwCriteriaItem15SetServiceClassERK4TUid @ 24 NONAME
+	_ZN16CAiwCriteriaItem16ReadFromResoureLER15TResourceReader @ 25 NONAME
+	_ZN16CAiwCriteriaItem18SetDefaultProviderEi @ 26 NONAME
+	_ZN16CAiwCriteriaItem4NewLEiiRK6TDesC8 @ 27 NONAME
+	_ZN16CAiwCriteriaItem4NewLEv @ 28 NONAME
+	_ZN16CAiwCriteriaItem5NewLCEiiRK6TDesC8 @ 29 NONAME
+	_ZN16CAiwCriteriaItem5NewLCEv @ 30 NONAME
+	_ZN16CAiwCriteriaItem5SetIdEi @ 31 NONAME
+	_ZN16CAiwCriteriaItemD0Ev @ 32 NONAME
+	_ZN16CAiwCriteriaItemD1Ev @ 33 NONAME
+	_ZN16CAiwCriteriaItemD2Ev @ 34 NONAME
+	_ZN16CAiwCriteriaItemeqERKS_ @ 35 NONAME
+	_ZN17CAiwServiceIfBaseD0Ev @ 36 NONAME
+	_ZN17CAiwServiceIfBaseD1Ev @ 37 NONAME
+	_ZN17CAiwServiceIfBaseD2Ev @ 38 NONAME
+	_ZN18CAiwServiceHandler10DetachMenuEii @ 39 NONAME
+	_ZN18CAiwServiceHandler11AttachMenuLER15TResourceReaderi @ 40 NONAME ABSENT
+	_ZN18CAiwServiceHandler11AttachMenuLEiR15TResourceReader @ 41 NONAME
+	_ZN18CAiwServiceHandler11AttachMenuLEii @ 42 NONAME
+	_ZN18CAiwServiceHandler11GetCriteriaEi @ 43 NONAME
+	_ZN18CAiwServiceHandler11GetInterestER13RPointerArrayI16CAiwCriteriaItemE @ 44 NONAME
+	_ZN18CAiwServiceHandler12InParamListLEv @ 45 NONAME
+	_ZN18CAiwServiceHandler13OutParamListLEv @ 46 NONAME
+	_ZN18CAiwServiceHandler14HandleSubmenuLER12CEikMenuPane @ 47 NONAME
+	_ZN18CAiwServiceHandler14IsSubMenuEmptyEi @ 48 NONAME
+	_ZN18CAiwServiceHandler14NbrOfProvidersEPK16CAiwCriteriaItem @ 49 NONAME
+	_ZN18CAiwServiceHandler15ExecuteMenuCmdLEiRK20CAiwGenericParamListRS0_jP18MAiwNotifyCallback @ 50 NONAME
+	_ZN18CAiwServiceHandler18ExecuteServiceCmdLERKiRK20CAiwGenericParamListRS2_jP18MAiwNotifyCallback @ 51 NONAME
+	_ZN18CAiwServiceHandler19InitializeMenuPaneLER12CEikMenuPaneiRK20CAiwGenericParamList @ 52 NONAME ABSENT
+	_ZN18CAiwServiceHandler19InitializeMenuPaneLER12CEikMenuPaneiiRK20CAiwGenericParamList @ 53 NONAME
+	_ZN18CAiwServiceHandler4NewLEv @ 54 NONAME
+	_ZN18CAiwServiceHandler5NewLCEv @ 55 NONAME
+	_ZN18CAiwServiceHandler5ResetEv @ 56 NONAME
+	_ZN18CAiwServiceHandler7AttachLERK13RPointerArrayI16CAiwCriteriaItemE @ 57 NONAME
+	_ZN18CAiwServiceHandler7AttachLEi @ 58 NONAME
+	_ZN18CAiwServiceHandler7DetachLERK13RPointerArrayI16CAiwCriteriaItemE @ 59 NONAME
+	_ZN18CAiwServiceHandler7DetachLEi @ 60 NONAME
+	_ZN18CAiwServiceHandler9IsAiwMenuEi @ 61 NONAME
+	_ZN18CAiwServiceHandlerD0Ev @ 62 NONAME
+	_ZN18CAiwServiceHandlerD1Ev @ 63 NONAME
+	_ZN18CAiwServiceHandlerD2Ev @ 64 NONAME
+	_ZN20CAiwGenericParamList12InternalizeLER11RReadStream @ 65 NONAME
+	_ZN20CAiwGenericParamList14PackForServerLER8TIpcArgs @ 66 NONAME
+	_ZN20CAiwGenericParamList17UnpackFromClientLERK9RMessage2 @ 67 NONAME
+	_ZN20CAiwGenericParamList4NewLER11RReadStream @ 68 NONAME
+	_ZN20CAiwGenericParamList4NewLEv @ 69 NONAME
+	_ZN20CAiwGenericParamList5NewLCER11RReadStream @ 70 NONAME
+	_ZN20CAiwGenericParamList5NewLCEv @ 71 NONAME
+	_ZN20CAiwGenericParamList5ResetEv @ 72 NONAME
+	_ZN20CAiwGenericParamList6RemoveEi @ 73 NONAME
+	_ZN20CAiwGenericParamList7AppendLERK16TAiwGenericParam @ 74 NONAME
+	_ZN20CAiwGenericParamList7AppendLERKS_ @ 75 NONAME
+	_ZNK11TAiwVariant12AsFileHandleEv @ 76 NONAME
+	_ZNK11TAiwVariant3GetER4TUid @ 77 NONAME
+	_ZNK11TAiwVariant3GetER5RFile @ 78 NONAME
+	_ZNK11TAiwVariant3GetER5TTime @ 79 NONAME
+	_ZNK11TAiwVariant3GetER6TPtrC8 @ 80 NONAME
+	_ZNK11TAiwVariant3GetER7TPtrC16 @ 81 NONAME
+	_ZNK11TAiwVariant3GetERl @ 82 NONAME
+	_ZNK11TAiwVariant5AsDesEv @ 83 NONAME
+	_ZNK11TAiwVariant6AsDataEv @ 84 NONAME
+	_ZNK11TAiwVariant6AsTUidEv @ 85 NONAME
+	_ZNK11TAiwVariant7AsTTimeEv @ 86 NONAME
+	_ZNK11TAiwVariant8AsTInt32Ev @ 87 NONAME
+	_ZNK12CAiwMenuPane12ServiceCmdIdEi @ 88 NONAME
+	_ZNK12CAiwMenuPane8DynCmdIdEi @ 89 NONAME
+	_ZNK12CAiwMenuPane9MenuCmdIdEi @ 90 NONAME
+	_ZNK16CAiwCriteriaItem10ServiceCmdEv @ 91 NONAME
+	_ZNK16CAiwCriteriaItem11ContentTypeEv @ 92 NONAME
+	_ZNK16CAiwCriteriaItem12MaxProvidersEv @ 93 NONAME
+	_ZNK16CAiwCriteriaItem12ServiceClassEv @ 94 NONAME
+	_ZNK16CAiwCriteriaItem15DefaultProviderEv @ 95 NONAME
+	_ZNK16CAiwCriteriaItem2IdEv @ 96 NONAME
+	_ZNK16CAiwCriteriaItem7OptionsEv @ 97 NONAME
+	_ZNK17CAiwServiceIfMenu8MenuPaneEv @ 98 NONAME
+	_ZNK18CAiwServiceHandler19ServiceCmdByMenuCmdEi @ 99 NONAME
+	_ZNK20CAiwGenericParamList12ExternalizeLER12RWriteStream @ 100 NONAME
+	_ZNK20CAiwGenericParamList4SizeEv @ 101 NONAME
+	_ZNK20CAiwGenericParamList5CountEv @ 102 NONAME
+	_ZNK20CAiwGenericParamList8FindNextERii14TVariantTypeId @ 103 NONAME
+	_ZNK20CAiwGenericParamList9FindFirstERii14TVariantTypeId @ 104 NONAME
+	_ZNK20CAiwGenericParamListixEi @ 105 NONAME
+	_ZTI12CAiwMenuPane @ 106 NONAME ; #<TI>#
+	_ZTI15CAiwEcomMonitor @ 107 NONAME ; #<TI>#
+	_ZTI16CAiwCriteriaItem @ 108 NONAME ; #<TI>#
+	_ZTI17CAiwServiceIfBase @ 109 NONAME ; #<TI>#
+	_ZTV12CAiwMenuPane @ 110 NONAME ; #<VT>#
+	_ZTV15CAiwEcomMonitor @ 111 NONAME ; #<VT>#
+	_ZTV16CAiwCriteriaItem @ 112 NONAME ; #<VT>#
+	_ZTV17CAiwServiceIfBase @ 113 NONAME ; #<VT>#
+	_ZeqRK11TAiwVariantS1_ @ 114 NONAME
+	_ZeqRK16TAiwGenericParamS1_ @ 115 NONAME
+	_ZNK18CAiwServiceHandler9MenuCmdIdEi @ 116 NONAME ABSENT
+	_ZNK20CAiwGenericParamList5CountEi14TVariantTypeId @ 117 NONAME
+	_ZN18CAiwServiceHandler16ReportMenuLaunchEv @ 118 NONAME
+	_ZN17CAiwServiceIfMenuD0Ev @ 119 NONAME
+	_ZN17CAiwServiceIfMenuD1Ev @ 120 NONAME
+	_ZN17CAiwServiceIfMenuD2Ev @ 121 NONAME
+	_ZTI17CAiwServiceIfMenu @ 122 NONAME ; #<TI>#
+	_ZTV17CAiwServiceIfMenu @ 123 NONAME ; #<VT>#
+	_ZN12CAiwMenuPane12AddMenuItemLEiRN16CEikMenuPaneItem5SDataEiRK7TDesC16 @ 124 NONAME
+	_ZN17CAiwServiceIfBase18ExtensionInterfaceE4TUid @ 125 NONAME
+	_ZN17CAiwServiceIfMenu18ExtensionInterfaceE4TUid @ 126 NONAME
+	_ZN18CAiwServiceHandler19InitializeMenuPaneLER12CEikMenuPaneiiRK20CAiwGenericParamListi @ 127 NONAME
+	_ZN18CAiwServiceHandler11AttachMenuLEiRK13RPointerArrayI16CAiwCriteriaItemE @ 128 NONAME
+	_ZN18CAiwServiceHandler19InitializeMenuPaneLER12CEikMenuPaneiiRK20CAiwGenericParamListii @ 129 NONAME
+

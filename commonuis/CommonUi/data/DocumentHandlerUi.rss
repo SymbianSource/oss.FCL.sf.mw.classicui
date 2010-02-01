@@ -1,0 +1,573 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file for document handler.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    DHUI
+
+//  INCLUDES
+#include <eikon.rh>
+#include <eikcore.rsg>
+#include <eikon.rsg>
+#include <avkon.rsg>
+#include <avkon.hrh>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include <bldvariant.hrh>
+#include "DocumentHandlerUI.hrh"
+
+#include "pathconfiguration.hrh"
+
+#ifdef __SERIES60_MMC
+#include <CommonDialogs.hrh> // Enumerations
+#include <CommonDialogs.rh> // Resource structures
+#endif // __SERIES60_MMC
+
+#include <documenthandler.loc>
+
+//  RESOURCE DEFINITIONS
+
+// Standard Epoc resources
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=qtn_dochui_default_docname; }
+
+RESOURCE EIK_APP_INFO
+    {
+    }
+
+
+// ---------------------------------------------------------
+//    r_document_handler_overwrite_text
+//    Ask the user if it's ok to overwrite a file
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_overwrite_text
+    {
+    buf = qtn_fldr_overwrite_query;
+    }
+
+// ---------------------------------------------------------
+//    r_document_handler_name_in_use_text
+//    Ask the user if he wants to rename a file
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_name_in_use_text
+    {
+    buf = qtn_fldr_rename_query;
+    }
+
+
+// ---------------------------------------------------------
+//    r_document_handler_file_saved_to
+//    File foo.bar saved to Photo album
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_file_saved_to
+    {
+    buf = qtn_fldr_file_saved_to;
+    }
+
+// ---------------------------------------------------------
+//    r_document_handler_file_saved_to
+//    File foo.bar saved to Photo album
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_saving_file_to
+    {
+    buf = qtn_fldr_file_saving_wait;
+    }
+
+// ---------------------------------------------------------
+//    r_document_handler__bad_file_name
+//    "Unsuitable file name"
+//
+// ---------------------------------------------------------
+//
+// RESOURCE TBUF r_document_handler_bad_file_name { buf = qtn_fldr_bad_file_name; }
+
+// ---------------------------------------------------------
+//    r_document_handler_illegal_characters
+//    "Name can’t contain following characters:\n< > \" \\ / | : * ?"
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_illegal_characters { buf = qtn_fldr_illegal_characters; }
+
+
+
+// --------------------------------------------------------------------
+RESOURCE DIALOG r_document_handler_info_note
+    {
+    flags=EGeneralQueryFlags;
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtNote;
+            id=EDHUIGeneralInfoNote;
+            control= AVKON_NOTE
+                {
+                    layout = EGeneralLayout;
+                    singular_label = "";
+                    plural_label = "";
+                    imagefile = AVKON_BITMAP_FILE;
+                    imageid = EMbmAvkonQgn_note_info;
+                    imagemask = EMbmAvkonQgn_note_info_mask;
+                };
+            }
+        };
+    }
+
+
+// ---------------------------------------------------------
+//    r_dochandler_overwrite_query
+//    Dialog for asking overwrite message
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_dochandler_overwrite_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                    layout = EConfirmationLayout;
+                    label = qtn_fldr_overwrite_query;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//    r_dochandler_rename_query
+//    Dialog for asking rename
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_dochandler_rename_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                    layout = EConfirmationLayout;
+                    label  = qtn_fldr_rename_query;
+                };
+            }
+        };
+    }
+
+// ---------------------------------------------------------
+//    r_dochandler_name_query_dialog
+//    Dialog for renaming a file
+//
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_dochandler_name_query_dialog
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type=EAknCtQuery;
+            id=EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                    layout = EDataLayout;
+                    label = qtn_fldr_item_name_prmpt;
+                    control=EDWIN
+                        {
+                        flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+                        maxlength= 256;  // KMaxFileName
+                        lines=1;
+                        };
+                };
+            }
+        };
+    }
+
+//----------------------------------------------------
+//    r_dochandler_wait_note
+//
+//
+//----------------------------------------------------
+
+RESOURCE DIALOG r_dochandler_wait_note
+    {
+    flags = EAknWaitNoteFlags; // if modal, use EEikDialogFlagWait
+    buttons=R_AVKON_SOFTKEYS_EMPTY;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = 100;
+            control= AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                singular_label = qtn_fldr_saving_wait;
+                //plural_label = "";
+                //imagefile = AVKON_BITMAP_FILE;
+                //imageid = EMbmAvkonQgn_note_voice;
+                //imagemask = EMbmAvkonQgn_note_voice_mask;
+                //iconfile=AVKON_BITMAP_FILE;
+                //iconid=EMbmAvkon30x40;
+                //iconmask=0xffff;
+                animation =R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+
+STRUCT DOCHANDLER_DEFAULT_PATH
+    {
+    LTEXT mimetype = "";
+    LTEXT path = "";
+    }
+
+
+STRUCT DOCHANDLER_DEFAULT_PATH_ARRAY
+    {
+    STRUCT items[];
+    }
+
+
+RESOURCE DOCHANDLER_DEFAULT_PATH_ARRAY r_dochandler_default_path_array
+    {
+    items =
+        {
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "image/svg+xml";
+            path = text_others_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "image/vnd.nokia.ota-bitmap";
+            path = text_gms_pictures_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "image/x-ota-bitmap";
+            path = text_gms_pictures_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "application/vnd.nokia.ringing-tone";
+            path = text_simple_sounds_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "audio/";
+            path = text_digital_sounds_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "image/";
+            path = text_images_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "video/";
+            path = text_videos_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "application/vnd.rn-realmedia";
+            path = text_videos_path;
+            },
+        DOCHANDLER_DEFAULT_PATH
+            {
+            mimetype = "application/sdp";
+            path = text_videos_path;
+            }
+        };
+    }
+
+
+//----------------------------------------------------
+//    r_extension_guaranteed_mime_types
+//    List of mime type whose extension dochandler will override
+//    when saved if it is anything else than the extension listed
+//    in r_extension_guaranteed_extensions resource
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_extension_guaranteed_mime_types
+    {
+    items=
+        {
+        LBUF { txt="audio/sp-midi"; },
+        LBUF { txt="audio/x-midi"; },
+        LBUF { txt="audio/midi"; },
+        LBUF { txt="audio/mid"; },
+	LBUF { txt="audio/awb"; },
+        LBUF { txt="audio/amr-wb"; },
+        LBUF { txt="audio/amr"; },
+        LBUF { txt="audio/x-au"; },
+        LBUF { txt="audio/au"; },
+        LBUF { txt="audio/x-wav"; },
+        LBUF { txt="audio/wav"; },
+        LBUF { txt="audio/x-amr"; },
+        LBUF { txt="audio/mpeg"; },
+	LBUF { txt="audio/mp4"; },
+	LBUF { txt="audio/3g2"; },
+	LBUF { txt="audio/3gpp"; },
+	LBUF { txt="audio/3gp"; },
+	LBUF { txt="audio/qcelp"; },
+	LBUF { txt="audio/vnd.qcelp"; },
+	LBUF { txt="audio/aac"; },
+	LBUF { txt="audio/x-beatnik-rmf"; },
+	LBUF { txt="audio/x-rmf"; },
+	LBUF { txt="audio/rmf"; },
+	LBUF { txt="audio/mobile-xmf"; },
+	LBUF { txt="audio/basic"; },
+	LBUF { txt="audio/x-epoc-wve"; },
+	LBUF { txt="audio/x-ms-wma"; },
+	LBUF { txt="audio/mp3"; },
+	LBUF { txt="audio/mpegurl"; },
+	LBUF { txt="audio/x-mpegurl"; },
+	LBUF { txt="application/vnd.nokia.ringing-tone"; },
+
+	LBUF { txt="video/3gpp2"; },
+        LBUF { txt="video/3gpp"; },
+        LBUF { txt="video/mpeg4" ; },
+        LBUF { txt="video/mp4"; },
+        LBUF { txt="application/vnd.rn-realmedia"; },
+
+        LBUF { txt="image/jpeg"; },
+        LBUF { txt="image/vnd.wap.wbmp"; },
+        LBUF { txt="image/x-epoc-mbm"; },
+        LBUF { txt="image/tiff"; },
+        LBUF { txt="image/bmp"; },
+        LBUF { txt="image/x-bmp"; },
+        LBUF { txt="image/png"; },
+        LBUF { txt="image/gif"; },
+        LBUF { txt="image/vnd.nokia.ota-bitmap"; },
+        LBUF { txt="image/x-ota-bitmap"; },
+	LBUF { txt="image/svg+xml"; },
+	LBUF { txt="image/jpg"; },
+	LBUF { txt="image/ico"; },
+	LBUF { txt="image/x-wmf"; },
+
+        LBUF { txt="text/calendar"; },
+        LBUF { txt="text/X-vCalendar"; },
+        LBUF { txt="text/X-vCard"; },
+
+        LBUF { txt="text/vnd.sun.j2me.app-descriptor"; },
+        LBUF { txt="application/vnd.sun.java-archive"; },
+        LBUF { txt="application/java-archive"; },
+	LBUF { txt="application/java"; },
+        LBUF { txt="application/vnd.symbian.install"; },
+	LBUF { txt="x-epoc/x-sisx-app"; },
+
+        LBUF { txt="application/vnd.wap.wmlc"; },
+	LBUF { txt="application/x-mrv.xml"; },
+	LBUF { txt="application/x-mrv.wbxml"; },
+	LBUF { txt="application/x-shockwave-flash"; },
+	LBUF { txt="application/x-msmetafile"; },
+
+	LBUF { txt="application/vnd.oma.drm.content"; },
+	LBUF { txt="application/vnd.oma.drm.dcf"; },
+	LBUF { txt="application/vnd.oma.drm.message"; },
+        LBUF { txt="application/x-pn-realmedia"; },
+        LBUF { txt="application/x-nokia-widget"; }
+        };
+    }
+
+//----------------------------------------------------
+//    r_extension_guaranteed_extension
+//    Default extensions for mime types.
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_extension_guaranteed_extensions
+    {
+    items=
+        {
+        LBUF { txt="mid"; },   // audio/sp-midi
+        LBUF { txt="mid"; },   // audio/x-midi
+        LBUF { txt="mid"; },   // audio/midi
+        LBUF { txt="mid"; },   // audio/mid
+	LBUF { txt="awb"; },    // audio/awb
+        LBUF { txt="awb"; },   // audio/amr-wb
+        LBUF { txt="amr"; },   // audio/amr
+        LBUF { txt="au"; },    // audio/x-au
+        LBUF { txt="au"; },    // audio/au
+        LBUF { txt="wav"; },   // audio/x-wav
+        LBUF { txt="wav"; },   // audio/wav
+        LBUF { txt="amr"; },   // audio/x-amr
+        LBUF { txt="mp3"; },    // audio/mpeg
+	LBUF { txt="mp4"; },    // audio/mp4
+	LBUF { txt="3g2"; },    // audio/3g2
+	LBUF { txt="3gp"; },    // audio/3gpp
+	LBUF { txt="3gp"; },    // audio/3gp
+	LBUF { txt="qcp"; },    // audio/qcelp
+	LBUF { txt="qcp"; },    // audio/vnd.qcelp
+	LBUF { txt="aac"; },    // audio/aac
+	LBUF { txt="rmf"; },    // audio/x-beatnik-rmf
+	LBUF { txt="rmf"; },    // audio/x-rmf
+	LBUF { txt="rmf"; },    // audio/rmf
+	LBUF { txt="mxmf"; },   // audio/mobile-xmf
+	LBUF { txt="au"; },     // audio/basic
+	LBUF { txt="wve"; },   	// audio/x-epoc-wve
+	LBUF { txt="wma"; },    // audio/x-ms-wma
+	LBUF { txt="mp3"; },    // audio/mp3
+	LBUF { txt="m3u"; },    // audio/mpegurl
+	LBUF { txt="m3u"; },    // audio/x-mpegurl
+	LBUF { txt="nrt"; },    // application/vnd.nokia.ringing-tone
+
+	LBUF { txt="3g2"; },    // video/3gpp2  
+        LBUF { txt="3gp"; },   // video/3gpp
+        LBUF { txt="mp4" ; },  // video/mpeg4
+        LBUF { txt="mp4"; },   // video/mp4
+        LBUF { txt="rm";  },   // application/vnd.rn-realmedia
+
+        LBUF { txt="jpg"; },   // image/jpeg
+        LBUF { txt="wbmp"; },  // image/vnd.wap.wbmp
+        LBUF { txt="mbm"; },   // image/x-epoc-mbm
+        LBUF { txt="tif"; },   // image/tiff
+        LBUF { txt="bmp"; },   // image/bmp
+        LBUF { txt="bmp"; },   // image/x-bmp
+        LBUF { txt="png"; },   // image/png
+        LBUF { txt="gif"; },   // image/gif
+        LBUF { txt="ota"; },   // image/vnd.nokia.ota-bitmap
+        LBUF { txt="ota"; },   // image/x-ota-bitmap
+	LBUF { txt="svg"; },    // image/svg+xml
+	LBUF { txt="jpg"; },    // image/jpg
+	LBUF { txt="ico"; },   	// image/ico
+	LBUF { txt="wmf"; },    // image/x-wmf
+
+        LBUF { txt="vcs"; },   // text/calendar
+        LBUF { txt="vcs"; },   // text/X-vCalendar
+        LBUF { txt="vcf"; },   // text/X-vCard
+
+        LBUF { txt="jad"; },   // text/vnd.sun.j2me.app-descriptor
+        LBUF { txt="jar"; },   // application/vnd.sun.java-archive
+        LBUF { txt="jar"; },   // application/java-archive
+	LBUF { txt="jar"; },    // application/java
+        LBUF { txt="sis"; },   // application/vnd.symbian.install
+        LBUF { txt="sisx"; },   // x-epoc/x-sisx-app
+
+        LBUF { txt="wmlc"; },  // application/vnd.wap.wmlc
+	LBUF { txt="mrv"; },    // application/x-mrv.xml
+	LBUF { txt="mrv"; },    // application/x-mrv.wbxml
+	LBUF { txt="swf"; },    // application/x-shockwave-flash  
+	LBUF { txt="wmf"; },   // application/x-msmetafile
+
+	LBUF { txt="dcf"; },    // application/vnd.oma.drm.content
+	LBUF { txt="odf"; },    // application/vnd.oma.drm.dcf
+	LBUF { txt="dcf"; },    // application/vnd.oma.drm.message
+        LBUF { txt="rm"; },     // application/x-pn-realmedia
+        LBUF { txt="wgz"; }     // application/x-nokia-widget
+        };
+    }
+
+
+#ifdef __SERIES60_MMC
+RESOURCE MEMORYSELECTIONDIALOG r_dochandler_memory_selection_dialog
+    {
+    softkey_1 = text_softkey_select;
+    locations =
+        {
+        LOCATION { root_path = text_phone_memory_root_path; },
+        LOCATION { root_path = text_memory_card_root_path; }
+        };
+    }
+
+
+//
+// Mime types in this list are automatically saved to default directories
+// so memory select dialog is never shown for them.
+//
+RESOURCE ARRAY r_document_handler_exception_types_list
+{
+    items =
+    {
+    LBUF { txt = "image/vnd.nokia.ota-bitmap"; },
+    LBUF { txt = "image/x-ota-bitmap"; },
+    LBUF { txt = "text/x-co-desc"; },
+    LBUF { txt = "application/vnd.oma.dd+xml"; }
+    };
+}
+#endif  // __SERIES60_MMC
+
+//-----------------------------------------------------------------------------
+//
+//    r_document_handler_savedto_others_directory
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_saved_others_directory
+    {
+    buf = qtn_fldr_others_directory;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_document_handler_note_others_directory
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_saving_others_directory
+    {
+    buf = qtn_gen_note_saving_to_others;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_document_handler_savedto_installs_directory
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_saved_installs_directory
+    {
+    buf = qtn_fldr_installs_directory;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_document_handler_note_others_directory
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_document_handler_saving_installs_directory
+    {
+    buf = qtn_gen_note_saving_to_installs;
+    }
+
+// End of File

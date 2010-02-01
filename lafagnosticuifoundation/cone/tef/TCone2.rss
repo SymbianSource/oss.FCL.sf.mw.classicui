@@ -1,0 +1,43 @@
+// Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#include <techview/eikon.rh>
+
+NAME TCN2
+
+RESOURCE RSS_SIGNATURE
+	{
+	}
+
+RESOURCE ARRAY r_tcone2_string_array
+	{
+	items=
+		{
+		LBUF {txt="Apparc";},
+		LBUF {txt="Cone";},
+		LBUF {txt="Wserv";}
+		};
+	}
+
+RESOURCE TBUF r_tcone2_test_buffer1 { buf="Cone"; }
+RESOURCE TBUF r_tcone2_test_buffer2 { buf="TCone2"; }
+RESOURCE TBUF r_tcone2_test_format_buffer	{buf="Resource file length : %d";}
+
+// keep this always last, because test coeEnv->IsResourceAvailable depends on the
+// information in a way that introduces resource id with value beyond the last
+// one here.
+RESOURCE TBUF r_tcone2_test_last_resource_buffer { buf="Last"; }
+
+ 

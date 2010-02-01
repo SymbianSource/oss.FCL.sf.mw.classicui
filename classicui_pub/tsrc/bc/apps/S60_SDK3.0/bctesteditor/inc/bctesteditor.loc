@@ -1,0 +1,67 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestEditor localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTEditor"
+#define qtn_apps_tavl_grid              "BCTESTEditor"
+
+// MenuBar
+#define qtn_bctesteditor_menubar         "Option"
+#define qtn_bctesteditor_cba_next        "Next"
+#define qtn_bctesteditor_autotest        "Autotest"
+#define qtn_bctesteditor_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+// outline 
+#define qtn_bctesteditor_outline1     "Outline01"
+#define qtn_bctesteditor_outline2     "Outline02"
+#define qtn_bctesteditor_outline3     "Outline03"
+#define qtn_bctesteditor_outline4     "Outline04"
+#define qtn_bctesteditor_outline5     "Outline05"
+#define qtn_bctesteditor_outline6     "Outline06"
+#define qtn_bctesteditor_outline7     "Outline07"
+#define qtn_bctesteditor_outline8     "Outline08"
+#define qtn_bctesteditor_outline9     "Outline09"
+#define qtn_bctesteditor_outline10     "Outline10"
+#define qtn_bctesteditor_outline11     "Outline11"
+#define qtn_bctesteditor_outline12     "Outline12"
+#define qtn_bctesteditor_outline13     "Outline13"
+#define qtn_bctesteditor_outline14     "Outline14"
+#define qtn_bctesteditor_outline15     "Outline15"
+
+
+#define qfn_bctesteditor_fontname1        "Arial"
+#define qfn_bctesteditor_fontsize1       140
+
+#define qtn_bctestvolume_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+#define qtn_bctestvolume_text_other_app_name     "BCTestSoftkey"
+// End of File

@@ -1,0 +1,213 @@
+/*
+* Copyright (c) 2003-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Declares common constants to be used in both resources and
+*                C++ code of consumers and providers.
+*
+*/
+
+
+
+
+
+#ifndef AIW_COMMON_HRH
+#define AIW_COMMON_HRH
+
+// DATA TYPES
+
+// CONSTANTS
+
+/**
+* Predefined service commands (UIDs).
+*/
+enum TAiwServiceCommands
+    {
+    /** Null value. */
+    KAiwCmdNone = 0,
+
+    /** Show help content. */
+    KAiwCmdHelp = 0x10275075,
+    
+    /** Client can request that map should be displayed on screen. */ 
+    KAiwCmdMnShowMap = 0x10206904,
+    
+    /** Allows to start navigation to desired destination. */
+    KAiwCmdMnNavigateTo = 0x10206905,
+    
+    /** Starts reverse geocoding request: finding address for given coordinate. */
+    KAiwCmdMnAddrByCoord = 0x10206906,
+    
+    /** Starts geocoding request: finding coordinate by given address. */
+    KAiwCmdMnCoordByAddr = 0x10206907,    
+    
+    /** Allows client to request that user shall select a location from map. */
+    KAiwCmdMnSelectFromMap = 0x10206908
+    };
+
+
+// Service command strings. These strings are used in service provider's
+// opaque data field to specify what service command(s) the provider implements.
+
+#define KAiwCmdNoneStr                    "00000000"
+#define KAiwCmdHelpStr                    "10275075"
+#define KAiwCmdMnShowMapStr               "10206904"
+#define KAiwCmdMnNavigateToStr            "10206905"
+#define KAiwCmdMnAddrByCoordStr           "10206906"
+#define KAiwCmdMnCoordByAddrStr           "10206907"
+#define KAiwCmdMnSelectFromMapStr         "10206908"
+
+
+/**
+* Service command options (bits) to alter command handling behaviour.
+*/
+enum TAiwServiceCmdOptions
+    {
+    /**
+    * Consumer wants asynchronous command handling.
+    * The default is synchronous command handling.
+    * In asynchronous case consumer needs to pass a callback to provider.
+    */
+    KAiwOptASyncronous = 0x0001,
+
+    /**
+    * Consumer wants provider to make a callback to check coming output
+    * parameters prior returning from service command handling.
+    * Consumer needs to pass a callback to provider.
+    */
+    KAiwOptOutParamCheck = 0x0002,
+
+    /**
+    * Consumer tells provider that it is prepared to handle
+    * callback events for possibly incomplete/wrong parameter list. 
+    */
+    KAiwOptInParamCheck = 0x0004,
+    
+    /**
+    * Consumer wants to cancel an asynchronous AIW service. 
+    * When a consumer wants to cancel the asynchronous service that a provider
+    * is executing, it should call ExecuteMenuCmdL() or ExecuteServiceCmdL() 
+    * with the same parameters as when requesting the service, but set this 
+    * cancel bit on. The cancel operation itself is synchronous, i.e. the 
+    * provider must call the consumer's callback with KAiwEventCanceled before 
+    * the Execute*CmdL() returns.
+    */
+    KAiwOptCancel = 0x0008
+    };
+
+
+/**
+* Service classes (UID). Technically these are same as service interface UIDs.
+*/
+enum TAiwServiceClass
+    {
+    /** 
+    * None. 
+    */
+    KAiwClassNone = 0x0,
+
+    /**
+    * Base service (no UI expected). 
+    * Every other class must implement this always!
+    */
+    KAiwClassBase = 0x101F8650,
+
+    /** 
+    * Menu service class (offers menu based services).
+    */
+    KAiwClassMenu = 0x101F8652
+    };
+
+
+/**
+* Event codes. To be used with HandleNotifyL method.
+*/
+enum
+    {
+    /**
+    * Asynchronous service informs consumer to prepare itself for 
+    * action. 
+    */
+    KAiwEventStarted = 1,
+
+    /**
+    * Asynchronous service request completed.
+    */
+    KAiwEventCompleted = 2,
+
+    /**
+    * Asynchronous service request canceled.
+    */
+    KAiwEventCanceled = 3,
+    
+    /**
+    * Error during asynchronous service request.
+    */
+    KAiwEventError = 4,
+    
+    /**
+    * Relates to KAiwOptOutParamCheck.
+    */
+    KAiwEventOutParamCheck = 5,
+    
+    /**
+    * Relates to KAiwOptInParamCheck.
+    */
+    KAiwEventInParamCheck = 6,
+    
+    /**
+    * Provider informs consumer that service is no longer available or 
+    * has stopped.
+    */
+    KAiwEventStopped = 7,
+    
+    /**
+    * Provider asks consumer whether Exit can be done (needed at least in 
+    * embedded use cases where server application offers Exit possibility 
+    * to end user, but consumer can not allow Exit due to fact that for
+    * example network connections owned by consumer are open and they need 
+    * to be kept alive).    
+    */
+    KAiwEventQueryExit = 8
+    };
+    
+// ============================================================================
+// Menu item flags for AIW consumers.   
+// ============================================================================ 
+/** 
+ * Always keep the provider menu items in a submenu. 
+ */
+#define AIW_CASCADE_ID               0x01010001
+
+/** 
+ * Menu item is placed intelligently either to the main level or a submenu. 
+ */
+#define AIW_INTELLIGENT_CASCADE_ID   0x01010010
+
+/** 
+ * Consumer defines the menu title. 
+ */
+#define AIW_LOCK_SUBMENU_TITLE       0x00000020
+
+// ============================================================================
+// Criteria item flags for AIW consumers.    
+// ============================================================================
+/** 
+ * Criteria item loadOptions bit, only providers in ROM are accepted. 
+ */
+#define AIW_OPTIONS_ROM_ONLY         0x01
+
+#endif // AIW_COMMON_HRH
+
+// End of file
+
+

@@ -1,0 +1,91 @@
+/*
+* Copyright (c) 1998 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+
+NAME EIPV
+
+#include <fontids.hrh>
+
+#include <eikcore.rsg>
+
+#include <uikon.rh>
+#include <gulftflg.hrh>
+#include <gulfont.hrh>
+
+RESOURCE RSS_SIGNATURE { }
+
+#include "EIKCOLOR.RA"
+
+
+STRUCT FEP_ON_OR_OFF_KEY_DATA
+	{
+	LONG charactercodeforfoldedmatch;
+	LONG modifiermask;
+	LONG modifiervalues;
+	}
+
+STRUCT FEP_DEFAULT_DATA
+	{
+	LTEXT filenameofdll;
+	STRUCT onkeydata; // FEP_ON_OR_OFF_KEY_DATA
+	STRUCT offkeydata; // FEP_ON_OR_OFF_KEY_DATA
+	BYTE ison;
+	}
+
+RESOURCE FEP_DEFAULT_DATA r_eik_fep_default_data
+	{
+	filenameofdll="::101FD65A"; // Implementation UID of AknFep.dll
+
+	onkeydata=FEP_ON_OR_OFF_KEY_DATA
+		{
+		charactercodeforfoldedmatch='F';
+		modifiermask=0x00002480; // EModifierFunc|EModifierShift|EModifierCtrl
+		modifiervalues=0x00002000; // (Alt on PC Keyboard)
+		};
+	offkeydata=FEP_ON_OR_OFF_KEY_DATA
+		{
+		charactercodeforfoldedmatch='F';
+		modifiermask=0x00002480; // EModifierFunc|EModifierShift|EModifierCtrl
+		modifiervalues=0x00002000; // (Alt on PC Keyboard)
+		};
+	ison=1;
+	}
+
+RESOURCE TBUF r_eik_default_char_format_typeface { buf="System One"; }
+RESOURCE INT16 r_eik_default_char_format_height { value=125; }
+
+RESOURCE VIEW_ID r_eik_system_default_view_id
+	{
+	appuid=0x101F4CD2;
+	viewuid=0x101F4CD2;
+	}
+
+#include "EIKDEBUG.RA"
+
+#ifdef __WINS__
+RESOURCE NUMBER_INT32 r_eik_system_view_server_event_time_out { value=200000000; }			// microseconds
+RESOURCE NUMBER_INT32 r_eik_system_view_server_client_request_time_out { value=20000000; }	// microseconds
+#else
+RESOURCE NUMBER_INT32 r_eik_system_view_server_event_time_out { value=20000000; }			// microseconds
+RESOURCE NUMBER_INT32 r_eik_system_view_server_client_request_time_out { value=2000000; }	// microseconds
+#endif
+
+RESOURCE VIEW_ID r_eik_system_default_view_id_mode_1
+	{
+	appuid=0x01234567;	// KUidFlipAppA			(eikonex's flipappa.app)
+	viewuid=0x01122333;	// KUidFlipAppAFCView	(flip-closed view in eikonex's flipappa.app)
+	}

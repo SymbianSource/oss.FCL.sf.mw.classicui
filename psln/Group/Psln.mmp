@@ -1,0 +1,134 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project psln
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET                  psln.exe
+TARGETTYPE              exe
+UID                     0x100039CE 0x10005A32
+
+// Increase stack size, otherwise the default 0x2000 is used
+// and it causes mgfetch and plugin screensaver to run out of stack
+EPOCSTACKSIZE           0x6000
+EPOCHEAPSIZE            0x7FFF 0xF4FFFF
+
+CAPABILITY              CAP_APPLICATION
+VENDORID                VID_DEFAULT
+
+SOURCEPATH              ../Src
+SOURCE                  PslnApplication.cpp
+SOURCE                  PslnDocument.cpp
+SOURCE                  PslnUi.cpp
+SOURCE                  PslnBaseContainer.cpp
+SOURCE                  PslnBaseView.cpp
+SOURCE                  PslnDRMImplementation.cpp
+SOURCE                  PslnSoundActivator.cpp
+SOURCE                  PslnPropertySubscriber.cpp
+SOURCE                  PslnPluginHandler.cpp
+SOURCE                  pslntaskgenericupdate.cpp  
+SOURCE                  pslntaskactivatesounds.cpp
+SOURCE                  pslnidletaskcreateviews.cpp
+
+// Views
+SOURCE                  PslnMainView.cpp
+SOURCE                  PslnScreenSaverView.cpp
+SOURCE                  PslnGeneralThemeView.cpp
+SOURCE                  PslnWallpaperView.cpp
+
+// Containers
+SOURCE                  PslnMainViewContainer.cpp
+SOURCE                  PslnScreenSaverContainer.cpp
+SOURCE                  PslnGeneralThemeContainer.cpp
+SOURCE                  PslnWallpaperContainer.cpp
+
+START RESOURCE  ../Rss/PslnCommon.rss
+HEADER
+TARGETPATH      APP_RESOURCE_DIR
+LANGUAGE_IDS
+END // RESOURCE
+
+START RESOURCE  ../Rss/Psln.rss
+DEPENDS pslncommon.rsg
+HEADER
+TARGETPATH      APP_RESOURCE_DIR
+LANGUAGE_IDS
+END // RESOURCE
+
+START RESOURCE  ../Rss/PslnSkinNames.rss
+HEADER
+TARGETPATH      APP_RESOURCE_DIR
+LANGUAGE_IDS
+END // RESOURCE
+
+USERINCLUDE             ../Group  
+USERINCLUDE             ../Inc
+USERINCLUDE             ../pslnengine/inc
+USERINCLUDE             ../PslnLibraryLoaders/inc
+
+// This is a SYSTEMINCLUDE macro containing the application
+// layer specific include directories
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY                 apparc.lib
+LIBRARY                 avkon.lib
+LIBRARY                 bafl.lib 
+LIBRARY                 cone.lib
+LIBRARY                 eikcoctl.lib 
+LIBRARY                 eikcore.lib 
+LIBRARY                 eikctl.lib 
+LIBRARY                 euser.lib
+LIBRARY                 efsrv.lib 
+LIBRARY                 fbscli.lib 
+LIBRARY                 egul.lib
+LIBRARY                 mgfetch.lib
+LIBRARY                 aknskinsrv.lib
+LIBRARY                 aknskins.lib
+LIBRARY                 commonengine.lib
+LIBRARY                 aknnotify.lib
+LIBRARY                 hlplch.lib
+LIBRARY                 drmhelper.lib
+LIBRARY                 pslnengine.lib
+LIBRARY                 pslnframework.lib
+LIBRARY                 cdlengine.lib
+LIBRARY                 aknicon.lib
+LIBRARY                 ecom.lib
+LIBRARY                 centralrepository.lib
+LIBRARY                 cenrepnotifhandler.lib
+LIBRARY                 platformenv.lib
+LIBRARY                 ws32.lib
+LIBRARY                 apgrfx.lib
+LIBRARY                 featmgr.lib
+LIBRARY                 eikdlg.lib
+LIBRARY                 hal.lib
+
+LIBRARY                 aknlocalskinlib.lib
+LIBRARY                 aknlistloadertfx.lib
+LIBRARY                 psmclient.lib
+
+// ============================================================================
+// AIF
+// ============================================================================
+
+START RESOURCE ../Rss/Psln_reg.rss
+DEPENDS psln.rsg
+// Do not change the UID below.
+TARGETPATH /private/10003a3f/apps
+END
+
+// End of file

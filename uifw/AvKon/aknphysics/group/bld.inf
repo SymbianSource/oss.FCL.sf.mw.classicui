@@ -1,0 +1,37 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This file provides the information required for building the
+*  whole of a aknphysics.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_EXPORTS
+
+// iby file
+../rom/aknphysics.iby                       CORE_MW_LAYER_IBY_EXPORT_PATH(aknphysics.iby) 
+
+// Generic configuration interface for component cenrep settings  
+../cenrep/20021192.txt                     /epoc32/winscw/c/private/10202be9/20021192.txt
+../cenrep/20021192.txt                     /epoc32/data/Z/private/10202BE9/20021192.txt
+../conf/s60/aknphysics.confml             APP_LAYER_CONFML(aknphysics.confml)
+../conf/s60/aknphysics_20021192.crml      APP_LAYER_CRML(aknphysics_20021192.crml)
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+aknphysics.mmp
+#endif

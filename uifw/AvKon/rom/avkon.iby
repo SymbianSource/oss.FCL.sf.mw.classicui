@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+#ifndef __AVKON_IBY__
+#define __AVKON_IBY__
+
+#include <bldvariant.hrh>
+
+REM AVKON
+
+file=ABI_DIR\BUILD_DIR\avkon.dll                 SHARED_LIB_DIR\avkon.dll
+
+//S60_INTEGRATION 
+ECOM_PLUGIN(akninit.dll,100056C8.rsc)
+
+file=ABI_DIR\BUILD_DIR\aknnotify.dll             SHARED_LIB_DIR\aknnotify.dll
+file=ABI_DIR\BUILD_DIR\aknnotifyplugin.dll       SHARED_LIB_DIR\aknnotifyplugin.dll
+file=ABI_DIR\BUILD_DIR\aknanimdll.dll            SHARED_LIB_DIR\aknanimdll.dll
+file=ABI_DIR\BUILD_DIR\AknKeyRotator.dll         SHARED_LIB_DIR\AknKeyRotator.dll
+file=ABI_DIR\BUILD_DIR\aknhlist.dll              SHARED_LIB_DIR\aknhlist.dll
+
+SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,avkon2)
+SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,callstatus)
+SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,smiley)
+
+// Avkon2.mif CDL header
+ECOM_PLUGIN(102827CF.dll,102827CF.rsc)
+data=DATAZ_\resource\cdl\102827CF_cdl_detail.rsc Resource\Cdl\102827CF_cdl_detail.rsc
+data=ZRESOURCE\aknpriv.rsc                       RESOURCE_FILES_DIR\aknpriv.rsc
+data=ZRESOURCE\smiley.rsc                        RESOURCE_FILES_DIR\smiley.rsc
+
+#include "aknglobalui.iby"
+
+#endif

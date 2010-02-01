@@ -1,0 +1,235 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+#if !defined(__UIKON_HRH__)
+#define __UIKON_HRH__
+
+#include <uiklaf/private/pluginuid.hrh>
+
+/** UID for dynamically-loaded Uikon library.
+@publishedAll 
+@released 
+*/
+#define KUidUikonLibraryValue			0x10004CC1
+
+
+/** Application resource file standard offsets.
+@publishedAll 
+@released 
+*/
+enum TEikAppResourceFileStandardOffset
+	{
+	/** Offset of RSS_SIGNATURE resource.
+	*/
+	ESignatureResourceOffset=1,
+	/** Offset of NAME resource.
+	*/
+	EDefaultNameResourceOffset,
+	/** Offset of EIK_APP_INFO resource.
+	*/
+	EAppInfoResourceOffset
+	};
+
+
+/** Default RSS_SIGNATURE signature field value.
+@publishedAll 
+@released 
+*/
+#define EEikResourceSignatureValue		4
+
+
+/** ID of "Cancel" command button.
+@publishedAll 
+@released 
+*/
+#define EEikBidCancel				-1
+
+// standard commands
+
+/** "Canceled" command ID
+@publishedAll 
+@released 
+*/
+#define EEikCmdCanceled				0
+
+/** "Exit" command ID.
+@publishedAll 
+@released 
+*/
+#define EEikCmdExit				0x100
+
+
+// EIKSPANE.HRH
+//
+
+//
+
+// Status pane server, pane declaration flags
+
+/** STATUS_PANE flags resource flag: the pane is owned by the UI server.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneServerOwned		0
+
+/** STATUS_PANE flags resource flag: the pane is owned by the client application.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneAppOwned			1
+
+
+// Status pane server, top level layout flags
+
+/** STATUS_PANE_LAYOUT position resource flag: lay out panes from the top of the status pane area.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPanePositionTop		0
+
+/** STATUS_PANE flags resource flag: lay out panes from the bottom of the status pane area.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPanePositionBottom	1
+
+/** STATUS_PANE flags resource flag: lay out panes from the left of the status pane area.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPanePositionLeft		2
+
+/** STATUS_PANE flags resource flag: lay out panes from the right of the status pane area.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPanePositionRight		3
+
+
+/** STATUS_PANE_LAYOUT position resource flag: lay out panes horizontally.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneLayoutHorizontal	0
+
+/** STATUS_PANE_LAYOUT position resource flag: lay out panes vertically.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneLayoutVertical	4
+
+
+// Status pane server, pane layout flags
+/** STATUS_PANE flags resource flag: status pane is stretched to fill the available space.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneIsStretchable		1
+
+
+// Status pane app constants
+/** STATUS_PANE_APP_MODEL layout default value: use default layout.
+@publishedAll 
+@released 
+*/
+#define EEikStatusPaneUseDefaults		0
+
+// error resolver
+/** SINGLE_ERROR flags resource flag: this error should be dealt with at the system level and indicates and unrecoverable error (which will result in a panic) if it reaches the UI.
+@publishedAll 
+@released 
+*/
+#define EErrorResPanicErrorFlag			0x00000001
+
+/** SINGLE_ERROR flags resource flag: this error should not be displayed.
+@publishedAll 
+@released 
+*/
+#define EErrorResBlankErrorFlag			0x00000002
+
+/** SINGLE_ERROR flags resource flag: this error is used for filling in empty slots in error ranges.
+@publishedAll 
+@released 
+*/
+#define EErrorResUnknownErrorFlag		0x00000004 // used for filling in empty slots in error ranges
+
+#define EErrorResOOMErrorFlag		0x00000008 
+
+// EIKDEF.HRH
+
+//
+
+
+#ifdef LANGUAGE_10
+#if !defined LANGUAGE_US
+#define LANGUAGE_US
+#endif
+#endif
+
+/** Shell application bitmap file.
+@publishedAll 
+@released 
+*/
+#define KAppBitmapFile					42
+
+/** CP1252 ellipsis character value.
+@publishedAll 
+@released 
+*/
+#define KEllipsis						0x2026  // cp1252=133
+
+/** CP1252 left single quote character value.
+@publishedAll 
+@released 
+*/
+#define KLeftSingleQuote				0x2018  // cp1252=145
+
+/** CP1252 right single quote character value.
+@publishedAll 
+@released 
+*/
+#define KRightSingleQuote				0x2019  // cp1252=146
+
+/** CP1252 left double quote character value.
+@publishedAll 
+@released 
+*/
+#define KLeftDoubleQuote				0x201c  // cp1252=147
+
+/** CP1252 right double quote character value.
+@publishedAll 
+@released 
+*/
+#define KRightDoubleQuote				0x201d  // cp1252=148
+
+/** CP1252 copyright character value.
+@publishedAll 
+@released 
+*/
+#define KCopyright						169
+
+/** CP1252 soft hyphen character value.
+@publishedAll 
+@released 
+*/
+#define KSoftHyphen						0x00AD
+
+/** CP1252 hyphen character value.
+@publishedAll 
+@released 
+*/
+#define KHyphen							0x2010
+
+#endif

@@ -1,0 +1,41 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkappfw"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+"..\init\testsdkappfw.ini"-"c:\Testframework\testsdkappfw.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkappfw.cfg"-"c:\Testframework\tctestsdkappfw.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkappfw.cfg"-"c:\Testframework\ui_testsdkappfw.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkappfw.dll"-"c:\sys\bin\testsdkappfw.dll", FF
+
+"\epoc32\data\Z\resource\testsdkappfw.rsc"-"c:\resource\testsdkappfw.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

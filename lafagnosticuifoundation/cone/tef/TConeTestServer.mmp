@@ -1,0 +1,113 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// Using relative paths for sourcepath and user includes
+// 
+//
+
+TARGET      tconetestserver.exe
+TARGETTYPE  EXE
+UID         0x1000007A 0x10004c70
+VENDORID 	0x70000001
+
+CAPABILITY 	ALL -Tcb
+
+SOURCEPATH  .
+SOURCE		TConeTestServer.cpp 
+SOURCE		TCONE0STEP.CPP 
+SOURCE		TCONE1STEP.CPP
+SOURCE		TCONE2STEP.CPP
+SOURCE		TCONE3STEP.CPP
+SOURCE		TCONE4STEPExe.CPP
+SOURCE		TCONE5STEP.CPP
+SOURCE		TCONE6STEP.CPP
+SOURCE		TCone7CtrlBase.cpp
+SOURCE		TCone7Container.cpp
+SOURCE		TCone7SuperContainer.cpp
+SOURCE		TCone7SubContainer.cpp
+SOURCE		TCone7Containee.cpp
+SOURCE		TCONE7STEP.CPP
+SOURCE		TConeInvalidate.cpp
+SOURCE 		TConeBackground.cpp
+SOURCE 		TConeTransition.CPP 
+SOURCE		TConeZoomFont.cpp
+SOURCE      TTransGc.cpp
+SOURCE		TConeVisibility.cpp
+SOURCE		TConeTextDrawer.cpp
+SOURCE		tconecoedatastoragestep.cpp
+SOURCE		TConeErrorMsgStep.cpp 
+SOURCE		TConeHelpTextStep.cpp 
+SOURCE		tconecoecntssstep.cpp
+SOURCE		tconeresourceloader.cpp
+SOURCE		tconestateobs.cpp
+SOURCE		statecon.cpp
+SOURCE 		TConeTransparency.cpp
+SOURCE		tconemultiptrstep.cpp
+SOURCE		tmultiptrtestcontrol.cpp
+SOURCE		tmultiptrtestchildcontrol.cpp
+SOURCE		tmultiptrtestcompoundcontrolcontainer.cpp
+SOURCE		tconemultiptrcompoundstep.cpp
+SOURCE		TMultipleScreensStep.cpp
+SOURCE		tconeevents.cpp
+RESOURCE	TCone2.rss
+START RESOURCE	TCone2.rss
+TARGETPATH      /system/data
+HEADER
+LANG		SC
+END
+
+RESOURCE		tconeresourceloader.rss
+START RESOURCE 		tconeresourceloader.rss
+TARGETPATH 		/resource/apps
+LANG     SC
+END // RESOURCE
+
+USERINCLUDE		../../../../appsupport/appfw/uiftestfw/inc
+USERINCLUDE		../tef ../inc 
+USERINCLUDE		../tef/twindowposition
+APP_LAYER_SYSTEMINCLUDE 
+
+
+
+LIBRARY     euser.lib  bafl.lib  cone.lib gdi.lib  ws32.lib  
+LIBRARY		apparc.lib apgrfx.lib efsrv.lib 
+LIBRARY		eikcoctl.lib
+
+
+
+LIBRARY	    testexecuteutils.lib appfwk_test_appui.lib
+LIBRARY		testexecutelogclient.lib
+LIBRARY     ecom.lib
+LIBRARY     fbscli.lib
+LIBRARY     bitgdi.lib
+LIBRARY     egul.lib
+LIBRARY		centralrepository.lib
+LIBRARY		imageconversion.lib 
+LIBRARY		eikcore.lib 
+LIBRARY		hal.lib
+
+#if !defined(WINS)
+LIBRARY  	viewsrv.lib
+#endif
+
+#if defined(WINSCW)
+DEFFILE ../bwins/TCONETESTSERVER.DEF
+#else
+DEFFILE ../EABI/TCONETESTSERVER.def
+#endif
+
+// We're quite heavy on the stack... 4k in WinS isn't enough...
+EPOCSTACKSIZE	0x6000
+
+
+SMPSAFE

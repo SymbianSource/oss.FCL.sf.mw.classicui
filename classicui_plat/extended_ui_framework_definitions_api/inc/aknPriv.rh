@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2004-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Private resource headers for project AVKON.
+*
+*/
+
+
+#include <AknPriv.hrh>
+#include <akntouchpane.hrh>
+
+
+STRUCT AKNPRIV_HARDWARE_STATE_KEY
+	{
+	// key press that triggers this state - will be captured by eiksrv
+	WORD keycode;
+	// state id, stored globally, meaning is product specific.
+	WORD state;	
+	}
+
+STRUCT AKNPRIV_HARDWARE_STATE_KEY_MAP
+	{
+	STRUCT key_state_map[];		// AKNPRIV_HARDWARE_STATE_KEY
+	}
+
+STRUCT AKNPRIV_HARDWARE_STATE_SCREEN
+	{
+	// state id that the following screen parameters apply to
+	WORD state;
+	// the screen width - will be the natural device screen width if not specified
+	WORD screen_width = EAknPrivParameterNotSet;
+	// the screen height - will be the natural device screen height if not specified
+	WORD screen_height = EAknPrivParameterNotSet;
+	// the screen rotation - will be the natural device screen height if not specified
+	// see TAknPrivScreenRotation for values
+	WORD screen_rotation = EAknPrivParameterNotSet;
+	// rotation to use for apps that want the opposite orientation, eg portrait vs landscape.
+	// default values will be used if not specified
+	WORD rotation_for_other_orientation = EAknPrivParameterNotSet;
+	}
+
+STRUCT AKNPRIV_HARDWARE_STATE_SCREEN_MAP
+	{
+	STRUCT state_screen_map[];	// AKNPRIV_HARDWARE_STATE_SCREEN
+	WORD default_portrait_rotation = EAknPrivScreenRotationNormal;
+	WORD default_landscape_rotation = EAknPrivScreenRotationNormal;
+	}
+
+STRUCT AKNPRIV_HARDWARE_SOFTKEY_LOCATION
+	{
+	WORD location;
+    }
+
+// ---------------------------------------------------------------------------
+// Resource strucure for default touch pane.
+// ---------------------------------------------------------------------------
+//
+STRUCT AKNPRIV_TOUCHPANE
+    {
+    // Possible flags are defined in @c TAknPrivTouchPaneResourceFlags
+    // enumeration in aknpriv.hrh.
+    LONG flags = 0;
+
+    // Default touch pane items. This should be left empty, if product does
+    // not use touch pane.
+    STRUCT items[]; // AKNPRIV_TOUCHPANE_ITEM
+    }
+
+// ---------------------------------------------------------------------------
+// Resource structure for default touch pane items.
+// ---------------------------------------------------------------------------
+//
+STRUCT AKNPRIV_TOUCHPANE_ITEM
+    {
+    BYTE version = 1; // Do not change!
+
+    // Priority indicates the order in which the components in default
+    // resource are replaced by customized touch pane content. Items with
+    // lower priorities will be replaced before items with higher priorites.
+    // 0 = Mandatory, 1 = Highest priority, ... , 255 = Lowest priority.
+    BYTE priority; 
+
+    // One of the pre-defined element identifiers defined in akntouchpane.hrh
+    BYTE id;
+
+    // UID for specifying an implementation for touch pane ECom plug-in
+    // interface. When plug-in implementation is used, the id field must be
+    // set to value @c ETouchPaneElementPlugin.
+    LONG plugin = 0;
+    }

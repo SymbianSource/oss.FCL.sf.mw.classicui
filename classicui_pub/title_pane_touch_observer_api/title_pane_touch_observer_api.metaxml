@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="bc0cf9ceb1f9250784094985ea662675" dataversion="1.0">
+  <name>Title Pane Touch Observer API</name>
+  <description>Observer interface for detecting touch events in the title pane.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="sdk" sinceversion="5.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:    
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+WINSCW ARMV5
+
+PRJ_EXPORTS
+../inc/ganes/HgGrid.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgGrid.h) 
+../inc/ganes/HgItem.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgItem.h)
+../inc/ganes/HgList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgList.h)
+../inc/ganes/HgSingleGraphicList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgSingleGraphicList.h)
+../inc/ganes/HgSingleLargeList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgSingleLargeList.h)
+../inc/ganes/HgDoubleGraphicList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgDoubleGraphicList.h)
+../inc/ganes/HgDoubleTextList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgDoubleTextList.h)
+../inc/ganes/HgSingleTextList.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgSingleTextList.h)
+../inc/ganes/HgScrollerWithTitle.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgScrollerWithTitle.h)
+../inc/ganes/HgSelectionObserverIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgSelectionObserverIface.h)
+../inc/ganes/HgMarkingObserverIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgMarkingObserverIface.h)
+../inc/ganes/HgScrollBufferObserverIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgScrollBufferObserverIface.h)
+../inc/ganes/HgScroller.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgScroller.h)
+../inc/ganes/HgBufferOwnerIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgBufferOwnerIface.h)
+../inc/ganes/HgScrollbarObserverIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgScrollbarObserverIface.h)
+../inc/ganes/HgVgMediaWall.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgVgMediaWall.h)
+../inc/ganes/HgVgItem.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgVgItem.h)
+../inc/ganes/HgSingleTextListWithIcon.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgSingleTextListWithIcon.h)
+../inc/ganes/HgVgMediaWallObserverIface.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgVgMediaWallObserverIface.h)
+../inc/ganes/HgDoubleGraphicListFlat.h MW_LAYER_PLATFORM_EXPORT_PATH(ganes/HgDoubleGraphicListFlat.h)
+

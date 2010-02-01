@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestVolume localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list              "BCTESTVOLUME"
+#define qtn_apps_tavl_grid              "BCTESTVOLUME"
+
+// MenuBar
+#define qtn_bctestvolume_menubar         "Option"
+#define qtn_bctestvolume_autotest        "Autotest"
+#define qtn_bctestvolume_menu_exit       "Exit"
+
+// softkey
+#define text_softkey_option "Options"
+
+#define qtn_bctestvolume_menu_outline01  "OUTLINE01"
+#define qtn_bctestvolume_menu_outline02  "OUTLINE02"
+#define qtn_bctestvolume_menu_outline03  "OUTLINE03"
+#define qtn_bctestvolume_menu_outline04  "OUTLINE04"
+#define qtn_bctestvolume_menu_outline05  "OUTLINE05"
+#define qtn_bctestvolume_menu_outline06  "OUTLINE06"
+
+
+#define qtn_bctestvolume_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+#define qtn_bctestvolume_text_other_app_name     "BCTestSoftkey"
+// End of File

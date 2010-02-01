@@ -1,0 +1,60 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+TARGET			tclocktestserver.exe
+TARGETTYPE		exe
+VENDORID 		0x70000001
+CAPABILITY 		All -Tcb
+
+USERINCLUDE		../tef ../inc ../../../../appsupport/appfw/uiftestfw/inc
+SOURCEPATH		.
+MW_LAYER_SYSTEMINCLUDE 
+
+SOURCE			TClockTestServer.cpp
+SOURCE			TCLCK0STEP.CPP
+SOURCE			TCLCK1STEP.CPP
+SOURCE			TCLCK2STEP.CPP
+SOURCE			TMSGWIN0STEP.CPP
+
+LIBRARY			euser.lib gdi.lib fbscli.lib ws32.lib clock.lib bafl.lib cone.lib
+LIBRARY			appfwk_test_appui.lib testexecuteutils.lib 
+LIBRARY			testexecutelogclient.lib
+LIBRARY			efsrv.lib
+
+
+START BITMAP mbs0.mbm
+HEADER
+TARGETPATH 	/system/data
+SOURCEPATH 	../tdata
+SOURCE 		2 CLOCK.BMP CLOCKMSK.BMP
+END
+
+START BITMAP mbs1.mbm
+HEADER
+TARGETPATH 	/system/data
+SOURCEPATH 	../tdata
+SOURCE 		2 CLOCK.BMP CLOCKMSK.BMP
+END
+
+
+#if defined(WINSCW)
+DEFFILE ../bwins/TCLOCKTESTSERVER.DEF
+#else
+DEFFILE ../eabi/TCLOCKTESTSERVER.def
+#endif
+
+
+
+SMPSAFE

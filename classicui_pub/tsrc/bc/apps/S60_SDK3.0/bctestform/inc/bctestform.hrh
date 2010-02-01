@@ -1,0 +1,353 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Resource headers for project bctestform.app
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTestForm_HRH
+#define BCTestForm_HRH
+
+enum TBCTestFormMenuCommands
+    {
+    EBCTestFormCmdEmptyOutline = 0x600,
+
+    EBCTestFormCmdSoftkey,
+    EBCTestFormCmdOutline01,
+
+    EBCTestFormCmdFormStates,
+    EBCTestFormCmdOutline02,
+    EBCTestFormCmdOutline03,
+    EBCTestFormCmdOutline04,
+    EBCTestFormCmdOutline05,
+    EBCTestFormCmdOutline06,
+    EBCTestFormCmdOutline07,
+    EBCTestFormCmdOutline08,
+    EBCTestFormCmdOutline09,
+    EBCTestFormCmdOutline10,
+    EBCTestFormCmdMaxOutline,
+ 
+    EBCTestFormCmdMovingInsideForm,
+    EBCTestFormCmdOutline11,
+    EBCTestFormCmdOutline12,
+    EBCTestFormCmdOutline13,
+    EBCTestFormCmdOutline14,
+    EBCTestFormCmdOutline15,
+    EBCTestFormCmdOutline16,
+    EBCTestFormCmdOutline17,
+
+    EBCTestFormCmdHintText,
+    EBCTestFormCmdOutline18,
+    EBCTestFormCmdOutline20,
+
+    EBCTestFormCmdGeneralFormParameters,
+    EBCTestFormCmdOutline21,
+    EBCTestFormCmdOutline22,
+
+    EBCTestFormCmdFormComponent,
+    EBCTestFormCmdOutline23,
+
+    EBCTestFormCmdFieldLabel,
+    EBCTestFormCmdOutline25,
+    EBCTestFormCmdOutline26,
+    EBCTestFormCmdOutline27,
+
+    EBCTestFormCmdTextField,
+    EBCTestFormCmdOutline28,
+    EBCTestFormCmdOutline29,
+    EBCTestFormCmdOutline30,
+    EBCTestFormCmdOutline31,
+    EBCTestFormCmdOutline32,
+
+    EBCTestFormCmdSeparator,
+    EBCTestFormCmdOutline52,
+
+    EBCTestFormCmdEmptyForm,
+    EBCTestFormCmdOutline53,
+    EBCTestFormCmdOutline54,
+
+    EBCTestFormCmdAddingField,
+    EBCTestFormCmdOutline55,
+    EBCTestFormCmdOutline56,
+
+    EBCTestFormCmdRemovingField,
+    EBCTestFormCmdOutline57,
+    EBCTestFormCmdOutline58,
+
+    EBCTestFormCmdLAF,
+    EBCTestFormCmdOutline59,
+    EBCTestFormCmdOutline60,
+    EBCTestFormCmdOutline67,
+    EBCTestFormCmdOutline68,
+    EBCTestFormCmdOutline70,
+	
+    EBCTestFormCmdSaveTest,
+    EBCTestFormCmdOutline83,
+    EBCTestFormCmdOutline84,
+
+    EBCTestFormCmdDoubleLine,
+    EBCTestFormCmdOutline101,
+    EBCTestFormCmdOutline102,
+
+    EBCTestFormCmdAPITest,
+    EBCTestFormCmdOutline103,
+    EBCTestFormCmdOutline104,
+    EBCTestFormCmdOutline105,
+    EBCTestFormCmdOutline106,
+    EBCTestFormCmdOutline107,
+    EBCTestFormCmdOutline108,
+    EBCTestFormCmdOutline109,
+    EBCTestFormCmdOutline110,
+    EBCTestFormCmdOutline111,
+    EBCTestFormCmdOutline112,
+    EBCTestFormCmdOutline113,
+    EBCTestFormCmdOutline114,
+    EBCTestFormCmdOutline115,
+    EBCTestFormCmdOutline116,
+    EBCTestFormCmdOutline117,
+    EBCTestFormCmdOutline118,
+    EBCTestFormCmdOutline119,
+    EBCTestFormCmdOutline120,
+    EBCTestFormCmdAPITest2,
+    EBCTestFormCmdOutline121,
+    EBCTestFormCmdOutline122,
+    EBCTestFormCmdOutline123,
+    EBCTestFormCmdOutline124,
+    EBCTestFormCmdOutline125,
+    EBCTestFormCmdOutline126,
+    EBCTestFormCmdOutline127,
+    EBCTestFormCmdOutline128,
+    EBCTestFormCmdOutline129,
+    EBCTestFormCmdOutline130,
+    EBCTestFormCmdOutline131,
+    EBCTestFormCmdOutline132,
+    EBCTestFormCmdOutline133,
+    EBCTestFormCmdOutline134,
+    EBCTestFormCmdOutline135,
+    EBCTestFormCmdOutline136,
+    EBCTestFormCmdOutline137,
+    EBCTestFormCmdOutline138,
+    EBCTestFormCmdOutline139,
+    EBCTestFormCmdOutline140,
+    EBCTestFormCmdOutline141,
+    EBCTestFormCmdOutline142,
+    EBCTestFormCmdOutline143,
+    EBCTestFormCmdOutline144,
+    EBCTestFormCmdOutline145,
+    EBCTestFormCmdOutline146,
+    EBCTestFormCmdOutline147,
+    EBCTestFormCmdOutline148,
+    EBCTestFormCmdOutline149,
+    EBCTestFormCmdOutline150,
+    EBCTestFormCmdOutline151,
+    EBCTestFormCmdOutline152,
+    EBCTestFormCmdOutline153,
+    EBCTestFormCmdOutline154,
+    EBCTestFormCmdOutline155,
+    EBCTestFormCmdOutline156,
+    EBCTestFormCmdOutline157,
+    EBCTestFormCmdOutline158,
+    EBCTestFormCmdOutline159,
+    EBCTestFormCmdOutline160,
+    EBCTestFormCmdAutotest,
+    EBCTestFormCmdExit,
+
+
+
+
+
+
+
+
+// Cmds for derived form
+
+    EBCTestFormCmdAPITestChangeFocus,
+    EBCTestFormCmdAPITestTryChangeFocus,
+    EBCTestFormCmdAPITestTryChangeFocusToFirst,
+    EBCTestFormCmdAPITestTryChangeFocusToMiddle,
+    EBCTestFormCmdAPITestTryChangeFocusToLast,
+    EBCTestFormCmdAPITestRotateFocusByOne,
+    EBCTestFormCmdAPITestRotateFocusByThree,
+    EBCTestFormCmdAPITestRotateFocusByMinusTwo,
+
+    EBCTestFormCmdAPITestSetCaption,
+    EBCTestFormCmdAPITestSetCaptionFromResource,
+    EBCTestFormCmdAPITestSetCaptionFromUser,
+
+    EBCTestFormCmdAPITestActivatePage,
+    EBCTestFormCmdAPITestActivateFirstPage,
+
+
+    EBCTestFormCmdAPITestIdOfFocus,
+
+    EBCTestFormCmdAPITestChecks,
+    EBCTestFormCmdAPITestActivePage,
+    EBCTestFormCmdAPITestGetBorderStyle,
+    EBCTestFormCmdAPITestGetFlags,
+    EBCTestFormCmdAPITestGetLine,
+    EBCTestFormCmdAPITestShowDialogFlags,
+
+    EBCTestFormCmdAPITestResetLine,
+    EBCTestFormCmdAPITestResetLineMinimumSizes,
+
+    EBCTestFormCmdAPITestPreNPost,
+
+    EBCTestFormCmdAPITestSizeNPos,
+    EBCTestFormCmdAPITestSizeNPos10x10,
+    EBCTestFormCmdAPITestSizeNPos100x100,
+
+    EBCTestFormCmdAPITestSaveTest,
+    EBCTestFormCmdAPITestSetChangesPendingTrue,
+    EBCTestFormCmdAPITestSetChagnesPendingFalse,
+
+
+    EBCTestFormCmdAPITestSetTitleFromDes,
+    EBCTestFormCmdAPITestSetTitleFromRes,
+
+    EBCTestFormCmdAPITestSetPageDimmedNowTrue,
+    EBCTestFormCmdAPITestSetPageDimmedNowFalse,
+
+    EBCTestFormCmdAPITestSetLineDimmedNowTrue,
+    EBCTestFormCmdAPITestSetLineDimmedNowFalse,
+
+    EBCTestFormCmdAPITestMakeLineVisibleTrue,
+    EBCTestFormCmdAPITestMakeLineVisibleFalse,
+
+    EBCTestFormCmdAPITestMakeWholeLineVisibleTrue,
+    EBCTestFormCmdAPITestMakeWholeLineVisibleFalse,
+    EBCTestFormCmdAPITestMakeWholeLineVisible,
+
+    EBCTestFormCmdAPITestCreateLineByTypeANext,
+    EBCTestFormCmdAPITestCreateLineByTypeBEnd,
+
+    EBCTestFormCmdAPITestControlCaptionChangeCaption,
+
+    EBCTestFormCmdAPITestControlSetText,
+
+    EBCTestFormCmdAPITestControlOrNullSetText,
+
+    EBCTestFormCmdAPITestActivePageIndexShow,	
+    EBCTestFormCmdAPITestActivePageIdShow,
+
+    EBCTestFormCmdAPITestFindLineIndex,
+
+    EBCTestFormCmdAPITestTitle,
+    EBCTestFormCmdAPITestButtonGroupContainer,
+    EBCTestFormCmdAPITestSwapButtonGroupContainer,
+    EBCTestFormCmdAPITestButtonCommandObserver,
+
+    EBCTestFormCmdAPITestAdjustAllIdsOnPage,
+
+    EBCTestFormCmdAPITestSetLineNonFocusingTrue,
+    EBCTestFormCmdAPITestSetLineNonFocusingFalse,
+
+    EBCTestFormCmdAPITestSetFormFlagDeletingTrue,
+    EBCTestFormCmdAPITestSetFormFlagDeletingFalse,
+    EBCTestFormCmdAPITestSetFormFlagUnsavedEditTrue,
+    EBCTestFormCmdAPITestSetFormFlagUnsavedEditFalse,
+
+    EBCTestFormCmdAPITestViewFormFlags,
+
+    EBCTestFormCmdAPITestHamed
+
+
+    };
+
+enum TBCTestFormDialogControlIds
+    {
+    EBCTestFormDlgCtrlIdEdwin01 = 0x100,
+    EBCTestFormDlgCtrlIdEdwin02,
+    EBCTestFormDlgCtrlIdEdwin03,
+    EBCTestFormDlgCtrlIdEdwin04,
+    EBCTestFormDlgCtrlIdEdwin05,
+    EBCTestFormDlgCtrlIdEdwin06,
+    EBCTestFormDlgCtrlIdEdwin07,
+    EBCTestFormDlgCtrlIdEdwin08,
+    EBCTestFormDlgCtrlIdEdwin09,
+    EBCTestFormDlgCtrlIdEdwin10,
+    EBCTestFormDlgCtrlIdEdwin11,
+    EBCTestFormDlgCtrlIdEdwin12,
+    EBCTestFormDlgCtrlIdEdwin13,
+    EBCTestFormDlgCtrlIdEdwin14,
+    EBCTestFormDlgCtrlIdEdwin15,
+    EBCTestFormDlgCtrlIdEdwin16,
+    EBCTestFormDlgCtrlIdEdwin17,
+    EBCTestFormDlgCtrlIdNumber01,
+    EBCTestFormDlgCtrlIdNumber02,
+    EBCTestFormDlgCtrlIdNumber03,
+    EBCTestFormDlgCtrlIdNumber04,
+    EBCTestFormDlgCtrlIdNumber05,
+    EBCTestFormDlgCtrlIdNumber06,
+    EBCTestFormDlgCtrlIdDate01,
+    EBCTestFormDlgCtrlIdDate02,
+    EBCTestFormDlgCtrlIdDate03,
+    EBCTestFormDlgCtrlIdDate04,
+    EBCTestFormDlgCtrlIdDate05,
+    EBCTestFormDlgCtrlIdDate06,
+    EBCTestFormDlgCtrlIdTime01,
+    EBCTestFormDlgCtrlIdTime02,
+    EBCTestFormDlgCtrlIdTime03,
+    EBCTestFormDlgCtrlIdTime04,
+    EBCTestFormDlgCtrlIdTime05,
+    EBCTestFormDlgCtrlIdTime06,
+    EBCTestFormDlgCtrlIdDuration01,
+    EBCTestFormDlgCtrlIdDuration02,
+    EBCTestFormDlgCtrlIdDuration03,
+    EBCTestFormDlgCtrlIdDuration04,
+    EBCTestFormDlgCtrlIdDuration05,
+    EBCTestFormDlgCtrlIdDuration06,
+    EBCTestFormDlgCtrlIdSecret01,
+    EBCTestFormDlgCtrlIdSecret02,
+    EBCTestFormDlgCtrlIdSecret03,
+    EBCTestFormDlgCtrlIdSecret04,
+    EBCTestFormDlgCtrlIdSecret05,
+    EBCTestFormDlgCtrlIdSecret06,
+    EBCTestFormDlgCtrlIdSlider01,
+    EBCTestFormDlgCtrlIdSlider02,
+    EBCTestFormDlgCtrlIdSlider03,
+    EBCTestFormDlgCtrlIdCustom01,
+
+    EBCTestFormDlgCtrlIdDynamic
+    };
+
+enum TBCTestFormPageControlIds
+    {
+    EBCTestFormPageCtrlIdPage01 = 1,		// must start from one
+    EBCTestFormPageCtrlIdPage02,
+    EBCTestFormPageCtrlIdPage03,
+    EBCTestFormPageCtrlIdPage04,
+    EBCTestFormPageCtrlIdPage05,
+    EBCTestFormPageCtrlIdPage06
+    };
+
+enum TBCTestFormFieldInfo
+    {
+    EBCTestFormEdwinMaxLength = 64
+    };	 
+
+enum TCustomControlIds
+    {
+    EBCTestFormCustomControlTypeA = 3969	
+    };
+
+#endif
+
+// End of File

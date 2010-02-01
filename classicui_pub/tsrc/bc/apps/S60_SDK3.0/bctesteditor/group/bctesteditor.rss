@@ -1,0 +1,468 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME EDIT
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+
+#include <appinfo.rh>
+
+#include "BCTestEditor.hrh"
+#include "bctesteditor.loc"
+
+#include "bctesteditor_01.loc"
+
+
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define bctestEditor_BMP_FNAME APP_BITMAP_DIR"\\BCTestEditor.mbm"
+
+#define IPADDRESS_MIN_FIELD_VALUE 0
+#define IPADDRESS_MAX_FIELD_VALUE 255
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestEditor";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctesteditor_menubar_main;
+    cba = r_bctesteditor_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctesteditor_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        //number_of_icons = 2;
+        //icon_file = APP_BITMAP_DIR"\\BCTestEditor_aif.mbm";
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestEditor_view
+//    AVKON_VIEW for CBCTestEditorView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctesteditor_view
+    {
+    menubar = r_bctesteditor_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestEditor_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctesteditor_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctesteditor_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctesteditor_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestEditor_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctesteditor_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctesteditor_outline1;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline2;
+            txt = qtn_bctesteditor_outline2;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline3;
+            txt = qtn_bctesteditor_outline3;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline4;
+            txt = qtn_bctesteditor_outline4;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline5;
+            txt = qtn_bctesteditor_outline5;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline6;
+            txt = qtn_bctesteditor_outline6;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline7;
+            txt = qtn_bctesteditor_outline7;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline8;
+            txt = qtn_bctesteditor_outline8;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline9;
+            txt = qtn_bctesteditor_outline9;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline10;
+            txt = qtn_bctesteditor_outline10;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline11;
+            txt = qtn_bctesteditor_outline11;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline12;
+            txt = qtn_bctesteditor_outline12;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline13;
+            txt = qtn_bctesteditor_outline13;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline14;
+            txt = qtn_bctesteditor_outline14;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline15;
+            txt = qtn_bctesteditor_outline15;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestEditor_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctesteditor_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctesteditor_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctesteditor_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestEditor_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctesteditor_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestEditorCbaCmdNext;
+            txt = qtn_bctesteditor_cba_next;
+            }
+	};
+    }
+
+//----------------------------------------------------
+//    r_bctesteditor_edwin
+//----------------------------------------------------
+//
+RESOURCE EDWIN r_bctest_editor_edwin
+    {
+    flags = EAknEditorFlagDefault;
+    width = 30;
+    lines= 1;
+    maxlength = 50;
+    }
+
+//----------------------------------------------------
+//    r_bctesteditor_ip_edwin
+//----------------------------------------------------
+//    
+RESOURCE IP_FIELD_EDITOR r_bctesteditor_ip_edwin
+    {
+    min_field_values = IP_FIELD
+        { 
+        first_field = IPADDRESS_MIN_FIELD_VALUE;
+        second_field = IPADDRESS_MIN_FIELD_VALUE;
+        third_field = IPADDRESS_MIN_FIELD_VALUE;
+        fourth_field = IPADDRESS_MIN_FIELD_VALUE;
+        };
+    max_field_values = IP_FIELD
+        {
+        first_field = IPADDRESS_MAX_FIELD_VALUE;
+        second_field = IPADDRESS_MAX_FIELD_VALUE;
+        third_field = IPADDRESS_MAX_FIELD_VALUE;
+        fourth_field = IPADDRESS_MAX_FIELD_VALUE;
+        };
+    flags = 0;
+    }
+
+//----------------------------------------------------
+//    r_bctesteditor_
+//----------------------------------------------------
+//
+RESOURCE FLPTED r_bctest_editor_eikeditor
+    {
+	maxlength=18;
+	min=-9.9e99;
+	max=9.9e99;
+	default=0;// if !(min<=default<=max), default = min.
+	}
+  
+RESOURCE RTXTED r_bctesteditor_richeditor
+    {
+    width = 100;
+    height = 80;
+    numlines = 3;
+    textlimit = 100;
+    }
+    
+RESOURCE DURATION_EDITOR r_bctesteditor_duration
+    {    
+    minDuration = DURATION{ seconds = 0; };
+    maxDuration = DURATION{ seconds = 1000; };
+    flags=0;    
+    } 
+
+RESOURCE NUMBER_EDITOR r_bctesteditor_number
+    {
+    min = 0;
+    max = 1000;
+    }
+    
+RESOURCE RANGE_EDITOR r_bctesteditor_range
+	{
+	min = 0;
+	max = 1000;
+	separatortext="-";
+	}
+	
+RESOURCE TIME_OFFSET_EDITOR r_bctesteditor_timeoffset
+   {   
+    minTimeOffset = TIME_OFFSET{ seconds = 0; };
+    maxTimeOffset = TIME_OFFSET{ seconds = 1000; };
+    flags=0;    
+   }
+  
+RESOURCE TIME_AND_DATE_EDITOR r_bctesteditor_timeanddate
+   {
+	minTimeAndDate = TIME_AND_DATE{ minute=0; hour=0; day=0;  month=0;  year=2000;}; 
+	maxTimeAndDate = TIME_AND_DATE{ minute=0; hour=0; day=0;  month=0;  year=2006;};
+	flags=0; 
+	interveningtext=" ";	
+   }
+   
+RESOURCE TIME_EDITOR r_bctesteditor_time
+   {
+	minTime = TIME{ second=0; minute=0; hour=0;}; 
+	maxTime = TIME{ second=0; minute=0; hour=23;};
+	flags=0; 
+   }  
+    
+RESOURCE DATE_EDITOR r_bctesteditor_date
+   {
+	minDate = DATE{ day=0; month=0; year=2000;}; 
+	maxDate = DATE{ day=0; month=0; year=2010;};
+	flags=0; 
+   }
+   
+RESOURCE EDWIN r_bctesteditor_edwin
+   {
+    flags=0;
+    width=0;
+    lines=1;
+    maxlength=0;	
+   }   
+   
+RESOURCE SECRETED r_bctesteditor_secret
+   {
+    num_letters=8;	
+   }
+
+RESOURCE NAMED_FONT r_bctesteditor_font1
+    {
+    name = qfn_bctesteditor_fontname1;
+    height = qfn_bctesteditor_fontsize1;
+    }
+       
+RESOURCE MFNE_NUMBER r_bctesteditor_mfne_number
+	{
+	min = 1;
+	max = 100;
+	flags=0;
+	}
+	
+RESOURCE MFNE_SEPARATOR r_bctesteditor_mfne_separator
+    {
+	text = "";
+    }
+    
+RESOURCE MFNE_SYMBOL r_bctesteditor_mfne_symbol
+    {
+	symbolicitems =
+	    {
+        MFNE_SYMBOLIC_ITEM
+	        { 
+	        id = 0;
+	        keytomatch = 10;
+	        text = "";
+	        },
+        MFNE_SYMBOLIC_ITEM
+	        { 
+	        id = 1;
+	        keytomatch = 9;
+	        text = "";
+	        }
+	    };
+    }  
+  
+RESOURCE MFNE_SYMBOLIC_ITEM r_bctesteditor_mfne_symbol_item
+    {
+    id = 0; 
+    keytomatch = 10; 
+    text = "";
+    }
+    
+RESOURCE RTXTED r_bctesteditor_globaltext
+    {
+	width=20;
+	height=50;
+	numlines=5;
+	textlimit=10;
+	flags=0;
+	fontcontrolflags=1;
+	fontnameflags=EGulNoSymbolFonts;
+    }
+    
+RESOURCE AVKON_INTEGER_EDWIN r_bctesteditor_integer_edwin
+	{
+    maxlength = 0;
+	min =			 -99999999;
+	max =			  99999999;
+	unset_value=	-100000000;
+	extension1 = 0;
+	extension2 = 0;
+	}
+// End of File

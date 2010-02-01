@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="6f9b007624df5e81eb4d7820645c58ba" dataversion="1.0">
+  <name>Touch Pane Observer API</name>
+  <description>Observer interface for changes in touch pane size or position.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="domain">
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

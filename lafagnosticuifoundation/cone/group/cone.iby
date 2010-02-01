@@ -1,0 +1,33 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __CONE_IBY__
+#define __CONE_IBY__
+
+REM Cone
+
+file=ABI_DIR\DEBUG_DIR\cone.dll 		System\Libs\Cone.dll
+
+REM #if !defined(SYMBIAN_WSERV_AND_CONE_MULTIPLE_SCREENS)
+REM Patchable constant for setting parent-pointers automatically or not. 
+REM 1 = True, 0 = False. Default is True.
+REM Patch for emulator builds by adding "patchdata_cone_dll_KCoeSetControlParentByDefault X"
+REM to epoc.ini where X is either 0 (zero) for "off" or 1 (one) for "on". 
+REM Only valid in Symbian OS 9.3 and 9.4
+patchdata cone.dll @ KCoeSetControlParentByDefault 1
+REM #endif
+#endif

@@ -1,0 +1,10 @@
+EXPORTS
+	??0RMessageServ@@QAE@XZ @ 1 NONAME ; RMessageServ::RMessageServ(void)
+	??1CMessageActive@@UAE@XZ @ 2 NONAME ; CMessageActive::~CMessageActive(void)
+	?Connect@RMessageServ@@QAEHXZ @ 3 NONAME ; int RMessageServ::Connect(void)
+	?NewL@CMessageActive@@SAPAV1@XZ @ 4 NONAME ; class CMessageActive * CMessageActive::NewL(void)
+	?SetErrorFromString@RMessageServ@@QAEHABVTDesC16@@PBEHH@Z @ 5 NONAME ; int RMessageServ::SetErrorFromString(class TDesC16 const &, unsigned char const *, int, int)
+	?SetFromString@RMessageServ@@QAEHABVTDesC16@@PBEH@Z @ 6 NONAME ; int RMessageServ::SetFromString(class TDesC16 const &, unsigned char const *, int)
+	?Stop@RMessageServ@@QAEHXZ @ 7 NONAME ; int RMessageServ::Stop(void)
+	?ThreadFunction@CMessageServServer@@SAHPAX@Z @ 8 NONAME ; int CMessageServServer::ThreadFunction(void *)
+

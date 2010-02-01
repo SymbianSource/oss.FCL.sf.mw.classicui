@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestVolume localise file
+*
+*/
+
+
+
+
+
+
+
+
+
+#include "bctestvolume.loc"
+
+//  LOCALISATION STRINGS
+
+
+// Label text
+#define qtn_bctestvolume_label_title     "BCTestVolume\nSample Application"
+#define qtn_bctestvolume_label_operation "Press right softkey to\ndisplay next outline"
+#define qtn_bctestvolume_label_event1    "Press left or right key.\nAnd press OK key.\nReturn current value."
+#define qtn_bctestvolume_label_event2    "Press OK key.\nCurrent value is changed."
+
+// Text format
+#define qtn_bctestvolume_text_format1    "Current value : %d"
+#define qtn_bctestvolume_text_format2    "Set value : %d"
+
+// Title of Volume Setting Page
+#define qtn_bctestvolume_setting_title   "Volume"
+
+// For  Cba
+#define qtn_bctestvolume_cba_next        "Next"
+
+// End of File

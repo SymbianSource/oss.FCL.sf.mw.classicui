@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="14d654b9f13425443f245d7210a32705" dataversion="1.0">
+  <name>Themes Settings API</name>
+  <description>Themes CenRep settings.</description>
+  <type>c++</type>
+  <subsystem>Psln</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
+  <!ENTITY layer_real_source_path "sf/mw/classicui" >
+]>
+
+<SystemDefinition name="classicui" schema="1.4.0">
+  <systemModel>
+    <layer name="bldfirst_mw_layer">
+      <module name="classicui">
+        <unit unitID="abs.classicui" mrp="" bldFile="&layer_real_source_path;/group" name="classicui" />
+      </module>
+    </layer>
+    
+<layer name="api_test_layer">
+  <module name="classicui_plat_api_tests">
+    <unit unitID="abs.classicui.tsrc.all" mrp="" bldFile="&layer_real_source_path;/tsrc/group" name="classicui_tsrc_all" filter="classicui_api_all" />
+    <unit unitID="abs.classicui.tsrc.aiw_provider_utility" mrp="" bldFile="&layer_real_source_path;/classicui_plat/aiw_provider_utility_api/tsrc/group" name="classicui_tsrc_aiw_provider_utility" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.aiw_service_interface_base" mrp="" bldFile="&layer_real_source_path;/classicui_plat/aiw_service_interface_base_api/tsrc/group" name="classicui_tsrc_aiw_service_interface" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.aiw_service_interface_menu" mrp="" bldFile="&layer_real_source_path;/classicui_plat/aiw_service_interface_menu_api/tsrc/group" name="classicui_tsrc_aiw_service_interface_menu" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.alarm" mrp="" bldFile="&layer_real_source_path;/classicui_plat/alarm_api/tsrc/group" name="classicui_tsrc_alarm" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.application_switching" mrp="" bldFile="&layer_real_source_path;/classicui_plat/application_switching_api/tsrc/group" name="classicui_tsrc_application_switching" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.avkon_fonts" mrp="" bldFile="&layer_real_source_path;/classicui_plat/avkon_fonts_api/tsrc/group" name="classicui_tsrc_avkonfonts" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.avkon_secondary_display_support" mrp="" bldFile="&layer_real_source_path;/classicui_plat/avkon_secondary_display_support_api/tsrc/group" name="classicui_tsrc_avkon_secondary_display_support" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.avkon_ui_server" mrp="" bldFile="&layer_real_source_path;/classicui_plat/avkon_ui_server_api/tsrc/group" name="classicui_tsrc_avkon_ui_server" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.battery_pane" mrp="" bldFile="&layer_real_source_path;/classicui_plat/battery_pane_api/tsrc/group" name="classicui_tsrc_battery_pane" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.common_file_dialogs_filter" mrp="" bldFile="&layer_real_source_path;/classicui_plat/common_file_dialogs_filter_factory_api/tsrc/group" name="classicui_tsrc_common_file_dialogs_filter_factory" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.custom_cursors" mrp="" bldFile="&layer_real_source_path;/classicui_plat/custom_cursors_api/tsrc/group" name="classicui_tsrc_custom_cursors" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.eikon_server_extension_client" mrp="" bldFile="&layer_real_source_path;/classicui_plat/eikon_server_extension_client_api/tsrc/group" name="classicui_tsrc_eikon_server_extension_client" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.emergency_call_support" mrp="" bldFile="&layer_real_source_path;/classicui_plat/emergency_call_support_api/tsrc/group" name="classicui_tsrc_emergency_call_support" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_aiw_criteria" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_aiw_criteria_api/tsrc/group" name="classicui_tsrc_extended_aiw_criteria" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_animation" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_animation_api/tsrc/group" name="classicui_tsrc_extended_animation" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_buttons" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_buttons_api/tsrc/group" name="classicui_tsrc_extended_buttons" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_editors" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_editors_api/tsrc/group" name="classicui_tsrc_extended_editors" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_grids" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_grids_api/tsrc/group" name="classicui_tsrc_extended_grids" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_indicators" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_indicators_api/tsrc/group" name="classicui_tsrc_extended_indicators" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_initialization" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_initialization_api/tsrc/group" name="classicui_tsrc_extended_initialization" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_input_capabilities" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_input_capabilities_api/tsrc/group" name="classicui_tsrc_extended_input_capabilities" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_lists" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_lists_api/tsrc/group" name="classicui_tsrc_extended_lists" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_notes" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_notes_api/tsrc/group" name="classicui_tsrc_extended_notes" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_notifiers" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_notifiers_api/tsrc/group" name="classicui_tsrc_extended_notifiers" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_options_menu" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_options_menu_api/tsrc/group" name="classicui_tsrc_extended_options_menu" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_setting_pages" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_setting_pages_api/tsrc/group" name="classicui_tsrc_extended_setting_pages" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_status_pane" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_status_pane_api/tsrc/group" name="classicui_tsrc_extended_status_pane" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.extended_utilities" mrp="" bldFile="&layer_real_source_path;/classicui_plat/extended_utilities_api/tsrc/group" name="classicui_tsrc_extended_utilities" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.find_item_ui" mrp="" bldFile="&layer_real_source_path;/classicui_plat/find_item_ui_api/tsrc/group" name="classicui_tsrc_find_item_ui" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.generic_parameter" mrp="" bldFile="&layer_real_source_path;/classicui_plat/generic_parameter_api/tsrc/group" name="classicui_tsrc_generic_parameter" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.global_popup_priority_controller" mrp="" bldFile="&layer_real_source_path;/classicui_plat/global_popup_priority_controller_api/tsrc/group" name="classicui_tsrc_global_popup_priority_controller" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.indicator_plugin" mrp="" bldFile="&layer_real_source_path;/classicui_plat/indicator_plugin_api/tsrc/group" name="classicui_tsrc_indicator_plugin" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.input_block" mrp="" bldFile="&layer_real_source_path;/classicui_plat/input_block_api/tsrc/group" name="classicui_tsrc_input_block" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.item_finder" mrp="" bldFile="&layer_real_source_path;/classicui_plat/item_finder_api/tsrc/group" name="classicui_tsrc_item_finder" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.japanese_reading" mrp="" bldFile="&layer_real_source_path;/classicui_plat/japanese_reading_api/tsrc/group" name="classicui_tsrc_japanese_reading" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.key_rotator" mrp="" bldFile="&layer_real_source_path;/classicui_plat/key_rotator_api/tsrc/group" name="classicui_tsrc_key_rotator" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.layout_configuration" mrp="" bldFile="&layer_real_source_path;/classicui_plat/layout_configuration_api/tsrc/group" name="classicui_tsrc_layout_configuration" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.list_effects" mrp="" bldFile="&layer_real_source_path;/classicui_plat/list_effects_api/tsrc/group" name="classicui_tsrc_list_effects" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.long_tap_animation" mrp="" bldFile="&layer_real_source_path;/classicui_plat/long_tap_animation_api/tsrc/group" name="classicui_tsrc_long_tap_animation" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.media_shared_document" mrp="" bldFile="&layer_real_source_path;/classicui_plat/media_shared_document_api/tsrc/group" name="classicui_tsrc_media_shared_document" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.memory_card_ui" mrp="" bldFile="&layer_real_source_path;/classicui_plat/memory_card_ui_api/tsrc/group" name="classicui_tsrc_memory_card_ui" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.number_grouping" mrp="" bldFile="&layer_real_source_path;/classicui_plat/number_grouping_api/tsrc/group" name="classicui_tsrc_number_grouping" filter="classicui_plat_api" />
+    <!--unit unitID="abs.classicui.tsrc.personalisation_framework" mrp="" bldFile="&layer_real_source_path;/classicui_plat/personalisation_framework_api/tsrc/group" name="classicui_tsrc_personalisation_framework" filter="classicui_plat_api" /-->
+    <unit unitID="abs.classicui.tsrc.phone_number_text_utilities" mrp="" bldFile="&layer_real_source_path;/classicui_plat/phone_number_text_utilities_api/tsrc/group" name="classicui_tsrc_phone_number_text_utilities" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.pointer_event_modifier" mrp="" bldFile="&layer_real_source_path;/classicui_plat/pointer_event_modifier_api/tsrc/group" name="classicui_tsrc_pointer_event_modifier" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.popup_form" mrp="" bldFile="&layer_real_source_path;/classicui_plat/popup_form_api/tsrc/group" name="classicui_tsrc_popup_form" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.server_application_services" mrp="" bldFile="&layer_real_source_path;/classicui_plat/server_application_services_api/tsrc/group" name="classicui_tsrc_server_application_services" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.signal_pane" mrp="" bldFile="&layer_real_source_path;/classicui_plat/signal_pane_api/tsrc/group" name="classicui_tsrc_signal_pane" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.skinnable_clock" mrp="" bldFile="&layer_real_source_path;/classicui_plat/skinnable_clock_api/tsrc/group" name="classicui_tsrc_skinnable_clock" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.special_character_table" mrp="" bldFile="&layer_real_source_path;/classicui_plat/special_character_table_api/tsrc/group" name="classicui_tsrc_special_character_table" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.stylus_activated_popup" mrp="" bldFile="&layer_real_source_path;/classicui_plat/stylus_activated_popup_api/tsrc/group" name="classicui_tsrc_stylus_activated_popup" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.task_list" mrp="" bldFile="&layer_real_source_path;/classicui_plat/task_list_api/tsrc/group" name="classicui_tsrc_task_list" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.text_scroller" mrp="" bldFile="&layer_real_source_path;/classicui_plat/text_scroller_api/tsrc/group" name="classicui_tsrc_text_scroller" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.touch_gesture_framework" mrp="" bldFile="&layer_real_source_path;/classicui_plat/touch_gesture_framework_api/tsrc/group" name="classicui_tsrc_touch_gesture_framework" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.touch_pane" mrp="" bldFile="&layer_real_source_path;/classicui_plat/touch_pane_api/tsrc/group" name="classicui_tsrc_touch_pane" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.transition_effect_parameters" mrp="" bldFile="&layer_real_source_path;/classicui_plat/transition_effect_parameters_api/tsrc/group" name="classicui_tsrc_transition_effect_parameters" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.transition_effect_utilities" mrp="" bldFile="&layer_real_source_path;/classicui_plat/transition_effect_utilities_api/tsrc/group" name="classicui_tsrc_transition_effect_utilities" filter="classicui_plat_api" />
+    <unit unitID="abs.classicui.tsrc.volume_popup" mrp="" bldFile="&layer_real_source_path;/classicui_plat/volume_popup_api/tsrc/group" name="classicui_tsrc_volume_popup" filter="classicui_plat_api" />
+  </module>
+  <module name="classicui_pub_api_tests">
+    <unit unitID="abs.classicui.tsrc.aiw_criteria" mrp="" bldFile="&layer_real_source_path;/classicui_pub/aiw_criteria_api/tsrc/group" name="classicui_tsrc_aiw_criteria" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.aiw_generic_parameter" mrp="" bldFile="&layer_real_source_path;/classicui_pub/aiw_generic_parameter_api/tsrc/group" name="classicui_tsrc_aiw_generic_parameter" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.aiw_service_handler" mrp="" bldFile="&layer_real_source_path;/classicui_pub/aiw_service_handler_api/tsrc/group" name="classicui_tsrc_aiw_service_handler" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.animation" mrp="" bldFile="&layer_real_source_path;/classicui_pub/animation_api/tsrc/group" name="classicui_tsrc_animation" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.application" mrp="" bldFile="&layer_real_source_path;/classicui_pub/application_framework_api/tsrc/group" name="classicui_tsrc_application_framework" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.base_controls" mrp="" bldFile="&layer_real_source_path;/classicui_pub/base_controls_api/tsrc/group" name="classicui_tsrc_base_controls" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.buttons" mrp="" bldFile="&layer_real_source_path;/classicui_pub/buttons_api/tsrc/group" name="classicui_tsrc_buttons" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.choice_list" mrp="" bldFile="&layer_real_source_path;/classicui_pub/choice_list_api/tsrc/group" name="classicui_tsrc_choicelist" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.common_file_dialogs" mrp="" bldFile="&layer_real_source_path;/classicui_pub/common_file_dialogs_api/tsrc/group" name="classicui_tsrc_common_file_dialogs" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.context_pane" mrp="" bldFile="&layer_real_source_path;/classicui_pub/context_pane_api/tsrc/group" name="classicui_tsrc_context_pane" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.dialog_shutter" mrp="" bldFile="&layer_real_source_path;/classicui_pub/dialog_shutter_api/tsrc/group" name="classicui_tsrc_dialog_shutter" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.dialogs" mrp="" bldFile="&layer_real_source_path;/classicui_pub/dialogs_api/tsrc/group" name="classicui_tsrc_dialogs" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.editors" mrp="" bldFile="&layer_real_source_path;/classicui_pub/editors_api/tsrc/group" name="classicui_tsrc_editors" filter="classicui_pub_api" /> 
+    <unit unitID="abs.classicui.tsrc.errorui" mrp="" bldFile="&layer_real_source_path;/classicui_pub/error_ui_api/tsrc/group" name="classicui_tsrc_error_ui" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.fonts" mrp="" bldFile="&layer_real_source_path;/classicui_pub/fonts_api/tsrc/group" name="classicui_tsrc_fonts" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.form" mrp="" bldFile="&layer_real_source_path;/classicui_pub/form_api/tsrc/group" name="classicui_tsrc_form" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.generic_button" mrp="" bldFile="&layer_real_source_path;/classicui_pub/generic_button_api/tsrc/group" name="classicui_tsrc_generic_button" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.grids" mrp="" bldFile="&layer_real_source_path;/classicui_pub/grids_api/tsrc/group" name="classicui_tsrc_grids" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.hierarchical_list" mrp="" bldFile="&layer_real_source_path;/classicui_pub/hierarchical_lists_api/tsrc/group" name="classicui_tsrc_hierarchical_lists" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.hotkeys" mrp="" bldFile="&layer_real_source_path;/classicui_pub/hotkeys_api/tsrc/group" name="classicui_tsrc_hotkeys" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.images" mrp="" bldFile="&layer_real_source_path;/classicui_pub/images_api/tsrc/group" name="classicui_tsrc_images" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.indicators" mrp="" bldFile="&layer_real_source_path;/classicui_pub/indicators_api/tsrc/group" name="classicui_tsrc_indicators" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.info_popup_note" mrp="" bldFile="&layer_real_source_path;/classicui_pub/info_popup_note_api/tsrc/group" name="classicui_tsrc_info_popup_note" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.info_preview_popup" mrp="" bldFile="&layer_real_source_path;/classicui_pub/information_preview_popup_api/tsrc/group" name="classicui_tsrc_info_preview_popup" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.initialization" mrp="" bldFile="&layer_real_source_path;/classicui_pub/initialization_api/tsrc/group" name="classicui_tsrc_initialization" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.input_frame" mrp="" bldFile="&layer_real_source_path;/classicui_pub/input_frame_api/tsrc/group" name="classicui_tsrc_input_frame" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.keylock" mrp="" bldFile="&layer_real_source_path;/classicui_pub/keylock_api/tsrc/group" name="classicui_tsrc_keylock" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.labels" mrp="" bldFile="&layer_real_source_path;/classicui_pub/labels_api/tsrc/group" name="classicui_tsrc_labels" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.lists" mrp="" bldFile="&layer_real_source_path;/classicui_pub/lists_api/tsrc/group" name="classicui_tsrc_lists" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.misc_ctrls" mrp="" bldFile="&layer_real_source_path;/classicui_pub/misc_controls_api/tsrc/group" name="classicui_tsrc_misc_controls" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.navigation_pane" mrp="" bldFile="&layer_real_source_path;/classicui_pub/navigation_pane_api/tsrc/group" name="classicui_tsrc_navigation_pane" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.notes" mrp="" bldFile="&layer_real_source_path;/classicui_pub/notes_api/tsrc/group" name="classicui_tsrc_notes" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.notifiers" mrp="" bldFile="&layer_real_source_path;/classicui_pub/notifiers_api/tsrc/group" name="classicui_tsrc_notifiers" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.options_menu" mrp="" bldFile="&layer_real_source_path;/classicui_pub/options_menu_api/tsrc/group" name="classicui_tsrc_options_menu" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.popups" mrp="" bldFile="&layer_real_source_path;/classicui_pub/popups_api/tsrc/group" name="classicui_tsrc_popups" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.private_ui_framework" mrp="" bldFile="&layer_real_source_path;/classicui_pub/private_ui_framework_api/tsrc/group" name="classicui_tsrc_private_ui_framework" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.queries" mrp="" bldFile="&layer_real_source_path;/classicui_pub/queries_api/tsrc/group" name="classicui_tsrc_queries" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.screen_clearer" mrp="" bldFile="&layer_real_source_path;/classicui_pub/screen_clearer_api/tsrc/group" name="classicui_tsrc_screen_clearer" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.screen_mode" mrp="" bldFile="&layer_real_source_path;/classicui_pub/screen_mode_api/tsrc/group" name="classicui_tsrc_screen_mode" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.screen_saver" mrp="" bldFile="&layer_real_source_path;/classicui_pub/screen_saver_api/tsrc/group" name="classicui_tsrc_screen_saver" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.scroller" mrp="" bldFile="&layer_real_source_path;/classicui_pub/scroller_api/tsrc/group" name="classicui_tsrc_scroller" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.search_field" mrp="" bldFile="&layer_real_source_path;/classicui_pub/searchfield_api/tsrc/group" name="classicui_tsrc_searchfield" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.settings_pages" mrp="" bldFile="&layer_real_source_path;/classicui_pub/setting_pages_api/tsrc/group" name="classicui_tsrc_setting_pages" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.slider" mrp="" bldFile="&layer_real_source_path;/classicui_pub/slider_api/tsrc/group" name="classicui_tsrc_slider" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.sounds" mrp="" bldFile="&layer_real_source_path;/classicui_pub/sounds_api/tsrc/group" name="classicui_tsrc_sounds" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.status_pane" mrp="" bldFile="&layer_real_source_path;/classicui_pub/status_pane_api/tsrc/group" name="classicui_tsrc_status_pane" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.stylus_popup_menu" mrp="" bldFile="&layer_real_source_path;/classicui_pub/stylus_popup_menu_api/tsrc/group" name="classicui_tsrc_stylus_popup_menu" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.tabs" mrp="" bldFile="&layer_real_source_path;/classicui_pub/tabs_api/tsrc/group" name="classicui_tsrc_tabs" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.title_pane" mrp="" bldFile="&layer_real_source_path;/classicui_pub/title_pane_api/tsrc/group" name="classicui_tsrc_title_pane" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.toolbar" mrp="" bldFile="&layer_real_source_path;/classicui_pub/toolbar_api/tsrc/group" name="classicui_tsrc_toolbar" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.touch_ui_utilities" mrp="" bldFile="&layer_real_source_path;/classicui_pub/touch_ui_utilities_api/tsrc/group" name="classicui_tsrc_touch_ui_utilities" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.ui_fw_definitions" mrp="" bldFile="&layer_real_source_path;/classicui_pub/ui_framework_definitions_api/tsrc/group" name="classicui_tsrc_ui_framework_definitions" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.ui_fw_util" mrp="" bldFile="&layer_real_source_path;/classicui_pub/ui_framework_utilities_api/tsrc/group" name="classicui_tsrc_ui_framework_utilities" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.vol_ctrl" mrp="" bldFile="&layer_real_source_path;/classicui_pub/volume_control_api/tsrc/group" name="classicui_tsrc_volume_control" filter="classicui_pub_api" />
+    <unit unitID="abs.classicui.tsrc.window_server_event_observer" mrp="" bldFile="&layer_real_source_path;/classicui_pub/window_server_event_observer_api/tsrc/group" name="classicui_tsrc_window_server_event_observer" filter="classicui_pub_api" />
+  </module>
+</layer>
+
+</systemModel>
+</SystemDefinition>

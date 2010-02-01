@@ -1,0 +1,4 @@
+; dlltool --output-def ../../EPOC32/BUILD/AVKON/MARMD/UREL/AKNINITU.def ../../EPOC32/BUILD/AVKON/MARMD/UREL/AKNINIT.in
+EXPORTS
+	NewL__18CAknDllInitializer @ 1 NONAME R3UNUSED ; CAknDllInitializer::NewL(void)
+

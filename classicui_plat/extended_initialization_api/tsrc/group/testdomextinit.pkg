@@ -1,0 +1,40 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testdomextinit"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testdomextinit.ini"-"c:\Testframework\testdomextinit.ini", FF   ; FF stands for Normal file
+"..\conf\tctestdomextinit.cfg"-"c:\Testframework\tctestdomextinit.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testdomextinit.cfg"-"c:\Testframework\ui_testdomextinit.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testdomextinit.dll"-"c:\sys\bin\testdomextinit.dll", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

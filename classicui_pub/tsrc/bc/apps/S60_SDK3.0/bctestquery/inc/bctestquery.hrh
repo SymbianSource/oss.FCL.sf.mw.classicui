@@ -1,0 +1,99 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         Resource headers for project BCTestQuery
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTQUERY_HRH
+#define BCTESTQUERY_HRH
+
+enum TBCTestAppMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+
+    // Column list boxes
+    EBCTestCmdOutline01,
+    EBCTestCmdOutline02,
+    EBCTestCmdOutline03,
+    EBCTestCmdOutline04,
+    EBCTestCmdOutline05,
+    EBCTestCmdOutline06,
+    EBCTestCmdOutline07,
+    EBCTestCmdOutline08,
+    EBCTestCmdOutline09,
+    EBCTestCmdOutline10,
+    EBCTestCmdOutline11,
+    EBCTestCmdOutline12,
+    EBCTestCmdOutline13,
+    EBCTestCmdOutline14,
+    EBCTestCmdOutline15,
+    EBCTestCmdOutline16,
+    EBCTestCmdOutline17,
+    EBCTestCmdOutline18,
+    EBCTestCmdOutline19,
+    EBCTestCmdOutline20,
+    EBCTestCmdOutline21,
+    EBCTestCmdOutline22,
+    EBCTestCmdOutline23,
+    EBCTestCmdOutline24,
+    EBCTestCmdOutline25,
+    EBCTestCmdOutline26,
+    EBCTestCmdOutline27,
+    EBCTestCmdOutline28,
+    EBCTestCmdOutline29,
+    EBCTestCmdOutline30,
+    EBCTestCmdOutline31,
+    EBCTestCmdOutline32,
+    EBCTestCmdOutline33,
+    EBCTestCmdOutline34,
+    EBCTestCmdOutline35,
+    EBCTestCmdOutline36,
+    EBCTestCmdOutline37,
+    EBCTestCmdOutline38,
+    EBCTestCmdOutline39,
+    EBCTestCmdOutline40,
+    EBCTestCmdOutline41,
+    EBCTestCmdOutline42,
+    EBCTestCmdOutline43,
+    EBCTestCmdOutline44,
+    EBCTestCmdOutline45,
+    EBCTestCmdOutline46,
+    EBCTestCmdOutline47,
+    EBCTestCmdOutline48,
+    EBCTestCmdOutline49,
+    EBCTestCmdOutline50,
+    EBCTestCmdOutline51,
+    EBCTestCmdOutline52,
+    EBCTestCmdOutline53,
+    EBCTestCmdOutline54,
+    EBCTestCmdOutline55,
+    EBCTestCmdOutline56,
+    EBCTestCmdOutline57,    
+
+    EProgSoftkeyNextOutline,
+
+    EProgCmdAutoTest
+    };
+
+#endif //BCTESTQUERY_HRH
+
+// End of File

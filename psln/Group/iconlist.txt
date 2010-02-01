@@ -1,0 +1,8 @@
+-c16,8 qgn_prop_psln_active.bmp 
+-1,8 qgn_indi_mmc_add.bmp 
+-1,8 qgn_indi_drm_rights_add.bmp 
+-1,8 qgn_indi_drm_rights_exp_add.bmp 
+-c8,8 qgn_prop_psln_general_sub.svg 
+-c8,8 qgn_prop_psln_ssaver_sub.svg 
+-c8,8 qgn_prop_psln_wpaper_sub.svg 
+-1,8 qgn_indi_fmgr_ms_add.bmp

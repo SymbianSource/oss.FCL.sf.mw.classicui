@@ -1,0 +1,33 @@
+EXPORTS
+	?CancelUnlockMedia@RAknUiServer@@QAEXXZ @ 1 NONAME ; void RAknUiServer::CancelUnlockMedia(void)
+	?ConnectAndSendAppsKeySuppress@RAknUiServer@@QAEHH@Z @ 2 NONAME ; int RAknUiServer::ConnectAndSendAppsKeySuppress(int)
+	?EnableTaskList@RAknUiServer@@QAEHH@Z @ 3 NONAME ; int RAknUiServer::EnableTaskList(int)
+	?HideApplicationFromFsw@RAknUiServer@@QAEHHH@Z @ 4 NONAME ; int RAknUiServer::HideApplicationFromFsw(int, int)
+	?MakeTaskListVisible@RAknUiServer@@QAEHH@Z @ 5 NONAME ; int RAknUiServer::MakeTaskListVisible(int)
+	?UnlockMedia@RAknUiServer@@QAEXHHAAVTRequestStatus@@@Z @ 6 NONAME ; void RAknUiServer::UnlockMedia(int, int, class TRequestStatus &)
+	?UpdateTaskList@RAknUiServer@@QAEHXZ @ 7 NONAME ; int RAknUiServer::UpdateTaskList(void)
+	?BlockServerStatusPaneRedraws@RAknUiServer@@QAEHXZ @ 8 NONAME ; int RAknUiServer::BlockServerStatusPaneRedraws(void)
+	?IsSystemFaded@RAknUiServer@@QBEHAAH@Z @ 9 NONAME ; int RAknUiServer::IsSystemFaded(int &) const
+	?PrepareForAppExit@RAknUiServer@@QAEHH@Z @ 10 NONAME ; int RAknUiServer::PrepareForAppExit(int)
+	?RedrawServerStatusPane@RAknUiServer@@QAEHXZ @ 11 NONAME ; int RAknUiServer::RedrawServerStatusPane(void)
+	?SetSgcParams@RAknUiServer@@QAEHHV?$TBitFlagsT@K@@HH@Z @ 12 NONAME ; int RAknUiServer::SetSgcParams(int, class TBitFlagsT<unsigned long>, int, int)
+	?SetSystemFaded@RAknUiServer@@QAEHH@Z @ 13 NONAME ; int RAknUiServer::SetSystemFaded(int)
+	?Connect@RAknUiServer@@QAEHXZ @ 14 NONAME ; int RAknUiServer::Connect(void)
+	?BlankScreen@RAknUiServer@@QBEHXZ @ 15 NONAME ; int RAknUiServer::BlankScreen(void) const
+	?SetStatusPaneFlags@RAknUiServer@@QBEHH@Z @ 16 NONAME ; int RAknUiServer::SetStatusPaneFlags(int) const
+	?SetStatusPaneLayout@RAknUiServer@@QBEHH@Z @ 17 NONAME ; int RAknUiServer::SetStatusPaneLayout(int) const
+	?UnblankScreen@RAknUiServer@@QBEHXZ @ 18 NONAME ; int RAknUiServer::UnblankScreen(void) const
+	?ServiceUid@RAknUiServer@@EBE?AVTUid@@XZ @ 19 NONAME ; class TUid RAknUiServer::ServiceUid(void) const
+	?SetKeyblockMode@RAknUiServer@@QAEHW4TAknKeySoundOpcode@@@Z @ 20 NONAME ; int RAknUiServer::SetKeyblockMode(enum TAknKeySoundOpcode)
+	?SetKeyboardRepeatRate@RAknUiServer@@QAEHW4TAknDefaultKeyboardRepeatRate@@@Z @ 21 NONAME ; int RAknUiServer::SetKeyboardRepeatRate(enum TAknDefaultKeyboardRepeatRate)
+	?DoEikonServerConnect@RAknUiServer@@QAEHXZ @ 22 NONAME ; int RAknUiServer::DoEikonServerConnect(void)
+	?ShowKeysLockedNote@RAknUiServer@@QAEHAAH@Z @ 23 NONAME ; int RAknUiServer::ShowKeysLockedNote(int &)
+	?ShutdownApps@RAknUiServer@@QBEXVTUid@@HAAVTRequestStatus@@@Z @ 24 NONAME ; void RAknUiServer::ShutdownApps(class TUid, int, class TRequestStatus &) const
+	?ShowGlobalNoteL@RAknUiServer@@QAEHABVTDesC16@@H@Z @ 25 NONAME ; int RAknUiServer::ShowGlobalNoteL(class TDesC16 const &, int)
+	?StatusPaneResourceId@RAknUiServer@@QAEHXZ @ 26 NONAME ; int RAknUiServer::StatusPaneResourceId(void)
+	?CreateActivateViewEventL@RAknUiServer@@QAEHABVTVwsViewId@@VTUid@@ABVTDesC8@@@Z @ 27 NONAME ; int RAknUiServer::CreateActivateViewEventL(class TVwsViewId const &, class TUid, class TDesC8 const &)
+	?DelayLayout@RAknUiServer@@QAEHXZ @ 28 NONAME ; int RAknUiServer::DelayLayout(void)
+	?GetPackedConfigL@RAknUiServer@@QBEPAVHBufC8@@XZ @ 29 NONAME ; class HBufC8 * RAknUiServer::GetPackedConfigL(void) const
+	?CurrentAppStatuspaneResource@RAknUiServer@@QAEHXZ @ 30 NONAME ; int RAknUiServer::CurrentAppStatuspaneResource(void)
+	?SetCurrentAppStatuspaneResource@RAknUiServer@@QAEHH@Z @ 31 NONAME ; int RAknUiServer::SetCurrentAppStatuspaneResource(int)
+

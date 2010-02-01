@@ -1,0 +1,9 @@
+EXPORTS
+	?CancelEvent@CAknDynamicSoftNoteEventManager@@QAEXPAXABVRMessage2@@@Z @ 1 NONAME ; void CAknDynamicSoftNoteEventManager::CancelEvent(void *, class RMessage2 const &)
+	?ClientExit@CAknDynamicSoftNoteEventManager@@QAEXPAX@Z @ 2 NONAME ; void CAknDynamicSoftNoteEventManager::ClientExit(void *)
+	?CreateUniqueInstanceL@CAknDynamicSoftNoteEventManager@@SAPAV1@XZ @ 3 NONAME ; class CAknDynamicSoftNoteEventManager * CAknDynamicSoftNoteEventManager::CreateUniqueInstanceL(void)
+	?IssueEvent@CAknDynamicSoftNoteEventManager@@QAEXHHH@Z @ 4 NONAME ; void CAknDynamicSoftNoteEventManager::IssueEvent(int, int, int)
+	?NotifyEvent@CAknDynamicSoftNoteEventManager@@QAEXPAXABVRMessage2@@@Z @ 5 NONAME ; void CAknDynamicSoftNoteEventManager::NotifyEvent(void *, class RMessage2 const &)
+	?RegisterEventL@CAknDynamicSoftNoteEventManager@@QAEXPAXABVRMessage2@@@Z @ 6 NONAME ; void CAknDynamicSoftNoteEventManager::RegisterEventL(void *, class RMessage2 const &)
+	?UniqueInstance@CAknDynamicSoftNoteEventManager@@SAPAV1@XZ @ 7 NONAME ; class CAknDynamicSoftNoteEventManager * CAknDynamicSoftNoteEventManager::UniqueInstance(void)
+

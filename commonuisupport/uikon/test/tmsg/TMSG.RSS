@@ -1,0 +1,71 @@
+// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TMSG
+
+#include <techview/eikon.rh>
+#include "TMSG.HRH"
+
+RESOURCE RSS_SIGNATURE
+	{
+	}
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO
+	{
+	toolbar=r_tmsg_toolbar;
+	}
+
+RESOURCE HOTKEYS r_tmsg_hotkeys
+    {
+    control=
+        {
+        HOTKEY {command=EEikCmdExit; key='e';}
+        };
+    }
+
+RESOURCE TOOLBAR r_tmsg_toolbar
+	{
+	breadth=0;
+	controls=
+		{
+		TBAR_BUTTON {id=ETMsgCmdDisplayInfoMsgAtBottom;					txt="Display info-msg at bottom";},
+		TBAR_BUTTON {id=ETMsgCmdDisplayInfoMsgAtTop;					txt="Display info-msg at top";},
+		TBAR_BUTTON {id=ETMsgCmdCancelInfoMsg;							txt="Cancel info-msg";},
+		TBAR_BUTTON {id=ETMsgCmdDisplaySingleBusyMsg;					txt="Display single busy-msg";},
+		TBAR_BUTTON {id=ETMsgCmdDisplayTwoBusyMsgsInSameCorner;			txt="Display 2 busy-msgs in same corner";},
+		TBAR_BUTTON {id=ETMsgCmdDisplayTwoBusyMsgsInDifferentCorners;	txt="Display 2 busy-msgs in different corners";},
+		TBAR_BUTTON {id=ETMsgCmdDisplaySingleBusyMsgWithInitialDelayOfTenSeconds;	txt="Display single busy-msg (init delay = 10)";},
+		TBAR_BUTTON {id=ETMsgCmdDisplayInfoMsgAtTopWithDurationOfTenSeconds;	txt="Display info-msg at top (duration = 10)";},
+		TBAR_BUTTON {id=ETMsgCmdCycleThroughEikonEnvInfoMsgs;	txt="Cycle through EikonEnv Info Msgs";},
+		TBAR_BUTTON {id=ETMsgCmdCycleThroughEikonEnvBusyMsgs;	txt="Cycle through EikonEnv Busy Msgs";},
+		TBAR_BUTTON {id=ETMsgCmdCancelBusyMsg;							txt="Cancel busy-msg";},
+		TBAR_BUTTON {id=EEikCmdExit;									txt="Exit";}
+		};
+	}
+
+RESOURCE TBUF r_tmsg_tbuf_infowinmsg_resourceid { buf="Displays a modal information dialog (CEikInfoDialog) on the screen with the specified lines of text"; }
+RESOURCE TBUF r_tmsg_tbuf_querywinmsg_resourceid { buf="Requests a yes or no response to a question from the user using a modal query dialog"; }
+RESOURCE TBUF r_tmsg_tbuf_resourceid { buf="(aResourceId,...)"; }
+RESOURCE TBUF r_tmsg_tbuf_resourceid_vlist { buf="(aResourceId,%d,%d)"; }
+RESOURCE TBUF r_tmsg_tbuf_corner_resourceid { buf="(aCorner,aResourceId,...) botLeft"; }
+RESOURCE TBUF r_tmsg_tbuf_corner_resourceid_vlist { buf="(aCorner,aResourceId,%d,%d) botLeft"; }
+RESOURCE TBUF r_tmsg_tbuf_resourceid_duration { buf="(aResourceId,duration,...) d = 8"; }
+RESOURCE TBUF r_tmsg_tbuf_resourceid_duration_vlist { buf="(aResourceId,duration,%d,%d) d = 8"; }
+RESOURCE TBUF r_tmsg_tbuf_corner_resourceid_duration { buf="(aCorner,aResourceId,duration,...) botLeft,d = 8"; }
+RESOURCE TBUF r_tmsg_tbuf_corner_resourceid_duration_vlist { buf="(aCorner,aResourceId,duration,%d,%d) botLeft,d = 8"; }
+RESOURCE TBUF r_tmsg_tbuf_busymsg_resourceid { buf="(aResourceId)"; }
+RESOURCE TBUF r_tmsg_tbuf_busymsg_resourceid_initialdelay { buf="(aResourceId,aInitialDelay) d = 3"; }

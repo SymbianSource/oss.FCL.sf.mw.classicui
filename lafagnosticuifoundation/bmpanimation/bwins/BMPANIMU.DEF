@@ -1,0 +1,42 @@
+EXPORTS
+	??0RBitmapAnim@@QAE@AAVRAnimDll@@@Z @ 1 NONAME ; public: __thiscall RBitmapAnim::RBitmapAnim(class RAnimDll &)
+	??1CBitmapAnimClientData@@UAE@XZ @ 2 NONAME ; public: virtual __thiscall CBitmapAnimClientData::~CBitmapAnimClientData(void)
+	??1CBitmapFrameData@@UAE@XZ @ 3 NONAME ; public: virtual __thiscall CBitmapFrameData::~CBitmapFrameData(void)
+	?AppendFrameL@CBitmapAnimClientData@@QAEXPAVCBitmapFrameData@@@Z @ 4 NONAME ; public: void __thiscall CBitmapAnimClientData::AppendFrameL(class CBitmapFrameData *)
+	?BackgroundFrame@CBitmapAnimClientData@@QBEPAVCBitmapFrameData@@XZ @ 5 NONAME ; public: class CBitmapFrameData * __thiscall CBitmapAnimClientData::BackgroundFrame(void)const 
+	?Bitmap@CBitmapFrameData@@QBEPAVCFbsBitmap@@XZ @ 6 NONAME ; public: class CFbsBitmap * __thiscall CBitmapFrameData::Bitmap(void)const 
+	?BitmapsOwnedExternally@CBitmapFrameData@@QBEHXZ @ 7 NONAME ; public: int __thiscall CBitmapFrameData::BitmapsOwnedExternally(void)const 
+	?ConstructL@RBitmapAnim@@QAEXABVRWindowBase@@@Z @ 8 NONAME ; public: void __thiscall RBitmapAnim::ConstructL(class RWindowBase const &)
+	?DisplayFrameL@RBitmapAnim@@QAEXH@Z @ 9 NONAME ; public: void __thiscall RBitmapAnim::DisplayFrame(int)
+	?DurationInMilliSeconds@CBitmapAnimClientData@@QBEHXZ @ 10 NONAME ; public: int __thiscall CBitmapAnimClientData::DurationInMilliSeconds(void)const 
+	?Flash@CBitmapAnimClientData@@QBEHXZ @ 11 NONAME ; public: int __thiscall CBitmapAnimClientData::Flash(void)const 
+	?FrameArray@CBitmapAnimClientData@@QBEABV?$CArrayPtrFlat@VCBitmapFrameData@@@@XZ @ 12 NONAME ; public: class CArrayPtrFlat<class CBitmapFrameData> const & __thiscall CBitmapAnimClientData::FrameArray(void)const 
+	?FrameIntervalInMilliSeconds@CBitmapAnimClientData@@QBEHXZ @ 13 NONAME ; public: int __thiscall CBitmapAnimClientData::FrameIntervalInMilliSeconds(void)const 
+	?IntervalInMilliSeconds@CBitmapFrameData@@QBEHXZ @ 14 NONAME ; public: int __thiscall CBitmapFrameData::IntervalInMilliSeconds(void)const 
+	?Mask@CBitmapFrameData@@QBEPAVCFbsBitmap@@XZ @ 15 NONAME ; public: class CFbsBitmap * __thiscall CBitmapFrameData::Mask(void)const 
+	?NewL@CBitmapAnimClientData@@SAPAV1@XZ @ 16 NONAME ; public: static class CBitmapAnimClientData * __cdecl CBitmapAnimClientData::NewL(void)
+	?NewL@CBitmapFrameData@@SAPAV1@PAVCFbsBitmap@@0@Z @ 17 NONAME ; public: static class CBitmapFrameData * __cdecl CBitmapFrameData::NewL(class CFbsBitmap *,class CFbsBitmap *)
+	?NewL@CBitmapFrameData@@SAPAV1@PAVCFbsBitmap@@0HVTPoint@@@Z @ 18 NONAME ; public: static class CBitmapFrameData * __cdecl CBitmapFrameData::NewL(class CFbsBitmap *,class CFbsBitmap *,int,class TPoint)
+	?NewL@CBitmapFrameData@@SAPAV1@XZ @ 19 NONAME ; public: static class CBitmapFrameData * __cdecl CBitmapFrameData::NewL(void)
+	?PlayMode@CBitmapAnimClientData@@QBE?AW4TPlayMode@1@XZ @ 20 NONAME ; public: enum CBitmapAnimClientData::TPlayMode  __thiscall CBitmapAnimClientData::PlayMode(void)const 
+	?Position@CBitmapFrameData@@QBE?AVTPoint@@XZ @ 21 NONAME ; public: class TPoint  __thiscall CBitmapFrameData::Position(void)const 
+	?ResetFrameArray@CBitmapAnimClientData@@QAEXXZ @ 22 NONAME ; public: void __thiscall CBitmapAnimClientData::ResetFrameArray(void)
+	?SetBackgroundFrame@CBitmapAnimClientData@@QAEXPAVCBitmapFrameData@@@Z @ 23 NONAME ; public: void __thiscall CBitmapAnimClientData::SetBackgroundFrame(class CBitmapFrameData *)
+	?SetBitmap@CBitmapFrameData@@QAEXPAVCFbsBitmap@@@Z @ 24 NONAME ; public: void __thiscall CBitmapFrameData::SetBitmap(class CFbsBitmap *)
+	?SetBitmapAnimDataL@RBitmapAnim@@QAEXABVCBitmapAnimClientData@@@Z @ 25 NONAME ; public: void __thiscall RBitmapAnim::SetBitmapAnimDataL(class CBitmapAnimClientData const &)
+	?SetBitmapsOwnedExternally@CBitmapFrameData@@QAEXH@Z @ 26 NONAME ; public: void __thiscall CBitmapFrameData::SetBitmapsOwnedExternally(int)
+	?SetFlash@CBitmapAnimClientData@@QAEXH@Z @ 27 NONAME ; public: void __thiscall CBitmapAnimClientData::SetFlash(int)
+	?SetFlashL@RBitmapAnim@@QAEXH@Z @ 28 NONAME ; public: void __thiscall RBitmapAnim::SetFlashL(int)
+	?SetFrameInterval@CBitmapAnimClientData@@QAEXH@Z @ 29 NONAME ; public: void __thiscall CBitmapAnimClientData::SetFrameInterval(int)
+	?SetFrameIntervalL@RBitmapAnim@@QAEXH@Z @ 30 NONAME ; public: void __thiscall RBitmapAnim::SetFrameIntervalL(int)
+	?SetInterval@CBitmapFrameData@@QAEXH@Z @ 31 NONAME ; public: void __thiscall CBitmapFrameData::SetInterval(int)
+	?SetMask@CBitmapFrameData@@QAEXPAVCFbsBitmap@@@Z @ 32 NONAME ; public: void __thiscall CBitmapFrameData::SetMask(class CFbsBitmap *)
+	?SetNumberOfCyclesL@RBitmapAnim@@QAEXH@Z @ 33 NONAME ; public: void __thiscall RBitmapAnim::SetNumberOfCyclesL(int)
+	?SetPlayMode@CBitmapAnimClientData@@QAEXW4TPlayMode@1@@Z @ 34 NONAME ; public: void __thiscall CBitmapAnimClientData::SetPlayMode(enum CBitmapAnimClientData::TPlayMode)
+	?SetPlayModeL@RBitmapAnim@@QAEXW4TPlayMode@CBitmapAnimClientData@@@Z @ 35 NONAME ; public: void __thiscall RBitmapAnim::SetPlayModeL(enum CBitmapAnimClientData::TPlayMode)
+	?SetPosition@CBitmapFrameData@@QAEXVTPoint@@@Z @ 36 NONAME ; public: void __thiscall CBitmapFrameData::SetPosition(class TPoint)
+	?SetPositionL@RBitmapAnim@@QAEXVTPoint@@@Z @ 37 NONAME ; public: void __thiscall RBitmapAnim::SetPositionL(class TPoint)
+	?Size@CBitmapAnimClientData@@QBE?AVTSize@@XZ @ 38 NONAME ; public: class TSize  __thiscall CBitmapAnimClientData::Size(void)const 
+	?StartL@RBitmapAnim@@QAEXXZ @ 39 NONAME ; public: void __thiscall RBitmapAnim::StartL(void)
+	?StopL@RBitmapAnim@@QAEXXZ @ 40 NONAME ; public: void __thiscall RBitmapAnim::StopL(void)
+

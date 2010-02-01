@@ -1,0 +1,35 @@
+// Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+NAME TFLU
+
+//#include <fontids.h>
+
+#include <uikon.rh>
+#include <techview/controls.hrh>
+
+
+RESOURCE RSS_SIGNATURE { }
+ 
+
+RESOURCE ARRAY r_eik_array_file_sort_table
+  	{
+  	items=
+ 		{
+  		NUMBER_INT32 {value=KEikUidWordAppValue;},	// Word
+  		NUMBER_INT32 {value=KEikUidAgendaAppValue;}//,	// Agenda
+  		//NUMBER_INT32 {value=KEikUidPaintAppValue;}	// Sketch
+  		};
+  	}

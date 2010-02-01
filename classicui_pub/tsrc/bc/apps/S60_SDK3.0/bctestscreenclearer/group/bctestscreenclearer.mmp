@@ -1,0 +1,102 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the BCTestScreenClearer.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctestscreenclearer.exe
+TARGETTYPE      exe
+UID             0x0 0x2000474A
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctestscreenclearer.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../src
+SOURCE          bctestscreenclearerapp.cpp
+SOURCE          bctestscreenclearerdocument.cpp
+SOURCE          bctestscreenclearerappui.cpp
+SOURCE          bctestscreenclearerview.cpp
+SOURCE          bctestscreenclearercontainer.cpp
+SOURCE          bctestscreenclearercase.cpp
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY			efsrv.lib
+LIBRARY         eikctl.lib
+
+// Creates Mbm file.
+START BITMAP    bctestscreenclearer.mbm
+HEADER
+TARGETPATH      /resource/apps
+SOURCEPATH      ../datasrc
+SOURCE C8       sampleIcon.bmp
+SOURCE C8       sampleIconmask.bmp
+END
+
+// Changes for Scalable UI:
+// New registration resource defined.
+// else Normal AIF will work.
+
+START RESOURCE ../group/bctestscreenclearer_reg.rss
+DEPENDS bctestscreenclearer.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+
+// Creates Mbm file.
+START BITMAP    bctestscreenclearer_aif.mbm
+HEADER
+TARGETPATH      /resource/apps
+sourcepath ../aif
+source  c8 bctestscreenclearersmallicon.bmp
+source  c8 bctestscreenclearersmalliconmask.bmp
+source  c8 bctestscreenclearer_lst.bmp
+source  c8 bctestscreenclearer_lst_mask.bmp
+end
+

@@ -1,0 +1,5 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI21CVolumePopupContainer @ 2 NONAME ; #<TI>#
+	_ZTV21CVolumePopupContainer @ 3 NONAME ; #<VT>#
+

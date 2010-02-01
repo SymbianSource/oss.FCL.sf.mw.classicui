@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="3ea79ccd9fc2044b4abf10ff10a3272d" dataversion="1.0">
+  <name>Extended Buttons API</name>
+  <description>UI Button utilities.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,68 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET          testsdkbuttons.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkbuttons.def
+
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+START RESOURCE  ../data/testsdkbuttons.rss
+HEADER
+TARGETPATH RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+SOURCE          testsdkbuttons.cpp
+SOURCE          testsdkbuttonsblocks.cpp
+SOURCE          testsdkbuttonsblockseikmnbut.cpp
+SOURCE          testsdkbuttonsblockseiklbbut.cpp
+SOURCE          testsdkbuttonsblockseikcmbut.cpp
+SOURCE          testsdkbuttonsblockseikbutb.cpp
+SOURCE          testsdkbuttonsblockseikbtgps.cpp
+SOURCE          testsdkbuttonsblockseikcba.cpp
+SOURCE          testsdkbuttonsblockseikbgfty.cpp
+SOURCE          testsdkbuttonsblockseikbtgpc.cpp 
+SOURCE          testsdkbuttonscontainer.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         bafl.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib 
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         estor.lib
+LIBRARY         avkon.lib
+LIBRARY         aknicon.lib
+
+LANG            SC
+
+// End of File

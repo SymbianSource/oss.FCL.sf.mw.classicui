@@ -1,0 +1,413 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME VOLM
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <BCTestvolume.mbg>
+
+#include <appinfo.rh>
+
+#include "BCTestvolume.hrh"
+#include "BCTestVolume.loc"
+#include "BCTestvolume_01.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTVOLUME_BMP_FNAME APP_BITMAP_DIR"\\BCTestVolume.mbm"
+
+#define BCTESTVOLUME_SETTING_PAGE_NUMBER 1
+#define BCTESTVOLUME_VALUE1 1
+#define BCTESTVOLUME_VALUE4 4
+#define BCTESTVOLUME_VALUE5 5
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestVolume";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestvolume_menubar;
+    cba = r_bctestvolume_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestvolume_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        number_of_icons = 2;        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestvolume_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestvolume_menu;
+            txt = qtn_bctestvolume_menubar;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+//    r_bctestvolume_view
+//
+//----------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestvolume_view
+    {
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestvolume_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline01;
+            txt = qtn_bctestvolume_menu_outline01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline02;
+            txt = qtn_bctestvolume_menu_outline02;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline03;
+            txt = qtn_bctestvolume_menu_outline03;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline04;
+            txt = qtn_bctestvolume_menu_outline04;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline05;
+            txt = qtn_bctestvolume_menu_outline05;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestVolumeCmdOutline06;
+            txt = qtn_bctestvolume_menu_outline06;
+            },
+		MENU_ITEM
+            {
+            command = EBCTestVolumeOthers;
+            txt = "Others";
+            flags = EEikMenuItemSeparatorAfter;
+            },
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestvolume_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestvolume_menu_exit;
+            }
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_label_title
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_label_title
+    {
+    buf = qtn_bctestvolume_label_title;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_label_operation
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_label_operation
+    {
+    buf = qtn_bctestvolume_label_operation;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_label_event1
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_label_event1
+    {
+    buf = qtn_bctestvolume_label_event1;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_label_event2
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_label_event2
+    {
+    buf = qtn_bctestvolume_label_event2;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_label_outline06
+//    outline 6 instructions
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_label_outline06
+    {
+    buf = qtn_bctestvolume_label_outline06;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_format1
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_format1
+    {
+    buf = qtn_bctestvolume_text_format1;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_format2
+//    Text which is used by label.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_format2
+    {
+    buf = qtn_bctestvolume_text_format2;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_status_pane_title??
+//    Text which is used on status pane.
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title01
+    {
+    buf = qtn_bctestvolume_menu_outline01;
+    }
+
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title02
+    {
+    buf = qtn_bctestvolume_menu_outline02;
+    }
+
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title03
+    {
+    buf = qtn_bctestvolume_menu_outline03;
+    }
+
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title04
+    {
+    buf = qtn_bctestvolume_menu_outline04;
+    }
+
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title05
+    {
+    buf = qtn_bctestvolume_menu_outline05;
+    }
+
+RESOURCE TBUF256 r_bctestvolume_text_status_pane_title06
+    {
+    buf = qtn_bctestvolume_menu_outline06;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_text_other_application_name
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF256 r_bctestvolume_text_other_application_name
+    {
+    buf = qtn_bctestvolume_text_other_app_name;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_setting_page_volume_indicator
+//    For Outline1
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE VOLUME r_bctestvolume_volume_indicator
+    {
+    flags = ESettingsVolumeControl;
+    value = BCTESTVOLUME_VALUE5;
+    }
+
+RESOURCE AVKON_SETTING_PAGE r_bctestvolume_setting_page_volume_indicator
+    {
+    number = BCTESTVOLUME_SETTING_PAGE_NUMBER;
+    label = qtn_bctestvolume_setting_title;
+    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL;
+    type = EAknCtVolumeControl;
+    editor_resource_id = r_bctestvolume_volume_indicator;
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestvolume_navi_pane_volume_indicator_icon_set
+//    For Outline5.
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE VOLUME r_bctestvolume_navi_pane_volume_indicator_icon_set
+    {
+    flags = ENaviPaneVolumeControl;
+    value = BCTESTVOLUME_VALUE4;
+    bmpfile = BCTESTVOLUME_BMP_FNAME;
+    bmpid = EMbmBctestvolumeSampleicon;
+    bmpmask = EMbmBctestvolumeSampleiconmask;
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestvolume_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestvolume_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestVolumeCbaCmdNext;
+            txt = qtn_bctestvolume_cba_next;
+            }
+	};
+    }
+
+
+RESOURCE VOLUME r_bctestvolume_avkon_volume_control
+    {
+//    flags = ESettingsVolumeControl;//    ENaviPaneVolumeControl
+    flags = ENaviPaneVolumeControl;
+    value = 1; // Has to have a value, otherwise crashes
+    bmpfile = AVKON_BMP_FILENAME;
+    bmpid = EMbmAvkonQgn_indi_speaker_active;
+    bmpmask = EMbmAvkonQgn_indi_speaker_active_mask;
+    }
+
+
+// End of File

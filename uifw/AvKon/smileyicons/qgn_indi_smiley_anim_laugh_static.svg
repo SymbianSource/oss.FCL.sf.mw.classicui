@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape6grad" r="8.363">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-8 -8)">
+<g>
+<circle cx="8" cy="8" r="7" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+<path d="M14.5 8 C14.5 11.59 11.59 14.5 8 14.5 C4.411 14.5 1.5 11.59 1.5 8 C1.5 4.411 4.411 1.5 8 1.5 C11.59 1.5 14.5 4.411 14.5 8 z" style="fill:url(#shape6grad);fill-rule:evenodd"/>
+</g>
+</g>
+<g transform="matrix(-0.951 0.31 0.31 0.951 3.958 -1.551)">
+<path d="M1.42 3.258 C2.46 4.297 4 4.764 5.507 4.311 C7.013 3.856 8.04 2.618 8.334 1.178 z" transform="translate(0 0.001)" style="fill:none;fill-rule:evenodd"/>
+<path d="M4.913 2.369 C2.758 3.018 0 2.786 0 2.786 C1.125 4.766 3.477 5.809 5.75 5.124 C8.027 4.44 9.414 2.274 9.256 0 C9.256 0 7.067 1.721 4.913 2.369 z" transform="translate(0 0.001)" style="fill:rgb(255,255,255);fill-rule:evenodd"/>
+<path d="M4.797 1.984 C2.803 2.585 0 2.786 0 2.786 C1.125 4.766 3.477 5.809 5.75 5.124 C8.027 4.44 9.414 2.274 9.256 0 C9.256 0 6.792 1.384 4.797 1.984 M5.507 4.311 C4 4.764 2.46 4.297 1.42 3.258 C1.42 3.258 3.533 3.134 5.05 2.678 C6.605 2.21 8.335 1.178 8.335 1.178 C8.04 2.618 7.013 3.856 5.507 4.311" transform="translate(0 0.001)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+</g>
+<g transform="translate(0 1)">
+<path d="M3.968 7.744 C4.137 7.237 4.264 6.813 5.067 6.518 C4.094 6.307 3.206 6.518 2.486 7.661 L2.076 7.788 C2.408 6.414 3.468 5.56 4.652 5.566 L4.652 5.566 C5.44 5.565 6.254 5.937 6.917 6.669 L6.917 6.669 L6.802 6.982 C5.87 6.982 4.983 6.813 4.179 7.701 z" transform="matrix(0.775 -0.027 0.028 0.775 -6.043 -8.116)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+<path d="M3.968 7.744 C4.137 7.237 4.264 6.813 5.067 6.518 C4.094 6.307 3.206 6.518 2.486 7.661 L2.076 7.788 C2.408 6.414 3.468 5.56 4.652 5.566 L4.652 5.566 C5.44 5.565 6.254 5.937 6.917 6.669 L6.917 6.669 L6.802 6.982 C5.87 6.982 4.983 6.813 4.179 7.701 z" transform="matrix(-0.772 0.003 0.003 0.771 5.956 -8.225)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+</g>
+</g>
+</svg>

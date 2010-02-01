@@ -1,0 +1,1012 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME BCQE
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+#include "bctestquery.hrh"
+#include "bctestquery.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+
+#define BCTESTQUERY_NUMBER_EDITOR_MIN 0
+#define BCTESTQUERY_NUMBER_EDITOR_MAX 1000000
+
+#define BCTESTQUERY_LISTBOX_HEIGHT 3
+#define BCTESTQUERY_LISTBOX_WIDTH 3
+
+//For Ip address editor
+#define IPADDRESS_MIN_FIRST_FIELD_VALUE     0
+#define IPADDRESS_MIN_SECOND_FIELD_VALUE    0
+#define IPADDRESS_MIN_THIRD_FIELD_VALUE     0
+#define IPADDRESS_MIN_FOURTH_FIELD_VALUE    0
+#define IPADDRESS_MAX_FIRST_FIELD_VALUE     255
+#define IPADDRESS_MAX_SECOND_FIELD_VALUE    255
+#define IPADDRESS_MAX_THIRD_FIELD_VALUE     255
+#define IPADDRESS_MAX_FOURTH_FIELD_VALUE    255
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "BCTestQuery";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestquery_menubar_main;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestquery_localisable_app_info
+    {
+    short_caption = qtn_apps_bcqe_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_bcqe_list; 
+        number_of_icons = 2;        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_view
+//    AVKON_VIEW for CBCTestQueryView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestquery_view
+    {
+    menubar = r_bctestquery_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestquery_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestquery_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestquery_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestquery_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestquery_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestquery_menu_exit;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestquery_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            cascade = r_bctestquery_listquery_menu;
+            txt = qtn_bctestlist_menu_listquery;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestquery_querydlg_menu;
+            txt = qtn_bctestlist_menu_querydlg;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestquery_queryvalue_menu;
+            txt = qtn_bctestlist_menu_queryvalue;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_listquery_menu
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestquery_listquery_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline01;
+            txt = qtn_bctestquery_outline01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline02;
+            txt = qtn_bctestquery_outline02;
+            }        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_querydlg_menu
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestquery_querydlg_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline03;
+            txt = qtn_bctestquery_outline03;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline04;
+            txt = qtn_bctestquery_outline04;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline05;
+            txt = qtn_bctestquery_outline05;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline06;
+            txt = qtn_bctestquery_outline06;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline07;
+            txt = qtn_bctestquery_outline07;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline08;
+            txt = qtn_bctestquery_outline08;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline09;
+            txt = qtn_bctestquery_outline09;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline10;
+            txt = qtn_bctestquery_outline10;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline11;
+            txt = qtn_bctestquery_outline11;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline12;
+            txt = qtn_bctestquery_outline12;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline13;
+            txt = qtn_bctestquery_outline13;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_queryvalue_menu
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestquery_queryvalue_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline14;
+            txt = qtn_bctestquery_outline14;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline15;
+            txt = qtn_bctestquery_outline15;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline16;
+            txt = qtn_bctestquery_outline16;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline17;
+            txt = qtn_bctestquery_outline17;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline18;
+            txt = qtn_bctestquery_outline18;
+            },            
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline19;
+            txt = qtn_bctestquery_outline19;
+            }
+        };
+    }
+   
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_multi_line_number_and_number
+//    Resource of MultiLine Data Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_multi_line_number_and_number
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtMultilineQuery;
+            id = EMultilineFirstLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataFirstNumEd;
+                label = qtn_bctestquery_num_label_text;
+                control = AVKON_INTEGER_EDWIN
+                    {
+                    min = BCTESTQUERY_NUMBER_EDITOR_MIN;
+                    max = BCTESTQUERY_NUMBER_EDITOR_MAX;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtMultilineQuery;
+            id = EMultilineSecondLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataSecondNumEd;
+                label = qtn_bctestquery_num_label_text;
+                control = AVKON_INTEGER_EDWIN
+                    {
+                    min = BCTESTQUERY_NUMBER_EDITOR_MIN;
+                    max = BCTESTQUERY_NUMBER_EDITOR_MAX;
+                    };
+                };
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_multi_line_ip_address
+//    Resource of Multiline IP Address Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_multi_line_ip_address
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtMultilineQuery;
+            id = EMultilineFirstLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataFirstIpEd;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                        flags = 0;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknExtCtMultilineQuery;
+            id = EMultilineSecondLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataSecondIpEd;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                        flags = 0;
+                    };
+                };
+            }
+        };
+    }
+
+  
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_ip_address
+//    Resource of IP Address Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_ip_address
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EIpLayout;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                    flags = 0;
+                    };
+                };
+            }
+        };
+    }
+   
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_fixex_point
+//    Resource of Fixed Point Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_fixed_point
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EFixedPointLayout;
+                label = qtn_bctestquery_num_label_text;
+                control = FIXPTED
+                    {
+                    min = BCTESTQUERY_NUMBER_EDITOR_MIN;
+                    max = BCTESTQUERY_NUMBER_EDITOR_MAX;
+                    };
+                };
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_multi_selection_query
+//    Resource of Multi Selection Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_multi_selection_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxMultiselectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;
+                    array_id = r_bctestquery_multi_selection_query_list_item;
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_singlepopupmenu_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_singlepopupmenu_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_singlegraphicheading_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_singlegraphicheading_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleGraphicHeadingPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_menudouble_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_menudouble_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtMenuDoublePopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_doublelargegraphic_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_doublelargegraphic_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtDoubleLargeGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_singleheading_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_singleheading_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleHeadingPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_double2_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_double2_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtDouble2PopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_single2graphic_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_single2graphic_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingle2GraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_doublegraphic_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_doublegraphic_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtDoubleGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_empty_query
+//    Resource of empty Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_bctestquery_empty_query
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtListQueryControl;
+            id = EListQueryControl;
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSingleGraphicPopupMenuListBox;
+                listbox = LISTBOX
+                    {
+                    flags = EAknListBoxSelectionList;
+                    height = BCTESTQUERY_LISTBOX_HEIGHT;
+                    width = BCTESTQUERY_LISTBOX_WIDTH;                    
+                    };
+                heading = qtn_bctestquery_selection_title;
+                };
+            }
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_multi_selection_query_list_item
+//    Items array for Multi Selection Query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestquery_multi_selection_query_list_item
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_bctestquery_selection_item1;
+            },
+        LBUF
+            {
+            txt = qtn_bctestquery_selection_item2;
+            },
+        LBUF
+            {
+            txt = qtn_bctestquery_selection_item3;
+            },
+        LBUF
+            {
+            txt = qtn_bctestquery_selection_item4;
+            },
+        LBUF
+            {
+            txt = qtn_bctestquery_selection_item5;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_bmp_animation
+//
+//-----------------------------------------------------------------------------
+//    
+RESOURCE BMPANIM_DATA r_bctestquery_bmp_animation
+    {
+    identifier = 0;
+    frameinterval = 1;
+    playmode = 0;
+    flash = 0;
+    bmpfile = AVKON_ICON_FILE;
+    frames = 0;
+    backgroundframe = 0;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_extcontrol
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_DATA_QUERY r_bctestquery_extcontrol
+    {
+    layout = EIpLayout;
+    label = qtn_bctestquery_ip_query_label_text;
+    control = IP_FIELD_EDITOR
+        {
+        min_field_values = IP_FIELD
+            { 
+            first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+            second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+            third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+            fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+            };
+        max_field_values = IP_FIELD
+            {
+            first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+            second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+            third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+            fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+            };
+        flags = 0;
+        };    
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_multi_control
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DLG_LINE r_bctestquery_multi_control
+    {
+    type = EAknExtCtMultilineQuery;
+    id = EMultilineFirstLine;
+    control = AVKON_DATA_QUERY
+        {
+        layout = EMultiDataFirstIpEd;
+        label = qtn_bctestquery_ip_query_label_text;
+        control = IP_FIELD_EDITOR
+            {
+            min_field_values = IP_FIELD
+                { 
+                first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                };
+            max_field_values = IP_FIELD
+                {
+                first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                };
+            flags = 0;
+            };
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_date_format_string
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_bctestquery_date_format
+    {
+    buf = qtn_bctestquery_date_format;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_duration_format
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_bctestquery_duration_format
+    {
+    buf = qtn_bctestquery_time_format;
+    }    
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_caption
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_bctestquery_caption
+    {
+    buf = qtn_bctestquery_query_caption;
+    }
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_number_format
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_bctestquery_number_format
+    {
+    buf = qtn_bctestquery_number_format;
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_time_format
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF40 r_bctestquery_time_format
+    {
+    buf = qtn_bctestquery_time_format;
+    }      
+    

@@ -1,0 +1,41 @@
+EXPORTS
+	??0CICLAnimationDataProvider@@QAE@XZ @ 1 NONAME ; CICLAnimationDataProvider::CICLAnimationDataProvider(void)
+	??1CAnimationGroup@@UAE@XZ @ 2 NONAME ; CAnimationGroup::~CAnimationGroup(void)
+	??1CBasicAnimation@@UAE@XZ @ 3 NONAME ; CBasicAnimation::~CBasicAnimation(void)
+	??1CICLAnimationDataProvider@@UAE@XZ @ 4 NONAME ; CICLAnimationDataProvider::~CICLAnimationDataProvider(void)
+	??1CSpriteAnimation@@UAE@XZ @ 5 NONAME ; CSpriteAnimation::~CSpriteAnimation(void)
+	?Animations@CAnimationGroup@@QAEAAV?$RPointerArray@VCAnimation@@@@XZ @ 6 NONAME ; class RPointerArray<class CAnimation> & CAnimationGroup::Animations(void)
+	?Animations@CAnimationGroup@@QBEABV?$RPointerArray@VCAnimation@@@@XZ @ 7 NONAME ; class RPointerArray<class CAnimation> const & CAnimationGroup::Animations(void) const
+	?CurrentFrame@CICLAnimationDataLoader@@QBEHXZ @ 8 NONAME ; int CICLAnimationDataLoader::CurrentFrame(void) const
+	?DataType@CICLAnimationDataProvider@@UAE?AVTPtrC8@@XZ @ 9 NONAME ; class TPtrC8 CICLAnimationDataProvider::DataType(void)
+	?Draw@CBasicAnimation@@QBEXAAVCWindowGc@@@Z @ 10 NONAME ; void CBasicAnimation::Draw(class CWindowGc &) const
+	?FrameCount@CICLAnimationDataLoader@@QBEHXZ @ 11 NONAME ; int CICLAnimationDataLoader::FrameCount(void) const
+	?FrameInfo@CICLAnimationDataLoader@@QBE?AVTFrameInfo@@H@Z @ 12 NONAME ; class TFrameInfo CICLAnimationDataLoader::FrameInfo(int) const
+	?GetNextFrameL@CICLAnimationDataLoader@@QAEXPAVCAnimationFrame@@@Z @ 13 NONAME ; void CICLAnimationDataLoader::GetNextFrameL(class CAnimationFrame *)
+	?LoadImageDataL@CICLAnimationDataLoader@@QAEXABV?$TBuf@$0BAA@@@@Z @ 14 NONAME ; void CICLAnimationDataLoader::LoadImageDataL(class TBuf<256> const &)
+	?NewL@CAnimationGroup@@SAPAV1@XZ @ 15 NONAME ; class CAnimationGroup * CAnimationGroup::NewL(void)
+	?NewL@CBasicAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@AAVRWsSession@@AAVRWindow@@ABVTDesC8@@PAVMAnimationObserver@@@Z @ 16 NONAME ; class CBasicAnimation * CBasicAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class RWsSession &, class RWindow &, class TDesC8 const &, class MAnimationObserver *)
+	?NewL@CBasicAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@AAVRWsSession@@AAVRWindow@@PAVMAnimationObserver@@@Z @ 17 NONAME ; class CBasicAnimation * CBasicAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class RWsSession &, class RWindow &, class MAnimationObserver *)
+	?NewL@CICLAnimationDataLoader@@SAPAV1@AAVRFs@@AAVMICLAnimationDataLoaderObserver@@@Z @ 18 NONAME ; class CICLAnimationDataLoader * CICLAnimationDataLoader::NewL(class RFs &, class MICLAnimationDataLoaderObserver &)
+	?NewL@CSpriteAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@AAVRWsSession@@AAVRWindow@@ABVTDesC8@@PAVMAnimationObserver@@@Z @ 19 NONAME ; class CSpriteAnimation * CSpriteAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class RWsSession &, class RWindow &, class TDesC8 const &, class MAnimationObserver *)
+	?NewL@CSpriteAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@AAVRWsSession@@AAVRWindow@@PAVMAnimationObserver@@@Z @ 20 NONAME ; class CSpriteAnimation * CSpriteAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class RWsSession &, class RWindow &, class MAnimationObserver *)
+	?SetFileL@CICLAnimationDataProvider@@QAEXAAVRFs@@ABV?$TBuf@$0BAA@@@@Z @ 21 NONAME ; void CICLAnimationDataProvider::SetFileL(class RFs &, class TBuf<256> const &)
+	?CAnimationDataProvider_Reserved1@CICLAnimationDataProvider@@MAEXXZ @ 22 NONAME ; void CICLAnimationDataProvider::CAnimationDataProvider_Reserved1(void)
+	?CAnimationDataProvider_Reserved2@CICLAnimationDataProvider@@MAEXXZ @ 23 NONAME ; void CICLAnimationDataProvider::CAnimationDataProvider_Reserved2(void)
+	?CAnimationGroup_Reserved1@CAnimationGroup@@MAEXXZ @ 24 NONAME ; void CAnimationGroup::CAnimationGroup_Reserved1(void)
+	?CAnimationGroup_Reserved2@CAnimationGroup@@MAEXXZ @ 25 NONAME ; void CAnimationGroup::CAnimationGroup_Reserved2(void)
+	?CICLAnimationDataProvider_Reserved1@CICLAnimationDataProvider@@MAEXXZ @ 26 NONAME ; void CICLAnimationDataProvider::CICLAnimationDataProvider_Reserved1(void)
+	?CICLAnimationDataProvider_Reserved2@CICLAnimationDataProvider@@MAEXXZ @ 27 NONAME ; void CICLAnimationDataProvider::CICLAnimationDataProvider_Reserved2(void)
+	?SetHostL@CSpriteAnimation@@UAEXPBVCCoeControl@@@Z @ 28 NONAME ; void CSpriteAnimation::SetHostL(class CCoeControl const *)
+	?CSpriteAnimation_Reserved2@CSpriteAnimation@@MAEXXZ @ 29 NONAME ; void CSpriteAnimation::CSpriteAnimation_Reserved2(void)
+	?CBasicAnimation_Reserved1@CBasicAnimation@@MAEXXZ @ 30 NONAME ; void CBasicAnimation::CBasicAnimation_Reserved1(void)
+	?CBasicAnimation_Reserved2@CBasicAnimation@@MAEXXZ @ 31 NONAME ; void CBasicAnimation::CBasicAnimation_Reserved2(void)
+	?NewL@CBasicAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@ABVTDesC8@@PAVMAnimationObserver@@PBVCCoeControl@@@Z @ 32 NONAME ; class CBasicAnimation * CBasicAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class TDesC8 const &, class MAnimationObserver *, class CCoeControl const *)
+	?NewL@CBasicAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@PAVMAnimationObserver@@PBVCCoeControl@@@Z @ 33 NONAME ; class CBasicAnimation * CBasicAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class MAnimationObserver *, class CCoeControl const *)
+	?NewL@CSpriteAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@ABVTDesC8@@PAVMAnimationObserver@@PBVCCoeControl@@@Z @ 34 NONAME ; class CSpriteAnimation * CSpriteAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class TDesC8 const &, class MAnimationObserver *, class CCoeControl const *)
+	?NewL@CSpriteAnimation@@SAPAV1@PAVCAnimationDataProvider@@ABVTPoint@@PAVMAnimationObserver@@PBVCCoeControl@@@Z @ 35 NONAME ; class CSpriteAnimation * CSpriteAnimation::NewL(class CAnimationDataProvider *, class TPoint const &, class MAnimationObserver *, class CCoeControl const *)
+	?Size@CSpriteAnimation@@QBE?AVTSize@@XZ @ 36 NONAME ; class TSize CSpriteAnimation::Size(void) const
+	?SetHostL@CBasicAnimation@@QAEXPBVCCoeControl@@@Z @ 37 NONAME ; void CBasicAnimation::SetHostL(class CCoeControl const *)
+
+
+

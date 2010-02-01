@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="UI Look and Feel">
+  <purpose>
+    Application infrastructure &amp;System GUI support. DLL plugin to UIKON framework, determines look and feel of Control Environment controls, implemented by customising the UI and replacing the Symbian supplied reference implementation.
+  </purpose>
+</relnotes>

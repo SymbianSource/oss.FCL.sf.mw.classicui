@@ -1,0 +1,33 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI12CTestSDKView @ 2 NONAME ; #<TI>#
+	_ZTI17CTestSDKContainer @ 3 NONAME ; #<TI>#
+	_ZTI23CTestSDKListsLBABDrawer @ 4 NONAME ; #<TI>#
+	_ZTI24CTestSDKListsLBSObserver @ 5 NONAME ; #<TI>#
+	_ZTI24TTestListBoxAnimBgDrawer @ 6 NONAME ; #<TI>#
+	_ZTI25CTestSDKColumnListBoxData @ 7 NONAME ; #<TI>#
+	_ZTI25CTestSDKListsLBICObserver @ 8 NONAME ; #<TI>#
+	_ZTI25CTestSDKListsLBTextEditor @ 9 NONAME ; #<TI>#
+	_ZTI25CTestSDKListsTLItemDrawer @ 10 NONAME ; #<TI>#
+	_ZTI26CTestSDKListsColumnListBox @ 11 NONAME ; #<TI>#
+	_ZTI27CTestSDKListsListItemDrawer @ 12 NONAME ; #<TI>#
+	_ZTI31CTestSDKListsMarkableListDialog @ 13 NONAME ; #<TI>#
+	_ZTI32CTestSDKListsColumnListBoxEditor @ 14 NONAME ; #<TI>#
+	_ZTI32CTestSDKListsSelectionListDialog @ 15 NONAME ; #<TI>#
+	_ZTI33CTestSDKListsFormattedCellListBox @ 16 NONAME ; #<TI>#
+	_ZTV12CTestSDKView @ 17 NONAME ; #<VT>#
+	_ZTV17CTestSDKContainer @ 18 NONAME ; #<VT>#
+	_ZTV23CTestSDKListsLBABDrawer @ 19 NONAME ; #<VT>#
+	_ZTV24CTestSDKListsLBSObserver @ 20 NONAME ; #<VT>#
+	_ZTV24TTestListBoxAnimBgDrawer @ 21 NONAME ; #<VT>#
+	_ZTV25CTestSDKColumnListBoxData @ 22 NONAME ; #<VT>#
+	_ZTV25CTestSDKListsLBICObserver @ 23 NONAME ; #<VT>#
+	_ZTV25CTestSDKListsLBTextEditor @ 24 NONAME ; #<VT>#
+	_ZTV25CTestSDKListsTLItemDrawer @ 25 NONAME ; #<VT>#
+	_ZTV26CTestSDKListsColumnListBox @ 26 NONAME ; #<VT>#
+	_ZTV27CTestSDKListsListItemDrawer @ 27 NONAME ; #<VT>#
+	_ZTV31CTestSDKListsMarkableListDialog @ 28 NONAME ; #<VT>#
+	_ZTV32CTestSDKListsColumnListBoxEditor @ 29 NONAME ; #<VT>#
+	_ZTV32CTestSDKListsSelectionListDialog @ 30 NONAME ; #<VT>#
+	_ZTV33CTestSDKListsFormattedCellListBox @ 31 NONAME ; #<VT>#
+

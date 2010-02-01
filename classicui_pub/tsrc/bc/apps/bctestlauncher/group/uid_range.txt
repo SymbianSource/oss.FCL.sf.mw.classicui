@@ -1,0 +1,27 @@
+(1)
+0x20004742 - 0x2000474B
+
+(2)
+0x200045C7 - 0x200045D0
+
+(3)
+0x20004757 - 0x2000476A
+
+(4) dom5.0
+0xA000409E - 0xA00040A9, 0xA00040AD
+
+(5) mix3.2
+0xA00040AA
+
+(6) mix50
+0xA00040AB
+
+(7) dommix50
+0xA00040AC
+
+(7) bcmutildriver
+0xA00040AE
+
+Note: the first 2 UIDs in range (1)
+are reserved for frameworks and laucher
+itself

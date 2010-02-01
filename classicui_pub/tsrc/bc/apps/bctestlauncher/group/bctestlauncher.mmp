@@ -1,0 +1,96 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         This is project specification file for the BCTestLauncher.
+*
+*/
+
+
+
+
+
+
+
+
+
+
+
+TARGET          bctestlauncher.exe
+TARGETTYPE      exe
+UID             0x0 0x20004743
+
+EPOCSTACKSIZE   0x10000
+EPOCHEAPSIZE    0x10000 0x1000000
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent\
+                UserEnvironment
+    
+TARGETPATH      sys/bin
+    
+START RESOURCE  bctestlauncher.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+LANG     01
+
+SYSTEMINCLUDE   /epoc32/include 
+SOURCEPATH      ../src
+
+SOURCE          bctestlauncherapp.cpp 
+SOURCE          bctestlauncherappui.cpp
+SOURCE          bctestlauncherdocument.cpp
+SOURCE          bctestlaunchercontainer.cpp
+SOURCE          bctestlauncherview.cpp
+SOURCE          bctestapplication.cpp
+SOURCE          bctestrunner.cpp
+SOURCE          bcteststrmlogger.cpp
+SOURCE          bctestconf.cpp  
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../bctestutil/inc
+
+
+
+LIBRARY         EUSER.LIB   
+LIBRARY         WS32.LIB
+LIBRARY         CONE.LIB
+LIBRARY         EIKCORE.LIB 
+LIBRARY         AVKON.LIB
+LIBRARY         APPARC.LIB
+LIBRARY         eikcoctl.lib
+LIBRARY         efsrv.lib
+LIBRARY	        apgrfx.lib
+LIBRARY         commonengine.lib
+LIBRARY         CentralRepository.lib
+LIBRARY         bafl.lib
+LIBRARY         sysutil.lib
+LIBRARY         estor.lib 
+
+START RESOURCE  ../group/bctestlauncher_reg.rss
+DEPENDS bctestlauncher.rsg
+HEADER
+TARGETPATH      /private/10003a3f/apps
+END
+
+// Creates Mbm file.
+START BITMAP    bctestlauncher_aif.mbm
+HEADER
+TARGETPATH      /resource/apps
+sourcepath      ../aif
+source          c8 bctestlaunchericon.bmp
+source          c8 bctestlaunchericonmask.bmp
+end
+

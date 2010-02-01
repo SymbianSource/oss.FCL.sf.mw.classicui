@@ -1,0 +1,55 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:        
+*       Find Utilities provides generic find implementation
+*
+*/
+
+
+
+
+
+
+
+
+
+#include <platform_paths.hrh>
+
+TARGET          findutil.dll
+TARGETTYPE      DLL
+UID             0x1000008d 0x10005A19
+
+CAPABILITY      CAP_GENERAL_DLL
+VENDORID        VID_DEFAULT
+
+USERINCLUDE     . ../inc
+
+// This is a SYSTEMINCLUDE macro containing the middleware
+// layer specific include directories
+MW_LAYER_SYSTEMINCLUDE
+
+SYSTEMINCLUDE   ../../../inc
+
+SOURCEPATH      ../src
+
+SOURCE          FindUtil.cpp
+SOURCE          FindUtilBase.cpp
+
+LIBRARY         euser.lib
+
+#if defined(WINS)
+LIBRARY         FeatMgr.lib
+#endif
+
+// end of file

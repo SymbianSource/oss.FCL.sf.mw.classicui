@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="eee99e99e18d4c50f0501d985b6c6424" dataversion="1.0">
+  <name>Uikon Core Controls</name>
+  <description>Uikon Core Controls API</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="2.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>
