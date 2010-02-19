@@ -2700,6 +2700,27 @@ public:
         CCoeControl* aControl );
     };
 
+
+/**
+ * Helper functions for Lists
+ * 
+ * @since S60 v5.2
+ */
+class AknListUtils
+    {
+public:
+    /** 
+     * Draws a separator line between list items.
+     * 
+     * @param aGc       Graphics context where separator is drawn to.
+     * @param aRect     Rectangle occupied by the item that is separated.
+     * @param aColor    Text color used in item. Separator is drawn with this
+     *                  color and additional alpha mask.
+     */
+    IMPORT_C static void DrawSeparator( CGraphicsContext& aGc, 
+        const TRect& aRect, const TRgb& aColor );
+    };
+
 #endif //  __AKNUTILS_H__
 
 // End of file

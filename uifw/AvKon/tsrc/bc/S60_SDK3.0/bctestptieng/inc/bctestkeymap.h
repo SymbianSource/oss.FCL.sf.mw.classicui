@@ -23,6 +23,7 @@
 
 class CPtiKeyMappings;
 class MPtiKeyMappings;
+class CPtiKeyMapData;
 
 /**
 * test case for various list classes
@@ -88,6 +89,7 @@ private: // constructor
 
 //data
 	CPtiKeyMappings* iMap;
+	CPtiKeyMapData* iKeymapData;
     };
 
 #endif // BCTEST_PTIENG_KEYMAP_H

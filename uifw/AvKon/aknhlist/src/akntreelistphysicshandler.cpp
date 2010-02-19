@@ -113,6 +113,38 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
         _AKNTRACE_FUNC_EXIT;
 	    return;
         }
+     
+    TBool listEmpty = iTree->VisibleItemCount() > 0 ? EFalse : ETrue;
+    TBool eventSent = EFalse;
+    
+    // empty area events
+    if ( aPointerEvent.iType == TPointerEvent::EButton1Up
+             && PointerOnEmptyArea( aPointerEvent.iPosition ) )
+        {
+        if ( listEmpty )
+            {
+            // no items, empty list was clicked
+            iTreeListView->ReportTreeListEvent( 
+                        MAknTreeListObserver::EEmptyListClicked,
+                        KAknTreeIIDNone );
+            eventSent = ETrue;
+            }
+        else if ( iDownOnEmptyArea )
+            {
+            // items exist, empty list area was clicked
+            iTreeListView->ReportTreeListEvent( 
+                        MAknTreeListObserver::EEmptyAreaClicked,
+                        KAknTreeIIDNone );
+            eventSent = ETrue;
+            }
+        }
+    
+    if ( listEmpty || eventSent )
+        {
+        // return always if list is empty or if empty area event was sent
+        _AKNTRACE_FUNC_EXIT;
+        return;
+        }   
     
     // Panning/flicking logic    
 
@@ -160,8 +192,8 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
             {
             iTree->EnableMarquee( EFalse );
             }
-           
-        iEmptyAreaClicked = EmptyAreaClicked( aPointerEvent.iPosition ); 
+            
+        iDownOnEmptyArea = PointerOnEmptyArea( aPointerEvent.iPosition );
         }
     
     // EDrag    
@@ -181,8 +213,9 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                 }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-            iPanningActivated = ETrue;
-            iEmptyAreaClicked = EFalse;        
+            iPanningActivated = ETrue;   
+            iDownOnEmptyArea = EFalse;
+  
             
             iHighlightTimer->Cancel();
             iItemToBeFocused = NULL;
@@ -321,23 +354,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
             {
             iTreeListView->SelectItem( iItemToBeSelected );
             iItemToBeSelected = NULL;
-            }
-
-        if ( iItemToBeSelected == NULL && iEmptyAreaClicked )
-            {
-            if ( iTree->VisibleItemCount() > 0 )
-                {
-                iTreeListView->ReportTreeListEvent( 
-                            MAknTreeListObserver::EEmptyAreaClicked,
-                            KAknTreeIIDNone );
-                }
-            else
-                {
-                iTreeListView->ReportTreeListEvent( 
-                            MAknTreeListObserver::EEmptyListClicked,
-                            KAknTreeIIDNone );                
-                }
-            }       
+            }      
         }
     
     // Item handling logic    
@@ -1136,11 +1153,11 @@ TInt CAknTreeListPhysicsHandler::WorldHeight()
 
 
 // ---------------------------------------------------------------------------
-// CAknTreeListPhysicsHandler::EmptyAreaClicked
+// CAknTreeListPhysicsHandler::PointerOnEmptyArea
 // ---------------------------------------------------------------------------
 //
-TBool CAknTreeListPhysicsHandler::EmptyAreaClicked( TPoint aPosition )
-    { 
+TBool CAknTreeListPhysicsHandler::PointerOnEmptyArea( TPoint aPosition )
+    {        
     if ( aPosition.iY <= WorldHeight() )
         {
         return EFalse;

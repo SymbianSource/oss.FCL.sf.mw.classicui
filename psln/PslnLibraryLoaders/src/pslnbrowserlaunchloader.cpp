@@ -20,7 +20,7 @@
 #include <w32std.h>
 #include <apgcli.h>
 #include <apgtask.h>
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 
 #include "pslnbrowserlaunchloader.h"
 #include "PslnConst.h"

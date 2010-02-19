@@ -18,7 +18,7 @@
 
 #include <f32file.h>
 #include <s32mem.h>
-#include <ImplementationProxy.h>
+#include <implementationproxy.h>
 #include "GameRecognizer.h"
 
 //

@@ -276,6 +276,8 @@ void CAknCapAppServerAppUi::ConstructL()
     User::SetCritical(User::ESystemCritical);
 
     InitiateOFNStatus();
+    
+    iEikonEnv->SetSystem( ETrue );
 
     // install default FEP if none set before
     if (iEikonEnv->FepUid() == KNullUid)

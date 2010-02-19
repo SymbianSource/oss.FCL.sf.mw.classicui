@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -3524,8 +3524,8 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                         case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
                         case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
                             {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 19 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 4 );
+                            parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
+                            line   = AknLayoutScalable_Avkon::status_pane( 1 );
                             break;
                             }
                             
@@ -3667,36 +3667,9 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {                    
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        if ( PenEnabled() )
-                            {
-                            // This is quite awkward but necessary since the fixed
-                            // toolbar area can be used by the application main pane
-                            // if the application doesn't use toolbar.
-                            TBool toolbarVisible( EFalse );
-                            if ( iAvkonAppUi )
-                                {
-                                CAknToolbar* fixedToolbar =
-                                    iAvkonAppUi->CurrentFixedToolbar();
-                                if ( fixedToolbar )
-                                    {
-                                    TInt toolbarFlags(  fixedToolbar->ToolbarFlags() );
-                                    if ( toolbarFlags & KAknToolbarFixed &&
-                                         !( toolbarFlags & KAknToolbarDefault ) &&
-                                         fixedToolbar->IsShown()  )
-                                        {
-                                        toolbarVisible = ETrue;
-                                        }
-                                    }
-                                }
-
-                            variety = toolbarVisible ? 21 : 4;
-                            }
-                        else
-                            {
-                            // main pane variety with 'area_top_pane' and 
-                            // 'area_bottom_pane' in landscape (without touch pane).
-                            variety = 9;             
-                            }                    
+                        // main pane variety with 'area_top_pane' and
+                        // 'area_bottom_pane' in landscape (without touch pane).
+                        variety = 9;
                         }
                     else
                         {
@@ -3761,7 +3734,27 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        variety = 21;
+                        // This is quite awkward but necessary since the fixed
+                        // toolbar area can be used by the application main pane
+                        // if the application doesn't use toolbar.
+                        TBool toolbarVisible( EFalse );
+                        if ( iAvkonAppUi )
+                            {
+                            CAknToolbar* fixedToolbar =
+                                iAvkonAppUi->CurrentFixedToolbar();
+                            if ( fixedToolbar )
+                                {
+                                TInt toolbarFlags( fixedToolbar->ToolbarFlags() );
+                                if ( toolbarFlags & KAknToolbarFixed &&
+                                     !( toolbarFlags & KAknToolbarDefault ) &&
+                                     fixedToolbar->IsShown()  )
+                                    {
+                                    toolbarVisible = ETrue;
+                                    }
+                                }
+                            }
+
+                        variety = toolbarVisible ? 21 : 4;
                         }
                     break;
                     }
@@ -6547,11 +6540,22 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
     TInt x = ( screen.Width() - aSize.iWidth ) >> 1;
     TInt y = screen.Height() - aSize.iHeight;
 
-    // Popups are centered on y-axis if screen orientation is landscape or
-    // softkeys are not visible.
-    if ( !aSoftkeysVisible || Layout_Meta_Data::IsLandscapeOrientation() )
+    if ( Layout_Meta_Data::IsLandscapeOrientation() )
         {
-        y >>= 1; 
+        // popups are centered on y-axis on landscape orientation
+        y >>= 1;
+        }
+    else
+        {
+        // On portrait popup is located on top of the control pane if it doesn't
+        // have softkeys visible.
+        if ( !aSoftkeysVisible )
+            {
+            TSize controlPane;
+            AknLayoutUtils::LayoutMetricsSize( AknLayoutUtils::EControlPane,
+                    controlPane );
+            y -= controlPane.iHeight;
+            }
         }
 
     return TPoint( x, y );
@@ -6579,6 +6583,28 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
     
     return Position( aSize, softkeys );
     }
+
+
+// -----------------------------------------------------------------------------
+// AknListUtils::DrawSeparator
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void AknListUtils::DrawSeparator( CGraphicsContext& aGc, 
+        const TRect& aRect, const TRgb& aColor )
+    {
+    aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
+    aGc.SetPenStyle( CGraphicsContext::ESolidPen );
+    TRgb color( aColor );
+    color.SetAlpha( 32 );
+    aGc.SetPenColor( color );
+    TRect lineRect( aRect );
     
+    TInt gap = AknLayoutScalable_Avkon::listscroll_gen_pane( 0 ).LayoutLine().it; 
+    lineRect.Shrink( gap, 0 );
+    lineRect.Move( 0, -1 );
+    aGc.DrawLine( TPoint( lineRect.iTl.iX, lineRect.iBr.iY ), 
+            TPoint( lineRect.iBr.iX, lineRect.iBr.iY ) );
+    }
+
 // End of file
 

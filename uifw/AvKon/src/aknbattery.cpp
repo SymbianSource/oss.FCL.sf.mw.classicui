@@ -352,17 +352,23 @@ EXPORT_C void CAknBatteryPane::Draw( const TRect& /*aRect*/ ) const
         return;
         }
 
-    if ( AknStatuspaneUtils::StaconPaneActive() )
+    // Don't allow normal background drawing if
+    // background is already drawn with a background drawer.
+    const MCoeControlBackground* backgroundDrawer = FindBackground();
+    if ( !backgroundDrawer )
         {
-        DrawInStaconPane( Rect() );
-        }
-    else if ( AknStatuspaneUtils::FlatLayoutActive() )
-        {
-        DrawInFlatStatusPane( Rect() );
-        }
-    else
-        {
-        DrawInNormalStatusPane( Rect() );
+        if ( AknStatuspaneUtils::StaconPaneActive() )
+            {
+            DrawInStaconPane( Rect() );
+            }
+        else if ( AknStatuspaneUtils::FlatLayoutActive() )
+            {
+            DrawInFlatStatusPane( Rect() );
+            }
+        else
+            {
+            DrawInNormalStatusPane( Rect() );
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1396,7 +1396,7 @@ EXPORT_C void CAknNavigationControlContainer::SizeChanged()
             // Volume popup's position must be set here.
             iNaviPaneControls->At( last )->iDecoratedControl->SetRect(
                 VolumePopupRect() );
-            if( last - 1 >= 0 )
+            if( last - 1 >= 0 && iNaviPaneControls->At( last - 1 ) )
             	{
             		iNaviPaneControls->At( last - 1 )->SetRect( rect );
             	}
@@ -1584,6 +1584,15 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         return;
         }
 
+    // Don't allow normal background drawing if
+    // background is already drawn with a background drawer.
+    TBool drawBackground( ETrue );
+    const MCoeControlBackground* backgroundDrawer = FindBackground();
+    if ( backgroundDrawer )
+        {
+        drawBackground = EFalse;
+        }
+
     CWindowGc& gc = SystemGc();
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
@@ -1607,7 +1616,8 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         // - Navi wipe is never used
         // - No offset in right, left or top
         //
-        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if ( drawBackground &&
+             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.SetPenStyle( CGraphicsContext::ENullPen );
             gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
@@ -1633,7 +1643,8 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         gc.SetBrushColor(
             AKN_LAF_COLOR( KStatusPaneBackgroundGraphicsColorUsual ) );
 
-        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if ( drawBackground &&
+             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.DrawRect( rect );
             }
@@ -1648,7 +1659,8 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         // - Navi wipe is never used
         // - No offset in right, left or top
         //
-        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if ( drawBackground &&
+             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.SetPenStyle( CGraphicsContext::ENullPen );
             gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
@@ -1748,40 +1760,43 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
     //
     else
         {
-        TBool naviWipeUsed = NaviWipeUsed();
-
-        TBool skinnedNaviWipeDrawn  = EFalse;
-        TBool skinnedNaviSolidDrawn = EFalse;
-        TBool defaultNaviWipeDrawn  = EFalse;
-        TBool defaultNaviSolidDrawn = EFalse;
-
-        // If naviwipe is to be used, try first skinned draw...
-        if ( naviWipeUsed )
+        if ( drawBackground )
             {
-            skinnedNaviWipeDrawn = DrawSkinnedNaviWipe( gc, rect, skin, cc );
-            }
+            TBool naviWipeUsed = NaviWipeUsed();
 
-        // If naviwipe is to be used and skinned draw failed,
-        // draw default wipe draw...
-        if ( naviWipeUsed && !skinnedNaviWipeDrawn )
-            {
-            defaultNaviWipeDrawn = DrawDefaultNaviWipe( gc, rect );
-            }
+            TBool skinnedNaviWipeDrawn  = EFalse;
+            TBool skinnedNaviSolidDrawn = EFalse;
+            TBool defaultNaviWipeDrawn  = EFalse;
+            TBool defaultNaviSolidDrawn = EFalse;
 
-        // If naviwipe is not to be drawn or the nawiwipe draws has failed for
-        // some reason then draw solid. Try skinned solid draw first...
-        if ( !skinnedNaviWipeDrawn && !defaultNaviWipeDrawn )
-            {
-            skinnedNaviSolidDrawn = DrawSkinnedNaviSolid( gc, rect, skin, cc );
-            }
+            // If naviwipe is to be used, try first skinned draw...
+            if ( naviWipeUsed )
+                {
+                skinnedNaviWipeDrawn = DrawSkinnedNaviWipe( gc, rect, skin, cc );
+                }
 
-        // If not any above is the case, then draw the default solid here.
-        if ( !skinnedNaviWipeDrawn &&
-             !defaultNaviWipeDrawn &&
-             !skinnedNaviSolidDrawn &&
-             !defaultNaviSolidDrawn )
-            {
-            defaultNaviSolidDrawn = DrawDefaultNaviSolid( gc, rect );
+            // If naviwipe is to be used and skinned draw failed,
+            // draw default wipe draw...
+            if ( naviWipeUsed && !skinnedNaviWipeDrawn )
+                {
+                defaultNaviWipeDrawn = DrawDefaultNaviWipe( gc, rect );
+                }
+
+            // If naviwipe is not to be drawn or the nawiwipe draws has failed for
+            // some reason then draw solid. Try skinned solid draw first...
+            if ( !skinnedNaviWipeDrawn && !defaultNaviWipeDrawn )
+                {
+                skinnedNaviSolidDrawn = DrawSkinnedNaviSolid( gc, rect, skin, cc );
+                }
+
+            // If not any above is the case, then draw the default solid here.
+            if ( !skinnedNaviWipeDrawn &&
+                 !defaultNaviWipeDrawn &&
+                 !skinnedNaviSolidDrawn &&
+                 !defaultNaviSolidDrawn )
+                {
+                defaultNaviSolidDrawn = DrawDefaultNaviSolid( gc, rect );
+                }
             }
         }
     }

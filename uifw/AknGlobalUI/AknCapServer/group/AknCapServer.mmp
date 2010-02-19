@@ -58,6 +58,7 @@ SOURCE          aknKeyFilter.cpp
 SOURCE          AknCapServerShutdown.cpp
 SOURCE          aknphonekeyforwarder.cpp
 SOURCE          akncapserverdiscreetpopuphandler.cpp
+SOURCE          aknslidestatusnotifier.cpp
 
 START RESOURCE  AknMemoryCardUi.rss
 HEADER

@@ -20,6 +20,7 @@
 
 #include <e32base.h>
 #include <eikmobs.h>
+#include <coemop.h>
 
 class MAknCollection;
 class MAknCollectionObserver;
@@ -65,6 +66,8 @@ NONSHARABLE_CLASS( CAknItemActionMenu ) : public CBase,
     {
 
 public:
+
+    DECLARE_TYPE_ID( 0x2002C344 )
 
     /**
      * Two-phased constructor.

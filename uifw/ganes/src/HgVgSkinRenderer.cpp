@@ -115,8 +115,7 @@ void CHgVgSkinRenderer::UpdateSkinL(const MObjectProvider* aProvider,
             VG_IMAGE_QUALITY_NONANTIALIASED);
     
     // handle out of memory
-    VGErrorCode error = vgGetError();
-    if (iSkinImage == VG_INVALID_HANDLE || error == VG_OUT_OF_MEMORY_ERROR)
+    if( iSkinImage == VG_INVALID_HANDLE )
         {
         User::Leave(KErrNoMemory);
         }

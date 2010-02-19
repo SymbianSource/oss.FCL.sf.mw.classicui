@@ -126,33 +126,33 @@ RESOURCE AVKON_CUSTOM_TEXT_CURSORS r_akn_custom_text_cursors
         AVKON_CUSTOM_TEXT_CURSOR
             {
             cursorId = KAknCustomTextCursorIdLeftToRight;
-            bmpId = EMbmAvkonQgn_indi_cursor_lr; 
+            bmpId = EMbmAvkonQgn_indi_cursor_lr_12; 
             // Mask is not defined as XOR mode drawing is desired.
-            drawMode = EAknCustomTextCursorDrawModeXOR;
+            drawMode =  EAknCustomTextCursorDrawModePEN;
             offsetX = -2;
             },
         AVKON_CUSTOM_TEXT_CURSOR
             {
             cursorId = KAknCustomTextCursorIdRightToLeft;
-            bmpId = EMbmAvkonQgn_indi_cursor_rl;
+            bmpId = EMbmAvkonQgn_indi_cursor_rl_12;
             // Mask is not defined as XOR mode drawing is desired.
-            drawMode = EAknCustomTextCursorDrawModeXOR;
+            drawMode =  EAknCustomTextCursorDrawModePEN;
             offsetX = -5;
             },
         AVKON_CUSTOM_TEXT_CURSOR
             {
             cursorId = KAknCustomTextCursorIdLeftToRightThin;
-            bmpId = EMbmAvkonQgn_indi_cursor_lr;
+            bmpId = EMbmAvkonQgn_indi_cursor_lr_12;
             // Mask is not defined as XOR mode drawing is desired.
-            drawMode = EAknCustomTextCursorDrawModeXOR;
+            drawMode =  EAknCustomTextCursorDrawModePEN;
             offsetX = -1;
             },
         AVKON_CUSTOM_TEXT_CURSOR
             {
             cursorId = KAknCustomTextCursorIdRightToLeftThin;
-            bmpId = EMbmAvkonQgn_indi_cursor_rl;
+            bmpId = EMbmAvkonQgn_indi_cursor_rl_12;
             // Mask is not defined as XOR mode drawing is desired.
-            drawMode = EAknCustomTextCursorDrawModeXOR;
+            drawMode =  EAknCustomTextCursorDrawModePEN;
             offsetX = -3;
             }
         };

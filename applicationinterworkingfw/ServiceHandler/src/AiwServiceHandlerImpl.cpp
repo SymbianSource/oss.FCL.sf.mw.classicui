@@ -21,7 +21,7 @@
 
 #include <eikenv.h>
 #include <aiwservicehandler.rsg>
-#include <EIKON.HRH>
+#include <eikon.hrh>
 #include "AiwMenuBinding.h"
 #include "AiwServiceHandlerImpl.h"
 #include "AiwMenu.h"

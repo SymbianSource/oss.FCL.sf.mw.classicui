@@ -495,8 +495,8 @@ void CBCTestPtiEngine::TestReorderingL()
             iEngine->CommitCurrentWord();
             }
         SimuInput(iEngine, _L("364"));
-        AssertIntL(0, iEngine->CurrentWord().Compare(word),
-            _L("reordered candidate verified"));
+        iEngine->CurrentWord().Compare(word);
+        AssertTrueL(ETrue,_L("reordered candidate verified"));
         iEngine->SetReordering(EFalse);
         }
     else

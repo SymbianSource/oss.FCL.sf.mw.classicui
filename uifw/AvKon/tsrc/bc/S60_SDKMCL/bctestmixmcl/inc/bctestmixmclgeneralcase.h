@@ -105,7 +105,13 @@ protected: // new functions
     /*
      * Test one function in class AknPopupUtils
      */
-    void TestAknPopupUtils();    
+    void TestAknPopupUtils();
+
+    /*
+     * Test one function in class AknListUtils
+     */
+    void TestAknListUtilsL(); 
+	    
     /*
      * Test new APIs in CAknToolbar
      */
@@ -126,7 +132,6 @@ protected: // new functions
      */
     void TestAknPhysicsResumePhysicsL();
     
-
     /*
      * Tests CBA APIs.
      */

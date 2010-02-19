@@ -43,11 +43,12 @@ static VGImage CreateNonMaskedVgImageL( const CFbsBitmap& aBitmap )
     {
     TSize size = aBitmap.SizeInPixels();    
     VGImage image = vgCreateImage(VG_sRGB_565, size.iWidth, size.iHeight,VG_IMAGE_QUALITY_NONANTIALIASED);        
-    VGErrorCode error = vgGetError();
-    if (image == VG_INVALID_HANDLE || error == VG_OUT_OF_MEMORY_ERROR)
+
+    if ( image == VG_INVALID_HANDLE )
         {
         User::Leave(KErrNoMemory);
         }
+    
     if (aBitmap.DisplayMode() == EColor64K && !aBitmap.IsCompressedInRAM())
         {
         aBitmap.BeginDataAccess();

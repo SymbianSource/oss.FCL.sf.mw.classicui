@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -16,7 +16,6 @@
 *
 *
 */
-
 
 #include "AknTransparentCameraSettingPage.h"
 
@@ -173,6 +172,15 @@ EXPORT_C void CAknTransparentCameraSettingPage::ConstructL()
     BaseConstructL( KAknSettingPageNoEmbeddedSoftKeys );
     
     SetDrawBackground(EFalse);  // Enable transparent drawing
+    if( CAknEnv::Static()->TransparencyEnabled() )
+        {
+        // try to enable window transparency
+        if ( Window().SetTransparencyAlphaChannel() == KErrNone )
+            {
+            Window().SetRequiredDisplayMode( EColor16MA );
+            Window().SetBackgroundColor( ~0 );
+            }
+        }
     
     GenerateInternalArrayAndGiveToListBoxL();
     
@@ -383,7 +391,9 @@ EXPORT_C void CAknTransparentCameraSettingPage::HandleListBoxEventL(CEikListBox*
             // Only in single click enabled applications.
             if ( iExtension &&
                  iExtension->iFlags.IsSet(
-                         CAknTransparentCameraSettingPageExtension::ESingleClickEnabled ) )
+                     CAknTransparentCameraSettingPageExtension::ESingleClickEnabled ) &&
+                 iCurrentSelectionIndex >= 0 &&
+                 iCurrentSelectionIndex < ListBoxControl()->Model()->NumberOfItems() )
                 {
                 ListBoxControl()->View()->SetCurrentItemIndex(
                     iCurrentSelectionIndex );
@@ -543,13 +553,6 @@ EXPORT_C void CAknTransparentCameraSettingPage::Draw(const TRect &/*aRect*/) con
                                            parentRect.iTl,
                                            parentRect,                                       
                                            KAknsDrawParamDefault);
-            }
-        else
-            {
-            gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
-            gc.SetPenStyle(CGraphicsContext::ENullPen);
-            gc.SetBrushColor(KRgbWhite);
-            gc.DrawRect (bgRect);
             }
         }
         

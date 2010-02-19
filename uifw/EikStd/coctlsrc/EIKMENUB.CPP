@@ -58,7 +58,7 @@
 #include <touchfeedback.h>
 #include <aknitemactionmenu.h>
 #include "aknitemactionmenuregister.h"
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "akntrace.h"
 
 enum { EEikMenuBarTitleArrayGranularity=10 };
@@ -425,7 +425,6 @@ inline TBool CEikMenuBar::MenuHasItems() const
 inline void CEikMenuBar::SetMenuHasItems()
     {
     iMenuFlags|=EMenuHasItems;
-    iExt->StoreCollectionHighlightValue();
     }
 
 inline TBool CEikMenuBar::MenuHasPane() const
@@ -649,7 +648,7 @@ void CEikMenuBar::SaveCurrentMenuPositionL()
     SPosition menuPos;
     menuPos.iMenuId = iMenuTitleResourceId;
     menuPos.iMenuCursorPos = iCursor;
-    iPastMenuPosArray->AppendL(&menuPos, sizeof(menuPos));
+    iPastMenuPosArray->AppendL(menuPos);
     }
 
 void CEikMenuBar::SetCursorPositionFromArray()
@@ -958,6 +957,8 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         iMenuPane->Close();
         return;
         }
+
+    iExt->StoreCollectionHighlightValue(); 
 
     if (!(iMenuFlags&EBackgroundFaded))
         {

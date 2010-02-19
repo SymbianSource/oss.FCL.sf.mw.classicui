@@ -571,6 +571,10 @@ EXPORT_C CAknSettingPage::~CAknSettingPage()
 	{
 	AKNTASHOOK_REMOVE();
 
+    StopActiveScheduler();
+
+    // If navi pane context is not poped out yet, pop it now.
+	PopNaviDecoratorIfRequired();
     if ( GfxTransEffect::IsRegistered( this ) )
         {
         GfxTransEffect::Deregister( this );
@@ -593,12 +597,9 @@ EXPORT_C CAknSettingPage::~CAknSettingPage()
 	delete iHintText;
 	delete iCba;
 	delete iExtension;
+    iExtension = NULL;
 
-    // If navi pane context is not poped out yet, pop it now.
-	PopNaviDecoratorIfRequired();
 	delete iNaviDecorator;
-
-	StopActiveScheduler();
 	}
 
 void CAknSettingPage::StopActiveScheduler()
@@ -778,9 +779,6 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	{
 	CreateWindowL();
 
-	SetGloballyCapturing( ETrue );
-    SetPointerCapture(ETrue);
-
     if( NULL == iExtension )
         {
         iExtension = CAknSettingPageExtension::NewL( this );
@@ -894,6 +892,12 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	        }
 	    }
 	
+	if(iExtension->iEmbeddedSoftkeys)
+		{
+		SetGloballyCapturing( ETrue );
+    	SetPointerCapture(ETrue);	
+		}
+
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( this );
 
 	if ( !iExtension->iEmbeddedSoftkeys )
@@ -2088,6 +2092,10 @@ EXPORT_C TTypeUid::Ptr CAknSettingPage::MopSupplyObject(TTypeUid aId)
         {
         return SupplyMopObject( aId, iExtension->iEditIndicator );
         }
+    else if( aId.iUid == MAknsControlContext::ETypeId)
+        {
+        return MAknsControlContext::SupplyMopObject(aId, iExtension->iSettingPageBgContext);
+        } 
 
     return SupplyMopObject( aId, iCba, iMenuBar );
 	}
@@ -2151,7 +2159,7 @@ TRect CAknSettingPage::SettingItemContentRect( TBool aScrollBarUsed )
 
 void CAknSettingPage::PopNaviDecoratorIfRequired()
     {
-    if ( iNaviPane && !iExtension->iEmbeddedSoftkeys )
+    if ( iNaviPane && iExtension && !iExtension->iEmbeddedSoftkeys )
         {
         iNaviPane->Pop( iNaviDecorator ); // iNaviDecorator is not to be detroyed yet
 

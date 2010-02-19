@@ -36,6 +36,7 @@
 #include <PtiDefs.h>
 #include <e32property.h>
 
+#include "akntrace.h"
 
 // CLASS DECLARATIONS
 
@@ -220,7 +221,9 @@ GLDEF_C void Panic(TAknEcsPanicCodes aPanic)
 CAknMatchingCharacterQueue::CAknMatchingCharacterQueue( CPhCltEmergencyCall* aPhCltEmergencyCall ) 
         : iPhCltEmergencyCall( aPhCltEmergencyCall )
     {
+    _AKNTRACE_FUNC_ENTER;
     Reset();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 CAknMatchingCharacterQueue::~CAknMatchingCharacterQueue( )
@@ -233,12 +236,18 @@ void CAknMatchingCharacterQueue::ConstructL()
 
 void CAknMatchingCharacterQueue::Reset()
     {
+    _AKNTRACE_FUNC_ENTER;
     iMatchPosition = 0;
     iCharBuffer.Zero();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknMatchingCharacterQueue::AddChar( TText aNewChar )
     {    
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aNewChar: %s", "CAknMatchingCharacterQueue", 
+        		__FUNCTION__,&aNewChar);
+    
     TInt length = iCharBuffer.Length();
     TInt maxLenght = iCharBuffer.MaxLength();
     if (length >= maxLenght)
@@ -247,10 +256,15 @@ void CAknMatchingCharacterQueue::AddChar( TText aNewChar )
         }
     iCharBuffer.Append( aNewChar );
     UpdateStatus( EFalse );
+    _AKNTRACE_FUNC_ENTER;
     }
 
 void CAknMatchingCharacterQueue::SetBuffer( const TDesC& aNewBuffer )
     {    
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aNewBuffer: %s", "CAknMatchingCharacterQueue", 
+            		__FUNCTION__,&aNewBuffer);
+    
     TInt maxLenght = iCharBuffer.MaxLength();
     TInt length = aNewBuffer.Length();
     if ( length > maxLenght )
@@ -259,6 +273,7 @@ void CAknMatchingCharacterQueue::SetBuffer( const TDesC& aNewBuffer )
         }
     iCharBuffer = aNewBuffer.Left( length );
     UpdateStatus( ETrue );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CAknMatchingCharacterQueue::Count() const
@@ -283,6 +298,7 @@ TInt CAknMatchingCharacterQueue::IndexOfCurrentMatch() const
 
 void CAknMatchingCharacterQueue::UpdateStatus( TBool aBufferMode )
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool isEmergency = EFalse;
     TInt err = KErrNone;
     TPhCltTelephoneNumber buffer = iCharBuffer;
@@ -313,6 +329,10 @@ void CAknMatchingCharacterQueue::UpdateStatus( TBool aBufferMode )
         iMatchPosition = cbLength;
         iStatus = ENoMatch;
         }
+    
+    _AKNTRACE( "[%s][%s] iStatus: %d", "CAknMatchingCharacterQueue", 
+                		__FUNCTION__,iStatus );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -325,12 +345,15 @@ void CAknMatchingCharacterQueue::UpdateStatus( TBool aBufferMode )
 
 EXPORT_C CAknEcsDetector::CAknEcsDetector()
     {
+    _AKNTRACE_FUNC_ENTER;
     iCoeEnv = CCoeEnv::Static();
     iState = ENotFullyConstructed;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknEcsDetector::~CAknEcsDetector()
     {
+    _AKNTRACE_FUNC_ENTER;
     // Must close this in order to remove any observers from the AppUi's monitor
     CloseEventSource();
     delete iPhCltEmergencyCall;
@@ -338,10 +361,12 @@ EXPORT_C CAknEcsDetector::~CAknEcsDetector()
     delete iQueue;
     delete iIdler;
     delete iKeyTimeoutTimer;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknEcsDetector::ConstructL()
     {
+    _AKNTRACE_FUNC_ENTER;
     iEmergencyCallObserver = new (ELeave) CPhCltEmergencyCallObserver( this );
     // Phone client interface
     iPhCltEmergencyCall = CPhCltEmergencyCall::NewL( iEmergencyCallObserver );
@@ -355,14 +380,17 @@ EXPORT_C void CAknEcsDetector::ConstructL()
 
     // Timer for timing the timeout between keys
     iKeyTimeoutTimer = CPeriodic::NewL( CActive::EPriorityLow);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknEcsDetector* CAknEcsDetector::NewL()
     { // static
+    _AKNTRACE_FUNC_ENTER;
     CAknEcsDetector* self = new (ELeave) CAknEcsDetector();
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop(); //self
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -392,6 +420,10 @@ EXPORT_C void CAknEcsDetector::CloseEventSource()
 
 EXPORT_C void CAknEcsDetector::HandleWsEventL(const TWsEvent& aEvent, CCoeControl* /* aDestination  */)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aEvent.type(): %d, aEvent.Key()->iScanCode :%d", "CAknEcsDetector", 
+                            		__FUNCTION__,aEvent.Type(),aEvent.Key()->iScanCode );
+    
     if ( aEvent.Type() == EEventKeyDown || 
     // EKeyPhoneEnd/EKeyNo doesn't send EEVentKeyDown events, so EEventKey is used instead
     ( ( aEvent.Key()->iScanCode == EStdKeyNo ) && ( aEvent.Type() == EEventKey ) ) 
@@ -399,16 +431,29 @@ EXPORT_C void CAknEcsDetector::HandleWsEventL(const TWsEvent& aEvent, CCoeContro
         {
         AddChar( (TText)(aEvent.Key()->iScanCode ) ); // top 16 ( in Unicode build) bits removed
         }    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 EXPORT_C void CAknEcsDetector::AddChar( TText aNewChar )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aNewChar: %s", "CAknEcsDetector", 
+                                		__FUNCTION__, &aNewChar );
+    
+    if (aNewChar == EKeyQwertyOn || aNewChar == EKeyQwertyOff)
+    	{ 
+        _AKNTRACE_FUNC_EXIT;
+    	return;   // return directly if the aNewChar is slide open/closed.
+    	}
+
     iKeyTimeoutTimer->Cancel(); // there might be pending timeout; clear it
     if ( aNewChar == EStdKeyYes || aNewChar ==EKeyPhoneSend )
         {
         if ( State() == ECompleteMatch )
             {
+            _AKNTRACE( "[%s][%s] SetState( ECompleteMatchThenSendKey )", "CAknEcsDetector", 
+                                            		__FUNCTION__ );
             SetState( ECompleteMatchThenSendKey );
             }
         // else do nothing with it...
@@ -518,11 +563,13 @@ EXPORT_C void CAknEcsDetector::AddChar( TText aNewChar )
         DetermineState();
         iKeyTimeoutTimer->Start( KEcsInterKeyTimeout, KEcsInterKeyTimeout, TCallBack( CancelMatch, this ) );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAknEcsDetector::DetermineState()
     {
+    _AKNTRACE_FUNC_ENTER;
     TState bestState = ENoMatch;
 
     if ( iQueue->Count() == 0 )
@@ -547,6 +594,9 @@ void CAknEcsDetector::DetermineState()
             }
         SetState(bestState);
         }
+    _AKNTRACE( "[%s][%s] bestState: %d", "CAknEcsDetector", 
+                                    		__FUNCTION__, bestState );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknEcsDetector::ReportEvent(TState aNewState )
@@ -574,19 +624,29 @@ EXPORT_C CAknEcsDetector::TState CAknEcsDetector::State()
     }
 EXPORT_C void CAknEcsDetector::SetBuffer( const TDesC& aNewBuffer )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aNewBuffer: %s", "CAknEcsDetector", 
+                                        		__FUNCTION__, &aNewBuffer );
+        
     iKeyTimeoutTimer->Cancel(); // there might be pending timeout; clear it
     iQueue->Reset();
     iQueue->SetBuffer(aNewBuffer);
     DetermineState();
     if ( State() == ECompleteMatch )
         {
+        _AKNTRACE( "[%s][%s] State() == ECompleteMatch ", "CAknEcsDetector", 
+                                                		__FUNCTION__ );
         iKeyTimeoutTimer->Start( KEcsInterKeyTimeout,
             KEcsInterKeyTimeout, TCallBack( CancelMatch, this ) );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknEcsDetector::SetState( TState aNewState )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aNewState: %d", "CAknEcsDetector", 
+                                            		__FUNCTION__, aNewState );
     ReportEvent( aNewState );
 
     TInt oldState = iState;
@@ -611,10 +671,13 @@ EXPORT_C void CAknEcsDetector::SetState( TState aNewState )
                 proceedWithCall = OfferEmergencyCall();
                 if ( proceedWithCall )
                     {
+                    _AKNTRACE( "[%s][%s] Attempt Emergency Call", "CAknEcsDetector", 
+                                                                		__FUNCTION__);
                     AttemptEmergencyCall();
                     }
                 else
                     {  // Pass through this state immediately
+                    _AKNTRACE( "[%s][%s] Reset", "CAknEcsDetector", __FUNCTION__);
                     iQueue->Reset();
                     SetState( EEmpty );
                     }
@@ -625,12 +688,15 @@ EXPORT_C void CAknEcsDetector::SetState( TState aNewState )
             break;
 
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknEcsDetector::Reset()
     {
+    _AKNTRACE_FUNC_ENTER;
     iQueue->Reset();
     SetState( EEmpty );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -657,6 +723,7 @@ void CAknEcsDetector::RelinquishCapturedKeys()
 
 void CAknEcsDetector::AttemptEmergencyCall()
     {
+    _AKNTRACE_FUNC_ENTER;
 #ifdef AVKON_RDEBUG_INFO
     _LIT(KDebugAttemptEmergencyCall, "Attempt Emergency Call From Detector");
     RDebug::Print(KDebugAttemptEmergencyCall);
@@ -668,6 +735,7 @@ void CAknEcsDetector::AttemptEmergencyCall()
         {
         err = KErrNone;
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknEcsDetector::SetObserver( MAknEcsObserver* aObserver )
@@ -690,18 +758,22 @@ void CAknEcsDetector::HandlePhoneStatusL( const TInt /* aStatus */ )
     */
 TInt CAknEcsDetector::CallAttemptedCallback(TAny* aSelf)
     { // static
+    _AKNTRACE_FUNC_ENTER;
     REINTERPRET_CAST(CAknEcsDetector*,aSelf)->SetState( ECallAttempted );
 #ifdef AVKON_RDEBUG_INFO
     _LIT(KDebugCallAttemptedCallback, "CallAttemptedCallback");
     RDebug::Print(KDebugCallAttemptedCallback);
 #endif
+    _AKNTRACE_FUNC_EXIT;
     return 0;
     }
 
 TInt CAknEcsDetector::CancelMatch(TAny* aThis)
     {
+    _AKNTRACE_FUNC_ENTER;
     static_cast<CAknEcsDetector*>(aThis)->Reset();
     static_cast<CAknEcsDetector*>(aThis)->iKeyTimeoutTimer->Cancel();
+    _AKNTRACE_FUNC_EXIT;
     return 0; // Do not repeat the operation
     }
 

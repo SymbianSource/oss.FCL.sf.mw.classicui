@@ -246,6 +246,12 @@ public:
      */
 	IMPORT_C void SetInvalidTextL(const TDesC &aInvalidText);
 
+    /**
+     * Closes the selection list 
+     *
+     *  @since v5.2 
+     */
+    IMPORT_C void CloseSelectionListL();
 
 public: // from CCoeControl
 

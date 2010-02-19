@@ -94,6 +94,8 @@ LIBRARY         touchfeedback.lib
 
 LIBRARY         aknphysics.lib
 
+LIBRARY         aknnotify.lib
+
 DEFFILE         EIKDLG.DEF
 
 START WINS

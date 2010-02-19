@@ -226,7 +226,8 @@ void CFormattedCellListBoxItemDrawer::DrawItemText( TInt aItemIndex,
     colors.iHighlightedText=iHighlightedTextColor;
     colors.iHighlightedBack=iHighlightedBackColor;
 
-    DrawBackgroundAndSeparatorLines( aItemTextRect );
+    DrawBackgroundAndSeparatorLines( aItemTextRect, 
+            aItemIndex != FormattedCellData()->ListBox()->BottomItemIndex() );
    
     TBool highlightShown = ETrue;
     
@@ -1344,7 +1345,8 @@ EXPORT_C void CFormattedCellListBoxItemDrawer::CFormattedCellListBoxItemDrawer_R
     {
     }
 
-void CFormattedCellListBoxItemDrawer::DrawBackgroundAndSeparatorLines( const TRect& aItemTextRect ) const
+void CFormattedCellListBoxItemDrawer::DrawBackgroundAndSeparatorLines( 
+        const TRect& aItemTextRect, TBool aDrawSeparator ) const
     {
     MAknsSkinInstance *skin = AknsUtils::SkinInstance();
     CCoeControl* control = FormattedCellData()->Control();
@@ -1414,6 +1416,12 @@ void CFormattedCellListBoxItemDrawer::DrawBackgroundAndSeparatorLines( const TRe
             transApi->StopDrawing();
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+        if ( aDrawSeparator && 
+            static_cast<CEikListBox*>( control )->ItemsInSingleLine() == 1 )
+            {
+            AknListUtils::DrawSeparator( *iGc, aItemTextRect, iTextColor );
+            }
         }
     }
 

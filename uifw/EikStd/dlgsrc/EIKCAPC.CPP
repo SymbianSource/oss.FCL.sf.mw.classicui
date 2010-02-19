@@ -80,7 +80,7 @@
 #include <aknmfnecommandobserver.h>
 #endif //if defined( RD_SCALABLE_UI_V2)
 
-
+#include "akntrace.h"
 
 GLREF_C void Panic(TEikDialogPanic aPanic);
 
@@ -394,20 +394,24 @@ CEikCapCExtension::CEikCapCExtension() :
 	iIdleData(NULL),
     iPartiallyVisible( EFalse )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iAvkonAppUi )
         {
         iUsesSingleClick = iAvkonAppUi->IsSingleClickCompatible();
         }
+    _AKNTRACE_FUNC_EXIT;
     };
 
 CEikCapCExtension::~CEikCapCExtension()
     {
+    _AKNTRACE_FUNC_ENTER;
     // Remember to unacquire animation
     if( iAnimation && iSelf )
         {
         if( iSelf->iDialogPage )
             iSelf->iDialogPage->AcquireAnim( EFalse, this );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCapCExtension::IsHighlightAnimated() const
@@ -424,6 +428,7 @@ TBool CEikCapCExtension::IsHighlightAnimated() const
 
 void CEikCapCExtension::SkinChanged()
     {
+    _AKNTRACE_FUNC_ENTER;
     iAnimation = NULL;
     if( iSelf->iDialogPage )
         iAnimation = iSelf->iDialogPage->AcquireAnim( ETrue, this );
@@ -432,10 +437,12 @@ void CEikCapCExtension::SkinChanged()
         {
         iAnimation->SetHighlightSize( iSelf->Rect().Size() );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCapCExtension::HandleLayoutSwitch( const TSize& aSize )
     {
+    _AKNTRACE_FUNC_ENTER;
     if( iAnimation )
         {
         if( iAnimation->Size() == aSize )
@@ -449,6 +456,7 @@ void CEikCapCExtension::HandleLayoutSwitch( const TSize& aSize )
             iAnimation->SetHighlightSize( aSize );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCapCExtension::AnimFrameReady()
@@ -589,6 +597,7 @@ private:
 */
 void CEikCaptionedControlFormHighlightLine::Draw(const TRect& /*aRect*/) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
     TBool drawn = EFalse;
 
@@ -658,6 +667,7 @@ void CEikCaptionedControlFormHighlightLine::Draw(const TRect& /*aRect*/) const
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     };
 
 
@@ -698,6 +708,7 @@ void CEikCaptionedControlFormHighlightLine::ConstructL()
 
 TBool CEikCaptionedControlFormHighlightLine::DrawingSkins() const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool drawingSkins = EFalse;
     if ( AknsUtils::AvkonSkinEnabled() )
         {
@@ -706,17 +717,21 @@ TBool CEikCaptionedControlFormHighlightLine::DrawingSkins() const
         CWindowGc& gc = SystemGc();
         drawingSkins = AknsDrawUtils::Background( skin, cc, this, gc, Rect(), KAknsDrawParamPrepareOnly ); 
         }
+    _AKNTRACE_FUNC_EXIT;
     return drawingSkins;
     }
 
 EXPORT_C CEikCaptionedControl::CEikCaptionedControl() : iHasAppendedEditIndicator(EFalse)
     {
+    _AKNTRACE_FUNC_ENTER;
     iNumberOfLines = 1 ;  // default starting value
     AKNTASHOOK_ADD( this, "CEikCaptionedControl" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CEikCaptionedControl::~CEikCaptionedControl()
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     AknsUtils::DeregisterControlPosition(this);
     AknsUtils::DeregisterControlPosition(iBitmap);
@@ -749,6 +764,7 @@ EXPORT_C CEikCaptionedControl::~CEikCaptionedControl()
   		delete iExtension->iIndicator2;
         }
     delete iExtension ; 
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CEikCaptionedControl::SetPointerEventObserver(MPointerEventObserver *aObserver)
@@ -792,12 +808,14 @@ TInt CEikCaptionedControl::PictographAnimationCallBack( TAny* aPtr )
 
 EXPORT_C TSize CEikCaptionedControl::MinimumSize()
     {
+    _AKNTRACE_FUNC_ENTER;
 // NTBD Add an extra line for those with the label on a separate 
     if ( iIsFormControl )
         {
         if (iControl->IsDimmed())
             {
             iSize = TSize( 0, 0) ; 
+            _AKNTRACE_FUNC_EXIT;
             return iSize;
             }
         // We can get the minimum size from the resource - and the size of the editor (EditorControlSize() in lines)
@@ -872,6 +890,7 @@ EXPORT_C TSize CEikCaptionedControl::MinimumSize()
         // ------------------------
 
         iSize = layout.Size();
+        _AKNTRACE_FUNC_EXIT;
         return ( iSize ) ;
         }
     else
@@ -948,6 +967,7 @@ EXPORT_C TSize CEikCaptionedControl::MinimumSize()
         if ( iDoNotDisplay )
             // This flag is set if the control is not to be shown - so set it's height to zero
             iMinSize.iHeight = 0 ;
+        _AKNTRACE_FUNC_EXIT;
        return(size);
         }
     }
@@ -959,6 +979,7 @@ EXPORT_C TSize CEikCaptionedControl::MinimumSize()
 */
 EXPORT_C void CEikCaptionedControl::SizeChanged()
     {
+    _AKNTRACE_FUNC_ENTER;
     // Resize the animation
     if( iIsFormControl && iExtension->iAnimation )
         {
@@ -1125,6 +1146,7 @@ EXPORT_C void CEikCaptionedControl::SizeChanged()
             mfne->SetSuppressBackgroundDrawing( EFalse );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1366,6 +1388,7 @@ EXPORT_C void CEikCaptionedControl::SetSpaceSharingFlags(TInt aFlags)
 
 static TInt IdleCallback(TAny *aAny)
 {
+	_AKNTRACE_FUNC_ENTER;
 	CIdleCallbackData *data = (CIdleCallbackData*)aAny;
 	CEikCapCExtension *ext = data->iExt;
 	CEikCaptionedControl *ctrl = data->iCtrl;
@@ -1378,11 +1401,13 @@ static TInt IdleCallback(TAny *aAny)
 	ext->iIdle = NULL;
 	delete data;
 	ext->iIdleData = NULL;
+	_AKNTRACE_FUNC_EXIT;
 	return EFalse;	
 }
 
 void CEikCaptionedControl::ScrollBackEditor()
 {
+_AKNTRACE_FUNC_ENTER;
         //
 		// For long single-line edwin, scroll horizontally to show beginning of the edwin
 		// when focus changes away from the edwin.
@@ -1397,10 +1422,12 @@ void CEikCaptionedControl::ScrollBackEditor()
 			iExtension->iIdle = CIdle::NewL(0);
 			iExtension->iIdle->Start(TCallBack(&IdleCallback, iExtension->iIdleData));
 			}	
+_AKNTRACE_FUNC_EXIT;
 }
 
 EXPORT_C void CEikCaptionedControl::FocusChanged(TDrawNow aDrawNow)
     {    
+    _AKNTRACE_FUNC_ENTER;
     // Only form controls need to adapt animation to focus changes.
     if( iExtension->iAnimation && iIsFormControl )
         {
@@ -1481,15 +1508,18 @@ EXPORT_C void CEikCaptionedControl::FocusChanged(TDrawNow aDrawNow)
 
     if (aDrawNow && iCapCFlags&EUsesEars && IsReadyToDraw())
         DrawEarsNow(EBothEars);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CEikCaptionedControl::DrawEarsNow(TWhichEars aEar) const
     {
+    _AKNTRACE_FUNC_ENTER;
     ActivateGc();
     DrawEars(aEar);
     DeactivateGc();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCaptionedControl::DrawEars(TWhichEars aEar) const
@@ -1557,15 +1587,17 @@ EXPORT_C CCoeControl* CEikCaptionedControl::ComponentControl(TInt aIndex) const
 
 EXPORT_C void CEikCaptionedControl::Draw(const TRect& aRect) const
     {   
+    _AKNTRACE_FUNC_ENTER;
     if (iIsFormControl )
         DrawAsForm( aRect );
     else
         DrawAsEikonDialog( aRect );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCaptionedControl::DrawAsForm( const TRect& aRect ) const
     {
-
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
 
     gc.SetPenStyle(CGraphicsContext::ENullPen);
@@ -1609,10 +1641,12 @@ void CEikCaptionedControl::DrawAsForm( const TRect& aRect ) const
         DrawAsFormInViewMode( aRect );
     else
         DrawAsFormUnFocusedLine( aRect );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCaptionedControl::DrawAsFormInEditMode( const TRect& /*aRect*/ ) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
 
     gc.SetPenStyle(CGraphicsContext::ENullPen);
@@ -1684,11 +1718,13 @@ void CEikCaptionedControl::DrawAsFormInEditMode( const TRect& /*aRect*/ ) const
     gc.SetBrushStyle( CGraphicsContext::ENullBrush ) ;
     gc.SetPenColor( line2Rect.Color() ) ;   
     gc.DrawRect(line2Rect.Rect());
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCaptionedControl::DrawAsFormInViewMode( const TRect& /*aRect*/ ) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
 
     gc.SetPenStyle(CGraphicsContext::ENullPen);
@@ -1749,10 +1785,12 @@ void CEikCaptionedControl::DrawAsFormInViewMode( const TRect& /*aRect*/ ) const
 
     gc.DrawLine(TPoint(iVerticalLineXPosition,Rect().iBr.iY-1),
         TPoint(iVerticalLineXPosition,Rect().iBr.iY+1));
+    _AKNTRACE_FUNC_EXIT;
     }
     
 void CEikCaptionedControl::DrawAsFormUnFocusedLine( const TRect& /*aRect*/ ) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
 
     gc.SetPenStyle(CGraphicsContext::ENullPen);
@@ -1791,6 +1829,7 @@ In fact I will hard code this until later.
         if (HasSeparator() && !atTopOfPage)
             DrawFormSeparator( gc );
         }
+    _AKNTRACE_FUNC_EXIT;
     } 
 
 
@@ -1817,6 +1856,7 @@ TAknsQsnTextColorsIndex CEikCaptionedControl::TextColorIndex() const
 
 void CEikCaptionedControl::DrawAsEikonDialog( const TRect& aRect ) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CWindowGc& gc=SystemGc();
     gc.SetPenStyle(CGraphicsContext::ENullPen);
 
@@ -1856,6 +1896,7 @@ void CEikCaptionedControl::DrawAsEikonDialog( const TRect& aRect ) const
 
     if (iCapCFlags&EUsesEars)
         DrawEars(EBothEars); 
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /*
@@ -1869,15 +1910,18 @@ TBool CEikCaptionedControl::HasSeparator() const
 
 EXPORT_C TKeyResponse CEikCaptionedControl::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( !iIsFormControl) 
         return iControl->OfferKeyEventL(aKeyEvent,aType);
     else if ( iIsFormControl && iIsEditable )
         {
         TKeyResponse retVal ;
         retVal = iControl->OfferKeyEventL( aKeyEvent, aType ) ;
+        _AKNTRACE_FUNC_EXIT;
         return retVal ;
         }
     else
+        _AKNTRACE_FUNC_EXIT;
         return EKeyWasNotConsumed ;
     }
 
@@ -1888,6 +1932,7 @@ EXPORT_C TCoeInputCapabilities CEikCaptionedControl::InputCapabilities() const
 
 EXPORT_C void CEikCaptionedControl::SetDimmed(TBool aDimmed)
     {
+    _AKNTRACE_FUNC_ENTER;
     CCoeControl::SetDimmed(aDimmed);
     if (iControl && iControl->IsVisible())
         {
@@ -1901,6 +1946,7 @@ EXPORT_C void CEikCaptionedControl::SetDimmed(TBool aDimmed)
         {
         iTrailer->SetDimmed(aDimmed);
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void* CEikCaptionedControl::ExtensionInterface( TUid /*aInterface*/ )
@@ -1910,11 +1956,13 @@ EXPORT_C void* CEikCaptionedControl::ExtensionInterface( TUid /*aInterface*/ )
 
 EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
+    _AKNTRACE_FUNC_ENTER;
     if (!IsNonFocusing())
         {
         TWhichEars ear=ENoEar;
         if (aPointerEvent.iType!=TPointerEvent::EButton1Down)
             {
+            _AKNTRACE("TPointerEvent::EButton1Down");
             if (iCapCFlags&ELeftEarGrab)
                 ear=ELeftEar;
             else if (iCapCFlags&ERightEarGrab)
@@ -1935,6 +1983,7 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
                     }
                 if (oldDrawFlags!=(iCapCFlags&(ELeftEarDown|ERightEarDown)))
                     DrawEarsNow(ear);
+                _AKNTRACE_FUNC_EXIT;
                 return;
                 }
             }
@@ -1948,6 +1997,7 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
             if (ear)
                 {
                 FireEarL(ear, KCapCInitialEarRepeat);
+                _AKNTRACE_FUNC_EXIT;
                 return;
                 }
             }
@@ -1962,6 +2012,7 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
             }
         else if(aPointerEvent.iType == TPointerEvent::EButton1Up)
             {
+            _AKNTRACE("TPointerEvent::EButton1Up");
             SetPressedDownState( EFalse );
             DrawDeferred();
             }       
@@ -1970,6 +2021,7 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
     if ( !iIsEditable && (ControlIsAnEdwin(iControlType) || ControlIsAMfne(iControlType))
        &&( iDialogPage && CEikDialogPage::EDouble == iDialogPage->FormLayout() ))
         {
+        _AKNTRACE_FUNC_EXIT;
 		return;
         }
 
@@ -2002,6 +2054,8 @@ void CEikCaptionedControl::FireEarL(TWhichEars aEar, TInt aEarRepeat)
 
 EXPORT_C void CEikCaptionedControl::SetCaptionL(const TDesC& aText)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aText = %s", &aText);    
     ConstructExtensionL() ; // One of several places where this is made
     if (!iCaption)
         {
@@ -2028,6 +2082,7 @@ iCaptionText should contain the whoel string.
         DoFormCaptionSettingsL(aText);
     else
         iCaption->SetTextL(aText);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CEikCaptionedControl::SetDrawNoWhiteBackground(TBool aEnabled)
@@ -2037,6 +2092,7 @@ EXPORT_C void CEikCaptionedControl::SetDrawNoWhiteBackground(TBool aEnabled)
 
 EXPORT_C void CEikCaptionedControl::SetTrailerL(const TDesC& aText)
     {
+    _AKNTRACE_FUNC_ENTER;
     if (!aText.Length())
         return;
     if (!iTrailer)
@@ -2049,6 +2105,8 @@ EXPORT_C void CEikCaptionedControl::SetTrailerL(const TDesC& aText)
         iTrailer->SetNonFocusing();
         }
     iTrailer->SetTextL(aText);
+    _AKNTRACE( "SetTextL = %s" , &aText); 
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CEikCaptionedControl::SetCurrent(TBool aSelected)
@@ -2058,6 +2116,7 @@ EXPORT_C void CEikCaptionedControl::SetCurrent(TBool aSelected)
 
 EXPORT_C void CEikCaptionedControl::ConstructFromResourceL(TResourceReader& aReader)
     {
+    _AKNTRACE_FUNC_ENTER;
     TPtrC capTextTPtrC = aReader.ReadTPtrC();
     iCaptionText = capTextTPtrC.AllocL();
     SetCaptionL(capTextTPtrC);
@@ -2135,6 +2194,7 @@ EXPORT_C void CEikCaptionedControl::ConstructFromResourceL(TResourceReader& aRea
         STATIC_CAST(CEikCaptionedControlFormHighlightLine*,iHighlightControl)->ConstructL() ;
         }
     ConstructExtensionL() ;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2177,9 +2237,11 @@ EXPORT_C void CEikCaptionedControl::CheckDimmedDisplayState()
 
 EXPORT_C void CEikCaptionedControl::ResetMinimumSizes()
     {
+	_AKNTRACE_FUNC_ENTER;
     iMinSize.iWidth=0;
     iCaptionWidth=0;
     iFullWidth=0;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TBool CEikCaptionedControl::IsLatent() const
@@ -2264,6 +2326,7 @@ EXPORT_C void CEikCaptionedControl::SetOfferHotKeys(TBool aOffer)
  */
 EXPORT_C void CEikCaptionedControl::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseList) const
     {
+    _AKNTRACE_FUNC_ENTER;
     CCoeControl::GetColorUseListL(aColorUseList);
 
     TCoeColorUse colorUse;
@@ -2274,6 +2337,7 @@ EXPORT_C void CEikCaptionedControl::GetColorUseListL(CArrayFix<TCoeColorUse>& aC
     const TInt count=CountComponentControls();
     for(TInt ii=0;ii<count;ii++)
         ComponentControl(ii)->GetColorUseListL(aColorUseList);  
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -2284,6 +2348,8 @@ EXPORT_C void CEikCaptionedControl::GetColorUseListL(CArrayFix<TCoeColorUse>& aC
  */
 EXPORT_C void CEikCaptionedControl::HandleResourceChange(TInt aType)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s][%d].", "CEikCaptionedControl", __FUNCTION__, aType );
     CCoeControl::HandleResourceChange(aType);
 
     // Animation is skin dependent, whenever skin changes animation changes
@@ -2307,6 +2373,7 @@ EXPORT_C void CEikCaptionedControl::HandleResourceChange(TInt aType)
             }
         DrawDeferred();
         }
+    _AKNTRACE_FUNC_EXIT;
    }
 
 
@@ -2382,6 +2449,8 @@ EXPORT_C void CEikCaptionedControl::MCoeCaptionRetrieverForFep_Reserved_2()
 
 EXPORT_C void CEikCaptionedControl::SetEditableL( TBool aEditable, TBool /*aShowEmptyFields*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "CEikCaptionedControl::SetEditableL() aEditable: [%d]", aEditable );
     // Construct extension object if needed
     ConstructExtensionL() ;
 
@@ -2456,6 +2525,7 @@ EXPORT_C void CEikCaptionedControl::SetEditableL( TBool aEditable, TBool /*aShow
 		if (IsReadyToDraw())
 			SizeChanged(); // needed because layout lines change when editable flag is switched.
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCaptionedControl::SetVertEdgeSpacing( TInt aVertEdgeSpacing ) 
@@ -2474,6 +2544,7 @@ void CEikCaptionedControl::SetHorzEdgeSpacing( TInt aHorzEdgeSpacing )
 
 void CEikCaptionedControl::PositionFormComponents()
     {
+    _AKNTRACE_FUNC_ENTER;
     if( iExtension->iPartiallyVisible )
         return;
     TBool isFocused = iIsCurrentLine;
@@ -2698,6 +2769,7 @@ width before the layout to after the layout).
         }
         
     TRAP_IGNORE( SetElementTextColorsL(TRgb()));
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCaptionedControl::ShowBitmap() const
@@ -2750,6 +2822,7 @@ TInt CEikCaptionedControl::NumberOfLinesForScrollBar() const
  */
 void CEikCaptionedControl::CalculateNumberOfLinesForControl( TInt aLines )
     {
+	_AKNTRACE_FUNC_ENTER;
     // NB if new control types are added, ones which should be invisible in view mode
     // should be also added to IsDisplayable().
     if ( aLines == ENotSupplied )
@@ -2805,6 +2878,8 @@ void CEikCaptionedControl::CalculateNumberOfLinesForControl( TInt aLines )
             }
         }
     iNumberOfLines = aLines ;
+    _AKNTRACE( "iNumberOfLines: [%d]", iNumberOfLines );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CEikCaptionedControl::SetFormFlags( TInt aFlags ) 
@@ -2929,9 +3004,12 @@ TBool CEikCaptionedControl::ControlIsAMfne(TInt aControlType) const
         case EAknCtUnitEditor:
             return ETrue;
         }
-    TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
-    if (typeOfControlToLayout==MEikDialogPageObserver::EMfneDerived)
-        return ETrue;
+    if (iDialogPage)
+        {
+	    TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
+        if (typeOfControlToLayout==MEikDialogPageObserver::EMfneDerived)
+            return ETrue;
+        }
     return EFalse;
     }
 
@@ -2964,9 +3042,12 @@ TBool CEikCaptionedControl::ControlIsASecretEditor(TInt aControlType) const
         case EAknCtNumericSecretEditor:
             return ETrue;
         }
-    TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
-    if (typeOfControlToLayout==MEikDialogPageObserver::ESecretEditorDerived)
-        return ETrue;
+    if (iDialogPage)
+        {
+        TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
+        if (typeOfControlToLayout==MEikDialogPageObserver::ESecretEditorDerived)
+            return ETrue;
+        }
     return EFalse;
     }
 
@@ -2979,9 +3060,12 @@ TBool CEikCaptionedControl::ControlIsASlider(TInt aControlType) const
         case EAknCtSlider :
             return ETrue;
         }
-    TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
-    if (typeOfControlToLayout==MEikDialogPageObserver::ESliderDerived)
-        return ETrue;
+    if (iDialogPage)
+        {
+        TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
+        if (typeOfControlToLayout==MEikDialogPageObserver::ESliderDerived)
+            return ETrue;
+        }
     return EFalse;
     }
 
@@ -3000,9 +3084,12 @@ TBool CEikCaptionedControl::ControlIsAColourSelGrid(TInt aControlType) const
         case EAknCtColourSelectionDialogNoneField:
             return ETrue;
         }
-    TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
-    if (typeOfControlToLayout==MEikDialogPageObserver::EColourSelectionGridDerived)
-        return ETrue;
+    if (iDialogPage)
+        {
+        TInt typeOfControlToLayout=iDialogPage->PageContainer()->PageSelector()->Dialg()->ConvertCustomControlTypeToBaseControlType(iControlType);
+        if (typeOfControlToLayout==MEikDialogPageObserver::EColourSelectionGridDerived)
+            return ETrue;
+        }
     return EFalse;
     }  
  
@@ -3028,6 +3115,7 @@ void CEikCaptionedControl::RegisterPageWithCaptionControl(CEikDialogPage* aPage)
 
 TInt CEikCaptionedControl::MaximumNumberOfControlLinesOnVisiblePage() const
     {
+	_AKNTRACE_FUNC_ENTER;
 	TInt maxItems = 0;
 	TAknLayoutScalableParameterLimits paneLimits;
 	if (IsPopupField(this))
@@ -3070,6 +3158,8 @@ TInt CEikCaptionedControl::MaximumNumberOfControlLinesOnVisiblePage() const
             return defineHeight;
         }
 	//maxItems -= 1; // TODO: this is a temporary workaround for layout data being incorrect, it has too many options available
+    _AKNTRACE( "maxItems: [%d]", maxItems );
+    _AKNTRACE_FUNC_EXIT;
     return maxItems;
     };
 
@@ -3811,9 +3901,12 @@ void CEikCaptionedControl::SetPressedDownState( TBool aPressed )
 void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRect*/ ) const
     {
     MAknsSkinInstance* skin = AknsUtils::SkinInstance() ;
+    TRgb textColor( KRgbBlack );
+    GetColor( EColorLabelText, textColor );
 
     if ( !iIsCurrentLine )
         {
+        AknListUtils::DrawSeparator( aGc, Rect(), textColor );
         aGc.SetBrushStyle( CGraphicsContext::ENullBrush ) ; 
         }
     else // Highlight Skinning.  Requires Frame
@@ -3827,6 +3920,8 @@ void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRe
             MAknsControlContext* parentCc = GetDialogControlContext( iDialogPage ) ; 
             AknsDrawUtils::Background( skin, parentCc, this, aGc, Rect() ) ;
 
+            AknListUtils::DrawSeparator( aGc, Rect(), textColor );
+            
             // Set the rectangle(s) for the Frame context
             iExtension->iEditModeHighlightControlContext->SetFrameRects( EditRect(), innerRect ) ;
             iExtension->iEditModeHighlightControlContextPressed->SetFrameRects( EditRect(), innerRect ) ;
@@ -3838,52 +3933,38 @@ void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRe
         else // View Mode highlight
             {
             TBool drawOk = EFalse;
-            if( iExtension->IsHighlightAnimated() ) // Draw animated highlight
+            TRect viewRect( ViewRect() );
+            TRect innerRect( viewRect );
+            innerRect.iTl = ViewFrameTopLeftRect( viewRect ).iBr;
+            innerRect.iTl.iX-- ; innerRect.iTl.iY--;
+            innerRect.iBr = ViewFrameBottomRightRect( viewRect ).iTl ;
+    
+            // The bit around the outside must use the parent's control context
+            MAknsControlContext* parentCc = GetDialogControlContext( iDialogPage );
+            AknsDrawUtils::BackgroundBetweenRects( skin, parentCc, this, aGc, 
+                    Rect(), innerRect );
+    
+            AknListUtils::DrawSeparator( aGc, Rect(), textColor );
+
+            // Draw the animation itself
+            if ( iExtension->IsHighlightAnimated() 
+                    && iExtension->iAnimation->Animation() )
                 {
-                CAknsEffectAnim* anim = iExtension->iAnimation->Animation();
-
-                // TODO: Background is drawn first to prevent white stripes
-                // appearing above and below the highlight. Wasting resources
-                // here, you could create animation that is a tad bigger and
-                // remove background drawing from here.
-                TRect viewRect = ViewRect() ;
-                TRect innerRect( viewRect ) ;
-                innerRect.iTl = ViewFrameTopLeftRect( viewRect ).iBr ;
-                innerRect.iTl.iX-- ; innerRect.iTl.iY-- ;  // not sure why this adjustment is required here and not above.
-                innerRect.iBr = ViewFrameBottomRightRect( viewRect ).iTl ;
-
-                // The bit around the outside must use the parent's control context
-                MAknsControlContext* parentCc = GetDialogControlContext( iDialogPage ) ;
-                AknsDrawUtils::BackgroundBetweenRects( skin, parentCc, this, aGc, Rect() , innerRect ) ;
-
-                // Draw the animation itself
-                if( anim )
-                    {
-                    drawOk = anim->Render( aGc, ViewRect() );
-                    }
+                drawOk = iExtension->iAnimation->Animation()->Render( aGc, 
+                        viewRect );
                 }
-
-            if( !drawOk )
+    
+            if ( !drawOk )
                 {
-                // Code for skinning Highlight ( Using AVKON LAF highlight in place of
-                // Skins LAF to establish highlight outer rect )
-                TRect viewRect = ViewRect() ;
-                TRect innerRect( viewRect ) ;
-                innerRect.iTl = ViewFrameTopLeftRect( viewRect ).iBr ;
-                innerRect.iTl.iX-- ; innerRect.iTl.iY-- ;  // not sure why this adjustment is required here and not above.
-                innerRect.iBr = ViewFrameBottomRightRect( viewRect ).iTl ;
-
-                // The bit around the outside must use the parent's control context
-                MAknsControlContext* parentCc = GetDialogControlContext( iDialogPage ) ;
-                AknsDrawUtils::BackgroundBetweenRects( skin, parentCc, this, aGc, Rect() , innerRect ) ;
-
                 // Set the rectangle(s) for the Frame context
-                iExtension->iViewModeHighlightControlContext->SetFrameRects( viewRect, innerRect ) ;
-                iExtension->iViewModeHighlightControlContextPressed->SetFrameRects( viewRect, innerRect ) ;
+                iExtension->iViewModeHighlightControlContext->SetFrameRects( 
+                        viewRect, innerRect ) ;
+                iExtension->iViewModeHighlightControlContextPressed->
+                    SetFrameRects( viewRect, innerRect ) ;
                 
                 AknsDrawUtils::DrawFrame( skin, aGc, viewRect, innerRect,
-                                          PressedDownState() ?
-                                          KAknsIIDQsnFrListPressed : KAknsIIDQsnFrList, KAknsIIDDefault );
+                        PressedDownState() ? KAknsIIDQsnFrListPressed : 
+                        KAknsIIDQsnFrList, KAknsIIDDefault );
                 }
             }
         }

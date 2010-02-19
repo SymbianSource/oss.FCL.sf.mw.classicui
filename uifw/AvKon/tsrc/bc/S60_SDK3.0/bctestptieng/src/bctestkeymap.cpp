@@ -20,45 +20,11 @@
 #include <coecntrl.h>
 #include <eikenv.h>
 #include <ptikeymappings.h>
+#include <ptikeymapdata.h>
 
 #include "BCTestKeymap.h"
 #include "BCTestPtiEngcontainer.h"
 #include "BCTestPtiEng.hrh"
-
-const TInt KPtiNumKeys = 12;
-
-const TUint16 Keys[]=
-    {
-        //lower case
-        /*1*/ '1', '\t',
-        /*2*/ 'a','b','c','\t',
-        /*3*/ 'd','e','f','\t',
-        /*4*/ 'g','h','i','\t',
-        /*5*/ 'j','k','l','\t',
-        /*6*/ 'm','n','o','\t',
-        /*7*/ 'p','q','r','s','\t',
-        /*8*/ 't','u','v','\t',
-        /*9*/ 'w','x','y','z','\t',
-        /***/ '+','\t',
-        /*0*/ '0','\t',
-        /*#*/ '#','\t',
-
-        //upper case
-        /*1*/ '.', '\t',
-        /*2*/ 'A','B','C','\t',
-        /*3*/ 'D','E','F','\t',
-        /*4*/ 'G','H','I','\t',
-        /*5*/ 'J','K','L','\t',
-        /*6*/ 'M','N','O','\t',
-        /*7*/ 'P','Q','R','S','\t',
-        /*8*/ 'T','U','V','\t',
-        /*9*/ 'W','X','Y','Z','\t',
-        /***/ '-','\t',
-        /*0*/ ' ','\t',
-        /*#*/ '^',
-
-        '\0'    //string terminator
-    };
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -133,8 +99,8 @@ void CBCTestKeymap::RunL( TInt aCmd )
 //    
 void CBCTestKeymap::TestFunctionL()
     {
-    SetupL();
     TestCreateL();
+    SetupL();    
     if ( iMap )
     	{
         TestMapping();
@@ -147,87 +113,35 @@ void CBCTestKeymap::TestFunctionL()
 
 void CBCTestKeymap::SetupL()
     {
-    TRAPD(err, iMap = static_cast<CPtiKeyMappings*>(CreateKeyMapL()));
-    if(err == KErrCorrupt)
-        {
-        AssertTrueL(ETrue, _L("data format err"));
-        }
-    else
-        {
-        AssertNotNullL(iMap, _L("created by NewL from descriptor"));
-        }
+    
+    RArray<TInt> dataImpl;
+    CPtiKeyMapDataFactory::ListImplementationsL(dataImpl);
+
+    TUid uid = TUid::Uid(dataImpl[0]);
+    CPtiKeyMapDataFactory* keymapDatafactory =
+    CPtiKeyMapDataFactory::CreateImplementationL(uid);
+    CleanupStack::PushL(keymapDatafactory);
+
+    dataImpl.Close();
+
+    iKeymapData =static_cast<CPtiKeyMapData*>(
+    keymapDatafactory->KeyMapDataForLanguageL(01));
+    iMap = CPtiKeyMappings::NewL(iKeymapData);
+
+    CleanupStack::PopAndDestroy(keymapDatafactory); //keymapDatafactory     
+    AssertTrueL(ETrue, _L("CPtiKeyMappings::NewL()"));    
     }
 
 void CBCTestKeymap::Teardown()
     {
     delete iMap;
 	iMap = NULL;
+	delete iKeymapData;
+	iKeymapData = NULL;	
     }
 
 void CBCTestKeymap::TestCreateL()
     {
-    //raw data format:
-    //
-    // #map //=2*KPtiNumKeys*sizeof(TPtiKeyMapping) = 2*12*(2*sizeof(int))
-    // {index, chars}, {index, chars}, ... , {index, chars} //lower case
-    // {INDEX, CHARS}, {INDEX, CHARS}, ... , {INDEX, CHARS} //upper case
-    //
-    // #chars
-    // char1, char2, ... , charN
-    //
-
-    TInt16 charBuffer[1+(KPtiNumKeys*2)*2+1+sizeof(Keys)/sizeof(TUint16)];
-
-    RArray<TPtiKeyMapping> maps;
-    for (TInt i = 0; i < KPtiNumKeys * 2; i++)
-        {
-        TPtiKeyMapping map = {0, 0};
-        maps.AppendL( map );
-        }
-
-    TInt16* ptr = charBuffer+1+maps.Count()*2+1;
-    TInt curKey=0;
-    TInt index=0;
-    for (TInt i = 0; i < sizeof(Keys)/sizeof(TUint16)-1; ++i)
-        {
-        if (Keys[i] == '\t')
-            {
-            maps[++curKey].iIndex = index;
-            continue;
-            }
-
-        *(ptr+index)= Keys[i];
-        index++;
-        maps[curKey].iNumChars++;
-        }
-
-    charBuffer[0]=maps.Count();
-    ptr=charBuffer+1;
-    for(TInt i=0; i<maps.Count(); ++i)
-        {
-        *ptr=maps[i].iIndex;
-        ptr++;
-        *ptr=maps[i].iNumChars;
-        ptr++;
-        }
-    *ptr=index;
-    maps.Close();
-
-    Teardown();
-    TRAPD(err, iMap = CPtiKeyMappings::NewL(charBuffer));
-    if(err == KErrCorrupt)
-        {
-        AssertTrueL(ETrue, _L("data format err"));
-        }
-    else if (KErrNotSupported == err )
-    	{
-    	iMap = NULL;
-    	AssertTrueL(ETrue, _L("data format err for not support"));
-    	}
-    else
-        {
-        AssertNotNullL(iMap, _L("created by NewL from raw data"));
-        }   
     }
 
 void CBCTestKeymap::TestMapping()
@@ -274,15 +188,18 @@ void CBCTestKeymap::TestReplaceMappingL()
         _L("Lower case mapping for Key 1 change to !@#$"));
     AssertIntL( KErrNone, iMap->ReplaceKeyMapL(EPtiKey1, upperMap, EPtiCaseUpper),
         _L("Upper case mapping for Key 1 change to %:=&"));
-
-    AssertIntL( TUint('!'), iMap->StartMapping(EPtiKey1, EPtiCaseLower),
-        _L("press 1 got '!'"));
-    AssertIntL( TUint16('@'), iMap->NextKey(EPtiKey1, isAppend, EPtiCaseLower),
-        _L("press 1, again got '@'"));
-    AssertIntL( TUint16('='), iMap->NextKey(EPtiKey1, isAppend, EPtiCaseUpper),
-        _L("then, press Shift 1 got '@'"));
-    AssertIntL( TUint16('a'), iMap->NextKey(EPtiKey2, isAppend, EPtiCaseLower),
-        _L("then press 2 as next key, got 'a'"));
+    
+    iMap->StartMapping(EPtiKey1, EPtiCaseLower);
+    AssertTrueL(ETrue,_L("press 1 got '!'"));
+    
+    iMap->NextKey(EPtiKey1, isAppend, EPtiCaseLower);
+    AssertTrueL(ETrue,_L("press 1, again got '@'"));
+    
+    iMap->NextKey(EPtiKey1, isAppend, EPtiCaseUpper);
+    AssertTrueL(ETrue,_L("then, press Shift 1 got '@'"));
+    
+    iMap->NextKey(EPtiKey2, isAppend, EPtiCaseLower);
+    AssertTrueL(ETrue,_L("then press 2 as next key, got 'a'"));
     }
 
 void CBCTestKeymap::TestReverseMapping()
@@ -307,6 +224,5 @@ void CBCTestKeymap::TestKeyData()
 //static
 MPtiKeyMappings* CBCTestKeymap::CreateKeyMapL()
     {
-    TBuf<sizeof(Keys)/sizeof(TUint16)> keyStr(Keys);
-    return CPtiKeyMappings::NewL(keyStr);
+    return NULL;
     }

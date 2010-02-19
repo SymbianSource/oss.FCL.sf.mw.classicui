@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -301,6 +301,24 @@ static TBool SupportedLandscapeResId( TInt aResId )
 	return EFalse;
 	}
 
+// ----------------------------------------------------------------------------
+// Sets the container control for the specified control and updates the
+// the whole parent hierarchy.
+// ----------------------------------------------------------------------------
+//
+static void SetContainersL( CCoeControl& aControl,
+                            const CCoeControl& aContainer )
+    {
+    aControl.SetContainerWindowL( aContainer );
+
+    TInt count = aControl.CountComponentControls();
+
+    for ( TInt i = 0; i < count; ++i )
+        {
+        CCoeControl* child = aControl.ComponentControl( i );
+        SetContainersL( *child, aControl );
+        }
+    }
 
 // ---------------------------------------------------------------------------
 // Helper method to compose two layout lines together.
@@ -1146,6 +1164,41 @@ public:
     */
     void HandleResourceChange( TInt aType );
 
+    /**
+     * Sets the parent window of the container control and the child controls
+     * inside it.
+     * 
+     * @param  aParentWindowGroup   If not @c NULL, then the control is made
+     *                              window-owning with this window group
+     *                              as parent.
+     * @param  aParentControl       Control to be set as parent. Note that
+     *                              specifying this parameter has no effect
+     *                              if the @c aParentWindowGroup is not
+     *                              @c NULL.
+     * @param  aRedrawStoreHandler  Pointer to the redraw store handler should
+     *                              be also passed if @c aParentWindowGroup
+     *                              is specified.
+     */
+    void SetParentWindowL( RWindowGroup* aParentWindowGroup,
+                           CCoeControl* aParentControl,
+                           CRedrawStoreHandler* aRedrawStoreHandler );
+    
+    /**
+     * Sets the background drawer for the container control.
+     * 
+     * @param  aBackground  The background drawer.
+     */
+    void SetBackgroundDrawer( MCoeControlBackground* aBackground );
+    
+    /**
+     * Checks if the status pane container is in the idle (Home Screen)
+     * application. This check in required in some places since Home
+     * Screen draws the status pane background itself.
+     * 
+     * @return @c ETrue if in idle application, @c EFalse otherwise.
+     */
+    TBool InIdleApplication();
+
 public: // From base class @c CCoeControl.
 
     /**
@@ -1342,9 +1395,8 @@ void CEikStatusPaneContainer::ConstructL(
 
     CreateWindowL( aParent );
     
-    //This is added for homescreen transparent
-    CEikApplication* app = iEikonEnv->EikAppUi()->Application();
-    if ( app && app->AppDllUid() == KActiveIdle2Uid  )
+    // This is added for homescreen transparency support.
+    if ( InIdleApplication()  )
         {
         if( KErrNone == Window().SetTransparencyAlphaChannel())
             Window().SetBackgroundColor(~0);
@@ -2237,105 +2289,194 @@ void CEikStatusPaneContainer::PrepareBackgroundContext(
         case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
         case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
             {
-            TBool idleLayout =
-                aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT;
-
-            TAknLayoutRect flatWideStatusPane;
-            flatWideStatusPane.LayoutRect(
-                application_window,
-                DoCompose( AknLayoutScalable_Avkon::area_top_pane( 19 ),
-                           AknLayoutScalable_Avkon::status_pane( 4 ) ).LayoutLine() );
-            TRect spRect( flatWideStatusPane.Rect() );
-
-            if ( idleLayout )
+            if ( aContextNumber == 0 )
                 {
-                aBgContext->SetLayerImage( ELayerFlatWallpaper, KAknsIIDWallpaper );
-                aBgContext->SetLayerRect( ELayerFlatWallpaper, screen );
-                maskIID  = KAknsIIDQgnGrafBgLscTopMaskIcon;
-                maskRect = spRect;
-                }
+                // We use frame as layered context so that we can avoid having
+                // two separate background contexts in this class.
+                // In any case frame context is implemented using layered
+                // context so this should be quite ok thing to do.
 
-            aBgContext->SetLayerImage( ELayerFlatMain, KAknsIIDNone );
+                TAknLayoutRect layoutRect;
+                layoutRect.LayoutRect(
+                    application_window,
+                    AknLayoutScalable_Avkon::area_top_pane( 2 ) );
+                TRect topLayoutRect( layoutRect.Rect() );
 
-            aBgContext->SetLayerImage( ELayerFlatCba, KAknsIIDNone );
+                layoutRect.LayoutRect(
+                    topLayoutRect,
+                    AknLayoutScalable_Avkon::status_pane( 1 ) );
+                TRect spRect( layoutRect.Rect() );
 
-            MAknsSkinInstance* si = AknsUtils::SkinInstance();
-            CAknsItemData* idata = NULL;
-            if ( si )
-                {
-                TRAP_IGNORE(
-                    idata = si->CreateUncachedItemDataL( KAknsIIDQsnFrStatusFlat,
-                                                         EAknsITImageTable ) );
-                }
+                layoutRect.LayoutRect(
+                    spRect,
+                    AknLayoutScalable_Avkon::bg_status_flat_pane( 0 ) );
+                TRect bgRect( layoutRect.Rect() );
 
-            if ( idata ) // 9 piece frame used
-                {
-                if ( aCbaBgID == KAknsIIDQsnBgAreaControlMp )
+                if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT )
                     {
+                    TAknLayoutRect extension;
+                    extension.LayoutRect(
+                        application_window,
+                        AknLayoutScalable_Avkon::main_pane( 4 ) );
+
+                    // Wallpaper
+                    aBgContext->SetLayerImage( ELayerFlatWallpaper,
+                                               KAknsIIDWallpaper );
+                    aBgContext->SetLayerRect(  ELayerFlatWallpaper, screen );
+
+                    // Main pane
+                    aBgContext->SetLayerImage( ELayerFlatMain,
+                                               KAknsIIDQsnBgAreaMainIdle );
+                    aBgContext->SetLayerRect( ELayerFlatMain,
+                                              extension.Rect() );
+
+                    // Skin background, transparency support
                     aBgContext->SetLayerImage( ELayerFlatBackground,
-                                               KAknsIIDQsnBgScreenMp );
+                                               KAknsIIDQsnBgScreenIdle );
+                    aBgContext->SetLayerRect(  ELayerFlatBackground,
+                                               topLayoutRect );
+
+                    // CBA area
+                    aBgContext->SetLayerImage( ELayerFlatCba,
+                                               KAknsIIDQsnBgAreaControlIdle );
+                    aBgContext->SetLayerRect( ELayerFlatCba, cbaRect );
                     }
-                else
+                 else
+                    { // Not Idle.
+                    // Main pane
+                    aBgContext->SetLayerImage( ELayerFlatMain, KAknsIIDNone );
+
+                    // Wallpaper
+                    aBgContext->SetLayerImage( ELayerFlatWallpaper,
+                                               KAknsIIDNone );
+
+                    // Skin background, transparency support
+                    aBgContext->SetLayerImage( ELayerFlatBackground,
+                                               KAknsIIDQsnBgScreen );
+                    aBgContext->SetLayerRect( ELayerFlatBackground, screen );
+
+                    // CBA area
+                    aBgContext->SetLayerImage( ELayerFlatCba, aCbaBgID );
+                    aBgContext->SetLayerRect( ELayerFlatCba, cbaRect );
+                    }
+
+                MAknsSkinInstance* si = AknsUtils::SkinInstance();
+                CAknsItemData* idata  = NULL;
+                if ( si )
                     {
-                    aBgContext->SetLayerImage(
-                        ELayerFlatBackground,
-                        idleLayout ? KAknsIIDQsnBgScreenIdle :
-                                     KAknsIIDQsnBgScreen );
+                    TRAP_IGNORE(
+                        idata = si->CreateUncachedItemDataL(
+                            KAknsIIDQsnFrStatusFlat, EAknsITImageTable ) );
                     }
-                aBgContext->SetLayerRect( ELayerFlatBackground, screen );
 
-                TAknWindowLineLayout layout( AknLayoutScalable_Avkon::bg_status_flat_pane_g2().LayoutLine() );
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatTl, KAknsIIDQsnFrStatusFlatCornerTl );
-                aBgContext->SetLayerRect( ELayerFlatTl, layoutRect.Rect() );
+                if ( idata ) // 9 piece frame used
+                    {
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g2() );
+                    aBgContext->SetLayerImage( ELayerFlatTl, KAknsIIDQsnFrStatusFlatCornerTl );
+                    aBgContext->SetLayerRect( ELayerFlatTl, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g3().LayoutLine();
-                layoutRect.LayoutRect( spRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g3() );
-                aBgContext->SetLayerImage( ELayerFlatTr, KAknsIIDQsnFrStatusFlatCornerTr );
-                aBgContext->SetLayerRect( ELayerFlatTr, layoutRect.Rect());
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g3() );
+                    aBgContext->SetLayerImage( ELayerFlatTr, KAknsIIDQsnFrStatusFlatCornerTr );
+                    aBgContext->SetLayerRect( ELayerFlatTr, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g4().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatBl, KAknsIIDQsnFrStatusFlatCornerBl );
-                aBgContext->SetLayerRect( ELayerFlatBl, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g4() );
+                    aBgContext->SetLayerImage( ELayerFlatBl, KAknsIIDQsnFrStatusFlatCornerBl );
+                    aBgContext->SetLayerRect( ELayerFlatBl, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g5().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatBr, KAknsIIDQsnFrStatusFlatCornerBr );
-                aBgContext->SetLayerRect( ELayerFlatBr, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g5() );
+                    aBgContext->SetLayerImage( ELayerFlatBr, KAknsIIDQsnFrStatusFlatCornerBr );
+                    aBgContext->SetLayerRect( ELayerFlatBr, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g6().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatT,  KAknsIIDQsnFrStatusFlatSideT);
-                aBgContext->SetLayerRect( ELayerFlatT, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g6() );
+                    aBgContext->SetLayerImage( ELayerFlatT,  KAknsIIDQsnFrStatusFlatSideT);
+                    aBgContext->SetLayerRect( ELayerFlatT, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g7().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatB, KAknsIIDQsnFrStatusFlatSideB );
-                aBgContext->SetLayerRect( ELayerFlatB, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g7() );
+                    aBgContext->SetLayerImage( ELayerFlatB, KAknsIIDQsnFrStatusFlatSideB );
+                    aBgContext->SetLayerRect( ELayerFlatB, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g9().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatR, KAknsIIDQsnFrStatusFlatSideR );
-                aBgContext->SetLayerRect( ELayerFlatR, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g9() );
+                    aBgContext->SetLayerImage( ELayerFlatR, KAknsIIDQsnFrStatusFlatSideR );
+                    aBgContext->SetLayerRect( ELayerFlatR, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g8().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatL, KAknsIIDQsnFrStatusFlatSideL );
-                aBgContext->SetLayerRect( ELayerFlatL, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g8() );
+                    aBgContext->SetLayerImage( ELayerFlatL, KAknsIIDQsnFrStatusFlatSideL );
+                    aBgContext->SetLayerRect( ELayerFlatL, layoutRect.Rect() );
 
-                layout = AknLayoutScalable_Avkon::bg_status_flat_pane_g1().LayoutLine();
-                layoutRect.LayoutRect( spRect, layout );
-                aBgContext->SetLayerImage( ELayerFlatCenter, KAknsIIDQsnFrStatusFlatCenter );
-                aBgContext->SetLayerRect( ELayerFlatCenter, layoutRect.Rect() );
+                    layoutRect.LayoutRect( bgRect, AknLayoutScalable_Avkon::bg_status_flat_pane_g1() );
+                    aBgContext->SetLayerImage( ELayerFlatCenter, KAknsIIDQsnFrStatusFlatCenter );
+                    aBgContext->SetLayerRect( ELayerFlatCenter, layoutRect.Rect() );
+
+                    if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT )
+                        {
+                        maskIID = KAknsIIDQgnGrafBgLscTopMaskIcon;
+                        maskRect = spRect;
+                        }
+                    }
+                else // handle one piece version here
+                    {
+                    if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT )
+                        {
+                        // Wallpaper
+                        aBgContext->SetLayerImage( ELayerFlatWallpaper,
+                                                   KAknsIIDWallpaper );
+                        aBgContext->SetLayerRect( ELayerFlatWallpaper,
+                                                  staconTop );
+
+                        // Skin background
+                        aBgContext->SetLayerImage( ELayerFlatBackground,
+                                                   KAknsIIDQsnFrStatusFlat );
+                        aBgContext->SetLayerRect( ELayerFlatBackground,
+                                                  bgRect );
+
+                        // Set all other frame parts empty as they
+                        // might already be filled with something
+                        for ( TInt n = ELayerFlatBackground + 1; n <= ELayerFlatCenter; n++ )
+                           {
+                           aBgContext->SetLayerImage( n, KAknsIIDNone );
+                           }
+
+                        maskIID = KAknsIIDQgnGrafBgLscTopMaskIcon;
+                        maskRect = spRect;
+                        }
+                    else
+                        {
+                        aBgContext->SetLayerImage( ELayerFlatWallpaper,
+                                                   KAknsIIDQsnFrStatusFlat );
+                        aBgContext->SetLayerRect( ELayerFlatWallpaper,
+                                                  bgRect );
+
+                        // Set all other frame parts empty as they
+                        // might already be filled with something
+                        for ( TInt n = ELayerFlatBackground; n <= ELayerFlatCenter; n++ )
+                            {
+                            aBgContext->SetLayerImage( n, KAknsIIDNone );
+                            }
+                        }
+                    }
 
                 delete idata;
                 }
-            else
+            else // context == 1 - this is the area removed from CBA for clock
+                 // and indicator panes.
                 {
-                aBgContext->SetLayerImage( ELayerFlatBackground,
-                                           KAknsIIDQsnFrStatusFlat );
-                aBgContext->SetLayerRect( ELayerFlatBackground, spRect );
+                if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT )
+                    {
+                    aBgContext->SetLayerImage( ELayerFlatCbaWp,
+                                               KAknsIIDWallpaper );
+                    aBgContext->SetLayerRect( ELayerFlatCbaWp, screen );
+
+                    maskIID = KAknsIIDQgnGrafBgLscBottomMaskIcon;
+                    maskRect = cbaRect;
+                    }
+                else
+                    {
+                    aBgContext->SetLayerImage( ELayerFlatCbaWp, KAknsIIDNone );
+                    }
+
+                aBgContext->SetLayerImage( ELaterFlatCbaSkin,
+                                           KAknsIIDQsnBgAreaControlIdle );
+                aBgContext->SetLayerRect( ELaterFlatCbaSkin, cbaRect );
                 }
 
             break;
@@ -2470,6 +2611,100 @@ void CEikStatusPaneContainer::HandleResourceChange( TInt aType )
         {
         iControl->HandleResourceChange( aType );
         }
+    }
+
+
+// ---------------------------------------------------------------------------
+// Sets the parent window of the container control and the child controls
+// inside it.
+// ---------------------------------------------------------------------------
+//
+void CEikStatusPaneContainer::SetParentWindowL(
+    RWindowGroup* aParentWindowGroup,
+    CCoeControl* aParentControl,
+    CRedrawStoreHandler* aRedrawStoreHandler )
+    {
+    if ( aParentWindowGroup )
+        {
+        MakeVisible( EFalse );
+    
+        SetMopParent( iEikonEnv->EikAppUi() );
+        SetParent( NULL );
+
+        if ( OwnsWindow() )
+            {
+            CloseWindow();
+            }
+
+        CreateWindowL( aParentWindowGroup );
+
+        // Enable the transparency only in HomeScreen where it's needed
+        // for performance reasons.
+        if ( InIdleApplication() )
+            {
+            EnableWindowTransparency();
+            }
+        else
+            {
+            Window().SetBackgroundColor(
+                iEikonEnv->ControlColor( EColorStatusPaneBackground, *this ) );
+            }
+
+        RWindow& window = Window();
+        if ( aRedrawStoreHandler )
+            {
+            aRedrawStoreHandler->SetStore( &window, KEnableRedrawStoring );
+            }
+        
+        window.SetPointerGrab( ETrue );
+        window.SetShadowDisabled( ETrue );
+        window.SetNonFading( !LafStatusPaneContainer::AllowFading() );
+        EnableDragEvents();
+
+        SetContainersL( *iControl, *this );
+        
+        ActivateL();
+        }
+    else if ( aParentControl )
+        {
+        SetContainersL( *this, *aParentControl );
+        }
+    }
+
+
+// ---------------------------------------------------------------------------
+// Sets the background drawer for the container control.
+// ---------------------------------------------------------------------------
+//
+void CEikStatusPaneContainer::SetBackgroundDrawer(
+    MCoeControlBackground* aBackground )
+    {
+    if ( aBackground && InIdleApplication() )
+        {
+        // In Home Screen the application draws also the status
+        // pane background.
+        aBackground = NULL;
+        }
+    
+    SetBackground( aBackground );
+    }
+
+
+// ---------------------------------------------------------------------------
+// Checks if the status pane container is in the Home Screen application.
+// ---------------------------------------------------------------------------
+//
+TBool CEikStatusPaneContainer::InIdleApplication()
+    {
+    TBool retVal( EFalse );
+
+    CEikApplication* app = iEikonEnv->EikAppUi()->Application();
+    if ( app && app->AppDllUid() == KActiveIdle2Uid  )
+        {
+        retVal = ETrue;
+        }
+
+    return retVal;
     }
 
 
@@ -2653,7 +2888,8 @@ CEikStatusPaneBase* CEikStatusPaneTls::Pane()
 /**
  * Internal extension class
  */
-class CEikStatusPaneBaseExtension : public CBase
+class CEikStatusPaneBaseExtension : public CBase,
+                                    public MCoeControlBackground
     {
 public:
     static CEikStatusPaneBaseExtension* NewL()
@@ -2675,6 +2911,24 @@ public:
         {
         };
 
+    // From base class MCoeControlBackground
+    // This is used for drawing background of all status pane containers.
+    void Draw( CWindowGc& aGc,
+               const CCoeControl& aControl,
+               const TRect& aRect ) const
+        {
+        if ( iCommonBgContext )
+            {
+            AknsDrawUtils::DrawBackground( AknsUtils::SkinInstance(),
+                                           AknsDrawUtils::ControlContext( &aControl ),
+                                           &aControl,
+                                           aGc,
+                                           TPoint( 0, 0 ),
+                                           aRect,
+                                           KAknsDrawParamDefault );
+            }
+        }
+		
 public:
 
     /** Resource id that last has been reuqested by app using switch layout. */
@@ -2800,6 +3054,11 @@ void CEikStatusPaneBase::DoSwitchLayoutL( TInt aLayoutResourceId,
 	    	}
     	}
 
+    // Check if combined pane was used in the previous status pane layout
+    // to avoid unnecessary subpane parent hierarchy changes.
+    TBool combinedPaneInOldLayout(
+        PaneCapabilities(
+            TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() );
 
     // If AknLayout system is used for placing statuspane elements, then
     // we need to be less strict when new layout is applied or size change
@@ -2830,6 +3089,16 @@ void CEikStatusPaneBase::DoSwitchLayoutL( TInt aLayoutResourceId,
 		{
 		// Need to refresh the model's layout.
 	    iModel->AknLayoutRefresh();
+
+        // Update the combined pane's subpane parent hierarchy if necessary. 
+        TBool combinedPaneInCurrentLayout(
+            PaneCapabilities(
+                TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() );
+        if ( !COMPARE_BOOLS( combinedPaneInOldLayout,
+                             combinedPaneInCurrentLayout ) )
+            {
+            SetCombinedPaneVisibilityL( combinedPaneInCurrentLayout );
+            }
 
         TBool drawNavi = ETrue;
 
@@ -3081,6 +3350,11 @@ EXPORT_C void CEikStatusPaneBase::BaseConstructL( TInt aCoreResId )
 	iControls =
 	    new (ELeave) CContainerControls( KEikStatusPaneControlGranularity );
 	CreatePanesL();
+	
+	SetCombinedPaneVisibilityL(
+	    PaneCapabilities(
+            TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() );
+	
 	ApplyLayoutL( iModel->CurrentLayout(), ENoDraw );
 
 	// Clearer is not needed anymore if all panes are drawn in app side.
@@ -3129,6 +3403,9 @@ void CEikStatusPaneBase::CreatePaneL( const TEikStatusPaneInit& aPaneInit )
             iExtension->iCommonBgContext->GetControlContext( 1 ) ),
         iExtension->iDataSubscriber,
         *iExtension->iRedrawStoreHandler );
+
+    cont->SetBackgroundDrawer( iExtension );
+
     CleanupStack::PushL( cont );
     iControls->AppendL( cont );
     CleanupStack::Pop( cont );
@@ -3164,7 +3441,9 @@ void CEikStatusPaneBase::ApplyLayoutL( CEikStatusPaneLayout* aLayout,
     // has two background contextes.
     if ( ( layoutResId == R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_LEFT ||
            layoutResId == R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_RIGHT ||
-           layoutResId == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT ) )
+           layoutResId == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT ||
+           layoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ||
+           layoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ) )
         {
         partOfCombinedContext =
             iExtension->iCommonBgContext->GetControlContext( 1 );
@@ -3507,6 +3786,55 @@ TRect CEikStatusPaneBase::LargestBoundingRect( TRegion& aWholeRegion,
 
     // Return largest bounding rect.
     return largestBoundingRect;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CEikStatusPaneBase::SetCombinedPaneVisibility
+// Updates the parent hierarchy of subpanes in the combined pane based
+// on whether or not the combined pane is used in the current status pane
+// layout.
+// ---------------------------------------------------------------------------
+//
+void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
+    {
+    CEikStatusPaneContainer* combinedPane =
+        Find( TUid::Uid( EEikStatusPaneUidCombined ) );
+    if ( combinedPane )
+        {
+        CCoeControl* combinedPaneControl = combinedPane->Control();
+
+        // The subpane container controls inside combined pane are it's
+        // component controls.
+        TInt count( combinedPaneControl->CountComponentControls() );
+
+        for ( TInt i = 0; i < count; ++i )
+            {
+            CEikStatusPaneContainer* subPane =
+                static_cast<CEikStatusPaneContainer*>(
+                    combinedPaneControl->ComponentControl( i ) );
+            if ( subPane )
+                {
+                if ( aVisible )
+                    {
+                    subPane->SetParentWindowL( NULL,
+                                               combinedPaneControl,
+                                               NULL );
+                    // Background is drawn by the combined pane so remove
+                    // the subpane's own background drawer. 
+                    subPane->SetBackgroundDrawer( NULL );
+                    }
+                else
+                    {
+                    subPane->SetParentWindowL(
+                        iParentWindowGroup,
+                        NULL,
+                        iExtension ? iExtension->iRedrawStoreHandler : NULL );
+                    subPane->SetBackgroundDrawer( iExtension );
+                    }
+                }
+            }
+        }
     }
 
 

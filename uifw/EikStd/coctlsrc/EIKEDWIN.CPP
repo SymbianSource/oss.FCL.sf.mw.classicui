@@ -2229,7 +2229,7 @@ TestMagnify:
             }
 InChar: CheckNotReadOnlyL();
         TChar character(code);
-        if ( selectionLength && IsValidNumericCharL(character) )
+        if ( selectionLength )
             {
             TInt pos=DeleteHighlightL(formatHasChanged);
             TRAPD(err,iText->InsertL(pos,character));
@@ -2253,7 +2253,7 @@ InChar: CheckNotReadOnlyL();
             formatChange=formatHasChanged;
             break;
             }
-        if ( (!iTextLimit || TextLength()<iTextLimit) && IsValidNumericCharL(character) )
+        if ( !iTextLimit || TextLength()<iTextLimit )
             {
             iText->InsertL(CursorPos(),character);
             ClearUndo();
@@ -4565,6 +4565,7 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
             iCcpuSupport->HandleSelectionChangeL();
             }
         }
+    iEdwinExtension->iThumbPos = KErrNotFound;
     if (IsReadyToDraw())
         {
         UpdateScrollBarsL();
@@ -8808,21 +8809,7 @@ TBool CEikEdwin::SkipBackgroundDrawer() const
     return iEdwinInternalFlags & ESkipBackgroundDrawer;
     }
 
-TBool CEikEdwin::IsValidNumericCharL( TChar aChar )
-    { 
-    TBool ret(ETrue);
-    CAknEdwinState* state = static_cast<CAknEdwinState*>( iEdwinFepSupport->State( KNullUid ) );    
-    if (state && state->CurrentInputMode() == EAknEditorNumericInputMode )
-    	{
-        HBufC* allowedChars = GetAllowedCharsLC();
-        if ( (*allowedChars).Length() > 0 && (*allowedChars).Locate( aChar ) == KErrNotFound )
-            {
-            ret = EFalse;
-            }
-        CleanupStack::PopAndDestroy(1);//allowedChars
-        }
-    return ret;
-    }
+
 
 // End of File
 

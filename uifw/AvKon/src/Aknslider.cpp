@@ -539,12 +539,12 @@ void CAknSliderExtension::TryLoadNSliderVerticalBitmap( MAknsSkinInstance* aSkin
         }; 
     const TAknsItemID iconSkinIDArray[] = 
         {
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalTop,        
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalBottom,
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalMiddle,
-        KAknsIIDNone,// KAknsIIDQgnGrafNsliderVerticalMarker,
-        KAknsIIDNone,// KAknsIIDQgnGrafNsliderVerticalTIckMajor,
-        KAknsIIDNone//KAknsIIDQgnGrafNsliderVerticalMarker
+        KAknsIIDQgnGrafNsliderVerticalTop,   //KAknsIIDNone,     
+        KAknsIIDQgnGrafNsliderVerticalBottom,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMiddle,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMarker,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalTickMajor,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMarker//KAknsIIDNone
         };
         
     const TInt element[] = 

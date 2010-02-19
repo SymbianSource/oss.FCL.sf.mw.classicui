@@ -23,22 +23,28 @@
 #include <centralrepository.h>
 #endif
 #include "AknCapServerEntry.h"
+#include "aknslidestatusnotifier.h"
 
 const TInt KHomeHoldDelay = 600000;   // 0.6 sec
 
-class CAknServKeyFilter : public CCoeControl
+class CAknServKeyFilter : public CCoeControl,
+                          public MAknSlideStatusObserver
     {
 public:
     CAknServKeyFilter();
     void ConstructL(CAknCapAppServerAppUi& aAppUi);
     ~CAknServKeyFilter();
     
+    /**
+     * From MAknSlideStatusObserver
+     */
+    void SlideStatusChangedL( const TInt& aValue );
+    
 private: // framework
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType);
     
 private: // new functions
     TKeyResponse HandleHomeKeyEventL(TEventCode aType);
-    TKeyResponse HandleQwertyKeyEvent(const TKeyEvent& aKeyEvent, TEventCode aType);
     void HandleFlipKeyEvent(TInt aCode);
     static TInt HomeTickL(TAny* aThis);
     void DoHomeTickL();
@@ -52,7 +58,9 @@ private: // new functions
 #ifdef RD_INTELLIGENT_TEXT_INPUT
     TInt CAknServKeyFilter::HwKeyToKeyBoardType(TInt aKeyCode);
 #endif
-
+    void RotateScreenL( TInt aState );
+    void UpdateKeyboardLayout( TInt aKeyboardLayout );
+    
 private:
     CAknCapAppServerAppUi* iAppUi; // not owned
     CPeriodic* iHomeTimer;
@@ -60,13 +68,13 @@ private:
     TInt iHomeKeyHandle;
     TVwsViewId iHomeViewId;
     RArray<TInt32> iHardwareStateKeyCaptures;
-    TInt iQwertyOnKeyHandle;
-    TInt iQwertyOffKeyHandle;
-    TInt iFlipOpenKeyHandle;
-    TInt iFlipCloseKeyHandle;
 #ifdef RD_INTELLIGENT_TEXT_INPUT
     CRepository* iAvkonRepository;
 #endif
+    
+    TBool iSlideOpen;
+    TInt iSensorOrientation;
+    CAknSlideStatusNotifier* iSlideStatusObserver;
     };
 
 #endif // __AKN_KEY_FILTER__

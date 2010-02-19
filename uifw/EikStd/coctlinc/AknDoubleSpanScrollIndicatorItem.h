@@ -95,19 +95,6 @@ private: // new methods
 
 
    /**
-    * Creates a new bitmap based on the given source bitmap. New bitmap
-    * will be rotated 90 degrees agains clock direction if wanted.
-    *
-    * @since    2.6
-    * @param    aSourceBitmap  Bitmap which content is copied to new bitmap
-    * @param    aRotated       If ETrue the source bitmap data is rotated
-    *                          90 degrees.
-    * @return   a pointer to a new bitmap.
-    *
-    */
-    CFbsBitmap* CreateBitmapL(CFbsBitmap* aSourceBitmap, TBool aRotated);
-
-   /**
     * Creates a new bitmap and a mask based on the given skin item id. 
     * New bitmap will be rotated 90 degrees agains clock direction if wanted.
     *

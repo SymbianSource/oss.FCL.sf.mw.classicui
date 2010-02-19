@@ -18,10 +18,11 @@
 // AknProgressTimer.cpp: implementation of the CAknProgressTimer class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include <coemain.h>
 #include "aknnotecontrol.h"
 #include "aknprogresstimer.h"
-#include <coemain.h>
+#include "akntrace.h"
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -45,6 +46,7 @@ void CAknProgressTimer::AdjustRunningState()
 
 void CAknProgressTimer::ConstructL(TTimerModel *aModel,CAknNoteControl *aContainer,TCallBack aCallBack)
   {
+  _AKNTRACE_FUNC_ENTER;
   iCallBack = aCallBack;
   CTimer::ConstructL();
   CActiveScheduler::Add(this);
@@ -53,6 +55,7 @@ void CAknProgressTimer::ConstructL(TTimerModel *aModel,CAknNoteControl *aContain
   iContainer->SetFinalProgressValue(iModel->iFinalValue);
   if (iModel->iRunning)
     Queue();
+  _AKNTRACE_FUNC_EXIT;
   }
 
 void CAknProgressTimer::Queue()
@@ -62,10 +65,12 @@ void CAknProgressTimer::Queue()
 
 void CAknProgressTimer::RunL()
   {
+  _AKNTRACE_FUNC_ENTER;
   if (iContainer->IncrementBarsAndDraw(iModel->iIncrement))
     Queue();
   else
     iCallBack.CallBack();
+  _AKNTRACE_FUNC_EXIT;
   }
 
 // End of File

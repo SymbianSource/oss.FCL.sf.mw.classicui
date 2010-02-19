@@ -55,6 +55,9 @@ const TUid KPhoneViewUid = { 0x10282D81 };
 /** Video call application's AppUID */
 const TUid KVideoCallAppUid     = { 0x101F8681 }; 
 
+/** Layout */
+const TInt KLayoutPortrait = 0;
+const TInt KLayoutLandscape = 1;
 /**
 * Command used in activating the phone view.
 * Null command allows the the phone app to decide whether
@@ -92,14 +95,11 @@ CAknServKeyFilter::~CAknServKeyFilter()
 
     RWindowGroup& groupWin = iCoeEnv->RootWin();
     groupWin.CancelCaptureKeyUpAndDowns( iHomeKeyHandle );
-    groupWin.CancelCaptureKeyUpAndDowns( iQwertyOnKeyHandle );
-    groupWin.CancelCaptureKeyUpAndDowns( iQwertyOffKeyHandle );
-    groupWin.CancelCaptureKey( iFlipOpenKeyHandle );
-    groupWin.CancelCaptureKey( iFlipCloseKeyHandle );
 #ifdef RD_INTELLIGENT_TEXT_INPUT
     delete iAvkonRepository;
 #endif
     delete iHomeTimer;
+    delete iSlideStatusObserver;
     }
 
 
@@ -112,10 +112,6 @@ void CAknServKeyFilter::ConstructL( CAknCapAppServerAppUi& aAppUi )
     {
     RWindowGroup& groupWin = iCoeEnv->RootWin();
     iHomeKeyHandle      = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication0, 0, 0);
-    iQwertyOnKeyHandle  = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication7, 0, 0); // EKeyQwertyOn
-    iQwertyOffKeyHandle = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication8, 0, 0); // EKeyQwertyOff
-    iFlipOpenKeyHandle  = groupWin.CaptureKey(EKeyDeviceA, 0, 0); // EKeyFlipOpen
-    iFlipCloseKeyHandle = groupWin.CaptureKey(EKeyDeviceB, 0, 0); // EKeyFlipClose
 
     // Get the default view id
     TResourceReader reader;
@@ -205,6 +201,9 @@ void CAknServKeyFilter::ConstructL( CAknCapAppServerAppUi& aAppUi )
         iAppUi->iQwertyStatus = EFalse;
         }
 #endif // RD_INTELLIGENT_TEXT_INPUT
+    iSlideOpen = EFalse;
+    TRAP_IGNORE( iSlideStatusObserver = CAknSlideStatusNotifier::NewL( this ) );
+    iSensorOrientation = KLayoutPortrait;
     }
 
 // ---------------------------------------------------------------------------
@@ -346,11 +345,6 @@ TKeyResponse CAknServKeyFilter::OfferKeyEventL( const TKeyEvent& aKeyEvent,
         {
         return HandleHomeKeyEventL( aType );
         }
-    else if ( aKeyEvent.iScanCode == EStdKeyApplication7 || // EKeyQwertyOn
-              aKeyEvent.iScanCode == EStdKeyApplication8 )  // EKeyQwertyOff
-        {
-        return HandleQwertyKeyEvent( aKeyEvent, aType );
-        }
     else if ( aType==EEventKey && HandleHardwareStateKeyL( aKeyEvent.iCode ) )
         {
         return EKeyWasConsumed;
@@ -411,56 +405,6 @@ TKeyResponse CAknServKeyFilter::HandleHomeKeyEventL( TEventCode aType )
 
     return EKeyWasNotConsumed;
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknServKeyFilter::HandleQwertyKeyEvent
-// Handles the pressing of QWERTY key.
-// ---------------------------------------------------------------------------
-//
-TKeyResponse CAknServKeyFilter::HandleQwertyKeyEvent( const TKeyEvent& /*aKeyEvent*/,
-                                                      TEventCode aType )
-    {
-    if ( aType == EEventKeyDown )
-        {
-        TInt qwertyOn = 0;
-#ifdef RD_INTELLIGENT_TEXT_INPUT                
-        TInt keyboardLayout = EPtiKeyboard12Key;
-        iAvkonRepository->Get(KAknKeyBoardLayout, keyboardLayout);            
-        switch(keyboardLayout)
-            {
-            case EPtiKeyboardQwerty4x12:
-            case EPtiKeyboardQwerty4x10:
-            case EPtiKeyboardQwerty3x11:
-            case EPtiKeyboardHalfQwerty:
-            case EPtiKeyboardCustomQwerty:
-                {
-                qwertyOn = 1;
-                break;
-                }
-            default:
-                break;
-            }
-#endif            
-
-        TInt err = RProperty::Set( KCRUidAvkon,
-                                   KAknQwertyInputModeActive,
-                                   qwertyOn );
-        iAppUi->iQwertyStatus = qwertyOn;
-
-#ifdef _DEBUG
-        _LIT( KDMsg, "xxxx KAknQwertyInputModeActive err=%d" );
-        RDebug::Print( KDMsg, err );
-#endif
-#ifdef RD_INTELLIGENT_TEXT_INPUT                
-        err = RProperty::Set(KCRUidAvkon, KAknKeyBoardLayout, keyboardLayout);
-#endif
-
-        }
-
-    return EKeyWasConsumed;
-    }
-
 
 // ---------------------------------------------------------------------------
 // CAknServKeyFilter::HandleFlipKeyEvent
@@ -579,9 +523,6 @@ TBool CAknServKeyFilter::HandleHardwareStateKeyL( TInt aCode )
         HandleFlipKeyEvent(aCode);
         }
 
-    CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
-    TInt screenMode = screen->CurrentScreenMode();
-
     CAknLayoutConfig::THardwareStateArray hwStates =
         CAknSgcClient::LayoutConfig().HardwareStates();
     TInt count = hwStates.Count();
@@ -589,30 +530,11 @@ TBool CAknServKeyFilter::HandleHardwareStateKeyL( TInt aCode )
         {
         const CAknLayoutConfig::THardwareState& hwState = hwStates.At( ii );
         if ( hwState.KeyCode() == aCode )
-            {
-            SetHardwareStateL( hwState.StateNumber() );
-
-            // Update the setting cache and get SGCS to process the screen
-            // mode change. This may broadcast a screen device change to
-            // the apps, to inform them of the update.
-            iAvkonEnv->SettingCache().Update( KAknHardwareLayoutSwitch );
-            iAppUi->SgcServer()->HandleWindowGroupParamChangeL(
-                iEikonEnv->RootWin().Identifier(),
-                0,
-                0,
-                0,
-                KAknScreenModeUnset );
-
-            if ( screenMode == screen->CurrentScreenMode() )
-                {
-                // Apps will not have received a screen device changed event
-                // so send a KAknHardwareLayoutSwitch to the apps to ensure
-                // they get to know about the key.
-                TWsEvent event;
-                event.SetType( KAknHardwareLayoutSwitch );
-                event.SetHandle( 0 );
-                iEikonEnv->WsSession().SendEventToAllWindowGroups( 0, event );
-                }
+        	{
+        	iSensorOrientation = hwState.StateNumber();
+            if( !iSlideOpen )
+				{
+				RotateScreenL( hwState.StateNumber() );
 #ifdef RD_INTELLIGENT_TEXT_INPUT
 #if defined(__WINS__)
             
@@ -679,6 +601,7 @@ TBool CAknServKeyFilter::HandleHardwareStateKeyL( TInt aCode )
 #endif // __WINS__
 #endif //RD_INTELLIGENT_TEXT_INPUT
             return ETrue;
+				}
             }
         }
 
@@ -783,4 +706,106 @@ TInt CAknServKeyFilter::HwKeyToKeyBoardType(TInt aKeyCode)
     return ret;
     }
 #endif //RD_INTELLIGENT_TEXT_INPUT
+
+// ---------------------------------------------------------------------------
+// CAknServKeyFilter::SlideStatusChangedL
+// ---------------------------------------------------------------------------
+//
+void CAknServKeyFilter::SlideStatusChangedL( const TInt& aValue )
+    {
+	CAknLayoutConfig::THardwareStateArray hwStates =
+		CAknSgcClient::LayoutConfig().HardwareStates();
+    TInt keyboardLayout(0);
+    TInt state(0);
+    
+    RWsSession wsSession = iEikonEnv->WsSession();
+    
+    TKeyEvent eventQwertyOn = { EKeyQwertyOn, 0 };
+    
+    TKeyEvent eventQwertyOff = { EKeyQwertyOff, 0 };
+
+	switch( aValue )
+		{
+		case EPSHWRMGripOpen:
+			iSlideOpen = ETrue;
+			wsSession.SimulateKeyEvent( eventQwertyOn );
+			//to be read from cenrep
+			iAvkonRepository->Get( KAknKeyboardSlideOpen, keyboardLayout );
+			if( keyboardLayout > EPtiKeyboard12Key )
+				{
+				//if the keyboard is a qwerty the layout is landscape
+				state = KLayoutLandscape;
+				}
+			else
+				{
+				//if the keyboard is not a qwerty the layout is portrait
+				state = KLayoutPortrait;
+				}
+			break;
+		case EPSHWRMGripClosed:
+			iSlideOpen = EFalse;
+			wsSession.SimulateKeyEvent( eventQwertyOff );
+			state = iSensorOrientation;
+			iAvkonRepository->Get( KAknKeyboardSlideClose, keyboardLayout );
+			break;
+		}
+	
+	UpdateKeyboardLayout( keyboardLayout );
+	RotateScreenL( state );
+    }
+
+// ---------------------------------------------------------------------------
+// CAknServKeyFilter::UpdateKeyboardLayout
+// ---------------------------------------------------------------------------
+//
+void CAknServKeyFilter::UpdateKeyboardLayout( TInt aKeyboardLayout )
+    {
+    RProperty::Set(KCRUidAvkon, KAknKeyBoardLayout, aKeyboardLayout);
+	if( aKeyboardLayout > EPtiKeyboard12Key )
+		{
+		iAppUi->iQwertyStatus = ETrue;
+		TInt err = RProperty::Set(KCRUidAvkon, KAknQwertyInputModeActive, 1); 
+		iAvkonRepository->Set(KAknQwertyInputModeActive,1);
+		}
+	else
+		{
+		iAppUi->iQwertyStatus = EFalse;
+		TInt err = RProperty::Set(KCRUidAvkon, KAknQwertyInputModeActive, 0); 
+		iAvkonRepository->Set(KAknQwertyInputModeActive, 0);
+		}
+    }
+
+// ---------------------------------------------------------------------------
+// CAknServKeyFilter::RotateScreenL
+// ---------------------------------------------------------------------------
+//
+void CAknServKeyFilter::RotateScreenL( TInt aState )
+	{
+	CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
+	TInt screenMode = screen->CurrentScreenMode();
+	SetHardwareStateL( aState );
+				
+	// Update the setting cache and get SGCS to process the screen
+	// mode change. This may broadcast a screen device change to
+	// the apps, to inform them of the update.
+	iAvkonEnv->SettingCache().Update( KAknHardwareLayoutSwitch );
+	iAppUi->SgcServer()->HandleWindowGroupParamChangeL(
+		iEikonEnv->RootWin().Identifier(),
+		0,
+		0,
+		0,
+		KAknScreenModeUnset );
+
+	if ( screenMode == screen->CurrentScreenMode() )
+		{
+		// Apps will not have received a screen device changed event
+		// so send a KAknHardwareLayoutSwitch to the apps to ensure
+		// they get to know about the key.
+		TWsEvent event;
+		event.SetType( KAknHardwareLayoutSwitch );
+		event.SetHandle( 0 );
+		iEikonEnv->WsSession().SendEventToAllWindowGroups( 0, event );
+		}
+    }
+
 // End of file

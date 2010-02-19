@@ -2874,12 +2874,6 @@ private:
      */
     TBool IsSelectionVisible();
 
-    /**
-     * check the character is valid numeric character or not
-     * @param aChar 
-     * @return if the aChar is invalid numeric char return EFalse else return ETrue
-     */
-    TBool IsValidNumericCharL( TChar aChar );
 
 protected:	// from MObjectProvider
 

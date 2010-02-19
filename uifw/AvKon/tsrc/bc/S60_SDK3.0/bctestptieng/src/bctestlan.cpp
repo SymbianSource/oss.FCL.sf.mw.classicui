@@ -124,12 +124,14 @@ void CBCTestLanguage::Teardown()
 void CBCTestLanguage::TestSetKeyMap()
     {
     iLan->SetKeyMappings(CBCTestKeymap::CreateKeyMapL());
-    AssertNotNullL(iLan->GetKeymappings(), _L("Key mapping set and got."));
+    iLan->GetKeymappings();
+    AssertTrueL(ETrue, _L("Key mapping set and got."));
     
     if( CBCTestQwertyMap::ValidQwertyMode() )
         {
         iLan->SetQwertyKeyMappings(CBCTestQwertyMap::CreateKeyMapL());
-        AssertNotNullL(iLan->GetQwertyKeymappings(), _L("Qwerty key mapping set and got."));
+        iLan->GetQwertyKeymappings();
+        AssertTrueL(ETrue, _L("Qwerty key mapping set and got."));
         iLan->ClearQwerty();
         AssertTrueL(NULL == iLan->GetQwertyKeymappings(), _L("Qwerty key mapping cleared."));
         }

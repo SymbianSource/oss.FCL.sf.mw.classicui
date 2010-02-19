@@ -206,9 +206,10 @@ public:
 	IMPORT_C void ProcessCommandL(TInt aCommandId);
 
 private:
-	void UpdateCBALabelsL();
-	TBool UpdateCBALabelL(TInt aPosition, TInt aCommandId, TInt aTextResId);
-	void SetEmphasis(CCoeControl* aMenuControl,TBool aEmphasis);
+    void UpdateCBALabelsL();
+    TBool UpdateCBALabelL(TInt aPosition, TInt aCommandId, TInt aTextResId);
+    void SetEmphasis(CCoeControl* aMenuControl,TBool aEmphasis);
+    void DeleteCBAL();
 
 private:
     /**
@@ -216,14 +217,16 @@ private:
     */
     IMPORT_C void* ExtensionInterface( TUid aInterface );
 private:
-	TBitFlags iFlags;
-
-	// Owned
-	CEikButtonGroupContainer* iCba;
+    TBitFlags iFlags;
+    TBool isCbaEmded;
+    // Owned
+    CEikButtonGroupContainer* iCba;
+    
 
 	// Not owned
 	CEikMenuBar* iMenu;
 	MEikCcpuEditor* iEditor;
+	CEikButtonGroupContainer* iDialogCba;
 	};
 
 #endif // EIKCCPU_H

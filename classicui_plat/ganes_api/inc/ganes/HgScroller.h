@@ -23,7 +23,7 @@
 #include <coecntrl.h>
 #include <coemain.h>
 
-#include <AknPhysicsObserverIface.h>
+#include <aknphysicsobserveriface.h>
 #include <aknlongtapdetector.h>
 #include <akncollection.h>
 #include <ganes/HgBufferOwnerIface.h>

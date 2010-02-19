@@ -28,7 +28,7 @@
 #include <PtiIndicDefs.h>
 #include "FindUtilKorean.h"
 #include <avkon.rsg>
-#include <stringloader.h>
+#include <StringLoader.h>
 const TInt KLitTab('\t');
 const TInt KLitSpace(' ');
 const TInt KLitHyphen('-');

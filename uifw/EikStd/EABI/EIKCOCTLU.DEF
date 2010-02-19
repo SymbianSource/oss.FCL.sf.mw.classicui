@@ -2005,4 +2005,5 @@ EXPORTS
 	_ZN25AknItemActionMenuRegister26SetOverridingMenuBarOwnerLEP15MObjectProviderj @ 2004 NONAME
 	_ZN11CEikListBox11MakeVisibleEi @ 2005 NONAME
 	_ZN7CEikCba25EnableItemSpecificSoftkeyEi @ 2006 NONAME
+	_ZNK11CEikListBox17ItemsInSingleLineEv @ 2007 NONAME
 

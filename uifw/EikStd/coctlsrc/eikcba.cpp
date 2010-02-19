@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -26,6 +26,8 @@
 #include <eiksoftkeypostingtransparency.h>
 #include <eikbtgpc.h>
 #include <aknappui.h>
+#include <eikappui.h>
+#include <eikapp.h>
 #include <AknUtils.h> // LayoutUtils
 #include <aknlayoutscalable_apps.cdl.h>
 #include <AknsBasicBackgroundControlContext.h>
@@ -268,7 +270,6 @@ public:
         iCbaRect = TRect( 0,0,0,0 );
         iIfSkinChanged = EFalse;
         iIfMskIconSet = EFalse;
-        iSemiBgID = KAknsIIDNone;
 
         if ( iOwner.Flags().IsSet( ECbaSingleClickEnabled ) )
             {
@@ -731,16 +732,85 @@ public:
     void DrawSemiTransparencyL(CWindowGc& aGc, 
             const TRect& aRect)
     	{
-    	//Temporary inner rectangal value
-    	TRect innerRect = aRect;
-    	innerRect.Shrink( 5, 5 );
-    	if ( iSemiBgID != KAknsIIDNone )
-	        {
-	        AknsDrawUtils::DrawFrame( AknsUtils::SkinInstance(), 
-	            aGc, aRect, innerRect, iSemiBgID, iSemiBgCenterID );
-	        }
-    	}
+        aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+        aGc.SetBrushColor( TRgb(128, 128, 128, 64) );
+        aGc.Clear();
+        
+        TAknsItemID SemiButtonID = KAknsIIDQgnHomeButtonWidget;
+        TAknsItemID SemiButtonCenterID = KAknsIIDQgnHomeButtonWidgetCenter;
+        TAknsItemID SemiButtonPressedID = KAknsIIDQgnHomeButtonWidget;
+        TAknsItemID SemiButtonPressedCenterID = KAknsIIDQsnFrHomeCenterPressed;
 
+        CEikCbaButton* button1 = static_cast<CEikCbaButton*>
+            (iOwner.Control(KControlArrayCBAButton1Posn));
+        CEikCbaButton* button2 = static_cast<CEikCbaButton*>
+            (iOwner.Control(KControlArrayCBAButton2Posn));
+
+        if (IsMskEnabledLayoutActive())
+            {
+            TRect innerRect = iMiddleFrameOuterRect;
+            innerRect.Shrink(4, 4);
+
+            CEikCbaButton* buttonMSK = static_cast<CEikCbaButton*>
+                (iOwner.Control(KControlArrayCBAButtonMSKPosn));
+
+            if (buttonMSK && buttonMSK->PressedDown())
+                {
+                AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                        iMiddleFrameOuterRect,
+                        innerRect,//iMiddleFrameInnerRect,
+                        SemiButtonPressedID,
+                        SemiButtonPressedCenterID);
+                }
+            else
+                {
+                AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                        iMiddleFrameOuterRect,
+                        innerRect,//iMiddleFrameInnerRect,
+                        SemiButtonID,
+                        SemiButtonCenterID);
+                }
+            }
+
+        TRect innerRect = iLeftFrameOuterRect;
+        innerRect.Shrink(4, 4);
+
+        if (button1 && button1->PressedDown())
+            {
+            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                    iLeftFrameOuterRect,
+                    innerRect,//iLeftFrameInnerRect,
+                    SemiButtonPressedID,
+                    SemiButtonPressedCenterID);
+            }
+        else
+            {
+            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                    iLeftFrameOuterRect,
+                    innerRect,//iLeftFrameInnerRect,
+                    SemiButtonID,
+                    SemiButtonCenterID);
+            }
+
+        innerRect = iRightFrameOuterRect;
+        innerRect.Shrink(4, 4);
+        if (button2 && button2->PressedDown())
+            {
+            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                    iRightFrameOuterRect,
+                    innerRect,//iRightFrameInnerRect,
+                    SemiButtonPressedID,
+                    SemiButtonPressedCenterID);
+            }
+        else
+            {
+            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
+                    iRightFrameOuterRect,
+                    innerRect,//iRightFrameInnerRect,
+                    SemiButtonID,
+                    SemiButtonCenterID);
+            }                    
+    	}
 public:
     
     CEikCba&               iOwner;
@@ -796,11 +866,6 @@ public:
      */
     TRect iUpdateFrameOuterRect;
     
-    /*
-     * Frame and center theme ID, using for semi-transparent  
-     */
-    TAknsItemID            iSemiBgID;
-    TAknsItemID	           iSemiBgCenterID;
     /**
      * Inner rect used in UpdateSoftkeyFrameL method.
      */
@@ -1195,12 +1260,6 @@ void CEikCba::BaseConstructL()
         }
 
     iExtension = CEikCbaExtension::NewL( *this );
-    //create bitmap for semi-transparent background
-    if ( iCbaFlags & EEikCbaFlagSemiTransparent && iExtension )
-        {
-        iExtension->iSemiBgID = KAknsIIDQsnHomeBgWidget;
-        iExtension->iSemiBgCenterID = KAknsIIDQsnHomeBgWidgetCenter;
-        }
 
     // Skin background is not drawn by embedded CBA.
     if ( !iFlags.IsSet( ECbaEmbedded ) )
@@ -1333,6 +1392,17 @@ void CEikCba::ConstructL(TInt aResourceId)
         TResourceReader reader;
         iCoeEnv->CreateResourceReaderLC(reader, aResourceId);
         iCbaFlags = reader.ReadInt32();        // flags resource
+        
+        const TUid KActiveIdle2Uid = {0x102750F0};
+        CEikApplication* app = CEikonEnv::Static()->EikAppUi()->Application();
+        if ( app && app->AppDllUid() == KActiveIdle2Uid )
+            {
+            //it's intereting that the transparent can't not be set after the CBA was created for a while.
+            //it just can be done in the CBA constructor, maybe some defect in Window server, but I'm not sure
+            //about that, in order to fix the defect I have hardcode the transparent flag for homescreen the only usercase.
+            //it should be fixed later.  
+            iCbaFlags |= EEikCbaFlagSemiTransparent;
+            }
     
         // If using enhanced cba.
         if ( (iCbaFlags & EEikEnhancedButtonGroup) == EEikEnhancedButtonGroup ) 
@@ -2773,16 +2843,8 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         //
         if ( statusPane &&
              statusPane->IsVisible() &&
-             AknStatuspaneUtils::ExtendedFlatLayoutActive() && 
-             ( iBgIID == KAknsIIDQsnBgAreaControl || 
-               iBgIID == KAknsIIDQsnBgAreaControlIdle ||
-               iBgIID == KAknsIIDQsnBgAreaControlMp ||
-               ( iBgIID == KAknsIIDWallpaper &&
-                 AknStatuspaneUtils::IdleLayoutActive() ) ) ) 
-            {
-            TRect digitalClockRect( 0,0,0,0 );
-            TRect indicatorRect( 0,0,0,0 );
- 
+             AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+            { 
             if ( iBgIID == KAknsIIDQsnBgAreaControlMp )
                 {
                 if ( !iIsClockIndicBgIIDSet )
@@ -2803,35 +2865,65 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
                     }
                 }
 
-            TRAPD( err1,
-                   indicatorRect = statusPane->PaneRectL( TUid::Uid( 
-                        EEikStatusPaneUidIndic ) ) );
-                                   
-            TRAPD( err2,
-                   digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
-                        EEikStatusPaneUidDigitalClock ) ) );
-
-            if ( !err1 && !err2 )
+            if ( statusPane->PaneCapabilities(
+                     TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() )
                 {
-                TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
-                TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
-
-                if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
-                    {
-                    indicatorRect.Move(
-                        -cbaPositionRelativeToScreen.iX,
-                        -cbaPositionRelativeToScreen.iY );
-                        
-                    region.SubRect( indicatorRect );                              
-                    }
+                TRect combinedPaneRect( 0, 0, 0, 0 );
+                TRAPD( err,
+                       combinedPaneRect =
+                           statusPane->PaneRectL( TUid::Uid( 
+                               EEikStatusPaneUidCombined ) ) );
                 
-                if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
+                if ( !err )
                     {
-                    digitalClockRect.Move(
-                        -cbaPositionRelativeToScreen.iX,
-                        -cbaPositionRelativeToScreen.iY );
-                        
-                    region.SubRect( digitalClockRect );       
+                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
+                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
+                    
+                    if ( cbaRectRelativeToScreen.Intersects( combinedPaneRect ) )
+                        {
+                        combinedPaneRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
+                            
+                        region.SubRect( combinedPaneRect );                              
+                        }
+                    }
+                }
+            else
+                {
+                TRect digitalClockRect( 0, 0, 0, 0 );
+                TRect indicatorRect( 0, 0, 0, 0 );
+
+                TRAPD( err1,
+                       indicatorRect = statusPane->PaneRectL( TUid::Uid( 
+                           EEikStatusPaneUidIndic ) ) );
+                                               
+                TRAPD( err2,
+                       digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
+                           EEikStatusPaneUidDigitalClock ) ) );
+                
+                if ( !err1 && !err2 )
+                    {
+                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
+                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
+
+                    if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
+                        {
+                        indicatorRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
+                            
+                        region.SubRect( indicatorRect );                              
+                        }
+                    
+                    if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
+                        {
+                        digitalClockRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
+                            
+                        region.SubRect( digitalClockRect );       
+                        }
                     }
                 }
             }
@@ -3179,22 +3271,6 @@ EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
         {
         iCbaFlags &= ~EEikCbaFlagTransparent;
         }
-    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
-        {
-        if ( iExtension )
-            {
-            iExtension->iSemiBgID = KAknsIIDQsnHomeBgWidget;
-            iExtension->iSemiBgCenterID = KAknsIIDQsnHomeBgWidgetCenter;
-            }
-        }
-    else
-        {
-        if ( iExtension )
-            {
-            iExtension->iSemiBgID = KAknsIIDNone;
-            iExtension->iSemiBgCenterID = KAknsIIDNone;
-            }
-        }
     
     UpdateFonts();
     }
@@ -3285,12 +3361,30 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
 
     TKeyResponse response(EKeyWasNotConsumed);
 
+    CEikCbaButton* button1 =
+        static_cast<CEikCbaButton*>(
+            (*iControlArray)[KControlArrayCBAButton1Posn].iControl );
+    CEikCbaButton* button2 =
+        static_cast<CEikCbaButton*>(
+            (*iControlArray)[KControlArrayCBAButton2Posn].iControl );
+    CEikCbaButton* buttonMSK = NULL;
+    if ( iMSKset && AknLayoutUtils::MSKEnabled() )
+        {
+        buttonMSK =
+            static_cast<CEikCbaButton*>(
+                (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl );
+        }
+    
     // AknLaf - changed to use keys defined in AknKeys.h.
     // Left soft key will be returned also when MSK is enabled but not defined.
     if (aKeyEvent.iCode == EKeyCBA1)
         {
         if (KControlArrayCBAButton1Posn < iControlArray->Count())
             {
+            if( button1->IsDimmed() )
+                {
+                return EKeyWasConsumed;
+                }
             // Return immediately if the button is invisible                        
             if ( (*iControlArray)[KControlArrayCBAButton1Posn].iControl &&
                  !(*iControlArray)[KControlArrayCBAButton1Posn].iControl->IsVisible() && 
@@ -3322,6 +3416,10 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
         {
         if (KControlArrayCBAButton2Posn < iControlArray->Count())
             {
+            if( button2->IsDimmed() )
+                {
+                return EKeyWasConsumed;
+                }
             // Return immediately if the button is invisible.
             if ( (*iControlArray)[KControlArrayCBAButton2Posn].iControl &&
                  !(*iControlArray)[KControlArrayCBAButton2Posn].iControl->IsVisible() && 
@@ -3365,6 +3463,10 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
                 && aKeyEvent.iCode == EKeyOK
                 && !Window().IsFaded() )
         {
+        if( buttonMSK->IsDimmed() )
+            {
+            return EKeyWasConsumed;
+            }
         if (KControlArrayCBAButtonMSKPosn < iControlArray->Count())
             {
             // Return immediately if the button is invisible.
@@ -3577,6 +3679,11 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     // If hits the left softkey.
     if ( button1Rect.Contains( aPointerEvent.iPosition ) && !button1Empty )
         {
+        if( button1->IsDimmed() )
+            {
+        	CCoeControl::HandlePointerEventL( aPointerEvent );
+        	return;
+            }
         if ( button1->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -3636,6 +3743,11 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         }
     else if ( button2Rect.Contains( aPointerEvent.iPosition ) && !button2Empty )
         {              
+        if( button2->IsDimmed() )
+            {
+        	CCoeControl::HandlePointerEventL( aPointerEvent );
+        	return;
+            }             
         if ( button2->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -3697,6 +3809,11 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
               !buttonMSKEmpty &&
               buttonMSKRect.Contains( aPointerEvent.iPosition ) )
         {
+        if( buttonMSK->IsDimmed() )
+            {
+        	CCoeControl::HandlePointerEventL( aPointerEvent );
+        	return;
+            }
         if  ( buttonMSK->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -4199,18 +4316,19 @@ void CEikCba::Draw( const TRect& aRect ) const
         {
         return;
         }
+    
+    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
+        {
+        CWindowGc &gc = SystemGc();
+
+        iExtension->DrawSemiTransparencyL( gc, Rect() );
+        return;
+        }
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     
     const TRect rect( Rect() );
     CWindowGc& gc = SystemGc();
-
-    TRgb rgb( TRgb::Color16MA( 0 ) );
-    gc.SetDrawMode( CGraphicsContext::EDrawModeWriteAlpha );
-    gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-    gc.SetBrushColor( rgb );        
-    gc.Clear();
-  
     MAknsControlContext* cc = iMLBgContext;
     
     if ( iFlags.IsSet( ECbaEmbedded ) )
@@ -4441,13 +4559,6 @@ void CEikCba::Draw( const TRect& aRect ) const
                                               KAknsIIDQgnFrSctrlSkButton,
                                               KAknsIIDQgnFrSctrlSkButtonCenter );
                     }
-                }
-            }
-        else if ( ( iCbaFlags & EEikCbaFlagSemiTransparent) && iExtension )
-            {
-            if ( iExtension->iSemiBgID != KAknsIIDNone )
-                {
-                iExtension->DrawSemiTransparencyL( gc, rect );
                 }
             }
         else
@@ -5021,7 +5132,7 @@ void CEikCba::SizeChangedInControlPane()
         }
         
     if ( iExtension->iEnablePostingTransparency ||
-         ( iCbaFlags & EEikCbaFlagTransparent ) || ( iCbaFlags & EEikCbaFlagSemiTransparent ) )
+         ( iCbaFlags & EEikCbaFlagTransparent ) )
         {
         textVariety = 6; // Outline font used
         }
@@ -5113,7 +5224,7 @@ void CEikCba::SizeChangedInControlPane()
             }
 
         TInt textMSKVariety = 3;
-        TInt graphicMSKVariety = 0;
+        TInt graphicMSKVariety = 1;
 
         if ( mskEnabledInApplication && mskEnabledInPlatform )
             {
@@ -5163,9 +5274,7 @@ void CEikCba::SizeChangedInControlPane()
 
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
         const TBool transparentSoftkeys = 
-            iExtension->iEnablePostingTransparency || 
-            ( iCbaFlags & EEikCbaFlagTransparent ) || 
-            ( iCbaFlags & EEikCbaFlagSemiTransparent );
+            iExtension->iEnablePostingTransparency || ( iCbaFlags & EEikCbaFlagTransparent );
         TRgb leftColor;
         TRgb rightColor;
         TRgb MSKColor;
@@ -6076,7 +6185,7 @@ void CEikCba::UpdateFonts()
     TInt rightPaneTextVariety = 0;
     
     if ( iExtension->iEnablePostingTransparency ||
-         ( iCbaFlags & EEikCbaFlagTransparent ) || ( iCbaFlags & EEikCbaFlagSemiTransparent ) )
+         ( iCbaFlags & EEikCbaFlagTransparent ) )
         {
         rightPaneTextVariety = 1; // Outline font used
         }
@@ -7250,7 +7359,7 @@ TBool CEikCba::UpdateIconL()
         TRect rect;
         qgn_graf_sk_msk.LayoutRect(
             rect,
-            AknLayoutScalable_Avkon::control_pane_g4( 0 ).LayoutLine() );
+            AknLayoutScalable_Avkon::control_pane_g4( 1 ).LayoutLine() );
 
         TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                         qgn_graf_sk_msk.Rect().Height() );

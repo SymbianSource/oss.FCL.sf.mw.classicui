@@ -18,7 +18,7 @@
 #include <frmtview.h>
 #include <tagma.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
-#include <tagmaLayoutAndSource.h>
+#include <tagmalayoutandsource.h>
 #endif
 
 #include "FromCursorModifierUtils.h"

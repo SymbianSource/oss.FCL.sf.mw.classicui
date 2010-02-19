@@ -132,7 +132,8 @@ private:
         EIconRemoteDrive,
         EIconRemoteDriveActive, // Icon used in D-column if drive active
         EIconInternalMassStorage,
-        EIconInternalMassStorageUnavailable
+        EIconInternalMassStorageUnavailable,
+        EIconExternalUSBDrive
         };
 
     /**
@@ -194,6 +195,15 @@ private:
      */
     void AddMMCItemToLbxL( const TCFDDriveInfo& aDriveInfo );
 
+    /**
+     * Creates formatted listbox item and appends it to iListBoxArray.
+     * This method is for usb mass storage drives.
+     *
+     * @param aDriveInfo Drive information from which the lxx item string is
+     *                   created.
+     */
+    void AddUSBItemToLbxL( const TCFDDriveInfo& aDriveInfo );
+    
     /**
      * Creates formatted listbox item and appends it to iListBoxArray.
      * This method is for remote drives.

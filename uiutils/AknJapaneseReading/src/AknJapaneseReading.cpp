@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include "AknJapaneseReading.h"
-#include "AknJapaneseReadingDll.h"
+#include "AknJapaneseReadingDLL.h"
 #include <PtiEngine.h>
 
 // EXTERNAL DATA STRUCTURES

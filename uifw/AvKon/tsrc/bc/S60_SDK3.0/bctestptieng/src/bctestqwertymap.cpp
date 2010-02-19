@@ -20,6 +20,7 @@
 #include <coecntrl.h>
 #include <eikenv.h>
 #include <ptikeymappings.h>
+#include <ptikeymapdata.h>
 #include <BARSREAD.H>
 
 #include "BCTestQwertymap.h"
@@ -131,20 +132,21 @@ void CBCTestQwertyMap::TestFunctionL()
 //   
 void CBCTestQwertyMap::SetupL()
     {
-    TRAPD(err, iMap = static_cast<CPtiQwertyKeyMappings*>(CreateKeyMapL()));
-    if(err == KErrCorrupt)
-        {
-        AssertTrueL(ETrue, _L("data format err"));
-        }
-    else if ( KErrNotFound == err )
-    	{
-    	iMap = NULL;
-    	AssertTrueL(ETrue, _L("data format err KErrNotFound"));
-    	}
-    else
-        {
-        AssertNotNullL(iMap, _L("created by NewL from descriptor"));
-        }
+    RArray<TInt> dataImpl;    
+    CPtiKeyMapDataFactory::ListImplementationsL(dataImpl);
+
+    TUid uid = TUid::Uid(dataImpl[0]);
+    CPtiKeyMapDataFactory* keymapDatafactory =
+    CPtiKeyMapDataFactory::CreateImplementationL(uid);
+    CleanupStack::PushL(keymapDatafactory);
+    dataImpl.Close();
+
+    iKeymapData =static_cast<CPtiKeyMapData*>(
+    keymapDatafactory->KeyMapDataForLanguageL(01));
+    iMap = CPtiQwertyKeyMappings::NewL(iKeymapData);
+
+    CleanupStack::PopAndDestroy(keymapDatafactory);
+    AssertTrueL(ETrue, _L("CPtiQwertyKeyMappings::NewL"));
     }
 
 // ---------------------------------------------------------------------------
@@ -155,6 +157,8 @@ void CBCTestQwertyMap::Teardown()
     {
     delete iMap;
     iMap = NULL;
+    delete iKeymapData;
+    iKeymapData = NULL;    
     }
 
 
@@ -175,15 +179,12 @@ void CBCTestQwertyMap::TestMapping()
 //  
 void CBCTestQwertyMap::TestStartMapping()
     {
-    
-    TPtrC keydata(_L('a'));
-    TInt size = keydata.Length();
 
-    iMap->StartMapping( (TPtiKey)keydata[size/2+1], EPtiCaseLower );
+    iMap->StartMapping( EPtiKeyQwerty1, EPtiCaseLower );
     _LIT( KStartMapping, "StartMapping is invoked" );
     AssertTrueL( ETrue, KStartMapping );
         
-    iMap->StartMapping( (TPtiKey)keydata[0], EPtiCaseLower );
+    iMap->StartMapping( EPtiKeyQwerty2, EPtiCaseLower );
     _LIT( KStartMapping1, "StartMapping1 is invoked" );
     AssertTrueL( ETrue, KStartMapping1 );
 
@@ -196,18 +197,15 @@ void CBCTestQwertyMap::TestStartMapping()
 //  
 void CBCTestQwertyMap::TestNextKey()
     {
-    
-    TPtrC keydata(_L('a'));
-    TInt size = keydata.Length();
-    
+
     TBool isAppend = ETrue;
-    iMap->StartMapping( (TPtiKey)keydata[size/2+1], EPtiCaseLower);
+    iMap->StartMapping( EPtiKeyQwerty1, EPtiCaseLower);
     
-    iMap->NextKey( (TPtiKey)keydata[size/2+1], isAppend, EPtiCaseLower );
+    iMap->NextKey( EPtiKeyQwerty2, isAppend, EPtiCaseLower );
     _LIT( KNextKey, "NextKey is invoked" );
     AssertTrueL( ETrue, KNextKey );     
     
-    iMap->NextKey( (TPtiKey)keydata[0], isAppend, EPtiCaseLower );
+    iMap->NextKey( EPtiKeyQwerty3, isAppend, EPtiCaseLower );
     _LIT( KNextKey1, "NextKey1 is invoked" );
     AssertTrueL( ETrue, KNextKey1 );
 
@@ -224,26 +222,23 @@ void CBCTestQwertyMap::TestReplaceMappingL()
     TBuf<5> lowerMap( KNewMapLower );
     TBuf<5> upperMap( KNewMapUpper );
     
-    TPtrC keydata(_L('a'));
-    TInt size = keydata.Length();
-
-    iMap->ReplaceKeyMapL( (TPtiKey)keydata[0], lowerMap, EPtiCaseLower );
+    iMap->ReplaceKeyMapL( EPtiKeyQwerty1, lowerMap, EPtiCaseLower );
     _LIT( KReplaceKeyMapL, "ReplaceKeyMapL is invoked" );
     AssertTrueL( ETrue, KReplaceKeyMapL );    
     
-    iMap->ReplaceKeyMapL( (TPtiKey)keydata[0], upperMap, EPtiCaseUpper );
+    iMap->ReplaceKeyMapL( EPtiKeyQwerty2, upperMap, EPtiCaseUpper );
      _LIT( KReplaceKeyMapL1, "ReplaceKeyMapL1 is invoked" );
     AssertTrueL( ETrue, KReplaceKeyMapL1 ); 
     
-    iMap->StartMapping( (TPtiKey)keydata[0], EPtiCaseLower );
+    iMap->StartMapping( EPtiKeyQwerty3, EPtiCaseLower );
      _LIT( KStartMapping, "StartMapping is invoked" );
     AssertTrueL( ETrue, KStartMapping ); 
     
-    iMap->NextKey( (TPtiKey)keydata[0], isAppend, EPtiCaseLower);
+    iMap->NextKey( EPtiKeyQwerty4, isAppend, EPtiCaseLower);
      _LIT( KNextKey, "NextKey is invoked" );
     AssertTrueL( ETrue, KNextKey ); 
         
-    iMap->NextKey( (TPtiKey)keydata[0], isAppend, EPtiCaseUpper);
+    iMap->NextKey( EPtiKeyQwerty5, isAppend, EPtiCaseUpper);
      _LIT( KNextKey1, "NextKey1 is invoked" );
     AssertTrueL( ETrue, KNextKey1 ); 
 
@@ -256,18 +251,15 @@ void CBCTestQwertyMap::TestReplaceMappingL()
 //  
 void CBCTestQwertyMap::TestReverseMapping()
     {
-    
-    
-    TPtrC keydata(_L('a'));
-    TInt size = keydata.Length();
-    
-    iMap->KeyForCharacter( keydata[1] );
+    TUint16 c = 1;
+    iMap->KeyForCharacter( c );
     _LIT( KKeyForCharacter, "KeyForCharacter is invoked" );
     AssertTrueL( ETrue, KKeyForCharacter );
     
-    iMap->KeyForCharacter( keydata[2] );
+    iMap->KeyForCharacter( c );
     _LIT( KKeyForCharacter1, "KeyForCharacter1 is invoked" );
     AssertTrueL( ETrue, KKeyForCharacter1 );
+    
     }
 
 
@@ -278,15 +270,12 @@ void CBCTestQwertyMap::TestReverseMapping()
 void CBCTestQwertyMap::TestKeyData()
     {
     
-    TPtrC keydata(_L('a'));
-    TInt size = keydata.Length();
-    
     TBuf<8> mapStr;
 
-    iMap->GetDataForKey( (TPtiKey)keydata[0], mapStr, EPtiCaseLower );
+    iMap->GetDataForKey( EPtiKeyQwerty1, mapStr, EPtiCaseLower );
     AssertTrueL( ETrue, _L("Lower case data for key 1 is `") );
 
-    iMap->GetDataForKey( (TPtiKey)keydata[0], mapStr, EPtiCaseUpper );
+    iMap->GetDataForKey( EPtiKeyQwerty2, mapStr, EPtiCaseUpper );
     AssertTrueL( ETrue, _L("Upper case data for key 1 is ~") );
     }
 
@@ -297,70 +286,7 @@ void CBCTestQwertyMap::TestKeyData()
 //  
 MPtiKeyMappings* CBCTestQwertyMap::CreateKeyMapL()
     {
-    
-    MPtiKeyMappings* keyMappings = NULL;
-    RFs fsSession;
-    User::LeaveIfError( fsSession.Connect() ); // Start session
-    CleanupClosePushL( fsSession ); 
-    
-    fsSession.SetSessionPath( KQwertyDir );                 
-            
-    TResourceReader reader;
-    RResourceFile resFile;
-    
-    TFindFile fileFinder( fsSession );
-    CDir* fileList = NULL;
-    TInt err;   
-    err = fileFinder.FindWildByPath( KMultiTapWildName, &KQwertyDir, fileList );   
-    
-    TInt code = User::Language();
-    TInt lcode;
-    
-    if ( err == KErrNoMemory )
-        {
-        delete fileList;
-    User::Leave( KErrNoMemory );                
-    }
-        
-    else if ( err == KErrNone )
-        {
-        CleanupStack::PushL( fileList );
-        TParse fileName;            
-        HBufC8* rBuffer = NULL; 
-        
-        TInt i;
-        for ( i = 0; i < fileList->Count(); i++ )
-            {
-            fileName.Set( (*fileList)[i].iName, &fileFinder.File(), NULL );
-            resFile.OpenL( fsSession, fileName.FullName() );                
-            CleanupClosePushL( resFile );               
-                
-            rBuffer = resFile.AllocReadLC( 1 ); 
-            reader.SetBuffer( rBuffer );    
-                
-            lcode = *( (TInt16*)rBuffer->Ptr() );       
-            if ( lcode == code )
-                {
-                break;
-                }           
-            CleanupStack::PopAndDestroy(2); // rBuffer, resFile                                                             
-            }
-        if ( i >= fileList->Count() )   
-            {
-            User::Leave( KErrNotFound );
-            }
-                
-        TPtrC mtdata( (TUint16*)( rBuffer->Ptr() + ( 2 * sizeof( TUint16 ) ) ),
-                 ( rBuffer->Length() - (2 * sizeof(TUint16) ) ) / 2 ); 
-        keyMappings = CPtiQwertyKeyMappings::NewL( mtdata );     
-        
-        CleanupStack::PopAndDestroy(3); // fileList, rBuffer, resFile                           
-    }
-        
-    CleanupStack::PopAndDestroy(); // fsSession 
-    
-    return keyMappings;
-    
+    return NULL;
     }
 
 // ---------------------------------------------------------------------------

@@ -29,11 +29,6 @@
 #include <AknPriv.hrh>
 #include <AknTasHook.h>
 #include <AknsDrawUtils.h>
-// Do not use these constants directly, use implemented private methods instead.
-// const TInt KScrollBackgroundMinVisibleSizeInPixels = 4; // minimum distance handle and scb bottom. 
-//const TInt KHandleBackgroundMinSizeInPixels = 24; // double spanned non focused handle minimum size
-//const TInt KHandleMinSizeInPixels = 12; // focused handle minimum size
-const TInt KPrecision = 8; // Used in pixel effect calculations
 
 CAknDoubleSpanScrollIndicator* CAknDoubleSpanScrollIndicator::NewL(CEikScrollBar::TOrientation aOrientation)
     {
@@ -46,7 +41,7 @@ CAknDoubleSpanScrollIndicator* CAknDoubleSpanScrollIndicator::NewL(CEikScrollBar
 
 CAknDoubleSpanScrollIndicator::CAknDoubleSpanScrollIndicator() 
 : iOwnsWindow(EFalse), iTransparentBackground(EFalse), iDrawBackground(ETrue), 
-    iBackgroundHighlight(EFalse),iDrawBackgroundBitmap(EFalse)
+    iBackgroundHighlight(EFalse)
     {
     AKNTASHOOK_ADD( this, "CAknDoubleSpanScrollIndicator" );
     }
@@ -224,8 +219,9 @@ void CAknDoubleSpanScrollIndicator::CalculateRects()
         checkedFieldSize);
     
     // If span (max number of items) is zero, then draw only the background
-    if (checkedScrollSpan == 0)
+    if ( checkedScrollSpan == 0 || ( checkedScrollSpan <= checkedWindowSize ) )
         {
+        iBackgroundRect = TRect( 0, 0, 0, 0 );
         iHandleBackgroundRect = TRect(0,0,0,0);
         iHandleRect = TRect(0,0,0,0);
         return;
@@ -485,11 +481,6 @@ void CAknDoubleSpanScrollIndicator::SizeChanged()
         AknsUtils::RegisterControlPosition( this );
         CalculateRects();
 
-        if (iOwnsWindow)
-            {
-            TRAP_IGNORE(CreateBackgroundBitmapL());
-            }
-        
         UpdateScrollBarLayout();
         
         if (IsVisible() & iOwnsWindow)
@@ -559,11 +550,7 @@ TBool CAknDoubleSpanScrollIndicator::TransparentBackground()
 
 void CAknDoubleSpanScrollIndicator::HandleResourceChange(TInt aType)
     {
-    if ( aType == KAknsMessageSkinChange )
-        {
-        iDrawBackgroundBitmap = ETrue;
-        }
-    else if( aType == KAknMessageFocusLost || KEikMessageUnfadeWindows == aType)
+    if ( aType == KAknMessageFocusLost || KEikMessageUnfadeWindows == aType )
         {
         if( HandleHighlight() )
             {
@@ -726,11 +713,6 @@ TBool CAknDoubleSpanScrollIndicator::DrawBackgroundState()
     return iDrawBackground;
     }
 
-// Prepares background for window-owning scrollbar 
-void CAknDoubleSpanScrollIndicator::CreateBackgroundBitmapL()
-    {
-   
-    }
 
 void CAknDoubleSpanScrollIndicator::DrawBackground() const
     {
@@ -749,31 +731,15 @@ void CAknDoubleSpanScrollIndicator::DrawBackground() const
             // component is the scrollbar class, therefore the window may be in different position
             // and size than the indicator itself
             RWindow& win = Window();
-            iDrawBackgroundBitmap = EFalse;
             TRect bmpRect(win.Position() + pos, rect.Size()); // There may be an arrow on top of scb
-            if ( CAknEnv::Static()->TransparencyEnabled() )
-                {
-                AknsDrawUtils::DrawBackground( skin, cc, NULL, gc,
-                    rect.iTl, bmpRect, KAknsDrawParamNoClearUnderImage );
-                }
-            else
-                {
-                AknsDrawUtils::DrawBackground( skin, cc, NULL, gc, 
-                    TPoint(0,0), bmpRect , KAknsDrawParamNoClearUnderImage );
-                    
-                         
-                }
+
+            AknsDrawUtils::DrawBackground( skin, cc, NULL, gc,
+                rect.iTl, bmpRect, KAknsDrawParamNoClearUnderImage );
             }
         else             //SB is non-window-owning
             {
-            if ( CAknEnv::Static()->TransparencyEnabled() )
-                {
-                AknsDrawUtils::Background( skin, cc, this, gc, rect, KAknsDrawParamNoClearUnderImage );
-                }
-            else
-                {
-                AknsDrawUtils::Background( skin, cc, this, gc, rect );
-                }
+            AknsDrawUtils::Background( skin, cc, this, gc, rect, 
+                    KAknsDrawParamNoClearUnderImage );
             }
         }
     }
@@ -827,8 +793,6 @@ void CAknDoubleSpanScrollIndicator::LayoutHandleGraphics()
         iHandleRect.iTl.iY = rect.iTl.iY;
         iHandleRect.iBr.iY = rect.iBr.iY;
         }
-    
-   
     }
 
 TInt CAknDoubleSpanScrollIndicator::GetCurrentThumbSpanInPixels()
@@ -868,261 +832,15 @@ TBool CAknDoubleSpanScrollIndicator::HandleHighlight() const
     return iHandleHighlight;
     }
     
-void CAknDoubleSpanScrollIndicator::SetTouchAreaControl( CCoeControl* aTouchAreaControl )
-    {
-    iTouchAreaControl = aTouchAreaControl;
-    }
-  
+
  void CAknDoubleSpanScrollIndicator::SetBackgroudHighlight( TBool aBackgroudHighlight )
     {
     // This does nothing in non-touch
     iBackgroundHighlight = aBackgroudHighlight;
-
     }
     
 TBool CAknDoubleSpanScrollIndicator::BackgroudHighlight() const
     {
     return iBackgroundHighlight;
-    }
-CFbsBitmap* CAknDoubleSpanScrollIndicator::CopyAndApplyEffectL(
-    const CFbsBitmap* aSource, TBool aCopyOnly )
-    {
-    CFbsBitmap* newBitmap = NULL;
-    
-    
-        newBitmap = new ( ELeave ) CFbsBitmap; 
-    
-    
-    
-    TInt err = newBitmap->Create( aSource->SizeInPixels(), aSource->DisplayMode() );
-    
-    // We still have to return a dummy bitmap object, even if
-    // the creation fails.
-    if ( err == KErrNone )
-        {
-        SEpocBitmapHeader header = aSource->Header();
-        
-        // We support only 16-bit (5-6-5), since this is the default
-        // display mode icons are created in. Otherwise just copy.
-        if ( !aCopyOnly && aSource->DisplayMode() == EColor64K )
-            {
-            // Don't modify header data.
-            TInt size = ( header.iBitmapSize - header.iStructSize ) /
-                        sizeof( TUint16 );
-                        
-            aSource->BeginDataAccess();
-        
-            TUint16* source = (TUint16*)aSource->DataAddress();
-            TUint16* dest = (TUint16*)newBitmap->DataAddress();
-            
-            for ( TInt i = 0; i < size; ++i )
-                {
-                *dest = *source++;
-                TBitmapFx::PixelEffect( dest++ );
-                }
-            
-            aSource->EndDataAccess( ETrue );
-            }
-        else
-            {
-            // This is probably faster than blitting it. Copy
-            // the header data in the same run to minimize size
-            // calculations, although it's already correct in the
-            // new bitmap.
-            TInt size = aSource->Header().iBitmapSize;
-
-            aSource->BeginDataAccess();
-            
-            Mem::Copy( newBitmap->DataAddress(),
-                       aSource->DataAddress(),
-                       size );
-                       
-            aSource->EndDataAccess( ETrue );
-            }
-        }
-    
-    
-    return newBitmap;
-    }
-
-
-void TBitmapFx::PixelEffect( TUint16* aPixelData )
-    {
-    // Note: the calculations in this function are based on
-    // graphic designers' conception of what Photoshop does
-    // to images with certain values. There might also be some
-    // room for optimizations.
-    
-    TRGB rgb;
-    
-    rgb.iR = ( *aPixelData & 0xF800 ) >> 11;
-    rgb.iG = ( *aPixelData & 0x7E0 ) >> 5;
-    rgb.iB = ( *aPixelData & 0x1F );
-    
-    // Scale to 65280 (0xFF00). Under no circumstances should these
-    // values end up being > 0xFF00 or < 0x00
-    rgb.iR *= 2105.82f;
-    rgb.iG *= 1036.20f;
-    rgb.iB *= 2105.82f;
-    
-    // Convert RGB to HSL
-    TInt min = Min( rgb.iR, Min( rgb.iG, rgb.iB ) );
-    TInt max = Max( rgb.iR, Max( rgb.iG, rgb.iB ) );
-    TInt delta = max - min;
-
-    THSL hsl = { 0, 0, 0 } ;
-    
-    // Lightness
-    hsl.iL = ( max + min ) >> 1;
-    
-    if ( delta == 0 )
-        {
-        hsl.iH = 0;
-        hsl.iS = 0;
-        }
-    else
-        {
-        // Hue
-        if ( max == rgb.iR )
-            {
-            hsl.iH = 10880 * ( rgb.iG - rgb.iB ) / delta;
-            }
-        else if ( max == rgb.iG )
-            {
-            hsl.iH = 10880 * ( rgb.iB - rgb.iR ) / delta + 21760;
-            }
-        else if ( max == rgb.iB )
-            {
-            hsl.iH = 10880 * ( rgb.iR - rgb.iG ) / delta + 43520;
-            }
-        
-        // Saturation
-        if ( hsl.iL <= 32640 )
-            {
-            hsl.iS = ( delta << KPrecision ) / ( ( max + min ) >> KPrecision );
-            }
-        else
-            {
-            hsl.iS = ( delta << KPrecision ) / ( ( 0x1FE00 - ( max + min ) ) >> KPrecision );
-            }
-        }
-
-    // Apply hue shift, moved to proper range in HueToRGB()
-    hsl.iH += 0x715;
-        
-    // Apply saturation
-    // +10 in -100..100 in Photoshop terms. According to related material
-    // corresponds to 0xCC0 when applied to 0x00..0xFF00
-    hsl.iS += 0xCC0;
-    
-    if ( hsl.iS > 0xFF00 )
-        {
-        hsl.iS = 0xFF00;
-        }
-
-    // Convert back to RGB
-    TInt v1;
-    TInt v2;
-    
-    if ( hsl.iS == 0 )
-        {
-        rgb.iR = ( hsl.iL * 255 ) >> KPrecision;
-        rgb.iG = ( hsl.iL * 255 ) >> KPrecision;
-        rgb.iB = ( hsl.iL * 255 ) >> KPrecision;
-        }
-    else
-        {
-        if ( hsl.iL < 32640 )
-            {
-            v2 = ( hsl.iL  * ( ( 0xFF00 + hsl.iS ) >> KPrecision ) ) >> KPrecision;
-            }
-        else
-            {
-            v2 = ( hsl.iL + hsl.iS ) - ( ( hsl.iS >> KPrecision ) * ( hsl.iL >> KPrecision ) );
-            }
-        
-        v1 = 2 * hsl.iL - v2;
-      
-        rgb.iR = ( HueToRGB( v1, v2, hsl.iH + 0x54FF ) );
-        rgb.iG = ( HueToRGB( v1, v2, hsl.iH ) );
-        rgb.iB = ( HueToRGB( v1, v2, hsl.iH - 0x54FF ) );
-        }
-
-    rgb.iR /= 2105.82f;
-    rgb.iG /= 1036.20f;
-    rgb.iB /= 2105.82f;
-
-    // Apply contrast.. However, the original req stated that the
-    // contrast value should be +6 in a range of -100..100.
-    // With 5 and 6 bit values and fixed point math such a small value has
-    // no effect, so it has been left out. The code is here in case
-    // the contrast value is updated at some point.
-    /*
-    const TInt contrast   = ( 6 * 65536 / 200 ) + 65536;
-    
-    rgb.iR -= 15;
-    rgb.iG -= 31;
-    rgb.iB -= 15;
-    
-    rgb.iR *= contrast;
-    rgb.iG *= contrast;
-    rgb.iB *= contrast;
-    
-    rgb.iR /= 65536;
-    rgb.iG /= 65536;
-    rgb.iB /= 65536;
-
-    rgb.iR += 15;
-    rgb.iG += 31;
-    rgb.iB += 15;
-    */
-
-    // Apply brightness, -40 in a range of -100..100 for
-    // 0..255 rgb values, which corresponds to -5 for 5 bit
-    // and -10 for 6 bit rgb values.
-    rgb.iR -= 5;
-    rgb.iG -= 10;
-    rgb.iB -= 5;
-
-    if ( rgb.iR < 0 ) rgb.iR = 0;
-    if ( rgb.iG < 0 ) rgb.iG = 0;
-    if ( rgb.iB < 0 ) rgb.iB = 0;
-    
-    if ( rgb.iR > 31 ) rgb.iR = 31;
-    if ( rgb.iG > 63 ) rgb.iG = 63;
-    if ( rgb.iB > 31 ) rgb.iB = 31;
-
-    *aPixelData =
-        ( rgb.iB | ( rgb.iG << 5 ) | ( rgb.iR << 11 ) );
-    }
-    
-TInt TBitmapFx::HueToRGB( TInt v1, TInt v2, TInt aH )
-    {
-    while ( aH < 0 )
-        {
-        aH += 0xFF00;
-        }
-        
-    while ( aH >= 0xFF00 )
-        {
-        aH -= 0xFF00;
-        }
-        
-    if ( ( ( 6 * aH ) ) < 0xFF00 )
-        {
-        return v1 + ( ( v2 - v1 ) * ( ( 6 * aH ) >> KPrecision ) >> KPrecision );
-        }
-
-    if ( ( ( 2 * aH ) ) < 0xFF00 )
-        {
-        return v2;
-        }
-
-    if ( ( ( 3 * aH ) ) < 0x1FE00 )
-        {
-        return v1 + ( ( v2 - v1 ) * ( ( ( 0xA9FF - aH ) * 6 ) >> KPrecision ) >> KPrecision );
-        }
-    
-    return v1;
     }
 

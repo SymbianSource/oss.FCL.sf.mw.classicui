@@ -3186,7 +3186,6 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         iShowPagesRef = &iSpecialCharPages;
         
         // default
-        iSpecialCharCase = EAknSCTLowerCase;
         iChars = iCharsBufferLower;
         
         if(iExtension->iCharsSmiley && iExtension->IsShowingEmotion())

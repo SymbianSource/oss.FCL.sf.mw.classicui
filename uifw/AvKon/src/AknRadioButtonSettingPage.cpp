@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -247,7 +247,9 @@ EXPORT_C void CAknRadioButtonSettingPage::HandleListBoxEventL(CEikListBox* /*aLi
             // Only in single click enabled applications.
             if ( iExtension &&
                  iExtension->iFlags.IsSet(
-                     CAknRadioButtonSettingPageExtension::ESingleClickEnabled ) )
+                     CAknRadioButtonSettingPageExtension::ESingleClickEnabled ) &&
+                 iCurrentSelectionIndex >= 0 &&
+                 iCurrentSelectionIndex < ListBoxControl()->Model()->NumberOfItems() )
                 {
                 ListBoxControl()->View()->SetCurrentItemIndex(
                     iCurrentSelectionIndex );

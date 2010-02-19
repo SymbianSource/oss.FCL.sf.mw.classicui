@@ -1102,7 +1102,15 @@ private: // [TestMethods]
     * @param aItem is not used.
     * @return Symbian OS error code.
     */
-    virtual TInt TestAknPopupUtilsPositionFuncs( CStifItemParser& aItem );
+    virtual TInt TestAknPopupUtilsPosition( CStifItemParser& aItem );
+    
+    /**
+    * TestAknListUtilsDrawSeparator test separator line drawing in aknutils.h.
+    * @since S60 5.2
+    * @param aItem is not used.
+    * @return Symbian OS error code.
+    */
+    virtual TInt TestAknListUtilsDrawSeparator( CStifItemParser& aItem );
     
 private:    // Data
     

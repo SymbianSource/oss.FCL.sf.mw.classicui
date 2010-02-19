@@ -1436,6 +1436,15 @@ public:
 	* @param aItems Number of items in one grid line.
 	*/
     IMPORT_C void SetItemsInSingleLine(TInt aItems);
+    
+    /**
+    * Gets the number of list items in one line. This is more than one for
+    * grids only.
+	*
+	* @since S60 5.2
+	* @return The number of list items in one line.
+	*/
+    IMPORT_C TInt ItemsInSingleLine() const;
 	
     /**
     * Removes pointer event filtering for list items.

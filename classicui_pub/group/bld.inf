@@ -79,3 +79,4 @@
 #include "../stylus_popup_menu_api/group/bld.inf"
 #include "../information_preview_popup_api/group/bld.inf"
 #include "../intermediate_state_api/group/bld.inf"
+#include "../help_launcher_api/group/bld.inf"

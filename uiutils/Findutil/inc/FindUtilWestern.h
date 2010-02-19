@@ -27,9 +27,9 @@
 #define __FINDUTILWESTERN__
 
 #include <e32std.h>
-#include <CentralRepository.h>
+#include <centralrepository.h>
 #include <AknFepInternalCRKeys.h>
-#include <CenRepNotifyHandler.h>
+#include <cenrepnotifyhandler.h>
 #include "FindUtilBase.h"
 
 class CFindUtilKorean;

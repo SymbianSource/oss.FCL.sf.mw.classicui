@@ -46,6 +46,7 @@
 #endif
 
 #include <AknTasHook.h> // for testability hooks
+#include "akntrace.h"
 const TInt EEikDialogFlagSleeping   =0x20000;
 
 // -----------------------------------------------------------------------------
@@ -181,23 +182,32 @@ TInt CAknNoteDialogExtension::AknTransitionCallback(TInt /*aEvent*/,
 EXPORT_C CAknNoteDialog::CAknNoteDialog() : CEikDialog(),
     iTimeoutInMicroseconds(ENoTimeout), iTone(ENoTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_ADD( this, "CAknNoteDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknNoteDialog::CAknNoteDialog(const TTone& aTone, const TTimeout& aTimeout) :
     CEikDialog(), iTimeoutInMicroseconds(aTimeout), iTone(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("iTimeoutInMicroseconds = %d", aTimeout);
     AKNTASHOOK_ADD( this, "CAknNoteDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknNoteDialog::CAknNoteDialog(CEikDialog** aSelfPtr,const TTone& aTone, const TTimeout& aTimeout) :
     CEikDialog(), iTimeoutInMicroseconds(aTimeout), iSelfPtr(aSelfPtr), iTone(aTone)
      {
+     _AKNTRACE_FUNC_ENTER;
+     _AKNTRACE("iTimeoutInMicroseconds = %d", aTimeout);
      AKNTASHOOK_ADD( this, "CAknNoteDialog" );
+     _AKNTRACE_FUNC_EXIT;
      }
 
 EXPORT_C CAknNoteDialog::~CAknNoteDialog()
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
 // FIXME: Experimental heuristics for determining popup type
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
@@ -225,6 +235,7 @@ EXPORT_C CAknNoteDialog::~CAknNoteDialog()
 
     delete iControlAttributes;
     delete iNoteExtension;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknNoteDialog::SetTimeout(const TTimeout& aTimeout)
@@ -382,6 +393,7 @@ EXPORT_C TKeyResponse CAknNoteDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,
 
 EXPORT_C void CAknNoteDialog::LayoutAndDraw()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (IsActivated())
         {
         TRect screenRect = iAvkonAppUi->ApplicationRect();
@@ -397,10 +409,12 @@ EXPORT_C void CAknNoteDialog::LayoutAndDraw()
             attr->AllowOptimizedDrawing();
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TInt CAknNoteDialog::RunLD()
     {
+    _AKNTRACE_FUNC_ENTER;
     PlayTone();
     ReportUserActivity();
 
@@ -414,12 +428,14 @@ EXPORT_C TInt CAknNoteDialog::RunLD()
         CAknTransitionUtils::RemoveData( ( TInt )NoteControl() );
         }
 #endif
-        
+
+    _AKNTRACE_FUNC_EXIT;    
     return CEikDialog::RunLD();
     }
 
 EXPORT_C TInt CAknNoteDialog::StaticDeleteL(TAny *aThis)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknNoteDialog* self = REINTERPRET_CAST(CAknNoteDialog*,aThis);
         
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS           
@@ -478,12 +494,14 @@ EXPORT_C TInt CAknNoteDialog::StaticDeleteL(TAny *aThis)
         self->ExitSleepingDialog();
         self->NoteControl()->Reset();
         }
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
 
 EXPORT_C void CAknNoteDialog::SetSizeAndPosition( const TSize& aSize )
     {
+    _AKNTRACE_FUNC_ENTER;
     SetBorder( TGulBorder::ENone );
     CAknNoteControl* note = NoteControl();
     if (note)
@@ -509,6 +527,7 @@ EXPORT_C void CAknNoteDialog::SetSizeAndPosition( const TSize& aSize )
    
         ControlAttributes()->SetLayoutDone();                
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknNoteDialog::PreLayoutDynInitL()
@@ -661,6 +680,7 @@ void CAknNoteDialog::DbgCheckSelfPtr(CEikDialog** /*aSelfPtr*/)
 
 EXPORT_C void CAknNoteDialog::HandleResourceChange(TInt aType)
     {
+    _AKNTRACE_FUNC_ENTER;
     if(aType==KEikDynamicLayoutVariantSwitch)
         {
         if (!IsVisible())
@@ -697,6 +717,7 @@ EXPORT_C void CAknNoteDialog::HandleResourceChange(TInt aType)
         }
 
     CEikDialog::HandleResourceChange(aType);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -831,6 +852,7 @@ TInt CAknNoteDialog::CallbackStartAnimationL(TAny* aThis)
 
 EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( AknLayoutUtils::PenEnabled() )
         {
         CCoeControl* ctrl = GrabbingComponent();
@@ -859,6 +881,7 @@ EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerE
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 

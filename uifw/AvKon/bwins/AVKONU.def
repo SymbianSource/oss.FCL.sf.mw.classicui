@@ -3451,4 +3451,6 @@ EXPORTS
 	?InitL@CAknDiscreetPopup@@SAXXZ @ 3450 NONAME ; void CAknDiscreetPopup::InitL(void)
 	?IsSingleClickCompatible@CAknAppUiBase@@QBEHXZ @ 3451 NONAME ; int CAknAppUiBase::IsSingleClickCompatible(void) const
 	?StartAnimationL@CAknBitmapAnimation@@QAEXH@Z @ 3452 NONAME ; void CAknBitmapAnimation::StartAnimationL(int)
+	?CloseSelectionListL@CAknPopupField@@QAEXXZ @ 3453 NONAME ; void CAknPopupField::CloseSelectionListL(void)
+	?DrawSeparator@AknListUtils@@SAXAAVCGraphicsContext@@ABVTRect@@ABVTRgb@@@Z @ 3454 NONAME ; void AknListUtils::DrawSeparator(class CGraphicsContext &, class TRect const &, class TRgb const &)
 

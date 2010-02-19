@@ -72,7 +72,8 @@ void CHgScroller::ConstructL (const TRect& aRect, RWsSession* aSession )
     
     iScrollbar = CHgScrollbar::NewL(*this);
     iPopupDrawer = new (ELeave) THgPopupDrawer();
-    
+    iPhysics = CAknPhysics::NewL(*this, this);
+
     TCallBack callback(CHgScroller::MarqueeCallback, this);
     iDrawUtils = CHgDrawUtils::NewL( callback );
     
@@ -403,11 +404,6 @@ EXPORT_C CHgScroller::~CHgScroller ( )
 //
 void CHgScroller::InitPhysicsL()
     {
-    if(!iPhysics)
-        {
-        iPhysics = CAknPhysics::NewL(*this, this);
-        }
-
     // For to be able to pan on a empty area. 
     // The world is set to be at least the size of the view.
     TSize worldSize = TotalSize();
@@ -838,8 +834,6 @@ void CHgScroller::KeyEventDown()
     
     iPointerDown = EFalse;
     iPanning = EFalse;
-    iShowHighlight = ETrue;
-    iDrawUtils->EnableMarquee(HasHighlight());
     }
 
 // -----------------------------------------------------------------------------
@@ -1031,6 +1025,7 @@ void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
                 {
                 iPopupText1.Zero();
                 iPopupText1.Append( iItems[selectedItem]->Title()[0] );
+                iPopupText1.UpperCase();
                 }
             }
         }
@@ -1072,6 +1067,22 @@ void CHgScroller::HandleViewPositionChanged(TBool aUpdateScrollbar)
     if(newRow != iCurrentRow)
         {
         iCurrentRow = newRow;
+        
+        TInt action = iPhysics->OngoingPhysicsAction();
+        if( action !=  CAknPhysics::EAknPhysicsActionNone )
+            {
+            TTouchFeedbackType type( ETouchFeedbackVibra );
+            if ( CAknPhysics::EAknPhysicsActionDragging == action )
+                {
+                type = TTouchFeedbackType(ETouchFeedbackVibra | ETouchFeedbackAudio);
+                }
+
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if(feedback)
+                feedback->InstantFeedback( this, ETouchFeedbackSensitiveList,
+                                            type,
+                                            TPointerEvent() );
+            }
 
         if(iManager)
             {
@@ -1119,10 +1130,25 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
                 possibleKeyScrollingState = EKeyScrollingRight;
             break;
         case EKeyEnter:
+        case EKeyOK:
             {
-            if( iSelectedIndex != KErrNotFound && iSelectionObserver )
+            if( iSelectedIndex != KErrNotFound && HasHighlight() )
                 {
-                TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
+                iShowHighlight = EFalse;
+                iDrawUtils->EnableMarquee(HasHighlight());
+                return EKeyWasConsumed;
+                }
+            else if( iItemCount )
+                {
+                iSelectedIndex = iCurrentRow;
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
+                FitSelectionToView();
+                iShowHighlight = ETrue;
+                iDrawUtils->EnableMarquee(HasHighlight());
+                DrawDeferred();
                 return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;
@@ -1144,19 +1170,29 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
                     TCallBack( KeyScrollingTimerCallback, this ) );
             }
         }
-    
-    TBool handled = DoHandleKeyEvent(aKeyEvent); 
-    
-    if( iSelectedIndex != prevSelected && iSelectionObserver )
+
+    if( !HasHighlight() )
         {
-        iDrawUtils->ResetMarquee();
-        TRAP_IGNORE( iSelectionObserver->HandleSelectL(iSelectedIndex); )
+        // DoHandleKeyEvent will move focus at the first index on screen.  
+        iSelectedIndex = KErrNotFound;
         }
     
-    if( !handled )
+    if( DoHandleKeyEvent(aKeyEvent) )
+        {
+        iShowHighlight = ETrue;
+        iDrawUtils->EnableMarquee(HasHighlight());
+        if( iSelectedIndex != prevSelected && iSelectionObserver )
+            {
+            iDrawUtils->ResetMarquee();
+            TRAP_IGNORE( iSelectionObserver->HandleSelectL(iSelectedIndex); )
+            }
+        return EKeyWasConsumed;
+        }
+    else
+        {
         iKeyRepeats--;
-    
-    return handled ? EKeyWasConsumed : EKeyWasNotConsumed;
+        return EKeyWasNotConsumed;
+        }
     }
 
 // -----------------------------------------------------------------------------

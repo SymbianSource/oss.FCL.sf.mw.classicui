@@ -57,6 +57,7 @@
 #endif
 
 #include <AknTasHook.h> // for testability hooks
+#include "akntrace.h"
 NONSHARABLE_CLASS(CAknListQueryMediatorObserver): public CBase, public MAknDialogMediatorObserver
     {
 public:
@@ -160,32 +161,38 @@ void CAknListQueryMediatorObserver::UpdateL(TInt aSelectionIndex)
 EXPORT_C CAknListQueryDialog::CAknListQueryDialog(TInt* aIndex)
 	: CAknQueryDialog(ENoTone)
     {
+	_AKNTRACE_FUNC_ENTER;
     iIndex = aIndex;
     iEnterKeyPressed = EFalse;
 
     GfxTransEffect::Register(this,KGfxContextMenuControlUid);
     AKNTASHOOK_ADD( this, "CAknListQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 EXPORT_C CAknListQueryDialog::CAknListQueryDialog(CListBoxView::CSelectionIndexArray* aSelectionIndexArray)
 	: CAknQueryDialog(ENoTone)
 	{
+	_AKNTRACE_FUNC_ENTER;
     iSelectionIndexArray = aSelectionIndexArray;
     iEnterKeyPressed = EFalse;
 
     GfxTransEffect::Register(this,KGfxContextMenuControlUid);
     AKNTASHOOK_ADD( this, "CAknListQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknListQueryDialog::~CAknListQueryDialog()
     {
+	_AKNTRACE( "[%s][%s] Enter", "CAknListQueryDialog", "~CAknListQueryDialog" );
     AKNTASHOOK_REMOVE();
     if (iMediatorObs)
         CEikDialog::SetMediatorObserver(0); // Cover UI support cannot handle dialog it self as external observer  
     
     delete iMediatorObs;
 	delete iIdle;
+	_AKNTRACE( "[%s][%s] Exit", "CAknListQueryDialog", "~CAknListQueryDialog" );
     }
 
 EXPORT_C CEikListBox *CAknListQueryDialog::ListBox() const 
@@ -232,6 +239,7 @@ EXPORT_C CAknPopupHeadingPane* CAknListQueryDialog::QueryHeading() const
 
 EXPORT_C void CAknListQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
 	CAknListQuerySearchControl *control1 = (CAknListQuerySearchControl*)ControlOrNull(EFindControl);
     CAknSearchField *control = NULL;
     CAknSearchField::TSearchFieldStyle flags = CAknSearchField::EPopupWindow;
@@ -267,10 +275,12 @@ EXPORT_C void CAknListQueryDialog::PreLayoutDynInitL()
 		SetLineNonFocusing(EListQueryControl);
 		Line(EFindControl)->SetDrawNoWhiteBackground(ETrue);
         }        
+    _AKNTRACE_FUNC_EXIT;
 	}
 
 EXPORT_C void CAknListQueryDialog::SetIconArrayL(CArrayPtr<CGulIcon>* aIcons)
     {
+    _AKNTRACE_FUNC_ENTER;
 	CEikFormattedCellListBox* listbox = STATIC_CAST(CEikFormattedCellListBox*,ListBox());
     CArrayPtr<CGulIcon>* oldicons = listbox->ItemDrawer()->FormattedCellData()->IconArray();
     
@@ -280,10 +290,12 @@ EXPORT_C void CAknListQueryDialog::SetIconArrayL(CArrayPtr<CGulIcon>* aIcons)
         delete oldicons;
         }
     listbox->ItemDrawer()->FormattedCellData()->SetIconArrayL(aIcons);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknListQueryDialog::PostLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
 	CEikFormattedCellListBox* listbox = STATIC_CAST(CEikFormattedCellListBox*,ListBox());
     
 	// Now we'll load default icons if existing icon array does not exists.
@@ -316,10 +328,12 @@ ownership of them.
         CleanupStack::Pop(); // icon for EMbmAvkonQgn_prop_checkbox_on
         CleanupStack::Pop(); // icons array
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknListQueryDialog::SetSizeAndPosition(const TSize & /*aSize*/)
     {
+    _AKNTRACE_FUNC_ENTER;
     AknPopupLayouts::TAknPopupLayouts layout = AknPopupLayouts::EMenuWindow;
     CAknListQueryControl *control = ListControl();
     
@@ -408,12 +422,13 @@ EXPORT_C void CAknListQueryDialog::SetSizeAndPosition(const TSize & /*aSize*/)
 
     boxData->SetSkinPopupFrame(&KAknsIIDQsnFrPopup,&KAknsIIDQsnFrPopupCenter);
     boxData->SetSkinPopupFramePosition(outerRect,innerRect);
-
+    _AKNTRACE_FUNC_EXIT;
     }
     
 EXPORT_C void CAknListQueryDialog::HandleListBoxEventL(CEikListBox* aListBox, 
                                                        TListBoxEvent aEventType)
     {
+	_AKNTRACE( "[%s][%s] aEventType: %d", "CAknListQueryDialog", "HandleListBoxEventL", aEventType);
     if ( AknLayoutUtils::PenEnabled() )
         {
         switch(aEventType)
@@ -470,6 +485,7 @@ EXPORT_C void CAknListQueryDialog::HandleListBoxEventL(CEikListBox* aListBox,
     			}
     		}
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -505,6 +521,8 @@ LOCAL_C void CleanupDisableRedraw( TAny *aView )
 EXPORT_C TKeyResponse CAknListQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,
                                                           TEventCode aType)
     {
+	_AKNTRACE( "[%s][%s] aKeyEvent.iCode: %d", "CAknListQueryDialog", "OfferKeyEventL", aKeyEvent.iCode);
+	_AKNTRACE( "[%s][%s] aType: %d", "CAknListQueryDialog", "OfferKeyEventL", aType);
     if (aType==EEventKey && aKeyEvent.iCode == EKeyEscape)
         {
         CloseState();
@@ -590,6 +608,7 @@ EXPORT_C void CAknListQueryDialog::SetOwnershipType(TListBoxModelItemArrayOwners
 
 EXPORT_C TBool CAknListQueryDialog::OkToExitL(TInt aButtonId)
     {   
+	_AKNTRACE( "[%s][%s] aButtonId: %d", "CAknListQueryDialog", "OkToExitL", aButtonId);
     CEikListBox* listbox = ListBox();
 
     if(aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)
@@ -617,10 +636,15 @@ EXPORT_C TBool CAknListQueryDialog::OkToExitL(TInt aButtonId)
 	        for(TInt i(0); i<numberOfItems; i++)
 	            iSelectionIndexArray->AppendL(array->At(i));
             }
+        _AKNTRACE( "[%s][%s] return ETrue", "CAknListQueryDialog", "OkToExitL");
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
-        return ETrue;
+    	{
+		_AKNTRACE( "[%s][%s] return ETrue", "CAknListQueryDialog", "OkToExitL");
+		return ETrue;
+    	}
+    _AKNTRACE( "[%s][%s] return EFalse", "CAknListQueryDialog", "OkToExitL");
     return EFalse;
     }
 
@@ -635,11 +659,14 @@ EXPORT_C TInt CAknListQueryDialog::BorderStyle()
 
 EXPORT_C void CAknListQueryDialog::CloseState()
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAP_IGNORE(TryExitL(EAknSoftkeyCancel));
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknListQueryDialog::ActivateL()
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool notShowingPopup = ListBox()->Model()->NumberOfItems() == 0;
     if (notShowingPopup)
         {
@@ -670,14 +697,17 @@ EXPORT_C void CAknListQueryDialog::ActivateL()
         {
         CAknQueryDialog::ActivateL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CAknListQueryDialog::ClosePopup(TAny *aObj)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknListQueryDialog *popup = (CAknListQueryDialog*)aObj;
     delete popup->iIdle;
     popup->iIdle = 0;
     popup->CloseState();
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
     
@@ -720,16 +750,19 @@ EXPORT_C void CAknListQueryDialog::HandlePointerEventL(const TPointerEvent& aPoi
 
 TInt CAknListQueryDialog::ClosePopupAcceptingChanges(TAny *aObj)
     {    
+	_AKNTRACE_FUNC_ENTER;
     if ( AknLayoutUtils::PenEnabled() ) 
         {
         CAknListQueryDialog *popup = (CAknListQueryDialog*)aObj;
         delete popup->iIdle;
         popup->iIdle = NULL;
         TRAP_IGNORE( popup->TryExitL( EAknSoftkeyOk ) );
+        _AKNTRACE_FUNC_EXIT;
         return EFalse;
         }
     else
         {
+		_AKNTRACE_FUNC_EXIT;
         return EFalse;
         }
     }
@@ -770,6 +803,7 @@ EXPORT_C void CAknListQueryDialog::SetTone(TInt aTone)
 
 EXPORT_C void CAknListQueryDialog::HandleResourceChange(TInt aType)
 	{
+	_AKNTRACE_FUNC_ENTER;
 	if (aType==KEikDynamicLayoutVariantSwitch)
 	    {
 	    if (MessageBox())
@@ -777,7 +811,8 @@ EXPORT_C void CAknListQueryDialog::HandleResourceChange(TInt aType)
 	        MessageBox()->SizeChanged();	    
 	        }		
 	    }	    
-	CAknQueryDialog::HandleResourceChange(aType);	
+	CAknQueryDialog::HandleResourceChange(aType);
+	_AKNTRACE_FUNC_EXIT;
 	}
     
 EXPORT_C void CAknListQueryDialog::PublishDialogL(TInt aDialogIndex, TUid aCatUid, CArrayFixFlat<TInt>* aItemIds)

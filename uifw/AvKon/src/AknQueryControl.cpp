@@ -77,6 +77,7 @@
 #include <AknTasHook.h> // for testability hooks
 #include <tacticon.h>
 
+#include "akntrace.h"
 const TInt KPinCodeTacticonInterval = 30000000; // 30s
 const TInt KPinCodeMaxTacticons = 10;
 /*******
@@ -110,12 +111,14 @@ public:
 
 CAknQueryControlExtension::~CAknQueryControlExtension()
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iOriginalPrompt;
     delete iBackspaceButton;
     delete iKeypad;
 
     delete iPinTacticonTimer;
     iPinTacticonTimer = NULL;
+    _AKNTRACE_FUNC_EXIT;
     }
     
 CAknLocationEditor *CAknQueryControl::LocationEd() const
@@ -137,10 +140,12 @@ CAknLocationEditor *&CAknQueryControl::LocationEd()
 
 void CAknQueryExtension::CreateEditorContextL()
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iEditorContext;
     iEditorContext = NULL;
     iEditorContext = CAknsFrameBackgroundControlContext::NewL(
         KAknsIIDQsnFrInput, TRect(0,0,1,1), TRect(0,0,1,1), EFalse );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 CAknsFrameBackgroundControlContext* CAknQueryExtension::EditorContext()
@@ -159,19 +164,23 @@ CAknQueryExtension* CAknQueryExtension::Instance(
 void CAknQueryExtension::CreateExtensionL(
     const CAknQueryControl* aQueryControl )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryExtension* extension = CAknQueryExtension::NewL();
     CleanupStack::PushL( extension );
     AknsPointerStore::StorePointerL( 
         static_cast<const CBase*>(aQueryControl), extension );
     CleanupStack::Pop(); // extension
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknQueryExtension::DestroyExtension(
     const CAknQueryControl* aQueryControl )
     {
+    _AKNTRACE_FUNC_ENTER;
     delete Instance( aQueryControl );
     AknsPointerStore::RemovePointer( 
         static_cast<const CBase*>(aQueryControl) );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 CAknQueryExtension* CAknQueryExtension::NewL()
@@ -182,6 +191,7 @@ CAknQueryExtension* CAknQueryExtension::NewL()
 CAknQueryExtension::~CAknQueryExtension()
     {
     delete iEditorContext;
+    _AKNTRACE( "[%s][%s]exit", "CAknQueryExtension", "~CAknQueryExtension" );
     }
 
 /*****************************
@@ -214,6 +224,7 @@ TAknQueryEcsObserver::TAknQueryEcsObserver( CAknQueryControl* aParent ): iParent
 EXPORT_C void TAknQueryEcsObserver::HandleEcsEvent( CAknEcsDetector* /*aDetector*/,
                                                     CAknEcsDetector::TState aUpdatedState )
     {
+	_AKNTRACE( "[%s][%s] aUpdatedState: %d", "TAknQueryEcsObserver", __FUNCTION__,aUpdatedState);
     TRAP_IGNORE( iParent->SetEcsCbaVisibleL( aUpdatedState == CAknEcsDetector::ECompleteMatch ) );
     
     // Hide the emergency call number again.
@@ -223,6 +234,7 @@ EXPORT_C void TAknQueryEcsObserver::HandleEcsEvent( CAknEcsDetector* /*aDetector
         {
         if ( iParent->QueryType() == EPinLayout )
             {
+            _AKNTRACE( "[%s][%s] ", "RevealSecretText( EFalse )", __FUNCTION__);
             static_cast<CAknNumericSecretEditor*>
                 ( iParent->ControlByLayoutOrNull( EPinLayout ) )->RevealSecretText( EFalse );
             }
@@ -232,8 +244,10 @@ EXPORT_C void TAknQueryEcsObserver::HandleEcsEvent( CAknEcsDetector* /*aDetector
     // If the query is cancelled, the iParent is deleted!
     if ( aUpdatedState == CAknEcsDetector::ECallAttempted )
         {
+        _AKNTRACE( "[%s][%s] ", "cancel query", __FUNCTION__);
         TRAP_IGNORE( iParent->CancelQueryL() );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -294,6 +308,7 @@ EXPORT_C CAknQueryControl::CAknQueryControl() :/* iQueryType(EConfirmationLayout
  */
 EXPORT_C CAknQueryControl::~CAknQueryControl()
     {
+	_AKNTRACE( "[%s][%s] enter", "CAknQueryControl", "~CAknQueryControl");
     AKNTASHOOK_REMOVE();
 	if (iEdwin)
         AknsUtils::DeregisterControlPosition(iEdwin);
@@ -350,6 +365,7 @@ EXPORT_C CAknQueryControl::~CAknQueryControl()
     delete iIncreaseValueButton;
     delete iDecreaseValueButton;
 #endif //defined( RD_SCALABLE_UI_V2)
+    _AKNTRACE( "[%s][%s] exit", "CAknQueryControl", "~CAknQueryControl");
     }
 
 /**
@@ -357,6 +373,7 @@ EXPORT_C CAknQueryControl::~CAknQueryControl()
  */
 EXPORT_C void CAknQueryControl::ConstructFromResourceL(TResourceReader &aRes)
     {
+    _AKNTRACE_FUNC_ENTER;
     // Construct extension
     CAknQueryExtension::CreateExtensionL( this );
 	iExtension = new (ELeave)CAknQueryControlExtension;
@@ -403,10 +420,12 @@ EXPORT_C void CAknQueryControl::ConstructFromResourceL(TResourceReader &aRes)
             iExtension->iKeypad = CAknKeypad::NewL( *this, iQueryType );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknQueryControl::ConstructQueryL(TResourceReader& aRes)
     {
+    _AKNTRACE( "[%s][%s] iQueryType : %d", "CAknQueryControl", "ConstructQueryL", iQueryType );
     switch(iQueryType)
         {
         case EConfirmationQueryLayout:
@@ -720,18 +739,21 @@ void CAknQueryControl::ConstructQueryL(TResourceReader& aRes)
         {
         extension->CreateEditorContextL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CAknQueryControl::PinCodeTimeoutCallback( TAny* aThis )
     {
+    _AKNTRACE_FUNC_ENTER;
     // play tacticon
     static_cast<CAknQueryControl*>( aThis )->PlayPinCodeTacticon();
-    
+    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 
 void CAknQueryControl::PlayPinCodeTacticon()
     {
+    _AKNTRACE_FUNC_ENTER;
     // play tacticon
     RTacticon client;
     if ( KErrNone == client.Connect() )
@@ -756,10 +778,12 @@ void CAknQueryControl::PlayPinCodeTacticon()
             StopPinCodeTacticonTimer();
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknQueryControl::ResetPinCodeTacticonTimer()
     {
+    _AKNTRACE_FUNC_ENTER;
     // stop old timer
     StopPinCodeTacticonTimer();
 
@@ -777,10 +801,12 @@ void CAknQueryControl::ResetPinCodeTacticonTimer()
                         TCallBack( PinCodeTimeoutCallback, this ) );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknQueryControl::StopPinCodeTacticonTimer()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iExtension )
         {
         // delete timer
@@ -789,6 +815,7 @@ void CAknQueryControl::StopPinCodeTacticonTimer()
         // set the timer null, so that it will not be used again
         iExtension->iPinTacticonTimer = NULL;
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 ///
@@ -925,6 +952,7 @@ TInt CAknQueryControl::CountComponentControls() const
  */
 EXPORT_C TKeyResponse CAknQueryControl::OfferKeyEventL( const TKeyEvent& aKeyEvent, TEventCode aType) 
     {
+    _AKNTRACE( "[%s][%s] aKeyEvent.iCode :%d, aType:%d ", "CAknQueryControl", __FUNCTION__, aKeyEvent.iCode, aType);
     TKeyResponse response( EKeyWasNotConsumed );
 
     // Send key handling for emergency call support
@@ -950,6 +978,7 @@ EXPORT_C TKeyResponse CAknQueryControl::OfferKeyEventL( const TKeyEvent& aKeyEve
             ResetPinCodeTacticonTimer();
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return response;
     }
 
@@ -1123,6 +1152,7 @@ EXPORT_C void CAknQueryControl::HandleControlEventL(CCoeControl* aControl,TCoeEv
                                 }
                             }
                         }
+                    _AKNTRACE( "[%s][%s] iPinEdwin->RevealSecretText( %d )", "CAknQueryControl", __FUNCTION__, reveal);
                     iPinEdwin->RevealSecretText( reveal );
                     }
                 }
@@ -2531,6 +2561,7 @@ EXPORT_C CCoeControl* CAknQueryControl::ControlByLayoutOrNull(TInt aLayout)
 */
 void CAknQueryControl::CancelQueryL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (iQueryControlObserver)
         {
         iQueryControlObserver->HandleQueryEditorStateEventL(this, MAknQueryControlObserver::EEmergencyCallAttempted, MAknQueryControlObserver::EEditorValueValid);
@@ -2543,6 +2574,7 @@ void CAknQueryControl::CancelQueryL()
         key.iScanCode = EStdKeyNull;
         iEikonEnv->SimulateKeyEventL(key, EEventKey);
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -2600,7 +2632,7 @@ void CAknQueryControl::SetFlags(TBitFlags16 aFlags)
 
 EXPORT_C void CAknQueryControl::SetImageL(CEikImage* aImage)
     { // Gets ownership of the aImage
-    
+    _AKNTRACE_FUNC_ENTER;
 	if ( iImage && iImage->IsPictureOwnedExternally() )
         {
         delete ((CApaMaskedBitmap*) iImage->Bitmap());
@@ -2618,11 +2650,13 @@ EXPORT_C void CAknQueryControl::SetImageL(CEikImage* aImage)
     iAnimation = NULL;
 
     Layout();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryControl::SetImageL(const TDesC& aImageFile,
                                           TInt aBmpId, TInt aBmpMaskId)
     {
+    _AKNTRACE_FUNC_ENTER;
     CEikImage* image = new(ELeave) CEikImage;
     CleanupStack::PushL( image );
                
@@ -2653,10 +2687,12 @@ EXPORT_C void CAknQueryControl::SetImageL(const TDesC& aImageFile,
 
     CleanupStack::Pop(); //image
     SetImageL(image); // gets ownership
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryControl::SetAnimationL(TInt aResource)
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iAnimation;
     iAnimation = NULL;
     iAnimation = CAknBitmapAnimation::NewL();
@@ -2677,10 +2713,12 @@ EXPORT_C void CAknQueryControl::SetAnimationL(TInt aResource)
     iExtension->iAnimationId = aResource;
     
     Layout();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryControl::StartAnimationL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (iAnimation)
         {
         CBitmapAnimClientData *animClientData = iAnimation->BitmapAnimData();
@@ -2725,15 +2763,19 @@ EXPORT_C void CAknQueryControl::StartAnimationL()
 
         iAnimation->StartAnimationL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TInt CAknQueryControl::CancelAnimation()
     {
-    if ( iAnimation )
+	_AKNTRACE_FUNC_ENTER;
+	TInt result(KErrGeneral);
+	if ( iAnimation )
         {
-        return iAnimation->CancelAnimation();
+		result = iAnimation->CancelAnimation();
         }
-    return KErrGeneral;
+	_AKNTRACE( "[%s][%s] return %d", "CAknQueryControl", "CancelAnimation", result);
+    return result;
     }
 
 
@@ -2980,13 +3022,16 @@ TTypeUid::Ptr CAknQueryControl::MopSupplyObject( TTypeUid aId )
 // Callback for doing a redraw when animating pictographs
 TInt CAknQueryControl::StaticPictographCallBack( TAny* aPtr )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryControl* me = static_cast<CAknQueryControl*>( aPtr );
     me->PictographCallBack();
+    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 
 void CAknQueryControl::PictographCallBack()
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
 
@@ -3025,6 +3070,7 @@ void CAknQueryControl::PictographCallBack()
             iPrompt->SetLineModified( i, EFalse );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CAknQueryControl::EmbeddedVirtualInput() const
@@ -3060,10 +3106,12 @@ TBool CAknQueryControl::EmbeddedVirtualInput() const
     
 CEikDialog* CAknQueryControl::Dialog() const
     {
+	_AKNTRACE_FUNC_ENTER;
     CAknQueryControl* control = const_cast<CAknQueryControl*>( this );
     
     CEikDialog* dialog = NULL;
     control->MopGetObject( dialog );
+    _AKNTRACE_FUNC_EXIT;
     return dialog;
     }
    
@@ -3365,6 +3413,7 @@ EXPORT_C void* CAknQueryControl::ExtensionInterface( TUid /*aInterface*/ )
     
 EXPORT_C void CAknQueryControl::HandleResourceChange(TInt aType)
     {
+    _AKNTRACE_FUNC_ENTER;
     CCoeControl::HandleResourceChange(aType);
     
     if( aType == KAknsMessageSkinChange && iExtension->iAnimationId )
@@ -3377,6 +3426,7 @@ EXPORT_C void CAknQueryControl::HandleResourceChange(TInt aType)
         SizeChanged();
         TRAP_IGNORE(DoSetPromptL());
         }
+    _AKNTRACE_FUNC_EXIT;
     }    
 
 // ---------------------------------------------------------------------------
@@ -3410,6 +3460,7 @@ void CAknQueryControl::GetCaption(TDes& aCaption) const
 //
 void CAknQueryControl::SetEcsCbaVisibleL( TBool aVisible )
     {
+    _AKNTRACE( "[%s][%s] aVisible:%d ", "CAknQueryControl", __FUNCTION__,aVisible);
     if ( iExtension &&
          !COMPARE_BOOLS( aVisible, iExtension->iEcsCbaShown ) &&
          iFlags.IsSet( EEmergencyCallsCBASupport ) )
@@ -3444,6 +3495,7 @@ void CAknQueryControl::SetEcsCbaVisibleL( TBool aVisible )
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -3453,6 +3505,7 @@ void CAknQueryControl::SetEcsCbaVisibleL( TBool aVisible )
 //
 void CAknQueryControl::AttemptEmergencyCallL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iEcsDetector )
         {
         if ( iEcsDetector->State() == CAknEcsDetector::ECompleteMatch )
@@ -3470,6 +3523,7 @@ void CAknQueryControl::AttemptEmergencyCallL()
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -3507,6 +3561,7 @@ EXPORT_C CAknExtQueryControl::~CAknExtQueryControl()
 
 void CAknExtQueryControl::ConstructQueryL(TResourceReader& aRes)
     {   
+    _AKNTRACE_FUNC_ENTER;
     if ( iQueryType == EIpLayout)   
         {
         iIpEditor = new(ELeave)CAknIpFieldEditor;
@@ -3536,6 +3591,7 @@ void CAknExtQueryControl::ConstructQueryL(TResourceReader& aRes)
         {
         extension->CreateEditorContextL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -3613,7 +3669,7 @@ void CAknExtQueryControl::PrepareForFocusLossL()
 EXPORT_C void CAknExtQueryControl::HandleControlEventL(CCoeControl* /*aControl*/,TCoeEvent aEventType)
     {
     //CAknQueryControl::HandleControlEventL(NULL, aEventType);
-    
+	_AKNTRACE( "[%s][%s] aEventType:%d ", "CAknExtQueryControl", "HandleControlEventL",aEventType);
     if(iQueryControlObserver && aEventType == EEventStateChanged)
         {                
         if(GetTextLength())
@@ -3625,6 +3681,7 @@ EXPORT_C void CAknExtQueryControl::HandleControlEventL(CCoeControl* /*aControl*/
             iQueryControlObserver->HandleQueryEditorStateEventL(this,MAknQueryControlObserver::EQueryControlEditorStateChanging, MAknQueryControlObserver::EEditorEmpty);
             }
         }
+    _AKNTRACE( "[%s][%s] EXIT ", "CAknExtQueryControl", "HandleControlEventL");
     }
 
 
@@ -3946,13 +4003,16 @@ TInt CAknExtQueryControl::TIndex::PQDWindow(TInt aLineNum) const
 // Callback for doing a redraw when animating pictographs
 TInt CAknExtQueryControl::StaticPictographCallBack( TAny* aPtr )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknExtQueryControl* me = static_cast<CAknExtQueryControl*>( aPtr );
     me->PictographCallBack();
+    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 
 void CAknExtQueryControl::PictographCallBack()
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
 
@@ -3991,6 +4051,7 @@ void CAknExtQueryControl::PictographCallBack()
             iPrompt->SetLineModified( i, EFalse );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // End of File

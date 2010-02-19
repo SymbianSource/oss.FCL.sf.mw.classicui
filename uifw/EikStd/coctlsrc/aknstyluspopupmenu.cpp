@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -119,6 +119,7 @@ EXPORT_C CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewLC(
 //
 CAknStylusPopUpMenu::~CAknStylusPopUpMenu()
     {
+    iContent->SetObserver(NULL);
     if ( iIsDeleted )
         {
         *iIsDeleted = ETrue;
@@ -223,7 +224,8 @@ EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint )
 // CAknStylusPopUpMenu::SetPosition 
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint, TPositionType aPosType )
+EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint,
+                                                TPositionType aPosType )
     {
     TPoint adjustedPoint( aPoint );
     if ( !iController )
@@ -232,41 +234,106 @@ EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint, TPositionT
         iPositionType = aPosType;
         return;
         }
+
     iController->UpdateContentSize(); 
     TSize menuSize = iController->Size();
-	// calculate to right-top corner by aPosType and popup menu size
+
+	// Calculate the position to right-top corner by aPosType and
+    // popup menu size. Add also a margin between the screen borders and the
+    // popup if the popup is too close to screen border.
+    TBool layoutMirrored( AknLayoutUtils::LayoutMirrored() );
+    TRect screenRect;
+    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen,
+                                       screenRect );
+    
+    // Margin is read from the popup window's layout data
+    // (left parameter used).
+    TAknWindowLineLayout popupWindowLayout(
+        AknLayoutScalable_Avkon::popup_touch_menu_window( 0 ).LayoutLine() );
+    TInt windowMargin = layoutMirrored ? popupWindowLayout.ir :
+                                         popupWindowLayout.il;
+
     switch ( aPosType )	
         {
-        case EPositionTypeRightTop: 
+        case EPositionTypeRightTop:
+            {
             break;
+            }
+
         case EPositionTypeLeftTop:
-            if( AknLayoutUtils::LayoutMirrored() ) 
-                {
-                adjustedPoint.iX -= menuSize.iWidth;
-                }
-            else
+            {
+            if ( !layoutMirrored ) 
                 {
                 adjustedPoint.iX += menuSize.iWidth;
                 }
-            break;   
-        case EPositionTypeRightBottom:
-            adjustedPoint.iY -= menuSize.iHeight;
+
             break;
-        case EPositionTypeLeftBottom: 
-            if( AknLayoutUtils::LayoutMirrored() ) 
-                {
-                adjustedPoint.iX -= menuSize.iWidth;
-                }
-            else
+            }
+
+        case EPositionTypeRightBottom:
+            {
+            adjustedPoint.iY -= menuSize.iHeight;
+
+            break;
+            }
+
+        case EPositionTypeLeftBottom:
+            {
+            if ( !layoutMirrored ) 
                 {
                 adjustedPoint.iX += menuSize.iWidth;
                 }
+
             adjustedPoint.iY -= menuSize.iHeight;
-            break;    
+
+            break;
+            }
+
         default:
-            break;  
-    
+            {
+            break;
+            }
         }
+
+    // Check if margins need to be added.
+    TInt xLeftPos( layoutMirrored ? adjustedPoint.iX :
+                                    adjustedPoint.iX - menuSize.iWidth );
+    TInt xRightPos( layoutMirrored ? adjustedPoint.iX + menuSize.iWidth :
+                                     adjustedPoint.iX );
+    TInt xPosRightMargin( screenRect.iBr.iX - windowMargin );
+    TInt xPosBottomMargin( screenRect.iBr.iY - windowMargin );
+
+    if ( xLeftPos < windowMargin )
+        {
+        // Too close to the left side of the screen.
+        adjustedPoint.iX = windowMargin + menuSize.iWidth;
+        }
+    else if ( xRightPos > xPosRightMargin )
+        {
+        // Too close to the right side of the screen.
+        if ( layoutMirrored )
+            {
+            // In mirrored layout a left-top position must be provided
+            // for the preview popup controller.
+            adjustedPoint.iX = xPosRightMargin - menuSize.iWidth;
+            }
+        else
+            {
+            adjustedPoint.iX = xPosRightMargin;
+            }
+        }
+
+    if ( adjustedPoint.iY < windowMargin )
+        {
+        // Too close to the top border of the screen.
+        adjustedPoint.iY = windowMargin;
+        }
+    else if ( adjustedPoint.iY + menuSize.iHeight > xPosBottomMargin )
+        {
+        // Too close to the bottom border of the screen.
+        adjustedPoint.iY = xPosBottomMargin - menuSize.iHeight;
+        }
+    
     iPosition = adjustedPoint;           
     iController->SetPosition( adjustedPoint ); 
     }

@@ -23,6 +23,7 @@
 
 class CPtiQwertyKeyMappings;
 class MPtiKeyMappings;
+class CPtiKeyMapData;
 
 /**
 * test case for various list classes
@@ -89,6 +90,7 @@ private: // constructor
 
 //data
     CPtiQwertyKeyMappings* iMap;
+    CPtiKeyMapData* iKeymapData;
     };
 
 #endif // BCTEST_QWERTY_KEYMAP_H

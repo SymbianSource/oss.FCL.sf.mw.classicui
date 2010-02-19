@@ -78,7 +78,8 @@ EXPORT_C void CSettingsListBoxItemDrawer::DrawItemText( TInt aItemIndex,
         }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-    DrawBackgroundAndSeparatorLines( aItemTextRect );
+    DrawBackgroundAndSeparatorLines( aItemTextRect, 
+            aItemIndex != FormattedCellData()->ListBox()->BottomItemIndex() );
 
     if ( aItemIsCurrent )
         {

@@ -1726,7 +1726,8 @@ CWordWrappedFormattedCellItemDrawer::DrawItemText( TInt aItemIndex,
     // Set again because ReplaceColumn in WordWrapListItem does not update the length to 'des2' !
     des2.Set( buffer2->Des() );
 
-    DrawBackgroundAndSeparatorLines( aItemTextRect );
+    DrawBackgroundAndSeparatorLines( aItemTextRect, 
+            aItemIndex != FormattedCellData()->ListBox()->BottomItemIndex() );
 
     if( aItemIsCurrent )
         {

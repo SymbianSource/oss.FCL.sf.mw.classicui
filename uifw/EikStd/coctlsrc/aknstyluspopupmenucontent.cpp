@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -27,6 +27,7 @@
 #include <aknappui.h>
 #include <AknDef.h>
 #include <touchfeedback.h>
+#include <layoutmetadata.cdl.h>
 
 #include "aknstyluspopupmenuphysicshandler.h"
 #include "aknstyluspopupmenucontent.h"
@@ -545,7 +546,6 @@ void CAknStylusPopUpMenuContent::AddMenuItemL( const TDesC& aItem,
     item->ConstructL( aItem );  
     iItems.AppendL( item );
     CleanupStack::Pop( item ); 
-
     }
 
 // ---------------------------------------------------------------------------
@@ -695,25 +695,39 @@ TSize CAknStylusPopUpMenuContent::MinimumSize()
     TInt visibleItems = 0; // Number of visible items
     
     // Find the widest visible item and count visible items
+    TRect screenRect;
+    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen,
+                                       screenRect );
+    TInt screenHeight( screenRect.Height() );
+    TInt screenWidth( screenRect.Width() );
+    
+    const CFont* usedFont = AknLayoutUtils::FontFromId(
+        AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 0 ).Font() );
     for ( TInt i = 0; i < iItems.Count(); i++ )
         {
         if ( iItems[i]->iVisibility == KShown )
             {
             visibleItems++;
-            textWidth = AknLayoutUtils::FontFromId( AknLayoutScalable_Avkon::
-            list_single_popup_submenu_pane_t1( 0 ).LayoutLine().FontId() )->TextWidthInPixels( *( iItems[i]->iText ) );
+            textWidth = usedFont->TextWidthInPixels( *( iItems[i]->iText ) );
             width = Max( width, textWidth );
             }
         }
-        
+
     if ( visibleItems == 0 )
         {
         return TSize( 0, 0 );
         }
-            
-    TRect mainPaneRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
-                                       mainPaneRect );
+
+    // Check the minimum width from the layout data and adjust the width
+    // if the text would take less space than that.
+    TInt minWidth =
+        TAknWindowComponentLayout::Compose(
+            AknLayoutScalable_Avkon::popup_touch_menu_window( 0 ),
+            TAknWindowComponentLayout::Compose(
+                AknLayoutScalable_Avkon::list_touch_menu_pane( 0 ),
+                AknLayoutScalable_Avkon::list_single_touch_menu_pane( 0 ) ) ).LayoutLine().iW;
+    width = Max( width, minWidth );
+
     TAknWindowLineLayout listLayout = 
        AknLayoutScalable_Avkon::list_single_touch_menu_pane(0).LayoutLine();
  
@@ -726,9 +740,28 @@ TSize CAknStylusPopUpMenuContent::MinimumSize()
     TInt singleItemHeight = listLayout.iH; 
     height = singleItemHeight * visibleItems;
     
-    if ( height > mainPaneRect.Height() )
+    if ( height > screenHeight )
         {
-        TInt fitsToMenu = mainPaneRect.Height() / singleItemHeight;
+        // Amount of items that fit in the popup.
+        TInt fitsToMenu = visibleItems;
+
+        if ( Layout_Meta_Data::IsLandscapeOrientation() )
+            {
+            // In landscape orientation the max amount of items comes from
+            // the layout data.
+            TAknLayoutScalableParameterLimits paramLimits(
+                AknLayoutScalable_Avkon::list_single_touch_menu_pane_ParamLimits() );
+            
+            // Add one to the last row as it's row index starting from zero.
+            fitsToMenu = paramLimits.LastRow() + 1;
+            }
+        else
+            {
+            // In potrait orientation the menu can show as many items as fit
+            // on the screen.
+            fitsToMenu = screenHeight / singleItemHeight;
+            }
+
         height = fitsToMenu * singleItemHeight;
         TAknWindowLineLayout scrollBar = 
             AknLayoutScalable_Avkon::scroll_pane( 0 );
@@ -737,9 +770,9 @@ TSize CAknStylusPopUpMenuContent::MinimumSize()
 
     width += textLayout.ir + textLayout.il;
 
-    if ( width > ( mainPaneRect.Width() - unit.iW ) )
+    if ( width > ( screenWidth - unit.iW ) )
         {
-        width = mainPaneRect.Width() - ( unit.iW );
+        width = screenWidth - ( unit.iW );
         }
 
     return TSize( width, height );
@@ -825,8 +858,11 @@ void CAknStylusPopUpMenuContent::MakeVisible( TBool aVisible )
         if ( iExtension && iExtension->iInformObserver && !iExtension->iObserverInformed )
             {
             iExtension->iInformObserver = EFalse; 
-            TRAP_IGNORE(Observer()->HandleControlEventL( this,
-                MCoeControlObserver::EEventRequestCancel )); 
+            if ( Observer() )
+                {
+                TRAP_IGNORE(Observer()->HandleControlEventL( this,
+                    MCoeControlObserver::EEventRequestCancel )); 
+                }
             }
         if ( iSBFrame )
             {
@@ -912,65 +948,73 @@ void CAknStylusPopUpMenuContent::DrawItem(
     {
     TRect rect( iItems[aItem]->iRect );
     
-    // Use offset to move items smoothly.
-    // If physics not in use, offset is always 0.
-    rect.Move( TPoint( 0, -Offset() ) ); 
-
-    if ( aHighlight == EDrawHighlight )
+    if ( !rect.IsEmpty() )
         {
-        TBool drawOk = EFalse; 
-        if( iExtension->iAnimation ) // Draw animated highlight
+        // Use offset to move items smoothly.
+        // If physics not in use, offset is always 0.
+        rect.Move( TPoint( 0, -Offset() ) ); 
+    
+        if ( aHighlight == EDrawHighlight )
             {
-            drawOk = iExtension->iAnimation->Render( aGc, rect );
-            }
-        if ( !drawOk )
-            {
-            // Animated highlight was not available, use normal skinned
-            // rendering.
-            TAknLayoutRect listRect; 
-            TAknLayoutRect innerRect;
-
-            listRect.LayoutRect( rect, 
-                AknLayoutScalable_Avkon::list_highlight_pane_cp1().LayoutLine() );
-            innerRect.LayoutRect( listRect.Rect(),
-                AknLayoutScalable_Avkon::list_highlight_pane_g1_cp1().LayoutLine() );
-            
-            MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-            aGc.SetBrushStyle( CGraphicsContext::ESolidBrush ); 
-            // if we have transparent highlight, draw also background under highlight
-            if ( Background() )
+            TBool drawOk = EFalse; 
+            if( iExtension->iAnimation ) // Draw animated highlight
                 {
-                Background()->Draw( aGc, *this, rect );
+                drawOk = iExtension->iAnimation->Render( aGc, rect );
                 }
-            
-            drawOk = AknsDrawUtils::DrawFrame( skin, aGc, rect, innerRect.Rect(), 
-                KAknsIIDQsnFrList, KAknsIIDDefault );
-
-            //Both highlight animation and frame drawing failed. 
             if ( !drawOk )
                 {
-                listRect.DrawRect( aGc ); 
-                innerRect.DrawRect( aGc ); 
+                // Animated highlight was not available, use normal skinned
+                // rendering.
+                TAknLayoutRect listRect; 
+                TAknLayoutRect innerRect;
+    
+                listRect.LayoutRect( rect, 
+                    AknLayoutScalable_Avkon::list_highlight_pane_cp1().LayoutLine() );
+                innerRect.LayoutRect( listRect.Rect(),
+                    AknLayoutScalable_Avkon::list_highlight_pane_g1_cp1().LayoutLine() );
+                
+                MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+                aGc.SetBrushStyle( CGraphicsContext::ESolidBrush ); 
+                // if we have transparent highlight, draw also background under highlight
+                if ( Background() )
+                    {
+                    Background()->Draw( aGc, *this, rect );
+                    }
+                
+                drawOk = AknsDrawUtils::DrawFrame( skin, aGc, rect, innerRect.Rect(), 
+                    KAknsIIDQsnFrList, KAknsIIDDefault );
+    
+                //Both highlight animation and frame drawing failed. 
+                if ( !drawOk )
+                    {
+                    listRect.DrawRect( aGc ); 
+                    innerRect.DrawRect( aGc ); 
+                    }
                 }
             }
-        }
+    
+        if ( aHighlight == ERemoveHighlight && Background() )
+            {
+            Background()->Draw( aGc, *this, rect );
+            }
+    
+        TAknLayoutText layoutText; 
+        layoutText.LayoutText( rect, 
+            AknLayoutScalable_Avkon::list_single_touch_menu_pane_t1().LayoutLine()); 
+    
+        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    
+        TRgb textColor(layoutText.Color()); 
+        AknsUtils::GetCachedColor( skin, textColor, KAknsIIDQsnTextColors,
+                                       EAknsCIQsnTextColorsCG20 );
+    
+        layoutText.DrawText( aGc, *(iItems[aItem]->iText), ETrue, textColor ); 
 
-    if ( aHighlight == ERemoveHighlight && Background() )
-        {
-        Background()->Draw( aGc, *this, rect );
-        }
-
-    TAknLayoutText layoutText; 
-    layoutText.LayoutText( rect, 
-        AknLayoutScalable_Avkon::list_single_touch_menu_pane_t1().LayoutLine()); 
-
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-
-    TRgb textColor(layoutText.Color()); 
-    AknsUtils::GetCachedColor( skin, textColor, KAknsIIDQsnTextColors,
-                                   EAknsCIQsnTextColorsCG20 );
-
-    layoutText.DrawText( aGc, *(iItems[aItem]->iText), ETrue, textColor ); 
+        if ( aItem < iLastVisibleItem )
+            {
+            AknListUtils::DrawSeparator( aGc, rect, textColor );
+            }
+		}
     }
 
 // -----------------------------------------------------------------------------
@@ -1041,31 +1085,21 @@ void CAknStylusPopUpMenuContent::UpdateScrollBar()
         }
         
     TAknDoubleSpanScrollBarModel vsbarModel;
-    TAknDoubleSpanScrollBarModel hsbarModel;
     
     if ( iSBFrame->VScrollBarVisibility() != CEikScrollBarFrame::EOff )
         {
         vsbarModel.iThumbPosition = thumbPos * singleItemHeight + Offset();
         vsbarModel.iScrollSpan = visibleItems * singleItemHeight;
         vsbarModel.iThumbSpan = fitsToMenu * singleItemHeight;
-            
-        TEikScrollBarFrameLayout layout;
-        layout.iTilingMode=TEikScrollBarFrameLayout::EInclusiveRectConstant;
-        layout.SetClientMargin(0);
-        layout.SetInclusiveMargin(0);
+
+        TAknLayoutRect scrollBarLayout;
+        scrollBarLayout.LayoutRect( listRect,
+                                    AknLayoutScalable_Avkon::scroll_pane() );
+        TRect scrollBarRect( scrollBarLayout.Rect() );
         
-        TBool changed ( EFalse );
-        TRect clientRect( listRect );
-        TRect inclusiveRect( listRect );
-        TRAP_IGNORE ( changed = iSBFrame->TileL( &hsbarModel, 
-                                                 &vsbarModel,
-                                                 clientRect, 
-                                                 inclusiveRect, 
-                                                 layout ) );
-        if ( changed )
-            {
-            iSBFrame->DrawScrollBarsDeferred();
-            }
+        iSBFrame->Tile( &vsbarModel, scrollBarRect );
+        
+        iSBFrame->DrawScrollBarsDeferred();
         }
     }
 
@@ -1245,7 +1279,13 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
         iItems[i]->iRect = itemRect;
         }
 
-    return lastItem;    
+    if ( lastItem == iItems.Count() )
+        {
+        // substract the partially visible item
+        --lastItem;
+        }
+    
+    return lastItem; 
     }
 
 // ---------------------------------------------------------------------------
@@ -1264,7 +1304,7 @@ void CAknStylusPopUpMenuContent::SizeChanged()
 
     TRAP_IGNORE( InitPhysicsL() );
         
-    if ( CalculateShownItems( ENoScroll ) != KNoItemSelected )
+    if ( ( iLastVisibleItem = CalculateShownItems( ENoScroll ) ) != KNoItemSelected )
         {
         UpdateScrollBar();
         DrawNow();
@@ -1282,6 +1322,8 @@ void CAknStylusPopUpMenuContent::Draw( const TRect& /*aRect*/ ) const
         {
         CWindowGc& gc = SystemGc();
 
+        gc.SetClippingRect( Rect() );
+        
         for ( TInt i=iFirstItem; i < iItems.Count(); i++ )
             {
             if ( iItems[i]->iVisibility != KHidden )
@@ -1290,6 +1332,7 @@ void CAknStylusPopUpMenuContent::Draw( const TRect& /*aRect*/ ) const
                     ENoHighlight );
                 }
             }
+        gc.CancelClippingRect();
         }
     }
 
@@ -1402,17 +1445,8 @@ TInt CAknStylusPopUpMenuContent::WorldHeight() const
         return 0;
         }
             
-    TRect mainPaneRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
-                                       mainPaneRect );
     TAknWindowLineLayout listLayout = 
        AknLayoutScalable_Avkon::list_single_touch_menu_pane(0).LayoutLine();
- 
-    TAknTextLineLayout textLayout = 
-       AknLayoutScalable_Avkon::list_single_touch_menu_pane_t1().LayoutLine();
-
-    TAknWindowLineLayout unit = 
-       AknLayoutScalable_Avkon::aid_value_unit2().LayoutLine();
     
     TInt singleItemHeight = listLayout.iH; 
     TInt height = singleItemHeight * visibleItems;

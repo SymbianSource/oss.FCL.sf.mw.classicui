@@ -24,7 +24,7 @@
 
 
 #include <e32base.h>
-#include "findutilbase.h"
+#include "FindUtilBase.h"
 
 // CFindUtilBase implementation
 

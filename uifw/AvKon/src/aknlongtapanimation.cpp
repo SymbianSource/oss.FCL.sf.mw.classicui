@@ -42,6 +42,9 @@ const TInt KAknLongTapWindowPosition = 11; // window group's priority
 /** Window`s Position when hiding the animation which  does not own Window Group */
 const TInt KAknAnimationNotOwnWindowGroupWindowPosition = -10; // never at front  
 
+/** animation's position offset */
+const TInt KVerticalOffset = -75;
+
 /**  window group's name */
 _LIT( KAknLongTapWgName, "LongTapAnim" ); // window groups name
 
@@ -165,9 +168,11 @@ EXPORT_C void CAknLongTapAnimation::ShowAnimationL( const TInt aX,
     
     SetRect( TRect( TPoint(aX, aY), layoutRect.Rect().Size() ));
     
-    // Position window so that it will be directly on top of
-    // the location that was clicked.
+    // position window
     TPoint point( aX - Rect().Width() / 2, aY - Rect().Height() / 2 );
+    point.iY += KVerticalOffset;
+    point.iY = Max( 0, point.iY );
+    
     Window().SetPosition( point );
 
     iAnim->SetSize( layoutRect.Rect().Size() );

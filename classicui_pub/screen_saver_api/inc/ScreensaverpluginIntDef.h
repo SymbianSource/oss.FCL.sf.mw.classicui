@@ -20,7 +20,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <Ecom/implementationinformation.h>
+#include <ecom/implementationinformation.h>
 #include <screensaverplugin.h>
 
 // CONSTANTS

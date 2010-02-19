@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -211,12 +211,15 @@ TBool CAknItemActionMenu::CollectionHighlightVisible() const
     TBool highlightVisible( ETrue );
     for ( TInt i = 0; i < iStates.Count(); i++ )
         {
-        MAknCollection* state( iStates[ i ] );
-        if ( state->CollectionState() &
-                MAknCollection::EStateCollectionVisible )
+        MAknCollection* collection( iStates[ i ] );
+        TUint state = collection->CollectionState();
+
+        highlightVisible = state & MAknCollection::EStateHighlightVisible;
+        
+        if ( highlightVisible )
             {
-            highlightVisible = state->CollectionState()
-                & MAknCollection::EStateHighlightVisible;
+            // Highlight can't be visible if the collection is not visible.
+            highlightVisible = state & MAknCollection::EStateCollectionVisible;
             break;
             }
         }

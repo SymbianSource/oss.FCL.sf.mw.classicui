@@ -112,6 +112,7 @@ void CBCTestMixMCLGeneralCase::RunL( TInt aCmd )
     TestMiscApisFuncOneL();
     TestAknToolbar();
     TestAknPopupUtils();
+    TestAknListUtilsL(); 
     TestEditorKineticScrollingL();
     TestAknPhysicsSuspendPhysicsL();
     TestAknPhysicsResumePhysicsL();
@@ -183,7 +184,11 @@ void CBCTestMixMCLGeneralCase::TestListBoxL()
 	    "CListBoxView::ItemOffsetInPixels() invoked" );
 	_LIT( KDisableItemSpecificMenu, 
 	    "CListBoxView::DisableItemSpecificMenu() invoked" );
-	
+	_LIT( KMakeVisible,
+	    "CEikListBox::MakeVisible() invoked" );
+    _LIT( KItemsInSingleLine, 
+        "CEikListBox::ItemsInSingleLine() invoked" );
+
 	CEikFormattedCellListBox * listbox = new CEikFormattedCellListBox();
 	CleanupStack::PushL( listbox );
 	
@@ -224,6 +229,11 @@ void CBCTestMixMCLGeneralCase::TestListBoxL()
 	
 	listbox->DisableItemSpecificMenu();
 	AssertTrueL( ETrue, KDisableItemSpecificMenu );
+    listbox->MakeVisible( ETrue );
+    AssertTrueL( ETrue, KMakeVisible );
+
+	listbox->ItemsInSingleLine();
+	AssertTrueL( ETrue, KItemsInSingleLine );
 	
 	CleanupStack::PopAndDestroy( text );
 	CleanupStack::PopAndDestroy( listbox );
@@ -344,6 +354,35 @@ void CBCTestMixMCLGeneralCase::TestAknPopupUtils()
     AssertTrueL( ETrue, KAknPopupUtilsPosition );
     }
 
+	
+// ---------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestAknListUtils
+// ---------------------------------------------------------------------------
+//   
+void CBCTestMixMCLGeneralCase::TestAknListUtilsL()
+    {
+    CFbsBitmap *bitmap = new ( ELeave ) CFbsBitmap();
+    CleanupStack::PushL( bitmap );
+    bitmap->Create( TSize( 20, 20 ), EColor16MA );
+    CFbsBitmapDevice *bitmapDevice = CFbsBitmapDevice::NewL( bitmap );
+    CleanupStack::PushL( bitmapDevice );
+    CFbsBitGc *gc = CFbsBitGc::NewL();
+    CleanupStack::PushL( gc );
+    gc->Activate( bitmapDevice );
+    
+    TRect rect( 10,100,20,120 );
+    TRgb color( KRgbRed );
+    AknListUtils::DrawSeparator( *gc, rect, color );
+    
+    CleanupStack::PopAndDestroy( gc );
+    CleanupStack::PopAndDestroy( bitmapDevice );
+    CleanupStack::PopAndDestroy( bitmap );
+    
+    _LIT( KAknListUtilsDrawSeparator, "AknListUtils::DrawSeparator tested" );
+    AssertTrueL( ETrue, KAknListUtilsDrawSeparator );
+    }
+
+	
 // ---------------------------------------------------------------------------
 // CBCTestMixMCLGeneralCase::TestAknToolbar
 // ---------------------------------------------------------------------------
@@ -361,6 +400,7 @@ void CBCTestMixMCLGeneralCase::TestAknToolbar()
 	AssertTrueL( ETrue, KAknToolbarSetBgId );
 	CleanupStack::PopAndDestroy( toolbar );
 	}
+
 
 // ---------------------------------------------------------------------------
 // CBCTestMixMCLGeneralCase::TestEditorKineticScrollingL

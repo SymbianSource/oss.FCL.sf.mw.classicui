@@ -166,6 +166,9 @@ TInt CHgScrollBufferManager::RunError( TInt /*aError*/ )
 //
 void CHgScrollBufferManager::SetPosition( TInt aIndex )
     {
+    // If all the items fit in the buffer no need to move the buffer
+    if(iTotalCount <= iBufferSize) return;
+    
     TBool forceUpdate = EFalse;
     aIndex -= iBufferSize / 2; // normalize index to Buffer start
     

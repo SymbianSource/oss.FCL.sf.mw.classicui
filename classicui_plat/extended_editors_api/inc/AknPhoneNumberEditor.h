@@ -248,7 +248,7 @@ public:
      */
     EXPORT_C void OpenVKB();
 
-
+    void MakeVisible(TBool aVisible);
 private: 
 //new functions, for ccpu support 
     /**

@@ -16,7 +16,7 @@
 */
 
 
-#include "EIKKWIN.H"
+#include "eikkwin.h"
 
 EXPORT_C CEikKeyWindow::CEikKeyWindow()
 	{

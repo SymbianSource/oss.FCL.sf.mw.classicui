@@ -278,6 +278,22 @@ const TUint32 KAknAdaptiveSearchLastChinese = 0x00000014;
  */
 const TUint32 KAknEmotionResourceFileName = 0x00000015;
 
+/**
+ * they store the type of keyboard in slide close/slide open modes
+ * according to the following enumeration:
+ * 0 = no keyboard
+ * 1 = 12 keys keyboard
+ * 2 = 4x12 qwerty keyboard
+ * 3 = 4x10 qwerty keyboard
+ * 4 = 3x11 qwerty keyboard
+ * 5 = half qwerty keyboard
+ * 6 = custom qwerty keyboard
+ * 7 = max layout keyboard
+ */
+const TUint32 KAknKeyboardSlideClose = 0x00000016;
+
+const TUint32 KAknKeyboardSlideOpen = 0x00000017;
+
 const TUid KCRUidLeaveAppsInMemory = { 0x102858F2 };
 
 /**

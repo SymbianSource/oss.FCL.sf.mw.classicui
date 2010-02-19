@@ -1163,7 +1163,7 @@ void CEikServAppUi::HandleErrorMessageEvent(const TWsErrorMessage& aErrorMessage
 void CEikServAppUi::HandleResourceChangeL(TInt aType)
     {
     CEikServAppUiBase::HandleResourceChangeL(aType);
-    if ( aType == KEikDynamicLayoutVariantSwitch )
+    if ( aType == KEikDynamicLayoutVariantSwitch || aType == KAknsMessageSkinChange )
         {
         UpdateCursorsL();
         }
@@ -1433,6 +1433,16 @@ void CEikServAppUi::LoadBitmapCursorsL()
             {
             spriteMember.iBitmap = AknIconUtils::CreateIconL( *bmpFile, bmpId );
             CleanupStack::PushL( spriteMember.iBitmap );
+            
+            // set color for the cursor
+            MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+            if ( skin )
+                {
+                TRgb color = KRgbBlack;
+                AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnIconColors, EAknsCIQsnIconColorsCG10 );
+                AknIconUtils::SetIconColor( spriteMember.iBitmap, color );
+                }
+
             }
          
         TAknWindowLineLayout l;

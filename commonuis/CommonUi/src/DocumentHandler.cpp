@@ -1398,10 +1398,20 @@ EXPORT_C void CDocumentHandler::OpenTempFileL(
             {
             User::LeaveIfError(aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOrWriters));
             }
-        else if ( err != KErrNone )
-            {
-            error = err; // Otherwise possible KErrNotReady caused by hotswap leads to crash later
-            }
+        else if ( err == KErrTooBig )
+        	{
+			RFile64* file64 = NULL;
+			file64 = static_cast<RFile64*> (&aSharableFile);
+			if( file64 != NULL )
+				{
+				err = file64->Open(iSharableFS,aFileName,EFileShareReadersOnly);
+				if( err == KErrInUse )
+					{
+					User::LeaveIfError(aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOrWriters));
+					}
+				}
+        	}
+        error = err; // Otherwise possible KErrNotReady caused by hotswap leads to crash later           
         }
     #ifdef _DEBUG
     RDebug::Print( _L("DocumentHandler: CDocumentHandler::OpenTempFileL: finished with error=%d."), error);

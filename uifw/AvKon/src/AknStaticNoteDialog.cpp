@@ -31,6 +31,8 @@
 #include <AknsDrawUtils.h>
 
 #include <AknTasHook.h> // for testability hooks
+
+#include "akntrace.h"
 class CAknStackIndicatorAttributes: public CBase
 	{
 public:
@@ -167,7 +169,9 @@ EXPORT_C void CAknStaticNoteStackIndicator::HandleResourceChange(TInt aType)
  */
 EXPORT_C CAknStaticNoteDialog::CAknStaticNoteDialog() : CAknNoteDialog()
 	{
+	_AKNTRACE_FUNC_ENTER;
 	AKNTASHOOK_ADD( this, "CAknStaticNoteDialog" );
+	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -180,7 +184,9 @@ EXPORT_C CAknStaticNoteDialog::CAknStaticNoteDialog() : CAknNoteDialog()
  */
 EXPORT_C CAknStaticNoteDialog::CAknStaticNoteDialog(CEikDialog** aSelfPtr) : CAknNoteDialog(aSelfPtr)
 	{
+	_AKNTRACE_FUNC_ENTER;
 	AKNTASHOOK_ADD( this, "CAknStaticNoteDialog" );
+	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -190,8 +196,10 @@ EXPORT_C CAknStaticNoteDialog::CAknStaticNoteDialog(CEikDialog** aSelfPtr) : CAk
  */
 EXPORT_C CAknStaticNoteDialog::~CAknStaticNoteDialog()
 	{
+	_AKNTRACE_FUNC_ENTER;
 	AKNTASHOOK_REMOVE();
 	delete iStackIndicator;
+	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**

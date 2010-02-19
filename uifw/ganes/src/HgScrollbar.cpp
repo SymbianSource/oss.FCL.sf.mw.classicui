@@ -270,12 +270,15 @@ void CHgScrollbar::DrawScrollbar( CWindowGc& aGc )
                     iScrollbarBg->Bitmap()->SizeInPixels(),
                     iScrollbarBg->Mask(),
                     EFalse);
-            
-            aGc.BitBltMasked(iScrollbarRect.iTl + iHandlePosition, 
-                    iScrollbarHandle->Bitmap(),
-                    iScrollbarHandle->Bitmap()->SizeInPixels(),
-                    iScrollbarHandle->Mask(),
-                    EFalse);
+
+            if(!iStatic)
+                {
+                aGc.BitBltMasked(iScrollbarRect.iTl + iHandlePosition, 
+                        iScrollbarHandle->Bitmap(),
+                        iScrollbarHandle->Bitmap()->SizeInPixels(),
+                        iScrollbarHandle->Mask(),
+                        EFalse);
+                }
             }
         }
     }

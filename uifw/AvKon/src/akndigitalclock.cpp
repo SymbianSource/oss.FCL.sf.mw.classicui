@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -323,7 +323,9 @@ void CAknDigitalClock::Draw( const TRect& /*aRect*/ ) const
 
         TRect rect( Rect() );
 
-        if ( iFlags & EAknDigitalClockInStatusPane )
+        const MCoeControlBackground* backgroundDrawer = FindBackground();
+        if ( !backgroundDrawer &&
+             iFlags & EAknDigitalClockInStatusPane )
             {
             MAknsSkinInstance* skin = AknsUtils::SkinInstance();
             MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
