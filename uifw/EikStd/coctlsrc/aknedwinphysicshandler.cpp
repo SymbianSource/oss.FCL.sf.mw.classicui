@@ -124,6 +124,11 @@ void CAknEdwinPhysicsHandler::HandlePointerEvent(
         }
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
+        if ( iFlags.IsClear( EFlagDraggingAllowed ) )
+            {
+            return;
+            }
+        
         iFlags.Clear( EFlagDraggingAllowed );
         TPoint drag( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
         iPhysics->StartPhysics( drag, iStartTime );
@@ -148,6 +153,18 @@ void CAknEdwinPhysicsHandler::InitPhysicsL()
     TSize totalSize( iViewRect.Width(), iViewRect.Height() + KMaxWorldSize );
     TSize viewSize( iViewRect.Width(), iViewRect.Height() );
 
+    
+    CTextLayout* layout = iEdwin.TextLayout();
+    
+    if ( layout )
+        {
+        TInt pixelsAbove = layout->PixelsAboveBand();
+        if ( pixelsAbove > 0 )
+            {
+            MoveScrollIndex( -pixelsAbove );
+            }
+        } 
+    
     iPhysics->InitPhysicsL( totalSize, viewSize, EFalse );
     }
 
@@ -648,3 +665,13 @@ TBool CAknEdwinPhysicsHandler::DragThresholdExceeded(
         }
     return EFalse;
     }
+
+// ---------------------------------------------------------------------------
+// CAknEdwinPhysicsHandler::DisableDragging
+// ---------------------------------------------------------------------------
+//
+void CAknEdwinPhysicsHandler::DisableDragging()
+    {
+    iFlags.Clear( EFlagDraggingAllowed );
+    }
+    

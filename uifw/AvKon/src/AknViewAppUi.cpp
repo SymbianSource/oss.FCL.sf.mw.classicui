@@ -27,6 +27,10 @@
 #include <aknclearer.h>
 #include <AknUtils.h>
 #include <akntoolbar.h>
+#include <akntranseffect.h>
+#include <centralrepository.h>
+
+
 #include "aknview.h"
 #include "aknshut.h"
 #include "aknenv.h"
@@ -43,6 +47,10 @@
 // CONSTANTS
 const TInt KAknAppUiViewsGranularity = 1;
 const TInt KAknViewAsyncPriority = EActivePriorityRedrawEvents + 10;
+const TUid KCRUidThemes = { 0x102818E8 }; // defined in pslninternalcrkeys.h
+const TUint32 KThemesTransitionEffects = 0x00000009; //defined in pslninternalcrkeys.h
+
+
 #ifdef RD_SPLIT_VIEW
 const TInt KAknSplitViewSize = 2;
 
@@ -229,11 +237,25 @@ EXPORT_C void CAknViewAppUi::BaseConstructL( TInt aAppUiFlags )
 	AddToStackL( iExtension->iNavigator, ECoeStackPriorityDefault - 1, ECoeStackFlagRefusesFocus );
 #endif // RD_SPLIT_VIEW
 	
+	
+	// disable CAknLocalScreenClearer when fullscreen effect is on
+	CRepository *uiThemeCenRep =  CRepository::NewL( KCRUidThemes );
+	CleanupStack::PushL( uiThemeCenRep );
+	TInt effectValue = 0;
+	TBool themeEffectDisabled = ETrue;
+	if ( KErrNone == uiThemeCenRep->Get( KThemesTransitionEffects, effectValue ) )
+        {
+        themeEffectDisabled = effectValue & AknTransEffect::EFullScreenTransitionsOff;
+        }
+
 	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 && // only clear the window for foreground apps
-	     iExtension->iUseDefaultScreenClearer )
+	     iExtension->iUseDefaultScreenClearer && themeEffectDisabled )
 		{
 		iClearer = CAknLocalScreenClearer::NewL( ETrue );
 		}
+	
+	CleanupStack::PopAndDestroy( uiThemeCenRep ); // uiThemeCenRep
+	
 	}
 
 // -----------------------------------------------------------------------------

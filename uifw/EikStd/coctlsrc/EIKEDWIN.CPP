@@ -5630,6 +5630,8 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
     TRect viewRect( AdjustedViewRect() );
     const TInt formattedLines = Max(1, iLayout->NumFormattedLines());
     const TInt formattedHeight = iLayout->FormattedHeightInPixels();    
+    const TBool formattedHeightchanged( formattedHeight != iEdwinExtension->iRecordFormattedHeight );
+    iEdwinExtension->iRecordFormattedHeight = formattedHeight;
     const TInt viewRectHeight = viewRect.Height();
     const TInt totalChars = iText->DocumentLength();    
     const TInt formattedLength = Min( totalChars, iLayout->FormattedLength() );
@@ -5647,7 +5649,7 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
             aVertModel.iThumbSpan = viewRectHeight;
             aVertModel.iScrollSpan = formattedHeight;            
             aVertModel.iThumbPosition = iEdwinExtension->iThumbPos;   
-            if ( aVertModel.iThumbPosition == KErrNotFound )
+            if ( aVertModel.iThumbPosition == KErrNotFound || formattedHeightchanged )
                 {
                 if ( bottomPos == totalChars )
                     {
@@ -6655,10 +6657,16 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
         {
     case KEikDynamicLayoutVariantSwitch:
         {
+        if ( KineticScrollingEnabled() )
+            {
+            iEdwinExtension->iPhysicsHandler->DisableDragging();
+            }
+        
         iEdwinExtension->iThumbPos = KErrNotFound;
         SizeChanged();
         if ( !IsReadOnly() && !IsNonFocusing() 
-                && !( iEdwinUserFlags & EDisplayOnly ) )
+                && !( iEdwinUserFlags & EDisplayOnly )
+                && !KineticScrollingEnabled() )
             {
             TInt docPos = CursorPos();
             TRect viewRect( AdjustedViewRect() );
@@ -8565,6 +8573,7 @@ void CEikEdwin::SetSelectionVisibilityL( TBool isVisable )
     	}
     else
     	{
+        HandleSelectionForSmiley( TCursorSelection( 0, 0 ) );
     	SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagSelectionVisible );
     	}
     return;

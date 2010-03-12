@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -293,6 +293,11 @@ const TUint32 KAknEmotionResourceFileName = 0x00000015;
 const TUint32 KAknKeyboardSlideClose = 0x00000016;
 
 const TUint32 KAknKeyboardSlideOpen = 0x00000017;
+
+/**
+* The operator's service call phone number. Could vary by operator.
+*/
+const TUint32 KAknServiceCallNumber = 0x00000018;
 
 const TUid KCRUidLeaveAppsInMemory = { 0x102858F2 };
 

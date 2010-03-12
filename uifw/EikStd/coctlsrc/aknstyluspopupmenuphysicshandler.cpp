@@ -170,7 +170,7 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
             {
             if ( iViewRect.Contains( aPointerEvent.iPosition ) )
                 {
-                iPopUpMenuContent->SelectItem( 
+                iPopUpMenuContent->SelectItemL( 
                         iPopUpMenuContent->CurrentItem() );
                 }
             else 

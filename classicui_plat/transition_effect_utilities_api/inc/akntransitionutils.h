@@ -54,6 +54,8 @@ const TInt KGfxControlDisappearAction = 4;
 #define KGfxSequenceMiddleControlUid TUid::Uid( 0x2000B475 )
 #define KGfxSequenceLastControlUid TUid::Uid( 0x2000B476 )
 
+#define KGfxTransEffectToolbarExtensionControlUid TUid::Uid( 0x2000B47A )
+
 // Enumerations for notifying tfx server (used via 
 // GfxTransEffect::NotifyExternalState)
 enum TGfxTransNotification 

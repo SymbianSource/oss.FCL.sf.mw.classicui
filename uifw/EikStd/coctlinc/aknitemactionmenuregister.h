@@ -25,6 +25,7 @@ class MAknCollectionObserver;
 class CAknItemActionMenuRegisterArray;
 class CAknItemActionMenu;
 class MObjectProvider;
+class CAknView;
 
 /**
  * Item action menu register.
@@ -239,6 +240,31 @@ private:
      * @return Overriding object menu bar.
      */
     CEikMenuBar* OverridingObjectMenuBar();
+    
+    /**
+     * Returns pointer to component that owns the current view. This is either
+     * application UI, active view or a dialog. This component is the one that
+     * owns the possible menubar.
+     * 
+     * @return Current view owner.
+     */
+    MObjectProvider* Owner() const;
+    
+    /**
+     * Returns pointer to currently active view.
+     * 
+     * @param aAppUi Application UI.
+     * @return Active view or NULL.
+     */
+    CAknView* View( CAknAppUi* aAppUi ) const;
+    
+    /**
+     * Returns pointer to current application UI.
+     * 
+     * @return Application UI or NULL.
+     */
+    static CAknAppUi* AppUI();
+    
 
     /**
      * Registers collection to item action menu.
@@ -272,13 +298,11 @@ private:
             CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu );
 
     /**
-     * Adds observers with aMenuBar to item action menu.
+     * Adds observers that have the same owner and aItemAction to the menu.
      * 
-     * @param aMenuBar Menu bar.
      * @param aItemActionMenu Item action menu.
      */
-    void AddObserversToItemActionMenuL(
-            CEikMenuBar* aMenuBar, CAknItemActionMenu& aItemActionMenu );
+    void AddObserversToItemActionMenuL( CAknItemActionMenu& aItemActionMenu );
 
     /**
      * Creates register instance. 
@@ -320,7 +344,8 @@ private: // data
          */
         TAknUnregisteredObserverData(
                 CEikMenuBar* aMenuBar,
-                MAknCollectionObserver& aObserver );
+                MAknCollectionObserver& aObserver,
+                MObjectProvider* aOwner );
 
     public:
         /**
@@ -332,6 +357,11 @@ private: // data
          * Observer.
          */
         MAknCollectionObserver& iObserver;
+        
+        /**
+         * Current menubar owner.
+         */
+        MObjectProvider* iOwner;
         };
 
     /**

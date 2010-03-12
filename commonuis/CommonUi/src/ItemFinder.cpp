@@ -923,6 +923,10 @@ EXPORT_C TBool CItemFinder::ItemWasTappedL( const TPoint aTappedPoint )
             {
             break; // Item not visible.
             }
+        if( end >= ( pos + len ) )
+        	{
+			end = pos + len - 1;
+        	}
         TInt lastLine = (*iEditor)->TextLayout()->GetLineNumber( end );
         TInt nextLine = 0;
         TInt lastPos = start;

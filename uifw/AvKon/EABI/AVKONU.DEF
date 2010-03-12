@@ -4579,4 +4579,24 @@ EXPORTS
 	_ZN19CAknBitmapAnimation15StartAnimationLEi @ 4578 NONAME
 	_ZN14CAknPopupField19CloseSelectionListLEv @ 4579 NONAME
 	_ZN12AknListUtils13DrawSeparatorER16CGraphicsContextRK5TRectRK4TRgb @ 4580 NONAME
+	_ZN17CAknSmileyManager13SetSizeByFontEPK5CFont @ 4581 NONAME
+	_ZN17CAknSmileyManager19ConvertCodesToTextLER6TDes16 @ 4582 NONAME
+	_ZN17CAknSmileyManager19ConvertTextToCodesLER6TDes16 @ 4583 NONAME
+	_ZN17CAknSmileyManager4NewLEP18MAknSmileyObserver @ 4584 NONAME
+	_ZN17CAknSmileyManager7SetSizeERK5TSize @ 4585 NONAME
+	_ZN17CAknSmileyManagerD0Ev @ 4586 NONAME
+	_ZN17CAknSmileyManagerD1Ev @ 4587 NONAME
+	_ZN17CAknSmileyManagerD2Ev @ 4588 NONAME
+	_ZNK17CAknSmileyManager4TextE5TChar @ 4589 NONAME
+	_ZNK17CAknSmileyManager5CountEv @ 4590 NONAME
+	_ZNK17CAknSmileyManager6SmileyE5TChar @ 4591 NONAME
+	_ZNK17CAknSmileyManager8DrawTextER9CWindowGcRK7TDesC16PK5CFontRK5TRectiN16CGraphicsContext10TTextAlignEi @ 4592 NONAME
+	_ZNK17CAknSmileyManager8DrawTextER9CWindowGcRK7TDesC16PK5CFontRK6TPoint @ 4593 NONAME
+	_ZNK17CAknSmileyManager8DrawTextER9CWindowGcRK7TDesC16RK14TAknLayoutTexti @ 4594 NONAME
+	_ZNK17CAknSmileyManager8IsSmileyE5TChar @ 4595 NONAME
+	_ZNK17CAknSmileyManagerixEi @ 4596 NONAME
+	_ZTI14CAknSmileyIcon @ 4597 NONAME
+	_ZTI17CAknSmileyManager @ 4598 NONAME
+	_ZTV14CAknSmileyIcon @ 4599 NONAME
+	_ZTV17CAknSmileyManager @ 4600 NONAME
 

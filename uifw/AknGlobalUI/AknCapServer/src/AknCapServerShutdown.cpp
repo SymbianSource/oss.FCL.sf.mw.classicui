@@ -119,7 +119,7 @@ void CAknCapServerShutdown::ShutdownAppsL(
       // instigated the shutdown.
       if ((uid != aRequesterUID) && ( uid != KCapServerUid ) && ( uid != KFepSwitchWGId ) && 
              ( doomed->Caption() != EIKON_SERVER_BACKDROP_WINDOW_GROUP_NAME ) &&
-			  !IsSystemCriticalThread( thd ) )  
+			  !IsSystemCriticalThread( thd ) && (!doomed->IsSystem()) && (uid.iUid != 0))
          {
          TApaTask* harbingerOfDoom = new (ELeave) TApaTask(iWs);
          CleanupDeletePushL(harbingerOfDoom);

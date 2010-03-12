@@ -15,6 +15,12 @@
 *
 */
 
+#ifdef __ARMCC__
+#pragma push
+#pragma O3
+#pragma Otime
+#pragma arm
+#endif // __ARMCC__
 
 #include <eikfrlbd.h>
 #include <aknlists.h>
@@ -4026,6 +4032,12 @@ void CFormattedCellListBoxDataExtension::CreateColorBitmapsL( TSize aSize )
     }
 
 
+struct TCellInfo
+    {
+    TBool iTextNull;
+    TPtrC iTextPtr;
+    };
+
 void 
 CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                                              CWindowGc& aGc,
@@ -4035,6 +4047,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                                              const TColors& aColors ) const
     {
     _AKNTRACE_FUNC_ENTER;
+    
     TRect aRect(aItemRect);
     const TColors *subcellColors = &aColors;
     
@@ -4052,31 +4065,42 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         font=CEikonEnv::Static()->NormalFont();
         }
     
-    TInt extraVerticalSpace=(aRect.Height()-font->HeightInPixels());
-    TInt baseLineOffset=extraVerticalSpace/2+font->AscentInPixels();
     TRect textRect=aRect;
     textRect.iBr.iX=aRect.iTl.iX;
     TInt subcell=0;
     TInt subcell2=0;
-    TPtrC text;
-    TBool textNull[30];
-    TRgb bmpBackColor, bmpForeColor;
+
+    TCellInfo textNull[30];
     TRect textShadowRect;           // For transparent list
     TRgb textShadowColour = AKN_LAF_COLOR_STATIC(215);    // Black shadow for item text.
 
-    MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
     TBool layoutMirrored = AknLayoutUtils::LayoutMirrored();
     TBool skinEnabled = AknsUtils::AvkonSkinEnabled();
     
-    if (!cc)
-        {
-        cc = SkinBackgroundContext();
-        }
-
-    Mem::FillZ( textNull, sizeof( textNull ) );
 
     // cache the text states.
     subcell = 0;
+    
+    SSubCell defaultCell;
+    TMargins tm = {0,0,0,0};
+    defaultCell.iPosition = TPoint(0,0);
+    defaultCell.iSize = TSize(0,0);
+    defaultCell.iRealSize = TSize(0,0);
+    defaultCell.iRealTextSize = TSize(0,0);
+    defaultCell.iMargin = tm;
+    defaultCell.iUseSubCellColors = EFalse;
+    defaultCell.iColors = defaultcolors;
+    defaultCell.iGraphics = EFalse;
+    defaultCell.iAlign = CGraphicsContext::ELeft;
+    defaultCell.iBaseline = 0;
+    defaultCell.iNumberCell = EFalse;
+    defaultCell.iTextClipGap = 0;
+    defaultCell.iNotAlwaysDrawn = EFalse;
+    defaultCell.iTransparent = EFalse;
+    defaultCell.iBaseFont = 0;
+    SSubCell* sc;
+    
+    
     for(;;)
         {
         if (subcell>lastSubCell)
@@ -4084,10 +4108,27 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             break;
             }
         
-        TextUtils::ColumnText(text,subcell, aText);
-        if (text == KNullDesC && SubCellIsNotAlwaysDrawn(subcell))
+        TInt subcellindex = 0;
+        TInt subcellfound = 0;
+        subcellfound = FindSubCellIndex(subcellindex,subcell);
+        if (subcellfound != KErrNotFound)
             {
-            textNull[subcell] = ETrue;
+            sc = &(iSubCellArray->At(subcellindex));
+            }
+        else
+            {
+            sc = &defaultCell;
+            }
+        
+        TextUtils::ColumnText(textNull[subcell].iTextPtr,subcell, aText);
+        
+        if (textNull[subcell].iTextPtr == KNullDesC && sc->iNotAlwaysDrawn)
+            {
+            textNull[subcell].iTextNull = ETrue;
+            }
+        else
+            {
+            textNull[subcell].iTextNull = EFalse;
             }
 
         subcell++;
@@ -4103,33 +4144,58 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             break;
             }
         
-        if (textNull[subcell])
+        if (textNull[subcell].iTextNull)
             {
             ++subcell;
             continue;
             }
         
-        TRect bRect(SubCellPosition(subcell),SubCellSize(subcell));
-        TMargins m(SubCellMargins(subcell));
-        TRect cRect(bRect.iTl+TSize(m.iLeft,m.iTop),bRect.Size()-TSize(m.iRight+m.iLeft,m.iBottom+m.iTop));
-        
-        for (subcell2=subcell+1; subcell2<=lastSubCell; subcell2++) 
+        TInt subcellindex = 0;
+        TInt subcellfound = 0;
+        subcellfound = FindSubCellIndex(subcellindex,subcell);
+        if (subcellfound != KErrNotFound)
             {
-            if (textNull[subcell2])
+            sc = &(iSubCellArray->At(subcellindex));
+            }
+        else
+            {
+            sc = &defaultCell;
+            }
+        
+        TRect bRect = TRect(sc->iPosition,sc->iSize);
+        TMargins m = sc->iMargin;
+        TRect cRect = TRect(bRect.iTl+TSize(m.iLeft,m.iTop),bRect.Size()-TSize(m.iRight+m.iLeft,m.iBottom+m.iTop));
+        const TBool istrans = sc->iTransparent;
+        if (!layoutMirrored)
+            {
+            for (subcell2=subcell+1; subcell2<=lastSubCell; subcell2++) 
                 {
-                continue;
-                }
-            
-            // This is called O(N^2) times - Do not put anything extra to it, it'll slow down drawing!
-            TRect bRect2 = TRect(SubCellPosition(subcell2),SubCellSize(subcell2));
-            if (cRect.Intersects(bRect2) && bRect.Intersects(bRect2) && !SubCellIsTransparent(subcell) && !SubCellIsTransparent(subcell2)) 
-                {
-                if (!layoutMirrored)
+                if (textNull[subcell2].iTextNull)
+                    {
+                    continue;
+                    }
+                
+                // This is called O(N^2) times - Do not put anything extra to it, it'll slow down drawing!
+                TRect bRect2 = TRect(SubCellPosition(subcell2),SubCellSize(subcell2));
+                if (cRect.Intersects(bRect2) && bRect.Intersects(bRect2) && !istrans && !SubCellIsTransparent(subcell2)) 
                     {
                     cRect.iBr.iX = bRect2.iTl.iX;
                     bRect.iBr.iX = bRect2.iTl.iX;
                     }
-                else
+                }
+            }
+        else
+            {
+            for (subcell2=subcell+1; subcell2<=lastSubCell; subcell2++) 
+                {
+                if (textNull[subcell2].iTextNull)
+                    {
+                    continue;
+                    }
+                
+                // This is called O(N^2) times - Do not put anything extra to it, it'll slow down drawing!
+                TRect bRect2 = TRect(SubCellPosition(subcell2),SubCellSize(subcell2));
+                if (cRect.Intersects(bRect2) && bRect.Intersects(bRect2) && !istrans && !SubCellIsTransparent(subcell2)) 
                     {
                     cRect.iTl.iX = bRect2.iBr.iX;
                     bRect.iTl.iX = bRect2.iBr.iX;
@@ -4138,6 +4204,8 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             }
         SetSubCellRealTextSize(subcell, cRect.Size());
         SetSubCellRealSize(subcell, bRect.Size());
+        sc->iRealTextSize = cRect.Size();
+        sc->iRealSize = bRect.Size();
         subcell++;
         }
     
@@ -4151,16 +4219,29 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             break;
             }
         
-        if (textNull[subcell])
+        if (textNull[subcell].iTextNull)
             {
             ++ subcell;
             continue;
             }
         
+        
+        TInt subcellindex = 0;
+        TInt subcellfound = 0;
+        subcellfound = FindSubCellIndex(subcellindex,subcell);
+        if (subcellfound != KErrNotFound)
+            {
+            sc = &(iSubCellArray->At(subcellindex));
+            }
+        else
+            {
+            sc = &defaultCell;
+            }
+        
         // SetPosition, SetSize and margins support
-        TRect bRect(SubCellPosition(subcell),SubCellRealSize(subcell));
-        TMargins m(SubCellMargins(subcell));
-        TRect cRect(bRect.iTl+TSize(m.iLeft,m.iTop),SubCellRealTextSize(subcell));
+        TRect bRect = TRect(sc->iPosition,sc->iRealSize);
+        TMargins m = sc->iMargin;
+        TRect cRect = TRect(bRect.iTl+TSize(m.iLeft,m.iTop),sc->iRealTextSize);
         
         
         if (bRect.iBr.iX == 0)
@@ -4171,19 +4252,19 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         
         if ( layoutMirrored ) 
             {
-            TRect bRect = TRect(SubCellPosition(subcell),SubCellSize(subcell));
+            TRect bRect = TRect(sc->iPosition,sc->iSize);
             TRect cRect2 = TRect(bRect.iTl+TSize(m.iLeft,m.iTop),bRect.Size()-TSize(m.iRight+m.iLeft,m.iBottom+m.iTop));
             
-            TInt shift = (cRect2.Size() - SubCellRealTextSize(subcell)).iWidth;
+            TInt shift = (cRect2.Size() - sc->iRealTextSize).iWidth;
             cRect.iTl.iX += shift;
             cRect.iBr.iX += shift;
             }
         
-        textRect.SetRect(aItemRect.iTl+cRect.iTl,cRect.Size());
+        textRect=TRect(aItemRect.iTl+cRect.iTl,cRect.Size());
         
-        if (UseSubCellColors(subcell))
+        if (sc->iUseSubCellColors)
             {
-            subcellColors = &SubCellColors(subcell);
+            subcellColors = &sc->iColors;
             }
         else
             {
@@ -4194,14 +4275,11 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             {
             aGc.SetPenColor(subcellColors->iHighlightedText);
             aGc.SetBrushColor(subcellColors->iHighlightedBack); 
-            bmpBackColor = subcellColors->iHighlightedBack;
-            bmpForeColor = subcellColors->iHighlightedText;
             if ( skinEnabled && iExtension )
                 {
                 if ( iExtension->iHighlightedTextColor != NULL )
                     {
                     aGc.SetPenColor( iExtension->iHighlightedTextColor );
-                    bmpForeColor = iExtension->iHighlightedTextColor;
                     }
                 }
             }
@@ -4209,15 +4287,12 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             {
             aGc.SetPenColor(subcellColors->iText);
             aGc.SetBrushColor(subcellColors->iBack);
-            bmpBackColor = subcellColors->iBack;
-            bmpForeColor = subcellColors->iText;
             
             if ( skinEnabled && iExtension )
                 {
                 if ( iExtension->iTextColor != NULL )
                     {
                     aGc.SetPenColor( iExtension->iTextColor );
-                    bmpForeColor = iExtension->iTextColor;
                     }
                 }
             }
@@ -4226,55 +4301,59 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         
         // The following draws subcells to textRect
         if (textRect.iBr.iX!=textRect.iTl.iX)
-            {
-            TextUtils::ColumnText(text,subcell,aText);
-            
+            {          
             // graphics or text column
-            CGraphicsContext::TTextAlign align=SubCellAlignment(subcell);
-            if (!SubCellIsGraphics(subcell))
+            CGraphicsContext::TTextAlign align=sc->iAlign;
+            if (!sc->iGraphics)
                 {
                 const CFont* rowAndCellFont=RowAndSubCellFont(iExtension->iCurrentlyDrawnItemIndex,subcell);
-                const CFont* cellFont=Font(aProperties, subcell);
+                const CFont* cellFont=sc->iBaseFont;
                 const CFont* tempFont=(cellFont) ? cellFont : font;
                 const CFont* usedFont=(rowAndCellFont) ? rowAndCellFont : tempFont;
                 aGc.UseFont(usedFont);
                 SetUnderlineStyle( aProperties, aGc, subcell );
                 
                 // baseline calc needed for each cell.
-                baseLineOffset = SubCellBaselinePos(subcell);
+                TInt baseLineOffset = sc->iBaseline;
                 baseLineOffset -= cRect.iTl.iY;
                 if (!baseLineOffset)
                     {
                     baseLineOffset = (cRect.Size().iHeight-usedFont->HeightInPixels())/2 + usedFont->AscentInPixels();
                     }
                 
-                TBuf<KMaxColumnDataLength + KAknBidiExtraSpacePerLine> clipbuf = 
-                    text.Left(KMaxColumnDataLength);
+                TBuf<KMaxColumnDataLength + KAknBidiExtraSpacePerLine> clipbuf;// = sc->iColumnText.Left(KMaxColumnDataLength);
                 
                 // Note that this potentially modifies the text so its lenght in pixels
                 // might increase. Therefore, this should always be done before
                 // wrapping/clipping text. In some cases, WordWrapListItem is called
                 // before coming here. Is it certain that it is not done for number subcells?
-                if (SubCellIsNumberCell(subcell))
+                TBool bufset = EFalse;
+                if (sc->iNumberCell)
                     {
+                    clipbuf = textNull[subcell].iTextPtr.Left(KMaxColumnDataLength);
                     AknTextUtils::LanguageSpecificNumberConversion(clipbuf);
+                    bufset = ETrue;
                     }
                 
                 TBool clipped( EFalse );
-                TInt clipgap = SubCellTextClipGap( subcell );
+                TInt clipgap = sc->iTextClipGap;
                 
                 if ( iExtension->iUseLogicalToVisualConversion &&
                      subcell != iExtension->iFirstWordWrappedSubcellIndex &&
                      subcell != iExtension->iSecondWordWrappedSubcellIndex )
                     {
                     TInt maxClipWidth = textRect.Size().iWidth + clipgap;
-                    
+                
                     clipped = AknBidiTextUtils::ConvertToVisualAndClip(
-                        text.Left(KMaxColumnDataLength), 
+                        textNull[subcell].iTextPtr.Left(KMaxColumnDataLength), 
                         clipbuf,
                         *usedFont,
-                        textRect.Size().iWidth, 
+                        textRect.Width(), 
                         maxClipWidth );
+                    }
+                else if (!bufset)
+                    {
+                    clipbuf = textNull[subcell].iTextPtr.Left(KMaxColumnDataLength);
                     }
                 
                 if (clipped) 
@@ -4319,7 +4398,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                     // Let marquee know if it needs to do bidi conversion.
                     marquee->UseLogicalToVisualConversion( clipped );
                     
-                    if ( marquee->DrawText( aGc, textRect, text, baseLineOffset, align, *usedFont ) )
+                    if ( marquee->DrawText( aGc, textRect, textNull[subcell].iTextPtr, baseLineOffset, align, *usedFont ) )
                         {
                         // All the loops have been executed -> the text needs to be truncated.
                         aGc.DrawText( clipbuf, textRect, baseLineOffset, align, 0 );
@@ -4366,7 +4445,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                 }
             else // Graphics subcell
                 {
-                TLex lex(text);
+                TLex lex(textNull[subcell].iTextPtr);
                 TInt index;
                 __ASSERT_ALWAYS(lex.Val(index)==KErrNone,Panic(EAknPanicFormattedCellListInvalidBitmapIndex));
                 __ASSERT_DEBUG(iIconArray, Panic(EAknPanicOutOfRange));
@@ -4405,14 +4484,14 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                     
                     TSize size=bitmap->SizeInPixels();
                     
-                    if (size.iWidth>textRect.Size().iWidth)
+                    if (size.iWidth>textRect.Width())
                         {
-                        size.iWidth = textRect.Size().iWidth;
+                        size.iWidth = textRect.Width();
                         }
                     
-                    if (size.iHeight>textRect.Size().iHeight)
+                    if (size.iHeight>textRect.Height())
                         {
-                        size.iHeight = textRect.Size().iHeight;
+                        size.iHeight = textRect.Height();
                         }
                     
                     TPoint bmpPos=textRect.iTl;
@@ -4498,6 +4577,9 @@ CEikListBox* CFormattedCellListBoxData::ListBox() const
         }
     return NULL;
     }
-    
+
+#ifdef __ARMCC__
+#pragma pop
+#endif // __ARMCC__
     
 // End of File

@@ -44,6 +44,7 @@ class CHgDrawUtils;
 class CHgKeyUtils;
 class CHgTextFind;
 class CAknItemActionMenu;
+class CFont;
 
 // CLASS DECLARATION
 class CHgScroller : 
@@ -421,6 +422,8 @@ private:
      */
     void StopKeyScrolling();
     
+    void ReleasePopupFont();
+    
 protected:
     CAknPhysics* iPhysics; // Physics engine. Own
     CHgScrollBufferManager* iManager; // Own
@@ -430,6 +433,7 @@ protected:
     CHgTextFind* iTextFind; // Text find utility to communicate with FEP. Own
     CAknLongTapDetector* iDetector; // Longtap detector for single click. Own
     CAknItemActionMenu* iActionMenu; // Item action menu for single click. Not Own
+    CFont* iPopupFont; // font to be used with popup drawer
     
     // Observers
     MHgSelectionObserver* iSelectionObserver; // Not Own

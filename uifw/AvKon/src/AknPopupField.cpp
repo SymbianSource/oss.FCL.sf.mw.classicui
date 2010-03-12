@@ -443,7 +443,12 @@ void CAknPopupField::DoSizeChangedL()
     case EAknPopupFieldSelectionListMode:
             {
             __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
-            iSelectionList->SetRect(rect);
+            // When Form loses focus, If its child control listbox's size or position is not changed, 
+            // do not invoke "iSelectionList->SetRect(rect);". 
+            if ((iSelectionList->Position() != rect.iTl) || (iSelectionList->Size() != rect.Size()))
+                {
+                iSelectionList->SetRect(rect);
+                }
             AknsUtils::RegisterControlPosition(this);
             AknsUtils::RegisterControlPosition(iSelectionList);
             TRect listBoxRect = iExtension->iFormFieldRect; //iSelectionList->Rect();

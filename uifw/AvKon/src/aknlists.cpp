@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1419,6 +1419,16 @@ static void SetupStretchableListL(
 //
 static void SetupListL( CEikColumnListBox* aListBox,
                        const TAknWindowComponentLayout& aNormalLayout )
+    {
+    SetupStretchableListL( aListBox, aNormalLayout, aNormalLayout );
+    }
+
+// -----------------------------------------------------------------------------
+// SetupListL
+// -----------------------------------------------------------------------------
+//
+static void SetupListL( CEikFormattedCellListBox* aListBox,
+                        const TAknWindowComponentLayout& aNormalLayout )
     {
     SetupStretchableListL( aListBox, aNormalLayout, aNormalLayout );
     }
@@ -3482,15 +3492,11 @@ void CAknDoubleStyleListBox::SizeChangedL()
     CFormattedCellListBoxData* formattedCellData( itemDrawer->FormattedCellData() );
     if ( !formattedCellData->SecondRowHidden() )
         {
-        SetupStretchableListL( this,
-                              AknLayoutScalable_Avkon::list_double_pane( 0 ),
-                              AknLayoutScalable_Avkon::list_double_pane_vc( 0 ) );
+        SetupListL( this, AknLayoutScalable_Avkon::list_double_pane( 0 ) );
         }
     else
         {
-        SetupStretchableListL( this,
-                              AknLayoutScalable_Avkon::list_single_pane( 0 ),
-                              AknLayoutScalable_Avkon::list_double_pane_vc( 0 ) );
+        SetupListL( this, AknLayoutScalable_Avkon::list_single_pane( 0 ) );
         }
 
     SetSeparatorLinePosition( this, EAColumn );
@@ -3499,46 +3505,37 @@ void CAknDoubleStyleListBox::SizeChangedL()
         {
         // Assertion fails in CFormattedCellListBoxData::DrawFormattedSimple if 
         // this cell does not exist.
-        formattedCellData->SetStretchableTextSubCellL( 0,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
+        formattedCellData->SetTextSubCellL( 0,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ) );
 
-        formattedCellData->SetStretchableTextSubCellL( 1,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
+        formattedCellData->SetTextSubCellL( 1,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ) );
 
-        formattedCellData->SetStretchableTextSubCellL( 2,
-            AknLayoutScalable_Avkon::list_double_pane_t2( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 0 ) );
+        formattedCellData->SetTextSubCellL( 2,
+            AknLayoutScalable_Avkon::list_double_pane_t2( 0 ) );
             
-        formattedCellData->SetStretchableGraphicSubCellL( 3,
-            AknLayoutScalable_Avkon::list_double_pane_g1( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_g1( 0 ) );
+        formattedCellData->SetGraphicSubCellL( 3,
+            AknLayoutScalable_Avkon::list_double_pane_g1( 0 ) );
 
-        formattedCellData->SetStretchableGraphicSubCellL( 4,
-            AknLayoutScalable_Avkon::list_double_pane_g2( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_g2( 0 ) );
+        formattedCellData->SetGraphicSubCellL( 4,
+            AknLayoutScalable_Avkon::list_double_pane_g2( 0 ) );
 
         // Conditional subcells must be added in priority order!
-        formattedCellData->SetStretchableConditionalSubCellL( 4,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 2 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 2 ), 1, 2 );
+        formattedCellData->SetConditionalSubCellL( 4,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 2 ), 1 );
 
-        formattedCellData->SetStretchableConditionalSubCellL( 3,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 1 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 1 ), 1, 2 );
+        formattedCellData->SetConditionalSubCellL( 3,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 1 ), 1 );
         }
     else
         {
         // Assertion fails in CFormattedCellListBoxData::DrawFormattedSimple if 
         // this cell does not exist.
-        formattedCellData->SetStretchableTextSubCellL( 0,
-            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
+        formattedCellData->SetTextSubCellL( 0,
+            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ) );
 
-        formattedCellData->SetStretchableTextSubCellL( 1,
-            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
+        formattedCellData->SetTextSubCellL( 1,
+            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ) );
         }        
 
     itemDrawer->SetItemMarkReverse( ETrue );

@@ -1070,7 +1070,21 @@ void CAknButtonState::UpdateIconL( const TDesC& aFilePath,
     LoadButtonIcon( iPressedIcon );
     LoadButtonIcon( iHoverIcon );
     }
-
+// -----------------------------------------------------------------------------
+// CAknButtonState::UpdateExtensionInfoL
+// Updates extension information. 
+// -----------------------------------------------------------------------------
+void CAknButtonState::UpdateExtensionInfoL( TInt aResource )
+	{
+	if ( iExtension )
+		{
+		iExtension->ConfigureExtensionFromResourceL( aResource );
+		LoadButtonIcon( iIcon );
+	    LoadButtonIcon( iDimmedIcon );
+	    LoadButtonIcon( iPressedIcon );
+	    LoadButtonIcon( iHoverIcon );
+		}
+	}
 // -----------------------------------------------------------------------------
 // CAknButtonState::SizeChanged
 // Scales function graphics to the given size

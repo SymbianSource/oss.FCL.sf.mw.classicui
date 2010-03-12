@@ -22,6 +22,7 @@
 
 #include "HgLayoutData.h"
 #include "HgDrawUtils.h"
+#include "HgScrollbar.h"
 
 #include <aknphysics.h>
 
@@ -383,9 +384,13 @@ void CHgList::FitSelectionToView()
 TRect CHgList::ListRect() const
     {
     TRect rect(iListOffset, TSize(iWidth,iHeight));
-    TAknLayoutRect areaaftersb;
-    areaaftersb.LayoutRect(rect, iLayoutData->BaseLayout());
-    return areaaftersb.Rect();
+    if(!iScrollbar->IsStatic())
+        {
+        TAknLayoutRect areaaftersb;
+        areaaftersb.LayoutRect(rect, iLayoutData->BaseLayout());
+        rect = areaaftersb.Rect();
+        }
+    return rect;
     }
 
 // -----------------------------------------------------------------------------

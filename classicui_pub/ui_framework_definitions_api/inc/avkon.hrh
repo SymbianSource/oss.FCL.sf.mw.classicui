@@ -376,7 +376,12 @@ enum
     EPenInputCmdHwrInputToLandscape,
     EPenInputCmdSwitchToVkeyBasedInput,
     EPenInputCmdWritingSpeed,
-    EPenInputCmdGuidingLine,    
+    EPenInputCmdGuidingLine,
+        
+    EChinFepCmdModePinyinPhrase,
+    EChinFepCmdModeZhuyinPhrase,
+    EChinFepCmdModeStrokePhrase,    
+
     /**
     * @deprecated
     * Do not use.

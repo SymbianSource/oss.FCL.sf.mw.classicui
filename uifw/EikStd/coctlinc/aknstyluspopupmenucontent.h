@@ -195,7 +195,7 @@ public:
      *
      * @aParam aItem Item to be selected
      */ 
-    void SelectItem( TInt aItem );
+    void SelectItemL( TInt aItem );
     
 private:
 	

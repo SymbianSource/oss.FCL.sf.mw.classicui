@@ -32,6 +32,10 @@
 
 #include "aknresourceprovider.h"
 
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+#include <gfxtranseffect/gfxtranseffect.h>
+#include <akntransitionutils.h>
+#endif
 const TInt KNoItemSelected = -1; 
 const TUint32 KToolbarExtensionBgColor = 0x00000000;
 const TInt KToolBarExtensionBgAlpha = 0x7F;
@@ -70,6 +74,16 @@ CAknToolbarExtensionView* CAknToolbarExtensionView::NewL( TResourceReader& aRead
 //
 CAknToolbarExtensionView::~CAknToolbarExtensionView()
     {
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+    if ( IsVisible() )
+        {
+        CAknControl::MakeVisible( EFalse );
+        }
+    if ( GfxTransEffect::IsRegistered( this ) )
+        {
+        GfxTransEffect::Deregister( this );
+        }
+#endif
     SetFocus( EFalse );
     CEikonEnv::Static()->EikAppUi()->RemoveFromStack( this );
     if ( iSelectedItem >= 0 && iSelectedItem < iItems.Count() ) 
@@ -184,9 +198,23 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
         
         // Calling this here, so that iVisibleItems array has been updated and
         // all items visible in extension get call makevisible
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+        if ( !GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknControl::MakeVisible( aVisible );
+            }            
+#else
         CAknControl::MakeVisible( aVisible );
+#endif 
         SetRect( rect );     
         DrawableWindow()->SetOrdinalPosition( 0, ECoeWinPriorityNormal );    
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS       
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EAppearInvisible );
+            }
+#endif
         TBool floating = !IsNonFocusing(); 
         for ( TInt i = 0; i < iItems.Count(); i++ )
             {
@@ -227,16 +255,61 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
                 }
             iPreviousItem = KNoItemSelected;
             }
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS        
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::SetAllParents( this );
+            GfxTransEffect::NotifyExternalState( EInternalHandleSequence, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::Begin( this, KGfxControlAppearAction );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsBegin, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::SetDemarcation( this, rect );
+            CAknControl::MakeVisible( ETrue );
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EAppearVisible );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsEnd, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::End( this );
+            }
+        else
+            {
         DrawNow(); 
+            }
+#else
+        DrawNow();
+#endif 
         }
     else if ( !aVisible && isVisible )
         {
         CEikonEnv::Static()->EikAppUi()->UpdateStackedControlFlags( this, 
             ~0, ECoeStackFlagRefusesFocus | ECoeStackFlagRefusesAllKeys );
         CEikonEnv::Static()->EikAppUi()->HandleStackChanged();
-        CAknControl::MakeVisible( aVisible );
         TRAP_IGNORE( SelectItemL( iSelectedItem, EFalse ) ); 
-        DrawableWindow()->SetOrdinalPosition( 0, ECoeWinPriorityNeverAtFront );
+        DrawableWindow()->SetOrdinalPosition( 0, 
+                ECoeWinPriorityNeverAtFront );
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::SetAllParents( this );
+            GfxTransEffect::Begin( this, KGfxControlDisappearAction );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsBegin, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::SetDemarcation( this, Rect() );
+            CAknControl::MakeVisible( EFalse );
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EForceInvisible );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsEnd, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::End( this );
+            }
+        else
+            {
+            CAknControl::MakeVisible( EFalse );
+            }
+#else
+        CAknControl::MakeVisible( EFalse );
+#endif 
         }
     else 
         {
@@ -814,6 +887,9 @@ CAknToolbarExtensionView::CAknToolbarExtensionView(
     iSelectedItem( KNoItemSelected ), iNumberOfColumns( 1 ),
     iIsDownOutside( EFalse )
     {
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+    GfxTransEffect::Register( this, KGfxTransEffectToolbarExtensionControlUid);
+#endif
     }
 
 
@@ -956,11 +1032,8 @@ TRect CAknToolbarExtensionView::CalculateSizeL()
          
     if( landscape && !floating )
         {
-
-        TRect extButtonRect( iExtension->Rect() );
-
         // Calculate new y coordinate according to button middle point
-        TInt newY = extButtonRect.iTl.iY + mainPaneRect.iTl.iY;             
+        TInt newY = ( mainPaneRect.Height() - viewSize.iHeight ) / 2 + mainPaneRect.iTl.iY;            
         // Check that rect with new y fits to extension view area
         if( newY < extensionRect.iTl.iY ) // Top
             {

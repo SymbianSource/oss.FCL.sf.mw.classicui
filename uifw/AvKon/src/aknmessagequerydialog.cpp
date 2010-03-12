@@ -51,6 +51,24 @@ const TInt KLinkEndTagLength = 23;
 const TInt KBoldStartTagLength = 22;
 const TInt KBoldEndTagLength = 23;
 
+NONSHARABLE_CLASS(CAknAsynCallbackRunner) : public CActive
+    {
+public:
+    CAknAsynCallbackRunner( CAknMessageQueryDialogExtension* aMsgQueryExtension );
+    ~CAknAsynCallbackRunner();
+    
+public:
+// new functions
+    void AsyncCallbackRunL( TInt aCurLink );
+    
+// from CActive
+    void DoCancel();
+    void RunL();
+    
+private:
+    CAknMessageQueryDialogExtension* iMsgQueryExtension;
+    TInt iCurLink;
+    };
 
 class CAknMessageQueryDialogExtension : public CBase, public CAknExtendedInputCapabilities::MAknEventObserver,
                                         public MAknHeadingPaneTouchObserver
@@ -60,6 +78,7 @@ public:
                                                                           iControlRegisted( EFalse ) {}
     ~CAknMessageQueryDialogExtension()
         {       
+        delete iAsyncCallbackRunner;
         TInt count = iFormatTextArray.Count();
         for ( TInt i = 0; i < count; i++ )
             {
@@ -69,13 +88,6 @@ public:
         iFormatTextLocationArray.Close();
         iFormatTextArray.Close();
         iFormatTypeArray.Close();
-        
-        if ( iDestroyedPtr )
-            {
-            // Mark the object as destroyed.
-            *iDestroyedPtr = ETrue;
-            iDestroyedPtr = NULL;
-            }
         }
             
     /** From CAknExtendedInputCapabilities::MAknEventObserver
@@ -99,6 +111,15 @@ public:
             iCtrl->DehighlightLink();
             }
         }
+    
+    void ExecuteLinkCallbackL( TInt aCurLink )
+        {
+        if ( !iAsyncCallbackRunner )
+            {
+            iAsyncCallbackRunner = new( ELeave ) CAknAsynCallbackRunner( this );
+            }
+        iAsyncCallbackRunner->AsyncCallbackRunL( aCurLink );
+        }
 
 public:
     
@@ -114,16 +135,49 @@ public:
     TInt iButtonGroupPreviouslyChanged;
     CAknMessageQueryDialog* iParent;
     TBool iControlRegisted; 
-    CAknMessageQueryControl* iCtrl;
+    CAknMessageQueryControl* iCtrl;    
     
-    /**
-    * @c iDestroyedPtr is used for the object destruction check.
-    * If it has non-null value, the destruction check is turned on, and
-    * the value points to a local boolean variable that keeps the destroyed state.
-    */
-    TBool* iDestroyedPtr;
     TBool iIsInEditor;
+    
+    CAknAsynCallbackRunner* iAsyncCallbackRunner;
     };
+
+CAknAsynCallbackRunner::CAknAsynCallbackRunner( 
+    CAknMessageQueryDialogExtension* aMsgQueryExtension ) : 
+    CActive( EPriorityStandard ), iMsgQueryExtension( aMsgQueryExtension )
+    {
+    CActiveScheduler::Add( this );
+    }
+
+CAknAsynCallbackRunner::~CAknAsynCallbackRunner()
+    {
+    Cancel();
+    }
+
+void CAknAsynCallbackRunner::AsyncCallbackRunL( TInt aCurLink )
+    {
+    iCurLink = aCurLink;
+    if ( !IsActive() )
+        {        
+        iStatus = KRequestPending;
+        TRequestStatus* status = &iStatus;
+        User::RequestComplete( status, KErrNone );
+        SetActive();
+        }
+    }
+
+void CAknAsynCallbackRunner::DoCancel()
+    {
+    }
+
+void CAknAsynCallbackRunner::RunL()
+    {
+    if ( iMsgQueryExtension && iCurLink >= 0 && 
+        iCurLink < iMsgQueryExtension->iCallBackArray.Count() )
+        {
+        iMsgQueryExtension->iCallBackArray[iCurLink].CallBack();
+        }
+    }
     
 
 EXPORT_C CAknMessageQueryDialog* CAknMessageQueryDialog::NewL( TDesC& aMessage, const TTone& aTone )
@@ -1007,21 +1061,8 @@ TBool CAknMessageQueryDialog::ExecuteLinkL()
         return EFalse;
         }
     TInt curLink = control->CurrentLink();
-    /**
-    * The local @c destroyed variable keeps track of the object destroyed state.
-    */
-    TBool destroyed = EFalse;
-    iMsgQueryExtension->iDestroyedPtr = &destroyed;
-    TRAPD( err, iMsgQueryExtension->iCallBackArray[curLink].CallBack() );
-    if ( !destroyed )
-        {
-        iMsgQueryExtension->iDestroyedPtr = NULL;
-        }
-    User::LeaveIfError( err );
-    if ( !destroyed )
-        {
-        control->DehighlightLink();
-        }
+    TRAPD( err, iMsgQueryExtension->ExecuteLinkCallbackL( curLink ) );
+    control->DehighlightLink();
     _AKNTRACE_FUNC_EXIT;
     return ETrue;
     }

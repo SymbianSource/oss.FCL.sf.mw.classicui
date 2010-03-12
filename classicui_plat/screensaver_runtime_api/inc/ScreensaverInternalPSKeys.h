@@ -122,6 +122,9 @@ enum TScreenSaverPluginSettingsState
  */
 const TUint32 KScreenSaverNoPowerSaveMode = 0x00000007;
 
+#define PUCSCREENSAVERCHANGES
+const TUint32 KScreenSaverActivate = 0x00000008;
+
 #endif // SCREENSAVER_INTERNAL_PS_KEYS_H
 
 // End of file

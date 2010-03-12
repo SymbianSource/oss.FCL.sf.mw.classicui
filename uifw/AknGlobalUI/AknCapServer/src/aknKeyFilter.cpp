@@ -302,6 +302,14 @@ void CAknServKeyFilter::ActivateViewL( const TVwsViewId& aViewId, TUid aCustomMe
                {
                menuThread.SetProcessPriority(EPriorityForeground);  
                }
+               
+            //start different fullscreen effect when launching appshell
+            GfxTransEffect::BeginFullScreen(
+                AknTransEffect::EApplicationActivate,
+                TRect(),
+                AknTransEffect::EParameterType,
+                AknTransEffect::GfxTransParam( iHomeViewId.iAppUid ) );   
+               
             // matrix menu will bring itself foreground when getting the message below
             task.SendMessage( KUidApaMessageSwitchOpenFile , KNullDesC8 );
             }

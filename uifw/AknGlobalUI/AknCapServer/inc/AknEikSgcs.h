@@ -133,6 +133,13 @@ private:
     void DoMoveApp();
     TInt RefreshLayoutIfRequiredL();
     
+    void UpdateIdleState();
+    void DoChangeIdleState();
+    static TInt ChangeIdleStateCallBack(TAny* aThis);
+    TInt  ForegroundWgId();
+    TBool IsIdleForeground();
+    void SetIdleState(TBool aFlag);
+    
 private:
     CWgStates* iWgStates;
     RWsSession& iWs;
@@ -143,6 +150,7 @@ private:
     TInt iLastTopSpWg;
     TInt iLastScreenModeSet;
     CLayoutChangeCallBack* iLayoutChangeCallBack;
+    CPeriodic* iChangeIdleState;
     struct SRelinquishedThread
         {
         RThread iThread;

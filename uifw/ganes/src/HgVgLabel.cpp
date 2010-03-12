@@ -43,9 +43,9 @@
 // Two-phased constructor.
 // -----------------------------------------------------------------------------
 //
-CHgVgLabel* CHgVgLabel::NewL(const TRect& aRect, const CFont* aFont, const TDesC& aText)
+CHgVgLabel* CHgVgLabel::NewL(const TRect& aRect, const TDesC& aText)
     {
-    CHgVgLabel* self = new ( ELeave ) CHgVgLabel(aRect, aFont);
+    CHgVgLabel* self = new ( ELeave ) CHgVgLabel(aRect);
     CleanupStack::PushL (self );
     self->ConstructL(aText);
     CleanupStack::Pop ( self );
@@ -100,9 +100,8 @@ void CHgVgLabel::ConstructL (const TDesC& aText)
 // C++ default constructor can NOT contain any code, that might leave.
 // -----------------------------------------------------------------------------
 //
-CHgVgLabel::CHgVgLabel(const TRect& aRect, const CFont* aFont) : 
+CHgVgLabel::CHgVgLabel(const TRect& aRect) : 
 iRect(aRect),
-iFont(aFont),
 iTextColor(KRgbDarkGray),
 iShadowColor(KRgbBlack),
 iDirty(ETrue)
@@ -136,37 +135,6 @@ void CHgVgLabel::SetTextL(const TDesC& aText)
         iText = aText.AllocL();
         iDirty = ETrue;
         }
-    }
-
-// -----------------------------------------------------------------------------
-// CHgVgLabel::SetFont()
-// -----------------------------------------------------------------------------
-//
-void CHgVgLabel::SetFont(const CFont* aFont)
-    {
-    if (aFont != iFont)
-        {
-        iFont = aFont;
-        iDirty = ETrue;
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CHgVgLabel::SetColor()
-// -----------------------------------------------------------------------------
-//
-void CHgVgLabel::SetColor(const TRgb& aColor)
-    {
-    iTextColor = aColor;
-    }
-
-// -----------------------------------------------------------------------------
-// CHgVgLabel::SetColor()
-// -----------------------------------------------------------------------------
-//
-void CHgVgLabel::SetShadowColor(const TRgb& aColor)
-    {
-    iShadowColor = aColor;
     }
 
 // -----------------------------------------------------------------------------

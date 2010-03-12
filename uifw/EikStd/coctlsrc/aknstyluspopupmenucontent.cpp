@@ -791,14 +791,22 @@ void CAknStylusPopUpMenuContent::HandleResourceChange( TInt aType )
         {
         // Implementation when graphics are ready.
         }
-    else if ( aType == KEikMessageFadeAllWindows 
-              || aType == KEikDynamicLayoutVariantSwitch ) 
+    else if ( aType == KEikMessageFadeAllWindows )
         {
         if ( Observer() ) 
             {
             // this will close the stylus popup menu
             TRAP_IGNORE( Observer()->HandleControlEventL( this,
                 MCoeControlObserver::EEventRequestExit ) );
+            }    
+        }            
+    else if ( aType == KEikDynamicLayoutVariantSwitch ) 
+        {
+        if ( Observer() ) 
+            {
+            // this will close the stylus popup menu
+            TRAP_IGNORE( Observer()->HandleControlEventL( this,
+                MCoeControlObserver::EEventRequestCancel ) );
             }    
         }            
     }
@@ -1515,10 +1523,10 @@ TInt CAknStylusPopUpMenuContent::CurrentItem() const
     }
 
 // ---------------------------------------------------------------------------
-// CAknStylusPopUpMenuContent::SelectItem
+// CAknStylusPopUpMenuContent::SelectItemL
 // ---------------------------------------------------------------------------
 //     
-void CAknStylusPopUpMenuContent::SelectItem( TInt aItem )
+void CAknStylusPopUpMenuContent::SelectItemL( TInt aItem )
     {
     iCurrentItem = aItem;
     if ( Observer() )
@@ -1528,8 +1536,8 @@ void CAknStylusPopUpMenuContent::SelectItem( TInt aItem )
             iExtension->iInformObserver = EFalse; 
             iExtension->iObserverInformed = ETrue; 
             }
-        TRAP_IGNORE(Observer()->HandleControlEventL( this,
-            MCoeControlObserver::EEventStateChanged ));
+        Observer()->HandleControlEventL( this,
+            MCoeControlObserver::EEventStateChanged );
         }
     }
     

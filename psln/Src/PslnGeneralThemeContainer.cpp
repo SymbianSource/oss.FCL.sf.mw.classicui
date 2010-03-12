@@ -592,6 +592,11 @@ void CPslnGeneralThemeContainer::HandleIdleTimeL()
     // First stop timer.
     iPreviewIdle->Cancel();
     
+    // No re-preview the same theme
+    if( iActiveSkinItemIndex == iListBox->CurrentItemIndex() )
+        {
+        return;
+        }
 
     // Check free mem
     TInt freeMem = 0;
@@ -607,13 +612,13 @@ void CPslnGeneralThemeContainer::HandleIdleTimeL()
         return;
         }
 
+    iActiveSkinItemIndex = iListBox->CurrentItemIndex();
     // Ignore download skin item if it is available.
     TInt modifier = IsEmbeddedLinkVisible();
-    TInt activeSkinIndex = iListBox->CurrentItemIndex() - modifier;
+    TInt activeSkinIndex = iActiveSkinItemIndex - modifier;
     
     TBool usbAttached = static_cast<CPslnUi*>( ControlEnv()->AppUi() )->USBAttachState();
             
-    iActiveSkinItemIndex = iListBox->CurrentItemIndex();
     if( iModel->IsValidForPreview(activeSkinIndex) == EFalse )
         {
         // If skin file didn't valid, preview active skin.

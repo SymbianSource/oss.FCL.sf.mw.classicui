@@ -42,7 +42,7 @@ public:
      * @param aRect Rectangle of the drawing area.
      * @return HgVgLabel-object.
      */
-    static CHgVgLabel* NewL (const TRect& aRect, const CFont* aFont, const TDesC& aText=KNullDesC); 
+    static CHgVgLabel* NewL (const TRect& aRect, const TDesC& aText=KNullDesC); 
         
     // Destructor.
     virtual ~CHgVgLabel();
@@ -51,12 +51,6 @@ public: // Methods
     
     void SetTextL(const TDesC& aText);
     
-    void SetFont(const CFont* aFont);
-    
-    void SetColor(const TRgb& aColor);
-    
-    void SetShadowColor(const TRgb& aColor);
-        
     void Draw(const TRect& aWindowRect, TReal aAlpha=1.0);
     
     void SetLayout(const TAknTextComponentLayout& aLayout, const TRect& aParentRect);
@@ -65,7 +59,7 @@ public: // Methods
 
 protected: // Constructors
 
-    CHgVgLabel(const TRect& aRect, const CFont* aFont);
+    CHgVgLabel(const TRect& aRect);
 
     void ConstructL (const TDesC& aText);
     
@@ -74,8 +68,6 @@ protected: // Constructors
 private: // Data
 
     TRect iRect;
-    
-    const CFont* iFont;
     
     HBufC* iText; // Item title. Own
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1960,6 +1960,7 @@ void CAknKeyLockControl::HandleEcsEvent( CAknEcsDetector* aEcsDetector,
             break;
             }
         case CAknEcsDetector::ECompleteMatch:
+        case CAknEcsDetector::EServiceNumMatch:
             {
             iEcsNote->SetEmergencyNumber( aEcsDetector->CurrentMatch() );
             iEcsNote->ShowNote( CAknNoteDialog::ENoTimeout,

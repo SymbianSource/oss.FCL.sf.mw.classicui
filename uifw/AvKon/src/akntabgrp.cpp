@@ -2622,10 +2622,6 @@ EXPORT_C void CAknTabGroup::Draw( const TRect& /*aRect*/ ) const
                     iNumberOfTabsShown, positionActive + 1, &gc,
                     iExtension->iTabBackgroundLayout);
 
-            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackgroundL(
-                    CAknTabGroupGraphics::EMaskOnly, iLongTabs,
-                    iNumberOfTabsShown, positionActive + 1, &gc,
-                    iExtension->iTabBackgroundLayout);
             }
         else
             {
@@ -2647,15 +2643,6 @@ EXPORT_C void CAknTabGroup::Draw( const TRect& /*aRect*/ ) const
                                        : iExtension->iTabBackgroundLayout,
                     iExtension->iTabsHidden, animation);
 
-            iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
-                    CAknTabGroupGraphics::EMaskOnly,
-                    iLongTabs,
-                    iNumberOfTabsShown,
-                    positionActive + 1,
-                    &gc,
-                    animationOngoing ? iExtension->iNextTabBackgroundLayout
-                                       : iExtension->iTabBackgroundLayout,
-                    iExtension->iTabsHidden, animation);
             }
         }
     else

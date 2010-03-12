@@ -532,6 +532,11 @@ EXPORT_C CEikButtonGroupContainer* CAknView::Cba() const
 //
 EXPORT_C void CAknView::HandleStatusPaneSizeChange()
 	{
+	 if ( Cba() )
+	     {
+	     TRect cbaRect( 0,0,0,0 );
+	     Cba()->SetBoundingRect( cbaRect );
+	     }
 	}
 
 // -----------------------------------------------------------------------------

@@ -50,6 +50,11 @@ const TInt KStatusPaneCapsAppOwnedBit        = 2;
 const TInt KStatusPaneCapsInCurrentLayoutBit = 4;
 
 /**
+* Status pane flag indicating that statuspane is transparent.
+* 
+*/
+const TInt KStatusPaneTransparentBit = 8;
+/**
  * The @c MEikStatusPaneObserver interface allows a status pane observer to
  * pick up changes in the size or position of the status pane. Such events
  * will be as a result of layout changes which cause an actual change in the
@@ -494,6 +499,23 @@ protected:
     */
     IMPORT_C void CommonPrepareForAppExit();
 
+public:
+    /**
+     * Enable transparency of status pane and its contents.
+     * From @c CEikStatusPaneBase.
+     *
+     * @param aTransparent If @c ETrue the status pane and its
+     *                 contents are set aTransparent.
+     */
+    IMPORT_C void EnableTransparent( TBool aTransparent );
+    
+    /**
+      * Gets the transparency of the status pane.
+      * 
+      * @return @c ETrue if the status pane is transparent.
+      */
+    IMPORT_C TBool IsTransparent() const;
+    
 private:
 
     void DoSwitchLayoutL( TInt aLayoutResourceId, TDrawCmd aDraw );

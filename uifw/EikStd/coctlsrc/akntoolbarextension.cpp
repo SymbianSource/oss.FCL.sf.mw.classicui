@@ -201,7 +201,23 @@ void CAknToolbarExtension::ConstructFromResourceL( TResourceReader& aReader )
     // construct view from resource, items are standard TBAR_CTRL structures
     iView = CAknToolbarExtensionView::NewL( aReader, this );
 
-    aReader.ReadInt32();    // extension
+    // Update the extension with given resource.
+    TInt extensionLink = aReader.ReadInt32();    // extension
+    if ( extensionLink != 0 )
+    	{
+    	CAknButtonState* state = State( 0 );
+    	if ( state )
+    		{
+    		state->UpdateExtensionInfoL( extensionLink );    		
+    		}
+    	state = State( 1 );
+    	if ( state )
+    		{
+    		state->UpdateExtensionInfoL( extensionLink );
+    		}
+    
+    	}
+    
     }
     
 // ---------------------------------------------------------------------------

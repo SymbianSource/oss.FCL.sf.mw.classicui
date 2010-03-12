@@ -23,7 +23,8 @@
 
 // INCLUDES
 #include <AknIconObserver.h>
-
+#include <AknsItemID.h>
+#include "AknSmileyUtils.h"
 #include "AknSmileyImage.h"
 
 
@@ -33,6 +34,8 @@
 ////////////////////////////////////////////////////////////////////
 
 const TInt KSmileyNameLength = 8;
+typedef TBuf<KSmileyNameLength> TSmileyText;
+typedef RArray<TSmileyText> RSmileyTextArray;
 
 NONSHARABLE_CLASS(TSmileyIconInfo)
     {
@@ -40,69 +43,53 @@ public:
     TSmileyIconInfo();
     TSmileyIconInfo(const TSmileyIconInfo& aInfo);
     void Reset();
-
-    TBuf<KSmileyNameLength> iName;
-    TInt iId;
-    TAknsItemID iSkinItemID;    // from skin
-    TInt iDefaultThumbnailID;   // from mif
-    TInt iDefaultAnimationID;   // from mif
+    
+    TInt iIndex;
+    TAknsItemID iSkinItemID;        // from skin
+    TInt iDefaultStillImageID;      // from mif
+    TInt iDefaultAnimationImageID;  // from mif
     };
 
 ////////////////////////////////////////////////////////////////////
 
-class CSmileyIcon;
-
-class MSmileyIconObserver
+class CSmileyIcon : public CAknSmileyIcon, public MSmileyImageObserver
     {
 public:
-    virtual void ThumbnailLoaded(CSmileyIcon* aSmileyIcon)=0;
-    virtual void AnimationChanged(CSmileyIcon* aSmileyIcon)=0;
-    };
-
-////////////////////////////////////////////////////////////////////
-
-class CSmileyIcon : public CBase, public MSmileyImageObserver
-    {
-public:
-    static CSmileyIcon* NewL(const TSmileyIconInfo& aInfo, MSmileyIconObserver* aObserver);
+    static CSmileyIcon* NewL(const TSmileyIconInfo& aInfo, MAknSmileyObserver* aObserver);
     virtual ~CSmileyIcon();
 
 private:
-    CSmileyIcon(const TSmileyIconInfo& aInfo, MSmileyIconObserver* aObserver);
-    void ConstructL();
+    CSmileyIcon(MAknSmileyObserver* aObserver);
+    void ConstructL(const TSmileyIconInfo& aInfo);
 
-public:
-    const TDesC& Name() const               { return iInfo.iName; }
-    TInt Id() const                         { return iInfo.iId; }
-
-    TBool ReadyToDraw() const;
-    const CFbsBitmap* Image() const;
-    const CFbsBitmap* Mask() const;
-
-public:
-    void LoadThumbnailL();
-    TBool ThumbnailReady() const;
-    
-    void PlayAnimationL(TInt aRepeat, TInt aDelay);
-    void StopAnimation();
-
-public:
-    void SetSize(const TSize& aSize);
-    const TSize& Size() const;
+public: // from AknSmileyIcon
+    virtual const CFbsBitmap* Image() const;
+    virtual const CFbsBitmap* Mask() const;
+    virtual TBool ReadyToDraw() const;
+    virtual void SetSize(const TSize& aSize);
+    virtual const TSize& Size() const;
+    virtual void PlayAnimationL(TInt aRepeat=0, TInt aDelay=0);
+    virtual void StopAnimation();
 
 private: // from MSmileyImageObserver
     virtual void BitmapChanged(CSmileyImage* aSmileyImage, CFbsBitmap* aBitmap);
+    
+public:
+    TInt Index() const;
+    void LoadStillImageL(TInt aDelay=0);
+    TBool StillImageIsReadyToDraw() const;
+    TBool AnimationImageIsReadyToDraw() const;
+
+    void AddText(const TDesC& aText);
+    const TDesC& Text(TInt aVariate=0) const;
+    TInt TextVariate() const;
 
 private:
-    TBool ShouldShowAnimation() const;
-
-private:
-    const TSmileyIconInfo   iInfo;
-    MSmileyIconObserver*    iSmileyIconObserver;
-
-    CSmileyImage*           iThumbnailImage;
+    MAknSmileyObserver*     iSmileyIconObserver;
+    TInt                    iIndex;
+    CSmileyImage*           iStillImage;
     CSmileyImage*           iAnimationImage;
-
+    RSmileyTextArray        iTextArray;
     };
 
 typedef RArray<CSmileyIcon*> RSmileyIconPtrArray;
@@ -122,44 +109,77 @@ public:
     void DoNextTaskL();
 
 private:
-    RSmileyIconPtrArray     iTaskArray;
-    TBool                   iIsLoading;
+    RSmileyIconPtrArray     iLoadingTaskArray;
     
     };
 
 ////////////////////////////////////////////////////////////////////
 
-class CSmileyModel : public CBase, public MSmileyIconObserver
+class CSmileyTextTreeNode;
+
+class CSmileyModel : public CBase, public MAknSmileyObserver
     {
 public:
-    CSmileyModel(MSmileyIconObserver* aObserver);
-    ~CSmileyModel();
+    CSmileyModel(MAknSmileyObserver* aObserver);
+    virtual ~CSmileyModel();
 
 public:
     void LoadResourceL();
     void ReleaseResource();
-    void LoadThumbnailAsyn(TInt aIndex);
-    void SetSize(const TSize& aSize);
 
 public:
-    enum TIconId
-        {
-        EIconSwitchToSmiley = 0, 
-        EIconSwitchToSct,
-        EIconSmiley
-        };
-
-    CSmileyIcon* operator[](TInt aIndex) const;
-    TInt Count() const;
-
-private: // from MSmileyIconObserver
-    virtual void ThumbnailLoaded(CSmileyIcon* aSmileyIcon);
-    virtual void AnimationChanged(CSmileyIcon* aSmileyIcon);
+    TInt ConvertCodesToTextL(TDes& aText);
+    TInt ConvertTextToCodesL(TDes& aText);
+    const TDesC& Text(TChar aCode) const;
+    TBool IsSmiley(TChar aCode) const;
+    
+public:
+    void SetSize(const TSize& aSize);
+    void SetSizeByFont(const CFont* aFont);
+    
+public:
+    void DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFont, const TPoint& aPosition) const;
+    void DrawText(CWindowGc& aGc, const TDesC& aText, const TAknLayoutText& aLayout, TBool aUseLogicalToVisualConversion=EFalse) const;
+    void DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFont, const TRect& aBox, TInt aBaselineOffset, 
+                  CGraphicsContext::TTextAlign aAlignment=CGraphicsContext::ELeft, TInt aLeftMargin=0) const;
 
 private:
-    MSmileyIconObserver*        iSmileyIconObserver;
+    void DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFont, const TRect& aBox, const TPoint& aOffset) const;
+    
+public:
+    TInt Count() const;
+    CAknSmileyIcon* Smiley(TChar aCode) const;
+    CAknSmileyIcon* operator[](TInt aIndex) const;
+
+private: // from MSmileyIconObserver
+    virtual void SmileyStillImageLoaded(CAknSmileyIcon* aSmileyIcon);
+    virtual void SmileyAnimationChanged(CAknSmileyIcon* aSmileyIcon);
+
+public: // for smiley picker
+    CAknSmileyIcon* SwitchToSmileyIcon() const;
+    CAknSmileyIcon* SwitchToSctIcon() const;
+    TChar SwitchToSmileyCode() const;
+    TChar SwitchToSctCode() const;
+
+    TChar SmileyCode(TInt aIndex, TInt aVariate=0) const;
+    TChar SmileyCode(CAknSmileyIcon* aSmileyIcon) const;
+    void LoadStillImagesL(const TDesC& aText);
+    void LoadStillImageL(TChar aChar);
+
+private:
+    const TDesC& Text(TInt aIndex, TInt aVariate=0) const;
+    TInt ArrayCount() const;
+    TChar EncodeSmileyCode(TInt aIndex, TInt aVariate) const;
+    TBool DecodeSmileyCode(TChar aCode, TInt& aIndex, TInt& aVariate) const;
+
+private:
+    MAknSmileyObserver*         iSmileyIconObserver;
+    CSmileyTnumbnailAsynLoader  iSmileyLoader;
     RSmileyIconPtrArray         iSmileyIconArray;
-    CSmileyTnumbnailAsynLoader  iSmileyThumbnailLoader;
+    TUint                       iBaseCode;
+    
+    CSmileyTextTreeNode*        iTextSearchTree;
+    TBuf<1024*2>                iConvertBuffer;
     
     };
 

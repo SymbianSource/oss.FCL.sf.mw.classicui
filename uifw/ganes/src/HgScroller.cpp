@@ -80,8 +80,6 @@ void CHgScroller::ConstructL (const TRect& aRect, RWsSession* aSession )
     iIndicatorManager = CHgIndicatorManager::NewL();
 
     /*
-     * TODO: Vasco says it supports qwerty, so the variation cannot be done.
-     *          Commented out for the time being to fix a crash.
     // Enable key search only in non-touch or hybrid (touch + qwerty) devices
     if( !AknLayoutUtils::PenEnabled() ||
         CFeatureDiscovery::IsFeatureSupportedL(TUid::Uid(KFeatureIdQwertyInput)) )
@@ -372,7 +370,8 @@ CHgScroller::CHgScroller(
 EXPORT_C CHgScroller::~CHgScroller ( )
     {
     iCoeEnv->RemoveForegroundObserver( *this );
-    
+    ReleasePopupFont();
+
     iItems.ResetAndDestroy();
 
     delete iManager;
@@ -492,8 +491,13 @@ void CHgScroller::SizeChanged ( )
     
     if( iPopupDrawer )
         {
-        iPopupDrawer->Init( Rect(), 
-                &ScreenFont( TCoeFont( KFocusTextFontSize, TCoeFont::EPlain ) ) );
+        ReleasePopupFont();
+
+        TFontSpec fontSpecTitle = AknLayoutUtils::FontFromId(EAknLogicalFontPrimaryFont)->FontSpecInTwips();
+        fontSpecTitle.iHeight = KFocusTextFontSize; // set height
+        iCoeEnv->ScreenDevice()->GetNearestFontInTwips(iPopupFont, fontSpecTitle);
+    
+        iPopupDrawer->Init( Rect(), iPopupFont );
         }
     
     if(iFirstTime)
@@ -771,25 +775,29 @@ void CHgScroller::HandleSelectionL()
             SetHighlightL();
             }
         
-        if( iFlags & EHgScrollerSelectionMode || iSelectionMode != ENoSelection ) 
-            // Marking mode or shift key pressed ( or hash )
+        // selection needs to be valid.
+        if( iSelectedIndex >= 0 && iSelectedIndex < iItems.Count() )
             {
-            if( iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked )
+            if( iFlags & EHgScrollerSelectionMode || iSelectionMode != ENoSelection ) 
+                // Marking mode or shift key pressed ( or hash )
                 {
-                UnMark( iSelectedIndex );
+                if( iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked )
+                    {
+                    UnMark( iSelectedIndex );
+                    }
+                else
+                    {
+                    Mark( iSelectedIndex );                    
+                    }
+                DrawDeferred();
                 }
-            else
+            else // Selection
                 {
-                Mark( iSelectedIndex );                    
-                }
-            DrawDeferred();
-            }
-        else // Selection
-            {
-            if( iSelectionToFocusedItem || !HasHighlight() )
-                {
-                if(iSelectionObserver)
-                    iSelectionObserver->HandleOpenL(iSelectedIndex);
+                if( iSelectionToFocusedItem || !HasHighlight() )
+                    {
+                    if(iSelectionObserver)
+                        iSelectionObserver->HandleOpenL(iSelectedIndex);
+                    }
                 }
             }
         }
@@ -1733,5 +1741,19 @@ TBool CHgScroller::HasHighlight() const
     {
     return (iActionMenu == NULL) || iShowHighlight || (iFlags & EHgScrollerForceDoubleClick);
     }
+
+// ---------------------------------------------------------------------------
+// CHgScroller::ReleasePopupFont()
+// ---------------------------------------------------------------------------
+//     
+void CHgScroller::ReleasePopupFont()
+    {
+    if (iPopupFont)
+        {
+        iCoeEnv->ScreenDevice()->ReleaseFont(iPopupFont);
+        iPopupFont = NULL;
+        }
+    }
+
 
 // End of File

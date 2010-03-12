@@ -107,6 +107,7 @@ private:
 
     TInt iSpare;
     TBool iIsActiveIdle;
+    CEikStatusPaneBase*         iStatusPane;
     };
 
 #endif // C_AKNEMPTYCONTROL_H

@@ -30,6 +30,9 @@
 
 
 THgPopupDrawer::THgPopupDrawer()
+  : iRect(),
+    iFont (NULL),
+    iLongestMonth(0)
     {
     }
 
@@ -42,6 +45,9 @@ void THgPopupDrawer::Init(  TRect aRect, const CFont* aFont )
 
 void THgPopupDrawer::InitLongestMonth()
     {
+    // font needs to be set
+    if(!iFont) return;
+
     TTime time;
     time.HomeTime();
     TDateTime date = time.DateTime();
@@ -65,6 +71,9 @@ void THgPopupDrawer::InitLongestMonth()
 
 void THgPopupDrawer::Draw( CWindowGc& aGc, const TDesC& aDesc )
     {
+    // font needs to be set
+    if(!iFont) return;
+    
     // Resolve rect for the popup "window"
     const TInt textLength = iFont->TextWidthInPixels( aDesc );
     TInt width = iRect.Width()/KPopupWidthDiv > textLength + KPopupTextExtraPadding ? 
@@ -125,6 +134,9 @@ void THgPopupDrawer::Draw( CWindowGc& aGc,
         const TDesC& aDesc2
         )
     {
+    // font needs to be set
+    if(!iFont) return;
+
     // init longest month value.
     if(!iLongestMonth)
         InitLongestMonth();
@@ -201,6 +213,9 @@ void THgPopupDrawer::DrawBackground( CWindowGc& aGc, const TRect& aRect )
 
 void THgPopupDrawer::InitFont(CWindowGc& aGc)
     {
+    // font needs to be set
+    if(!iFont) return;
+
     // Get color for the text from the skin.
     TRgb normal;
     AknsUtils::GetCachedColor(AknsUtils::SkinInstance(), 

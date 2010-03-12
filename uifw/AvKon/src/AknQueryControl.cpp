@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -225,12 +225,14 @@ EXPORT_C void TAknQueryEcsObserver::HandleEcsEvent( CAknEcsDetector* /*aDetector
                                                     CAknEcsDetector::TState aUpdatedState )
     {
 	_AKNTRACE( "[%s][%s] aUpdatedState: %d", "TAknQueryEcsObserver", __FUNCTION__,aUpdatedState);
-    TRAP_IGNORE( iParent->SetEcsCbaVisibleL( aUpdatedState == CAknEcsDetector::ECompleteMatch ) );
+    TRAP_IGNORE( iParent->SetEcsCbaVisibleL( aUpdatedState == CAknEcsDetector::ECompleteMatch || 
+                                             aUpdatedState == CAknEcsDetector::EServiceNumMatch ) );
     
     // Hide the emergency call number again.
     // Number should be visible only in Partial or Complete match state
     if ( aUpdatedState != CAknEcsDetector::EPartialMatch &&
-         aUpdatedState != CAknEcsDetector::ECompleteMatch  )
+         aUpdatedState != CAknEcsDetector::ECompleteMatch && 
+         aUpdatedState != CAknEcsDetector::EServiceNumMatch )
         {
         if ( iParent->QueryType() == EPinLayout )
             {
@@ -376,7 +378,7 @@ EXPORT_C void CAknQueryControl::ConstructFromResourceL(TResourceReader &aRes)
     _AKNTRACE_FUNC_ENTER;
     // Construct extension
     CAknQueryExtension::CreateExtensionL( this );
-	iExtension = new (ELeave)CAknQueryControlExtension;
+    iExtension = new (ELeave)CAknQueryControlExtension;
     
     iEcsObserver   = new (ELeave) TAknQueryEcsObserver(this);
     iEditIndicator = CAknQueryEditIndicator::NewL(this);
@@ -1138,6 +1140,7 @@ EXPORT_C void CAknQueryControl::HandleControlEventL(CCoeControl* aControl,TCoeEv
                     TBool reveal = EFalse;
                     TInt ecsState( iEcsDetector->State() );
                     if ( ( ecsState == CAknEcsDetector::ECompleteMatch ) ||
+                         ( ecsState == CAknEcsDetector::EServiceNumMatch ) ||
                          ( ecsState == CAknEcsDetector::ECompleteMatchThenSendKey ) )
                         {
                         // Further check to ensure that the matched number is the entire buffer
@@ -1146,9 +1149,10 @@ EXPORT_C void CAknQueryControl::HandleControlEventL(CCoeControl* aControl,TCoeEv
                             {
                             reveal = ETrue;
                             
-                            if ( ecsState == CAknEcsDetector::ECompleteMatch )
+                            if ( ecsState == CAknEcsDetector::ECompleteMatch || 
+                                 ecsState == CAknEcsDetector::EServiceNumMatch )
                                 {
-                                SetEcsCbaVisibleL( ETrue );                                            
+                                SetEcsCbaVisibleL( ETrue );
                                 }
                             }
                         }
@@ -3508,7 +3512,8 @@ void CAknQueryControl::AttemptEmergencyCallL()
     _AKNTRACE_FUNC_ENTER;
     if ( iEcsDetector )
         {
-        if ( iEcsDetector->State() == CAknEcsDetector::ECompleteMatch )
+        if ( iEcsDetector->State() == CAknEcsDetector::ECompleteMatch || 
+             iEcsDetector->State() == CAknEcsDetector::EServiceNumMatch )
             {
             // Further check to ensure that the matched number is the
             // entire buffer. Get the matched text and see if is the same

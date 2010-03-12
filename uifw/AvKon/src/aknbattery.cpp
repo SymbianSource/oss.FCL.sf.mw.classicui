@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -24,6 +24,9 @@
 #include <eikspane.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <layoutmetadata.cdl.h>
+
+#include <AknSmallIndicator.h>
+#include <touchfeedback.h>
 
 #include <AknTasHook.h>
 #include "AknUtils.h"
@@ -66,6 +69,13 @@ EXPORT_C CAknBatteryPane::CAknBatteryPane()
 EXPORT_C CAknBatteryPane::~CAknBatteryPane()
     {
     AKNTASHOOK_REMOVE();
+    
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        feedback->RemoveFeedbackForControl( this );
+        }
+    
     AknsUtils::DeregisterControlPosition( this );
 
     delete iBatteryIconControl;
@@ -95,6 +105,26 @@ EXPORT_C void CAknBatteryPane::ConstructL()
     iPrivateFlags = 0; // reset flags
     iDataObserver = new (ELeave) CAknBatteryDataObserver( this );
     iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+    
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        CFeedbackSpec* fbSpec = CFeedbackSpec::New();
+        if ( fbSpec )
+            {
+            fbSpec->AddFeedback( ETouchEventStylusDown,
+                                 ETouchFeedbackSensitiveButton );
+            fbSpec->AddFeedback( ETouchEventStylusUp,
+                                 ETouchFeedbackSensitiveButton,
+                                 ETouchFeedbackVibra );
+
+            feedback->SetFeedbackArea( this,
+                                       0,
+                                       Rect(),
+                                       fbSpec );
+            delete fbSpec; 
+            }        
+        }
     }
 
 
@@ -326,6 +356,25 @@ EXPORT_C void CAknBatteryPane::SizeChanged()
         iBatteryStrengthControl, parent, batteryStrenghtLayout );
 
     AknsUtils::RegisterControlPosition( this );
+    
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        if ( AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+            {
+            // Disable tactile feedback in extended flat layout because
+            // the battery pane isn't adjacent to the universal indicator
+            // and small digital clock pane.
+            feedback->EnableFeedbackForControl( this, EFalse );
+            }
+        else
+            {
+            feedback->EnableFeedbackForControl( this, ETrue );
+            feedback->ChangeFeedbackArea( this,
+                                          0,
+                                          parent );
+            }
+        }
     }
 
 
@@ -347,10 +396,12 @@ EXPORT_C void CAknBatteryPane::PositionChanged()
 //
 EXPORT_C void CAknBatteryPane::Draw( const TRect& /*aRect*/ ) const
     {
-    if ( iIsActiveIdle )
+    if ( iStatusPane && 
+         iStatusPane->IsTransparent() )
         {
         return;
         }
+        
 
     // Don't allow normal background drawing if
     // background is already drawn with a background drawer.
@@ -513,55 +564,111 @@ EXPORT_C void* CAknBatteryPane::ExtensionInterface( TUid /*aInterface*/ )
 
 // ---------------------------------------------------------------------------
 // CAknBatteryPane::HandlePointerEventL
-// Processes battery pane's pointer events. Actually this does nothing yet.
+// Processes battery pane's pointer events.
 // ---------------------------------------------------------------------------
 //
 void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     {
-    if ( AknLayoutUtils::PenEnabled() )
+    if ( IsDimmed() )
         {
-        if ( IsDimmed() )
+        iPrivateFlags &= (~EAknBatteryPaneButton1DownInBatteryRect);
+        return;
+        }
+
+    // Get the rect of battery pane.
+    TRect rect( Rect() );
+
+    // Switch by type
+    switch ( aPointerEvent.iType )
+        {
+        case TPointerEvent::EButton1Down:
             {
+            // if battery pane's rect contains pointer down position
+            if ( rect.Contains( aPointerEvent.iPosition ) )
+                {
+                // set flag that pointerdown was inside battery pane
+                iPrivateFlags |= EAknBatteryPaneButton1DownInBatteryRect;
+                }
+            }
+            break;
+
+        case TPointerEvent::EButton1Up:
+            {
+            if ( !AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+                {
+                // Currently the small digital clock pane, universal
+                // indicator pane and battery pane (in status pane layouts
+                // where it's adjacent to universal indicator or digital
+                // clock pane) are regarded as one touch responsive
+                // area from which the universal indicator popup should
+                // open on tap, so upon pointer up event it must be checked
+                // here if the down event happened inside this control,
+                // but the up event inside digital clock or indicator
+                // pane area.
+                CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
+                TBool pointerUpInIndicatorArea( EFalse );
+                TBool pointerUpInClockArea( EFalse );
+                    
+                if ( sp )
+                    {
+                    CCoeControl* clockPane = sp->ContainerControlL(
+                        TUid::Uid( EEikStatusPaneUidDigitalClock ) );
+                    if ( clockPane )
+                        {
+                        TRect clockRect(
+                            clockPane->PositionRelativeToScreen(),
+                            clockPane->Size() );
+                        pointerUpInClockArea =
+                            clockRect.Contains( aPointerEvent.iParentPosition );
+                        }
+                        
+                    CCoeControl* indicatorPane = sp->ContainerControlL(
+                        TUid::Uid( EEikStatusPaneUidIndic ) );
+                    if ( indicatorPane )
+                        {
+                        TRect indicatorRect(
+                            indicatorPane->PositionRelativeToScreen(),
+                            indicatorPane->Size() );
+                        pointerUpInIndicatorArea =
+                            indicatorRect.Contains( aPointerEvent.iParentPosition );
+                        }
+                    }
+    
+                if ( ( iPrivateFlags & EAknBatteryPaneButton1DownInBatteryRect &&
+                       rect.Contains( aPointerEvent.iPosition ) ) ||
+                     pointerUpInClockArea ||
+                     pointerUpInIndicatorArea )
+                    {
+                    if ( pointerUpInClockArea || pointerUpInIndicatorArea )
+                        {
+                        MTouchFeedback* feedback = MTouchFeedback::Instance();
+                        if ( feedback )
+                            {
+                            // The pointer down was received in another
+                            // control, so the tactile feedback must be
+                            // given directly.
+                            feedback->InstantFeedback(
+                                this,
+                                ETouchFeedbackSensitiveButton,
+                                ETouchFeedbackVibra,
+                                aPointerEvent );
+                            }
+                        }
+
+                    CAknSmallIndicator* indicatorNotifier =
+                        CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
+                    indicatorNotifier->HandleIndicatorTapL();
+                    CleanupStack::PopAndDestroy( indicatorNotifier );
+                    }
+                }
+
+            // Up happened, reset button down flag
             iPrivateFlags &= (~EAknBatteryPaneButton1DownInBatteryRect);
-            return;
             }
+            break;
 
-        // Get the rect of battery pane.
-        TRect rect( Rect() );
-
-        // Switch by type
-        switch ( aPointerEvent.iType )
-            {
-            case TPointerEvent::EButton1Down:
-                {
-                // if battery pane's rect contains pointer down position
-                if ( rect.Contains( aPointerEvent.iPosition ) )
-                    {
-                    // set flag that pointerdown was inside battery pane
-                    iPrivateFlags |= EAknBatteryPaneButton1DownInBatteryRect;
-                    }
-                }
-                break;
-
-            case TPointerEvent::EButton1Up:
-                {
-                // if battery pane's rect contains pointer down position and
-                // Button1Down was clicked inside battery rect
-                if ( iPrivateFlags&EAknBatteryPaneButton1DownInBatteryRect &&
-                    rect.Contains( aPointerEvent.iPosition ) )
-                    {
-                    // Up happened inside battery pane's rect
-                    // activate something
-                    }
-
-                // Up happened, reset button down flag
-                iPrivateFlags &= (~EAknBatteryPaneButton1DownInBatteryRect);
-                }
-                break;
-
-            default:
-                break;
-            }
+        default:
+            break;
         }
     }
 

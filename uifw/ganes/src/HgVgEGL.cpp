@@ -74,7 +74,7 @@ CHgVgEGL::~CHgVgEGL ( )
 //     
 void CHgVgEGL::InitWindowSurfaceL(RWindow& aWindow)
     {
-    RDebug::Print(_L("CHgVgEGL::InitWindowSurface"));
+    //RDebug::Print(_L("CHgVgEGL::InitWindowSurface"));
 
     InitEGL(aWindow);
     }
@@ -85,7 +85,7 @@ void CHgVgEGL::InitWindowSurfaceL(RWindow& aWindow)
 //     
 void CHgVgEGL::FreeWindowSurface()
     {
-    RDebug::Print(_L("CHgVgEGL::FreeWindowSurface"));
+    //RDebug::Print(_L("CHgVgEGL::FreeWindowSurface"));
 
     // make sure there is nothing pending.
     vgFinish();
@@ -239,7 +239,7 @@ void CHgVgEGL::InitEGLWindowSurfaceL(RWindow& aWindow)
     {
 
 
-    // Create surface with premodulated alpha, on IVE3 this gives better performance.
+    // Create surface with premodulated alpha.
     const EGLint KAttriblist[] = 
             {
             EGL_VG_ALPHA_FORMAT, EGL_VG_ALPHA_FORMAT_PRE,
@@ -249,12 +249,12 @@ void CHgVgEGL::InitEGLWindowSurfaceL(RWindow& aWindow)
     EGLint error = eglGetError();
     if (error == EGL_BAD_ALLOC)
         {
-        RDebug::Print(_L("CHgVgEGL:: Can't create surface! (out of memory)"));
+        //RDebug::Print(_L("CHgVgEGL:: Can't create surface! (out of memory)"));
         User::Leave(KErrNoMemory);
         }
     else if (error == EGL_BAD_SURFACE || iSurface == EGL_NO_SURFACE)
         {
-        RDebug::Print(_L("CHgVgEGL:: Can't create surface! (general)"));
+        //RDebug::Print(_L("CHgVgEGL:: Can't create surface! (general)"));
         User::Leave(KErrGeneral);
         }
     
@@ -293,7 +293,7 @@ CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect) const
         {
         // create temporary buffer for data
         RBuf8 buf;
-        buf.Create(aRect.Width() * dataStride);
+        buf.Create(aRect.Height() * dataStride);
         buf.Fill(0xFF);
 
         // read data from vg (this is sloooww)

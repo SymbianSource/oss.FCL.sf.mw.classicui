@@ -82,7 +82,7 @@ public:
     CFbsBitmap* iCdmaStaticIcons[5];    // non-animated icons
     CFbsBitmap* iCdmaStaticMasks[5];    // non-animated masks (needed because of AknIconUtils)
 
-    TBool       iIsActiveIdle;
+    CEikStatusPaneBase*      iStatusPane;
     };
 
 
@@ -289,7 +289,8 @@ EXPORT_C void CAknSignalPane::ConstructL()
     // off by default
     iExtension->iCdmaSignalState    = EAknSignalCdmaIndicatorOff;
     iExtension->iCdmaAnimationIndex = 0;
-    iExtension->iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+
+		iExtension->iStatusPane = CEikStatusPaneBase::Current();
 
     iSignalIconControl = CAknSignalIcon::NewL();
     iSignalIconControl->SetDrawBlank( EFalse );
@@ -531,8 +532,9 @@ EXPORT_C void CAknSignalPane::PositionChanged()
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CAknSignalPane::Draw( const TRect& /*aRect*/ ) const
-    {
-    if ( iExtension->iIsActiveIdle )
+    {     
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() )
         {
         return;
         }

@@ -27,7 +27,7 @@ const TInt KKeyScrollingNormalModeMove(20);
 const TInt KKeyScrollingTurboModeMove(40);
 const TInt KMaxSearchLenght(128);
 const TInt KSearchEndTimeOut(1500000); // 0,5 sec
-const TInt KFocusTextFontSize(50); // biggest font available
+const TInt KFocusTextFontSize(300); // focus text font size in TWIPS
 const TInt KMaxPopupTextLength(32);
 const TInt KScrollAreaOffset(15);
 const TInt KListHighlightInnerRectShrink(10);

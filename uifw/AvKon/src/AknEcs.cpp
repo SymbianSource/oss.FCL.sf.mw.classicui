@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -35,8 +35,15 @@
 #include <AvkonInternalCRKeys.h>
 #include <PtiDefs.h>
 #include <e32property.h>
+#include <AiwCommon.hrh>
+#include <aiwdialdata.h>
+#include <AiwServiceHandler.h>
+#include <centralrepository.h>
 
 #include "akntrace.h"
+
+const TInt KAknKeyScanCodeBegin = 33;
+const TInt KAknKeyScanCodeEnd   = 126;
 
 // CLASS DECLARATIONS
 
@@ -98,13 +105,17 @@ NONSHARABLE_CLASS(CAknMatchingCharacterQueue) : public CBase
         enum TStatus
             {
             ENoMatch,
-            ECompleteMatch
+            ECompleteMatch,
+            EServiceNumMatch
             };
     public:
         /**
         * C++ constructor
+        *
+        * @param aPhCltEmergencyCall  Emergency call client
+        * @param aServiceCallEnabled  Is service call feature enabled during device or key lock.
         */
-        CAknMatchingCharacterQueue( CPhCltEmergencyCall* aPhCltEmergencyCall );
+        CAknMatchingCharacterQueue( CPhCltEmergencyCall* aPhCltEmergencyCall, TBool aServiceCallEnabled );
 
         /**
         * C++ destructor
@@ -173,6 +184,15 @@ NONSHARABLE_CLASS(CAknMatchingCharacterQueue) : public CBase
         */
         TInt IndexOfCurrentMatch() const;
 
+        /**
+        * Validates the service number.
+        *
+        * @param aNumber Service number to be validated from CenRep.
+        *
+        * @return Returns ETrue if aNumber is a service number, EFalse if not.
+        */
+        TBool ValidateServiceNumberL( const TDesC& aNumber );
+
     private:
         /**
         * Update the status of the queue
@@ -187,6 +207,7 @@ NONSHARABLE_CLASS(CAknMatchingCharacterQueue) : public CBase
         CPhCltEmergencyCall* iPhCltEmergencyCall; 
         TStatus iStatus;      // Holds the status;
         TInt iMatchPosition;  // Position in iCharBuffer from where the match starts.
+        TBool iServiceCallFeature;  // True if service call feature is enabled.
 
         TAny* iSpare;
     };
@@ -218,8 +239,8 @@ GLDEF_C void Panic(TAknEcsPanicCodes aPanic)
 //
 
 
-CAknMatchingCharacterQueue::CAknMatchingCharacterQueue( CPhCltEmergencyCall* aPhCltEmergencyCall ) 
-        : iPhCltEmergencyCall( aPhCltEmergencyCall )
+CAknMatchingCharacterQueue::CAknMatchingCharacterQueue( CPhCltEmergencyCall* aPhCltEmergencyCall, TBool aServiceCallEnabled )
+        : iPhCltEmergencyCall( aPhCltEmergencyCall ), iServiceCallFeature( aServiceCallEnabled )
     {
     _AKNTRACE_FUNC_ENTER;
     Reset();
@@ -256,7 +277,7 @@ void CAknMatchingCharacterQueue::AddChar( TText aNewChar )
         }
     iCharBuffer.Append( aNewChar );
     UpdateStatus( EFalse );
-    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknMatchingCharacterQueue::SetBuffer( const TDesC& aNewBuffer )
@@ -324,17 +345,65 @@ void CAknMatchingCharacterQueue::UpdateStatus( TBool aBufferMode )
         iMatchPosition = cbLength - bLength;
         iStatus = ECompleteMatch;
         }
+    else if ( iServiceCallFeature && cbLength >= KAknServiceCallMinLength )
+        {
+        // Check if this is a service call
+        TBool isServiceNum = EFalse;
+        TRAP_IGNORE( isServiceNum = ValidateServiceNumberL( iCharBuffer ) );
+
+        if ( isServiceNum )
+            {
+            iMatchPosition = 0;
+            iStatus = EServiceNumMatch;
+            }
+        else
+            {
+            iMatchPosition = cbLength;
+            iStatus = ENoMatch;
+            }
+        }
     else
         {
         iMatchPosition = cbLength;
         iStatus = ENoMatch;
         }
-    
     _AKNTRACE( "[%s][%s] iStatus: %d", "CAknMatchingCharacterQueue", 
                 		__FUNCTION__,iStatus );
     _AKNTRACE_FUNC_EXIT;
     }
 
+// -----------------------------------------------------------------------------
+// CAknMatchingCharacterQueue::ValidateServiceNumber
+// 
+// Validates the service phone number.
+// -----------------------------------------------------------------------------
+//
+TBool CAknMatchingCharacterQueue::ValidateServiceNumberL( const TDesC& aNumber )
+    {
+    _AKNTRACE_FUNC_ENTER;
+	TBool isServiceNum = EFalse;
+    HBufC* serviceNum = HBufC::NewLC( KAknEcsMaxMatchingLength );
+    CRepository* cenRep = CRepository::NewLC( KCRUidAvkon );
+    TPtr bufPtr = serviceNum->Des();
+
+    if( cenRep->Get( KAknServiceCallNumber, bufPtr ) != KErrNone )
+        {
+        CleanupStack::PopAndDestroy( cenRep );
+        CleanupStack::PopAndDestroy( serviceNum );
+        return EFalse;
+        }
+
+    // Check if aNumber matches serviceNum
+    if ( aNumber.Compare( *serviceNum ) == 0 )
+        {
+        isServiceNum = ETrue;
+		}
+
+    CleanupStack::PopAndDestroy( cenRep );
+    CleanupStack::PopAndDestroy( serviceNum );
+    _AKNTRACE_FUNC_EXIT;
+    return isServiceNum;
+    }
 
 //
 //
@@ -370,7 +439,12 @@ EXPORT_C void CAknEcsDetector::ConstructL()
     iEmergencyCallObserver = new (ELeave) CPhCltEmergencyCallObserver( this );
     // Phone client interface
     iPhCltEmergencyCall = CPhCltEmergencyCall::NewL( iEmergencyCallObserver );
-    iQueue = new (ELeave) CAknMatchingCharacterQueue(iPhCltEmergencyCall);
+
+    // Check if service call is allowed during device and key lock
+    iServiceCallEnabled = 
+        FeatureManager::FeatureSupported( KFeatureIdFfServiceCallWhilePhoneLocked );
+
+    iQueue = new (ELeave) CAknMatchingCharacterQueue( iPhCltEmergencyCall, iServiceCallEnabled );
     iQueue->ConstructL();
 
     DetermineState();
@@ -423,14 +497,24 @@ EXPORT_C void CAknEcsDetector::HandleWsEventL(const TWsEvent& aEvent, CCoeContro
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE( "[%s][%s] aEvent.type(): %d, aEvent.Key()->iScanCode :%d", "CAknEcsDetector", 
                             		__FUNCTION__,aEvent.Type(),aEvent.Key()->iScanCode );
-    
     if ( aEvent.Type() == EEventKeyDown || 
-    // EKeyPhoneEnd/EKeyNo doesn't send EEVentKeyDown events, so EEventKey is used instead
-    ( ( aEvent.Key()->iScanCode == EStdKeyNo ) && ( aEvent.Type() == EEventKey ) ) 
-        )
+        // EKeyPhoneEnd/EKeyNo doesn't send EEVentKeyDown events, so EEventKey is used instead
+       ( ( aEvent.Key()->iScanCode == EStdKeyNo ) && ( aEvent.Type() == EEventKey ) ) )
         {
         AddChar( (TText)(aEvent.Key()->iScanCode ) ); // top 16 ( in Unicode build) bits removed
-        }    
+        }
+
+    if ( iServiceCallEnabled )
+        {
+        // When Cancel is pressed we need to clear the queue
+        if ( iState == EServiceNumMatch && aEvent.Type() == EEventPointer && 
+        	   aEvent.Pointer()->iType == TPointerEvent::EButton1Down )
+            {
+            // Clear the queue, set state to EEmpty, and cancel any pending timeout
+            Reset();
+            iKeyTimeoutTimer->Cancel();
+            }
+        }
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -440,27 +524,46 @@ EXPORT_C void CAknEcsDetector::AddChar( TText aNewChar )
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE( "[%s][%s] aNewChar: %s", "CAknEcsDetector", 
                                 		__FUNCTION__, &aNewChar );
-    
-    if (aNewChar == EKeyQwertyOn || aNewChar == EKeyQwertyOff)
-    	{ 
-        _AKNTRACE_FUNC_EXIT;
-    	return;   // return directly if the aNewChar is slide open/closed.
-    	}
 
+    if (aNewChar == EKeyQwertyOn || aNewChar == EKeyQwertyOff)
+        { 
+        _AKNTRACE_FUNC_EXIT;
+        return;   // return directly if the aNewChar is slide open/closed.
+        }
+	
     iKeyTimeoutTimer->Cancel(); // there might be pending timeout; clear it
-    if ( aNewChar == EStdKeyYes || aNewChar ==EKeyPhoneSend )
+    if ( aNewChar == EStdKeyYes || aNewChar == EKeyPhoneSend )
         {
-        if ( State() == ECompleteMatch )
+        if ( iServiceCallEnabled )
             {
-            _AKNTRACE( "[%s][%s] SetState( ECompleteMatchThenSendKey )", "CAknEcsDetector", 
-                                            		__FUNCTION__ );
-            SetState( ECompleteMatchThenSendKey );
+            if ( iState == ECompleteMatch || iState == EServiceNumMatch )
+                {
+                _AKNTRACE( "[%s][%s] SetState( ECompleteMatchThenSendKey )", "CAknEcsDetector", 
+                                            		    __FUNCTION__ );
+                SetState( ECompleteMatchThenSendKey );
+                }
+            }
+        else
+            {
+            if ( iState == ECompleteMatch )
+                {
+                _AKNTRACE( "[%s][%s] SetState( ECompleteMatchThenSendKey )", "CAknEcsDetector", 
+                                                        __FUNCTION__ );
+                SetState( ECompleteMatchThenSendKey );
+                }
             }
         // else do nothing with it...
         }
     else
         {
         TText scanCode = aNewChar;
+
+        if ( scanCode < KAknKeyScanCodeBegin || scanCode > KAknKeyScanCodeEnd )
+            {
+            // Just return since it is an invalid character
+            return;
+            }
+
 #ifdef RD_INTELLIGENT_TEXT_INPUT 
         // Convert scan code to number value here 
         // for 4*10, 3*11, half-qwerty key pad
@@ -588,6 +691,13 @@ void CAknEcsDetector::DetermineState()
             case CAknMatchingCharacterQueue::ECompleteMatch:
                 bestState = ECompleteMatch;
                 break;
+            case CAknMatchingCharacterQueue::EServiceNumMatch:
+                if ( iServiceCallEnabled )
+                    {
+                    bestState = EServiceNumMatch;
+                    break;
+                    }
+                // Fall through to default case if service call feature is off
             default:
                 __ASSERT_DEBUG( 0, Panic(EAknEcsPanicBadState) );
                 break;
@@ -632,12 +742,24 @@ EXPORT_C void CAknEcsDetector::SetBuffer( const TDesC& aNewBuffer )
     iQueue->Reset();
     iQueue->SetBuffer(aNewBuffer);
     DetermineState();
-    if ( State() == ECompleteMatch )
+
+    if ( iServiceCallEnabled )
         {
-        _AKNTRACE( "[%s][%s] State() == ECompleteMatch ", "CAknEcsDetector", 
-                                                		__FUNCTION__ );
-        iKeyTimeoutTimer->Start( KEcsInterKeyTimeout,
-            KEcsInterKeyTimeout, TCallBack( CancelMatch, this ) );
+        if ( iState == ECompleteMatch || iState == EServiceNumMatch )
+            {
+            iKeyTimeoutTimer->Start( KEcsInterKeyTimeout,
+                KEcsInterKeyTimeout, TCallBack( CancelMatch, this ) );
+            }
+        }
+    else
+        {
+        if ( iState == ECompleteMatch )
+            {
+            _AKNTRACE( "[%s][%s] State() == ECompleteMatch ", "CAknEcsDetector", 
+                                                		    __FUNCTION__ );
+            iKeyTimeoutTimer->Start( KEcsInterKeyTimeout,
+                KEcsInterKeyTimeout, TCallBack( CancelMatch, this ) );
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -680,6 +802,19 @@ EXPORT_C void CAknEcsDetector::SetState( TState aNewState )
                     _AKNTRACE( "[%s][%s] Reset", "CAknEcsDetector", __FUNCTION__);
                     iQueue->Reset();
                     SetState( EEmpty );
+                    }
+                }
+            break;
+
+        case EServiceNumMatch:
+            if ( iServiceCallEnabled )
+                {
+                if ( aNewState == ECompleteMatchThenSendKey )
+                    {
+                    RelinquishCapturedKeys();
+                    _AKNTRACE( "[%s][%s] Make Service Call", "CAknEcsDetector", 
+                                                                		__FUNCTION__);
+                    TRAP_IGNORE( MakeServiceCallL() );
                     }
                 }
             break;
@@ -734,6 +869,51 @@ void CAknEcsDetector::AttemptEmergencyCall()
     if(err != KErrNone)
         {
         err = KErrNone;
+        }
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+void CAknEcsDetector::MakeServiceCallL()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    if ( iServiceCallEnabled )
+        {
+        CAiwServiceHandler* aiwServiceHandler = CAiwServiceHandler::NewLC();
+        RCriteriaArray interest;
+        CleanupClosePushL( interest );
+
+        CAiwCriteriaItem* criteria = CAiwCriteriaItem::NewLC( KAiwCmdCall,
+                                         KAiwCmdCall, _L8( "*" ) );
+        TUid base;
+        base.iUid = KAiwClassBase;
+        criteria->SetServiceClass( base );
+        User::LeaveIfError( interest.Append( criteria ) );
+        aiwServiceHandler->AttachL( interest );
+
+        CAiwDialData* dialData = CAiwDialData::NewLC();
+        dialData->SetCallType( CAiwDialData::EAIWForcedCS );
+        dialData->SetPhoneNumberL( CurrentMatch() );
+        dialData->SetWindowGroup( AIWDialData::KAiwGoToIdle );
+
+        CAiwGenericParamList& paramList = aiwServiceHandler->InParamListL();
+        dialData->FillInParamListL( paramList );
+
+        TRAPD( err, aiwServiceHandler->ExecuteServiceCmdL( KAiwCmdCall, paramList,
+                    aiwServiceHandler->OutParamListL(), 0, NULL ) );
+        __ASSERT_DEBUG( err == KErrNone, Panic( EAknEcsPanicDialLLeft ) );
+
+        //reset the queue
+        iQueue->Reset();
+
+        CleanupStack::PopAndDestroy( dialData );
+        CleanupStack::PopAndDestroy( criteria );
+        CleanupStack::PopAndDestroy( &interest );
+        CleanupStack::PopAndDestroy( aiwServiceHandler );
+
+        if( err != KErrNone )
+            {
+            User::Leave( err );
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }

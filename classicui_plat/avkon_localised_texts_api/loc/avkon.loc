@@ -4265,4 +4265,23 @@
 //r: TB9.2
 #define qtn_chi_chinese_user_db_note_confirm_deletions "Delete %N Phrase?"
 
+//d: Edit menu item to activate pinyin phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_pinyin_phrase "Pinyin phrase"
+
+//d: Edit menu item to activate zhuyin phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_zhuyin_phrase "Zhuyin phrase"
+
+//d: Edit menu item to activate stroke phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_stroke_phrase "Stroke phrase"
+
+
 // End of File

@@ -280,6 +280,7 @@ SOURCE          akndiscreetpopupdrawer.cpp
 SOURCE          akndiscreetpopupdata.cpp
 SOURCE          akndiscreetpopupserverhandler.cpp
 
+SOURCE          AknSmileyUtils.cpp
 SOURCE          AknSmileyModel.cpp
 SOURCE          AknSmileyImage.cpp
 SOURCE          akncombinedpane.cpp
@@ -344,6 +345,7 @@ LIBRARY         tacticon.lib
 LIBRARY         viewcli.lib
 LIBRARY         aknphysics.lib
 LIBRARY         HWRMLightClient.lib
+LIBRARY         aiwdialdata.lib
 
 DEFFILE AVKON.DEF
 

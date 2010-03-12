@@ -2104,6 +2104,19 @@ void CEikDialogPage::ChangeFocusTo(TInt aLineIndex)
             TRAP_IGNORE( field->CloseSelectionListL() );
             }
         }
+    // If new line is edwin, move cursor to the end of the string.
+    CEikCaptionedControl* theNewLine =  (*iLines)[aLineIndex];
+    if ( iExtension->iSetInitialFocusDone 
+    		&& IsForm()
+    		&& theNewLine->ControlIsAnEdwin( theNewLine->iControlType ) 
+    		&& theNewLine->iIsEditable )
+    	{
+        CEikEdwin* edwinPtr = STATIC_CAST( CEikEdwin*, theNewLine->iControl );
+        if( edwinPtr->Text() )
+        	{
+            edwinPtr->SetCursorPosL( edwinPtr->TextLength(), EFalse );       
+        	}
+    	}
 
     ShowFocus( EFalse, EFalse );
     iCurrentLine=aLineIndex;

@@ -126,6 +126,12 @@ public:
      */
     TBool DragThresholdExceeded( const TPoint& aCurrentPosition ) const;
     
+    /**
+     * Disables dragging until next pointer up.
+     *
+     */
+    void DisableDragging();
+    
     
 public: // From base class MAknPhysicsObserver.
 

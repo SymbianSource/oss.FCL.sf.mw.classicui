@@ -108,7 +108,7 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
     iSpring->Reset(0,0);
                 
     iAnimationTimer = CHgVgTimer::NewL();
-        
+    iDelayedInit = CPeriodic::NewL( CActive::EPriorityStandard );
     iKeyScrollingTimer = CPeriodic::NewL( CActive::EPriorityStandard );
 
     SetEmptyTextL(KNullDesC);
@@ -117,8 +117,8 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
     CreateWindowL ( );
        
     EnableDragEvents();
-    
     ClaimPointerGrab();
+    IgnoreEventsUntilNextPointerUp();
 
     InitScreenL( aRect );
 
@@ -137,10 +137,7 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
     ActivateL ( );
 
     SetMopParent( aParent );
-                        
-    // skin needs to be updated after parent is set.
-    iSkinRenderer->UpdateSkinL(this, this);
-    
+    SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallUninitialized );
     }
 
 // -----------------------------------------------------------------------------
@@ -277,7 +274,7 @@ CHgVgMediaWall::CHgVgMediaWall(
     iAnimationState(EHgVgMediaWallAnimationStateIdle),
     iScrollBarEnabled(aEnableScrollBar),
     iMediaWallStyle(aStyle),
-    iOpeningAnimationType(CHgVgMediaWall::EHgVgOpeningAnimationFlipToFront),
+    iOpeningAnimationType(CHgVgMediaWall::EHgVgOpeningAnimationNone),
     iIsForeground(ETrue),
     iUsingDefaultIcon(ETrue),
     iRowCount(1),
@@ -318,6 +315,7 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
     delete iManager;
     delete iKeyScrollingTimer;
     delete iAnimationTimer;
+    delete iDelayedInit;
     //delete iCompositionSource;
     delete iEGL;
     delete iSpring;
@@ -357,6 +355,15 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
     {
     //RDebug::Print(_L("CHgVgMediaWall::Draw begin"));
 
+    if(iFlags & EHgVgMediaWallUninitialized)
+        {
+        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+        MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+        AknsDrawUtils::DrawBackground( skin, cc, this, SystemGc(), TPoint(0,0), 
+                Rect(), KAknsDrawParamDefault );
+        return;
+        }
+    
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
 
     if (iIsForeground)
@@ -417,34 +424,11 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
 //
 void CHgVgMediaWall::SizeChanged ( )
     {
+    iRect = Rect();
     
-    iRect = Rect();    
-    TRAPD(error, InitRenderingL(ETrue));
-    if( error != KErrNone )
-        {
-        // if out of memory
-        if (error == KErrNoMemory)
-            {
-            // free all resources
-            FreeItemsImages();
-            // try again
-            TRAPD(error, InitRenderingL(ETrue));
-            // if still fails, need to give up
-            if (error != KErrNone)
-                {
-                User::Panic(_L("USER"), error);
-                }
-            // reload all images we can
-            ReloadItemsImages();
-            }
-        else
-            {
-            // some other error occured during initialization
-            // TODO: should we try again?
-            User::Panic(_L("USER"), error);            
-            }
-        }
-    
+    if(iDelayedInit && !iDelayedInit->IsActive())
+        iDelayedInit->Start(0, 1000000, TCallBack(DelayedInit, this));
+
     if(MTouchFeedback::Instance())
         {
         MTouchFeedback::Instance()->SetFeedbackArea(this, 
@@ -453,7 +437,6 @@ void CHgVgMediaWall::SizeChanged ( )
                 ETouchFeedbackBasic, 
                 ETouchEventStylusDown);        
         }
-    
     }
 
 // -----------------------------------------------------------------------------
@@ -488,7 +471,8 @@ void CHgVgMediaWall::HandleItemCountChanged()
     if( iSelectedIndex >= MaxViewPosition() )
         {
         iSpring->Reset((TReal)(MaxViewPosition()-1), 0);
-        HandleViewPositionChanged();         
+        HandleViewPositionChanged();
+        iSelectedIndex = MaxViewPosition() - 1;
         }
         
     }
@@ -499,7 +483,16 @@ void CHgVgMediaWall::HandleItemCountChanged()
 //
 void CHgVgMediaWall::HandlePointerEventL( const TPointerEvent& aEvent )
     {
-    
+    // Not faded and initialized and the drawing is set to be done to WinGc
+    if( !( iFlags & EHgVgMediaWallFaded )
+            && !( iFlags & EHgVgMediaWallUninitialized )
+            && iFlags & EHgVgMediaWallDrawToWindowGC )
+        {
+        // Draw with OpenVg to our surface.
+        ClearFlags( EHgVgMediaWallDrawToWindowGC );
+        DrawNow();
+        }
+		
     if (iAnimationState != EHgVgMediaWallAnimationStateItemOpened)
         {
             
@@ -520,10 +513,7 @@ void CHgVgMediaWall::HandlePointerEventL( const TPointerEvent& aEvent )
                 DrawOpenVG();
                 }
             }
-                    
         }
-    
-    
     }
 
 // -----------------------------------------------------------------------------
@@ -1158,7 +1148,38 @@ void CHgVgMediaWall::HandleResourceChange( TInt aType )
                 if (iSkinRenderer)    
                     iSkinRenderer->UpdateSkinL(this, this);
                 )
-        }    
+        }
+    
+    if( aType == KEikMessageFadeAllWindows )
+        {
+        // make sure we are not animating
+        HandleTransitionAnimationStop();
+        
+        if (iAnimationTimer->IsActive())
+            {
+            if (iAnimationState == EHgVgMediaWallAnimationStateOpening)
+                iAnimationState = EHgVgMediaWallAnimationStateItemOpened;
+            else
+                iAnimationState = EHgVgMediaWallAnimationStateIdle;
+    
+            iAnimationTimer->Cancel();
+            }
+    
+        SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallFaded );
+        DrawNow();
+        }
+    
+    if( aType == KEikMessageUnfadeWindows )
+        {
+        ClearFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallFaded );
+        DrawNow();
+        }
+
+    if( aType == KEikDynamicLayoutVariantSwitch && !(iFlags & EHgVgMediaWallDrawToWindowGC) )
+        {
+        SetFlags( EHgVgMediaWallDrawToWindowGC );
+        DrawNow();
+        }
     }
 
 
@@ -1213,9 +1234,7 @@ void CHgVgMediaWall::HandleLosingForeground()
     
     if (iAnimationTimer->IsActive())
         {
-        if (iAnimationState == EHgVgMediaWallAnimationStateClosing)
-            iAnimationState = EHgVgMediaWallAnimationStateIdle;
-        else if (iAnimationState == EHgVgMediaWallAnimationStateOpening)
+        if (iAnimationState == EHgVgMediaWallAnimationStateOpening)
             iAnimationState = EHgVgMediaWallAnimationStateItemOpened;
         else
             iAnimationState = EHgVgMediaWallAnimationStateIdle;
@@ -1568,10 +1587,7 @@ void CHgVgMediaWall::InitRenderingL(TBool aRecreateSurface)
     iSkinRenderer->UpdateSkinL(this, this);
 
     delete iEmptyLabel; iEmptyLabel = NULL;
-    iEmptyLabel = CHgVgLabel::NewL(
-            /*TRect(TPoint(iRect.Center().iX - 100, iRect.Center().iY - 50),
-            TSize(200, 100))*/iRect, &ScreenFont( TCoeFont( KMediaWallGridPopupFontSize, TCoeFont::EPlain )), 
-            *iEmptyText);
+    iEmptyLabel = CHgVgLabel::NewL( iRect );
     
     switch (iMediaWallStyle)
         {
@@ -2358,11 +2374,10 @@ void CHgVgMediaWall::InitMediaWallTBonePortraitL()
     iSpringVelocityToAnimationFactor = KMediaWallTBoneSpringVelocityToAnimationFactor;
     iItemsToMoveOnFullScreenDrag = KMediaWallTBoneItemsToMoveOnFullScreenDrag;
     iRowCount = KMediaWallTBoneRowCount;
-    iOpeningAnimationType = EHgVgOpeningAnimationZoomToFront;
     
     // get front rectange from layout
     TAknLayoutRect frontRect;
-    frontRect.LayoutRect( iRect, AknLayoutScalable_Apps::cf0_flow_pane_g1(1) );
+    frontRect.LayoutRect( iRect, AknLayoutScalable_Apps::cf0_flow_pane_g1(0) );
 
     iRenderer = CHgVgMediaWallRenderer::NewL(KMaxCoversVisible, iRect, frontRect.Rect(), 
             KMediaWallTBoneZOffset);
@@ -2438,11 +2453,9 @@ void CHgVgMediaWall::InitLabelsL(TInt aLayoutVariant)
     t0.LayoutText(iRect, l0);
     t1.LayoutText(iRect, l1);            
     
-    iAlbumLabel = CHgVgLabel::NewL(t0.TextRect(), 
-                    &ScreenFont( TCoeFont( KMediaWallTBoneLabelFontSize, TCoeFont::EBold )) );
+    iAlbumLabel = CHgVgLabel::NewL( t0.TextRect() );
 
-    iArtistLabel = CHgVgLabel::NewL(t1.TextRect(), 
-            &ScreenFont( TCoeFont( KMediaWallTBoneLabelFontSize, TCoeFont::EBold )) );
+    iArtistLabel = CHgVgLabel::NewL( t1.TextRect() );
 
     iAlbumLabel->SetLayout(l0, iRect);
     iArtistLabel->SetLayout(l1, iRect);    
@@ -2459,6 +2472,26 @@ void CHgVgMediaWall::InitPopupL(TInt aLayoutVariant)
             AknLayoutScalable_Apps::cf0_flow_pane_t1(aLayoutVariant), iRect);    
     }
 
+// -----------------------------------------------------------------------------
+// CHgVgMediaWall::DelayedInit()
+// -----------------------------------------------------------------------------
+//
+TInt CHgVgMediaWall::DelayedInit( TAny* aSelf)
+    {
+    CHgVgMediaWall* self = (CHgVgMediaWall*) aSelf;
+    if(self)
+        {
+        TRAPD( error, self->InitRenderingL(ETrue); )
+        if( error == KErrNone )
+            {
+            self->iDelayedInit->Cancel();
+            self->ReloadItemsImages();
+            self->ClearFlags(EHgVgMediaWallUninitialized);
+            self->DrawDeferred();
+            }
+        }
+    return KErrNone;
+    }
 
 
 // End of File

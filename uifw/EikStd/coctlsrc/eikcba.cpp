@@ -7432,7 +7432,8 @@ TBool CEikCba::SoftkeyStatusChangeAllowed(
         else
             {
             iFlags.Clear( ECbaItemSoftkeyDisabledByClient );
-            if ( iFlags.IsSet( ECbaItemSoftkeyDisabled ) )
+            if ( iFlags.IsSet( ECbaItemSoftkeyDisabled ) &&
+                     iFlags.IsSet( ECbaItemSpecificSoftkeyInUse ) )
                 {
                 allowChange = EFalse;
                 }

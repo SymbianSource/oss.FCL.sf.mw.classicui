@@ -107,7 +107,9 @@ public:
      */
     enum THgVgMediaWallMode
         {
-        EHgVgMediaWallDrawToWindowGC = 0x0001
+        EHgVgMediaWallDrawToWindowGC = 0x0001,
+        EHgVgMediaWallFaded = 0x0002,
+        EHgVgMediaWallUninitialized = 0x0004
         };
         
 public: 
@@ -664,6 +666,8 @@ private:
      */
     void InitPopupL(TInt aLayoutVariant);
     
+    static TInt DelayedInit( TAny* aSelf);
+    
 protected:
     CHgScrollBufferManager* iManager; // Own
     
@@ -774,7 +778,8 @@ protected:
     
     CAlfCompositionSource* iCompositionSource;    
     
-    CFbsBitmap* iSurfaceBitmap;    
+    CFbsBitmap* iSurfaceBitmap;
+    CPeriodic* iDelayedInit;
     };
 
        

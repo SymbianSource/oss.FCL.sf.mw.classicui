@@ -3873,6 +3873,18 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 }
             iExtension->iShowCascadeTransition = ETrue;
             CloseCascadeMenu();  
+            // Submenu of submenu was closed
+            if ( iCascadeMenuPane  )
+                {
+                iCascadeMenuPane->iExtension->EnableHighlight( EFalse );
+                iCascadeMenuPane->RepaintHighlight();
+                iExtension->iDownOnMenuArea = EFalse;
+                }
+            else
+                {
+                iExtension->EnableHighlight( EFalse );
+                RepaintHighlight();            
+                }
             IgnoreEventsUntilNextPointerUp();
             _AKNTRACE( "[%s]", "HandlePointerEventL return 2" );
             _AKNTRACE_FUNC_EXIT;
@@ -4210,8 +4222,18 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                         //Just close sub menu
                         iExtension->iShowCascadeTransition = ETrue;
                         CloseCascadeMenu();
-                        iExtension->EnableHighlight( EFalse );
-                        RepaintHighlight();
+                        // Submenu of submenu was closed
+                        if ( iCascadeMenuPane  )
+                            {
+                            iCascadeMenuPane->iExtension->EnableHighlight( EFalse );
+                            iCascadeMenuPane->RepaintHighlight();
+                            iExtension->iDownOnMenuArea = EFalse;
+                            }
+                        else
+                            {
+                            iExtension->EnableHighlight( EFalse );
+                            RepaintHighlight();            
+                            }
                         IgnoreEventsUntilNextPointerUp();                                                                  
                         break;
                         }
@@ -4321,8 +4343,17 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             }
                         iExtension->iShowCascadeTransition = ETrue;
                         CloseCascadeMenu(); //Just close sub menu.
-                        iExtension->EnableHighlight( EFalse );
-                        RepaintHighlight();
+                        // Submenu of submenu was closed
+                        if ( iCascadeMenuPane  )
+                            {
+                            iCascadeMenuPane->iExtension->EnableHighlight( EFalse );
+                            iCascadeMenuPane->RepaintHighlight();
+                            }
+                        else
+                            {
+                            iExtension->EnableHighlight( EFalse );
+                            RepaintHighlight();                        
+                            }
                         IgnoreEventsUntilNextPointerUp();
                         }
                     else
@@ -4359,7 +4390,8 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
             TPoint drag = iExtension->iStartPoint - 
                 aPointerEvent.iPosition;
             TInt threshold = drag.iY;      
-            if( Abs( threshold ) > iExtension->iPhysics->DragThreshold() )
+            if( Abs( threshold ) > iExtension->iPhysics->DragThreshold() 
+                && iExtension->iDownOnMenuArea )
                 {
                 iExtension->iButtonDownItem = KErrNotFound;
                 iExtension->ResetPressedHighlight();
@@ -4387,7 +4419,8 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
        
             // act in Menu Sct or Option Menu repectively
             if (( iExtension->iSct && menuSctRect.Contains(aPointerEvent.iPosition)) ||
-                ( !iExtension->iSct && innerRect.Contains(aPointerEvent.iPosition)))
+                ( !iExtension->iSct && innerRect.Contains(aPointerEvent.iPosition)) &&
+                iExtension->iDownOnMenuArea ) 
                {
                 iExtension->iDraggedOutside = EFalse;
                 // Scroll only through visible items

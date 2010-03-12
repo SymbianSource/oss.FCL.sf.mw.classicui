@@ -50,11 +50,13 @@
 #include <LayoutPack.cdl.h>
 #include <CdlRefs.h>
 const TInt KCdlEComInterfaceId = 0x101f8243;
+const TInt KMatrixMenuAppId = 0x101F4CD2;
 
 const TInt KLayoutChangeTimeout = 2000000; // 2s
 const TInt KWgStatesGranularity = 4;
 const TInt KRelinquishedThreadListGranularity = 4;
 const TInt KRemoveBlankDelay = 200000; // 0.2s
+const TInt KChangeIdleStateDelay = 200000; // 0.2s
 // Drawing is slower when transparency is enabled. The time needs to be
 // big enough to account for slowest drawing application.
 const TInt KRemoveBlankDelayTransparency = 1500000; // 1.5s
@@ -412,6 +414,8 @@ void CEikSgcServer::ConstructL()
 	iLayoutNotifier = CEComPluginNotifier::NewL(KNullUid, callback);
 	iLayoutNotifier->Start();
 	EComPluginUtils::GetInfoArrayL(TUid::Uid(KCdlEComInterfaceId), iPrevPluginInfo);
+	
+	iChangeIdleState = CPeriodic::NewL(CActive::EPriorityStandard);  
     }
 
 TInt CEikSgcServer::LayoutInstallationCallBack(TAny* aPtr)
@@ -513,6 +517,7 @@ CEikSgcServer::~CEikSgcServer()
     delete iWgStates;
     delete iRemoveBlankCallBack;
     delete iLayoutNotifier;
+    delete iChangeIdleState;
     }
 
 void CEikSgcServer::HandleWindowGroupListChangeL()
@@ -522,7 +527,7 @@ void CEikSgcServer::HandleWindowGroupListChangeL()
         {
         ReOrderWgStatesL(wgIds);
         PostChangeRecalcL();
-        UpdateNotificationsInIdleAllowedKey();
+        UpdateIdleState();
         }
     CleanupStack::PopAndDestroy( wgIds );
     }
@@ -565,7 +570,7 @@ void CEikSgcServer::HandleWindowGroupParamChangeL(TInt aWgId, TBitFlags aAppFlag
         LOGTEXT1("  understandsPartialForegroundChanged: %d", understandsPartialForegroundChanged);
         LOGTEXT1("  fullScreenChanged: %d",                   fullScreenChanged);        
         
-        UpdateNotificationsInIdleAllowedKey();
+        UpdateIdleState();
         }
     
     LOGTEXT0("CEikSgcServer::HandleWindowGroupParamChangeL - EXIT");
@@ -1308,74 +1313,67 @@ void CEikSgcServer::RotateScreenL()
         }
     }
 
-void CEikSgcServer::UpdateNotificationsInIdleAllowedKey()
+TInt  CEikSgcServer::ForegroundWgId()
     {
     // First, get screensaver window group identifier.
     TApaTaskList taskList(CEikonEnv::Static()->WsSession());
     const TApaTask screensaverTask = taskList.FindApp(KScreensaverAppUid);
     const TInt screensaverWgId = screensaverTask.WgId();
-    
+
+    const TInt wgCount = iWgStates->Count();
+    TInt ii = FocusWgIndex();
+
+    LOGTEXT0("======================================");LOGTEXT1("Window groups: %d", wgCount);LOGTEXT1("Idle wg id: %d", idleWgId);LOGTEXT1("Screensaver wg id: %d", screensaverWgId);LOGTEXT1("Focus window group: %d", ii);LOGTEXT0("======================================");
+
+    // Loops window groups from top to bottom, starting from focus window group.
+    // (Index 0 contains the foreground window group.)
+    while (ii < wgCount)
+        {
+        const TWgState& state = iWgStates->At(ii);
+        const TInt currentWgId = state.WgId();
+
+        LOGTEXT0("\n");LOGTEXT1("  Window group id: %d", currentWgId);LOGTEXT1("  UnderstandsPartialForeground: %d", state.UnderstandsPartialForeground());LOGTEXT1("  IsFullScreen: %d", state.IsFullScreen());
+
+        // Ignores non-application window groups (e.g. incall bubble), partial screen
+        // applications and screensaver. 
+        if (state.UnderstandsPartialForeground() && state.IsFullScreen()
+                && currentWgId != screensaverWgId)
+            {
+            return currentWgId;
+            }
+        ++ii;
+        }
+    return KErrNotFound;
+    }
+
+TBool CEikSgcServer::IsIdleForeground()
+    {
+    TApaTaskList taskList(CEikonEnv::Static()->WsSession());
     // Get also idle window group identifier.
     TVwsViewId idleView;
     if (AknDef::GetPhoneIdleViewId(idleView) != KErrNone)
         {
-        return;
+        return EFalse;
         }
-        
     const TApaTask idleTask = taskList.FindApp(idleView.iAppUid);
-    const TInt idleWgId = idleTask.WgId();
-    
-    // Then go through window groups skipping partial apps and screensaver - 
-    // check if idleWgId follows.
-    TBool result = EFalse;
-    TBool found = EFalse;
-    const TInt wgCount = iWgStates->Count();
-    TInt ii = FocusWgIndex();
-        
-    LOGTEXT0("======================================");
-    LOGTEXT1("Window groups: %d",      wgCount);
-    LOGTEXT1("Idle wg id: %d",         idleWgId);
-    LOGTEXT1("Screensaver wg id: %d",  screensaverWgId);
-    LOGTEXT1("Focus window group: %d", ii);
-    LOGTEXT0("======================================");
-                
-    // Loops window groups from top to bottom, starting from focus window group.
-    // (Index 0 contains the foreground window group.)
-    while (ii < wgCount && !found)
-        {
-        const TWgState& state = iWgStates->At(ii);
-        const TInt currentWgId = state.WgId();
-        
-        LOGTEXT0("\n");
-        LOGTEXT1("  Window group id: %d",              currentWgId);
-        LOGTEXT1("  UnderstandsPartialForeground: %d", state.UnderstandsPartialForeground());
-        LOGTEXT1("  IsFullScreen: %d",                 state.IsFullScreen());
-        
-        // Ignores non-application window groups (e.g. incall bubble), partial screen
-        // applications and screensaver. 
-        if (state.UnderstandsPartialForeground() &&
-            state.IsFullScreen()                 && 
-            currentWgId != screensaverWgId)        
-            {
-            // Check if current app is idle.
-            result = (idleWgId == currentWgId);
-            found = ETrue;
-            
-            LOGTEXT0("\n");
-            LOGTEXT1("Window group found. Result: %d", result);
-            }
-            
-        ii++;
-        }
-        
+    return (idleTask.WgId() == ForegroundWgId());
+    }
+
+void CEikSgcServer::SetIdleState(TBool aFlag)
+    {
     // Update the P&S key only if the value has been changed.
-    if ((iNotificationsInIdleAllowed && !result) || (!iNotificationsInIdleAllowed && result))
+    if ((iNotificationsInIdleAllowed && !aFlag)
+            || (!iNotificationsInIdleAllowed && aFlag))
         {
-        iNotificationsInIdleAllowed = result;
-        RProperty::Set(KPSUidAvkonDomain, KAknNotificationsInIdleAllowed, result);
+        iNotificationsInIdleAllowed = aFlag;
+        RProperty::Set(KPSUidAvkonDomain, KAknNotificationsInIdleAllowed,aFlag);
         }
-    } 
-    
+    }
+
+void CEikSgcServer::UpdateNotificationsInIdleAllowedKey()
+    {
+    SetIdleState(IsIdleForeground());
+    }     
 
 TInt CEikSgcServer::RemoveBlankCallBack( TAny* aThis )
     {
@@ -1493,6 +1491,36 @@ void CEikSgcServer::DoMoveApp()
     	}
 	}
 
+void CEikSgcServer::UpdateIdleState()
+    {
+    if (ForegroundWgId() == KMatrixMenuAppId)
+        {
+        UpdateNotificationsInIdleAllowedKey();
+        return;
+        }
+
+    if (iChangeIdleState && iChangeIdleState->IsActive())
+        {
+        iChangeIdleState->Cancel();
+        }
+
+    iChangeIdleState->Start(KChangeIdleStateDelay, KChangeIdleStateDelay, TCallBack(ChangeIdleStateCallBack, this));
+    }
+
+void CEikSgcServer::DoChangeIdleState()
+    {
+    if(iChangeIdleState)
+        {
+        iChangeIdleState->Cancel();
+        }
+
+    UpdateNotificationsInIdleAllowedKey();
+    }
+TInt CEikSgcServer::ChangeIdleStateCallBack(TAny* aThis)
+    {
+    static_cast<CEikSgcServer*>(aThis)->DoChangeIdleState();
+    return EFalse;
+    }
 
 //
 // CAknSgcServerImpl

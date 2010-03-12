@@ -103,6 +103,8 @@ void CHgScrollbar::InitScrollBarL(
     layout.LayoutRect(aRect, AknLayoutScalable_Avkon::scroll_pane( variety ));
     iScrollbarRect = layout.Rect();
     
+    TBool prevStatic = iStatic;
+
     if((aTotalSize.iHeight <= aViewSize.iHeight && !aLandscapeScrolling)
             || (aTotalSize.iWidth <= aViewSize.iWidth && aLandscapeScrolling) )
         {
@@ -114,9 +116,12 @@ void CHgScrollbar::InitScrollBarL(
         iTotalSize = aTotalSize;
         iStatic = EFalse;
         }
-
-    TBool viewChanged = iViewSize != aViewSize;
     
+    // Do we need to init the bg graphics
+    TBool initBg = (iViewSize != aViewSize) // view size has been changed 
+                    || (prevStatic != iStatic) // static value changed
+                    || (iLandscapeScrolling != aLandscapeScrolling); // different scrolling direction
+
     iViewSize = aViewSize;
     iLandscapeScrolling = aLandscapeScrolling;
     iHandlePosition.SetXY(0,0);
@@ -130,7 +135,9 @@ void CHgScrollbar::InitScrollBarL(
         iTotalLength = iTotalSize.iHeight - iViewSize.iHeight;
         }
 
-    InitIconsL( viewChanged );    
+    // Don't init icons in static mode since they are not drawn
+    if(!iStatic)
+        InitIconsL( initBg );    
     }
 
 // -----------------------------------------------------------------------------
@@ -238,7 +245,8 @@ TBool CHgScrollbar::HandleScrollBarPointerEvent( const TPointerEvent& aEvent )
 //
 void CHgScrollbar::Draw( CWindowGc& aGc )
     {
-    DrawScrollbar( aGc );
+    if(!iStatic)
+        DrawScrollbar( aGc );
     }
 
 // -----------------------------------------------------------------------------
@@ -249,7 +257,7 @@ void CHgScrollbar::DrawScrollbar( CWindowGc& aGc )
     {
     if(iScrollbarBg && iScrollbarHandle && iScrollbarHandleBg)
         {
-        if(iHandler && !iStatic)
+        if(iHandler)
             {
             aGc.BitBltMasked(iScrollbarRect.iTl, 
                     iScrollbarHandleBg->Bitmap(),
@@ -271,14 +279,11 @@ void CHgScrollbar::DrawScrollbar( CWindowGc& aGc )
                     iScrollbarBg->Mask(),
                     EFalse);
 
-            if(!iStatic)
-                {
-                aGc.BitBltMasked(iScrollbarRect.iTl + iHandlePosition, 
-                        iScrollbarHandle->Bitmap(),
-                        iScrollbarHandle->Bitmap()->SizeInPixels(),
-                        iScrollbarHandle->Mask(),
-                        EFalse);
-                }
+            aGc.BitBltMasked(iScrollbarRect.iTl + iHandlePosition, 
+                    iScrollbarHandle->Bitmap(),
+                    iScrollbarHandle->Bitmap()->SizeInPixels(),
+                    iScrollbarHandle->Mask(),
+                    EFalse);
             }
         }
     }

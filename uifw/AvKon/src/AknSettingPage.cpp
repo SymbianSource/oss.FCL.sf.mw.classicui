@@ -1391,6 +1391,17 @@ EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 	{
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
 
+	if ( GfxTransEffect::IsRegistered( this ) )
+	    {
+        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
+        MakeVisible( EFalse );
+        GfxTransEffect::End( this );
+	    }
+	else
+	    {
+        MakeVisible( EFalse );
+	    }
+	    
 	if ( aAccept )
 		{
 		AcceptSettingL();
@@ -1403,17 +1414,6 @@ EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 		if ( iSettingPageObserver )
 			iSettingPageObserver->HandleSettingPageEventL(this, MAknSettingPageObserver::EEventSettingCancelled);
 		}
-	
-	if ( GfxTransEffect::IsRegistered( this ) )
-	    {
-        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
-        MakeVisible( EFalse );
-        GfxTransEffect::End( this );
-	    }
-	else
-	    {
-        MakeVisible( EFalse );
-	    }
 
 	iEikonEnv->RemoveFromStack(iCba);
 	delete iCba;

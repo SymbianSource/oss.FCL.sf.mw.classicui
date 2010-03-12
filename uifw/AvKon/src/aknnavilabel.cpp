@@ -241,8 +241,7 @@ EXPORT_C void CAknNaviLabel::Draw( const TRect& /*aRect*/ ) const
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     TAknLayoutText layoutText( LayoutText() );
-    if ( AknStatuspaneUtils::StaconPaneActive() ||
-         AknStatuspaneUtils::FlatLayoutActive() )
+    if ( AknStatuspaneUtils::StaconPaneActive() )
         {
         AknsUtils::GetCachedColor( skin,
                                    color,

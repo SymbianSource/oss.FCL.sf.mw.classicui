@@ -96,6 +96,8 @@ public:
 
     TBool                    iImageAutoscaling;
     TBool                    iSmallImageAutoscaling;
+    
+    CEikStatusPaneBase*      iStatusPane;
     };
 
 
@@ -212,6 +214,9 @@ EXPORT_C void CAknTitlePane::ConstructL()
         // set flags to default values
         iExtension->iFlags = 0;
         }
+    
+    iExtension->iStatusPane = CEikStatusPaneBase::Current();
+    	
     }
 
 
@@ -676,9 +681,9 @@ EXPORT_C CCoeControl* CAknTitlePane::ComponentControl( TInt aIndex ) const
 //
 EXPORT_C void CAknTitlePane::Draw( const TRect& aRect ) const
     {
-    const TUid KActiveIdle2Uid = {0x102750F0};
-
-    if ( AppUid() == KActiveIdle2Uid )
+    	      
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() )
         {
         CWindowGc& gc = SystemGc();
         TRgb rgb(TRgb::Color16MA(0));

@@ -2006,4 +2006,6 @@ EXPORTS
 	_ZN11CEikListBox11MakeVisibleEi @ 2005 NONAME
 	_ZN7CEikCba25EnableItemSpecificSoftkeyEi @ 2006 NONAME
 	_ZNK11CEikListBox17ItemsInSingleLineEv @ 2007 NONAME
+	_ZN18CEikStatusPaneBase17EnableTransparentEi @ 2008 NONAME
+	_ZNK18CEikStatusPaneBase13IsTransparentEv @ 2009 NONAME
 

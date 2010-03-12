@@ -39,9 +39,10 @@ const TInt KInvalidListIndex( -1 );
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* CAknItemActionMenu::NewL(
-        MAknCollection& aCollection )
+        MAknCollection& aCollection, MObjectProvider* aOwner )
     {
-    CAknItemActionMenu* self = CAknItemActionMenu::NewLC( aCollection );
+    CAknItemActionMenu* self = CAknItemActionMenu::NewLC( 
+            aCollection, aOwner );
     CleanupStack::Pop( self );
     return self;
     }
@@ -51,9 +52,10 @@ CAknItemActionMenu* CAknItemActionMenu::NewL(
 // CAknItemActionMenu::NewLC
 // ---------------------------------------------------------------------------
 //
-CAknItemActionMenu* CAknItemActionMenu::NewLC( MAknCollection& aCollection )
+CAknItemActionMenu* CAknItemActionMenu::NewLC(
+        MAknCollection& aCollection, MObjectProvider* aOwner )
     {
-    CAknItemActionMenu* self = new ( ELeave ) CAknItemActionMenu();
+    CAknItemActionMenu* self = new ( ELeave ) CAknItemActionMenu( aOwner );
     CleanupStack::PushL( self );
     self->ConstructL( aCollection );
     return self;
@@ -71,6 +73,12 @@ CAknItemActionMenu::~CAknItemActionMenu()
     delete iMenuPane;
     delete iMenuData;
     iStates.Close();
+    
+    for ( TInt i = 0; i < iObservers.Count(); ++i )
+        {
+        iObservers[i]->SetItemActionMenu( NULL );
+        }
+
     iObservers.Close();
     }
 
@@ -310,15 +318,26 @@ TInt CAknItemActionMenu::CollectionCount() const
 
 
 // ---------------------------------------------------------------------------
+// CAknItemActionMenu::Owner
+// ---------------------------------------------------------------------------
+//
+ MObjectProvider* CAknItemActionMenu::Owner() const
+     {
+     return iOwner;
+     }
+
+
+// ---------------------------------------------------------------------------
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------
 //
-CAknItemActionMenu::CAknItemActionMenu()
+CAknItemActionMenu::CAknItemActionMenu( MObjectProvider* aOwner )
     : iPopupMenu( NULL ),
     iMenuBarObserver( NULL ),
     iMenuBar( NULL ),
     iMenuPane( NULL ),
-    iMenuData( NULL )
+    iMenuData( NULL ),
+    iOwner( aOwner )
     {
     AKNTASHOOK_ADD( this, "CAknItemActionMenu" );
     }

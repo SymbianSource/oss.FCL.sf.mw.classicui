@@ -102,49 +102,6 @@ const TInt KAreaIdTail   = 2;
 
 
 // ----------------------------------------------------------------------------
-// TEmotionUtils definition
-// ----------------------------------------------------------------------------
-//
-
-const TUint KEmotionCharBase = 0xf880;
-
-class TEmotionUtils
-    {
-public:
-    static TBool IsEmotionChar(TChar aChar);
-    static TChar EmotionChar(TInt aId);
-    static TInt EmotionId(TChar aChar);
-    static TChar EmotionSwitchToSmileyChar();
-    static TChar EmotionSwitchToSctChar();
-    };
-
-TBool TEmotionUtils::IsEmotionChar(TChar aChar)
-    {
-    return (aChar >= KEmotionCharBase);
-    }
-
-TChar TEmotionUtils::EmotionChar(TInt aId)
-    {
-    return (KEmotionCharBase + aId);
-    }
-
-TInt TEmotionUtils::EmotionId(TChar aChar)
-    {
-    return (TInt)(aChar - KEmotionCharBase);
-    }
-
-TChar TEmotionUtils::EmotionSwitchToSmileyChar()
-    {
-    return KEmotionCharBase + CSmileyModel::EIconSwitchToSmiley;
-    }
-
-TChar TEmotionUtils::EmotionSwitchToSctChar()
-    {
-    return KEmotionCharBase + CSmileyModel::EIconSwitchToSct;
-    }
-
-
-// ----------------------------------------------------------------------------
 // CAknCharMapHistory definition
 // ----------------------------------------------------------------------------
 //
@@ -219,7 +176,7 @@ class CAknCharMapHistory : public CBase
         * @param aHistoryType The kind of charctor map, refer to THistoryType
         * @param aChar    Insert a character
         */
-        void InsertChar(THistoryType aHistoryType, const TChar aChar);
+        void InsertChar(THistoryType aHistoryType, const TChar aChar, TBool aIsEmotion);
 
     private:
         /**
@@ -477,7 +434,7 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
     public CBase,
     public MObjectProvider,
     public MAknSctFocusHandler,
-    public MSmileyIconObserver
+    public MAknSmileyObserver
     {
     public:
         CAknCharMapExtension();
@@ -499,19 +456,23 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         MObjectProvider* MopNext();
         
     private: // from MSmileyIconObserver
-        virtual void ThumbnailLoaded(CSmileyIcon* aSmileyIcon);
-        virtual void AnimationChanged(CSmileyIcon* aSmileyIcon);
+        virtual void SmileyStillImageLoaded(CAknSmileyIcon* aSmileyIcon);
+        virtual void SmileyAnimationChanged(CAknSmileyIcon* aSmileyIcon);
         
     public:
         TBool IsEmotionEnabled() const;
         TBool IsShowingEmotion() const;
+        void SwitchEmotionVisibilityL();
         TBool NeedEmotionSwitchIcon() const;
         HBufC* ReadEmotionHBufCL();
-        void LoadEmotionTumbnails(const TDesC& aSctChars);
+        void LoadEmotionTumbnails(const TDesC& aChars);
         void SetEmotionSize(const TSize& aSize);
-
-        CSmileyIcon* EmotionIcon(TChar aEmotionChar);
-        TBool DrawEmotion(CWindowGc& aGc, const TRect& aRect, TChar aEmotionChar);
+        TBool IsEmotionChar(TChar aChar);
+        TChar SwitchToSctChar();
+        TChar SwitchToEmotionChar();
+        CAknSmileyIcon* EmotionIcon(TChar aChar);
+        const TDesC& EmotionText(TChar aChar);
+        TBool DrawEmotion(CWindowGc& aGc, const TRect& aRect, CAknSmileyIcon* aSmileyIcon);
         void HandleFocusStatusChanged(TChar aChar, TBool aIsFocused);
 
     public: // data
@@ -552,7 +513,7 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         
     public: // for Emotion
         HBufC* iCharsSmiley;
-        CSmileyModel iSmileyModel;
+        CSmileyModel* iSmileyModel;
         TChar iLastFocusedSmileyChar;
         TBool iIsShowingEmotion;
         TBool iIsEnableEmotion;
@@ -567,6 +528,11 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         * Is highlight visible
         */
         TBool iHighlightVisible;         
+
+        /**
+        * Is keyboard event
+        */
+        TBool iKeyBrdEvent;
     };
 
 // ----------------------------------------------------------------------------
@@ -778,7 +744,7 @@ void CAknSctTableNavi::TableExitL()
     {
     delete iIdle;
     iIdle = 0;
-    iIdle = CIdle::NewL(CActive::EPriorityIdle);
+    iIdle = CIdle::NewL(CActive::EPriorityStandard);
     iIdle->Start(TCallBack(DoTableExit, this));
     }
 
@@ -2456,15 +2422,15 @@ TBool CAknSctRadioButton::ExitWithKey(TInt /*aKeycode*/)
 // Extension class implementation
 // ----------------------------------------------------------------------------
 //
-CAknCharMapExtension::CAknCharMapExtension() : iSmileyModel(this)
-,iSingleClickEnabled( iAvkonAppUi->IsSingleClickCompatible() )
+CAknCharMapExtension::CAknCharMapExtension() : iSingleClickEnabled( iAvkonAppUi->IsSingleClickCompatible() )
     {
     iObserver = NULL;
     iPictographsBuffer = FeatureManager::FeatureSupported(KFeatureIdJapanesePicto);
     iPictographsBufferGrouping = FeatureManager::FeatureSupported(KFeatureIdJapanesePictographsGrouping);
     iKineticScrolling = CAknPhysics::FeatureEnabled();
 
-    TRAP_IGNORE(iSmileyModel.LoadResourceL());
+    TRAP_IGNORE(iSmileyModel = new (ELeave) CSmileyModel(this));
+    TRAP_IGNORE(iSmileyModel->LoadResourceL());
     }
 
 TTypeUid::Ptr CAknCharMapExtension::MopSupplyObject(TTypeUid aId)
@@ -2479,6 +2445,8 @@ MObjectProvider* CAknCharMapExtension::MopNext()
 
 CAknCharMapExtension::~CAknCharMapExtension()
     {
+    delete iSmileyModel;
+    
     delete iCharsSmiley;
     delete iCharsQwerty;
     delete iBgContext;
@@ -2513,7 +2481,6 @@ TBool CAknCharMapExtension::EnterControl(TInt aX, TInt aY)
     if(iCharMapProxy->EnterControl(aX, aY))
         {
         iFocusHandler = this;
-        iCharMapProxy->HandleFocusStatusChanged();
         return ETrue;
         }
     else
@@ -2538,14 +2505,16 @@ TBool CAknCharMapExtension::ExitWithKey(TInt /*aKeycode*/)
     return ETrue;
     }
 
-void CAknCharMapExtension::ThumbnailLoaded(CSmileyIcon* /*aSmileyIcon*/)
+void CAknCharMapExtension::SmileyStillImageLoaded(CAknSmileyIcon* aSmileyIcon)
     {
-    iCharMapProxy->DrawDeferred();
+    iCharMapProxy->SmileyStillImageLoaded(iSmileyModel->SmileyCode(aSmileyIcon));
     }
 
-void CAknCharMapExtension::AnimationChanged(CSmileyIcon* /*aSmileyIcon*/)
+void CAknCharMapExtension::SmileyAnimationChanged(CAknSmileyIcon* aSmileyIcon)
     {
-    iCharMapProxy->DrawCursor();
+    iCharMapProxy->SmileyAnimationChanged(iSmileyModel->SmileyCode(aSmileyIcon));
+    
+    User::After(30); // for slow down the AO of this animation
     }
 
 TBool CAknCharMapExtension::IsEmotionEnabled() const
@@ -2558,6 +2527,11 @@ TBool CAknCharMapExtension::IsShowingEmotion() const
     return iIsShowingEmotion;
     }
 
+void CAknCharMapExtension::SwitchEmotionVisibilityL()
+    {
+    iIsShowingEmotion = !iIsShowingEmotion;
+    }
+
 TBool CAknCharMapExtension::NeedEmotionSwitchIcon() const
     {
     // Emotion switch char
@@ -2567,53 +2541,62 @@ TBool CAknCharMapExtension::NeedEmotionSwitchIcon() const
 
 HBufC* CAknCharMapExtension::ReadEmotionHBufCL()
     {
-    TInt smileyCount = iSmileyModel.Count();
+    TInt smileyCount = iSmileyModel->Count();
     HBufC* charsSmiley = HBufC::NewL(smileyCount);
     TPtr charsSmileyPtr(charsSmiley->Des());
-    for(TInt id(CSmileyModel::EIconSmiley); id<smileyCount; id++)
+    for(TInt index(0); index<smileyCount; index++)
         {
-        charsSmileyPtr.Append(TEmotionUtils::EmotionChar(id));
+        charsSmileyPtr.Append(iSmileyModel->SmileyCode(index));
         }
     
     return charsSmiley;
     }
 
-void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aSctChars)
+void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aChars)
     {
-    for(TInt i(0); i<aSctChars.Length(); i++)
-        {
-        iSmileyModel.LoadThumbnailAsyn(TEmotionUtils::EmotionId(aSctChars[i]));
-        }
+    iSmileyModel->LoadStillImagesL(aChars);
     }
 
 void CAknCharMapExtension::SetEmotionSize(const TSize& aSize)
     {
     TInt unit = Min(aSize.iWidth, aSize.iHeight);
-    iSmileyModel.SetSize(TSize(unit,unit));
+    iSmileyModel->SetSize(TSize(unit,unit));
     }
 
-CSmileyIcon* CAknCharMapExtension::EmotionIcon(TChar aEmotionChar)
+TBool CAknCharMapExtension::IsEmotionChar(TChar aChar)
     {
-    if(TEmotionUtils::IsEmotionChar(aEmotionChar))
-        {
-        return iSmileyModel[TEmotionUtils::EmotionId(aEmotionChar)];
-        }
-    else
-        {
-        return NULL;
-        }
+    return iSmileyModel->IsSmiley(aChar);
     }
 
-TBool CAknCharMapExtension::DrawEmotion(CWindowGc& aGc, const TRect& aRect, TChar aEmotionChar)
+TChar CAknCharMapExtension::SwitchToSctChar()
     {
-    CSmileyIcon* icon = EmotionIcon(aEmotionChar);
-    if(icon && icon->ReadyToDraw())
+    return iSmileyModel->SwitchToSctCode();
+    }
+
+TChar CAknCharMapExtension::SwitchToEmotionChar()
+    {
+    return iSmileyModel->SwitchToSmileyCode();
+    }
+
+CAknSmileyIcon* CAknCharMapExtension::EmotionIcon(TChar aChar)
+    {
+    return iSmileyModel->Smiley(aChar);
+    }
+
+const TDesC& CAknCharMapExtension::EmotionText(TChar aChar)
+    {
+    return iSmileyModel->Text(aChar);
+    }
+
+TBool CAknCharMapExtension::DrawEmotion(CWindowGc& aGc, const TRect& aRect, CAknSmileyIcon* aSmileyIcon)
+    {
+    if(aSmileyIcon && aSmileyIcon->ReadyToDraw())
         {
-        TRect iconRect(TPoint(),icon->Size());
+        TRect iconRect(TPoint(),aSmileyIcon->Size());
         TInt xoffset = (aRect.Width() - iconRect.Width()) / 2;
         TInt yoffset = (aRect.Height() - iconRect.Height()) / 2;
 
-        aGc.BitBltMasked(aRect.iTl+TPoint(xoffset,yoffset), icon->Image(), iconRect, icon->Mask(), FALSE);
+        aGc.BitBltMasked(aRect.iTl+TPoint(xoffset,yoffset), aSmileyIcon->Image(), iconRect, aSmileyIcon->Mask(), FALSE);
         return ETrue;
         }
     else
@@ -2627,13 +2610,13 @@ const TInt KEmotionAnimationDelay = 150*1000; // 0.15s
 
 void CAknCharMapExtension::HandleFocusStatusChanged(TChar aChar, TBool aIsFocused)
     {
-    CSmileyIcon* lastIcon = EmotionIcon(iLastFocusedSmileyChar);
+    CAknSmileyIcon* lastIcon = EmotionIcon(iLastFocusedSmileyChar);
     if(lastIcon)
         {
         lastIcon->StopAnimation();
         }
     
-    CSmileyIcon* focusedIcon = EmotionIcon(aChar);
+    CAknSmileyIcon* focusedIcon = EmotionIcon(aChar);
     if(focusedIcon)
         {
         if(aIsFocused)
@@ -2830,13 +2813,13 @@ const TDesC& CAknCharMapHistory::RecentString(THistoryType aHistoryType, THistor
 // Insert a character which select on SCT/Picto.
 // -----------------------------------------------------------------------------
 //
-void CAknCharMapHistory::InsertChar(THistoryType aHistoryType, const TChar aChar)
+void CAknCharMapHistory::InsertChar(THistoryType aHistoryType, const TChar aChar, TBool aIsEmotion)
     {
     __ASSERT_ALWAYS((EHistoryTypeFull<=aHistoryType && aHistoryType<EHistoryTypeMax), Panic(EAknPanicInvalidValue));
 
     InsertCharToHistoryBuf(iMixedHistoryArray[aHistoryType], aChar);
 
-    if(TEmotionUtils::IsEmotionChar(aChar))
+    if(aIsEmotion)
         {
         InsertCharToHistoryBuf(iEmotionHistory, aChar);
         }
@@ -3009,8 +2992,8 @@ void CAknCharMap::DoLayout()
 
     // load Emotion icon resource, but not load images
     TSize iconSize(iGridItemWidth,iGridItemHeight);
-    iconSize.iWidth = iconSize.iWidth * 2 / 3;
-    iconSize.iHeight = iconSize.iHeight * 2 / 3;
+    iconSize.iWidth = iconSize.iWidth * 3 / 4;
+    iconSize.iHeight = iconSize.iHeight * 3 / 4;
     Extension()->SetEmotionSize(iconSize);
     }
 
@@ -3186,6 +3169,7 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         iShowPagesRef = &iSpecialCharPages;
         
         // default
+        iSpecialCharCase = EAknSCTLowerCase;
         iChars = iCharsBufferLower;
         
         if(iExtension->iCharsSmiley && iExtension->IsShowingEmotion())
@@ -3269,7 +3253,7 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         pageNavi->MakeVisible(PageCount()>1);
         }
     
-    HandleFocusStatusChanged();
+    SetSmileyAnimationActivityInCurrentPageL(ETrue);
     
     }
 
@@ -3456,10 +3440,10 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
              code == EKeyLeftArrow || code == EKeyRightArrow || 
              code == EKeyEnter )
             {
+            iExtension->iKeyBrdEvent = ETrue;
             iExtension->iHighlightVisible = ETrue;
             iCursorPos = TPoint( 0, 0 );
             DrawCursor();
-            HandleFocusStatusChanged();
             return EKeyWasConsumed;
             }
         }
@@ -4004,19 +3988,26 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
 
         // Sets the character case because the buffer content may have changed.
         SetCharacterCaseL(iSpecialCharCase);
-
-        // status after layout switch.
-        TInt recentLengthAfterSwitch = iMaxColumns; // recentLength has changed after switch
         TInt cursorIndexAfterSwitch;
-        if(cursorIndexBeforeSwitch < recentLengthBeforeSwitch)
+        if ( !iExtension->iKeyBrdEvent )
             {
             cursorIndexAfterSwitch = cursorIndexBeforeSwitch;
             }
         else
             {
-            cursorIndexAfterSwitch = cursorIndexBeforeSwitch - recentLengthBeforeSwitch + recentLengthAfterSwitch;
+            // status after layout switch.
+            TInt recentLengthAfterSwitch = iMaxColumns; // recentLength has
+                                                        // changed after switch
+            if ( cursorIndexBeforeSwitch < recentLengthBeforeSwitch )
+                {
+                cursorIndexAfterSwitch = cursorIndexBeforeSwitch;
+                }
+            else
+                {
+                cursorIndexAfterSwitch = cursorIndexBeforeSwitch -
+                            recentLengthBeforeSwitch + recentLengthAfterSwitch;
+                }
             }
-
         // the new first row is the top row on the page where the new focus is.
         TInt pageVolume = iMaxColumns * iExtension->iMaxVisibleRows;
         iFirstVisibleRow = (cursorIndexAfterSwitch / pageVolume * pageVolume) / iMaxColumns;
@@ -4105,15 +4096,26 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
         iOffscreenBgDrawn = EFalse;
         }
 
-    else if ( aType == KAknsMessageSkinChange )
+    else if( aType == KAknsMessageSkinChange )
         {
         iOffscreenBgDrawn = EFalse;
         }
-    else if ( aType == KAknMessageFocusLost && iExtension->iHighlightVisible )
+
+    else if(aType == KEikMessageFadeAllWindows) // focus gained // KEikMessageWindowsFadeChange
         {
-        iExtension->iHighlightVisible = EFalse;
-        DrawCursor();
+        SetSmileyAnimationActivityInCurrentPageL(ETrue);
         }
+    
+    else if(aType == KAknMessageFocusLost) // focus lost
+        {
+        SetSmileyAnimationActivityInCurrentPageL(EFalse);
+		
+    	if ( iExtension->iHighlightVisible )
+        	{
+        	iExtension->iHighlightVisible = EFalse;
+        	DrawCursor();
+        	}
+    	}
     }
 
 void CAknCharMap::EnableNavigationButtonsL()
@@ -4691,9 +4693,10 @@ void CAknCharMap::DrawItem(
             KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19 );
         }
     
-    if(TEmotionUtils::IsEmotionChar(symbol[0]))
+    CAknSmileyIcon* icon = iExtension->EmotionIcon(symbol[0]);
+    if(icon) 
         {
-        iExtension->DrawEmotion(aGc, textLayout.TextRect(), symbol[0]);
+        iExtension->DrawEmotion( aGc, textLayout.TextRect(), icon );
         }
     else
         {
@@ -4845,8 +4848,8 @@ void CAknCharMap::DrawGrid( CWindowGc& aGc) const
 
     if ( feedback && spec )
         {
-        TInt orphans = NumberOfVisibleChars() % iMaxColumns;
-        TInt rows = NumberOfVisibleChars() / iMaxColumns;
+        TInt orphans = numberOfCells % iMaxColumns;
+        TInt rows = numberOfCells / iMaxColumns;
         CAknCharMap* mutableThis = MUTABLE_CAST( CAknCharMap* ,this );
         TInt recentChars = mutableThis->LengthOfRecentChar();    
         TRect rectMain;
@@ -5339,8 +5342,6 @@ void CAknCharMap::MoveCursorL(TInt aDeltaX, TInt aDeltaY)
                 pt.iX = index;
                 }
             }
-        
-        HandleFocusStatusChanged();
 
         iCursorPos = pt;
         UpdateScrollIndicatorL();
@@ -5377,8 +5378,6 @@ void CAknCharMap::MoveCursorL(TInt aDeltaX, TInt aDeltaY)
             {
             UpdateScrollIndicatorL();
             }
-        
-        HandleFocusStatusChanged();
 
         if (oldFirstVisibleRow == iFirstVisibleRow)
             {
@@ -5719,7 +5718,7 @@ void CAknCharMap::CreateOffscreenBackgroundL()
 
 TInt CAknCharMap::NextPageL()
     {
-    HandleFocusStatusChanged(EFalse);
+    SetSmileyAnimationActivityInCurrentPageL(EFalse);
     
     TInt page(0);
     iFirstVisibleRow =
@@ -5758,7 +5757,7 @@ TInt CAknCharMap::NextPageL()
         }
     UpdateHeadingPane( ETrue );
     UpdateScrollIndicatorL();
-    HandleFocusStatusChanged();
+    SetSmileyAnimationActivityInCurrentPageL(ETrue);
     DrawNow();
 
     return page;
@@ -5766,7 +5765,7 @@ TInt CAknCharMap::NextPageL()
 
 TInt CAknCharMap::PrevPageL()
     {
-    HandleFocusStatusChanged(EFalse);
+    SetSmileyAnimationActivityInCurrentPageL(EFalse);
     
     TInt page(0);
     TInt firstVisibleRow =
@@ -5803,7 +5802,7 @@ TInt CAknCharMap::PrevPageL()
         }
     UpdateHeadingPane( ETrue );
     UpdateScrollIndicatorL();
-    HandleFocusStatusChanged();
+    SetSmileyAnimationActivityInCurrentPageL(ETrue);
     DrawNow();
 
     return page;
@@ -6447,6 +6446,8 @@ void CAknCharMap::CreatePictoCharL()
 //--------------------------------------------------------------------------
 EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
+    iExtension->iKeyBrdEvent = EFalse;
+
     if ( AknLayoutUtils::PenEnabled() && Rect().Contains(aPointerEvent.iPosition))
         {
         if (iExtension->iFocusHandler->FocusedControl() != this)// Tapping will move focus to grid.
@@ -6566,8 +6567,6 @@ EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEven
                                 {
                                 iExtension->iHighlightVisible = ETrue;
                                 }
-                        
-                            HandleFocusStatusChanged();
                             }
                         
                         DrawCursor();
@@ -6815,8 +6814,7 @@ void CAknCharMap::HandleScrollEventL(
             {
             iExtension->iObserver->HandleControlEventL(this, MCoeControlObserver::EEventRequestFocus);
             }
-        
-        HandleFocusStatusChanged();
+
         DrawDeferred();
         }
     }
@@ -6880,14 +6878,14 @@ void CAknCharMap::AppendRecentCharL()
         TPtrC textHistory = iCharMapHistory->RecentString(historyType, CAknCharMapHistory::EHistoryFilterTextOnly);
         
         *charsBuf = InsertSwitchCharAndHistoryToCharsBufL(*charsBuf, 
-                                                          TEmotionUtils::EmotionSwitchToSmileyChar(), 
+                                                          iExtension->SwitchToEmotionChar(), 
                                                           textHistory);
         }
     
     // Emotion history
     TPtrC emotionHistory = iCharMapHistory->RecentString(CAknCharMapHistory::EHistoryTypeFull, CAknCharMapHistory::EHistoryFilterEmotionOnly);
     iExtension->iCharsSmiley = InsertSwitchCharAndHistoryToCharsBufL(iExtension->iCharsSmiley, 
-                                                                     TEmotionUtils::EmotionSwitchToSctChar(), 
+                                                                     iExtension->SwitchToSctChar(), 
                                                                      emotionHistory);
 
     // ETrue are set to each variable when setting the recent used characters.
@@ -6904,7 +6902,7 @@ HBufC* CAknCharMap::InsertSwitchCharAndHistoryToCharsBufL(HBufC* aCharsBuf, TCha
         for (TInt index=0; index<aHistory.Length(); index++)
             {
             TChar txt = aHistory[index];
-            if(aCharsBuf->Locate(txt)!=KErrNotFound || TEmotionUtils::IsEmotionChar(txt) || txt==KHistoryEmptyChar)
+            if(aCharsBuf->Locate(txt)!=KErrNotFound || Extension()->IsEmotionChar(txt) || txt==KHistoryEmptyChar)
                 {
                 insertBuffer.Append(txt);
                 }
@@ -7019,7 +7017,8 @@ void CAknCharMap::SaveRecentDataL(TChar aChar)
     
     if (historyType > CAknCharMapHistory::EHistoryTypeNull)
         {
-        iCharMapHistory->InsertChar(historyType, aChar);
+        TBool isEmotion = Extension()->IsEmotionChar(aChar);
+        iCharMapHistory->InsertChar(historyType, aChar, isEmotion);
         }
 
     // Save recent data
@@ -7152,8 +7151,8 @@ EXPORT_C void CAknCharMap::HighlightSctRow(TBool aHighlight)
         {
         return;
         }
-    
-    HandleFocusStatusChanged(aHighlight);
+
+    SetSmileyAnimationActivityInCurrentPageL(aHighlight);
     
     CWindowGc& gc = SystemGc();
     if( !CAknEnv::Static()->TransparencyEnabled() )
@@ -7309,7 +7308,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
             {
             if (ptrrecent[index] != KHistoryEmptyChar)
                 {
-                if(TEmotionUtils::IsEmotionChar(ptrrecent[index]))
+                if(Extension()->IsEmotionChar(ptrrecent[index]))
                     {
                     continue;
                     }
@@ -7321,7 +7320,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
                         ptrrecent.Delete(index,1);
                         ptrrecent.Append(KHistoryEmptyChar);
                         index--;
-                        }                       
+                        }
                     }
                 }
             }
@@ -7346,7 +7345,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
     
     iExtension->LoadEmotionTumbnails(*iChars);
 
-    HandleFocusStatusChanged();
+    SetSmileyAnimationActivityInCurrentPageL(ETrue);
     }
 
 // -----------------------------------------------------------------------------
@@ -7813,8 +7812,6 @@ void CAknCharMap::MoveFocus(TInt aX, TInt aY)
 
 TBool CAknCharMap::LeaveControl()
     {
-    HandleFocusStatusChanged(EFalse);
-    
     CWindowGc& gc = SystemGc();
     if( !CAknEnv::Static()->TransparencyEnabled() )
         {
@@ -8030,15 +8027,6 @@ TPoint CAknCharMap::CursorPos()
 
 // for emotion added
 
-void CAknCharMap::HandleFocusStatusChanged(TBool aIsFocused)
-    {
-    TInt focusPos = iCursorPos.iX + (iFirstVisibleRow + iCursorPos.iY) * iMaxColumns;
-    if(focusPos>=0 && focusPos<iChars->Length())
-        {
-        aIsFocused &= (iExtension->iFocusHandler->FocusedControl()==this);
-        iExtension->HandleFocusStatusChanged((*iChars)[focusPos], aIsFocused);
-        }
-    }
 
 TBool CAknCharMap::EmotionsAreAllReadyToDraw(TInt aIndex, TInt aCount) const
     {
@@ -8046,8 +8034,8 @@ TBool CAknCharMap::EmotionsAreAllReadyToDraw(TInt aIndex, TInt aCount) const
         {
         if(aIndex < iChars->Length())
             {
-            TChar name = (*iChars)[aIndex++];
-            CSmileyIcon* icon = iExtension->EmotionIcon(name);
+            TChar code = (*iChars)[aIndex++];
+            CAknSmileyIcon* icon = Extension()->EmotionIcon(code);
             if(icon && !icon->ReadyToDraw())
                 {
                 return EFalse;
@@ -8062,21 +8050,89 @@ TBool CAknCharMap::EmotionsAreAllReadyToDraw(TInt aIndex, TInt aCount) const
     return ETrue;
     }
 
+void CAknCharMap::SmileyStillImageLoaded(TChar aChar)
+    {
+    const CAknSmileyIcon* loadedIcon = Extension()->EmotionIcon(aChar);
+    
+    for(TInt i(0); i<iChars->Length(); i++)
+        {
+        TChar code = (*iChars)[i];
+        CAknSmileyIcon* icon = Extension()->EmotionIcon(code);
+        if(icon == loadedIcon)
+            {
+            if((i%iMaxColumns == 0) || (i == iChars->Length()-1))
+                {
+                DrawDeferred(); // a new line is finished
+                }
+            }
+        }
+    }
+
+void CAknCharMap::SmileyAnimationChanged(TChar aChar)
+    {
+    const CAknSmileyIcon* loadedIcon = Extension()->EmotionIcon(aChar);
+    TInt pageVolume = iExtension->iMaxVisibleRows * iMaxColumns;
+    
+    for(TInt i(0); i<iChars->Length(); i++)
+        {
+        TChar code = (*iChars)[i];
+        CAknSmileyIcon* icon = iExtension->EmotionIcon(code);
+        if(icon == loadedIcon)
+            {
+            TInt index = i % pageVolume;
+            TPoint pos(index%iMaxColumns, index/iMaxColumns);
+            
+            // grid is focused and cursor pos is same with the current index.
+            TBool highlighted = EFalse;
+            if(iExtension->iFocusHandler->FocusedControl()==this && iCursorPos==pos)
+                {
+                highlighted = (!iExtension->iMenuSct || iExtension->iMenuSctHighlighted);
+                }
+
+            DrawCell(index, highlighted);
+            }
+        }
+    }
+
+const TInt KAnimationRepeat = 30;
+const TInt KAnimationDelay = 1000*1000;
+
+void CAknCharMap::SetSmileyAnimationActivityInCurrentPageL(TBool aIsActive)
+    {
+    TInt begin = iFirstVisibleRow * iMaxColumns;
+    TInt end = iExtension->iMaxVisibleRows * iMaxColumns + begin;
+    if(end > iChars->Length()) end = iChars->Length();
+
+    for(TInt i(begin); i<end; i++)
+        {
+        TChar code = (*iChars)[i];
+        CAknSmileyIcon* icon = iExtension->EmotionIcon(code);
+        if(!icon) continue;
+
+        if((aIsActive) && 
+           (Extension()->IsShowingEmotion()||Extension()->iMenuSctHighlighted)
+           )
+            {
+            icon->PlayAnimationL(KAnimationRepeat, KAnimationDelay);
+            }
+        else
+            {
+            icon->StopAnimation();
+            }
+        }
+    }
+
 void CAknCharMap::GetFocusSctName(TChar& aChar, TDes& aName) const
     {
     TInt pos = iMaxColumns * (iFirstVisibleRow + iCursorPos.iY) + iCursorPos.iX;
-    
+
     aChar = (*iChars)[pos];
-    
+
     aName.Zero();
-    
-    if(TEmotionUtils::IsEmotionChar(aChar))
+
+    if(Extension()->IsEmotionChar(aChar))
         {
-        CSmileyIcon* icon = iExtension->EmotionIcon(aChar);
-        if ( icon )
-            {
-            aName.Append(icon->Name());
-            }
+        aName.Append(Extension()->EmotionText(aChar));
         }
     else
         {
@@ -8102,7 +8158,7 @@ TBool CAknCharMap::AppendFocusSctToDestinationBufferL()
     GetFocusSctName(sctChar, sctName);
 
     if(Extension()->NeedEmotionSwitchIcon() && 
-       (sctChar==TEmotionUtils::EmotionSwitchToSctChar() || sctChar==TEmotionUtils::EmotionSwitchToSmileyChar()))
+       (sctChar==Extension()->SwitchToSctChar() || sctChar==Extension()->SwitchToEmotionChar()))
         {
         SwitchSctAndEmotionL();
         }
@@ -8141,9 +8197,13 @@ TBool CAknCharMap::SwitchSctAndEmotionL()
     {
     if(Extension()->IsEmotionEnabled())
         {
-        Extension()->iIsShowingEmotion = !Extension()->IsShowingEmotion();
+        Extension()->SwitchEmotionVisibilityL();
+        
+        SetSmileyAnimationActivityInCurrentPageL(EFalse);
         
         SetCharacterCaseL(iSpecialCharCase);
+        
+        SetSmileyAnimationActivityInCurrentPageL(ETrue);
         
         CAknSctTableNavi* tableNavi = Extension()->iTableNavi;
         if(tableNavi)

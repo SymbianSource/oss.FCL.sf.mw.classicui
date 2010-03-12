@@ -112,7 +112,8 @@ public:
     TInt                        iFlags;
     TBool                       iIncallBubbleDisabled;
     TBool                       iIsForeground;
-    TBool                       iIsActiveIdle;
+    CEikStatusPaneBase*         iStatusPane;
+    MTouchFeedback*             iFeedback;
     };
 
 
@@ -140,6 +141,29 @@ void CAknIndicatorContainerExtension::ConstructL()
         }
 
     TRAP_IGNORE( CCoeEnv::Static()->AddMessageMonitorObserverL( *this ) );
+    
+    iFeedback = MTouchFeedback::Instance();
+    if ( iFeedback &&
+         iIndicatorContainer->iIndicatorContext ==
+                 CAknIndicatorContainer::EUniversalIndicators )
+        {
+        // Tactile feedback is only used for universal indicator pane.
+        CFeedbackSpec* fbSpec = CFeedbackSpec::New();
+        if ( fbSpec )
+            {
+            fbSpec->AddFeedback( ETouchEventStylusDown,
+                                 ETouchFeedbackSensitiveButton );
+            fbSpec->AddFeedback( ETouchEventStylusUp,
+                                 ETouchFeedbackSensitiveButton,
+                                 ETouchFeedbackVibra );
+
+            iFeedback->SetFeedbackArea( iIndicatorContainer,
+                                        0,
+                                        iIndicatorContainer->Rect(),
+                                        fbSpec );
+            delete fbSpec; 
+            }  
+        }
     }
 
 
@@ -150,7 +174,7 @@ CAknIndicatorContainerExtension::CAknIndicatorContainerExtension(
     iSmallStatusPaneLayout      = AknStatuspaneUtils::SmallLayoutActive();
     iIncallBubbleAllowedInUsual = ETrue;
     iIsForeground = static_cast<CAknAppUi*>( CEikonEnv::Static()->EikAppUi() )->IsForeground();
-    iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+    iStatusPane = CEikStatusPaneBase::Current();
     }
 
 
@@ -160,6 +184,12 @@ CAknIndicatorContainerExtension::~CAknIndicatorContainerExtension()
     delete iDataObserver;
 
     CCoeEnv::Static()->RemoveMessageMonitorObserver( *this );
+    
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        feedback->RemoveFeedbackForControl( iIndicatorContainer );
+        }
     }
 
 
@@ -609,6 +639,13 @@ EXPORT_C void CAknIndicatorContainer::SizeChanged()
             AknStatuspaneUtils::ExtendedStaconPaneActive() ||
             ( AknStatuspaneUtils::StaconPaneActive() &&
               !AknStatuspaneUtils::IdleLayoutActive() ) );
+        
+        if ( iExtension && iExtension->iFeedback )
+            {
+            iExtension->iFeedback->ChangeFeedbackArea( this,
+                                                       0,
+                                                       Rect() );
+            }
         }
 
     AknsUtils::RegisterControlPosition( this );
@@ -828,7 +865,8 @@ EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) cons
 
 EXPORT_C void CAknIndicatorContainer::Draw( const TRect& /*aRect*/ ) const
     {
-    if ( iExtension->iIsActiveIdle )
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() )
         {
         return;
         }
@@ -1035,7 +1073,8 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
     {
     CAknControl::HandlePointerEventL( aPointerEvent );
 
-    if ( AknLayoutUtils::PenEnabled() && iExtension )
+    // Pointer events are only handled in the universal indicator container.
+    if ( iExtension && iIndicatorContext == EUniversalIndicators )
         {
         TRect rect( Rect() );
 
@@ -1051,32 +1090,23 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
                     // set flag that down was inside indicator
                     iExtension->iFlags |=
                         EAknIndicatorsButton1DownInIndicatorPaneRect;
-
-                    if ( iIndicatorContext == EUniversalIndicators &&
-                         iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect
-                          )
-                        {
-                        MTouchFeedback* feedback = MTouchFeedback::Instance();
-
-                        if ( feedback )
-                            {
-                            feedback->InstantFeedback( this, ETouchFeedbackSensitiveButton );
-                            }
-                        }
                     }
                 break;
                 }
 
             case TPointerEvent::EButton1Up:
                 {
-                // Currently the small digital clock pane and universal
-                // indicator pane are regarded as one touch responsive area from
-                // which the universal indicator popup should open on tap,
-                // so upon pointer up event it must be checked here if
-                // the down event happened inside this control, but the up event
-                // inside digital clock pane area.
+                // Currently the small digital clock pane, universal
+                // indicator pane and battery pane (in status pane layouts
+                // where it's adjacent to universal indicator or digital
+                // clock pane) are regarded as one touch responsive
+                // area from which the universal indicator popup should
+                // open on tap, so upon pointer up event it must be checked
+                // here if the down event happened inside this control,
+                // but the up event inside digital clock or battery pane area.
                 CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
-                TRect clockRect( 0, 0, 0, 0 );
+                TBool pointerUpInClockArea( EFalse );
+                TBool pointerUpInBatteryArea( EFalse );
 
                 if ( sp )
                     {
@@ -1084,29 +1114,50 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
                         TUid::Uid( EEikStatusPaneUidDigitalClock ) );
                     if ( clockPane )
                         {
-                        clockRect = TRect( clockPane->PositionRelativeToScreen(),
-                                           clockPane->Size() );
+                        TRect clockRect( clockPane->PositionRelativeToScreen(),
+                                         clockPane->Size() );
+                        pointerUpInClockArea =
+                            clockRect.Contains( aPointerEvent.iParentPosition );
+                        }
+                    
+                    if ( !AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+                        {
+                        CCoeControl* batteryPane = sp->ContainerControlL(
+                            TUid::Uid( EEikStatusPaneUidBattery ) );
+                        if ( batteryPane )
+                            {
+                            TRect batteryRect(
+                                batteryPane->PositionRelativeToScreen(),
+                                batteryPane->Size() );
+                            pointerUpInBatteryArea =
+                                batteryRect.Contains( aPointerEvent.iParentPosition );
+                            }
                         }
                     }
 
                 // if indicator's rect contains pointer up position
-                if ( iIndicatorContext == EUniversalIndicators &&
-                     ( ( iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect &&
+                if ( ( iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect &&
                          rect.Contains( aPointerEvent.iPosition ) ) ||
-                       clockRect.Contains( aPointerEvent.iParentPosition ) ) )
+                       pointerUpInClockArea ||
+                       pointerUpInBatteryArea )
                     {
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if ( feedback )
+                    if ( iExtension->iFeedback &&
+                         ( pointerUpInClockArea || pointerUpInBatteryArea ) )
                         {
-                        feedback->InstantFeedback( this,
-                                                   ETouchFeedbackSensitiveButton,
-                                                   ETouchFeedbackVibra,
-                                                   aPointerEvent );
+                        // The pointer down was received in another control,
+                        // so the tactile feedback must be given directly.
+                        iExtension->iFeedback->InstantFeedback(
+                            this,
+                            ETouchFeedbackSensitiveButton,
+                            ETouchFeedbackVibra,
+                            aPointerEvent );
                         }
+
                     CAknSmallIndicator* indicatorNotifier = CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
                     indicatorNotifier->HandleIndicatorTapL();
                     CleanupStack::PopAndDestroy( indicatorNotifier );
                     }
+
                 // Up happened, reset button down flag
                 iExtension->iFlags &=
                     ( ~EAknIndicatorsButton1DownInIndicatorPaneRect );

@@ -70,11 +70,14 @@ void CHgVgScrollBar::ConstructL ( MHgScrollbarObserver& aObserver, TRect aScroll
 //
 void CHgVgScrollBar::CreateImagesL()
     {
-    iScrollbarBg = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarBg());
-    iScrollbarBgSelected = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarBgSelected());
-    iScrollbarHandle = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarHandle());
-    iScrollbarHandleSelected = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarHandleSelected());
-    //iScrollbarHandleBg = HgVgHelper::CreateVgImageFromIconL(iScrollbar->ScrollbarHandleBg());
+    if(!iScrollbar->IsStatic())
+        {
+        iScrollbarBg = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarBg());
+        iScrollbarBgSelected = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarBgSelected());
+        iScrollbarHandle = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarHandle());
+        iScrollbarHandleSelected = HgVgHelper::CreateVgImageFromIconL(*iScrollbar->ScrollbarHandleSelected());
+        //iScrollbarHandleBg = HgVgHelper::CreateVgImageFromIconL(iScrollbar->ScrollbarHandleBg());
+        }
     }
 
 
@@ -122,7 +125,7 @@ TBool CHgVgScrollBar::HandlePointerEventL( const TPointerEvent& aEvent )
 
 void CHgVgScrollBar::Draw(const TRect& aWindowRect, TReal aAlpha) const
     {
-    if (!iEnabled)
+    if (!iEnabled || iScrollbar->IsStatic())
         return;
     
     TRect scrollbarRect = iScrollbar->ScrollbarRect();

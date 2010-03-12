@@ -55,6 +55,8 @@
 #include <AknTasHook.h>
 #include "aknsctfocushandler.h"
 
+#include <eikdialogext.h>
+
 //
 // class CAknCharMapDialog
 //
@@ -531,8 +533,9 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
 	/// -- Change Window Priority for dialog and CBA 
 	
 	DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); //
-	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); 	
-
+	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
+	
+	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);
     }
 
 EXPORT_C void CAknCharMapDialog::SetSizeAndPosition( const TSize& aSize )

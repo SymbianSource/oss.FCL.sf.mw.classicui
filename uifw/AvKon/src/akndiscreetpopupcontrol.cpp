@@ -189,12 +189,15 @@ CAknDiscreetPopupControl::~CAknDiscreetPopupControl()
 
     GfxTransEffect::Deregister( this );
 
-    if ( iInternalFlags.IsSet( EGlobal ) )
-        {
-        iWindowGroup.Close();
-        }
     delete iTimer;	
     delete iDrawer;
+
+    if ( iInternalFlags.IsSet( EGlobal ) )
+        {
+        CloseWindow();
+        iWindowGroup.Close();
+        }
+
     _AKNTRACE_FUNC_EXIT;
     }
 

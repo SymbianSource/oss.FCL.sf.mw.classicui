@@ -3929,9 +3929,31 @@ EXPORT_C void CEikStatusPaneBase::SetFlags( TInt aFlags )
 	{
 	MakeVisible( aFlags & KEikStatusPaneBaseVisibleBit );
 	SetDimmed( aFlags & KEikStatusPaneBaseDimmedBit );
+	EnableTransparent( aFlags & KStatusPaneTransparentBit );
 	}
 
+EXPORT_C void CEikStatusPaneBase::EnableTransparent( TBool aTransparent )
+    {
+    if ( COMPARE_BOOLS( aTransparent, IsTransparent() ) )
+            {
+            return;
+            }
+    if( aTransparent )
+        {
+        iFlags |= KStatusPaneTransparentBit;
+        }
+    else
+        {
+        iFlags &= ~KStatusPaneTransparentBit;
+        }
+    DoDrawNow( EDrawDeferred );
+    
+    }
 
+EXPORT_C TBool CEikStatusPaneBase::IsTransparent() const
+    {
+    return iFlags & KStatusPaneTransparentBit;
+    }
 // ---------------------------------------------------------------------------
 // CEikStatusPaneBase::Flags
 // Returns the status pane flags.

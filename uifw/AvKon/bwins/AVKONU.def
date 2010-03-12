@@ -3453,4 +3453,18 @@ EXPORTS
 	?StartAnimationL@CAknBitmapAnimation@@QAEXH@Z @ 3452 NONAME ; void CAknBitmapAnimation::StartAnimationL(int)
 	?CloseSelectionListL@CAknPopupField@@QAEXXZ @ 3453 NONAME ; void CAknPopupField::CloseSelectionListL(void)
 	?DrawSeparator@AknListUtils@@SAXAAVCGraphicsContext@@ABVTRect@@ABVTRgb@@@Z @ 3454 NONAME ; void AknListUtils::DrawSeparator(class CGraphicsContext &, class TRect const &, class TRgb const &)
+	?SetSize@CAknSmileyManager@@QAEXABVTSize@@@Z @ 3455 NONAME ; void CAknSmileyManager::SetSize(class TSize const &)
+	?DrawText@CAknSmileyManager@@QBEXAAVCWindowGc@@ABVTDesC16@@PBVCFont@@ABVTPoint@@@Z @ 3456 NONAME ; void CAknSmileyManager::DrawText(class CWindowGc &, class TDesC16 const &, class CFont const *, class TPoint const &) const
+	?NewL@CAknSmileyManager@@SAPAV1@PAVMAknSmileyObserver@@@Z @ 3457 NONAME ; class CAknSmileyManager * CAknSmileyManager::NewL(class MAknSmileyObserver *)
+	?Smiley@CAknSmileyManager@@QBEPAVCAknSmileyIcon@@VTChar@@@Z @ 3458 NONAME ; class CAknSmileyIcon * CAknSmileyManager::Smiley(class TChar) const
+	?Text@CAknSmileyManager@@QBEABVTDesC16@@VTChar@@@Z @ 3459 NONAME ; class TDesC16 const & CAknSmileyManager::Text(class TChar) const
+	??ACAknSmileyManager@@QBEPAVCAknSmileyIcon@@H@Z @ 3460 NONAME ; class CAknSmileyIcon * CAknSmileyManager::operator[](int) const
+	?SetSizeByFont@CAknSmileyManager@@QAEXPBVCFont@@@Z @ 3461 NONAME ; void CAknSmileyManager::SetSizeByFont(class CFont const *)
+	?ConvertCodesToTextL@CAknSmileyManager@@QAEHAAVTDes16@@@Z @ 3462 NONAME ; int CAknSmileyManager::ConvertCodesToTextL(class TDes16 &)
+	?ConvertTextToCodesL@CAknSmileyManager@@QAEHAAVTDes16@@@Z @ 3463 NONAME ; int CAknSmileyManager::ConvertTextToCodesL(class TDes16 &)
+	?Count@CAknSmileyManager@@QBEHXZ @ 3464 NONAME ; int CAknSmileyManager::Count(void) const
+	?DrawText@CAknSmileyManager@@QBEXAAVCWindowGc@@ABVTDesC16@@ABVTAknLayoutText@@H@Z @ 3465 NONAME ; void CAknSmileyManager::DrawText(class CWindowGc &, class TDesC16 const &, class TAknLayoutText const &, int) const
+	?DrawText@CAknSmileyManager@@QBEXAAVCWindowGc@@ABVTDesC16@@PBVCFont@@ABVTRect@@HW4TTextAlign@CGraphicsContext@@H@Z @ 3466 NONAME ; void CAknSmileyManager::DrawText(class CWindowGc &, class TDesC16 const &, class CFont const *, class TRect const &, int, enum CGraphicsContext::TTextAlign, int) const
+	??1CAknSmileyManager@@UAE@XZ @ 3467 NONAME ; CAknSmileyManager::~CAknSmileyManager(void)
+	?IsSmiley@CAknSmileyManager@@QBEHVTChar@@@Z @ 3468 NONAME ; int CAknSmileyManager::IsSmiley(class TChar) const
 

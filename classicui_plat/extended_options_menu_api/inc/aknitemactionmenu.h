@@ -74,16 +74,20 @@ public:
      * 
      * @internal
      * @param aCollection Collection.
+     * @param aOwner Menu's owner.
      */
-    static CAknItemActionMenu* NewL( MAknCollection& aCollection );
+    static CAknItemActionMenu* NewL( MAknCollection& aCollection,
+            MObjectProvider* aOwner );
 
     /**
      * Two-phased constructor.
      * 
      * @internal
      * @param aCollection Collection.
+     * @param aOwner Menu's owner.
      */
-    static CAknItemActionMenu* NewLC( MAknCollection& aCollection );
+    static CAknItemActionMenu* NewLC( MAknCollection& aCollection,
+            MObjectProvider* aOwner );
 
     /**
      * Destructor.
@@ -198,13 +202,22 @@ public:
      * @return Collection count.
      */
     TInt CollectionCount() const;
+    
+    /**
+     * Returns pointer to item action menu's owner.
+     *
+     * @return Menu's owner
+     */
+    MObjectProvider* Owner() const;
 
 private:
 
     /**
      * C++ constructor.
-     */
-    CAknItemActionMenu();
+     *
+     * @param aOwner Menu's owner.
+     */     
+    CAknItemActionMenu( MObjectProvider* aOwner );
 
     /**
      * Symbian second-phase constructor.
@@ -297,6 +310,12 @@ private: // data
      * Own.
      */
     CAknItemActionMenuData* iMenuData;
+    
+    /**
+     * Pointer to menu's owner. 
+     * Not own
+     */
+    MObjectProvider* iOwner;
     };
 
 #endif // C_AKNITEMACTIONMENU_H

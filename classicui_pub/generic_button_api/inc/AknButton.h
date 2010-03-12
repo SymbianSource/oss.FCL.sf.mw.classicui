@@ -236,7 +236,11 @@ class CAknButtonState : public CBase
                           const TAknsItemID& aPressedId = KAknsIIDNone,
                           const TAknsItemID& aHoverId = KAknsIIDNone );
         
-        
+        /*
+         * Update extension
+         * @param aResource resource ID
+         */
+        void UpdateExtensionInfoL( TInt aResource );
         
     protected: // New functions
 

@@ -478,6 +478,10 @@ private:
          * If ETrue, ongoing scrolling is caused by moving scrollbar thumb.
          */
         TBool iScrolledByScrollBar;
+         /**
+         * Record formatted height of layout
+         */
+        TInt iRecordFormattedHeight;
         };
 
 public:

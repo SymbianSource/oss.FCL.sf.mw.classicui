@@ -57,6 +57,8 @@
 #include "AknDebug.h"
 
 const TInt KAknNaviPaneStackGranularity = 2;
+
+#define Min( x , y ) ((( x ) < ( y )) ? ( x ) : ( y ))
 /**
 * Extension class for CAknNavigationControlContainer.
 */
@@ -72,7 +74,7 @@ public:
     TBool                       iDestructionOngoing;
     CFbsBitmap*                 iNaviColorBitmap;
     TInt                        iPreferredNaviDecoratorLayoutStyle;
-    TBool                       iIsActiveIdle;
+    CEikStatusPaneBase*         iStatusPane;
     };
 
 
@@ -145,7 +147,7 @@ EXPORT_C void CAknNavigationControlContainer::ConstructL()
         iExtension->iCurrentColorScheme = ColorScheme();
         iExtension->iForegroundObserver =
             CAknNaviForegroundObserver::NewL( this );
-        iExtension->iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+        iExtension->iStatusPane = CEikStatusPaneBase::Current();
         }
 
     if ( !iNaviPaneControls )
@@ -1579,7 +1581,8 @@ EXPORT_C void CAknNavigationControlContainer::HandleControlEventL(
 EXPORT_C void CAknNavigationControlContainer::Draw(
     const TRect& /*aRect*/ ) const
     {
-    if ( iExtension->iIsActiveIdle )
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() )
         {
         return;
         }
@@ -1924,6 +1927,24 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
                 }
             }
 
+       TInt minOrd = -1;
+       
+       if ( titlewindow )
+           {
+           minOrd = titlewindow->OrdinalPosition();
+           }
+       
+        if( naviwindow )
+           {
+           minOrd = Min( minOrd, naviwindow->OrdinalPosition() );
+           }
+
+       if ( emptywindow )
+           {
+           minOrd = Min( minOrd, emptywindow->OrdinalPosition() );
+           }
+
+     
         const TInt last = iNaviPaneControls->Count() - 1;
         if ( ( last < 0 || !( iNaviPaneControls->At( last ) ) ) ||
              ( last >= 0 &&
@@ -1935,36 +1956,20 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
             // Minus ordinal ordinal position number always means set
             // the window to be the last one of the windows with the same
             // ordinal priority
-            if ( iExtension->iIsActiveIdle )//Added for active idle's transparent
-            	{
+            
             if ( titlewindow )
                 {
-                titlewindow->SetOrdinalPosition( 4 );
+                titlewindow->SetOrdinalPosition( minOrd );
                 }
             if ( naviwindow )
                 {
-                naviwindow->SetOrdinalPosition( 5 );
+                naviwindow->SetOrdinalPosition( minOrd + 1  );
                 }
             if ( emptywindow )
                 {
-                emptywindow->SetOrdinalPosition( 6 );
+                emptywindow->SetOrdinalPosition( minOrd + 2 );
                 }
-              }
-           else
-             {
-             if ( titlewindow )
-                {
-                titlewindow->SetOrdinalPosition( -1 );
-                }
-            if ( naviwindow )
-                {
-                naviwindow->SetOrdinalPosition( -1 );
-                }
-            if ( emptywindow )
-                {
-                emptywindow->SetOrdinalPosition( -1 );
-                }
-             }
+             
             }
         else
             {
@@ -1972,36 +1977,19 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
             // Minus ordinal ordinal position number always means set
             // the window to be the last one of the windows with the same
             // ordinal priority
-            if ( iExtension->iIsActiveIdle )//Added for active idle's transparent
-            	{
+           
             if ( naviwindow )
                 {
-                naviwindow->SetOrdinalPosition( 4 );
+                naviwindow->SetOrdinalPosition( minOrd );
                 }
             if ( titlewindow )
                 {
-                titlewindow->SetOrdinalPosition( 5 );
+                titlewindow->SetOrdinalPosition( minOrd + 1 );
                 }
             if ( emptywindow )
                 {
-                emptywindow->SetOrdinalPosition( 6 );
-                }
-              }
-              else
-              	{
-             if ( naviwindow )
-                {
-                naviwindow->SetOrdinalPosition( -1 );
-                }
-            if ( titlewindow )
-                {
-                titlewindow->SetOrdinalPosition( -1 );
-                }
-            if ( emptywindow )
-                {
-                emptywindow->SetOrdinalPosition( -1 );
-                }
-              	}
+                emptywindow->SetOrdinalPosition( minOrd + 2 );
+                }              	
             }
 
         // Finally request titlepane to refresh itself.

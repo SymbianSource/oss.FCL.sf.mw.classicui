@@ -88,6 +88,7 @@
 #include <touchfeedback.h>
 
 #include <aknpointereventmodifier.h>
+#include <aknitemactionmenuregister.h>
 
 // UIDS for dialler view
 const TUid KPhoneAppUid = { 0x100058B3 };
@@ -682,6 +683,8 @@ EXPORT_C void CAknAppUiBase::BaseConstructL( TInt aAppUiFlags )
             iAknFlags.Set( ETouchCompatible );
             }
         }
+
+    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
 
 #ifdef AVKON_RDEBUG_INFO
     RDebug::Print(_L("Entering CEikAppUi::BaseConstructL()"));    
@@ -1547,20 +1550,20 @@ EXPORT_C void CAknAppUi::HandleErrorL(TInt aError, HBufC** aErrorDesc, TBool aSh
         User::LeaveIfError( apparcSession.Connect() );
         CleanupClosePushL( apparcSession );
         TApaAppInfo appInfo;
-        TInt err = apparcSession.GetAppInfo( appInfo, this->Application()->AppDllUid() );
-        
-        // +2 for colon and line end
-        HBufC* captionBuffer = 
-            HBufC::NewLC( KApaMaxAppCaption + KAknBidiExtraSpacePerLine + 2 ); 
 
-//        CleanupStack::PushL( captionBuffer );
+        // +2 for colon and line end
+        HBufC* captionBuffer = HBufC::NewLC(KApaMaxAppCaption + KAknBidiExtraSpacePerLine + 2);
         TPtr caption = captionBuffer->Des();
 
-        if ( err == KErrNone )
+        CEikApplication *application = this->Application();
+        if (NULL != application)
             {
-            caption = appInfo.iCaption;
+            if (KErrNone == apparcSession.GetAppInfo(appInfo, application->AppDllUid()))
+                {
+                caption = appInfo.iCaption;
+                }
             }
-
+        
         // Lets remove trailing spaces
         caption.TrimRight();
         

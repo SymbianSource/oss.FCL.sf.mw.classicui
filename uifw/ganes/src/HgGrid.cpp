@@ -363,13 +363,16 @@ void CHgGrid::CalculateSizes()
     iLayoutData->SetItemLayout(grid_gallery2_pane(variety));
     iLayoutData->SetIconLayout(cell_gallery2_pane_g2(variety));        
     
-    for(TInt i = 0; i < iCols; ++i)
+    if( iLandscapeScrolling )
         {
-        if( iLandscapeScrolling )
+        for(TInt i = 0; i < iRows; ++i)
             {
             iLayoutData->SetColumnLayout(i, cell_gallery2_pane(variety, 0, i));            
             }
-        else
+        }
+    else
+        {
+        for(TInt i = 0; i < iCols; ++i)
             {
             iLayoutData->SetColumnLayout(i, cell_gallery2_pane(variety, i, 0));            
             }

@@ -1617,4 +1617,5 @@ EXPORTS
 	?MakeVisible@CEikListBox@@UAEXH@Z @ 1616 NONAME ; void CEikListBox::MakeVisible(int)
 	?EnableItemSpecificSoftkey@CEikCba@@QAEXH@Z @ 1617 NONAME ; void CEikCba::EnableItemSpecificSoftkey(int)
 	?ItemsInSingleLine@CEikListBox@@QBEHXZ @ 1618 NONAME ; int CEikListBox::ItemsInSingleLine(void) const
-
+	?EnableTransparent@CEikStatusPaneBase@@QAEXH@Z @ 1619 NONAME ; void CEikStatusPaneBase::EnableTransparent(int)
+	?IsTransparent@CEikStatusPaneBase@@QBEHXZ @ 1620 NONAME ; int CEikStatusPaneBase::IsTransparent(void) const
