@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -620,10 +620,11 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
 	                if (Layout_Meta_Data::IsLandscapeOrientation())
 	                     {
 	                     TAknLayoutRect layoutRect;
-	                     TAknWindowComponentLayout parentLayout = aknLayoutScalable_Avkon.area_top_pane(8);
-	                     layoutRect.LayoutRect(screenRect, parentLayout.LayoutLine());
+	                     layoutRect.LayoutRect(
+	                         screenRect,
+	                         aknLayoutScalable_Avkon.area_top_pane( 2 ) );
 	                     parentRect = layoutRect.Rect();
-	                     layout = aknLayoutScalable_Avkon.battery_pane(2).LayoutLine();
+	                     layout = aknLayoutScalable_Avkon.battery_pane( 14 ).LayoutLine();
 	                     }
 	                 else
 	                     {
@@ -1364,11 +1365,11 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                 TAknLayoutRect layout1ParentRect;
                 layout1ParentRect.LayoutRect(
                     iLayout->iApplicationWindowRect,
-                    iLayout->iAknLayoutScalable_Avkon.area_top_pane( 19 ).LayoutLine() );
+                    iLayout->iAknLayoutScalable_Avkon.area_top_pane( 2 ).LayoutLine() );
                 TAknLayoutRect layout1Rect;
                 layout1Rect.LayoutRect(
                     layout1ParentRect.Rect(),
-                    iLayout->iAknLayoutScalable_Avkon.status_pane( 4 ).LayoutLine() );
+                    iLayout->iAknLayoutScalable_Avkon.status_pane( 1 ).LayoutLine() );
                 parentRect = layout1Rect.Rect();
                 
                 switch ( aPaneId.iUid )
@@ -1382,7 +1383,7 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                     case EEikStatusPaneUidSignal:
                         {
                         layout =
-                            aknLayoutScalable_Avkon.signal_pane( 11 ).LayoutLine();
+                            aknLayoutScalable_Avkon.signal_pane( 14 ).LayoutLine();
                         break;
                         }
                     case EEikStatusPaneUidTitle:
@@ -1393,14 +1394,68 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         }
                     case EEikStatusPaneUidIndic:
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.uni_indicator_pane( 3 ).LayoutLine();
+                        TAknWindowComponentLayout nstaClockIndicPane(
+                            DoCompose(
+                                aknLayoutScalable_Avkon.area_bottom_pane( 2 ),
+                                DoCompose(
+                                    aknLayoutScalable_Avkon.control_pane(),
+                                    aknLayoutScalable_Avkon.nsta_clock_indic_pane() ) ) );
+                        TAknLayoutRect layoutRect;
+                        layoutRect.LayoutRect( applicationWindowRect,
+                                               nstaClockIndicPane );
+                        parentRect = layoutRect.Rect();
+                        
+                        layout = aknLayoutScalable_Avkon.indicator_nsta_pane_cp().LayoutLine();
+                        layoutRect.LayoutRect( parentRect, layout );
+                        paneRect = layoutRect.Rect();
+                        
+                        // Digital clock pane resides inside the
+                        // combined pane, so it must be made relative to the
+                        // combined pane rectangle instead of the screen.
+                        paneRect.Move( applicationWindowRect.iTl.iX - parentRect.iTl.iX,
+                                       applicationWindowRect.iTl.iY - parentRect.iTl.iY );
                         break;
                         }
                     case EEikStatusPaneUidBattery:
                         {
                         layout =
-                            aknLayoutScalable_Avkon.battery_pane( 11 ).LayoutLine();
+                            aknLayoutScalable_Avkon.battery_pane( 14 ).LayoutLine();
+                        break;
+                        }
+                    case EEikStatusPaneUidDigitalClock:
+                        {
+                        TAknWindowComponentLayout nstaClockIndicPane(
+                            DoCompose(
+                                aknLayoutScalable_Avkon.area_bottom_pane( 2 ),
+                                DoCompose(
+                                    aknLayoutScalable_Avkon.control_pane(),
+                                    aknLayoutScalable_Avkon.nsta_clock_indic_pane() ) ) );
+                        TAknLayoutRect layoutRect;
+                        layoutRect.LayoutRect( applicationWindowRect,
+                                               nstaClockIndicPane );
+                        parentRect = layoutRect.Rect();
+                        
+                        layout = aknLayoutScalable_Avkon.clock_nsta_pane_cp().LayoutLine();
+                        layoutRect.LayoutRect( parentRect, layout );
+                        paneRect = layoutRect.Rect();
+                        
+                        // Digital clock pane resides inside the
+                        // combined pane, so it must be made relative to the
+                        // combined pane rectangle instead of the screen.
+                        paneRect.Move( applicationWindowRect.iTl.iX - parentRect.iTl.iX,
+                                       applicationWindowRect.iTl.iY - parentRect.iTl.iY );
+                        break;
+                        }
+                    case EEikStatusPaneUidCombined:
+                        {
+                        TAknWindowComponentLayout nstaClockIndicPane(
+                            DoCompose(
+                                aknLayoutScalable_Avkon.area_bottom_pane( 2 ),
+                                DoCompose(
+                                    aknLayoutScalable_Avkon.control_pane(),
+                                    aknLayoutScalable_Avkon.nsta_clock_indic_pane() ) ) );
+                        layout = nstaClockIndicPane.LayoutLine();
+                        parentRect = applicationWindowRect;
                         break;
                         }
                     }
@@ -1426,8 +1481,16 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                     {
                     case EEikStatusPaneUidNavi: 
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.navi_pane( 11 ).LayoutLine();
+                        if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS )
+                            {
+                            layout =
+                                aknLayoutScalable_Avkon.navi_pane( 10 ).LayoutLine();
+                            }
+                        else
+                            {
+                            layout =
+                                aknLayoutScalable_Avkon.navi_pane( 11 ).LayoutLine();
+                            }
                         break;
                         }
                     case EEikStatusPaneUidSignal:
@@ -1438,8 +1501,16 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         }
                     case EEikStatusPaneUidTitle:
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.title_pane( 13 ).LayoutLine();                    
+                        if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS )
+                            {
+                            layout =
+                                aknLayoutScalable_Avkon.title_pane( 12 ).LayoutLine();
+                            }
+                        else
+                            {
+                            layout =
+                                aknLayoutScalable_Avkon.title_pane( 13 ).LayoutLine();
+                            }
                         break;
                         }
                     case EEikStatusPaneUidIndic:

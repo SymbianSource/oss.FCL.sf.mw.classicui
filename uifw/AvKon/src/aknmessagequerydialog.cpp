@@ -41,7 +41,7 @@
 
 #include <AknTasHook.h> // for testability hooks
 #include "AknHeadingPaneTouchObserver.h"
-
+#include "akntrace.h"
 
 // CONSTANTS
 const TInt KMaxLinks = 64;
@@ -128,11 +128,13 @@ public:
 
 EXPORT_C CAknMessageQueryDialog* CAknMessageQueryDialog::NewL( TDesC& aMessage, const TTone& aTone )
     {
+	_AKNTRACE_FUNC_ENTER;
     CAknMessageQueryDialog* self = new ( ELeave ) CAknMessageQueryDialog( aTone );
     CleanupStack::PushL( self );
     self->SetMessageTextL( aMessage );
     CleanupStack::Pop(); //self
     AKNTASHOOK_ADDL( self, "CAknMessageQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -148,11 +150,13 @@ EXPORT_C CAknMessageQueryDialog::CAknMessageQueryDialog() : CAknQueryDialog( ENo
 
 EXPORT_C CAknMessageQueryDialog::CAknMessageQueryDialog( const TTone aTone ) : CAknQueryDialog( aTone )
     {
+	_AKNTRACE_FUNC_ENTER;
 #ifndef RD_NO_DIALOG_BORDERS
     iBorder = AknBorderId::EAknBorderNotePopup;
 #else
     iBorder = TGulBorder::ENone;
 #endif
+    _AKNTRACE_FUNC_EXIT;
     }
 
 //@deprecated
@@ -201,12 +205,14 @@ EXPORT_C CAknMessageQueryDialog::CAknMessageQueryDialog( TDesC* aMessage, TDesC*
 
 EXPORT_C CAknMessageQueryDialog::~CAknMessageQueryDialog()
     {
+	_AKNTRACE( "[%s][%s] Enter", "CAknMessageQueryDialog", "~CAknMessageQueryDialog" );
     AKNTASHOOK_REMOVE();
     delete iMessage;
     delete iHeader;
     delete iHeaderImage;
     RegisterPointerEventObserver( EFalse ); 
     delete iMsgQueryExtension;
+    _AKNTRACE( "[%s][%s] Exit", "CAknMessageQueryDialog", "~CAknMessageQueryDialog" );
     }
 
 EXPORT_C void CAknMessageQueryDialog::SetMessageTextL( const TDesC& aMessage )
@@ -355,6 +361,7 @@ EXPORT_C void CAknMessageQueryDialog::SetHeaderText( TDesC* aHeader )
 
 EXPORT_C void CAknMessageQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( !iMsgQueryExtension )
         {
         CreateExtensionL();
@@ -425,6 +432,7 @@ EXPORT_C void CAknMessageQueryDialog::PreLayoutDynInitL()
         headingPane->SetLayout(CAknPopupHeadingPane::EMessageQueryHeadingPane); // Use message query heading layout.    
         headingPane->SetTouchObserver( iMsgQueryExtension );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
    
@@ -986,13 +994,16 @@ void CAknMessageQueryDialog::UpdateSoftkeyLabels()
     
 TBool CAknMessageQueryDialog::ExecuteLinkL()
     {
-    CAknMessageQueryControl* control = STATIC_CAST( CAknMessageQueryControl*, Control( EAknMessageQueryContentId ) );
+	_AKNTRACE_FUNC_ENTER;
+	CAknMessageQueryControl* control = STATIC_CAST( CAknMessageQueryControl*, Control( EAknMessageQueryContentId ) );
     if( !control )
         {
+		_AKNTRACE_FUNC_EXIT;
         return EFalse;
         }
     if( !control->LinkHighLighted() )
         {
+		_AKNTRACE_FUNC_EXIT;
         return EFalse;
         }
     TInt curLink = control->CurrentLink();
@@ -1011,6 +1022,7 @@ TBool CAknMessageQueryDialog::ExecuteLinkL()
         {
         control->DehighlightLink();
         }
+    _AKNTRACE_FUNC_EXIT;
     return ETrue;
     }
 

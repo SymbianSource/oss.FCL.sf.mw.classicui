@@ -248,7 +248,8 @@ protected:
     /**
     * @internal
     */
-    void DrawBackgroundAndSeparatorLines( const TRect& aItemTextRect ) const;
+    void DrawBackgroundAndSeparatorLines( const TRect& aItemTextRect, 
+        TBool aDrawSeparator ) const;
                         
 
 private:

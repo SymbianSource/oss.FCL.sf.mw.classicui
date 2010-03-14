@@ -46,7 +46,6 @@
 #include <AknsDrawUtils.h>
 #include <AknsFrameBackgroundControlContext.h>
 #include <AknBidiTextUtils.h>
-#include <AknMarqueeControl.h>
 #include <skinlayout.cdl.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <AknLayoutFont.h>
@@ -55,8 +54,6 @@
 #include <AknIconUtils.h>
 #include <aknappui.h>
 
-#include <AknsEffectAnim.h>
-#include <systemwarninglevels.hrh>
 #include <layoutmetadata.cdl.h>
 #include <AknStatuspaneUtils.h>
 #include <aknCharMap.h>
@@ -64,15 +61,8 @@
 #include <akntranseffect.h> //For transition effects
 #include <akntransitionutils.h> // SetAllParents method
 #include <featmgr.h>
-#include <hal.h>
 #include <avkondomainpskeys.h>
 #include <e32property.h>
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-#include <aknlistboxtfxinternal.h> // LISTBOX EFFECTS IMPLEMENTATION
-#include <aknlistloadertfx.h>
-#include <aknlistboxtfx.h>
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
 
 #include <touchfeedback.h>
 #include <AknTasHook.h>
@@ -115,40 +105,15 @@ TInt TaskSwapCallBack( TAny* )
  * Extension now contains menu/submenu highlight animation functionality.
  */
 NONSHARABLE_CLASS( CEikMenuPaneExtension ):
-    public CActive,
-    public MCoeForegroundObserver,
-    public MAknsEffectAnimObserver,
+    public CBase,
     public MCoeControlObserver,
     public MAknPhysicsObserver    
     {
 public:
-    enum TFlag
-        {
-        /**
-        * If set, animation creation is attempted. If not set, animation will
-        * never be created.
-        */
-        EFlagUseAnimation = 0
-        };
-        
-    enum TScreen
-        {
-        EQhdHeight = 360,
-        EQhdWidth = 640        
-        };        
-
     CEikMenuPaneExtension();
     ~CEikMenuPaneExtension();
 
     void ConstructL( CEikMenuPane* aControl );
-    void CreateAnimation();
-    void NoAnimIfError( TInt aError );
-    void UseNoAnimation();
-    void FocusGained();
-    void FocusLost();
-
-    void HandleLayoutSwitch();
-    void ChangeHighlightBackground();
     void MenuClosed();
 
     void ConstructMenuSctRowL( TDes& aSpecialChars, TInt aResourceId );
@@ -167,39 +132,13 @@ public:
     void ChangePosition( TPointerEvent& aPointerEvent );
     void CalculateParentEvent( const TPointerEvent& aPointerEvent, 
                                TPointerEvent& aParentEvent );
-    TRect GetBackgroundRect( const TRect& aWindowRect ) const;                               
-    static void AdjustPopupLayoutData( TAknWindowLineLayout& aListScrollPaneLayout );
-                               
-    const TAknLayoutText GetMenuItemTextLayout(const TRect& aItemRect, TBool cascade);
-
-public: // Implementation of MCoeForegroundObserver
-    void HandleGainingForeground();
-    void HandleLosingForeground();
-
-public: // Implementation of MAknsEffectAnimObserver
-    void AnimFrameReady( TInt aError, TInt );
     void HandleControlEventL(CCoeControl* aControl,TCoeEvent aEventType);
-
-protected: // CActive overloads
-    void DoCancel();
-    void RunL();
-
-private: // New internal methods
-    void Play();
-    TBool DrawHighlightBackground( CFbsBitGc& aGc );
-    void PostDeleteAnimation();
-    void CreateAnimationL( const TSize& aHighlightSize );
-    void DoResizeL( const TSize& aHighlightSize, TBool aAboutToStart );
 public:
     void ImmediateFeedback( TTouchLogicalFeedback aType,
                             TTouchFeedbackType aFbType );
     
 public:
     void StartCascadeMenuAppearTransition();
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    void CalcItemSize( MAknListBoxTfxInternal* transApi ) const;
-#endif
 
     /**
      * Prepares cascade menu for item specific commands.
@@ -236,7 +175,7 @@ public:
      * 
      * @return ETrue if highlight is enabled
      */
-    TBool  HighlightEnabled();
+    TBool HighlightEnabled();
 
     /**
      * Sets the default highlight to options menu
@@ -245,8 +184,6 @@ public:
     void SetDefaultHighlight();
     
 public: // Data
-    TBool iHasIcon;
-    TBool iIsPenEnable;   
     CFbsBitmap* iCascadeBitmap;
     CFbsBitmap* iCascadeBitmapMask;
     CAknsFrameBackgroundControlContext* iBgContext;
@@ -257,14 +194,7 @@ public: // Data
     CFbsBitmap* iRadioButtonBitmapMask;   // mask for the above bitmap
     TBool       iHasRadioGroup;           // is ETrue if submenu contains radio button group.
     TInt        iSelectedRadioButtonItem; // index of the radio button item which is currently selected (one must be selected)
-    CCoeControl* iGrabbingCBAComponent;    // component control of CBA which is currently grabbing the pointer
     CEikMenuPane* iControl;
-    CAknsEffectAnim* iAnimation;
-    /**
-    * Stored flags are explained in enumeration TFlags.
-    */
-    TBitFlags32 iAnimFlags;
-
     CAknCharMap* iSct;      // Menu SCT row, created only when needed.
     TBool iSctHighlighted;  // No "normal" menu item can be highlighted if ETrue
 
@@ -277,26 +207,17 @@ public: // Data
     // needs to be mutable since we need to get information from Draw methods
     // (that are declared const)
     mutable TRect iCascadeDRect;
-    TBool iTransitionsOn;   // Transitions FtMgr flag on
     TBool iShowCascadeTransition;
     // For later deletion of cascade menu, this allows the transition system
     // to correctly handle the aborted transitions
     CEikMenuPane* iCascadeMenuObject;
     TBool iDraggedOutside;    
     TPointerEvent iLastPointerEvent;
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    CWindowGc* iGc;
-#endif
     TInt iItemsThatFitInView;
     TRect iScrollBarRect;
     TRect iSctRect;
-    TInt iTotalNumberOfItemsInView; // this value includes partial items
-
-
     CIdle* iTaskSwapIdle;
     CRedirectionListener* iRedirectionListener;
-    TRect iSBRect;
     RWindow* iMenuPaneWindow; // Not own, used by SCT
     TBool iLaunchCascadeMenu; 
     TBool isUpdateScrollDirectly;
@@ -315,6 +236,7 @@ public: // Data
         ESingleClickEnabled,
         EHideItemSpecificCommands,
         EContextSensitive,
+        ESkipScrollbarUpdate,
         EHighlightEnabled
         };
 
@@ -322,6 +244,28 @@ public: // Data
      * Menu pane extension flags.
      */
     TBitFlags iFlags;
+    
+    /**
+     * Cached rectangle occupied by menu items (excluding scrollbar's area).
+     */
+    TRect iItemAreaRect;
+    
+    /**
+     * Cached rectangle occupied by menu items and scrollbar.
+     */
+    TRect iMenuAreaRect;
+    
+    /**
+     * Index of the item were highlight was previously drawn to.
+     * Can be KErrNotFound.
+     */
+    TInt iHighlightedItem;
+    
+    /**
+     * Scrollbar's desired visibility. This is calculated in conjunction with
+     * menu pane's size and used later on when calculating scrollbar's layout.
+     */
+    CEikScrollBarFrame::TScrollBarVisibility iScrollbarVisibility;
 
 private: // Data
     CPeriodic* iTimer; // timer to launch submenu, own
@@ -453,12 +397,6 @@ inline TInt CEikMenuPane::CMenuScroller::TopItemIndex() const
 inline void CEikMenuPane::CMenuScroller::SetTopItemIndex(TInt aIndex)
     { 
     iTopItemIndex=aIndex;
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( iMenuPane.iExtension )
-        {
-        iTopItemIndex = aIndex;
-        }
-#endif
     }
 
 inline CIdle* CEikMenuPane::CMenuScroller::Idle() const
@@ -474,16 +412,8 @@ void CEikMenuPaneExtension::InitPhysicsL()
     iLastFeedbackTopItemIndex = 0;
     iPressedDown = EFalse;
     iFlickActive = EFalse;
-    
-    TRect rect;
-    if ( !iControl->iOwner )
-        {
-        rect = iMenuPaneRect;    
-        }
-    else
-        {
-        rect = iControl->Rect();    
-        }    
+
+    TRect rect( iMenuPaneRect );
     
     TInt itemHeight = iControl->iItemHeight;
     TInt itemsInRect = rect.Height() / itemHeight;
@@ -537,18 +467,17 @@ void CEikMenuPaneExtension::InitPhysicsL()
 void CEikMenuPaneExtension::ViewPositionChanged( const TPoint& aNewPosition,
                                                  TBool aDrawNow,
                                                  TUint /*aFlags*/ )
-    {  
+    {
     _AKNTRACE_FUNC_ENTER;
-    if ( !iControl->iItemArray )
+    TInt delta = iViewPosition.iY - aNewPosition.iY;
+
+    if ( !iControl->iItemArray || delta == 0 )
         {
         return;
         }
-    
+
     iListTopIndex = aNewPosition.iY - iViewHeight / 2;  
-    
     iListBottomIndex = aNewPosition.iY + iViewHeight - iViewHeight / 2;
-    
-    TInt delta = iViewPosition.iY - aNewPosition.iY;
     
     DoOffset( delta );
 
@@ -560,16 +489,21 @@ void CEikMenuPaneExtension::ViewPositionChanged( const TPoint& aNewPosition,
     
     if ( aDrawNow )
         {
-        TRAP_IGNORE( iControl->DoUpdateScrollBarL() );
-
-        if ( iControl->iOwner ) // Submenu
+        if ( iFlags.IsClear( ESkipScrollbarUpdate ) )
             {
-            iControl->DrawNow();
+            TRAP_IGNORE( iControl->DoUpdateScrollBarL() );
             }
-        else
+
+        // Redraw only item area if scrollbar is invisible, otherwise include 
+        // also scrollbar's area in order to avoid drawdeferred.
+        TRect drawRect( iItemAreaRect );
+        
+        if ( iScrollbarVisibility == CEikScrollBarFrame::EOn )
             {
-            iControl->DrawNow( TRect( iMenuPaneRect.Size() ) );
-            }        
+            drawRect = iMenuAreaRect;
+            }
+
+        iControl->DrawNow( drawRect );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -736,14 +670,6 @@ void CEikMenuPaneExtension::PhysicEmulationEnded()
     {
     _AKNTRACE_FUNC_ENTER;    
     iFlickActive = EFalse; 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfx* tfxApi = CAknListLoader::TfxApi( iGc );
-
-    if ( tfxApi )
-        {
-        tfxApi->EnableEffects( ETrue );
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     _AKNTRACE_FUNC_EXIT;
     }    
     
@@ -936,7 +862,6 @@ void CEikMenuPaneExtension::StartCascadeMenuAppearTransition()
 // -----------------------------------------------------------------------------
 //
 CEikMenuPaneExtension::CEikMenuPaneExtension() :
-    CActive( EPriorityHigh ),
     // Initialise data members to zero
     iCascadeBitmap( NULL ),
     iCascadeBitmapMask( NULL ),
@@ -948,16 +873,10 @@ CEikMenuPaneExtension::CEikMenuPaneExtension() :
     iRadioButtonBitmapMask( NULL ),
     iHasRadioGroup( EFalse ),
     iSelectedRadioButtonItem( KNoSelectedRadioButtonItem ),
-    iGrabbingCBAComponent( NULL ),
     iControl( NULL ),
-    iAnimation( NULL ),
-    iAnimFlags ( 0 ),
     iSct( NULL ),
     iSctHighlighted( EFalse ),
     iSpecialCharPointed( EFalse )
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    ,iGc ( NULL )
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     ,iVerticalOffset( 0 )
     ,iPhysics( NULL )
     ,iListTopIndex( 0 )
@@ -967,9 +886,9 @@ CEikMenuPaneExtension::CEikMenuPaneExtension() :
     ,iFeedback( MTouchFeedback::Instance() )
     ,iLastFeedbackTopItemIndex( 0 )
     {
-    iIsPenEnable = AknLayoutUtils::PenEnabled();
-    iItemsReadyForPenSelection = !iIsPenEnable;
+    iItemsReadyForPenSelection = !AknLayoutUtils::PenEnabled();
     iNextHighlightItem = KErrNotFound;
+    iHighlightedItem = KErrNotFound;
     }
 
 // -----------------------------------------------------------------------------
@@ -980,17 +899,6 @@ CEikMenuPaneExtension::CEikMenuPaneExtension() :
 CEikMenuPaneExtension::~CEikMenuPaneExtension()
     {
     _AKNTRACE_FUNC_ENTER;
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( CAknListLoader::TfxApiInternal( iGc ) )
-        {
-        delete iGc;
-        }
-#endif
-    Cancel(); // Cancel possibly pending request
-
-    // Stop receiving foreground events
-    CCoeEnv* env = CCoeEnv::Static();
-    env->RemoveForegroundObserver( *this );
 
     delete iCascadeBitmap;
     iCascadeBitmap = NULL;
@@ -1014,9 +922,6 @@ CEikMenuPaneExtension::~CEikMenuPaneExtension()
     iRadioButtonBitmapMask = NULL;
 
     iControl = NULL;
-
-    delete iAnimation;
-    iAnimation = NULL;
 
     delete iSct;
     iSct = NULL;
@@ -1053,8 +958,6 @@ void CEikMenuPaneExtension::ConstructL( CEikMenuPane* aControl )
     {
     ASSERT( aControl );
     iControl = aControl;
-    iAnimFlags.Set( EFlagUseAnimation ); // Animations are created by default
-    CActiveScheduler::Add( this );
     iDraggedOutside = EFalse;
     iLaunchCascadeMenu = EFalse;
     iButtonDownItem = KErrNotFound;
@@ -1064,11 +967,6 @@ void CEikMenuPaneExtension::ConstructL( CEikMenuPane* aControl )
         // Delays submenu opening during appear transitions
         iRedirectionListener = new ( ELeave ) CRedirectionListener( *this );
         }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        iGc = CAknListLoader::CreateTfxGc( *aControl,
-                                           iControl->iScroller->iTopItemIndex,
-                                           iTotalNumberOfItemsInView );
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     if ( static_cast<CAknAppUi*>(
             iControl->ControlEnv()->AppUi() )->IsSingleClickCompatible() )
         {
@@ -1084,55 +982,6 @@ void CEikMenuPaneExtension::ConstructL( CEikMenuPane* aControl )
         KAknsIIDQsnFrPopup, TRect( 0, 0, 1, 1 ), TRect( 0, 0, 1, 1 ), EFalse );
     }
 
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::CreateAnimation
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::CreateAnimation()
-    {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    return;
-#else    
-    if( !iAnimation && iAnimFlags.IsSet( EFlagUseAnimation ) )
-        {    
-        TRect rect = iControl->HighlightRect();
-        TRAPD( err, CreateAnimationL( rect.Size() ) );
-        if( KErrNone != err )
-            {
-            // Animation has not been drawn -> no need for repaint
-            UseNoAnimation();
-            }
-        }
-#endif //RD_UI_TRANSITION_EFFECTS_LIST  
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::NoAnimIfError
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::NoAnimIfError( TInt aError )
-    {
-    if( KErrNone != aError )
-        UseNoAnimation();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::UseNoAnimation
-// Falls back to normal highlight rendering.
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::UseNoAnimation()
-    {
-    delete iAnimation;
-    iAnimation = NULL;
-
-    // Do not attempt to create animations in the future
-    iAnimFlags.Clear( EFlagUseAnimation );
-
-    // Stop receiving foreground events
-    CCoeEnv* env = CCoeEnv::Static();
-    env->RemoveForegroundObserver( *this );
-    }
 
 // -----------------------------------------------------------------------------
 // CEikMenuPaneExtension::StartCascadeMenuTimerL
@@ -1156,6 +1005,7 @@ void CEikMenuPaneExtension::StartCascadeMenuTimerL()
                    TCallBack ( CascadeMenuTimerCallBack, this ) );
     _AKNTRACE_FUNC_EXIT;
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPaneExtension::StopCascadeMenuTimer
@@ -1260,6 +1110,7 @@ void CEikMenuPaneExtension::ResetPressedHighlight()
     _AKNTRACE_FUNC_EXIT;
     }
 
+
 // -----------------------------------------------------------------------------
 // CEikMenuPaneExtension::HighlightTimerCallBack
 // Callback function of the timer for pressed down highlight
@@ -1311,11 +1162,12 @@ void CEikMenuPaneExtension::ChangePosition( TPointerEvent& aPointerEvent )
     {
     if ( !iControl->iSBFrame )
         {
-        iControl->CreateScrollBarFrame();
+        return;
         }
-    TRect scrollBarRect = iControl->iSBFrame->VerticalScrollBar()->Rect();
-    TPoint scrollerTl = scrollBarRect.iTl; 
-    TPoint scrollerBr = scrollBarRect.iBr;
+    
+    TRect scrollBarRect( iControl->iSBFrame->VerticalScrollBar()->Rect() );
+    TPoint scrollerTl( scrollBarRect.iTl ); 
+    TPoint scrollerBr( scrollBarRect.iBr );
     TRect gapRect;           
     // For layout that left to right
     if ( !AknLayoutUtils::LayoutMirrored() )
@@ -1363,158 +1215,14 @@ void CEikMenuPaneExtension::CalculateParentEvent( const TPointerEvent& aPointerE
                            TPointerEvent& aParentEvent )
     {
     aParentEvent.iModifiers = aPointerEvent.iModifiers;
-    TPoint subPos = iControl->PositionRelativeToScreen();
-    TPoint ownerPos = iControl->iOwner->PositionRelativeToScreen();
+    TPoint subPos = iControl->Position();
+    TPoint ownerPos = iControl->iOwner->Position();
     aParentEvent.iPosition.SetXY (
         aPointerEvent.iPosition.iX + subPos.iX - ownerPos.iX,
         aPointerEvent.iPosition.iY + subPos.iY - ownerPos.iY);
     aParentEvent.iType = aPointerEvent.iType;    
     }
 
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::GetBackgroundRect
-// Get background rect for landscape mode of menu pane.
-// -----------------------------------------------------------------------------
-//    
-TRect CEikMenuPaneExtension::GetBackgroundRect( const TRect& aWindowRect ) const
-    {
-    return aWindowRect;
-    }
-        
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::AdjustPopupLayoutData
-// Adjust popup layout data for main menu pane in landscape mode
-// -----------------------------------------------------------------------------
-// 
-void CEikMenuPaneExtension::AdjustPopupLayoutData( TAknWindowLineLayout& aListScrollPaneLayout )
-    {
-    TRect screenRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
-    AknLayoutUtils::TAknCbaLocation cbaPosition = AknLayoutUtils::CbaLocation();
-
-    if ( screenRect.Width() == EQhdWidth && screenRect.Height() == EQhdHeight 
-        && cbaPosition == AknLayoutUtils::EAknCbaLocationBottom ) 
-        {
-        if ( !AknLayoutUtils::LayoutMirrored() )
-            {
-            aListScrollPaneLayout.ir -= 32;
-            }
-        else
-            {
-            aListScrollPaneLayout.il -= 32;
-            }
-        }
-    } 
-
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::GetMenuItemTextLayout
-// Get Layout of menu item text.
-// -----------------------------------------------------------------------------
-//
-const TAknLayoutText CEikMenuPaneExtension::GetMenuItemTextLayout(const TRect& aItemRect, TBool cascade)
-    {
-    TAknTextLineLayout menuTextLayout;
-    
-    if ( !iControl->iOwner )
-        {
-        menuTextLayout = AknLayoutScalable_Avkon::list_single_pane_t1_cp2( cascade ? 3 : 0 ).LayoutLine();
-        }
-    else
-        {
-        if ( iHasIcon )
-            {
-            menuTextLayout = TAknTextLineLayout( AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 1 ).LayoutLine() );
-            }
-        else
-            {
-            menuTextLayout = TAknTextLineLayout( AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 0 ).LayoutLine() );
-            }
-        }
-    
-    TAknLayoutText textRect;
-    textRect.LayoutText( aItemRect, menuTextLayout );
-    return textRect;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::FocusGained
-// The owning control has gained focus -> animation should be continued.
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::FocusGained()
-    {
-    Play();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::FocusLost
-// The owning control has lost focus -> no running animation (even if the
-// control is partially visible).
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::FocusLost()
-    {
-    if( iAnimation )
-        {
-        NoAnimIfError( iAnimation->Pause() );
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::HandleLayoutSwitch
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::HandleLayoutSwitch()
-    {
-    if( iAnimation ) // Animation exists -> try to resize
-        {
-        TRect rect( iControl->HighlightRect() );
-
-        // Resize animation
-        TBool aboutToStart = ETrue;
-        if( iAnimation->State() == EAknsAnimStateStopped )
-            aboutToStart = EFalse;
-
-        TRAPD( err, DoResizeL( rect.Size(), aboutToStart ) );
-        NoAnimIfError( err );
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::ChangeHighlightBackground
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::ChangeHighlightBackground()
-    {
-    // Every time the current list item is changed we need to change the
-    // animation input layer (animated element is the highlight bacground that
-    // can differ between highlight positions).
-    if( iAnimation )
-        {
-        if( iAnimation->State() == EAknsAnimStateStopped  )
-            {
-            // Input layers don't exist when stopped or finished. We need to
-            // resize to create the input layers and to update the output
-            // layer.
-
-            TRAPD( err, DoResizeL( iAnimation->Size(), EFalse ) );
-            NoAnimIfError( err );
-            }
-        else // Either paused, running or finished
-            {
-            // Update the highlight background
-            if( iAnimation->InputRgbGc() )
-                DrawHighlightBackground( *iAnimation->InputRgbGc() );
-
-            // We need to update the output frame (otherwise the highlight
-            // would drawn with the old output before the next new animation
-            // frame).
-            NoAnimIfError( iAnimation->UpdateOutput() );
-            }
-        }
-    }
 
 // -----------------------------------------------------------------------------
 // CEikMenuPaneExtension::MenuClosed
@@ -1523,20 +1231,9 @@ void CEikMenuPaneExtension::ChangeHighlightBackground()
 void CEikMenuPaneExtension::MenuClosed()
     {
     _AKNTRACE_FUNC_ENTER;
-    delete iAnimation;
-    iAnimation = NULL;
-
-    CCoeEnv* env = CCoeEnv::Static();
-    env->RemoveForegroundObserver( *this );
-
-    iAnimFlags.Set( EFlagUseAnimation );
-
     delete iSct;
     iSct = NULL;
     iSctHighlighted = EFalse;
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST  
-    iSctRect = TRect::EUninitialized;
-#endif
 
     if ( iCba )
         {
@@ -1554,192 +1251,6 @@ void CEikMenuPaneExtension::MenuClosed()
     _AKNTRACE_FUNC_EXIT;
     }
 
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::HandleGainingForeground
-// The application has gained foreground -> animation should be continued.
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::HandleGainingForeground()
-    {
-    // It is safe to start animation in this method because animation is
-    // deleted when the menu is closed -> it is not possible that menu receives
-    // foreground event while it is not visible and the animation exists.
-
-    // We need to check if the menu has focus (to prevent running nonfocused
-    // animation because also the nonfocused menu (menu/submenu) receives
-    // foreground events)
-    Play();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::HandleLosingForeground
-// The application lost foreground -> no running animation (even if the
-// application is partially visible).
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::HandleLosingForeground()
-    {
-    if( iAnimation )
-        {
-        NoAnimIfError( iAnimation->Stop() );
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::AnimFrameReady
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::AnimFrameReady( TInt aError, TInt )
-    {
-    if( KErrNone != aError )
-        {
-        // Animation has failed to run -> schedule the animation for
-        // deletion to fall back to normal rendering.
-        PostDeleteAnimation();
-        }
-    else if( iControl ) // Frame ok
-        {
-        if ( iControl->IsVisible() )
-            {
-            iControl->RepaintHighlight();
-            }
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::DoCancel
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::DoCancel()
-    {
-    // Required method, but not needed
-    }
-
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::RunL
-// Postponed animation deletion is done here
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::RunL()
-    {
-    UseNoAnimation();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::Play
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::Play()
-    {
-    if( !iAnimation || !iControl->IsFocused() )
-        {
-        return;
-        }
-
-    // No need to start running/finished animation
-    if( EAknsAnimStateRunning == iAnimation->State() ||
-        EAknsAnimStateFinished == iAnimation->State() )
-        {
-        return;
-        }
-
-    CAknAppUi* aui = static_cast<CAknAppUi*>(CEikonEnv::Static()->AppUi());
-    if( !aui->IsForeground() )
-        {
-        return;
-        }
-
-    if( EAknsAnimStatePaused == iAnimation->State() )
-        {
-        NoAnimIfError( iAnimation->Continue() );
-        }
-    else if( EAknsAnimStateStopped == iAnimation->State() )
-        {
-        if( iAnimation->NeedsInputLayer() )
-            {
-            TRAPD( err, DoResizeL( iAnimation->Size(), ETrue ) );
-            NoAnimIfError( err );
-
-            if( KErrNone != err )
-                return;
-            }
-
-        NoAnimIfError( iAnimation->Start() );
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::DrawHighlightBackground
-// Draws skinned highlight background to the provided graphics context.
-// -----------------------------------------------------------------------------
-//
-TBool CEikMenuPaneExtension::DrawHighlightBackground( CFbsBitGc& aGc )
-    {
-    // Draw the background under the current highlight. This simplified
-    // drawing, we only grab a piece from the list background bitmap.
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-
-    return AknsDrawUtils::DrawBackground( skin, iBgContext, iControl, aGc, TPoint(0,0),
-                                          iControl->HighlightRect(),
-                                          KAknsDrawParamRGBOnly );
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::PostDeleteAnimation
-// Schedules the animation for deletion by activating the extension itself.
-// Deletion is postponed because in many error/failure occasions the caller has
-// been animation and direct deletion is possibly not safe (because function
-// stack would return through the deleted object).
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::PostDeleteAnimation()
-    {
-    TRequestStatus* status = &iStatus;
-    User::RequestComplete( status, KErrNone );
-    SetActive();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::CreateAnimationL
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::CreateAnimationL( const TSize& aHighlightSize )
-    {
-    // Create animation
-    CCoeEnv* env = CCoeEnv::Static();
-    env->AddForegroundObserverL( *this );
-
-    delete iAnimation;
-    iAnimation = NULL;
-
-    iAnimation = CAknsEffectAnim::NewL( this );
-    TBool ok = iAnimation->ConstructFromSkinL( KAknsIIDQsnAnimList );
-
-    if( !ok ) // Animation for the ID was not found from the skin
-        {
-        User::Leave( KErrNotFound );
-        }
-
-    DoResizeL( aHighlightSize, ETrue );
-
-    Play();
-    }
-
-// -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::DoResizeL
-// -----------------------------------------------------------------------------
-//
-void CEikMenuPaneExtension::DoResizeL(
-    const TSize& aHighlightSize, TBool aAboutToStart )
-    {
-    iAnimation->BeginConfigInputLayersL( aHighlightSize, aAboutToStart );
-
-    if( iAnimation->InputRgbGc() )
-        DrawHighlightBackground( *iAnimation->InputRgbGc() );
-
-    iAnimation->EndConfigInputLayersL();
-    }
 
 // -----------------------------------------------------------------------------
 // CEikMenuPaneExtension::ConstructMenuSctRowL
@@ -1762,11 +1273,8 @@ void CEikMenuPaneExtension::ConstructMenuSctRowL( TDes& aSpecialChars, TInt aRes
     if ( renew && iMenuPaneWindow && iControl )
         {
         iSct->SetContainerWindowL( *iControl );
-        if ( AknLayoutUtils::PenEnabled() )
-            {
-            iSct->SetGloballyCapturing( ETrue );
-            iSct->SetPointerCapture( ETrue );
-            }
+        iSct->SetGloballyCapturing( ETrue );
+        iSct->SetPointerCapture( ETrue );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1791,11 +1299,8 @@ void CEikMenuPaneExtension::ConstructMenuSctRowFromDialogL( TDes& aSpecialChars,
     if ( renew && iMenuPaneWindow && iControl)
         {
         iSct->SetContainerWindowL( *iControl );
-        if ( AknLayoutUtils::PenEnabled() )
-            {
-            iSct->SetGloballyCapturing( ETrue );
-            iSct->SetPointerCapture( ETrue );
-            }
+        iSct->SetGloballyCapturing( ETrue );
+        iSct->SetPointerCapture( ETrue );
         }
     }
 
@@ -1806,13 +1311,10 @@ void CEikMenuPaneExtension::ConstructMenuSctRowFromDialogL( TDes& aSpecialChars,
 void CEikMenuPaneExtension::HandleControlEventL(CCoeControl* /*aControl*/,TCoeEvent aEventType)
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( AknLayoutUtils::PenEnabled() )
+    if ( aEventType == EEventStateChanged )
         {
-         if(aEventType == EEventStateChanged)
-            {
-            // Something has been selected from CharMap
-            iSpecialCharPointed = ETrue;
-            }
+        // Something has been selected from CharMap
+        iSpecialCharPointed = ETrue;
         }
     _AKNTRACE( "aEventType = %d", aEventType );
     _AKNTRACE_FUNC_EXIT;
@@ -2362,27 +1864,12 @@ EXPORT_C void CEikMenuPane::ConstructL( CEikMenuPane* aOwner, MEikMenuObserver* 
     CheckCreateScrollerL();
     CheckCreateExtensionL();
 
-    iExtension->iTransitionsOn = FeatureManager::FeatureSupported( KFeatureIdUiTransitionEffects );
-
     CreateWindowL( iCoeEnv->RootWin() );
     EnableWindowTransparency();
     SetAllowStrayPointers();
     EnableDragEvents();
 
-    TAknWindowLineLayout menuLineLayout;
-    if ( iOwner ) // submenu
-        {
-        menuLineLayout = AknLayoutScalable_Avkon::list_single_popup_submenu_pane( 0 ).LayoutLine();
-        }
-    else
-        {
-        menuLineLayout = AknLayoutScalable_Avkon::list_single_pane_cp2( 0 ).LayoutLine();
-        }
-
-    TRect windowRect = Rect();
-    TAknLayoutRect menuLayoutRect;
-    menuLayoutRect.LayoutRect( windowRect, menuLineLayout );
-    iItemHeight = menuLayoutRect.Rect().Height();
+    iItemHeight = CalculateItemHeight();
 
     if ( iExtension->iSct )
         {
@@ -2390,15 +1877,12 @@ EXPORT_C void CEikMenuPane::ConstructL( CEikMenuPane* aOwner, MEikMenuObserver* 
         iExtension->iMenuPaneWindow = window;
         iExtension->iSct->SetContainerWindowL( *this );
 
-        if ( AknLayoutUtils::PenEnabled() )
-            {
-            // This is effectively the same as CCoeControl::EnableDragEvents()
-            // which is protected.
-            window->PointerFilter( EPointerFilterDrag, 0 );
-            iExtension->iSct->SetGloballyCapturing( ETrue );
-            iExtension->iSct->SetPointerCapture( ETrue );
-            iExtension->iSct->SetObserver(iExtension);
-            }
+        // This is effectively the same as CCoeControl::EnableDragEvents()
+        // which is protected.
+        window->PointerFilter( EPointerFilterDrag, 0 );
+        iExtension->iSct->SetGloballyCapturing( ETrue );
+        iExtension->iSct->SetPointerCapture( ETrue );
+        iExtension->iSct->SetObserver(iExtension);
         }
 
     if ( iOwner ) // submenu
@@ -2416,7 +1900,6 @@ EXPORT_C void CEikMenuPane::ConstructL( CEikMenuPane* aOwner, MEikMenuObserver* 
         User::Leave( KErrNoMemory );
             
     Window().SetOrdinalPosition( 0 );
-    
     Window().SetPointerGrab( ETrue );
     SetGloballyCapturing( ETrue );
 
@@ -2440,19 +1923,7 @@ EXPORT_C void CEikMenuPane::ConstructFromResourceL( TResourceReader& aReader )
         }
     CreateItemArrayL();
 
-    TAknWindowLineLayout menuLineLayout;
-    if ( iOwner ) // submenu
-        {
-        menuLineLayout = AKN_LAYOUT_WINDOW_list_single_popup_submenu_pane( 0, 0 );
-        }
-    else
-        {
-        menuLineLayout = AKN_LAYOUT_WINDOW_list_single_popup_menu_pane( 0 );
-        }
-    TRect windowRect = Rect();
-    TAknLayoutRect menuLayoutRect;
-    menuLayoutRect.LayoutRect( windowRect, menuLineLayout );
-    iItemHeight = menuLayoutRect.Rect().Height();
+    iItemHeight = CalculateItemHeight();
 
     CheckCreateScrollerL();
     CheckCreateExtensionL();
@@ -2789,16 +2260,13 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         iExtension->StartCascadeMenuAppearTransition();
         }
 
-    if( AknLayoutUtils::PenEnabled() )
+    TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+    if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
         {
-        TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-        if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-            {
-            fbLogicalType = ETouchFeedbackIncreasingPopUp;
-            }
-        iExtension->ImmediateFeedback( fbLogicalType,
-                                       ETouchFeedbackVibra );
+        fbLogicalType = ETouchFeedbackIncreasingPopUp;
         }
+    iExtension->ImmediateFeedback( fbLogicalType,
+                                       ETouchFeedbackVibra );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -2823,11 +2291,6 @@ TRect CEikMenuPane::CalculateSizeAndPosition()
         {
         numItemsInPane++;
         }
-
-    TInt maxNumItemsInMenu = AknLayoutScalable_Avkon::
-                    list_single_pane_cp2_ParamLimits().LastRow() + 1;
-    TInt maxNumItemsInSubMenu = AknLayoutScalable_Avkon::
-                    list_single_popup_submenu_pane_ParamLimits().LastRow() + 1;
 
     TInt maxItemsInView = NumberOfItemsThatFitInView();
 
@@ -2866,12 +2329,6 @@ EXPORT_C void CEikMenuPane::StartDisplayingMenuPane( const CEikHotKeyTable* /*aH
 
     iExtension->iPressedDown = EFalse;
     iExtension->SetOffset( 0 );
-    iExtension->iHasIcon = MenuHasIcon();
-
-    if ( iExtension->iTransitionsOn )
-        {
-        CAknTransitionUtils::SetAllParents( this );
-        }
 
     const TSize screenSize( iEikonEnv->EikAppUi()->ApplicationRect().Size() );
 
@@ -2892,11 +2349,7 @@ EXPORT_C void CEikMenuPane::StartDisplayingMenuPane( const CEikHotKeyTable* /*aH
         SetDefaultHighlight();
         }    
 
-    TRect rect( CalculateSizeAndPosition() );
-    TPoint newPos( rect.iTl );
-    TSize menuSize( rect.Size() );
-
-    SetExtent( newPos, menuSize );
+    SetRect( CalculateSizeAndPosition() );
 
     // We need to set the background context when calling create for the
     // first time. Otherwise iExtension->iBgContext would have tiny
@@ -2904,15 +2357,6 @@ EXPORT_C void CEikMenuPane::StartDisplayingMenuPane( const CEikHotKeyTable* /*aH
     // white.
     UpdateBackgroundContext( Rect() );
 
-    // The extent has been set. This is the first safe point in code to
-    // construct animations (because before this highlight related layout code
-    // will produce invalid results
-    if( iExtension )
-        {
-        // Creates animation only if it does not exist
-        iExtension->CreateAnimation();        
-        }
-        
     // Initialize physics engine
     TRAP_IGNORE ( iExtension->InitPhysicsL() );
         
@@ -2967,8 +2411,6 @@ void CEikMenuPane::UpdateBackgroundContext( const TRect& aWindowRect )
     TAknsItemID frameIID;
     TAknsItemID frameCenterIID;
     
-    TRect backgroundRect( iExtension->GetBackgroundRect( aWindowRect ) );     
-        
     if( iOwner ) //for sub menu
         {
         topLeft.LayoutRect( aWindowRect, SkinLayout::Submenu_skin_placing_Line_2() );
@@ -2978,8 +2420,8 @@ void CEikMenuPane::UpdateBackgroundContext( const TRect& aWindowRect )
         }
     else
         {
-        topLeft.LayoutRect( backgroundRect, SkinLayout::Popup_windows_skin_placing__frame_general__Line_2() );
-        bottomRight.LayoutRect( backgroundRect, SkinLayout::Popup_windows_skin_placing__frame_general__Line_5() );
+        topLeft.LayoutRect( aWindowRect, SkinLayout::Popup_windows_skin_placing__frame_general__Line_2() );
+        bottomRight.LayoutRect( aWindowRect, SkinLayout::Popup_windows_skin_placing__frame_general__Line_5() );
         frameIID = KAknsIIDQsnFrPopup;
         frameCenterIID = KAknsIIDQsnFrPopupCenterMenu;
         }
@@ -3040,16 +2482,7 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
     _AKNTRACE( "previousSelectedItem =  %d", previousSelectedItem );
 
     ActivateGc();
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-    if ( transApi )
-        {
-        iExtension->iGc->Activate( *DrawableWindow() );
-        }
-    CWindowGc& gc = transApi ? *iExtension->iGc : SystemGc();
-#else
     CWindowGc& gc =  SystemGc();
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     PrepareGcForDrawingItems( gc );
 
     // Scrollers top item index must be updated first because setting selected
@@ -3086,7 +2519,10 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
     if ( previousTopItem == topItem  && aNewSelectedItem >= 0 )
         {
         // then only previuosly and currently selected items should be redrawn
-        DrawItem( gc, previousSelectedItem, ERemoveHighlight );
+        if ( iExtension->iHighlightedItem != KErrNotFound )
+            {
+            DrawItem( gc, previousSelectedItem, ERemoveHighlight );
+            }
 
         if ( !iExtension->iSctHighlighted )
             {
@@ -3095,12 +2531,14 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
         }
     else
         {
-        TBool skipHighlight = EFalse;
+        /*TBool skipHighlight = EFalse;
+
         if (iExtension && iExtension->iSct && aNewSelectedItem == 0 &&
             previousSelectedItem > 1)
             {
             skipHighlight = ETrue;
             }
+
         for( TInt i = topItem; i<bottomItem; i++ )
             {
             if( i == aNewSelectedItem && !skipHighlight)
@@ -3111,22 +2549,15 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
                 {
                 DrawItem( gc, i, ERemoveHighlight );
                 }
-            }
+            }*/
+
+        // update the whole menu area
+        iExtension->ViewPositionChanged( iExtension->iViewPosition );   
+//        UpdateScrollBarThumbs();
         }
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        iExtension->iGc->Deactivate();
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     DeactivateGc();
-
-    UpdateScrollBarThumbs();
     
-    // Updating view position here prevents some flickering
-    iExtension->ViewPositionChanged( iExtension->iViewPosition );   
-
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -3136,177 +2567,15 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
 //
 void CEikMenuPane::PrepareGcForDrawingItems(CGraphicsContext& aGc) const
     {
-
     // BIDI
     /*
      * get the fonts from the LAF!
      * Do we need to get them here? - nope - moved to DrawItem()
      */    
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-    if ( transApi )
-        {
-        transApi->StartDrawing( MAknListBoxTfxInternal::EListNotSpecified );
-        }
-#endif
-
-    aGc.SetPenColor(iEikonEnv->ControlColor( EColorMenuPaneText, *this) );
-#if defined(MENU_TEXTURED_BACKGROUND)
-    iEikonEnv->SetTexturedBrush( aGc );
-#else
+    aGc.SetPenColor( iEikonEnv->ControlColor( EColorMenuPaneText, *this) );
     aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
     aGc.SetBrushColor( iEikonEnv->ControlColor( EColorMenuPaneBackground,*this ) );
-#endif
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        transApi->StopDrawing();
-        }
-#endif
     }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-/**
- * Iterate through the visible items in a menu and calculate minimum 
- * item margins that dont need drawing.
- */
-void CEikMenuPaneExtension::CalcItemSize( MAknListBoxTfxInternal* transApi ) const
-    {
-    if ( transApi && iControl->iItemArray && iControl->iItemArray->Count() )
-        {
-        TRect marginRect(TRect::EUninitialized);
-        const TInt index = 0;
-
-        // Specifies whether the text should be moved to give some space for icon.
-        TInt hasIcon = iControl->MenuHasIcon() ? 1 : 0;
-
-        TAknWindowLineLayout menuPane( AKN_LAYOUT_WINDOW_list_menu_pane( 0 , 0 ) );
-        TAknWindowLineLayout singleMenuPane(
-                        AKN_LAYOUT_WINDOW_list_single_popup_menu_pane( index ) );
-        TAknTextLineLayout menuTextLayout(
-                        AKN_LAYOUT_TEXT_List_pane_texts__menu_single__Line_1(0) );
-        
-        TAknLayoutRect menuPaneRect;
-        TAknLayoutRect singleMenuPaneRect;
-        TAknLayoutText textRect;
-        
-        TBool hasCascade = EFalse;
-        TBool hasNonCascade = EFalse;
-        
-        // number of items in the whole menu
-        for(TInt i = 0; i < iControl->iItemArray->Count(); i++)
-            {
-            CEikMenuPaneItem* item = (*iControl->iItemArray)[i];
-            
-            // true if a cascade symbol must be drawn (main menu only)
-            TBool cascade = item->iData.iCascadeId != 0;
-            
-            if ( cascade )
-                {
-                if ( hasCascade )
-                    {
-                    if ( hasNonCascade )
-                        {
-                        break;
-                        }
-                    continue;
-                    }
-                hasCascade = ETrue;
-                }
-            else
-                {
-                if ( hasNonCascade )
-                    {
-                    if ( hasCascade )
-                        {
-                        break;
-                        }
-                    continue;
-                    }
-                hasNonCascade = ETrue;
-                }
-    
-            if ( !iControl->iOwner )
-                {
-                TAknWindowLineLayout listScrollPaneLayout( 
-                    AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-                AdjustPopupLayoutData( listScrollPaneLayout );                 
-                TAknLayoutRect listScrollPaneRect;
-                listScrollPaneRect.LayoutRect( iControl->Rect(), listScrollPaneLayout );
-    
-                menuPane = AknLayoutScalable_Avkon::list_menu_pane( 0 ).LayoutLine();
-                menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-    
-                singleMenuPane = AknLayoutScalable_Avkon::list_single_pane_cp2( index ).LayoutLine();
-                singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-    
-                menuTextLayout = AknLayoutScalable_Avkon::list_single_pane_t1_cp2( cascade ? 3 : 0 ).LayoutLine();
-                }
-            else // Submenu
-                {
-                TBool hasDoubleSpanScrollBar = EFalse;
-                if ( iControl->iOwner && iControl->iSBFrame && 
-                        iControl->iSBFrame->VScrollBarVisibility() )
-                    {
-                    hasDoubleSpanScrollBar = ETrue;
-                    }
-                TAknWindowLineLayout listScrollPaneLayout( AknLayoutScalable_Avkon::listscroll_popup_sub_pane().LayoutLine() );
-                TAknLayoutRect listScrollPaneRect;
-                listScrollPaneRect.LayoutRect( iControl->Rect(), listScrollPaneLayout );
-    
-                menuPane = AknLayoutScalable_Avkon::list_submenu_pane( !hasDoubleSpanScrollBar ).LayoutLine();
-                menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-    
-                singleMenuPane = AknLayoutScalable_Avkon::list_single_popup_submenu_pane( index ).LayoutLine();
-                singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-    
-                menuTextLayout = TAknTextLineLayout( AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( hasIcon ).LayoutLine() );
-                }
-            
-            textRect.LayoutText( singleMenuPaneRect.Rect(), menuTextLayout );
-            if (marginRect == TRect::EUninitialized) 
-                {
-                marginRect = textRect.TextRect();
-                }
-            else
-                {
-                marginRect.BoundingRect(textRect.TextRect());
-                }
-            
-            if ( cascade )
-                {
-                TAknWindowLineLayout elementCascade( AknLayoutScalable_Avkon::list_single_pane_cp2_g3().LayoutLine());
-                TAknLayoutRect cascadeRect;
-                cascadeRect.LayoutRect( singleMenuPaneRect.Rect(), elementCascade );
-                marginRect.BoundingRect(cascadeRect.Rect());
-                }
-            else
-                {
-                TAknLayoutRect activeApplicationsIconRect;
-                activeApplicationsIconRect.LayoutRect( singleMenuPaneRect.Rect(),
-                    AknLayoutScalable_Avkon::list_single_pane_g1_cp2(0).LayoutLine() );
-                marginRect.BoundingRect(activeApplicationsIconRect.Rect());
-                }
-            }
-
-        if ( hasIcon )
-            {
-            TAknLayoutRect iconLayoutRect;
-            iconLayoutRect.LayoutRect( singleMenuPaneRect.Rect(),
-                AknLayoutScalable_Avkon::list_single_popup_submenu_pane_g1().LayoutLine() );
-            marginRect.BoundingRect(iconLayoutRect.Rect());
-            }
-
-        //send margins to tfx
-        TPoint tl ( marginRect.iTl - menuPaneRect.Rect().iTl );
-        transApi->SetPosition( MAknListBoxTfxInternal::EListTLMargin, tl );
-        
-        TPoint br( singleMenuPaneRect.Rect().Size().AsPoint() - marginRect.iBr + menuPaneRect.Rect().iTl );
-        transApi->SetPosition( MAknListBoxTfxInternal::EListBRMargin, br );
-        }
-    }
-#endif
 
 
 // ---------------------------------------------------------------------------
@@ -3316,28 +2585,9 @@ void CEikMenuPaneExtension::CalcItemSize( MAknListBoxTfxInternal* transApi ) con
 void CEikMenuPane::DrawItem( TInt aItem, THighlightType aHighlight ) const
     {
     ActivateGc();
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal* transApi = 
-        CAknListLoader::TfxApiInternal( iExtension->iGc );
-
-    if ( transApi )
-        {
-        iExtension->iGc->Activate( *DrawableWindow() );
-        }
-    
-    CWindowGc& gc = transApi ? *iExtension->iGc : SystemGc();
-#else
     CWindowGc& gc = SystemGc();
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     PrepareGcForDrawingItems( gc );
     DrawItem( gc, aItem, aHighlight );
-    
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        iExtension->iGc->Deactivate();
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     DeactivateGc();
     }
 
@@ -3361,14 +2611,6 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
     if ( aItem >= numItemsInArray )
         {
         return;
-        }
-    
-    // seem to have window owning control in correct place
-    TRect windowRect = Rect();
-
-    if ( !iOwner )
-        {
-        windowRect.iBr.iY -= ( iExtension->iCba->Rect().Height() );    
         }
     
     CEikMenuPaneItem* item = (*iItemArray)[aItem];
@@ -3404,12 +2646,15 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         index += itemLeftInBottom;
         }
 
-    TBool drawPartialItem(EFalse);
+    TBool drawSeparator = !( ( index + topIndex ) == numItemsInArray - 1 );
+    TBool drawPartialItem = EFalse;
+    
     if ( index == maxNumberOfItems )
         {
         // We have partial items to draw because of panning so there
         // is one more item to draw than normally.
         drawPartialItem = ETrue;
+        
         // There is no layout data for the extra item, so we used the one
         // above it. 
         --index;
@@ -3421,58 +2666,32 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         return;  // only interested in drawing visible items
         }
 
-    // Collect all of the information from the Layout DLL. Initialise these
-    // variables with DUMMY data. Then replace it with menu/submenu data.
-    TAknWindowLineLayout menuPane( AKN_LAYOUT_WINDOW_list_menu_pane( 0 , 0 ) );
-    TAknWindowLineLayout singleMenuPane(
-                    AKN_LAYOUT_WINDOW_list_single_popup_menu_pane( index ) );
-    TAknTextLineLayout menuTextLayout(
-                    AKN_LAYOUT_TEXT_List_pane_texts__menu_single__Line_1(0) );
-    TAknLayoutRect menuPaneRect;
+    TAknTextLineLayout menuTextLayout;
     TAknLayoutRect singleMenuPaneRect;
 
-    if ( !iOwner )
+    if ( !iOwner ) // main menu
         {
-        TAknWindowLineLayout listScrollPaneLayout( 
-            AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-        if ( iExtension )
-            {
-            iExtension->AdjustPopupLayoutData( listScrollPaneLayout );
-            }        
-        TAknLayoutRect listScrollPaneRect;
-        listScrollPaneRect.LayoutRect( windowRect, listScrollPaneLayout );
-
-        menuPane = AknLayoutScalable_Avkon::list_menu_pane( 0 ).LayoutLine();
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-
-        singleMenuPane = AknLayoutScalable_Avkon::list_single_pane_cp2( index ).LayoutLine();
-        singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-
-        menuTextLayout = AknLayoutScalable_Avkon::list_single_pane_t1_cp2( cascade ? 3 : 0 ).LayoutLine();
+        singleMenuPaneRect.LayoutRect( iExtension->iItemAreaRect,
+            AknLayoutScalable_Avkon::list_single_pane_cp2( index ).LayoutLine() );
+        menuTextLayout = 
+            AknLayoutScalable_Avkon::list_single_pane_t1_cp2( cascade ? 1 : 0 ).LayoutLine();
         }
-    else // Submenu
+    else // submenu
         {
-        TBool hasDoubleSpanScrollBar = EFalse;
-        if ( iSBFrame && iSBFrame->VScrollBarVisibility() )
-            {
-            hasDoubleSpanScrollBar = ETrue;
-            }
-
-        TAknWindowLineLayout listScrollPaneLayout( AknLayoutScalable_Avkon::listscroll_popup_sub_pane().LayoutLine() );
-        TAknLayoutRect listScrollPaneRect;
-        listScrollPaneRect.LayoutRect( windowRect, listScrollPaneLayout );
-
-        menuPane = AknLayoutScalable_Avkon::list_submenu_pane( !hasDoubleSpanScrollBar ).LayoutLine();
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-
-        singleMenuPane = AknLayoutScalable_Avkon::list_single_popup_submenu_pane( index ).LayoutLine();
-        singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-
-        menuTextLayout = TAknTextLineLayout( AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 0 ).LayoutLine() );
-
+        singleMenuPaneRect.LayoutRect( iExtension->iItemAreaRect,
+            AknLayoutScalable_Avkon::list_single_popup_submenu_pane( index ).LayoutLine() );
+        
         if ( hasIcon )
             {
-            menuTextLayout = TAknTextLineLayout( AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 1 ).LayoutLine() );
+            menuTextLayout = 
+                TAknTextLineLayout( 
+                AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 1 ).LayoutLine() );
+            }
+        else
+            {
+            menuTextLayout = 
+                TAknTextLineLayout( 
+                AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1( 0 ).LayoutLine() );
             }
         }
 
@@ -3492,18 +2711,12 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
 
     RWindow& window = Window();
     
-    if ( &window && window.GetDrawRect() == TRect::EUninitialized )
+   if ( &window && window.GetDrawRect() == TRect::EUninitialized )
         {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        MAknListBoxTfxInternal* transApi =
-            CAknListLoader::TfxApiInternal( &aGc );
-        drawingInitiated = transApi && !transApi->EffectsDisabled();
-#else
         drawingInitiated = EFalse;
-#endif
         }
 
-    if ( !drawingInitiated )
+    if ( !drawingInitiated && !iExtension->iFullRedraw )
         {
         window.Invalidate( itemRect );
         window.BeginRedraw( itemRect );
@@ -3516,136 +2729,70 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         cc = iExtension->iBgContext;
         }
     TBool background( ETrue );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
-    if ( transApi && !transApi->EffectsDisabled() )
-        {
-        iExtension->iGc->Activate( *DrawableWindow() );
-        }
-#endif
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST            
-    if ( !transApi || transApi->EffectsDisabled() )
+    aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+    aGc.SetBrushColor( singleMenuPaneRect.Color() );
+
+    // there can be partial items, so clip drawing on menu pane's item area
+    aGc.SetClippingRect( iExtension->iItemAreaRect );
+
+    if (!iExtension->iFullRedraw)
         {
-#endif                
+        background = AknsDrawUtils::Background(
+            skin, cc, this, aGc, itemRect,
+            KAknsDrawParamNoClearUnderImage );
+        }
+
+    if ( !background )
+        {
         aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-        aGc.SetBrushColor( singleMenuPaneRect.Color() );
-
-        if(!iExtension->iFullRedraw)
-            {
-            background = AknsDrawUtils::Background(
-                skin, cc, this, aGc, itemRect,
-                KAknsDrawParamNoClearUnderImage );
-            }
-
-        if( !background )
-            {
-            aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-            aGc.SetPenStyle( CGraphicsContext::ENullPen );
-            aGc.SetPenColor( singleMenuPaneRect.Color() );
-            aGc.SetBrushColor( singleMenuPaneRect.Color() );         
-            aGc.DrawRect( itemRect );
-            }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST            
+        aGc.SetPenStyle( CGraphicsContext::ENullPen );
+        aGc.SetPenColor( singleMenuPaneRect.Color() );
+        aGc.SetBrushColor( singleMenuPaneRect.Color() );         
+        aGc.DrawRect( itemRect );
         }
-#endif
 
     if ( !iExtension->HighlightEnabled() )
         {
         aHighlight = ENoHighlight;
         }
-
+    
     switch ( aHighlight )
         {
         case EDrawHighlight :
             {
             if ( !iExtension->iSctHighlighted )
                 {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST                
-                if ( transApi )
-                    {
-                    // This will remove the old bitmap
-                    transApi->Invalidate( MAknListBoxTfxInternal::EListHighlight ); 
-                                       
-                    transApi->BeginRedraw( MAknListBoxTfxInternal::EListHighlight,
-                                           itemRect );                                           
-                    transApi->StartDrawing( MAknListBoxTfxInternal::EListHighlight );
-                    }
-#endif
+                iExtension->iHighlightedItem = aItem;
 
-                // Partial items, so prevent drawing over the edge of menu pane
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                if ( !transApi || ( transApi && transApi->EffectsDisabled() ) )
-                    {
-                    aGc.SetClippingRect(menuPaneRect.Rect());
-                    }
-#else
-                aGc.SetClippingRect(menuPaneRect.Rect());
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
+                // Because of transparency, background must be drawn here as well
+                // (as frame may be see-through)
+                aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+                aGc.SetBrushColor( singleMenuPaneRect.Color() );
 
-                TBool drawOk = EFalse;
-                if( iExtension->iAnimation ) // Draw animated highlight
-                    {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                    if ( transApi && transApi->VerifyKml() == KErrNone )
-                        {
-                        Extension()->UseNoAnimation();
-                        }
-                    else
-                        {
-#endif
-                    TAknLayoutRect highlightTopLeft;
-                    TAknLayoutRect highlightBottomRight;
-          
-                    highlightTopLeft.LayoutRect( itemRect,
-                        SkinLayout::List_highlight_skin_placing__popup_windows__Line_2() );
-                    highlightBottomRight.LayoutRect( itemRect,
-                        SkinLayout::List_highlight_skin_placing__popup_windows__Line_5() );
-                       
-                    TRect outerRect( highlightTopLeft.Rect().iTl, highlightBottomRight.Rect().iBr );
+                AknsDrawUtils::Background(
+                    skin, cc, this, aGc, itemRect,
+                    KAknsDrawParamNoClearUnderImage );
 
-                    drawOk = iExtension->iAnimation->Render( aGc, outerRect );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                        }
-#endif
-                    }
-                
-                if( !drawOk )
-                    {
-                    // Animated highlight was not available, use normal skinned
-                    // rendering.
+                TAknLayoutRect highlightTopLeft;
+                TAknLayoutRect highlightBottomRight;
 
-                    // Because of transparency, background must be drawn here as well
-                    // (as frame may be see-through)
-                    aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-                    aGc.SetBrushColor( singleMenuPaneRect.Color() );
+                highlightTopLeft.LayoutRect(itemRect,
+                    SkinLayout::List_highlight_skin_placing__popup_windows__Line_2() );
+                highlightBottomRight.LayoutRect(itemRect,
+                    SkinLayout::List_highlight_skin_placing__popup_windows__Line_5() );
+                TRect outerRect( highlightTopLeft.Rect().iTl, highlightBottomRight.Rect().iBr );
+                TRect innerRect( highlightTopLeft.Rect().iBr, highlightBottomRight.Rect().iTl );
 
-                    AknsDrawUtils::Background(
-                        skin, cc, this, aGc, itemRect,
-                        KAknsDrawParamNoClearUnderImage );
+                TBool drawOk = AknsDrawUtils::DrawFrame( skin,
+                        aGc, 
+                        outerRect, 
+                        innerRect, 
+                        KAknsIIDQsnFrList, 
+                        KAknsIIDDefault );
 
-                    TAknLayoutRect highlightTopLeft;
-                    TAknLayoutRect highlightBottomRight;
-
-                    highlightTopLeft.LayoutRect(itemRect,
-                        SkinLayout::List_highlight_skin_placing__popup_windows__Line_2() );
-                    highlightBottomRight.LayoutRect(itemRect,
-                        SkinLayout::List_highlight_skin_placing__popup_windows__Line_5() );
-                    TRect outerRect( highlightTopLeft.Rect().iTl, highlightBottomRight.Rect().iBr );
-                    TRect innerRect( highlightTopLeft.Rect().iBr, highlightBottomRight.Rect().iTl );
-
-                    drawOk = AknsDrawUtils::DrawFrame( skin, 
-                                                       aGc, 
-                                                       outerRect, 
-                                                       innerRect, 
-                                                       KAknsIIDQsnFrList, 
-                                                       KAknsIIDDefault );
-                    
-                    }
-
-                // Both animated highlight and normal highlight drawing have
-                // failed.
-                if( !drawOk )
+                // skinned highlight drawing has failed
+                if ( !drawOk )
                     {
                     TAknLayoutRect shadowRect;
                     TAknLayoutRect highlightRect;
@@ -3657,41 +2804,18 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
                     shadowRect.DrawRect( aGc );
                     highlightRect.DrawRect( aGc );
                     }
-
-                aGc.CancelClippingRect();
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                if ( transApi )
-                    {
-                    transApi->StopDrawing();
-                    transApi->EndRedraw( MAknListBoxTfxInternal::EListHighlight );
-                    }
-#endif
                 }
             break;
             }
         case ERemoveHighlight:
         case ENoHighlight:
+            if ( iExtension->iHighlightedItem == aItem )
+                {
+                iExtension->iHighlightedItem = KErrNotFound;
+                }
         default:
             break;
         }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        transApi->BeginRedraw( MAknListBoxTfxInternal::EListItem, itemRect, aItem );
-        transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-    // Partial items, so prevent drawing over the edge of menu pane
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( !transApi || ( transApi && transApi->EffectsDisabled() ) )
-        {
-        aGc.SetClippingRect(menuPaneRect.Rect());
-        }
-#else
-    aGc.SetClippingRect(menuPaneRect.Rect());
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
 
     // Cascade
     if ( cascade )
@@ -3786,8 +2910,10 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         }
 
     // Text
-    TAknLayoutText textRect( iExtension->GetMenuItemTextLayout( itemRect, cascade ) );
+    TAknLayoutText textRect;
+    textRect.LayoutText( itemRect, menuTextLayout );
     TRgb textColor = textRect.Color();
+
     if ( aHighlight == EDrawHighlight ) // highlighted text
         {
         AknsUtils::GetCachedColor( skin, textColor, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG10 );
@@ -3819,7 +2945,6 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
        }
     aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
     aGc.SetPenColor( textColor );
-    aGc.UseFont( textRect.Font() );
 
     const CFont* font = textRect.Font();
 
@@ -3846,33 +2971,26 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         iExtension->iCascadeDRect.SetRect( cascRect.iTl, cascRect.iBr );        
         }
 
-    if(iExtension->iIsPenEnable)
+    TAknLayoutRect highlightRect;
+    highlightRect.LayoutRect( itemRect,
+        AKN_LAYOUT_WINDOW_Highlight_graphics__various__Line_2( itemRect ) );
+
+    // store the calculated y-position to the menu item,
+    // so that it can be used in HandlePointerEventL()
+    item->iPos = highlightRect.Rect().iTl.iY;
+    
+    // don't draw separator line for the last item
+    if ( drawSeparator )
         {
-        TAknLayoutRect highlightRect;
-        highlightRect.LayoutRect( itemRect,
-            AKN_LAYOUT_WINDOW_Highlight_graphics__various__Line_2( itemRect ) );
-
-        // store the calculated y-position to the menu item,
-        // so that it can be used in HandlePointerEventL()
-        item->iPos = highlightRect.Rect().iTl.iY;
-        aGc.DiscardFont();
+        AknListUtils::DrawSeparator( aGc, itemRect, textColor );
         }
-
-    if ( !drawingInitiated )
+    
+    if ( !drawingInitiated && !iExtension->iFullRedraw )
         {
         Window().EndRedraw();
         }
 
     aGc.CancelClippingRect();
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi && !transApi->EffectsDisabled() )
-        {
-        transApi->StopDrawing();
-        transApi->EndRedraw( MAknListBoxTfxInternal::EListItem, aItem );
-        iExtension->iGc->Deactivate();
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     }
 
 
@@ -3880,36 +2998,8 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
 // CEikMenuPane::Draw
 // -----------------------------------------------------------------------------
 //
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
 EXPORT_C void CEikMenuPane::Draw( const TRect& aRect ) const
     {
-    CWindowGc& gc = ( iExtension && iExtension->iGc ) ?
-                    *iExtension->iGc : SystemGc();
-    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &gc );
-
-    if ( transApi )
-        {
-        iExtension->iGc->Activate( *DrawableWindow() );
-        
-        if ( !transApi->EffectsDisabled() )
-            {
-            if ( iExtension->iScrollBarRect.iTl.iX <= aRect.iTl.iX &&
-                 iExtension->iScrollBarRect.iBr.iX >= aRect.iBr.iX )
-                {
-                transApi->BeginRedraw( MAknListBoxTfxInternal::EListUpdateRect, aRect );
-                iExtension->iGc->Deactivate();
-                return;
-                }
-        
-            iExtension->CalcItemSize( transApi );
-            }
-        }
-#else
-EXPORT_C void CEikMenuPane::Draw(const TRect& /*aRect*/) const
-    {
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-    TRect windowRect( Rect() );
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = NULL;
 
@@ -3918,37 +3008,11 @@ EXPORT_C void CEikMenuPane::Draw(const TRect& /*aRect*/) const
         cc = iExtension->iBgContext;
         }
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        transApi->SetListType( MAknListBoxTfxInternal::EListBoxTypeMenuPane );
-        transApi->BeginRedraw( MAknListBoxTfxInternal::EListView, windowRect );
-        }
-#else
     CWindowGc& gc = SystemGc();
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     PrepareGcForDrawingItems( gc );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
-        }
-#endif
-
-    if ( !IsCascadeMenuPane() )
-        {
-        CFbsBitmap* cbaExtension = AknsUtils::GetCachedBitmap( skin, KAknsIIDQsnBgSlicePopup );
-        if ( cbaExtension )
-            {
-            TAknLayoutRect sliceRect;
-            sliceRect.LayoutRect( windowRect, SkinLayout::Popup_windows_skin_placing__background_slice__Line_2() );
-            AknIconUtils::SetSize( cbaExtension, sliceRect.Rect().Size() );
-            gc.BitBlt( TPoint( windowRect.iTl.iX, windowRect.iBr.iY-cbaExtension->SizeInPixels().iHeight ), cbaExtension );
-            windowRect.iBr.iY -=2; // two used as margin when rect layouts were done
-            }
-        }
 
     TInt count=0;
+
     if( iItemArray )
         {
         count=iItemArray->Count();
@@ -3957,97 +3021,37 @@ EXPORT_C void CEikMenuPane::Draw(const TRect& /*aRect*/) const
     // Give the topmost menu item's rect to SCT if needed.
     if ( iExtension->iSct )
         {
-        TAknLayoutRect listScrollPaneRect;
-        TAknLayoutRect menuPaneRect;
-        TAknLayoutRect singleMenuPaneRect;
+        iExtension->iSct->SetMenuSctRect( ItemRect( 0 ) );
 
-        TAknWindowLineLayout listScrollPaneLayout( 
-            AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-        if ( iExtension )
-            {
-            iExtension->AdjustPopupLayoutData( listScrollPaneLayout );
-            }
-        listScrollPaneRect.LayoutRect( windowRect, listScrollPaneLayout );
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(),
-             AknLayoutScalable_Avkon::list_menu_pane( 0 ).LayoutLine() );
-        singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(),
-             AknLayoutScalable_Avkon::list_single_pane_cp2( 0 ).LayoutLine() );
-        // Give the rect of the first menu item to SCT.
-        iExtension->iSct->SetMenuSctRect( singleMenuPaneRect.Rect() );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST      
-        if( transApi )
-            {
-            iExtension->iSctRect = singleMenuPaneRect.Rect();
-            TAknLayoutRect cellLayRect;
-            cellLayRect.LayoutRect( iExtension->iSctRect,
-                AknLayoutScalable_Avkon::cell_graphic_popup_pane( 0, 0, 0 ) );
-            iExtension->iSctRect.iTl.iX -= 1;
-            iExtension->iSctRect.iTl.iY -= 1;
-            iExtension->iSctRect.iBr.iX += 3;
-            transApi->ResetNonDrawingRects();
-            transApi->AddNonDrawingRect( iExtension->iScrollBarRect );
-            transApi->AddNonDrawingRect( iExtension->iSctRect );
-            }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-        }
-
-    if ( iExtension->iSct )
-        {
         TRegionFix<4> region;
-        region.AddRect( Rect() );
+        region.AddRect( aRect );
         region.SubRect( iExtension->iSct->Rect() );
         gc.SetClippingRegion( region );
         }
         
-    TRect backgroundRect( iOwner ? windowRect : iExtension->GetBackgroundRect( windowRect ) );
-        
     // The added flag removes the white bg for transparency
     TBool frameDrawn = AknsDrawUtils::Background( 
-        skin, cc, this, gc, backgroundRect, KAknsDrawParamNoClearUnderImage );        
+        skin, cc, this, gc, aRect, KAknsDrawParamNoClearUnderImage );        
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
+    if ( aRect.Intersects( iExtension->iItemAreaRect ) )
         {
-        transApi->StopDrawing();
+        iExtension->iFullRedraw = ETrue;   
+    
+        for ( TInt ii=0;ii<count;++ii )
+            {
+            if(!iExtension->iSctHighlighted && ii == iSelectedItem  )
+                DrawItem( gc, ii, EDrawHighlight);
+            else
+                DrawItem( gc, ii, ENoHighlight);
+            }    
+      
+        iExtension->iFullRedraw = EFalse;   
         }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-    iExtension->iFullRedraw = ETrue;   
-
-    for ( TInt ii=0;ii<count;++ii )
-        {
-        if(!iExtension->iSctHighlighted && ii == iSelectedItem  )
-            DrawItem( gc, ii, EDrawHighlight);
-        else
-            DrawItem( gc, ii, ENoHighlight);
-        }    
-  
-    iExtension->iFullRedraw = EFalse;   
 
     if ( iExtension->iSct )
         {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        if ( transApi )
-            {
-            transApi->StartDrawing( MAknListBoxTfxInternal::EListNotSpecified );
-            }
-#endif
         gc.CancelClippingRegion();
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        if ( transApi )
-            {
-            transApi->StopDrawing();
-            }
-#endif
         }
-        
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    if ( transApi )
-        {
-        transApi->EndViewRedraw( aRect );
-        iExtension->iGc->Deactivate();
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
     }
 
 
@@ -4121,7 +3125,6 @@ void CEikMenuPane::ReportSelectionMadeL( TBool aAbortTransition )
         CEikMenuPane* menu = iOwner ? iOwner : this;
         MCoeControlObserver* observer = menu->Observer();
 
-
         if ( commandId != EAknCmdTaskSwapper )
             {
             _AKNTRACE( "commandId = %d",  commandId );
@@ -4159,26 +3162,6 @@ EXPORT_C void CEikMenuPane::FocusChanged( TDrawNow aDrawNow )
     {
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE( "aDrawNow =  %d", aDrawNow );
-    if( iExtension )
-        {
-        if ( IsFocused() )
-            {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST        
-            // Focus must be handled here, otherwise it will come to late
-            MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-    
-            if ( transApi )
-                {
-                transApi->HandleFocusChange( ETrue );
-                }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-            iExtension->FocusGained();
-            }
-        else // Not focused
-            {
-            iExtension->FocusLost();
-            }
-        }
 
     if ( !iItemArray || iItemArray->Count() == 0 )
         {
@@ -4370,74 +3353,52 @@ EXPORT_C TKeyResponse CEikMenuPane::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
     TInt itemAfterLastItem = loopScrolling ? 0 : max;
     TInt itemAfterFirstItem = loopScrolling ? max : 0;
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    CWindowGc& gc = iExtension->iGc ? *iExtension->iGc : SystemGc();
-    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( &gc );
-#endif //RD_UI_TRANSITION_EFFECTS_LIST
-
-    if(iExtension->iIsPenEnable)
+    // Scroll highlighted item so that it becomes visible,
+    // if it is not visible before (scrolling with scroll bar
+    // can cause highlighted item to go out of screen)
+    TInt topItem = iScroller->TopItemIndex();
+    TInt bottomItem = topItem + NumberOfItemsThatFitInView();
+          
+    if ( iExtension->Offset() < 0 ) 
         {
-        _AKNTRACE( "[%s]", "iExtension->iIsPenEnable = TRUE" );
-        // Scroll highlighted item so that it becomes visible,
-        // if it is not visible before (scrolling with scroll bar
-        // can cause highlighted item to go out of screen)
-        TInt topItem = iScroller->TopItemIndex();
-        TInt bottomItem = topItem + NumberOfItemsThatFitInView();
-              
-        if ( iExtension->Offset() < 0 ) 
+        // Extra bottom item when panning
+        bottomItem++;
+        }
+    
+    if( bottomItem > NumberOfItemsInPane() )
+        {
+        bottomItem = NumberOfItemsInPane();
+        }
+    _AKNTRACE( "topItem = %d,bottomItem = %d", topItem,bottomItem );
+
+    if ( aType != EEventKeyDown && iSelectedItem != ENothingSelected &&
+        !(iExtension->iSctHighlighted && topItem == 0) &&
+        (iSelectedItem < topItem || iSelectedItem > bottomItem - 1) )
+        {
+        _AKNTRACE( "[%s]", "ScrollToMakeItemVisible(iSelectedItem);" );
+        ScrollToMakeItemVisible(iSelectedItem);
+
+        ActivateGc();
+        CWindowGc& gc = SystemGc();
+        PrepareGcForDrawingItems( gc );
+
+        // draw all items that are needed.
+        for( TInt i = 0; i < count; i++ )
             {
-            // Extra bottom item when panning
-            bottomItem++;
-            }
-        
-        if( bottomItem > NumberOfItemsInPane() )
-            {
-            bottomItem = NumberOfItemsInPane();
-            }
-        _AKNTRACE( "topItem = %d,bottomItem = %d", topItem,bottomItem );
-
-        if ( aType != EEventKeyDown && iSelectedItem != ENothingSelected &&
-            !(iExtension->iSctHighlighted && topItem == 0) &&
-            (iSelectedItem < topItem || iSelectedItem > bottomItem - 1) )
-            {
-            _AKNTRACE( "[%s]", "ScrollToMakeItemVisible(iSelectedItem);" );
-            ScrollToMakeItemVisible(iSelectedItem);
-
-            ActivateGc();
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-            if ( transApi )
+            if( i == iSelectedItem && !iExtension->iSctHighlighted)
                 {
-                iExtension->iGc->Activate( *DrawableWindow() );
+                DrawItem( gc, i, EDrawHighlight );
                 }
-#else
-            CWindowGc& gc = SystemGc();
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-            PrepareGcForDrawingItems( gc );
-
-            // draw all items that are needed.
-            for( TInt i = 0; i < count; i++ )
+            else
                 {
-                if( i == iSelectedItem && !iExtension->iSctHighlighted)
-                    {
-                    DrawItem( gc, i, EDrawHighlight );
-                    }
-                else
-                    {
-                    DrawItem( gc, i, ERemoveHighlight );
-                    }
+                DrawItem( gc, i, ERemoveHighlight );
                 }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-            if ( transApi )
-                {
-                iExtension->iGc->Deactivate();
-                }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-            DeactivateGc();
-            _AKNTRACE( "[%s]", "OfferKeyEventL return 9" );
-            _AKNTRACE_FUNC_EXIT;
-            return EKeyWasConsumed;
             }
+
+        DeactivateGc();
+        _AKNTRACE( "[%s]", "OfferKeyEventL return 9" );
+        _AKNTRACE_FUNC_EXIT;
+        return EKeyWasConsumed;
         }
 
     if ( iSelectedItem != ENothingSelected || iExtension->iSctHighlighted )
@@ -4454,13 +3415,6 @@ EXPORT_C TKeyResponse CEikMenuPane::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
 // loop scrolling always used in options menus
             case EKeyDownArrow:
             	_AKNTRACE( "[%s]", "OfferKeyEventL(EKeyDownArrow)" );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                if ( transApi )
-                    {
-                    transApi->SetMoveType(
-                            MAknListBoxTfxInternal::EListMoveDown );
-                    }
-#endif //RD_UI_TRANSITION_EFFECTS_LIST
                 if ( iExtension->iSctHighlighted && iExtension->iSct )
                     {
                     iExtension->iSctHighlighted = EFalse;
@@ -4486,13 +3440,6 @@ EXPORT_C TKeyResponse CEikMenuPane::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
                 break;
             case EKeyUpArrow:
             	_AKNTRACE( "[%s]", "OfferKeyEventL(EKeyUpArrow)" );
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                if ( transApi )
-                    {
-                    transApi->SetMoveType(
-                            MAknListBoxTfxInternal::EListMoveUp );
-                    }
-#endif //RD_UI_TRANSITION_EFFECTS_LIST
                 if ( iExtension->iSct &&
                     iSelectedItem == 0 && !iExtension->iSctHighlighted )
                     {
@@ -4695,100 +3642,72 @@ void CEikMenuPane::ActivateCurrentItemL()
         
     TInt count( NumberOfItemsInPane() );
         
-    if ( iExtension->iIsPenEnable )
+    // Scroll highlighted item so that it becomes visible
+    // if it is not visible before (scrolling with scroll bar
+    // can cause highlighted item to go out of screen).
+    TInt topItem( iScroller->TopItemIndex() );
+    TInt bottomItem( topItem + NumberOfItemsThatFitInView() );
+    if ( bottomItem > count )
         {
-        // Scroll highlighted item so that it becomes visible
-        // if it is not visible before (scrolling with scroll bar
-        // can cause highlighted item to go out of screen).
-        TInt topItem( iScroller->TopItemIndex() );
-        TInt bottomItem( topItem + NumberOfItemsThatFitInView() );
-        if ( bottomItem > count )
+        bottomItem = count;
+        }
+
+    if ( iExtension->Offset() < 0 &&
+         ( iSelectedItem == topItem || iSelectedItem == bottomItem ) )
+        {
+        // Restoring offset with "simulated" ok key event.         
+        iExtension->RestoreOffset( EKeyOK ); 
+        }    
+    else if ( iSelectedItem < topItem ||
+              iSelectedItem > bottomItem - 1 )
+        {
+        if ( count > iSelectedItem )
             {
-            bottomItem = count;
+            if ( iExtension->iSctHighlighted && iExtension->iSct )
+                {
+                TKeyEvent key;
+                key.iCode = EKeyOK;
+                key.iModifiers = 0;
+
+                TKeyResponse keyResponse( EKeyWasNotConsumed );
+                TEventCode type( EEventNull );
+                keyResponse = iExtension->iSct->OfferKeyEventL( key,
+                                                                type );
+                if ( keyResponse == EKeyWasConsumed )
+                    {
+                    ReportSelectionMadeL();
+                    }
+                _AKNTRACE( "[%s]" "ActivateCurrentItemL return 2" );
+                _AKNTRACE_FUNC_EXIT;
+                return;
+                }
             }
-   
-        if ( iExtension->Offset() < 0 &&
-             ( iSelectedItem == topItem || iSelectedItem == bottomItem ) )
+
+        iExtension->isUpdateScrollDirectly = ETrue;
+        ScrollToMakeItemVisible( iSelectedItem );
+        iExtension->isUpdateScrollDirectly = EFalse;
+
+        ActivateGc();
+        CWindowGc& gc = SystemGc();
+        PrepareGcForDrawingItems( gc );
+
+        // Draw all items that are needed.
+        for ( TInt i = 0; i < count; i++ )
             {
-            // Restoring offset with "simulated" ok key event.         
-            iExtension->RestoreOffset( EKeyOK ); 
-            }    
-        else if ( iSelectedItem < topItem ||
-                  iSelectedItem > bottomItem - 1 )
-            {
-            if ( count > iSelectedItem )
+            if ( i == iSelectedItem && !iExtension->iSctHighlighted )
                 {
-                if ( iExtension->iSctHighlighted && iExtension->iSct )
-                    {
-                    TKeyEvent key;
-                    key.iCode = EKeyOK;
-                    key.iModifiers = 0;
-
-                    TKeyResponse keyResponse( EKeyWasNotConsumed );
-                    TEventCode type( EEventNull );
-                    keyResponse = iExtension->iSct->OfferKeyEventL( key,
-                                                                    type );
-                    if ( keyResponse == EKeyWasConsumed )
-                        {
-                        ReportSelectionMadeL();
-                        }
-                    _AKNTRACE( "[%s]" "ActivateCurrentItemL return 2" );
-                    _AKNTRACE_FUNC_EXIT;
-                    return;
-                    }
+                DrawItem( gc, i, EDrawHighlight );
                 }
-
-            iExtension->isUpdateScrollDirectly = ETrue;
-            ScrollToMakeItemVisible( iSelectedItem );
-            iExtension->isUpdateScrollDirectly = EFalse;
-
-            ActivateGc();
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-
-            MAknListBoxTfxInternal *transApi =
-                CAknListLoader::TfxApiInternal( iExtension->iGc );
-            if ( transApi )
+            else
                 {
-                iExtension->iGc->Activate( *DrawableWindow() );
+                DrawItem( gc, i, ERemoveHighlight );
                 }
-            CWindowGc& gc = transApi ? *iExtension->iGc : SystemGc();
-
-#else
-
-            CWindowGc& gc = SystemGc();
-
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-            PrepareGcForDrawingItems( gc );
-
-            // Draw all items that are needed.
-            for ( TInt i = 0; i < count; i++ )
-                {
-                if ( i == iSelectedItem && !iExtension->iSctHighlighted )
-                    {
-                    DrawItem( gc, i, EDrawHighlight );
-                    }
-                else
-                    {
-                    DrawItem( gc, i, ERemoveHighlight );
-                    }
-                }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-
-            if ( transApi )
-                {
-                iExtension->iGc->Deactivate();
-                }
-
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-            DeactivateGc();
-            _AKNTRACE( "[%s]" "ActivateCurrentItemL return 3" );
-            _AKNTRACE_FUNC_EXIT;
-            return;
             }
+
+        DeactivateGc();
+        _AKNTRACE( "[%s]" "ActivateCurrentItemL return 3" );
+        _AKNTRACE_FUNC_EXIT;
+        return;
         }
 
     if ( iCascadeMenuPane )
@@ -4909,11 +3828,6 @@ EXPORT_C void* CEikMenuPane::ExtensionInterface( TUid /*aInterface*/ )
 //
 EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     {
-    if( !AknLayoutUtils::PenEnabled() )
-        {
-        return;
-        }
-
     _AKNTRACE_FUNC_ENTER;
 
     if ( iOwner && !IsVisible() )
@@ -4949,16 +3863,13 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
         {
         if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
             {
-            if( AknLayoutUtils::PenEnabled() )
+            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                    {
-                    iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
-                    }
-                else
-                    {
-                    iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
-                    }
+                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                }
+            else
+                {
+                iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
                 }
             iExtension->iShowCascadeTransition = ETrue;
             CloseCascadeMenu();  
@@ -5048,21 +3959,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
     // Get the option item's rect in Menu SCT
     if ( iExtension->iSct )
         {
-        TAknLayoutRect menuPaneRect;
-        TAknWindowLineLayout menuPane;
-        
-        TAknWindowLineLayout listScrollPaneLayout( 
-            AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-        if ( iExtension )
-            {
-            iExtension->AdjustPopupLayoutData( listScrollPaneLayout );
-            }
-        TAknLayoutRect listScrollPaneRect;
-        listScrollPaneRect.LayoutRect( Rect(), listScrollPaneLayout );
-        
-        menuPane = AknLayoutScalable_Avkon::list_menu_pane( 0 ).LayoutLine();
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-        menuSctRect = menuPaneRect.Rect();
+        menuSctRect = iExtension->iItemAreaRect;
         }
     TRect cascadeMenuRect(0,0,0,0);
 
@@ -5089,8 +3986,8 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
     // if submenu, then move it's rect coordinates to relative to parent.
     if ( iCascadeMenuPane  )
         {
-        TPoint subPos = iCascadeMenuPane->PositionRelativeToScreen();
-        cascadeMenuRect = TRect(subPos-PositionRelativeToScreen(), iCascadeMenuPane->Size());
+        TPoint subPos = iCascadeMenuPane->Position();
+        cascadeMenuRect = TRect(subPos-Position(), iCascadeMenuPane->Size());
         }
 
     // Pointerevent in case we need to pass event from submenu to parent
@@ -5102,12 +3999,6 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
         iExtension->StopCascadeMenuTimer();
         iExtension->ResetPressedHighlight();
         }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal(
-                                                            iExtension->iGc );
-    TBool effects = transApi && !transApi->EffectsDisabled();
-#endif
 
     switch (aPointerEvent.iType )
         {
@@ -5308,16 +4199,13 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                     // if submenu, and clicked outside of it
                     if ( !cascadeMenuRect.Contains( aPointerEvent.iPosition ) )
                         {
-                        if( AknLayoutUtils::PenEnabled() )
-                            {                            
-                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                                {
-                                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
-                                }
-                            else
-                                {
-                                iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
-                                }
+                        if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                            {
+                            iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                            }
+                        else
+                            {
+                            iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
                             }
                         //Just close sub menu
                         iExtension->iShowCascadeTransition = ETrue;
@@ -5356,12 +4244,6 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                     iExtension->iSct->HighlightSctRow( iExtension->iSctHighlighted );
                                     }
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                                if ( effects )
-                                    {
-                                    transApi->SetMoveType( MAknListBoxTfxInternal::EListTap );
-                                    }
-#endif
                                 iExtension->iPressedDown = ETrue;
 
                                 // Start timer for pressed highlight
@@ -5382,12 +4264,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                     {
                                     iExtension->iButtonDownItem = KErrNotFound;
                                     }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                                if ( effects )
-                                    {
-                                    transApi->Draw( Rect() );
-                                    }
-#endif
+
                                 // if new item has submenu, show it
                                 if ( item->iData.iCascadeId )
                                     {
@@ -5415,37 +4292,32 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                     }
                 else
                     {
-                    if ( iExtension->iIsPenEnable ) 
+                    // For finger usability, extend to the right.
+                    TRect innerToRightRect;
+                    if ( AknLayoutUtils::LayoutMirrored() )
                         {
-                        // For finger usability, extend to the right.
-                        TRect innerToRightRect;
-                        if ( AknLayoutUtils::LayoutMirrored() )
-                            {
-                            innerToRightRect = TRect( Rect().iTl, innerRect.iBr );
-                            }
-                        else
-                            {
-                            innerToRightRect = TRect( innerRect.iTl, Rect().iBr );
-                            }
-                        // Keep opened
-                        if ( innerToRightRect.Contains( aPointerEvent.iPosition ) ) 
-                            {
-                            break;
-                            }
+                        innerToRightRect = TRect( Rect().iTl, innerRect.iBr );
                         }
+                    else
+                        {
+                        innerToRightRect = TRect( innerRect.iTl, Rect().iBr );
+                        }
+                    // Keep opened
+                    if ( innerToRightRect.Contains( aPointerEvent.iPosition ) ) 
+                        {
+                        break;
+                        }
+
                     // clicked outside, then close menu case by case
                     if ( iCascadeMenuPane )
                         {
-                        if( AknLayoutUtils::PenEnabled() )
-                            {                            
-                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                                {
-                                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
-                                }
-                            else
-                                {
-                                iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
-                                }
+                        if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                            {
+                            iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                            }
+                        else
+                            {
+                            iExtension->ImmediateFeedback( ETouchFeedbackPopUp );
                             }
                         iExtension->iShowCascadeTransition = ETrue;
                         CloseCascadeMenu(); //Just close sub menu.
@@ -5494,15 +4366,6 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 iExtension->iNextHighlightItem = KErrNotFound;
                 iExtension->iPanningActive = ETrue;
                 iExtension->EnableHighlight( EFalse );
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                MAknListBoxTfx* tfxApi = CAknListLoader::TfxApi( iExtension->iGc );
-
-                if ( tfxApi )
-                    {
-                    tfxApi->EnableEffects( EFalse );
-                    }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
                 }    
                          
             if ( iExtension->iPanningActive )
@@ -5543,19 +4406,16 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                     && !cascadeMenuRect.Contains(
                                             aPointerEvent.iPosition ) )
                                 {
-                                if ( AknLayoutUtils::PenEnabled() )
+                                if ( CAknTransitionUtils::TransitionsEnabled(
+                                        AknTransEffect::EComponentTransitionsOff ) )
                                     {
-                                    if ( CAknTransitionUtils::TransitionsEnabled(
-                                            AknTransEffect::EComponentTransitionsOff ) )
-                                        {
-                                        iExtension->ImmediateFeedback(
-                                                ETouchFeedbackDecreasingPopUp );
-                                        }
-                                    else
-                                        {
-                                        iExtension->ImmediateFeedback(
-                                                ETouchFeedbackPopUp );
-                                        }
+                                    iExtension->ImmediateFeedback(
+                                            ETouchFeedbackDecreasingPopUp );
+                                    }
+                                else
+                                    {
+                                    iExtension->ImmediateFeedback(
+                                            ETouchFeedbackPopUp );
                                     }
                                 iExtension->iShowCascadeTransition = ETrue;
                                 CloseCascadeMenu();
@@ -5568,14 +4428,6 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             if ( oldSelected != ii )
                                 {
                                 iExtension->iPressedDown = EFalse;
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                                if ( effects
-                                        && !iExtension->iShowCascadeTransition )
-                                    {
-                                    transApi->SetMoveType(
-                                            MAknListBoxTfxInternal::EListDrag );
-                                    }
-#endif
                                 }
                             TRect screenRect( TPoint( KMinTInt, KMinTInt ),
                                     TPoint( KMaxTInt, KMaxTInt ) );
@@ -5818,9 +4670,6 @@ EXPORT_C void CEikMenuPane::SetItemButtonState( TInt aCommandId,TInt aButtonStat
 EXPORT_C void CEikMenuPane::SetSelectedItem( TInt aSelectedItem )
     {
     iSelectedItem = (aSelectedItem >= NumberOfItemsInPane() ) ? 0 : aSelectedItem;
-
-    if( iExtension )
-        iExtension->ChangeHighlightBackground();
     }
 
 // -----------------------------------------------------------------------------
@@ -5916,10 +4765,6 @@ EXPORT_C void CEikMenuPane::Reserved_2()
 void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEvent aEventType )
     {
     _AKNTRACE_FUNC_ENTER;
-    if( !AknLayoutUtils::PenEnabled())
-        {
-        return;
-        }
 
     _AKNTRACE( "[%s]", "Stop physics engine");
     iExtension->iPhysics->StopPhysics();
@@ -5967,16 +4812,9 @@ void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEven
     // Items that becomes topmost and downmost items
     TInt newTopItem = 0;
 
-
     // if update is not wanted, do nothing.
     if ( update )
         {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal(
-                iExtension->iGc );
-        TBool effects = transApi && !transApi->EffectsDisabled();
-#endif
-
         switch (aEventType)
             {
             case EEikScrollUp:
@@ -6038,17 +4876,7 @@ void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEven
                 {
                 _AKNTRACE( "[%s]", "EEikScrollPageDown");
                 _AKNTRACE( "bottomItem = %d", bottomItem);
-                // if last item is not visible
-                if ( bottomItem < countOfItems)
-                    {
-                    // move menu to show one site down or then downmost items.
-                    newTopItem = (bottomItem <=  (countOfItems - itemsThatFitToView)) ? (topItem + itemsThatFitToView) : (countOfItems - itemsThatFitToView);
-                    }
-                else
-                    {
-                    update = EFalse;
-                    }
-                _AKNTRACE( "newTopItem = %d", newTopItem);
+                update = ETrue;
                 _AKNTRACE( "update = %d", update);
                 }
                 break;
@@ -6056,76 +4884,34 @@ void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEven
             case EEikScrollThumbDragVert:
                 {
                 _AKNTRACE( "[%s]", "EEikScrollThumbDragVert");
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-
-                if ( effects )
-                    {
-                    MAknListBoxTfx* tfxApi = CAknListLoader::TfxApi( iExtension->iGc );
-                    
-                    if ( tfxApi )
-                        {
-                        tfxApi->EnableEffects( EFalse );
-                        effects = EFalse;
-                        }
-                    }
-#endif
                 // new thumb position
                 TInt thumb = aScrollBar->ThumbPosition();
                 _AKNTRACE( "thumb = %d", thumb);
-
-                // did dragging cause scrolling
-                if ( thumb != topItem )
-                    {
-                    newTopItem = thumb;
-                    }
-                else
-                    {
-                    update = EFalse;
-                    }
-                _AKNTRACE( "newTopItem = %d", newTopItem);
+                update = ETrue;
                 _AKNTRACE( "update = %d", update);
                 }
                 break;
 
-            case EEikScrollThumbReleaseVert:
-                {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                MAknListBoxTfx* tfxApi = CAknListLoader::TfxApi( iExtension->iGc );
-                
-                if ( tfxApi )
-                    {
-                    tfxApi->EnableEffects( ETrue );
-                    }
-#endif
-                }
-                return;
-                
             default:
                 update = EFalse;
                 break;
             }
 
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-            if ( effects )
-                {
-                transApi->SetMoveType( newTopItem > topItem ?
-                    MAknListBoxTfxInternal::EListScrollDown :
-                    MAknListBoxTfxInternal::EListScrollUp );
-                }
-#endif
-
-            
+        // if topItem changed, then draw menu again.
+        if ( newTopItem != topItem || update )
+            {
             iExtension->iListTopIndex = aScrollBar->ThumbPosition();
-                           
-            iExtension->iViewPosition.iY = 
-                iExtension->iListTopIndex + iExtension->iViewHeight / 2;              
-                          
-            iExtension->ViewPositionChanged( iExtension->iViewPosition );
-
+            TPoint newPosition( iExtension->iViewPosition.iX,
+                    iExtension->iListTopIndex + iExtension->iViewHeight / 2 );
+            
+            iExtension->iFlags.Set( CEikMenuPaneExtension::ESkipScrollbarUpdate );
+            iExtension->ViewPositionChanged( newPosition );
+            iExtension->iFlags.Clear( CEikMenuPaneExtension::ESkipScrollbarUpdate );
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::CreateScrollBarFrame
@@ -6140,13 +4926,13 @@ void CEikMenuPane::CreateScrollBarFrame()
         {
         CEikScrollBarFrame::TScrollBarVisibility visibility = CEikScrollBarFrame::EOn;
 
-        if ( iOwner && ( iItemArray->Count() <= NumberOfItemsThatFitInView() ) )
+        if ( iItemArray->Count() <= NumberOfItemsThatFitInView() )
             {
-            // submenu with less than 6 items
+            // all items fit, no need to show the scrollbar
             visibility = CEikScrollBarFrame::EOff;
             }
-        TRAP_IGNORE( iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff, visibility /*CEikScrollBarFrame::EAuto*/ ) );
 
+        TRAP_IGNORE( iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff, visibility ) );
         TRAP_IGNORE( iSBFrame->CreateDoubleSpanScrollBarsL( EFalse, EFalse, ETrue, EFalse ) );
         iSBFrame->DrawBackground( EFalse, EFalse );
         UpdateScrollBar();
@@ -6160,12 +4946,13 @@ void CEikMenuPane::CreateScrollBarFrame()
 //
 void CEikMenuPane::UpdateScrollBar()
     {
-    if ( !CheckCreateScroller() )
+    if ( !CheckCreateScroller() || !IsVisible() )
         return;
     CIdle* idle = iScroller->Idle();
     if ( idle && !idle->IsActive() )
         idle->Start( TCallBack( CEikMenuPane::UpdateScrollBarCallBackL, this ) );
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::UpdateScrollBarCallBackL
@@ -6176,6 +4963,7 @@ TInt CEikMenuPane::UpdateScrollBarCallBackL( TAny* aObj )
     REINTERPRET_CAST(CEikMenuPane*,aObj)->DoUpdateScrollBarL();
     return 0;
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::DoUpdateScrollBarL
@@ -6189,17 +4977,7 @@ void CEikMenuPane::DoUpdateScrollBarL()
     TEikScrollBarModel hSbarModel;
     TEikScrollBarModel vSbarModel;
 
-    TRect menuPaneRect;
-    if ( !iOwner )
-        {
-        menuPaneRect = iExtension->iMenuPaneRect;    
-        }
-    else
-        {
-        menuPaneRect = Rect();    
-        }
-    
-    TRect clientRect( menuPaneRect.Size() ); 
+    TRect clientRect( iExtension->iMenuPaneRect.Size() );
 
     // Panning uses pixel resolution scrollbar
     vSbarModel.iThumbPosition = iExtension->iListTopIndex;      
@@ -6218,78 +4996,39 @@ void CEikMenuPane::DoUpdateScrollBarL()
     layout.SetInclusiveMargin( 0 );
     layout.iTilingMode = TEikScrollBarFrameLayout::EClientRectConstant;
 
-    // For main menupane scrollbar is always shown, for submenu only when needed
-    if ( !iOwner )
+    CEikScrollBarFrame::TScrollBarVisibility visibility = 
+            iSBFrame->ScrollBarVisibility( CEikScrollBar::EVertical );
+    
+    // scrollbar is shown only if needed
+    if ( iExtension->iScrollbarVisibility == CEikScrollBarFrame::EOn 
+            && visibility == CEikScrollBarFrame::EOff )
         {
-        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff, CEikScrollBarFrame::EOn );
+        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff, 
+                CEikScrollBarFrame::EOn );
+        iExtension->iScrollBarRect = iSBFrame->VerticalScrollBar()->Rect();
         }
-    else
+    else if ( iExtension->iScrollbarVisibility == CEikScrollBarFrame::EOff 
+            && visibility == CEikScrollBarFrame::EOn )
         {
-        TInt maxItems = NumberOfItemsThatFitInView();
-        TInt count = iItemArray->Count();
-        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff,
-            (count > maxItems) ? CEikScrollBarFrame::EOn : CEikScrollBarFrame::EOff );
+        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff, 
+                CEikScrollBarFrame::EOff );
+        iExtension->iScrollBarRect = TRect::EUninitialized;
         }
-
+    
     TAknLayoutRect scrollLayoutRect;
-    if ( !iOwner )
-        {
-        TAknWindowLineLayout listScrollPaneLayout( 
-            AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-        if ( iExtension )
-            {
-            iExtension->AdjustPopupLayoutData( listScrollPaneLayout );
-            }
-        scrollLayoutRect.LayoutRect( clientRect, listScrollPaneLayout );
-        scrollBarInclusiveRect =  scrollLayoutRect.Rect();
-        scrollBarClientRect = scrollBarInclusiveRect;
+    scrollLayoutRect.LayoutRect( clientRect, 
+            AknLayoutScalable_Avkon::listscroll_popup_sub_pane().LayoutLine() );
+    scrollBarInclusiveRect = scrollLayoutRect.Rect();
+    scrollBarClientRect = scrollBarInclusiveRect;
 
-        AknLayoutUtils::LayoutVerticalScrollBar( iSBFrame, scrollBarClientRect,
-            AknLayoutScalable_Avkon::scroll_pane_cp25(0).LayoutLine() );
-        }
-    else
-        {
-        scrollLayoutRect.LayoutRect( clientRect, 
-                AknLayoutScalable_Avkon::listscroll_popup_sub_pane().LayoutLine() );
-        scrollBarInclusiveRect = scrollLayoutRect.Rect();
-        scrollBarClientRect = scrollBarInclusiveRect;
-
-        AknLayoutUtils::LayoutVerticalScrollBar( iSBFrame, scrollBarClientRect,
-          AknLayoutScalable_Avkon::scroll_pane_cp4().LayoutLine());
-        }
+    AknLayoutUtils::LayoutVerticalScrollBar( iSBFrame, scrollBarClientRect,
+      AknLayoutScalable_Avkon::scroll_pane_cp4().LayoutLine());
 
     iSBFrame->TileL( &hDsSbarModel, &vDsSbarModel, scrollBarClientRect, scrollBarInclusiveRect, layout );
     iSBFrame->SetVFocusPosToThumbPos( vDsSbarModel.FocusPosition() );
-    
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-    if ( iSBFrame->VerticalScrollBar() &&
-         iSBFrame->VScrollBarVisibility() == CEikScrollBarFrame::EOn )
-        {
-        iExtension->iScrollBarRect = iSBFrame->VerticalScrollBar()->Rect();
-        }
-    else
-        {
-        iExtension->iScrollBarRect = TRect::EUninitialized;
-        }
-    if ( transApi )
-        {
-        transApi->ResetNonDrawingRects();
-        transApi->AddNonDrawingRect( iExtension->iScrollBarRect );
-        transApi->AddNonDrawingRect( iExtension->iSctRect );
-        }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-    if ( iSBFrame->VerticalScrollBar() &&
-         iSBFrame->VScrollBarVisibility() == CEikScrollBarFrame::EOn )
-        {
-        iExtension->iSBRect = iSBFrame->VerticalScrollBar()->Rect();       
-        }
-    else
-        {
-        iExtension->iSBRect = TRect::EUninitialized;
-        }        
     _AKNTRACE_FUNC_EXIT;
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::UpdateScrollBarThumbs
@@ -6302,6 +5041,7 @@ void CEikMenuPane::UpdateScrollBarThumbs()
         iSBFrame->SetVFocusPosToThumbPos( iExtension->iListTopIndex );             
         }
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::ScrollToMakeItemVisible
@@ -6357,6 +5097,7 @@ void CEikMenuPane::ScrollToMakeItemVisible(TInt aItemIndex)
     return;
     }
 
+
 // -----------------------------------------------------------------------------
 // CEikMenuPane::Scroll
 // -----------------------------------------------------------------------------
@@ -6400,6 +5141,7 @@ void CEikMenuPane::Scroll( TInt aAmount )
     return;
     }
 
+
 // -----------------------------------------------------------------------------
 // CEikMenuPane::ViewRect
 // -----------------------------------------------------------------------------
@@ -6408,6 +5150,7 @@ TRect CEikMenuPane::ViewRect() const
     {
     return Rect();
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::NumberOfItemsThatFitInView
@@ -6420,7 +5163,7 @@ TInt CEikMenuPane::NumberOfItemsThatFitInView() const
         {
         subst = 1;
         }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST        
+
     iExtension->iItemsThatFitInView = iOwner ? AknLayoutScalable_Avkon::
         list_single_popup_submenu_pane_ParamLimits().LastRow() + 1 :
         AknLayoutScalable_Avkon::
@@ -6431,20 +5174,9 @@ TInt CEikMenuPane::NumberOfItemsThatFitInView() const
             iExtension->iItemsThatFitInView --;
             }
         
-    if ( iExtension->iPhysics && iExtension->Offset() != 0 )
-        {
-        // with kinetic scrolling there can be partial items on the screen 
-        iExtension->iTotalNumberOfItemsInView = iExtension->iItemsThatFitInView + 1;
-        }
-        
     return iExtension->iItemsThatFitInView;
-#else
-    return iOwner ? AknLayoutScalable_Avkon::
-        list_single_popup_submenu_pane_ParamLimits().LastRow() + 1 :
-        AknLayoutScalable_Avkon::
-        list_single_pane_cp2_ParamLimits().LastRow() + 1 - subst;
-#endif
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::TotalItemHeight
@@ -6482,6 +5214,7 @@ TBool CEikMenuPane::CheckCreateScroller()
         }
     return err == KErrNone;
     }
+
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::CheckCreateScrollerL
@@ -6599,21 +5332,6 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
             PrepareHighlightFrame();
             SetCascadedIconSize();
 
-            // Background under highlight may have changed -> we need to update
-            // highlight background to animation
-            if( iExtension )
-                {
-                iExtension->HandleLayoutSwitch();
-                }
-                          
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST        
-            MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-            if ( transApi )
-                {
-                transApi->Remove( MAknListBoxTfxInternal:: EListEverything );
-                }
-#endif    
-            
             //Initialize physics engine
             if ( iExtension->iPhysics )
                 {
@@ -6671,7 +5389,11 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
         }
     else if ( aType == KAknMessageFocusLost )
         {
-        if ( iExtension && iExtension->HighlightEnabled() )
+        if ( iCascadeMenuPane )
+            {
+            iCascadeMenuPane->HandleResourceChange( aType );
+            }
+        else if ( iExtension && iExtension->HighlightEnabled() )
             {
             iExtension->EnableHighlight( EFalse, EFalse );
             DrawItem( iSelectedItem, ENoHighlight );
@@ -6943,14 +5665,17 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
 
     // it can be only in submenu in case when scalable layout is available
     TBool hasIcon = MenuHasIcon();
-    TBool hasDoubleSpanScrollBar = EFalse;
 
-    if ( iSBFrame && iSBFrame->VScrollBarVisibility() )
+    // scrollbar is shown only if needed
+    if ( iItemArray->Count() > NumberOfItemsThatFitInView() )
         {
-        _AKNTRACE( "[%s]", "hasDoubleSpanScrollBar = ETrue;" );
-        hasDoubleSpanScrollBar = ETrue;
+        iExtension->iScrollbarVisibility = CEikScrollBarFrame::EOn;
         }
-
+    else
+        {
+        iExtension->iScrollbarVisibility = CEikScrollBarFrame::EOff;
+        }
+    
     TRect parentMenuRect;
     AknLayoutUtils::TAknCbaLocation cbaPosition = AknLayoutUtils::CbaLocation();    
                 
@@ -7042,8 +5767,6 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
     _AKNTRACE( "parentMenuRect.iTl.iY = %d", parentMenuRect.iTl.iY );
     _AKNTRACE( "parentMenuRect.Width() = %d", parentMenuRect.Width() );
     _AKNTRACE( "parentMenuRect.Height( = %d", parentMenuRect.Height() );
-    // if we have landscape layout then main menu should be positioned vertically centered
-    TRect appRect( iEikonEnv->EikAppUi()->ApplicationRect() );
 
     if ( !iOwner ) // main menu
         {
@@ -7063,28 +5786,46 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
         // to be in correct place - so we calculate correct position for
         // background and move control rect to match new background top left
         // position.
-        TRect backgroundRect( iExtension->GetBackgroundRect( parentMenuRect ) );
         TPoint backgroundRectPos( 
-            AknPopupUtils::Position( backgroundRect.Size(), ETrue ) );
+            AknPopupUtils::Position( parentMenuRect.Size(), ETrue ) );
         
         retVal = parentMenuRect;
-        retVal.Move( backgroundRectPos - backgroundRect.iTl );
+        retVal.Move( backgroundRectPos - parentMenuRect.iTl );
         
         // Set embedded cba rect
         if ( iExtension->iCba )
             {
             // There is hidden extra touch space for scroll bar in landscape
-            TInt xOffset = backgroundRect.iTl.iX - parentMenuRect.iTl.iX ; 
+            TInt xOffset = parentMenuRect.iTl.iX - parentMenuRect.iTl.iX ; 
             iExtension->iCba->SetRect( TRect( 
                 xOffset,
                 menuRect.Height(),
-                backgroundRect.Width() + xOffset,
+                parentMenuRect.Width() + xOffset,
                 menuRect.Height() + cbaRect.Rect().Height() ) );
             }
 
         iExtension->iMenuPaneRect = TRect( retVal.iTl, 
                                            TSize ( menuRect.Size() ) );
-                                        
+
+        TInt variety = 4;
+        
+        // reserve area for scrollbar only if it's shown
+        if ( iExtension->iScrollbarVisibility == CEikScrollBarFrame::EOn )
+            {
+            variety = 0;
+            }
+
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( TRect( iExtension->iMenuPaneRect.Size() ), 
+                AknLayoutScalable_Avkon::listscroll_popup_sub_pane( 0 ) );
+        
+        iExtension->iMenuAreaRect = layoutRect.Rect();
+        
+        layoutRect.LayoutRect( iExtension->iMenuAreaRect,
+                AknLayoutScalable_Avkon::list_menu_pane( variety ) );
+
+        iExtension->iItemAreaRect = layoutRect.Rect();
+        
         _AKNTRACE( "[%s]", "the layout of main menu return" );
         _AKNTRACE_FUNC_EXIT;                               
         return retVal;
@@ -7097,20 +5838,13 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
     iExtension->iSubMenuWidthIndex = KAlternativeSubmenuWidths - 1;
 
     TAknLayoutRect parentListScrollLayoutRect;     // listscroll_menu_pane
-    TAknLayoutRect parentPaneLayoutRect;           // list_menu_pane
 
     TAknTextLineLayout subMenuText;                // layout for the text when item is not indicated
     TAknTextLineLayout subMenuIconText;            // layout for the text when item is indicated
 
     TAknWindowLineLayout parentListScrollPaneLayout( 
         AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-    if ( iExtension )
-        {
-        iExtension->AdjustPopupLayoutData( parentListScrollPaneLayout );
-        }    
     parentListScrollLayoutRect.LayoutRect( parentMenuRect, parentListScrollPaneLayout );    
-    parentPaneLayoutRect.LayoutRect( parentListScrollLayoutRect.Rect(),
-        AknLayoutScalable_Avkon::list_menu_pane(0).LayoutLine() );
     subMenuText = AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1(0).LayoutLine();
     subMenuIconText = AknLayoutScalable_Avkon::list_single_popup_submenu_pane_t1(1).LayoutLine();
 
@@ -7133,6 +5867,13 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
         }
 
     // find the suitable item width, so that the text would be visible
+    TInt submenuVariety = 1;
+    
+    if ( iExtension->iScrollbarVisibility == CEikScrollBarFrame::EOn )
+        {
+        submenuVariety = 0;
+        }
+
     for ( ii = 6; ii < KAlternativeSubmenuWidths + 6; ++ii )
         {
         TAknWindowLineLayout submenuLayout( AknLayoutScalable_Avkon::popup_submenu_window( ii ).LayoutLine() );
@@ -7143,7 +5884,7 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
         TAknLayoutRect listScrollPaneRect;
         listScrollPaneRect.LayoutRect( submenuRect.Rect(), listScrollPaneLayout );
 
-        TAknWindowLineLayout listSubmenuPaneLayout( AknLayoutScalable_Avkon::list_submenu_pane( !hasDoubleSpanScrollBar ).LayoutLine() );
+        TAknWindowLineLayout listSubmenuPaneLayout( AknLayoutScalable_Avkon::list_submenu_pane( submenuVariety ).LayoutLine() );
         TAknLayoutRect listSubmenuPaneRect;
         listSubmenuPaneRect.LayoutRect( listScrollPaneRect.Rect(), listSubmenuPaneLayout );
 
@@ -7175,20 +5916,8 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
     TInt parentPos = iOwner->iScroller->TopItemIndex() - iOwner->SelectedItem() +
         Min( parentCount, iOwner->NumberOfItemsThatFitInView() );
 
-    TInt index =  iOwner->SelectedItem() - iOwner->iScroller->TopItemIndex();
-    TInt rows = AknLayoutScalable_Avkon::list_single_pane_cp2_ParamLimits().LastRow();
-
-    // This condition may be true if less items fits to menu view than sub-menu view
-    // and sub-menu under sub-menu is launched.
-    if (index > rows)
-        {
-        // Change the out-of-boundary index to last legal one.
-        index = rows;
-        }
-
-    TAknLayoutRect parentSelectedItemRect;
-    parentSelectedItemRect.LayoutRect( parentPaneLayoutRect.Rect(),
-        AknLayoutScalable_Avkon::list_single_pane_cp2( index ).LayoutLine() );
+    TRect parentSelectedItemRect( iOwner->HighlightRect() );
+    parentSelectedItemRect.Move( iOwner->Position() );
 
     TAknLayoutRect submenuWindowRect;
     // To prevent a panic in layout code, count has to be at least 1 even if
@@ -7227,7 +5956,7 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
     if ( ( Layout_Meta_Data::IsLandscapeOrientation()
         && cbaPosition != AknLayoutUtils::EAknCbaLocationBottom ) )
         {
-        if ( ( parentSelectedItemRect.Rect().iTl.iY + submenuWindowRect.Rect().Height() ) >
+        if ( ( parentSelectedItemRect.iTl.iY + submenuWindowRect.Rect().Height() ) >
                 aWindowRect.iBr.iY )
             {
             subMenuPos = EBottom;
@@ -7279,7 +6008,7 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
         }
     else  // floating
         {
-        TInt yPos = parentSelectedItemRect.Rect().iTl.iY -
+        TInt yPos = parentSelectedItemRect.iTl.iY -
             ( listScrollPaneRect.Rect().iTl.iY - submenuWindowRect.Rect().iTl.iY );
 
         // When a submenu is floating, make sure that the possible panning offset of the
@@ -7308,6 +6037,25 @@ TRect CEikMenuPane::CalculateSizeAndPositionScalable( const TRect& aWindowRect, 
             retVal.Move( 0, -offset );
             }
         }
+    
+    if ( retVal.iTl.iY < 0 )
+        {
+        retVal.Move( 0, -retVal.iTl.iY );
+        }
+
+    iExtension->iMenuPaneRect = retVal;
+
+    TAknLayoutRect layoutRect;
+    layoutRect.LayoutRect( TRect( iExtension->iMenuPaneRect.Size() ), 
+            AknLayoutScalable_Avkon::listscroll_popup_sub_pane( 0 ) );
+    
+    iExtension->iMenuAreaRect = layoutRect.Rect();
+    
+    layoutRect.LayoutRect( iExtension->iMenuAreaRect,
+            AknLayoutScalable_Avkon::list_submenu_pane( submenuVariety ) );
+
+    iExtension->iItemAreaRect = layoutRect.Rect();
+    
     _AKNTRACE( "[%s]", "the layout of sub menu return" );
     _AKNTRACE_FUNC_EXIT;  
     return retVal;
@@ -7328,69 +6076,15 @@ TRect CEikMenuPane::HighlightRect() const
     if( index < 0 )
         index = 0;
 
-    // It is possible that this method is called when iItemArray is NULL.  In
-    // that case we fake numItems as 1 to make layout code work.
-    TInt maxItems = NumberOfItemsThatFitInView();
-    TInt numItems = Min( Max( 1, iItemArray->Count() ), maxItems );
-    if( !iItemArray )
-        numItems = 1;
-    
     // When physics is enabled highlight can be moved to partially visible
     // item which is at the bottom of menu. This causes layout panic and to 
     // avoid that we reduce index by one.
-    if ( index == maxItems )
+    if ( index == NumberOfItemsThatFitInView() )
         {
         index--;
         }
    
-    TRect windowRect = Rect();
-
-    TAknWindowLineLayout menuPane( AKN_LAYOUT_WINDOW_list_menu_pane( 0 , 0 ) );
-    TAknWindowLineLayout singleMenuPane( AKN_LAYOUT_WINDOW_list_single_popup_menu_pane( index ) );
-    TAknLayoutRect menuPaneRect;
-    TAknLayoutRect singleMenuPaneRect;
-
-    TBool hasDoubleSpanScrollBar = EFalse;
-
-    if ( iSBFrame && iSBFrame->VScrollBarVisibility() )
-        {
-        hasDoubleSpanScrollBar = ETrue;
-        }
-
-    if ( !iOwner )
-        {
-        TAknWindowLineLayout listScrollPaneLayout( 
-            AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine() );
-        if ( iExtension )
-            {
-            iExtension->AdjustPopupLayoutData( listScrollPaneLayout );
-            }                            
-        TAknLayoutRect listScrollPaneRect;
-        listScrollPaneRect.LayoutRect( windowRect, listScrollPaneLayout );
-
-        menuPane = AknLayoutScalable_Avkon::list_menu_pane( 0 ).LayoutLine();
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-
-        singleMenuPane = AknLayoutScalable_Avkon::list_single_pane_cp2( index ).LayoutLine();
-        singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-        }
-    else // Submenu
-        {
-        TAknWindowLineLayout listScrollPaneLayout( AknLayoutScalable_Avkon::listscroll_popup_sub_pane().LayoutLine() );
-        TAknLayoutRect listScrollPaneRect;
-        listScrollPaneRect.LayoutRect( windowRect, listScrollPaneLayout );
-
-        menuPane = AknLayoutScalable_Avkon::list_submenu_pane( !hasDoubleSpanScrollBar ).LayoutLine();
-        menuPaneRect.LayoutRect( listScrollPaneRect.Rect(), menuPane );
-
-        singleMenuPane = AknLayoutScalable_Avkon::list_single_popup_submenu_pane( index ).LayoutLine();
-        singleMenuPaneRect.LayoutRect( menuPaneRect.Rect(), singleMenuPane );
-        }
-
-    // Compared to normal DrawItem the highlight rect step is omitted because
-    // it would shift the highlight towards left.
-
-    return singleMenuPaneRect.Rect();
+    return ItemRect( index );
     }
 
 
@@ -7436,7 +6130,6 @@ void CEikMenuPane::SetCascadedIconSize() const
         {
         AknIconUtils::SetSize( itemData->Bitmap(),  cascadeRect.Rect().Size() );
         }
-
     else
         {
         if (iExtension->iCascadeBitmap)
@@ -7479,8 +6172,7 @@ EXPORT_C TTypeUid::Ptr CEikMenuPane::MopSupplyObject( TTypeUid aId )
 EXPORT_C TInt CEikMenuPane::CountComponentControls() const
     {
     TInt count = 0;
-    if ( iSBFrame && iSBFrame->VerticalScrollBar() &&
-                            !( iSBFrame->VerticalScrollBar()->OwnsWindow() ) )
+    if ( iSBFrame && iSBFrame->VerticalScrollBar() )
         {
         count = 1;
         }
@@ -7507,8 +6199,7 @@ EXPORT_C CCoeControl* CEikMenuPane::ComponentControl( TInt aIndex ) const
         {
         case 0:
             {
-            if ( iSBFrame && iSBFrame->VerticalScrollBar() &&
-                        !( iSBFrame->VerticalScrollBar()->OwnsWindow() ) )
+            if ( iSBFrame && iSBFrame->VerticalScrollBar() )
                 {
                 return iSBFrame->VerticalScrollBar();
                 }
@@ -7551,6 +6242,10 @@ CEikMenuPaneExtension* CEikMenuPane::Extension() const
     }
 
 
+// -----------------------------------------------------------------------------
+// CEikMenuPane::CheckCreateExtensionL
+// -----------------------------------------------------------------------------
+//
 void CEikMenuPane::CheckCreateExtensionL()
     {
     if ( !iExtension )
@@ -7558,6 +6253,50 @@ void CEikMenuPane::CheckCreateExtensionL()
         iExtension = new (ELeave) CEikMenuPaneExtension;
         iExtension->ConstructL( this );
         }
+    }
+
+
+// -----------------------------------------------------------------------------
+// CEikMenuPane::ItemRect
+// -----------------------------------------------------------------------------
+//
+TRect CEikMenuPane::ItemRect( TInt aItemIndex ) const
+    {
+    // this method is valid for the main menu only
+    TInt lastRow = AknLayoutScalable_Avkon::list_single_pane_cp2_ParamLimits().LastRow();
+    aItemIndex = Min( aItemIndex, lastRow );
+
+    TAknLayoutRect layoutRect;
+    layoutRect.LayoutRect( iExtension->iItemAreaRect,
+            AknLayoutScalable_Avkon::list_single_pane_cp2( aItemIndex ) );
+            
+    return layoutRect.Rect();
+    }
+
+
+// -----------------------------------------------------------------------------
+// CEikMenuPane::CalculateItemHeight
+// -----------------------------------------------------------------------------
+//
+TInt CEikMenuPane::CalculateItemHeight() const
+    {
+    TAknWindowLineLayout menuLineLayout;
+
+    if ( iOwner ) // submenu
+        {
+        menuLineLayout = 
+            AknLayoutScalable_Avkon::list_single_popup_submenu_pane( 0 ).LayoutLine();
+        }
+    else
+        {
+        menuLineLayout = 
+            AknLayoutScalable_Avkon::list_single_pane_cp2( 0 ).LayoutLine();
+        }
+
+    TAknLayoutRect menuLayoutRect;
+    menuLayoutRect.LayoutRect( Rect(), menuLineLayout );
+    
+    return menuLayoutRect.Rect().Height();
     }
 
 
@@ -7709,30 +6448,20 @@ void CEikMenuPane::CloseCascadeMenu( TBool aMainMenuClosing )
     if ( iCascadeMenuPane->IsVisible() )
         {
         okToDraw = AknsUtils::SkinInstance() != NULL;
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iExtension->iGc );
-        if ( transApi && okToDraw )
-            {
-            iCascadeMenuPane->SetFocus( EFalse, EDrawNow );
-            }
-#endif
         // Stop ongoing comp. transitions, this is mostly for fast clicking
         // cases to make sure that no "scrap" is left behind.
         GfxTransEffect::NotifyExternalState( ENotifyGlobalAbort );
+
         // cascade menu "cancel" animation. This does not apply
         // when something is chosen from the menu
-
-    if( iExtension->iShowCascadeTransition && okToDraw )
-        {
-        iCascadeMenuPane->SetParent( this );
-
-        GfxTransEffect::Begin( iCascadeMenuPane, KGfxControlDisappearAction );
-        GfxTransEffect::SetDemarcation( iCascadeMenuPane, iExtension->iCascadeDRect );
-
-        iCascadeMenuPane->MakeVisible( EFalse );
-
-        GfxTransEffect::End( iCascadeMenuPane );
-
+        if ( iExtension->iShowCascadeTransition && okToDraw )
+            {
+            iCascadeMenuPane->SetParent( this );
+    
+            GfxTransEffect::Begin( iCascadeMenuPane, KGfxControlDisappearAction );
+            GfxTransEffect::SetDemarcation( iCascadeMenuPane, iExtension->iCascadeDRect );
+            iCascadeMenuPane->MakeVisible( EFalse );
+            GfxTransEffect::End( iCascadeMenuPane );
             }
         }
 

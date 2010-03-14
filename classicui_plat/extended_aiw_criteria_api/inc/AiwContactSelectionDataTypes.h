@@ -22,7 +22,7 @@
 #ifndef __AIWCONTACTSELECTIONDATATYPES_H__
 #define __AIWCONTACTSELECTIONDATATYPES_H__
 
-#include <aiwgenericparam.hrh>
+#include <AiwGenericParam.hrh>
 
 class RVPbkContactFieldDefaultPriorities;
 class CVPbkFieldTypeSelector;
@@ -838,7 +838,7 @@ typedef TPckgBuf<TAiwSingleItemSelectionDataV2>     TAiwSingleItemSelectionDataV
 typedef TPckgBuf<TAiwSingleItemSelectionDataV3>     TAiwSingleItemSelectionDataV3Pckg;
 typedef TPckgBuf<TAiwMultipleItemSelectionDataV1>   TAiwMultipleItemSelectionDataV1Pckg;
     
-#include <aiwcontactselectiondatatypes.inl>
+#include <AiwContactSelectionDataTypes.inl>
 
 #endif // __AiwContactSelectionDataTypes_H__
 

@@ -29,7 +29,7 @@
 // INCLUDES
 #include <w32std.h>
 #include <e32base.h>
-#include <CenRepNotifyHandler.h>
+#include <cenrepnotifyhandler.h>
 
 // FORWARD DECLARATION
 class CRepository;

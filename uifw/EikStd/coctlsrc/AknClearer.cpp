@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -228,65 +228,6 @@ EXPORT_C void CAknScreenClearerBase::Draw(const TRect& /*aRect*/) const
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     AknsDrawUtils::Background( skin, iExtension->iBgContext, this, gc, Rect() );
 
-	if (Layout_Meta_Data::IsPenEnabled() && Layout_Meta_Data::IsLandscapeOrientation())
-		{
-#if 0
-	    TRect application_window( KWholeScreen );
-		TAknLayoutRect area_side_right_pane;
-		TInt variety = 0;
-		area_side_right_pane.LayoutRect(application_window, AknLayoutScalable_Avkon::area_side_right_pane(variety));
-
-		CFbsBitmap *mask1 = AknsUtils::GetCachedBitmap( skin, KAknsIIDQgnIndiSctrlSkMaskLsc );
-		CFbsBitmap *mask5 = AknsUtils::GetCachedBitmap( skin, KAknsIIDQgnIndiSctrlSkMaskLsc );
-
-		CFbsBitmap *bitmap = new(ELeave)CFbsBitmap;
-		CleanupStack::PushL(bitmap);
-		bitmap->Create(area_side_right_pane.Rect().Size(), EColor16MA);
-        CFbsBitGc* bitmapContext = NULL;
-        CFbsBitmapDevice* bitmapDevice =
-            CFbsBitmapDevice::NewL( bitmap );
-        CleanupStack::PushL( bitmapDevice );
-        bitmapDevice->CreateContext( bitmapContext );
-        CleanupStack::PushL( bitmapContext );
-
-        TRect area_side_right_pane_rect = area_side_right_pane.Rect();
-        area_side_right_pane_rect.iTl = TPoint(0,0);
-        
-		TAknLayoutRect sctrl_sk_top_pane;
-		sctrl_sk_top_pane.LayoutRect(area_side_right_pane_rect, AknLayoutScalable_Avkon::sctrl_sk_top_pane(0));
-	
-		TAknLayoutRect sctrl_sk_bottom_pane;
-		sctrl_sk_bottom_pane.LayoutRect(area_side_right_pane_rect, AknLayoutScalable_Avkon::sctrl_sk_bottom_pane(0));
-	
-		TAknLayoutRect grid_sctrl_middle_pane;
-		grid_sctrl_middle_pane.LayoutRect(area_side_right_pane_rect, AknLayoutScalable_Avkon::grid_sctrl_middle_pane(0));
-	
-		TAknLayoutRect cell_sctrl_middle_pane1;
-		cell_sctrl_middle_pane1.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,0));
-		TAknLayoutRect cell_sctrl_middle_pane2;
-		cell_sctrl_middle_pane2.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,1));
-		TAknLayoutRect cell_sctrl_middle_pane3;
-		cell_sctrl_middle_pane3.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,2));
-	
-		AknsDrawUtils::DrawFrame( skin, *bitmapContext, sctrl_sk_top_pane.Rect(), Convert(sctrl_sk_top_pane.Rect()), KAknsIIDQgnFrSctrlSkButton, KAknsIIDQgnFrSctrlSkButtonCenter);
-		AknsDrawUtils::DrawFrame( skin, *bitmapContext, cell_sctrl_middle_pane1.Rect(), Convert2(cell_sctrl_middle_pane1.Rect()), KAknsIIDQgnFrSctrlButton, KAknsIIDQgnFrSctrlButtonCenter);
-		AknsDrawUtils::DrawFrame( skin, *bitmapContext, cell_sctrl_middle_pane2.Rect(), Convert2(cell_sctrl_middle_pane2.Rect()), KAknsIIDQgnFrSctrlButton, KAknsIIDQgnFrSctrlButtonCenter);
-		AknsDrawUtils::DrawFrame( skin, *bitmapContext, cell_sctrl_middle_pane3.Rect(), Convert2(cell_sctrl_middle_pane3.Rect()), KAknsIIDQgnFrSctrlButton, KAknsIIDQgnFrSctrlButtonCenter);
-		AknsDrawUtils::DrawFrame( skin, *bitmapContext, sctrl_sk_bottom_pane.Rect(), Convert(sctrl_sk_bottom_pane.Rect()), KAknsIIDQgnFrSctrlSkButton, KAknsIIDQgnFrSctrlSkButtonCenter);
-
-		TSize size1 = sctrl_sk_top_pane.Rect().Size();
-		TSize size5 = sctrl_sk_bottom_pane.Rect().Size();
-        AknIconUtils::SetSize(mask1, size1, EAspectRatioNotPreserved);
-        AknIconUtils::SetSize(mask5, size5, EAspectRatioNotPreserved);
-
-		gc.BitBltMasked( area_side_right_pane.Rect().iTl+sctrl_sk_top_pane.Rect().iTl, bitmap, sctrl_sk_top_pane.Rect(), mask1, EFalse);
-        gc.BitBltMasked( area_side_right_pane.Rect().iTl+sctrl_sk_bottom_pane.Rect().iTl, bitmap, sctrl_sk_bottom_pane.Rect(), mask5, EFalse);
-		
-        CleanupStack::PopAndDestroy(3); // bitmap, bitmapdevice, bitmapcontext
-#endif
-		}
-
-
     iEikonEnv->WsSession().Flush();
     return;
 	}
@@ -372,6 +313,9 @@ void CAknScreenClearerBase::SetSkinShapeL()
                     R_AVKON_STATUS_PANE_LAYOUT_USUAL ) ) );
 
     TBool flatStatuspaneusedInLandscape =
+        ( R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ==
+            AVKONENV->StatusPaneResIdForCurrentLayout(
+                R_AVKON_STATUS_PANE_LAYOUT_USUAL ) );
         ( R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT ==
             AVKONENV->StatusPaneResIdForCurrentLayout(
                 R_AVKON_STATUS_PANE_LAYOUT_USUAL ) );
@@ -753,8 +697,10 @@ EXPORT_C void CAknLocalScreenClearer::HandleResourceChange(TInt aType)
 	{
 	if (aType == KEikDynamicLayoutVariantSwitch)
 		{
-		SetShapeL();
-		SetSkinShapeL();
+        TRAP_IGNORE(
+            SetShapeL();
+            SetSkinShapeL();
+            );
 		DrawDeferred();		
 		}
 	}

@@ -450,7 +450,14 @@ void CAknMemorySelectionModelMultiDrive::AddItemToLbxL(
     else if( aDriveInfo.iStatus & DriveInfo::EDriveRemovable  )
         {
         // External mass storage drive, like external MMC
-        AddMMCItemToLbxL( aDriveInfo );
+        if( aDriveInfo.iStatus & DriveInfo::EDriveUsbMemory )
+        	{
+        	AddUSBItemToLbxL( aDriveInfo );
+        	}
+        else
+        	{
+        	AddMMCItemToLbxL( aDriveInfo );
+        	}
 
         iHasMMCUnavailable = ( aDriveInfo.iDriveStatus == EDriveNotReady );
         }
@@ -908,6 +915,212 @@ void CAknMemorySelectionModelMultiDrive::AddMMCItemToLbxL(
     _LOG1( "itemString length=%d", itemString.Length() );
     }
 
+// ---------------------------------------------------------------------------
+// CAknMemorySelectionModelMultiDrive::AddUSBItemToLbxL
+// ---------------------------------------------------------------------------
+//
+void CAknMemorySelectionModelMultiDrive::AddUSBItemToLbxL(
+    const TCFDDriveInfo& aDriveInfo )
+    {
+    HBufC* lbxItemBuf = HBufC::NewLC( KListBoxEntryMaxLength );
+    TPtr itemString( lbxItemBuf->Des() );
+    HBufC* textItemBuf = HBufC::NewLC( KListBoxEntryMaxLength );
+    TPtr textString( textItemBuf->Des() );
+    HBufC* textItemBuf2 = HBufC::NewLC( KListBoxEntryMaxLength );
+    TPtr textString2( textItemBuf2->Des() );
+    TDriveUnit driveUnit( aDriveInfo.iDriveNumber );
+
+    // Item text is affected by layout
+    switch( iLayout )
+        {
+        case ELayoutPopupMenu:
+            {
+            itemString.Format( KImageHeader, EIconExternalUSBDrive );
+            itemString.Append( KTabChar );
+
+            // 1st row text:
+            if( ( aDriveInfo.iDriveStatus == EDriveOK ) &&
+                ( aDriveInfo.iVolumeLabel.Length() > 0 ) )
+                {
+                StringLoader::Format(
+                    textString2,
+                    *iLocStringArray[ ETextMMCNamed ],
+                    KIndexFirst,
+                    driveUnit.Name()
+                    );
+                StringLoader::Format(
+                    textString,
+                    textString2,
+                    KIndexSecond,
+                    aDriveInfo.iVolumeLabel
+                    );
+                }
+            else if ( aDriveInfo.iDriveStatus == EDriveNotReady )
+                {
+                //textString.Format(
+                //    *iLocStringArray[ ETextMMCUnavailable ],
+                //    driveUnit.Name() );
+                StringLoader::Format(
+                    textString,
+                    *iLocStringArray[ ETextMMCUnavailable ],
+                    KNoIndex,
+                    driveUnit.Name()
+                    );
+                }
+            else if( aDriveInfo.iDriveStatus == EDriveLocked )
+                {
+                //textString.Format(
+                //    *iLocStringArray[ ETextMMCLocked ],
+                //    driveUnit.Name() );
+                StringLoader::Format(
+                    textString,
+                    *iLocStringArray[ ETextMMCLocked ],
+                    KNoIndex,
+                    driveUnit.Name()
+                    );
+                }
+            else
+                {
+                // Use default drive description
+                //textString.Format(
+                //    *iLocStringArray[ ETextMMCDefaultName ],
+                //    driveUnit.Name() );
+                StringLoader::Format(
+                    textString,
+                    *iLocStringArray[ ETextMMCDefaultName ],
+                    KNoIndex,
+                    driveUnit.Name()
+                    );
+                }
+            itemString.Append( textString );
+
+            break;
+            }
+        case ELayoutSettingPage:
+            {
+            // 1st row text:
+            if( aDriveInfo.iVolumeLabel.Length() > 0 )
+                {
+                // Append drive name if it has one
+                //itemString.Format(
+                //    *iLocStringArray[ ETextMMCNamed ],
+                //    driveUnit.Name(),
+                //    aDriveInfo.iVolumeLabel
+                //    );
+                StringLoader::Format(
+                    textString,
+                    *iLocStringArray[ ETextMMCNamed ],
+                    KIndexFirst,
+                    driveUnit.Name()
+                    );
+                StringLoader::Format(
+                    itemString,
+                    textString,
+                    KIndexSecond,
+                    aDriveInfo.iVolumeLabel
+                    );
+                }
+            else
+                {
+                //itemString.Format(
+                //    *iLocStringArray[ ETextMMCDefaultName ],
+                //    driveUnit.Name()
+                //    );
+                StringLoader::Format(
+                    itemString,
+                    *iLocStringArray[ ETextMMCDefaultName ],
+                    KNoIndex,
+                    driveUnit.Name()
+                    );
+                }
+            break;
+            }
+        case ELayoutDoublePopup:
+            {
+            itemString.Format( KImageHeader, EIconExternalUSBDrive );
+            itemString.Append( KTabChar );
+
+            // 1st row text:
+            if( aDriveInfo.iVolumeLabel.Length() > 0 )
+                {
+                StringLoader::Format(
+                    textString2,
+                    *iLocStringArray[ ETextMMCNamed ],
+                    KIndexFirst,
+                    driveUnit.Name()
+                    );
+                StringLoader::Format(
+                    textString,
+                    textString2,
+                    KIndexSecond,
+                    aDriveInfo.iVolumeLabel
+                    );
+                }
+            else
+                {
+                // Use default drive description
+                //textString.Format(
+                //    *iLocStringArray[ ETextMMCDefaultName ],
+                //    driveUnit.Name()
+                //   );
+                StringLoader::Format(
+                    textString,
+                    *iLocStringArray[ ETextMMCDefaultName ],
+                    KNoIndex,
+                    driveUnit.Name()
+                    );
+                }
+            itemString.Append( textString );
+            itemString.Append( KTabChar );
+
+            // 2nd row text:
+            switch( aDriveInfo.iDriveStatus )
+                {
+                case EDriveNotReady:
+                    {
+                    itemString.Append(
+                        *iLocStringArray[ ETextMMCUnavailable ] );
+                    break;
+                    }
+                case EDriveLocked:
+                    {
+                    itemString.Append( *iLocStringArray[ ETextMMCLocked ] );
+                    break;
+                    }
+                case EDriveOK:
+                default:
+                    {
+                    HBufC* buffer;
+                    TInt64 freeSpace = aDriveInfo.iDiskSpace;
+                    if ( freeSpace >= 0 )
+                        {
+                        buffer = HBufC::NewLC( KListBoxEntryMaxLength );  
+                        TPtr unitStr( buffer->Des() );
+                        AknCFDUtility::SetSecondRowTextL( freeSpace, unitStr );
+                        }
+                    else
+                        {
+                        // Disk space is unavailable
+                        buffer = StringLoader::LoadLC(
+                                    R_CFD_QTN_MEMC_SPACE_NOT_AVAILABLE,
+                                    iCoeEnv);
+                        }
+                    itemString.Append( *buffer );//Free mem text
+                    CleanupStack::PopAndDestroy( buffer );
+                    break;
+                    }
+                }
+            break;
+            }
+        }
+
+    // Finally!: append the formatted string to listbox
+    User::LeaveIfError( iListBoxArray.Append( lbxItemBuf ) );
+    CleanupStack::PopAndDestroy( 2 ); // textItemBuf2, textItemBuf
+    CleanupStack::Pop( lbxItemBuf );
+    _LOG1( "[CAknMemorySelectionModelMultiDrive] Item string added to lbx array: %S", &itemString );
+    _LOG1( "itemString length=%d", itemString.Length() );
+    }
 
 // ---------------------------------------------------------------------------
 // CAknMemorySelectionModelMultiDrive::AddRemoteItemToLbxL

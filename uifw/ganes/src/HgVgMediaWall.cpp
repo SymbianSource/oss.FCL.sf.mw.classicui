@@ -59,7 +59,7 @@
 #include <AknUtils.h>
 #include <layoutmetadata.cdl.h>
 #include <AknLayout2ScalableDef.h>
-#include <AknLayoutScalable_Apps.cdl.h>
+#include <aknlayoutscalable_apps.cdl.h>
 
 
 
@@ -509,14 +509,18 @@ void CHgVgMediaWall::HandlePointerEventL( const TPointerEvent& aEvent )
         if (iScrollBar && iScrollBar->HandlePointerEventL(aEvent))
             {
             iScrollBarHit = ETrue;
-            }
-    
+            }        
         if (aEvent.iType == TPointerEvent::EButton1Up)
             {
             iScrollBarHit = EFalse;
+            // need to draw once at this point if animation is not going
+            // on because the state has changed (when finger is lifted popup must disappear)
+            if (!iAnimationTimer->IsActive())
+                {
+                DrawOpenVG();
+                }
             }
-            
-        
+                    
         }
     
     
@@ -2023,15 +2027,13 @@ void CHgVgMediaWall::DrawLetterStripAndTitles()
                 iMediaWallStyle == EHgVgMediaWallStyleGrid)
             {
             // when scrollbar is being dragged we draw letter popup
-            if (iLetterPopup && (iScrollBarHit || (iKeyScrollingState != ENoKeyScrolling && dist >= 2.0f)))
+            if (iLetterPopup && (iScrollBarHit || (iKeyScrollingState != ENoKeyScrolling && dist > KDrawLetterPopupDistance)))
                 {
                 iLetterPopup->Draw(iRect, KMaxLetterPopupOpacity);                    
                 }
-        
-            // when close to target item, we draw titles
-            if (dist <= KTitleDrawDistance)
-                {            
-                DrawTitles(1.0f - dist / KTitleDrawDistance);                
+            else
+                {
+                DrawTitles(1.0f);                                
                 }
             }
         }
@@ -2325,8 +2327,8 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     // in full screen, enable blurring on flip/zoom
     iRenderer->EnableBlurOnFlip(ETrue, KDefaultBlurDeviation, 
             KDefaultBlurDeviation);
-
-    InitLabelsL(1);
+     
+    InitLabelsL(Layout_Meta_Data::IsLandscapeOrientation() ? 1 : 0);
     
     InitPopupL(0);
     

@@ -25,6 +25,7 @@
 
 
 #include "akndiscreetpopupdrawer.h"
+#include "akntrace.h"
 
 const TInt KTextBufSize( 255 );
 const TInt KMaxNumOfLines( 2 );
@@ -76,6 +77,7 @@ CAknDiscreetPopupDrawer* CAknDiscreetPopupDrawer::NewL(
     const TInt& aMaskId,
     const TBool& aAction )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknDiscreetPopupDrawer* self = 
         CAknDiscreetPopupDrawer::NewLC( aControl, 
                                         aTitleText, 
@@ -87,6 +89,7 @@ CAknDiscreetPopupDrawer* CAknDiscreetPopupDrawer::NewL(
                                         aMaskId,
                                         aAction );
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -292,11 +295,14 @@ void CAknDiscreetPopupDrawer::ConstructL( const TDesC& aTitleText,
     if ( aTitleText == KNullDesC && aBodyText != KNullDesC )
         {
         iTitleText = aBodyText.AllocL();
+        _AKNTRACE( _L("CAknDiscreetPopupDrawer::ConstructL, iTitleText : %S"), iTitleText );       
         }
     else
         {
         iTitleText = aTitleText.AllocL();
         iBodyText = aBodyText.AllocL();
+        _AKNTRACE( _L("CAknDiscreetPopupDrawer::ConstructL, iTitleText : %S"), iTitleText );
+        _AKNTRACE( _L("CAknDiscreetPopupDrawer::ConstructL, iBodyText : %S"), iBodyText );
         }
 
     if ( !iIcon )
@@ -342,7 +348,7 @@ void CAknDiscreetPopupDrawer::ResolvePopupLayout()
     TBool withIcon( iIcon && iIcon->Bitmap() );
     TBool twoRowsText( 
         iTitleText->Des() != KNullDesC 
-        && iBodyText->Des() != KNullDesC );
+        && iBodyText && iBodyText->Des() != KNullDesC );
 
     // Two rows of text
     if ( twoRowsText )

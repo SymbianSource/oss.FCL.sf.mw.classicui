@@ -5867,6 +5867,15 @@ private:// eiklbx.h
      * @return Symbian OS error code.
      */
     virtual TInt TestLBDisableItemSpecificMenu( CStifItemParser& aItem );
+    
+    /**
+     * TestLBItemsInSingleLine test function for testing the 
+     *     ItemsInSingleLine function
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestLBItemsInSingleLine( CStifItemParser& aItem );       
 
 private:    // eikslb.h
     // class CSettingsListBoxItemDrawer

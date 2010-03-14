@@ -25,7 +25,7 @@
 #include <aknappui.h>
 #include <aknitemactionmenu.h>
 #include <AknTasHook.h> // for testability hooks
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "akntreelistview.h"
 #include "akntree.h"
 #include "akntreelist.h"
@@ -2776,6 +2776,11 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
+        // text color, used to draw the separator line between list items
+        TRgb textColor( KRgbBlack );
+        AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
+            KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6 );
+
         const TInt itemCount = iItems.Count();
         for ( TInt ii = 0; ii < itemCount; ++ii )
             {
@@ -2816,6 +2821,11 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     transApi->StopDrawing();
                     }
 #endif
+                if ( ii < iBottomIndex )
+                    {
+                    AknListUtils::DrawSeparator( gc, tfxDrawRect, textColor );
+                    }
+
                 TBool focused = ( IsFocused() && FocusedItem() &&
                     iItems[ii].Item() == FocusedItem() );
 

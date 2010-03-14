@@ -31,6 +31,7 @@
 #include <avkon.hrh>
 #include "akndiscreetpopupcontrol.h"
 #include "akndiscreetpopupdrawer.h"
+#include "akntrace.h"
 
 _LIT( KDiscreetPopupWindowGroupName, "Discreet pop-up" );
 
@@ -72,6 +73,7 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
     const TInt& aPopupId,
     MEikCommandObserver* aCommandObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknDiscreetPopupControl* self = 
         CAknDiscreetPopupControl::NewLC( aGlobal,
                                          aTitle,
@@ -86,6 +88,7 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
                                          aPopupId,
                                          aCommandObserver );
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -102,6 +105,7 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
     const TInt& aPopupId,
     MEikCommandObserver* aCommandObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknDiscreetPopupControl* self = 
         CAknDiscreetPopupControl::NewLC( aGlobal, 
                                          aCommand, 
@@ -110,6 +114,7 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
                                          
     self->ConstructFromResourceL( aResourceId, aResourceFile );
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -175,6 +180,7 @@ CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewLC(
 //
 CAknDiscreetPopupControl::~CAknDiscreetPopupControl()
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     if ( IsVisible() )
         {
@@ -189,6 +195,7 @@ CAknDiscreetPopupControl::~CAknDiscreetPopupControl()
         }
     delete iTimer;	
     delete iDrawer;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -401,6 +408,7 @@ void CAknDiscreetPopupControl::ConstructFromResourceL(
 //
 void CAknDiscreetPopupControl::DoTimeOut()
     {
+	_AKNTRACE_FUNC_ENTER;
     if ( !iInternalFlags.IsSet( EPressedDown ) )
         {
         TRAP_IGNORE( RequestExitL() );
@@ -409,6 +417,7 @@ void CAknDiscreetPopupControl::DoTimeOut()
         {
         iTimer->Cancel();
         }
+	_AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -419,6 +428,7 @@ void CAknDiscreetPopupControl::DoTimeOut()
 //
 void CAknDiscreetPopupControl::RequestExitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if( iCommandObserver && !iInternalFlags.IsSet( EGlobal ) )
         {
         iCommandObserver->ProcessCommandL( EAknDiscreetPopupCmdClose );
@@ -426,6 +436,7 @@ void CAknDiscreetPopupControl::RequestExitL()
     HidePopup();
     ReportEventL( MCoeControlObserver::EEventRequestExit );
     iInternalFlags.Clear( EPressedDown );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -435,12 +446,15 @@ void CAknDiscreetPopupControl::RequestExitL()
 //
 void CAknDiscreetPopupControl::NotifyObserverL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iCommand != 0 && iCommandObserver )
         {
+        _AKNTRACE( "CAknDiscreetPopupControl::NotifyObserverL(), tap event will be disposed." );
         // Play feedback if there is command associated with the popup
         ImmediateFeedback( ETouchFeedbackSensitive );
         iCommandObserver->ProcessCommandL( iCommand );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -530,6 +544,7 @@ void CAknDiscreetPopupControl::SetPressedDownState( const TBool& aPressedDown )
 //
 void CAknDiscreetPopupControl::ShowPopupL()
     {
+    _AKNTRACE_FUNC_ENTER;
     AppUi()->AddToStackL( 
             this, 
             ECoeStackPriorityDefault,
@@ -563,6 +578,8 @@ void CAknDiscreetPopupControl::ShowPopupL()
     iTimer->Start( timeout, 
                    0, 
                    TCallBack( TimeOut, this ) );
+				   
+	_AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -695,6 +712,7 @@ void CAknDiscreetPopupControl::ConstructFromResourceL(
 //
 void CAknDiscreetPopupControl::HandleResourceChange( TInt aType )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknControl::HandleResourceChange( aType );
     switch ( aType )
         {
@@ -720,6 +738,7 @@ void CAknDiscreetPopupControl::HandleResourceChange( TInt aType )
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -740,6 +759,7 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
          && eventInRect
          && iInternalFlags.IsClear( EDismissed ) )
         {
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Down" );
         SetPressedDownState( ETrue );
         ImmediateFeedback( ETouchFeedbackSensitive );
         }
@@ -747,6 +767,7 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
     // Pointer drag - reset pressed-down state if pointer out of popup area
     else if ( aPointerEvent.iType == TPointerEvent::EDrag )
         {
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EDrag" );
         iInternalFlags.Set( EDragged );
         if ( !eventInRect && iInternalFlags.IsSet( EPressedDown ) )
             {
@@ -761,6 +782,7 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
     // Pointer up - reset pressed-down state 
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Up" );
         if ( eventInRect )
             {
             NotifyObserverL();

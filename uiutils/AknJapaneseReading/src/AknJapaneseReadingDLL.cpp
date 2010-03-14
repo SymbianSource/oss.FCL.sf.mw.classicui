@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include <e32base.h>
-#include "AknJapaneseReadingDll.h"
+#include "AknJapaneseReadingDLL.h"
 
 // -----------------------------------------------------------------------------
 // Static DLL functions

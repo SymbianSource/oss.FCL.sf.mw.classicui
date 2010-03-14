@@ -2003,6 +2003,12 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
 
+    CEikListBox* list = static_cast<CEikListBox*>( iExtension->iControl );
+    
+    if ( iExtension->iCurrentRow < list->BottomItemIndex() )
+        {
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText );
+        }
     DrawHighLight( aGc, aRect, aHighlight, skin );
     
     // The column draw loop
@@ -2461,6 +2467,13 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
             transApi->StopDrawing();
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
+        }
+
+    CEikListBox* list = static_cast<CEikListBox*>( iExtension->iControl );
+
+    if ( iExtension->iCurrentRow < list->BottomItemIndex() )
+        {
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText );
         }
     
  // LISTBOX LINES NEED TO BE DRAWN HERE.

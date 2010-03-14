@@ -236,6 +236,9 @@ void CHgList::DoDraw(const TRect& /*aRect*/ ) const
             // Move to correct y-position
             rect.Move(point);
             DrawItem( i, rect );
+            
+            if( i!= iItems.Count() - 1)
+                AknListUtils::DrawSeparator( gc, rect, iColor );
             }
         gc.CancelClippingRect();
         }

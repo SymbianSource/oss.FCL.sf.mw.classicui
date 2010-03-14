@@ -35,10 +35,10 @@
 #include <eikbtgpc.h> // for ButtonGroupContainer
 #include <uikon.hrh> // for EKeyOk
 
-#include <FavouritesLimits.h> // KFavouritesMaxUrl
-#include <FavouritesItem.h> // for CBookmarkItem
+#include <favouriteslimits.h> // KFavouritesMaxUrl
+#include <favouritesitem.h> // for CBookmarkItem
 
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 
@@ -60,7 +60,7 @@
 
 #include <baclipb.h> // For CClipboard
 
-#include <SchemeHandler.h> // For CSchemeHandler
+#include <schemehandler.h> // For CSchemeHandler
 
 #include <aknnotewrappers.h>
 

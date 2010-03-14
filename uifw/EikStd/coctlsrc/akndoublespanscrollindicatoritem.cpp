@@ -106,10 +106,3 @@ void CAknDoubleSpanScrollIndicatorItem::CreateSkinnedBitmapAndMaskL(MAknsSkinIns
 
     }
 
-CFbsBitmap* CAknDoubleSpanScrollIndicatorItem::CreateBitmapL(CFbsBitmap* /*aSourceBitmap*/, TBool /*aRotated*/)
-    {
-   
-
-    return NULL;
-    }
-	

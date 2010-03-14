@@ -244,7 +244,10 @@ void CAknStylusPopUpMenuPhysicsHandler::InitPhysicsL()
     TSize viewSize( iViewRect.Width(), iViewRect.Height() );
     
     iPhysics->InitPhysicsL( worldSize, viewSize, EFalse );
-    iPhysics->UpdateViewWindowControl( iPopUpMenuContent );
+    if ( iPopUpMenuContent->IsVisible() )
+    	{
+    	iPhysics->UpdateViewWindowControl( iPopUpMenuContent );
+    	}
     }
     
 
@@ -382,7 +385,7 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
         iPrevTopmostItem = topmostItem;    
         
         //when appear or dispear a tiem,a feedback was given.
-        if ( abs( iPrevOffset ) <= iViewRect.Height()
+        if ( abs( iPrevOffset ) < iViewRect.Height() + iItemHeight
               && ( iPrevOffset/iItemHeight ) != iOffsetItemCount )
             {
             if ( iPhysics )
@@ -412,8 +415,8 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
                         break;
                     }
                 }
+            iOffsetItemCount = iPrevOffset/iItemHeight;
             }
-        iOffsetItemCount = iPrevOffset/iItemHeight;
         }
     }
 

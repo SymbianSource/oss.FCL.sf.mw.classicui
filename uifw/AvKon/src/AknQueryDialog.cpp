@@ -52,6 +52,7 @@
 #endif
 
 #include <AknTasHook.h> // for testability hooks
+#include "akntrace.h"
 /**
  *  CAknQueryDialogExtension  
  */
@@ -87,6 +88,7 @@ public:
 //
 CAknQueryDialogExtension::~CAknQueryDialogExtension()
     {
+    _AKNTRACE( "[%s][%s] do nothing", "CAknQueryDialogExtension", "~CAknQueryDialogExtension" );
     }
 
 
@@ -97,6 +99,7 @@ CAknQueryDialogExtension::~CAknQueryDialogExtension()
 CAknQueryDialogExtension::CAknQueryDialogExtension
     (CAknQueryDialog* aQueryDialog) : iParent(aQueryDialog)
     {
+    _AKNTRACE( "[%s][%s] do nothing", "CAknQueryDialogExtension", "CAknQueryDialogExtension" );
     }
     
 // ---------------------------------------------------------------------------
@@ -107,6 +110,7 @@ CAknQueryDialogExtension::CAknQueryDialogExtension
 //
 EXPORT_C void CAknQueryDialogExtension::GetCaptionForFep(TDes& aCaption) const
     {
+    _AKNTRACE( "[%s][%s] enter aCaption:%s", "CAknQueryDialogExtension", "GetCaptionForFep" , &aCaption);
     aCaption = KNullDesC;
     
     CAknQueryControl* control = iParent->QueryControl();
@@ -136,6 +140,7 @@ EXPORT_C void CAknQueryDialogExtension::GetCaptionForFep(TDes& aCaption) const
                 }
             }
         }
+    _AKNTRACE( "[%s][%s] exit aCaption:%s", "CAknQueryDialogExtension", "GetCaptionForFep" , &aCaption);
     }
 
 
@@ -179,6 +184,7 @@ public:
 //
 CAknMultilineQueryDialogExtension::~CAknMultilineQueryDialogExtension()
     {
+    _AKNTRACE( "[%s][%s] do nothing", "CAknMultilineQueryDialogExtension", "~CAknMultilineQueryDialogExtension" );
     }
 
 // ---------------------------------------------------------------------------
@@ -188,6 +194,7 @@ CAknMultilineQueryDialogExtension::~CAknMultilineQueryDialogExtension()
 CAknMultilineQueryDialogExtension::CAknMultilineQueryDialogExtension
     (CAknQueryDialog* aQueryDialog, TInt aQueryType):CAknQueryDialogExtension(aQueryDialog),iQueryType(aQueryType)
     {
+    _AKNTRACE( "[%s][%s] do nothing", "CAknMultilineQueryDialogExtension", "CAknMultilineQueryDialogExtension" );
     }
 
 // ---------------------------------------------------------------------------
@@ -288,8 +295,10 @@ EXPORT_C void CAknMultilineQueryDialogExtension::GetCaptionForFep(TDes& aCaption
  */
 EXPORT_C CAknQueryDialog* CAknQueryDialog::NewL(const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog* self = new (ELeave) CAknQueryDialog(aTone);
     AKNTASHOOK_ADDL( self, "CAknQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -349,6 +358,7 @@ EXPORT_C CAknQueryDialog* CAknQueryDialog::NewL(TPosition &/*aPosition*/, const 
 
 EXPORT_C CAknQueryDialog::CAknQueryDialog(const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
     GfxTransEffect::Register( this, KGfxQueryControlUid );
 #endif
@@ -357,6 +367,8 @@ EXPORT_C CAknQueryDialog::CAknQueryDialog(const TTone& aTone)
         {
          iSoundSystem = iAvkonAppUiBase->KeySounds();          
         }
+    _AKNTRACE( "[%s][%s] iTone: %d", "CAknQueryDialog", __FUNCTION__, iTone );
+    _AKNTRACE_FUNC_EXIT;
     } 
 
 /**
@@ -387,6 +399,7 @@ EXPORT_C CAknQueryDialog::CAknQueryDialog(TDesC& aPrompt,const TTone& aTone)
 
 EXPORT_C CAknQueryDialog::~CAknQueryDialog()
     {
+    _AKNTRACE( "[%s][%s] Enter", "CAknQueryDialog", "~CAknQueryDialog" );
     AKNTASHOOK_REMOVE();
     delete iPrompt;
     delete iExtension;
@@ -394,11 +407,13 @@ EXPORT_C CAknQueryDialog::~CAknQueryDialog()
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
     CAknTransitionUtils::RemoveData( ( TInt )this );
 #endif
+    _AKNTRACE( "[%s][%s] Exit", "CAknQueryDialog", "~CAknQueryDialog" );
     }
 
 
 EXPORT_C TInt CAknQueryDialog::RunLD()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknDialog::ConstructL( R_AVKON_MENUPANE_EMPTY) ;
     ReportUserActivity();
     PlayTone();
@@ -416,11 +431,13 @@ EXPORT_C TInt CAknQueryDialog::RunLD()
 
     SetGloballyCapturing(ETrue); 
     TInt ret = CAknDialog::RunLD();
+    _AKNTRACE( "[%s][%s] ret: %d", "CAknQueryDialog", __FUNCTION__, ret );
     if (soundSystem)
         {
         soundSystem->PopContext();
         }
     SetGloballyCapturing(EFalse); 
+    _AKNTRACE_FUNC_EXIT;
     return ret;
     }
 
@@ -443,8 +460,13 @@ EXPORT_C TInt CAknQueryDialog::RunDlgLD(TInt aResourceId)
  */
 EXPORT_C TInt CAknQueryDialog::ExecuteLD(TInt aResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aResourceId: %d", "CAknQueryDialog", __FUNCTION__, aResourceId );
     PrepareLC(aResourceId);
-    return(RunLD());
+    TInt ret = RunLD();
+    _AKNTRACE( "[%s][%s] ret:%d", "CAknQueryDialog", __FUNCTION__,ret );
+    _AKNTRACE_FUNC_EXIT;
+    return ret;
     }
 
 /**
@@ -452,9 +474,14 @@ EXPORT_C TInt CAknQueryDialog::ExecuteLD(TInt aResourceId)
  */
 EXPORT_C TInt CAknQueryDialog::ExecuteLD(TInt aResourceId,const TDesC& aPrompt)
     {
+    _AKNTRACE_FUNC_ENTER;
     PrepareLC(aResourceId);
     SetPromptL(aPrompt);
-    return(RunLD());
+    _AKNTRACE( "[%s][%s] aResourceId: %d", "CAknQueryDialog", __FUNCTION__, aResourceId );
+    TInt ret= RunLD();
+    _AKNTRACE( "[%s][%s] ret:%d", "CAknQueryDialog", __FUNCTION__,ret );
+    _AKNTRACE_FUNC_EXIT;
+    return ret;
     }
 /**
  * Get layout information from the control and use this layout
@@ -474,6 +501,7 @@ EXPORT_C TInt CAknQueryDialog::ExecuteLD(TInt aResourceId,const TDesC& aPrompt)
  */
 EXPORT_C void CAknQueryDialog::SetSizeAndPosition( const TSize& /*aSize*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryControl* control = QueryControl();
     CAknPopupHeadingPane* controlHeading = QueryHeading();
     
@@ -493,7 +521,10 @@ EXPORT_C void CAknQueryDialog::SetSizeAndPosition( const TSize& /*aSize*/ )
        			{
        			TAknWindowLineLayout lay = AknLayoutScalable_Avkon::application_window(0);
        			TRect re(0, 0, lay.iW, lay.iH);
+       			_AKNTRACE( "[%s][%s] Rect: x[%d],y[%d],w[%d],h[%d]", "CAknQueryDialog", __FUNCTION__, 
+							re.iTl.iX, re.iTl.iY, re.Width(),re.Height());
            		SetRect(re);
+           		_AKNTRACE_FUNC_EXIT;
            		return;
        			}
             }
@@ -504,10 +535,16 @@ EXPORT_C void CAknQueryDialog::SetSizeAndPosition( const TSize& /*aSize*/ )
         layoutRect.LayoutRect( rectZero, windowLineLayoutScreen );
         TRect rectScreen( layoutRect.Rect() );
     	TSize maxSize = rectScreen.Size();
-    	
+    	_AKNTRACE( "[%s][%s] maxSize: w[%d],h[%d]", "CAknQueryDialog", __FUNCTION__, 
+    			maxSize.iWidth,maxSize.iHeight);
         if ( AknLayoutUtils::PenEnabled() )
             {
-            CAknDialog::SetSizeAndPosition( PreferredSize( maxSize ) );
+            TSize preferredSize = PreferredSize( maxSize );
+            
+            _AKNTRACE( "[%s][%s] call CAknDialog::SetSizeAndPosition( PreferredSize( w[%d],h[%d] ) )", "CAknQueryDialog", 
+            		__FUNCTION__, preferredSize.iWidth, preferredSize.iHeight);
+            
+            CAknDialog::SetSizeAndPosition( preferredSize );
             }
         else
             {
@@ -530,9 +567,12 @@ EXPORT_C void CAknQueryDialog::SetSizeAndPosition( const TSize& /*aSize*/ )
                         AknLayoutScalable_Avkon::heading_pane(0)); 
                 winRect.iTl.iY -= headingLayoutRect.Rect().Height();
                 }
+            _AKNTRACE( "[%s][%s] Rect: x[%d],y[%d],w[%d],h[%d]", "CAknQueryDialog", __FUNCTION__, 
+            		winRect.iTl.iX, winRect.iTl.iY, winRect.Width(),winRect.Height());
             SetRect(winRect);
             }            
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -540,6 +580,7 @@ EXPORT_C void CAknQueryDialog::SetSizeAndPosition( const TSize& /*aSize*/ )
  */
 EXPORT_C void CAknQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     SetBorder( TGulBorder::ENone );
     SetEditableL( ETrue ) ;
     DoSetPromptL();
@@ -564,6 +605,7 @@ EXPORT_C void CAknQueryDialog::PreLayoutDynInitL()
     delete iExtension;
     iExtension = NULL;
     iExtension = new(ELeave) CAknQueryDialogExtension(this);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -571,10 +613,11 @@ EXPORT_C void CAknQueryDialog::PreLayoutDynInitL()
  */
 EXPORT_C void CAknQueryDialog::PostLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryControl* control = QueryControl();
     if (control)
         control->StartAnimationL();
-
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -583,9 +626,13 @@ EXPORT_C void CAknQueryDialog::PostLayoutDynInitL()
 EXPORT_C TKeyResponse CAknQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent, 
                                                             TEventCode aType)
     {
+    _AKNTRACE( "[%s][%s] aKeyEvent.iCode[%d],aType[%d]", "CAknQueryDialog", __FUNCTION__,aKeyEvent.iCode, aType);
     if( NeedToDismissQueryL(aKeyEvent) )
-            return EKeyWasConsumed;
- 	
+    	{
+    	_AKNTRACE( "[%s][%s] Need Dismiss Query, return EKeyWasConsumed", "CAknQueryDialog", __FUNCTION__);
+    	return EKeyWasConsumed;
+    	}
+    
 	if (aType == EEventKey && aKeyEvent.iCode == EKeyOK) 	
 		{
 		CAknQueryControl* control = QueryControl();
@@ -594,6 +641,7 @@ EXPORT_C TKeyResponse CAknQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent
 			if (IsLeftSoftkeyVisible())
 				{
 				TryExitL(EEikBidOk);
+				_AKNTRACE( "[%s][%s] TryExitL(EEikBidOk) and reutrn EKeyWasConsumed", "CAknQueryDialog", __FUNCTION__);
 				return EKeyWasConsumed;
 				}
             }
@@ -607,13 +655,14 @@ EXPORT_C TKeyResponse CAknQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent
 			if (IsLeftSoftkeyVisible())
 				{
 				TryExitL(EEikBidOk);
+				_AKNTRACE( "[%s][%s] TryExitL(EEikBidOk) and reutrn EKeyWasConsumed", "CAknQueryDialog", __FUNCTION__);
 				return EKeyWasConsumed;
 				}
             }
 		}
-	
-
-    return CAknDialog::OfferKeyEventL(aKeyEvent,aType);
+	TKeyResponse response = CAknDialog::OfferKeyEventL(aKeyEvent,aType);
+	_AKNTRACE( "[%s][%s] return [%d]", "CAknQueryDialog", __FUNCTION__, response);
+	return response;
     }
 
 /**
@@ -624,15 +673,18 @@ EXPORT_C TKeyResponse CAknQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent
  */
 EXPORT_C TBool CAknQueryDialog::NeedToDismissQueryL(const TKeyEvent& aKeyEvent)
     {
+    _AKNTRACE( "[%s][%s] aKeyEvent.iScanCode [%d]", "CAknQueryDialog", __FUNCTION__, aKeyEvent.iScanCode);
     if (aKeyEvent.iScanCode == EStdKeyHash)
         {
         CAknQueryControl* control = QueryControl();
         if (control && control->QueryType() == EPinLayout)
             {
+            _AKNTRACE( "[%s][%s] EPinLayout, Dismiss Query and return ETrue", "CAknQueryDialog", __FUNCTION__);
             DismissQueryL();
             return ETrue;
             }
         }
+    _AKNTRACE( "[%s][%s] return EFalse", "CAknQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -644,14 +696,18 @@ EXPORT_C TBool CAknQueryDialog::NeedToDismissQueryL(const TKeyEvent& aKeyEvent)
  */
 EXPORT_C void CAknQueryDialog::DismissQueryL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (IsLeftSoftkeyVisible())
         {
+        _AKNTRACE( "[%s][%s] TryExitL(EEikBidOk) ", "CAknQueryDialog", __FUNCTION__);
         TryExitL(EEikBidOk);
         }
     else
         {
+        _AKNTRACE( "[%s][%s] TryExitL(EEikBidCancel) ", "CAknQueryDialog", __FUNCTION__);
         TryExitL(EEikBidCancel);
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -659,6 +715,7 @@ EXPORT_C void CAknQueryDialog::DismissQueryL()
  */
 EXPORT_C TBool CAknQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId : %d ", "CAknQueryDialog", __FUNCTION__,aButtonId);
     if ( aButtonId == EAknSoftkeyEmergencyCall )
         {
         // ECS number entered and "call" softkey pressed,
@@ -667,17 +724,21 @@ EXPORT_C TBool CAknQueryDialog::OkToExitL(TInt aButtonId)
         CAknQueryControl* control = QueryControl();
         if ( control )
             {
+            _AKNTRACE( "[%s][%s] AttemptEmergencyCall ", "CAknQueryDialog", __FUNCTION__);
             control->AttemptEmergencyCallL();
             }
-        
+        _AKNTRACE( "[%s][%s] return ETrue without doing anything", "CAknQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk))
         || aButtonId == GetRightCBAShortKeyPress() )
-        {   
+        { 
+        _AKNTRACE( "[%s][%s] return ETrue without doing anything ", "CAknQueryDialog", __FUNCTION__);
         return ETrue;
         }
+    
+    _AKNTRACE( "[%s][%s] return EFalse without doing anyting ", "CAknQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -696,10 +757,12 @@ EXPORT_C CAknPopupHeadingPane* CAknQueryDialog::Heading() const
  */
 EXPORT_C void CAknQueryDialog::SetPromptL(const TDesC& aPrompt)
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iPrompt;
     iPrompt = NULL;
     iPrompt = aPrompt.AllocL();
     DoSetPromptL();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryDialog::DoSetPromptL()
@@ -778,10 +841,13 @@ EXPORT_C CAknPopupHeadingPane* CAknQueryDialog::QueryHeading() const
 
 EXPORT_C void CAknQueryDialog::MakeLeftSoftkeyVisible(TBool aVisible)
     {  
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aVisible: %d ", "CAknQueryDialog", __FUNCTION__, aVisible);
     CEikButtonGroupContainer& btnGroupContainer = ButtonGroupContainer();
 
     // left softkey
     TBool isVisible = btnGroupContainer.IsCommandVisibleByPosition(CEikButtonGroupContainer::ELeftSoftkeyPosition);
+    _AKNTRACE( "[%s][%s] isVisible: %d ", "CAknQueryDialog", __FUNCTION__, isVisible);
     if ( isVisible != aVisible )
         {
         btnGroupContainer.MakeCommandVisibleByPosition(CEikButtonGroupContainer::ELeftSoftkeyPosition,aVisible);
@@ -796,16 +862,20 @@ EXPORT_C void CAknQueryDialog::MakeLeftSoftkeyVisible(TBool aVisible)
             btnGroupContainer.MakeCommandVisibleByPosition(CEikButtonGroupContainer::EMiddleSoftkeyPosition,aVisible);
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAknQueryDialog::PlayTone()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (iTone != 0 && iSoundSystem)
         {
+        _AKNTRACE( "[%s][%s] iSoundSystem->PlaySound(iTone)", "CAknQueryDialog", __FUNCTION__);
         iSoundSystem->PlaySound(iTone);
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /** 
@@ -815,10 +885,12 @@ void CAknQueryDialog::PlayTone()
  */ 
 void CAknQueryDialog::ReportUserActivity() const 
     {
+    _AKNTRACE_FUNC_ENTER;
 #ifdef AVKON_RDEBUG_INFO
     RDebug::Print(_L("Reset user inactivity"));
 #endif
     User::ResetInactivityTime();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CAknQueryDialog::GetLeftCBAShortKeyPress()
@@ -833,8 +905,12 @@ TInt CAknQueryDialog::GetRightCBAShortKeyPress()
 
 TBool CAknQueryDialog::IsLeftSoftkeyVisible()
     {
-    return ButtonGroupContainer().ButtonGroup()->IsCommandVisible(
-                      ButtonGroupContainer().ButtonGroup()->CommandId(0));
+    _AKNTRACE_FUNC_ENTER;
+    TBool visible = ButtonGroupContainer().ButtonGroup()->IsCommandVisible(
+            ButtonGroupContainer().ButtonGroup()->CommandId(0));
+    _AKNTRACE( "[%s][%s] visible: %d", "CAknQueryDialog", __FUNCTION__, visible);
+    _AKNTRACE_FUNC_EXIT;
+    return visible;
     }
 
 /**
@@ -842,26 +918,36 @@ TBool CAknQueryDialog::IsLeftSoftkeyVisible()
  */
 EXPORT_C void CAknQueryDialog::SetEmergencyCallSupport( TBool aOnOff )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aOnOff: %d", "CAknQueryDialog", __FUNCTION__, aOnOff);
     iFlags.Assign(CAknQueryControl::EEmergencyCallsEnabledByAPI, aOnOff );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryDialog::SetPredictiveTextInputPermitted( TBool aPermitted )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aPermitted: %d", "CAknQueryDialog", __FUNCTION__, aPermitted);
     iFlags.Assign( CAknQueryControl::EPredictiveTextEntryPermitted, aPermitted );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryDialog::RemoveEditorIndicator()
     {
+    _AKNTRACE_FUNC_ENTER;
     iFlags.Assign(CAknQueryControl::EEditorIndicatorOff,ETrue);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknQueryDialog::SetHeaderTextL(const TDesC& aHeader)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aHeader: %s", "CAknQueryDialog", __FUNCTION__, &aHeader);
     CAknPopupHeadingPane* controlHeading = QueryHeading();
     if (controlHeading)
         controlHeading->SetTextL(aHeader);
-        
     LayoutAndDraw();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /** 
@@ -874,14 +960,18 @@ EXPORT_C TBool CAknQueryDialog::HandleQueryEditorStateEventL
     TQueryValidationStatus  /*aStatus*/
     )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aEventType: %d", "CAknQueryDialog", __FUNCTION__, aEventType);
     if (aEventType == EEmergencyCallAttempted)
         {
+        _AKNTRACE( "[%s][%s] TryExitL(EEikBidCancel)", "CAknQueryDialog", __FUNCTION__);
         TryExitL(EEikBidCancel);
         }
     else
         {
         UpdateLeftSoftKeyL();
         }
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -1041,12 +1131,15 @@ EXPORT_C TCoeInputCapabilities CAknQueryDialog::InputCapabilities() const
 //
 EXPORT_C void CAknQueryDialog::SetEmergencyCallSupportForCBA( TBool aOnOff )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aOnOff:%d ", "CAknQueryDialog", __FUNCTION__, aOnOff);
     if ( aOnOff )
         {
         // Ensure also that the EEmergencyCallsEnabledByAPI is set.
         iFlags.Assign( CAknQueryControl::EEmergencyCallsEnabledByAPI, aOnOff );
         }
     iFlags.Assign( CAknQueryControl::EEmergencyCallsCBASupport, aOnOff );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1061,8 +1154,10 @@ EXPORT_C void CAknQueryDialog::SetEmergencyCallSupportForCBA( TBool aOnOff )
  */
 EXPORT_C CAknTextQueryDialog* CAknTextQueryDialog::NewL(TDes& aDataText, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknTextQueryDialog* self = new (ELeave) CAknTextQueryDialog(aDataText, aTone);
     AKNTASHOOK_ADDL( self, "CAknTextQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -1082,6 +1177,7 @@ EXPORT_C CAknTextQueryDialog::CAknTextQueryDialog(TDes& aDataText,TDesC& aPrompt
 
 EXPORT_C CAknTextQueryDialog::~CAknTextQueryDialog()
     {
+	_AKNTRACE( "[%s][%s] ", "CAknTextQueryDialog", "~CAknTextQueryDialog");
     AKNTASHOOK_REMOVE();
     }
 
@@ -1100,6 +1196,8 @@ EXPORT_C TBool CAknTextQueryDialog::CheckIfEntryTextOk() const
 
 EXPORT_C void CAknTextQueryDialog::SetDefaultInputMode(TInt aInputMode)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aInputMode:%d ", "CAknTextQueryDialog", __FUNCTION__,aInputMode);
     CAknQueryControl* control = QueryControl();
     if ( control )
         {
@@ -1109,14 +1207,17 @@ EXPORT_C void CAknTextQueryDialog::SetDefaultInputMode(TInt aInputMode)
             secretEditor->SetDefaultInputMode(aInputMode);
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknTextQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::PreLayoutDynInitL();
 
     SetControlTextL();
     UpdateLeftSoftKeyL();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1154,6 +1255,7 @@ EXPORT_C TBool CAknTextQueryDialog::HandleQueryEditorSizeEventL(
  */
 EXPORT_C TBool CAknTextQueryDialog::OkToExitL( TInt aButtonId )
     {
+    _AKNTRACE( "[%s][%s] aButtonId:%d ", "CAknTextQueryDialog", __FUNCTION__,aButtonId);
     if ( aButtonId == EAknSoftkeyEmergencyCall )
         {
         // ECS number entered and "call" softkey pressed,
@@ -1164,7 +1266,7 @@ EXPORT_C TBool CAknTextQueryDialog::OkToExitL( TInt aButtonId )
             {
             control->AttemptEmergencyCallL();
             }
-        
+        _AKNTRACE( "[%s][%s] return ETrue ", "CAknTextQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if ( ( IsLeftSoftkeyVisible() && 
@@ -1176,13 +1278,16 @@ EXPORT_C TBool CAknTextQueryDialog::OkToExitL( TInt aButtonId )
             control->GetText( iDataText );
             }
             
+        _AKNTRACE( "[%s][%s] GetText and return ETrue ", "CAknTextQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if( aButtonId == GetRightCBAShortKeyPress() )
         {
+        _AKNTRACE( "[%s][%s] do nothing and return ETrue", "CAknTextQueryDialog", __FUNCTION__);
         return ETrue;
         }
  
+    _AKNTRACE( "[%s][%s] return EFalse ", "CAknTextQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -1232,8 +1337,10 @@ EXPORT_C void CAknTextQueryDialog::CAknQueryDialog_Reserved()
  */
 EXPORT_C CAknNumberQueryDialog* CAknNumberQueryDialog::NewL(TInt& aNumber, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknNumberQueryDialog* self = new (ELeave) CAknNumberQueryDialog(aNumber, aTone);
     AKNTASHOOK_ADDL( self, "CAknNumberQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -1250,11 +1357,13 @@ EXPORT_C CAknNumberQueryDialog::~CAknNumberQueryDialog()
 
 EXPORT_C void CAknNumberQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::PreLayoutDynInitL();
 
     CAknQueryControl* control = QueryControl();
     if (control)
         control->SetNumberL(iNumber);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknNumberQueryDialog::SetMinimumAndMaximum( TInt aMinimumValue,
@@ -1269,6 +1378,7 @@ EXPORT_C void CAknNumberQueryDialog::SetMinimumAndMaximum( TInt aMinimumValue,
 
 EXPORT_C TBool CAknNumberQueryDialog::OkToExitL( TInt aButtonId )
     {
+    _AKNTRACE( "[%s][%s] aButtonId:%d ", "CAknNumberQueryDialog", __FUNCTION__,aButtonId);
     if ( aButtonId == EAknSoftkeyEmergencyCall )
         {
         // ECS number entered and "call" softkey pressed,
@@ -1279,11 +1389,12 @@ EXPORT_C TBool CAknNumberQueryDialog::OkToExitL( TInt aButtonId )
             {
             control->AttemptEmergencyCallL();
             }
-        
+        _AKNTRACE( "[%s][%s] attempt emergency and return ETrue ", "CAknNumberQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if ( aButtonId == GetRightCBAShortKeyPress() )
         {
+        _AKNTRACE( "[%s][%s] do nothing and reutrn ETrue ", "CAknNumberQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if ( ( IsLeftSoftkeyVisible() && 
@@ -1296,13 +1407,15 @@ EXPORT_C TBool CAknNumberQueryDialog::OkToExitL( TInt aButtonId )
             TRAP( e, control->PrepareForFocusLossL() );
             if ( e != KErrNone )
                 {
+                _AKNTRACE( "[%s][%s] reutrn EFalse ", "CAknNumberQueryDialog", __FUNCTION__);
                 return EFalse;
                 }
             iNumber = control->GetNumber();
+            _AKNTRACE( "[%s][%s] get number and return ETrue ", "CAknNumberQueryDialog", __FUNCTION__);
             return ETrue;
             }
        }
-
+    _AKNTRACE( "[%s][%s] return EFalse", "CAknNumberQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -1343,8 +1456,10 @@ EXPORT_C void CAknNumberQueryDialog::CAknQueryDialog_Reserved()
  */
 EXPORT_C CAknTimeQueryDialog* CAknTimeQueryDialog::NewL(TTime& aTime, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknTimeQueryDialog* self = new (ELeave) CAknTimeQueryDialog(aTime, aTone);
     AKNTASHOOK_ADDL( self, "CAknTimeQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -1368,10 +1483,12 @@ EXPORT_C CAknTimeQueryDialog::~CAknTimeQueryDialog()
 
 EXPORT_C void CAknTimeQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::PreLayoutDynInitL();
     CAknQueryControl* control = QueryControl();
     if (control)
         control->SetTime(iTime);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknTimeQueryDialog::SetMinimumAndMaximum( const TTime& aMinimum, 
@@ -1386,6 +1503,7 @@ EXPORT_C void CAknTimeQueryDialog::SetMinimumAndMaximum( const TTime& aMinimum,
 
 EXPORT_C TBool CAknTimeQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId:%d ", "CAknTimeQueryDialog", __FUNCTION__,aButtonId);
     if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)))
         {   
@@ -1394,11 +1512,15 @@ EXPORT_C TBool CAknTimeQueryDialog::OkToExitL(TInt aButtonId)
             {
             iTime = control->GetTime();
             }
+        _AKNTRACE( "[%s][%s] get time and return ETrue ", "CAknTimeQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
-        return ETrue;
-
+    	{
+    	_AKNTRACE( "[%s][%s] do nothing, return ETrue ", "CAknTimeQueryDialog", __FUNCTION__);
+    	return ETrue;
+    	}
+    _AKNTRACE( "[%s][%s] do nothing and return EFalse ", "CAknTimeQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -1438,8 +1560,10 @@ EXPORT_C void CAknTimeQueryDialog::CAknQueryDialog_Reserved()
  */
 EXPORT_C CAknDurationQueryDialog* CAknDurationQueryDialog::NewL(TTimeIntervalSeconds& aDuration, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknDurationQueryDialog* self = new (ELeave) CAknDurationQueryDialog(aDuration, aTone);
     AKNTASHOOK_ADDL( self, "CAknDurationQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -1455,11 +1579,13 @@ EXPORT_C CAknDurationQueryDialog::~CAknDurationQueryDialog()
 
 EXPORT_C void CAknDurationQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::PreLayoutDynInitL();
     CAknQueryControl* control = QueryControl();
     
     if (control)
         control->SetDuration(iDuration);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknDurationQueryDialog::SetMinimumAndMaximum( const TTimeIntervalSeconds& aMinimumDuration, 
@@ -1474,6 +1600,7 @@ EXPORT_C void CAknDurationQueryDialog::SetMinimumAndMaximum( const TTimeInterval
 
 EXPORT_C TBool CAknDurationQueryDialog::OkToExitL(TInt aButtonId)
     {
+	_AKNTRACE( "[%s][%s] aButtonId:%d ", "CAknDurationQueryDialog", __FUNCTION__,aButtonId);
     if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)))
         {   
@@ -1482,12 +1609,15 @@ EXPORT_C TBool CAknDurationQueryDialog::OkToExitL(TInt aButtonId)
             {
             iDuration = control->GetDuration();
             }
+        _AKNTRACE( "[%s][%s] get duration and return ETrue ", "CAknDurationQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
         {
+        _AKNTRACE( "[%s][%s] do nothing, return ETrue ", "CAknDurationQueryDialog", __FUNCTION__);
         return ETrue;
         }
+    _AKNTRACE( "[%s][%s] return ETrue ", "CAknDurationQueryDialog", __FUNCTION__);
     return EFalse;
     }
     
@@ -1544,6 +1674,7 @@ EXPORT_C CAknFloatingPointQueryDialog::~CAknFloatingPointQueryDialog()
 
 EXPORT_C void CAknFloatingPointQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::PreLayoutDynInitL();
     CAknQueryControl* control = QueryControl();
   
@@ -1553,6 +1684,7 @@ EXPORT_C void CAknFloatingPointQueryDialog::PreLayoutDynInitL()
         control->SetFloatingPointNumberL(&iNumber);
         DoSetPromptL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknFloatingPointQueryDialog::SetMinimumAndMaximum( const TReal& aMinimumNumber, 
@@ -1567,6 +1699,7 @@ EXPORT_C void CAknFloatingPointQueryDialog::SetMinimumAndMaximum( const TReal& a
 
 EXPORT_C TBool CAknFloatingPointQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId :%d ", "CAknFloatingPointQueryDialog", __FUNCTION__,aButtonId);
     if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)))
         {   
@@ -1575,12 +1708,15 @@ EXPORT_C TBool CAknFloatingPointQueryDialog::OkToExitL(TInt aButtonId)
             {
             iNumber = control->GetFloatingPointNumberL();
             }
+        _AKNTRACE( "[%s][%s] Get Floatingpoint number and return ETrue ", "CAknFloatingPointQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
         {
+        _AKNTRACE( "[%s][%s] do nothing, return ETrue ", "CAknFloatingPointQueryDialog", __FUNCTION__);
         return ETrue;
         }
+    _AKNTRACE( "[%s][%s] return ETrue ", "CAknFloatingPointQueryDialog", __FUNCTION__);
     return EFalse;
     }
     
@@ -1778,15 +1914,18 @@ EXPORT_C void CAknMultiLineDataQueryDialog::SetPromptL(const TDesC& aFP, const T
 //Store new prompt values
 //
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iSecondPrompt;
     iSecondPrompt = NULL;
     iSecondPrompt = aSP.AllocL();
 
     CAknQueryDialog::SetPromptL(aFP);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknMultiLineDataQueryDialog::DoSetPromptL()
     {
+    _AKNTRACE_FUNC_ENTER;
 //
 //Set prompt in query controls, called during layout
 //
@@ -1795,6 +1934,7 @@ EXPORT_C void CAknMultiLineDataQueryDialog::DoSetPromptL()
         secondControl->SetPromptL(*iSecondPrompt);
     
     CAknQueryDialog::DoSetPromptL();        
+    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1855,8 +1995,6 @@ EXPORT_C TBool CAknMultiLineDataQueryDialog::NeedToDismissQueryL(const TKeyEvent
         UpdateLeftSoftKeyL();
 		return ETrue;
 		}
-
-
     return EFalse;
     }
 
@@ -1884,6 +2022,7 @@ TInt CAknMultiLineDataQueryDialog::CurrentLine() const
 
 void CAknMultiLineDataQueryDialog::HandleOrientationSwitch()
 {
+	_AKNTRACE_FUNC_ENTER;
 	TBool firstLineEnabled = FirstLineEnabled();
 	TBool secondLineEnabled = SecondLineEnabled();
 
@@ -1913,10 +2052,12 @@ void CAknMultiLineDataQueryDialog::HandleOrientationSwitch()
 	ctrl1->SetFocusing(firstLineEnabled);
 	ctrl2->SetFocusing(secondLineEnabled);
 	Layout();
+	_AKNTRACE_FUNC_EXIT;
 }
 
 EXPORT_C void CAknMultiLineDataQueryDialog::HandleResourceChange(TInt aType)
 {
+	_AKNTRACE_FUNC_ENTER;
 	CAknQueryDialog::HandleResourceChange(aType);
 	if (aType == KEikDynamicLayoutVariantSwitch)
 		{
@@ -1931,10 +2072,12 @@ EXPORT_C void CAknMultiLineDataQueryDialog::HandleResourceChange(TInt aType)
 		HandleOrientationSwitch();
 		TRAP_IGNORE( UpdateLeftSoftKeyL() );
 		}
+	_AKNTRACE_FUNC_EXIT;
 }
 
 EXPORT_C TBool CAknMultiLineDataQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId :%d ", "CAknMultiLineDataQueryDialog", __FUNCTION__, aButtonId);
     if (Layout_Meta_Data::IsLandscapeOrientation())
     	{
     if((IsLeftSoftkeyVisible() && 
@@ -1960,8 +2103,8 @@ EXPORT_C TBool CAknMultiLineDataQueryDialog::OkToExitL(TInt aButtonId)
                 HandleOrientationSwitch();
 
                 UpdateLeftSoftKeyL();
-
-        		return EFalse;      		        		        		
+                _AKNTRACE( "[%s][%s] return EFalse", "CAknMultiLineDataQueryDialog", __FUNCTION__);
+                return EFalse;      		        		        		
         		}
         	}
     	}
@@ -2001,20 +2144,20 @@ EXPORT_C TBool CAknMultiLineDataQueryDialog::OkToExitL(TInt aButtonId)
                 CleanupStack::PopAndDestroy( text );   	
                 }
             }
-
+        _AKNTRACE( "[%s][%s] return ETrue ", "CAknMultiLineDataQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
         {
+        _AKNTRACE( "[%s][%s] do nothing,return ETrue  ", "CAknMultiLineDataQueryDialog", __FUNCTION__);
         return ETrue;
         }
-    
+    _AKNTRACE( "[%s][%s] do nothing,return EFalse ", "CAknMultiLineDataQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
 EXPORT_C void CAknMultiLineDataQueryDialog::UpdateLeftSoftKeyL()
     {
-    
     if (Layout_Meta_Data::IsLandscapeOrientation())
     	{
 	    if ( (FirstControl()->EditorContentIsValidL() && FirstControl()->IsFocused()) || (SecondControl()->EditorContentIsValidL() && FirstControl()->EditorContentIsValidL()) )
@@ -2070,9 +2213,11 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TTime* aTim
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aTime,*aTime2));
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aDataText,
@@ -2082,12 +2227,14 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aData
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aDataText,*aDataText2));
 
     iText = aDataText;
     iSecondText = aDataText2;
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aDataText, 
@@ -2097,11 +2244,13 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aData
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aDataText,*aTime));
 
     iText = aDataText;
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aDataText, 
@@ -2111,11 +2260,13 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aData
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aDataText,*aNumber));
 
     iText = aDataText;
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TInt* aNumber, 
@@ -2125,9 +2276,11 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TInt* aNumb
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aNumber,*aNumber2));
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aDataText, 
@@ -2137,6 +2290,7 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TDes* aData
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aDataText,*aDuration));
     
@@ -2151,9 +2305,11 @@ EXPORT_C CAknMultiLineDataQueryDialog::CAknMultiLineDataQueryDialog( TTime* aTim
                                                                     const TTone& aTone)
                                                                     : CAknQueryDialog(aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     TRAPD(ignore, SetPromptL(DesOrNull(aPrompt), DesOrNull(aPrompt2)));
     TRAP(ignore,SetDataL(*aTime,*aDuration));
     AKNTASHOOK_ADD( this, "CAknMultiLineDataQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     }
     
 EXPORT_C void CAknMultiLineDataQueryDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
@@ -2194,8 +2350,10 @@ EXPORT_C void CAknMultiLineDataQueryDialog::CAknQueryDialog_Reserved()
  */
 EXPORT_C CAknIpAddressQueryDialog* CAknIpAddressQueryDialog::NewL(TInetAddr& aInetAddr, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknIpAddressQueryDialog* self = new (ELeave) CAknIpAddressQueryDialog(aInetAddr, aTone);
     AKNTASHOOK_ADDL( self, "CAknIpAddressQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -2206,11 +2364,15 @@ CAknIpAddressQueryDialog::CAknIpAddressQueryDialog
 
 EXPORT_C CAknIpAddressQueryDialog::~CAknIpAddressQueryDialog()
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
+    _AKNTRACE_FUNC_EXIT;
     }
 EXPORT_C void CAknIpAddressQueryDialog::SetSizeAndPosition(
         const TSize& aSize )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aSize (W[%d],H[%d]) ", "CAknIpAddressQueryDialog", __FUNCTION__, aSize.iWidth, aSize.iHeight);
     CAknExtQueryControl* control = STATIC_CAST(CAknExtQueryControl*,QueryControl());    
     if(control)
         {
@@ -2244,10 +2406,13 @@ EXPORT_C void CAknIpAddressQueryDialog::SetSizeAndPosition(
 
                 winRect.iTl.iY -= headRect.Height();
                 }
-            
+            _AKNTRACE( "[%s][%s] winRect(x[%d], y[%d], W[%d], H[%d] ) ", 
+            		"CAknIpAddressQueryDialog", __FUNCTION__, winRect.iTl.iX, winRect.iTl.iY,
+            		winRect.Width(), winRect.Height());
             SetRect(winRect);
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknQueryControl* CAknIpAddressQueryDialog::QueryControl() const
@@ -2264,6 +2429,7 @@ This should not happen.
 
 EXPORT_C void CAknIpAddressQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
 #ifndef RD_NO_DIALOG_BORDERS
     SetBorder(AknBorderId::EAknBorderNotePopup);
 #else
@@ -2292,13 +2458,16 @@ EXPORT_C void CAknIpAddressQueryDialog::PreLayoutDynInitL()
     delete iExtension;
     iExtension = NULL;
     iExtension = new(ELeave) CAknQueryDialogExtension(this);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknIpAddressQueryDialog::PostLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknExtQueryControl* control = STATIC_CAST(CAknExtQueryControl*,QueryControl());
     if (control)
         control->StartAnimationL();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TBool CAknIpAddressQueryDialog::NeedToDismissQueryL(const TKeyEvent& /*aKeyEvent*/)
@@ -2317,6 +2486,8 @@ EXPORT_C void CAknIpAddressQueryDialog::SetMinimumAndMaximum( const TInetAddr& a
 
 EXPORT_C TBool CAknIpAddressQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId : %d ", 
+                		"CAknIpAddressQueryDialog", __FUNCTION__, aButtonId);
     if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)))
         {   
@@ -2325,12 +2496,15 @@ EXPORT_C TBool CAknIpAddressQueryDialog::OkToExitL(TInt aButtonId)
             {
             iInetAddr = control->GetInetAddress();
             }
+        _AKNTRACE( "[%s][%s] get address and return ETrue", "CAknIpAddressQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
         {
+        _AKNTRACE( "[%s][%s] do nothing, return ETrue", "CAknIpAddressQueryDialog", __FUNCTION__);
         return ETrue;
         }
+    _AKNTRACE( "[%s][%s] do nothing, return EFalse", "CAknIpAddressQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -2384,8 +2558,10 @@ EXPORT_C void CAknIpAddressQueryDialog::CAknQueryDialog_Reserved()
  */
 EXPORT_C CAknFixedPointQueryDialog* CAknFixedPointQueryDialog::NewL(TInt& aNumber, const TTone& aTone)
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknFixedPointQueryDialog* self = new (ELeave) CAknFixedPointQueryDialog(aNumber, aTone);
     AKNTASHOOK_ADDL( self, "CAknFixedPointQueryDialog" );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -2401,6 +2577,8 @@ EXPORT_C CAknFixedPointQueryDialog::~CAknFixedPointQueryDialog()
 EXPORT_C void CAknFixedPointQueryDialog::SetSizeAndPosition(
         const TSize& aSize )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s] aSize (W[%d],H[%d]) ", "CAknFixedPointQueryDialog", __FUNCTION__, aSize.iWidth, aSize.iHeight);
     CAknExtQueryControl* control = STATIC_CAST(CAknExtQueryControl*,QueryControl());    
     if(control)
         {
@@ -2434,10 +2612,13 @@ EXPORT_C void CAknFixedPointQueryDialog::SetSizeAndPosition(
 
                 winRect.iTl.iY -= headRect.Height();
                 }
-            
+            _AKNTRACE( "[%s][%s] winRect(x[%d], y[%d], W[%d], H[%d] ) ", 
+                  "CAknFixedPointQueryDialog", __FUNCTION__, winRect.iTl.iX, winRect.iTl.iY,
+                  winRect.Width(), winRect.Height());
             SetRect(winRect);
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknQueryControl* CAknFixedPointQueryDialog::QueryControl() const
@@ -2454,6 +2635,7 @@ This should not happen.
 
 EXPORT_C void CAknFixedPointQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
 #ifndef RD_NO_DIALOG_BORDERS
     SetBorder(AknBorderId::EAknBorderNotePopup);
 #else
@@ -2482,13 +2664,16 @@ EXPORT_C void CAknFixedPointQueryDialog::PreLayoutDynInitL()
     delete iExtension;
     iExtension = NULL;
     iExtension = new(ELeave) CAknQueryDialogExtension(this);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknFixedPointQueryDialog::PostLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknExtQueryControl* control = STATIC_CAST(CAknExtQueryControl*,QueryControl());
     if (control)
         control->StartAnimationL();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TBool CAknFixedPointQueryDialog::NeedToDismissQueryL(const TKeyEvent& /*aKeyEvent*/)
@@ -2507,6 +2692,7 @@ EXPORT_C void CAknFixedPointQueryDialog::SetMinimumAndMaximum( TInt aMinimumValu
 
 EXPORT_C TBool CAknFixedPointQueryDialog::OkToExitL(TInt aButtonId)
     {
+    _AKNTRACE( "[%s][%s] aButtonId : %d  ", "CAknFixedPointQueryDialog", __FUNCTION__, aButtonId);
     if((IsLeftSoftkeyVisible() && 
         (aButtonId == GetLeftCBAShortKeyPress() || aButtonId == EEikBidOk)))
         {   
@@ -2515,12 +2701,15 @@ EXPORT_C TBool CAknFixedPointQueryDialog::OkToExitL(TInt aButtonId)
             {
             iNumber = control->GetFixedPointNumber();
             }
+        _AKNTRACE( "[%s][%s] get point number and return ETrue ", "CAknFixedPointQueryDialog", __FUNCTION__);
         return ETrue;
         }
     else if(aButtonId == GetRightCBAShortKeyPress())
         {
+        _AKNTRACE( "[%s][%s] do nothing and return ETrue ", "CAknFixedPointQueryDialog", __FUNCTION__);
         return ETrue;
         }
+    _AKNTRACE( "[%s][%s] return EFalse ", "CAknFixedPointQueryDialog", __FUNCTION__);
     return EFalse;
     }
 
@@ -2656,6 +2845,7 @@ EXPORT_C CAknQueryControl* CAknMultiLineIpQueryDialog::QueryControl() const
 
 EXPORT_C void CAknMultiLineIpQueryDialog::PreLayoutDynInitL()
     {
+    _AKNTRACE_FUNC_ENTER;
     if (Layout_Meta_Data::IsLandscapeOrientation())
         {
         SetBorder( TGulBorder::ENone );
@@ -2690,6 +2880,7 @@ EXPORT_C void CAknMultiLineIpQueryDialog::PreLayoutDynInitL()
     delete iExtension;
     iExtension = NULL;
     iExtension = new(ELeave) CAknMultilineQueryDialogExtension(this, CAknMultilineQueryDialogExtension::EMultIPQuery);
+    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknMultiLineIpQueryDialog::SetPromptL(const TDesC& aFP, const TDesC& aSP)
@@ -2749,6 +2940,7 @@ TInt CAknMultiLineIpQueryDialog::CurrentLine() const
 
 void CAknMultiLineIpQueryDialog::HandleOrientationSwitch()
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool firstLineEnabled = FirstLineEnabled();
     TBool secondLineEnabled = SecondLineEnabled();
 
@@ -2778,11 +2970,13 @@ void CAknMultiLineIpQueryDialog::HandleOrientationSwitch()
     ctrl1->SetFocusing(firstLineEnabled);
     ctrl2->SetFocusing(secondLineEnabled);
     Layout();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 EXPORT_C void CAknMultiLineIpQueryDialog::HandleResourceChange(TInt aType)
     {
+	_AKNTRACE_FUNC_ENTER;
     CAknQueryDialog::HandleResourceChange(aType);
     if (aType == KEikDynamicLayoutVariantSwitch)
         {
@@ -2797,6 +2991,7 @@ EXPORT_C void CAknMultiLineIpQueryDialog::HandleResourceChange(TInt aType)
         HandleOrientationSwitch();
         TRAP_IGNORE( UpdateLeftSoftKeyL() );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
     
 EXPORT_C TBool CAknMultiLineIpQueryDialog::OkToExitL(TInt aButtonId)

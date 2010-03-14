@@ -39,8 +39,8 @@
 #include <akntransitionutils.h>
 #include <akntranseffect.h>
 #include <gfxtranseffect/gfxtranseffect.h>
-#include <WidgetRegistryConstants.h>
-#include <WidgetRegistryData.h>
+#include <widgetregistryconstants.h>
+#include <widgetregistrydata.h>
 #include <featmgr.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include <centralrepository.h>
@@ -1640,6 +1640,7 @@ void CAknFastSwapWindowControl::HandleListBoxEventL( CEikListBox* /*aListBox*/,
             break;
 
         case MEikListBoxObserver::EEventItemClicked:
+        case MEikListBoxObserver::EEventItemSingleClicked:
             if ( !iItemDraggingActioned && !iIsStylusPopupShow )
                 {
                 TTime now;

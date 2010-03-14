@@ -24,6 +24,7 @@
 #include <AknsUtils.h>
 #include <eikedwin.h>
 #include "AknPanic.h"
+#include "akntrace.h"
 
 const TInt KVerticalSpacing=-2;  // Avkon form controls overlap by two pixels!
 const TInt KVerticalSpacingSquash=0;
@@ -98,6 +99,7 @@ CEikCapCArrayExtension *CEikCapCArray::ExtensionOrNull() const
 
 TInt CEikCapCArray::NumberOfTextLines() const
 {
+	_AKNTRACE_FUNC_ENTER;
 	CEikCaptionedControl *firstCapCC = Count() > 0 ? (*this)[0] : NULL;
 	const CEikDialogPage *dialogPage = firstCapCC ? firstCapCC->DialogPage() : NULL;
     CEikDialogPage::TFormLayoutSelection ret = CEikDialogPage::ESingle;
@@ -123,11 +125,14 @@ TInt CEikCapCArray::NumberOfTextLines() const
 					}	
 		lines += num_of_lines;
 	}
+	_AKNTRACE( "lines: [%d]", lines );
+	_AKNTRACE_FUNC_EXIT;
 	return lines;
 }
 
 TInt CEikCapCArray::NumberOfTextLinesBeforeLine(TInt aLine) const
 {
+	_AKNTRACE_FUNC_ENTER;
 	CEikCaptionedControl *firstCapCC = Count() > 0 ? (*this)[0] : NULL;
 	const CEikDialogPage *dialogPage = firstCapCC ? firstCapCC->DialogPage() : NULL;
     CEikDialogPage::TFormLayoutSelection ret = CEikDialogPage::ESingle;
@@ -153,6 +158,8 @@ TInt CEikCapCArray::NumberOfTextLinesBeforeLine(TInt aLine) const
 					}	
 		lines += num_of_lines;
 	}
+	_AKNTRACE( "lines: [%d]", lines );
+	_AKNTRACE_FUNC_EXIT;
 	return lines;
 
 }
@@ -195,6 +202,7 @@ TInt CEikCapCArray::FindItemFromTextLine(TInt aTextLine) const
  */
 EXPORT_C TSize CEikCapCArray::MinimumSize()
 	{
+	_AKNTRACE_FUNC_ENTER;
 	TSize size(0,0);
 
 	CEikCaptionedControl *firstCapCC = Count() > 0 ? (*this)[0] : NULL;
@@ -276,6 +284,8 @@ EXPORT_C TSize CEikCapCArray::MinimumSize()
 		size.iHeight+=2 ;  // (we have included one too many '-2's)
 		}
 	}
+    _AKNTRACE( "The Size : ( %d, %d ) ", size.iHeight, size.iWidth );
+	_AKNTRACE_FUNC_EXIT;
 	return size;
 	}
 
@@ -636,6 +646,7 @@ static TInt HideLines(CEikCaptionedControl *aControl, TRect aClipRect)
 */
 void CEikCapCArray::SetRect(const TRect& aRect, TInt aTop, TInt /*aMiddle*/, TInt aBottom)
 	{
+	_AKNTRACE_FUNC_ENTER;
     TAknLayoutRect formtLayoutRect;
     formtLayoutRect.LayoutRect(aRect, AknLayoutScalable_Avkon::listscroll_form_pane().LayoutLine());
     formtLayoutRect.LayoutRect(formtLayoutRect.Rect(), AknLayoutScalable_Avkon::list_form_gen_pane().LayoutLine());
@@ -655,6 +666,7 @@ void CEikCapCArray::SetRect(const TRect& aRect, TInt aTop, TInt /*aMiddle*/, TIn
         if ( control->DialogPage()->IsForm() )
             {
             SetRealRect( aRect, aTop, aBottom );
+            _AKNTRACE_FUNC_EXIT;
             return;
             }
         }
@@ -879,6 +891,7 @@ void CEikCapCArray::SetRect(const TRect& aRect, TInt aTop, TInt /*aMiddle*/, TIn
     			}
     		}
 		}
+	_AKNTRACE_FUNC_EXIT;
 	}
 
 TInt CEikCapCArray::YPosToLine(const TRect &aRect, 
@@ -974,6 +987,7 @@ EXPORT_C TInt CEikCapCArray::FindLineIndex(const CCoeControl* aControl) const
 //
 TInt CEikCapCArray::ScrollByPixels( TInt aDelta )
     {
+	_AKNTRACE_FUNC_ENTER;
     TInt count = Count();
     
     // Top and bottom of lines
@@ -1019,7 +1033,7 @@ TInt CEikCapCArray::ScrollByPixels( TInt aDelta )
                 }
             }
         }
-
+    _AKNTRACE_FUNC_EXIT;
     return aDelta;
     }
 
@@ -1030,6 +1044,7 @@ TInt CEikCapCArray::ScrollByPixels( TInt aDelta )
 void CEikCapCArray::SetRealRect( 
 		const TRect& /*aRect*/, TInt /*aTop*/, TInt /*aBottom*/ )
     {
+	_AKNTRACE_FUNC_ENTER;
     TInt count = Count();
     const TPoint virtualTl( 1000, 0 );
     TPoint skinLocation( 0, 0 );
@@ -1056,6 +1071,7 @@ void CEikCapCArray::SetRealRect(
         AknsUtils::RegisterControlPosition( line->iTrailer, skinLocation );
         AknsUtils::RegisterControlPosition( line->iBitmap, skinLocation );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1109,6 +1125,8 @@ TInt CEikCapCArray::LineIndexToYPosition( TInt aLine, TInt aTopY ) const
 //
 void CEikCapCArray::MoveLineToScreen( TInt aLine, TInt aTopY, TBool aVisible )
     {
+	_AKNTRACE_FUNC_ENTER;
+	_AKNTRACE( "aLine: [%d], aTopY: [%d], aVisible: [%d]", aLine, aTopY, aVisible );
     if ( aLine != -1 && aLine < Count() )
         {
         CEikCaptionedControl* line = (*this)[aLine];
@@ -1121,6 +1139,7 @@ void CEikCapCArray::MoveLineToScreen( TInt aLine, TInt aTopY, TBool aVisible )
         
         line->SetRect( TRect( topLeft, line->Size() ) );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1130,6 +1149,8 @@ void CEikCapCArray::MoveLineToScreen( TInt aLine, TInt aTopY, TBool aVisible )
 //
 TInt CEikCapCArray::FocusableLine( TInt aCurrentLine, TInt aTopY )
     {
+	_AKNTRACE_FUNC_ENTER;
+	_AKNTRACE( "aCurrentLine: [%d]", aCurrentLine );
     TInt focusableLine = KErrNotFound;
     
     if ( aCurrentLine >= 0 && aCurrentLine < Count() )
@@ -1157,7 +1178,7 @@ TInt CEikCapCArray::FocusableLine( TInt aCurrentLine, TInt aTopY )
                 }
             }
         }
-    
+    _AKNTRACE_FUNC_EXIT;
     return focusableLine;
     }
 

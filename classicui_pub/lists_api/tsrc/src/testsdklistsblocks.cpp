@@ -765,6 +765,7 @@ TInt CTestSDKLists::RunMethodL( CStifItemParser& aItem )
 
         ENTRY( "TestLBDisableSingleClick", CTestSDKLists::TestLBDisableSingleClick ),
         ENTRY( "TestLBDisableItemSpecificMenu", CTestSDKLists::TestLBDisableItemSpecificMenu ),
+        ENTRY( "TestLBItemsInSingleLine", CTestSDKLists::TestLBItemsInSingleLine ),
         
         // class CEikSnakingListBox
         ENTRY( "TestSLBConstructorL", CTestSDKLists::TestSLBConstructorL ),

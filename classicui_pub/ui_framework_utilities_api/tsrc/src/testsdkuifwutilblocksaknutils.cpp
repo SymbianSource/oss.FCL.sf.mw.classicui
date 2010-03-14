@@ -2238,7 +2238,7 @@ TInt CTestSDKUiFwUtil::TestFilterTextListBoxModelRemoveFilterL( CStifItemParser&
 // CTestSDKUiFwUtil::TestAknPopupUtilsPosition
 // -----------------------------------------------------------------------------
 //
-TInt CTestSDKUiFwUtil::TestAknPopupUtilsPositionFuncs( 
+TInt CTestSDKUiFwUtil::TestAknPopupUtilsPosition( 
     CStifItemParser& /*aItem*/ )
     {
     //TPoint position( AknPopupUtils::Position( TSize(), ETrue ) );
@@ -2246,6 +2246,24 @@ TInt CTestSDKUiFwUtil::TestAknPopupUtilsPositionFuncs(
     //position = ( AknPopupUtils::Position( TSize(), NULL ) );
     return KErrNone;
     }
+
+
+// -----------------------------------------------------------------------------
+// CTestSDKUiFwUtil::TestAknListUtilsDrawSeparator
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKUiFwUtil::TestAknListUtilsDrawSeparator( 
+    CStifItemParser& /*aItem*/ )
+    {
+    TRect rect( 20, 20, 40, 40 );
+    CWindowGc& gc = iContainer->SystemGc();
+    iContainer->ActiveControlGc();
+    AknListUtils::DrawSeparator( gc, rect, KRgbBlack );
+    iContainer->DeActiveControlGc();
+
+    return KErrNone;
+    }
+
 
 // End of file
 

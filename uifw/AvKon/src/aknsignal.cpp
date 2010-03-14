@@ -537,25 +537,31 @@ EXPORT_C void CAknSignalPane::Draw( const TRect& /*aRect*/ ) const
         return;
         }
 
-    if ( AknStatuspaneUtils::StaconPaneActive() )
+    // Don't allow normal background drawing if
+    // background is already drawn with a background drawer.
+    const MCoeControlBackground* backgroundDrawer = FindBackground();
+    if ( !backgroundDrawer )
         {
-        //  Signal pane in STACON PANE layout
-        DrawInStaconPane( Rect() );
-        }
-    else if ( AknStatuspaneUtils::FlatLayoutActive() )
-        {
-        //  Signal pane in FLAT STATUSPANE layout
-        DrawInFlatStatusPane( Rect() );
-        }
-    else if ( AknStatuspaneUtils::SmallLayoutActive() )
-        {
-        //  Signal pane in SMALL STATUSPANE layout
-        DrawInSmallStatusPane( Rect() );
-        }
-    else
-        {
-        // Signal pane in NORMAL STATUSPANE layout
-        DrawInNormalStatusPane( Rect() );
+        if ( AknStatuspaneUtils::StaconPaneActive() )
+            {
+            //  Signal pane in STACON PANE layout
+            DrawInStaconPane( Rect() );
+            }
+        else if ( AknStatuspaneUtils::FlatLayoutActive() )
+            {
+            //  Signal pane in FLAT STATUSPANE layout
+            DrawInFlatStatusPane( Rect() );
+            }
+        else if ( AknStatuspaneUtils::SmallLayoutActive() )
+            {
+            //  Signal pane in SMALL STATUSPANE layout
+            DrawInSmallStatusPane( Rect() );
+            }
+        else
+            {
+            // Signal pane in NORMAL STATUSPANE layout
+            DrawInNormalStatusPane( Rect() );
+            }
         }
     }
 

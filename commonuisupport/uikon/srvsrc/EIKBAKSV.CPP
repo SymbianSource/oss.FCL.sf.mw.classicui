@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -363,17 +363,17 @@ void CAppShutter::HandleTimerCallBackL()
 */
 void CAppShutter::NextL()
 	{
-	if (iNextWgIndex==iWgIds->Count())
-		{
-		CheckCompleteL();
-		}
-	else
+	while (iNextWgIndex < iWgIds->Count())
 		{
 		const RWsSession::TWindowGroupChainInfo wgId=(*iWgIds)[iNextWgIndex++];
 		CApaWindowGroupName* wgName=CApaWindowGroupName::NewLC(iWsSession,wgId.iId);
-		if (!IsWgIdValid(wgId.iId) || wgName->IsSystem() || wgName->Hidden())
+
+		// Skip invalid window groups.
+		// Note that if the window group name is null then CApaWindowGroupName
+		// uses a default name that yields an app uid of zero.
+		if (wgName->AppUid().iUid == 0 || wgName->IsSystem() || wgName->Hidden())
 			{
-			NextL();
+			CleanupStack::PopAndDestroy(); // wgName
 			}
 		else
 			{
@@ -384,6 +384,8 @@ void CAppShutter::NextL()
 				data.iDocName=docName;
 				}
 			data.iUid=wgName->AppUid();
+			CleanupStack::PopAndDestroy(); // wgName
+
 			// We don't want to restart server apps
 			if (wgId.iParentId <= 0)
 				{
@@ -404,19 +406,11 @@ void CAppShutter::NextL()
 				}
 			// If hardware use patchable constant if not default to 5 seconds
 			iTimer->Start(KUIKONBackupCloseAllFilesTimeout,KUIKONBackupCloseAllFilesTimeout,TCallBack(TimerCallBackL,this));
+			return;
 			}
-		CleanupStack::PopAndDestroy(); // wgName
 		}
-	}
 
-/**
-@internalComponent
-*/
-TBool CAppShutter::IsWgIdValid(TInt aWgId)
-	{
-	TBuf<600> name;
-	const TInt r=iWsSession.GetWindowGroupNameFromIdentifier(aWgId,name);
-	return r==KErrNone;
+	CheckCompleteL();
 	}
 
 /**

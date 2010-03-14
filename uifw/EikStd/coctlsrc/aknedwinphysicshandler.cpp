@@ -390,6 +390,7 @@ void CAknEdwinPhysicsHandler::ScrollStep( TInt aPixelsToScroll,
                 
                 iPhysics->SuspendPhysics();
                 InitBounce( aPixelsToScroll > 0 );
+                ScrollRestOfPixels( restOfPixels );
                 iPhysics->ResumePhysics();
                 }
             else

@@ -65,9 +65,7 @@ void CHgVgPopup::ConstructL (  )
             iRect.Width(), iRect.Height(), 
             VG_IMAGE_QUALITY_NONANTIALIASED);
 
-    VGErrorCode error = vgGetError();
-    
-    if (iLetterImage == VG_INVALID_HANDLE || error == VG_OUT_OF_MEMORY_ERROR)
+    if( iLetterImage == VG_INVALID_HANDLE )
         {
         User::Leave(KErrNoMemory);
         }

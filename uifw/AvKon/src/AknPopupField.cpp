@@ -1160,6 +1160,14 @@ EXPORT_C void CAknPopupField::SetInvalidTextL(const TDesC& aInvalidText)
         }
     }
 
+EXPORT_C void CAknPopupField::CloseSelectionListL()
+    {
+    if (  iSelectionMode == EAknPopupFieldSelectionListMode 
+          && iSelectionList )
+        {
+        AttemptExitL( EFalse );
+        }
+    }
 
 void CAknPopupField::ConfigureDecorator()
     {

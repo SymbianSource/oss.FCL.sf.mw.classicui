@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -689,35 +689,41 @@ EXPORT_C void CAknTitlePane::Draw( const TRect& aRect ) const
         return;
         }
 
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-
-    TRect rect( Rect() );
-
-    CWindowGc& gc=SystemGc();
-
-    if ( AknStatuspaneUtils::StaconPaneActive() ||
-         AknStatuspaneUtils::FlatLayoutActive() )
+    // Don't allow normal background drawing if
+    // background is already drawn with a background drawer.
+    const MCoeControlBackground* backgroundDrawer = FindBackground();
+    if ( !backgroundDrawer )
         {
-        MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
 
-        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        TRect rect( Rect() );
+
+        CWindowGc& gc=SystemGc();
+
+        if ( AknStatuspaneUtils::StaconPaneActive() ||
+             AknStatuspaneUtils::FlatLayoutActive() )
             {
-            gc.SetPenStyle( CGraphicsContext::ENullPen );
-            gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-            gc.SetBrushColor(
-                AKN_LAF_COLOR( KStatusPaneBackgroundGraphicsColorUsual ) );
-            gc.DrawRect( rect );
+            MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+
+            if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+                {
+                gc.SetPenStyle( CGraphicsContext::ENullPen );
+                gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+                gc.SetBrushColor(
+                    AKN_LAF_COLOR( KStatusPaneBackgroundGraphicsColorUsual ) );
+                gc.DrawRect( rect );
+                }
             }
-        }
-    else
-        {
-        gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-        gc.SetBrushColor( AKN_LAF_COLOR( KStatusPaneBackgroundColor ) );
-        AknsDrawUtils::Background( skin,
-                                   AknsDrawUtils::ControlContext( this ),
-                                   this,
-                                   gc,
-                                   rect );
+        else
+            {
+            gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+            gc.SetBrushColor( AKN_LAF_COLOR( KStatusPaneBackgroundColor ) );
+            AknsDrawUtils::Background( skin,
+                                       AknsDrawUtils::ControlContext( this ),
+                                       this,
+                                       gc,
+                                       rect );
+            }
         }
     }
 
@@ -1430,7 +1436,7 @@ void CAknTitlePane::SizeChangedInFlatStatusPane()
         TAknLayoutRect layoutRect;
         layoutRect.LayoutRect(
             rect,
-            AknLayoutScalable_Avkon::title_pane_g2( touchLsc ? 4 : 0 ) );
+            AknLayoutScalable_Avkon::title_pane_g2( touchLsc ? 4 : 1 ) );
 
         if ( iExtension->iSmallImageAutoscaling &&
              iExtension->iTitleImage->Bitmap() &&
@@ -1461,13 +1467,13 @@ void CAknTitlePane::SizeChangedInFlatStatusPane()
             {
             // if image is shown, use shorter version of text
             oneLineLayout =
-                AknLayoutScalable_Avkon::title_pane_t1( touchLsc ? 11 : 3 ).LayoutLine();
+                AknLayoutScalable_Avkon::title_pane_t1( touchLsc ? 11 : 6 ).LayoutLine();
             }
         else
             {
             // if image is not shown, use longer version of text
             oneLineLayout =
-                AknLayoutScalable_Avkon::title_pane_t1( touchLsc ? 10 : 2 ).LayoutLine();
+                AknLayoutScalable_Avkon::title_pane_t1( touchLsc ? 10 : 5 ).LayoutLine();
             }
 
         TAknLayoutText oneLineLayoutText;

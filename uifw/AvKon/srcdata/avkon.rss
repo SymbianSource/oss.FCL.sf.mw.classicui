@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -630,8 +630,14 @@ RESOURCE STATUS_PANE_SYSTEM_MODEL r_avkon_status_pane
             flags = EEikStatusPaneAppOwned;
             type = EAknCtStatuspaneEmpty;
             resource = r_avkon_status_pane_empty;
+            },
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidCombined;
+            flags = EEikStatusPaneAppOwned;
+            type = EAknCtCombinedPane;
+            resource = r_avkon_status_pane_combined_default;
             }
-
         };
 
     default_layout = r_avkon_status_pane_layout_usual;
@@ -9226,6 +9232,18 @@ RESOURCE STATUS_PANE_LAYOUT r_avkon_widescreen_pane_layout_usual_flat
                 id = EEikStatusPaneUidBattery;
                 size = 1;      // Dummy size, real size comes from AknLayout
                 sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidDigitalClock;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidCombined;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
                 }
             };
         };
@@ -9271,6 +9289,18 @@ RESOURCE STATUS_PANE_LAYOUT r_avkon_widescreen_pane_layout_idle_flat
             SPANE_LAYOUT_TREE_NODE
                 {
                 id = EEikStatusPaneUidBattery;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidDigitalClock;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidCombined;
                 size = 1;      // Dummy size, real size comes from AknLayout
                 sub_panes = {};
                 }
@@ -9737,7 +9767,12 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EAknCmdEditInsertSmiley; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_add_smiley; },
         MENU_ITEM { command=EAknCmdPredictiveTextCascade; cascade=r_avkon_predictive_text_menu_t9; flags=EEikMenuItemDimmed; txt=qtn_options_t9; },
         MENU_ITEM { command=EAknCmdMultitapPredictiveT9On; flags=EEikMenuItemDimmed; txt=qtn_options_t9_on; },
+        MENU_ITEM { command=EPenInputCmdHwrInputToPortrait; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_to_portrait_hwr; },
+        MENU_ITEM { command=EPenInputCmdHwrInputToLandscape; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_to_landscape_hwr; },
+        MENU_ITEM { command=EPenInputCmdSwitchToVkeyBasedInput; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_switch_to_vkey_input; },
         MENU_ITEM { command=EPenInputPreview; cascade=r_avkon_touchinput_preview; txt=qtn_tin_option_menu_character_preview; },
+        MENU_ITEM { command=EPenInputCmdWritingSpeed; flags=EEikMenuItemDimmed; txt=qtn_tin_settings_writing_speed; },
+        MENU_ITEM { command=EPenInputCmdGuidingLine; flags=EEikMenuItemDimmed; txt=qtn_tin_settings_guiding_line; },
         MENU_ITEM { command=EAknCmdInputLanguage; txt=qtn_tin_option_menu_writing_language; },
         MENU_ITEM { command=EPenInputCmdRecognitionWithDictionary; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_arabic_recognition; },
         MENU_ITEM { command=EJapanFepCmdModeHiragana; flags=EEikMenuItemDimmed;txt=qtn_japin_edit_hiragana; },
@@ -10102,6 +10137,21 @@ RESOURCE DIALOG r_avkon_insert_word_fs_query
                     base_line_delta=21;
                     };
                 };
+            }
+        };
+    }
+
+RESOURCE COMBINED_PANE r_avkon_status_pane_combined_default
+    {
+    panes =
+        {
+        COMBINED_PANE_SUBPANE
+            {
+            uid = EEikStatusPaneUidDigitalClock;
+            },
+        COMBINED_PANE_SUBPANE
+            {
+            uid = EEikStatusPaneUidIndic;
             }
         };
     }

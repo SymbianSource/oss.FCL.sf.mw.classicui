@@ -18,7 +18,7 @@
 
 //  INCLUDES
 
-#include <Ecom/ecom.h>   			// For REComSession
+#include <ecom/ecom.h>   			// For REComSession
 #include <ScreensaverpluginIntDef.hrh>	// For KCScreensaverPluginInterfaceDefinitionUid
 
 // CONSTANTS

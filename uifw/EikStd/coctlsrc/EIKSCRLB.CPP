@@ -515,9 +515,6 @@ TInt CEikScrollBarExtension::ScrollBarType()
     return CEikScrollBar::EArrowHead;
     }
 
-void CEikScrollBarExtension::CreateButtonL(CAknScrollButton*& /*aButton*/,CAknScrollButton::TType /*aType*/)
-    {
-    }
 
 void CEikScrollBarExtension::DoSetModel(const TEikScrollBarModel* aModel)
     {
@@ -706,14 +703,9 @@ EXPORT_C void CAknDoubleSpanScrollBar::ConstructL(TBool aWindowOwning, MEikScrol
     if (aWindowOwning)
         {
         CreateWindowL(aParent);
-        if ( CAknEnv::Static()->TransparencyEnabled() )
-            {
-            Window().SetRequiredDisplayMode( EColor16MA );
-            if ( Window().SetTransparencyAlphaChannel() == KErrNone )
-                {
-                Window().SetBackgroundColor( ~0 );
-                }
-            }
+        EnableWindowTransparency();
+        Window().SetPointerGrab( ETrue );
+        EnableDragEvents();
         }
     else if(aParent)
         {
@@ -731,18 +723,6 @@ EXPORT_C void CAknDoubleSpanScrollBar::ConstructL(TBool aWindowOwning, MEikScrol
 
     iOrientation=aOrientation;
     CreateRequiredComponentsL();
-
-    if (aWindowOwning)
-        {
-        Window().SetPointerGrab(ETrue);
-        EnableDragEvents();
-        if (extension->iScrollIndicator)
-               extension->iScrollIndicator->SetAsWindowOwning(ETrue);
-
-
-        // By default set background to transparent
-        SetTransparentBackground(ETrue);
-        }
 
     SetComponentsToInheritVisibility(ETrue);
     MakeVisible(EFalse);
@@ -1090,7 +1070,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
             indicator->SetBackgroudHighlight( ETrue );
 
             extension->iPointerDownPosition  = position;
-            
+
             if(iButtons.iIncreaseNudge &&
                iButtons.iIncreaseNudge->Rect().Contains(aPointerEvent.iPosition))
                 {
@@ -1736,9 +1716,6 @@ TInt CAknDoubleSpanScrollBarExtension::ScrollBarType()
     return CEikScrollBarFrame::EDoubleSpan;
     }
 
-void CAknDoubleSpanScrollBarExtension::CreateButtonL(CAknScrollButton*& /*aButton*/,CAknScrollButton::TType /*aType*/)
-    {
-    }
 
 void CAknDoubleSpanScrollBarExtension::DoSetModel(const TEikScrollBarModel* aModel)
     {
@@ -1770,10 +1747,6 @@ void CAknDoubleSpanScrollBarExtension::DoSetModel(const TEikScrollBarModel* aMod
                 0);
             }
 
-        if (iParent->OwnsWindow() && iScrollIndicator->TransparentBackground())
-            {
-            iParent->Window().HandleTransparencyUpdate();
-            }
         if(iScrollIndicator->IsVisible())
             {
             if(iScrollIndicator->DrawBackgroundState() && !iParent->OwnsWindow())
@@ -1904,6 +1877,7 @@ void CAknDoubleSpanScrollBarExtension::CreateRequiredComponentsL()
         iScrollIndicator->SetContainerWindowL( *iParent );
         iScrollIndicator->SetRect( iParent->Rect() );
         iScrollIndicator->SetComponentsToInheritVisibility(ETrue);
+        iScrollIndicator->SetAsWindowOwning( iParent->OwnsWindow() );
         }
 
     if ( AknLayoutUtils::PenEnabled() &&

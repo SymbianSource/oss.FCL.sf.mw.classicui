@@ -27,7 +27,7 @@
 #include <apgcli.h>
 #include <coecobs.h> // MCoeControlObserver
 
-#include <WidgetRegistryClient.h>
+#include <widgetregistryclient.h>
 #include <eikmobs.h>
 
 // CONSTANTS

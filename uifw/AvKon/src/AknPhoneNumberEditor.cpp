@@ -1081,7 +1081,9 @@ void CAknPhoneNumberEditor::DoCanPasteL() const
     
     // check if the characters are allowed, if one character is not allowed, 
     // it will not be pasted into phone number editor
-	if ( fepState->CurrentInputMode() != EAknEditorTextInputMode )
+    CAknExtendedInputCapabilities * pCapabilities(iExtension->iExtendedInputCapabilities);
+	if ( fepState->CurrentInputMode() != EAknEditorTextInputMode && pCapabilities
+		&& pCapabilities->EditorType() != CAknExtendedInputCapabilities::EHybridAlphaNumericEditor )
 		{
 		TInt pos = 0;
 		TInt index = 0;
@@ -1294,5 +1296,17 @@ EXPORT_C TInt CAknPhoneNumberEditor::AknEditorFlags()
 	return edwinState->Flags();	
 	}
 
+// --------------------------------------------------------------------------
+// CAknPhoneNumberEditor::MakeVisible
+// --------------------------------------------------------------------------
+//
+void CAknPhoneNumberEditor::MakeVisible(TBool aVisible)
+	{
+	CCoeControl::MakeVisible(aVisible);
+	if ( !aVisible )
+		{
+	    CloseVKB();
+		}
+	}
 
 // End of file

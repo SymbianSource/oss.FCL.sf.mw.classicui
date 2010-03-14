@@ -1616,4 +1616,5 @@ EXPORTS
 	?SetOverridingMenuBarOwnerL@AknItemActionMenuRegister@@SAXPAVMObjectProvider@@I@Z @ 1615 NONAME ; void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(class MObjectProvider *, unsigned int)
 	?MakeVisible@CEikListBox@@UAEXH@Z @ 1616 NONAME ; void CEikListBox::MakeVisible(int)
 	?EnableItemSpecificSoftkey@CEikCba@@QAEXH@Z @ 1617 NONAME ; void CEikCba::EnableItemSpecificSoftkey(int)
+	?ItemsInSingleLine@CEikListBox@@QBEHXZ @ 1618 NONAME ; int CEikListBox::ItemsInSingleLine(void) const
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1037,4 +1037,30 @@ STRUCT AVKON_DISCREET_POPUP
     LLINK majorSkinId = -1; // icon major skin id
     LLINK minorSkinId = -1; // icon minor skin id
     LLINK extension = 0; // reserved for future extension
+    }
+
+// --------------------------------------------------------------------------
+// COMBINED_PANE
+// Resource structure for status pane's combined pane.
+// @since 5.2
+// --------------------------------------------------------------------------
+//
+STRUCT COMBINED_PANE
+    {
+    BYTE version = 1;    // Structure version.
+    STRUCT panes[];      // Array of subpanes embedded to the combined pane.
+    LLINK extension = 0; // Extension for future use.
+    }
+
+// --------------------------------------------------------------------------
+// COMBINED_PANE_SUBPANE
+// Resource structure for combined pane's subpane (in status pane).
+// @since 5.2
+// --------------------------------------------------------------------------
+//
+STRUCT COMBINED_PANE_SUBPANE
+    {
+    BYTE version = 1;    // Structure version.
+    LONG uid;            // UID of the subpane, defined in @c avkon.hrh.
+    LLINK extension = 0; // Extension for future use.
     }

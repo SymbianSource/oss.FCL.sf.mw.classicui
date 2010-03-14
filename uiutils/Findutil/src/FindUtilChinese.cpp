@@ -24,11 +24,11 @@
 
 
 #include <PtiEngine.h>
-#include <CentralRepository.h>
+#include <centralrepository.h>
 #include <AknFepInternalCRKeys.h>
 #include <AvkonInternalCRKeys.h>
 #include <aknedsts.h>
-#include <COEAUI.H>
+#include <coeaui.h>
 #include <aknenv.h> //phonebook
 #include <aknappui.h>
 #include <aknapp.h>
@@ -38,7 +38,7 @@
 
 
 #include "FindUtilChinese.h"
-#include "chinesefindutils.h"
+#include "ChineseFindUtils.h"
 
 // CONSTANTS 
 const TUint16 KStarChar = 0x002a;   

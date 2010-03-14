@@ -24,7 +24,7 @@
 #include <avkon.rsg>
 #include <avkon.hrh>
 #include <eikappui.h>
-
+#include <eikdialg.h>
 const TInt ELeftSoftkeyIndex = 0;
 const TInt ERightSoftkeyIndex = 2;
 const TInt ENullCommandId = -1;
@@ -48,7 +48,8 @@ EXPORT_C CAknCcpuSupport::~CAknCcpuSupport()
 	{
 	if (iMenu)
 		iMenu->RemoveEditMenuObserver(this);
-	delete iCba;
+	//delete iCba;
+	TRAP_IGNORE(DeleteCBAL());
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 	}
 
@@ -91,8 +92,9 @@ EXPORT_C void CAknCcpuSupport::HandleFocusChangeL()
 	if (iCba && !focused)
 		{
 		// something has caused loss of focus while shift is pressed - drop everything.
-		delete iCba;
-		iCba = NULL;
+		//delete iCba;
+		//iCba = NULL;
+		DeleteCBAL();
 		}
 	}
 
@@ -104,11 +106,54 @@ EXPORT_C TKeyResponse CAknCcpuSupport::OfferKeyEventL(const TKeyEvent& aKeyEvent
 	if (aKeyEvent.iCode == EKeyF21)		// FEP generates F21 on long shift press
 		{
 		if (aType == EEventKey)
-			{
-			delete iCba;
-			iCba = NULL;
-			iCba = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba, CEikButtonGroupContainer::EHorizontal, this, R_AVKON_SOFTKEYS_EMPTY);
-			iCba->SetBoundingRect(iEikonEnv->EikAppUi()->ApplicationRect());
+			{		
+			DeleteCBAL();
+			CEikAppUi* eikAppUi = (CEikAppUi *)CCoeEnv::Static()->AppUi();
+			if( eikAppUi!= NULL && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
+				{
+				CEikDialog* dlg = eikAppUi->TopFocusedControl()->MopGetObject( dlg );
+				if ( dlg )
+					{
+					CEikButtonGroupContainer* currentCba = dlg->MopGetObject( currentCba );
+					
+					if ( currentCba )
+						{
+						CEikCba* dlgcba = static_cast<CEikCba*>( currentCba->ButtonGroup() );
+						TUint flags( 0 ); 
+						flags |= CEikButtonGroupContainer::EIsEmbedded | CEikButtonGroupContainer::EAddToStack;
+						iCba = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba, CEikButtonGroupContainer::EHorizontal, 
+								this, R_AVKON_SOFTKEYS_EMPTY, flags );
+						
+						CEikCba* cba = static_cast<CEikCba*>(
+								iCba->ButtonGroup() );					   
+						
+						if( ! isCbaEmded )
+							{
+							currentCba->AddCommandToStackL(ELeftSoftkeyIndex, -1, _L(""), NULL, NULL);
+							currentCba->AddCommandToStackL(ERightSoftkeyIndex, -1, _L(""), NULL, NULL);
+							currentCba->ActivateL();
+							currentCba->DrawNow();
+							iDialogCba = currentCba;
+							isCbaEmded = ETrue;
+							}
+					
+						cba->SetButtonGroupFlags( ~(EEikCbaFlagTransparent | EEikCbaFlagOutlineFont) );
+						TRect dlgRect(dlg->Rect());
+						TRect cbaRect(currentCba->Rect());
+						iCba->SetRect( currentCba->Rect());
+						iCba->SetPosition(TPoint(dlg->DrawableWindow()->Position().iX,dlg->DrawableWindow()->Position().iY + dlgRect.Height() - cbaRect.Height()));
+						iCba->SetBoundingRect( dlg->Rect());
+						
+						}
+					
+					}
+				
+				}
+			if(iCba == NULL)//if iCba was not create in the above branch but was deleted by DeleteCBA
+				{
+				iCba = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba, CEikButtonGroupContainer::EHorizontal, this, R_AVKON_SOFTKEYS_EMPTY);
+				iCba->SetBoundingRect(iEikonEnv->EikAppUi()->ApplicationRect());
+				}
 			UpdateCBALabelsL();
 			}
 		return EKeyWasConsumed;
@@ -124,8 +169,9 @@ EXPORT_C TKeyResponse CAknCcpuSupport::OfferKeyEventL(const TKeyEvent& aKeyEvent
         }					
 	else if ((aKeyEvent.iScanCode == EStdKeyLeftShift || aKeyEvent.iScanCode == EStdKeyRightShift) && aType == EEventKeyUp)
 		{
-		delete iCba;
-		iCba = NULL;
+		//delete iCba;
+		//iCba = NULL;
+		DeleteCBAL();
 		}
 	
 	return EKeyWasNotConsumed;
@@ -178,7 +224,9 @@ void CAknCcpuSupport::UpdateCBALabelsL()
 		change = UpdateCBALabelL(ERightSoftkeyIndex, ENullCommandId, R_TEXT_SOFTKEY_EMPTY) || change;
 
 	if (change)
+		{
 		iCba->DrawNow();
+		}
 	}
 
 TBool CAknCcpuSupport::UpdateCBALabelL(TInt aPosition, TInt aCommandId, TInt aTextResId)
@@ -206,5 +254,37 @@ EXPORT_C void* CAknCcpuSupport::ExtensionInterface( TUid /*aInterface*/ )
     {
     return NULL;
     }
+void CAknCcpuSupport::DeleteCBAL()
+	{
+	if ( iCba != NULL )
+		{
+	    delete iCba;
+	    iCba = NULL;
+		}
+	if (isCbaEmded)
+		{
+		CEikAppUi* eikAppUi = (CEikAppUi *)CCoeEnv::Static()->AppUi();
+		    if( eikAppUi!= NULL && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
+		        {
+		        CEikDialog* dlg = eikAppUi->TopFocusedControl()->MopGetObject( dlg );
+		        if ( dlg )
+		        	{
+		            CEikButtonGroupContainer* currentCba = dlg->MopGetObject( currentCba );
+	        	    CEikCba* dlgcba = static_cast<CEikCba*>(
+	        	        currentCba->ButtonGroup() );
+	        	    if ( currentCba && iDialogCba == currentCba )
+		        	    {
+		        	    currentCba->RemoveCommandFromStack(ELeftSoftkeyIndex,-1);
+		        	    currentCba->RemoveCommandFromStack(ERightSoftkeyIndex,-1);
 
+		        	    //dlgcba->UpdateCbaLabels(EFalse);
+		        	    currentCba->DrawNow();
+		        	    currentCba->ActivateL();
+		        	    iDialogCba = NULL;
+                        isCbaEmded = EFalse;
+		        	    }
+		        	}
+		        }
+		}
 
+	}

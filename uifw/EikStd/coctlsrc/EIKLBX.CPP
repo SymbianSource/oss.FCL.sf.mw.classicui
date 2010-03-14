@@ -73,7 +73,7 @@
 #include <akncollection.h>
 #include <aknitemactionmenu.h>
 #include <aknlongtapdetector.h>
-#include <aknpriv.hrh>
+#include <AknPriv.hrh>
 #include "akntrace.h"
 
 // timeout for long keypress used in markable lists
@@ -1079,10 +1079,9 @@ void CListBoxExt::LongTapPointerEventL( const TPointerEvent& aPointerEvent )
     {
     if ( iSingleClickEnabled && iLongTapDetector && iItemActionMenu  )
         {
-        // Send event on down only if no marked items and item specific items
-        // were found
+        // Send event on down only if item specific items were found
         if ( aPointerEvent.iType != TPointerEvent::EButton1Down
-                || ( !MarkedItems() && iItemActionMenu->InitMenuL() ) )
+                || iItemActionMenu->InitMenuL() )
             {
             iLongTapDetector->PointerEventL ( aPointerEvent );
             }
@@ -1810,6 +1809,22 @@ EXPORT_C void CEikListBox::SetItemsInSingleLine( TInt aItems )
         }
     }
 
+
+// -----------------------------------------------------------------------------
+// CEikListBox::ItemsInSingleLine
+// -----------------------------------------------------------------------------
+//
+EXPORT_C TInt CEikListBox::ItemsInSingleLine() const
+    {
+    if ( iListBoxExt )
+        {
+        return iListBoxExt->iItemsInSingleLine;
+        }
+    
+    return 1;
+    }
+
+    
 EXPORT_C void CEikListBox::UpdateViewColors()
     {
     _AKNTRACE_FUNC_ENTER;

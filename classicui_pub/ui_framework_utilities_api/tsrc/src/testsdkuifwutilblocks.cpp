@@ -143,7 +143,8 @@ TInt CTestSDKUiFwUtil::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestAknDrawWithSkinsDoDrawFuncsL", CTestSDKUiFwUtil::TestAknDrawWithSkinsDoDrawFuncsL ),
         ENTRY( "TestAknUtilsGlobalFuncsL", CTestSDKUiFwUtil::TestAknUtilsGlobalFuncsL ),
         ENTRY( "TestFilterTextListBoxModelRemoveFilterL", CTestSDKUiFwUtil::TestFilterTextListBoxModelRemoveFilterL ),
-        ENTRY( "TestAknPopupUtilsPosition", CTestSDKUiFwUtil::TestAknPopupUtilsPositionFuncs ),
+        ENTRY( "TestAknPopupUtilsPosition", CTestSDKUiFwUtil::TestAknPopupUtilsPosition ),
+        ENTRY( "TestAknListUtilsDrawSeparator", CTestSDKUiFwUtil::TestAknListUtilsDrawSeparator ),
         // [test cases entries]
 
         };

@@ -34,10 +34,10 @@
 #include <commonphoneparser.h> // Phonenumber parser
 #include <SendUiConsts.h> // Mtm uids
 
-#include <FavouritesLimits.h> // KFavouritesMaxUrl
-#include <FavouritesItem.h> // for CBookmarkItem
+#include <favouriteslimits.h> // KFavouritesMaxUrl
+#include <favouritesitem.h> // for CBookmarkItem
 
-#include <FavouritesDb.h>
+#include <favouritesdb.h>
 
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 #include <apgtask.h>
@@ -65,7 +65,7 @@
 #include <CommonUiInternalCRKeys.h>
 
 #include <AiwCommon.hrh>
-#include <SchemeHandler.h>
+#include <schemehandler.h>
 
 // Callback query
 #include <aknlists.h>

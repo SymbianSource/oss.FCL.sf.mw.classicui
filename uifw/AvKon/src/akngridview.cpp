@@ -77,6 +77,8 @@ EXPORT_C CAknGridView::CAknGridView()
     iScrollingType = EScrollFollowsItemsAndLoops;
     iScrollInSecondaryDimension = EScrollFollowsItemsAndLoops;
     iGridDetails.iGridDimensions = TSize(1,1);
+    iGridDetails.iColsInView = 1;
+    iGridDetails.iRowsInView = 1;
     }
 
 /**

@@ -991,6 +991,21 @@ private : // new functions
      * Creates menu pane's extension object if it doesn't exist yet.
      */
     void CheckCreateExtensionL();
+    
+    /**
+     * Calculates the rectangle occupied by an item.
+	 *
+	 * @param aItemIndex Item's index.
+	 * @return Item's rectangle.
+     */
+    TRect ItemRect( TInt aItemIndex ) const;
+    
+    /**
+     * Calculates the height of menu items.
+	 *
+	 * @return Item height.
+     */
+    TInt CalculateItemHeight() const;
 
 protected: // from CoeControl
 
@@ -1072,7 +1087,7 @@ private: // data
     CEikButtonBase* iLaunchingButton; // for popouts only
     TInt iSubPopupWidth; // 0..2
     TInt iSpare;
-    CEikMenuPaneExtension* iExtension ;
+    CEikMenuPaneExtension* iExtension;
 
     };
 

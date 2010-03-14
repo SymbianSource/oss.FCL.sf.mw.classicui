@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -371,7 +371,12 @@ enum
     * Command id for dealing with discreet popup's close
     */
     EAknDiscreetPopupCmdClose,
-    
+    // Commands ids for arabic finger hwr option menu
+    EPenInputCmdHwrInputToPortrait,
+    EPenInputCmdHwrInputToLandscape,
+    EPenInputCmdSwitchToVkeyBasedInput,
+    EPenInputCmdWritingSpeed,
+    EPenInputCmdGuidingLine,    
     /**
     * @deprecated
     * Do not use.
@@ -622,6 +627,11 @@ enum
     /** For slider with feedback style */
 	/** @since 5.1 */
     EAknSliderWithFeedbackStyle,
+
+    /** For combined sub-pane in status pane */
+    /** @since 5.2 */
+    EAknCtCombinedPane,
+
     // This is the marker for the last AVKON control id: It does not construct a control
     EAknCtLastControlId = KAknCtLastControlId
 
@@ -932,6 +942,7 @@ enum
 #define EEikStatusPaneUidClock        0x100059C0
 #define EEikStatusPaneUidDigitalClock 0x10275090
 #define EEikStatusPaneUidEmpty        0x102750A3
+#define EEikStatusPaneUidCombined     0x2001E2D9
 
 // POPUP_FIELD flags
 #define EAknPopupFieldFlagAllowsUserDefinedEntry  0x01

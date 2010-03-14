@@ -23,7 +23,7 @@
 #define AIWPOCPARAMETERS_H
 
 //  INCLUDES
-#include <aiwpocparameters.hrh>
+#include <AiwPoCParameters.hrh>
 #include <logwrap.h>
 
 // DATA TYPES
@@ -222,7 +222,7 @@ enum TAiwPoCViews
     };
 
 // Inline methods
-#include <aiwpocparameters.inl>
+#include <AiwPoCParameters.inl>
 
 #endif      // AIWPOCPARAMETERS_H   
             

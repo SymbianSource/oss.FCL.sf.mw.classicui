@@ -19,6 +19,7 @@
 #define M_AKNCOLLECTION_H
 
 #include <e32std.h>
+#include <coemop.h>
 
 /**
  * Collection state provider.
@@ -33,6 +34,8 @@
 class MAknCollection
     {
 public:
+
+    DECLARE_TYPE_ID( 0x2002C343 )
 
     /**
      * Enum for collection state flags.

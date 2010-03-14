@@ -26,7 +26,7 @@
 #include <uiklaf/private/lafenv.h>
 #include <lafmain.h>
 #include <lafpublc.h>
-#include "lafsbfrm.h"
+#include "LAFSBFRM.H"
 
 class CGulIcon;
 class TMargins8;

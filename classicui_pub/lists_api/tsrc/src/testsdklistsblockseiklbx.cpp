@@ -37,6 +37,7 @@
 #include "testsdklistssnakinglistbox.h"
 
 const TInt KZero = 0;
+const TInt KOne = 1;
 const TInt KFour = 4;
 const TInt KFive = 5;
 const TInt KEight = 8;
@@ -4372,5 +4373,25 @@ TInt CTestSDKLists::TestLBDisableItemSpecificMenu( CStifItemParser& /*aItem*/)
     iListBox->DisableItemSpecificMenu();
     return KErrNone;    
     }
+
+// -----------------------------------------------------------------------------
+// CTestSDKLists::TestLBItemsInSingleLine
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKLists::TestLBItemsInSingleLine( CStifItemParser& /*aItem*/)
+    { 
+    // Print to UI
+    _LIT( KTestModule, "EIKLBXTestModule" );
+    _LIT( KTestEIKLBX, "In TestLBItemsInSingleLine" );
+    TestModuleIf().Printf( 0, KTestModule, KTestEIKLBX );
+    // Print to log file
+    iLog->Log( KTestEIKLBX );
+
+    TInt itemsInSingleLine = iListBox->ItemsInSingleLine();
+    STIF_ASSERT_EQUALS( KOne, itemsInSingleLine );
+    
+    return KErrNone;    
+    }
+
 
 // [End of file]
