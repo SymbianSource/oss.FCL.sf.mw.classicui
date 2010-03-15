@@ -207,6 +207,9 @@ EXPORT_C void CHgScroller::SetSelectedIndex( TInt aIndex )
     {
     if( aIndex >= 0 && aIndex < iItems.Count() )
         {
+        iSelectedIndex = iItems.Count() - 1;
+        FitSelectionToView();
+        
         iSelectedIndex = aIndex;
         // Move view position so that it is fully visible.
         FitSelectionToView();
@@ -540,12 +543,16 @@ void CHgScroller::InitScrollbarL()
     {
     if( iScrollbar && iItemCount )
         {
+        TBool prevStatic = iScrollbar->IsStatic();
         iScrollbar->InitScrollBarL( Rect(), 
                                     TotalSize(), 
                                     TSize(iWidth, iHeight), 
                                     iLandscapeScrolling); 
 
         iScrollbar->SetViewPosition( iViewPosition - TPoint(iWidth/2, iHeight/2));
+        
+        if(prevStatic != iScrollbar->IsStatic())
+            HandleScrollbarVisibilityChange(iScrollbar->IsStatic());
         }
     }
 // -----------------------------------------------------------------------------
@@ -1754,6 +1761,5 @@ void CHgScroller::ReleasePopupFont()
         iPopupFont = NULL;
         }
     }
-
 
 // End of File

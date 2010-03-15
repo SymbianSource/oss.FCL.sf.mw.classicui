@@ -57,6 +57,8 @@ public: // Methods
     
     void DrawEmptyText(const TRect& aClientRect, const TDesC& aText);
 
+    void EnableLandscapeRendering(TBool enabled);
+
 protected: // Constructors
 
     CHgVgLabel(const TRect& aRect);
@@ -84,6 +86,8 @@ private: // Data
     TAknTextComponentLayout iLayout;
     
     TRect iParentRect;
+    
+    TBool iLandscape;
     };
 
 #endif /* HGVGLABEL */

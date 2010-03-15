@@ -41,7 +41,7 @@ EXPORT_C void AknItemActionMenuRegister::SetConstructingMenuBarOwnerL(
 
     if ( instance )
         {
-        instance->iMenuBarOwner = aMenuBarOwner;
+        instance->DoSetConstructingMenuBarOwnerL( aMenuBarOwner ); 
         }
 
     _AKNTRACE_FUNC_EXIT;
@@ -346,17 +346,20 @@ void AknItemActionMenuRegister::DoRegisterMenuBarL( CEikMenuBar& aMenuBar )
     for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
         {
         TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
-        CEikMenuBar* ownerMenubar( NULL );
-        data.iOwner->MopGetObjectNoChaining( ownerMenubar );
-        if ( ownerMenubar == &aMenuBar )
+        if ( data.iOwner ) 
             {
-            menu = data.iMenu;
-            if ( menu )
+            CEikMenuBar* ownerMenubar( NULL );
+            data.iOwner->MopGetObjectNoChaining( ownerMenubar );
+            if ( ownerMenubar == &aMenuBar )
                 {
-                AddRegisterEntryL( aMenuBar, *menu );
-                iUnregisteredMenus.Remove( i );
+                menu = data.iMenu;
+                if ( menu )
+                    {
+                    AddRegisterEntryL( aMenuBar, *menu );
+                    iUnregisteredMenus.Remove( i );
+                    }
+                break;
                 }
-            break;
             }
         }
 
@@ -393,11 +396,14 @@ void AknItemActionMenuRegister::DoRegisterItemActionMenuL(
         TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
         if ( data.iMenu == &aItemActionMenu )
             {
-            data.iOwner->MopGetObjectNoChaining( menuBar );
-            if ( menuBar )
+            if ( data.iOwner ) 
                 {
-                AddRegisterEntryL( *menuBar, aItemActionMenu );
-                iUnregisteredMenus.Remove( i );
+                data.iOwner->MopGetObjectNoChaining( menuBar );
+                if ( menuBar )
+                    {
+                    AddRegisterEntryL( *menuBar, aItemActionMenu );
+                    iUnregisteredMenus.Remove( i );
+                    }
                 }
             break;
             }
@@ -877,6 +883,48 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::CreateInstanceL()
     return instance;
     }
 
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::DoSetConstructingMenuBarOwnerL
+// ---------------------------------------------------------------------------
+//
+void AknItemActionMenuRegister::DoSetConstructingMenuBarOwnerL( 
+        MObjectProvider* aMenuBarOwner )
+    {
+    if ( aMenuBarOwner )
+        {
+        CEikDialog* dialog( NULL );
+        aMenuBarOwner->MopGetObjectNoChaining( dialog );
+        // Get information if the constructing menu bar owner is a dialog  
+        // and store it to iIsConstructingDialog
+        if ( dialog )
+            {
+            iIsConstructingDialog = ETrue; 
+            }
+        }
+    else if ( !aMenuBarOwner && iIsConstructingDialog )
+        {
+        // When setting constructing menubar owner to NULL from a dialog check
+        // if there is item with the same menubar owner in iUnregisteredMenus 
+        // and try to find correct menubar for it.
+        for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
+            {
+            TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
+            if ( data.iOwner == iMenuBarOwner ) 
+                {
+                data.iOwner = iMenuBarOwner = NULL; 
+                CEikMenuBar* menuBar = FindCurrentMenuBarL(); 
+                if ( menuBar )
+                    {
+                    AddRegisterEntryL( *menuBar, *data.iMenu );
+                    iUnregisteredMenus.Remove( i );
+                    }
+                iIsConstructingDialog = EFalse; 
+                return; 
+                }
+            }
+        }
+    iMenuBarOwner = aMenuBarOwner;
+    }
 
 // ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::TAknUnregisteredObserverData

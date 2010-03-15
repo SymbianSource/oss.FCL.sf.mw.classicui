@@ -21,6 +21,7 @@
 #include "HgLayoutData.h"
 #include "HgIndicatorManager.h"
 #include "HgDrawUtils.h"
+#include "HgScrollbar.h"
 
 #include <AknsUtils.h>
 #include <AknUtils.h>
@@ -33,7 +34,7 @@
 using namespace AknLayoutScalable_Avkon;
 
 // -----------------------------------------------------------------------------
-// CHgSingleTextList::NewL()
+// CHgSingleTextListWithIcon::NewL()
 // -----------------------------------------------------------------------------
 //
 EXPORT_C CHgSingleTextListWithIcon* CHgSingleTextListWithIcon::NewL(
@@ -62,7 +63,7 @@ EXPORT_C CHgSingleTextListWithIcon::~CHgSingleTextListWithIcon( )
     }
 
 // -----------------------------------------------------------------------------
-// CHgSingleTextList::HandleSizeChanged()
+// CHgSingleTextListWithIcon::HandleSizeChanged()
 // -----------------------------------------------------------------------------
 //
 void CHgSingleTextListWithIcon::HandleSizeChanged()
@@ -73,7 +74,8 @@ void CHgSingleTextListWithIcon::HandleSizeChanged()
     for(TInt i = 0; i <= KMaxNumberOfTitleIndicators; ++i)
         iGraphicLayoutData->SetTitleLayout( i, list_single_graphic_pane_t1( i ));
     iGraphicLayoutData->SetFirstIndicatorLayout(list_single_graphic_pane_g3(0));
-    iGraphicLayoutData->SetSecondIndicatorLayout(list_single_graphic_pane_g2(1));
+    TInt variety = iScrollbar && !iScrollbar->IsStatic() ? 1 : 0;
+    iGraphicLayoutData->SetSecondIndicatorLayout(list_single_graphic_pane_g2(variety));
 
     // Get the Row rect.
     TAknLayoutRect layout;
@@ -89,7 +91,7 @@ void CHgSingleTextListWithIcon::HandleSizeChanged()
     }
 
 // -----------------------------------------------------------------------------
-// CHgSingleTextList::DrawItem()
+// CHgSingleTextListWithIcon::DrawItem()
 // -----------------------------------------------------------------------------
 //
 void CHgSingleTextListWithIcon::DrawItem( TInt aIndex, const TRect& aRect ) const
@@ -146,7 +148,7 @@ void CHgSingleTextListWithIcon::DrawItem( TInt aIndex, const TRect& aRect ) cons
    }
 
 // -----------------------------------------------------------------------------
-// CHgSingleTextList::CHgSingleTextList()
+// CHgSingleTextListWithIcon::CHgSingleTextList()
 // -----------------------------------------------------------------------------
 //
 CHgSingleTextListWithIcon::CHgSingleTextListWithIcon( TInt aItemCount, 
@@ -156,11 +158,25 @@ CHgSingleTextListWithIcon::CHgSingleTextListWithIcon( TInt aItemCount,
     SetFlags( EHgScrollerFlatStatusPane ); // Set Flat status pane on
     }
 
+// -----------------------------------------------------------------------------
+// CHgSingleTextListWithIcon::CHgSingleTextList()
+// -----------------------------------------------------------------------------
+//
 void CHgSingleTextListWithIcon::ConstructL( const TRect& aRect, RWsSession* aSession )
     {
     iGraphicLayoutData = CHgListLayoutData::NewL();
     CHgList::ConstructL( aRect, aSession );
     }
 
+// -----------------------------------------------------------------------------
+// CHgSingleTextListWithIcon::HandleScrollbarVisibilityChange()
+// -----------------------------------------------------------------------------
+//
+void CHgSingleTextListWithIcon::HandleScrollbarVisibilityChange( TBool aVisible )
+    {
+    CHgSingleTextList::HandleScrollbarVisibilityChange(aVisible);
+    TInt variety = aVisible ? 1 : 0;
+    iGraphicLayoutData->SetSecondIndicatorLayout(list_single_graphic_pane_g2(variety));
+    }
 
-// EOF
+// End of file

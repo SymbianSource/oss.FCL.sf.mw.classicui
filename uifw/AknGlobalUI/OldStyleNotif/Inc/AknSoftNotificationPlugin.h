@@ -27,7 +27,7 @@
 #include <aknstaticnotedialog.h>
 #include <AknNotifyStd.h>
 #include <AknMediatorFacade.h> // Not the best for the purpose but will do just fine.
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <AknNotify.h>
 #include "AknSystemPopup.h"
 #include "AknGroupedNotifierNote.h"

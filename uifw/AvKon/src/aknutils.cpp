@@ -119,7 +119,7 @@
 #include "AknAdaptiveSearch.h"
 #include <PtiEngine.h>
 
-#include <akntrace.h> 
+#include "akntrace.h"
 
 #ifdef RD_HINDI_PHONETIC_INPUT
 #include <ptiindicdefs.h>
@@ -133,6 +133,10 @@ const TInt KAknStringBufferSize = 256;
 const TInt KTextColorNone = -1;
 const TInt KFontHeightComparisonDivisor = 20;
 const TInt KInvalidIndex = -1;
+
+// Default for list separator line color's alpha value, used if not
+// found from skin.
+const TInt KDefaultSeparatorAlpha = 32;
 
 enum TAknLayoutEdwinPanic
     {
@@ -3407,24 +3411,28 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
     {
     TAknWindowComponentLayout line;
     TAknLayoutRect rect;
-    TRect screenRect(0, 0, AKN_LAYOUT_WINDOW_screen.iW, AKN_LAYOUT_WINDOW_screen.iH);
-    aRect.SetRect( 0, 0, 0, 0 );
+    rect.LayoutRect( TRect( 0, 0, 0, 0 ), AknLayoutScalable_Avkon::Screen() );
+    TRect screenRect( rect.Rect() );
     
     // No stacon pane active etc. cheking is done here before the switch-case so that we can 
     // have slightly better performance for some other lookups (e.g. screen).
     
-    switch (aParam)
+    switch ( aParam )
         {
         case EScreen:
+            {
             aRect = screenRect;
             return ETrue;
+            }
 
         case EApplicationWindow:
-            rect.LayoutRect(
-                screenRect,
-                AknLayoutScalable_Avkon::application_window( 0 ) );
-            aRect = rect.Rect();
+            {
+            // Application window is always the same as screen, so skip
+            // reading the application_window from layout data for
+            // performance improvement.
+            aRect = screenRect;
             return ETrue;
+            }
 
         case EStatusPane:
             {
@@ -3433,118 +3441,126 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
             if ( statusPane )
                 {
                 TInt currentStatusPaneLayoutResId = statusPane->CurrentLayoutResId();
-                
-                if ( AknStatuspaneUtils::StaconPaneActive() )
+
+                TAknWindowComponentLayout parent;
+
+                switch ( currentStatusPaneLayoutResId )
                     {
-                    // flat status pane in landscape mode is the whole top pane area  
-                    if ( currentStatusPaneLayoutResId == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT ||
-                         currentStatusPaneLayoutResId == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT )
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_WITH_BATTERY_PANE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL:
+                    case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_VT:
+                    case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
+                    default:
                         {
-                        rect.LayoutRect( screenRect, AknLayoutScalable_Avkon::area_top_pane(8) ); // flat area_top_pane in lsc
-                        aRect = rect.Rect();
-                        return ETrue;
-                        }    
-                    else
-                        {
-                        rect.LayoutRect( screenRect, AknLayoutScalable_Avkon::area_top_pane(2) ); // classic area_top_pane in lsc
-                        aRect = rect.Rect();
-                        rect.LayoutRect( aRect, AknLayoutScalable_Avkon::stacon_top_pane() );
-                        aRect = rect.Rect();
-                        rect.LayoutRect( aRect, AknLayoutScalable_Avkon::control_top_pane_stacon(0) );
-                        aRect.iBr.iX = rect.Rect().iTl.iX;  // Status pane top = stacon top - control pane top.
-                        return ETrue;   
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 0 );
+                        line = AknLayoutScalable_Avkon::status_pane( 0 );
+                        break;
                         }
-                    }
-                else
-                    {
-                    TAknWindowComponentLayout parent;
-                        
-                    switch ( currentStatusPaneLayoutResId )
+                    
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE_MIRRORED:
                         {
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_WITH_BATTERY_PANE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL:
-                        case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_VT:
-                        case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
-                        default:
-                            parent = AknLayoutScalable_Avkon::area_top_pane(0);
-                            line = AknLayoutScalable_Avkon::status_pane(0); // classic status pane
-                            break;
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 7 );
+                        line = AknLayoutScalable_Avkon::status_idle_pane(); // idle status pane
+                        break;
+                        }
                         
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE_MIRRORED:
-                            parent = AknLayoutScalable_Avkon::area_top_pane(7);
-                            line = AknLayoutScalable_Avkon::status_idle_pane(); // idle status pane
-                            break;
-                            
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL:
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE_MIRRORED:
-                            // Small status pane is the whole top area.
-                            parent = AknLayoutScalable_Avkon::application_window(0);
-                            if ( Layout_Meta_Data::IsLandscapeOrientation() &&
-                                 AknLayoutUtils::CbaLocation() == AknLayoutUtils::EAknCbaLocationBottom )
-                                {
-                                line = AknLayoutScalable_Avkon::area_top_pane(2);
-                                }
-                            else
-                                {
-                                line = AknLayoutScalable_Avkon::area_top_pane(1);
-                                }
-                                
-                            break;
-                            
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT:
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL:
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE_MIRRORED:
+                        {
+                        // Small status pane is the whole top area.
+                        parent = AknLayoutScalable_Avkon::application_window( 0 );
+                        if ( Layout_Meta_Data::IsLandscapeOrientation() &&
+                             AknLayoutUtils::CbaLocation() == AknLayoutUtils::EAknCbaLocationBottom )
                             {
-                            if ( Layout_Meta_Data::IsLandscapeOrientation() &&
-                                 Layout_Meta_Data::IsPenEnabled() )
-                                {
-                                parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
-                                }
-                            else
-                                {
-                                parent = AknLayoutScalable_Avkon::area_top_pane( 6 );
-                                }
-                            line   = AknLayoutScalable_Avkon::status_pane( 1 ); // flat status pane
-                            break;
+                            line = AknLayoutScalable_Avkon::area_top_pane( 2 );
                             }
-
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE: // fallthrough
+                        else
                             {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 8 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 1 );
-                            break;
+                            line = AknLayoutScalable_Avkon::area_top_pane( 1 );
                             }
-
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                            
+                        break;
+                        }
+                        
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT:
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                        {
+                        if ( Layout_Meta_Data::IsLandscapeOrientation() )
                             {
                             parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 1 );
-                            break;
                             }
-                            
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS: // fallthrough
+                        else
                             {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 20 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 5 );
-                            break;
+                            parent = AknLayoutScalable_Avkon::area_top_pane( 6 );
                             }
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 ); // flat status pane
+                        break;
+                        }
+
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 8 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 );
+                        break;
+                        }
+
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 );
+                        break;
                         }
                         
-                    rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose( parent, line ) );
-                    aRect = rect.Rect();
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 20 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 5 );
+                        break;
+                        }
+                        
+                    case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_LEFT:
+                    case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_LEFT:        
+                    case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_LEFT:
+                        {
+                        rect.LayoutRect(
+                            screenRect,
+                            TAknWindowComponentLayout::Compose(
+                                AknLayoutScalable_Avkon::area_top_pane( 2 ),
+                                AknLayoutScalable_Avkon::stacon_top_pane() ) );
+                        aRect = rect.Rect();
+
+                        rect.LayoutRect(
+                            aRect,
+                            AknLayoutScalable_Avkon::control_top_pane_stacon( 0 ) );
+
+                        // Status pane top = stacon top - control pane top.
+                        aRect.iBr.iX = rect.Rect().iTl.iX;
+                        return ETrue;
+                        }
                     }
+                
+                rect.LayoutRect(
+                    screenRect,
+                    TAknWindowComponentLayout::Compose( parent, line ) );
+                aRect = rect.Rect();
                 return ETrue;
                 }
-            return EFalse;
+
+            return EFalse; // no status pane
             }
+
         case EPopupParent:
             {
             if ( screenRect.iBr.iX == 640 && screenRect.iBr.iY == 360 )
@@ -3578,6 +3594,7 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 return LayoutMetricsRect( EMainPane, aRect );
                 }
             }
+
         case EMainPane:
             {
             TInt variety = 3; // classic main pane variety by default
@@ -3626,30 +3643,24 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
                 case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
                     {
-                    // main pane variety for usual portrait main pane with
-                    // 'area_top_pane' and 'area_bottom_pane'
-#ifdef RD_SCALABLE_UI_V2
-                    variety = 3; 
-                    if ( iAvkonAppUi && iAvkonAppUi->TouchPane() && iAvkonAppUi->TouchPane()->IsVisible() )
+                    // Main pane variety for usual portrait main pane with
+                    // 'area_top_pane' and 'area_bottom_pane'.
+                    variety = 3;
+
+                    if ( iAvkonAppUi )
                         {
-                        variety = 15;
-                        }
-                    else if ( iAvkonAppUi && iAvkonAppUi->CurrentFixedToolbar() )
-                        {
-                        if ( AknLayoutUtils::PenEnabled() )
-                             {
-                             CAknToolbar* toolbar = iAvkonAppUi->CurrentFixedToolbar(); 
-                             TInt flags = toolbar->ToolbarFlags(); 
-                             if ( flags & KAknToolbarFixed && !( flags & KAknToolbarDefault )
-                                && toolbar->IsShown() ) 
+                        CAknToolbar* toolbar = iAvkonAppUi->CurrentFixedToolbar(); 
+                        if ( toolbar )
+                            {
+                            TInt flags = toolbar->ToolbarFlags(); 
+                            if ( flags & KAknToolbarFixed &&
+                                 !( flags & KAknToolbarDefault ) &&
+                                 toolbar->IsShown() ) 
                                  {
                                  variety = 18; 
                                  }
-                             }
+                            }
                         }
-#else
-                    variety = 3;
-#endif // RD_SCALABLE_UI_V2    
                     }
                     break;
 
@@ -3684,19 +3695,10 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        if ( PenEnabled() )
-                            {
-                            // main pane variety with small status pane in landscape
-                            // mode with 'area_top_pane', 'area_bottom_pane' and
-                            // touch pane
-                            variety = 4;
-                            }
-                        else
-                            {
-                            // main pane variety with 'area_top_pane' and
-                            // 'area_bottom_pane' in landscape (without touch pane)
-                            variety = 9;
-                            }
+                        // main pane variety with small status pane in landscape
+                        // mode with 'area_top_pane', 'area_bottom_pane' and
+                        // touch pane
+                        variety = 4;
                         }
                     else
                         {
@@ -3704,8 +3706,9 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                         // (with 'area_top_pane' and 'area_bottom_pane').
                         variety = 6;                    
                         }
-                    }
+
                     break;
+                    }
 
                 case R_AVKON_STATUS_PANE_EMPTY:
                 case R_AVKON_STATUS_PANE_LAYOUT_EMPTY:
@@ -3781,9 +3784,11 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     break;
                 }
 
-            rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+            // Application window is always the same as screen, so use screen
+            // as parent and skip reading the application_window from layout
+            // data for performance improvement.
+            rect.LayoutRect( screenRect,
+                             AknLayoutScalable_Avkon::main_pane( variety ) );
                 
             aRect = rect.Rect();
             return ETrue;
@@ -6548,13 +6553,19 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
     else
         {
         // On portrait popup is located on top of the control pane if it doesn't
-        // have softkeys visible.
+        // have softkeys visible and there's enough room i.e. the popup still
+        // fits to the screen.
         if ( !aSoftkeysVisible )
             {
             TSize controlPane;
             AknLayoutUtils::LayoutMetricsSize( AknLayoutUtils::EControlPane,
                     controlPane );
             y -= controlPane.iHeight;
+            
+            if ( y < 0 )
+                {
+                y = 0;
+                }
             }
         }
 
@@ -6586,16 +6597,26 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
 
 
 // -----------------------------------------------------------------------------
-// AknListUtils::DrawSeparator
+// Draws the separator line between list items.
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void AknListUtils::DrawSeparator( CGraphicsContext& aGc, 
-        const TRect& aRect, const TRgb& aColor )
+                                           const TRect& aRect,
+                                           const TRgb& aColor,
+                                           MAknsSkinInstance* aSkin )
     {
     aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
     aGc.SetPenStyle( CGraphicsContext::ESolidPen );
     TRgb color( aColor );
-    color.SetAlpha( 32 );
+    
+    // Get the alpha value from skin.
+    TRgb colorFromSkin;
+    TInt err = AknsUtils::GetCachedColor( aSkin ? aSkin : AknsUtils::SkinInstance(),
+                                          colorFromSkin,
+                                          KAknsIIDQsnLineColors,
+                                          EAknsCIQsnLineColorsCG15 );
+    
+    color.SetAlpha( !err ? colorFromSkin.Red() : KDefaultSeparatorAlpha );
     aGc.SetPenColor( color );
     TRect lineRect( aRect );
     
@@ -6603,7 +6624,7 @@ EXPORT_C void AknListUtils::DrawSeparator( CGraphicsContext& aGc,
     lineRect.Shrink( gap, 0 );
     lineRect.Move( 0, -1 );
     aGc.DrawLine( TPoint( lineRect.iTl.iX, lineRect.iBr.iY ), 
-            TPoint( lineRect.iBr.iX, lineRect.iBr.iY ) );
+                  TPoint( lineRect.iBr.iX, lineRect.iBr.iY ) );
     }
 
 // End of file

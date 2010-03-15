@@ -214,9 +214,7 @@ EXPORT_C void CAknTitlePane::ConstructL()
         // set flags to default values
         iExtension->iFlags = 0;
         }
-    
-    iExtension->iStatusPane = CEikStatusPaneBase::Current();
-    	
+   	iExtension->iStatusPane = CEikStatusPaneBase::Current();
     }
 
 
@@ -229,6 +227,7 @@ EXPORT_C void CAknTitlePane::ConstructFromResourceL( TResourceReader& aReader )
     {
     CommonConstructL();
     ReadFromResourceFileL( aReader );
+    iExtension->iStatusPane = CEikStatusPaneBase::Current();
     }
 
 
@@ -919,7 +918,12 @@ void CTextLayoutManager::DoLayoutL( TInt aLineNum, const TDesC& aText )
     TPtr ptr = iText->Des();
     AknBidiTextUtils::ConvertToVisualAndWrapToStringL(
         aText, *iLineWidthArray, *font, ptr, ETrue );
-
+    
+    TInt len = iText->Length();
+    if (( aLineNum == 1 ) && ( iText->LocateReverseF( '\n' ) == len -1 ) && len >= 1 )
+        {
+        ptr.Delete( len - 1, 1 );
+        }
     }
 
 

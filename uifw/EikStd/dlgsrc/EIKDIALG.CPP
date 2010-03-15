@@ -1759,12 +1759,17 @@ TKeyResponse CEikDialog::TryAnimateButtonAndExitL(TInt aKeycode)
 
 	if (button)
 		{
-		if (button->IsDimmed() || !button->IsVisible())
-			{
+        TBool animateCommand = ( !button->IsDimmed() && button->IsVisible() );
+     
+        if ( !animateCommand && buttonId != EEikBidCancel )
+            {
 			_AKNTRACE_FUNC_EXIT;
-			return EKeyWasNotConsumed;		
-			}
-		buttonGroupContainer.AnimateCommand(buttonId);
+            return EKeyWasNotConsumed;
+            }
+        else if ( animateCommand )
+            {
+            buttonGroupContainer.AnimateCommand( buttonId );
+            }
 		}
 
 	if (button || buttonId==EEikBidCancel || buttonId==EEikBidOk)

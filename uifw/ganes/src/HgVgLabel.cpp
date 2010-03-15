@@ -155,7 +155,7 @@ void CHgVgLabel::Draw(const TRect& aWindowRect, TReal aAlpha)
     shadowColor.SetAlpha(255.0f * aAlpha);
 
     //HgVgHelper::DrawImageColorized(iTextImage, shadowColor, iRect.iTl+TPoint(1,1), aWindowRect);    
-    HgVgHelper::DrawImageColorized(iTextImage, color, iRect.iTl, aWindowRect);    
+    HgVgHelper::DrawImageColorized(iTextImage, color, iRect.iTl, aWindowRect, EFalse, iLandscape);    
     }
 
 // -----------------------------------------------------------------------------
@@ -200,6 +200,10 @@ void CHgVgLabel::DrawEmptyText(const TRect& aClientRect, const TDesC& aText)
     Draw(aClientRect, 1.0f);
     }
 
+void CHgVgLabel::EnableLandscapeRendering(TBool enabled)
+{
+    iLandscape = enabled;
+}
 
 
 // End of File

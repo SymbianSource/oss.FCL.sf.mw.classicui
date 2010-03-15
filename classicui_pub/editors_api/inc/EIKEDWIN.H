@@ -65,6 +65,7 @@ class CSmileyManager;
 class CSmileyCustomWrap;
 class CAknEdwinPhysicsHandler;
 class CEdwinAsyncFormat;
+class MAknsSkinInstance;
 
 // Forward declaration of now removed (Series 60 2.0) custom drawer class for CEikEdwin
 class CEikAvkonCustomDraw;
@@ -482,6 +483,12 @@ private:
          * Record formatted height of layout
          */
         TInt iRecordFormattedHeight;
+
+        /**
+         * Skins instance.
+         * Not own.
+         */
+        MAknsSkinInstance* iSkinInstance;
         };
 
 public:
@@ -2337,14 +2344,11 @@ public: // Pictograph support
 public: 
     void EnableSmileySupportL( TBool aEnableSmiley );
     TBool IsSmileyEnabled() const;
-    void DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont, 
-        const TDesC& aText, const TPoint& aPt );
-    void ConvertVisibleTextForSmileyL( TBool aTextToCode );    
-    void HandleScrollForSmileyL();
+    void DrawSmileyInTextL( RRegion& rgn, const TRect& aDrawRect, 
+        CBitmapContext& aGc, CFont& aFont, const TDesC& aText, const TPoint& aPt );
+    void ConvertVisibleTextForSmileyL( TBool aTextToCode );
     TBool AdjustCursorForSmileyL( TInt aOldCursor, TCursorSelection& aSelect );
     TRect AdjustDrawRectForSmiley( const TRect& aRect ) const;
-    void GetClipRegionForSmiley( RRegion& rgn, CFont& aFont, const TDesC& aText, 
-        const TPoint& aPt, const TRect& aRect ) const;
     HBufC* ExtractTextLC( TCursorSelection aSelect );
     void ConvertSmileyIconToTextL( TInt aStartPos, TDes& aText );
 
@@ -2740,7 +2744,7 @@ private:
     void ScrollViewToCursorLineL();
     void PerformRecordedOperationL();
     void ScrollIfAtTopOrBottomL();
-    void SetSelectionVisibilityL(TBool isVisable);
+    void SetSelectionVisibilityL( TBool aIsVisable );
     
     /**
      * Sets scrollbars with kinetic scrolling.
@@ -3030,7 +3034,18 @@ public:
      */
     TBool KineticScrollingEnabled() const;
 
-	
+    /**
+     * Draws background to the whole view area. Call with parameter value ETrue
+     * must be followed by a call with EFalse or otherwise window's redraw
+     * isn't ended properly and graphics context is not deactivated.
+     *
+     * @param aStart If true then window area occupied by editor's view is
+     *        invalidated and redraw is began. Also graphics context is
+     *        activated. EFalse ends the redraw and deactivates graphics
+     *        context.
+     */
+    void DrawViewBackground( TBool aStart ) const;
+
 protected:
 
     /**

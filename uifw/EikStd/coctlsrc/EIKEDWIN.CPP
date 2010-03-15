@@ -572,7 +572,6 @@ void CEikEdwinFepSupport::UpdateFepInlineTextL(const TDesC& aNewInlineText,TInt 
     TRAPD(error,iEdwin.iText->UpdateFepInlineTextL(paragraphContainingStartPositionOfInlineTextHasChangedFormat,numberOfCharactersSuccessfullyDeleted,numberOfCharactersSuccessfullyInserted,iPositionOfInsertionPointInDocument,iPositionOfInlineTextInDocument+aPositionOfInsertionPointInInlineText,aNewInlineText));
     iLengthOfInlineText=numberOfCharactersSuccessfullyInserted;
     UpdateTextViewAfterChangeInInlineTextL(paragraphContainingStartPositionOfInlineTextHasChangedFormat,numberOfCharactersSuccessfullyDeleted,numberOfCharactersSuccessfullyInserted,error);
-    iEdwin.ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
     }
 
 void CEikEdwinFepSupport::SetInlineEditingCursorVisibilityL(TBool aCursorVisibility)
@@ -1042,6 +1041,7 @@ void CEikEdwin::CEikEdwinExtension::ConstructL(CEikEdwin* aEdwin)
         iCenRep->Get(KAknFepClearDirection, iClearDirection);
         }
     iSmileyWrap = new ( ELeave ) CSmileyCustomWrap;
+    iSkinInstance = AknsUtils::SkinInstance();
     }
 
 void CEikEdwin::CEikEdwinExtension::CreateFormExtendedInterfaceProviderIfNeededL()
@@ -2772,7 +2772,10 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                 }
             Window().RequestPointerRepeatEvent(KPointerRepeatRate,rect);
             navigation = ETrue;
-            iEdwinExtension->iThumbPos = KErrNotFound;
+            if ( iLayout && !iLayout->IsFormattingBand() )
+                {
+                iEdwinExtension->iThumbPos = KErrNotFound;
+                }
             }
         else if (iEdwinInternalFlags&EDragDouble)
             {
@@ -3378,12 +3381,6 @@ EXPORT_C void CEikEdwin::ReportEdwinEventL(MEikEdwinObserver::TEdwinEvent aEvent
         const TInt count=iObserverArray->Count();
         for (TInt ii=0;ii<count;ii++)
             (*iObserverArray)[ii]->HandleEdwinEventL(this,aEventType);
-        }
-    if ( aEventType == MEikEdwinObserver::EEventScroll || 
-        aEventType == MEikEdwinObserver::EEventNavigation 
-        )
-        {
-        HandleScrollForSmileyL();        
         }
     if ( aEventType == MEikEdwinObserver::EEventTextUpdate )
         {
@@ -5681,6 +5678,7 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
             aVertModel.iThumbSpan = bottomPos - topPos;
             aVertModel.iScrollSpan = totalChars;        
             aVertModel.iThumbPosition = topPos;
+            iEdwinExtension->iThumbPos = topPos;
             }
         return;
         }
@@ -8259,8 +8257,8 @@ TBool CEikEdwin::IsSmileyEnabled() const
     return ( iEdwinExtension->iSmiley != NULL );
     }
 
-void CEikEdwin::DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont, 
-        const TDesC& aText, const TPoint& aPt )
+void CEikEdwin::DrawSmileyInTextL( RRegion& rgn, const TRect& aDrawRect, 
+    CBitmapContext& aGc, CFont& aFont, const TDesC& aText, const TPoint& aPt )
     {    
     TRect viewRect( AdjustedViewRect() );
     TInt topY( aPt.iY - aFont.AscentInPixels() );
@@ -8290,8 +8288,11 @@ void CEikEdwin::DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont,
             if ( CSmileyManager::IsSmileyCode( text[i] ) )
                 {
                 TInt x( pt.iX + aFont.TextWidthInPixels( text.Left( i ) ) );
-                TRect rect( x, topY, x + smileyWidth, bottomY );
-                iEdwinExtension->iSmiley->DrawIconL( aGc, rect, i + pos );
+                TRect clipRect( x, aDrawRect.iTl.iY, x + smileyWidth, 
+                    aDrawRect.iBr.iY ); 
+                rgn.SubRect( clipRect, NULL );
+                TRect iconRect( x, topY, x + smileyWidth, bottomY );
+                iEdwinExtension->iSmiley->DrawIconL( aGc, iconRect, i + pos );
                 }
             }
         }
@@ -8476,23 +8477,6 @@ void CEikEdwin::ConvertSmileyForDeleteL( const TCursorSelection &aSelect )
     CleanupStack::PopAndDestroy( buf );
     }
 
-void CEikEdwin::HandleScrollForSmileyL()
-    {
-    if ( !iEdwinExtension->iSmiley )
-        {
-        return;
-        }
-    TCursorSelection select( GetVisibleTextRangeL() );
-    if ( select.LowerPos() != iEdwinExtension->iVisibleRange.LowerPos() ||
-        select.HigherPos() != iEdwinExtension->iVisibleRange.HigherPos() )
-        {
-        iEdwinExtension->iVisibleRange.iCursorPos = select.iCursorPos;
-        iEdwinExtension->iVisibleRange.iAnchorPos = select.iAnchorPos;
-        }
-    iEdwinExtension->iSmiley->SetVisibleRange( select.LowerPos(), 
-        select.Length() );
-    }
-
 TBool CEikEdwin::AdjustCursorForSmileyL( TInt aOldCursor, TCursorSelection& aSelect )
     {
     TBool ret( EFalse );
@@ -8516,23 +8500,6 @@ TRect CEikEdwin::AdjustDrawRectForSmiley( const TRect& aRect ) const
     {
     TRect viewRect( AdjustedViewRect() );
     return TRect( viewRect.iTl.iX, aRect.iTl.iY, viewRect.iBr.iX, aRect.iBr.iY );
-    }
-
-void CEikEdwin::GetClipRegionForSmiley( RRegion& rgn, CFont& aFont, 
-    const TDesC& aText, const TPoint& aPt, const TRect& aDrawRect ) const
-    {
-    TInt smileyWidth( aFont.TextWidthInPixels( KSmileyString ) );
-    TInt topY( aDrawRect.iTl.iY );
-    TInt bottomY( aDrawRect.iBr.iY );
-    for ( TInt i( 0 ); i < aText.Length(); i++ )
-        {
-        if ( CSmileyManager::IsSmileyCode( aText[i] ) )
-            {
-            TInt x( aPt.iX + aFont.TextWidthInPixels( aText.Left( i ) ) );
-            TRect rect( x, topY, x + smileyWidth, bottomY );
-            rgn.SubRect( rect, NULL );
-            }
-        }
     }
 
 TBool CEikEdwin::AdjustCursorPosByMovementL( TCursorPosition::TMovementType aMovement, 
@@ -8561,21 +8528,34 @@ TBool CEikEdwin::AdjustCursorPosByMovementL( TCursorPosition::TMovementType aMov
     return ret;
     }
 
-void CEikEdwin::SetSelectionVisibilityL( TBool isVisable )
+void CEikEdwin::SetSelectionVisibilityL( TBool aIsVisable )
     {
-    iTextView->SetSelectionVisibilityL(isVisable);
-    CAknEdwinState*edwinState = EditorState();
-    if( !edwinState )
-    	return;
-    if(isVisable)
-    	{
-        SetAknEditorFlags( edwinState->Flags() | EAknEditorFlagSelectionVisible );
-    	}
-    else
-    	{
+    if ( iEdwinExtension->iSmiley && !aIsVisable )
+        {
+        iTextView->SetSelectionVisibilityL( aIsVisable );
         HandleSelectionForSmiley( TCursorSelection( 0, 0 ) );
-    	SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagSelectionVisible );
-    	}
+        }
+    else 
+        {
+        if ( iEdwinExtension->iSmiley )
+            {
+            HandleSelectionForSmiley( Selection() );
+            }
+        iTextView->SetSelectionVisibilityL( aIsVisable );
+        }
+   
+    CAknEdwinState*edwinState = EditorState();
+    if ( edwinState )
+        {
+        if ( aIsVisable )
+            {
+            SetAknEditorFlags( edwinState->Flags() | EAknEditorFlagSelectionVisible );
+            }
+        else
+            {
+            SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagSelectionVisible );
+            }
+        }
     return;
     }
 TBool CEikEdwin::IsSelectionVisible()
@@ -8790,6 +8770,50 @@ void CEikEdwin::RestoreCursorState()
 TBool CEikEdwin::KineticScrollingEnabled() const
     {
     return iEdwinExtension && iEdwinExtension->iPhysicsHandler;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CEikEdwin::DrawViewBackground
+// ---------------------------------------------------------------------------
+//
+void CEikEdwin::DrawViewBackground( TBool aStart ) const
+    {
+    CWindowGc& gc = SystemGc();
+    RWindow& window = Window();
+
+    if ( aStart )
+        {
+        TRect viewRect( iTextView->ViewRect() );
+        window.Invalidate( viewRect );
+        window.BeginRedraw( viewRect );
+        gc.Activate( window );
+    
+        if ( !AknsDrawUtils::DrawBackground( 
+                iEdwinExtension->iSkinInstance, 
+                SkinBackgroundControlContext(),
+                this,
+                gc,
+                viewRect.iTl,
+                viewRect,
+                KAknsDrawParamNoClearUnderImage ) )
+            {
+            gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+            gc.SetPenStyle( CGraphicsContext::ESolidPen );
+    
+            TRgb dummyColor;
+            TRgb backgroundColor = EditorBackgroundColor( dummyColor ); 
+    
+            gc.SetBrushColor( backgroundColor );
+            gc.SetPenColor( backgroundColor );
+            gc.DrawRect( iTextView->ViewRect() );
+            }
+        }
+    else
+        {
+        gc.Deactivate();
+        window.EndRedraw();
+        }
     }
 
 

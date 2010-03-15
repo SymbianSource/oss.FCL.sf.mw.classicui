@@ -100,15 +100,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          */
          void HandleResourceChange( TInt aType );
                 
-        /**
-         * From CCoeControl.
-         * Retrieves an object of the same type as that encapsulated in aId.
-         *
-         * @param aId An encapsulated object type ID.
-         * @return Encapsulated pointer to the object provided. 
-         *      Note that the encapsulated pointer may be NULL.
-         */
-         TTypeUid::Ptr MopSupplyObject( TTypeUid aId );
                  
         /**
          * From MCoeControlObserver.
@@ -200,12 +191,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          */
 	 	 void SetButtonGridChars( const TDesC& aGridChars );
 		
-		/**
-		 * Sets text into search field.
-		 * 		 
-		 * @param const aSearchTxt Reference to the text buffer.
-         */            
-	     void SetSearchTextToFindPane( const TDesC& aSearchTxt );
 		
 		/**
          * Initiates buttons for adaptive search grid        
@@ -363,9 +348,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
         CEikEdwin* iEditor;         
         TInt iTextLimit;     
 	    
-	    // skin context for find pane
-   	    CAknsListBoxBackgroundControlContext* iSkinContextOfFindPane;   	
-   	    CAknsFrameBackgroundControlContext* iBgContextOfFindPane; 
    	    	    	       	    
    	    // contex for control pane   
    	    CAknsBasicBackgroundControlContext* iBgContextOfControlPane;    	     

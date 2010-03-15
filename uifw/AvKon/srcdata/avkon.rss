@@ -1517,7 +1517,19 @@ RESOURCE INDICATOR_PANE r_avkon_status_pane_indicator_default
             bmpfile = AVKON_BITMAP_FILE;
             states = INDICATOR_STATE
                 {
-                id = EAknIndicatorStateOn;
+                id = EAknIndicatorStateAnimate;
+                icons = INDICATOR_ICON
+                    {
+                    // IR indicator blank image used here to avoid having
+                    // multiple instances of the same icon in the Avkon bitmap
+                    // file. This is ok because the blank image is essentially
+                    // the same for all the animated universal indicators,
+                    // and it won't change.
+                    widebmpid = EMbmAvkonQgn_stat_ir_uni_blank;
+                    widebmpmask = EMbmAvkonQgn_stat_ir_uni_blank_mask;
+                    narrowbmpid = EMbmAvkonQgn_stat_ir_uni_blank;
+                    narrowbmpmask = EMbmAvkonQgn_stat_ir_uni_blank_mask;
+                    };
                 icons = INDICATOR_ICON
                     {
                     widebmpid = EMbmAvkonQgn_stat_usb_uni;
@@ -9808,6 +9820,7 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EPenInputCmdHwrTraining; txt=qtn_tin_option_menu_training;},
 		MENU_ITEM { command=EPenInputCmdVITUT; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_itu_t; },
 		MENU_ITEM { command=EPeninputCmdFSQ; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_fs_qwerty; },
+        MENU_ITEM { command=EPeninputCmdHwr; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_hwr; },
         MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
         };

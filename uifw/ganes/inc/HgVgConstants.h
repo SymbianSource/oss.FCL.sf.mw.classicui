@@ -28,7 +28,7 @@ namespace HgVgConstants
     const TReal KMaxSpringVelocity(300.0f);
     
     //
-    const TReal KSpringVelocityToAnimationFactor(20.0f);
+    const TReal KSpringVelocityToAnimationFactor(10.0f);
 
 
     // maximum quads in coverflow
@@ -40,7 +40,7 @@ namespace HgVgConstants
     // fi
     const TReal KMinFlickSpeed(0.5f);
 
-    const TInt KViewUpdateInterval( 16000 ); // > ~60 fps
+    const TInt KViewUpdateInterval( 15000 ); // > ~60 fps
     
     // The amound of pixels one item (virtually) takes on the screen (if you think coverflow as uniform list)
     const TReal KRowHeight(1.0f);
@@ -50,16 +50,16 @@ namespace HgVgConstants
     const TReal PI(3.1415926535897932f);
 
     // Spring constant
-    const TReal KSpringK(35.0f);
+    const TReal KSpringK(20.0f);
     
     // Spring damping
     const TReal KSpringDamping(11.0f);
     
     // maximum distance from target to snap 
-    const TReal KPositionSnap(0.02);
+    const TReal KPositionSnap(0.01);
     
     // maximum speed where to snap to item
-    const TReal KMinSpringVelocity(0.05);
+    const TReal KMinSpringVelocity(0.01);
     
     // how far user must have dragged an item before 
     // we move to next item when user has stopped dragging gesture.
@@ -70,7 +70,7 @@ namespace HgVgConstants
     const TReal KItemsToDragOnFullScreenDrag(5.0f);
     
     // Physics update timestep
-    const TReal KTimeStep(0.01f); // we update physics 100 fps
+    const TReal KTimeStep(0.008333333333f); // we update physics 120 fps
     
     // Width of one quad in 3d space
     const TReal KWorldQuadWidth(1);
@@ -95,11 +95,11 @@ namespace HgVgConstants
     // how long it user must press to move one index further
     const TInt KKeyPressDuration(800000);
     // factor used for converting swipe speed to view movement
-    const TReal KSwipeSpeedFactor(0.4f);
+    const TReal KSwipeSpeedFactor(0.5f);
     
     // Camera rotation factor to use in animation
     // when swiping
-    const TReal KCameraRotationFactor(PI/8.0f);
+    const TReal KCameraRotationFactor(PI/12.0f);
     
     // zooming factor to use in animation
     const TReal KCameraZoomFactor(0);
@@ -122,6 +122,13 @@ namespace HgVgConstants
     // blur deviation factor for blur in zoom animation
     const TReal KDefaultBlurDeviation(4);
 
+    //
+    const TReal KSpringVelocityToZAlpha(10.0f);
+    
+    const TInt KFramesToZeroVelocity(60);
+    
+    const TReal KHalfItemWidth(0.5);
+    
     // Specific constants for full screen coverflow mediawall
     const TInt KMediaWallFullScreenItemsOnScreen(5);
     const TReal KMediaWallFullScreenCameraZoomFactor(1.5);
@@ -129,7 +136,7 @@ namespace HgVgConstants
     const TReal KMediaWallFullScreenSpringVelocityToAnimationFactor(10);
     const TReal KMediaWallFullScreenZOffset(1);
     const TInt KMediaWallFullScreenRowCount(1);
-    const TReal KMediaWallFullScreenSpringK(28);
+    const TReal KMediaWallFullScreenSpringK(KSpringK);
     const TReal KMediaWallFullScreenSpringDamping(KSpringDamping);
     const TReal KMediaWallFullScreenSpringMaxVelocity(KMaxSpringVelocity);
     const TReal KMediaWallFullScreenItemsToMoveOnFullScreenDrag(5);

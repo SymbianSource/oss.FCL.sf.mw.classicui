@@ -608,6 +608,13 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
             }
 
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+        
+        if ( iIndicatorBitmaps[layoutMode]->Count() <= 0 || !iIndicatorBitmaps[layoutMode]->At( 0 ) )
+            {
+            
+            __ASSERT_DEBUG( EFalse, User::Panic( _L("indicatorcount"),iIndicatorBitmaps[layoutMode]->Count()));
+            return;
+            }
         TSize iconSize( iIndicatorBitmaps[layoutMode]->At( 0 )->SizeInPixels() );
         TInt iconWidth  = iconSize.iWidth;
         TInt iconHeight = iconSize.iHeight;
@@ -652,8 +659,9 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
                     }
                 }
 
-            if ( iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 ) &&
-                 iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 + 1 ) )
+             if ( ( iAnimState * 2 + 1 ) < iIndicatorBitmaps[layoutMode]->Count()
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2)
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2 + 1))
                 {
                 CFbsBitmap* mask = iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 + 1 );
                 if ( iExtension && iExtension->iFader )
@@ -671,7 +679,8 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
                                  mask,
                                  ETrue );
                 }
-        else if ( iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 ) )
+             else if (( iAnimState * 2 ) < iIndicatorBitmaps[layoutMode]->Count()
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2) )
                 {
                 // Draw editor indicator bitmap without mask
                 CFbsBitmap* mask = iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 );

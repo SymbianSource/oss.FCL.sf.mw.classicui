@@ -49,7 +49,7 @@
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
 
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <AknsUtils.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include "GlobalWindowPriorities.h"
@@ -1445,7 +1445,7 @@ TInt CAknGlobalNoteSubject::AddSoftNotificationL(
 
 void CAknGlobalNoteSubject::TryDisplayNextNoteL(TBool aShowAsynch)
     {
-    if ( iGlobalNoteList && iGlobalNoteList->Count() == 0 )
+    if ( !iGlobalNoteList || iGlobalNoteList->Count() == 0 )
         {
         return;
         }

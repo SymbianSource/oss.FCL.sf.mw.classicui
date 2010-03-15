@@ -531,11 +531,17 @@ EXPORT_C void CAknSignalPane::PositionChanged()
 // Draws the signal pane.
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknSignalPane::Draw( const TRect& /*aRect*/ ) const
+EXPORT_C void CAknSignalPane::Draw( const TRect& aRect ) const
     {     
     if ( iExtension->iStatusPane && 
          iExtension->iStatusPane->IsTransparent() )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
 

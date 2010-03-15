@@ -77,6 +77,7 @@ protected: // CHgScroller
     void FitTopItemToView( TInt aIndex );
     TInt CurrentIndex();
     TBool IsDisplayed( TInt aIndex );
+    void HandleScrollbarVisibilityChange(TBool aVisible);
     
 private: // Constructors
     CHgGrid( TInt aItemCount, 

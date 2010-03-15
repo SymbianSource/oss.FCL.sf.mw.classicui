@@ -169,7 +169,7 @@ void CHgVgScrollBar::DrawImage(const TPoint& aPosition, VGImage aImage,
         const TSize& /*aSize*/, const TRect& aWindowRect, TReal aAlpha) const
     {
     TRgb color(255, 255, 255, aAlpha * 255.0f);
-    HgVgHelper::DrawImageColorized(aImage, color, aPosition, aWindowRect, EFalse);
+    HgVgHelper::DrawImageColorized(aImage, color, aPosition, aWindowRect, EFalse, iLandscape);
     }
 
 TBool CHgVgScrollBar::IsEnabled() const
@@ -195,6 +195,10 @@ void CHgVgScrollBar::ResizeL(
     iScrollbar->InitScrollBarL(aScrollbarRect, aTotalSize, aViewSize, aLandscapeScrolling);    
     }
 
+void CHgVgScrollBar::EnableLandscapeRendering(TBool aEnabled)
+{
+    iLandscape = aEnabled;
+}
 
 
 // End of File

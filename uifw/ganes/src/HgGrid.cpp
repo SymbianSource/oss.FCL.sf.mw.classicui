@@ -673,8 +673,11 @@ void CHgGrid::FitSelectionToView()
 void CHgGrid::SelectDefaultItem()
     {
     iSelectedIndex = CurrentIndex();
-    FitSelectionToView();
-    DrawDeferred();
+    if( iSelectedIndex >= 0 && iSelectedIndex < iItems.Count() )
+        {
+        FitSelectionToView();
+        DrawDeferred();
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -760,6 +763,10 @@ EXPORT_C void CHgGrid::SetLandscapeScrollingSupport( TBool aSupportLandscapeScro
     iLandScapeScrollingSupported = aSupportLandscapeScrolling;
     }
 
+// -----------------------------------------------------------------------------
+// CHgGrid::ChangeSelectedIndex()
+// -----------------------------------------------------------------------------
+//
 void CHgGrid::ChangeSelectedIndex( TInt aMove )
     {
     TInt nextIndex = 0;
@@ -790,6 +797,15 @@ void CHgGrid::ChangeSelectedIndex( TInt aMove )
         }
     
     iSelectedIndex = nextIndex;
+    }
+
+// -----------------------------------------------------------------------------
+// CHgGrid::HandleScrollbarVisibilityChange()
+// -----------------------------------------------------------------------------
+//
+void CHgGrid::HandleScrollbarVisibilityChange( TBool /*aVisible*/ )
+    {
+    
     }
 
 // End of File

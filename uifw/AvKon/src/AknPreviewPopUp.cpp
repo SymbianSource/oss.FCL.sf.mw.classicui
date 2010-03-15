@@ -67,7 +67,8 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
     : iContent( aContent ),
       iController( aController ),
       iFlags( aStyle ),
-      iAllowUpEvent(EFalse)
+      iAllowUpEvent(EFalse),
+      iIsDeleted(0)
     {
     GfxTransEffect::Register( this, KGfxPreviewPopupControlUid );
     }
@@ -79,6 +80,12 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
 CAknPreviewPopUp::~CAknPreviewPopUp()
     {
     AKNTASHOOK_REMOVE();
+    
+    if( iIsDeleted )
+        {
+    	*iIsDeleted = ETrue ;
+        iIsDeleted = 0 ;
+        }
 
     GfxTransEffect::Deregister( this );
 
@@ -509,6 +516,9 @@ void CAknPreviewPopUp::SizeChanged()
 //
 void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     {
+	TBool isDelete = EFalse; 
+	iIsDeleted = &isDelete;
+	
     if ( AknLayoutUtils::PenEnabled() )
         {
         iCloseMenu = EFalse;
@@ -522,6 +532,10 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             {
             iAllowUpEvent = ETrue;
             CCoeControl::HandlePointerEventL( aPointerEvent );
+            if( isDelete )
+            	{
+            	return;
+            	}
             if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) && aPointerEvent.iType == TPointerEvent::EButton1Up && IsVisible() )
                 {
             	  // if pointer up is already redirected to the content, but the popup is still visible,
@@ -593,6 +607,10 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     (aPointerEvent.iType == TPointerEvent::EButton1Up && iAllowUpEvent ) )
                     {
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
             else
@@ -601,6 +619,10 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     aPointerEvent.iType == TPointerEvent::EButtonRepeat )
                     {
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
                 
@@ -610,6 +632,8 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             iAllowUpEvent = EFalse;
             }
         }
+    
+    iIsDeleted = 0;
     }
     
 // -----------------------------------------------------------------------------

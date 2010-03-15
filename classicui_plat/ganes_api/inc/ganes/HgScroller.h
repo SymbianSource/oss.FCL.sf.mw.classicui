@@ -348,6 +348,7 @@ protected: // Pure Virtual Functions
     virtual TInt CurrentIndex() = 0;
     virtual TBool IsDisplayed( TInt aIndex ) = 0;
     virtual void FitTopItemToView( TInt aIndex ) = 0;
+    virtual void HandleScrollbarVisibilityChange(TBool aVisible) = 0;
     
 protected: // Constructors
     CHgScroller( TInt aItemCount, 

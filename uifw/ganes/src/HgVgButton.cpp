@@ -169,8 +169,18 @@ void CHgVgButton::Draw(const TRect& aWindowRect, TReal aAlpha)
         {
         TRgb color(KRgbWhite);
         color.SetAlpha(aAlpha * 255.0f);
-        HgVgHelper::DrawImageColorized(iImage, color, iPosition, aWindowRect, EFalse);
+        HgVgHelper::DrawImageColorized(iImage, color, iPosition, aWindowRect, EFalse, iLandscape);
         }
     }
+
+// -----------------------------------------------------------------------------
+// CHgVgButton::EnableLanscapeRendering()
+// -----------------------------------------------------------------------------
+//
+void CHgVgButton::EnableLandscapeRendering(TBool aEnabled)
+{
+    iLandscape = aEnabled;
+}
+
 
 // End of File

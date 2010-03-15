@@ -366,6 +366,7 @@ enum
 
     EPenInputCmdVITUT,
     EPeninputCmdFSQ,
+    EPeninputCmdHwr,
     
     /**
     * Command id for dealing with discreet popup's close

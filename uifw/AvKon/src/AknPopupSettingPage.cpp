@@ -44,7 +44,7 @@ _LIT(KPopupSettingListLeadingLayoutText, "1\t");
 #include <aknlistboxtfxinternal.h>
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-#include <aknpriv.hrh>
+#include <AknPriv.hrh>
 
 // ----------------------------------------------------------------------------
 // Extension class definition

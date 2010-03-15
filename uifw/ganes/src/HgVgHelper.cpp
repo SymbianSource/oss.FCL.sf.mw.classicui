@@ -435,11 +435,16 @@ void PerspectiveTransformVertex(VGfloat* aInVertex, VGfloat* aOutVertex,
 // ---------------------------------------------------------------------------
 //         
 void DrawImage(VGImage aImage, 
-        const TPoint& aPos, const TRect& aWindowRect, TBool aCentered)
+        const TPoint& aPos, const TRect& aWindowRect, TBool aCentered, TBool aLandscape)
     {
             
     vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
     vgLoadIdentity();
+    if (aLandscape)
+        {
+        vgTranslate(0.0f, 640.0f); 
+        vgRotate(-90.0f);
+        }
 
     if (!aCentered)
         {
@@ -464,7 +469,7 @@ void DrawImage(VGImage aImage,
 // ---------------------------------------------------------------------------
 //         
 void DrawImageColorized(VGImage aImage, const TRgb& aColor, 
-        const TPoint& aPos, const TRect& aWindowRect, TBool aCentered)
+        const TPoint& aPos, const TRect& aWindowRect, TBool aCentered, TBool aLandscape)
     {
     
     VGfloat values[] = { 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
@@ -477,7 +482,7 @@ void DrawImageColorized(VGImage aImage, const TRgb& aColor,
     vgSetfv(VG_COLOR_TRANSFORM_VALUES, KNumColorTransformValues, values);
     vgSeti(VG_COLOR_TRANSFORM, VG_TRUE);
     
-    HgVgHelper::DrawImage(aImage, aPos, aWindowRect, aCentered);
+    HgVgHelper::DrawImage(aImage, aPos, aWindowRect, aCentered, aLandscape);
 
     vgSeti(VG_COLOR_TRANSFORM, VG_FALSE);        
     }

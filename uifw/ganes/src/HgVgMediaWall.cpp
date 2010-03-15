@@ -123,7 +123,7 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
     InitScreenL( aRect );
 
     InitItemsL();
-        
+
     HandleViewPositionChanged(ETrue);
     
     iCoeEnv->AddForegroundObserverL( *this );
@@ -135,9 +135,13 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
             AknTouchGestureFw::EAknTouchGestureFwGroupFlick);
             
     ActivateL ( );
-
+#ifdef MEDIAWALL_ORIENTATION_FIX
+    iCoeEnv->WsSession().Flush();
+#endif
+    
     SetMopParent( aParent );
     SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallUninitialized );
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -145,10 +149,19 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CHgVgMediaWall::InitScreenL( const TRect& aRect )
-    {               
+    {    
+        
     // Set the windows size       
     SetRect ( aRect );
-        
+
+#ifdef MEDIAWALL_ORIENTATION_FIX    
+    TSize screenSize = iCoeEnv->ScreenDevice()->SizeInPixels();
+    if (aRect == TRect(TPoint(0,0), screenSize) && iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen)
+        {
+        Window().FixNativeOrientation();
+        }
+#endif
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -162,8 +175,6 @@ EXPORT_C void CHgVgMediaWall::RefreshScreen( TInt aIndex )
         {
         return;
         }
-  
-    //RDebug::Print(_L("\t\tMediaWall FirstIndexOnScreen=%d"), FirstIndexOnScreen());
     
     if( !iAnimationTimer->IsActive() )
         {    
@@ -353,14 +364,10 @@ EXPORT_C CHgVgMediaWall::THgVgOpeningAnimationType CHgVgMediaWall::OpeningAnimat
 //
 void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
     {
-    //RDebug::Print(_L("CHgVgMediaWall::Draw begin"));
 
     if(iFlags & EHgVgMediaWallUninitialized)
         {
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
-        AknsDrawUtils::DrawBackground( skin, cc, this, SystemGc(), TPoint(0,0), 
-                Rect(), KAknsDrawParamDefault );
+        FillSystemGcWithSkin( );
         return;
         }
     
@@ -379,8 +386,7 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
                 }
             else
                 {
-                SystemGc().SetBrushColor(KRgbRed);
-                SystemGc().Clear();
+                FillSystemGcWithSkin( );
                 }
             }
         else
@@ -398,23 +404,22 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
         {
         if (iSurfaceBitmap)
             {
-            //RDebug::Print(_L("CHgVgMediaWall::Draw blit screenshot"));
-
             SystemGc().BitBlt( Rect().iTl, iSurfaceBitmap );
             }
         else
             {
-            //RDebug::Print(_L("CHgVgMediaWall::Draw clear red"));
-
-            // we should not get here, ever
-            // still, clear with red color for debug purposes
-            SystemGc().SetBrushColor(KRgbRed);
-            SystemGc().Clear();
+            FillSystemGcWithSkin( );
             }
         }
-
-    //RDebug::Print(_L("CHgVgMediaWall::Draw end"));
     
+    }
+
+void CHgVgMediaWall::FillSystemGcWithSkin( ) const
+    {
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+    AknsDrawUtils::DrawBackground( skin, cc, this, SystemGc(), TPoint(0,0), 
+            Rect(), KAknsDrawParamDefault );
     }
 
 // -----------------------------------------------------------------------------
@@ -1087,9 +1092,13 @@ CFbsBitmap* CHgVgMediaWall::DrawToBitmap()
 
     if (!DrawAll())
         return NULL;
-        
-    return iEGL->GetSurfaceToBitmap(iRect);
-        
+    
+#ifdef MEDIAWALL_ORIENTATION_FIX    
+    return iEGL->GetSurfaceToBitmap(iRect, iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen);        
+#else
+    return iEGL->GetSurfaceToBitmap(iRect, EFalse);            
+#endif
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -1201,6 +1210,7 @@ void CHgVgMediaWall::InitItemsL()
 //     
 void CHgVgMediaWall::HandleGainingForeground()
     {
+    if(iIsForeground) return; // don't react to gaining foreground without losing it
     
     // draw previous screenshot
     DrawNow();
@@ -1228,6 +1238,7 @@ void CHgVgMediaWall::HandleGainingForeground()
 //     
 void CHgVgMediaWall::HandleLosingForeground()
     {
+    if(!iIsForeground) return; // don't react to losing foreground without gaining it
     
     // make sure we are not animating
     HandleTransitionAnimationStop();
@@ -1277,8 +1288,6 @@ void CHgVgMediaWall::DrawOpenVG() const
     
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
         
-    //RDebug::Print(_L("\t\tMediaWall FirstIndexOnScreen=%d"), self->FirstIndexOnScreen());
-
     if (!self->DrawAll())
         return;
       
@@ -1385,6 +1394,17 @@ void CHgVgMediaWall::DoTransitionAnimation()
         {
         // update view position dependant stuff
         HandleViewPositionChanged(ETrue);    
+        
+        // inform observer when needed
+        if (!iObserverNotified)
+            {
+                if (Abs(iSpring->GetX() - iSpring->EndX()) < KHalfItemWidth)
+                {
+                    iObserverNotified = ETrue;
+                    TRAP_IGNORE(
+                        iSelectionObserver->HandleSelectL((int)iSpring->EndX(), this);  )
+                }
+            }
         }
                         
     }
@@ -1402,7 +1422,7 @@ void CHgVgMediaWall::HandleTransitionAnimationStop()
         iAnimationTimer->Cancel();
     
         // handle view position change
-        HandleViewPositionChanged();
+        HandleViewPositionChanged(EFalse);
         }
     }
 
@@ -1557,7 +1577,8 @@ void CHgVgMediaWall::InitScrollBarL(TBool /*aResize*/)
             TSize(MaxViewPosition(), 1), TSize(1, 1), 
             ETrue, CHgScroller::EHgScrollerScrollBar);
     
-    iScrollBar->SetViewPosition( TPoint(iSelectedIndex, 0) );        
+    iScrollBar->SetViewPosition( TPoint(iSelectedIndex, 0) );
+    
     }
 
 // ---------------------------------------------------------------------------
@@ -1577,6 +1598,7 @@ void CHgVgMediaWall::InitRenderingL(TBool aRecreateSurface)
         if (aRecreateSurface)
             iEGL->InitWindowSurfaceL(Window());
         }
+
 
     delete iRenderer; iRenderer = NULL;    
     delete iArtistLabel; iArtistLabel = NULL;
@@ -1640,7 +1662,7 @@ void CHgVgMediaWall::InitButtonsL()
     iHideSKButton = CHgVgButton::NewL(rect.Rect().Size(), rect.Rect().iTl, *icon);
 
     CleanupStack::PopAndDestroy(icon);
-    
+        
     }
 
 
@@ -1900,12 +1922,19 @@ TReal CHgVgMediaWall::GetAsPercentageOfScreenHeight(TInt aPixels) const
 void CHgVgMediaWall::DrawScene()
     {
 
-    TReal t = iSpring->VelX() / iSpringVelocityToAnimationFactor;
-    if (Abs(t) > 1.0f) 
-        t = t / Abs(t);
-  
+    TReal springVel = iSpring->VelX();
+    if (iPointerDown)
+        springVel = iSpringDragVel;
+
+    TReal t = springVel / iSpringVelocityToAnimationFactor;
+    if (t > 1.0f)
+        t = 1.0f;
+    else if (t < -1.0f)
+        t = -1.0f;
+
     if (AknLayoutUtils::LayoutMirrored())
         t = -t;
+    
     
     iRenderer->SetCameraRotation(-t * iCameraRotationFactor);
                 
@@ -1921,9 +1950,10 @@ void CHgVgMediaWall::DrawScene()
         }
     else
         {
+        
         iRenderer->Draw(iItems, /*iSelectedIndex*/iSpring->GetX(), iSpring->EndX(), 
                 iSpring->GetInterpolatedX(), iAnimationAlpha, iAnimationState, 
-                iOpeningAnimationType, iMediaWallStyle, iSpring->StartX());
+                iOpeningAnimationType, iMediaWallStyle, iSpring->StartX(), springVel);
         }
     }
 
@@ -1941,10 +1971,17 @@ void CHgVgMediaWall::HandleDragStart(const AknTouchGestureFw::MAknTouchGestureFw
         if (iMediaWallStyle != EHgVgMediaWallStyleGrid)
             {
             iSpring->SetEnd(iSelectedIndex, iSpring->EndY());
-            }
+            }        
+
+        iSpringVelAtDragStart = iSpringDragVel = iSpring->VelX();
         }
+    else
+    {
+        iSpringVelAtDragStart = iSpringDragVel = 0;
+    }
     
     iPointerDown = ETrue;
+    iDragFrames = 0;
     iViewPositionAtDragStart = iSpring->GetX();
     }
 
@@ -1978,6 +2015,14 @@ void CHgVgMediaWall::HandleDragOn(const AknTouchGestureFw::MAknTouchGestureFwDra
         TReal x = iViewPositionAtDragStart + fDelta * iItemsToMoveOnFullScreenDrag;
         iUpdateScrollBar = ETrue;
         iSpring->Reset(x, 0);
+        
+        // interpolate velocity during frame count to zero
+        TReal t = (TReal)iDragFrames/(TReal)KFramesToZeroVelocity;
+        if (t > 1.0f) t = 1.0f;
+        iSpringDragVel = iSpringVelAtDragStart * (1.0f - t);
+        
+        iDragFrames++;
+
         HandleViewPositionChanged(ETrue);        
         // draw view at new view position
         DrawOpenVG();
@@ -2200,6 +2245,7 @@ void CHgVgMediaWall::StartAnimationToPosition(TReal aX, TReal aY, TBool aUpdateS
     iSpring->SetEnd(aX, aY);
     iUpdateScrollBar = aUpdateScrollBar;
     iAnimationState = EHgVgMediaWallAnimationStateTransition;
+    iObserverNotified = EFalse;
     StartAnimationTimer();
     }
 
@@ -2358,6 +2404,17 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
             KMediaWallFullScreenSpringMaxVelocity, 
             KPositionSnap, KMinSpringVelocity);    
 
+#ifdef MEDIAWALL_ORIENTATION_FIX    
+    iRenderer->EnableLandscapeMode(ETrue);
+    iAlbumLabel->EnableLandscapeRendering(ETrue);
+    iArtistLabel->EnableLandscapeRendering(ETrue);
+    iEmptyLabel->EnableLandscapeRendering(ETrue);
+    iSkinRenderer->EnableLanscapeRendering(ETrue);
+    iScrollBar->EnableLandscapeRendering(ETrue);
+    iHideSKButton->EnableLandscapeRendering(ETrue);
+    iLetterPopup->EnableLandscapeRendering(ETrue);
+#endif
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -2458,7 +2515,9 @@ void CHgVgMediaWall::InitLabelsL(TInt aLayoutVariant)
     iArtistLabel = CHgVgLabel::NewL( t1.TextRect() );
 
     iAlbumLabel->SetLayout(l0, iRect);
-    iArtistLabel->SetLayout(l1, iRect);    
+    iArtistLabel->SetLayout(l1, iRect);
+
+    
     }
 
 void CHgVgMediaWall::InitPopupL(TInt aLayoutVariant)
@@ -2469,7 +2528,8 @@ void CHgVgMediaWall::InitPopupL(TInt aLayoutVariant)
             &ScreenFont( TCoeFont( KMediaWallTBonePopupFontSize, TCoeFont::EPlain )));
 
     iLetterPopup->SetLayouts(AknLayoutScalable_Apps::cf0_flow_pane_g2(aLayoutVariant), 
-            AknLayoutScalable_Apps::cf0_flow_pane_t1(aLayoutVariant), iRect);    
+            AknLayoutScalable_Apps::cf0_flow_pane_t1(aLayoutVariant), iRect);
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -2492,6 +2552,7 @@ TInt CHgVgMediaWall::DelayedInit( TAny* aSelf)
         }
     return KErrNone;
     }
+
 
 
 // End of File

@@ -213,7 +213,8 @@ namespace HgVgHelper
      * @param aPos position where to draw (in symbian screen coordinates).
      * @param aWindowRect drawing windows rectangle.
      */
-    void DrawImage(VGImage aImage, const TPoint& aPos, const TRect& aWindowRect, TBool aCentered = EFalse);
+    void DrawImage(VGImage aImage, const TPoint& aPos, const TRect& aWindowRect, TBool aCentered = EFalse, 
+        TBool iLanscape = EFalse);
     
     /**
      * Draws vg image to current vg surface multiplying its colors by a color.
@@ -225,7 +226,8 @@ namespace HgVgHelper
      * @param aWindowRect drawing windows renctangle.
      */
     void DrawImageColorized(VGImage aImage, const TRgb& aColor, 
-            const TPoint& aPos, const TRect& aWindowRect, TBool aCentered = EFalse);
+            const TPoint& aPos, const TRect& aWindowRect, TBool aCentered = EFalse, 
+            TBool iLanscape = EFalse);
     
     
     /**

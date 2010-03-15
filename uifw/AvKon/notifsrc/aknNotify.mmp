@@ -64,7 +64,7 @@ LIBRARY 	gfxtrans.lib
 LIBRARY    akntransitionutils.lib
 #endif
 
-DEFFILE AKNNOTIFY.DEF
+DEFFILE AknNotify.DEF
 
 START WINS
     BASEADDRESS 0x7dd30000

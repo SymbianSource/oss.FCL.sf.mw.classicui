@@ -835,7 +835,23 @@ EXPORT_C void CAknIndicatorContainer::PositionChanged()
 
 EXPORT_C TInt CAknIndicatorContainer::CountComponentControls() const
     {
-    return (iIndicatorsShown);
+    TInt n = CountShownIndicator();
+    //__ASSERT_DEBUG ( n == iIndicatorsShown, User::Panic(_L( "indicatorshow"),n ) );
+    return n;
+    }
+
+TInt CAknIndicatorContainer::CountShownIndicator() const
+    {
+    TInt count = iIndicators->Count();
+    TInt indicatorShown = 0;
+    for ( TInt i = 0; i< count; i++ )
+        {
+        if( iIndicators->At(i)->IndicatorState() && iIndicators->At( i )->Priority() != KIndicatorNotShown )
+            {
+            indicatorShown++;
+            }
+        }
+    return indicatorShown;
     }
 
 
@@ -863,11 +879,17 @@ EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) cons
     }
 
 
-EXPORT_C void CAknIndicatorContainer::Draw( const TRect& /*aRect*/ ) const
+EXPORT_C void CAknIndicatorContainer::Draw( const TRect& aRect ) const
     {
     if ( iExtension->iStatusPane && 
          iExtension->iStatusPane->IsTransparent() )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
 
@@ -1191,30 +1213,29 @@ void CAknIndicatorContainer::PrioritizeIndicatorsL()
         return;
         }
 
-    CAknIndicator* temp;
-    for(TInt ii = 1; ii < count; ii++)
+    // Bubble sorted
+    for (TInt i = 0; i < ( count - 1 ); i++)
         {
-        temp = iIndicators->At(ii);
-        TInt tempPriority = temp->Priority();
-        if (tempPriority >= 0)
+        TBool swaped = EFalse;
+        for (TInt j = count - 1; j > i; j--)
             {
-            for(TInt jj = 0; jj <= ii; jj++)
+            if ( iIndicators->At( j )->Priority()
+                    < iIndicators->At( j - 1 )->Priority() )
                 {
-                if (tempPriority < iIndicators->At(jj)->Priority())
-                    {
-                    iIndicators->Delete( ii );
-                    CleanupStack::PushL( temp );
-                    iIndicators->InsertL( jj, temp );
-                    CleanupStack::Pop( temp );
-                    break;
-                    }
-                else if ( jj == (ii-1) )
-                    {
-                    break;
-                    }
+                CAknIndicator* temp = iIndicators->At( j );
+                iIndicators->Delete( j );
+                CleanupStack::PushL( temp );
+                iIndicators->InsertL( j - 1, temp );                
+                CleanupStack::Pop( temp );
+                swaped = ETrue;
                 }
             }
+        if( !swaped )
+            {
+            break;
+            }
         }
+
     }
 
 
@@ -2973,8 +2994,7 @@ void CAknIndicatorContainer::SizeChangedInFlatStatusPane()
                     {
                     if ( extendedFlatLayout )
                         {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g4( 0 );
+                        showIndicator = EFalse;
                         }
                     else
                         {
@@ -2987,8 +3007,7 @@ void CAknIndicatorContainer::SizeChangedInFlatStatusPane()
                     {
                     if ( extendedFlatLayout )
                         {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g5( 0 );
+                        showIndicator = EFalse;
                         }
                     else
                         {
@@ -3001,8 +3020,7 @@ void CAknIndicatorContainer::SizeChangedInFlatStatusPane()
                     {
                     if ( extendedFlatLayout )
                         {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g6( 0 );
+                        showIndicator = EFalse;
                         }
                     else
                         {

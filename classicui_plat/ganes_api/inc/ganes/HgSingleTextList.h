@@ -47,8 +47,8 @@ public:
     IMPORT_C virtual ~CHgSingleTextList( );
 
 protected: // CHgScroller
-
     void HandleSizeChanged();
+    void HandleScrollbarVisibilityChange(TBool aVisible);
     
 protected: // CHgList
 

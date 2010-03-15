@@ -137,7 +137,13 @@ void CHgVgSkinRenderer::SetRect( const TRect& aRect )
 //
 void CHgVgSkinRenderer::Draw() const
     {
-    HgVgHelper::DrawImage(iSkinImage, TPoint(0, 0), iRect);
+    HgVgHelper::DrawImage(iSkinImage, TPoint(0, 0), iRect, EFalse, iLandscape);
     }
+
+void CHgVgSkinRenderer::EnableLanscapeRendering(TBool aLandscape)
+{
+    iLandscape = aLandscape;
+}
+
 
 // End of File

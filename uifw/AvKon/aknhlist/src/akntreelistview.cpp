@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006, 2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1159,9 +1159,7 @@ void CAknTreeListView::SizeChanged()
     // Update scrollbars.
     UpdateScrollbars();
 
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
     UpdateIndexes();
-#endif
     AknsUtils::RegisterControlPosition( this, PositionRelativeToScreen() );
     
     TRAP_IGNORE( InitPhysicsL() );
@@ -1493,9 +1491,7 @@ void CAknTreeListView::UpdateVisibleItems( TInt aIndex, CAknTreeItem* aItem )
     SetFocusIndex( KMinTInt );
     if ( !iItems.Count() )
         {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
         UpdateIndexes();
-#endif
         return;
         }
 
@@ -1533,9 +1529,7 @@ void CAknTreeListView::UpdateVisibleItems( TInt aIndex, CAknTreeItem* aItem )
             SetFocusIndex( ii );
             }
         }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
     UpdateIndexes();
-#endif
     }
 
 
@@ -1581,9 +1575,7 @@ void CAknTreeListView::UpdateVisibleItems()
                 item = iterator.Next();
                 }
             }
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
         UpdateIndexes();
-#endif
         }
     else if ( itemCount && iItems.Count() )
         {
@@ -2778,8 +2770,10 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 
         // text color, used to draw the separator line between list items
         TRgb textColor( KRgbBlack );
-        AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-            KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6 );
+        AknsUtils::GetCachedColor( skin,
+                                   textColor, 
+                                   KAknsIIDQsnTextColors,
+                                   EAknsCIQsnTextColorsCG6 );
 
         const TInt itemCount = iItems.Count();
         for ( TInt ii = 0; ii < itemCount; ++ii )
@@ -2823,7 +2817,7 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 #endif
                 if ( ii < iBottomIndex )
                     {
-                    AknListUtils::DrawSeparator( gc, tfxDrawRect, textColor );
+                    AknListUtils::DrawSeparator( gc, drawRect, textColor, skin );
                     }
 
                 TBool focused = ( IsFocused() && FocusedItem() &&
@@ -3168,10 +3162,19 @@ TInt& CAknTreeListView::BottomIndex()
     {
     return iBottomIndex;
     }
-    
+
+#endif //RD_UI_TRANSITION_EFFECTS_LIST
+// ---------------------------------------------------------------------------
+// CAknTreeListView::UpdateIndexes
+// ---------------------------------------------------------------------------
+//
 void CAknTreeListView::UpdateIndexes()
     {
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
     iTopIndex = iBottomIndex = iHighlightIndex = 0;
+#else 
+    iBottomIndex = 0;
+#endif //RD_UI_TRANSITION_EFFECTS_LIST
     
     if ( iItems.Count() )
         {
@@ -3184,9 +3187,10 @@ void CAknTreeListView::UpdateIndexes()
                 }
             }
     
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
         iTopIndex = iTree.VisibleItemIndex(iItems[0].Item());
         iHighlightIndex = iTree.VisibleItemIndex(FocusedItem());
+#endif //RD_UI_TRANSITION_EFFECTS_LIST
         } 
     }
 
-#endif //RD_UI_TRANSITION_EFFECTS_LIST

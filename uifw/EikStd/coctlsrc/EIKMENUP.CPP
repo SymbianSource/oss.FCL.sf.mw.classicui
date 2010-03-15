@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -2481,13 +2481,8 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
     _AKNTRACE( "previousTopItem =  %d", previousTopItem );
     _AKNTRACE( "previousSelectedItem =  %d", previousSelectedItem );
 
-    ActivateGc();
-    CWindowGc& gc =  SystemGc();
-    PrepareGcForDrawingItems( gc );
+    SetSelectedItem( aNewSelectedItem );
 
-    // Scrollers top item index must be updated first because setting selected
-    // item results in animation redraw (which requires knowledge about the
-    // current top item).
     if ( aNewSelectedItem >= 0 )
         {
         ScrollToMakeItemVisible( aNewSelectedItem );
@@ -2497,6 +2492,10 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
         ScrollToMakeItemVisible( 0 );
         }
 
+    ActivateGc();
+    CWindowGc& gc =  SystemGc();
+    PrepareGcForDrawingItems( gc );
+    
     TInt topItem = iScroller->TopItemIndex();
     TInt bottomItem = topItem + NumberOfItemsThatFitInView();
     if( bottomItem > NumberOfItemsInPane() )
@@ -2512,7 +2511,6 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
         DrawItem( gc, topItem, ERemoveHighlight );
         DrawItem( gc, (bottomItem-1), ERemoveHighlight );
         }
-    SetSelectedItem( aNewSelectedItem );
 
     PrepareHighlightFrame();
 
@@ -2528,32 +2526,6 @@ EXPORT_C void CEikMenuPane::MoveHighlightTo(TInt aNewSelectedItem)
             {
             DrawItem( gc, aNewSelectedItem, EDrawHighlight );
             }
-        }
-    else
-        {
-        /*TBool skipHighlight = EFalse;
-
-        if (iExtension && iExtension->iSct && aNewSelectedItem == 0 &&
-            previousSelectedItem > 1)
-            {
-            skipHighlight = ETrue;
-            }
-
-        for( TInt i = topItem; i<bottomItem; i++ )
-            {
-            if( i == aNewSelectedItem && !skipHighlight)
-                {
-                DrawItem( gc, i, EDrawHighlight );
-                }
-            else
-                {
-                DrawItem( gc, i, ERemoveHighlight );
-                }
-            }*/
-
-        // update the whole menu area
-        iExtension->ViewPositionChanged( iExtension->iViewPosition );   
-//        UpdateScrollBarThumbs();
         }
 
     DeactivateGc();
@@ -2718,8 +2690,10 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
 
     if ( !drawingInitiated && !iExtension->iFullRedraw )
         {
-        window.Invalidate( itemRect );
-        window.BeginRedraw( itemRect );
+        TRect drawRect( itemRect ); 
+        drawRect.Intersection( iExtension->iItemAreaRect );
+        window.Invalidate( drawRect );
+        window.BeginRedraw( drawRect );
         }
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
@@ -2982,7 +2956,7 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
     // don't draw separator line for the last item
     if ( drawSeparator )
         {
-        AknListUtils::DrawSeparator( aGc, itemRect, textColor );
+        AknListUtils::DrawSeparator( aGc, itemRect, textColor, skin );
         }
     
     if ( !drawingInitiated && !iExtension->iFullRedraw )
@@ -4019,11 +3993,16 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
             _AKNTRACE( "[%s]", "TPointerEvent::EButton1Up" );
             if ( !innerRect.Contains( aPointerEvent.iPosition ) ) 
                 {
+                TBool highlightWasEnabled = iExtension->HighlightEnabled();
                 // remove highlight in case highlight is outside of menu pane 
                 iExtension->EnableHighlight( EFalse );
                 if ( iOwner )
                     {
                     RepaintHighlight();
+                    }
+                else if ( highlightWasEnabled )
+                    {
+                    DrawItem( SelectedItem(), ENoHighlight );
                     }
                 } 
             if ( iOwner && 
@@ -5159,13 +5138,13 @@ void CEikMenuPane::Scroll( TInt aAmount )
     iScroller->SetTopItemIndex( newTop );
     _AKNTRACE( "newTop =  %d", newTop );
  
-    // Menu moved with keys, update panning/flicking data
     iExtension->iListTopIndex = iScroller->TopItemIndex() * iItemHeight;
-    iExtension->iViewPosition.iY = 
-        iExtension->iListTopIndex + iExtension->iViewHeight / 2;  
+    TPoint newPosition( iExtension->iViewPosition );
+    newPosition.iY = iExtension->iListTopIndex + iExtension->iViewHeight / 2;  
 
     iExtension->SetOffset( 0 );
-
+    iExtension->ViewPositionChanged( newPosition );
+    
     _AKNTRACE( "iExtension->iListTopIndex =  %d", iExtension->iListTopIndex );
     _AKNTRACE( "iExtension->iViewPosition.iY =  %d", iExtension->iViewPosition.iY );
     _AKNTRACE( "[%s]", "iExtension->SetOffset( 0 )" );
@@ -5359,12 +5338,6 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
             TRect rect( CalculateSizeAndPosition() );
             SetExtent( rect.iTl, rect.Size() );
 
-            TRAP_IGNORE( DoUpdateScrollBarL() );
-
-            UpdateBackgroundContext( Rect() );
-            PrepareHighlightFrame();
-            SetCascadedIconSize();
-
             //Initialize physics engine
             if ( iExtension->iPhysics )
                 {
@@ -5372,9 +5345,14 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
                 iExtension->iListTopIndex = iScroller->TopItemIndex() * iItemHeight;
                 iExtension->iViewPosition.iY = 
                             iExtension->iListTopIndex + iExtension->iViewHeight / 2;  
-                iExtension->ViewPositionChanged( iExtension->iViewPosition );
-                } 
-            
+                }             
+         
+            TRAP_IGNORE( DoUpdateScrollBarL() );
+
+            UpdateBackgroundContext( Rect() );
+            PrepareHighlightFrame();
+            SetCascadedIconSize();
+          
             if ( iCascadeMenuPane )
                 {
                 iCascadeMenuPane->HandleResourceChange( aType );
@@ -6403,6 +6381,15 @@ EXPORT_C void CEikMenuPane::ConstructMenuSctRowFromDialogL( TInt aCharCase, TDes
 EXPORT_C void CEikMenuPane::SetItemSpecific(
         TInt aCommandId, TBool aItemSpecific )
     {
+    if ( !iExtension )
+        {
+        TRAPD( err, CheckCreateExtensionL() );
+        if ( err )
+            {
+            return;
+            }
+        }
+    
     if ( iExtension->iFlags.IsSet(
             CEikMenuPaneExtension::ESingleClickEnabled ) )
         {

@@ -270,15 +270,6 @@ TText CSmileyManager::SmileyCodeByPos( TInt aDocPos )
     }
 
 // ---------------------------------------------------------------------------
-// CSmileyManager::SetVisibleRange
-// ---------------------------------------------------------------------------
-//
-void CSmileyManager::SetVisibleRange( TInt aDocPos, TInt aLength )
-    {
-    iDrawer->SetVisibleRange( aDocPos, aLength );
-    }
-
-// ---------------------------------------------------------------------------
 // CSmileyManager::TextBlockLength
 // ---------------------------------------------------------------------------
 //

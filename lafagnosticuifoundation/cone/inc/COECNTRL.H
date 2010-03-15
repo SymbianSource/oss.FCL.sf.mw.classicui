@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -359,9 +359,10 @@ public: // deprecated
 	inline CWindowGc* GetGc() const;
 private:
 	friend class CCoeRedrawer;
-	void DrawComponents(const TRect& aRect) const;	
+	void Constructor(CCoeEnv* aCoeEnv);
+	void DrawComponents(const TRect& aRect) const;
 	void DrawWindowOwningComponentsNow() const;
-	void DrawWindowOwningComponentsNow(const TRect &aRect) const;	
+	void DrawWindowOwningComponentsNow(const TRect& aRect) const;
 	void SetGrabbed(TBool aGrabbed, TInt aPointerNumber);
 	TBool IsGrabbed(TInt aPointerNumber = 0) const;
 	void DoMakeVisible(TBool aVisible);

@@ -104,7 +104,7 @@ EXPORT_C void CAknBatteryPane::ConstructL()
     iBatteryStrengthControl->SetContainerWindowL( *this );
     iPrivateFlags = 0; // reset flags
     iDataObserver = new (ELeave) CAknBatteryDataObserver( this );
-    iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+    iStatusPane = CEikStatusPaneBase::Current();
     
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
@@ -394,11 +394,17 @@ EXPORT_C void CAknBatteryPane::PositionChanged()
 // Draws the battery pane.
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknBatteryPane::Draw( const TRect& /*aRect*/ ) const
+EXPORT_C void CAknBatteryPane::Draw( const TRect& aRect ) const
     {
     if ( iStatusPane && 
          iStatusPane->IsTransparent() )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
         

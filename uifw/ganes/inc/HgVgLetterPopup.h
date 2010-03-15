@@ -80,6 +80,11 @@ public: // METHODS
     void SetLayouts(const TAknWindowComponentLayout& aPopupLayout, 
             const TAknTextComponentLayout& aTextLayout, const TRect& aParentRect);
     
+    /**
+     * 
+     */
+    void EnableLanscapeRendering(TBool enabled);
+
 protected: // Constructors
     CHgVgPopup();
 
@@ -98,6 +103,7 @@ private:
     TAknWindowComponentLayout iPopupLayout;
     TAknTextComponentLayout iTextLayout;
     TRect iParentRect;
+    TBool iLandscape;
     };
 
 #endif /* HGVGLETTERPOPUP_H */

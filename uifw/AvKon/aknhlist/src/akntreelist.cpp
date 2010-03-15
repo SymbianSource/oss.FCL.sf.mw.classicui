@@ -391,6 +391,29 @@ EXPORT_C void CAknTreeList::SetMarked( TAknTreeItemID aItem,
         {
         Window().Invalidate( View().Rect() );
         }
+    
+    // Update the marking of upper level node
+    CAknTreeItem* item = Tree().Item( aItem );
+    if ( item && item->Parent() && item->Parent()->IsNode() )
+        {
+        CAknTreeNode* node = item->Parent()->Node();
+        TBool wasMarked = node->IsMarked();
+        if ( node && node->IsMarkable() )
+            {
+            if ( node->AllChildrenMarked() )
+                {
+                node->SetMarked( ETrue );
+                }            
+            else
+                {
+                node->SetMarked( EFalse );
+                }
+            }
+        if ( wasMarked != node->IsMarked() )
+            {
+            Window().Invalidate( View().Rect() );
+            }
+        }
     }
 
 

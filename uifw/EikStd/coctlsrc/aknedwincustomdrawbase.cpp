@@ -78,6 +78,8 @@ void CAknEdwinCustomDrawBase::ConstructL()
     iPictographDrawer = CAknPictographInterface::NewL(
         static_cast<CCoeControl&>( const_cast<CEikEdwin&>( iEdwin ) ),
         *static_cast<MAknPictographAnimatorCallBack*>( this ) );
+    
+    iSkinInstance = AknsUtils::SkinInstance();
     }
 
 // -----------------------------------------------------------------------------
@@ -191,33 +193,26 @@ void CAknEdwinCustomDrawBase::DrawText( const TParam& aParam,
     CFont* font = NULL;
     aParam.iMap.GetNearestFontInTwips( font, aFormat.iFontSpec );
     RRegion rgn;
-    if ( iEdwin.IsSmileyEnabled() && font )
+    TBool drawSmiley( iEdwin.IsSmileyEnabled() && font && ( &aParam.iGc ==
+        static_cast<CGraphicsContext*>( iTextView->BitmapContext() ) ) );
+    if ( drawSmiley )
         {
+        TPoint startPt( aParam.iDrawRect.iTl );
+        startPt.iY = aLineInfo.iBaseline;
+        CBitmapContext* bitmapGc( iTextView->BitmapContext() );
+        CEikEdwin& edwin = const_cast<CEikEdwin&>( iEdwin );
         rgn.AddRect( iEdwin.AdjustDrawRectForSmiley( aParam.iDrawRect ) );
-        iEdwin.GetClipRegionForSmiley( rgn, *font, aText, aTextOrigin, 
-            aParam.iDrawRect );
+        TRAP_IGNORE( edwin.DrawSmileyInTextL( rgn, aParam.iDrawRect, *bitmapGc, 
+            *font, aText, startPt ) );
         aParam.iGc.SetClippingRegion( rgn );
         }
     CLafEdwinCustomDrawBase::DrawText( aParam, aLineInfo, alteredFormat, 
         aText, aTextOrigin, aExtraPixels );
-    if ( iEdwin.IsSmileyEnabled() )
+    if ( drawSmiley )
         {
         aParam.iGc.CancelClippingRegion();
         }
     rgn.Close();
-    
-    if ( iEdwin.IsSmileyEnabled() && font && ( &aParam.iGc ==
-        static_cast<CGraphicsContext*>( iTextView->BitmapContext() ) ) )
-        {
-        CBitmapContext* bitmapGc( iTextView->BitmapContext() );
-        CEikEdwin& edwin = const_cast<CEikEdwin&>( iEdwin );
-        TPoint startPt( aParam.iDrawRect.iTl );
-        startPt.iY = aLineInfo.iBaseline;
-        TRAP_IGNORE( {
-            edwin.HandleScrollForSmileyL();
-            edwin.DrawSmileyInTextL( *bitmapGc, *font, aText, startPt );
-            } );
-        }
 
     // Draw pictographs if the feature is supported.
     // Character justification is not supported.
@@ -328,10 +323,9 @@ TRgb CAknEdwinCustomDrawBase::SystemColor(TUint aColorIndex,TRgb aDefaultColor) 
     TRgb ret = aDefaultColor;
     if (aColorIndex==TLogicalRgb::ESystemForegroundIndex)
         {
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        if (skin && iEdwin.SkinColorId() != KErrNotFound)
+        if (iSkinInstance && iEdwin.SkinColorId() != KErrNotFound)
             {
-            AknsUtils::GetCachedColor(skin, ret, KAknsIIDQsnTextColors, iEdwin.SkinColorId());
+            AknsUtils::GetCachedColor(iSkinInstance, ret, KAknsIIDQsnTextColors, iEdwin.SkinColorId());
             }
         }
     else if (aColorIndex==TLogicalRgb::ESystemBackgroundIndex)
@@ -345,32 +339,32 @@ TRgb CAknEdwinCustomDrawBase::SystemColor(TUint aColorIndex,TRgb aDefaultColor) 
     else if (aColorIndex==TLogicalRgb::ESystemSelectionForegroundIndex)
         {
         ret = KRgbWhite;
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        if (skin)
+
+        if (iSkinInstance)
             {
             if ( iEdwin.HighlightStyle() == EEikEdwinHighlightLink )
                 {
-                AknsUtils::GetCachedColor(skin, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnTextColorsCG3);
+                AknsUtils::GetCachedColor(iSkinInstance, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnTextColorsCG3);
                 }
             else // default
                 {
-                AknsUtils::GetCachedColor(skin, ret, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG24);
+                AknsUtils::GetCachedColor(iSkinInstance, ret, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG24);
                 }
             }
         }
     else if (aColorIndex==TLogicalRgb::ESystemSelectionBackgroundIndex)
         {
         ret = KRgbBlue;
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        if (skin)
+
+        if (iSkinInstance)
             {
             if ( iEdwin.HighlightStyle() == EEikEdwinHighlightLink )
                 {
-                AknsUtils::GetCachedColor(skin, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnTextColorsCG1);
+                AknsUtils::GetCachedColor(iSkinInstance, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnTextColorsCG1);
                 }
             else // default
                 {
-                AknsUtils::GetCachedColor(skin, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnHighlightColorsCG2);
+                AknsUtils::GetCachedColor(iSkinInstance, ret, KAknsIIDQsnHighlightColors, EAknsCIQsnHighlightColorsCG2);
                 }
             }
         }
@@ -407,19 +401,14 @@ TBool CAknEdwinCustomDrawBase::DrawRectWithSkin( const CGraphicsContext& aGc, co
 #endif //RD_UI_TRANSITION_EFFECTS_POPUPS
         if ( bitmapGc && iEdwin.SkinEnabled() )
             {
-            MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-            // Edwin manages the skin background
-            MAknsControlContext* edCc = iEdwin.SkinBackgroundControlContext();
-
-            TInt drawFlags = KAknsDrawParamDefault;
-            if( CAknEnv::Static()->TransparencyEnabled() )
-            {
-                drawFlags |= KAknsDrawParamNoClearUnderImage;
-            }
-
-            if( AknsDrawUtils::DrawBackground( skin, edCc,
-                    &iControl, *bitmapGc, aRect.iTl, aRect,
-                    drawFlags ))
+            if ( AknsDrawUtils::DrawBackground( 
+                iSkinInstance, 
+                iEdwin.SkinBackgroundControlContext(),
+                &iControl,
+                *bitmapGc,
+                aRect.iTl,
+                aRect,
+                KAknsDrawParamNoClearUnderImage ) )
                 {
                 aDrawnRect = aRect;
                 drawn = ETrue;

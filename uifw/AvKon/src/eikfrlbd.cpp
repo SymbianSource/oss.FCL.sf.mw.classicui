@@ -2234,7 +2234,6 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
             }
         }
 #else
-    CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
     aGc.SetClippingRect( view->ViewRect() );
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
     
@@ -3547,8 +3546,8 @@ void CFormattedCellListBoxData::SetConditionalSubCellL(TInt aSubCell,
         {
         iExtension->iMarginRect.BoundingRect( r );
         }
-    CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
+    CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
     MAknListBoxTfxInternal* transApi =
         CAknListLoader::TfxApiInternal( list->View()->ItemDrawer()->Gc() );
     if ( transApi )

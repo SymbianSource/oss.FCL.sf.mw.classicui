@@ -3674,7 +3674,7 @@ void CAknDoubleTimeStyleListBox::SizeChangedL()
         
     d->SetStretchableTextSubCellL( 3,
         AknLayoutScalable_Avkon::list_double_time_pane_t2( 0 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 0 ) );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 3 ) );
 
     d->SetStretchableGraphicSubCellL( 4,
         AknLayoutScalable_Avkon::list_double_time_pane_g1( 0 ),
@@ -3687,11 +3687,11 @@ void CAknDoubleTimeStyleListBox::SizeChangedL()
     // Conditional subcells must be added in priority order!
     d->SetStretchableConditionalSubCellL( 5,
         AknLayoutScalable_Avkon::list_double_time_pane_t1( 2 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 2 ), 2, 3 );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 5 ), 2, 3 );
 
     d->SetStretchableConditionalSubCellL( 4,
         AknLayoutScalable_Avkon::list_double_time_pane_t1( 1 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 1 ), 2, 3 );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 4 ), 2, 3 );
     _AKNTRACE_FUNC_EXIT;
     }
     

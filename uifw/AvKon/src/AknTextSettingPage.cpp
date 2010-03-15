@@ -227,6 +227,7 @@ EXPORT_C void CAknTextSettingPage::ConstructL()
 	iBackupText = iText.AllocL();
 	CEikEdwin* editor = TextControl();
 
+	editor->EnableKineticScrollingL( ETrue );
 	// Inhibit predictive text entry unless allowed by API
 	if ( !(iTextSettingPageFlags & EPredictiveTextEntryPermitted) )
 		editor->SetAknEditorFlags( EAknEditorFlagNoT9 | editor->AknEdwinFlags() );

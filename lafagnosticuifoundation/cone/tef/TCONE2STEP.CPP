@@ -1,4 +1,4 @@
-// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -49,22 +49,31 @@ _LIT(KTCone2ResourceFilePath, "z:\\system\\data\\tcone2.rsc");
   Creates a control's window.\n
   The created window is the child of the application's window group.\n
   iDisplayed is set to ETrue to make the control visible.\n
-*/    
+*/
 void CTestCone2Control::ConstructL()
-    {
+	{
 	CreateWindowL();
 	iDisplayed = ETrue;
-    }
+	}
+/**
+  Function to give access to the CCoeControl's protected CreateWindowL function.
+  This is intended for use only with Low Memory tests.
+*/
+TInt CTestCone2Control::CreateWindow()
+	{
+	TRAPD(err,CreateWindowL());
+	return err;
+	}
 /**
   Sets this control as visible or invisible.\n
   This causes the control to disappear or reappear.\n
   When a control is created, it is made visible by default.\n
-*/   
+*/
 void CTestCone2Control::MakeVisible(TBool aVisible)
-    {
+	{
 	iDisplayed = aVisible;
 	DrawNow();
-    }
+	}
 /**
   Destructor for the container control.\n
   Deletes the component control "CTestCone2Control".\n
@@ -604,7 +613,7 @@ void CTestDriver::TestReadResourceAPIsL()
 	__UHEAP_MARKEND;
 	}
 
- 
+
 /**
    @SYMTestCaseID UIF-TCone2Step-TestSetandGetCCoeControlAPIsL
   
@@ -624,26 +633,92 @@ void CTestDriver::TestReadResourceAPIsL()
    and retrieved correctly.
    
  */
-
 void CTestDriver::TestSetandGetCCoeControlAPIsL()
 	{
- 	// Create a new CCoeControl object
+	// Create a new CCoeControl object
 	CCoeControl* testCtrl = new (ELeave) CCoeControl();
 	CleanupStack::PushL(testCtrl);
-	
+
 	// Part 1: Check that a default value of 0 is returned when no
-	// max width value has been set yet.  
+	// max width value has been set yet.
 	iStep->TEST(testCtrl->MaximumWidth() == 0);
-	
+
 	// Part 2: Set the maximum width to a new value.
 	TInt newMaxWidth = 5;
 	iStep->TEST(testCtrl->SetMaximumWidth(newMaxWidth) == KErrNone);
- 
- 	// Part 3: Access maximum width. Test that it equals the
- 	// value previously set.
- 	iStep->TEST(testCtrl->MaximumWidth() == newMaxWidth);
- 	
-	CleanupStack::PopAndDestroy(testCtrl); 	
+
+	// Part 3: Access maximum width. Test that it equals the
+	// value previously set.
+	iStep->TEST(testCtrl->MaximumWidth() == newMaxWidth);
+
+	CleanupStack::PopAndDestroy(testCtrl);
+	}
+
+/**
+   @SYMTestCaseID UIF-TCone2Step-TestSetandGetCCoeControlAPIsL
+
+   @SYMDEF ou1cimx1#261261
+
+   @SYMTestCaseDesc Tests creating a CCoeControl in low memory conditions.
+   In particular it tries to trip up the RCoeDynamicDataStorage mechanism.
+
+   @SYMTestPriority High
+
+   @SYMTestStatus Implemented
+
+   @SYMTestActions The test creates a CCoeControl object in an OOM loop with different burst values.
+   And sets and reads back a property that is stored in the DynamicDataStoreage.
+   Note: This test didn't actually suceed in producing the crash reported in the defect.
+   I couldn't see anyway to get to the crashing line with things in a bad state.
+
+   @SYMTestExpectedResults. The code doesn't crash.
+ */
+void CTestDriver::TestLowMemoryCoeControl()
+	{
+	CCoeControl* const parentVal=NULL;
+	CTestCone2Control* cnt;
+	CCoeControl* parent;
+	TInt burst;
+	TInt failRate;
+	TInt sucesses;
+	TBool sucess=EFalse;
+	TInt setErr;
+	TInt creErr;
+	for (burst=1;burst<15;++burst)
+		{
+		failRate=burst>1 ? 1:0;
+		sucesses=0;
+		do	{
+			cnt=NULL;
+			parent=reinterpret_cast<CCoeControl*>(KMaxTUint);
+			setErr=99;
+			creErr=99;
+			__UHEAP_BURSTFAILNEXT(failRate,burst);
+			__UHEAP_MARK;
+			cnt=new CTestCone2Control();
+			if (cnt)
+				{
+				setErr=cnt->SetParent(parentVal);
+				parent=cnt->Parent();
+				creErr=cnt->CreateWindow();
+				if (parent==parentVal && setErr==KErrNone && creErr==KErrNone)
+					sucess=ETrue;
+				delete cnt;
+				}
+			__UHEAP_MARKEND;
+			__UHEAP_RESET;
+			if (sucess)
+				{
+				++sucesses;
+				sucess=EFalse;
+				}
+			else
+				sucesses=0;
+			//Useful logging to see more details of what this code does
+			//INFO_PRINTF7(_L("FR=% 2d S=% 2d C=0x%x SE=%d WCE=%d PAR=0x%x"),failRate,sucesses,cnt,setErr,creErr,parent);
+			++failRate;
+			} while (sucesses<10);
+		}
 	}
 
 /**
@@ -693,121 +768,113 @@ void CCone2TestAppUi::ConstructL(CTmsTestStep* aStep)
    8. TestConeInputCapabilitiesAPIs
    9. TestSetAndGetSystemDefaultViewAPIsL
    10. TestSetandGetCCoeControlAPIsL
+   11. TestLowMemoryCoeControl
  */
 
 void CCone2TestAppUi::RunTestStepL(TInt aStepNum)
 	{
+	_LIT(KTest11Name,"UIF-TCone2Step-LowMemoryCoeControlConstruction");
+	_LIT(KTest11Desc,"Test creating CCoeControl in low memory");
+	_LIT(KReturn,"...completed with return value '%d'\n");
+	_LIT(KFinished,"Test Finished\n");
+	TInt ret;
 
 	switch(aStepNum)
-		{	 
-		case 1:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestIsDisplayingDialogAndRemoveFromStackAPIsL"));
-			INFO_PRINTF1(_L("Test IsDisplayingDialog() and RemoveFromStack() APIs"));
-			TRAPD(ret, iDriver->TestIsDisplayingDialogAndRemoveFromStackAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 2:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestMakeVisibleOnChildControlsL"));
-			INFO_PRINTF1(_L("Test makevisible on its child controls"));
-			TRAPD(ret, iDriver->TestMakeVisibleOnChildControlsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 3:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestAppHelpContextAPIL"));
-			INFO_PRINTF1(_L("Test AppHelpContext API"));
-			TRAPD(ret, iDriver->TestAppHelpContextAPIL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 4:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestReadResourceAPIsL"));
-			INFO_PRINTF1(_L("Test ReadResource APIs"));
-			TRAPD(ret, iDriver->TestReadResourceAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 5:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestCoeControlAPIsL"));
-			INFO_PRINTF1(_L("Test SetContainerWindow APIs"));
-			TRAPD(ret, iDriver->TestCoeControlAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 6:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestColorUseAPIsL"));
-			INFO_PRINTF1(_L("Test ColorUse APIs"));
-			TRAPD(ret, iDriver->TestColorUseAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 7:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestConeAppUiSimpleAndMiscAPIsL"));
-			INFO_PRINTF1(_L("Test Cone Misc APIs"));
-			TRAPD(ret, iDriver->TestConeMiscAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 8:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestConeInputCapabilitiesAPIs"));
-			INFO_PRINTF1(_L("Test InputCapabilities APIs"));
-			TRAPD(ret, iDriver->TestConeInputCapabilitiesAPIs());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 9:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestSetAndGetSystemDefaultViewAPIsL"));
-			INFO_PRINTF1(_L("Test Set and Get system default view APIs"));
-			TRAPD(ret, iDriver->TestSetAndGetSystemDefaultViewAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			break;
-			}
-		case 10:
-			{
-			SetTestStepID(_L("UIF-TCone2Step-TestSetandGetCCoeControlAPIsL"));
-			INFO_PRINTF1(_L("Test Set and Get APIs for CCoeControl"));
-			TRAPD(ret, iDriver->TestSetandGetCCoeControlAPIsL());
-			INFO_PRINTF2(_L("...completed with return value '%d'\n"), ret);
-			TEST(ret==KErrNone);
-			RecordTestResultL();
-			CloseTMSGraphicsStep();
-			break;
-			}
-		case 11:
-			AutoTestManager().FinishAllTestCases(CAutoTestManager::EPass);
-			break;
-		default:
-			break;
+		{
+	case 1:
+		SetTestStepID(_L("UIF-TCone2Step-TestIsDisplayingDialogAndRemoveFromStackAPIsL"));
+		INFO_PRINTF1(_L("Test IsDisplayingDialog() and RemoveFromStack() APIs"));
+		TRAP(ret,iDriver->TestIsDisplayingDialogAndRemoveFromStackAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 2:
+		SetTestStepID(_L("UIF-TCone2Step-TestMakeVisibleOnChildControlsL"));
+		INFO_PRINTF1(_L("Test makevisible on its child controls"));
+		TRAP(ret,iDriver->TestMakeVisibleOnChildControlsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 3:
+		SetTestStepID(_L("UIF-TCone2Step-TestAppHelpContextAPIL"));
+		INFO_PRINTF1(_L("Test AppHelpContext API"));
+		TRAP(ret,iDriver->TestAppHelpContextAPIL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 4:
+		SetTestStepID(_L("UIF-TCone2Step-TestReadResourceAPIsL"));
+		INFO_PRINTF1(_L("Test ReadResource APIs"));
+		TRAP(ret,iDriver->TestReadResourceAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 5:
+		SetTestStepID(_L("UIF-TCone2Step-TestCoeControlAPIsL"));
+		INFO_PRINTF1(_L("Test SetContainerWindow APIs"));
+		TRAP(ret,iDriver->TestCoeControlAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 6:
+		SetTestStepID(_L("UIF-TCone2Step-TestColorUseAPIsL"));
+		INFO_PRINTF1(_L("Test ColorUse APIs"));
+		TRAP(ret,iDriver->TestColorUseAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 7:
+		SetTestStepID(_L("UIF-TCone2Step-TestConeAppUiSimpleAndMiscAPIsL"));
+		INFO_PRINTF1(_L("Test Cone Misc APIs"));
+		TRAP(ret,iDriver->TestConeMiscAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 8:
+		SetTestStepID(_L("UIF-TCone2Step-TestConeInputCapabilitiesAPIs"));
+		INFO_PRINTF1(_L("Test InputCapabilities APIs"));
+		TRAP(ret,iDriver->TestConeInputCapabilitiesAPIs());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 9:
+		SetTestStepID(_L("UIF-TCone2Step-TestSetAndGetSystemDefaultViewAPIsL"));
+		INFO_PRINTF1(_L("Test Set and Get system default view APIs"));
+		TRAP(ret,iDriver->TestSetAndGetSystemDefaultViewAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 10:
+		SetTestStepID(_L("UIF-TCone2Step-TestSetandGetCCoeControlAPIsL"));
+		INFO_PRINTF1(_L("Test Set and Get APIs for CCoeControl"));
+		TRAP(ret,iDriver->TestSetandGetCCoeControlAPIsL());
+		INFO_PRINTF2(KReturn,ret);
+		TEST(ret==KErrNone);
+		RecordTestResultL();
+		break;
+	case 11:
+		SetTestStepID(KTest11Name);
+		INFO_PRINTF1(KTest11Desc);
+		iDriver->TestLowMemoryCoeControl();
+		INFO_PRINTF1(KFinished);
+		RecordTestResultL();
+		CloseTMSGraphicsStep();
+		break;
+	case 12:
+		AutoTestManager().FinishAllTestCases(CAutoTestManager::EPass);
+		break;
+	default:
+		break;
 		}
-
 	}
 
 /**

@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -69,12 +69,12 @@ public:
 	inline CCoeControlStorage();
 	inline RCoeDynamicDataStorage& DynamicDataStorage();
 	inline const RCoeDynamicDataStorage& DynamicDataStorage() const;
-	inline void Open();
+	inline TInt Open();
 	inline void Close();
 	inline void AttemptCompress();
 	void SetPointerGrab(TUint aSet, TUint aClear);
 	TUint8& PointerGrab();
-	
+
 private:
 	RCoeDynamicDataStorage iDynamicDataStorage;
 	TUint8 iPointerGrabFlags; // The grab-status of each of the supported pointers
@@ -103,8 +103,8 @@ inline RCoeDynamicDataStorage& CCoeControlStorage::DynamicDataStorage()
 inline const RCoeDynamicDataStorage& CCoeControlStorage::DynamicDataStorage() const
 	{ return iDynamicDataStorage; }
 
-inline void CCoeControlStorage::Open()
-	{ iDynamicDataStorage.Open(); }
+inline TInt CCoeControlStorage::Open()
+	{ return iDynamicDataStorage.Open(); }
 
 inline void CCoeControlStorage::Close()
 	{ iDynamicDataStorage.Close(); }
@@ -121,19 +121,7 @@ Note: CCoeControl is normally used as a base class from which concrete
 control classes are derived. However, it can also be instantiated as a concrete 
 class. */
 	{
-	iCoeEnv = TheCoe();
-	
-	iData = new CCoeControlStorage;		// Non-leaving allocation
-	if (iData)
-		{
-		iData->Open();
-		}
-	else 
-		{
-		iFlags |= EMemoryAllocationFailed;	// Handle OOM later
-		}
-	
-	SetFocusing(CCoeControlStaticSettings::FocusedByDefault(iCoeEnv));	
+	Constructor(TheCoe());
 	}
 
 EXPORT_C CCoeControl::CCoeControl(CCoeEnv* aCoeEnv)
@@ -147,14 +135,17 @@ class.
 
 @param aCoeEnv The control environment.*/
 	{
+	Constructor(aCoeEnv);
+	}
+
+void CCoeControl::Constructor(CCoeEnv* aCoeEnv)
+	{
 	iCoeEnv = aCoeEnv;
-	
+
 	iData = new CCoeControlStorage;		// Non-leaving allocation
-	if(iData)
-		iData->Open();
-	else 
+	if (!iData || iData->Open()!=KErrNone)
 		iFlags |= EMemoryAllocationFailed;	// Handle OOM later
-	
+
 	SetFocusing(CCoeControlStaticSettings::FocusedByDefault(iCoeEnv));
 	}
 

@@ -288,17 +288,17 @@ MAknCommonDialogsEventObserver::TAction CAknFileSelectionEventHandler::HandleEve
         {
         case ERightSoftkeyPress: // USER HAS HIT RIGHT SOFTKEY
             {
+            while( iModel->DirectoryLevel() > 0 ) // Find until existing contents
+                {
+                entries = iModel->GotoParentFolderL();
+                PopIndices( aTopItemIndex, aFocusedItemIndex );
+                if( entries > 0 || entries < KErrNotFound )
+                    {
+                    break;
+                    }
+                }
             if( iModel->DirectoryLevel() > 0 ) // We are not in the root folder
                 {
-                while( ETrue ) // Find until existing contents
-                    {
-                    entries = iModel->GotoParentFolderL();
-                    PopIndices( aTopItemIndex, aFocusedItemIndex );
-                    if( entries > 0 || entries < KErrNotFound )
-                        {
-                        break;
-                        }
-                    }
                 if( entries > 0 )
                     {
                     if (aFocusedItemIndex >= entries)

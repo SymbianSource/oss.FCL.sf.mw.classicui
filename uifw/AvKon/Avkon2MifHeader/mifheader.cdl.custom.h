@@ -22,7 +22,7 @@
 #ifndef MIFHEADER_CDL_CUSTOM_H
 #define MIFHEADER_CDL_CUSTOM_H
 
-#include <cdlengdef.h>
+#include <CdlEngDef.h>
 #include "mifheader.cdl.common.h"
 
 namespace MifHeader

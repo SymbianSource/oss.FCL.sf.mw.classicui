@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -81,6 +81,7 @@ class CAknAppUiBase;
 class TAknWindowLineLayout;
 class TAknMultiLineTextLayout;
 class TAknTextLineLayout;
+class MAknsSkinInstance;
 
 /**
  * Egul library had methods to clip text from right side, this class includes methods to clip from both sides.
@@ -2716,9 +2717,13 @@ public:
      * @param aRect     Rectangle occupied by the item that is separated.
      * @param aColor    Text color used in item. Separator is drawn with this
      *                  color and additional alpha mask.
+     * @param aSkin		Skin instance used to get the alpha value
+     *                  for the separator line color.
      */
     IMPORT_C static void DrawSeparator( CGraphicsContext& aGc, 
-        const TRect& aRect, const TRgb& aColor );
+                                        const TRect& aRect,
+                                        const TRgb& aColor,
+                                        MAknsSkinInstance* aSkin = NULL );
     };
 
 #endif //  __AKNUTILS_H__

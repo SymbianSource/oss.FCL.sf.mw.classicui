@@ -23,6 +23,7 @@
 #include "HgIndicatorManager.h"
 #include "HgDrawUtils.h"
 #include "HgConstants.h"
+#include "HgScrollbar.h"
 
 #include <AknsUtils.h>
 #include <AknUtils.h>
@@ -87,7 +88,8 @@ void CHgSingleLargeList::HandleSizeChanged()
     for(TInt i = 0; i <= KMaxNumberOfTitleIndicators; ++i)
         iLayoutData->SetTitleLayout( i, list_single_large_graphic_pane_t1( i ));
     iLayoutData->SetFirstIndicatorLayout(list_single_large_graphic_pane_g3(0));
-    iLayoutData->SetSecondIndicatorLayout(list_single_large_graphic_pane_g2(1));
+    TInt variety = iScrollbar && !iScrollbar->IsStatic() ? 1 : 0;
+    iLayoutData->SetSecondIndicatorLayout(list_single_large_graphic_pane_g2(variety));
     
     // Get the Row rect.
     TAknLayoutRect layout;
@@ -175,6 +177,14 @@ CHgSingleLargeList::CHgSingleLargeList( TInt aItemCount,
     
     }
 
-
+// -----------------------------------------------------------------------------
+// CHgSingleLargeList::HandleScrollbarVisibilityChange()
+// -----------------------------------------------------------------------------
+//
+void CHgSingleLargeList::HandleScrollbarVisibilityChange( TBool aVisible )
+    {
+    TInt variety = aVisible ? 1 : 0;
+    iLayoutData->SetSecondIndicatorLayout(list_single_large_graphic_pane_g2(variety));
+    }
 
 // End of file

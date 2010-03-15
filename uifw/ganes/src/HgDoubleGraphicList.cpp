@@ -23,6 +23,7 @@
 #include "HgIndicatorManager.h"
 #include "HgDrawUtils.h"
 #include "HgConstants.h"
+#include "HgScrollbar.h"
 
 
 #include <AknsUtils.h>
@@ -101,7 +102,8 @@ void CHgDoubleGraphicList::HandleSizeChanged()
         iLayoutData->SetTitleLayout(i, list_double_large_graphic_pane_t1( i ));
     iLayoutData->SetTextLayout(list_double_large_graphic_pane_t2( 2 ));
     iLayoutData->SetFirstIndicatorLayout(list_double_large_graphic_pane_g3(0));
-    iLayoutData->SetSecondIndicatorLayout(list_double_large_graphic_pane_g2(1));
+    TInt variety = iScrollbar && !iScrollbar->IsStatic() ? 1 : 0;
+    iLayoutData->SetSecondIndicatorLayout(list_double_large_graphic_pane_g2(variety));
     
     // Get the Row rect.
     TAknLayoutRect layout;
@@ -230,3 +232,14 @@ void CHgDoubleGraphicList::InitOverlayIcon()
         }
     }
 
+// -----------------------------------------------------------------------------
+// CHgDoubleGraphicList::HandleScrollbarVisibilityChange()
+// -----------------------------------------------------------------------------
+//
+void CHgDoubleGraphicList::HandleScrollbarVisibilityChange( TBool aVisible )
+    {
+    TInt variety = aVisible ? 1 : 0;
+    iLayoutData->SetSecondIndicatorLayout(list_double_large_graphic_pane_g2(variety));
+    }
+
+// End of file

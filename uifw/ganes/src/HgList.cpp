@@ -399,11 +399,14 @@ TRect CHgList::ListRect() const
 //
 void CHgList::SelectDefaultItem()
     {
-    iSelectedIndex = iCurrentRow;
-    FitSelectionToView();
-    SelectionChanged();
-
-    DrawDeferred();
+    if( iCurrentRow >= 0 && iCurrentRow < iItems.Count() )
+        {
+        iSelectedIndex = iCurrentRow;
+        FitSelectionToView();
+        SelectionChanged();
+    
+        DrawDeferred();
+        }
     }
 
 TInt CHgList::CurrentIndex()

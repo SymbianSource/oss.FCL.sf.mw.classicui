@@ -795,6 +795,10 @@ void CAknStylusPopUpMenuContent::HandleResourceChange( TInt aType )
         {
         if ( Observer() ) 
             {
+            if ( iExtension ) 
+                {
+                iExtension->iInformObserver = EFalse;
+                } 
             // this will close the stylus popup menu
             TRAP_IGNORE( Observer()->HandleControlEventL( this,
                 MCoeControlObserver::EEventRequestExit ) );
@@ -804,6 +808,10 @@ void CAknStylusPopUpMenuContent::HandleResourceChange( TInt aType )
         {
         if ( Observer() ) 
             {
+            if ( iExtension ) 
+                {
+                iExtension->iInformObserver = EFalse;
+                } 
             // this will close the stylus popup menu
             TRAP_IGNORE( Observer()->HandleControlEventL( this,
                 MCoeControlObserver::EEventRequestCancel ) );
@@ -1020,7 +1028,7 @@ void CAknStylusPopUpMenuContent::DrawItem(
 
         if ( aItem < iLastVisibleItem )
             {
-            AknListUtils::DrawSeparator( aGc, rect, textColor );
+            AknListUtils::DrawSeparator( aGc, rect, textColor, skin );
             }
 		}
     }
@@ -1287,7 +1295,7 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
         iItems[i]->iRect = itemRect;
         }
 
-    if ( lastItem == iItems.Count() )
+    if ( lastItem == iItems.Count() || ( Rect().Height() % singleItemHeight ) == 0 )
         {
         // substract the partially visible item
         --lastItem;
@@ -1404,6 +1412,10 @@ void CAknStylusPopUpMenuContent::HandleLosingForeground()
     {
     if ( Observer() )
         {
+        if ( iExtension ) 
+            {
+            iExtension->iInformObserver = EFalse;
+            } 
         // this will close the stylus popup menu
         TRAP_IGNORE( Observer()->HandleControlEventL( this,
             MCoeControlObserver::EEventRequestExit ) );

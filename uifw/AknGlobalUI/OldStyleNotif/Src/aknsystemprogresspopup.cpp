@@ -38,7 +38,7 @@
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include "AknAppsKeyCleanup.inl"
 
 const TInt KCharsInTInt = 4; // TInt32 takes 4 chars.

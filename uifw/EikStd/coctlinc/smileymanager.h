@@ -66,7 +66,6 @@ public:
 //new functions    
     TBool ConvertTextForSmileyL( TInt aStart, TDes& aText, 
         TBool aStringToCodes = ETrue );
-    void SetVisibleRange( TInt aDocPos, TInt aLength );
     
     void DrawIconL( CBitmapContext& aGc, const TRect& aRect, 
         TInt aDocPos );

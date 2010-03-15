@@ -280,12 +280,11 @@ void CHgVgEGL::DestroyEGL()
 // CHgVgEGL::GetSurfaceToBitmap()
 // ---------------------------------------------------------------------------
 //     
-CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect) const
+CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape) const
     {
     // make sure every thing is in back buffer
     vgFinish();
 
-    VGuint dataStride = 4 * aRect.Width();
     
     CFbsBitmap* bitmap = new CFbsBitmap();        
     
@@ -293,23 +292,49 @@ CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect) const
         {
         // create temporary buffer for data
         RBuf8 buf;
-        buf.Create(aRect.Height() * dataStride);
+        buf.Create(aRect.Width() * aRect.Height() * 4);
         buf.Fill(0xFF);
 
-        // read data from vg (this is sloooww)
-        vgReadPixels((void*)buf.Ptr(), 
-                dataStride, VG_sARGB_8888, 0, 0, aRect.Width(), aRect.Height());                
+        // read data back from vg (this is sloooww)
+        VGint dataStride = 0;
+        if (aLandscape)
+            {
+            dataStride = 4 * aRect.Height();
+            vgReadPixels((void*)buf.Ptr(), 
+                    dataStride, VG_sARGB_8888, 0, 0, aRect.Height(), aRect.Width());
+            }
+        else
+            {
+            dataStride = 4 * aRect.Width();
+            vgReadPixels((void*)buf.Ptr(), 
+                    dataStride, VG_sARGB_8888, 0, 0, aRect.Width(), aRect.Height());            
+            }
 
         // because of bug in vg driver we need to swap memory using for loop, because
-        // negative datastrides case crash
+        // negative datastrides cause crash
         bitmap->Create(TSize(aRect.Width(), aRect.Height()), EColor16MA);
         bitmap->BeginDataAccess();
-        TUint8* ptrTrg = (TUint8*)bitmap->DataAddress();
-        TUint8* ptrSrc = (TUint8*)buf.Ptr();
-        for (TInt i = 0; i < aRect.Height(); i++)
+        if (!aLandscape)
             {
-            Mem::Copy(ptrTrg + dataStride * i, 
-                    ptrSrc + dataStride * (aRect.Height() - i - 1), dataStride);
+            TUint8* ptrTrg = (TUint8*)bitmap->DataAddress();
+            TUint8* ptrSrc = (TUint8*)buf.Ptr();
+            for (TInt i = 0; i < aRect.Height(); i++)
+                {
+                Mem::Copy(ptrTrg + dataStride * i, 
+                        ptrSrc + dataStride * (aRect.Height() - i - 1), dataStride);
+                }
+            }
+        else
+            {
+            TUint32* ptrTrg = (TUint32*)bitmap->DataAddress();
+            TUint32* ptrSrc = (TUint32*)buf.Ptr();
+            for (TInt i = 0; i < aRect.Height(); i++)
+                {
+                for (TInt j = 0; j < aRect.Width(); j++)
+                    {
+                    ptrTrg[(aRect.Height() - i - 1)*aRect.Width()+(aRect.Width()-j-1)] = ptrSrc[j*aRect.Height()+i];
+                    }
+                }
             }
         bitmap->EndDataAccess();
         buf.Close();

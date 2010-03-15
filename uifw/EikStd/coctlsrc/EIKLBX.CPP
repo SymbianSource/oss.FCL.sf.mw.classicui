@@ -944,6 +944,7 @@ void CListBoxExt::ItemActionMenuClosed()
         {
         EnableHighlight( EFalse );
         iListBox.iView->DrawItem( iLongTappedItem );
+        iListBox.iView->SetCurrentItemIndex( 0 );
         iLongTappedItem = KErrNotFound;
         }
     }
@@ -2098,7 +2099,19 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
         	|| iListBoxExt && iListBoxExt->iPhysics 
         	&& currentItemIndex == ( topItemIndex + numberOfItems - 1 ) )
             {
-            newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
+            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
+                {
+                // is single click is enabled, highlight must also be visible
+                if ( iListBoxExt->CollectionState()
+                        & MAknCollection::EStateHighlightVisible )
+                    {
+                    newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
+                    }
+                }
+            else
+                {
+                newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
+                }
             }
         else
             {
@@ -3162,7 +3175,8 @@ EXPORT_C void CEikListBox::HandleItemAdditionL(CArrayFix<TInt> &aArrayOfNewIndex
 EXPORT_C void CEikListBox::HandleItemAdditionL()
     {
     _AKNTRACE_FUNC_ENTER;
-     //fix the bug EGGO-7SQA4S and EVSG-7TD9WZ 
+    __ASSERT_DEBUG( iView, Panic( EEikPanicListBoxNoView ) );
+    //fix the bug EGGO-7SQA4S and EVSG-7TD9WZ     
     TInt curItemIndex = iView->CurrentItemIndex();
     if(curItemIndex >= 0 && curItemIndex < iModel->NumberOfItems() )
       {
@@ -5795,6 +5809,11 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
             	{
                 Window().Invalidate( TRect( View()->ItemPos(index), 
             		                 View()->ItemSize() ) );
+                if( iItemDrawer->Flags() & 
+                            CListItemDrawer::ESingleClickDisabledHighlight )
+                    {
+                    iView->SetCurrentItemIndex( 0 );
+                    }
             	}
             break;
             }
@@ -6340,7 +6359,7 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
 
     TBool blockEvent = EFalse;
     
-    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) && iSBFrame && !iListBoxExt->iScrollingDisabled );
+    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) && !iListBoxExt->iScrollingDisabled );
 
     
     switch ( aPointerEvent.iType )

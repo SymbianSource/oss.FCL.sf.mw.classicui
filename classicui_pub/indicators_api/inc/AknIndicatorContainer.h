@@ -290,6 +290,8 @@ private:
 	void SetIncallBubbleDisabled( TBool aDisabled );
 
 	void ResetAnimTicker( TBool bForeground );
+	
+	TInt CountShownIndicator() const;
 
 public:
 

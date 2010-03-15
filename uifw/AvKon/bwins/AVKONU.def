@@ -3452,7 +3452,7 @@ EXPORTS
 	?IsSingleClickCompatible@CAknAppUiBase@@QBEHXZ @ 3451 NONAME ; int CAknAppUiBase::IsSingleClickCompatible(void) const
 	?StartAnimationL@CAknBitmapAnimation@@QAEXH@Z @ 3452 NONAME ; void CAknBitmapAnimation::StartAnimationL(int)
 	?CloseSelectionListL@CAknPopupField@@QAEXXZ @ 3453 NONAME ; void CAknPopupField::CloseSelectionListL(void)
-	?DrawSeparator@AknListUtils@@SAXAAVCGraphicsContext@@ABVTRect@@ABVTRgb@@@Z @ 3454 NONAME ; void AknListUtils::DrawSeparator(class CGraphicsContext &, class TRect const &, class TRgb const &)
+	?DrawSeparator@AknListUtils@@SAXAAVCGraphicsContext@@ABVTRect@@ABVTRgb@@PAVMAknsSkinInstance@@@Z @ 3454 NONAME ; void AknListUtils::DrawSeparator(class CGraphicsContext &, class TRect const &, class TRgb const &, class MAknsSkinInstance *)
 	?SetSize@CAknSmileyManager@@QAEXABVTSize@@@Z @ 3455 NONAME ; void CAknSmileyManager::SetSize(class TSize const &)
 	?DrawText@CAknSmileyManager@@QBEXAAVCWindowGc@@ABVTDesC16@@PBVCFont@@ABVTPoint@@@Z @ 3456 NONAME ; void CAknSmileyManager::DrawText(class CWindowGc &, class TDesC16 const &, class CFont const *, class TPoint const &) const
 	?NewL@CAknSmileyManager@@SAPAV1@PAVMAknSmileyObserver@@@Z @ 3457 NONAME ; class CAknSmileyManager * CAknSmileyManager::NewL(class MAknSmileyObserver *)

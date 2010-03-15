@@ -69,8 +69,8 @@ void CAknDoubleSpanScrollIndicator::ConstructL(CEikScrollBar::TOrientation aOrie
 void CAknDoubleSpanScrollIndicator::Draw(const TRect& /*aRect*/) const
     {
     CWindowGc& gc = SystemGc();
+    if( iDrawBackground || iForceDrawBackground )
 
-    if(iDrawBackground)
         {
         DrawBackground();
         }
@@ -218,12 +218,29 @@ void CAknDoubleSpanScrollIndicator::CalculateRects()
         checkedFieldPosition, 
         checkedFieldSize);
     
+    TBool wasEmpty = iBackgroundRect.IsEmpty();
+    TBool isEmpty = EFalse;
+
     // If span (max number of items) is zero, then draw only the background
     if ( checkedScrollSpan == 0 || ( checkedScrollSpan <= checkedWindowSize ) )
         {
         iBackgroundRect = TRect( 0, 0, 0, 0 );
         iHandleBackgroundRect = TRect(0,0,0,0);
         iHandleRect = TRect(0,0,0,0);
+        iForceDrawBackground = ETrue; // to enable background drawing
+        isEmpty = ETrue;
+        }
+    else
+        {
+        iForceDrawBackground = EFalse;
+        }
+    if ( wasEmpty != isEmpty || iForceDrawBackground )
+        {
+        DrawDeferred();
+        }
+    
+    if ( isEmpty )
+        {
         return;
         }
 

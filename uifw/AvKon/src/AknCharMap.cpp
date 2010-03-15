@@ -3973,6 +3973,9 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
     {
     if (aType == KEikDynamicLayoutVariantSwitch)
         {
+    
+        SetSmileyAnimationActivityInCurrentPageL(EFalse);
+        
         TInt cursorIndexBeforeSwitch = (iFirstVisibleRow + iCursorPos.iY) * iMaxColumns + iCursorPos.iX;
         TInt recentLengthBeforeSwitch = iMaxColumns;
         TBool recentWasSetBeforeSwitch = iSetRecentSct;
@@ -3988,6 +3991,9 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
 
         // Sets the character case because the buffer content may have changed.
         SetCharacterCaseL(iSpecialCharCase);
+		
+        SetSmileyAnimationActivityInCurrentPageL(ETrue);
+		
         TInt cursorIndexAfterSwitch;
         if ( !iExtension->iKeyBrdEvent )
             {

@@ -64,6 +64,29 @@ const VGfloat KQuadVerts[] =
             };
 
 
+VGfloat EaseOutQuad(VGfloat start, VGfloat end, VGfloat t)
+{
+    VGfloat s = t - 1.0f;
+    VGfloat f = -(s*s*s*s) + 1.0f;    
+    return start * (1.0f - f) + end * f;
+}   
+
+VGfloat EaseInQuad(VGfloat start, VGfloat end, VGfloat t)
+{
+    VGfloat s = t;
+    VGfloat f = (s*s*s*s);    
+    return start * (1.0f - f) + end * f;
+}   
+
+
+VGfloat BoundValue(VGfloat value, VGfloat min, VGfloat max)
+{
+    if (value > max) return max;
+    if (value < min) return min;
+
+    return value;
+}
+
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -436,11 +459,18 @@ void CHgVgMediaWallRenderer::DrawQuads(TBool aDrawMirrored)
 //
 void CHgVgMediaWallRenderer::DrawQuad(CHgVgMediaWallRenderer::TQuad* q, TBool aDrawMirrored)
     {
-    vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
+    vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);    
     vgLoadIdentity();
     
-    //vgTranslate(iOffset.iX, iOffset.iY);
+    if (iLandscape)
+    {
+        vgTranslate(0.0f, 640.0f); 
+        vgRotate(-90.0f);
+    }
+         
+    vgTranslate(iOffset.iX, iOffset.iY);
 
+    
     VGImage image = q->iImage;
     if (q->iNoImage)
         {
@@ -478,7 +508,8 @@ void CHgVgMediaWallRenderer::Draw(RPointerArray<CHgVgItem>& aItems,
         CHgVgMediaWall::THgVgAnimationState aState, 
         CHgVgMediaWall::THgVgOpeningAnimationType aSelectionAnimationType, 
         CHgVgMediaWall::THgVgMediaWallStyle /*aStyle*/,
-        TReal aStartIndex)
+        TReal aStartIndex, 
+        TReal aSpringVelocity)
     { 
     
     TInt itemsOnScreen = 0;
@@ -486,7 +517,18 @@ void CHgVgMediaWallRenderer::Draw(RPointerArray<CHgVgItem>& aItems,
             aSelectedIndex, aNextIndex,
             aViewPosition,
             aAnimationAlpha,
-            aState, aSelectionAnimationType, aStartIndex);
+            aState, aSelectionAnimationType, aStartIndex, aSpringVelocity);
+    
+    vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
+    vgLoadIdentity();
+    vgRotate(-90.0f);
+    vgTranslate(0.0f, -640.0f);
+     
+    vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
+    vgLoadIdentity();
+    vgRotate(-90.0f);
+    vgTranslate(0.0f, -640.0f);
+
     
     TransformAndDraw(itemsOnScreen, aSelectionAnimationType);
     }
@@ -586,6 +628,12 @@ void CHgVgMediaWallRenderer::DrawGround(TInt aWidth, TInt aHeight)
     {
     vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
     vgLoadIdentity();
+    if (iLandscape)
+    {
+        vgTranslate(0.0f, 640.0f); 
+        vgRotate(-90.0f);
+    }
+
     //vgTranslate(iOffset.iX, iOffset.iY);
     vgScale(aWidth, aHeight);
     vgSetPaint(iGroundPaint, VG_FILL_PATH);            
@@ -753,12 +801,13 @@ void CHgVgMediaWallRenderer::SetupQuadsToRow(
 // ---------------------------------------------------------------------------
 //
 TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
-        TInt aSelectedIndex, TReal aNextIndex,
+        TInt aSelectedIndex, TReal /*aNextIndex*/,
         VGfloat aViewPosition,
         VGfloat aAnimationAlpha,
         CHgVgMediaWall::THgVgAnimationState aState, 
         CHgVgMediaWall::THgVgOpeningAnimationType aOpeningAnimationType, 
-        TReal aStartIndex)
+        TReal /*aStartIndex*/, 
+        TReal aSpringVelocity)
     {
     
     
@@ -796,6 +845,9 @@ TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
     TInt itemsOnScreen = 0;
     TInt currentRow = (TInt)aViewPosition - KSelectedItemIndex;
         
+    TReal zAlpha = Abs(aSpringVelocity / KSpringVelocityToZAlpha);
+    VGfloat zNear = HgVgHelper::Lerp(iZFar, iZNear, 1.0f - BoundValue(zAlpha, 0, 1));
+        
     while (itemsOnScreen < iQuads.Count())
         {
         TInt itemIndex = currentRow + i;
@@ -827,23 +879,24 @@ TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
         q->iX = leftX - step * (leftIndex - fi);
         
         
-        if (aStartIndex != aNextIndex)
+        /*if (aStartIndex != aNextIndex)
             {
             // if start and next index are not same, we can just interpolate
             // items at these indices.
             if (itemIndex == (TInt)aStartIndex ||
                     itemIndex == (TInt)aNextIndex)
                 {
-                q->iZ = HgVgHelper::Lerp((VGfloat)iZNear, (VGfloat)iZFar, Abs(q->iX / leftX));
+                q->iZ = EaseInQuad((VGfloat)zNear, (VGfloat)iZFar, BoundValue(Abs(q->iX / leftX), 0, 1));
                 q->iZ = Min(q->iZ, (VGfloat)iZFar);            
                 }
             }
-        else
+        else*/
             {
             // in this case we are just dragging and startindex and left index are
             // same so we need to interpolate z for all items coming/leaving center 
             // of the screen.
-            q->iZ = HgVgHelper::Lerp((VGfloat)iZNear, (VGfloat)iZFar, Abs(q->iX / leftX));
+            
+            q->iZ = EaseInQuad((VGfloat)zNear, (VGfloat)iZFar, BoundValue(Abs(q->iX / leftX), 0, 1));
             q->iZ = Min(q->iZ, (VGfloat)iZFar);                    
             }
         
@@ -1138,5 +1191,11 @@ void CHgVgMediaWallRenderer::EnableFlipXY(TBool aEnabled)
     {
     iFlipXY = aEnabled;
     }
+
+void CHgVgMediaWallRenderer::EnableLandscapeMode(TBool enabled)
+{
+    iLandscape = enabled;
+}
+
 
 // End of File

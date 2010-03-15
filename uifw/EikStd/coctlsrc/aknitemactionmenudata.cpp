@@ -20,6 +20,7 @@
 #include <eikpanic.h>
 
 #include "aknitemactionmenudata.h"
+#include "akntrace.h"
 
 // ---------------------------------------------------------------------------
 // CAknItemActionMenuData::NewL
@@ -27,7 +28,9 @@
 //
 CAknItemActionMenuData* CAknItemActionMenuData::NewL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknItemActionMenuData* self = new ( ELeave ) CAknItemActionMenuData();
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -38,7 +41,9 @@ CAknItemActionMenuData* CAknItemActionMenuData::NewL()
 //
 CAknItemActionMenuData::~CAknItemActionMenuData()
     {
+    _AKNTRACE_FUNC_ENTER;
     iMenuData.Close();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -49,11 +54,13 @@ CAknItemActionMenuData::~CAknItemActionMenuData()
 void CAknItemActionMenuData::AddMenuItemToDataArrayL(
         TInt aCommandId, TInt aCascadeId, const TDesC& aText )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknItemActionMenuData newData;
     newData.iCommandId = aCommandId;
     newData.iCascadeId = aCascadeId;
     newData.iText = aText;
     iMenuData.AppendL( newData );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -64,6 +71,7 @@ void CAknItemActionMenuData::AddMenuItemToDataArrayL(
 void CAknItemActionMenuData::AddMenuItemsToStylusPopupMenuL(
         CAknStylusPopUpMenu* aPopupMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( aPopupMenu )
         {
         for ( TInt i = 0; i < iMenuData.Count(); i++ )
@@ -71,6 +79,7 @@ void CAknItemActionMenuData::AddMenuItemsToStylusPopupMenuL(
             aPopupMenu->AddMenuItemL( iMenuData[ i ].iText, i + 1 );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -80,6 +89,7 @@ void CAknItemActionMenuData::AddMenuItemsToStylusPopupMenuL(
 //
 MDesCArray* CAknItemActionMenuData::MenuItemsForQueryDialogL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CDesCArrayFlat* itemArray( NULL );
     TInt itemCount( iMenuData.Count() );
     if ( itemCount )
@@ -93,6 +103,7 @@ MDesCArray* CAknItemActionMenuData::MenuItemsForQueryDialogL()
             }
         CleanupStack::Pop( itemArray );
         }
+    _AKNTRACE_FUNC_EXIT;
     return itemArray;
     }
 
@@ -103,10 +114,12 @@ MDesCArray* CAknItemActionMenuData::MenuItemsForQueryDialogL()
 //
 TInt CAknItemActionMenuData::MenuItemCascadeId( TInt aIndex )
     {
+    _AKNTRACE_FUNC_ENTER;
     aIndex--;
     __ASSERT_ALWAYS(
             ( aIndex >= 0 && aIndex < iMenuData.Count() ),
             Panic( EEikPanicOutOfRange ) );
+    _AKNTRACE_FUNC_EXIT;
     return iMenuData[ aIndex ].iCascadeId;
     }
 
@@ -117,10 +130,12 @@ TInt CAknItemActionMenuData::MenuItemCascadeId( TInt aIndex )
 //
 TDesC& CAknItemActionMenuData::MenuItemText( TInt aIndex )
     {
+    _AKNTRACE_FUNC_ENTER;
     aIndex--;
     __ASSERT_ALWAYS(
             ( aIndex >= 0 && aIndex < iMenuData.Count() ),
             Panic( EEikPanicOutOfRange ) );
+    _AKNTRACE_FUNC_EXIT;
     return iMenuData[ aIndex ].iText;
     }
 
@@ -131,10 +146,12 @@ TDesC& CAknItemActionMenuData::MenuItemText( TInt aIndex )
 //
 TInt CAknItemActionMenuData::MenuItemCommandId( TInt aIndex  )
     {
+    _AKNTRACE_FUNC_ENTER;
     aIndex--;
     __ASSERT_ALWAYS(
             ( aIndex >= 0 && aIndex < iMenuData.Count() ),
             Panic( EEikPanicOutOfRange ) );
+    _AKNTRACE_FUNC_EXIT;
     return iMenuData[ aIndex ].iCommandId;
     }
 
@@ -145,7 +162,9 @@ TInt CAknItemActionMenuData::MenuItemCommandId( TInt aIndex  )
 //
 void CAknItemActionMenuData::Reset()
     {
+    _AKNTRACE_FUNC_ENTER;
     iMenuData.Reset();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -155,6 +174,8 @@ void CAknItemActionMenuData::Reset()
 //
 TInt CAknItemActionMenuData::Count() const
     {
+    _AKNTRACE_FUNC_ENTER;;
+    _AKNTRACE_FUNC_EXIT;
     return iMenuData.Count();
     }
 

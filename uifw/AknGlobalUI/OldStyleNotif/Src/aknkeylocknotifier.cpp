@@ -33,7 +33,7 @@
 #include <aknnotecontrol.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <avkondomainpskeys.h> // KPSUidAvkonDomain, KAknKeyguardStatus, TAknKeyguardStatus
 #include <startupdomainpskeys.h> // KStartupSecurityCodeQueryStatus
 #include <coreapplicationuisdomainpskeys.h> // KCoreAppUIsAutolockStatus
@@ -1383,8 +1383,6 @@ void CAknKeyLockControl::DisplayLockedNote()
     {
     if ( !iAutolockEnabled )
         {
-        iKeypadLockedNote->ShowNote( KKeyLockCustomShortTimeout,
-                                     CAknNoteDialog::ENoTone );
         }
     }
 
@@ -1397,8 +1395,6 @@ void CAknKeyLockControl::DisplayKeyActiveNote()
     {
     if ( !iAutolockEnabled )
         {
-        iKeypadUnlockedNote->ShowNote( KKeyLockCustomShortTimeout,
-                                       CAknNoteDialog::ENoTone );
         }
     }
 
@@ -1849,9 +1845,6 @@ void CAknKeyLockControl::DoShowLockedNote()
     {
     if ( !iAutolockEnabled )
         {
-        iLockedNote->ShowNote( KKeyLockDisplayLockedTimeout,
-                               CAknNoteDialog::ENoTone );
-        iLockedNoteDisplayed = ETrue;
         }
     }
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -2007,7 +2007,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
     
     if ( iExtension->iCurrentRow < list->BottomItemIndex() )
         {
-        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText );
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
         }
     DrawHighLight( aGc, aRect, aHighlight, skin );
     
@@ -2473,7 +2473,7 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
 
     if ( iExtension->iCurrentRow < list->BottomItemIndex() )
         {
-        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText );
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
         }
     
  // LISTBOX LINES NEED TO BE DRAWN HERE.

@@ -62,7 +62,7 @@ public: // Methods
     
     EGLConfig CurrentConfig() const;
     
-    CFbsBitmap* GetSurfaceToBitmap(const TRect& aRect) const;
+    CFbsBitmap* GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape = EFalse) const;
     
 protected: // Constructors
 

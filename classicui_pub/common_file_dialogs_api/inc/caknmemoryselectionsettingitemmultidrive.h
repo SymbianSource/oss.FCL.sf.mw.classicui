@@ -88,6 +88,16 @@ public:
      */
     void UpdateSettingItemContentL();
     
+    /**
+     * Set which medias are included in the dialog.
+     * NOTE: DO NOT call this function when settingitem is being edited.
+     *
+     * @param aIncludedMedias bit flag definition of which medias are
+     *        included in the dialog. See AknCommonDialogsDynMem::TMemoryTypes.
+     *        Value -1 indicates the default dialog value will be used.
+     */
+    IMPORT_C void SetIncludedMediasL( TInt aIncludedMedias );
+    
 protected: // Data
 
     // Ref: External data

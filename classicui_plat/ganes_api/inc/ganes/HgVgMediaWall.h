@@ -666,8 +666,16 @@ private:
      */
     void InitPopupL(TInt aLayoutVariant);
     
+    /**
+     * 
+     */
     static TInt DelayedInit( TAny* aSelf);
     
+    /**
+     * 
+     */
+    void FillSystemGcWithSkin( ) const;
+
 protected:
     CHgScrollBufferManager* iManager; // Own
     
@@ -780,6 +788,15 @@ protected:
     
     CFbsBitmap* iSurfaceBitmap;
     CPeriodic* iDelayedInit;
+
+    
+    TBool iFirstTime;
+
+    TReal iSpringDragVel;
+    TReal iSpringVelAtDragStart;
+    TInt iDragFrames;
+    TBool iObserverNotified;
+
     };
 
        

@@ -28,7 +28,7 @@
 
 class CEikButtonGroupContainer;
 class CEikMenuBar;
-
+class CAknCcpuSupportExtension;
 
 /**
  * Interface for cut, copy, paste and undo functionality.
@@ -218,15 +218,11 @@ private:
     IMPORT_C void* ExtensionInterface( TUid aInterface );
 private:
     TBitFlags iFlags;
-    TBool isCbaEmded;
     // Owned
-    CEikButtonGroupContainer* iCba;
-    
-
+    CAknCcpuSupportExtension* iExtention;//put isCbaEmded,iCba,iDialogCba in extension
 	// Not owned
 	CEikMenuBar* iMenu;
 	MEikCcpuEditor* iEditor;
-	CEikButtonGroupContainer* iDialogCba;
 	};
 
 #endif // EIKCCPU_H

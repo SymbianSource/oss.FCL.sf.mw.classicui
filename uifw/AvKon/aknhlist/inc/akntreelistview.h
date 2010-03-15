@@ -448,12 +448,9 @@ TInt& HighlightIndex();
 TInt& TopIndex();
 TInt& BottomIndex();
 
-void UpdateIndexes();
-
 TInt iItemCountLimit;
 TInt iHighlightIndex;
 TInt iTopIndex;
-TInt iBottomIndex;
 
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
@@ -866,6 +863,12 @@ private:
      */
     void UpdateViewItemAsVisible( CAknTreeItem* aItem );
 
+    /**
+     * Updates indexes 
+     */
+	void UpdateIndexes();
+	
+	
 // from base class CCoeControl
 
     /**
@@ -1083,6 +1086,11 @@ private: // data
     * Long tap detector
     */
     CAknLongTapDetector* iLongTapDetector;
+
+   /**
+    * Last visible item index
+	*/
+	TInt iBottomIndex;
     };
 
 

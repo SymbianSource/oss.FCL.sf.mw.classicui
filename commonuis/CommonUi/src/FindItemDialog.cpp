@@ -1968,6 +1968,18 @@ void CFindItemDialog::SizeChanged()
 
     iTappingOffset = iEdwin->Rect().iTl - Rect().iTl;
 
+    CFindItemEngine::SFoundItem item;
+    TBool anyFound = iController->Item( item );
+    if( anyFound )
+    	{
+        TInt pos = 0;
+        TInt length = iEdwin->TextLayout()->PosRangeInBand( pos );
+        if( item.iStartPos >= pos + length )
+            {
+            TRAP_IGNORE( iEdwin->MoveDisplayL( TCursorPosition::EFPageDown ) );
+            }
+    	}
+
     TRAP_IGNORE( UpdateScrollIndicatorL() );
     }
 

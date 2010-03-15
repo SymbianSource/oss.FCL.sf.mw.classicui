@@ -707,7 +707,7 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
     while(ptr.Length())
         {
         TInt i = 0;
-        for(; i<aText.Length(); i++) // find next smiley code
+        for(; i<ptr.Length(); i++) // find next smiley code
             {
             if(IsSmiley(ptr[i]))
                 {

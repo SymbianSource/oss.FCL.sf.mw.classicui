@@ -187,6 +187,11 @@ void CHgVgPopup::Draw(const TRect& aWindowRect, TReal aAlpha)
     // draw background     
     vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
     vgLoadIdentity();
+    if (iLandscape)
+    {
+        vgTranslate(0.0f, 640.0f); 
+        vgRotate(-90.0f);        
+    }
     
     vgTranslate(iRect.iTl.iX, (aWindowRect.Height() - iRect.iBr.iY));
 
@@ -203,7 +208,7 @@ void CHgVgPopup::Draw(const TRect& aWindowRect, TReal aAlpha)
     // draw letter
     color.SetAlpha(aAlpha * 255.0f);
     HgVgHelper::DrawImageColorized(iLetterImage, 
-            color, iRect.iTl, aWindowRect, EFalse);
+            color, iRect.iTl, aWindowRect, EFalse, iLandscape);
     }
 
 void CHgVgPopup::SetLayouts(const TAknWindowComponentLayout& aPopupLayout, 
@@ -215,6 +220,11 @@ void CHgVgPopup::SetLayouts(const TAknWindowComponentLayout& aPopupLayout,
     iTextLayout.Sett(0);
     iParentRect = aParentRect;
     }
+
+void CHgVgPopup::EnableLanscapeRendering(TBool enabled)
+{
+    iLandscape = enabled;
+}
 
 
 // End of File

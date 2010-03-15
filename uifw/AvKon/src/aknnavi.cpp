@@ -1579,11 +1579,17 @@ EXPORT_C void CAknNavigationControlContainer::HandleControlEventL(
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CAknNavigationControlContainer::Draw(
-    const TRect& /*aRect*/ ) const
+    const TRect& aRect ) const
     {
     if ( iExtension->iStatusPane && 
          iExtension->iStatusPane->IsTransparent() )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
 
@@ -1866,7 +1872,7 @@ EXPORT_C TInt CAknNavigationControlContainer::ColorScheme()
 //
 void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
     {
-    if ( iExtension && iExtension->iDestructionOngoing )
+    if ( !iExtension || iExtension->iDestructionOngoing )
         {
         return;
         }

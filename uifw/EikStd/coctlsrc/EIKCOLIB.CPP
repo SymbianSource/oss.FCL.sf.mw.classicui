@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-1999 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -523,15 +523,9 @@ TRect CEikAppUiFactory::ClientRect()
     CCoeEnv* env = CCoeEnv::Static();
     TRect rect = LafAppUi::ClientRect( *env, *this );
 
-#ifdef RD_SCALABLE_UI_V2
-    if ( TouchPane() )
-        {
-        TouchPane()->ReduceRect( rect );
-        }
-
     CAknToolbar* toolbar = CurrentFixedToolbar();
 
-    // reduce fixed toolbar's area
+    // Reduce fixed toolbar's area.
     if ( toolbar )
         {
         TInt flags = toolbar->ToolbarFlags();
@@ -542,34 +536,36 @@ TRect CEikAppUiFactory::ClientRect()
             }
         }
 
-	  // recaculate the client rect is splitinput is enabled.
+    // Recalculate the client rect is split input is enabled.
     if ( iExtension && iExtension->iSplitInput )
         {
         TInt inputTop = rect.iBr.iY;
         TAknLayoutRect splitwnd;
-		TRect screenRect ;
-		AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
+        TRect screenRect ;
+        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
 
         if ( Layout_Meta_Data::IsLandscapeOrientation() )
             {
-            splitwnd.LayoutRect( screenRect, AknLayoutScalable_Avkon::popup_fep_vkbss_window (0).LayoutLine() );
-            TRect wndRc = splitwnd.Rect();
-            inputTop = wndRc.iTl.iY;
+            splitwnd.LayoutRect(
+                screenRect,
+                AknLayoutScalable_Avkon::popup_fep_vkbss_window( 0 ).LayoutLine() );
             }
         else
             {
-            splitwnd.LayoutRect( screenRect, AknLayoutScalable_Avkon::popup_fep_ituss_window(0).LayoutLine() );
-            TRect wndRc = splitwnd.Rect();
-            inputTop = wndRc.iTl.iY;
+            splitwnd.LayoutRect(
+                screenRect,
+                AknLayoutScalable_Avkon::popup_fep_ituss_window( 0 ).LayoutLine() );
             }
+        
+        TRect wndRc( splitwnd.Rect() );
+        inputTop = wndRc.iTl.iY;
         rect.iBr.iY = rect.iBr.iY > inputTop ? inputTop : rect.iBr.iY;
         rect.iTl.iY = 0;
         }
 
-#endif // RD_SCALABLE_UI_V2	
-
     return rect;
     }
+
 
 void CEikAppUiFactory::ReadAppInfoResourceL(TInt aResourceFileOffset, CEikAppUi* aAppUi)
     {

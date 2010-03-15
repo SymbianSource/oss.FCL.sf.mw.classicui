@@ -389,11 +389,8 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                     {
                     iItemToBeSelected = item;             
                     iTreeListView->SetFocusedItem( item, ii, EFalse );
-                    // Start long tap detector 
-                    if ( !iTreeListView->HasMarkedItemsL() )
-                        {
-                        iTreeListView->LongTapPointerEventL( aPointerEvent );
-                        }
+                    // Start long tap detector
+                    iTreeListView->LongTapPointerEventL( aPointerEvent );
                     }
                 if ( ii != iTreeListView->FocusedItemIndex() )
                     {

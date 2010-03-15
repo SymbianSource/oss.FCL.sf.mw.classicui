@@ -64,7 +64,11 @@ public: // Methods
      */
     void Draw() const;
     
-    
+
+    /**
+     * 
+     */
+    void EnableLanscapeRendering(TBool aLandscape);
 protected: // Constructors
     CHgVgSkinRenderer(const TRect& aRect);
 
@@ -77,6 +81,8 @@ private: // Data
     VGImage iSkinImage;
 
     TRect iRect;
+    
+    TBool iLandscape;
     };
 
 #endif /* HGVGSKINRENDERER */

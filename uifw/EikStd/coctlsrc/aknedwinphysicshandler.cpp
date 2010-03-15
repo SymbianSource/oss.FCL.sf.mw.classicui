@@ -87,7 +87,6 @@ void CAknEdwinPhysicsHandler::HandlePointerEvent(
         // Pointer down inside view rect, set flag to allow dragging 
         // and initialize values
         iFlags.Set( EFlagDraggingAllowed );
-        iPrevPosition = aPointerEvent.iPosition;
         iStartPosition = aPointerEvent.iPosition;
         StopPhysics();
 
@@ -112,15 +111,15 @@ void CAknEdwinPhysicsHandler::HandlePointerEvent(
                 iDragThresholdExceeded = ETrue;
                 }
             }
-
-        if ( iDragThresholdExceeded )
+        else
             {
             TInt deltaY( iPrevPosition.iY - aPointerEvent.iPosition.iY );
-            iPrevPosition = aPointerEvent.iPosition;
 
             TPoint deltaPoint( 0, deltaY );
             iPhysics->RegisterPanningPosition( deltaPoint );
             }
+
+        iPrevPosition = aPointerEvent.iPosition;
         }
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
@@ -242,8 +241,12 @@ void CAknEdwinPhysicsHandler::ViewPositionChanged( const TPoint& aNewPosition,
         {
         BlockEvents( ETrue );
         }
-    // Scroll view based on values from aknphysics
+    
+    // Disable background drawing while panning or flicking. Instead,
+    // background is drawn in one frame.
+    iEdwin.DrawViewBackground( ETrue );
     ScrollView( ETrue );
+    iEdwin.DrawViewBackground( EFalse );
     }
 
 // ---------------------------------------------------------------------------

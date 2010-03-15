@@ -69,8 +69,6 @@ const TInt KDefaultUnblankTimeout = 100000; // 0.1 s
 /** This flag is used to turn redraw storing on/off in status pane. */
 const TInt KEnableRedrawStoring = ETrue;
 
-const TUid KActiveIdle2Uid = {0x102750F0};
-
 inline void CEikStatusPaneBase::TPaneCapabilities::SetPresent()
     {
     iFlags |= KStatusPaneCapsPresentBit;
@@ -1178,26 +1176,21 @@ public:
      * @param  aRedrawStoreHandler  Pointer to the redraw store handler should
      *                              be also passed if @c aParentWindowGroup
      *                              is specified.
+     * @param  aTransparent         Whether or not the control is transparent.
      */
     void SetParentWindowL( RWindowGroup* aParentWindowGroup,
                            CCoeControl* aParentControl,
-                           CRedrawStoreHandler* aRedrawStoreHandler );
+                           CRedrawStoreHandler* aRedrawStoreHandler,
+                           TBool aTransparent );
     
     /**
-     * Sets the background drawer for the container control.
+     * Sets the container control transparency.
+     * The background drawer is used if transparency is not enabled.
      * 
      * @param  aBackground  The background drawer.
      */
-    void SetBackgroundDrawer( MCoeControlBackground* aBackground );
-    
-    /**
-     * Checks if the status pane container is in the idle (Home Screen)
-     * application. This check in required in some places since Home
-     * Screen draws the status pane background itself.
-     * 
-     * @return @c ETrue if in idle application, @c EFalse otherwise.
-     */
-    TBool InIdleApplication();
+    void SetTransparency( TBool aTransparent,
+                          MCoeControlBackground* aBackground );
 
 public: // From base class @c CCoeControl.
 
@@ -1394,18 +1387,6 @@ void CEikStatusPaneContainer::ConstructL(
     SetMopParent( iEikonEnv->EikAppUi() );
 
     CreateWindowL( aParent );
-    
-    // This is added for homescreen transparency support.
-    if ( InIdleApplication()  )
-        {
-        if( KErrNone == Window().SetTransparencyAlphaChannel())
-            Window().SetBackgroundColor(~0);
-        }
-    else
-        {
-        Window().SetBackgroundColor(
-        iEikonEnv->ControlColor( EColorStatusPaneBackground, *this ) );
-        }
 
     // This helps for unsyncronized undimming problems.
     aRedrawStoreHandler.SetStore( &Window(), KEnableRedrawStoring );
@@ -2622,7 +2603,8 @@ void CEikStatusPaneContainer::HandleResourceChange( TInt aType )
 void CEikStatusPaneContainer::SetParentWindowL(
     RWindowGroup* aParentWindowGroup,
     CCoeControl* aParentControl,
-    CRedrawStoreHandler* aRedrawStoreHandler )
+    CRedrawStoreHandler* aRedrawStoreHandler,
+    TBool aTransparent )
     {
     if ( aParentWindowGroup )
         {
@@ -2638,22 +2620,22 @@ void CEikStatusPaneContainer::SetParentWindowL(
 
         CreateWindowL( aParentWindowGroup );
 
-        // Enable the transparency only in HomeScreen where it's needed
-        // for performance reasons.
-        if ( InIdleApplication() )
-            {
-            EnableWindowTransparency();
-            }
-        else
-            {
-            Window().SetBackgroundColor(
-                iEikonEnv->ControlColor( EColorStatusPaneBackground, *this ) );
-            }
-
         RWindow& window = Window();
         if ( aRedrawStoreHandler )
             {
             aRedrawStoreHandler->SetStore( &window, KEnableRedrawStoring );
+            }
+        
+        // Enable the transparency only in HomeScreen where it's needed
+        // for performance reasons.
+        if ( aTransparent && window.SetTransparencyAlphaChannel() == KErrNone )
+            {
+            window.SetBackgroundColor( ~0 );
+            }
+        else
+            {
+            window.SetBackgroundColor(
+                iEikonEnv->ControlColor( EColorStatusPaneBackground, *this ) );
             }
         
         window.SetPointerGrab( ETrue );
@@ -2673,38 +2655,32 @@ void CEikStatusPaneContainer::SetParentWindowL(
 
 
 // ---------------------------------------------------------------------------
-// Sets the background drawer for the container control.
+// Sets the container control transparency.
 // ---------------------------------------------------------------------------
 //
-void CEikStatusPaneContainer::SetBackgroundDrawer(
+void CEikStatusPaneContainer::SetTransparency(
+    TBool aTransparent,
     MCoeControlBackground* aBackground )
     {
-    if ( aBackground && InIdleApplication() )
+    RWindow& window = Window();
+
+    if ( aTransparent )
         {
-        // In Home Screen the application draws also the status
-        // pane background.
-        aBackground = NULL;
+        if ( window.SetTransparencyAlphaChannel() == KErrNone )
+            {
+            window.SetBackgroundColor( ~0 );
+            }
+        }
+    else
+        {
+        window.SetBackgroundColor(
+            iEikonEnv->ControlColor( EColorStatusPaneBackground, *this ) );
         }
     
-    SetBackground( aBackground );
-    }
-
-
-// ---------------------------------------------------------------------------
-// Checks if the status pane container is in the Home Screen application.
-// ---------------------------------------------------------------------------
-//
-TBool CEikStatusPaneContainer::InIdleApplication()
-    {
-    TBool retVal( EFalse );
-
-    CEikApplication* app = iEikonEnv->EikAppUi()->Application();
-    if ( app && app->AppDllUid() == KActiveIdle2Uid  )
-        {
-        retVal = ETrue;
-        }
-
-    return retVal;
+    // Skin background is not drawn for the subpane if it's transparent
+    // OR if it's a child of another subpane.
+    TBool drawBackground( Parent() ? NULL : !aTransparent );
+    SetBackground( drawBackground ? aBackground : NULL );
     }
 
 
@@ -2923,9 +2899,9 @@ public:
                                            AknsDrawUtils::ControlContext( &aControl ),
                                            &aControl,
                                            aGc,
-                                           TPoint( 0, 0 ),
+                                           aRect.iTl,
                                            aRect,
-                                           KAknsDrawParamDefault );
+                                           KAknsDrawParamNoClearUnderImage );
             }
         }
 		
@@ -3404,7 +3380,7 @@ void CEikStatusPaneBase::CreatePaneL( const TEikStatusPaneInit& aPaneInit )
         iExtension->iDataSubscriber,
         *iExtension->iRedrawStoreHandler );
 
-    cont->SetBackgroundDrawer( iExtension );
+    cont->SetBackground( iExtension );
 
     CleanupStack::PushL( cont );
     iControls->AppendL( cont );
@@ -3803,7 +3779,9 @@ void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
     if ( combinedPane )
         {
         CCoeControl* combinedPaneControl = combinedPane->Control();
-
+        
+        TBool transparencyEnabled( IsTransparent() );
+        
         // The subpane container controls inside combined pane are it's
         // component controls.
         TInt count( combinedPaneControl->CountComponentControls() );
@@ -3819,18 +3797,22 @@ void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
                     {
                     subPane->SetParentWindowL( NULL,
                                                combinedPaneControl,
-                                               NULL );
+                                               NULL,
+                                               transparencyEnabled );
                     // Background is drawn by the combined pane so remove
                     // the subpane's own background drawer. 
-                    subPane->SetBackgroundDrawer( NULL );
+                    subPane->SetBackground( NULL );
                     }
                 else
                     {
                     subPane->SetParentWindowL(
                         iParentWindowGroup,
                         NULL,
-                        iExtension ? iExtension->iRedrawStoreHandler : NULL );
-                    subPane->SetBackgroundDrawer( iExtension );
+                        iExtension ? iExtension->iRedrawStoreHandler : NULL,
+                        transparencyEnabled );
+
+                    subPane->SetBackground( transparencyEnabled ? NULL :
+                                                                  iExtension );
                     }
                 }
             }
@@ -3932,13 +3914,19 @@ EXPORT_C void CEikStatusPaneBase::SetFlags( TInt aFlags )
 	EnableTransparent( aFlags & KStatusPaneTransparentBit );
 	}
 
+// ---------------------------------------------------------------------------
+// CEikStatusPaneBase::EnableTransparent
+// Enables transparency in the status pane.
+// ---------------------------------------------------------------------------
+//
 EXPORT_C void CEikStatusPaneBase::EnableTransparent( TBool aTransparent )
     {
     if ( COMPARE_BOOLS( aTransparent, IsTransparent() ) )
-            {
-            return;
-            }
-    if( aTransparent )
+        {
+        return;
+        }
+
+    if ( aTransparent )
         {
         iFlags |= KStatusPaneTransparentBit;
         }
@@ -3946,14 +3934,30 @@ EXPORT_C void CEikStatusPaneBase::EnableTransparent( TBool aTransparent )
         {
         iFlags &= ~KStatusPaneTransparentBit;
         }
-    DoDrawNow( EDrawDeferred );
+
+    // Change the subpane window background colour and background drawer
+    // based on the transparency.
+    const TInt count = iControls->Count();
+    for ( TInt ii = 0; ii < count; ++ii )
+        {
+        iControls->At( ii )->SetTransparency( aTransparent, iExtension );
+        }
     
+    DoDrawNow( EDrawDeferred );
     }
 
+
+// ---------------------------------------------------------------------------
+// CEikStatusPaneBase::IsTransparent
+// Checks if the status pane has transparency enabled.
+// ---------------------------------------------------------------------------
+//
 EXPORT_C TBool CEikStatusPaneBase::IsTransparent() const
     {
     return iFlags & KStatusPaneTransparentBit;
     }
+
+
 // ---------------------------------------------------------------------------
 // CEikStatusPaneBase::Flags
 // Returns the status pane flags.

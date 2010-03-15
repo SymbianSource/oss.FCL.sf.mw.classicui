@@ -94,6 +94,11 @@ public: // METHODS
      */
     void Draw(const TRect& aWindowRect, TReal aAlpha=1);
     
+    /**
+     * 
+     */
+    void EnableLandscapeRendering(TBool aEnabled);
+    
 private: 
 
     TSize iSize;
@@ -101,6 +106,7 @@ private:
     VGImage iImage;
     TBool iEnabled;
     TBool iPointerDown;
+    TBool iLandscape;
     
     };
 

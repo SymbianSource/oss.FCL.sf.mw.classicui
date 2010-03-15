@@ -124,21 +124,12 @@ CAknAdaptiveSearchGrid::~CAknAdaptiveSearchGrid()
     { 
     _AKNTRACE_FUNC_ENTER;
     CEikonEnv::Static()->EikAppUi()->RemoveFromStack( this );
-    delete iBgContextOfFindPane;
     delete iBgContextOfControlPane;
-    delete iSkinContextOfFindPane; 
-    delete iInputFrame;
  
     // Clear current region of AS
     iCurrentRegion.Clear();    
     iButtonArray.ResetAndDestroy();
     
-    if ( iEditor )
-        {
-        TRAP_IGNORE(iEditor->TextView()->SetCursorVisibilityL( 
-            TCursor::EFCursorInvisible, TCursor::EFCursorInvisible ));
-        delete iEditor;
-        }   
     if( iGridChars )
         {
         delete iGridChars;
@@ -197,20 +188,12 @@ void CAknAdaptiveSearchGrid::ConstructL( TInt aFieldStyle )
             Window().SetBackgroundColor(~0);
             }
         }        
+    Window().SetPointerGrab( ETrue );
 
     CAknWsEventMonitor* eventMonitor = iAppUi->EventMonitor();    
     eventMonitor->AddObserverL( this );
     eventMonitor->Enable();
     
-    iSkinContextOfFindPane = CAknsListBoxBackgroundControlContext::NewL( KAknsIIDQsnBgAreaControlPopup, 
-                                                                         TRect(0,0,0,0), 
-                                                                         EFalse, 
-                                                                         KAknsIIDNone, 
-                                                                         TRect(0,0,0,0) );   
-    iBgContextOfFindPane = CAknsFrameBackgroundControlContext::NewL( KAknsIIDQsnFrInput, 
-                                                                     TRect(0,0,0,0), 
-                                                                     TRect(0,0,0,0), 
-                                                                     EFalse );    
     iBgContextOfControlPane = CAknsBasicBackgroundControlContext::NewL( KAknsIIDQgnGrafAdaptSearchPageBg, 
                                                                         TRect(0,0,0,0), EFalse );          
     // Init components
@@ -277,59 +260,6 @@ void CAknAdaptiveSearchGrid::InitControlsL( TInt aFieldStyle )
             flags |= CAknInputFrame::EFixedFindWithoutLine;
             break;
         }
-    iEditor = new (ELeave) CEikEdwin;   
-    
-    iInputFrame = CAknInputFrame::NewL( iEditor, 
-                                        EFalse, 
-                                        KAvkonBitmapFile, 
-                                        EMbmAvkonQgn_indi_find_glass, 
-                                        EMbmAvkonQgn_indi_find_glass_mask, 
-                                        flags );                     
-
-    iEditor->SetContainerWindowL( *this );
-    iInputFrame->SetContainerWindowL( *this );
-    
-    AknEditUtils::ConstructEditingL( iEditor,
-                                     iTextLimit,
-                                     1,
-                                     EAknEditorCharactersLowerCase,
-                                     EAknEditorAlignLeft,
-                                     EFalse,
-                                     ETrue,
-                                     EFalse );
-    iEditor->SetObserver( this );
-    iEditor->SetBorder( TGulBorder::ENone );
-    iEditor->SetAknEditorInputMode( EAknEditorTextInputMode );
-    iEditor->SetAknEditorAllowedInputModes( EAknEditorTextInputMode |
-                                            EAknEditorNumericInputMode ); 
-    iEditor->AddFlagToUserFlags( CEikEdwin::EAvkonDisableVKB );
-    
-    if ( FeatureManager::FeatureSupported( KFeatureIdJapanese ) )
-        {
-        iEditor->SetAknEditorPermittedCaseModes( EAknEditorCharactersLowerCase );
-        }
-
-    TInt editorFlags = EAknEditorFlagNoT9 | 
-                       EAknEditorFlagNoLRNavigation |
-                       EAknEditorFlagForceTransparentFepModes |
-                       EAknEditorFlagNoEditIndicators |
-                       EAknEditorFlagFindPane;
-
-    iEditor->SetAknEditorFlags( editorFlags );
-    iEditor->CreateTextViewL(); 
-
-    iInputFrame->SetInputContext( iBgContextOfFindPane );
-    iEditor->SetSkinBackgroundControlContextL( iBgContextOfFindPane );
-  
-    TRgb textColor = KRgbBlack;
-    TInt error = AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), 
-                                            textColor, 
-                                            KAknsIIDQsnTextColors, 
-                                            EAknsCIQsnTextColorsCG19);
-    if( !error )
-        {
-        TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL(*iEditor, EColorLabelText, textColor) );       
-        }   
     
     // Create label for page indicator
     iPageIndicator = new (ELeave) CEikLabel;
@@ -652,58 +582,16 @@ void CAknAdaptiveSearchGrid::SizeChanged()
     }
 
 // -----------------------------------------------------------------------------
-// CAknAdaptiveSearchGrid::MopSupplyObject
-// Retrieves an object of the same type as that encapsulated in aId.
-// -----------------------------------------------------------------------------
-//    
-TTypeUid::Ptr CAknAdaptiveSearchGrid::MopSupplyObject( TTypeUid aId )
-    {
-    if ( aId.iUid == MAknsControlContext::ETypeId && iSkinContextOfFindPane )
-        {
-        return MAknsControlContext::SupplyMopObject( aId, iSkinContextOfFindPane );
-        }
-    return MAknsControlContext::SupplyMopObject( aId, NULL );
-    }
-
-// -----------------------------------------------------------------------------
 // CAknAdaptiveSearchGrid::CountComponentControls
 // Gets the number of controls contained in a compound control.
 // -----------------------------------------------------------------------------
 //   
 TInt CAknAdaptiveSearchGrid::CountComponentControls() const
     {
-    // buttons + controls + search field ( editor, input frame )    
-    return iButtonArray.Count()+5+2; 
+    // buttons + controls    
+    return iButtonArray.Count()+5;
     } 
 
-// -----------------------------------------------------------------------------
-// Sets text into search field.
-// Gets one parameters:
-// const TDesC& aSearchTxt      - Reference to the text buffer.
-// -----------------------------------------------------------------------------      
-//                   
-void CAknAdaptiveSearchGrid::SetSearchTextToFindPane( const TDesC& aSearchTxt )
-    { 
-    _AKNDEBUG(
-               _LIT( KClassName, "CAknAdaptiveSearchGrid" );
-               _LIT( KFunctionName, "SetSearchTextToFindPane" );
-               _LIT( KFormat, "[%S][%S] search text is: %S");
-               _AKNTRACE( KFormat, 
-               &KClassName, &KFunctionName, &aSearchTxt );
-               );
-
-    TRAP_IGNORE( iEditor->SetTextL( &aSearchTxt ) );
-    if ( iShown )
-        {
-        TRAP_IGNORE(iEditor->TextView()->SetCursorVisibilityL( TCursor::EFCursorFlashing,
-                                                           TCursor::EFCursorFlashing ));
-        }
-    TInt curPos = iEditor->TextLength(); 
-    //This set selection all off
-    TRAP_IGNORE( iEditor->SetSelectionL( curPos, curPos ) ); 
-    iEditor->DrawNow();
-    } 
-    
 // -----------------------------------------------------------------------------
 // CAknAdaptiveSearchGrid::ComponentControlh
 // Gets the specified component of a compound control.
@@ -729,10 +617,6 @@ CCoeControl* CAknAdaptiveSearchGrid::ComponentControl( TInt aIndex ) const
                 return iDeleteButton;
             case 4:
                 return iPageIndicator;
-            case 5:
-                return iInputFrame; 
-            case 6:
-                return iEditor;                             
             default:
                 return NULL;
             }
@@ -753,16 +637,6 @@ void CAknAdaptiveSearchGrid::SetVisibilityL( TBool aVisible, TBool aSelectAll )
         SetFocus( ETrue);  
         iCurrentPage = 1;
         ShowL();
-        if ( iEditor )
-            {
-            iEditor->SetFocus( ETrue );
-            TInt curPos = iEditor->TextLength(); 
-            iEditor->SetCursorPosL( curPos, EFalse );
-            if ( aSelectAll) 
-                {
-                iEditor->SelectAllL();
-                }
-            }    
         }
     else
         {
@@ -849,20 +723,6 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
     TRect cell_pane; 
     
     TRect grid_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::grid_afind_pane( iLayoutOption ) );   
-    TRect find_pane; 
-     
-    if(iPopupFindpane)
-        {
-        find_pane = RectFromLayout( Rect(), AknLayoutScalable_Avkon::popup_find_window() );
-        }
-    else
-        {
-        find_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::find_pane_cp01( iLayoutOption ) );
-      	} 
-    _AKNTRACE( "[%s][%s] rect of find pane is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-    		find_pane.iTl.iX, find_pane.iTl.iY, find_pane.iBr.iX, find_pane.iBr.iY );   
-    iInputFrame->SetRect( find_pane ); 
-    iSkinContextOfFindPane->SetRect( find_pane );        
    
     // Backspace and close buttons
     cell_pane = RectFromLayout( grid_pane, AknLayoutScalable_Apps::cell_afind_pane(iLayoutOption, iNumOfCols-2, iNumOfRows-1) );        
@@ -1128,8 +988,6 @@ void CAknAdaptiveSearchGrid::ShowControls()
         }
     iCloseButton->MakeVisible( ETrue );
     iDeleteButton->MakeVisible( ETrue );
-    iInputFrame->MakeVisible( ETrue ); 
-    iEditor->MakeVisible( ETrue );
     }
     
 // -----------------------------------------------------------------------------
@@ -1237,10 +1095,6 @@ void CAknAdaptiveSearchGrid::HideL()
         {
         return;
         }  
-  
-    iEditor->TextView()->SetCursorVisibilityL( 
-        TCursor::EFCursorInvisible, TCursor::EFCursorInvisible);
-            
     SetFocus( EFalse );
     //fix for TSW error EKDN-7KW9P2
     SetShown( EFalse );
@@ -1267,8 +1121,6 @@ void CAknAdaptiveSearchGrid::FocusChanged( TDrawNow aDrawNow )
         }      
     if ( !IsFocused() && iLastFocusedButton )               
         iLastFocusedButton->ResetState();        
-    
-    iInputFrame->SetFocus( IsFocused(), aDrawNow );
     }        
         
 
@@ -1297,8 +1149,8 @@ void CAknAdaptiveSearchGrid::HandleWsEventL( const TWsEvent& aEvent, CCoeControl
         
         if( pointerEvent.iType == TPointerEvent::EButton1Down ) 
             {     
-             if( iInputFrame->Rect().Contains(pointerEvent.iPosition) || 
-                aDestination != this )
+        if ( !iFindpaneRect.Contains( pointerEvent.iPosition ) &&
+            aDestination != this )     
                 {  
             MTouchFeedback* feedback = MTouchFeedback::Instance();
             
@@ -1628,10 +1480,6 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
         _AKNTRACE( "[%s][%s] rect of close button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
                            		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
         iCurrentRegion.AddRect( button_rect );
-        button_rect = iInputFrame->Rect();
-        _AKNTRACE( "[%s][%s] rect of Input Frame is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                                   		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
-        iCurrentRegion.AddRect( button_rect );
         if( iNumOfPages > 1 )
             {
             TRect page_pane;       
@@ -1793,10 +1641,6 @@ MAknAdaptiveSearchGridObserver* CAknAdaptiveSearchGrid::AdaptiveSearchGridObserv
 //
 void CAknAdaptiveSearchGrid::SaveFindPaneRect( const TRect &aRect )
     {
-    //Now we just deal with the landscape conditions
-    if ( !Layout_Meta_Data::IsLandscapeOrientation() )
-        return;
-    
     //When width is zero, no need to deal with.
     if ( 0 == aRect.Size().iWidth )
         return;

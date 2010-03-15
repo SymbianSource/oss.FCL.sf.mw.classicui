@@ -3906,7 +3906,7 @@ void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRe
 
     if ( !iIsCurrentLine )
         {
-        AknListUtils::DrawSeparator( aGc, Rect(), textColor );
+        AknListUtils::DrawSeparator( aGc, Rect(), textColor, skin );
         aGc.SetBrushStyle( CGraphicsContext::ENullBrush ) ; 
         }
     else // Highlight Skinning.  Requires Frame
@@ -3920,7 +3920,7 @@ void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRe
             MAknsControlContext* parentCc = GetDialogControlContext( iDialogPage ) ; 
             AknsDrawUtils::Background( skin, parentCc, this, aGc, Rect() ) ;
 
-            AknListUtils::DrawSeparator( aGc, Rect(), textColor );
+            AknListUtils::DrawSeparator( aGc, Rect(), textColor, skin );
             
             // Set the rectangle(s) for the Frame context
             iExtension->iEditModeHighlightControlContext->SetFrameRects( EditRect(), innerRect ) ;
@@ -3944,7 +3944,7 @@ void CEikCaptionedControl::DrawAsSkinnedForm( CWindowGc& aGc, const TRect& /*aRe
             AknsDrawUtils::BackgroundBetweenRects( skin, parentCc, this, aGc, 
                     Rect(), innerRect );
     
-            AknListUtils::DrawSeparator( aGc, Rect(), textColor );
+            AknListUtils::DrawSeparator( aGc, Rect(), textColor, skin );
 
             // Draw the animation itself
             if ( iExtension->IsHighlightAnimated() 

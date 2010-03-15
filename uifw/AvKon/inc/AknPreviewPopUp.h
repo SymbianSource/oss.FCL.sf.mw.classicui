@@ -242,6 +242,10 @@ NONSHARABLE_CLASS( CAknPreviewPopUp ) : public CAknControl,
         
         // It is true when user clicks the popup, transfer pointer up event to its child control
         TBool iAllowUpEvent;
+        
+        // Used to remember the local variable address which used to be
+        // mark whether this object is deleted
+        TBool * iIsDeleted;
 
     };
 

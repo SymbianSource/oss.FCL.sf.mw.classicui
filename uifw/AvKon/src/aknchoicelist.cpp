@@ -165,7 +165,8 @@ private:
 */
 NONSHARABLE_CLASS( CAknChoiceListPopup ) : public CCoeControl,
                   public MEikListBoxObserver,                  
-                  MEikCommandObserver
+                  MEikCommandObserver,
+                  public MCoeForegroundObserver
     {
 public:      
     CAknChoiceListPopup() : iIndex( -1 ), iCancelled( EFalse )
@@ -245,6 +246,8 @@ public:
             iAvkonAppUi->RemoveFromStack( this );
             iEikonEnv->BringForwards( EFalse );
             AknGlobalPopupPriorityController::ShowPopup(*this, EFalse);
+            DrawableWindow()->SetNonFading( EFalse );
+            iCoeEnv->RemoveForegroundObserver( *this );
             
             if ( AknLayoutUtils::PenEnabled() )
                 {
@@ -391,7 +394,9 @@ public:
         iEikonEnv->BringForwards( ETrue );
         DrawableWindow()->SetOrdinalPosition( 0 );    
         AknGlobalPopupPriorityController::ShowPopup(*this, ETrue);
-        
+        DrawableWindow()->SetNonFading( ETrue );
+        iCoeEnv->AddForegroundObserverL( *this );
+       
         // this will fix possibly corrupted index        
         if ( iIndex < iList->Model()->ItemTextArray()->MdcaCount() && iIndex >= 0 )
             {
@@ -480,6 +485,15 @@ public:
                 }            
             }
         return EKeyWasNotConsumed;          
+        }
+    
+    void HandleGainingForeground()
+        {
+        }
+
+    void HandleLosingForeground()
+        {
+        CloseChoiceList();   
         }
 
 private:

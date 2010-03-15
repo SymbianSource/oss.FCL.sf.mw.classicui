@@ -310,6 +310,15 @@ private:
      * @return Item action menu register instance.
      */
     static AknItemActionMenuRegister* CreateInstanceL();
+
+    /**
+     * Sets constructing menu bar owner and checks if the current is a dialog.
+     * And when setting the correct menu bar owner from a dialog to NULL 
+     * checking if a correct menubar can be found for the unregistered 
+     * item action menu. 
+     */
+    void DoSetConstructingMenuBarOwnerL( MObjectProvider* aMenuBarOwner ); 
+
 private: // data
 
     /**
@@ -370,6 +379,11 @@ private: // data
      */
     MObjectProvider* iMenuBarOwner;
 
+    /**
+     * Indicates if current menubar owner is a dialog
+     */
+    TBool iIsConstructingDialog; 
+    
     /**
      * Unregistered menu data.
      */

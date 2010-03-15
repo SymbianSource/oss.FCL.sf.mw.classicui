@@ -3114,13 +3114,21 @@ void CAknToolbar::CalculateRects( TRect& aMainPaneRect, TRect& aToolbarRect,
 
             aCellPaneRect = RectFromLayout( aGridPaneRect,     
                 AknLayoutScalable_Avkon::cell_sctrl_middle_pane( 0, 0, 0 ) );
+
+            //
+            // fixing bug: ELJG-7XX8RE
+            // (Two extra black lines are displayed around toolbar area at first)
+            // extend the toolbar size by hard code
+            //
+            aToolbarRect.iTl.iY -= 1;
+            aToolbarRect.iBr.iY += 1;
             }
         }
-    else    
+    else
         {
         if ( iOrientation == EAknOrientationHorizontal )
-            {        
-            variety = 4;    
+            {
+            variety = 4;
             aToolbarRect = RectFromLayout( aMainPaneRect,
                 AknLayoutScalable_Avkon::popup_toolbar_window( variety ) );
 

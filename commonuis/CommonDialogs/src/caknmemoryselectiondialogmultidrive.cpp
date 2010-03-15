@@ -115,11 +115,11 @@ void CAknMemorySelectionDialogMultiDrive::ConstructFromResourceL(
         layout = MAknMemorySelectionModel::ELayoutDoublePopup;
         }
 
+    // Create model of listbox listing the drives in iRootPathArray:
     iModel = CAknMemorySelectionModelMultiDrive::NewL(
         iCoeEnv, &iRootPathArray, &iDefaultFolderArray,
         iIncludedMedias, aShowUnavailableDrives, layout );
 
-    // Create model of listbox listing the drives in iRootPathArray:
     GetSystemDrivesL( userDefinedId );
 
     iEventHandler = CAknMemorySelectionEventHandler::NewL(

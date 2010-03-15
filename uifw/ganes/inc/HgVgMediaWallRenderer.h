@@ -68,7 +68,8 @@ public:
             CHgVgMediaWall::THgVgAnimationState aAnimationState, 
             CHgVgMediaWall::THgVgOpeningAnimationType aSelectionAnimationType, 
             CHgVgMediaWall::THgVgMediaWallStyle aStyle, 
-            TReal aStartIndex);
+            TReal aStartIndex, 
+            TReal aSpringVelocity);
 
     /**
      * 
@@ -168,6 +169,12 @@ public:
      */
     void EnableFlipXY(TBool aEnabled);
     
+    /**
+     * 
+     */
+    void EnableLandscapeMode(TBool enabled);
+    
+    
 private:
     
     class TQuad
@@ -233,7 +240,8 @@ private:
             VGfloat aAnimationAlpha,
             CHgVgMediaWall::THgVgAnimationState aState, 
             CHgVgMediaWall::THgVgOpeningAnimationType aAnimationType, 
-            TReal aStartIndex);
+            TReal aStartIndex, 
+            TReal aSpringVelocity);
 
 
     /**
@@ -355,6 +363,8 @@ private:
     TPoint iOffset;
     
     TBool iFlipXY;
+
+    TBool iLandscape;
     };
 
 #endif /* HGVGMEDIAWALLRENDERER */

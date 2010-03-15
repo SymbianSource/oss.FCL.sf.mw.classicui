@@ -68,6 +68,8 @@ public: // METHODS
             TSize aViewSize,
             TBool aLandscapeScrolling,
             CHgScroller::THgScrollBarType aScrollBarType);
+    
+    void EnableLandscapeRendering(TBool aEnabled);
 
 protected: // Constructors
     CHgVgScrollBar(  );
@@ -95,6 +97,8 @@ private:
     VGImage iScrollbarHandle;
     VGImage iScrollbarBgSelected;
     VGImage iScrollbarHandleSelected;
+    
+    TBool iLandscape;
                     
     };
 

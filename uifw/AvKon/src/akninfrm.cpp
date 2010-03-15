@@ -278,7 +278,7 @@ void CAknInputFrame::SizeChanged()
 
     TBool apac( AknLayoutUtils::Variant() == EApacVariant && ( iFlags & EShowIndicators ) );
     
-    TAknWindowComponentLayout outline = AknLayoutScalable_Avkon::input_find_pane();
+    TAknWindowComponentLayout outline = AknLayoutScalable_Avkon::find_pane();
     TAknWindowLineLayout iconPos = AknLayoutScalable_Avkon::find_popup_pane_g1().LayoutLine();
     TAknTextComponentLayout   editor = AknLayoutScalable_Avkon::input_popup_find_pane_t1( apac ? 2 : 0 );
 
@@ -331,7 +331,7 @@ void CAknInputFrame::SizeChanged()
         {
         _AKNTRACE( "[%s][%s] Standard Layout", 
                  "CAknInputFrame", __FUNCTION__ );
-        outline = AknLayoutScalable_Avkon::input_find_pane();
+        outline = AknLayoutScalable_Avkon::find_pane();
         iconPos = AknLayoutScalable_Avkon::find_pane_g1();
         editor = AknLayoutScalable_Avkon::input_find_pane_t2( apac ? 1: 0 );
         r.LayoutRect( rect, AknLayoutScalable_Avkon::input_find_pane() );

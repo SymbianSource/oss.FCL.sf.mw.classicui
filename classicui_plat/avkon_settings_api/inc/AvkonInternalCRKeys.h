@@ -299,6 +299,18 @@ const TUint32 KAknKeyboardSlideOpen = 0x00000017;
 */
 const TUint32 KAknServiceCallNumber = 0x00000018;
 
+/**
+ * Value indicates the feature replacing 3.5G icon with 3G icon, 
+ * required by ATT, is enabled.
+ *
+ * Possible values are:
+ *
+ * 0: 3.5G signal icon is replaced by 3G signal icon while in hsdpa network.
+ * 1: 3.5G signal icon is used in hsdpa network.
+ *
+ */
+const TUint32 KAknATTSignalIconEnable = 0x00000019;
+
 const TUid KCRUidLeaveAppsInMemory = { 0x102858F2 };
 
 /**

@@ -301,6 +301,7 @@ private: // data
     
     TBool iTransparentBackground;  // A flag which tells if we have transparent bg
     TBool iDrawBackground; // do  we draw any background
+    TBool iForceDrawBackground; // draw background
     
     TBool iHandleHighlight; // is handle drag highlight on?
     

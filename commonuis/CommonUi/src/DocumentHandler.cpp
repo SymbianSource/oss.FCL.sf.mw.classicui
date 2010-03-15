@@ -1396,7 +1396,7 @@ EXPORT_C void CDocumentHandler::OpenTempFileL(
         TInt err = aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOnly);
         if (err == KErrInUse)
             {
-            User::LeaveIfError(aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOrWriters));
+            err = aSharableFile.Open( iSharableFS,aFileName,EFileShareReadersOrWriters );
             }
         else if ( err == KErrTooBig )
         	{
@@ -1407,7 +1407,7 @@ EXPORT_C void CDocumentHandler::OpenTempFileL(
 				err = file64->Open(iSharableFS,aFileName,EFileShareReadersOnly);
 				if( err == KErrInUse )
 					{
-					User::LeaveIfError(aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOrWriters));
+                    err = aSharableFile.Open( iSharableFS,aFileName,EFileShareReadersOrWriters );
 					}
 				}
         	}

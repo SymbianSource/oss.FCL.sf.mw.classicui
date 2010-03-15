@@ -53,6 +53,7 @@ public:
     
 protected: // CHgScroller
     void HandleSizeChanged();
+    void HandleScrollbarVisibilityChange(TBool aVisible);
     
 protected: // CHgList
     void DrawItem(TInt aIndex, const TRect& aRect) const; 
