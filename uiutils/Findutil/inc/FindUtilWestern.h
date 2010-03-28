@@ -114,7 +114,7 @@ NONSHARABLE_CLASS(CFindUtilWestern) : public CFindUtilBase, public MCenRepNotify
          * From CFindUtilBase. Overrides the base function to find the input language
          * @since 3.1
          */
-        void CFindUtilWestern::OpenL();
+        void OpenL();
 	private:
         /**
         * Derived from MCenRepNotifyHandlerCallback

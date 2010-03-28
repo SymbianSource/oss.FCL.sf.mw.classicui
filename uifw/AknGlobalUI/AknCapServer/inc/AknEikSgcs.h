@@ -124,7 +124,7 @@ private:
     void SetLayoutL(TInt aSpIndex);
     static TInt RemoveBlankCallBack(TAny* aThis);
     void DoRemoveBlank();
-    static TInt CEikSgcServer::RestoreThreadPriorities(TAny* aThis);
+    static TInt RestoreThreadPriorities(TAny* aThis);
     void DoRestoreThreadPriorities();
     void ActivateEffectL();
     void SetLayoutBlankScreenL(TBool aBlank, TInt aStep);

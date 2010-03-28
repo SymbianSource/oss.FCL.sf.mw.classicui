@@ -56,7 +56,7 @@ private: // new functions
     void FreeHardwareStateKeys();
     void SetHardwareStateL(TInt aState);
 #ifdef RD_INTELLIGENT_TEXT_INPUT
-    TInt CAknServKeyFilter::HwKeyToKeyBoardType(TInt aKeyCode);
+    TInt HwKeyToKeyBoardType(TInt aKeyCode);
 #endif
     void RotateScreenL( TInt aState );
     void UpdateKeyboardLayout( TInt aKeyboardLayout );

@@ -65,8 +65,7 @@ public:
     * @param aObserver observer for msk label updations.
     * @since S60 v3.1
     */
-    IMPORT_C void CPslnFWBaseContainer::SetMiddleSoftkeyObserver( 
-        MPslnFWMSKObserver* aObserver );
+    IMPORT_C void SetMiddleSoftkeyObserver( MPslnFWMSKObserver* aObserver );
 
 protected:
 
