@@ -208,10 +208,7 @@ void CAknPopupField::ConstructSelectionListL()
 
 void CAknPopupField::SetUpScrollBarL()
     {
-    if ( !iExtension || !iExtension->iSingleClickEnabled )
-        {
-        __ASSERT_DEBUG( iCba, Panic( EAknPanicPopupFieldCBADoesntExist ) );
-        }
+    __ASSERT_DEBUG( iCba, Panic( EAknPanicPopupFieldCBADoesntExist ) );
     __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
     iSelectionList->SetMopParent(this); // to get remote scb
     iSelectionList->CreateScrollBarFrameL(ETrue, ETrue);
@@ -832,10 +829,7 @@ TKeyResponse CAknPopupField::HandleHorizontalKeyEventL(TUint aKeyEventCode)
 
 void CAknPopupField::CreatePopoutL()
     {
-    if ( !iExtension || !iExtension->iSingleClickEnabled )
-        {
-        CreateCbaL();
-        }
+    CreateCbaL();
     ConstructSelectionListL();
     ChangeMode(EAknPopupFieldSelectionListMode);
     SetUpScrollBarL();

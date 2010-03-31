@@ -358,8 +358,10 @@ TInt CTestSDKSettingPages::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestSettingpagesRadioButtonSelectCurrentItemLL",  
             CTestSDKSettingPages::TestSettingpagesRadioButtonSelectCurrentItemLL ),
         ENTRY( "TestSettingpagesRadioButtonWriteInternalStateLL",  
-                    CTestSDKSettingPages::TestSettingpagesRadioButtonWriteInternalStateLL ),
-
+            CTestSDKSettingPages::TestSettingpagesRadioButtonWriteInternalStateLL ),          
+        ENTRY( "TestSettingpagesRadioButtonProcessCommandLL",  
+            CTestSDKSettingPages::TestSettingpagesRadioButtonProcessCommandLL ),         
+                        
         //aknsettingitemlist.h
             //CAknSettingItem
         ENTRY( "TestSettingPagesItemListConstructorL",  

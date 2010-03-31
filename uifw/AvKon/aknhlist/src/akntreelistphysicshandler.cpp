@@ -911,7 +911,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
             }
         else if ( bottomItem == iTree->VisibleItemCount() )
             {
-            if ( upperItem != iOldTopItem )
+            if ( upperItem != iOldTopItem && ( upperItem != 0 || iOldTopItem != -1 ) )
                 {
                 iFeedback->InstantFeedback( iTreeListView,
                                             ETouchFeedbackSensitiveList,

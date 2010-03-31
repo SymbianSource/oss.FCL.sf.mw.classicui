@@ -100,6 +100,15 @@ void CTestRadioButtonSettingPage::DoWriteInternalStateL(RWriteStream& aWriteStre
     WriteInternalStateL( aWriteStream );
     }
 
+// -----------------------------------------------------------------------------
+// CTestRadioButtonSettingPage::TestProcessCommandL
+// -----------------------------------------------------------------------------
+//
+void CTestRadioButtonSettingPage::TestProcessCommandL( TInt aCommandId )
+    {
+    ProcessCommandL( aCommandId );
+    }
+
 //End file
 
 

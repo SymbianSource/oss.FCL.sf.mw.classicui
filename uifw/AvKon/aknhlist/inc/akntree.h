@@ -22,6 +22,7 @@
 
 #include <AknIconUtils.h> // TScaleMode
 #include <babitflags.h>
+#include <AknSmileyUtils.h>
 
 #include "akntreenode.h"
 #include "akntreeobserver.h"
@@ -63,7 +64,7 @@ class TRgb;
  *  @lib aknhlist.lib
  *  @since S60 v3.2
  */
-NONSHARABLE_CLASS( CAknTree ) : public CAknTreeNode
+NONSHARABLE_CLASS( CAknTree ) : public CAknTreeNode, public MAknSmileyObserver
     {
 
 public:
@@ -867,6 +868,50 @@ public:
      */
     void Collapse();
 
+    /**
+     * Init smiley manager in this tree.
+     * @since S60 5.2
+     */
+    void InitSmiley();
+
+    /**
+     * Draw smiley icon when aText contains simely text, otherwise it is as same
+     * as @c DrawText.
+     *
+     * @param aGc Graphics context.
+     *
+     * @param aRect Parent rectangle for the text layout.
+     *
+     * @param aTextLayout Text layout.
+     *
+     * @param aText Text.
+     *
+     * @param aFont Font. @c NULL if the font defined in layout is used.
+     *
+     * @param aFocused @c ETrue, if the text is drawn for focused tree list
+     *      item, otherwise @c EFalse.
+     *
+     * @since S60 5.2
+     */
+    void DrawSmiley( CWindowGc& aGc, const TRect& aRect, 
+                     const TAknTextComponentLayout& aTextLayout, 
+                     const TDesC& aText, const CFont* aFont, 
+                     TBool aFocused );
+    
+    /**
+     * Use smiley manager to convert smiley text to placehodler. 
+     *
+     * @param aText Text to be processed.
+     * @return How many smiley icon found in aText. Or leave code if there is 
+     *         any problem.
+     * @since S60 5.2
+     */
+    TInt ConvertTextToSmiley( TDes& aText );
+
+private: // from MAknSmileyObserver
+    void SmileyStillImageLoaded( CAknSmileyIcon* aSmileyIcon );
+    void SmileyAnimationChanged( CAknSmileyIcon* aSmileyIcon );
+
 private:
 
     /**
@@ -995,6 +1040,15 @@ private: // data
      */
     TBitFlags32 iFlags;
 
+    /**
+     * Smiley manager. owned
+     */
+    CAknSmileyManager* iSmileyMan;
+
+    /**
+     * Smiley icon size     
+     */
+    TSize iSmileySize;
     };
 
 

@@ -2021,13 +2021,6 @@ EXPORT_C void CAknColourSelectionGrid::HandlePointerEventL(
 
     if ( !Rect().Contains( aPointerEvent.iPosition ) )
         {
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
-            {
-            TryExitL( EAknSoftkeyCancel );
-            _AKNTRACE_FUNC_EXIT;
-            return;
-            }
-
         if ( aPointerEvent.iType == TPointerEvent::EDrag )
             {
             iExtension->iIsDragged = ETrue;

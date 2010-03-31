@@ -249,7 +249,7 @@ TInt CTestSDKSettingPages::TestSettingPagesMfneComponentControlL( CStifItemParse
     
     pageDialog->DoBaseConstructL();
     pageDialog->DoConstructL();
-    CCoeControl* control = pageDialog->DoComponentControl( KOne );
+    CCoeControl* control = pageDialog->DoComponentControl( KZero );
     CEikMfne* editorControl = pageDialog->DoMfne();
     STIF_ASSERT_EQUALS( static_cast<CCoeControl*>( editorControl ), control );
     

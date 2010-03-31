@@ -616,28 +616,8 @@ EXPORT_C void AknListBoxLayouts::SetupStandardFormListbox(CFormattedCellListBoxI
     aItemDrawer->SetHighlightedBackColor(AKN_LAF_COLOR_STATIC(
         AKN_LAYOUT_WINDOW_List_pane_highlight_graphics__various__Line_2(TRect(0,0,0,0)).iC));
     }
-    
-TInt AknListBoxLayouts::AdjustPopupLayoutData( const TRect& aScreenRect )
-    {
-    _AKNTRACE( "[%s][%s][%d].", "AknListBoxLayouts", __FUNCTION__, __LINE__ );
-    TInt width = aScreenRect.Width();
-    TInt height = aScreenRect.Height();
-    
-    if (  width ==640 &&  height ==360 ) //QHD
-        {
-        return 32;
-        }
-    else if(( width ==320 && height ==240 ) //QVGA, QVGA2
-            ||( width ==640 && height ==480 )) //VGA, VAG3
-        {
-        return 0;
-        }
-    else
-        {
-        Panic( EAknPopupLayoutUnknownResolution );
-        return 0;
-        }
-    }
+
+
 // -----------------------------------------------------------------------------
 // IdFromTextAlign
 // -----------------------------------------------------------------------------
@@ -1169,43 +1149,31 @@ EXPORT_C void AknListBoxLayouts::SetupFormAntiFlickerTextCell(CEikListBox& aList
     SetupFormTextCell( aListBox, aItemDrawer, index, font, C, lm, rm, B, W, aAlign, p1, p2 );
     }
 
-// this is common popuplist setup code
-static TSize PopupListItemSize(const TAknWindowLineLayout &aL)
+// ----------------------------------------------------------------------------
+// This is common popup list setup code.
+// ----------------------------------------------------------------------------
+//
+static TSize PopupListItemSize( const TAknWindowLineLayout &aL )
     {
     _AKNTRACE( "[%s][%d]", __FUNCTION__, __LINE__ );
-    TAknLayoutRect temp, layout;
+    TAknLayoutRect temp;
+    TAknLayoutRect layout;
     TRect mainPane;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EPopupParent, mainPane );
 
-    temp.LayoutRect( mainPane, AknLayoutScalable_Avkon::popup_menu_window(13));
+    temp.LayoutRect( mainPane,
+                     AknLayoutScalable_Avkon::popup_menu_window(
+                         Layout_Meta_Data::IsLandscapeOrientation() ? 43 : 13 ) );
     
     TRect screenRect;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect ); 
-    TAknWindowLineLayout lineLayout = AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine();
-    
-    // Layout data of listscroll_menu_pane are changed for CR 417-35260.
-    // The change is just for QHD landscape model.
-    // The CR makes listscroll_menu_pane's ir or il bigger than normal,
-    // so that width of list item is smaller than needs. Then, first cell 
-    // of list item can not be drawn on proper position.
-    // Adjustment of layout is a solution for this problem. This is not a perfect idea, but
-    // creating a new layout for popuplist is too complex to do that. Adjustment is a must.
-    if(Layout_Meta_Data::IsLandscapeOrientation())       
-        {
-        TInt offset  = AknListBoxLayouts::AdjustPopupLayoutData( screenRect );
-        if (!AknLayoutUtils::LayoutMirrored())
-            {
-            lineLayout.ir -= offset;
-            }
-        else
-            {
-            lineLayout.il -= offset;
-            }
-        }
-    layout.LayoutRect( temp.Rect(), lineLayout);
+
+    layout.LayoutRect( temp.Rect(),
+                       AknLayoutScalable_Avkon::listscroll_menu_pane( 0 ) );
    
-    temp.LayoutRect( layout.Rect(), AknLayoutScalable_Avkon::list_menu_pane(0));
-    layout.LayoutRect( temp.Rect(), aL);
+    temp.LayoutRect( layout.Rect(),
+                     AknLayoutScalable_Avkon::list_menu_pane( 0 ) );
+    layout.LayoutRect( temp.Rect(), aL );
 
     return layout.Rect().Size();
     }
@@ -3464,6 +3432,15 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         itemDrawer->SetItemMarkPosition( 3 );
         itemDrawer->SetItemMarkReplacement( KFirstMovingCSIconReplacement );
         }
+
+    // Mirrored layout does not have smiley.
+    if ( !AknLayoutUtils::LayoutMirrored() && 
+         itemDrawer->Flags() & CListItemDrawer::EDrawSmileyIcon )
+        {
+        formattedCellData->InitSmileyL();
+        // only second lable can have smiley icon now. 
+        formattedCellData->SetSmileySubCellL(2);
+        }
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -3787,6 +3764,16 @@ void CAknDoubleLargeStyleListBox::SizeChangedL()
     itemDrawer->SetItemMarkReverse( ETrue );
     itemDrawer->SetItemMarkPosition( 3 );
     itemDrawer->SetItemMarkReplacement( KFirstMovingCSIconReplacement );
+
+    // Mirrored layout does not have smiley.
+    // for conversation
+    if ( !AknLayoutUtils::LayoutMirrored() && 
+         itemDrawer->Flags() & CListItemDrawer::EDrawSmileyIcon )
+        {
+        formattedCellData->InitSmileyL();
+        // only second lable can have smiley icon now. 
+        formattedCellData->SetSmileySubCellL(2);
+        }
     _AKNTRACE_FUNC_EXIT;
     }
     

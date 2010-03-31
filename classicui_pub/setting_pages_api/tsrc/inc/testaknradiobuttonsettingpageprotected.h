@@ -64,6 +64,10 @@ public:
      * This fuction is wrote for testing WriteInternalStateL() function
      */
     void DoWriteInternalStateL(RWriteStream& aWriteStream) const;
+    /*
+     * This function is wrote for testing ProcessCommandL() function
+     */
+    void TestProcessCommandL( TInt aCommandId );
     };
 
 #endif /*C_TESTAKNRADIOBUTTONSETTINGPAGEPROTECTED_H*/

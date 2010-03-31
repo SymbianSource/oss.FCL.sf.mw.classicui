@@ -282,6 +282,7 @@ void CPslnGeneralThemeContainer::CreateListBoxItemsL()
         }
     CleanupStack::PopAndDestroy( skinName );
     
+    iActiveSkinItemIndex = currentlyActiveSkinIndex + downloadAdded;
     if ( iOldSkinNum != maxSkinIndex )
         {
         iToBeUsedIndex = currentlyActiveSkinIndex + downloadAdded;
@@ -290,12 +291,10 @@ void CPslnGeneralThemeContainer::CreateListBoxItemsL()
          ( iToBeUsedIndex <= ( maxSkinIndex + downloadAdded ) ) )
         {
         SetCurrentItemIndex( iToBeUsedIndex );
-        iActiveSkinItemIndex = iToBeUsedIndex;
         }
     else
         {    
-        SetCurrentItemIndex( ( currentlyActiveSkinIndex + downloadAdded ) );
-        iActiveSkinItemIndex = currentlyActiveSkinIndex + downloadAdded;
+        SetCurrentItemIndex( currentlyActiveSkinIndex + downloadAdded );
         }
     iListBox->HandleItemAdditionL();
     if ( iOldSkinNum != maxSkinIndex )

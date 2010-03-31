@@ -4283,5 +4283,11 @@
 //r: TB9.2
 #define text_chi_input_stroke_phrase "Stroke phrase"
 
+// d: Default text shown in the universal indicator popup for integrate im indicator.
+// l: list_single_uniindi_pane_t1
+// w:
+// r: TB9.2
+//
+#define qtn_iim_uni_ind_default "New unread chats"
 
 // End of File

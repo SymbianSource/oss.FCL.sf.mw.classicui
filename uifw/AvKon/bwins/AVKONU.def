@@ -3467,4 +3467,6 @@ EXPORTS
 	?DrawText@CAknSmileyManager@@QBEXAAVCWindowGc@@ABVTDesC16@@PBVCFont@@ABVTRect@@HW4TTextAlign@CGraphicsContext@@H@Z @ 3466 NONAME ; void CAknSmileyManager::DrawText(class CWindowGc &, class TDesC16 const &, class CFont const *, class TRect const &, int, enum CGraphicsContext::TTextAlign, int) const
 	??1CAknSmileyManager@@UAE@XZ @ 3467 NONAME ; CAknSmileyManager::~CAknSmileyManager(void)
 	?IsSmiley@CAknSmileyManager@@QBEHVTChar@@@Z @ 3468 NONAME ; int CAknSmileyManager::IsSmiley(class TChar) const
+	?ProcessCommandL@CAknRadioButtonSettingPage@@MAEXH@Z @ 3469 NONAME ; void CAknRadioButtonSettingPage::ProcessCommandL(int)
+	?ProcessCommandL@CAknPopupSettingPage@@MAEXH@Z @ 3470 NONAME ; void CAknPopupSettingPage::ProcessCommandL(int)
 

@@ -36,6 +36,7 @@
 const TInt KSmileyNameLength = 8;
 typedef TBuf<KSmileyNameLength> TSmileyText;
 typedef RArray<TSmileyText> RSmileyTextArray;
+typedef RArray<TChar> RSmileyCodeArray;
 
 NONSHARABLE_CLASS(TSmileyIconInfo)
     {
@@ -80,9 +81,10 @@ public:
     TBool StillImageIsReadyToDraw() const;
     TBool AnimationImageIsReadyToDraw() const;
 
-    void AddText(const TDesC& aText);
-    const TDesC& Text(TInt aVariate=0) const;
-    TInt TextVariate() const;
+    void AddVariant(const TDesC& aText, TChar aBaseCode);
+    TInt VariantCount() const;
+    const TDesC& Text(TInt aVariant=0) const;
+    TChar Code(TInt aVariant=0) const;
 
 private:
     MAknSmileyObserver*     iSmileyIconObserver;
@@ -90,9 +92,21 @@ private:
     CSmileyImage*           iStillImage;
     CSmileyImage*           iAnimationImage;
     RSmileyTextArray        iTextArray;
+    RSmileyCodeArray        iCodeArray;
     };
 
 typedef RArray<CSmileyIcon*> RSmileyIconPtrArray;
+NONSHARABLE_CLASS(TSmileyCodeIndex)
+    {
+public:
+    TSmileyCodeIndex(CSmileyIcon* aSmileyIcon, TInt aVariant=0) : iSmileyIcon(aSmileyIcon), iVariant(aVariant) {}
+    CSmileyIcon* Smiley() const                                 { return iSmileyIcon; }
+    const TDesC& Text() const                                   { return iSmileyIcon->Text(iVariant); }
+private:
+    CSmileyIcon*    iSmileyIcon;
+    TInt            iVariant;
+    };
+typedef RArray<TSmileyCodeIndex> RSmileyCodeIndexArray;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -161,22 +175,20 @@ public: // for smiley picker
     TChar SwitchToSmileyCode() const;
     TChar SwitchToSctCode() const;
 
-    TChar SmileyCode(TInt aIndex, TInt aVariate=0) const;
-    TChar SmileyCode(CAknSmileyIcon* aSmileyIcon) const;
+    TChar SmileyCode(TInt aIndex, TInt aVariant=0) const;
+    TChar SmileyCode(const CAknSmileyIcon* aSmileyIcon) const;
     void LoadStillImagesL(const TDesC& aText);
     void LoadStillImageL(TChar aChar);
 
 private:
-    const TDesC& Text(TInt aIndex, TInt aVariate=0) const;
+    const TDesC& Text(TInt aIndex, TInt aVariant=0) const;
     TInt ArrayCount() const;
-    TChar EncodeSmileyCode(TInt aIndex, TInt aVariate) const;
-    TBool DecodeSmileyCode(TChar aCode, TInt& aIndex, TInt& aVariate) const;
 
 private:
     MAknSmileyObserver*         iSmileyIconObserver;
     CSmileyTnumbnailAsynLoader  iSmileyLoader;
     RSmileyIconPtrArray         iSmileyIconArray;
-    TUint                       iBaseCode;
+    RSmileyCodeIndexArray       iSmileyCodeIndexArray;
     
     CSmileyTextTreeNode*        iTextSearchTree;
     TBuf<1024*2>                iConvertBuffer;

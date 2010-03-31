@@ -1165,3 +1165,43 @@ TInt CTestSDKPopups::TestCPSPReservedL( CStifItemParser& /*aItem*/ )
     return KErrNone;
     
     }
+
+// -----------------------------------------------------------------------------
+// CTestSDKPopups::TestCPSPProcessCommandL
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKPopups::TestCPSPProcessCommandL( CStifItemParser& /*aItem*/ )
+    {
+    CDesCArrayFlat* item = CCoeEnv::Static()->ReadDesCArrayResourceL( R_TESTSDK_LIST_ITEM_ARRAY );
+    CleanupStack::PushL( item );
+    STIF_ASSERT_NOT_NULL( item );
+    
+    CAknQueryValueTextArray* textArray = CAknQueryValueTextArray::NewL();
+    CleanupStack::PushL( textArray );
+    STIF_ASSERT_NOT_NULL( textArray );
+    textArray->SetArray( *item );
+    
+    CAknQueryValueText* queryValueText = CAknQueryValueText::NewL();
+    CleanupStack::PushL( queryValueText );
+    STIF_ASSERT_NOT_NULL( queryValueText );
+    queryValueText->SetArrayL( textArray );
+    
+    CTestSDKPopupsSPSP* popupSettingPage = new (ELeave) CTestSDKPopupsSPSP( 
+        R_TESTSDK_POPUP_SETTING_PAGE, *queryValueText );
+    CleanupStack::PushL( popupSettingPage );
+    STIF_ASSERT_NOT_NULL( popupSettingPage );
+    
+    popupSettingPage->ConstructL();
+    CCoeEnv::Static()->AppUi()->AddToStackL( popupSettingPage );
+    popupSettingPage->ProcessCommandL( EAknSoftkeySelect );
+    CCoeEnv::Static()->AppUi()->RemoveFromStack( popupSettingPage );     
+    
+    CleanupStack::PopAndDestroy( popupSettingPage );
+    CleanupStack::PopAndDestroy( queryValueText );
+    CleanupStack::PopAndDestroy( textArray );
+    CleanupStack::PopAndDestroy( item );
+    
+    return KErrNone;
+    
+    }
+

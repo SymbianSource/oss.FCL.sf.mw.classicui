@@ -385,6 +385,7 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
 
     iEventHandler->ResetSoftkeyStatus();
     iEventHandler->UpdateSoftkeysL( focus, popupList->ButtonGroupContainer() );
+    iEventHandler->StartFileSystemNotifierL(popupList);
 
     TBool returnValue( popupList->ExecuteLD() );
     if( returnValue )
@@ -402,6 +403,7 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
                 }
             }
         }
+    iEventHandler->StopFileSystemNotifier();
 
     CleanupStack::Pop(); // popupList
     CleanupStack::PopAndDestroy(); // listBox

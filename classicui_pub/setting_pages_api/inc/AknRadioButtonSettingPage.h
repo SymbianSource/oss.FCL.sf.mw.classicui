@@ -194,7 +194,17 @@ private:
  */
 	IMPORT_C virtual void CAknListBoxSettingPage_Reserved_1();
 
-
+protected:
+    /**
+     * From MEikCommandObserver
+     * Processes events from the softkeys. (Or translated from key events)
+     *
+     * @param   aCommandId  Event Id from the soft-key
+     * 
+     * @since 5.2
+     */
+    IMPORT_C virtual void ProcessCommandL( TInt aCommandId );   
+		
 private:
 	// Back up copy of the selection index
 	TInt iOldSelectionIndex;

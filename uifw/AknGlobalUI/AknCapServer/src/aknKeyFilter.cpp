@@ -22,7 +22,7 @@
 #include <e32property.h>
 #include <UikonInternalPSKeys.h>    // KUikLayoutState, KUikFlipStatus
 #include <AvkonInternalCRKeys.h>    // KAknQwertyInputModeActive
-#include <eikpriv.rsg>
+#include <EIKPRIV.rsg>
 #include <AknDef.h>
 #include <AknSgcc.h>
 #include <aknenv.h>
@@ -292,26 +292,42 @@ void CAknServKeyFilter::ActivateViewL( const TVwsViewId& aViewId, TUid aCustomMe
     
     if ( task.Exists() )
         {
+        TVwsViewId idleView = TVwsViewId();
+        AknDef::GetPhoneIdleViewId( idleView );
         // If the task already exists, bring it to foreground.
         if ( aViewId.iAppUid == iHomeViewId.iAppUid )
             {
             // special process for appshell
-            RThread menuThread;
-            TInt error = menuThread.Open(task.ThreadId());
+            RThread thread;
+            TInt error = thread.Open(task.ThreadId());
             if ( error == KErrNone )
                {
-               menuThread.SetProcessPriority(EPriorityForeground);  
+               thread.SetProcessPriority(EPriorityForeground);  
                }
                
-            //start different fullscreen effect when launching appshell
+            // start different fullscreen effect when launching app by KUidApaMessageSwitchOpenFile
             GfxTransEffect::BeginFullScreen(
                 AknTransEffect::EApplicationActivate,
                 TRect(),
                 AknTransEffect::EParameterType,
-                AknTransEffect::GfxTransParam( iHomeViewId.iAppUid ) );   
-               
+                AknTransEffect::GfxTransParam( aViewId.iAppUid ) );   
+            
             // matrix menu will bring itself foreground when getting the message below
             task.SendMessage( KUidApaMessageSwitchOpenFile , KNullDesC8 );
+            }
+        else if ( aViewId.iAppUid == idleView.iAppUid )
+            {
+            // special process for idle
+            RThread thread;
+            TInt error = thread.Open( task.ThreadId() );
+            if ( error == KErrNone )
+               {
+               thread.SetProcessPriority( EPriorityForeground );  
+               }
+                           
+            // idle will bring itself foreground when getting the message below
+            task.SendMessage( KUidApaMessageSwitchOpenFile , KNullDesC8 );
+            
             }
         else
             {
@@ -392,18 +408,6 @@ TKeyResponse CAknServKeyFilter::HandleHomeKeyEventL( TEventCode aType )
             iHomeTimer = NULL;
             if ( !iAppUi->HandleShortAppsKeyPressL() )
                 {
-                RWsSession& ws = iEikonEnv->WsSession();
-                TApaTaskList apList( ws );
-                TApaTask task = apList.FindApp( iHomeViewId.iAppUid );
-                if( task.Exists() && task.WgId() == ws.GetFocusWindowGroup() )
-                    {
-                    GfxTransEffect::BeginFullScreen(
-                        AknTransEffect::EApplicationExit,
-                        TRect(),
-                        AknTransEffect::EParameterType,
-                        AknTransEffect::GfxTransParam( iHomeViewId.iAppUid ) );
-                    }
-
                 ToggleShellL();
                 }
 
@@ -503,19 +507,21 @@ void CAknServKeyFilter::InitHardwareStateL()
     // use a state that results in screen mode zero for normal apps.
     CAknLayoutConfig::THardwareStateArray hwStates =
         CAknSgcClient::LayoutConfig().HardwareStates();
+
+    TBool changed;
     TInt count = hwStates.Count();
     for ( TInt ii = 0; ii < count; ii++ )
         {
         const CAknLayoutConfig::THardwareState& hwState = hwStates.At( ii );
         if ( hwState.ScreenMode() == 0 )
             {
-            SetHardwareStateL( hwState.StateNumber() );
+            SetHardwareStateL( hwState.StateNumber(), changed );
             return;
             }
         }
 
     // Fall back to state 0.
-    SetHardwareStateL( 0 );
+    SetHardwareStateL( 0, changed);
     }
 
 
@@ -539,10 +545,11 @@ TBool CAknServKeyFilter::HandleHardwareStateKeyL( TInt aCode )
         const CAknLayoutConfig::THardwareState& hwState = hwStates.At( ii );
         if ( hwState.KeyCode() == aCode )
         	{
+            // Found the state
         	iSensorOrientation = hwState.StateNumber();
             if( !iSlideOpen )
 				{
-				RotateScreenL( hwState.StateNumber() );
+                UpdateStateAndNotifyL( hwState.StateNumber() );
 #ifdef RD_INTELLIGENT_TEXT_INPUT
 #if defined(__WINS__)
             
@@ -639,9 +646,14 @@ void CAknServKeyFilter::FreeHardwareStateKeys()
 // Updates the hardware state P&S key.
 // ---------------------------------------------------------------------------
 //
-void CAknServKeyFilter::SetHardwareStateL( TInt aState )
+void CAknServKeyFilter::SetHardwareStateL( TInt aState, TBool& aChanged )
     {
-    TInt err = RProperty::Set( KPSUidUikon, KUikLayoutState, aState );
+    TInt currentState(-1);
+    RProperty::Get( KPSUidUikon, KUikLayoutState, currentState );
+    aChanged = currentState != aState;
+    if ( aChanged )
+        {
+        TInt err = RProperty::Set( KPSUidUikon, KUikLayoutState, aState );
 
 #ifdef _DEBUG
     _LIT( KDMsg1, "xxxx KUikLayoutState err=%d" );
@@ -665,6 +677,7 @@ void CAknServKeyFilter::SetHardwareStateL( TInt aState )
 #ifdef _DEBUG
     User::LeaveIfError( err );
 #endif
+        }
     }
 
 #ifdef RD_INTELLIGENT_TEXT_INPUT
@@ -791,18 +804,19 @@ void CAknServKeyFilter::RotateScreenL( TInt aState )
 	{
 	CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
 	TInt screenMode = screen->CurrentScreenMode();
-	SetHardwareStateL( aState );
-				
-	// Update the setting cache and get SGCS to process the screen
-	// mode change. This may broadcast a screen device change to
-	// the apps, to inform them of the update.
-	iAvkonEnv->SettingCache().Update( KAknHardwareLayoutSwitch );
-	iAppUi->SgcServer()->HandleWindowGroupParamChangeL(
-		iEikonEnv->RootWin().Identifier(),
-		0,
-		0,
-		0,
-		KAknScreenModeUnset );
+	TBool changed;
+	SetHardwareStateL( aState, changed);
+	
+    // Update the setting cache and get SGCS to process the screen
+    // mode change. This may broadcast a screen device change to
+    // the apps, to inform them of the update.
+    iAvkonEnv->SettingCache().Update( KAknHardwareLayoutSwitch );
+    iAppUi->SgcServer()->HandleWindowGroupParamChangeL(
+        iEikonEnv->RootWin().Identifier(),
+        0,
+        0,
+        0,
+        KAknScreenModeUnset );
 
 	if ( screenMode == screen->CurrentScreenMode() )
 		{
@@ -814,6 +828,40 @@ void CAknServKeyFilter::RotateScreenL( TInt aState )
 		event.SetHandle( 0 );
 		iEikonEnv->WsSession().SendEventToAllWindowGroups( 0, event );
 		}
+    }
+	
+// ---------------------------------------------------------------------------
+// CAknServKeyFilter::UpdateStateAndNotifyL
+// ---------------------------------------------------------------------------
+//
+void CAknServKeyFilter::UpdateStateAndNotifyL( TInt aState )
+    {
+    CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
+    TInt screenMode = screen->CurrentScreenMode();
+    TBool changed;
+    SetHardwareStateL( aState, changed);
+    
+    //Do something only if anything changed
+    if (changed)
+        {
+        // Update the setting cache and get SGCS to process the screen
+        // mode change. This may broadcast a screen device change to
+        // the apps, to inform them of the update.
+        iAvkonEnv->SettingCache().Update( KAknHardwareLayoutSwitch );
+        iAppUi->SgcServer()->HandleWindowGroupParamChangeL(
+            iEikonEnv->RootWin().Identifier(),
+            0,
+            0,
+            0,
+            KAknScreenModeUnset );
+        
+        }
+    
+    if (screenMode == screen->CurrentScreenMode() )
+        {
+        // Remember that there was at least one inhibited screen mode
+        iAppUi->SgcServer()->SetBackgroundAppsStateChangeDeferred( ETrue );
+        }
     }
 
 // End of file

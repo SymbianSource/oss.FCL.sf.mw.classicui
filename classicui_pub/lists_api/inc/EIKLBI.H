@@ -321,7 +321,12 @@ public:
         /**
          * This flag indicates that single click mode is enabled.
          */
-        ESingleClickEnabled = 0x0080
+        ESingleClickEnabled = 0x0080,
+
+        /**
+         * This flag indicates that simley icon is enabled.
+         */
+        EDrawSmileyIcon = 0x0100
         };
 
 public:

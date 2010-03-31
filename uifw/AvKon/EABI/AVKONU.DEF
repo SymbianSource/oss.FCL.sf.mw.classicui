@@ -4599,4 +4599,8 @@ EXPORTS
 	_ZTI17CAknSmileyManager @ 4598 NONAME
 	_ZTV14CAknSmileyIcon @ 4599 NONAME
 	_ZTV17CAknSmileyManager @ 4600 NONAME
+	_ZN20CAknPopupSettingPage15ProcessCommandLEi @ 4601 NONAME
+	_ZN26CAknRadioButtonSettingPage15ProcessCommandLEi @ 4602 NONAME
+	_ZThn84_N20CAknPopupSettingPage15ProcessCommandLEi @ 4603 NONAME
+	_ZThn84_N26CAknRadioButtonSettingPage15ProcessCommandLEi @ 4604 NONAME
 

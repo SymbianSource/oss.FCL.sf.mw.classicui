@@ -2885,7 +2885,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
             }
         else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
-            if( newTab> -1 )
+            if( newTab > -1 && newTab == iExtension->iPointerDownTab )
                 {
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
 

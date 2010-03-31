@@ -29,7 +29,7 @@
 #include "aknsinglecolumnstylesimpledatarow.h"
 #include "aknsinglecolumnstylesubtitlerow.h"
 #include "aknsinglecolumnstyletreelist.h"
-
+#include "akntrace.h"
 
 /** Set of flags that are always set on for hierarchical column list. */
 const TInt KMandatoryListFlags = NULL;
@@ -169,6 +169,15 @@ EXPORT_C TAknTreeItemID CAknSingleColumnStyleTreeList::AddCoreDataRowL(
         {
         flags |= CAknSingleColumnStyleCoreDataRow::EEmphasis;
         }
+    if ( aFlags & ESmileyIcon )
+        {
+        flags |= CAknSingleColumnStyleCoreDataRow::EFirstColumnSmiley;
+        }
+    if ( aFlags & ESmileyIconSecond )
+        {
+        _AKNTRACE("Add ESecondColumnSmiley ");
+        flags |= CAknSingleColumnStyleCoreDataRow::ESecondColumnSmiley;
+        }
 
     CAknSingleColumnStyleCoreDataRow* row =
         CAknSingleColumnStyleCoreDataRow::NewLC( aFirstColumn,
@@ -206,6 +215,15 @@ EXPORT_C TAknTreeItemID CAknSingleColumnStyleTreeList::AddCoreDataRowL(
     if ( aFlags & EEmphasis )
         {
         flags |= CAknSingleColumnStyleCoreDataRow::EEmphasis;
+        }
+    if ( aFlags & ESmileyIcon )
+        {
+        flags |= CAknSingleColumnStyleCoreDataRow::EFirstColumnSmiley;
+        }    
+    if ( aFlags & ESmileyIconSecond )
+        {
+        _AKNTRACE("Add ESecondColumnSmiley ");
+        flags |= CAknSingleColumnStyleCoreDataRow::ESecondColumnSmiley;
         }
 
     CAknSingleColumnStyleCoreDataRow* row =
@@ -247,7 +265,10 @@ EXPORT_C TAknTreeItemID CAknSingleColumnStyleTreeList::AddSubtitleRowL(
         {
         flags |= CAknTreeNode::ENonEmpty;
         }
-
+    if ( aFlags & ESmileyIcon )
+        {
+        flags |= CAknSingleColumnStyleSubtitleRow::ESmiley;
+        }
     CAknSingleColumnStyleSubtitleRow* row =
         CAknSingleColumnStyleSubtitleRow::NewLC( aText, flags );
     TAknTreeItemID id = Tree().AddItemL( row, aParent, aDrawNow );

@@ -975,6 +975,7 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
         case EAknIndicatorUSBMemActive:
         case EAknIndicatorStopWatch:
         case EAknIndicatorMecoServiceTab:
+        case EAknIndicatorIntegratedIM:
             {
             // Main pane
             TRect mainPaneRect;

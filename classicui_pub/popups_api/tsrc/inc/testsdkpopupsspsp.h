@@ -69,6 +69,11 @@ public:// Constructors and destructor
     */
     void Reserved_2();
     
+    /**
+    *  ProcessCommandL test function for testing the 
+    * Test ProcessCommandL function
+    */
+    void ProcessCommandL( TInt aCommandId ); 
     };
 
 #endif /*C_TESTSDKPOPUPSSPSP_H*/

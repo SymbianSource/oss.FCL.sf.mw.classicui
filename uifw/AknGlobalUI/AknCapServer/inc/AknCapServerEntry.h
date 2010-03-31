@@ -29,6 +29,7 @@
 #include <centralrepository.h>
 #include <PtiDefs.h>
 #endif
+#include <alf/alfdirectclient.h>
 
 #include "AknEikSgcs.h"
 #include "AknNotiferAppServerApplicationInterface.h"
@@ -198,6 +199,8 @@ private:
     void InitiateOFNStatus();
     void LoadAlternateFsPlugin();
     void ShowOrDismissAlternateFs();
+    static TInt RemoveBlankCallBack( TAny* aThis );
+    void DoRemoveBlank();
 
 public: 
     /**
@@ -267,6 +270,8 @@ private:
     RProperty iTelephonyIdleUidProperty;
     CPropertySubscriber* iTelephonyIdleUidSubscriber;
     TBool iIdleActive;
+    RAlfDirectClient iAlfClient;
+    CPeriodic* iRemoveBlankCallBack;   
     };
 
 #endif // __AKNCAPSERVERENTRY__

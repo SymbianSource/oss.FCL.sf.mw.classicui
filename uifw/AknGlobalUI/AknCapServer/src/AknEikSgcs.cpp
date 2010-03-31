@@ -1025,9 +1025,15 @@ void CEikSgcServer::SetLayoutL(TInt aSpIndex)
         
     TInt modeIndex = mode.ModeNumber();
     TBool blank = iLastScreenModeSet != -1;
-    if (modeIndex != iLastScreenModeSet)
+    
+    // We need to force a screen mode change if the new topState is not for a specified orientation
+    // and we have been doing any deferring of the state change
+    TBool forceScreenModeChange = (!topState.IsOrientationSpecified()) && BackgroundAppsStateChangeDeferred();
+            
+    if (modeIndex != iLastScreenModeSet  || forceScreenModeChange )
         {
-
+        SetBackgroundAppsStateChangeDeferred( EFalse );
+        
         // Touch compatibility mode. Disable transition effects if compa-mode
         // application becomes foreground. Restore back in opposite case.
         if (iTouchCompaModeIf)
@@ -1051,8 +1057,8 @@ void CEikSgcServer::SetLayoutL(TInt aSpIndex)
 	   	    }
 #endif
 
-		if (!tfxOn)
-	    	eikEnv->WsSession().ClearAllRedrawStores();
+	//	if (!tfxOn)
+	    //	eikEnv->WsSession().ClearAllRedrawStores();
 		
         // If AknNfySrv or EikSrv is displaying a global note,
         // the screen blanker is allowed to stay on until it times
@@ -1075,8 +1081,8 @@ void CEikSgcServer::SetLayoutL(TInt aSpIndex)
 		FadeColorGenerationL();
         SetLayoutBlankScreenL(blank, ESetLayoutBlankBetweenLayoutLoadAndScreenRotate);
 
- 		if (tfxOn)
-	    	eikEnv->WsSession().ClearAllRedrawStores();
+ 		//if (tfxOn)
+	    //	eikEnv->WsSession().ClearAllRedrawStores();
    	
 		// if layout change is preemptive for app change, move the app here
         DoMoveApp();
@@ -1092,7 +1098,9 @@ void CEikSgcServer::SetLayoutL(TInt aSpIndex)
         iAvkonAppUiBase->SetLayoutAwareApp(!topState.IsLegacyLayout());
 
         // Start callback for handling new layout
-        if (newLayoutLoaded)
+        // Need to execute even if the layout is not new, but apps need to catch up
+        // to it because of deferred layout switches
+        if (newLayoutLoaded || forceScreenModeChange)
             {
             // Swap the screen blanker to update the foreground app's layout
             if (blank && iSetLayoutBlankStep < ESetLayoutBlankAfterScreenRotate) 
@@ -1132,7 +1140,10 @@ void CEikSgcServer::SetLayoutL(TInt aSpIndex)
                 // The callback will not remove the screen blanker,
                 // so remove it now.
                 iBlankCount--;
+
+#ifndef RD_NO_SYSTEM_SCREEN_BLANKING
                 iAknCapAppServerAppUi->BlankScreenL(EFalse);
+#endif
                 }
             }
         }
@@ -1145,7 +1156,9 @@ void CEikSgcServer::SetLayoutBlankScreenL(TBool aBlank, TInt aStep)
         {
         // blank the screen and keep track of how many times it's been blanked
         iBlankCount++;
+#ifndef RD_NO_SYSTEM_SCREEN_BLANKING
         iAknCapAppServerAppUi->BlankScreenL(ETrue, ETrue);
+#endif
         }
 	}
 
@@ -1386,7 +1399,9 @@ void CEikSgcServer::DoRemoveBlank()
     // remove any remaining screen blanker
     for (; iRemoveBlankCount>0; iRemoveBlankCount--)
         {
+#ifndef RD_NO_SYSTEM_SCREEN_BLANKING
         TRAP_IGNORE( iAknCapAppServerAppUi->BlankScreenL( EFalse ) );
+#endif
         }
         
     iRemoveBlankCount = 0;
@@ -1522,6 +1537,15 @@ TInt CEikSgcServer::ChangeIdleStateCallBack(TAny* aThis)
     return EFalse;
     }
 
+void CEikSgcServer::SetBackgroundAppsStateChangeDeferred(TBool aDeferred)
+    {
+    iBackgroundLayoutDeferred = aDeferred;
+    }
+
+TBool CEikSgcServer::BackgroundAppsStateChangeDeferred() const
+    {
+    return iBackgroundLayoutDeferred;
+    }
 //
 // CAknSgcServerImpl
 //

@@ -347,9 +347,16 @@ EXPORT_C void CAknTransparentCameraSettingPage::ProcessCommandL(TInt aCommandId)
     // Respond to softkey events
     switch (aCommandId)
         {
+        case EAknSoftkeySelect:
+            {
+            if ( EnableSingleClickHighlight( aCommandId ) )
+                {
+                break;                           
+                } 
+            // no single click mode was enabled, fall through
+            }
         case EAknSoftkeyOk:
-        case EAknSoftkeySelect:  
-        case EAknSoftkeyDone:
+        case EAknSoftkeyDone:                    
             SelectCurrentItemL(); // has non-trivial implemenations in listbox type 
                                         // controls to put the selection on the current item
             AttemptExitL(ETrue);

@@ -54,11 +54,12 @@ private: // new functions
     void InitHardwareStateL();
     TBool HandleHardwareStateKeyL(TInt aCode);
     void FreeHardwareStateKeys();
-    void SetHardwareStateL(TInt aState);
+    void SetHardwareStateL(TInt aState, TBool& aChanged);
 #ifdef RD_INTELLIGENT_TEXT_INPUT
     TInt CAknServKeyFilter::HwKeyToKeyBoardType(TInt aKeyCode);
 #endif
     void RotateScreenL( TInt aState );
+    void UpdateStateAndNotifyL( TInt aState );
     void UpdateKeyboardLayout( TInt aKeyboardLayout );
     
 private:

@@ -19,7 +19,7 @@
 #include <AknMediatorFacade.h>
 #include <MediatorEventProvider.h>
 #include <MediatorDomainUIDs.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 
 #include "aknPopupHeadingPane.h"
 #include "aknlistquerycontrol.h"
@@ -713,32 +713,6 @@ TInt CAknListQueryDialog::ClosePopup(TAny *aObj)
     
 EXPORT_C void CAknListQueryDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     {
-    // list query is dismissed if tapped outside
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
-        {
-        if( !Rect().Contains( aPointerEvent.iPosition ) )
-            {
-            if ( !iIdle )
-                {
-                MTouchFeedback* feedback = MTouchFeedback::Instance();
-                if ( feedback )
-                    {
-                    feedback->InstantFeedback( ETouchFeedbackPopUp );
-                    }
-                iIdle = CIdle::NewL(CActive::EPriorityIdle);
-                iIdle->Start(TCallBack(ClosePopup, this));
-                return;
-                }
-            }
-        
-        TInt index;
-        if ( ListBox()->View()->XYPosToItemIndex( aPointerEvent.iPosition, index ) )
-            {
-            ListBox()->View()->ItemDrawer()->SetFlags( 
-                        CListItemDrawer::EPressedDownState );
-            }
-        }
-    
     CAknQueryDialog::HandlePointerEventL( aPointerEvent );
     }    
 

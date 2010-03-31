@@ -3411,8 +3411,8 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
     {
     TAknWindowComponentLayout line;
     TAknLayoutRect rect;
-    rect.LayoutRect( TRect( 0, 0, 0, 0 ), AknLayoutScalable_Avkon::Screen() );
-    TRect screenRect( rect.Rect() );
+    TRect screenRect(0, 0, AKN_LAYOUT_WINDOW_screen.iW, AKN_LAYOUT_WINDOW_screen.iH);
+    aRect.SetRect( 0, 0, 0, 0 );
     
     // No stacon pane active etc. cheking is done here before the switch-case so that we can 
     // have slightly better performance for some other lookups (e.g. screen).
@@ -3574,18 +3574,16 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     variety = 25;
                     }
 
-                rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+                rect.LayoutRect( screenRect,
+                                 AknLayoutScalable_Avkon::main_pane( variety ) );
                 aRect = rect.Rect();
                 return ETrue;
                 }
             else if ( screenRect.iBr.iX == 360 && screenRect.iBr.iY == 640 )
                 {
                 TInt variety = 1;
-                rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+                rect.LayoutRect( screenRect,
+                                 AknLayoutScalable_Avkon::main_pane( variety ) );
                 aRect = rect.Rect();
                 return ETrue;
                 }

@@ -119,4 +119,5 @@ EXPORTS
 	_ZTVN11CItemFinder12CFindItemExtE @ 118 NONAME ; #<VT>#
 	_ZN13CFindItemMenu21SetMenuItemVisibilityENS_9TMenuItemEi @ 119 NONAME
 	_ZN12MPBAiwNotify13HandleNotifyLEiiR20CAiwGenericParamListRKS0_ @ 120 NONAME
+	_ZN11CItemFinder22SetItemFinderObserverLEP22MAknItemFinderObserver @ 121 NONAME
 

@@ -52,12 +52,39 @@ CAknEdwinPhysicsHandler* CAknEdwinPhysicsHandler::NewLC( CEikEdwin& aEdwin )
     }
 
 // ---------------------------------------------------------------------------
+// CAknEdwinPhysicsHandler::NewL
+// ---------------------------------------------------------------------------
+//
+CAknEdwinPhysicsHandler* CAknEdwinPhysicsHandler::NewL( CEikEdwin& aEdwin, CAknPhysics* aPhysics )
+    {
+    CAknEdwinPhysicsHandler* self = CAknEdwinPhysicsHandler::NewLC( aEdwin, aPhysics );
+    CleanupStack::Pop( self );
+    return self;
+    }
+
+// ---------------------------------------------------------------------------
+// CAknEdwinPhysicsHandler::NewLC
+// ---------------------------------------------------------------------------
+//
+CAknEdwinPhysicsHandler* CAknEdwinPhysicsHandler::NewLC( CEikEdwin& aEdwin, CAknPhysics* aPhysics )
+    {
+    CAknEdwinPhysicsHandler* self = new ( ELeave ) CAknEdwinPhysicsHandler(
+            aEdwin, aPhysics );
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    return self;
+    }
+
+// ---------------------------------------------------------------------------
 // CAknEdwinPhysicsHandler::~CAknEdwinPhysicsHandler
 // ---------------------------------------------------------------------------
 //
 CAknEdwinPhysicsHandler::~CAknEdwinPhysicsHandler()
     {
-    delete iPhysics;
+    if (iOwnsPhysics)
+        {
+        delete iPhysics;
+        }
     }
 
 // ---------------------------------------------------------------------------
@@ -67,70 +94,72 @@ CAknEdwinPhysicsHandler::~CAknEdwinPhysicsHandler()
 void CAknEdwinPhysicsHandler::HandlePointerEvent(
     const TPointerEvent& aPointerEvent )
     {   
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-        iViewRect.Contains( aPointerEvent.iPosition ) &&
-        iEventUnblockingAllowed )
+    if (iOwnsPhysics)
         {
-        BlockEvents( EFalse );
-        iPreviousYCoordinate = - KMaxWorldSize;
-        }
-    if ( iEventsBlocked )
-        {
-	    return;
-        }
-
-    // Dragging/flicking logic    
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+            iViewRect.Contains( aPointerEvent.iPosition ) &&
+            iEventUnblockingAllowed )
+            {
+            BlockEvents( EFalse );
+            iPreviousYCoordinate = - KMaxWorldSize;
+            }
+        if ( iEventsBlocked )
+            {
+            return;
+            }
     
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-        iViewRect.Contains( aPointerEvent.iPosition ) )
-        {
-        // Pointer down inside view rect, set flag to allow dragging 
-        // and initialize values
-        iFlags.Set( EFlagDraggingAllowed );
-        iStartPosition = aPointerEvent.iPosition;
-        StopPhysics();
-
-        iStartTime.HomeTime();
-        iDragThresholdExceeded = EFalse;
-        iFlags.Clear( EFlagBouncingUp );
-        iFlags.Clear( EFlagBouncingDown );
-        return;
-        }
-    if ( iFlags.IsClear( EFlagDraggingAllowed ) )
-        {
-        return;
-        }
-
-    if ( aPointerEvent.iType == TPointerEvent::EDrag )
-        {
-        if ( !iDragThresholdExceeded )
+        // Dragging/flicking logic    
+        
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+            iViewRect.Contains( aPointerEvent.iPosition ) )
             {
-            TInt drag( iStartPosition.iY - aPointerEvent.iPosition.iY );
-            if ( Abs( drag ) > DragThreshold() )
-                {
-                iDragThresholdExceeded = ETrue;
-                }
+            // Pointer down inside view rect, set flag to allow dragging 
+            // and initialize values
+            iFlags.Set( EFlagDraggingAllowed );
+            iStartPosition = aPointerEvent.iPosition;
+            StopPhysics();
+    
+            iStartTime.HomeTime();
+            iDragThresholdExceeded = EFalse;
+            iFlags.Clear( EFlagBouncingUp );
+            iFlags.Clear( EFlagBouncingDown );
+            return;
             }
-        else
-            {
-            TInt deltaY( iPrevPosition.iY - aPointerEvent.iPosition.iY );
-
-            TPoint deltaPoint( 0, deltaY );
-            iPhysics->RegisterPanningPosition( deltaPoint );
-            }
-
-        iPrevPosition = aPointerEvent.iPosition;
-        }
-    else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-        {
         if ( iFlags.IsClear( EFlagDraggingAllowed ) )
             {
             return;
             }
-        
-        iFlags.Clear( EFlagDraggingAllowed );
-        TPoint drag( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
-        iPhysics->StartPhysics( drag, iStartTime );
+    
+        if ( aPointerEvent.iType == TPointerEvent::EDrag )
+            {
+            if ( !iDragThresholdExceeded )
+                {
+                TInt drag( iStartPosition.iY - aPointerEvent.iPosition.iY );
+                if ( Abs( drag ) > DragThreshold() )
+                    {
+                    iDragThresholdExceeded = ETrue;
+                    }
+                }
+            else
+                {
+                TInt deltaY( iPrevPosition.iY - aPointerEvent.iPosition.iY );
+    
+                TPoint deltaPoint( 0, deltaY );
+                iPhysics->RegisterPanningPosition( deltaPoint );
+                }
+            iPrevPosition = aPointerEvent.iPosition;
+            }
+        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+            {
+            if ( iFlags.IsClear( EFlagDraggingAllowed ) )
+                {
+                return;
+                }
+            
+            iFlags.Clear( EFlagDraggingAllowed );
+            TPoint drag( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
+            iPhysics->StartPhysics( drag, iStartTime );
+            }
         }
     }
 
@@ -149,23 +178,26 @@ void CAknEdwinPhysicsHandler::SetViewRect( const TRect& aRect )
 //   
 void CAknEdwinPhysicsHandler::InitPhysicsL()
     {
-    TSize totalSize( iViewRect.Width(), iViewRect.Height() + KMaxWorldSize );
-    TSize viewSize( iViewRect.Width(), iViewRect.Height() );
-
-    
-    CTextLayout* layout = iEdwin.TextLayout();
-    
-    if ( layout )
+    if (iOwnsPhysics)
         {
-        TInt pixelsAbove = layout->PixelsAboveBand();
-        if ( pixelsAbove > 0 )
+        TSize totalSize( iViewRect.Width(), iViewRect.Height()
+                + KMaxWorldSize );
+        TSize viewSize( iViewRect.Width(), iViewRect.Height() );
+        
+        CTextLayout* layout = iEdwin.TextLayout();
+        
+        if ( layout )
             {
-            MoveScrollIndex( -pixelsAbove );
-            }
-        } 
-    
-    iPhysics->InitPhysicsL( totalSize, viewSize, EFalse );
-    }
+            TInt pixelsAbove = layout->PixelsAboveBand();
+            if ( pixelsAbove > 0 )
+                {
+                MoveScrollIndex( -pixelsAbove );
+                }
+            } 
+        
+        iPhysics->InitPhysicsL( totalSize, viewSize, EFalse );
+        }
+	}
 
 // ---------------------------------------------------------------------------
 // CAknEdwinPhysicsHandler::MoveScrollIndex
@@ -242,11 +274,16 @@ void CAknEdwinPhysicsHandler::ViewPositionChanged( const TPoint& aNewPosition,
         BlockEvents( ETrue );
         }
     
-    // Disable background drawing while panning or flicking. Instead,
-    // background is drawn in one frame.
-    iEdwin.DrawViewBackground( ETrue );
-    ScrollView( ETrue );
-    iEdwin.DrawViewBackground( EFalse );
+    // Check also world indexes here because those might still equal although
+    // y coordinates differ due to crossing world boundaries.
+    if ( iPreviousWorldIndex != iWorldIndex )
+        {
+        // Disable background drawing while panning or flicking. Instead,
+        // background is drawn in one frame.
+        iEdwin.DrawViewBackground( ETrue );
+        ScrollView( ETrue );
+        iEdwin.DrawViewBackground( EFalse );
+        }
     }
 
 // ---------------------------------------------------------------------------
@@ -320,11 +357,13 @@ TPoint CAknEdwinPhysicsHandler::ViewPosition() const
 // CAknEdwinPhysicsHandler::CAknEdwinPhysicsHandler
 // ---------------------------------------------------------------------------
 //
-CAknEdwinPhysicsHandler::CAknEdwinPhysicsHandler( CEikEdwin& aEdwin ) :
+CAknEdwinPhysicsHandler::CAknEdwinPhysicsHandler( CEikEdwin& aEdwin,
+    CAknPhysics* aPhysics ) :
     iWorldIndex( 0 ),
     iPreviousWorldIndex( 0 ),
-    iPhysics( NULL ),
-    iEdwin( aEdwin )
+    iPhysics( aPhysics ),
+    iEdwin( aEdwin ),
+    iOwnsPhysics( aPhysics == NULL )
     {
     }
 
@@ -334,7 +373,10 @@ CAknEdwinPhysicsHandler::CAknEdwinPhysicsHandler( CEikEdwin& aEdwin ) :
 //
 void CAknEdwinPhysicsHandler::ConstructL()
     {
-    iPhysics = CAknPhysics::NewL( *this, &iEdwin );    
+    if (iOwnsPhysics)
+        {
+        iPhysics = CAknPhysics::NewL( *this, &iEdwin );    
+        }
     }
 
 // ---------------------------------------------------------------------------
@@ -369,7 +411,7 @@ void CAknEdwinPhysicsHandler::ScrollView( TBool aAllowBounce )
 
                 if ( restOfPixels != 0)
                     {
-                    ScrollStep( pixelsToScroll, ETrue );
+                    ScrollStep( restOfPixels, ETrue );
                     }
                 }
             else

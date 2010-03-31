@@ -49,6 +49,8 @@ const TUint32 KAknTreeListNoIndention = 0x0008;
     items as required. */
 const TUint32 KAknTreeListMarkable = 0x0010;
 
+/** Flag to enalbe smiley in tree list. */
+const TUint32 KAknTreeListSmiley = 0x0020;
 
 /**
  *  Abstract base class for hierarchical lists.
@@ -98,7 +100,7 @@ NONSHARABLE_CLASS( CAknTreeList ) : public CAknControl
 public:
 
 
-	// for focus handling after Sort
+    // for focus handling after Sort
    enum TFocusBehaviour
             {
             ESaveFocus,
@@ -846,28 +848,28 @@ public:
      *
      * @panic EAknHListPanicInvalidItemID Item with specified ID is not found.
      */
- 	IMPORT_C void SetFocusedItem( TAknTreeItemID aItem );
- 	 	
- 	/**
+    IMPORT_C void SetFocusedItem( TAknTreeItemID aItem );
+        
+    /**
      * Gets the index of the focused item on the screen. Possible values are
      * from 0 to max. number of visible lines - 1. Value -1 is
      * returned if no item is focused or focused item is not visible. 
      *
      * @return index of the focused item on the screen.
      */
- 	IMPORT_C TInt FocusedItemIndex() const;
- 	
- 	/**
+    IMPORT_C TInt FocusedItemIndex() const;
+    
+    /**
      * Gets the index of the item on the screen. Possible values are
      * from 0 to max. number of visible lines - 1. Value -1 is
      * returned if the requested item is not visible on the screen. 
      *
      * @return index of the requested item.
      */
- 	IMPORT_C TInt VisibleItemIndex( TAknTreeItemID aItem ) const;
+    IMPORT_C TInt VisibleItemIndex( TAknTreeItemID aItem ) const;
 
- 	
- 	/**
+    
+    /**
      * Sets custom ordering for the hierarchical list and sorts the list
      * with the use of given ordering interface. The given interface is
      * used until it is replaced with some other ordering.
@@ -881,9 +883,9 @@ public:
      *
      * @param aDrawNow @c ETrue to redraw the list after sorting.
      */
- 	IMPORT_C void Sort( MAknCustomTreeOrdering* aOrdering, TFocusBehaviour aFocusBehaviour, TBool aDrawNow );
+    IMPORT_C void Sort( MAknCustomTreeOrdering* aOrdering, TFocusBehaviour aFocusBehaviour, TBool aDrawNow );
 
-	/**
+    /**
      * Sorts the specified node with the use of previously set ordering
      * interface. The sorting can be restricted to the specified node, or
      * the sorting can be set to include also every descendant node of the
@@ -908,7 +910,7 @@ public:
      *
      * @panic EAknHListPanicInvalidItemType Specified item is not a node.
      */
-   	IMPORT_C void Sort( TAknTreeItemID aNode, TFocusBehaviour aFocusBehaviour, TBool aSortDescendants, TBool aDrawNow );
+    IMPORT_C void Sort( TAknTreeItemID aNode, TFocusBehaviour aFocusBehaviour, TBool aSortDescendants, TBool aDrawNow );
         
     /**
      * Sets text for the empty list. This text is visible if the list box 
@@ -916,7 +918,7 @@ public:
      *
      * @param aText The text for the empty list.
      */
-	IMPORT_C void SetEmptyTextL(const TDesC& aText);
+    IMPORT_C void SetEmptyTextL(const TDesC& aText);
 
 
 // From base class CCoeControl

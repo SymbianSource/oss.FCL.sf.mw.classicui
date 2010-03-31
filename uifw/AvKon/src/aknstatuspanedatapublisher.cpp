@@ -1035,6 +1035,11 @@ void CAknStatusPaneDataPublisher::LoadIndicatorPlugin(
                 pluginUid.iUid = KImplUIDUSBMEMIndicatorsPlugin;
                 break;
                 }
+            case EAknIndicatorIntegratedIM:
+                {
+                pluginUid.iUid = KImplUIDIIMIndicatorPlugin;
+                break;
+                }
              // currently uncategorized:
             case EAknIndicatorKeyguard:
             case EAknIndicatorHomeZone:

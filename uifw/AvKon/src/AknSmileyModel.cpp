@@ -30,7 +30,7 @@
 
 #include "AknSmileyModel.h"
 #include "AknSmileyImage.h"
-
+#include "akntrace.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // TSmileyIconInfo
@@ -94,6 +94,7 @@ CSmileyIcon::~CSmileyIcon()
     delete iAnimationImage;
     
     iTextArray.Close();
+    iCodeArray.Close();
     }
 
 const CFbsBitmap* CSmileyIcon::Image() const
@@ -188,9 +189,10 @@ TBool CSmileyIcon::AnimationImageIsReadyToDraw() const
     return (iAnimationImage && iAnimationImage->ReadyToDraw());
     }
 
-void CSmileyIcon::AddText(const TDesC& aText) // for spliting strings = ":P :p :-P :-p";
+void CSmileyIcon::AddVariant(const TDesC& aText, TChar aBaseCode)
     {
     TPtrC ptr(aText);
+    TUint16 baseCode = aBaseCode;
 
     while(ptr.Length())
         {
@@ -204,14 +206,19 @@ void CSmileyIcon::AddText(const TDesC& aText) // for spliting strings = ":P :p :
 
         iTextArray.Append(ptr.Left(left));
         ptr.Set(ptr.Right(right));
+        iCodeArray.Append(baseCode++);
         }
     }
 
-const TDesC& CSmileyIcon::Text(TInt aVariate) const
+TInt CSmileyIcon::VariantCount() const
     {
-    if(aVariate>=0 && aVariate<TextVariate())
+    return iTextArray.Count();
+    }
+const TDesC& CSmileyIcon::Text(TInt aVariant) const
+    {
+    if(aVariant>=0 && aVariant<VariantCount())
         {
-        return iTextArray[aVariate];
+        return iTextArray[aVariant];
         }
     else
         {
@@ -219,11 +226,17 @@ const TDesC& CSmileyIcon::Text(TInt aVariate) const
         }
     }
 
-TInt CSmileyIcon::TextVariate() const
+TChar CSmileyIcon::Code(TInt aVariant) const
     {
-    return iTextArray.Count();
+    if(aVariant>=0 && aVariant<VariantCount())
+        {
+        return iCodeArray[aVariant];
     }
-
+    else
+        {
+        return 0;
+        }
+    }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,8 +307,6 @@ public:
     ~CSmileyTextTreeNode();
 
     TChar Char() const;
-    TChar LastChildChar() const;
-    TChar FirstChildChar() const;
 
     CSmileyTextTreeNode* AddTreeL(const TDesC& aText, TChar aCode);
     TInt ChildCount() const;
@@ -303,7 +314,7 @@ public:
     CSmileyTextTreeNode* Child(TChar aChar) const;
     
 private:
-    CSmileyTextTreeNode* AddChildL(TChar aChar);
+    CSmileyTextTreeNode* AddChildAscendingL(TChar aChar);
     
 private:
     TChar   iChar;
@@ -332,42 +343,19 @@ TChar CSmileyTextTreeNode::Char() const
     return iChar;
     }
 
-TChar CSmileyTextTreeNode::LastChildChar() const
-    {
-    if(iChildArray)
-        {
-        TInt index = iChildArray->Count() - 1;
-        return iChildArray->At(index)->Char();
-        }
-    else
-        {
-        return 0;
-        }
-    }
 
-TChar CSmileyTextTreeNode::FirstChildChar() const
-    {
-    if(iChildArray)
-        {
-        return iChildArray->At(0)->Char();
-        }
-    else
-        {
-        return 0;
-        }
-    }
 
 CSmileyTextTreeNode* CSmileyTextTreeNode::AddTreeL(const TDesC& aText, TChar aCode)
     {
     TInt length = aText.Length();
     if(length > 0)
         {
-        CSmileyTextTreeNode* node = AddChildL(aText[0]);
+        CSmileyTextTreeNode* node = AddChildAscendingL(aText[0]);
         return node->AddTreeL(aText.Right(length-1), aCode);
         }
     else
         {
-        return AddChildL(aCode);
+        return AddChildAscendingL(aCode);
         }
     }
 
@@ -399,7 +387,13 @@ CSmileyTextTreeNode* CSmileyTextTreeNode::Child(TChar aChar) const
     {
     if(iChildArray)
         {
-        for(TInt i=iChildArray->Count()-1; i>=0; i--)
+        const TInt KFirstPos = 0;
+        const TInt KEndPos = iChildArray->Count() - 1;
+        if(aChar<iChildArray->At(KFirstPos)->Char() || aChar>iChildArray->At(KEndPos)->Char())
+            {
+            return NULL;
+            }
+        for(TInt i=KEndPos; i>=KFirstPos; i--)
             {
             CSmileyTextTreeNode* node = iChildArray->At(i);
             if(node->Char() == aChar)
@@ -412,7 +406,7 @@ CSmileyTextTreeNode* CSmileyTextTreeNode::Child(TChar aChar) const
     return NULL;
     }
 
-CSmileyTextTreeNode* CSmileyTextTreeNode::AddChildL(TChar aChar)
+CSmileyTextTreeNode* CSmileyTextTreeNode::AddChildAscendingL(TChar aChar)
     {
     // new
     if(!iChildArray)
@@ -447,8 +441,8 @@ CSmileyTextTreeNode* CSmileyTextTreeNode::AddChildL(TChar aChar)
 // CSmileyModel
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-const TUint16 KBaseCodeOn = 0xf880;
-const TUint16 KBaseCodeOff = 0x7FFF;
+const TUint16 KBaseCode = 0xf880;
+//const TUint16 KBaseCodeOff = 0x7FFF;
 _LIT(KPlaceHolder, "\xf880i");
 
 CSmileyModel::CSmileyModel(MAknSmileyObserver* aObserver) : iSmileyIconObserver(aObserver)
@@ -460,6 +454,7 @@ CSmileyModel::~CSmileyModel()
     ReleaseResource();
     
     iSmileyIconArray.Close();
+    iSmileyCodeIndexArray.Close();
     }
 
 void CSmileyModel::LoadResourceL()
@@ -473,7 +468,7 @@ void CSmileyModel::LoadResourceL()
     TInt offset = CCoeEnv::Static()->AddResourceFileL(smileyRscName);
     CCoeEnv::Static()->CreateResourceReaderLC(reader, R_SMILEY_ICONS_INFO);
 
-    iBaseCode = KBaseCodeOn;
+    TUint16 codeRef = KBaseCode;
     TInt index = 0;
     
     iTextSearchTree = new (ELeave) CSmileyTextTreeNode(0);
@@ -484,13 +479,12 @@ void CSmileyModel::LoadResourceL()
         TSmileyIconInfo info;
 
         TBool isAnimation = (reader.ReadInt16() == 1);
-        TInt code = reader.ReadInt16();
+        TInt16 code = reader.ReadInt16();
         TInt bmpId1 = reader.ReadInt32();
         TInt maskId1 = reader.ReadInt32();
         TInt bmpId2 = reader.ReadInt32();
         TInt maskId2 = reader.ReadInt32();
         
-        if(iBaseCode > code) iBaseCode = code;
         
         info.iIndex = index++;
 
@@ -508,13 +502,14 @@ void CSmileyModel::LoadResourceL()
         TBuf<64> smileyName = reader.ReadTPtrC(); // strings
         
         CSmileyIcon* icon = CSmileyIcon::NewL(info, this);
-        icon->AddText(smileyName);
+        icon->AddVariant(smileyName, codeRef);
         iSmileyIconArray.Append(icon);
         
         // build text search tree
-        for(TInt j=0; j<icon->TextVariate(); j++)
+        for(TInt j=0; j<icon->VariantCount(); j++)
             {
-            iTextSearchTree->AddTreeL(icon->Text(j), SmileyCode(i,j));
+            iTextSearchTree->AddTreeL(icon->Text(j), codeRef++);
+            iSmileyCodeIndexArray.Append(TSmileyCodeIndex(icon,j));
             }
         }
     
@@ -526,12 +521,16 @@ void CSmileyModel::LoadResourceL()
     info.iIndex = index++;
     info.iSkinItemID = KAknsIIDQgnIndiSwitchSmiley2;
     info.iDefaultStillImageID = EMbmSmileyQgn_indi_switch_smiley2;
-    iSmileyIconArray.Append(CSmileyIcon::NewL(info,this));
+    CSmileyIcon* switchSmileyIcon = CSmileyIcon::NewL(info, this);
+    iSmileyIconArray.Append(switchSmileyIcon);
+    iSmileyCodeIndexArray.Append(TSmileyCodeIndex(switchSmileyIcon));
 
     info.iIndex = index++;
     info.iSkinItemID = KAknsIIDQgnIndiSwitchSct2;
     info.iDefaultStillImageID = EMbmSmileyQgn_indi_switch_sct2;
-    iSmileyIconArray.Append(CSmileyIcon::NewL(info,this));
+    CSmileyIcon* switchSctIcon = CSmileyIcon::NewL(info,this);
+    iSmileyIconArray.Append(switchSctIcon);
+    iSmileyCodeIndexArray.Append(TSmileyCodeIndex(switchSctIcon));
 
     }
 
@@ -547,13 +546,13 @@ void CSmileyModel::ReleaseResource()
         }
     iSmileyIconArray.Reset();
     
+    iSmileyCodeIndexArray.Reset();
     // reset task loader
     iSmileyLoader.DiscardAll();
     
     delete iTextSearchTree;
     iTextSearchTree = NULL;
     
-    iBaseCode = 0x7FFF; // max value
     }
 
 TInt CSmileyModel::ConvertCodesToTextL(TDes& aText)
@@ -589,12 +588,11 @@ TInt CSmileyModel::ConvertCodesToTextL(TDes& aText)
 
 TInt CSmileyModel::ConvertTextToCodesL(TDes& aText)
     {
+    _AKNTRACE_FUNC_ENTER;
     TInt converted = 0;
     iConvertBuffer.Zero();
 
     CSmileyTextTreeNode* node = iTextSearchTree;
-    TChar lastChar = node->LastChildChar();
-    TChar firstChar = node->FirstChildChar();
     TInt matchedLength = 0;
 
     // deal all
@@ -604,50 +602,52 @@ TInt CSmileyModel::ConvertTextToCodesL(TDes& aText)
         TChar character = aText[pos++];
         iConvertBuffer.Append(character);
 
-        if(!(character<firstChar || character>lastChar)) // is possible
-            {
             CSmileyTextTreeNode* find = node->Child(character);
             if(find)
                 {
                 matchedLength++; // character is mathed
                 
                 CSmileyTextTreeNode* child = find->Child(0);
-                if(child && child->ChildCount()==0) // whole combination is matched
+            TBool notFinished = (child && child->ChildCount());
+            if(notFinished) // not ended
                     {
-                    converted++;
-                    
+                node = find; // match next 
+                continue;
+                }
+            else if(child) // whole combination is matched and ended
+                {
                     TChar code = child->Char();
 
                     // replace with code
                     iConvertBuffer.SetLength(iConvertBuffer.Length() - matchedLength);
                     iConvertBuffer.Append(code);
                     iConvertBuffer.Append('i');
-
+                converted++; // returned value added
                     // load thumnail
                     LoadStillImageL(code);
 
                     // restart
                     matchedLength = 0;
                     node = iTextSearchTree;
-                    }
-                else
-                    {
-                    node = find;
-                    }
-
-                lastChar = node->LastChildChar();
-                firstChar = node->FirstChildChar();
                 continue;
+                    }
+            else // in this case matchedLength already increased by 1
+                {
+                matchedLength--;
                 }
             }
         
-        // character is not matched
+        // matching failed
         if(matchedLength)
             {
+            // back to the 2nd char
+            TInt rollBack = matchedLength;
+            iConvertBuffer.SetLength(iConvertBuffer.Length() - rollBack);
+            pos -= rollBack;
+
+            // reset matching context
             matchedLength = 0;
             node = iTextSearchTree;
-            lastChar = node->LastChildChar();
-            firstChar = node->FirstChildChar();
             }
         }
     
@@ -657,20 +657,22 @@ TInt CSmileyModel::ConvertTextToCodesL(TDes& aText)
         aText.Copy(iConvertBuffer);
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return converted;
     }
 
 TBool CSmileyModel::IsSmiley(TChar aCode) const
     {
-    return (aCode >= iBaseCode);
+    TInt smileyCodeIndex = (TUint16)aCode - KBaseCode;
+    return (smileyCodeIndex>=0 && smileyCodeIndex<iSmileyCodeIndexArray.Count());
     }
 
 const TDesC& CSmileyModel::Text(TChar aCode) const
     {
-    TInt index, variate;
-    if(DecodeSmileyCode(aCode, index, variate))
+    if(IsSmiley(aCode))
         {
-        return Text(index, variate);
+        TInt smileyCodeIndex = (TUint16)aCode - KBaseCode;
+        return iSmileyCodeIndexArray[smileyCodeIndex].Text();
         }
     else
         {
@@ -751,6 +753,7 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
 
 void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const TAknLayoutText& aLayout, TBool aUseLogicalToVisualConversion) const
     {
+    _AKNTRACE_FUNC_ENTER;
     // adapter variables
     const CFont* font = aLayout.Font();
     TRect textRect = aLayout.TextRect();
@@ -781,7 +784,6 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const TAknLayout
                 TPtr ptr = visualBuf->Des();
                 
                 TInt maxWidth = textRect.Size().iWidth;
-                
                 // Logical to visual conversion.
                 AknBidiTextUtils::ConvertToVisualAndClip(
                     aText,
@@ -789,7 +791,6 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const TAknLayout
                     *font,
                     maxWidth,
                     maxWidth );
-                
                 // for smiley begin
                 const TInt length = ptr.Length();
                 if(length>1 && IsSmiley(ptr[length-2]))
@@ -841,6 +842,7 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const TAknLayout
         }
     
     //aGc.DiscardFont(); // Release the font cache
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFont, const TRect& aBox, TInt aBaselineOffset, 
@@ -880,7 +882,7 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
     
     aGc.UseFont(aFont);
     
-    TInt fontH = aFont->HeightInPixels();
+    TInt fontH = aFont->FontMaxHeight();
     
     TBool metSmileyNotReady = EFalse;
  
@@ -911,8 +913,9 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
             if(icon)
                 {
                 TSize size = icon->Size();
-                TPoint tl = aBox.iTl + offset;
-                tl.iY = tl.iY - (size.iHeight + fontH) / 2;
+                TPoint tl = aBox.iTl;
+                tl.iX += offset.iX;
+                //tl.iY = tl.iY - size.iHeight/*(size.iHeight + fontH) / 2*/;
                 TRect imgWindow(tl, size);
                 imgWindow.Intersection(aBox);
                 if(!imgWindow.IsEmpty())
@@ -928,7 +931,8 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
                         }
                     }
 
-                offset += TPoint(aFont->TextWidthInPixels(ptr.Left(2)),0);
+                //offset += TPoint(aFont->TextWidthInPixels(ptr.Left(2)),0);
+                offset.iX += size.iWidth;
                 }
             
             ptr.Set(ptr.Right(ptr.Length()-2));
@@ -938,10 +942,10 @@ void CSmileyModel::DrawText(CWindowGc& aGc, const TDesC& aText, const CFont* aFo
 
 CAknSmileyIcon* CSmileyModel::Smiley(TChar aCode) const
     {
-    TInt index, variate;
-    if(DecodeSmileyCode(aCode, index, variate))
+    if(IsSmiley(aCode))
         {
-        return (*this)[index];
+        TInt smileyCodeIndex = (TUint16)aCode - KBaseCode;
+        return iSmileyCodeIndexArray[smileyCodeIndex].Smiley();
         }
     else
         {
@@ -986,17 +990,26 @@ TChar CSmileyModel::SwitchToSctCode() const
     return SmileyCode(Count()+1);
     }
 
-TChar CSmileyModel::SmileyCode(TInt aIndex, TInt aVariate) const
+TChar CSmileyModel::SmileyCode(TInt aIndex, TInt aVariant) const
     {
-    return EncodeSmileyCode(aIndex, aVariate);
+    const CAknSmileyIcon* iconWrapper = (*this)[aIndex];
+    const CSmileyIcon* icon = static_cast<const CSmileyIcon*>(iconWrapper);
+    if(icon)
+        {
+        return icon->Code(aVariant);
+        }
+    else
+        {
+        return 0;
+        }
     }
 
-TChar CSmileyModel::SmileyCode(CAknSmileyIcon* aSmileyIcon) const
+TChar CSmileyModel::SmileyCode(const CAknSmileyIcon* aSmileyIcon) const
     {
     if(aSmileyIcon)
         {
-        CSmileyIcon* icon = static_cast<CSmileyIcon*>(aSmileyIcon);
-        return EncodeSmileyCode(icon->Index(), 0);
+        const CSmileyIcon* icon = static_cast<const CSmileyIcon*>(aSmileyIcon);
+        return icon->Code();
         }
     else
         {
@@ -1018,12 +1031,12 @@ void CSmileyModel::LoadStillImageL(TChar aChar)
     iSmileyLoader.AddTaskL(icon);
     }
 
-const TDesC& CSmileyModel::Text(TInt aIndex, TInt aVariate) const
+const TDesC& CSmileyModel::Text(TInt aIndex, TInt aVariant) const
     {
     CSmileyIcon* icon = static_cast<CSmileyIcon*>((*this)[aIndex]);
     if(icon)
         {
-        return icon->Text(aVariate);
+        return icon->Text(aVariant);
         }
     else
         {
@@ -1034,34 +1047,9 @@ const TDesC& CSmileyModel::Text(TInt aIndex, TInt aVariate) const
 TInt CSmileyModel::ArrayCount() const
     {
     return iSmileyIconArray.Count();
-    }
 
-TChar CSmileyModel::EncodeSmileyCode(TInt aIndex, TInt aVariate) const
-    {
-    if(aVariate)
-        {
-        return (iBaseCode + aIndex + (aVariate<<8));
-        }
-    else
-        {
-        return (iBaseCode + aIndex);
-        }
-    }
 
-#define KMaskL 0x00FF
 
-TBool CSmileyModel::DecodeSmileyCode(TChar aCode, TInt& aIndex, TInt& aVariate) const
-    {
-    if(aCode >= iBaseCode)
-        {
-        aIndex = (aCode&KMaskL) - (iBaseCode&KMaskL);
-        aVariate = (aCode>>8) - (iBaseCode>>8);
-        return ETrue;
-        }
-    else
-        {
-        return EFalse;
-        }
     }
 
 void CSmileyModel::SmileyStillImageLoaded(CAknSmileyIcon* aSmileyIcon)

@@ -67,7 +67,8 @@ CHgScrollbar::~CHgScrollbar()
 // -----------------------------------------------------------------------------
 //
 CHgScrollbar::CHgScrollbar( MHgScrollbarObserver& aObserver )
-    : iObserver( aObserver )
+    : iObserver( aObserver ), 
+      iStatic( ETrue )
     {
     
     }

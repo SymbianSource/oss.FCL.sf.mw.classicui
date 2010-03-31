@@ -2640,7 +2640,7 @@ EXPORT_C void CAknSettingItemList::EditItemL(TInt aIndex, TBool aCalledFromMenu 
         {
         // launch the setting page index
         SettingItemArray()->At(aIndex)->EditItemL( aCalledFromMenu );
-        iSettingItemListBox->View()->DrawItem( iSettingItemListBox->CurrentItemIndex() );
+        iSettingItemListBox->DrawDeferred();
         }
 
     _AKNTRACE_FUNC_EXIT;

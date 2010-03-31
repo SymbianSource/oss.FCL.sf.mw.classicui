@@ -1162,10 +1162,6 @@ EXPORT_C void CAknPopupList::HandlePointerEventL(const TPointerEvent& aPointerEv
                         {
                         AttemptExitL( ETrue );
                         }
-                    else
-                        {
-                        AttemptExitL( EFalse );
-                        }
                     }
 
                 //EFTG-7HWDP6. 
@@ -1179,24 +1175,11 @@ EXPORT_C void CAknPopupList::HandlePointerEventL(const TPointerEvent& aPointerEv
                 break;
             case TPointerEvent::EButton1Down:
                 _AKNTRACE("CAknPopupList::HandlePointerEventL: TPointerEvent::EButton1Down");
-                // as in comments close popup if pointer goes outside of the popup list
-                if ( !Rect().Contains( aPointerEvent.iPosition ) )
+                if ( FindBox() 
+                    && ( FindBox()->Editor().Rect().Contains( aPointerEvent.iPosition ) ) 
+                    && !( iPopupListExtension->iFlags & EPopupLayoutSwitchEvent ) )
                     {
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if ( feedback )
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackPopUp );
-                        }
-                    AttemptExitL( EFalse );                	
-                    }
-                else 
-                    {
-                    if( FindBox() 
-                        && ( FindBox()->Editor().Rect().Contains( aPointerEvent.iPosition ) ) 
-                        && !( iPopupListExtension->iFlags & EPopupLayoutSwitchEvent ) )
-                        {
-                        iPopupListExtension->iFlags |= EPopupFepStartEvent;
-                        }
+                    iPopupListExtension->iFlags |= EPopupFepStartEvent;
                     }
                 break;
             case TPointerEvent::EDrag:

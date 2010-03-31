@@ -219,7 +219,14 @@ void CAknDiscreetPopupDrawer::Draw( CWindowGc& aGc,
     {
     // draw background of the popup 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    AknsDrawUtils::DrawFrame( skin, aGc, aRect, aRect, 
+    TAknLayoutRect innerLayout;
+    // Use bg_popup_preview_window_pane_g1() for getting innerRect, 
+    // no need to create a new layout id for discreet popup.
+    innerLayout.LayoutRect( aRect, 
+            	AknLayoutScalable_Avkon::bg_popup_preview_window_pane_g1() );        
+    TRect innerRect = innerLayout.Rect();  
+    
+    AknsDrawUtils::DrawFrame( skin, aGc, aRect, innerRect, 
         KAknsIIDQsnFrPopupPreview, KAknsIIDDefault );
     
     // Draw the texts

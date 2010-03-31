@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -237,6 +237,17 @@ public: // Utilities
     IMPORT_C static void MenuPopupWindowGraphics(TAknPopupWindowLayoutDef &aDef);
 
     static TRect RectFromLayout(TRect aParent, const TAknWindowComponentLayout &aComponentLayout);
+
+private:
+    
+    /**
+     * Contains layout setup that is common for all popups.
+     */
+    static void CommonSetup( TAknPopupWindowLayoutDef& aDef,
+                             const TAknWindowComponentLayout& aItemLayout,
+                             TInt aNum,
+                             TBool aHeading,
+                             TBool aLayoutHeading );
     };
 
 /** TAknPopupWindowLayoutDef

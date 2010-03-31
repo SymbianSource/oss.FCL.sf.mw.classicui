@@ -80,6 +80,11 @@ EXPORT_C void CAknTreeList::SetFlags( TUint32 aFlags )
         View().EnableMarking( aFlags & KAknTreeListMarkable );
         }
 
+    if ( diff & KAknTreeListSmiley && !AknLayoutUtils::LayoutMirrored() )
+        {
+        Tree().InitSmiley();
+        }
+
     iFlags = aFlags;
     }
 

@@ -68,7 +68,7 @@
 #include <AknTasHook.h>
 #include <aknphysics.h>
 #include <aknphysicsobserveriface.h>
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "aknitemactionmenudata.h"
 #include "akntrace.h"
 
@@ -4000,7 +4000,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                     {
                     RepaintHighlight();
                     }
-                else if ( highlightWasEnabled )
+                   else if ( highlightWasEnabled && !iCascadeMenuPane )
                     {
                     DrawItem( SelectedItem(), ENoHighlight );
                     }
@@ -4337,7 +4337,9 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                         }
                     else
                         {
-                        ReportCanceled();   //Close main menu.
+                        _AKNTRACE( "[%s]", "HandlePointerEventL return 12.5" );
+                        _AKNTRACE_FUNC_EXIT;                   
+                        return;
                         }
                     }
                 }

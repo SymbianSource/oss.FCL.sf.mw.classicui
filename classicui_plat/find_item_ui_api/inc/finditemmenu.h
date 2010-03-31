@@ -371,6 +371,12 @@ NONSHARABLE_CLASS(CFindItemMenu) :public CBase
         TBool ItemFinderExists();
         TPtrC CurrentSelection(); 
         
+        /**
+         *  Returns text highlight status.
+         *  @return ETrue if there is highlighted text, otherwise EFalse
+         */
+        TBool HasSelection() const;
+        
     private:
         /**
         * Enumeration for menu command ids

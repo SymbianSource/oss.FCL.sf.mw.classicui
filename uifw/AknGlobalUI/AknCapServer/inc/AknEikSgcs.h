@@ -64,6 +64,9 @@ public:
 
     static TInt LayoutInstallationCallBack(TAny* aPtr);
     
+    void SetBackgroundAppsStateChangeDeferred(TBool aDeferred);
+    TBool BackgroundAppsStateChangeDeferred() const;
+    
 private:
     class TWgState
         {
@@ -179,6 +182,7 @@ private:
 	TInt iTouchCompaScreenMode;
     CEComPluginNotifier* iLayoutNotifier; // Owned
     REComPluginInfoArray iPrevPluginInfo;
+    TInt iBackgroundLayoutDeferred;
     };
 
 #endif // EIKSGCS_H

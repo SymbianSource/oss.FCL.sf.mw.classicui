@@ -33,7 +33,7 @@
 #include <aknnotecontrol.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <avkondomainpskeys.h> // KPSUidAvkonDomain, KAknKeyguardStatus, TAknKeyguardStatus
 #include <startupdomainpskeys.h> // KStartupSecurityCodeQueryStatus
 #include <coreapplicationuisdomainpskeys.h> // KCoreAppUIsAutolockStatus
@@ -992,7 +992,10 @@ void CAknKeyLockControl::ConstructL()
     TBool touchEnabled( AknLayoutUtils::PenEnabled() );
 
 	TBool hasSlider(iHardwareSupport != EKeyguardDefaultHardware);
-
+    if( FeatureManager::FeatureSupported( KFeatureIdFfPowerKeyAsKeyguard ) )
+    {
+	hasSlider = ETrue;  // the only purpose is to display empty sotkeys
+	}
     iKeyLockCba = CEikButtonGroupContainer::NewL(
                     CEikButtonGroupContainer::ECba,
                     CEikButtonGroupContainer::EHorizontal,

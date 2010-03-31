@@ -427,6 +427,38 @@ TInt CTestSDKSettingPages::TestSettingpagesRadioButtonWriteInternalStateLL( CSti
     return KErrNone;
     }
 
+// -----------------------------------------------------------------------------
+// CTestSDKSettingPages::TestSettingpagesRadioButtonProcessCommandLL
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKSettingPages::TestSettingpagesRadioButtonProcessCommandLL( CStifItemParser& /*aItem*/ )
+    { 
+    CDesCArrayFlat* mArr = new( ELeave ) CDesCArrayFlat( KSize );
+    CleanupStack::PushL( mArr );
+
+    TBuf<KBufSize> tom( KTom );
+    TBuf<KBufSize> jack( KJack );
+    TBuf<KBufSize> mary( KMary );
+    mArr->AppendL( tom );
+    mArr->AppendL( jack );
+    mArr->AppendL( mary );
+    
+    TInt optin( KZero );
+    TBuf< KBufSize > buffer( KTestString );
+    CTestRadioButtonSettingPage* dialog =
+    new (ELeave) CTestRadioButtonSettingPage( &buffer, KOne, EAknCtPopupSettingList,
+        R_EXAMPLE_EDITOR_CONTROL, R_EXAMPLE_SETTING_PAGE, optin, mArr );
+    CleanupStack::PushL( dialog ); 
+    
+    dialog->ConstructL();
+    CCoeEnv::Static()->AppUi()->AddToStackL( dialog );
+    dialog->TestProcessCommandL( EAknSoftkeySelect );
+    CCoeEnv::Static()->AppUi()->RemoveFromStack( dialog );  
+    
+    CleanupStack::PopAndDestroy( KTwo );
+    return KErrNone;    
+    }
+
 //End file
 
 

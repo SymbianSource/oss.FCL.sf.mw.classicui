@@ -1177,11 +1177,14 @@ public:
      *                              be also passed if @c aParentWindowGroup
      *                              is specified.
      * @param  aTransparent         Whether or not the control is transparent.
+     * @param  aIsFaded             Whether or not the control's window should
+     *                              be faded or not.
      */
     void SetParentWindowL( RWindowGroup* aParentWindowGroup,
                            CCoeControl* aParentControl,
                            CRedrawStoreHandler* aRedrawStoreHandler,
-                           TBool aTransparent );
+                           TBool aTransparent,
+                           TBool aIsFaded );
     
     /**
      * Sets the container control transparency.
@@ -2604,7 +2607,8 @@ void CEikStatusPaneContainer::SetParentWindowL(
     RWindowGroup* aParentWindowGroup,
     CCoeControl* aParentControl,
     CRedrawStoreHandler* aRedrawStoreHandler,
-    TBool aTransparent )
+    TBool aTransparent,
+    TBool aIsFaded )
     {
     if ( aParentWindowGroup )
         {
@@ -2612,6 +2616,9 @@ void CEikStatusPaneContainer::SetParentWindowL(
     
         SetMopParent( iEikonEnv->EikAppUi() );
         SetParent( NULL );
+
+        // Maintain the window's ordinal position.
+        TInt ordinalPos = Window().OrdinalPosition();
 
         if ( OwnsWindow() )
             {
@@ -2644,6 +2651,9 @@ void CEikStatusPaneContainer::SetParentWindowL(
         EnableDragEvents();
 
         SetContainersL( *iControl, *this );
+
+        window.SetFaded( aIsFaded, RWindowTreeNode::EFadeIncludeChildren );
+        window.SetOrdinalPosition( ordinalPos );
         
         ActivateL();
         }
@@ -3786,6 +3796,8 @@ void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
         // component controls.
         TInt count( combinedPaneControl->CountComponentControls() );
 
+        TBool isFaded( IsFaded() );
+
         for ( TInt i = 0; i < count; ++i )
             {
             CEikStatusPaneContainer* subPane =
@@ -3798,7 +3810,9 @@ void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
                     subPane->SetParentWindowL( NULL,
                                                combinedPaneControl,
                                                NULL,
-                                               transparencyEnabled );
+                                               transparencyEnabled,
+                                               isFaded );
+
                     // Background is drawn by the combined pane so remove
                     // the subpane's own background drawer. 
                     subPane->SetBackground( NULL );
@@ -3809,7 +3823,8 @@ void CEikStatusPaneBase::SetCombinedPaneVisibilityL( TBool aVisible )
                         iParentWindowGroup,
                         NULL,
                         iExtension ? iExtension->iRedrawStoreHandler : NULL,
-                        transparencyEnabled );
+                        transparencyEnabled,
+                        isFaded );
 
                     subPane->SetBackground( transparencyEnabled ? NULL :
                                                                   iExtension );

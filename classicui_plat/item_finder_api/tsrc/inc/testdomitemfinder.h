@@ -266,6 +266,14 @@ private: // [TestMethods]
     */
     virtual TInt TestIFCurrentSelection( CStifItemParser& aItem );
 
+    /**
+    * TestIFSetItemFinderObserverL test method.
+    * @since S60 5.0
+    * @param aItem Script line containing parameters.
+    * @return Symbian OS error code.
+    */
+    virtual TInt TestIFSetItemFinderObserverL( CStifItemParser& aItem );
+
 private:    // Data
 
     /**

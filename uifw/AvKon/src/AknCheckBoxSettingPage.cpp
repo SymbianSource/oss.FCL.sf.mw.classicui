@@ -362,6 +362,13 @@ EXPORT_C void CAknCheckBoxSettingPage::ProcessCommandL(TInt aCommandId)
     switch (aCommandId)
         {
         case EAknSoftkeySelect:
+            {
+            if ( EnableSingleClickHighlight( aCommandId ) )
+                {
+                break;                           
+                } 
+            // no single click mode was enabled, fall through
+            }           
         case EAknSoftkeyMark:
         case EAknSoftkeyUnmark:
             if ( AknLayoutUtils::PenEnabled() )

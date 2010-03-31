@@ -855,7 +855,7 @@ CColumnListBoxView::Draw( const TRect* aRect ) const
         }
 
     TInt firstPotentialItemIndex = iTopItemIndex;
-    TInt lastPotentialItemIndex = iTopItemIndex + NumberOfItemsThatFitInRect(iViewRect) - 1;
+    TInt lastPotentialItemIndex = iTopItemIndex + NumberOfItemsThatFitInRect(iViewRect);
 
     if (iModel->NumberOfItems() == 0)
         {

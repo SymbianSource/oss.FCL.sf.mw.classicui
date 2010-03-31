@@ -642,8 +642,10 @@ private:
 
     /**
      * Updates scrollbars.
+     * 
+     * @param  aDrawNow  Whether or not to draw the scrollbar.
      */
-    void UpdateScrollbars();
+    void UpdateScrollbars( TBool aDrawNow );
 
     /**
      * Updates the horizontal position of the view so that the beginning of
@@ -1091,6 +1093,11 @@ private: // data
     * Last visible item index
 	*/
 	TInt iBottomIndex;
+	
+	/**
+	 * Whether or not mirrored layout is currently in use.
+	 */
+	TBool iMirroredLayoutInUse;
     };
 
 

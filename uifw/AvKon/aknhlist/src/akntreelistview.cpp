@@ -32,7 +32,7 @@
 #include "akntreeiterator.h"
 #include "akntreelistphysicshandler.h"
 
-
+#include "akntrace.h"
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 
@@ -163,7 +163,8 @@ void CAknTreeListView::SetFocusedItem( CAknTreeItem* aItem,
         {
         Window().Invalidate( Rect() );
         }
-    UpdateScrollbars();
+
+    UpdateScrollbars( ETrue );
     }
 
 
@@ -213,7 +214,7 @@ void CAknTreeListView::SetFocusedItemAndView( CAknTreeItem* aItem )
     // Draw always
     Window().Invalidate( Rect() );
         
-    UpdateScrollbars();
+    UpdateScrollbars( ETrue );
     }
 
 
@@ -422,7 +423,7 @@ void CAknTreeListView::SetEmptyTextL(const TDesC& aText)
     delete iEmptyListText;
     iEmptyListText = NULL;
     iEmptyListText = aText.AllocL();
-    UpdateScrollbars(); 
+    UpdateScrollbars( ETrue ); 
     }
 
 
@@ -504,7 +505,7 @@ void CAknTreeListView::UpdateTreeListView( const TInt& aFirstItem,
     {
     CAknTreeItem* first = iTree.VisibleItem( aFirstItem );
     UpdateVisibleItems( 0, first );
-    UpdateScrollbars();
+    UpdateScrollbars( ETrue );
     UpdateAnimation();
     
     if ( aDrawNow )
@@ -742,11 +743,7 @@ TKeyResponse CAknTreeListView::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 void CAknTreeListView::MakeVisible( TBool aVisible )
     {
     CAknControl::MakeVisible( aVisible );
-
-    if ( aVisible )
-        {
-        UpdateScrollbars();
-        }
+    UpdateScrollbars( aVisible );
     }
 
 
@@ -771,6 +768,11 @@ void CAknTreeListView::SetContainerWindowL( const CCoeControl& aContainer )
 
     iScrollbarFrame = new ( ELeave ) CEikScrollBarFrame( this, this );
     iScrollbarFrame->CreateDoubleSpanScrollBarsL( EFalse, EFalse );
+    if ( CAknEnv::Static()->TransparencyEnabled() && iPhysicsHandler )
+        {
+        // disable background drawing of scrollbar 
+        iScrollbarFrame->DrawBackground( EFalse, EFalse );
+        }
     }
 
 
@@ -782,62 +784,91 @@ void CAknTreeListView::SetContainerWindowL( const CCoeControl& aContainer )
 void CAknTreeListView::HandleResourceChange( TInt aType )
     {
     CAknControl::HandleResourceChange( aType );
-    if ( aType == KAknsMessageSkinChange )
+    
+    switch ( aType )
         {
-        TRAPD( error, CreateAnimationL() )
-        if ( error )
+        case KAknsMessageSkinChange:
             {
-            delete iAnimation;
-            iAnimation = NULL;
-            }
-        }
-    else if ( aType == KEikDynamicLayoutVariantSwitch && FocusedItem() )
-        {
-        if ( !FocusedItemVisible() )
-            {
-            TInt firstItemIndex = 0;
-            if ( iItems.Count() && iItems[0].Item() )
+            TRAPD( error, CreateAnimationL() )
+            if ( error )
                 {
-                firstItemIndex = iTree.VisibleItemIndex( iItems[0].Item() );
+                delete iAnimation;
+                iAnimation = NULL;
                 }
-
-            TInt index = 0;
-            if ( firstItemIndex < iTree.VisibleItemIndex( FocusedItem() ) )
-                {
-                index = iItems.Count() - 1;
-                }
-
-            SetFocusedItem( FocusedItem(), index, ETrue );
+            break;
             }
-        else
+
+        case KEikDynamicLayoutVariantSwitch:
             {
-            SetFocusedItem( FocusedItem(), FocusIndex(), ETrue );
-            
-            
-            // This block moves visible view after layout switch
-            // if there are not enough items to fill whole screen
-            TInt visibleItemIndex = iTree.VisibleItemIndex( FocusedItem() );
-            if ( visibleItemIndex != KErrNotFound)
+            iMirroredLayoutInUse = AknLayoutUtils::LayoutMirrored();
+
+            CAknTreeItem* focusedItem( FocusedItem() );
+            if ( focusedItem )
                 {
-                TInt focusedItemIndex = FocusedItemIndex();
-                if (focusedItemIndex != -1)
+                if ( !FocusedItemVisible() )
                     {
-                    TInt height =  iTree.VisibleItemCount() - visibleItemIndex + focusedItemIndex;
-                    TInt itemCountLimit = iItems.Count();
-                    
-                    if ( height < itemCountLimit && height < iTree.VisibleItemCount() )
+                    TInt firstItemIndex = 0;
+                    if ( iItems.Count() && iItems[0].Item() )
                         {
-                        TInt move = itemCountLimit - height;                
-                        UpdateVisibleItems( focusedItemIndex + move, FocusedItem() );
+                        firstItemIndex =
+                            iTree.VisibleItemIndex( iItems[0].Item() );
                         }
+    
+                    TInt index = 0;
+                    if ( firstItemIndex < iTree.VisibleItemIndex( focusedItem ) )
+                        {
+                        index = iItems.Count() - 1;
+                        }
+    
+                    SetFocusedItem( focusedItem, index, ETrue );
+                    }
+                else
+                    {
+                    SetFocusedItem( focusedItem, FocusIndex(), ETrue );
+
+                    // This block moves visible view after layout switch
+                    // if there are not enough items to fill whole screen
+                    TInt visibleItemIndex =
+                        iTree.VisibleItemIndex( focusedItem );
+                    if ( visibleItemIndex != KErrNotFound )
+                        {
+                        TInt focusedItemIndex = FocusedItemIndex();
+                        if ( focusedItemIndex != -1 )
+                            {
+                            TInt visibleItemCount( iTree.VisibleItemCount() );
+                        
+                            TInt height =
+                                visibleItemCount - visibleItemIndex + focusedItemIndex;
+                            TInt itemCountLimit = iItems.Count();
+                            
+                            if ( height < itemCountLimit &&
+                                 height < visibleItemCount )
+                                {
+                                TInt move = itemCountLimit - height;                
+                                UpdateVisibleItems(
+                                    focusedItemIndex + move, focusedItem );
+                                }
+                            }
+                        }
+                    // end of block
                     }
                 }
-            // end of block
+            break;
             }
-        }
-    else if ( aType == KAknMessageFocusLost && HighlightEnabled() )
-        {
-        EnableHighlight( EFalse );
+            
+        case KAknMessageFocusLost:
+            {
+            if ( HighlightEnabled() )
+                {
+                EnableHighlight( EFalse );
+                }
+            break;
+            }
+            
+        default:
+            {
+            break;
+            }
         }
     }
 
@@ -858,7 +889,7 @@ void CAknTreeListView::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         return;
         }
     
-    if ( GrabbingComponent() != NULL )
+    if ( GrabbingComponent() )
         {
         iPhysicsHandler->ResetEventBlockingStatus();
         }
@@ -913,7 +944,7 @@ void CAknTreeListView::HandleScrollEventL( CEikScrollBar* aScrollBar,
         }
 
     TInt thumbPosition = aScrollBar->ThumbPosition();
-    if ( AknLayoutUtils::LayoutMirrored() &&
+    if ( iMirroredLayoutInUse &&
          aScrollBar != iScrollbarFrame->VerticalScrollBar() )
         {
         const TEikScrollBarModel* model = aScrollBar->Model();
@@ -932,7 +963,7 @@ void CAknTreeListView::HandleScrollEventL( CEikScrollBar* aScrollBar,
         case EEikScrollPageLeft:
         case EEikScrollPageRight:
             iViewLevel = thumbPosition;
-            UpdateScrollbars();
+            UpdateScrollbars( ETrue );
             UpdateAnimation();
             Window().Invalidate( Rect() );
             break;
@@ -944,15 +975,15 @@ void CAknTreeListView::HandleScrollEventL( CEikScrollBar* aScrollBar,
             break;
 
         case EEikScrollThumbReleaseHoriz:
-            UpdateScrollbars();
+            UpdateScrollbars( ETrue );
             break;
 
         case EEikScrollHome:
-            // Not in use!
+            // Not in use
             break;
 
        case EEikScrollEnd:
-           // Not in use!
+           // Not in use
            break;
 
         default:
@@ -1051,9 +1082,8 @@ void CAknTreeListView::HandleTreeEvent( TEvent aEvent, CAknTreeItem* aItem,
 
     if ( aDrawNow )
         {
-		// it should be DrawNow() here for fixing bug JLAI-7UE9RN
+		// DrawNow must be used here.
         DrawNow();
-        //Window().Invalidate( Rect() );
         }
     }
 
@@ -1137,7 +1167,9 @@ void CAknTreeListView::FocusChanged( TDrawNow aDrawNow )
         }
     else if ( IsFocused() && FocusedItemVisible() )
         {
-        TRect rect = iItems[FocusIndex()].HighlightRect( iViewLevel, Indention(), IndentionWidth() );
+        TRect rect = iItems[FocusIndex()].HighlightRect( iViewLevel,
+                                                         Indention(),
+                                                         IndentionWidth() );
         Window().Invalidate( rect );
         }
         
@@ -1157,7 +1189,7 @@ void CAknTreeListView::SizeChanged()
     LayoutView();
 
     // Update scrollbars.
-    UpdateScrollbars();
+    UpdateScrollbars( ETrue );
 
     UpdateIndexes();
     AknsUtils::RegisterControlPosition( this, PositionRelativeToScreen() );
@@ -1270,6 +1302,8 @@ void CAknTreeListView::ConstructL( const CCoeControl& aContainer )
         {
         EnableHighlight( ETrue );
         }
+    
+    iMirroredLayoutInUse = AknLayoutUtils::LayoutMirrored();
     }
 
 
@@ -1282,10 +1316,7 @@ void CAknTreeListView::ConstructL( const CCoeControl& aContainer )
 void CAknTreeListView::HandleItemAddedEvent( CAknTreeItem* /*aItem*/, TBool aDrawNow )
     {
     UpdateVisibleItems();
-    if (aDrawNow)
-        {
-        UpdateScrollbars();
-        }
+    UpdateScrollbars( aDrawNow );
     }
 
 
@@ -1300,7 +1331,7 @@ void CAknTreeListView::HandleItemMovedEvent( CAknTreeItem* /*aItem*/ )
     // been changed, unless the it receives information from where the
     // specified item was moved.
     UpdateVisibleItems();
-    UpdateScrollbars();
+    UpdateScrollbars( ETrue );
     }
 
 
@@ -1355,10 +1386,7 @@ void CAknTreeListView::PrepareForItemRemoval( CAknTreeItem* aItem, TBool /*aDraw
 void CAknTreeListView::HandleItemRemovedEvent( CAknTreeItem* /*aItem*/, TBool aDrawNow )
     {
     UpdateVisibleItems();
-    if (aDrawNow)
-        {
-        UpdateScrollbars();
-        }
+    UpdateScrollbars( aDrawNow );
     }
 
 
@@ -1381,7 +1409,8 @@ void CAknTreeListView::HandleNodeExpandedEvent( CAknTreeNode* aNode )
         {
         UpdateVisibleItems();
         }
-    UpdateScrollbars();
+
+    UpdateScrollbars( ETrue );
     }
 
 
@@ -1421,7 +1450,7 @@ void CAknTreeListView::HandleNodeCollapsedEvent( CAknTreeNode* aNode )
         }
 
     UpdateVisibleItems();
-    UpdateScrollbars();
+    UpdateScrollbars( ETrue );
     }
 
 
@@ -1473,10 +1502,8 @@ void CAknTreeListView::HandleTreeSortedEvent( TBool aDrawNow )
                 }
             }
         }
-    if ( aDrawNow )
-        {
-        UpdateScrollbars();
-        }
+
+    UpdateScrollbars( aDrawNow );
     }
 
 
@@ -1626,7 +1653,7 @@ void CAknTreeListView::HandleSelectionKeyEvent()
 //
 void CAknTreeListView::HandleRightArrowKeyEvent()
     {
-    if ( AknLayoutUtils::LayoutMirrored() )
+    if ( iMirroredLayoutInUse )
         {
         AscendFocus();
         }
@@ -1643,7 +1670,7 @@ void CAknTreeListView::HandleRightArrowKeyEvent()
 //
 void CAknTreeListView::HandleLeftArrowKeyEvent()
     {
-    if ( AknLayoutUtils::LayoutMirrored() )
+    if ( iMirroredLayoutInUse )
         {
         DescendFocus();
         }
@@ -1981,7 +2008,8 @@ void CAknTreeListView::LayoutView()
     // Fill whole control area with list items when physics enabled
     // and threre is no horizontal scrollbar.  
     if ( iScrollbarFrame &&
-         iScrollbarFrame->ScrollBarVisibility( CEikScrollBar::EHorizontal ) != CEikScrollBarFrame::EOn && 
+         iScrollbarFrame->ScrollBarVisibility(
+             CEikScrollBar::EHorizontal ) != CEikScrollBarFrame::EOn && 
          viewRect.Height() < Rect().Height() )
         {
         viewRect.iTl.iY = Rect().iTl.iY;
@@ -1999,10 +2027,24 @@ void CAknTreeListView::LayoutView()
 // scrollbars changes.
 // ---------------------------------------------------------------------------
 //
-void CAknTreeListView::UpdateScrollbars()
+void CAknTreeListView::UpdateScrollbars( TBool aDrawNow )
     {
     if ( iScrollbarFrame )
         {
+        TBool drawHorizontal;
+        TBool drawVertical;
+        if ( !aDrawNow )
+            {
+            // Backup the old values.
+            iScrollbarFrame->DrawBackgroundState( drawHorizontal,
+                                                  drawVertical );
+        
+            // Disable the scrollbar background drawing for the duration
+            // of this call.
+            iScrollbarFrame->DrawBackground( EFalse, EFalse );
+            }
+            
+    
         iPhysicsHandler->UpdateScrollIndex( iScrollPhysicsTop );
         iScrollPhysicsTop = ETrue;
         
@@ -2021,7 +2063,7 @@ void CAknTreeListView::UpdateScrollbars()
             hScrollSpan = Max( hThumbPos + hThumbSpan, c/b );
             }
 
-        if ( AknLayoutUtils::LayoutMirrored() )
+        if ( iMirroredLayoutInUse )
             {
             hThumbPos = hScrollSpan - ( hThumbPos + hThumbSpan );
             }
@@ -2068,7 +2110,7 @@ void CAknTreeListView::UpdateScrollbars()
             iScrollbarFrame->Tile( &hModel, &vModel );
 
             LayoutView();
-            UpdateScrollbars(); // Recursion
+            UpdateScrollbars( aDrawNow ); // Recursion
             
             // Update animation in case that scrollbar visibility change
             // has affected the highlight size of focused item.
@@ -2078,7 +2120,13 @@ void CAknTreeListView::UpdateScrollbars()
             {
             // Set new model for scrollbars.
             iScrollbarFrame->Tile( &hModel, &vModel );  
-            }        
+            }
+        
+        if ( !aDrawNow )
+            {
+            // Restore the previous draw background state values.
+            iScrollbarFrame->DrawBackground( drawHorizontal, drawVertical );
+            }
         }
        
     }
@@ -2782,6 +2830,12 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 
             if ( iItems[ii].Item() )
                 {
+                if ( !aRect.Intersects(drawRect) )
+                    {
+                    //invisible item yet
+                    continue;
+                    }
+
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
                 TRect tfxDrawRect( drawRect );
                 tfxDrawRect.Move( 0, -offset );
@@ -2791,7 +2845,6 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     transApi->StartDrawing( MAknListBoxTfxInternal::EListNotSpecified );
                     }
 
-  
                 TRect clippingRect( tfxDrawRect );
                 
                 // If horizontal scrollbar on, reduce clipping rect
@@ -2809,7 +2862,6 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                 // Set clipping rect.    
                 gc.SetClippingRect( clippingRect );
 
-
                 if ( transApi )
                     {
                     transApi->StopDrawing();
@@ -2817,7 +2869,9 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 #endif
                 if ( ii < iBottomIndex )
                     {
-                    AknListUtils::DrawSeparator( gc, drawRect, textColor, skin );
+                    TRect offsetRect( drawRect );
+                    offsetRect.Move( 0, -offset );
+                    AknListUtils::DrawSeparator( gc, offsetRect, textColor, skin );
                     }
 
                 TBool focused = ( IsFocused() && FocusedItem() &&
@@ -2845,7 +2899,8 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                         if ( transApi )
                             {
                             transApi->Invalidate(MAknListBoxTfxInternal::EListHighlight );
-                            transApi->BeginRedraw( MAknListBoxTfxInternal::EListHighlight, tfxHighlightRect );
+                            transApi->BeginRedraw( MAknListBoxTfxInternal::EListHighlight,
+                                                   tfxHighlightRect );
                             transApi->StartDrawing( MAknListBoxTfxInternal::EListHighlight );
                             }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
@@ -2873,7 +2928,10 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                 {
                 if ( transApi )
                     {
-                    transApi->BeginRedraw(MAknListBoxTfxInternal::EListItem, tfxDrawRect, iTree.VisibleItemIndex(iItems[ii].Item()));
+                    transApi->BeginRedraw(
+                        MAknListBoxTfxInternal::EListItem,
+                        tfxDrawRect,
+                        iTree.VisibleItemIndex( iItems[ii].Item() ) );
                     transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
                     }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
@@ -2886,7 +2944,9 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                 if ( transApi )
                     {
                     transApi->StopDrawing();
-                    transApi->EndRedraw(MAknListBoxTfxInternal::EListItem, iTree.VisibleItemIndex(iItems[ii].Item()));
+                    transApi->EndRedraw(
+                        MAknListBoxTfxInternal::EListItem,
+                        iTree.VisibleItemIndex( iItems[ii].Item() ) );
                     }
                 }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST

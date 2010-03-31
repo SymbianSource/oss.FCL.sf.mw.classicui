@@ -1860,7 +1860,12 @@ EXPORT_C void CAknGrid::UpdateScrollBarsL()
         if (vSbarModel.iScrollSpan-vSbarModel.iThumbPosition<vSbarModel.iThumbSpan)
             {
             vSbarModel.iThumbPosition=Max(0,vSbarModel.iScrollSpan-vSbarModel.iThumbSpan);
-            gridView->MoveToItemIndexL(currentIndex,CListBoxView::ENoSelection); // force a scroll if neccessary
+            if ( !iExtension->iSingleClickEnabled )
+                {
+                // force a scroll if neccessary
+                gridView->MoveToItemIndexL( currentIndex, 
+                    CListBoxView::ENoSelection );
+                }
             }
         }
     if (iSBFrame->ScrollBarVisibility(CEikScrollBar::EHorizontal)!=CEikScrollBarFrame::EOff)

@@ -1393,6 +1393,15 @@ private: // Test AknPopupSettingPage.h
      * @return Symbian OS error code.
      */
     virtual TInt TestCPSPReservedL( CStifItemParser& aItem );
+      
+    /**
+     * TestCPSPProcessCommandL test function for testing the 
+     *     ProcessCommandL function
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestCPSPProcessCommandL( CStifItemParser& aItem );   
     };
 
 #endif      // C_TESTSDKPOPUPS_H

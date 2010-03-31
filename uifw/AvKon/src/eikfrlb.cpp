@@ -815,7 +815,7 @@ CFormattedCellListBoxView::Draw(const TRect* clipRect) const
 		
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         MAknListBoxTfxInternal* transApi =
-            CAknListLoader::TfxApiInternal( iGc );
+            CAknListLoader::TfxApiInternal( itemDrawer->Gc() );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 		
 		if ( CAknEnv::Static()->TransparencyEnabled() )
@@ -847,7 +847,7 @@ CFormattedCellListBoxView::Draw(const TRect* clipRect) const
                 }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-            iGc->SetClippingRect( iViewRect );
+            itemDrawer->Gc()->SetClippingRect( iViewRect );
             
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
             if ( transApi )
@@ -865,7 +865,7 @@ CFormattedCellListBoxView::Draw(const TRect* clipRect) const
                 }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-            iGc->CancelClippingRect();
+            itemDrawer->Gc()->CancelClippingRect();
             
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
             if ( transApi )
@@ -938,27 +938,27 @@ CFormattedCellListBoxView::Draw(const TRect* clipRect) const
                     AknsDrawUtils::BackgroundBetweenRects( skin, 
                                                        cc, 
                                                        control, 
-                                                       *iGc, 
+                                                       *itemDrawer->Gc(), 
                                                        iViewRect, 
                                                        usedPortionOfViewRect );
 
-                    AknsDrawUtils::Background( skin, cc, control, *iGc, sbbg );
+                    AknsDrawUtils::Background( skin, cc, control, *itemDrawer->Gc(), sbbg );
                 
                     if ( AknLayoutUtils::LayoutMirrored() )
                         {
-                        AknsDrawUtils::Background( skin, cc, control, *iGc, margin );
+                        AknsDrawUtils::Background( skin, cc, control, *itemDrawer->Gc(), margin );
                         }
                     }
                 }
             else
                 {
-                iGc->SetBrushColor( BackColor() );
-                DrawUtils::ClearBetweenRects( *iGc, iViewRect, usedPortionOfViewRect );
-                iGc->Clear( sbbg );
+                itemDrawer->Gc()->SetBrushColor( BackColor() );
+                DrawUtils::ClearBetweenRects( *itemDrawer->Gc(), iViewRect, usedPortionOfViewRect );
+                itemDrawer->Gc()->Clear( sbbg );
                 
                 if ( AknLayoutUtils::LayoutMirrored() )
                     {
-                    iGc->Clear( margin );
+                    itemDrawer->Gc()->Clear( margin );
                     }
                 }
             }
@@ -1417,7 +1417,7 @@ void CFormattedCellListBoxItemDrawer::DrawBackgroundAndSeparatorLines(
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-        if ( aDrawSeparator && 
+        if ( aDrawSeparator && control && 
             static_cast<CEikListBox*>( control )->ItemsInSingleLine() == 1 )
             {
             AknListUtils::DrawSeparator( *iGc, aItemTextRect, iTextColor, skin );

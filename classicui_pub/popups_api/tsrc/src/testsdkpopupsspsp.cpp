@@ -88,3 +88,12 @@ void CTestSDKPopupsSPSP::Reserved_2()
     {
     CAknPopupSettingPage::Reserved_2();
     }
+
+// -----------------------------------------------------------------------------
+// CTestSDKPopupsSPSP::ProcessCommandL
+// -----------------------------------------------------------------------------
+void CTestSDKPopupsSPSP::ProcessCommandL( TInt aCommandId )
+    {
+    CAknPopupSettingPage::ProcessCommandL( aCommandId );
+    }
+

@@ -1275,7 +1275,23 @@ public:
     */
     CEikListBox* ListBox() const;
 
-    
+    /**
+     * This method prepare smiley engine if it is not ready yet.
+     * apply new icon size to smiley icon. 
+     * @internal
+     * @since S60 5.2
+     */
+    void InitSmileyL();
+
+    /**
+     * Decide which subcell will draw smiley icon. Note that only text subcell can
+     * be set.
+     *
+     * @param aSubCell Index Index number of the subcell.
+     * @internal
+     * @since S60 5.2
+     */
+    void SetSmileySubCellL( TInt aSubCell );
 private:
     void DoConstructL( const TAknsItemID& aAnimationIID );
 

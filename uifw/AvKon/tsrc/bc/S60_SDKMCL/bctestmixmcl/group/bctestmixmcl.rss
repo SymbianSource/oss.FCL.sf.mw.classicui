@@ -261,6 +261,68 @@ RESOURCE AVKON_TOOLBAR r_bctestmixmcl_toolbar_fixed
             }
         };
     }
+
+//----------------------------------------------------------------------------
+//
+//r_bctestmixmcl_radiobutton_editor
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE POPUP_SETTING_LIST r_bctestmixmcl_radiobutton_editor
+    {
+    flags = 0;
+    }
+
+//----------------------------------------------------------------------------
+//
+//r_bctestmixmcl_radiobutton_setting_page
+//
+//----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestmixmcl_radiobutton_setting_page
+    {
+    label = "Radiobutton example";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_bctestmixmcl_radiobutton_editor;
+    }
+ 
+// ---------------------------------------------------------------------------
+// r_bctestmixmcl_popup_editor
+// ---------------------------------------------------------------------------
+//
+RESOURCE POPUP_SETTING_LIST r_bctestmixmcl_popup_editor
+    {
+    flags = EAknPopupSettingListFlagAllowsUserDefinedEntry;
+    width = 20;
+    }
+
+// ---------------------------------------------------------------------------
+// r_bctestmixmcl_popup_setting_page
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_bctestmixmcl_popup_setting_page
+    {
+    number = 1;
+    label = "Popup example";
+    type = EAknCtPopupSettingList;
+    editor_resource_id = r_bctestmixmcl_popup_editor;
+    } 
+
+// ---------------------------------------------------------------------------
+// r_bctestmixmcl_list_item_array
+// ---------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_bctestmixmcl_list_item_array
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "item1";
+            }
+        };
+    }
+
 // End of File
 
 

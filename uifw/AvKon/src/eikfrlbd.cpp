@@ -48,6 +48,7 @@
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
 #include <touchfeedback.h>
+#include <AknSmileyUtils.h>
 #include "akntrace.h"
 
 // there are 17(!) subcells in qdial grid (0 ... 16)
@@ -56,6 +57,8 @@ const TInt KMaxSubCellIndex = 16 + 1;
 // colored tick marks support
 const TInt KColorIconFlag = -1;
 const TInt KColorIconIdx  =  0;
+// smiley text place holder
+_LIT( KPlaceHolder, "\xFFF0i" );
 
 /**
 * This class needs to be in .cpp file so that we do not accidentally make it
@@ -77,7 +80,8 @@ NONSHARABLE_CLASS(CFormattedCellListBoxDataExtension) :
     public MAknPictographAnimatorCallBack,
     public MCoeForegroundObserver,
     public MAknsEffectAnimObserver,
-    public MListBoxItemChangeObserver
+    public MListBoxItemChangeObserver,
+    public MAknSmileyObserver
     {
 public:
     enum TFlag
@@ -123,6 +127,7 @@ public:
         TAknWindowLineLayout iGraphicLayout;
         TInt iSubCellType;
         TInt iConditionValue; // used with conditional layouts for not always drawn subcells
+        TBool iSmileyCell;
         };
 
     SRowAndSubCell& At(TInt aArrayIndex);
@@ -131,8 +136,8 @@ public:
     TInt FindRowAndSubCellIndex(TInt& aArrayIndex,TInt aRow,TInt aSubCell) const;
     void FindRowAndSubCellIndexOrAddL(TInt& aArrayIndex,TInt aRow,TInt aSubCell);
 
-    SSLSubCell& AtSL(TInt aArrayIndex);
-    const SSLSubCell& AtSL(TInt aArrayIndex) const;
+    SSLSubCell& SLAt(TInt aArrayIndex);
+    const SSLSubCell& SLAt(TInt aArrayIndex) const;
     void AddSLSubCellL(TInt aSubCell);
     TInt FindSLSubCellIndex(TInt& aArrayIndex, TInt aSubCell) const;
     void FindSLSubCellIndexOrAddL(TInt& aArrayIndex, TInt aSubCell);
@@ -173,6 +178,11 @@ public:
                                  CWindowGc& aGc, 
                                  const TRect& aOutRect, 
                                  const TRect& aInnerRect ) const;
+    void DrawSmileyWithText( CWindowGc& aGc, const TDesC& aSmileyText, 
+                             const TAknLayoutText& aLayout, 
+                             TBool aUseLogicalToVisualConversion, 
+                             const TRgb &aColor);
+    TInt ConvertTextToSmiley( TDes& aText );
 private: // New internal methods
     TBool DrawHighlightBackground( CFbsBitGc& aGc );
     void PostDeleteAnimation();
@@ -194,7 +204,9 @@ public:
         
     TInt FindSubCellExtIndex(TInt& aArrayIndex,TInt aSubCell) const;
     TBool SubCellLayoutAlignment(TInt aSubCellIndex) const;        
-
+public: // from MAknSmileyObserver
+    void SmileyStillImageLoaded( CAknSmileyIcon* aSmileyIcon );
+    void SmileyAnimationChanged( CAknSmileyIcon* aSmileyIcon );
 private: // From MAknPictographAnimatorCallBack
     void DrawPictographArea();
 
@@ -263,6 +275,8 @@ public:
 
     TRect iMarginRect;    
     TBool iKineticScrolling;
+    CAknSmileyManager* iSmileyMan;
+    TSize iSmileySize; // last set simley size
     };
 
 
@@ -322,6 +336,7 @@ CFormattedCellListBoxDataExtension::~CFormattedCellListBoxDataExtension()
     // Stop receiving foreground events
     CCoeEnv* env = CCoeEnv::Static();
     env->RemoveForegroundObserver( *this );
+    delete iSmileyMan;
 
     delete iRowAndSubCellArray;
     iRowAndSubCellArray = NULL;
@@ -409,6 +424,7 @@ CFormattedCellListBoxDataExtension::AddSLSubCellL(TInt aSubCell)
     subcell.iGraphicLayout = NULL;
     subcell.iSubCellType = 0;
     subcell.iConditionValue = -1;
+    subcell.iSmileyCell = EFalse;
 
     TKeyArrayFix key(0,ECmpTInt32);
     iSLSubCellArray->InsertIsqL(subcell,key);
@@ -416,14 +432,14 @@ CFormattedCellListBoxDataExtension::AddSLSubCellL(TInt aSubCell)
 
 
 CFormattedCellListBoxDataExtension::SSLSubCell& 
-CFormattedCellListBoxDataExtension::AtSL(TInt aArrayIndex)
+CFormattedCellListBoxDataExtension::SLAt(TInt aArrayIndex)
     {
     __ASSERT_DEBUG(aArrayIndex>=0 && aArrayIndex<iSLSubCellArray->Count(),Panic(EAknPanicOutOfRange));
     return(iSLSubCellArray->At(aArrayIndex));
     }
 
 const CFormattedCellListBoxDataExtension::SSLSubCell& 
-CFormattedCellListBoxDataExtension::AtSL(TInt aArrayIndex) const
+CFormattedCellListBoxDataExtension::SLAt(TInt aArrayIndex) const
     {
     __ASSERT_DEBUG(aArrayIndex>=0 && aArrayIndex<iSLSubCellArray->Count(),Panic(EAknPanicOutOfRange));
     return(iSLSubCellArray->At(aArrayIndex));
@@ -1191,7 +1207,16 @@ CFormattedCellListBoxDataExtension::SubCellLayoutAlignment(
     return(iSubCellExtArray->At(index).iLayoutAlign);    
     }   
 
+void CFormattedCellListBoxDataExtension::SmileyStillImageLoaded(
+    CAknSmileyIcon* /*aSmileyIcon*/)
+    {
+    iControl->DrawDeferred();
+    }
 
+void CFormattedCellListBoxDataExtension::SmileyAnimationChanged( 
+    CAknSmileyIcon* /*aSmileyIcon*/ )
+    {
+    }
 
 ///////////handling TSubCellExt,end
 
@@ -1255,6 +1280,31 @@ TBool CFormattedCellListBoxDataExtension::DrawPressedDownEffect(MAknsSkinInstanc
                                      KAknsIIDQsnFrListCenterPressed );
     }
 
+void CFormattedCellListBoxDataExtension::DrawSmileyWithText( CWindowGc& aGc,
+                                                             const TDesC& aSmileyText,
+                                                             const TAknLayoutText& aLayout,
+                                                             TBool aUseLogicalToVisualConversion,
+                                                             const TRgb& aColor )
+    {
+    __ASSERT_DEBUG( iSmileyMan, Panic(EAknPanicObjectNotFullyConstructed));
+    TInt l = Min( aLayout.Font()->TextWidthInPixels(KPlaceHolder), 
+                  aLayout.Font()->HeightInPixels() );
+    TSize s(l,l);
+    if ( iSmileySize != s )
+        {
+        iSmileyMan->SetSize( s );
+        iSmileySize = s;
+        }
+    aGc.SetPenColor( aColor ); // SmileyManager's DrawText does not accept aColor...
+    iSmileyMan->DrawText( aGc, aSmileyText, aLayout, aUseLogicalToVisualConversion );
+    }
+TInt CFormattedCellListBoxDataExtension::ConvertTextToSmiley( TDes& aText)
+    {
+    __ASSERT_DEBUG( iSmileyMan, Panic(EAknPanicObjectNotFullyConstructed));
+    TInt count = 0;
+    TRAPD( err, count = iSmileyMan->ConvertTextToCodesL( aText )) ;
+    return err == KErrNone ? count : err;
+    }
 
 EXPORT_C CCoeControl *CFormattedCellListBoxData::Control() const 
     {
@@ -2191,6 +2241,7 @@ void CFormGraphicListBoxData::Draw( TListItemProperties aProperties,
 EXPORT_C void CFormattedCellListBoxData::Draw(TListItemProperties aProperties, CWindowGc& aGc,const TDesC* aText,const TRect& aRect,TBool aHighlight, const TColors& aColors) const
     {
     _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("Highlight width: %d, (%d,%d)", aRect.Width(), aRect.iTl.iX, aRect.iBr.iX );
     DrawDefaultHighlight(aGc, aRect, aHighlight);
 
     // Draw the actual items.
@@ -2207,8 +2258,8 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
                                           const TColors& aColors ) const
     {
     _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("DrawFormatted: aText=%S, aItemRect=(%d,%d,%d,%d)",
-            aText, aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
+    _AKNTRACE("DrawFormatted: aItemRect=(%d,%d,%d,%d)",
+            aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
             aItemRect.iBr.iY);
     
     CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
@@ -2236,7 +2287,8 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
 #else
     aGc.SetClippingRect( view->ViewRect() );
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
-    
+    TRect vr(view->ViewRect());
+    _AKNTRACE("Clipping: Width %d, (%d,%d)", vr.Width(), vr.iTl.iX, vr.iBr.iX );
     if ( UsesScalableLayoutData() )
         {
         /* this is a AvKon list or list is created using methods in aknlists.cpp
@@ -2337,8 +2389,8 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
                                                 const TColors& aColors ) const
     {
     _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("DrawFormattedSimple: aText=%S, aItemRect=(%d,%d,%d,%d)",
-            aText, aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
+    _AKNTRACE("DrawFormattedSimple: aItemRect=(%d,%d,%d,%d)",
+            aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
             aItemRect.iBr.iY);
     
     TRect textRect(aItemRect);
@@ -2427,7 +2479,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             }
         
         // graphics or text column
-        if (iExtension->AtSL(SCindex).iSubCellType == CFormattedCellListBoxDataExtension::EAknSLText)
+        if (iExtension->SLAt(SCindex).iSubCellType == CFormattedCellListBoxDataExtension::EAknSLText)
             {
             const CFont* rowAndCellFont=RowAndSubCellFont(iExtension->iCurrentlyDrawnItemIndex,subcell);
             const CFont* cellFont=Font(aProperties, subcell);
@@ -2443,7 +2495,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             else
                 {
                 // check if there are icons affecting this text layout
-                TInt gSC = iExtension->AtSL(SCindex).iConditionValue; // graphical subcell which might affect this text subcell
+                TInt gSC = iExtension->SLAt(SCindex).iConditionValue; // graphical subcell which might affect this text subcell
                 
                 if (gSC > -1)
                     {
@@ -2454,16 +2506,16 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
                         TextUtils::ColumnText(tempText,gSC, aText);
                         if (tempText != KNullDesC)
                             {
-                            textLineLayout = iExtension->AtSL(tempIndex).iTextLayout;
+                            textLineLayout = iExtension->SLAt(tempIndex).iTextLayout;
                             break;                      
                             }
-                        gSC = iExtension->AtSL(tempIndex).iConditionValue;
+                        gSC = iExtension->SLAt(tempIndex).iConditionValue;
                         }
                     }
                     
                 if (gSC == -1) // no affecting icons -> use default layout
                     {
-                    textLineLayout = iExtension->AtSL(SCindex).iTextLayout;
+                    textLineLayout = iExtension->SLAt(SCindex).iTextLayout;
                     }
                 }
 
@@ -2499,8 +2551,16 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             SetUnderlineStyle( aProperties, aGc, subcell );
 
             // * 2 == leave some room for marquee
-            const TInt maxlen( KMaxColumnDataLength * 2 ); 
+            const TInt maxlen( KMaxColumnDataLength * 3 );
             TBuf<maxlen> convBuf = text.Left(maxlen);
+            TBool smileyDraw = EFalse;
+            // do smiley convert before clipping. don't worry marquee now.            
+            if ( iExtension->iSmileyMan && 
+                 iExtension->SLAt(SCindex).iSmileyCell &&
+                 iExtension->ConvertTextToSmiley( convBuf ) > 0 )
+                {
+                smileyDraw = ETrue;
+                }
 
             // Note that this potentially modifies the text so its lenght in pixels
             // might increase. Therefore, this should always be done before
@@ -2565,7 +2625,16 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
                     marquee->Stop();
                     }
 
+                if ( smileyDraw )
+                    {
+                    TRect tr(textLayout.TextRect());
+                    _AKNTRACE( "textLayout Width: %d (%d,%d)", tr.Width(), tr.iTl.iX, tr.iBr.iX );
+                    iExtension->DrawSmileyWithText( aGc, convBuf, textLayout, bidiConv, color );
+                    }
+                else
+                    {
                 textLayout.DrawText( aGc, convBuf, bidiConv, color );
+                    }
                 }
 
             if ( iExtension->iPictoInterface )
@@ -2652,7 +2721,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
              index = index & 0xffff; // mask off possible highlight icon
             __ASSERT_DEBUG((index>=0 && index<iIconArray->Count()),Panic(EAknPanicFormattedCellListInvalidBitmapIndex));
             
-            TAknWindowLineLayout graphicLayout = iExtension->AtSL(SCindex).iGraphicLayout;
+            TAknWindowLineLayout graphicLayout = iExtension->SLAt(SCindex).iGraphicLayout;
             TAknLayoutRect graphicRect; 
             
             graphicRect.LayoutRect(textRect,graphicLayout);
@@ -3406,9 +3475,9 @@ void CFormattedCellListBoxData::SetGraphicSubCellL( TInt aSubCell,
     
     TInt index = 0;
     iExtension->FindSLSubCellIndexOrAddL(index,aSubCell);
-    iExtension->AtSL(index).iTextLayout=NULL;
-    iExtension->AtSL(index).iGraphicLayout=aGraphicLayout;
-    iExtension->AtSL(index).iSubCellType=CFormattedCellListBoxDataExtension::EAknSLGraphic;
+    iExtension->SLAt(index).iTextLayout=NULL;
+    iExtension->SLAt(index).iGraphicLayout=aGraphicLayout;
+    iExtension->SLAt(index).iSubCellType=CFormattedCellListBoxDataExtension::EAknSLGraphic;
 
     // For compabitility - needed at least for text wrapping.
     // Beware - some of these WILL be overriden if you got here trough
@@ -3455,9 +3524,9 @@ void CFormattedCellListBoxData::SetTextSubCellL( TInt aSubCell,
 
     TInt index = 0;
     iExtension->FindSLSubCellIndexOrAddL(index,aSubCell);
-    iExtension->AtSL(index).iTextLayout=aTextLayout;
-    iExtension->AtSL(index).iGraphicLayout=NULL;
-    iExtension->AtSL(index).iSubCellType=CFormattedCellListBoxDataExtension::EAknSLText;
+    iExtension->SLAt(index).iTextLayout=aTextLayout;
+    iExtension->SLAt(index).iGraphicLayout=NULL;
+    iExtension->SLAt(index).iSubCellType=CFormattedCellListBoxDataExtension::EAknSLText;
 
     
     // For compabitility - needed at least for text wrapping.
@@ -3518,22 +3587,22 @@ void CFormattedCellListBoxData::SetConditionalSubCellL(TInt aSubCell,
     TInt graphicalIndex = 0;
     if (iExtension->FindSLSubCellIndex(graphicalIndex, aSubCell)!=0) return; // subcell not found
     // conditional layoutline can be only added to graphical subcells
-    if (iExtension->AtSL(graphicalIndex).iSubCellType!=CFormattedCellListBoxDataExtension::EAknSLGraphic) return;
+    if (iExtension->SLAt(graphicalIndex).iSubCellType!=CFormattedCellListBoxDataExtension::EAknSLGraphic) return;
     
     TInt textIndex = 0; // index of affected subcell
     if (iExtension->FindSLSubCellIndex(textIndex, aAffectedSubCell)!=0) return; // subcell not found
     // affected subcell can only be text subcell
-    if (iExtension->AtSL(textIndex).iSubCellType==CFormattedCellListBoxDataExtension::EAknSLGraphic) return;
+    if (iExtension->SLAt(textIndex).iSubCellType==CFormattedCellListBoxDataExtension::EAknSLGraphic) return;
     
-    TInt gSC = iExtension->AtSL(textIndex).iConditionValue; // text subcell to be added in priority chain
+    TInt gSC = iExtension->SLAt(textIndex).iConditionValue; // text subcell to be added in priority chain
 
     while (gSC > -1)
         {
         if (iExtension->FindSLSubCellIndex(textIndex, gSC)!=0) return; // subcell not found
-        gSC = iExtension->AtSL(textIndex).iConditionValue;
+        gSC = iExtension->SLAt(textIndex).iConditionValue;
         }
-    iExtension->AtSL(textIndex).iConditionValue = aSubCell; // add next subcell to chain
-    iExtension->AtSL(graphicalIndex).iTextLayout=aTextLayout;
+    iExtension->SLAt(textIndex).iConditionValue = aSubCell; // add next subcell to chain
+    iExtension->SLAt(graphicalIndex).iTextLayout=aTextLayout;
 
     iExtension->CreateColorBitmapsL( SubCellSize( aSubCell ) );
     
@@ -3701,16 +3770,19 @@ void CFormattedCellListBoxData::SetStretchableConditionalSubCellL(
     TInt aNormalSubCell,
     TInt aStretchedSubCell )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( Layout_Meta_Data::IsLandscapeOrientation() &&
          Layout_Meta_Data::IsListStretchingEnabled() &&
          StretchingEnabled() )
         {
+        _AKNTRACE("Layout_Meta_Data::IsListStretchingEnabled");
         SetConditionalSubCellL( aSubCell, aStretchedLayout.LayoutLine(), aStretchedSubCell );
         }
     else
         {
         SetConditionalSubCellL( aSubCell, aNormalLayout.LayoutLine(), aNormalSubCell );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -3903,9 +3975,9 @@ void CFormattedCellListBoxData::CheckIfSubCellsIntersect(
             
         if ( aResults[subCell] )
             {
-            if ( iExtension->AtSL( subCellIndex ).iSubCellType == CFormattedCellListBoxDataExtension::EAknSLText )
+            if ( iExtension->SLAt( subCellIndex ).iSubCellType == CFormattedCellListBoxDataExtension::EAknSLText )
                 {
-                TAknTextLineLayout textLine = iExtension->AtSL( subCellIndex ).iTextLayout;
+                TAknTextLineLayout textLine = iExtension->SLAt( subCellIndex ).iTextLayout;
                 
                 textLine.iW = bRect.Width();
 
@@ -4576,7 +4648,25 @@ CEikListBox* CFormattedCellListBoxData::ListBox() const
         }
     return NULL;
     }
+void CFormattedCellListBoxData::InitSmileyL()
+    {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicObjectNotFullyConstructed ));
+    if ( iExtension && !iExtension->iSmileyMan )
+        {
+        iExtension->iSmileyMan = CAknSmileyManager::NewL( iExtension );
+        }
+    }
 
+void CFormattedCellListBoxData::SetSmileySubCellL( TInt aSubCell )
+    {    
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicObjectNotFullyConstructed ));
+    TInt index = 0;
+    if ( iExtension )
+        {
+        iExtension->FindSLSubCellIndexOrAddL( index,aSubCell );
+        iExtension->SLAt(index).iSmileyCell = ETrue;
+        }
+    }
 #ifdef __ARMCC__
 #pragma pop
 #endif // __ARMCC__

@@ -25,17 +25,31 @@
 #include <eikenv.h>
 #include <aknutils.h>
 #include <akntoolbar.h>
+#include <caknmemoryselectionsettingitemmultidrive.h>
+#include <AknCommonDialogsDynMem.h>
 
 #include <bctestmixmcl.rsg>
 #include <eikedwin.h>
 #include <aknphysics.h>
+#include <aknradiobuttonsettingpage.h>
+#include <aknpopupsettingpage.h>  
+#include <ItemFinder.h>
 
 #include "bctestmixmclgeneralcase.h"
 #include "bctestmixmclcontainer.h"
 #include "bctestmixmcl.hrh"
 
-// CONSTATNS
+// CONSTANTS
 
+//
+// class CSettingPageTest
+// Helper class for testing protected setting page methods.
+//
+NONSHARABLE_CLASS( CSettingPageTest ) : public CAknSettingPage
+    {   
+public:
+    virtual void ProcessCommandL( TInt aCommandId );  
+    };
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -110,13 +124,17 @@ void CBCTestMixMCLGeneralCase::RunL( TInt aCmd )
     TestOptionsMenuL();
     TestTasObjectInfoAndTasHookL();
     TestMiscApisFuncOneL();
-    TestAknToolbar();
-    TestAknPopupUtils();
+    TestAknToolbarL();
+    TestAknPopupUtilsL();
     TestAknListUtilsL(); 
+    TestRadioButtonSettingPageL();
+    TestPopupSettingPageL();   
+    TestItemFinder();
     TestEditorKineticScrollingL();
     TestAknPhysicsSuspendPhysicsL();
     TestAknPhysicsResumePhysicsL();
-    TestCba();
+    TestCbaL();
+	TestCommonDialogsL();
     }
 
 // ---------------------------------------------------------------------------
@@ -189,7 +207,7 @@ void CBCTestMixMCLGeneralCase::TestListBoxL()
     _LIT( KItemsInSingleLine, 
         "CEikListBox::ItemsInSingleLine() invoked" );
 
-	CEikFormattedCellListBox * listbox = new CEikFormattedCellListBox();
+	CEikFormattedCellListBox * listbox = new (ELeave) CEikFormattedCellListBox();
 	CleanupStack::PushL( listbox );
 	
 	listbox->ConstructL( iContainer, EAknListBoxSelectionList );
@@ -341,10 +359,10 @@ void CBCTestMixMCLGeneralCase::TestMiscApisFuncOneL()
 	}
 
 // ---------------------------------------------------------------------------
-// CBCTestMixMCLGeneralCase::TestAknPopupUtils
+// CBCTestMixMCLGeneralCase::TestAknPopupUtilsL
 // ---------------------------------------------------------------------------
 //   
-void CBCTestMixMCLGeneralCase::TestAknPopupUtils()
+void CBCTestMixMCLGeneralCase::TestAknPopupUtilsL()
     {
     TSize size( 10, 10 );
     TPoint point( AknPopupUtils::Position( size, ETrue ) );
@@ -384,10 +402,10 @@ void CBCTestMixMCLGeneralCase::TestAknListUtilsL()
 
 	
 // ---------------------------------------------------------------------------
-// CBCTestMixMCLGeneralCase::TestAknToolbar
+// CBCTestMixMCLGeneralCase::TestAknToolbarL
 // ---------------------------------------------------------------------------
 // 
-void CBCTestMixMCLGeneralCase::TestAknToolbar()
+void CBCTestMixMCLGeneralCase::TestAknToolbarL()
 	{
 	_LIT( KAknToolbarNew, "CAknToolbar::New toolbar is constructed" );
 	_LIT( KAknToolbarSetBgId, "CAknToolbar::New background skin theme ID is set" );
@@ -401,6 +419,93 @@ void CBCTestMixMCLGeneralCase::TestAknToolbar()
 	CleanupStack::PopAndDestroy( toolbar );
 	}
 
+
+// -----------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestRadioButtonSettingPageL
+// -----------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestRadioButtonSettingPageL()
+    { 
+    const TInt KBufSize = 32;
+    const TInt KZero = 0;
+    const TInt KOne = 1;
+    const TInt KTwo = 2;
+    _LIT( KTestString, "Radiobuttonsettingpage test" );
+    _LIT( KTestRadioButtonSettingPage, 
+        "CAknRadioButtonSettingPage::ProcessCommandL tested" );
+    
+    CDesCArrayFlat* array = CCoeEnv::Static()->
+        ReadDesCArrayResourceL( R_BCTESTMIXMCL_LIST_ITEM_ARRAY );   
+    CleanupStack::PushL( array );
+
+    TInt optin( KZero );
+    TBuf< KBufSize > buffer( KTestString );
+    CAknRadioButtonSettingPage* settingPage = new (ELeave) 
+        CAknRadioButtonSettingPage( &buffer, KOne, EAknCtPopupSettingList,
+                                    R_BCTESTMIXMCL_RADIOBUTTON_EDITOR, 
+                                    R_BCTESTMIXMCL_RADIOBUTTON_SETTING_PAGE, 
+                                    optin, array );
+    CleanupStack::PushL( settingPage ); 
+    
+    settingPage->ConstructL();
+
+    // CSettingPageTest is used to access protected method
+    // CAknRadioButtonSettingPage::ProcessCommandL
+    CSettingPageTest* test = reinterpret_cast<CSettingPageTest*>( settingPage );
+    
+    CCoeEnv::Static()->AppUi()->AddToStackL( test );
+    test->ProcessCommandL( EAknSoftkeySelect );
+    CCoeEnv::Static()->AppUi()->RemoveFromStack( test );  
+  
+    CleanupStack::PopAndDestroy( KTwo );   
+    AssertTrueL( ETrue, KTestRadioButtonSettingPage );
+    }
+
+// -----------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestPopupSettingPageL
+// -----------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestPopupSettingPageL()
+    {    
+    _LIT( KTestPopupSettingPage, 
+        "CAknPopupSettingPage::ProcessCommandL tested" );
+    
+    CDesCArrayFlat* item = CCoeEnv::Static()->
+        ReadDesCArrayResourceL( R_BCTESTMIXMCL_LIST_ITEM_ARRAY );
+    CleanupStack::PushL( item );
+    
+    CAknQueryValueTextArray* textArray = CAknQueryValueTextArray::NewL();
+    CleanupStack::PushL( textArray );
+    textArray->SetArray( *item );
+    
+    CAknQueryValueText* queryValueText = CAknQueryValueText::NewL();
+    CleanupStack::PushL( queryValueText );
+    queryValueText->SetArrayL( textArray );
+    
+    CAknPopupSettingPage* popupSettingPage  = new (ELeave) 
+        CAknPopupSettingPage( R_BCTESTMIXMCL_POPUP_SETTING_PAGE, 
+                              *queryValueText );
+    
+    CleanupStack::PushL( popupSettingPage );
+    
+    popupSettingPage->ConstructL();
+    
+    // CSettingPageTest is used to access protected method
+    // CAknPopupSettingPage::ProcessCommandL
+    CSettingPageTest* test = reinterpret_cast<CSettingPageTest*>( popupSettingPage );
+    
+    CCoeEnv::Static()->AppUi()->AddToStackL( popupSettingPage );
+    test->ProcessCommandL( EAknSoftkeySelect );
+    CCoeEnv::Static()->AppUi()->RemoveFromStack( popupSettingPage );     
+    
+    CleanupStack::PopAndDestroy( popupSettingPage );
+    CleanupStack::PopAndDestroy( queryValueText );
+    CleanupStack::PopAndDestroy( textArray );
+    CleanupStack::PopAndDestroy( item );
+    
+    AssertTrueL( ETrue, KTestPopupSettingPage );
+    }
+  
 
 // ---------------------------------------------------------------------------
 // CBCTestMixMCLGeneralCase::TestEditorKineticScrollingL
@@ -451,10 +556,10 @@ void CBCTestMixMCLGeneralCase::TestAknPhysicsResumePhysicsL()
     }
 
 // ---------------------------------------------------------------------------
-// CBCTestMixMCLGeneralCase::TestCba
+// CBCTestMixMCLGeneralCase::TestCbaL
 // ---------------------------------------------------------------------------
 //   
-void CBCTestMixMCLGeneralCase::TestCba()
+void CBCTestMixMCLGeneralCase::TestCbaL()
     {
     CEikCba* cba = static_cast<CEikCba*>( 
         iAvkonAppUi->Cba()->ButtonGroup()->AsControl() );
@@ -464,6 +569,37 @@ void CBCTestMixMCLGeneralCase::TestCba()
         "CEikCba::EnableItemSpecificSoftkey tested" );
     AssertTrueL( ETrue, CEikCbaEnableItemSpecificSoftkey );
     }    
+	
+// ---------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestCommonDialogsL()
+//  common file test  
+// ---------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestCommonDialogsL()
+    {
+    _LIT( KSetIncludedMediasL, 
+          "CAknMemorySelectionSettingItemMultiDrive::SetIncludedMediasL()invoked");
+    
+    TInt id = 1;
+    TDriveNumber selDr = EDriveC;
+    
+    CAknMemorySelectionSettingItemMultiDrive* settingItem = 
+            new ( ELeave ) CAknMemorySelectionSettingItemMultiDrive( 
+            id, selDr );
+    CleanupStack::PushL( settingItem );
+    
+    TInt includedMedias = AknCommonDialogsDynMem:: EMemoryTypePhone |
+                          AknCommonDialogsDynMem:: EMemoryTypeMMC |
+                          AknCommonDialogsDynMem:: EMemoryTypeRemote;
+
+    settingItem->SetIncludedMediasL( includedMedias );
+    AssertTrueL( ETrue, KSetIncludedMediasL );
+    
+    includedMedias &= (~AknCommonDialogsDynMem:: EMemoryTypePhone ); 
+    settingItem->SetIncludedMediasL( includedMedias );
+
+    CleanupStack::PopAndDestroy( settingItem );
+    } 	
 
 // ---------------------------------------------------------------------------
 // CBCTestMixMCLGeneralCase::ViewPositionChanged
@@ -491,6 +627,37 @@ void CBCTestMixMCLGeneralCase::PhysicEmulationEnded()
 TPoint CBCTestMixMCLGeneralCase::ViewPosition() const
     {
     return TPoint( 0, 0 );
+    }
+
+// -----------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestItemFinder
+// -----------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestItemFinder()
+    {
+    _LIT( KSetItemFinderObserverL,
+            "CItemFinder::SetItemFinderObserverL() tested" );
+
+    CItemFinder* itemfinder = CItemFinder::NewL();
+    CleanupStack::PushL ( itemfinder );
+
+    itemfinder->SetItemFinderObserverL( this );
+    itemfinder->SetItemFinderObserverL( 0 );
+    AssertTrueL( ETrue, KSetItemFinderObserverL );
+
+    CleanupStack::PopAndDestroy( itemfinder );
+    }
+
+
+// ---------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::HandleFindItemEventL
+// ---------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::HandleFindItemEventL(
+        const CItemFinder::CFindItemExt& /*aItem*/,
+            MAknItemFinderObserver::TEventFlag /*aEvent*/, TUint /*aFlags*/)
+    {
+    // do nothing
     }
 
 //end of file

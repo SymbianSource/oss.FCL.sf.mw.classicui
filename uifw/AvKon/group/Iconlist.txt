@@ -836,3 +836,5 @@
 /1,8 qgn_stat_servtab_uni.svg
 
 /1,8 qgn_stat_hdmi_connect.svg
+
+/1,8 qgn_stat_joint_im_uni.svg

@@ -128,7 +128,11 @@ public:
         /** Emphasis. Applicable to core data rows only. */
         EEmphasis   = 0x10,
         /** Item is not markable. */
-        EMarkingDisabled = 0x20
+        EMarkingDisabled = 0x20,
+        /** Item has smiley. For core data row, just first column gets it*/
+        ESmileyIcon = 0x40,
+        /** Same as ESmileyIcon. Specify second column of core data row get it.n*/
+        ESmileyIconSecond = 0x80
         };
 
     /** Icon types usable with single column style hierarchical list.

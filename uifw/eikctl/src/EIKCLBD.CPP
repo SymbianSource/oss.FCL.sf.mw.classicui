@@ -1944,6 +1944,12 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                                      const TColors& aColors ) const
     {
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );    
+    CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
+    if ( !view->ViewRect().Intersects( aRect ) )
+        {
+        // outside of the clipping rect -> don't process this item
+        return;
+        }
 
     TInt lastColumn = Min( LastColumn(), KMaxColumn );
     TInt column=0;

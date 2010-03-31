@@ -99,7 +99,9 @@ public:
     enum THgVgMediaWallEvent
         {
         EHgVgMediaWallEventRequestHideSoftkeys,
-        EHgVgMediaWallEventRequestShowSoftkeys
+        EHgVgMediaWallEventRequestShowSoftkeys,
+        EHgVgMediaWallEventButtonGotoNowPlaying,
+        EHgVgMediaWallEventButtonBack
         };
 
     /**

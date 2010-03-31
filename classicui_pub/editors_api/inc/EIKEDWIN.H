@@ -75,6 +75,7 @@ class CEikAvkonCustomDraw;
 
 // For construction of Rich Text - based custom formatters
 class CRichText;
+class CAknPhysics;
 
 enum TReplaceOption
 	{
@@ -331,12 +332,12 @@ private:
         /**
          * Enables kinetic scrolling.
          */
-        void EnableKineticScrollingL();
+        void EnableKineticScrollingL( CAknPhysics* aPhysics = NULL );
 
         /**
          * Enables physics.
          */
-        void EnablePhysicsL();
+        void EnablePhysicsL( CAknPhysics* aPhysics = NULL );
 
         /**
          * Initializes physics.
@@ -2340,6 +2341,17 @@ public: // Pictograph support
      * @param aEnable ETrue if kinetic scrolling should be enabled.
      */
     IMPORT_C void EnableKineticScrollingL( TBool aEnable );
+
+    /**
+     * Enables kinetic scrolling in editor with external CAknPhysics instance.
+     * 
+     * Note that when kinetic scrolling is enabled, it is
+     * no longer possible to disable it with this function.
+     * 
+     * @since S60 v5.2
+     * @param aPhysics Pointer to external CAknPhysics instance.
+     */
+    IMPORT_C void EnableKineticScrollingL( CAknPhysics* aPhysics );
 
 public: 
     void EnableSmileySupportL( TBool aEnableSmiley );

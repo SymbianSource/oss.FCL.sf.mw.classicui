@@ -20,6 +20,7 @@
 
 #include <aknlongtapdetector.h>
 #include <aknphysicsobserveriface.h>
+#include <itemfinderobserver.h>
 
 #include "bctestcase.h"
 
@@ -32,7 +33,8 @@ class CCoeControl;
 */
 class CBCTestMixMCLGeneralCase: public CBCTestCase,
 							    public MAknLongTapDetectorCallBack,
-							    public MAknPhysicsObserver
+                                public MAknPhysicsObserver,
+                                public MAknItemFinderObserver
     {
 public: // constructor and destructor
     
@@ -105,8 +107,7 @@ protected: // new functions
     /*
      * Test one function in class AknPopupUtils
      */
-    void TestAknPopupUtils();
-
+    void TestAknPopupUtilsL();    
     /*
      * Test one function in class AknListUtils
      */
@@ -115,7 +116,17 @@ protected: // new functions
     /*
      * Test new APIs in CAknToolbar
      */
-    void TestAknToolbar();
+    void TestAknToolbarL();
+ 
+    /*
+     * Test ProcessCommandL in AknRadioButtonSettingPage
+     */
+    void TestRadioButtonSettingPageL();
+ 
+    /*
+     * Test ProcessCommandL in AknPopupSettingPage
+     */
+    void TestPopupSettingPageL();
 
     /*
      * Tests editor's kinetic scrolling related functions.
@@ -135,7 +146,17 @@ protected: // new functions
     /*
      * Tests CBA APIs.
      */
-     void TestCba();
+     void TestCbaL();
+
+     /*
+      * Tests common dialogs APIs.
+      */
+     void TestCommonDialogsL();
+
+     /*
+      * Tests ItemFinder.
+      */
+     void TestItemFinder();
 
 protected: // From base class MAknPhysicsObserver
     
@@ -162,6 +183,18 @@ protected: // From base class MAknPhysicsObserver
      * @return Physics observer view position.
      */
     TPoint ViewPosition() const;
+    
+    // From MAknItemFinderObserver
+
+    /**
+     * Handles the activation event.
+     *
+     * @param  aItem        Activated item.
+     * @param  aEvent       Activation method.
+     * @param  aFlags       Additional information about the event.
+     */
+    void HandleFindItemEventL( const CItemFinder::CFindItemExt& aItem,
+            MAknItemFinderObserver::TEventFlag aEvent, TUint aFlags);
 
 private: // constructor
     

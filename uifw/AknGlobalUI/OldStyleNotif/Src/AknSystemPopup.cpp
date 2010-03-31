@@ -49,7 +49,7 @@
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
 
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <AknsUtils.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include "GlobalWindowPriorities.h"
@@ -766,6 +766,11 @@ void CAknGlobalNoteDialog::CAknStaticNoteDialog_Reserved()
 
 void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
+    if (aPointerEvent.iType == TPointerEvent::EButton1Down)
+        {
+        iCaptured = ETrue;
+        }
+    
     if (Rect().Contains(aPointerEvent.iPosition) && (aPointerEvent.iType == TPointerEvent::EButton1Up)
         && iIsAlarm)
         {
@@ -776,13 +781,17 @@ void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEven
 		}
     else if ((iSoftkeys == R_AVKON_SOFTKEYS_EMPTY) && 
             (iTimeoutInMicroseconds != ENoTimeout) && 
-            (aPointerEvent.iType == TPointerEvent::EButton1Up))
+            (aPointerEvent.iType == TPointerEvent::EButton1Up)&& iCaptured)
         {
         CEikDialog::TryExitL(EAknSoftkeyExit);
         }
     else
         {
         CAknStaticNoteDialog::HandlePointerEventL(aPointerEvent);
+        }
+    if (aPointerEvent.iType == TPointerEvent::EButton1Up)
+        {
+        iCaptured = EFalse;
         }
     }
 

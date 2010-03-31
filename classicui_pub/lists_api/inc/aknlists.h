@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1857,20 +1857,6 @@ public:
      */
     IMPORT_C static void SetupListboxPos(CEikListBox& aListBox, 
 				   const TAknWindowLineLayout &aLayout);
-				   
-    /**
-     * This function returns a correct offset to revise layout data.
-     *
-     * Attention: The function is only effective for QHD lanscape model. 
-     * It always return 0 in QVGA, QVGA2, VGA and VAG3. 
-     * A panic will take place if it is used in other models.
-     *
-     * @since S60 5.0
-     *
-     * @param aScreenRect Size of Screen.
-     * @return Offset of listscroll_menu_pane's layout 
-     */
-    static TInt AdjustPopupLayoutData( const TRect& aScreenRect );				   
     };
 
 /**

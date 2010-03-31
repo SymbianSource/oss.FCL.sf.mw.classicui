@@ -66,6 +66,7 @@ TInt CTestDOMItemFinder::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestIFSetExternalLinksL", CTestDOMItemFinder::TestIFSetExternalLinksL ),
         ENTRY( "TestIFCurrentItemExt", CTestDOMItemFinder::TestIFCurrentItemExt ),
         ENTRY( "TestIFCurrentSelection", CTestDOMItemFinder::TestIFCurrentSelection ),
+        ENTRY( "TestIFSetItemFinderObserverL", CTestDOMItemFinder::TestIFSetItemFinderObserverL ),
         };
 
     const TInt count = sizeof( KFunctions ) / sizeof( TStifFunctionInfo );
@@ -520,6 +521,22 @@ TInt CTestDOMItemFinder::TestIFCurrentSelection( CStifItemParser& /*aItem*/ )
     // Print to log file
     iLog->Log( KTestIFCurrentSelection );
     iItemFinder->CurrentSelection();
+    return KErrNone;
+    }
+// -----------------------------------------------------------------------------
+// CTestDOMItemFinder::TestIFSetItemFinderObserverL
+// -----------------------------------------------------------------------------
+//
+TInt CTestDOMItemFinder::TestIFSetItemFinderObserverL( CStifItemParser& /*aItem*/ )
+    {
+
+    // Print to UI
+    _LIT( Ktestdomitemfinder, "testdomitemfinder" );
+    _LIT( KTestIFSetItemFinderObserverL, "In TestIFSetItemFinderObserverL" );
+    TestModuleIf().Printf( 0, Ktestdomitemfinder, KTestIFSetItemFinderObserverL );
+    // Print to log file
+    iLog->Log( KTestIFSetItemFinderObserverL );
+    iItemFinder->SetItemFinderObserverL( 0 );
     return KErrNone;
     }
 //  [End of File]

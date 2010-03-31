@@ -25,4 +25,4 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/ItemFinder.h     MW_LAYER_PLATFORM_EXPORT_PATH(ItemFinder.h)
-
+../inc/itemfinderobserver.h     MW_LAYER_PLATFORM_EXPORT_PATH(itemfinderobserver.h)

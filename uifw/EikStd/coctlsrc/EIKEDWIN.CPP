@@ -1134,23 +1134,23 @@ void CEikEdwin::CEikEdwinExtension::HandleNotifyInt(TUint32 aId, TInt aNewValue)
 // ---------------------------------------------------------------------------
 // CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL
 // ---------------------------------------------------------------------------
-//   
-void CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL()
+//
+void CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL( CAknPhysics* aPhysics )
     {
     iFlags.Set( EKineticScrollingEnabled );
-    EnablePhysicsL();
+    EnablePhysicsL( aPhysics );
     }
 
 // ---------------------------------------------------------------------------
 // CEikEdwin::CEikEdwinExtension::EnablePhysicsL
 // ---------------------------------------------------------------------------
 //   
-void CEikEdwin::CEikEdwinExtension::EnablePhysicsL()
+void CEikEdwin::CEikEdwinExtension::EnablePhysicsL( CAknPhysics* aPhysics )
     {
     if ( iFlags.IsSet( EKineticScrollingEnabled )
         && !iPhysicsHandler && iEdwin->DrawableWindow() )
         {
-        iPhysicsHandler = CAknEdwinPhysicsHandler::NewL( *iEdwin );
+        iPhysicsHandler = CAknEdwinPhysicsHandler::NewL( *iEdwin, aPhysics );
         
         InitPhysicsL();   
         if ( iEdwin->iLayout )
@@ -2876,18 +2876,12 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                        ( ( aPointerEvent.iType == TPointerEvent::EDrag ) ||
                          ( aPointerEvent.iType == TPointerEvent::EButtonRepeat ) ) )
                     {
-                    
-                    // selectionAfter.iCursorPos-1 below is because we need to select the previous char
-                    TBool ltr = ( selectionAfter.iCursorPos >= selectionBefore.iCursorPos );
-                    TInt readPos = selectionAfter.iCursorPos;
-                    if (ltr && readPos > 0)
-                        {
-                        readPos -= 1; // read previous char
-                        }
+                    TInt readPos = ( selectionAfter.iCursorPos >= selectionBefore.iCursorPos ) ?
+                                          selectionBefore.iCursorPos : selectionAfter.iCursorPos ;
                     TChar currentSelectedChar = Text()->Read( readPos, 1 )[0]; 
                     TBool isSpace = currentSelectedChar.IsSpace();
-                    TBool isText = currentSelectedChar.IsAlpha() 
-                                || currentSelectedChar.IsDigit();
+                    TBool isSmiley = CSmileyManager::IsSmileyCode(currentSelectedChar);
+                    TBool isText = currentSelectedChar.IsGraph();
                     
                     // case line
                     TInt prevLineNr = TextLayout()->GetLineNumber(selectionBefore.iCursorPos);
@@ -2906,7 +2900,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackBlankSelection );
                         }
                     // case text
-                    else if (isText)    
+                    else if ( isText || isSmiley )    
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackTextSelection );
                         }
@@ -4833,6 +4827,7 @@ EXPORT_C void CEikEdwin::ClipboardL(TClipboardFunc aClipboardFunc)
     
     if (reportChange)
         {
+        iEdwinExtension->iThumbPos = KErrNotFound;
         ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
         DoReportEventL( MCoeControlObserver::EEventStateChanged );
         NotifyEditorStateObserverOfStateChangeL();
@@ -8052,7 +8047,15 @@ EXPORT_C void CEikEdwin::EnableKineticScrollingL( TBool aEnable )
     {
     if ( iEdwinExtension && aEnable )
         {
-        iEdwinExtension->EnableKineticScrollingL();
+        iEdwinExtension->EnableKineticScrollingL( NULL );
+        }
+    }
+
+EXPORT_C void CEikEdwin::EnableKineticScrollingL( CAknPhysics* aPhysics )
+    {
+    if ( iEdwinExtension )
+        {
+        iEdwinExtension->EnableKineticScrollingL( aPhysics );
         }
     }
 
@@ -8573,8 +8576,8 @@ TBool CEikEdwin::IsSelectionVisible()
 		
 		TChar::TCategory category = character.GetCategory();
 		
-		if ( !((category&TChar::ESeparatorGroup == TChar::ESeparatorGroup) ||
-			   (text[i]>=0x200B && text[i]<=0xFFFC)) )
+		if ( !( ( ( category & TChar::ESeparatorGroup ) == TChar::ESeparatorGroup ) ||
+			   ( text[i] >= 0x200B && text[i] <= 0xFFFC ) ) )
 			{
 			ret = ETrue;
 			break;

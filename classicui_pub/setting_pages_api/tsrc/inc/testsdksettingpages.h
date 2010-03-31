@@ -1394,6 +1394,15 @@ private:
      */
     virtual TInt TestSettingpagesRadioButtonWriteInternalStateLL( CStifItemParser& /*aItem*/ );
     
+    /**
+     * TestSettingpagesRadioButtonProcessCommandLL test function for testing the 
+     * ProcessCommandL function
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestSettingpagesRadioButtonProcessCommandLL( CStifItemParser& /*aItem*/ );           
+    
     /*
      * aknsettingitemlist.h
      */

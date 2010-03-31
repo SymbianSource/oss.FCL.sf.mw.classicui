@@ -148,7 +148,17 @@ protected:
     */
     static TBool FocusToFirstItem();
             
-
+    /**
+     * Enables highlight to listbox control in single click
+     * mode if needed
+     *
+     * @since 5.2
+     * 
+     * @param  aCommandId  Event Id from the soft-key
+     * @return TBool ETrue if highlight was enabled
+     */
+    TBool EnableSingleClickHighlight( TInt aCommandId );   
+    
     /**
     * Create colorskinned icon and add it to icon array. Utility for
     * radiobutton, popup & checkbox setting page lists

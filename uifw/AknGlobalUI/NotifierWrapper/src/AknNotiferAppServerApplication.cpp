@@ -33,7 +33,7 @@
 #include "AknNotiferAppServerApplicationInterface.h"
 
 #include <AknMediatorFacade.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <aknglobalpopupprioritycontroller.h>
 
 //---- Awkward, but declaring base classes otherwise in Akncapserver entry would break app fw.

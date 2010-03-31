@@ -33,7 +33,7 @@
 #include "avkoninternalpskeys.h"     // KAknIdleAppWindowGroupId
 #include <AknCapServerDefs.h>
 #include <activeidle2domainpskeys.h>
-#include <eikpriv.rsg>
+#include <EIKPRIV.rsg>
 #include <coedef.h>
 #include <eiksvdef.h>
 #include <aknconsts.h>
@@ -107,7 +107,7 @@ const TInt KWgPriorityCoverEverything = 10000;
 const TInt KKeyEventICodeThreshold = 0x001f;
 const TInt KMaxLanguageCodeLength = 6; // 5 digits + separator
 
-                
+const TInt KRemoveBlankDelay = 200000; // 0.2s     
 
 _LIT(KEikSrvUIResFileName, "z:\\resource\\eiksrvui.rsc");
 _LIT_SECURITY_POLICY_PASS(KPassReadPolicy);
@@ -172,7 +172,8 @@ CAknCapAppServerAppUi::~CAknCapAppServerAppUi()
     delete iMMCUnlock;
     delete iIdler;
     iEikSrv.Close(); // this shouldn't be connected here anyway
-    delete iPtiEngine;          
+    delete iPtiEngine;                          
+    iAlfClient.Close();	
     }
 
 _LIT(KProductSpecificHalFile, "z:\\system\\data\\ProductSpecificHalParams.txt");
@@ -856,12 +857,26 @@ void CAknCapAppServerAppUi::SetStatusPaneLayoutL(TInt aLayoutResId)
         }
     }
 
-void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
+TInt CAknCapAppServerAppUi::RemoveBlankCallBack( TAny* aThis )
+    {
+    static_cast<CAknCapAppServerAppUi*>( aThis )->DoRemoveBlank();
+    return EFalse;
+    }
+
+void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool /* aToForeground */)
     {
     if (aBlank)
         {
         if (++iBlankWinRefCount == 1)
             {
+            delete iRemoveBlankCallBack;
+            iRemoveBlankCallBack = NULL;
+
+		    // We are ignoring the foreground parameter because we only have one 
+            // type of blanking behaviour in AlfClient. Act as if ETrue
+            iAlfClient.BlankScreen(ETrue);	
+            iForegroundBlankScreen = ETrue; // always as if foreground blanking
+/*
             ASSERT(!iBlankWin);
             if (aToForeground)
                 {
@@ -873,16 +888,30 @@ void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
                 }
             iBlankWin = CAknServBlankWin::NewL(iBackdropWindowGroup, iStatusPane);
             iForegroundBlankScreen = aToForeground;
+*/
             }
         }
     else if (--iBlankWinRefCount <= 0)
         {
         iBlankWinRefCount = 0;
-        if (iForegroundBlankScreen)
+
+        // Blanking IPC is delayed or restarted
+        delete iRemoveBlankCallBack;
+        iRemoveBlankCallBack = NULL;
+        iRemoveBlankCallBack = CPeriodic::NewL(CActive::EPriorityLow);     
+        
+        iRemoveBlankCallBack->Start(
+            KRemoveBlankDelay,
+            KRemoveBlankDelay,
+            TCallBack(RemoveBlankCallBack, this));
+        
+
+/*        if (iForegroundBlankScreen)
             {
+            */
 #ifdef RD_UI_TRANSITION_EFFECTS_LAYOUT_SWITCH
-            CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
             /*
+            CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
             RWsSession& ws = iEikonEnv->WsSession();
             TInt wgId = ws.GetFocusWindowGroup();
             CApaWindowGroupName* wgName = CApaWindowGroupName::NewL(ws, wgId);
@@ -896,18 +925,28 @@ void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
             //        AknTransEffect::GfxTransParam( KTfxServerUid )
             //        );
 
-            GfxTransEffect::EndFullScreen();
+//            GfxTransEffect::EndFullScreen();
 #endif
-            iBackdropWindowGroup.SetOrdinalPosition(1, ECoeWinPriorityNormal);
-            }
+/*            iBackdropWindowGroup.SetOrdinalPosition(1, ECoeWinPriorityNormal);
+           }
         delete iBlankWin;
         iBlankWin = 0;
+*/
         iForegroundBlankScreen = EFalse;
         } 
     }
 
+void CAknCapAppServerAppUi::DoRemoveBlank()
+    {
+    RDebug::Print( _L("CAknCapAppServerAppUi::DoRemoveBlank"));
+    iAlfClient.BlankScreen(EFalse); 
+    delete iRemoveBlankCallBack;
+    iRemoveBlankCallBack = NULL;
+    }
+
 void CAknCapAppServerAppUi::SwapLayoutSwitchBlankScreenL()
     {
+    	/*
     if (iBlankWin)
         {
         if (!iForegroundBlankScreen)
@@ -920,6 +959,7 @@ void CAknCapAppServerAppUi::SwapLayoutSwitchBlankScreenL()
         delete iBlankWin;
         iBlankWin = newBlankWin;
         }
+        */
     }
 
 TBool CAknCapAppServerAppUi::IsDisplayingForegroundBlankScreen() const

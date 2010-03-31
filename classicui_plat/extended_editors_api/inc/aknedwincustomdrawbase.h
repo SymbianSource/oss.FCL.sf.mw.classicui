@@ -25,7 +25,6 @@
 
 class CTextView;
 class CTextLayout;
-class MAknsSkinInstance;
 
 #include <lafmain.h>
 #include <AknPictographDrawerInterface.h>
@@ -193,7 +192,6 @@ private: //member data
     CWindowGc* iSysGc;
     CAknPictographInterface* iPictographDrawer; // owned
     TInt iWsBufferRequestId;
-    MAknsSkinInstance* iSkinInstance;
 	};
 
 #endif

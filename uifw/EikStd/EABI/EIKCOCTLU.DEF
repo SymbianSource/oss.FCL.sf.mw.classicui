@@ -2008,4 +2008,5 @@ EXPORTS
 	_ZNK11CEikListBox17ItemsInSingleLineEv @ 2007 NONAME
 	_ZN18CEikStatusPaneBase17EnableTransparentEi @ 2008 NONAME
 	_ZNK18CEikStatusPaneBase13IsTransparentEv @ 2009 NONAME
+	_ZN9CEikEdwin23EnableKineticScrollingLEP11CAknPhysics @ 2010 NONAME
 

@@ -2352,6 +2352,47 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
 
     TRect area;
     
+    if ( iParentControl )
+        {
+        CCoeControl* windowOwningParent = iParentControl;
+        while ( windowOwningParent && !windowOwningParent->OwnsWindow() )
+            {
+            windowOwningParent = windowOwningParent->Parent();
+            }       
+        
+        if ( windowOwningParent )
+            {
+            TInt xGap = 0;
+            TRect scrollBarRect = Rect();   
+            TRect parentRect = windowOwningParent->Rect();
+                               
+            if ( OwnsWindow() ) 
+                {
+                scrollBarRect.Move( Position().iX - 
+                    windowOwningParent->Position().iX, 0 );
+                } 
+            
+            // left to right layout in use
+            if ( !AknLayoutUtils::LayoutMirrored() )
+                {
+                xGap = parentRect.iBr.iX - scrollBarRect.iBr.iX;  
+                if ( Abs( xGap ) < scrollBarRect.Width() )
+                    {
+                    extension.iBr.iX += xGap;
+                    }
+                }
+            // right to left layout in use
+            else
+                {
+                xGap = parentRect.iTl.iX - scrollBarRect.iTl.iX;
+                if ( Abs( xGap ) < scrollBarRect.Width() )
+                    {
+                    extension.iTl.iX += xGap;
+                    }
+                }  
+            }
+        }     
+    
     if ( iOrientation == CEikScrollBar::EVertical )
         {
         area.iTl.iX = extension.iTl.iX - scrollbar.iTl.iX;

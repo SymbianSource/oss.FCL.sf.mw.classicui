@@ -500,4 +500,18 @@ EXPORT_C void CAknRadioButtonSettingPage::CAknListBoxSettingPage_Reserved_1()
 	{
 	}
 
+//---------------------------------------------------------------------------------------
+// CAknRadioButtonSettingPage::ProcessCommandL()
+// Processes events from the softkeys. (Or translated from key events)
+//---------------------------------------------------------------------------------------
+//
+EXPORT_C void CAknRadioButtonSettingPage::ProcessCommandL( TInt aCommandId )
+    {
+    if ( !EnableSingleClickHighlight( aCommandId ) )
+        {
+        // no single click mode was enabled, just call the base class method
+        CAknSettingPage::ProcessCommandL( aCommandId );
+        }
+    }
+
 // End of File

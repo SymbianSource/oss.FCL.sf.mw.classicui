@@ -2108,7 +2108,26 @@ RESOURCE INDICATOR_PANE r_avkon_status_pane_indicator_default
                     narrowbmpmask = EMbmAvkonQgn_stat_hdmi_connect_mask;
                     };
                 };
-            }            
+            },
+             
+          INDICATOR
+            {
+            uid = EAknIndicatorIntegratedIM;
+            npriority = 41;
+            wpriority = 41;
+            bmpfile = AVKON_BITMAP_FILE;
+            states = INDICATOR_STATE
+                {
+                id = EAknIndicatorStateOn;
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_joint_im_uni;
+                    widebmpmask = EMbmAvkonQgn_stat_joint_im_uni_mask;
+                    narrowbmpid = EMbmAvkonQgn_stat_joint_im_uni;
+                    narrowbmpmask = EMbmAvkonQgn_stat_joint_im_uni_mask;
+                    };
+                };
+            }           
         };
     }
 
@@ -9758,6 +9777,11 @@ RESOURCE ARRAY r_avkon_indicator_popup_defaults
             {
             indicator_uid = EAknIndicatorMissedCalendarAlarm;
             text          = qtn_uni_ind_caled_alarm_stat;
+            },
+        AVKON_INDICATOR_POPUP_ITEM
+            {
+            indicator_uid = EAknIndicatorIntegratedIM;
+            text          = qtn_iim_uni_ind_default;
             }
         };
     }

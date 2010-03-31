@@ -38,7 +38,7 @@
 #include "laflbx.h"
 #include "akntrace.h"
 
-const TUint KListItemDrawerAllowedFlags = 0x00ff;
+const TUint KListItemDrawerAllowedFlags = 0x0fff;
 
 const TInt KDefaultMarkColumnWidth = 10;
 const TInt KDefaultMarkGutter = 2;

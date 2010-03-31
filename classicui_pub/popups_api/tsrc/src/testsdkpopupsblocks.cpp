@@ -196,7 +196,8 @@ TInt CTestSDKPopups::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestCPSPQueryValueL", CTestSDKPopups::TestCPSPQueryValueL ),
         ENTRY( "TestCPSPSelectCurrentItemL", CTestSDKPopups::TestCPSPSelectCurrentItemL ),
         ENTRY( "TestCPSPWriteInternalStateL", CTestSDKPopups::TestCPSPWriteInternalStateL ),
-        ENTRY( "TestCPSPReservedL", CTestSDKPopups::TestCPSPReservedL ),
+        ENTRY( "TestCPSPReservedL", CTestSDKPopups::TestCPSPReservedL ),     
+        ENTRY( "TestCPSPProcessCommandL", CTestSDKPopups::TestCPSPProcessCommandL ),   
         // [test cases entries]
 
         };

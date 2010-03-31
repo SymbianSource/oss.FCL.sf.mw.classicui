@@ -1114,6 +1114,7 @@ enum
     EAknIndicatorStopWatch,
     EAknIndicatorMecoServiceTab,
     EAknIndicatorHDMI,
+    EAknIndicatorIntegratedIM,
 
     // Navi pane editor indicators
     EAknNaviPaneEditorIndicatorT9 = 100,

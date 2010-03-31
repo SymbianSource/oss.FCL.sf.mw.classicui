@@ -944,7 +944,6 @@ void CListBoxExt::ItemActionMenuClosed()
         {
         EnableHighlight( EFalse );
         iListBox.iView->DrawItem( iLongTappedItem );
-        iListBox.iView->SetCurrentItemIndex( 0 );
         iLongTappedItem = KErrNotFound;
         }
     }
@@ -2101,7 +2100,7 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
             {
             if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
                 {
-                // is single click is enabled, highlight must also be visible
+                // If single click is enabled, highlight must also be visible
                 if ( iListBoxExt->CollectionState()
                         & MAknCollection::EStateHighlightVisible )
                     {
@@ -2402,7 +2401,7 @@ EXPORT_C void CEikListBox::SetCurrentItemIndex(TInt aItemIndex) const
     iView->SetDisableRedraw(redrawDisabled);
     
     if ( iListBoxExt && iListBoxExt->iPhysics && aItemIndex == 0 )
-        {
+        {    
         iView->SetItemOffsetInPixels( 0 );        
         }
     _AKNTRACE_FUNC_EXIT;
@@ -3093,6 +3092,12 @@ void CEikListBox::HandleItemRemovalWithoutSelectionsL()
     UpdateScrollBarsL();
     UpdateScrollBarThumbs();
     iView->ClearFlags(CListBoxView::EItemCountModified);
+
+
+    if ( iListBoxExt->iLongTappedItem != KErrNotFound )
+        {
+        iListBoxExt->EnableHighlight( EFalse );
+        }
 
     FireItemChange();
     
@@ -4693,13 +4698,6 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             {
             iListBoxExt->iFeedbackType = ETouchFeedbackList;
             }
-        
-        if ( !iListBoxExt->iPhysics || itemIndex == iView->CurrentItemIndex() )
-            {
-            iListBoxExt->ImmediateFeedback( iListBoxExt->iFeedbackType,
-                                            TTouchFeedbackType(ETouchFeedbackVibra | ETouchFeedbackAudio),
-                                            aPointerEvent );
-            }
         }
     iListBoxExt->iEventModifiers = aPointerEvent.iModifiers;
     CListBoxView::TSelectionMode selectionMode = CListBoxView::ENoSelection;
@@ -5809,11 +5807,6 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
             	{
                 Window().Invalidate( TRect( View()->ItemPos(index), 
             		                 View()->ItemSize() ) );
-                if( iItemDrawer->Flags() & 
-                            CListItemDrawer::ESingleClickDisabledHighlight )
-                    {
-                    iView->SetCurrentItemIndex( 0 );
-                    }
             	}
             break;
             }

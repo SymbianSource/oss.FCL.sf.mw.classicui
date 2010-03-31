@@ -173,19 +173,23 @@ EXPORT_C void CAknStylusPopUpMenu::SetItemDimmed( const TInt aCommandId, const T
 //
 EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
     {
-    TRAPD( err, 
-           iController = CAknPreviewPopUpController::NewL( *iContent,
-                   CAknPreviewPopUpController::ELayoutSubMenu | 
-                   CAknPreviewPopUpController::EAutoMirror |
-                   CAknPreviewPopUpController::EDontClose ) );
-    if ( err )
+    // if contoller exists, re-use it .
+    if ( !iController )
         {
-        return;
-        }
+        TRAPD( err, 
+               iController = CAknPreviewPopUpController::NewL( *iContent,
+                       CAknPreviewPopUpController::ELayoutSubMenu | 
+                       CAknPreviewPopUpController::EAutoMirror |
+                       CAknPreviewPopUpController::EDontClose ) );
+        if ( err )
+            {
+            return;
+            }
             
-    iController->SetPopUpShowDelay( KDefaultPopUpShowDelay );
-    iController->SetPopUpHideDelay( KDefaultPopUpHideDelay );
-    iContent->Parent()->DrawableWindow()->SetNonFading(ETrue);
+        iController->SetPopUpShowDelay( KDefaultPopUpShowDelay );
+        iController->SetPopUpHideDelay( KDefaultPopUpHideDelay );
+        iContent->Parent()->DrawableWindow()->SetNonFading(ETrue);
+        }
     
     TSize size(iController->Size());
     iController->ShowPopUp();
@@ -379,6 +383,8 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
 
         if ( iMenuObserver )
             {
+            TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
+
             iFlags.Set( EIdleDisabled );
             TBool isDeleted = EFalse;
             iIsDeleted = &isDeleted;
@@ -391,7 +397,10 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
                 }
 
             iIsDeleted = NULL;
-            iFlags.Clear( EIdleDisabled );
+            if( !isAlreadySet )
+                {
+                iFlags.Clear( EIdleDisabled );
+                }
             }
 
         StartControllerIdleL();
@@ -413,9 +422,16 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
         {
         if ( iMenuObserver )
             {
+            TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
+
             iFlags.Set( EIdleDisabled );
             iMenuObserver->ProcessCommandL( KErrCancel );
-            iFlags.Clear( EIdleDisabled );
+
+            if( !isAlreadySet )
+                {
+                iFlags.Clear( EIdleDisabled );
+                }
+
             }
 
         StartControllerIdleL();

@@ -207,8 +207,11 @@ EXPORT_C void CHgScroller::SetSelectedIndex( TInt aIndex )
     {
     if( aIndex >= 0 && aIndex < iItems.Count() )
         {
-        iSelectedIndex = iItems.Count() - 1;
-        FitSelectionToView();
+        if( !IsDisplayed( aIndex ) )
+            {
+            iSelectedIndex = iItems.Count() - 1;
+            FitSelectionToView();
+            }
         
         iSelectedIndex = aIndex;
         // Move view position so that it is fully visible.
@@ -541,7 +544,7 @@ void CHgScroller::HandleItemCountChanged()
 //
 void CHgScroller::InitScrollbarL()
     {
-    if( iScrollbar && iItemCount )
+    if( iScrollbar )
         {
         TBool prevStatic = iScrollbar->IsStatic();
         iScrollbar->InitScrollBarL( Rect(), 
@@ -1083,8 +1086,12 @@ void CHgScroller::HandleViewPositionChanged(TBool aUpdateScrollbar)
         {
         iCurrentRow = newRow;
         
+        TBool needsFeedback = 
+                ( iCurrentRow >= 0 && iCurrentRow <= iItems.Count() )
+                || ( iItems.Count() - iCurrentRow > ItemsOnScreen() );
+        
         TInt action = iPhysics->OngoingPhysicsAction();
-        if( action !=  CAknPhysics::EAknPhysicsActionNone )
+        if( action !=  CAknPhysics::EAknPhysicsActionNone && needsFeedback )
             {
             TTouchFeedbackType type( ETouchFeedbackVibra );
             if ( CAknPhysics::EAknPhysicsActionDragging == action )
@@ -1469,6 +1476,7 @@ void CHgScroller::HandleGainingForeground()
 //
 void CHgScroller::HandleLosingForeground()
     {
+    iPointerDown = EFalse;
     iPopupText1.Zero();
     iPopupText2.Zero();
     }
