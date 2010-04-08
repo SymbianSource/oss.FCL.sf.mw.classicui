@@ -246,7 +246,7 @@ public:
     /**
      * Open VKB .  
      */
-    EXPORT_C void OpenVKB();
+    IMPORT_C void OpenVKB();
 
     void MakeVisible(TBool aVisible);
 private: 
