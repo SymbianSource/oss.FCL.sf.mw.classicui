@@ -302,7 +302,6 @@ public: // from CCoeControl
      */
     IMPORT_C void HandlePointerEventL(const TPointerEvent& aPointerEvent);
 public:
-	/**
     /**
      * Sets the maximium number of lines that can be displayed.
      *
