@@ -1519,6 +1519,17 @@ public:
      */
     IMPORT_C void DisableItemSpecificMenu();
     
+    /**
+     * Checks if highlight drawing is enabled. If single click is
+     * enabled highlight drawing is by default disabled, but highlight comes 
+     * visible with hardware keys. 
+     * 
+     * @return ETrue if highlight is enabled, EFalse if not.
+     *
+     * @since S60 5.2
+     */
+    IMPORT_C TBool IsHighlightEnabled();
+    
 private:
     IMPORT_C virtual void CEikListBox_Reserved(); // listbox use only
     void HorizontalScroll(TInt aScrollAmountInPixels);

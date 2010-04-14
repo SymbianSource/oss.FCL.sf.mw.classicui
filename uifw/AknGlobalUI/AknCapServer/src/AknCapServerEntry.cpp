@@ -33,7 +33,7 @@
 #include "avkoninternalpskeys.h"     // KAknIdleAppWindowGroupId
 #include <AknCapServerDefs.h>
 #include <activeidle2domainpskeys.h>
-#include <EIKPRIV.rsg>
+#include <eikpriv.rsg>
 #include <coedef.h>
 #include <eiksvdef.h>
 #include <aknconsts.h>

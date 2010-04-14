@@ -861,6 +861,8 @@ void CAknTreeListView::HandleResourceChange( TInt aType )
             if ( HighlightEnabled() )
                 {
                 EnableHighlight( EFalse );
+                // Redraw item
+                SetFocusedItem( FocusedItem(), FocusIndex(), ETrue );
                 }
             break;
             }
@@ -897,6 +899,7 @@ void CAknTreeListView::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         {
         if( aPointerEvent.iType == TPointerEvent::EButton1Down )  
             {
+            iFlags.Clear( EFlagIgnoreButtonUpEvent );
             iPreviouslyFocusedItem = FocusedItem(); 
             }
 
@@ -1288,7 +1291,8 @@ void CAknTreeListView::ConstructL( const CCoeControl& aContainer )
 
     iIsPressedDownState = EFalse;
     iIsDragged = EFalse;
-    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this );
+    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this, this );
+
     if ( iItemActionMenu )
         {
         iLongTapDetector = CAknLongTapDetector::NewL( this );
@@ -2874,7 +2878,7 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     AknListUtils::DrawSeparator( gc, offsetRect, textColor, skin );
                     }
 
-                TBool focused = ( IsFocused() && FocusedItem() &&
+                TBool focused = ( FocusedItem() &&
                     iItems[ii].Item() == FocusedItem() );
 
                 if ( SingleClickEnabled() && !HighlightEnabled() )

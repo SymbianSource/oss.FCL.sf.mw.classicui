@@ -279,9 +279,11 @@ void CAknIndicator::SetIndicatorState(TInt aState)
     if ( iState == EAknIndicatorStateOn )
         {
         iAnimState = iCountOfAnimStates - 1;
+        this->MakeVisible(ETrue);
         }
     else if ( iState == EAknIndicatorStateOff )
         {
+        this->MakeVisible(EFalse);
         DeleteBitmaps();
         }
     SizeChanged();

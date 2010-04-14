@@ -815,6 +815,11 @@ EXPORT_C void CListBoxView::VerticalMoveToItemL(TInt aTargetItemIndex, TSelectio
 	        }
 	    else // items will get redrawn anyway
 	        {
+            // As the iVerticalOffset is changed in CalcNewTopItemIndexSoItemIsVisible(),
+            // and ScrollToMakeItemVisible() will call the CalcNewTopItemIndexSoItemIsVisible() again,
+            // which will use iVerticalOffset to do some judgementes,
+            // we must set iVerticalOffset back to original value.
+            iVerticalOffset = oldVerticalOffset;
 	        ScrollToMakeItemVisible(iCurrentItemIndex);
 	        }
         UpdateSelectionL(aSelectionMode);
@@ -1187,6 +1192,12 @@ EXPORT_C TInt CListBoxView::CalcNewTopItemIndexSoItemIsVisible(TInt aItemIndex) 
 		newTopItemIndex = aItemIndex;
 	else if (aItemIndex > iBottomItemIndex)
 		newTopItemIndex = aItemIndex - numItemsThatFitInRect + 1;
+    else if ( ( iVerticalOffset < 0 )
+            && ( aItemIndex == iBottomItemIndex )
+            && ( 0 == iViewRect.Height() % iItemHeight ) )
+        {
+        newTopItemIndex += 1;
+        }
 
 	if (!ITEM_EXISTS_ONCE(newTopItemIndex) && newTopItemIndex != 0 )
 		{ // if application fails to call HandleItemAdditionL(), we might go here.

@@ -852,7 +852,7 @@ void CListBoxExt::ConstructL()
     iItemsInSingleLine = 1;
     iFeedback = MTouchFeedback::Instance();
 
-    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this );
+    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this, &iListBox );
 
     if ( !( iListBox.iListBoxFlags & CEikListBox::EDisableItemSpecificMenu )
             && iItemActionMenu )
@@ -1079,9 +1079,12 @@ void CListBoxExt::LongTapPointerEventL( const TPointerEvent& aPointerEvent )
     {
     if ( iSingleClickEnabled && iLongTapDetector && iItemActionMenu  )
         {
-        // Send event on down only if item specific items were found
-        if ( aPointerEvent.iType != TPointerEvent::EButton1Down
-                || iItemActionMenu->InitMenuL() )
+        // Send event on down only if item specific items were found and current
+        // item is marked if there are marked items
+        if ( !( MarkedItems() && 
+                !iListBox.View()->ItemIsSelected( iListBox.CurrentItemIndex() ) )
+                && ( aPointerEvent.iType != TPointerEvent::EButton1Down
+                || iItemActionMenu->InitMenuL() ) )
             {
             iLongTapDetector->PointerEventL ( aPointerEvent );
             }
@@ -1721,8 +1724,9 @@ TBool CListBoxExt::FeedbackEnabledOnUpEvent()
     {
     _AKNTRACE_FUNC_ENTER;
     TBool enabled( EFalse );
-    if ( ( iListBox.iItemDrawer->Flags() & CListItemDrawer::EPressedDownState ) &&
-         !iFlickStopped )
+    
+    if ( ( iListBox.iItemDrawer->Flags() & CListItemDrawer::EPressedDownState
+        || iSingleClickEnabled ) && !iFlickStopped )
         {
         enabled = ETrue;
         }
@@ -4686,9 +4690,10 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             }
 
         iListBoxExt->iFeedbackType = ETouchFeedbackList;
-
-        if ( itemIndex != iView->CurrentItemIndex() ||
-             iListBoxFlags & ES60StyleMultiselection )
+        
+        if ( iListBoxFlags & ES60StyleMultiselection ||
+            ( !iListBoxExt->iSingleClickEnabled &&
+            itemIndex != iView->CurrentItemIndex() ) )
             {
             iListBoxExt->iFeedbackType = ETouchFeedbackSensitiveList;
             }
@@ -4832,14 +4837,13 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                             UpdateHighlightL( itemIndex );
                             CCoeEnv::Static()->WsSession().Finish();
                             }
-                        if ( itemIndex != oldCurrentItemIndex )
-                            {
-                        	iListBoxExt->ImmediateFeedback( 
-                                iListBoxExt->iFeedbackType,
-                                TTouchFeedbackType( ETouchFeedbackVibra | 
-                                ETouchFeedbackAudio ),
-                                aPointerEvent );
-                        	}
+
+                        iListBoxExt->ImmediateFeedback( 
+                            iListBoxExt->iFeedbackType,
+                            TTouchFeedbackType( ETouchFeedbackVibra | 
+                            ETouchFeedbackAudio ),
+                            aPointerEvent );
+
                         if ( !wasFlicking )
                             {
                             ReportListBoxEventL( 
@@ -6217,12 +6221,37 @@ EXPORT_C void CEikListBox::DisableSingleClick( TBool aDisabled )
 //
 EXPORT_C void CEikListBox::DisableItemSpecificMenu()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iListBoxExt )
         {
         iListBoxExt->DisableItemSpecificMenu();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
+// ---------------------------------------------------------------------------
+// CEikListBox::IsHighlightEnabled
+// ---------------------------------------------------------------------------
+//
+EXPORT_C TBool CEikListBox::IsHighlightEnabled()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    TBool enabled( EFalse ); 
+    if ( !( iItemDrawer->Flags() & CListItemDrawer::EDisableHighlight ) )
+        {
+        if ( iListBoxExt->iSingleClickEnabled )
+            {
+            enabled = !( iItemDrawer->Flags()
+                & CListItemDrawer::ESingleClickDisabledHighlight ); 
+            }
+        else 
+            {
+            enabled = ETrue;
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    return enabled; 
+    }
 
 void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
 	{

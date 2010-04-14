@@ -425,6 +425,7 @@ CAknButton* CAknAdaptiveSearchGrid::CreateButtonL()
         button->SetBackground(this);
         button->SetTextColorIds( KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG65 );
         button->ActivateL();
+        button->MakeVisible( EFalse );
         return button;
         }
     else
@@ -986,8 +987,16 @@ void CAknAdaptiveSearchGrid::ShowControls()
         iPrevButton->MakeVisible( ETrue );          
         iPageIndicator->MakeVisible( ETrue );   
         }
-    iCloseButton->MakeVisible( ETrue );
-    iDeleteButton->MakeVisible( ETrue );
+    if(iGridChars)
+        {
+        iCloseButton->MakeVisible( ETrue );
+        iDeleteButton->MakeVisible( ETrue );
+        }
+    else
+        {
+        iCloseButton->MakeVisible( EFalse );
+        iDeleteButton->MakeVisible( EFalse );
+        }
     }
     
 // -----------------------------------------------------------------------------

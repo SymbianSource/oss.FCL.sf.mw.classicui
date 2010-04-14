@@ -4290,4 +4290,18 @@
 //
 #define qtn_iim_uni_ind_default "New unread chats"
 
+//d: Text in touch inputmethod menu list
+//d: Command to change editor input mode to alpha input mode
+//d: Only Korean
+//l: list_single_pane_t1_cp2
+//r: 5.0
+#define qtn_activate_english_mode "Alpha mode"
+
+//d: Text in touch inputmethod menu list
+//d: Command to change editor input mode to Korean character input mode
+//d: Only Korean
+//l: list_single_pane_t1_cp2
+//r: 5.0
+#define qtn_activate_korean_mode "Korean mode"
+
 // End of File

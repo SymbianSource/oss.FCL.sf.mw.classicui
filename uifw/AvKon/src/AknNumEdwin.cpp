@@ -127,6 +127,7 @@ EXPORT_C void CAknIntegerEdwin::SetValueL( TInt aValue )
 	else
 		{
 		SetTextL( &KEmptyText );
+		ReportEventL( MCoeControlObserver::EEventStateChanged );
 		}
 	}
 

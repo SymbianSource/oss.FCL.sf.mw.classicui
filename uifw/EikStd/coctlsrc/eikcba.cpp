@@ -1772,7 +1772,7 @@ void CEikCba::SetMSKIconL()
     TRect rect;
     qgn_graf_sk_msk.LayoutRect(
         rect,
-        AknLayoutScalable_Avkon::control_pane_g4( 0 ).LayoutLine() );
+        AknLayoutScalable_Avkon::control_pane_g4( 1 ).LayoutLine() );
 
     TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                     qgn_graf_sk_msk.Rect().Height() );

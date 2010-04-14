@@ -939,7 +939,6 @@ void CAknPhysics::ConstructL( CCoeControl* aViewControl )
     // Create Physics timer to step physics emulation
     iPhysics = CAknHighResPeriodic::NewL(
         CActive::EPriorityStandard, nullThreadOpen ? &iNullThread : NULL );
-    iPhysics->SetMinCallBackPeriod( FrameDelay() * 1000 );
     
     iEngine = CAknPhysicsEngine::NewL( this );
     iParamProvider = CAknPhysicsParameterProvider::NewL();
@@ -947,6 +946,7 @@ void CAknPhysics::ConstructL( CCoeControl* aViewControl )
     iConeObserver = CAknPhysicsConeObserver::NewL( this, iRestrictor );
     iConeObserver->SetViewWindowControl( aViewControl );
     iFeedback = MTouchFeedback::Instance();
+    iPhysics->SetMinCallBackPeriod( FrameDelay() * 1000 );
     }
 
 

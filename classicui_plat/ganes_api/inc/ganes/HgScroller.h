@@ -316,6 +316,11 @@ public: // NEW FUNCTIONS
      */
     IMPORT_C void DisableScrollBuffer();
 
+    /**
+     * 
+     */
+    IMPORT_C void SetMenuProviderL( MObjectProvider* aMenuProvider ); 
+    
     // Selection modes. Used in internal key marking implemention.
     enum TSelectionMode
         {

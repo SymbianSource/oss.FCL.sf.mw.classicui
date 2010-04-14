@@ -772,7 +772,7 @@ void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEven
         }
     
     if (Rect().Contains(aPointerEvent.iPosition) && (aPointerEvent.iType == TPointerEvent::EButton1Up)
-        && iIsAlarm)
+        && iIsAlarm && iCaptured)
         {
         if (!iIsAlarmWakeup)
             {

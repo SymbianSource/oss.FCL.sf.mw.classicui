@@ -3982,18 +3982,24 @@ TTime CEikDateEditor::GetTTime() const
     return(Date());
     }
 
-EXPORT_C TKeyResponse CEikDateEditor::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType)
+EXPORT_C TKeyResponse CEikDateEditor::OfferKeyEventL( const TKeyEvent& aKeyEvent, TEventCode aType )
     {
-    if (iDateEditor->OfferKeyEventL(aKeyEvent, aType)==EKeyWasConsumed)
-        return EKeyWasConsumed;
-    if ( ( aType==EEventKey)&& 
-           ( aKeyEvent.iCode == EKeyLeftArrow || aKeyEvent.iCode == EKeyRightArrow || 
-             aKeyEvent.iCode == EKeyDownArrow || aKeyEvent.iCode == EKeyUpArrow ) )
+	TKeyResponse ret = EKeyWasNotConsumed;
+    if ( iDateEditor->OfferKeyEventL( aKeyEvent, aType ) == EKeyWasConsumed )
     	{
-        iDateEditor->UpdateMaxDay( *Font() );
+        ret = EKeyWasConsumed;
     	}
-
-    return CEikMfne::OfferKeyEventL(aKeyEvent, aType);
+    else 
+    	{
+	    ret = CEikMfne::OfferKeyEventL( aKeyEvent, aType );
+	    if ( ( aType == EEventKey ) && 
+		     ( aKeyEvent.iCode == EKeyDownArrow || aKeyEvent.iCode == EKeyUpArrow ) )
+		    {
+		    iDateEditor->UpdateMaxDay( *Font() );
+		    this->DrawDeferred();
+		    }
+    	}
+    return ret;
     }
 
 EXPORT_C void CEikDateEditor::ConstructFromResourceL(TResourceReader& aResourceReader)

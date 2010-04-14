@@ -105,6 +105,18 @@ public:
             MAknCollection& aCollection );
 
     /**
+     * Adds collection to the item action menu of this view / dialog / appUi.
+     * 
+     * @param aCollection Collection implementing MAknCollection interface.
+     * @param aMenuBarOwner Owner of the menubar that collection will be
+     *        registered with.
+     * @return Pointer to the item action menu instance.
+     * Ownership does not transfer to caller.
+     */
+    IMPORT_C static CAknItemActionMenu* RegisterCollectionL(
+            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
+
+    /**
      * Removes collection of this item action menu.
      * 
      * @param aCollection Collection to be removed.

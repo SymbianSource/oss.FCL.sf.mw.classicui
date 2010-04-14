@@ -50,7 +50,7 @@
 
 #include <featdiscovery.h>
 
-const TInt KIntensity = 50; // 50%
+const TInt KIntensity = 100; // 100%
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -106,7 +106,7 @@ void CHgScroller::ConstructL (const TRect& aRect, RWsSession* aSession )
     if( appUi && appUi->IsSingleClickCompatible() )
         {
         iDetector = CAknLongTapDetector::NewL(this);
-        iActionMenu = CAknItemActionMenu::RegisterCollectionL(*this);
+        iActionMenu = CAknItemActionMenu::RegisterCollectionL( *this );
         }
 
     iDrawUtils->EnableMarquee(HasHighlight());
@@ -555,7 +555,7 @@ void CHgScroller::InitScrollbarL()
         iScrollbar->SetViewPosition( iViewPosition - TPoint(iWidth/2, iHeight/2));
         
         if(prevStatic != iScrollbar->IsStatic())
-            HandleScrollbarVisibilityChange(iScrollbar->IsStatic());
+            HandleScrollbarVisibilityChange( !iScrollbar->IsStatic() );
         }
     }
 // -----------------------------------------------------------------------------
@@ -1029,7 +1029,8 @@ void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
                     iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );
                     iItems[selectedItem]->Time().FormatL( iPopupText2, KGanesYearString );
                 )
-            // To display year correctly in arabic.
+            // To display month and year correctly in arabic.
+            AknTextUtils::LanguageSpecificNumberConversion( iPopupText1 );
             AknTextUtils::LanguageSpecificNumberConversion( iPopupText2 );
             }
         }
@@ -1769,5 +1770,27 @@ void CHgScroller::ReleasePopupFont()
         iPopupFont = NULL;
         }
     }
+
+// ---------------------------------------------------------------------------
+// CHgScroller::SetMenuProviderL()
+// ---------------------------------------------------------------------------
+//     
+EXPORT_C void CHgScroller::SetMenuProviderL( MObjectProvider* aMenuProvider )
+    {
+    SetMopParent(aMenuProvider);
+    
+    if( iActionMenu )
+        {
+        iActionMenu->RemoveCollection( *this );
+        iActionMenu = NULL;
+        }
+    
+    CAknAppUi* appUi = static_cast<CAknAppUi*>(iEikonEnv->AppUi());
+    if( appUi && appUi->IsSingleClickCompatible() )
+        {
+        iActionMenu = CAknItemActionMenu::RegisterCollectionL( *this, this );
+        }
+    }
+
 
 // End of File

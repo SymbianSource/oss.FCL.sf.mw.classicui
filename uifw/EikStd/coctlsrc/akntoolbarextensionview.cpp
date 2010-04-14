@@ -170,6 +170,10 @@ void CAknToolbarExtensionView::ConstructFromResourceL( TResourceReader& aReader 
         iItems[i]->Control()->ActivateL(); 
         }
     SetComponentsToInheritVisibility( ETrue );
+    
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+    GfxTransEffect::Register( this, KGfxTransEffectToolbarExtensionControlUid);
+#endif
     }
 
 // ---------------------------------------------------------------------------
@@ -183,13 +187,7 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
 
     if ( aVisible && !isVisible )
         {
-            // the toolbar extension is shown, this happens only with pointer event? 
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-                {
-                feedback->InstantFeedback( ETouchFeedbackPopUp );
-                }
-
+        // the toolbar extension is shown, this happens only with pointer event? 
         TRect rect; 
         TRAP_IGNORE( rect = CalculateSizeL() ); 
         CEikonEnv::Static()->EikAppUi()->UpdateStackedControlFlags( this, 
@@ -529,12 +527,6 @@ void CAknToolbarExtensionView::HandlePointerEventL(
         if ( !Rect().Contains( aPointerEvent.iPosition) && iIsDownOutside )
             {
             // tapped outside view, 
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-                {
-                feedback->InstantFeedback( ETouchFeedbackPopUp );
-                }
-
             MakeVisible( EFalse ); 
             // Close extension view and let also extension know about it
             // so it can change state
@@ -887,9 +879,6 @@ CAknToolbarExtensionView::CAknToolbarExtensionView(
     iSelectedItem( KNoItemSelected ), iNumberOfColumns( 1 ),
     iIsDownOutside( EFalse )
     {
-#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
-    GfxTransEffect::Register( this, KGfxTransEffectToolbarExtensionControlUid);
-#endif
     }
 
 

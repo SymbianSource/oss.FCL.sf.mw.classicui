@@ -519,17 +519,6 @@ void CHgVgMediaWallRenderer::Draw(RPointerArray<CHgVgItem>& aItems,
             aAnimationAlpha,
             aState, aSelectionAnimationType, aStartIndex, aSpringVelocity);
     
-    vgSeti(VG_MATRIX_MODE, VG_MATRIX_PATH_USER_TO_SURFACE);
-    vgLoadIdentity();
-    vgRotate(-90.0f);
-    vgTranslate(0.0f, -640.0f);
-     
-    vgSeti(VG_MATRIX_MODE, VG_MATRIX_IMAGE_USER_TO_SURFACE);
-    vgLoadIdentity();
-    vgRotate(-90.0f);
-    vgTranslate(0.0f, -640.0f);
-
-    
     TransformAndDraw(itemsOnScreen, aSelectionAnimationType);
     }
 

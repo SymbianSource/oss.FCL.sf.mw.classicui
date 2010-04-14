@@ -83,7 +83,7 @@ public: // METHODS
     /**
      * 
      */
-    void EnableLanscapeRendering(TBool enabled);
+    void EnableLandscapeRendering(TBool enabled);
 
 protected: // Constructors
     CHgVgPopup();

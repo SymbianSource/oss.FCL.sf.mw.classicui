@@ -449,7 +449,8 @@ void CAknInfoPopupNote::HandleResourceChange( TInt aType )
         }
     else if( aType == KEikMessageFadeAllWindows )
         {
-        if ( IsVisible() && iHideWhenAppFaded )
+        // Infopopu will be canceled when be faded no matter visible or not.
+        if ( iHideWhenAppFaded )
             {
             iController.HideInfoPopupNote();
             }

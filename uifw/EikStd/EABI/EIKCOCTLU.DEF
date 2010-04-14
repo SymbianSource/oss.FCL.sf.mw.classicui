@@ -2009,4 +2009,7 @@ EXPORTS
 	_ZN18CEikStatusPaneBase17EnableTransparentEi @ 2008 NONAME
 	_ZNK18CEikStatusPaneBase13IsTransparentEv @ 2009 NONAME
 	_ZN9CEikEdwin23EnableKineticScrollingLEP11CAknPhysics @ 2010 NONAME
+	_ZN18CAknItemActionMenu19RegisterCollectionLER14MAknCollectionP15MObjectProvider @ 2011 NONAME
+	_ZN25AknItemActionMenuRegister30RemoveConstructingMenuBarOwnerEP15MObjectProvider @ 2012 NONAME
+	_ZN11CEikListBox18IsHighlightEnabledEv @ 2013 NONAME
 

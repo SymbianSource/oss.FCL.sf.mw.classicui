@@ -1155,7 +1155,7 @@ TInt CAknTreeListPhysicsHandler::WorldHeight()
 //
 TBool CAknTreeListPhysicsHandler::PointerOnEmptyArea( TPoint aPosition )
     {        
-    if ( aPosition.iY <= WorldHeight() )
+    if ( aPosition.iY - iViewRect.iTl.iY <= WorldHeight() )
         {
         return EFalse;
         }

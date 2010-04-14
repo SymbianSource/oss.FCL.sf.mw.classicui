@@ -5877,6 +5877,16 @@ private:// eiklbx.h
      */
     virtual TInt TestLBItemsInSingleLine( CStifItemParser& aItem );       
 
+    /**
+     * TestLBSetItemsInSingleLine test function for testing the 
+     *     IsHighlightEnabled function
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestLBIsHighlightEnabled( CStifItemParser& aItem );
+
+    
 private:    // eikslb.h
     // class CSettingsListBoxItemDrawer
     /**

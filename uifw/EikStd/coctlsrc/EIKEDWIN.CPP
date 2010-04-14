@@ -520,6 +520,9 @@ void CEikEdwinFepSupport::StartFepInlineEditL(
     TBool paragraphContainingStartPositionOfInlineTextHasChangedFormat=EFalse;
     TInt numberOfCharactersSuccessfullyDeleted=0;
     TInt numberOfCharactersSuccessfullyInserted=0;
+    
+    iEdwin.ConvertSmileyForDeleteL( selection );
+    
     // handle extended highlights
 
 /* 
@@ -633,23 +636,9 @@ TInt CEikEdwinFepSupport::DocumentMaximumLengthForFep() const
 
 void CEikEdwinFepSupport::SetCursorSelectionForFepL(const TCursorSelection& aCursorSelection)
     {
-    TInt cursorPos( aCursorSelection.iCursorPos );
-    TInt anchorPos( aCursorSelection.iAnchorPos );
-    if ( iEdwin.IsSmileyEnabled() )
-        {  
-        CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
-        TInt oldPos = ( cursorPos == anchorPos ) ? iEdwin.CursorPos() : anchorPos; 
-        smiley->HandleSetCursor( oldPos, cursorPos );       
-        if ( aCursorSelection.iCursorPos == aCursorSelection.iAnchorPos )
-            {
-            anchorPos = cursorPos;
-            }
-        else
-            {
-            smiley->HandleSetCursor( cursorPos, anchorPos );
-            }
-        }
-	iEdwin.SetSelectionL( cursorPos, anchorPos );
+    TCursorSelection select( aCursorSelection.iCursorPos, aCursorSelection.iAnchorPos );
+    iEdwin.HandleSelectionForSmiley( select );
+    iEdwin.iTextView->SetSelectionL( select );
     iEdwin.ReportEdwinEventL(MEikEdwinObserver::EEventNavigation);
     }
 
@@ -2501,6 +2490,17 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         return;
         }
     
+    // If text selection is not visible, don't allow user to select any text
+    // or scroll during selection ( if kinetic scrolling enabled ).
+    if ( kineticScrollingEnabled && iEdwinFepSupport )
+        {
+        CAknEdwinState* edwinState( EditorState() );
+        if ( edwinState && !( edwinState->Flags() & EAknEditorFlagSelectionVisible ) )
+            {
+            return;
+            }
+        }
+    
     const TCursorSelection selection( iTextView->Selection() );
     const TPoint pointerPos( aPointerEvent.iPosition );
     
@@ -2676,7 +2676,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             iEdwinInternalFlags&=(~ELeftDownInViewRect);
 
             // We can't open cut-copy-paste menu if dragging started
-            if ( IsReadOnly() && IsSelectionVisible() && !( kineticScrollingEnabled
+            if ( IsReadOnly() && IsSelectionVisible() && !( iEdwinUserFlags&ENoAutoSelection ) && !( kineticScrollingEnabled
                 && iEdwinExtension->iPhysicsHandler->DraggingStarted() ) )
                 {
                 iEdwinFepSupport->iFeedback->InstantFeedback(

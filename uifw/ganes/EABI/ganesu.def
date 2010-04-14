@@ -168,4 +168,5 @@ EXPORTS
 	_ZN14CHgVgMediaWall8SetFlagsEi @ 167 NONAME
 	_ZN14CHgVgMediaWall17SetOpenedItemRectERK5TRect @ 168 NONAME
 	_ZN14CHgVgMediaWall20SetItemToOpenedStateEi @ 169 NONAME
+	_ZN11CHgScroller16SetMenuProviderLEP15MObjectProvider @ 170 NONAME
 

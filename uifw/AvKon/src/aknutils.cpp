@@ -6616,6 +6616,7 @@ EXPORT_C void AknListUtils::DrawSeparator( CGraphicsContext& aGc,
     
     color.SetAlpha( !err ? colorFromSkin.Red() : KDefaultSeparatorAlpha );
     aGc.SetPenColor( color );
+    aGc.SetDrawMode( CGraphicsContext::EDrawModePEN );
     TRect lineRect( aRect );
     
     TInt gap = AknLayoutScalable_Avkon::listscroll_gen_pane( 0 ).LayoutLine().it; 

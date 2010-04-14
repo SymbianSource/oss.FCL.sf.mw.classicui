@@ -460,12 +460,12 @@ private:
     /**
      * Does transition animation, called by DoAnimation.
      */
-    void DoTransitionAnimation();
+    TBool DoTransitionAnimation();
         
     /**
      * Does selection animation
      */
-    void DoSelectionAnimation();
+    TBool DoSelectionAnimation();
     
     /**
      * Callback method for animation

@@ -481,7 +481,8 @@ EXPORT_C void CEikColumnListBox::FocusChanged( TDrawNow aDrawNow )
 #ifdef RD_LIST_STRETCH
 EXPORT_C void CEikColumnListBox::EnableStretching( const TBool aEnabled )
     {
-    if ( ItemDrawer()->ColumnData()->StretchingEnabled() != aEnabled )
+    if ( ItemDrawer() && 
+         ( ItemDrawer()->ColumnData()->StretchingEnabled() != aEnabled ) )
         {
         ItemDrawer()->ColumnData()->EnableStretching( aEnabled );
         SizeChanged();

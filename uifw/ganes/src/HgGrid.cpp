@@ -613,14 +613,14 @@ void CHgGrid::HandleRightArrow()
         }
     else
         {
+        TInt mul = AknLayoutUtils::LayoutMirrored() ? -1 : 1; 
         if( iLandscapeScrolling )
             {
-            TInt change = AknLayoutUtils::LayoutMirrored() ? -iRows : iRows; 
-            ChangeSelectedIndex( change );
+            ChangeSelectedIndex( mul * iRows );
             }
         else
             {
-            ChangeSelectedIndex( 1 );
+            ChangeSelectedIndex( mul );
             }
         FitSelectionToView();
         SelectionChanged();
@@ -640,14 +640,14 @@ void CHgGrid::HandleLeftArrow()
         }
     else
         {
+        TInt mul = AknLayoutUtils::LayoutMirrored() ? 1 : -1; 
         if( iLandscapeScrolling )
             {
-            TInt change = AknLayoutUtils::LayoutMirrored() ? iRows : -iRows; 
-            ChangeSelectedIndex( change );
+            ChangeSelectedIndex( mul * iRows );
             }
         else
             {
-            ChangeSelectedIndex( -1 );
+            ChangeSelectedIndex( mul );
             }
         FitSelectionToView();
         SelectionChanged();

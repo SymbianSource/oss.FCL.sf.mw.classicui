@@ -53,7 +53,7 @@
 #endif // !RD_VIRTUAL_PHONEBOOK
 
 #include "finditem.hrh"
-#include <FindItemui.rsg>
+#include <finditemui.rsg>
 #include <aknnotewrappers.h>
 
 // add to gallery related
@@ -356,21 +356,6 @@ EXPORT_C void CFindItemMenu::DisplayFindItemCascadeMenuL(
             *iFindItemUrlItemString );
         }
     }
-	
-// -----------------------------------------------------------------------------
-// HasSelection
-//  Returns ETrue if editor has highlighted text
-// -----------------------------------------------------------------------------
-//
-TBool CFindItemMenu::HasSelection() const
-    {
-    TBool retval ( EFalse );
-    if ( iAutomaticFind )
-        {
-        retval = iAutomaticFind->HasSelection();
-        }
-    return retval;
-    }
 
 // -----------------------------------------------------------------------------
 // AddMenuItemL
@@ -556,41 +541,15 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
     TBuf<KMaxMenuTextLength> tempBuf;
 
     // Adds menu items depending the selected item
-    if ( HasSelection() )
+    switch ( itemType )
         {
-        switch ( itemType )
+        case CItemFinder::EPhoneNumber:
             {
-            case CItemFinder::EPhoneNumber:
-                {
 #ifdef RD_VOIP_REL_2_2
-                if ( FeatureManager::FeatureSupported(KFeatureIdCommonVoip ) )
-                    {
-                    // show call menu if allowed
-                    if ( !( iMenuItemFlags & CFindItemMenu::ECallItem ) )
-                        {
-                        // Call
-                        iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
-                        AddMenuItemL(
-                            *iMenuPane,
-                            EFindItemCmdCall,
-                            ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
-                            0,
-                            tempBuf );
-                        }
-                     // if context menu, we will show call item anyway
-                     else if ( iIsContextMenu )
-                        {
-                        // Call
-                        iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
-                        AddMenuItemL(
-                            *iMenuPane,
-                            EFindItemCmdCall,
-                            EFindItemContextMenuPlaceHolder,
-                            0,
-                            tempBuf );
-                        }
-                    }
-                else
+            if ( FeatureManager::FeatureSupported(KFeatureIdCommonVoip ) )
+                {
+                // show call menu if allowed
+                if ( !( iMenuItemFlags & CFindItemMenu::ECallItem ) )
                     {
                     // Call
                     iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
@@ -601,8 +560,21 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                         0,
                         tempBuf );
                     }
-                index = EFindItemCmdCall;
-#else
+                 // if context menu, we will show call item anyway
+                 else if ( iIsContextMenu )
+                    {
+                    // Call
+                    iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
+                    AddMenuItemL(
+                        *iMenuPane,
+                        EFindItemCmdCall,
+                        EFindItemContextMenuPlaceHolder,
+                        0,
+                        tempBuf );
+                    }
+                }
+            else
+                {
                 // Call
                 iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
                 AddMenuItemL(
@@ -611,132 +583,141 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                     ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
                     0,
                     tempBuf );
-                index = EFindItemCmdCall;
+                }
+            index = EFindItemCmdCall;
+#else
+            // Call
+            iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
+            AddMenuItemL(
+                *iMenuPane,
+                EFindItemCmdCall,
+                ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
+                0,
+                tempBuf );
+            index = EFindItemCmdCall;
 #endif // RD_VOIP_REL_2_2
-                // Write
+            // Write
+            iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_MESSAGE_SUB );
+            AddMenuItemL(
+                *iMenuPane,
+                EFindItemSubMenuSend,
+                index,
+               0,//R_FINDITEM_NUMBER_MESSAGE_SUBMENU,
+                tempBuf );
+            index = EFindItemSubMenuSend;
+
+            break;
+            }
+        case CItemFinder::EUrlAddress:
+            {
+            iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_GOTO_URL );
+
+            // check if not rstp    
+            if ( iAutomaticFind->CurrentItemExt().iItemDescriptor->FindF( KRtspUrlAddress ) == KErrNotFound )
+                {
+                AddMenuItemL(
+                    *iMenuPane,
+                    EFindItemCmdGoToUrl,
+                    ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
+                    0,
+                    tempBuf);
+                index = EFindItemCmdGoToUrl;
+
+                if ( !iIsContextMenu )
+                    {
+                    // Add bookmark
+                    iCoeEnv->ReadResourceL(
+                        tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
+                    AddMenuItemL(
+                        *iMenuPane,
+                        EFindItemCmdAddToBookmark,
+                        index,
+                        0,
+                        tempBuf );
+                    index = EFindItemCmdAddToBookmark;
+                    }
+                }
+            else
+                {
+                AddMenuItemL(
+                    *iMenuPane,
+                    EFindItemCmdGoToRstp,
+                    ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
+                    0,
+                    tempBuf );
+                index = EFindItemCmdGoToRstp;
+
+                if ( !iIsContextMenu )
+                    {
+                    iCoeEnv->ReadResourceL(
+                        tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
+                    AddMenuItemL(
+                        *iMenuPane,
+                        EFindItemCmdAddToGallery,
+                        index,
+                        0,
+                        tempBuf );
+                    index = EFindItemCmdAddToGallery;
+                    }
+                }
+            break;
+            }
+        case CItemFinder::EEmailAddress:
+            {
+            // Checks VoIP profile count and local variation
+            if ( iIsContextMenu && iFindItemVoIPExtension->VoIPProfilesExistL() )
+                {
+                //Call
+                iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
+                AddMenuItemL(
+                    *iMenuPane,
+                    EFindItemCmdCall,
+                    EFindItemContextMenuPlaceHolder,
+                    0,
+                    tempBuf );
+                index = EFindItemCmdCall; // Replaces the call ui menu when email
+                                          // field is selected.
+                }
+
+            // Write
+            if( iEmailOverSmsFeatureSupported || iMMSFeatureSupported ||
+                iEmailUiFeatureSupported ) // Sometimes submenu can be empty.
+                {
                 iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_MESSAGE_SUB );
                 AddMenuItemL(
                     *iMenuPane,
                     EFindItemSubMenuSend,
-                    index,
-                   0,//R_FINDITEM_NUMBER_MESSAGE_SUBMENU,
+                    ( ( iIsContextMenu &&
+                        !iFindItemVoIPExtension->VoIPProfilesExistL() ) ?
+                            EFindItemContextMenuPlaceHolder : index ),
+                    0,//R_FINDITEM_EMAIL_MESSAGE_SUBMENU,
                     tempBuf );
                 index = EFindItemSubMenuSend;
-    
-                break;
                 }
-            case CItemFinder::EUrlAddress:
-                {
-                iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_GOTO_URL );
-    
-                // check if not rstp    
-                if ( iAutomaticFind->CurrentItemExt().iItemDescriptor->FindF( KRtspUrlAddress ) == KErrNotFound )
-                    {
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemCmdGoToUrl,
-                        ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
-                        0,
-                        tempBuf);
-                    index = EFindItemCmdGoToUrl;
-    
-                    if ( !iIsContextMenu )
-                        {
-                        // Add bookmark
-                        iCoeEnv->ReadResourceL(
-                            tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
-                        AddMenuItemL(
-                            *iMenuPane,
-                            EFindItemCmdAddToBookmark,
-                            index,
-                            0,
-                            tempBuf );
-                        index = EFindItemCmdAddToBookmark;
-                        }
-                    }
-                else
-                    {
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemCmdGoToRstp,
-                        ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
-                        0,
-                        tempBuf );
-                    index = EFindItemCmdGoToRstp;
-    
-                    if ( !iIsContextMenu )
-                        {
-                        iCoeEnv->ReadResourceL(
-                            tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
-                        AddMenuItemL(
-                            *iMenuPane,
-                            EFindItemCmdAddToGallery,
-                            index,
-                            0,
-                            tempBuf );
-                        index = EFindItemCmdAddToGallery;
-                        }
-                    }
-                break;
-                }
-            case CItemFinder::EEmailAddress:
-                {
-                // Checks VoIP profile count and local variation
-                if ( iIsContextMenu && iFindItemVoIPExtension->VoIPProfilesExistL() )
-                    {
-                    //Call
-                    iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_CALL );
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemCmdCall,
-                        EFindItemContextMenuPlaceHolder,
-                        0,
-                        tempBuf );
-                    index = EFindItemCmdCall; // Replaces the call ui menu when email
-                                              // field is selected.
-                    }
-    
-                // Write
-                if( iEmailOverSmsFeatureSupported || iMMSFeatureSupported ||
-                    iEmailUiFeatureSupported ) // Sometimes submenu can be empty.
-                    {
-                    iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_MESSAGE_SUB );
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemSubMenuSend,
-                        ( ( iIsContextMenu &&
-                            !iFindItemVoIPExtension->VoIPProfilesExistL() ) ?
-                                EFindItemContextMenuPlaceHolder : index ),
-                        0,//R_FINDITEM_EMAIL_MESSAGE_SUBMENU,
-                        tempBuf );
-                    index = EFindItemSubMenuSend;
-                    }
-                break;
-                }
-            case CItemFinder::EUriScheme:
-                {
-                // Use
-                iCoeEnv->ReadResourceL( tempBuf, R_QTN_OPTIONS_SCHEME_USE );
-                AddMenuItemL(
-                    *iMenuPane,
-                    EFindItemCmdUse,
-                    ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
-                    0,
-                    tempBuf );
-                index = EFindItemCmdUse;
-                break;
-                }
-            default:
-                {
-                // Something else, probably nothing selected or new type which we
-                // don't support.
-                break;
-                }
+            break;
+            }
+        case CItemFinder::EUriScheme:
+            {
+            // Use
+            iCoeEnv->ReadResourceL( tempBuf, R_QTN_OPTIONS_SCHEME_USE );
+            AddMenuItemL(
+                *iMenuPane,
+                EFindItemCmdUse,
+                ( iIsContextMenu ? EFindItemContextMenuPlaceHolder : index ),
+                0,
+                tempBuf );
+            index = EFindItemCmdUse;
+            break;
+            }
+        default:
+            {
+            // Something else, probably nothing selected or new type which we
+            // don't support.
+            break;
             }
         }
-    
     // Call
-    if ( HasSelection() && (
+    if (
         ( itemType == CItemFinder::ENoneSelected ) &&
         (
             (
@@ -752,7 +733,7 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
         ||
             ( itemType == CItemFinder::EEmailAddress &&
             iFindItemVoIPExtension->VoIPProfilesExistL() &&
-            !iIsContextMenu ) )
+            !iIsContextMenu )
         )
         {
 #ifdef RD_VOIP_REL_2_2
@@ -842,10 +823,10 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
               CleanupStack::PopAndDestroy( ); 
               }
 
-        if( HasSelection() && ( (!iAutomaticFind || len != 0) && 
+        if( (!iAutomaticFind || len != 0) && 
             highlight &&        
             ( itemType != CItemFinder::ENoneSelected || 
-            iSenderHighlighted ) ) )
+            iSenderHighlighted ) )
             {
             iCoeEnv->ReadResourceL( tempBuf, R_FINDITEMMENU_COPY );
             AddMenuItemL(
@@ -860,14 +841,14 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
         }
 
      // Add to contacts
-     if ( HasSelection() && ( ( itemType != CItemFinder::EUriScheme ) &&
+     if ( ( itemType != CItemFinder::EUriScheme ) &&
         !( itemType == CItemFinder::EUrlAddress &&
         iIsContextMenu ) &&
         ( ( ( ( !iIsSenderKnown &&
         iSenderDescriptor->Length() ) ||
         iCallbackNumber ) &&
         itemType == CItemFinder::ENoneSelected ) ||
-        itemType != CItemFinder::ENoneSelected ) ) )
+        itemType != CItemFinder::ENoneSelected ) )
         {
         AddMenuItemL(
             *iMenuPane,
@@ -1699,14 +1680,9 @@ void CFindItemMenu::CopyToClipboardL()
     {       
     HBufC* item = 0;
     TInt len = 0;
-    if ( iAutomaticFind && iAutomaticFind->CurrentSelection().Length() > 0 )
+    if ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemType != CItemFinder::ENoneSelected )
         {
         item = iAutomaticFind->CurrentSelection().AllocLC();                        
-        len = item->Length();
-        }
-    else if ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemDescriptor )
-        {
-        item = iAutomaticFind->CurrentItemExt().iItemDescriptor->AllocLC();
         len = item->Length();
         }
     else if( iSenderHighlighted )

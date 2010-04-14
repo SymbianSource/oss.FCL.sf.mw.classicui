@@ -201,7 +201,7 @@ RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
             {
             code = EAknSmileyIconNerd;
             smileyIconId = EMbmSmileyQgn_indi_smiley_nerd;
-            strings = "8) 8-)";
+            strings = "8-)";
             },
         SMILEY_ICON_ITEM
             {

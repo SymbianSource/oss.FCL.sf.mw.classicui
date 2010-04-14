@@ -8033,7 +8033,7 @@ RESOURCE MENU_PANE r_avkon_peninput_option_menu
         // common
         MENU_ITEM { command=EPenInputCmdHwrTraining; txt=qtn_tin_option_menu_training;},
         MENU_ITEM { command=EAknCmdInputLanguage; txt=text_pup_option_input_language;},
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; }
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; }
         };
     }
 
@@ -9845,7 +9845,7 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
 		MENU_ITEM { command=EPenInputCmdVITUT; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_itu_t; },
 		MENU_ITEM { command=EPeninputCmdFSQ; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_fs_qwerty; },
         MENU_ITEM { command=EPeninputCmdHwr; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_hwr; },
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; },
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
         };
     }
@@ -9905,7 +9905,7 @@ RESOURCE MENU_PANE r_avkon_touch_indicator_edit_mode_menu
         MENU_ITEM { command=EAknCmdInputLanguage; flags=EEikMenuItemDimmed; txt=text_pup_option_input_language; },
         MENU_ITEM { command=EAknCmdInputMethod; flags=EEikMenuItemDimmed; txt=text_pup_option_input_language; cascade=r_avkon_input_mode_sub_menu; },
         MENU_ITEM { command=EChinFepCmdModeCangJieOption; flags=EEikMenuItemDimmed; txt=qtn_chi_pup_option_cangjie_mode; },
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; },
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; },
         MENU_ITEM { command=EAknCmdEditModeKorean; flags=EEikMenuItemDimmed; txt=qtn_activate_korean_mode; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
         };

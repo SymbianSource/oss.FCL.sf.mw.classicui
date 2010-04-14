@@ -3371,12 +3371,12 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         formattedCellData->SetStretchableTextSubCellL(
             1,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t1( 0 ) );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t1( 3 ) );
 
         formattedCellData->SetStretchableTextSubCellL(
             2,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t2( 0 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 0 ) );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 3 ) );
             
         formattedCellData->SetStretchableGraphicSubCellL(
             3,
@@ -3389,9 +3389,11 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
             AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g2( 1 ) );
 
         // New icon below g1. 
-        formattedCellData->SetGraphicSubCellL(
+        formattedCellData->SetStretchableGraphicSubCellL(
             5,
-            AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) ,
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g4( 0 ) );
+            
 
         // On default new cell is always drawn but this cell should NOT be drawn!
         formattedCellData->SetNotAlwaysDrawnSubCellL( 5, ETrue );
@@ -3400,12 +3402,12 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         formattedCellData->SetStretchableConditionalSubCellL(
             4,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 2 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 2 ), 1, 2 );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 4 ), 1, 2 );
 
         formattedCellData->SetStretchableConditionalSubCellL(
             3,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 1 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 1 ), 1, 2 );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 5 ), 1, 2 );
         }
     else
         {

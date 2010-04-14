@@ -68,14 +68,26 @@ public:
             MObjectProvider* aMenuBarOwner, TUint aFlags = 0 );
 
     /**
+     * Sets the current constructing menubar owner to NULL if it matches to
+     * aMenuBarOwner. Otherwise constructing menubar owner is not modified.
+     * 
+     * @internal
+     * @param aMenuBarOwner Pointer to constructing menubar owner. 
+     */
+    IMPORT_C static void RemoveConstructingMenuBarOwner( 
+            MObjectProvider* aMenuBarOwner );
+    
+    /**
      * Registers a collection.
      * 
      * @internal
      * @param aCollection Collection to be registered.
+     * @param aMenuBarOwner Owner of the menubar that collection will be
+     *        registered with.
      * @return Item action menu the collection was registered to.
      */
     static CAknItemActionMenu* RegisterCollectionL(
-            MAknCollection& aCollection );
+            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
 
     /**
      * Registers item action menu to aMenuBar.
@@ -163,10 +175,12 @@ private:
      * Registers collection.
      * 
      * @param aCollection State to be registered.
+     * @param aMenuBarOwner Owner of the menubar that collection will be
+     *        registered with.
      * @return Item action menu the collection was registered to.
      */
     CAknItemActionMenu* DoRegisterCollectionL(
-            MAknCollection& aCollection );
+            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
 
     /**
      * Registers item action menu to aMenuBar.
@@ -286,7 +300,7 @@ private:
      * @internal
      * @return Pointer to menu bar.
      */
-     CEikMenuBar* FindCurrentMenuBarL();
+    CEikMenuBar* FindCurrentMenuBar();
 
     /**
      * Adds register entry.
@@ -318,6 +332,16 @@ private:
      * item action menu. 
      */
     void DoSetConstructingMenuBarOwnerL( MObjectProvider* aMenuBarOwner ); 
+
+    /**
+     * Sets the current constructing menubar owner to NULL if it matches to
+     * aMenuBarOwner. Otherwise constructing menubar owner is not modified.
+     * 
+     * @internal
+     * @param aMenuBarOwner Pointer to constructing menubar owner. 
+     */
+    void DoRemoveConstructingMenuBarOwner( 
+            MObjectProvider* aMenuBarOwner );
 
 private: // data
 

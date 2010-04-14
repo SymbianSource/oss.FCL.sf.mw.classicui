@@ -82,7 +82,6 @@ NONSHARABLE_CLASS(CAknViewExtension) : public CBase
     public:
         TBool iToolbarVisible; 
         TBool iToolbarFocusing; 
-        TBool iViewActivated;
     private: // data
         CAknToolbar* iToolbar;
         CAknToolbar* iFixedToolbar;
@@ -428,6 +427,8 @@ EXPORT_C CAknView::~CAknView()
 
 	delete iCba;
 	delete iExtension;
+
+    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
 	}
 
 // -----------------------------------------------------------------------------
@@ -459,10 +460,7 @@ EXPORT_C void CAknView::BaseConstructL( TInt aResId )
         
     Extension()->CreateToolbarL( iViewInfo.iToolbar );
 
-    if ( iViewInfo.iMenu )
-        {
-        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
-        }
+    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
     }
 
 // -----------------------------------------------------------------------------
@@ -580,30 +578,13 @@ EXPORT_C void CAknView::ViewDeactivated()
 //
 EXPORT_C void CAknView::AknViewActivatedL( const TVwsViewId& aPrevViewId, TUid aCustomMessageId, const TDesC8& aCustomMessage )
 	{
+    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
 	ConstructMenuAndCbaL( ETrue );
 
-    if ( !iViewInfo.iMenu )
-        {
-        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
-        }
     
 	Extension()->PrepareToolbar();
 
 	DoActivateL( aPrevViewId, aCustomMessageId, aCustomMessage );
-
-    if ( !Extension()->iViewActivated || !iViewInfo.iMenu )
-        {
-        // Reset menu bar owner when view first activated
-        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
-        Extension()->iViewActivated = ETrue;
-        }
-
-#ifdef RD_SCALABLE_UI_V2
-    if ( iAvkonAppUi->TouchPane() )
-        {
-        iAvkonAppUi->TouchPane()->RefreshL();
-        }
-#endif // RD_SCALABLE_UI_V2
 
 	ProcessForegroundEventL( ETrue );
 	}
@@ -621,6 +602,8 @@ void CAknView::AknViewDeactivated()
 
 	DoDeactivate();
 
+	AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
+	
 	if ( iCba )
 		{
 		iCba->MakeVisible( EFalse );

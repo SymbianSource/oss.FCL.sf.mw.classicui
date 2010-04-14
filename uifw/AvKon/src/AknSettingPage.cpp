@@ -47,6 +47,8 @@
 #include <AknPopupFader.h>
 #include <gfxtranseffect/gfxtranseffect.h>
 #include <akntransitionutils.h>
+#include <touchfeedback.h>
+#include <akntranseffect.h>
 #include "aknitemactionmenuregister.h"
 #include "aknqueryeditorindicator.h"
 
@@ -1355,6 +1357,24 @@ EXPORT_C void CAknSettingPage::HandleControlEventL(CCoeControl* /*aControl*/,
  */
 EXPORT_C void CAknSettingPage::AttemptExitL(TBool aAccept)
 	{
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
 	if ( OkToExitL( aAccept ) )
 		{
 		DismissL( aAccept );
@@ -1654,6 +1674,25 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 // Ensure we have a menu bar by this point
 	__ASSERT_DEBUG( iMenuBar, Panic( EAknPanicSettingPageNoMenuBar ) ) ;
 
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
+    
 	DynamicInitL();
 	ActivateL();
 

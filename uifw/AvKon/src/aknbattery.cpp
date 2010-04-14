@@ -581,6 +581,23 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         return;
         }
 
+    CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
+	if( sp )
+	    {
+        TInt statusPaneCurrentLayoutResourceId = sp->CurrentLayoutResId();
+        if(statusPaneCurrentLayoutResourceId == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE
+                    || statusPaneCurrentLayoutResourceId == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED)
+            {
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if ( feedback )
+                {
+                feedback->RemoveFeedbackForControl( this );
+                }
+        
+            AknsUtils::DeregisterControlPosition( this );
+            return;
+            }
+          }       
     // Get the rect of battery pane.
     TRect rect( Rect() );
 
@@ -611,7 +628,7 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 // here if the down event happened inside this control,
                 // but the up event inside digital clock or indicator
                 // pane area.
-                CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
+                
                 TBool pointerUpInIndicatorArea( EFalse );
                 TBool pointerUpInClockArea( EFalse );
                     

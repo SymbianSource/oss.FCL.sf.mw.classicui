@@ -835,9 +835,7 @@ EXPORT_C void CAknIndicatorContainer::PositionChanged()
 
 EXPORT_C TInt CAknIndicatorContainer::CountComponentControls() const
     {
-    TInt n = CountShownIndicator();
-    //__ASSERT_DEBUG ( n == iIndicatorsShown, User::Panic(_L( "indicatorshow"),n ) );
-    return n;
+    return  iIndicators->Count();
     }
 
 TInt CAknIndicatorContainer::CountShownIndicator() const
@@ -857,32 +855,15 @@ TInt CAknIndicatorContainer::CountShownIndicator() const
 
 EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) const
     {
-    TInt count = iIndicators->Count();
-
-    TInt ii = 0;
-    for (ii = 0; (ii < count) && (aIndex >= 0); ii++)
-        {
-        if ( iIndicators->At(ii)->IndicatorState() && (iIndicators->At(ii)->Priority() != KIndicatorNotShown))
-            {
-            aIndex--;
-            }
-        }
-
-    if ( ii > 0 )
-        {
-        return iIndicators->At(--ii);
-        }
-    else
-        {
-        return NULL;
-        }
+    return iIndicators->At(aIndex);
     }
 
 
 EXPORT_C void CAknIndicatorContainer::Draw( const TRect& aRect ) const
     {
     if ( iExtension->iStatusPane && 
-         iExtension->iStatusPane->IsTransparent() )
+         iExtension->iStatusPane->IsTransparent() &&
+         ( iIndicatorContext != EQueryEditorIndicators ) )
         {
         CWindowGc& gc = SystemGc();
         TRgb rgb(TRgb::Color16MA(0));

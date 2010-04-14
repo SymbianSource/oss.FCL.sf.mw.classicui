@@ -4393,5 +4393,23 @@ TInt CTestSDKLists::TestLBItemsInSingleLine( CStifItemParser& /*aItem*/)
     return KErrNone;    
     }
 
+// -----------------------------------------------------------------------------
+// CTestSDKLists::TestLBIsHighlightEnabled
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKLists::TestLBIsHighlightEnabled( CStifItemParser& /*aItem*/)
+    { 
+    // Print to UI
+    _LIT( KTestModule, "EIKLBXTestModule" );
+    _LIT( KTestEIKLBX, "In TestLBIsHighlightEnabled" );
+    TestModuleIf().Printf( 0, KTestModule, KTestEIKLBX );
+    // Print to log file
+    iLog->Log( KTestEIKLBX );
+
+    TBool enabled = iListBox->IsHighlightEnabled();
+    STIF_ASSERT_TRUE( enabled );
+    
+    return KErrNone;    
+    }
 
 // [End of file]

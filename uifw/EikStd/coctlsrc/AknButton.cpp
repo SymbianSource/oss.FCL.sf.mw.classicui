@@ -264,7 +264,7 @@ private:
 
     // Sets bitmaps to resource provider (if one exists)
     void SetProviderPressedBmpsL();
-
+   
 private: // Data
 
     CAknButton& iButton;
@@ -284,6 +284,9 @@ private: // Data
     CFbsBitmap* iPressedDownBmp;
     CFbsBitmap* iPressedDownBmpMask;
     CAknResourceProvider* iResourceProvider;
+    
+    //Previous touch down or drag position, valid only with pressed state. 
+    TPoint iPrePointerPos;
     };
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -1976,6 +1979,10 @@ EXPORT_C TKeyResponse CAknButton::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                 {
                 // show press changes
                 iButtonPressed = ETrue;
+                if ( iExtension )
+                    {
+                    iExtension->iPrePointerPos.SetXY( -1, -1 );
+                    }
                 if ( NeedsRedrawWhenPressed() )
                     {
                     DrawNow();
@@ -2085,7 +2092,11 @@ EXPORT_C void CAknButton::MakeVisible( TBool aVisible )
             }
 
         CAknButtonState* state = State();
-        if ( !aVisible && state && state->HasHelp() )
+        if ( !aVisible && iButtonPressed )
+            {
+            ResetState();
+            }
+        else if ( !aVisible && state && state->HasHelp() )
             {
             HideHelp();
             }
@@ -2134,6 +2145,11 @@ EXPORT_C void CAknButton::PrepareForFocusGainL()
 //
 EXPORT_C void CAknButton::SizeChanged()
     {
+    //Reset state if observer modified the rectangel.
+    if ( iButtonPressed && iExtension && !Rect().Contains( iExtension->iPrePointerPos ) )
+        {
+        ResetState();               
+        }
     // If default icon size from LAF is used re-request that, otherwise trust
     // that size will be updated by the utilising application.
     if ( iExtension->iFlags.IsSet( CAknButtonExtension::EUseDefaultIconSize ) )
@@ -2184,6 +2200,10 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                 ResetState();               
                 }
             return;
+            }
+        if ( iExtension )
+            {
+            iExtension->iPrePointerPos = aPointerEvent.iPosition;
             }
         TBool buttonEvent( TouchArea().Contains( aPointerEvent.iPosition ) );
         CAknButtonState* state = State();
@@ -2330,6 +2350,10 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
 
             case TPointerEvent::EButton1Up:
                 {
+                if ( iExtension )
+                    {
+                    iExtension->iPrePointerPos.SetXY( -1, -1 );
+                    }
                 iNumberOfDragEvents = 0;
                 HideHelp();
 
@@ -2459,6 +2483,12 @@ EXPORT_C void CAknButton::PositionChanged()
     {
     if ( iExtension ) iExtension->HandleFeedbackAreaChange();
     CAknControl::PositionChanged();
+    
+    //Reset state if observer moved button position.
+    if ( iButtonPressed && iExtension && !Rect().Contains( iExtension->iPrePointerPos ) )
+    	{
+    	ResetState();
+    	}
     }
     
 // -----------------------------------------------------------------------------

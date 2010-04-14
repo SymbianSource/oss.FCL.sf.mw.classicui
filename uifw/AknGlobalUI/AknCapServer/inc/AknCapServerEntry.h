@@ -188,6 +188,11 @@ public: // new methods
         {
         return iShortTimeGlobalNoteDisplaying;
         }
+
+    CAknCapAppServerAlternateFs* AlternateFS()
+        {
+        return iAlternateFS;
+        }
     
 private:
     void PublishHiddenList();

@@ -179,11 +179,14 @@ void CSmileyManager::DrawIconL( CBitmapContext& aGc, const TRect& aRect,
         if ( image && aRect.Size() != image->BitmapSize() )
             {
             image->SetBitmapSize( aRect.Size() );
-            if ( icon->IsPlayFinished() )
+            for ( TInt i( 0 ); i < image->RefArrayCount(); i++ )
                 {
-                icon->PlayOneTime();
-                iDrawer->CreateImageL( image );
+                if ( image->RefIcon( i )->IsPlayFinished() )
+                    {
+                    image->RefIcon( i )->PlayOneTime();
+                    }
                 }
+            iDrawer->CreateImageL( image );            
             }
         else if ( !image )
             {

@@ -221,7 +221,7 @@ void CHgVgPopup::SetLayouts(const TAknWindowComponentLayout& aPopupLayout,
     iParentRect = aParentRect;
     }
 
-void CHgVgPopup::EnableLanscapeRendering(TBool enabled)
+void CHgVgPopup::EnableLandscapeRendering(TBool enabled)
 {
     iLandscape = enabled;
 }

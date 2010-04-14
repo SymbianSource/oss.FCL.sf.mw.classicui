@@ -2263,7 +2263,7 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
     TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
     if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
         {
-        fbLogicalType = ETouchFeedbackIncreasingPopUp;
+        fbLogicalType = ETouchFeedbackSubMenuOpened;
         }
     iExtension->ImmediateFeedback( fbLogicalType,
                                        ETouchFeedbackVibra );
@@ -3839,7 +3839,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
             {
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                 }
             else
                 {
@@ -4192,7 +4192,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                         {
                         if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                             {
-                            iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                            iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                             }
                         else
                             {
@@ -4314,7 +4314,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                         {
                         if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                             {
-                            iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                            iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                             }
                         else
                             {
@@ -4424,7 +4424,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                         AknTransEffect::EComponentTransitionsOff ) )
                                     {
                                     iExtension->ImmediateFeedback(
-                                            ETouchFeedbackDecreasingPopUp );
+                                            ETouchFeedbackSubMenuClosed );
                                     }
                                 else
                                     {
@@ -5354,7 +5354,7 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
             UpdateBackgroundContext( Rect() );
             PrepareHighlightFrame();
             SetCascadedIconSize();
-          
+            DrawDeferred();
             if ( iCascadeMenuPane )
                 {
                 iCascadeMenuPane->HandleResourceChange( aType );

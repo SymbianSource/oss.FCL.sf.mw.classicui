@@ -30,6 +30,7 @@
 #include <skinlayout.cdl.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include <touchfeedback.h>
+#include <akntranseffect.h>
 
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 #include <gfxtranseffect/gfxtranseffect.h>
@@ -239,7 +240,7 @@ EXPORT_C CAknPopupList::~CAknPopupList()
     // last member ste before the actiave scheduler is started.
 
     // Reset action menu register
-    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
+    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -384,6 +385,25 @@ EXPORT_C TBool CAknPopupList::ExecuteLD()
     {
     _AKNTRACE_FUNC_ENTER;
     __ASSERT_DEBUG(iListBox,Panic(EAknPanicListboxUndefined));
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
+    
     iPopoutCba->SetBoundingRect(TRect(iAvkonAppUi->ApplicationRect().Size()));
     
     // Disable item specific menu just before the popup is about to be shown.
@@ -798,6 +818,24 @@ EXPORT_C void CAknPopupList::HandleControlEventL(CCoeControl* aControl,TCoeEvent
 EXPORT_C void CAknPopupList::AttemptExitL(TBool aAccept)
     {
     _AKNTRACE_FUNC_ENTER;
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
     //EFTG-7HWDP6.
     if( FindBox()
         && !( FindBox()->Editor().AknEdwinFlags() & EAknEditorFlagTouchInputModeOpened )

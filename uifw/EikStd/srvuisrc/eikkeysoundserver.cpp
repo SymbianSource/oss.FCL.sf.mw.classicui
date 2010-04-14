@@ -282,7 +282,7 @@ void CEikKeySoundServer::InitL(const RMessage2& aMessage)
 void CEikKeySoundServer::Complete(TInt aError, TAudioThemeEvent aEvent)
 	{
 	if( aError != KErrNone && aError != ESilencedError 
-	    && aError != EEventCurrentlyPlaying )
+	    && aError != EEventCurrentlyPlaying && aError != KErrUnderflow)
 		{
 		PlaySid(aEvent, ETrue);
 		}

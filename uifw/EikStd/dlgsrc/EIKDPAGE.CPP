@@ -3181,18 +3181,29 @@ void CEikDialogPage::ScrollCacheByPixels(
             upperItem = iLines->Count();
             }
         }
-    if ( iPhysics->OngoingPhysicsAction() != CAknPhysics::EAknPhysicsActionNone )
+    if ( upperItem == -1 || bottomItem == iLines->Count() )
         {
-        if ( upperItem == -1 || bottomItem == iLines->Count() )
+        if ( upperItem != iExtension->iTopItem || bottomItem != iExtension->iBottomItem )
             {
-            if ( upperItem != iExtension->iTopItem || bottomItem != iExtension->iBottomItem )
+            if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
+                {
+                iExtension->Feedback( this, ETouchFeedbackSensitiveList );
+                }
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking)
                 {
                 iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
                 }
             }
-        else if ( upperItem >= 0 || bottomItem < iLines->Count() )
+        }
+    else if ( upperItem >= 0 || bottomItem < iLines->Count() )
+        {
+        if ( upperItem < iExtension->iTopItem || bottomItem > iExtension->iBottomItem )
             {
-            if ( upperItem < iExtension->iTopItem || bottomItem > iExtension->iBottomItem )
+            if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
+                {
+                iExtension->Feedback( this, ETouchFeedbackSensitiveList );
+                }
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking)
                 {
                 iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
                 }

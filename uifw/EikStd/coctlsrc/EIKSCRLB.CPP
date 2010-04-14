@@ -41,7 +41,7 @@
 #include "eikscrlb.h"
 #include "EIKSBEXT.H"
 
-const TInt KIntensity = 50; // 50%
+const TInt KIntensity = 100; // 100%
 
 const TInt KScrollBarWidth=9;
 // const TInt KScrollButtonHeight=10;
@@ -830,7 +830,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::MakeVisible(TBool aVisible)
     if ( modifier )
         {
         CAknDoubleSpanScrollBarExtension* extension = static_cast<CAknDoubleSpanScrollBarExtension*> (iExtension);
-        if ( aVisible  && (extension->iScrollIndicator->ScrollSpan() > 0) )
+        if ( aVisible  && (extension->iScrollIndicator->ScrollSpan() > 0)  && !( extension->iExtensionType & ENoExpandedTouchArea ) )
             {
             modifier->Push( *this, ExtensionArea() );
             }
@@ -897,10 +897,21 @@ EXPORT_C void CAknDoubleSpanScrollBar::SizeChanged()
     {
     CAknPointerEventModifier* modifier = iAvkonAppUiBase ? iAvkonAppUiBase->PointerEventModifier() : NULL;
     
-    if ( modifier && IsVisible() )
-        {
-        modifier->Update( *this, ExtensionArea() );
-        }
+    if (iExtension)
+            {
+            CAknDoubleSpanScrollBarExtension* extension = static_cast<CAknDoubleSpanScrollBarExtension*> (iExtension);          
+			if ( modifier && IsVisible() && !( extension->iExtensionType & ENoExpandedTouchArea ) )
+				{
+				modifier->Update( *this, ExtensionArea() );
+				}
+          }
+    else
+    	{
+		if ( modifier && IsVisible()  )
+			{
+			modifier->Update( *this, ExtensionArea() );
+			}
+    	}
 
     AknsUtils::RegisterControlPosition( this );
     if (iExtension)
@@ -1304,7 +1315,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                             feedback->StartFeedback( this, 
                                                      ETouchContinuousSlider, 
                                                      &aPointerEvent, 
-                                                     KIntensity, // intensity 50%
+                                                     KIntensity, // intensity 100%
                                                      timeout );
                             }
                         extension->SetModelThumbPosition(thumbPosition);

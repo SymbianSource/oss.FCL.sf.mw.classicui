@@ -1136,7 +1136,10 @@ EXPORT_C void CAknToolbar::HandlePointerEventL(
                             MTouchFeedback* feedback = MTouchFeedback::Instance();
                             if ( feedback )
                                 {
-                                feedback->InstantFeedback( ETouchFeedbackBasicButton );
+                                feedback->InstantFeedback( button,
+                                                           ETouchFeedbackBasicButton,
+                                                           ETouchFeedbackVibra,
+                                                           aPointerEvent );
                                 }
                             }
                 
@@ -2044,8 +2047,11 @@ EXPORT_C void CAknToolbar::Draw( const TRect& aRect ) const
 
     CWindowGc& gc = SystemGc();
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    // Draw background         
-    if ( iFlags & KAknToolbarFixed && 
+    
+    //
+    // Draw background
+    //
+    if ( iFlags & KAknToolbarFixed && !( iFlags & KAknToolbarNoBackground ) &&
          iBgRect.Height() > 0 &&
          iBgRect.Width() > 0 )
         {
@@ -3114,14 +3120,6 @@ void CAknToolbar::CalculateRects( TRect& aMainPaneRect, TRect& aToolbarRect,
 
             aCellPaneRect = RectFromLayout( aGridPaneRect,     
                 AknLayoutScalable_Avkon::cell_sctrl_middle_pane( 0, 0, 0 ) );
-
-            //
-            // fixing bug: ELJG-7XX8RE
-            // (Two extra black lines are displayed around toolbar area at first)
-            // extend the toolbar size by hard code
-            //
-            aToolbarRect.iTl.iY -= 1;
-            aToolbarRect.iBr.iY += 1;
             }
         }
     else

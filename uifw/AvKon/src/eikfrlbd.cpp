@@ -3064,8 +3064,11 @@ void CFormattedCellListBoxData::SetWordWrappedSubcellIndices(
     TInt aFirstIndex,
     TInt aSecondIndex )
     {
-    iExtension->iFirstWordWrappedSubcellIndex = (TInt16)aFirstIndex;
-    iExtension->iSecondWordWrappedSubcellIndex = (TInt16)aSecondIndex;
+    if ( iExtension ) 
+        {
+        iExtension->iFirstWordWrappedSubcellIndex = (TInt16)aFirstIndex;
+        iExtension->iSecondWordWrappedSubcellIndex = (TInt16)aSecondIndex;
+        }
     }
 
 EXPORT_C void CFormattedCellListBoxData::EnableMarqueeL(TBool aEnable)
@@ -4128,6 +4131,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         aGc.UseFont(CEikonEnv::Static()->NormalFont());
         aGc.DrawText(TPtrC(),aRect,0); // use draw text so that don't need to change pen color/style
         aGc.DiscardFont(); // Release the font cache
+        _AKNTRACE_FUNC_EXIT;
         return;
         }
     const CFont* font=SubCellFont(0);
@@ -4377,6 +4381,11 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             CGraphicsContext::TTextAlign align=sc->iAlign;
             if (!sc->iGraphics)
                 {
+                if ( !iExtension )
+                    {
+                    _AKNTRACE_FUNC_EXIT;
+                    return;
+                    }
                 const CFont* rowAndCellFont=RowAndSubCellFont(iExtension->iCurrentlyDrawnItemIndex,subcell);
                 const CFont* cellFont=sc->iBaseFont;
                 const CFont* tempFont=(cellFont) ? cellFont : font;

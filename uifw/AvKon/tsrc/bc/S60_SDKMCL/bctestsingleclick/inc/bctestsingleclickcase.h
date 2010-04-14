@@ -28,7 +28,8 @@ class MAknCollection;
 /**
 * test case for various classes
 */
-class CBCTESTSingleClickCase: public CBCTestCase, public MAknCollection
+class CBCTESTSingleClickCase: public CBCTestCase, public MAknCollection, 
+    public MObjectProvider
     {
 public: // constructor and destructor
     
@@ -75,6 +76,12 @@ public: // from CBCTestCase
      */    
     virtual TInt CollectionExtension(
             TUint aExtensionId, TAny*& a0, TAny* a1 );	
+    
+
+    /** 
+     * Pure virtual from MObjectProvider. 
+     */    
+    virtual TTypeUid::Ptr MopSupplyObject( TTypeUid aId); 
     
 protected: // new functions
     

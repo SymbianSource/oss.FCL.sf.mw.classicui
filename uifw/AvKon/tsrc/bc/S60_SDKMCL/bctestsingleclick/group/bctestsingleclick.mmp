@@ -48,6 +48,7 @@ SOURCE          bctestsingleclickcase.cpp
 
 USERINCLUDE     ./../inc
 USERINCLUDE     ../../../bctestutil/inc
+USERINCLUDE     ../../../../../../../inc
 
 APP_LAYER_SYSTEMINCLUDE
 

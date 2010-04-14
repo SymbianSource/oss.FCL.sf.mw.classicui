@@ -113,4 +113,5 @@ EXPORTS
 	?SetFlags@CHgVgMediaWall@@QAEXH@Z @ 112 NONAME ; void CHgVgMediaWall::SetFlags(int)
 	?SetItemToOpenedState@CHgVgMediaWall@@QAEXH@Z @ 113 NONAME ; void CHgVgMediaWall::SetItemToOpenedState(int)
 	?SetOpenedItemRect@CHgVgMediaWall@@QAEXABVTRect@@@Z @ 114 NONAME ; void CHgVgMediaWall::SetOpenedItemRect(class TRect const &)
+	?SetMenuProviderL@CHgScroller@@QAEXPAVMObjectProvider@@@Z @ 115 NONAME ; void CHgScroller::SetMenuProviderL(class MObjectProvider *)
 

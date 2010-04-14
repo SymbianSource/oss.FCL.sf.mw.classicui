@@ -66,7 +66,9 @@
 using namespace AknTouchGestureFw;
 using namespace HgVgConstants;
 
-
+#ifdef SYMBIAN_GRAPHICS_FIXNATIVEORIENTATION
+    #define MEDIAWALL_ORIENTATION_FIX
+#endif
 
 // ============================ MEMBER FUNCTIONS ===============================
 // -----------------------------------------------------------------------------
@@ -138,6 +140,7 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
 #ifdef MEDIAWALL_ORIENTATION_FIX
     iCoeEnv->WsSession().Flush();
 #endif
+    
     
     SetMopParent( aParent );
     SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallUninitialized );
@@ -327,7 +330,6 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
     delete iKeyScrollingTimer;
     delete iAnimationTimer;
     delete iDelayedInit;
-    //delete iCompositionSource;
     delete iEGL;
     delete iSpring;
     delete iSurfaceBitmap;
@@ -489,7 +491,8 @@ void CHgVgMediaWall::HandleItemCountChanged()
 void CHgVgMediaWall::HandlePointerEventL( const TPointerEvent& aEvent )
     {
     // Not faded and initialized and the drawing is set to be done to WinGc
-    if( !( iFlags & EHgVgMediaWallFaded )
+    if( aEvent.iType == TPointerEvent::EButton1Down 
+            && !( iFlags & EHgVgMediaWallFaded )
             && !( iFlags & EHgVgMediaWallUninitialized )
             && iFlags & EHgVgMediaWallDrawToWindowGC )
         {
@@ -1288,10 +1291,11 @@ void CHgVgMediaWall::DrawOpenVG() const
     
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
         
-    if (!self->DrawAll())
+    if (self && !self->DrawAll())
         return;
-      
-    iEGL->SwapBuffers();
+    
+    if( iEGL )  
+        iEGL->SwapBuffers();
     
     }
 
@@ -1300,31 +1304,33 @@ void CHgVgMediaWall::DrawOpenVG() const
 // ---------------------------------------------------------------------------
 //     
 void CHgVgMediaWall::DoAnimation()
-    {    
+    { 
+    TBool draw = ETrue;
     switch (iAnimationState)
         {
         case EHgVgMediaWallAnimationStateTransition:
         case EHgVgMediaWallAnimationStateFastTransition:
             {
-            DoTransitionAnimation();
+            draw = DoTransitionAnimation();
             } break;
         case EHgVgMediaWallAnimationStateOpening:
         case EHgVgMediaWallAnimationStateClosing:
         case EHgVgMediaWallAnimationStateIdle:
         case EHgVgMediaWallAnimationStateItemOpened:
             {
-            DoSelectionAnimation();
+            draw = DoSelectionAnimation();
             } break;
         }
-
-    DrawOpenVG();
+    
+    if(draw)
+        DrawOpenVG();
     }
 
 // ---------------------------------------------------------------------------
 // CHgVgMediaWall::DoSelectionAnimation()
 // ---------------------------------------------------------------------------
 //     
-void CHgVgMediaWall::DoSelectionAnimation()
+TBool CHgVgMediaWall::DoSelectionAnimation()
     {
     TTime now;
     now.HomeTime();
@@ -1336,6 +1342,7 @@ void CHgVgMediaWall::DoSelectionAnimation()
     
     // calculate animation alpha
     TReal alpha = (TReal)diff / (TReal)KSelectionAnimationDuration;
+    TBool draw = ETrue;
 
     switch (iAnimationState)
         {
@@ -1354,6 +1361,7 @@ void CHgVgMediaWall::DoSelectionAnimation()
         case EHgVgMediaWallAnimationStateItemOpened:
             {
             iAnimationTimer->Cancel();
+            draw = EFalse;
             if (iSelectionObserver)
                 {   
                 if (iMediaWallStyle == EHgVgMediaWallStyleGrid)
@@ -1370,7 +1378,9 @@ void CHgVgMediaWall::DoSelectionAnimation()
             {
             iAnimationTimer->Cancel();
             } break;
-        }    
+        } 
+    
+    return draw;
     }
 
 
@@ -1378,7 +1388,7 @@ void CHgVgMediaWall::DoSelectionAnimation()
 // CHgVgMediaWall::DoTransitionAnimation()
 // ---------------------------------------------------------------------------
 //     
-void CHgVgMediaWall::DoTransitionAnimation()
+TBool CHgVgMediaWall::DoTransitionAnimation()
     {
     TTime now;
     now.HomeTime();
@@ -1406,7 +1416,8 @@ void CHgVgMediaWall::DoTransitionAnimation()
                 }
             }
         }
-                        
+    
+    return ETrue;                    
     }
 
 void CHgVgMediaWall::HandleTransitionAnimationStop()
@@ -1599,6 +1610,11 @@ void CHgVgMediaWall::InitRenderingL(TBool aRecreateSurface)
             iEGL->InitWindowSurfaceL(Window());
         }
 
+    if(!iCompositionSource)
+        {
+        iCompositionSource = CAlfCompositionSource::NewL(Window());
+        iCompositionSource->EnableAlpha();
+        }
 
     delete iRenderer; iRenderer = NULL;    
     delete iArtistLabel; iArtistLabel = NULL;
@@ -2322,6 +2338,7 @@ void CHgVgMediaWall::DestroyRendering()
     delete iSkinRenderer; iSkinRenderer = NULL;
     delete iEmptyLabel; iEmptyLabel = NULL;
     delete iEGL; iEGL = NULL;
+    delete iCompositionSource; iCompositionSource = NULL;
     }
 
 // -----------------------------------------------------------------------------
@@ -2501,8 +2518,8 @@ void CHgVgMediaWall::InitMediaWallGridLandscapeL()
 
 void CHgVgMediaWall::InitLabelsL(TInt aLayoutVariant)
     {
-    TAknTextComponentLayout l0 = AknLayoutScalable_Apps::main_cf0_pane_t1(aLayoutVariant);
-    TAknTextComponentLayout l1 = AknLayoutScalable_Apps::main_cf0_pane_t2(aLayoutVariant);
+    TAknTextComponentLayout l0 = AknLayoutScalable_Apps::main_cf0_pane_t2(aLayoutVariant);
+    TAknTextComponentLayout l1 = AknLayoutScalable_Apps::main_cf0_pane_t1(aLayoutVariant);
     
     TAknLayoutText t0;
     TAknLayoutText t1;

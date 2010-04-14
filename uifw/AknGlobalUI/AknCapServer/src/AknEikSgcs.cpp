@@ -26,6 +26,7 @@
 #include <aknappui.h>
 #include <e32property.h>
 #include <UikonInternalPSKeys.h>
+#include <akncapserveralternatefsplugin.h>
 #include <avkondomainpskeys.h>
 #include <AknSettingCache.h>
 #include "AknCapServerEntry.h"
@@ -47,7 +48,7 @@
 #include <akntransitionutils.h>
 #endif
 
-#include <LayoutPack.cdl.h>
+#include <layoutpack.cdl.h>
 #include <CdlRefs.h>
 const TInt KCdlEComInterfaceId = 0x101f8243;
 const TInt KMatrixMenuAppId = 0x101F4CD2;
@@ -1374,6 +1375,13 @@ TBool CEikSgcServer::IsIdleForeground()
 
 void CEikSgcServer::SetIdleState(TBool aFlag)
     {
+	//idle is changed to nonidle if taskswitcher is shown 
+    if (aFlag && iAknCapAppServerAppUi->AlternateFS()
+              && iAknCapAppServerAppUi->AlternateFS()->IsVisible())
+        {
+        aFlag = EFalse;
+        }
+
     // Update the P&S key only if the value has been changed.
     if ((iNotificationsInIdleAllowed && !aFlag)
             || (!iNotificationsInIdleAllowed && aFlag))

@@ -1944,8 +1944,11 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                                      const TColors& aColors ) const
     {
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );    
-    CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
-    if ( !view->ViewRect().Intersects( aRect ) )
+    
+    __ASSERT_DEBUG( iExtension->iControl, Panic( EEikPanicNullPointer ));
+    
+    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
+    if ( listbox && !listbox->View()->ViewRect().Intersects( aRect ) )
         {
         // outside of the clipping rect -> don't process this item
         return;
@@ -1960,7 +1963,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
 
     MAknsSkinInstance *skin = AknsUtils::SkinInstance();
     MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
-    if (!cc)
+    if ( !cc )
         {
         cc = SkinBackgroundContext();
         }
@@ -1975,7 +1978,6 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
         CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, aRect );
         }
 
-    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -2008,10 +2010,8 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
-
-    CEikListBox* list = static_cast<CEikListBox*>( iExtension->iControl );
-    
-    if ( iExtension->iCurrentRow < list->BottomItemIndex() )
+ 
+    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
         {
         AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
         }
@@ -2027,7 +2027,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
     if ( transApi )
         {
         transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
-        CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
+        CListBoxView* view = listbox->View();
         aGc.SetClippingRect( view->ViewRect() );
         }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -2048,19 +2048,19 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
             
             TRgb textColor( aTextColor );
             
-            if (aHighlight)
+            if ( aHighlight )
                 {
                 textColor = aColors.iHighlightedText;
                 aGc.SetBrushColor(aColors.iHighlightedBack);    
                 }
-            if (AknsUtils::AvkonSkinEnabled())
+            if ( AknsUtils::AvkonSkinEnabled() )
                 {
-                if (iExtension->iTextColor != NULL)
+                if ( iExtension->iTextColor != NULL )
                     {
                     textColor = iExtension->iTextColor;
                     }
                 
-                if (aHighlight && iExtension->iHighlightedTextColor != NULL)
+                if ( aHighlight && iExtension->iHighlightedTextColor != NULL )
                     {
                     textColor = iExtension->iHighlightedTextColor;
                     }
@@ -2082,7 +2082,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 // check if there are icons affecting this text layout
                 TInt gSC = iExtension->AtSL(subCellIndex).iConditionValue; // graphical subcell which might affect this text subcell
                 
-                if (gSC > -1)
+                if ( gSC > -1 )
                     {
                     TInt tempIndex;
                     while (gSC > -1) // when gSC == -1, we have found our graphical subcell
@@ -2098,7 +2098,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                         }
                     }
                     
-                if (gSC == -1) // no affecting icons -> use default layout
+                if ( gSC == -1 ) // no affecting icons -> use default layout
                     {
                     textLineLayout = iExtension->AtSL(subCellIndex).iTextLayout;
                     }
@@ -2107,7 +2107,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
   
             if( !isLayoutAlignment )
                 { 
-                switch(align) 
+                switch( align ) 
                     {
                     case CGraphicsContext::ELeft : 
                         {
@@ -2165,9 +2165,9 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 }
 
             TBool marqueeDisabled(EFalse);
-            if (listbox != NULL && 
-                listbox->View() != NULL && 
-                listbox->View()->ItemDrawer() != NULL)
+            if ( listbox != NULL && 
+                 listbox->View() != NULL && 
+                 listbox->View()->ItemDrawer() != NULL)
                 {
                 marqueeDisabled = listbox->View()->ItemDrawer()->Flags() & CListItemDrawer::EDisableMarquee;
                 }
@@ -2255,7 +2255,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 continue;
                 }
 
-            if (aHighlight && (index > 0xffff))
+            if ( aHighlight && (index > 0xffff) )
                 {
                 index = index >> 16; // we have different icon for highlight
                 }
@@ -2269,7 +2269,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
             graphicRect.LayoutRect(aRect,graphicLayout);
             TSize graphicSize( graphicRect.Rect().Size() );
             
-            if (index>=0 && IconArray())
+            if ( index>=0 && IconArray() )
                 {
                 CGulIcon* icon=(*IconArray())[index];
                 CFbsBitmap* bitmap=icon->Bitmap();
@@ -2278,8 +2278,8 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                     {
                     TSize size( bitmap->SizeInPixels() );
                     
-                    if (size.iWidth != graphicSize.iWidth &&
-                        size.iHeight != graphicSize.iHeight )
+                    if ( size.iWidth != graphicSize.iWidth &&
+                         size.iHeight != graphicSize.iHeight )
                         {
                         AknIconUtils::SetSize( bitmap,
                                                graphicSize,

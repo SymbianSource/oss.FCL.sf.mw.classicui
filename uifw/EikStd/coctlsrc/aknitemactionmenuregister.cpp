@@ -71,11 +71,34 @@ EXPORT_C void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(
 
 
 // ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::RemoveConstructingMenuBarOwner
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( 
+        MObjectProvider* aMenuBarOwner )
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    if ( AppUiSingleClickCompatible() )
+        {
+        AknItemActionMenuRegister* instance( Instance() );
+
+        if ( instance )
+            {
+            instance->DoRemoveConstructingMenuBarOwner( aMenuBarOwner );
+            }
+        }
+
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::RegisterCollectionL
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* AknItemActionMenuRegister::RegisterCollectionL(
-        MAknCollection& aCollectionState )
+        MAknCollection& aCollectionState, MObjectProvider* aMenuBarOwner )
     {
     _AKNTRACE_FUNC_ENTER;
 
@@ -85,7 +108,8 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterCollectionL(
         AknItemActionMenuRegister* instance( Instance() );
         if ( instance )
             {
-            menu = instance->DoRegisterCollectionL( aCollectionState );
+            menu = instance->DoRegisterCollectionL( 
+                    aCollectionState, aMenuBarOwner );
             }
         }
 
@@ -320,12 +344,22 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::Instance()
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* AknItemActionMenuRegister::DoRegisterCollectionL(
-        MAknCollection& aCollectionState )
+        MAknCollection& aCollectionState, MObjectProvider* aMenuBarOwner )
     {
     _AKNTRACE_FUNC_ENTER;
     
     CAknItemActionMenu* menu( NULL );
-    CEikMenuBar* menuBar = FindCurrentMenuBarL();
+    CEikMenuBar* menuBar = NULL;
+    
+    if ( aMenuBarOwner )
+        {
+        aMenuBarOwner->MopGetObject( menuBar );
+        }
+
+    if ( !menuBar )
+        {
+        menuBar = FindCurrentMenuBar();
+        }
     menu = RegisterStateToItemActionMenuL( menuBar, aCollectionState );
 
     _AKNTRACE_FUNC_EXIT;
@@ -448,7 +482,7 @@ void AknItemActionMenuRegister::DoRegisterCollectionObserverL(
     {
     _AKNTRACE_FUNC_ENTER;
 
-    CEikMenuBar* menuBar = FindCurrentMenuBarL();
+    CEikMenuBar* menuBar = FindCurrentMenuBar();
     if ( !menuBar || !iRegisterArray->RegisterCollectionObserverL(
             *menuBar, aObserver ) )
         {
@@ -751,16 +785,15 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterStateToItemActionMenuL(
 
 
 // ---------------------------------------------------------------------------
-// AknItemActionMenuRegister::FindCurrentMenuBarL
+// AknItemActionMenuRegister::FindCurrentMenuBar
 // ---------------------------------------------------------------------------
 //
-CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBarL()
+CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBar()
     {
     _AKNTRACE_FUNC_ENTER;
 
     CAknAppUi* appUi = AppUI();
     CEikonEnv* eikonEnv( CEikonEnv::Static() );
-    TBool isConstructingDialog( EFalse );
     CEikMenuBar* menuBar( NULL );
     
     // If overriding menubar owner is set then it's the one to obey. If the
@@ -771,33 +804,22 @@ CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBarL()
         _AKNTRACE_FUNC_EXIT;
         return OverridingObjectMenuBar();
         }
-    
-    // Check if there is existing constructing dialog
+
+    // by default choose the current constructing menubar owner
     if ( iMenuBarOwner )
         {
-        CEikDialog* dialog( NULL );
-        iMenuBarOwner->MopGetObjectNoChaining( dialog );
-        if ( dialog )
-            {
-            isConstructingDialog = ETrue;
-            }
+        menuBar = ConstructingObjectMenuBar();
         }
-    // No constructing dialog
-    if ( !isConstructingDialog )
+    else
         {
         // Fetch pointer to dialog that is currently displayed
         menuBar = DialogMenuBar( appUi );
+
         // No dialog - pointer to active view menu bar
         if ( !menuBar )
             {
             menuBar = ViewMenuBar( appUi );
             }
-        }
-    
-    // Fetch pointer to constructing object menu bar
-    if ( !menuBar )
-        {
-        menuBar = ConstructingObjectMenuBar();
         }
 
     // Finally, if no luck with others, fetch pointer to appUi menu bar.
@@ -901,30 +923,66 @@ void AknItemActionMenuRegister::DoSetConstructingMenuBarOwnerL(
             iIsConstructingDialog = ETrue; 
             }
         }
-    else if ( !aMenuBarOwner && iIsConstructingDialog )
-        {
-        // When setting constructing menubar owner to NULL from a dialog check
-        // if there is item with the same menubar owner in iUnregisteredMenus 
-        // and try to find correct menubar for it.
-        for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
-            {
-            TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
-            if ( data.iOwner == iMenuBarOwner ) 
-                {
-                data.iOwner = iMenuBarOwner = NULL; 
-                CEikMenuBar* menuBar = FindCurrentMenuBarL(); 
-                if ( menuBar )
-                    {
-                    AddRegisterEntryL( *menuBar, *data.iMenu );
-                    iUnregisteredMenus.Remove( i );
-                    }
-                iIsConstructingDialog = EFalse; 
-                return; 
-                }
-            }
-        }
+    
     iMenuBarOwner = aMenuBarOwner;
     }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner
+// ---------------------------------------------------------------------------
+//
+void AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner( 
+        MObjectProvider* aMenuBarOwner )
+    {
+    TInt i = 0;
+    
+    // set all references to removed menubar owner to NULL
+    while ( i  < iUnregisteredMenus.Count() )
+        {
+        TAknUnregisteredMenuData& data( iUnregisteredMenus[i] );
+
+        if ( data.iOwner == iMenuBarOwner ) 
+            {
+            data.iOwner = iMenuBarOwner = NULL;
+            
+            // When setting constructing menubar owner to NULL from a dialog
+            // check if there is item with the same menubar owner in 
+            // iUnregisteredMenus and try to find correct menubar for it.
+            if ( iIsConstructingDialog )
+                {
+                CEikMenuBar* menuBar = FindCurrentMenuBar(); 
+
+                if ( menuBar )
+                    {
+                    TRAP_IGNORE( AddRegisterEntryL( *menuBar, *data.iMenu ) );
+                    iUnregisteredMenus.Remove( i );
+                    continue;
+                    }
+                }
+            }
+        
+        ++i;
+        }
+    
+    // NULL also possible references in unregistered observers
+    for ( i = 0; i < iUnregisteredObservers.Count(); ++i )
+        {
+        TAknUnregisteredObserverData& data( iUnregisteredObservers[i] );
+        
+        if ( data.iOwner == aMenuBarOwner )
+            {
+            data.iOwner = NULL;
+            }
+        }
+    
+    if ( iMenuBarOwner == aMenuBarOwner )
+        {
+        iIsConstructingDialog = EFalse; 
+        iMenuBarOwner = NULL;
+        }
+    }
+
 
 // ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::TAknUnregisteredObserverData

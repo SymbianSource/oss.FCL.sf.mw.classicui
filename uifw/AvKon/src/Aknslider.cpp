@@ -63,7 +63,7 @@ const TInt KAknSliderFeedbackActionTime = 160 * 1000; // Interval, microseconds
 // Default draw color 
 const TInt KAknSliderDefaultDrawColor = 120;
 const TInt KScrollRepeatTimeout = 250000; // 0.25 seconds
-const TInt KStableFeedbackIntesity = 50;
+const TInt KStableFeedbackIntesity = 100;
 const TInt KFeedbackTimeout = 100000;
 const TInt KNoFeedbackTimeout = 0;
 const TInt KStepThreshold = 15;

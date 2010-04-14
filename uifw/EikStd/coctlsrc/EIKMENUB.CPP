@@ -153,10 +153,11 @@ void CEikMenuBarExtension::SetItemCommandsDimmedL()
         AknItemActionMenuRegister::RegisterMenuBarL( *iBar );
         }
     // hide item-specific commands if highlight not visible 
-    if ( iBar->GetMenuType() != CEikMenuBar::EMenuContext
-            && iItemActionMenu
-            && !iItemActionMenu->CollectionHighlightVisible() )
-        {
+    if ( iBar->GetMenuType() != CEikMenuBar::EMenuContext 
+            && ( ( iItemActionMenu 
+            && !iItemActionMenu->CollectionHighlightVisible() ) 
+            || !iItemActionMenu ) ) 
+        {  
         iBar->iMenuPane->SetItemCommandsDimmed();
         }
     }
@@ -1004,7 +1005,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
             TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                fbLogicalType = ETouchFeedbackOptionsMenuOpened;
                 }
             feedback->InstantFeedback(
                                    this,
@@ -1194,7 +1195,7 @@ void CEikMenuBar::ProcessCommandL(TInt aCommandId)
                     TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
                     if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                         {
-                        fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                        fbLogicalType = ETouchFeedbackOptionsMenuClosed;
                         }
                     feedback->InstantFeedback(
                                            this,

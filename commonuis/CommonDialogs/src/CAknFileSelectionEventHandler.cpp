@@ -408,5 +408,6 @@ void CAknFileSelectionEventHandler::NotifyFileSystemChangedL()
     {
     iModel->UpdateItemListL();
     iPopupList->HandleFileSystemChangedL(iModel);
+    iFSObserver->Setup();
     }
 // End of File

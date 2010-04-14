@@ -603,6 +603,18 @@ private:
      */
     MFindStringConverter* iConverter;
     
+    /**
+     * Avoid the performace problem cause by frequently TLS accessing
+     */
+    CEikonEnv*  iEikEnv;
+    
+    
+    /**
+     * Whether current process is phonebook(and its server) or not
+     */
+    TBool   iIsPhoneBook;
+
+    
     
     };
 

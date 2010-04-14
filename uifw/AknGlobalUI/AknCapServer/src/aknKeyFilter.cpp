@@ -22,10 +22,12 @@
 #include <e32property.h>
 #include <UikonInternalPSKeys.h>    // KUikLayoutState, KUikFlipStatus
 #include <AvkonInternalCRKeys.h>    // KAknQwertyInputModeActive
-#include <EIKPRIV.rsg>
+#include <eikpriv.rsg>
 #include <AknDef.h>
 #include <AknSgcc.h>
 #include <aknenv.h>
+#include <AknFepInternalPSKeys.h>
+#include <AknFepGlobalEnums.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <uikon/eikenvinterface.h>
 #endif
@@ -166,6 +168,18 @@ void CAknServKeyFilter::ConstructL( CAknCapAppServerAppUi& aAppUi )
     
     // Set default value for the KAknKeyBoardLayout Pub&Sub key.
     RProperty::Set(KCRUidAvkon, KAknKeyBoardLayout, keyboardLayout);
+    
+    #ifdef RD_SCALABLE_UI_V2 
+    // Define KAknFepVirtualKeyboardType Pub&sub key.
+	RProperty::Define( KPSUidAknFep, KAknFepVirtualKeyboardType, RProperty::EInt );
+	// Set default value for KAknFepVirtualKeyboardType Pub&sub key.
+	RProperty::Set( KPSUidAknFep, KAknFepVirtualKeyboardType, EPtiKeyboard12Key );	
+	
+	// Define KAknFepTouchInputActive Pub&sub key
+	RProperty::Define( KPSUidAknFep, KAknFepTouchInputActive, RProperty::EInt );
+	// Set default value for KAknFepTouchInputActive Pub&sub key.
+	RProperty::Set( KPSUidAknFep, KAknFepTouchInputActive, 0 );
+    #endif // RD_SCALABLE_UI_V2
 #else
     
     RProperty::Define( KCRUidAvkon, KAknKeyBoardLayout, RProperty::EInt );
@@ -174,6 +188,18 @@ void CAknServKeyFilter::ConstructL( CAknCapAppServerAppUi& aAppUi )
     iAvkonRepository->Get(KAknKeyBoardLayout, keyboardLayout); 
     RProperty::Set(KCRUidAvkon, KAknKeyBoardLayout, keyboardLayout);
 
+	#ifdef RD_SCALABLE_UI_V2 
+	// Define KAknFepVirtualKeyboardType Pub&sub key.
+	RProperty::Define( KPSUidAknFep, KAknFepVirtualKeyboardType, RProperty::EInt );
+	// Set default value for KAknFepVirtualKeyboardType Pub&sub key.
+	RProperty::Set( KPSUidAknFep, KAknFepVirtualKeyboardType, EPtiKeyboard12Key );
+	
+	// Define KAknFepTouchInputActive Pub&sub key
+	RProperty::Define( KPSUidAknFep, KAknFepTouchInputActive, RProperty::EInt );
+	// Set default value for KAknFepTouchInputActive Pub&sub key.
+	RProperty::Set( KPSUidAknFep, KAknFepTouchInputActive, 0 );
+	
+	#endif // RD_SCALABLE_UI_V2   
 #endif // !__WINS__   
     TBool isQwertyOn = EFalse;
     switch(keyboardLayout)
@@ -408,6 +434,17 @@ TKeyResponse CAknServKeyFilter::HandleHomeKeyEventL( TEventCode aType )
             iHomeTimer = NULL;
             if ( !iAppUi->HandleShortAppsKeyPressL() )
                 {
+                RWsSession& ws = iEikonEnv->WsSession();
+                TApaTaskList apList( ws );
+                TApaTask task = apList.FindApp( iHomeViewId.iAppUid );
+                if( task.Exists() && task.WgId() == ws.GetFocusWindowGroup() )
+                    {
+                    GfxTransEffect::BeginFullScreen(
+                        AknTransEffect::EApplicationExit,
+                        TRect(),
+                        AknTransEffect::EParameterType,
+                        AknTransEffect::GfxTransParam( iHomeViewId.iAppUid ) );
+                    }
                 ToggleShellL();
                 }
 

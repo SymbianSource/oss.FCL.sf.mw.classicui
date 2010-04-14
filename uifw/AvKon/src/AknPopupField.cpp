@@ -445,6 +445,7 @@ void CAknPopupField::DoSizeChangedL()
             if ((iSelectionList->Position() != rect.iTl) || (iSelectionList->Size() != rect.Size()))
                 {
                 iSelectionList->SetRect(rect);
+                SetScrollBarSelectionL();
                 }
             AknsUtils::RegisterControlPosition(this);
             AknsUtils::RegisterControlPosition(iSelectionList);
@@ -655,15 +656,30 @@ EXPORT_C void CAknPopupField::HandleListBoxEventL(CEikListBox* aListBox, TListBo
             case MEikListBoxObserver::EEventItemSingleClicked:
                 {
                 CListBoxView* view = iSelectionList->View();
-                
-                if ( view->CurrentItemIndex() != iExtension->iOldItemIndex )
+                TInt selection = view->CurrentItemIndex(); 
+                if ( selection != iExtension->iOldItemIndex )
                     {
                     view->DeselectItem( iExtension->iOldItemIndex );
-                    iExtension->iOldItemIndex = view->CurrentItemIndex();
-                    view->SelectItemL( iExtension->iOldItemIndex );
+                    iExtension->iOldItemIndex = selection;
+                    view->SelectItemL( selection );
+
+                    TInt decoratedIndex;
+                    TBool decorated = iDecorator.DecoratedIndex( decoratedIndex );
+                    if ( decorated && ( selection  == decoratedIndex ) )
+                        {
+                        TBool accepted = iValue->CreateEditorL();
+                        if ( !accepted )
+                            {
+                            break; 
+                            }
+                        }
+                    else
+                        {
+                        iValue->SetCurrentValueIndex( selection );
+                        }
                     }
                 }
-
+            // fall through
             case MEikListBoxObserver::EEventItemDoubleClicked:
             case MEikListBoxObserver::EEventEnterKeyPressed:
                 {
@@ -1205,23 +1221,27 @@ void CAknPopupField::AttemptExitL(TBool aAccept)
 
     if (aAccept)
         {
-        // get current selection
-        const TInt selection=iSelectionList->CurrentItemIndex();
-        TInt decoratedIndex;
-        TBool decorated = iDecorator.DecoratedIndex(decoratedIndex);
-        if (decorated && (selection == decoratedIndex))
+        if ( iSelectionList->IsHighlightEnabled() )
             {
-            TBool accepted = iValue->CreateEditorL();
-            if (!accepted)
+            // get current selection
+            const TInt selection=iSelectionList->CurrentItemIndex();
+            TInt decoratedIndex;
+            TBool decorated = iDecorator.DecoratedIndex(decoratedIndex);
+            if (decorated && (selection == decoratedIndex))
                 {
-                // dialog was cancelled, so popup list must remain
-                finished = EFalse;
+                TBool accepted = iValue->CreateEditorL();
+                if (!accepted)
+                    {
+                    // dialog was cancelled, so popup list must remain
+                    finished = EFalse;
+                    }
+                }
+            else
+                {
+                iValue->SetCurrentValueIndex(selection);
                 }
             }
-        else
-            iValue->SetCurrentValueIndex(selection);
         }
-
     if (finished)
         {
         delete iCba;

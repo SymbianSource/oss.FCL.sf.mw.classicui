@@ -108,7 +108,13 @@ void CFindUtilChinese::ConstructL()
                                             
     iWatcherAdaptive = CFindRepositoryWatcher::NewL(KCRUidAvkon,
                                             TCallBack(HandleFindRepositoryCallBack, this),
-                                            iRepositoryFindAdaptive);                                        
+                                            iRepositoryFindAdaptive); 
+    iEikEnv = CEikonEnv::Static();
+    if (iEikEnv)
+        {
+        TUid appUid(iEikEnv->EikAppUi()->Application()->AppDllUid());
+        iIsPhoneBook = (appUid== KUidPhoneBook || appUid == KUidPhoneBookServer);
+        }
     }
 
 // ---------------------------------------------------------
@@ -122,7 +128,9 @@ CFindUtilChinese::CFindUtilChinese():
     iSearchMethodPRC(EAdptSearchPinyin),
     iSearchMethodTaiWan(EAdptSearchZhuyin),
     iSearchMethodHongKong(EAdptSearchStroke),
-    iSearchMethodAdaptive(EFalse)
+    iSearchMethodAdaptive(EFalse),    
+    iEikEnv(NULL),
+    iIsPhoneBook(EFalse)
     {
     }
 
@@ -179,10 +187,9 @@ void CFindUtilChinese::CloseT9InterfaceL()
 TBool CFindUtilChinese::DoTranslationL(TInt16 aHZUnicode,  
                                        RPointerArray<HBufC>& aSpellList)
     {
-    if(CEikonEnv::Static())
+    if(iEikEnv)
         {
-        if (iSearchMethodAdaptive &&(CEikonEnv::Static()->EikAppUi()->Application()->AppDllUid() == KUidPhoneBook ||
-                CEikonEnv::Static()->EikAppUi()->Application()->AppDllUid() == KUidPhoneBookServer ))
+        if (iSearchMethodAdaptive && iIsPhoneBook)
                 {
                 if (!T9ChineseTranslationAdaptiveL(aHZUnicode, aSpellList))
                     {

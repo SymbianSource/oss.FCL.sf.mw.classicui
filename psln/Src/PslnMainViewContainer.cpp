@@ -239,13 +239,20 @@ void CPslnMainViewContainer::MakeItemL( const TInt aIndex, const TInt aOffset )
     CleanupStack::PushL( item );
     reallocItem = NULL; // do not use anymore.
     TPtr ptr = item->Des();
+
+    TInt wallpaperOffset = 0;
+    if ( aIndex == KPslnScreenSaverId 
+	    && !iPslnUi->ViewSupport().IsSet( CPslnUi::EPslnWallpaperView ) )
+        {
+        wallpaperOffset = 1;
+        }
     if ( aOffset != KErrNotFound )
         {
-        iItemArray->InsertL( aIndex + aOffset, ptr );
+        iItemArray->InsertL( aIndex + aOffset - wallpaperOffset, ptr );
         }
     else
         {
-        iItemArray->InsertL( aIndex, ptr );
+        iItemArray->InsertL( aIndex - wallpaperOffset, ptr );
         }
     CleanupStack::PopAndDestroy( item );
     PSLN_TRACE_DEBUG("CPslnMainViewContainer::MakeItemL END");

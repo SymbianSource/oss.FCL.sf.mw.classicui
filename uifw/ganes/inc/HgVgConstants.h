@@ -132,7 +132,7 @@ namespace HgVgConstants
     // Specific constants for full screen coverflow mediawall
     const TInt KMediaWallFullScreenItemsOnScreen(5);
     const TReal KMediaWallFullScreenCameraZoomFactor(1.5);
-    const TReal KMediaWallFullScreenCameraRotationFactor(PI/5.0);
+    const TReal KMediaWallFullScreenCameraRotationFactor(KCameraRotationFactor*1.5);
     const TReal KMediaWallFullScreenSpringVelocityToAnimationFactor(10);
     const TReal KMediaWallFullScreenZOffset(1);
     const TInt KMediaWallFullScreenRowCount(1);

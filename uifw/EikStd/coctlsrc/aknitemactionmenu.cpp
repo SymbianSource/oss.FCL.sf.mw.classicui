@@ -99,7 +99,22 @@ EXPORT_C CAknItemActionMenu* CAknItemActionMenu::RegisterCollectionL(
     {
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE_FUNC_EXIT;
-    return AknItemActionMenuRegister::RegisterCollectionL( aCollection );
+    return AknItemActionMenuRegister::RegisterCollectionL(
+            aCollection, NULL );
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::RegisterCollectionL
+// ---------------------------------------------------------------------------
+//
+EXPORT_C CAknItemActionMenu* CAknItemActionMenu::RegisterCollectionL(
+        MAknCollection& aCollection, MObjectProvider* aMenuBarOwner )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return AknItemActionMenuRegister::RegisterCollectionL( 
+            aCollection, aMenuBarOwner );
     }
 
 

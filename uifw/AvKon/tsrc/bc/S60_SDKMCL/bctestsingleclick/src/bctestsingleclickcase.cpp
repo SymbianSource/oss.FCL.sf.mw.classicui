@@ -18,20 +18,14 @@
 #include <w32std.h>
 #include <coecntrl.h>
 #include <aknitemactionmenu.h>
-#ifdef RD_TOUCH2
 #include <aknViewAppUi.h>
 #include <aknview.h>
-#else
-#include <aknappui.h>
-#endif // RD_TOUCH2
 #include <eikmenup.h>
 #include <eikmenub.h>
 #include <avkon.hrh>
 #include <eikfrlb.h>
 #include <bctestsingleclick.rsg>
-#ifdef RD_TOUCH2
-#include <aknitemactionmenuregister.h>
-#endif // RD_TOUCH2
+#include "aknitemactionmenuregister.h"
 
 #include "bctestsingleclickcase.h"
 #include "bctestsingleclickcontainer.h"
@@ -174,30 +168,28 @@ void CBCTESTSingleClickCase::TestSingleClickL()
     _LIT( KIsSingleClickCompatible, 
         "CAknAppUiBase::IsSingleClickCompatible()" );    
     _LIT( KRegisterCollectionL, "CAknItemActionMenu::RegisterCollectionL" ); 
+    _LIT( KRegisterCollection2L, 
+            "CAknItemActionMenu::RegisterCollectionL( MAknCollection, MObjectProvider" ); 
     _LIT( KInitMenuL, "CAknItemActionMenu::InitMenuL" ); 
     _LIT( KShowMenuL, "CAknItemActionMenu::ShowMenuL" ); 
     _LIT( KRemoveCollection, "CAknItemActionMenu::RemoveCollection" ); 
     _LIT( KItemSpecificCommandsEnabled, 
          "CEikMenuBar::ItemSpecificCommandsEnabled()" );
     _LIT( KSetItemSpecific, "CEikMenuPane::SetItemSpecific()" );    
-#ifdef RD_TOUCH2    
     _LIT( KSetOverridingMenuBarOwnerL, 
         "AknItemActionMenuRegister::SetOverridingMenuBarOwnerL" );
     _LIT( KCollectionChanged, "CAknItemActionMenu::CollectionChanged" );
-#endif // RD_TOUCH2
 
     //AknItemActionMenuRegister::SetConstructingMenuBarOwnerL is invoked in 
     //CAknView::BaseConstructL().
     AssertTrueL( ETrue, KSetConstructingMenuBarOwnerL );
 
-#ifdef RD_TOUCH2
     CCoeControl* dummy = new ( ELeave ) CCoeControl;
     CleanupStack::PushL( dummy );
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( dummy );
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
     AssertTrueL( ETrue, KSetOverridingMenuBarOwnerL );
     CleanupStack::PopAndDestroy();
-#endif // RD_TOUCH2
     
     TBool isSingleClick = iAvkonAppUiBase->IsSingleClickCompatible();
     AssertTrueL( isSingleClick, KIsSingleClickCompatible );
@@ -205,6 +197,7 @@ void CBCTESTSingleClickCase::TestSingleClickL()
     CAknItemActionMenu* aknItemActionMenu = 
         CAknItemActionMenu::RegisterCollectionL( *this );
     AssertTrueL( ETrue, KRegisterCollectionL );
+
     if ( aknItemActionMenu )
         {        
         aknItemActionMenu->InitMenuL();
@@ -214,23 +207,27 @@ void CBCTESTSingleClickCase::TestSingleClickL()
         aknItemActionMenu->ShowMenuL( p );
         AssertTrueL( ETrue, KShowMenuL );
         
-#ifdef RD_TOUCH2
         aknItemActionMenu->CollectionChanged( *this );
         AssertTrueL( ETrue, KCollectionChanged );
-#endif // RD_TOUCH2
 
         aknItemActionMenu->RemoveCollection( *this );
         AssertTrueL( ETrue, KRemoveCollection );
         }
+
+    CAknItemActionMenu* aknItemActionMenu2 = 
+        CAknItemActionMenu::RegisterCollectionL( *this, this );
+    AssertTrueL( ETrue, KRegisterCollection2L );
+
+    if ( aknItemActionMenu2 )
+        {
+        aknItemActionMenu2->RemoveCollection( *this );
+        }
+
     
-#ifdef RD_TOUCH2
     TVwsViewId uid;
     
     iAvkonViewAppUi->GetActiveViewId( uid );
     CEikMenuBar* menuBar = iAvkonViewAppUi->View( uid.iViewUid )->MenuBar();
-#else
-    CEikMenuBar* menuBar = CEikonEnv::Static()->AppUiFactory()->MenuBar();
-#endif // RD_TOUCH2
     CEikMenuPane* menuPane = NULL;
     if ( menuBar )
         {
@@ -254,6 +251,7 @@ void CBCTESTSingleClickCase::TestSingleClickL()
 void CBCTESTSingleClickCase::TestListBoxL()
     {
     _LIT( KDisableSingleClick, "CEikListBox::DisableSingleClick() invoked" );
+    _LIT( KIsHighlightEnabled, "CEikListBox::IsHighlightEnabled() invoked" );
      
     CEikFormattedCellListBox* listbox = new CEikFormattedCellListBox();
     CleanupStack::PushL( listbox );
@@ -271,8 +269,19 @@ void CBCTESTSingleClickCase::TestListBoxL()
     
     listbox->DisableSingleClick( ETrue );
     AssertTrueL( ETrue, KDisableSingleClick );
-   
+
+    TBool enabled = listbox->IsHighlightEnabled();
+    AssertTrueL( enabled, KIsHighlightEnabled );
+    
     CleanupStack::PopAndDestroy( text );
     CleanupStack::PopAndDestroy( listbox );
     }
 
+// ---------------------------------------------------------------------------
+// CBCTESTSingleClickCase::MopSupplyObject
+// ---------------------------------------------------------------------------
+//    
+TTypeUid::Ptr CBCTESTSingleClickCase::MopSupplyObject(TTypeUid /*aId*/)
+    {
+    return TTypeUid::Null();
+    }

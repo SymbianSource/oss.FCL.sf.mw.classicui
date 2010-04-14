@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 - 2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -556,6 +556,8 @@ CAknAppUiBaseExtension::CAknAppUiBaseExtension()
 
 EXPORT_C CAknAppUiBase::~CAknAppUiBase()
     {
+    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
+
     if (iAppUiBaseExtension)
         {
         MTouchFeedback::DestroyInstance();
@@ -661,6 +663,7 @@ EXPORT_C void CAknAppUiBase::BaseConstructL( TInt aAppUiFlags )
         delete defaultOrientationCr;
         defaultOrientationCr = NULL;
         }
+
     iAknFlags.Assign(EOrientationSpecified, orientationFlags&EAppOrientationSpecifiedFlag);
     iAknFlags.Assign(EOrientationLandscape, orientationFlags&EAppOrientationLandscapeFlag);
     iAknFlags.Assign(EOrientationAutomatic, orientationFlags&EAppOrientationAutomaticFlag);
@@ -672,11 +675,21 @@ EXPORT_C void CAknAppUiBase::BaseConstructL( TInt aAppUiFlags )
         {
         iAknFlags.Set( ETouchCompatible );
         }
+    else if ( aAppUiFlags & EAknSingleClickCompatibleFlag )
+        {
+        // If application is single click compatible then it needs to
+        // be also touch compatible, so set that flag also if application
+        // has forgotten.
+        iAknFlags.Set( ETouchCompatible );
+        }
     else
         {
+        // Set the touch compatible flag for all applications that
+        // reside on the ROM, since all platform applications should
+        // be touch compatible. 
         RProcess process;
         TFileName fileName = process.FileName();
-        _LIT(KRomDrive,"z:");
+        _LIT( KRomDrive, "z:" );
         
         if ( fileName.FindF( KRomDrive ) == 0 )
             {
