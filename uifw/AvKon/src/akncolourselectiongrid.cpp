@@ -737,11 +737,11 @@ void CNoneField::ConstructFromResourceL(TResourceReader& aReader)
             {
             // on down event list basic feedback + audio
             fbSpec->AddFeedback( ETouchEventStylusDown,
-                                 ETouchFeedbackList );
+                                 ETouchFeedbackBasicItem );
             
             // on up event list basic feedback, no audio
             fbSpec->AddFeedback( ETouchEventStylusUp,
-                                 ETouchFeedbackList,
+                                 ETouchFeedbackBasicItem,
                                  ETouchFeedbackVibra );
 
             feedback->SetFeedbackArea( this,
@@ -1684,16 +1684,26 @@ TBool CAknColourSelectionGrid::OkToExitL(TInt aButton)
     // if the NGA effects are off, use “pop-up”.
     // If NGA effects are on, use “pop-up closed”.
     MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        if( AknLayoutUtils::PenEnabled() )
+            {
+            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                {
+                feedback->InstantFeedback( ETouchFeedbackPopupClose );
+                }
+            else
+                {
+                feedback->InstantFeedback( ETouchFeedbackPopUp );
+                }
+            }
+        }
 
     switch (aButton)
         {
         case EAknSoftkeyInsert:
         case EEikBidOk:
             {
-            if ( feedback )
-                {
-                feedback->InstantFeedback( ETouchFeedbackBasic );
-                }
             TInt index = iGrid->CurrentItemIndex();
 
             if (iNoneBox)
@@ -1709,20 +1719,6 @@ TBool CAknColourSelectionGrid::OkToExitL(TInt aButton)
             }
         default:
             {
-            if ( feedback )
-                {
-                if( AknLayoutUtils::PenEnabled() )
-                    {
-                    if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackDecreasingPopUp );
-                        }
-                    else
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackPopUp );
-                        }
-                    }
-                }
             break;
             }
         }
@@ -1794,7 +1790,7 @@ SEikControlInfo CAknColourSelectionGrid::CreateCustomControlL(
             {
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                feedback->InstantFeedback( ETouchFeedbackIncreasingPopUp );
+                feedback->InstantFeedback( ETouchFeedbackPopupOpen );
                 }
             else
                 {

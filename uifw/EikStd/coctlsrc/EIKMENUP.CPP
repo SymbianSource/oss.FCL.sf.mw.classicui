@@ -78,7 +78,7 @@
 #include <AknTasHook.h>
 #include <aknphysics.h>
 #include <aknphysicsobserveriface.h>
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "aknitemactionmenudata.h"
 #include "akntrace.h"
 
@@ -644,7 +644,7 @@ void CEikMenuPaneExtension::DoOffset( TInt aOffset )
                         case CAknPhysics::EAknPhysicsActionFlicking:
                         case CAknPhysics::EAknPhysicsActionBouncing:
                             {
-                            ImmediateFeedback( ETouchFeedbackSensitiveList,
+                            ImmediateFeedback( ETouchFeedbackSensitiveItem,
                                                feedbackType );
                             break;
                             }
@@ -2794,7 +2794,7 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
         if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
             {
-            fbLogicalType = ETouchFeedbackIncreasingPopUp;
+            fbLogicalType = ETouchFeedbackPopupOpen;
             }
         iExtension->ImmediateFeedback( fbLogicalType,
                                        ETouchFeedbackVibra );
@@ -4953,7 +4953,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 {
                 if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                     {
-                    iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                    iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
                     }
                 else
                     {
@@ -5225,7 +5225,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             }
                         else if ( iExtension->iButtonDownItem == iSelectedItem )
                             {
-                            iExtension->ImmediateFeedback( ETouchFeedbackList,
+                            iExtension->ImmediateFeedback( ETouchFeedbackBasicItem,
                                                            ETouchFeedbackVibra );
                             if( !IsCascadeMenuPane() )
                                 {
@@ -5281,7 +5281,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                     {
                     noSelection = ETrue;
 					//when touch down during the flicking, play a basic list feedback
-                    iExtension->ImmediateFeedback( ETouchFeedbackList );
+                    iExtension->ImmediateFeedback( ETouchFeedbackBasicItem );
                     }
                 // stop physics for drag
                 iExtension->iPhysics->StopPhysics();
@@ -5312,7 +5312,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             {                            
                             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                                 {
-                                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                                iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
                                 }
                             else
                                 {
@@ -5367,7 +5367,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                 // Start timer for pressed highlight
                                 if ( !noSelection )
                                     {
-                                    iExtension->ImmediateFeedback( ETouchFeedbackList );
+                                    iExtension->ImmediateFeedback( ETouchFeedbackBasicItem );
                                     iExtension->StartHighlightTimerL();
                                     }
                                 iExtension->iNextHighlightItem = ii;
@@ -5376,7 +5376,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                 // down even on already highlighted item => list feedback
                                 if ( iExtension->iButtonDownItem == iSelectedItem )
                                     {
-                                    iExtension->ImmediateFeedback( ETouchFeedbackList );
+                                    iExtension->ImmediateFeedback( ETouchFeedbackBasicItem );
                                     }
                                 if ( noSelection )
                                     {
@@ -5440,7 +5440,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             {                            
                             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                                 {
-                                iExtension->ImmediateFeedback( ETouchFeedbackDecreasingPopUp );
+                                iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
                                 }
                             else
                                 {
@@ -5549,7 +5549,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                             AknTransEffect::EComponentTransitionsOff ) )
                                         {
                                         iExtension->ImmediateFeedback(
-                                                ETouchFeedbackDecreasingPopUp );
+                                                ETouchFeedbackPopupClose );
                                         }
                                     else
                                         {
@@ -6105,7 +6105,9 @@ void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEven
                 break;
             }
 
-
+        // if topItem changed, then draw menu again.
+        if ( newTopItem != topItem )
+            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
             if ( effects )
                 {
@@ -6123,6 +6125,7 @@ void CEikMenuPane::HandleScrollEventL( CEikScrollBar* aScrollBar, TEikScrollEven
                           
             iExtension->ViewPositionChanged( iExtension->iViewPosition );
 
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }

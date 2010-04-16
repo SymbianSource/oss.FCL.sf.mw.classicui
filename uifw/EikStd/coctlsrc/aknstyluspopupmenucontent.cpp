@@ -621,7 +621,7 @@ void CAknStylusPopUpMenuContent::SetItemDimmed( const TInt aCommandId, const TBo
                     }
                 }
             }
-        //SizeChanged();
+        SizeChanged();
         }
     }
 
@@ -758,8 +758,19 @@ void CAknStylusPopUpMenuContent::HandleResourceChange( TInt aType )
         {
         // Implementation when graphics are ready.
         }
-    else if ( aType == KEikMessageFadeAllWindows 
-              || aType == KEikDynamicLayoutVariantSwitch ) 
+    else if ( aType == KEikDynamicLayoutVariantSwitch )
+        {
+
+        // Background under highlight may have changed -> we need to update
+        // highlight background to animation
+        if ( iExtension )
+            {
+            iExtension->HandleLayoutSwitch();
+            }
+            
+        iPopUpMenu.UpdatePosition();
+        }
+    else if ( aType == KEikMessageFadeAllWindows ) 
         {
         if ( Observer() ) 
             {
@@ -767,7 +778,7 @@ void CAknStylusPopUpMenuContent::HandleResourceChange( TInt aType )
             TRAP_IGNORE( Observer()->HandleControlEventL( this,
                 MCoeControlObserver::EEventRequestExit ) );
             }    
-        }            
+        }    
     }
 
 // -----------------------------------------------------------------------------
@@ -1174,17 +1185,6 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
                     }
                 }
             }
-        else
-        	{
-            if ( AknLayoutUtils::LayoutMirrored() )
-	            {
-                listRect.iTl.iX += AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
-	            }
-            else
-	            {
-                listRect.iBr.iX -= AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
-                }        	
-        	}
 
         }
     

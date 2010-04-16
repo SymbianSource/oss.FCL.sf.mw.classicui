@@ -20,7 +20,6 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 #include <coemain.h>
 
@@ -91,8 +90,6 @@ void CTestSDKSlider::ConstructL()
     
     SendTestClassVersion();
     
-    TurnOffScreenSaver();
-    
     iOffset = CCoeEnv::Static()->AddResourceFileL( _L("C:\\resource\\testsdkslider.rsc") );
     }
 
@@ -124,8 +121,6 @@ CTestSDKSlider::~CTestSDKSlider()
     delete iLog; 
 
     CCoeEnv::Static()->DeleteResourceFile( iOffset );
-
-    RestoreScreenSaver();
     }
 
 //-----------------------------------------------------------------------------
@@ -160,31 +155,5 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) CTestSDKSlider::NewL( aTestModuleIf );
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKSlider::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKSlider::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
 
 //  End of File

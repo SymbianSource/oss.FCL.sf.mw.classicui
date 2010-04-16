@@ -18,9 +18,7 @@
 
 // INCLUDE FILES
 
-#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
-#include <inlinetext_internal.h>
-#endif
+#include <inlinetext.h>
 #include <AknEdwinFormExtendedInterfaceProvider.h>
 
 class CAknCompositeInlineTextSource;

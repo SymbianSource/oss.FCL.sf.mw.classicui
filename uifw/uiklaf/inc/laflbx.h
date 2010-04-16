@@ -25,7 +25,7 @@
 #include <gulutil.h>
 #include <gulbordr.h>
 
-#include "lafsbfrm.h"
+#include "LAFSBFRM.H"
 
 //
 // Forward declarations

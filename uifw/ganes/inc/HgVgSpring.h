@@ -48,10 +48,8 @@
             TReal VelX() const;
             TReal VelY() const;
             TReal EndX() const;
-            TReal EndY() const;            
-            TReal StartX() const;
-            TReal StartY() const;
-            
+            TReal EndY() const;
+    
         private:
                         
             TReal iPrevX, iPrevY;
@@ -64,7 +62,6 @@
             TReal iMaxSpringVelocity;
             TReal iPositionSnap;
             TReal iVelocitySnap;
-            TReal iStartX, iStartY;
         };
 
 

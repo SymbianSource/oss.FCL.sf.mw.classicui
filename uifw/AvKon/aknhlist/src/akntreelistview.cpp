@@ -25,7 +25,7 @@
 #include <aknappui.h>
 #include <aknitemactionmenu.h>
 #include <AknTasHook.h> // for testability hooks
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "akntreelistview.h"
 #include "akntree.h"
 #include "akntreelist.h"
@@ -422,7 +422,6 @@ void CAknTreeListView::SetEmptyTextL(const TDesC& aText)
     delete iEmptyListText;
     iEmptyListText = NULL;
     iEmptyListText = aText.AllocL();
-    UpdateScrollbars(); 
     }
 
 
@@ -1051,9 +1050,7 @@ void CAknTreeListView::HandleTreeEvent( TEvent aEvent, CAknTreeItem* aItem,
 
     if ( aDrawNow )
         {
-		// it should be DrawNow() here for fixing bug JLAI-7UE9RN
-        DrawNow();
-        //Window().Invalidate( Rect() );
+        Window().Invalidate( Rect() );
         }
     }
 

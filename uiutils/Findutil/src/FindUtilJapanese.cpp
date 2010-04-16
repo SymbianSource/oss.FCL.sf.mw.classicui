@@ -26,7 +26,7 @@
 
 // INCLUDE FILES
 #include "FindUtilJapanese.h"
-#include <JPLangUtil.h>
+#include <jplangutil.h>
 
 // CONSTANTS
 _LIT(KDesWildCard, "*");

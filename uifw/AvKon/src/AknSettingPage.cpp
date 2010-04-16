@@ -45,8 +45,6 @@
 //For MCoeCaptionRetrieverForFep
 #include <fepbase.h>
 #include <AknPopupFader.h>
-#include <gfxtranseffect/gfxtranseffect.h>
-#include <akntransitionutils.h>
 #include "aknitemactionmenuregister.h"
 #include "aknqueryeditorindicator.h"
 
@@ -570,12 +568,6 @@ EXPORT_C void CAknSettingPage::ResetFlags()
 EXPORT_C CAknSettingPage::~CAknSettingPage()
 	{
 	AKNTASHOOK_REMOVE();
-
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        GfxTransEffect::Deregister( this );
-        }
-
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
@@ -912,10 +904,10 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	
 	iExtension->CreateBackgroundContextL();
 
-    if ( iExtension->iEmbeddedSoftkeys )
+    if ( iExtension->iEmbeddedSoftkeys && 
+            CAknEnv::Static()->TransparencyEnabled() )
         {
         EnableWindowTransparency();
-        GfxTransEffect::Register( this, KGfxPopupDefaultControlUid );
         }
 
 	// Make the menu bar
@@ -923,6 +915,7 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	iMenuBar->ConstructL( this, NULL, iMenuBarId ) ;
 	iEikonEnv->EikAppUi()->AddToStackL(iMenuBar,ECoeStackPriorityMenu,ECoeStackFlagRefusesFocus);
 	
+
 	iTextLabel = new(ELeave) CEikLabel( );
     iTextLabel->UseLogicalToVisualConversion(ETrue);
 	iTextLabel->SetContainerWindowL(*this);
@@ -1386,6 +1379,7 @@ EXPORT_C TBool CAknSettingPage::OkToExitL(TBool /*aAccept*/ )
 EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 	{
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
+    MakeVisible( EFalse );
 
 	if ( aAccept )
 		{
@@ -1399,17 +1393,6 @@ EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 		if ( iSettingPageObserver )
 			iSettingPageObserver->HandleSettingPageEventL(this, MAknSettingPageObserver::EEventSettingCancelled);
 		}
-	
-	if ( GfxTransEffect::IsRegistered( this ) )
-	    {
-        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
-        MakeVisible( EFalse );
-        GfxTransEffect::End( this );
-	    }
-	else
-	    {
-        MakeVisible( EFalse );
-	    }
 
 	iEikonEnv->RemoveFromStack(iCba);
 	delete iCba;
@@ -1657,23 +1640,10 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 	    {
 	    iExtension->iFader.FadeBehindPopup( iExtension, this, ETrue );
 	    }
-
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        GfxTransEffect::Begin( this, KGfxControlAppearAction );
-
-        TRect demarcation;
-        CAknTransitionUtils::GetDemarcation( CAknTransitionUtils::EPopup, 
-                demarcation );
-        GfxTransEffect::SetDemarcation( this, demarcation );
-
-        MakeVisible( ETrue );
-        GfxTransEffect::End( this );
-        }
-    else
-        {
-        MakeVisible( ETrue );
-        }
+	
+	// Catch up with editor's brute draw (in editor setting page)
+	DrawNow();   //  EECO-7QYCR4 and TSAA-7Q3D2J is conflict , so make an extra draw operation here
+    DrawDeferred();
 
 	iEditorControl->SetObserver( this );
 	iEikonEnv->EikAppUi()->AddToStackL(this,ECoeStackPriorityDialog);

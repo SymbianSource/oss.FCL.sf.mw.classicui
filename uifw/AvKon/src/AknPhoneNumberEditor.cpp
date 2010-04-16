@@ -908,7 +908,7 @@ EXPORT_C void CAknPhoneNumberEditor::HandlePointerEventL(
             
             if ( feedback )
                 {
-                feedback->InstantFeedback( this, ETouchFeedbackEdit );
+                feedback->InstantFeedback( this, ETouchFeedbackEditor );
                 }
             }
             //cancel previous selection

@@ -21,8 +21,6 @@
 // RProperty keys.
 #include <e32cmn.h>
 #include <e32def.h>
-#include <ScreensaverInternalPSKeys.h>
-#include <ScreensaverInternalCRKeys.h>
 
 // Central repository.
 #include <centralrepository.h>
@@ -72,12 +70,12 @@ void CPslnScreenSaverView::ConstructL()
 
     iNaviPaneContext = iPslnUi->PslnTabGroup();
 
-    iScreenSaverRepository = CRepository::NewL( KCRUidScreenSaver );
+    iScreenSaverRepository = NULL;
     iScreenSaverNotifier = CCenRepNotifyHandler::NewL(
         *this,
         *iScreenSaverRepository,
         CCenRepNotifyHandler::EIntKey,
-        KScreenSaverObject );
+        NULL );
 
     // Load screensavers.
     iModel->LoadScreensaverArrayL();
@@ -307,34 +305,6 @@ TInt CPslnScreenSaverView::HandlePreviewStateChanged( TAny* aPtr )
         self->iPreviewStateProperty.Get( value );
         }
 
-    if ( value == EScreenSaverPreviewNone ||
-         value == EScreenSaverPreviewEnd ||
-         value == EScreenSaverPreviewCancel ||
-         value == EScreenSaverPreviewError ||
-         value == EScreenSaverPreviewInvalid )
-        {
-
-        // Stop listening for preview mode changes.
-        if ( self->iPreviewStateSubscriber )
-            {
-            self->iPreviewStateSubscriber->Cancel();
-            }
-        }
-    else
-        {
-        switch ( value )
-            {
-            case EScreenSaverPreviewLoading:
-                self->LaunchNote();
-                break;
-            case EScreenSaverPreviewLoaded:
-            case EScreenSaverPreviewStart:
-                self->RemoveNote();
-                break;
-            default:
-                break;
-            }
-        }
     return KErrNone;
     }
 
@@ -510,12 +480,8 @@ void CPslnScreenSaverView::SetTitlePaneL( TInt& aResourceId )
 // If wallpaper image has changed, update container.
 // -----------------------------------------------------------------------------
 //
-void CPslnScreenSaverView::HandleNotifyInt( TUint32 aId, TInt /*aNewValue*/ )
+void CPslnScreenSaverView::HandleNotifyInt( TUint32 /*aId*/, TInt /*aNewValue*/ )
     {
-    if ( aId != KScreenSaverObject )
-        {
-        return;
-        }
 
     TInt value = KErrNone;
     if ( iPreviewModeSubscriber )
@@ -538,8 +504,7 @@ void CPslnScreenSaverView::HandleNotifyInt( TUint32 aId, TInt /*aNewValue*/ )
 //
 void CPslnScreenSaverView::HandleNotifyGeneric( TUint32 aId )
     {
-    if ( ( aId == NCentralRepositoryConstants::KInvalidNotificationId ||
-           aId == KScreenSaverObject ) && iContainer )
+    if (  aId == NCentralRepositoryConstants::KInvalidNotificationId || iContainer )
         {
         // Update container.
         TRAP_IGNORE(
@@ -642,15 +607,6 @@ void CPslnScreenSaverView::HandleScreenSaverPreviewL( TInt aCurrentItem )
 void CPslnScreenSaverView::HandleScreenSaverSettingsL( TInt aCurrentItem )
     {
     // Indicate to the plugin that active screensaver is possibly modified.
-    TInt selectedItem = iModel->CurrentPropertyIndexL( KPslnScreenSettingId );
-    if ( selectedItem == aCurrentItem )
-        {
-        User::LeaveIfError(
-            RProperty::Set(
-                KPSUidScreenSaver,
-                KScreenSaverPluginSettingsChanged,
-                EScreenSaverPluginSettingsChanging ) );
-        }
     // Configure plugin.
     TRAP_IGNORE( DoInvokeScreenSaverFunctionL(
         aCurrentItem,
@@ -745,10 +701,6 @@ void CPslnScreenSaverView::CreatePreviewModeSubscriberL()
     {
     if ( !iPreviewModeSubscriber )
         {
-        User::LeaveIfError(
-            iPreviewModeProperty.Attach(
-                KPSUidScreenSaver,
-                KScreenSaverPreviewMode ) );
         iPreviewModeSubscriber =
             new (ELeave) CPslnPropertySubscriber(
                 TCallBack( HandlePreviewModeChanged, this ),
@@ -761,10 +713,6 @@ void CPslnScreenSaverView::CreatePreviewStateSubscriberL()
     {
     if ( !iPreviewStateSubscriber )
         {
-        User::LeaveIfError(
-                iPreviewStateProperty.Attach(
-                KPSUidScreenSaver,
-                KScreenSaverPreviewState ) );
         iPreviewStateSubscriber =
             new (ELeave) CPslnPropertySubscriber(
                 TCallBack( HandlePreviewStateChanged, this ),

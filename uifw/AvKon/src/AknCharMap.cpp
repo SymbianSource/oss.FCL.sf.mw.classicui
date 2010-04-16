@@ -68,7 +68,6 @@
 #include <touchfeedback.h>
 #include <eiklabel.h>
 #include <aknphysics.h>
-#include <AknPriv.hrh>
 
 #include "PictograhGrouping.h"
 #include "AknSettingCache.h"
@@ -2944,6 +2943,9 @@ EXPORT_C CAknCharMap::~CAknCharMap()
     delete iSBFrame;
     delete iPictoInterface;
 
+    delete iOffscreenBg;
+    delete iBitmapDevice;
+    delete iBitmapGc;
 
     delete iTitleDefault;
     delete iTitleFull;
@@ -3990,44 +3992,65 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
     {
     if (aType == KEikDynamicLayoutVariantSwitch)
         {
-        TInt cursorIndexBeforeSwitch = (iFirstVisibleRow + iCursorPos.iY) * iMaxColumns + iCursorPos.iX;
-        TInt recentLengthBeforeSwitch = iMaxColumns;
-        TBool recentWasSetBeforeSwitch = iSetRecentSct;
+        TInt pos = (iFirstVisibleRow + iCursorPos.iY) * iMaxColumns + iCursorPos.iX;
+
+        // Cursor position before layout switch.
+        TInt previousCursorPosition;
+        TInt previousLength = iMaxColumns;
+        if (pos < previousLength)
+            {
+            previousCursorPosition = pos; // recent char
+            }
+        else
+            {
+            previousCursorPosition = pos - previousLength; // grid.
+            }
 
         // Disabled because the buffer content may change due to diffent layout.
-        if (recentWasSetBeforeSwitch) DisableRecentCharsRow();
+        TBool recentWasSet = iSetRecentSct;
+        if (recentWasSet) DisableRecentCharsRow();
 
         // Calculate the new magnitudes (iMaxColumns, etc.).
         DoLayout();
 
         // Append right amount of recent characters due to different layout.
-        if (recentWasSetBeforeSwitch) AppendRecentCharL();
+        if (recentWasSet) AppendRecentCharL();
 
         // Sets the character case because the buffer content may have changed.
         SetCharacterCaseL(iSpecialCharCase);
 
-        // status after layout switch.
-        TInt recentLengthAfterSwitch = iMaxColumns; // recentLength has changed after switch
-        TInt cursorIndexAfterSwitch;
-        if(cursorIndexBeforeSwitch < recentLengthBeforeSwitch)
+        // Calculates the index position of the cursor in the char table and
+        // update the x and y positions for the new grid with it
+        TInt currentCursorPosition = previousCursorPosition;
+        TInt currentLength = iMaxColumns; // iMaxColumns may have changed.
+        if (pos < previousLength) // recent char
             {
-            cursorIndexAfterSwitch = cursorIndexBeforeSwitch;
+            if (pos >= currentLength) // cannot be shown.
+                {
+                currentCursorPosition = 0;
+                }
             }
-        else
+        else // grid cell
             {
-            cursorIndexAfterSwitch = cursorIndexBeforeSwitch - recentLengthBeforeSwitch + recentLengthAfterSwitch;
+            currentCursorPosition += currentLength;
             }
 
         // the new first row is the top row on the page where the new focus is.
-        TInt pageVolume = iMaxColumns * iExtension->iMaxVisibleRows;
-        iFirstVisibleRow = (cursorIndexAfterSwitch / pageVolume * pageVolume) / iMaxColumns;
+        iFirstVisibleRow = iExtension->iMaxVisibleRows *
+            (currentCursorPosition / (iMaxColumns * iExtension->iMaxVisibleRows));
 
         // the cursor positions are relative to current page
-        TInt cursorIndexAfterSwitchInPage = cursorIndexAfterSwitch - (iMaxColumns * iFirstVisibleRow);
-        iCursorPos.iX = cursorIndexAfterSwitchInPage % iMaxColumns;
-        iCursorPos.iY = cursorIndexAfterSwitchInPage / iMaxColumns;
-        
-        iOldCursorPos = iCursorPos;
+        iCursorPos.iY = (currentCursorPosition -
+            (iMaxColumns * iFirstVisibleRow)) / iMaxColumns;
+
+        iCursorPos.iX = currentCursorPosition -
+            (iMaxColumns * iFirstVisibleRow) - (iMaxColumns * iCursorPos.iY);
+
+        iOldCursorPos.iY = (previousCursorPosition -
+            (iMaxColumns * iFirstVisibleRow)) / iMaxColumns;
+
+        iOldCursorPos.iX = previousCursorPosition -
+            (iMaxColumns * iFirstVisibleRow) - (iMaxColumns * iOldCursorPos.iY);
 
         // for full screen touch UI.
         CEikDialog* dlg;
@@ -4106,14 +4129,10 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
         iOffscreenBgDrawn = EFalse;
         }
 
-    else if ( aType == KAknsMessageSkinChange )
+
+    if( aType == KAknsMessageSkinChange )
         {
         iOffscreenBgDrawn = EFalse;
-        }
-    else if ( aType == KAknMessageFocusLost && iExtension->iHighlightVisible )
-        {
-        iExtension->iHighlightVisible = EFalse;
-        DrawCursor();
         }
     }
 
@@ -4353,35 +4372,43 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
 
         // Check if we got an offscreen bitmap allocated for skin background and
         // there is bitmap background in the current skin.
-		if( CAknEnv::Static()->TransparencyEnabled() )
-			{
-			TRegionFix<10> clipReg;
-			clipReg.AddRect(rect);
-			if ( iFirstVisibleRow == 0 && iSetRecentSct )
-				{
-				TPoint pos = iGridTopLeft;
-				TInt endX = pos.iX + iGridItemWidth * iMaxColumns + 1;
-				TInt endY = pos.iY + iGridItemHeight;
-				// eliminate the overlap area between menu sct and the first menu item.
-				if ( Extension()->iMenuSct )
-					{
-					endY--;
-					}
-				clipReg.SubRect( TRect( pos, TPoint( endX, endY ) ) );
-				}
-			// Take scroll bar out of clip region
-			if (iSBFrame)
-				{
-				clipReg.SubRect(iSBFrame->GetScrollBarHandle(
-					CEikScrollBar::EVertical)->Rect());
-				}
-			gc.SetClippingRegion(clipReg);
-			}
-		AknsDrawUtils::Background( skin, cc, this, gc, rect,KAknsDrawParamNoClearUnderImage);
-		if( CAknEnv::Static()->TransparencyEnabled() )
-			{
-			gc.CancelClippingRegion();
-			}
+        if ( iOffscreenBg )
+            {
+            DrawOffscreenBackgroundIfRequired();
+            gc.BitBlt( rect.iTl, iOffscreenBg );
+            }
+        else
+            {
+            if( CAknEnv::Static()->TransparencyEnabled() )
+                {
+                TRegionFix<10> clipReg;
+                clipReg.AddRect(rect);
+                if ( iFirstVisibleRow == 0 && iSetRecentSct )
+                    {
+                    TPoint pos = iGridTopLeft;
+                    TInt endX = pos.iX + iGridItemWidth * iMaxColumns + 1;
+                    TInt endY = pos.iY + iGridItemHeight;
+                    // eliminate the overlap area between menu sct and the first menu item.
+                    if ( Extension()->iMenuSct )
+                        {
+                        endY--;
+                        }
+                    clipReg.SubRect( TRect( pos, TPoint( endX, endY ) ) );
+                    }
+                // Take scroll bar out of clip region
+                if (iSBFrame)
+                    {
+                    clipReg.SubRect(iSBFrame->GetScrollBarHandle(
+                        CEikScrollBar::EVertical)->Rect());
+                    }
+                gc.SetClippingRegion(clipReg);
+                }
+            AknsDrawUtils::Background( skin, cc, this, gc, rect,KAknsDrawParamNoClearUnderImage);
+            if( CAknEnv::Static()->TransparencyEnabled() )
+                {
+                gc.CancelClippingRegion();
+                }
+            }
 
         gc.SetPenStyle(CGraphicsContext::ESolidPen);
         gc.SetBrushStyle(CGraphicsContext::ENullBrush);
@@ -4763,7 +4790,7 @@ void CAknCharMap::DrawRecentCharFrame( CWindowGc& aGc) const
         TInt recentChars = mutableThis->LengthOfRecentChar();
         TRect rect;
         spec->AddFeedback( ETouchEventStylusDown, 
-                           ETouchFeedbackList );
+                           ETouchFeedbackBasicItem );
         rect.SetRect( pos, TPoint( pos.iX + recentChars * iGridItemWidth, pos.iY + iGridItemHeight ));
         if ( iIsMirrored )
             {
@@ -4867,7 +4894,7 @@ void CAknCharMap::DrawGrid( CWindowGc& aGc) const
             }
 
         spec->AddFeedback( ETouchEventStylusDown, 
-                           ETouchFeedbackList );
+                           ETouchFeedbackBasicItem );
         if ( rows )
             {
             feedback->SetFeedbackArea( this, KAreaIdMain, rectMain, spec );
@@ -5715,7 +5742,106 @@ TBool CAknCharMap::SwitchTablesL(TBool& aLayoutChanged)
 
 void CAknCharMap::CreateOffscreenBackgroundL()
     {
-	
+    // Offscreen background bitmap for pictograph table - needed for performance.
+    // It is created always even if the current skin does not contain bitmap
+    // background, because skin change is done in a non-leaving function
+    // HandleResourceChange so memory allocations should not be done there.
+
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+
+    iOffscreenBgDrawn = EFalse;
+
+    TRect popupGridRect;
+    if (!AknLayoutUtils::PenEnabled() || Extension()->iMenuSct)
+        {
+        TRect mainPaneRect;
+        if(!AknLayoutUtils::LayoutMetricsRect(
+            AknLayoutUtils::EPopupParent, mainPaneRect))
+            {
+            mainPaneRect = iAvkonAppUi->ClientRect();
+            }
+        TAknLayoutScalableParameterLimits charMapDialogVariety =
+            AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
+
+        TInt maxVariety = charMapDialogVariety.LastVariety();
+
+        AknLayoutUtils::TAknCbaLocation location = AknLayoutUtils::CbaLocation();
+        TInt maxVarietyOffset = 0;
+        TInt varietyOffset = maxVariety + 1;
+        if(Layout_Meta_Data::IsLandscapeOrientation())
+            {
+            varietyOffset = (maxVariety + 1) / KAknSctCBaButtonDirections;
+            }
+
+        if(location == AknLayoutUtils::EAknCbaLocationRight)
+            {
+            maxVarietyOffset = varietyOffset;
+            }
+        else if(location == AknLayoutUtils::EAknCbaLocationLeft)
+            {
+            maxVarietyOffset = varietyOffset + varietyOffset;
+            }
+        TInt varietyNumber = varietyOffset - iRows;
+
+        if(varietyNumber < 0)
+            {
+            varietyNumber = 0;
+            }
+        else if(iRows<=0)
+            {
+            varietyNumber -= 1;
+            }
+
+        varietyNumber += maxVarietyOffset;
+
+        TAknLayoutRect popupGridLayRect;
+        popupGridLayRect.LayoutRect(mainPaneRect,
+            AknLayoutScalable_Avkon::popup_grid_graphic_window(varietyNumber));
+
+        popupGridRect = popupGridLayRect.Rect();
+        }
+    else
+        {
+        TAknLayoutRect popupGridLayRect;
+        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
+            AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
+
+        popupGridRect = popupGridLayRect.Rect();
+        }
+
+
+    if(iOffscreenBg)
+        {
+        delete iOffscreenBg;
+        iOffscreenBg = NULL;
+        }
+
+    iOffscreenBg = new( ELeave ) CFbsBitmap;
+    TDisplayMode mode = iCoeEnv->ScreenDevice()->DisplayMode();
+
+    // This is larger rect that is actually needed for the charmap
+    // control - the problem is that we do not know the changed rect
+    // of the charmap control yet (because the dialog is just about
+    // to resize itself).
+
+    if(iBitmapDevice)
+        {
+        delete iBitmapDevice;
+        iBitmapDevice = NULL;
+        }
+
+    if(iBitmapGc)
+        {
+        delete iBitmapGc;
+        iBitmapGc = NULL;
+        }
+
+    User::LeaveIfError(
+        iOffscreenBg->Create( popupGridRect.Size(), mode ) );
+    iBitmapDevice = CFbsBitmapDevice::NewL( iOffscreenBg );
+    User::LeaveIfError( iBitmapDevice->CreateContext( iBitmapGc ) );
+
     }
 
 TInt CAknCharMap::NextPageL()
@@ -5863,15 +5989,52 @@ void CAknCharMap::DrawPicto(
     // Draw the background of the item if requested
     else if ( aDrawBackground )
         {
-		aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
-		aGc.SetBrushColor(AKN_LAF_COLOR(0));
+        if ( iOffscreenBg )
+            {
+            TRect offscreenRect = aSctPosition;
+            if (IsRecentChar(aCharIndex))
+                {
+                TRgb colorRecentLine = AKN_LAF_COLOR(215);
+                AknsUtils::GetCachedColor( skin, colorRecentLine,
+                        KAknsIIDQsnLineColors, EAknsCIQsnLineColorsCG7 );
+                aGc.SetPenColor(colorRecentLine);
+                // draw top line
+                aGc.DrawLine( aSctPosition.iTl,
+                    TPoint( aSctPosition.iBr.iX, aSctPosition.iTl.iY ) );
+                // draw under line
+                aGc.DrawLine( TPoint( aSctPosition.iTl.iX, aSctPosition.iBr.iY - 1 ),
+                              TPoint( aSctPosition.iBr.iX, aSctPosition.iBr.iY - 1) );
+                if (aCharIndex == 0)
+                    {
+                    // draw left line
+                    aGc.DrawLine( aSctPosition.iTl,
+                        TPoint( aSctPosition.iTl.iX, aSctPosition.iBr.iY ) );
+                    }
+                if (aCharIndex == (iMaxColumns-1) )
+                    {
+                    // draw right line
+                    aGc.DrawLine( TPoint( aSctPosition.iBr.iX -1, aSctPosition.iTl.iY ),
+                                  TPoint( aSctPosition.iBr.iX -1, aSctPosition.iBr.iY ) );
+                    }
+                }
+            TPoint topleft = offscreenRect.iTl;
 
-		TRect innerRect = aSctPosition;
-		if (IsRecentChar(aCharIndex))
-			{
-			innerRect.Shrink(1,1);
-			}
-		aGc.Clear( innerRect );
+            // Our offscreen bitmap's origo is in the control rect's top left.
+            offscreenRect.Move( -( Rect().iTl ) );
+            aGc.BitBlt( topleft, iOffscreenBg, offscreenRect );
+            }
+        else
+            {
+            aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+            aGc.SetBrushColor(AKN_LAF_COLOR(0));
+
+            TRect innerRect = aSctPosition;
+            if (IsRecentChar(aCharIndex))
+                {
+                innerRect.Shrink(1,1);
+                }
+            aGc.Clear( innerRect );
+            }
         }
     if (iPictoInterface->Interface()->IsPictograph((*iChars)[aCharIndex]))
         {
@@ -5891,7 +6054,99 @@ void CAknCharMap::DrawPicto(
 
 void CAknCharMap::DrawOffscreenBackgroundIfRequired() const
     {
-	
+    if ( iOffscreenBg )
+        {
+        if ( !iOffscreenBgDrawn )
+            {
+
+            MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+            MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+
+            TRect popupGridRect;
+            if (!AknLayoutUtils::PenEnabled() || Extension()->iMenuSct)
+                {
+                TRect mainPaneRect;
+                if(!AknLayoutUtils::LayoutMetricsRect(
+                    AknLayoutUtils::EPopupParent, mainPaneRect))
+                    {
+                    mainPaneRect = iAvkonAppUi->ClientRect();
+                    }
+                TAknLayoutScalableParameterLimits charMapDialogVariety =
+                    AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
+
+                TInt maxVariety = charMapDialogVariety.LastVariety();
+
+                AknLayoutUtils::TAknCbaLocation location =
+                    AknLayoutUtils::CbaLocation();
+                TInt maxVarietyOffset = 0;
+                TInt varietyOffset = maxVariety + 1;
+                if(Layout_Meta_Data::IsLandscapeOrientation())
+                    {
+                    varietyOffset = (maxVariety + 1)/KAknSctCBaButtonDirections;
+                    }
+
+                if(location == AknLayoutUtils::EAknCbaLocationRight)
+                    {
+                    maxVarietyOffset = varietyOffset;
+                    }
+                else if(location == AknLayoutUtils::EAknCbaLocationLeft)
+                    {
+                    maxVarietyOffset = varietyOffset + varietyOffset;
+                    }
+                TInt varietyNumber = varietyOffset - iRows;
+
+                if(varietyNumber < 0)
+                    {
+                    varietyNumber = 0;
+                    }
+                else if(iRows<=0)
+                    {
+                    varietyNumber -= 1;
+                    }
+                varietyNumber += maxVarietyOffset;
+
+                TAknLayoutRect popupGridLayRect;
+                popupGridLayRect.LayoutRect(mainPaneRect,
+                    AknLayoutScalable_Avkon::popup_grid_graphic_window(varietyNumber));
+
+                popupGridRect = popupGridLayRect.Rect();
+
+                popupGridRect.iTl.iY = Rect().iTl.iY;
+                popupGridRect.Move(-popupGridRect.iTl.iX,0);
+                TPoint point = TPoint( 0, 0 );
+                AknsDrawUtils::DrawBackground(
+                    skin,
+                    cc,
+                    this,
+                    *iBitmapGc,
+                    point,
+                    popupGridRect,
+                    KAknsDrawParamDefault );
+                }
+            else
+                {
+                TAknLayoutRect popupGridLayRect;
+                popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
+                    AknLayoutScalable_Avkon::popup_grid_graphic2_window(
+                        0));
+
+                popupGridRect = popupGridLayRect.Rect();
+
+                popupGridRect.iTl.iY = Rect().iTl.iY;
+                popupGridRect.Move(-popupGridRect.iTl.iX,0);
+                TPoint point = TPoint( 0, 0 );
+                AknsDrawUtils::DrawBackground(
+                    skin,
+                    cc,
+                    this,
+                    *iBitmapGc,
+                    point,
+                    popupGridRect,
+                    KAknsDrawParamDefault );
+                }
+            iOffscreenBgDrawn = ETrue;
+            }
+        }
     }
 
 EXPORT_C CCoeControl* CAknCharMap::ComponentControl(TInt aIndex) const
@@ -6240,10 +6495,8 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
         rightCellLayRect.LayoutRect(gridRect,
             AknLayoutScalable_Avkon::cell_graphic_popup_pane_cp2(0,1,0));
 
-        TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
         // Max columns.
         iMaxColumns = gridRect.Width() / firstCellRect.Width();
-        iFirstVisibleRow = firstVisibleIndex / iMaxColumns;
 
         // Max visible rows.
         iExtension->iMaxVisibleRows = gridRect.Height() / firstCellRect.Height();
@@ -6306,11 +6559,9 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
             AknLayoutScalable_Avkon::aid_size_cell_graphic2(gridVariety,0,0));
 
         TRect firstCellRect = firstCellLayRect.Rect();
-        TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
 
         // Max columns.
         iMaxColumns = gridRect.Width() / firstCellRect.Width();
-        iFirstVisibleRow = firstVisibleIndex / iMaxColumns;
 
         // Max visible rows.
         iExtension->iMaxVisibleRows = gridRect.Height() / firstCellRect.Height();
@@ -6546,7 +6797,7 @@ EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEven
                         if ( feedback &&
                              aPointerEvent.iType == TPointerEvent::EButton1Down )
                             {
-                            feedback->InstantFeedback( this, ETouchFeedbackList );
+                            feedback->InstantFeedback( this, ETouchFeedbackBasicItem );
                             }
                         if ( aPointerEvent.iType == TPointerEvent::EDrag &&
                              iCursorPos != iOldCursorPos )
@@ -6589,7 +6840,7 @@ EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEven
                             if ( feedback )
                                 {
                                 feedback->InstantFeedback( this, 
-                                                           ETouchFeedbackList,
+                                                           ETouchFeedbackBasicItem,
                                                            ETouchFeedbackVibra,
                                                            TPointerEvent() );
                                 }

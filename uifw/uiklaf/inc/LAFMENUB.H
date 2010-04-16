@@ -22,7 +22,7 @@
 #include <uiklaf/private/lafenv.h>
 #include <lafmain.h>
 #include <lafpublc.h>
-#include "lafmenup.h"
+#include "LAFMENUP.H"
 #include <e32std.h>
 #include <gulbordr.h>
 #include <coecntrl.h>

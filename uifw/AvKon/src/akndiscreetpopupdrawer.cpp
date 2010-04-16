@@ -125,6 +125,8 @@ CAknDiscreetPopupDrawer* CAknDiscreetPopupDrawer::NewLC(
 //
 CAknDiscreetPopupDrawer::~CAknDiscreetPopupDrawer()
     {
+    delete iPopupBitmap;
+    delete iTransparentMask;
     delete iIcon;
     delete iBodyText;
     delete iTitleText;
@@ -207,55 +209,50 @@ TRect CAknDiscreetPopupDrawer::LayoutPopup()
 
 
 // ---------------------------------------------------------------------------
-// CAknDiscreetPopupDrawer::Draw
-// Draws popup to given graphics context.
+// CAknDiscreetPopupDrawer::PopupBitmap
+// Provides popup bitmap.
 // ---------------------------------------------------------------------------
 //
-void CAknDiscreetPopupDrawer::Draw( CWindowGc& aGc, 
-        const TRect& aRect ) const
+CFbsBitmap* CAknDiscreetPopupDrawer::PopupBitmap( const TSize& aSize )
     {
-    // draw background of the popup 
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    AknsDrawUtils::DrawFrame( skin, aGc, aRect, aRect, 
-        KAknsIIDQsnFrPopupPreview, KAknsIIDDefault );
-    
-    // Draw the texts
-    TRgb textColor( EikonEnv()->ControlColor( EColorControlText, *iControl ) );
-
-    if ( iAction )
+    if ( !iPopupBitmap || aSize != iPopupBitmap->SizeInPixels() )
         {
-        aGc.SetUnderlineStyle( EUnderlineOn );
-        AknsUtils::GetCachedColor( skin,
-                                   textColor,
-                                   KAknsIIDQsnHighlightColors,
-                                   EAknsCIQsnHighlightColorsCG3 );
+        TRAP_IGNORE( CreatePopupBitmapL( TRect( TPoint(), aSize ) ) );
         }
-    else
-        {
-        AknsUtils::GetCachedColor( skin,
-                                   textColor,
-                                   KAknsIIDQsnTextColors,
-                                   EAknsCIQsnTextColorsCG55 );
-        }
-    aGc.SetPenColor( textColor );
-    DrawTexts( &aGc );
-    aGc.SetUnderlineStyle( EUnderlineOff );
-
-    // draw the icon
-    if ( iIcon && iIcon->Bitmap() && iIcon->Mask() )
-        {
-        aGc.BitBltMasked( iIconRect.iTl,
-                iIcon->Bitmap(), 
-                iIcon->Bitmap()->SizeInPixels(), 
-                iIcon->Mask(), 
-                EFalse );
-
-        }
-    else if( iIcon && iIcon->Bitmap() )
-        {
-        aGc.BitBlt( iIconRect.iTl, iIcon->Bitmap() );
-        }
+    return iPopupBitmap;
     }
+
+
+// ---------------------------------------------------------------------------
+// CAknDiscreetPopupDrawer::TransparentMask
+// Provides transparent mask for a bitmap.
+// ---------------------------------------------------------------------------
+//
+CFbsBitmap* CAknDiscreetPopupDrawer::TransparentMask( 
+    const TSize& aSize, const TInt& aAlpha )
+    {
+    if ( !iTransparentMask || aSize != iTransparentMask->SizeInPixels() )
+        {
+        TRAP_IGNORE( CreateTransparentMaskL( TRect( TPoint(), aSize ) ) );
+        }
+
+    TInt width( iTransparentMask->SizeInPixels().iWidth );
+    TInt height( iTransparentMask->SizeInPixels().iHeight ); 
+    TUint8* address( ( TUint8* ) iTransparentMask->DataAddress() );
+    TInt dataStride( iTransparentMask->DataStride() - width );
+    
+    for ( TInt i = 0; i < height; ++i )
+        {
+        for ( TInt j = 0; j < width; j++ )
+            {
+            *address = aAlpha;
+            ++address;
+            }
+        address += dataStride; 
+        }
+    
+    return iTransparentMask;
+    }  
 
 
 // ---------------------------------------------------------------------------
@@ -271,6 +268,8 @@ CAknDiscreetPopupDrawer::CAknDiscreetPopupDrawer(
     iTitleText( NULL ),
     iBodyText( NULL ),
     iIcon( aIcon ),
+    iPopupBitmap( NULL ),
+    iTransparentMask( NULL ),
     iPopupLayoutType( KLayoutUnresolved ),
     iAction( aAction )
     {
@@ -310,10 +309,93 @@ void CAknDiscreetPopupDrawer::ConstructL( const TDesC& aTitleText,
 
 
 // ---------------------------------------------------------------------------
+// CAknDiscreetPopupDrawer::CreatePopupBitmap
+// ---------------------------------------------------------------------------
+//
+void CAknDiscreetPopupDrawer::CreatePopupBitmapL( const TRect& aRect )
+    {
+    delete iPopupBitmap;
+    iPopupBitmap = NULL;
+    
+    // create a bitmap to draw to
+    CFbsBitmap* bitmap = new ( ELeave ) CFbsBitmap;
+    CleanupStack::PushL( bitmap );
+
+    bitmap->Create( 
+        aRect.Size(), CCoeEnv::Static()->ScreenDevice()->DisplayMode() );
+    CFbsBitGc* fbsBitGc = CFbsBitGc::NewL();
+    CleanupStack::PushL( fbsBitGc );
+    CFbsBitmapDevice* bmpDevice = CFbsBitmapDevice::NewL( bitmap );
+    CleanupStack::PushL( bmpDevice );
+    fbsBitGc->Activate( bmpDevice );
+
+    // draw background of the popup	
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    AknsDrawUtils::DrawFrame( skin, *fbsBitGc, aRect, aRect, 
+        KAknsIIDQsnFrPopupPreview, KAknsIIDDefault, KAknsDrawParamDefault );
+    
+    // Draw the texts
+    TRgb textColor( EikonEnv()->ControlColor( EColorControlText, *iControl ) );
+    if ( iAction )
+        {
+        fbsBitGc->SetUnderlineStyle( EUnderlineOn );
+        AknsUtils::GetCachedColor( skin,
+                                   textColor,
+                                   KAknsIIDQsnHighlightColors,
+                                   EAknsCIQsnHighlightColorsCG3 );
+        }
+    else
+        {
+        AknsUtils::GetCachedColor( skin,
+                                   textColor,
+                                   KAknsIIDQsnTextColors,
+                                   EAknsCIQsnTextColorsCG55 );
+        }
+    fbsBitGc->SetPenColor( textColor );
+    DrawTexts( fbsBitGc );
+    fbsBitGc->SetUnderlineStyle( EUnderlineOff );
+
+    // draw the icon
+    if ( iIcon && iIcon->Bitmap() && iIcon->Mask() )
+        {
+        fbsBitGc->BitBltMasked( iIconRect.iTl,
+                                iIcon->Bitmap(), 
+                                iIcon->Bitmap()->SizeInPixels(), 
+                                iIcon->Mask(), 
+                                EFalse );
+
+        }
+    else if( iIcon && iIcon->Bitmap() )
+        {
+        fbsBitGc->BitBlt( iIconRect.iTl, iIcon->Bitmap() );
+        }
+
+    CleanupStack::PopAndDestroy( bmpDevice );
+    CleanupStack::PopAndDestroy( fbsBitGc );
+    CleanupStack::Pop( bitmap );
+    
+    iPopupBitmap = bitmap;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknDiscreetPopupDrawer::CreateTransparentMaskL
+// ---------------------------------------------------------------------------
+//
+void CAknDiscreetPopupDrawer::CreateTransparentMaskL( const TRect& aRect )
+    {
+    delete iTransparentMask;
+    iTransparentMask = NULL;
+    iTransparentMask = new ( ELeave ) CFbsBitmap;
+    iTransparentMask->Create( aRect.Size(), EGray256 );
+    }
+
+
+// ---------------------------------------------------------------------------
 // CAknDiscreetPopupDrawer::DrawTexts
 // ---------------------------------------------------------------------------
 //
-void CAknDiscreetPopupDrawer::DrawTexts( CWindowGc* aGc ) const
+void CAknDiscreetPopupDrawer::DrawTexts( CFbsBitGc* aGc )
     {
     aGc->SetBrushStyle( CGraphicsContext::ENullBrush );
 
@@ -389,7 +471,7 @@ void CAknDiscreetPopupDrawer::ResolvePopupLayout()
 // Provides control eikon env.
 // ---------------------------------------------------------------------------
 //
-CEikonEnv* CAknDiscreetPopupDrawer::EikonEnv() const
+CEikonEnv* CAknDiscreetPopupDrawer::EikonEnv()
     {
     if ( iControl )
         {
@@ -475,9 +557,9 @@ void CAknDiscreetPopupDrawer::WrapTitleTextL()
 // ---------------------------------------------------------------------------
 //
 void CAknDiscreetPopupDrawer::DrawBidiEnabledText(
-        CWindowGc* aGc,
-        const TAknDiscreetPopupTextData& aTextData,
-        const TDesC& aText ) const
+        CFbsBitGc* aGc,
+        TAknDiscreetPopupTextData& aTextData,
+        const TDesC& aText )
     {
     // Buffer for visually ordered text
     TBuf<KTextBufSize + KAknBidiExtraSpacePerLine> visualText; 

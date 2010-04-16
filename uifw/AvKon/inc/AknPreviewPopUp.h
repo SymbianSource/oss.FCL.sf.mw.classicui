@@ -113,7 +113,14 @@ NONSHARABLE_CLASS( CAknPreviewPopUp ) : public CAknControl,
       	*/
       	void Draw( CWindowGc& aGc, const CCoeControl& aControl,
       	           const TRect& aRect ) const;
-
+  
+        /**
+        * From CCoeControl. Sets this control as visible or invisible.
+        * @param aVisible ETrue to make the control visible, EFalse to make it
+        *        invisible.
+        */
+        void MakeVisible( TBool aVisible );
+        
         /**
         * From CCoeControl. Gets the number of component controls contained by 
         * this control.

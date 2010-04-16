@@ -80,7 +80,6 @@ CLEANLIB : ;
 # __SCALABLE_ICONS is defined.
 # ----------------------------------------------------------------------------
 $(TARGETS_AVKON) ..\avkon2mifheader\avkon2mifheader_inst.cpp : iconlist.txt $(ICONLIST_SOURCELIST)
-	-del $(OLDZDIR)\resource\apps\avkon2.mif
 	mifconv $(ICONTARGETFILENAME) /h$(HEADERFILENAME) /F$<
 	MifToCdlIndex -p..\Avkon2MifHeader -s $(ICONTARGETFILENAME) Avkon2MifHeader 0x102827CF
 

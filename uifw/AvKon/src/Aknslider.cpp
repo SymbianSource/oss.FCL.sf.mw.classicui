@@ -3150,6 +3150,15 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                 {
                 if ( touchDownArea.Contains( aEvent.iPosition ) )
                     {
+                    TInt stepCount = SliderData()->Range() / SliderData()->iStepSize;
+                    if ( stepCount <= KStepThreshold )
+                        {
+                        MTouchFeedback* feedback = MTouchFeedback::Instance();
+                        if ( feedback )
+                            {
+                            feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aEvent );
+                            }
+                        }
                        // repeat until thumb reaches the stylus down position    
                     iExt->iPenInputPos = aEvent.iPosition;
 
@@ -3161,7 +3170,7 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( this, ETouchFeedbackSlider, aEvent );
+                            feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aEvent );
                             }
                         iExt->SetFlag( CAknSliderExtension::EFlagDraggingThumb );
                         reportDragEvent = EDragMarkerStart;
@@ -3248,7 +3257,7 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                     if ( feedback )
                         {
                         feedback->InstantFeedback( this,
-                                                   ETouchFeedbackSlider,
+                                                   ETouchFeedbackBasicSlider,
                                                    ETouchFeedbackVibra,
                                                    aEvent );
                         }
@@ -3609,11 +3618,29 @@ void CAknSlider::TranslateValueL( TInt aDelta, TBool aFeedback )
         {
         if( aFeedback )
             {
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-               {
-               feedback->InstantFeedback( this, ETouchFeedbackSlider );
-               }          
+            TInt stepCount = SliderData()->Range() / SliderData()->iStepSize;
+            if ( stepCount > KStepThreshold )
+                {
+                if ( iExt->IsFlagSet( CAknSliderExtension::EFlagPlayingContinuousFb ))
+                    {
+                    if ( SliderData()->iFeedbackStyle == EAknSliderFbDynamic )
+                        {
+                        ModifyFeedback();
+                        }
+                    }
+                else
+                    {
+                    StartFeedback( NULL, KNoFeedbackTimeout );
+                    }
+                }
+            else
+                {
+                MTouchFeedback* feedback = MTouchFeedback::Instance();
+                if ( feedback )
+                    {
+                    feedback->InstantFeedback( this, ETouchFeedbackBasicSlider );
+                    }
+                }            
             }
 
         Window().Invalidate( Rect() );

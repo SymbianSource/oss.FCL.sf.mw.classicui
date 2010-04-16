@@ -24,13 +24,13 @@
 #include <AknSgcc.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <aknlongtapanimation.h>
-#include <EIKSRVS.H>
+#include <eiksrvs.h>
 #include "AknPanic.h"
 #include "aknlongtapdetector.h"
 
 // CONSTANTS
 const TInt KTimeDelayBeforeAnimation = 150000;  // 0,15 seconds
-const TInt KLongTapDelay = 600000;              // 0,6 seconds
+const TInt KLongTapDelay = 800000;              // 0,8 seconds
 
 // ======== MEMBER FUNCTIONS ========
 

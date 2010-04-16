@@ -28,7 +28,7 @@
 #include <PtiIndicDefs.h>
 #include "FindUtilKorean.h"
 #include <avkon.rsg>
-#include <stringloader.h>
+#include <StringLoader.h>
 const TInt KLitTab('\t');
 const TInt KLitSpace(' ');
 const TInt KLitHyphen('-');
@@ -312,15 +312,7 @@ TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
     TInt numChar = 1;
     	if (!aContactsField.Length())
         	{
-                _LIT( KNone, "*" );
-    	        if( aWord.CompareC(KNone()) == 0 )
-                    {
-    	            return ETrue;
-                    }
-                else
-                    {
-        	    return EFalse;
-                    }
+        	return EFalse;
         	}        
     	if((aWord.Length() > 1) && aWord[aWord.Length()-2] == 0x200B)
     		{
@@ -1321,12 +1313,6 @@ TBool CFindUtilWestern::MatchAdaptiveRefineL( const TDesC& aItemString,
         iDigraphChars = StringLoader::LoadL( R_QTN_ADS_DIGRAPH );
         TPtr digraph = iDigraphChars->Des();
         digraph.UpperCase();
-
-        _LIT( KMissing,"#MISSING" );
-        if( digraph.CompareC(KMissing()) == 0 )
-            {
-            digraph = KNullDesC;
-            }
         }
         
     TBuf<KAknStringBufferSize> itemString(aItemString);

@@ -27,7 +27,7 @@
 #define __FINDUTILBASE_H__
 
 #include <e32base.h>
-#include "findutil.h"
+#include "FindUtil.h"
 
 class CFindUtilBase : public CBase, public MFindUtil
 	{

@@ -20,7 +20,6 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 #include <aknbutton.h>
 #include <coemain.h>
@@ -97,8 +96,6 @@ void CTestSDKChoiceList::ConstructL()
     _LIT( KFile, "C:\\resource\\testsdkchoicelist.rsc" );
     iOffset = CCoeEnv::Static()->AddResourceFileL( KFile );
     SendTestClassVersion();
-    
-    TurnOffScreenSaver();
     }
 
 // -----------------------------------------------------------------------------
@@ -132,9 +129,6 @@ CTestSDKChoiceList::~CTestSDKChoiceList()
     delete iLog; 
 
     CCoeEnv::Static()->DeleteResourceFile( iOffset );
-
-    RestoreScreenSaver();
-
     }
 
 //-----------------------------------------------------------------------------
@@ -168,31 +162,6 @@ EXPORT_C CScriptBase* LibEntryL(
     CTestModuleIf& aTestModuleIf ) // Backpointer to STIF Test Framework
     {
     return ( CScriptBase* ) CTestSDKChoiceList::NewL( aTestModuleIf );
-    }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKChoiceList::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKChoiceList::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
     }
 
 void CTestSDKChoiceList::TestCLInitializeL()

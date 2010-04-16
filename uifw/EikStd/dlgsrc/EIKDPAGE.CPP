@@ -55,7 +55,7 @@
 #include "aknrecordinggc.h"
 #include <aknphysics.h>
 #include <aknappui.h>
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 
 //
 // Global constants.
@@ -143,7 +143,6 @@ public:
     TBool iScrolling;
     TBool iScrolled;
     TBool iInitialLayoutDone;
-    TBool iSetInitialFocusDone;
     TBool iHandlingResourceChange;
     TInt iCapturingItem;
     // record the center point Y value of current view when touch down an item
@@ -215,7 +214,7 @@ void CDialogPageExtension::HandleFormFeedback(
         // no feedback with focus change when single click is enabled
         if ( !iUsesSingleClick )
             {
-            Feedback( aDPage, ETouchFeedbackSensitiveList );
+            Feedback( aDPage, ETouchFeedbackSensitiveItem );
             }
         iFocusItemChanged = ETrue;
         }
@@ -229,7 +228,7 @@ void CDialogPageExtension::HandleFormFeedback(
         // down. iExtension->iFocusedClicked is not valid here, since
         // it can't be known in this phase whether user drags pointer
         // away.
-        Feedback( aDPage, ETouchFeedbackList );
+        Feedback( aDPage, ETouchFeedbackBasicItem );
         iFocusItemChanged = EFalse;
         }
 
@@ -239,7 +238,7 @@ void CDialogPageExtension::HandleFormFeedback(
         //when up event comes, aTouchedLineIndex always equal to aCurrentLine
         if ( !iFocusItemChanged )
             {
-            SilentFeedback( aDPage, ETouchFeedbackList, aPointerEvent );
+            SilentFeedback( aDPage, ETouchFeedbackBasicItem, aPointerEvent );
             }
         }
     }
@@ -727,7 +726,7 @@ TBool CEikDialogPage::SetInitialFocus()
             }
         break;
         }
-    iExtension->iSetInitialFocusDone = ETrue;
+
     return focusSet;
     }
 
@@ -1146,7 +1145,7 @@ Same is true for LastExposedLine.
             TInt targetLine = iCurrentLine ;
             iCurrentLine = -1 ;
             ChangeFocusTo( targetLine ) ;
-            ExposeLine( targetLine, ETrue ) ;
+            ExposeLine( targetLine, EFalse ) ;
             ShowFocus( ETrue, EFalse ) ;
             }
 
@@ -2195,7 +2194,7 @@ void CEikDialogPage::SetEditableL( TBool aEditable, TBool /*aActivePage*/ )
 
     HighlightVisible( aEditable );
     
-    if ( iExtension->iUsesSingleClick && iExtension->iSetInitialFocusDone )
+    if ( iExtension->iUsesSingleClick )
         {
         ShowFocus( EFalse );
         }
@@ -2826,7 +2825,7 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                     {
                     // feedback is given every time when new item 
                     // appears to the screen -> follows the visual feedback
-                    iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, aPointerEvent );
+                    iExtension->SilentFeedback( this, ETouchFeedbackSensitiveItem, aPointerEvent );
                     // It might happen that there are no drag events between down and
                     // up if the distance is short enough.
                     iExtension->iHighlightTimer->Cancel();
@@ -3025,21 +3024,18 @@ void CEikDialogPage::ScrollCacheByPixels(
             upperItem = iLines->Count();
             }
         }
-    if ( iPhysics->OngoingPhysicsAction() != CAknPhysics::EAknPhysicsActionNone )
+    if ( upperItem == -1 || bottomItem == iLines->Count() )
         {
-        if ( upperItem == -1 || bottomItem == iLines->Count() )
+        if ( upperItem != iExtension->iTopItem || bottomItem != iExtension->iBottomItem )
             {
-            if ( upperItem != iExtension->iTopItem || bottomItem != iExtension->iBottomItem )
-                {
-                iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
-                }
+            iExtension->SilentFeedback( this, ETouchFeedbackSensitiveItem, TPointerEvent() );
             }
-        else if ( upperItem >= 0 || bottomItem < iLines->Count() )
+        }
+    else if ( upperItem >= 0 || bottomItem < iLines->Count() )
+        {
+        if ( upperItem < iExtension->iTopItem || bottomItem > iExtension->iBottomItem )
             {
-            if ( upperItem < iExtension->iTopItem || bottomItem > iExtension->iBottomItem )
-                {
-                iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
-                }
+            iExtension->SilentFeedback( this, ETouchFeedbackSensitiveItem, TPointerEvent() );
             }
         }
     iExtension->iBottomItem = bottomItem;

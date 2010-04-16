@@ -155,6 +155,7 @@ private:
     TPtrC iSoftkeyLeft;
     /// Custom text for right softkey. 
     TPtrC iSoftkeyRight;
+    TBool iCaptured;
     };
 
 

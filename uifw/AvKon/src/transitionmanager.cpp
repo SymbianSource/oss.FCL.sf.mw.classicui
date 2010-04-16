@@ -421,7 +421,6 @@ void CTransitionManager::AppStartup(TInt aContext, const TUid& aUid)
 void CTransitionManager::KeyChangedL(const MKeyValue& aValue)
 	{
 	ASSERT(aValue.Key() == KThemesTransitionEffects);
-	aValue.Key(); // just for fixing warning
 	ASSERT(!(iFlags & EffectsEnabled));
 	CheckEffectsL(ETrue);
 

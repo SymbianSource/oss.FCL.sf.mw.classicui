@@ -264,10 +264,10 @@ TKeyResponse CAknToolbarExtensionView::OfferKeyEventL(
         {
         if( IsVisible()&& ( aKeyEvent.iCode == EKeyDevice0 ||
                             aKeyEvent.iCode == EKeyDevice1 ))
-            {
-            iExtension->SetShown(EFalse);
-            return EKeyWasConsumed; 
-            }
+        	{
+			iExtension->SetShown(EFalse);
+		    return EKeyWasConsumed;	
+        	}
         return EKeyWasNotConsumed;
         }
     // When this is visible and without focus, nothing to do 
@@ -941,12 +941,20 @@ TRect CAknToolbarExtensionView::CalculateSizeL()
     TInt extensionWidth = CalculateControlPositions( 
         windowRect, gridExtRect, cellExtRect );
     
-    //In some cases, extension height is more larger than grid rect. 
-    //And for they are only used to define the margin size, width is more exact than height.
     TSize viewSize( extensionWidth + ( extensionRect.Width() - gridExtRect.Width() ),
-        ( extensionRect.Width() - gridExtRect.Width() ) + iNumberOfRows * 
+        ( extensionRect.Height() - gridExtRect.Height() ) + iNumberOfRows * 
         buttonSize.iHeight ); 
     
+    //reset the height in portrait mode
+    if ( !landscape )
+        {
+        //In some cases, extension rect is more larger than grid rect. 
+        //And for they are only used to define the margin size, width is more exact than height.
+        viewSize = TSize( extensionWidth + ( extensionRect.Width() - gridExtRect.Width() ),
+            ( extensionRect.Width() - gridExtRect.Width() ) + iNumberOfRows * 
+            buttonSize.iHeight ); 
+        }
+
     TInt variety = GetVariety( iNumberOfRows - 1, landscape );
 
      // To get the correct y-coordinate
@@ -960,7 +968,11 @@ TRect CAknToolbarExtensionView::CalculateSizeL()
         TRect extButtonRect( iExtension->Rect() );
 
         // Calculate new y coordinate according to button middle point
-        TInt newY = extButtonRect.iTl.iY + mainPaneRect.iTl.iY;             
+        TInt newY = 
+            ( extButtonRect.iTl.iY + ( extButtonRect.Height() / 2 ) )
+             - viewSize.iHeight / 2 
+             + mainPaneRect.iTl.iY;
+             
         // Check that rect with new y fits to extension view area
         if( newY < extensionRect.iTl.iY ) // Top
             {
@@ -1594,5 +1606,3 @@ void CAknToolbarExtensionView::HideItemL( TInt aCommandId, TBool aHide )
         item->SetHidden( aHide ); 
         }
     }
-
-//end file

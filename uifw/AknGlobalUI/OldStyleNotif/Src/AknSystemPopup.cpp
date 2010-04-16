@@ -766,6 +766,10 @@ void CAknGlobalNoteDialog::CAknStaticNoteDialog_Reserved()
 
 void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
+    if(aPointerEvent.iType == TPointerEvent::EButton1Down)
+        {
+        iCaptured = ETrue;
+        }
     if (Rect().Contains(aPointerEvent.iPosition) && (aPointerEvent.iType == TPointerEvent::EButton1Up)
         && iIsAlarm)
         {
@@ -776,7 +780,7 @@ void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEven
 		}
     else if ((iSoftkeys == R_AVKON_SOFTKEYS_EMPTY) && 
             (iTimeoutInMicroseconds != ENoTimeout) && 
-            (aPointerEvent.iType == TPointerEvent::EButton1Up))
+            (aPointerEvent.iType == TPointerEvent::EButton1Up)&& iCaptured)
         {
         CEikDialog::TryExitL(EAknSoftkeyExit);
         }
@@ -784,6 +788,12 @@ void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEven
         {
         CAknStaticNoteDialog::HandlePointerEventL(aPointerEvent);
         }
+    
+    if(aPointerEvent.iType == TPointerEvent::EButton1Up)
+        {
+        iCaptured = EFalse;
+        }
+    
     }
 
 // class CAknGlobalNoteSubject

@@ -282,7 +282,7 @@ void CAknTouchGestureFwFlickRecognizer::SendFlickEventL(
             case EAknTouchGestureFwFlickUp:
             case EAknTouchGestureFwFlickDown:
                 {
-                ImmediateFeedback( ETouchFeedbackFlick, feedbackType );
+                ImmediateFeedback( ETouchFeedbackItemScroll, feedbackType );
                 break;
                 }
             default:

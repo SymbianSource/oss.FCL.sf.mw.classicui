@@ -67,8 +67,7 @@ public:
             TReal aAnimationAlpha,
             CHgVgMediaWall::THgVgAnimationState aAnimationState, 
             CHgVgMediaWall::THgVgOpeningAnimationType aSelectionAnimationType, 
-            CHgVgMediaWall::THgVgMediaWallStyle aStyle, 
-            TReal aStartIndex);
+            CHgVgMediaWall::THgVgMediaWallStyle aStyle);
 
     /**
      * 
@@ -232,8 +231,7 @@ private:
             VGfloat aViewPosition,
             VGfloat aAnimationAlpha,
             CHgVgMediaWall::THgVgAnimationState aState, 
-            CHgVgMediaWall::THgVgOpeningAnimationType aAnimationType, 
-            TReal aStartIndex);
+            CHgVgMediaWall::THgVgOpeningAnimationType aAnimationType);
 
 
     /**

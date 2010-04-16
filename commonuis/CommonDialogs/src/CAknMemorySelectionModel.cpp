@@ -24,7 +24,7 @@
 #include <coemain.h>
 #include <StringLoader.h>
 #include <commondialogs.rsg>
-#include <rsfwmountman.h>
+
 #include <pathinfo.h> //PathInfo
 #include <driveinfo.h> //DriveInfo
 
@@ -735,17 +735,17 @@ void CAknMemorySelectionModel::AddRemoteItemToLbxL( const TCFDDriveInfo& aDriveI
                 _LIT( KEmptySpace, " ");
                 itemString.Append( KEmptySpace ); 
 
-                if( aDriveInfo.iConnectionState == KMountStronglyConnected )
-                    {
-                    // D-column icon: Show active icon if drive has no error
-                    itemString.Append( KTabChar );
-                    itemString.AppendFormat( KImageHeader, EIconRemoteDriveActive );
-                    }
-                else // KMountNotConnected
-                    {
-                    // D-column icon: Show active icon if drive has no error
-                    itemString.Append( KTabChar );
-                    }
+                //  if( aDriveInfo.iConnectionState == KMountStronglyConnected )
+                //    {
+                // D-column icon: Show active icon if drive has no error
+                //    itemString.Append( KTabChar );
+                //    itemString.AppendFormat( KImageHeader, EIconRemoteDriveActive );
+                //    }
+                // else // KMountNotConnected
+                //    {
+                // D-column icon: Show active icon if drive has no error
+                itemString.Append( KTabChar );
+                //    }
                 }
             else
                 {

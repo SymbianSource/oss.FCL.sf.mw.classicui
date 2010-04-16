@@ -792,7 +792,7 @@ EXPORT_C void CEikSecretEditor::HandlePointerEventL(const TPointerEvent& aPointe
               && iExtension->iFeedback )
                 {
                 // tactile feedback is always given on down event
-                iExtension->iFeedback->InstantFeedback( this, ETouchFeedbackEdit );
+                iExtension->iFeedback->InstantFeedback( this, ETouchFeedbackEditor );
                 }
             
             CAknExtendedInputCapabilities::
@@ -815,7 +815,7 @@ EXPORT_C void CEikSecretEditor::HandlePointerEventL(const TPointerEvent& aPointe
                 {
                 // Edit feedback is given if PenInput will open on up event
                 iExtension->iFeedback->InstantFeedback( this,
-                                                        ETouchFeedbackEdit,
+                                                        ETouchFeedbackEditor,
                                                         ETouchFeedbackVibra,
                                                         aPointerEvent );
                 }

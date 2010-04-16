@@ -114,10 +114,7 @@ EXPORT_C void CPslnFWIconHelper::AddIconsToSettingItemsL(
         CFbsBitmap *bitmap = new (ELeave) CFbsBitmap;
         User::LeaveIfError(
             bitmap->Create( TSize(0, 0), EColor256 ) );
-        CFbsBitmap *mask = new (ELeave) CFbsBitmap;
-        User::LeaveIfError(
-            mask->Create( TSize(0, 0), EColor16 ) );
-        icons->AppendL( CGulIcon::NewL( bitmap, mask ) );
+        icons->AppendL( CGulIcon::NewL( bitmap ) );
         bitmapIndex++;
         }
 

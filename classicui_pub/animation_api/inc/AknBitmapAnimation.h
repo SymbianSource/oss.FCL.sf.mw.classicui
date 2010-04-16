@@ -207,13 +207,6 @@ public: // from CCoeControl
      * Minimum size.
      */
     IMPORT_C virtual TSize MinimumSize();
-    
-public:
-    /**
-     * Starts the animation, initialising the animation if necessary, and starting the timer
-     * if necessary.
-     */
-    IMPORT_C void StartAnimationL( TBool aKeepLastFrame );
 
 private: // from CCoeControl
     

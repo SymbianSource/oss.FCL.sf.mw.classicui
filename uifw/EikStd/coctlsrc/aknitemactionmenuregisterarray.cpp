@@ -108,7 +108,6 @@ void CAknItemActionMenuRegisterArray::UnregisterItemActionMenu(
         CAknItemActionMenu& aItemActionMenu )
     {
     CRegisterEntry* entry( NULL );
-
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
         {
         entry = iRegisterArray[ i ];
@@ -160,7 +159,6 @@ void CAknItemActionMenuRegisterArray::UnregisterCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
     CRegisterEntry* entry( NULL );
-
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
         {
         entry = iRegisterArray[ i ];

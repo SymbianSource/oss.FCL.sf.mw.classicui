@@ -293,7 +293,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
             // also on up event -> play basic list feedback
             if ( iFeedback )
                  {
-                 TTouchLogicalFeedback fbType = ETouchFeedbackList;
+                 TTouchLogicalFeedback fbType = ETouchFeedbackBasicItem;
                  if ( iItemToBeSelected != NULL )
                      {
                      if ( iItemToBeSelected->IsLeaf() && iItemToBeSelected->IsMarkable() )
@@ -397,7 +397,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                             // item is a non-focused node, play basic list
                             // feedback
                             iFeedback->InstantFeedback( iTreeListView, 
-                                                        ETouchFeedbackList );
+                                                        ETouchFeedbackBasicItem );
                             
                             // next up event causes for the node to collapse,
                             // play feedback on up event
@@ -408,7 +408,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                             // item is a non-focused leaf, play sensitive 
                             // feedback
                             iFeedback->InstantFeedback( iTreeListView, 
-                                                        ETouchFeedbackSensitiveList );
+                                                        ETouchFeedbackSensitiveItem );
                             }
                         }
                     }
@@ -422,7 +422,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                     if ( iFeedback )
                         {
                         iFeedback->InstantFeedback( iTreeListView,
-                                                    ETouchFeedbackList );
+                                                    ETouchFeedbackBasicItem );
                         
                         // next up event cause an action on the screen,
                         // play feedback on up event
@@ -552,10 +552,6 @@ TRect CAknTreeListPhysicsHandler::ViewRect() const
 //
 void CAknTreeListPhysicsHandler::SetItemHeight( const TInt& aHeight )
     {
-    if( iScrollIndex > 0 && iItemHeight > 0 && aHeight != iItemHeight )
-        {
-        iScrollIndex = ( iScrollIndex / iItemHeight ) * aHeight;
-        }
     iItemHeight = aHeight;
     }
 
@@ -890,7 +886,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
                 {
                 if ( bottomItem != iTree->VisibleItemCount() - 1 )
                     iFeedback->InstantFeedback( iTreeListView,
-                                                ETouchFeedbackSensitiveList,
+                                                ETouchFeedbackSensitiveItem,
                                                 feedbackType,
                                                 TPointerEvent() );
                 }
@@ -900,7 +896,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
             if ( upperItem != iOldTopItem )
                 {
                 iFeedback->InstantFeedback( iTreeListView,
-                                            ETouchFeedbackSensitiveList,
+                                            ETouchFeedbackSensitiveItem,
                                             feedbackType,
                                             TPointerEvent() );
                 }
@@ -910,7 +906,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
             if ( upperItem < iOldTopItem || bottomItem > iOldBottomItem )
                 {
                 iFeedback->InstantFeedback( iTreeListView,
-                                            ETouchFeedbackSensitiveList,
+                                            ETouchFeedbackSensitiveItem,
                                             feedbackType,
                                             TPointerEvent() );
                 }

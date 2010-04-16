@@ -245,7 +245,7 @@ void CAknMultilineQueryControl::ConstructQueryL(TResourceReader& aRes)
     if ( feedback && spec )
         {
         spec->AddFeedback( ETouchEventStylusDown,
-                           ETouchFeedbackSensitiveList );
+                           ETouchFeedbackSensitiveItem );
         feedback->SetFeedbackArea( this, 0, Rect(), spec );
         delete spec;
         }
@@ -1313,7 +1313,7 @@ void CAknExtMultilineQueryControl::ConstructQueryL(TResourceReader& aRes)
     if ( feedback && spec )
         {
         spec->AddFeedback( ETouchEventStylusDown,
-                           ETouchFeedbackSensitiveList );
+                           ETouchFeedbackSensitiveItem );
         feedback->SetFeedbackArea( this, 0, Rect(), spec );
         delete spec;
         }

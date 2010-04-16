@@ -22,7 +22,7 @@
 #include <e32std.h>
 #include <gulbordr.h>
 #include <coecntrl.h>
-#include "lafsbfrm.h"
+#include "LAFSBFRM.H"
 
 class CTextLayout;
 class CLafEdwinCustomDrawBase;

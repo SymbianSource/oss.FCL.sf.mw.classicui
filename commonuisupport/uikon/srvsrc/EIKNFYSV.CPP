@@ -19,6 +19,7 @@
 #include <eikenv.h>
 #include <eikmsg.h>
 #include <e32uid.h>
+#include <e32notif.h>
 #include "EIKSRV.PAN"
 #include "eiknotapi.h"
 #include <bafindf.h>

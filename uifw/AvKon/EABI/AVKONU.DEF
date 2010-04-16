@@ -4576,5 +4576,4 @@ EXPORTS
 	_ZN17CAknDiscreetPopup5InitLEv @ 4575 NONAME
 	_ZN17CAknDiscreetPopup7ReleaseEv @ 4576 NONAME
 	_ZNK13CAknAppUiBase23IsSingleClickCompatibleEv @ 4577 NONAME
-	_ZN19CAknBitmapAnimation15StartAnimationLEi @ 4578 NONAME
 

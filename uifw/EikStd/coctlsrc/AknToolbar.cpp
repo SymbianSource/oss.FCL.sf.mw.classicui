@@ -906,8 +906,6 @@ EXPORT_C void CAknToolbar::SetItemDimmed( const TInt aCommandId,
                                           const TBool aDimmed, 
                                           const TBool aDrawNow ) 
     {
-    if( IsDimmed() )
-    	return;
     CAknToolbarItem* item = ToolbarItemById( aCommandId );
     if ( item && item->Control() ) 
         {

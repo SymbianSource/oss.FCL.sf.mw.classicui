@@ -110,7 +110,7 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
             if ( feedback )
                 {
                 feedback->InstantFeedback( NULL,
-                                           ETouchFeedbackList,
+                                           ETouchFeedbackBasicItem,
                                            aPointerEvent );
                 }
             }
@@ -152,7 +152,7 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
         if ( feedback )
             {
                 feedback->InstantFeedback( NULL,
-                                           ETouchFeedbackList,
+                                           ETouchFeedbackBasicItem,
                                            ETouchFeedbackVibra,
                                            aPointerEvent );
                 }
@@ -281,10 +281,6 @@ void CAknStylusPopUpMenuPhysicsHandler::ViewPositionChanged(
     TBool aDrawNow,
     TUint /*aFlags*/ )
     {
-    if ( !iPopUpMenuContent->IsVisible() )
-    	{
-    	return;
-    	}    
     iScrollIndex = aNewPosition.iY - iViewRect.Height() / 2;
     
     ScrollView( aDrawNow );
@@ -402,7 +398,7 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
                         if ( feedback )
                             {
                             feedback->InstantFeedback( iPopUpMenuContent,
-                                                    ETouchFeedbackSensitiveList,
+                                                    ETouchFeedbackSensitiveItem,
                                                     feedbackType,
                                                     TPointerEvent() );
                             }

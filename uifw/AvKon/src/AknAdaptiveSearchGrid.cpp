@@ -61,6 +61,7 @@ _LIT( KSlashOfPageIndicator, "/" );
 _LIT( KSpaceCharacter, " " );
 const TInt KCloseAndClearButtonCount = 2;  
 
+   
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -408,18 +409,18 @@ void CAknAdaptiveSearchGrid::InitControlsL( TInt aFieldStyle )
 // -----------------------------------------------------------------------------
 // 
 void CAknAdaptiveSearchGrid::UpdateLayoutVariant()
-	{
+    {
     _AKNTRACE_FUNC_ENTER;
-	InitGrid(); 
-	UpdatePageAndRowCount();       	         
-	if( IsShown() )
-		{
-		ControlsPositions();
-		TRAP_IGNORE( UpdateVisibleButtonsL() );  
-		ShowControls();           
-		}
+    InitGrid(); 
+    UpdatePageAndRowCount();                 
+    if( IsShown() )
+        {
+        ControlsPositions();
+        TRAP_IGNORE( UpdateVisibleButtonsL() );  
+        ShowControls();           
+        }
     _AKNTRACE_FUNC_EXIT;
-	}
+    }
 
 // -----------------------------------------------------------------------------
 // CAknAdaptiveSearchGrid::UpdateSkinL()
@@ -428,7 +429,7 @@ void CAknAdaptiveSearchGrid::UpdateLayoutVariant()
 // -----------------------------------------------------------------------------
 //  
 void CAknAdaptiveSearchGrid::UpdateSkinL()
-	{
+    {
     CGulIcon* gulIcon = NULL;
     gulIcon = GetColorIconL( 0 );        
     iCloseButton->State()->SetIcon( gulIcon );
@@ -437,30 +438,30 @@ void CAknAdaptiveSearchGrid::UpdateSkinL()
     iDeleteButton->State()->SetIcon( gulIcon1 );
     CGulIcon* gulIcon2 = NULL;
     gulIcon2 = GetColorIconL( 2 );        
-	iPrevButton->State()->SetIcon( gulIcon2 );		
+    iPrevButton->State()->SetIcon( gulIcon2 );      
     CGulIcon* gulIcon3 = NULL;
     gulIcon3 = GetColorIconL( 3 );        
     iNextButton->State()->SetIcon( gulIcon3 );
     
-   	UpdateVisibleButtonsL();	 	    		    
-	    
+    UpdateVisibleButtonsL();                        
+        
     if( iNumOfPages > 1 )
-		{	
-		// Page pane & page indicator	
-    	TRect page_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::afind_page_pane( iLayoutOption) );	
-    	if( AknsUtils::AvkonSkinEnabled() )
-	        {	        
-	        TRgb textColor = KRgbBlack; 
-    	    TInt error = AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), 
-    	                                            textColor, 
-    	                                            KAknsIIDQsnTextColors, 
-    	                                            EAknsCIQsnTextColorsCG19);
-    	    if( !error )        	        
-    	        AknLayoutUtils::OverrideControlColorL(*iPageIndicator, EColorLabelText, textColor);         	                           
-		    }			    
-		iBgContextOfControlPane->SetRect( page_pane );     
-		}
-	}
+        {   
+        // Page pane & page indicator   
+        TRect page_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::afind_page_pane( iLayoutOption) );    
+        if( AknsUtils::AvkonSkinEnabled() )
+            {           
+            TRgb textColor = KRgbBlack; 
+            TInt error = AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), 
+                                                    textColor, 
+                                                    KAknsIIDQsnTextColors, 
+                                                    EAknsCIQsnTextColorsCG19);
+            if( !error )                    
+                AknLayoutUtils::OverrideControlColorL(*iPageIndicator, EColorLabelText, textColor);                                        
+            }               
+        iBgContextOfControlPane->SetRect( page_pane );     
+        }
+    }
 // CAknAdaptiveSearchGrid::InitGridButtons()
 // Initiates buttons array of the adaptive search grid.
 // iTotalGridButtons should be calculated in advance by caling InitGrid() 
@@ -529,9 +530,13 @@ void CAknAdaptiveSearchGrid::InitGrid()
            
     if( Layout_Meta_Data::IsLandscapeOrientation() )
         {
+        CAknToolbar* toolbar = iAppUi->CurrentFixedToolbar();
         iLayoutOption = KLandscapeSinglePage; 
         layout_option = KLandscapeMaxSize;
-        iToolbarShown = EFalse;
+        if ( toolbar && toolbar->IsShown() )
+             iToolbarShown = ETrue;
+        else
+            iToolbarShown = EFalse;
         }
     else
         {        
@@ -566,17 +571,13 @@ void CAknAdaptiveSearchGrid::InitGrid()
         TRect mainPaneRect;
         AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
                                            mainPaneRect );
-        
-        if ( 0 != iFindpaneRect.Size().iWidth 
-                && iFindpaneRect.Size().iWidth <= mainPaneRect.Size().iWidth )
-            {
-            currentWindowRect.iBr.iX = currentWindowRect.iTl.iX 
-                                        + iFindpaneRect.Size().iWidth;
-            }
-        else
-            {
-            currentWindowRect.iBr.iX = currentWindowRect.iTl.iX 
-                                        + mainPaneRect.Size().iWidth;
+        CAknToolbar* toolbar = iAppUi->CurrentFixedToolbar();   
+        if ( !toolbar 
+             || !toolbar->IsVisible()
+             || mainPaneRect.iBr.iX <= toolbar->Position().iX 
+           )
+            {          
+            currentWindowRect.iBr.iX = mainPaneRect.iBr.iX;
             }
         }
         
@@ -858,9 +859,9 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
     else
         {
         find_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::find_pane_cp01( iLayoutOption ) );
-      	} 
+        } 
     _AKNTRACE( "[%s][%s] rect of find pane is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-    		find_pane.iTl.iX, find_pane.iTl.iY, find_pane.iBr.iX, find_pane.iBr.iY );   
+            find_pane.iTl.iX, find_pane.iTl.iY, find_pane.iBr.iX, find_pane.iBr.iY );   
     iInputFrame->SetRect( find_pane ); 
     iSkinContextOfFindPane->SetRect( find_pane );        
    
@@ -874,7 +875,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
         cell_pane.iTl.iY = cell_pane.iTl.iY - iOverlapLength*(iNumOfRows-1); 
         }
      _AKNTRACE( "[%s][%s] rect of delete button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-    		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+            cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
     iDeleteButton->SetRect( cell_pane );    
     cell_pane = RectFromLayout( grid_pane, AknLayoutScalable_Apps::cell_afind_pane(iLayoutOption, iNumOfCols-1, iNumOfRows-1) );        
    
@@ -886,7 +887,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
         }
 
      _AKNTRACE( "[%s][%s] rect of close button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-        		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
     iCloseButton->SetRect( cell_pane ); 
 
     // For ELJG-7VC8Q2, Move all the buttons up when there is only one page
@@ -899,15 +900,15 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 {
                 cell_pane = RectFromLayout( grid_pane, AknLayoutScalable_Apps::cell_afind_pane( iLayoutOption, i, j ) );             
                 if(iLayoutOption == KPortraitSinglePage ||iLayoutOption == KLandscapeSinglePage )   
-            	    {
+                    {
                     cell_pane.iTl.iY -=iOverlapLength*j;
                     cell_pane.iBr.iY -=iOverlapLength*(j+1); 
-            	    }
+                    }
                 iButtonArray[temp]->SetRect( cell_pane );
                 temp++;
                 }               
             } 
-    	}
+        }
 
    
     if ( Layout_Meta_Data::IsLandscapeOrientation() && AknLayoutUtils::LayoutMirrored() )
@@ -929,25 +930,25 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 }
 
             _AKNTRACE( "[%s][%s] rect of delete button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY ); 
+                        cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY ); 
             iDeleteButton->SetRect( cell_pane );        
             cell_pane = RectFromLayout( cont_pane, AknLayoutScalable_Apps::cell_afind_grid_control_pane(0,1) ); 
 
             // For ELJG-7VC8Q2, Move close button up
             if(iPopupFindpane)
                 {
-                cell_pane.iBr.iY = cell_pane.iBr.iY - iOverlapLength*(iNumOfRows+1);      	
+                cell_pane.iBr.iY = cell_pane.iBr.iY - iOverlapLength*(iNumOfRows+1);        
                 }
 
             _AKNTRACE( "[%s][%s] rect of close button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                        cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
             iCloseButton->SetRect( cell_pane );         
             }
         // Page pane    
         TRect page_pane;       
         page_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::afind_page_pane( iLayoutOption) );  
         _AKNTRACE( "[%s][%s] rect of page pane is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-        		page_pane.iTl.iX, page_pane.iTl.iY, page_pane.iBr.iX, page_pane.iBr.iY );
+                page_pane.iTl.iX, page_pane.iTl.iY, page_pane.iBr.iX, page_pane.iBr.iY );
         AknLayoutUtils::LayoutLabel( iPageIndicator, Rect(), 
         TAknWindowComponentLayout::ComposeText( AknLayoutScalable_Apps::afind_page_pane( iLayoutOption ), 
         AknLayoutScalable_Apps::afind_page_pane_t1() ).LayoutLine() );
@@ -963,7 +964,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 cell_pane.iBr.iY = cell_pane.iBr.iY - iOverlapLength*(iNumOfRows+1);
                 }
             _AKNTRACE( "[%s][%s] rect of pre page button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                                cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
             iPrevButton->SetRect( cell_pane );
             cell_pane = RectFromLayout( page_pane, AknLayoutScalable_Apps::afind_page_pane_g3( iLayoutOption) );  
             
@@ -973,7 +974,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 cell_pane.iBr.iY = cell_pane.iBr.iY - iOverlapLength*(iNumOfRows+1);
                 }
             _AKNTRACE( "[%s][%s] rect of next page button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                                cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
             iNextButton->SetRect( cell_pane );  
             }
         else
@@ -986,7 +987,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 cell_pane.iBr.iY = cell_pane.iBr.iY - iOverlapLength*(iNumOfRows+1);
                 } 
             _AKNTRACE( "[%s][%s] rect of next page button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                                cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
             iNextButton->SetRect( cell_pane );       
             cell_pane = RectFromLayout( page_pane, AknLayoutScalable_Apps::afind_page_pane_g3( iLayoutOption) ); 
             
@@ -997,7 +998,7 @@ void CAknAdaptiveSearchGrid::ControlsPositions()
                 }
  
             _AKNTRACE( "[%s][%s] rect of pre page button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
+                                cell_pane.iTl.iX, cell_pane.iTl.iY, cell_pane.iBr.iX, cell_pane.iBr.iY );
             iPrevButton->SetRect( cell_pane );   
             }    
         
@@ -1158,13 +1159,15 @@ void CAknAdaptiveSearchGrid::ShowL()
     TBool needRelayout = EFalse;
     if( Layout_Meta_Data::IsLandscapeOrientation())
         {
-        if ( iLayoutOption == KPortraitMultiPage 
-                || iLayoutOption == KPortraitSinglePage 
-                || iFindPaneSizeChanged )
+        if ( iLayoutOption == KPortraitMultiPage || iLayoutOption == KPortraitSinglePage )
             {       
             needRelayout = ETrue;
-            iFindPaneSizeChanged = EFalse;
             }
+        else if ( toolbar && toolbar->IsVisible() && iToolbarShown == EFalse )
+            {
+            needRelayout = ETrue;
+            }
+            
         }
     else if ( iLayoutOption == KLandscapeMultiPage || iLayoutOption == KLandscapeSinglePage )
         {       
@@ -1465,7 +1468,7 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                         }                  
                     button_rect = button->Rect();
                     _AKNTRACE( "[%s][%s] rect of button %s is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__, bState->Text().Ptr(), 
-                    		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                            button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
                     iCurrentRegion.AddRect( button_rect );
                     button->MakeVisible( ETrue );
                     }
@@ -1545,7 +1548,7 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                             }                  
                         button_rect = button->Rect();
                         _AKNTRACE( "[%s][%s] rect of button %s is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__, bState->Text().Ptr(), 
-                                           		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                                                button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
                         iCurrentRegion.AddRect( button_rect );
                         button->MakeVisible( ETrue );
                         }
@@ -1603,7 +1606,7 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                             }                  
                         button_rect = button->Rect();
                         _AKNTRACE( "[%s][%s] rect of button %s is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__, bState->Text().Ptr(), 
-                                           		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                                                button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
                         iCurrentRegion.AddRect( button_rect );
                         button->MakeVisible( ETrue );
                         
@@ -1622,22 +1625,22 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
             }        
         button_rect = iDeleteButton->Rect();
         _AKNTRACE( "[%s][%s] rect of delete button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                                button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
         iCurrentRegion.AddRect( button_rect );
         button_rect = iCloseButton->Rect();
         _AKNTRACE( "[%s][%s] rect of close button is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                           		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                                button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
         iCurrentRegion.AddRect( button_rect );
         button_rect = iInputFrame->Rect();
         _AKNTRACE( "[%s][%s] rect of Input Frame is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-                                   		button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
+                                        button_rect.iTl.iX, button_rect.iTl.iY, button_rect.iBr.iX, button_rect.iBr.iY );
         iCurrentRegion.AddRect( button_rect );
         if( iNumOfPages > 1 )
             {
             TRect page_pane;       
             page_pane = RectFromLayout( Rect(), AknLayoutScalable_Apps::afind_page_pane(iLayoutOption) );   
             _AKNTRACE( "[%s][%s] rect of page pane is %d %d %d %d ", "CAknAdaptiveSearchGrid", __FUNCTION__,
-            		page_pane.iTl.iX, page_pane.iTl.iY, page_pane.iBr.iX, page_pane.iBr.iY );
+                    page_pane.iTl.iX, page_pane.iTl.iY, page_pane.iBr.iX, page_pane.iBr.iY );
             iCurrentRegion.AddRect( page_pane );
             }    
         }
@@ -1733,20 +1736,20 @@ void CAknAdaptiveSearchGrid::HandleResourceChange( TInt aType )
     _AKNTRACE( "[%s][%s] Event Type : %d ", "CAknAdaptiveSearchGrid", __FUNCTION__, aType );
     switch( aType )
         {
-    	case KEikDynamicLayoutVariantSwitch:
-        	{
-        	UpdateLayoutVariant();
-        	break;
-        	}
+        case KEikDynamicLayoutVariantSwitch:
+            {
+            UpdateLayoutVariant();
+            break;
+            }
         case KAknsMessageSkinChange:
-        	{
-        	TRAP_IGNORE( UpdateSkinL() );
-        	break;
-        	}
+            {
+            TRAP_IGNORE( UpdateSkinL() );
+            break;
+            }
         default:
-        	{
-        	break;
-        	}
+            {
+            break;
+            }
         }
         
     CAknControl::HandleResourceChange( aType );
@@ -1784,30 +1787,5 @@ MAknAdaptiveSearchGridObserver* CAknAdaptiveSearchGrid::AdaptiveSearchGridObserv
     return iAdaptiveSearchGridObserver;
     }
         
-
-// -----------------------------------------------------------------------------
-// CCAknAdaptiveSearch::SaveFindPaneRect()
-// When the rect of find pane is set, this functions will be notified
-// to record the size of it.
-// -----------------------------------------------------------------------------
-//
-void CAknAdaptiveSearchGrid::SaveFindPaneRect( const TRect &aRect )
-    {
-    //Now we just deal with the landscape conditions
-    if ( !Layout_Meta_Data::IsLandscapeOrientation() )
-        return;
-    
-    //When width is zero, no need to deal with.
-    if ( 0 == aRect.Size().iWidth )
-        return;
-    
-    //The same size already is set. No need to do further process.
-    if ( aRect.Size().iWidth == iFindpaneRect.Size().iWidth )
-        return;    
-
-    iFindpaneRect = aRect;
-    iFindPaneSizeChanged = ETrue;
-    }
-
 // End of File
 

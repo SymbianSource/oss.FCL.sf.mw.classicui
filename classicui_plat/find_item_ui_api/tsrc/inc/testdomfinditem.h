@@ -80,20 +80,6 @@ private:
      */
     void SendTestClassVersion();
 
-        /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
-
 private: // test functions in finditemdialog.h
 
     /**

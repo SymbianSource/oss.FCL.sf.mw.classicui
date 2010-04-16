@@ -113,7 +113,6 @@ PRJ_TESTMMPFILES
 #include "../../classicui_pub/queries_api/tsrc/group/bld.inf"
 #include "../../classicui_pub/screen_clearer_api/tsrc/group/bld.inf"
 #include "../../classicui_pub/screen_mode_api/tsrc/group/bld.inf"
-#include "../../classicui_pub/screen_saver_api/tsrc/group/bld.inf"
 #include "../../classicui_pub/scroller_api/tsrc/group/bld.inf"
 #include "../../classicui_pub/searchfield_api/tsrc/group/bld.inf"
 #include "../../classicui_pub/setting_pages_api/tsrc/group/bld.inf"

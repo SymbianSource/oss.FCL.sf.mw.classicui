@@ -2635,7 +2635,6 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             
             if( !iIconArray )
                 {
-                ++ subcell;
                 continue;
                 }
 

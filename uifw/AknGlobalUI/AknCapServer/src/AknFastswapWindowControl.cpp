@@ -669,7 +669,7 @@ void CAknFastSwapWindowControl::RunFastSwapL()
         MTouchFeedback* feedback = MTouchFeedback::Instance();
         if ( feedback )
             {
-            feedback->InstantFeedback( ETouchFeedbackIncreasingPopUp );
+            feedback->InstantFeedback( ETouchFeedbackPopupOpen );
             }
         }
     
@@ -2328,7 +2328,7 @@ void CAknFastSwapWindowControl::CloseFastSwap()
             MTouchFeedback* feedback = MTouchFeedback::Instance();
             if ( feedback )
                 {
-                feedback->InstantFeedback( ETouchFeedbackDecreasingPopUp );
+                feedback->InstantFeedback( ETouchFeedbackPopupClose );
                 }
             }
         // calculate already here since PositionRelativeToScreen

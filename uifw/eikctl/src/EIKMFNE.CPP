@@ -155,6 +155,7 @@ public:
         iExtendedInputCapabilitiesProvider;
     TInt iClipGcToRect; // Mainly for 0/1 values
     TInt iDisablePenInput; // Mainly for 0/1 values
+    TBool iTwiceTap;   
     TBool iCursorShown; 
     TBool iFingerSupport;
     TInt iFingerParam;
@@ -2252,12 +2253,18 @@ EXPORT_C void CEikMfne::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             }
         if (newField==ENullIndex)
             newField=iCurrentField;
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+            {
+            iExtension->iTwiceTap = ( iExtension->iFingerSupport ? ETrue : 
+                newField == iCurrentField );            
+            }
 
         if (iExtension && aPointerEvent.iType == TPointerEvent::EButton1Down)
             {
             // Edit feedback on down event in current field, 
             // Edit feedback when changing fields
-            TTouchLogicalFeedback feedback = ETouchFeedbackEdit;
+            TTouchLogicalFeedback feedback = 
+                ( iExtension->iTwiceTap ? ETouchFeedbackEditor : ETouchFeedbackEditor );
             iExtension->iFeedback->InstantFeedback( this, feedback );
             }
         TBool createPopoutIfRequired=((newField==iCurrentField) && aPointerEvent.iType==TPointerEvent::EButton1Down && IsFocused());
@@ -2272,10 +2279,10 @@ EXPORT_C void CEikMfne::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         }
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
-        if ( iExtension && !iExtension->iDisablePenInput )
+        if ( iExtension && !iExtension->iDisablePenInput && iExtension->iTwiceTap )
             {
             iExtension->iFeedback->InstantFeedback( this,
-                ETouchFeedbackEdit,
+                ETouchFeedbackEditor,
                 ETouchFeedbackVibra,
                 aPointerEvent );
             LaunchPenInputL();

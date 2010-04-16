@@ -584,6 +584,7 @@ EXPORT_C void CEikServAppUiBase::InitializeL(TEikServCtrlFactories& aCtrlFactori
     iVwsSession->SetClientRequestTimeOut( TTimeIntervalMicroSeconds32(clientRequestTimeOutDuration) );
 
     iVwsSession->EnableServerBlankScreen(EFalse);
+    iVwsSession->EnableServerEventTimeOut(EFalse);
     
     // Start Comms
     TInt err = StartC32();

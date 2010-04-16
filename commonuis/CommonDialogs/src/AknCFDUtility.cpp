@@ -24,7 +24,6 @@
 #include <AknsUtils.h>
 #include <gulicon.h>
 #include <fbs.h>
-#include <rsfwmountman.h>
 #include <driveinfo.h>
 #include <StringLoader.h>
 #include <commondialogs.rsg>
@@ -167,21 +166,21 @@ TInt AknCFDUtility::DriveInfoL( const TDriveNumber aDriveNumber,
     // If type is remote drive and aConnectionState is required
     if( driveInfo.iDriveAtt & KDriveAttRemote )
         {
-        TChar driveLetter;
-        fs.DriveToChar( aDriveNumber, driveLetter );
-        
-           // This statement migth cause leave.. to be solved
-        CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
-        TRsfwMountInfo mountInfo;
-        error = mountMgr->GetMountInfo( driveLetter, mountInfo );
-        delete mountMgr;
-        aDriveInfo.iConnectionState = mountInfo.iMountStatus.iConnectionState;
-        if( error ||
-            mountInfo.iMountStatus.iConnectionState != KMountStronglyConnected )
-            {
-            aDriveInfo.iDriveStatus = EDriveNotReady;
-            return error;
-            }
+//        TChar driveLetter;
+//        fs.DriveToChar( aDriveNumber, driveLetter );
+//        
+//           // This statement migth cause leave.. to be solved
+//        CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
+//        TRsfwMountInfo mountInfo;
+//        error = mountMgr->GetMountInfo( driveLetter, mountInfo );
+//        delete mountMgr;
+//        aDriveInfo.iConnectionState = mountInfo.iMountStatus.iConnectionState;
+//        if( error ||
+//            mountInfo.iMountStatus.iConnectionState != KMountStronglyConnected )
+//            {
+//            aDriveInfo.iDriveStatus = EDriveNotReady;
+//            return error;
+//            }
         }
     return error;
     }
@@ -255,19 +254,19 @@ TCFDDriveStatus AknCFDUtility::DriveStatusL( const TDriveNumber aDriveNumber )
     // If type is remote drive and aConnectionState is required
     if( driveInfo.iDriveAtt & KDriveAttRemote )
         {
-        TChar driveLetter;
-        fs.DriveToChar( aDriveNumber, driveLetter );
-        // This statement migth cause leave.. to be solved
-        CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
-        TRsfwMountInfo mountInfo;
-        error = mountMgr->GetMountInfo( driveLetter, mountInfo );
-        delete mountMgr;
-
-        if( error ||
-            mountInfo.iMountStatus.iConnectionState != KMountStronglyConnected )
-            {
-            return EDriveNotReady;
-            }
+//        TChar driveLetter;
+//        fs.DriveToChar( aDriveNumber, driveLetter );
+//        // This statement migth cause leave.. to be solved
+//        CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
+//        TRsfwMountInfo mountInfo;
+//        error = mountMgr->GetMountInfo( driveLetter, mountInfo );
+//        delete mountMgr;
+//
+//        if( error ||
+//            mountInfo.iMountStatus.iConnectionState != KMountStronglyConnected )
+//            {
+//            return EDriveNotReady;
+//            }
         }
     return EDriveOK;
     }
@@ -498,70 +497,70 @@ TBool AknCFDUtility::DirectoriesOnly( TCommonDialogType aType )
 void AknCFDUtility::ReadDynamicDrivesL(
     CDesCArrayFlat& aRootPathArray, TInt aIncludedMedias )
     {
-#ifdef _DEBUG
-    CDesCArray* mediaTypeStrings = new (ELeave) CDesCArrayFlat(10);
-    CleanupStack::PushL( mediaTypeStrings );
-
-    // TMediaType enumeration as string representation for debugging.
-    mediaTypeStrings->AppendL( _L( "EMediaNotPresent" ) );
-    mediaTypeStrings->AppendL( _L( "EMediaUnknown" ) );
-    mediaTypeStrings->AppendL( _L( "EMediaFloppy" ) );
-    mediaTypeStrings->AppendL( _L( "EMediaHardDisk" ));
-    mediaTypeStrings->AppendL( _L( "EMediaCdRom" ));
-    mediaTypeStrings->AppendL( _L( "EMediaRam" ));
-    mediaTypeStrings->AppendL( _L( "EMediaFlash" ));
-    mediaTypeStrings->AppendL( _L( "EMediaRom"  ));
-    mediaTypeStrings->AppendL( _L( "EMediaRemote" ));
-    mediaTypeStrings->AppendL( _L( "EMediaNANDFlash" ));
-    _LOG( "[CFDUtility] Drive info: " );
-#endif // _DEBUG
-
-    // Get list of drives dynamically (move this to CFDUtility?)
-    RFs& fs = CCoeEnv::Static()->FsSession();
-    TDriveList driveList;
-
-    CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
-    CleanupStack::PushL( mountMgr );
-    mountMgr->GetRemoteMountListL( driveList );
-    CleanupStack::PopAndDestroy( mountMgr );
-
-    _LOG1( "[CFDUtility] driveList:%S", &driveList );
-
-    TChar driveLetter;
-    TInt driveNumber = 0;
-    _LIT( KDrivePath, "%c:\\" );
-    TDriveInfo driveInfo;
-
-    for( TInt i = 0; i < driveList.Length(); i++ )
-        {
-        driveLetter = driveList[ i ];
-        User::LeaveIfError( fs.CharToDrive( driveLetter, driveNumber ) );
-        User::LeaveIfError( fs.Drive( driveInfo, driveNumber ) );
-
-#ifdef _DEBUG
-        TPtrC mediaType( mediaTypeStrings->MdcaPoint( driveInfo.iType ) );
-        _LOG4( "[CFDUtility] %c:, ID:%d, Type:%S (%d)",
-               TUint( driveLetter ),
-               driveNumber,
-               &mediaType,
-               driveInfo.iType );
-#endif // _DEBUG
-        // If drive does not already exist and it is required in included
-        // media types, append drive letter to rootpaths in correct format:
-        if( !DriveAlreadyExists( aRootPathArray, driveLetter ) &&
-            IsIncludedMedia( driveInfo, aIncludedMedias ) )
-            {
-            TBuf<5> driveBuf;            
-            TDesC16 drivePath(KDrivePath);
-            driveBuf.Format( drivePath, &driveLetter );
-            aRootPathArray.AppendL( driveBuf );
-            }
-
-        }
-
-#ifdef _DEBUG
-    CleanupStack::PopAndDestroy( mediaTypeStrings );
-#endif // _DEBUG
+//#ifdef _DEBUG
+//    CDesCArray* mediaTypeStrings = new (ELeave) CDesCArrayFlat(10);
+//    CleanupStack::PushL( mediaTypeStrings );
+//
+//    // TMediaType enumeration as string representation for debugging.
+//    mediaTypeStrings->AppendL( _L( "EMediaNotPresent" ) );
+//    mediaTypeStrings->AppendL( _L( "EMediaUnknown" ) );
+//    mediaTypeStrings->AppendL( _L( "EMediaFloppy" ) );
+//    mediaTypeStrings->AppendL( _L( "EMediaHardDisk" ));
+//    mediaTypeStrings->AppendL( _L( "EMediaCdRom" ));
+//    mediaTypeStrings->AppendL( _L( "EMediaRam" ));
+//    mediaTypeStrings->AppendL( _L( "EMediaFlash" ));
+//    mediaTypeStrings->AppendL( _L( "EMediaRom"  ));
+//    mediaTypeStrings->AppendL( _L( "EMediaRemote" ));
+//    mediaTypeStrings->AppendL( _L( "EMediaNANDFlash" ));
+//    _LOG( "[CFDUtility] Drive info: " );
+//#endif // _DEBUG
+//
+//    // Get list of drives dynamically (move this to CFDUtility?)
+//    RFs& fs = CCoeEnv::Static()->FsSession();
+//    TDriveList driveList;
+//
+//    CRsfwMountMan* mountMgr = CRsfwMountMan::NewL( 0, NULL );
+//    CleanupStack::PushL( mountMgr );
+//    mountMgr->GetRemoteMountListL( driveList );
+//    CleanupStack::PopAndDestroy( mountMgr );
+//
+//    _LOG1( "[CFDUtility] driveList:%S", &driveList );
+//
+//    TChar driveLetter;
+//    TInt driveNumber = 0;
+//    _LIT( KDrivePath, "%c:\\" );
+//    TDriveInfo driveInfo;
+//
+//    for( TInt i = 0; i < driveList.Length(); i++ )
+//        {
+//        driveLetter = driveList[ i ];
+//        User::LeaveIfError( fs.CharToDrive( driveLetter, driveNumber ) );
+//        User::LeaveIfError( fs.Drive( driveInfo, driveNumber ) );
+//
+//#ifdef _DEBUG
+//        TPtrC mediaType( mediaTypeStrings->MdcaPoint( driveInfo.iType ) );
+//        _LOG4( "[CFDUtility] %c:, ID:%d, Type:%S (%d)",
+//               TUint( driveLetter ),
+//               driveNumber,
+//               &mediaType,
+//               driveInfo.iType );
+//#endif // _DEBUG
+//        // If drive does not already exist and it is required in included
+//        // media types, append drive letter to rootpaths in correct format:
+//        if( !DriveAlreadyExists( aRootPathArray, driveLetter ) &&
+//            IsIncludedMedia( driveInfo, aIncludedMedias ) )
+//            {
+//            TBuf<5> driveBuf;            
+//            TDesC16 drivePath(KDrivePath);
+//            driveBuf.Format( drivePath, &driveLetter );
+//            aRootPathArray.AppendL( driveBuf );
+//            }
+//
+//        }
+//
+//#ifdef _DEBUG
+//    CleanupStack::PopAndDestroy( mediaTypeStrings );
+//#endif // _DEBUG
     }
 
 

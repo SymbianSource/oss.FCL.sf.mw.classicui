@@ -44,7 +44,7 @@ _LIT(KPopupSettingListLeadingLayoutText, "1\t");
 #include <aknlistboxtfxinternal.h>
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-#include <aknpriv.hrh>
+
 
 // ----------------------------------------------------------------------------
 // Extension class definition
@@ -735,6 +735,7 @@ EXPORT_C MAknQueryValue* CAknPopupSettingPage::QueryValue() const
 
 EXPORT_C void CAknPopupSettingPage::SelectCurrentItemL()
 	{
+#ifdef RD_TOUCH2
     CAknPopupSettingList* list = PopupSettingListBox();
     
     if ( ( list->ItemDrawer()->Flags() & 
@@ -743,6 +744,7 @@ EXPORT_C void CAknPopupSettingPage::SelectCurrentItemL()
         {
         list->View()->SetCurrentItemIndex( list->CurrentSelection() );
         }
+#endif // RD_TOUCH2
     
     PopupSettingListBox()->SelectCurrentItemL();
 	} 
@@ -781,14 +783,6 @@ EXPORT_C void CAknPopupSettingPage::WriteInternalStateL(RWriteStream& aWriteStre
 EXPORT_C void CAknPopupSettingPage::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
     CAknListBoxSettingPage::HandlePointerEventL(aPointerEvent); 
-    if ( TPointerEvent::EDrag == aPointerEvent.iType )
-        {
-        if ( !( Rect().Contains( aPointerEvent.iPosition ) ) )
-            {
-            // Clear focus if dragged outside popup
-            PopupSettingListBox()->HandleResourceChange( KAknMessageFocusLost );
-            }
-        }
     }
 
 EXPORT_C void* CAknPopupSettingPage::ExtensionInterface( TUid /*aInterface*/ ) 

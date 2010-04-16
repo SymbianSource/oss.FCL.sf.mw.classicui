@@ -47,8 +47,6 @@ const TInt KGfxControlDisappearAction = 4;
 #define KGfxPopupDefaultControlUid TUid::Uid( 0x10282E57 )
 #define KGfxSystemNotificationControlUid TUid::Uid( 0x2000B472 )
 #define KGfxSystemNotifBatteryControlUid TUid::Uid( 0x2000B473 )
-#define KGfxDiscreetPopupControlUid TUid::Uid( 0x2000B478 )
-#define KGfxPreviewPopupControlUid TUid::Uid( 0x2000B479 )
 
 #define KGfxSequenceFirstControlUid TUid::Uid( 0x2000B474 )
 #define KGfxSequenceMiddleControlUid TUid::Uid( 0x2000B475 )

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -2873,90 +2873,67 @@ void CAknIndicatorContainer::SizeChangedInFlatStatusPane()
             iIndicatorsShown++;
 
             TBool showIndicator( ETrue );
-
             switch ( iIndicatorsShown )
                 {
                 case 1:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g1( 0 );
-                        }
-                    else
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g1( 1 );
-                        }
+                    indicatorLayout =
+                        AknLayoutScalable_Avkon::uni_indicator_pane_g1( 1 );
                     break;
                     }
                 case 2:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g2( 0 );
-                        }
-                    else
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g2( 1 );
-                        }
+                    indicatorLayout =
+                        AknLayoutScalable_Avkon::uni_indicator_pane_g2( 1 );
                     break;
                     }
                 case 3:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g3( 0 );
-                        }
-                    else
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g3( 1 );
-                        }
+                    indicatorLayout =
+                        AknLayoutScalable_Avkon::uni_indicator_pane_g3( 1 );
                     break;
                     }
+                    
+                // TODO: Add support (remove the extendedFlatLayout checks
+                // below) for six indicators also in the extended flat layout
+                // once the layout data is fixed.
+                    
                 case 4:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g4( 0 );
-                        }
-                    else
+                    if ( !extendedFlatLayout )
                         {
                         indicatorLayout =
                             AknLayoutScalable_Avkon::uni_indicator_pane_g4( 1 );
+                        }
+                    else
+                        {
+                        showIndicator = EFalse;
                         }
                     break;
                     }
                 case 5:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g5( 0 );
-                        }
-                    else
+                    if ( !extendedFlatLayout )
                         {
                         indicatorLayout =
                             AknLayoutScalable_Avkon::uni_indicator_pane_g5( 1 );
+                        }
+                    else
+                        {
+                        showIndicator = EFalse;
                         }
                     break;
                     }
                 case 6:
                     {
-                    if ( extendedFlatLayout )
-                        {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g6( 0 );
-                        }
-                    else
+                    if ( !extendedFlatLayout )
                         {
                         indicatorLayout =
                             AknLayoutScalable_Avkon::uni_indicator_pane_g6( 1 );
+                        }
+                    else
+                        {
+                        showIndicator = EFalse;
                         }
                     break;
                     }
@@ -3871,8 +3848,7 @@ EXPORT_C void CAknIndicatorContainer::ReplaceIndicatorIconL(
         }
 
     if ( indicator &&
-         indicator->IndicatorState() ||
-         indicator->Priority() != KIndicatorNotShown )
+        ( indicator->IndicatorState() || indicator->Priority() != KIndicatorNotShown ) )
         {
         SizeChanged();
         DrawDeferred();

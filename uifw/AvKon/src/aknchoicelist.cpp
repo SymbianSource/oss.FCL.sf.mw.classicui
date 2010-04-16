@@ -1128,7 +1128,7 @@ void CAknChoiceList::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 {
                 feedback->InstantFeedback(
                     this,
-                    ETouchFeedbackList,
+                    ETouchFeedbackBasicItem,
                     aPointerEvent );
                 }     
             if ( Rect().Contains( aPointerEvent.iPosition ))
@@ -1156,7 +1156,7 @@ void CAknChoiceList::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     {
                     feedback->InstantFeedback(
                         this,
-                        ETouchFeedbackIncreasingPopUp,
+                        ETouchFeedbackPopupOpen,
                     	aPointerEvent );
                     }
                 else

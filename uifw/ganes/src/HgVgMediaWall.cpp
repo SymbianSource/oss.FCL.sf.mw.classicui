@@ -59,14 +59,48 @@
 #include <AknUtils.h>
 #include <layoutmetadata.cdl.h>
 #include <AknLayout2ScalableDef.h>
-#include <AknLayoutScalable_Apps.cdl.h>
+#include <aknlayoutscalable_apps.cdl.h>
 
 
 
 using namespace AknTouchGestureFw;
 using namespace HgVgConstants;
 
+const TInt KMediaWallFullScreenItemsOnScreen(5);
+const TReal KMediaWallFullScreenCameraZoomFactor(1.5);
+const TReal KMediaWallFullScreenCameraRotationFactor(KCameraRotationFactor * 2);
+const TReal KMediaWallFullScreenSpringVelocityToAnimationFactor(KSpringVelocityToAnimationFactor / 2);
+const TReal KMediaWallFullScreenZOffset(1);
+const TInt KMediaWallFullScreenRowCount(1);
+const TReal KMediaWallFullScreenSpringK(KSpringK);
+const TReal KMediaWallFullScreenSpringDamping(KSpringDamping);
+const TReal KMediaWallFullScreenSpringMaxVelocity(KMaxSpringVelocity);
+const TReal KMediaWallFullScreenItemsToMoveOnFullScreenDrag(5);
 
+const TInt KMediaWallTBoneItemsOnScreen(3);
+const TReal KMediaWallTBoneCameraZoomFactor(2);
+const TReal KMediaWallTBoneCameraRotationFactor(KCameraRotationFactor);
+const TReal KMediaWallTBoneSpringVelocityToAnimationFactor(KSpringVelocityToAnimationFactor);
+const TInt KMediaWallTBonePopupFontSize(100);
+const TInt KMediaWallTBoneLabelFontSize(18);
+const TReal KMediaWallTBoneZOffset(0.5);
+const TInt KMediaWallTBoneRowCount(1);
+const TReal KMediaWallTBoneSpringK(KSpringK);
+const TReal KMediaWallTBoneSpringDamping(KSpringDamping);
+const TReal KMediaWallTBoneSpringMaxVelocity(KMaxSpringVelocity);
+const TReal KMediaWallTBoneItemsToMoveOnFullScreenDrag(3);
+
+const TInt KMediaWallGridItemsOnScreen(3*10);
+const TReal KMediaWallGridCameraZoomFactor(0.2);
+const TReal KMediaWallGridCameraRotationFactor(KCameraRotationFactor);
+const TReal KMediaWallGridSpringVelocityToAnimationFactor(KSpringVelocityToAnimationFactor/3);
+const TInt KMediaWallGridPopupFontSize(30);
+const TReal KMediaWallGridZOffset(0.5);
+const TInt KMediaWallGridRowCount(3);
+const TReal KMediaWallGridSpringK(KSpringK);
+const TReal KMediaWallGridSpringDamping(KSpringDamping*2);
+const TReal KMediaWallGridSpringMaxVelocity(KMaxSpringVelocity/3);
+const TReal KMediaWallGridItemsToMoveOnFullScreenDrag(15);
 
 // ============================ MEMBER FUNCTIONS ===============================
 // -----------------------------------------------------------------------------
@@ -165,15 +199,13 @@ EXPORT_C void CHgVgMediaWall::RefreshScreen( TInt aIndex )
         {
         return;
         }
-  
-    //RDebug::Print(_L("\t\tMediaWall FirstIndexOnScreen=%d"), FirstIndexOnScreen());
-    
+        
     if( !iAnimationTimer->IsActive() )
         {    
         if( /*iMediaWallStyle == EHgVgMediaWallStyleGrid ||*/ 
                 (aIndex >= FirstIndexOnScreen() && aIndex <= FirstIndexOnScreen() + ItemsOnScreen()) )
             {
-  
+
             UpdateLabelsAndPopup();
             if(iFlags & EHgVgMediaWallDrawToWindowGC)
                 {
@@ -310,14 +342,19 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
         MTouchFeedback::Instance()->RemoveFeedbackArea(this, 0);     
         }
 
-    DestroyRendering();
-        
+    delete iEmptyLabel;
     delete iTouchFw;    
     delete iEmptyText;
+    delete iSkinRenderer;
+    delete iAlbumLabel;
+    delete iArtistLabel;
+    delete iRenderer;
+    delete iScrollBar;
     delete iDefaultIcon;
     delete iManager;
     delete iKeyScrollingTimer;
     delete iAnimationTimer;
+    delete iLetterPopup;
     //delete iCompositionSource;
     delete iEGL;
     delete iSpring;
@@ -355,7 +392,7 @@ EXPORT_C CHgVgMediaWall::THgVgOpeningAnimationType CHgVgMediaWall::OpeningAnimat
 //
 void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
     {
-    //RDebug::Print(_L("CHgVgMediaWall::Draw begin"));
+    RDebug::Print(_L("CHgVgMediaWall::Draw begin"));
 
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
 
@@ -391,13 +428,13 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
         {
         if (iSurfaceBitmap)
             {
-            //RDebug::Print(_L("CHgVgMediaWall::Draw blit screenshot"));
+            RDebug::Print(_L("CHgVgMediaWall::Draw blit screenshot"));
 
             SystemGc().BitBlt( Rect().iTl, iSurfaceBitmap );
             }
         else
             {
-            //RDebug::Print(_L("CHgVgMediaWall::Draw clear red"));
+            RDebug::Print(_L("CHgVgMediaWall::Draw clear red"));
 
             // we should not get here, ever
             // still, clear with red color for debug purposes
@@ -406,7 +443,7 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
             }
         }
 
-    //RDebug::Print(_L("CHgVgMediaWall::Draw end"));
+    RDebug::Print(_L("CHgVgMediaWall::Draw end"));
     
     }
 
@@ -1254,8 +1291,6 @@ void CHgVgMediaWall::DrawOpenVG() const
     
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
         
-    //RDebug::Print(_L("\t\tMediaWall FirstIndexOnScreen=%d"), self->FirstIndexOnScreen());
-
     if (!self->DrawAll())
         return;
       
@@ -1850,7 +1885,7 @@ void CHgVgMediaWall::StartAnimationTimer()
         iPrevTime.HomeTime();
         iAnimationTimer->Start(
             TTimeIntervalMicroSeconds32( 0 ),
-            TTimeIntervalMicroSeconds32( KViewUpdateInterval ), 
+            TTimeIntervalMicroSeconds32( KViewScrollingUpdateInterval ), 
             TCallBack( AnimationTimerCallback, this ) );
         }
     }
@@ -1901,9 +1936,9 @@ void CHgVgMediaWall::DrawScene()
         }
     else
         {
-        iRenderer->Draw(iItems, /*iSelectedIndex*/iSpring->GetX(), iSpring->EndX(), 
+        iRenderer->Draw(iItems, iSelectedIndex, iSpring->EndX(), 
                 iSpring->GetInterpolatedX(), iAnimationAlpha, iAnimationState, 
-                iOpeningAnimationType, iMediaWallStyle, iSpring->StartX());
+                iOpeningAnimationType, iMediaWallStyle);
         }
     }
 
@@ -1957,7 +1992,8 @@ void CHgVgMediaWall::HandleDragOn(const AknTouchGestureFw::MAknTouchGestureFwDra
         // for normal mediawall we move view position according to drag
         TReal x = iViewPositionAtDragStart + fDelta * iItemsToMoveOnFullScreenDrag;
         iUpdateScrollBar = ETrue;
-        iSpring->Reset(x, 0);
+        iSpring->SetXY(x, 0);
+        iSpring->SetEnd(x, 0);
         HandleViewPositionChanged(ETrue);        
         // draw view at new view position
         DrawOpenVG();
@@ -2010,13 +2046,13 @@ void CHgVgMediaWall::DrawLetterStripAndTitles()
         if (iMediaWallStyle == EHgVgMediaWallStyleCoverflowTBonePortrait)
             {
             // we bring letter popup when we are far enough from next item 
-            if (iLetterPopup && (dist > KDrawLetterPopupDistance && iSpring->GetX() >= 0 && iSpring->GetX() < iItems.Count()))
+            if (iLetterPopup && (dist > 2.0f && iSpring->GetX() >= 0 && iSpring->GetX() < iItems.Count()))
                 {
-                iLetterPopup->Draw(iRect, KMaxLetterPopupOpacity * Max(1.0f, (dist - KDrawLetterPopupDistance)/KDrawLetterPopupDistance));        
+                iLetterPopup->Draw(iRect, KMaxLetterPopupOpacity * Max(1.0f, (dist - 2.0f) / 2.0f));        
                 }
             else
                 {
-                DrawTitles(1.0f - dist/KDrawLetterPopupDistance);                
+                DrawTitles(1.0f - dist/2.0f);                
                 }
             }
         else if (iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen ||
@@ -2029,9 +2065,9 @@ void CHgVgMediaWall::DrawLetterStripAndTitles()
                 }
         
             // when close to target item, we draw titles
-            if (dist <= KTitleDrawDistance)
+            if (dist <= 2.0f)
                 {            
-                DrawTitles(1.0f - dist / KTitleDrawDistance);                
+                DrawTitles(1.0f - dist / 2.0f);                
                 }
             }
         }
@@ -2050,7 +2086,7 @@ void CHgVgMediaWall::DrawButtonsAndScrollbar()
             alpha = 1.0f - iAnimationAlpha;
         else if (iAnimationState == EHgVgMediaWallAnimationStateItemOpened)
             alpha = 0.0f;
-        if (iScrollBar && iItems.Count() > 0)
+        if (iScrollBar)
             iScrollBar->Draw(iRect, alpha);
         if (iHideSKButton)
             iHideSKButton->Draw(iRect, alpha);
@@ -2249,14 +2285,12 @@ EXPORT_C void CHgVgMediaWall::SetOpenedItemRect(const TRect& aRect)
 //
 void CHgVgMediaWall::DestroyRendering()
     {
-    delete iHideSKButton; iHideSKButton = NULL;
     delete iScrollBar; iScrollBar = NULL;
     delete iRenderer; iRenderer = NULL;    
     delete iArtistLabel; iArtistLabel = NULL;
     delete iAlbumLabel; iAlbumLabel = NULL;
     delete iLetterPopup; iLetterPopup = NULL;
     delete iSkinRenderer; iSkinRenderer = NULL;
-    delete iEmptyLabel; iEmptyLabel = NULL;
     delete iEGL; iEGL = NULL;
     }
 
@@ -2275,9 +2309,9 @@ TBool CHgVgMediaWall::DrawAll()
         iSkinRenderer->Draw();
 
     DrawScene();        
-        
-    DrawButtonsAndScrollbar();
 
+    DrawButtonsAndScrollbar();
+        
     if (iItems.Count() == 0)
         {
         if (iEmptyLabel)
@@ -2287,7 +2321,6 @@ TBool CHgVgMediaWall::DrawAll()
         }
     else
         {        
-    
         DrawLetterStripAndTitles();        
         }
             

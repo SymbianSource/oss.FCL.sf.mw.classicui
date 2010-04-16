@@ -39,7 +39,6 @@
 #include <driveinfo.h>      //DriveInfo
 #include <AknCommonDialogsDynMem.h>
 #include <coemain.h>
-#include <rsfwmountman.h>
 #else
 #include "CAknMemorySelectionDialog.h" // CAknMemorySelectionDialog
 #endif

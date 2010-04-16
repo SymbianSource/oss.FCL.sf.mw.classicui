@@ -276,12 +276,11 @@ void CAknInputFrame::SizeChanged()
     TRect rect( Rect() );         // rect of the whole shebang
     TAknLayoutRect r;            // common temporary layout rect
 
-    TBool apac( AknLayoutUtils::Variant() == EApacVariant && ( iFlags & EShowIndicators ) );
-    
-    TAknWindowComponentLayout outline = AknLayoutScalable_Avkon::input_find_pane();
-    TAknWindowLineLayout iconPos = AknLayoutScalable_Avkon::find_popup_pane_g1().LayoutLine();
-    TAknTextComponentLayout   editor = AknLayoutScalable_Avkon::input_popup_find_pane_t1( apac ? 2 : 0 );
+    TAknWindowComponentLayout outline(0);
+    TAknWindowLineLayout      iconPos(0);
+    TAknTextComponentLayout   editor(0);
 
+    TBool apac( AknLayoutUtils::Variant() == EApacVariant && ( iFlags & EShowIndicators ) );
 
     if ( iFlags & EPopupLayout ) // popup find box 
         {

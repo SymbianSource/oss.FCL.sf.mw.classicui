@@ -20,7 +20,7 @@
 #include <barsread.h>
 #include <bautils.h>
 #include <coemain.h>
-#include <DIRECTORYLOCALIZER.RSG>
+#include <directorylocalizer.rsg>
 #ifdef RD_MULTIPLE_DRIVE
  #include <pathinfo.h>
 #endif // RD_MULTIPLE_DRIVE

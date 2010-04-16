@@ -87,7 +87,6 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
                                                     aPopupId,
                                                     aAppUid,
                                                     aViewUid );
-    CleanupStack::PushL( launcher );
     launcher->SetData(
         aTitle,
         aText,
@@ -97,7 +96,6 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
         aMaskId,
         aFlags );
     iLaunchers.AppendL( launcher );
-    CleanupStack::Pop( launcher );
     launcher->LaunchDiscreetPopup();
     }
 
@@ -122,12 +120,10 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
                                                        aPopupId,
                                                        aAppUid,
                                                        aViewUid );
-    CleanupStack::PushL( launcher );
     launcher->SetData( 
             aResourceId,
             aResourceFile );
     iLaunchers.AppendL( launcher );
-    CleanupStack::Pop( launcher );
     launcher->LaunchDiscreetPopup();
     }
 

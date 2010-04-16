@@ -841,12 +841,7 @@ void CAknSearchField::SizeChanged()
         {
         iIndicator->SetRect( Rect() );
         }   
-    
-    if ( iAdaptiveSearch )
-        {
-        iAdaptiveSearch->SaveFindPaneRect( Rect() );
-        }
-    
+   
     TRAP_IGNORE( SetupSkinContextL() );
     }
 

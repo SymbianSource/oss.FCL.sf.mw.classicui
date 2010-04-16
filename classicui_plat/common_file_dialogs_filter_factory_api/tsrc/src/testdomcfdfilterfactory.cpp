@@ -20,7 +20,6 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 #include <coemain.h>
 
@@ -53,9 +52,6 @@ CTestDOMCFDFilterFactory::~CTestDOMCFDFilterFactory()
     delete iLog;
 
     CCoeEnv::Static()->DeleteResourceFile( iOffset );
-
-    RestoreScreenSaver();
-
     }
 
 // -----------------------------------------------------------------------------
@@ -106,8 +102,6 @@ void CTestDOMCFDFilterFactory::ConstructL()
                           EFalse );
     
     SendTestClassVersion();
-    
-    TurnOffScreenSaver();
     // Load resource file.
     iOffset = CCoeEnv::Static()->AddResourceFileL( _L( "c:\\resource\\testdomcfdfilterfactory.rsc" ) );
     }
@@ -161,31 +155,4 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) CTestDOMCFDFilterFactory::NewL( aTestModuleIf );
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDOMCFDFilterFactory::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDOMCFDFilterFactory::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
-
 //  End of File

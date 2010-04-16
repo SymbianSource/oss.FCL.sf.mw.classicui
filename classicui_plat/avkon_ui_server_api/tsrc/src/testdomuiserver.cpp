@@ -19,7 +19,6 @@
 
 // INCLUDE FILES
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 
 #include "testdomuiserver.h"
 
@@ -101,8 +100,7 @@ void CTestDomUiServer::ConstructL()
                           EFalse );
     
     SendTestClassVersion();
-    
-    TurnOffScreenSaver();
+
     iUiServer = new ( ELeave ) RAknUiServer;
     }
 
@@ -155,33 +153,6 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) CTestDomUiServer::NewL( aTestModuleIf );
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDomUiServer::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDomUiServer::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
-
 // End of File
 
 

@@ -139,7 +139,7 @@ const TInt KDownwardsArrowWithTipRightwards = 0x21B3;
 const TInt KEuroSign = 0x20AC;
 const TInt KSegmSize = 1024;
 
-
+const TInt KMicroSecondsDelay = 500000;
 
 const TInt KNormalAnimPlayTimes = 2;
 const TInt KInfiniteAnimPlayTimes = 0x7ffff;
@@ -2705,7 +2705,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         )
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback( this,
-                            ETouchFeedbackEdit, ETouchFeedbackVibra,
+                            ETouchFeedbackEditor, ETouchFeedbackVibra,
                             aPointerEvent );
                         }
                     }
@@ -2720,7 +2720,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback(
                             this,
-                            ETouchFeedbackEdit,
+                            ETouchFeedbackEditor,
                             ETouchFeedbackVibra,
                             aPointerEvent );
                         iEdwinFepSupport->iSelectionIsCancel = EFalse;
@@ -6069,14 +6069,6 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
             UpdateHorizScrollBarThumb();// can also change horizontally
             }
             break;
-        case EEikScrollThumbReleaseVert:
-            {
-            if ( KineticScrollingEnabled() )
-                {
-                RestoreCursorState();
-                }
-            }
-            break;
         case EEikScrollUp:
         case EEikScrollDown:            
         case EEikScrollPageUp:
@@ -6085,7 +6077,6 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
             {
             if ( KineticScrollingEnabled() )
                 {
-                StoreCursorState();
                 HandleScrollEventWithPhysics( aScrollBar );
                 break;
                 }

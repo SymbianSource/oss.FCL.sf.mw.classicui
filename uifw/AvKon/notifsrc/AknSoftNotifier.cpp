@@ -23,7 +23,7 @@
 #include <AknSoftNotificationParameters.h>
 #include <AknNotifySignature.h>
 #include <aknSDData.h>
-#include "AknSoftNoteConsts.h"
+#include "aknsoftnoteconsts.h"
 
 const TInt KBufferGranularity = 128;
 const TInt KGlobalNoteTextLength = 256;

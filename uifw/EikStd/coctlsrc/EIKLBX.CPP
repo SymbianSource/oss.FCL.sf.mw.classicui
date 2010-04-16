@@ -73,7 +73,7 @@
 #include <akncollection.h>
 #include <aknitemactionmenu.h>
 #include <aknlongtapdetector.h>
-#include <aknpriv.hrh>
+#include <AknPriv.hrh>
 #include "akntrace.h"
 
 // timeout for long keypress used in markable lists
@@ -2427,8 +2427,6 @@ EXPORT_C void CEikListBox::ConstructL(const CCoeControl* aParent,TInt aFlags)
     if(iItemDrawer && (iItemDrawer->MinimumCellSize().iHeight != 0))
         iItemHeight = iItemDrawer->MinimumCellSize().iHeight;
 
-    CheckCreateExtensionL();
-    
     if ( iListBoxExt->iLongTapDetector
             && iListBoxFlags & EDisableItemSpecificMenu )
         {
@@ -4613,7 +4611,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
     
     // Handle empty list area events
     if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-            !iListBoxExt->iScrolling && !iListBoxExt->iIsDownOnItem )
+            !iListBoxExt->iScrolling )
         {
         if ( listEmpty )
             {
@@ -4651,18 +4649,18 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             iView->DrawItem( iView->CurrentItemIndex() );
             }
 
-        iListBoxExt->iFeedbackType = ETouchFeedbackList;
+        iListBoxExt->iFeedbackType = ETouchFeedbackBasicItem;
 
         if ( itemIndex != iView->CurrentItemIndex() ||
              iListBoxFlags & ES60StyleMultiselection )
             {
-            iListBoxExt->iFeedbackType = ETouchFeedbackSensitiveList;
+            iListBoxExt->iFeedbackType = ETouchFeedbackSensitiveItem;
             }
 
         if ( iListBoxExt->iPhysics &&
              iListBoxExt->iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
             {
-            iListBoxExt->iFeedbackType = ETouchFeedbackList;
+            iListBoxExt->iFeedbackType = ETouchFeedbackBasicItem;
             }
         
         if ( !iListBoxExt->iPhysics || itemIndex == iView->CurrentItemIndex() )
@@ -4991,7 +4989,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             _AKNTRACE("TPointerEvent::EButton1Up");
             if ( iListBoxExt->FeedbackEnabledOnUpEvent() && iListBoxExt->iClickEventsAllowed )
                 {
-                TTouchLogicalFeedback fbType = ETouchFeedbackList;
+                TTouchLogicalFeedback fbType = ETouchFeedbackBasicItem;
                 if ( iListBoxFlags & ES60StyleMultiselection )
                     {
                     fbType = ETouchFeedbackCheckbox;
@@ -6238,7 +6236,7 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
                     if ( CAknPhysics::EAknPhysicsActionFlicking == iListBoxExt->iPhysics->OngoingPhysicsAction() || 
                          CAknPhysics::EAknPhysicsActionBouncing == iListBoxExt->iPhysics->OngoingPhysicsAction() )
                         {
-                        iListBoxExt->ImmediateFeedback( ETouchFeedbackSensitiveList,
+                        iListBoxExt->ImmediateFeedback( ETouchFeedbackSensitiveItem,
                                                         TTouchFeedbackType( ETouchFeedbackVibra ),
                                                         TPointerEvent() );
                         }
@@ -6356,7 +6354,6 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
                         {
                         iListBoxExt->iLastDownTappedItem = tappedItemIndex;
                         iListBoxExt->iMarkingDisabled = ETrue;
-                        iListBoxFlags|=ELeftDownInViewRect;                        
                         blockEvent = ETrue;
                         }
                     }

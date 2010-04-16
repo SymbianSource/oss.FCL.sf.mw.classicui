@@ -20,6 +20,7 @@
 #define C_PSLNWALLPAPERUTILSLOADER
 
 #include <e32base.h>
+#include <coemain.h>
 
 /**
 *  Interface class for wallpaper utils library.

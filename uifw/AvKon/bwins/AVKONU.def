@@ -3450,5 +3450,4 @@ EXPORTS
 	?Release@CAknDiscreetPopup@@SAXXZ @ 3449 NONAME ; void CAknDiscreetPopup::Release(void)
 	?InitL@CAknDiscreetPopup@@SAXXZ @ 3450 NONAME ; void CAknDiscreetPopup::InitL(void)
 	?IsSingleClickCompatible@CAknAppUiBase@@QBEHXZ @ 3451 NONAME ; int CAknAppUiBase::IsSingleClickCompatible(void) const
-	?StartAnimationL@CAknBitmapAnimation@@QAEXH@Z @ 3452 NONAME ; void CAknBitmapAnimation::StartAnimationL(int)
 

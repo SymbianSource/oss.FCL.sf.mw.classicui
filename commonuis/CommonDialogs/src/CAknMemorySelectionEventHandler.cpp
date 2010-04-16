@@ -22,7 +22,7 @@
 #include <aknmemorycarddialog.h>
 #include <pathinfo.h> //PathInfo
 #include <e32property.h>
-#include <rsfwmountman.h>
+
 
 #include "CAknMemorySelectionEventHandler.h"
 #include "CAknMemorySelectionDialog.h"
@@ -323,8 +323,8 @@ CActiveRemotePropertySubscriber::CActiveRemotePropertySubscriber(
 void CActiveRemotePropertySubscriber::ConstructL()
     {
     CActiveScheduler::Add(this);
-    User::LeaveIfError(
-        iProperty.Attach( KRfeServerSecureUid, ERsfwPSKeyConnect ) );
+    //User::LeaveIfError(
+    //    iProperty.Attach( KRfeServerSecureUid, ERsfwPSKeyConnect ) );
     }
 
 // ---------------------------------------------------------------------------

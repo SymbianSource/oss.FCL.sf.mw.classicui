@@ -1083,20 +1083,6 @@ private:
     //function for function in CAknMemorySelectionDialogMultiDrive.h
     virtual TInt TestMSDMDFindIndexByDriveL( CStifItemParser& aItem );
 
-    /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
-
 private: // Data
     
     enum TSwitchId

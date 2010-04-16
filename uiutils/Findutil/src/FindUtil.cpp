@@ -24,12 +24,12 @@
 
 
 #include <e32std.h>
-#include <FeatMgr.h>
-#include "findutil.h"
-#include "findutilbase.h"
+#include <featmgr.h>
+#include "FindUtil.h"
+#include "FindUtilBase.h"
 
 #ifdef __WINS__     
-#include <FeatMgr.h>    
+#include <featmgr.h>    
 #endif
 
 typedef MFindUtil* (*TFindUtilFactoryFunctionL)();

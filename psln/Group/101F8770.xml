@@ -1,8 +1,5 @@
 <!-- 
 To change screensaver type to default - date/time screensaver
-Repository : KCRUidScreenSaver
-Key : KScreenSaverObject 
-Definition in file ScreensaverInternalCRKeys.h
 -->
 
 <PowerSaveModeConfig>

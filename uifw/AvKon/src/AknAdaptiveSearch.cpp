@@ -537,18 +537,5 @@ void CAknAdaptiveSearch::UpdateGridSkinL()
 		iAdaptiveSearchGrid->HandleResourceChange(KAknsMessageSkinChange);
 		}
 	}
-
-
-// -----------------------------------------------------------------------------
-// CCAknAdaptiveSearch::SaveFindPaneRect()
-// When the rect of find pane is set, this functions will be notified
-// to record the size of it.
-// -----------------------------------------------------------------------------
-//
-void CAknAdaptiveSearch::SaveFindPaneRect( const TRect &aRect )
-    {
-    iAdaptiveSearchGrid->SaveFindPaneRect( aRect );
-    }
-
 // End of File
 

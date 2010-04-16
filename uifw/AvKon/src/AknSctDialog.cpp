@@ -602,6 +602,8 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
                 TryExitL(EAknSoftkeySelect);
                 return EKeyWasConsumed;
                 }
+                break;
+                    
             case '*':
                 {
                 if (!aKeyEvent.iRepeats) // switch another table when repeat count is 0 only.

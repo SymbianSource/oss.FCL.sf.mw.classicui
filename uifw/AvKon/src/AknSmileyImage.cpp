@@ -197,7 +197,7 @@ void CSmileyImage::DoLoadL()
     if(iImageSkinItem.iMinor > 0)
         {
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        TRAP_IGNORE( AknsUtils::CreateColorIconL(skin, iImageSkinItem, 
+        TRAPD(err, AknsUtils::CreateColorIconL(skin, iImageSkinItem, 
                                                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19, 
                                                iFrame, iFrameMask, 
                                                smileyMifName, iImagePkgItem, iImagePkgItem, 
@@ -205,7 +205,7 @@ void CSmileyImage::DoLoadL()
         }
     else
         {
-        TRAP_IGNORE( AknIconUtils::CreateIconL(iFrame, iFrameMask, smileyMifName, iImagePkgItem, iImagePkgItem));
+        TRAPD(err, AknIconUtils::CreateIconL(iFrame, iFrameMask, smileyMifName, iImagePkgItem, iImagePkgItem));
         }
     
     if(iIsAnimation) // the first frame of animation svg is blank without correct content

@@ -158,9 +158,6 @@ LIBRARY         distributablechecker.lib    // generic API for determining if co
 
 LIBRARY         aiwdialdata.lib
 
-#ifdef RD_MULTIPLE_DRIVE 
-LIBRARY         rsfwmountman.lib
-#endif
 
 LIBRARY         AknLayout2Scalable.lib
 

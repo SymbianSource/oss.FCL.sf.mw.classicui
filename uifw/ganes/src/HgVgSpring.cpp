@@ -41,9 +41,7 @@ iSpringK(aSpringK),
 iSpringDamping(aSpringDamping),
 iMaxSpringVelocity(aSpringMaxVelocity),
 iPositionSnap(aPositionSnap),
-iVelocitySnap(aVelocitySnap),
-iStartX(0),
-iStartY(0)
+iVelocitySnap(aVelocitySnap)
     {
     
     }
@@ -69,8 +67,8 @@ void THgVgSpring::Reset(TReal aX, TReal aY)
 
 void THgVgSpring::Reset()
     {
-    iPrevX = iX = iStartX = iEndX;
-    iPrevY = iY = iStartY = iEndY;
+    iPrevX = iX = iEndX;
+    iPrevY = iY = iEndY;
     iAccumulator = 0;
     iVelX = 0;
     iVelY = 0;
@@ -78,14 +76,12 @@ void THgVgSpring::Reset()
 
 void THgVgSpring::SetXY(TReal aX, TReal aY)
     {
-    iStartX = iPrevX = iX = aX;
-    iStartY = iPrevY = iY = aY;
+    iPrevX = iX = aX;
+    iPrevY = iY = aY;
     }
 
 void THgVgSpring::SetEnd(TReal aX, TReal aY)
     {
-    iStartX = iEndX;
-    iStartY = iEndY;
     iEndX = aX;
     iEndY = aY;
     }
@@ -179,16 +175,6 @@ TReal THgVgSpring::GetInterpolatedY() const
     {
     TReal a = iAccumulator / KTimeStep;
     return iY * (1.0 - a) + iPrevY * a;
-    }
-
-TReal THgVgSpring::StartX() const
-    {
-    return iStartX;
-    }
-
-TReal THgVgSpring::StartY() const
-    {
-    return iStartY;
     }
 
 

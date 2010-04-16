@@ -58,7 +58,7 @@
 #include <touchfeedback.h>
 #include <aknitemactionmenu.h>
 #include "aknitemactionmenuregister.h"
-#include <aknPriv.hrh>
+#include <AknPriv.hrh>
 #include "akntrace.h"
 
 enum { EEikMenuBarTitleArrayGranularity=10 };
@@ -78,11 +78,6 @@ public:
      */
     void SetItemCommandsDimmedL();
 
-    /**
-     * Saves current value of iItemActionMenu->CollectionHighlightVisible() to 
-     * a member variable iCollectionHighlightVisible
-     */
-    void StoreCollectionHighlightValue(); 
 public: // from MAknFadedComponent
     TInt CountFadedComponents();
     CCoeControl* FadedComponent(TInt aIndex);
@@ -110,12 +105,6 @@ public:
      * Not own.
      */
     CAknItemActionMenu* iItemActionMenu;
-
-    /**
-     * When menu pane is opened this value is updated to store the value about
-     * collection highlight visibility
-     */
-    TBool iCollectionHighlightVisible; 
     };
 
 
@@ -162,14 +151,6 @@ void CEikMenuBarExtension::SetItemCommandsDimmedL()
     }
 
 
-void CEikMenuBarExtension::StoreCollectionHighlightValue()
-    {
-    if ( iItemActionMenu )
-        {
-        iCollectionHighlightVisible
-                = iItemActionMenu->CollectionHighlightVisible();
-        }
-    }
 CEikMenuBarExtension::CEikMenuBarExtension(CEikMenuBar* aBar)
     :iBar(aBar),
      iDoingMenuCloseTransition(EFalse),
@@ -425,7 +406,6 @@ inline TBool CEikMenuBar::MenuHasItems() const
 inline void CEikMenuBar::SetMenuHasItems()
     {
     iMenuFlags|=EMenuHasItems;
-    iExt->StoreCollectionHighlightValue();
     }
 
 inline TBool CEikMenuBar::MenuHasPane() const
@@ -1003,7 +983,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
             TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                fbLogicalType = ETouchFeedbackPopupOpen;
                 }
             feedback->InstantFeedback(
                                    this,
@@ -1193,7 +1173,7 @@ void CEikMenuBar::ProcessCommandL(TInt aCommandId)
                     TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
                     if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                         {
-                        fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                        fbLogicalType = ETouchFeedbackPopupClose;
                         }
                     feedback->InstantFeedback(
                                            this,
@@ -1377,11 +1357,7 @@ EXPORT_C CEikMenuBar::TMenuType CEikMenuBar::GetMenuType() const
 EXPORT_C TBool CEikMenuBar::ItemSpecificCommandsEnabled() const
     {
     TBool enabled( ETrue );
-    if ( MenuHasPane() && iExt->iItemActionMenu )
-        {
-        enabled = iExt->iCollectionHighlightVisible; 
-        }
-    else if ( iExt->iItemActionMenu &&
+    if ( iExt->iItemActionMenu &&
             !iExt->iItemActionMenu->CollectionHighlightVisible() )
         {
         enabled = EFalse;

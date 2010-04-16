@@ -216,22 +216,6 @@ private:
      * Method used to log version of test class
      */
     void SendTestClassVersion();
-    
-        /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
-
-    //[TestMethods]
 
 private:    // Data
 

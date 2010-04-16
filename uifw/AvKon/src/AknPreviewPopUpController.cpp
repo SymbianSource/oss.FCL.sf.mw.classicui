@@ -285,41 +285,70 @@ EXPORT_C void CAknPreviewPopUpController::SetPosition( const TPoint& aPoint )
             popupSize.iHeight = clientRect.Height();
         	}
 
-        // default horizontal position is left from the given point
-        if ( askedPoint.iX - popupSize.iWidth >= clientRect.iTl.iX )
-            {
-            finalPosition.iX = askedPoint.iX - popupSize.iWidth;
-            }
-        else
-            {
-            // outside left border, move to left border
-            finalPosition.iX = clientRect.iTl.iX;
-            }
-
-        // check the right border
-        if ( finalPosition.iX + popupSize.iWidth > clientRect.iBr.iX )
-            {
-            finalPosition.iX = clientRect.iBr.iX - popupSize.iWidth;
-            }
-
-        // default vertical position is up from the given point
-        // coordinates grow from top to bottom
-        if ( askedPoint.iY > clientRect.iTl.iY )
-            {
-            finalPosition.iY = askedPoint.iY;
-            }
-        else
-            {
-            // outside top border, move to top border
-            finalPosition.iY = clientRect.iTl.iY;
-            }
-
-        // outside bottom border, move to bottom border
-        if ( ( askedPoint.iY + popupSize.iHeight ) > clientRect.iBr.iY )
-            {
-            finalPosition.iY = clientRect.iBr.iY - popupSize.iHeight;
-            }
-
+        // :winterTTr:
+        // Auto mirror left <==> right if there is space on the other side.
+        // Let the popup not drop out under the finger, if possible
+        if ( ( askedPoint.iX <= clientRect.iBr.iX ) 
+        	 && ( askedPoint.iX - popupSize.iWidth >=  clientRect.iTl.iX ) )
+        	{
+        	finalPosition.iX = askedPoint.iX - popupSize.iWidth ;
+        	}
+        else if ( askedPoint.iX > clientRect.iBr.iX )
+        	{
+        	if ( askedPoint.iX - popupSize.iWidth * 2 >= clientRect.iTl.iX )
+        		{
+        		finalPosition.iX = askedPoint.iX - popupSize.iWidth * 2 ;
+        		}
+        	else
+        		{
+        		finalPosition.iX = clientRect.iBr.iX - popupSize.iWidth ;
+        		}
+        	}
+        else // askedPoint.iX - popupSize.iWidth <  clientRect.iTl.iX
+        	{
+        	if ( askedPoint.iX + popupSize.iWidth <= clientRect.iBr.iX )
+        		{
+        		finalPosition.iX = askedPoint.iX;
+        		}
+        	else
+        		{
+        		finalPosition.iX = clientRect.iTl.iX;
+        		}
+        	
+        	}
+        
+        // :winterTTr:
+        // Auto mirror top <==> buttom if there is space on the other side.
+        // Let the popup not drop out under the finger, if possible
+        if ( askedPoint.iY >= clientRect.iTl.iY 
+        		&& askedPoint.iY + popupSize.iHeight <= clientRect.iBr.iY )
+        	{
+        	finalPosition.iY = askedPoint.iY;
+        	}
+        else if ( askedPoint.iY < clientRect.iTl.iY )
+        	{
+        	if ( askedPoint.iY + popupSize.iHeight *2 <= clientRect.iBr.iY )
+        		{
+        		finalPosition.iY = askedPoint.iY + popupSize.iHeight;
+        		}
+        	else
+        		{
+        		finalPosition.iY = clientRect.iTl.iY;
+        		}
+        	}
+        else // askedPoint.iY + popupSize.iHeight > clientRect.iBr.iY
+        	{
+        	if ( askedPoint.iY - popupSize.iHeight >= clientRect.iTl.iY )
+        		{
+        		finalPosition.iY = askedPoint.iY - popupSize.iHeight;
+        		}
+        	else
+        		{
+        		finalPosition.iY = clientRect.iBr.iY - popupSize.iHeight;
+        		}
+        	
+        	}
+        
         if ( resize )
             {
             iPopUp->SetSize( popupSize );

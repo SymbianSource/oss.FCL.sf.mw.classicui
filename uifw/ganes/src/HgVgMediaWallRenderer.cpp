@@ -477,8 +477,7 @@ void CHgVgMediaWallRenderer::Draw(RPointerArray<CHgVgItem>& aItems,
         TReal aAnimationAlpha,
         CHgVgMediaWall::THgVgAnimationState aState, 
         CHgVgMediaWall::THgVgOpeningAnimationType aSelectionAnimationType, 
-        CHgVgMediaWall::THgVgMediaWallStyle /*aStyle*/,
-        TReal aStartIndex)
+        CHgVgMediaWall::THgVgMediaWallStyle /*aStyle*/)
     { 
     
     TInt itemsOnScreen = 0;
@@ -486,7 +485,7 @@ void CHgVgMediaWallRenderer::Draw(RPointerArray<CHgVgItem>& aItems,
             aSelectedIndex, aNextIndex,
             aViewPosition,
             aAnimationAlpha,
-            aState, aSelectionAnimationType, aStartIndex);
+            aState, aSelectionAnimationType);
     
     TransformAndDraw(itemsOnScreen, aSelectionAnimationType);
     }
@@ -522,7 +521,6 @@ void CHgVgMediaWallRenderer::DrawGrid(
 
 TReal CHgVgMediaWallRenderer::GetWorldSpaceRowHeight() const
     {
-    // TODO: replace these macig numbers
     return (120.0 / 90.0 * 0.25 + 0.02);
     }
 
@@ -533,8 +531,6 @@ TReal CHgVgMediaWallRenderer::GetWorldSpaceRowHeight() const
 //     
 void CHgVgMediaWallRenderer::CreateGround()
 {
-    // Create path and paint for drawing ground plane
-    
     iGroundPath = vgCreatePath(VG_PATH_FORMAT_STANDARD, VG_PATH_DATATYPE_F, KGroundScale, KGroundBias, 
             KGroundVerticesHint, KGroundSegmentsHint, (unsigned int)VG_PATH_CAPABILITY_ALL);
     
@@ -757,8 +753,7 @@ TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
         VGfloat aViewPosition,
         VGfloat aAnimationAlpha,
         CHgVgMediaWall::THgVgAnimationState aState, 
-        CHgVgMediaWall::THgVgOpeningAnimationType aOpeningAnimationType, 
-        TReal aStartIndex)
+        CHgVgMediaWall::THgVgOpeningAnimationType aOpeningAnimationType)
     {
     
     
@@ -781,78 +776,77 @@ TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
     Math::Frac(frac, src);
     VGfloat fDiff = frac;
             
+    VGfloat zFar = iZFar;
     VGfloat leftIndex = (VGfloat)(iSelectedItemIndex - 1);
+    VGfloat rightIndex = (VGfloat)(iSelectedItemIndex + 1);
+    VGfloat centerIndex = (VGfloat)iSelectedItemIndex;
     VGfloat leftX = iLeftStackEndX;
+    VGfloat rightX = iRightStackStartX;
     VGfloat step = iSpaceBetween;
-
-    // support mirrored layouts (right-to-left reading)
+    VGfloat centerX = 0;
+    
     if (AknLayoutUtils::LayoutMirrored())
         {
-        leftX = -iLeftStackEndX;
+        rightX = iLeftStackEndX;
+        leftX = iRightStackStartX;
         step = -step;
         }
-    
+        
     TInt i = 0;
     TInt itemsOnScreen = 0;
     TInt currentRow = (TInt)aViewPosition - KSelectedItemIndex;
-        
+    
+    TReal dist = Min(Max(0, Abs(aNextIndex - aViewPosition) - 1.0f), 1.0f);
+    VGfloat zNear = HgVgHelper::Lerp(iZNear, iZFar, dist);
+    
     while (itemsOnScreen < iQuads.Count())
         {
         TInt itemIndex = currentRow + i;
-
-        // not really an item
+        
         if (itemIndex < 0)
             {
             i++;
             continue;
             }
         
-        // got past all items
         if (itemIndex  >= aItems.Count())
             {
             break;
             }
 
-        // setup quads to represent coverflow
         TQuad* q = iQuads[itemsOnScreen];        
 
         q->iY = 0;
-        q->iZ = iZFar;
+        q->iZ = zFar;
         q->iAngle = 0;
-
         q->iFlipped = EFalse;
-
+            
         VGfloat fi = (VGfloat)i - fDiff;
         
-        q->iX = leftX - step * (leftIndex - fi);
-        
-        
-        if (aStartIndex != aNextIndex)
+        if (fi < leftIndex)
             {
-            // if start and next index are not same, we can just interpolate
-            // items at these indices.
-            if (itemIndex == (TInt)aStartIndex ||
-                    itemIndex == (TInt)aNextIndex)
-                {
-                q->iZ = HgVgHelper::Lerp((VGfloat)iZNear, (VGfloat)iZFar, Abs(q->iX / leftX));
-                q->iZ = Min(q->iZ, (VGfloat)iZFar);            
-                }
+            q->iX = leftX - step * (leftIndex - fi);
             }
-        else
+        else if (fi >= leftIndex && fi < centerIndex)
             {
-            // in this case we are just dragging and startindex and left index are
-            // same so we need to interpolate z for all items coming/leaving center 
-            // of the screen.
-            q->iZ = HgVgHelper::Lerp((VGfloat)iZNear, (VGfloat)iZFar, Abs(q->iX / leftX));
-            q->iZ = Min(q->iZ, (VGfloat)iZFar);                    
+            q->iX = HgVgHelper::Lerp(leftX, centerX, fi - leftIndex);
+            q->iZ = HgVgHelper::Lerp(zFar, zNear, fi - leftIndex);                                            
+            }
+        else if (fi >= centerIndex && fi < rightIndex)
+            {
+            q->iX = HgVgHelper::Lerp(centerX, rightX, fi - centerIndex);
+            q->iZ = HgVgHelper::Lerp(zNear, zFar, fi - centerIndex);            
+            }
+        else if (fi >= rightIndex)
+            {
+            q->iX = rightX + step * (fi - rightIndex);
             }
         
-        // calculate alpha so that items further are more transparent.
         q->iAlpha = HgVgHelper::Lerp(1, 0, Max(0.0, (Abs(q->iX)-2.0) / (TReal)(iQuads.Count()/2-2)));         
-                    
+            
+        
         q->iItemIndex = itemIndex;
         
-        // setup image to quad from item
         if  (aItems[itemIndex]->VgImage() == VG_INVALID_HANDLE)
             {
             q->iNoImage = ETrue;
@@ -863,13 +857,12 @@ TInt CHgVgMediaWallRenderer::SetupQuads(RPointerArray<CHgVgItem>& aItems,
             q->iImage = aItems[itemIndex]->VgImage();
             }
 
-        // apply opening animation to item if needed
         if (isSelectionToFocusedItem && (itemIndex == aSelectedIndex))
             {
             q->iAlpha = 1;
             q->iFlipped = ETrue;
             iBlurAlpha = selectionAnimationAlpha;
-            ApplyOpeningAnimation(q, selectionAnimationAlpha, q->iZ, 
+            ApplyOpeningAnimation(q, selectionAnimationAlpha, zNear, 
                     CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen, 
                     aOpeningAnimationType);
             }

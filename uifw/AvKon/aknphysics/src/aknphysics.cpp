@@ -1106,7 +1106,7 @@ void CAknPhysics::DoSimulation()
             if ( iBounceTactileFeedback && iFeedback )
                 {
                 iFeedback->InstantFeedback( NULL,
-                                            ETouchFeedbackBoundaryList,
+                                            ETouchFeedbackBounceEffect,
                                             ETouchFeedbackVibra,
                                             TPointerEvent() );
                 }

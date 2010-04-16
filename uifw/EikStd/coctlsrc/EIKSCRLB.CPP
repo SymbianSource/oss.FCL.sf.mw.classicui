@@ -1075,7 +1075,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
              if ( feedback && feedbackEnabled )
                  {
                  feedback->InstantFeedback( this, 
-                                            ETouchFeedbackSlider, 
+                                            ETouchFeedbackBasicSlider, 
                                             ETouchFeedbackVibra, 
                                             aPointerEvent );
                  }
@@ -1174,7 +1174,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                                 }
                             if ( feedback && feedbackEnabled )
                                 {
-                                feedback->InstantFeedback( this, ETouchFeedbackSlider, aPointerEvent );
+                                feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aPointerEvent );
                                 }
                             }
 
@@ -1224,7 +1224,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                                 }
                             if ( feedback && feedbackEnabled )
                                 {
-                                feedback->InstantFeedback( this, ETouchFeedbackSlider, aPointerEvent );
+                                feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aPointerEvent );
                                 }
                             }
 
@@ -1276,7 +1276,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                                                         ETouchFeedbackAudio |
                                                         ETouchFeedbackVibra );
                           
-                        feedback->InstantFeedback( this, ETouchFeedbackSlider, fbType, aPointerEvent );
+                        feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, fbType, aPointerEvent );
                         }
                     }
 
@@ -1416,7 +1416,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback ( this, ETouchFeedbackSlider, aPointerEvent );
+                            feedback->InstantFeedback ( this, ETouchFeedbackBasicSlider, aPointerEvent );
                             }
                         extension->SetModelThumbPosition(thumbPosition);
                         indicator->SetIndicatorValues(scrollSpan, thumbPosition, thumbSpan, 0, 0);
@@ -1459,7 +1459,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback ( this, ETouchFeedbackSlider, aPointerEvent );
+                            feedback->InstantFeedback ( this, ETouchFeedbackBasicSlider, aPointerEvent );
                             }
                         extension->SetModelThumbPosition(thumbPosition);
                         indicator->SetIndicatorValues(scrollSpan, thumbPosition, thumbSpan, 0, 0);

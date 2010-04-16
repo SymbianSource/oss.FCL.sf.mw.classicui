@@ -344,7 +344,7 @@ LIBRARY         viewcli.lib
 LIBRARY         aknphysics.lib
 LIBRARY         HWRMLightClient.lib
 
-DEFFILE AVKON.DEF
+DEFFILE AVKON.def
 
 START WINS
     baseaddress     0x7dc00000

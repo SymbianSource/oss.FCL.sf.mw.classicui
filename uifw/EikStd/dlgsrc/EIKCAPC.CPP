@@ -520,7 +520,7 @@ void CEikCapCExtension::SimulatePointerEventToControlL(
             if ( input )
                 {
                 iFeedback->InstantFeedback(
-                        iSelf->iControl,  ETouchFeedbackEdit,
+                        iSelf->iControl, ETouchFeedbackEditor,
                         ETouchFeedbackVibra, aPointerEvent );
                 input->ReportEventL(
                         CAknExtendedInputCapabilities::\

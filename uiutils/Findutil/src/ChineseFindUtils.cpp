@@ -22,9 +22,9 @@
 
 
 
-#include <CentralRepository.h>
+#include <centralrepository.h>
 
-#include "chinesefindutils.h"
+#include "ChineseFindUtils.h"
 
 // ======== MEMBER FUNCTIONS ========
 

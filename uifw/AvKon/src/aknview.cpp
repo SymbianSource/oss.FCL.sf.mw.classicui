@@ -576,22 +576,16 @@ EXPORT_C void CAknView::ViewDeactivated()
 EXPORT_C void CAknView::AknViewActivatedL( const TVwsViewId& aPrevViewId, TUid aCustomMessageId, const TDesC8& aCustomMessage )
 	{
 	ConstructMenuAndCbaL( ETrue );
-
-    if ( !iViewInfo.iMenu )
-        {
-        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
-        }
-    
-	Extension()->PrepareToolbar();
-
-	DoActivateL( aPrevViewId, aCustomMessageId, aCustomMessage );
-
-    if ( !Extension()->iViewActivated || !iViewInfo.iMenu )
+    if ( !Extension()->iViewActivated )
         {
         // Reset menu bar owner when view first activated
         AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
         Extension()->iViewActivated = ETrue;
         }
+	
+	Extension()->PrepareToolbar();
+
+	DoActivateL( aPrevViewId, aCustomMessageId, aCustomMessage );
 
 #ifdef RD_SCALABLE_UI_V2
     if ( iAvkonAppUi->TouchPane() )

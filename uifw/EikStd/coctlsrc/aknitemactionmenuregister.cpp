@@ -338,17 +338,6 @@ void AknItemActionMenuRegister::DoUnregisterItemActionMenu(
         CAknItemActionMenu& aItemActionMenu )
     {
     iRegisterArray->UnregisterItemActionMenu( aItemActionMenu );
-
-    for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
-        {
-        TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
-        if ( data.iMenu == &aItemActionMenu )
-            {
-            delete data.iMenu;
-            iUnregisteredMenus.Remove( i ); 
-            break; 
-            }
-        }
     }
 
 
@@ -377,21 +366,14 @@ void AknItemActionMenuRegister::DoUnregisterCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
     iRegisterArray->UnregisterCollectionObserver( aObserver );
-
     for ( TInt i = 0; i < iUnregisteredObservers.Count(); i++ )
         {
         TAknUnregisteredObserverData& data( iUnregisteredObservers[ i ] );
         if ( &data.iObserver == &aObserver )
             {
             iUnregisteredObservers.Remove( i );
-            return;
+            break;
             }
-        }
-
-    for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
-        {
-        TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
-        data.iMenu->RemoveCollectionObserver( aObserver ); 
         }
     }
 

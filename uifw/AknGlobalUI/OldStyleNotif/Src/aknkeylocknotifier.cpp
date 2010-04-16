@@ -42,7 +42,6 @@
 #include <aknglobalpopupprioritycontroller.h>
 #include "GlobalWindowPriorities.h"
 #include <keylockpolicyapi.h>
-#include <ScreensaverInternalPSKeys.h>
 
 #include <PSVariables.h>   // Property values
 #include <coreapplicationuisdomainpskeys.h>
@@ -295,8 +294,6 @@ void CAknKeylockScreenSaverObserver::ConstructL()
     {
     // Add this active object to the scheduler.
     CActiveScheduler::Add( this );
-    User::LeaveIfError( iScreenSaverActiveProperty.Attach( KPSUidScreenSaver,
-                                                           KScreenSaverOn ) );
 
     // We need policies to poll primary keys.
     iUnlockPolicyApi = CKeyLockPolicyApi::NewL( EPolicyDeactivateKeyguard );

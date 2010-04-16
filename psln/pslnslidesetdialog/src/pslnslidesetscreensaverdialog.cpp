@@ -28,9 +28,6 @@
 #include <aknslidersettingpage.h>
 #include <AknsSrvClient.h>
 
-// Screensaver PS keys.
-#include <ScreensaverInternalPSKeys.h>
-
 // Psln Slide set specific.
 #include "pslnslidesetscreensaverdialog.h"
 #include "pslnslidesetdialog.hrh"
@@ -177,28 +174,6 @@ void CPslnSlidesetScreensaverDialog::PreLayoutDynInitL()
 //
 TBool CPslnSlidesetScreensaverDialog::OkToExitL( TInt aButtonId )
     {
-    // Check if model indicates that setting values have been updated.
-    if ( iModel->HasDialogUpdatedValues() )
-        {
-        TInt psValue = KErrNotFound;
-        User::LeaveIfError(
-            RProperty::Get(
-                KPSUidScreenSaver,
-                KScreenSaverPluginSettingsChanged,
-                psValue ) );
-
-        // If so, check P&S key.
-        if ( psValue == EScreenSaverPluginSettingsChanging )
-            {
-            // If P&S key indicates that setting changes need to be
-            // informed, do so.
-            User::LeaveIfError(
-                RProperty::Set(
-                    KPSUidScreenSaver,
-                    KScreenSaverPluginSettingsChanged,
-                    EScreenSaverPluginSettingsChanged ) );
-            }
-        }
     return CPslnSlidesetDialog::OkToExitL( aButtonId );
     }
 

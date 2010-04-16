@@ -24,11 +24,11 @@
 
 
 #include <PtiEngine.h>
-#include <CentralRepository.h>
+#include <centralrepository.h>
 #include <AknFepInternalCRKeys.h>
 #include <AvkonInternalCRKeys.h>
 #include <aknedsts.h>
-#include <COEAUI.H>
+#include <coeaui.h>
 #include <aknenv.h> //phonebook
 #include <aknappui.h>
 #include <aknapp.h>
@@ -38,7 +38,7 @@
 
 
 #include "FindUtilChinese.h"
-#include "chinesefindutils.h"
+#include "ChineseFindUtils.h"
 
 // CONSTANTS 
 const TUint16 KStarChar = 0x002a;   
@@ -1919,10 +1919,6 @@ void CFindUtilChinese::AddNextIfOverlapL(const RPointerArray<STRINGINFO>& astrin
         {
         pStringInfo= astringInfoArr[aindex];
         }
-    else
-    	{
-    	return;
-    	}
     
     if (pStringInfo->isChinese)
         {
@@ -2334,7 +2330,9 @@ TBool CFindUtilChinese::IsAdaptiveFindMatchL( const TDesC& aItemString, const TD
                         {
                         //for multiphnetic spell
                         TInt spellCount = tempSpellList.Count();
-
+                        TInt matchMaxIndex = 0;
+                        TInt matchMax = 0;
+                        TInt matchMaxPre = 0;
                         // Search all spelling
                         for (TInt j = 0; j < spellCount; j++)
                             {

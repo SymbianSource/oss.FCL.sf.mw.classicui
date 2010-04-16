@@ -2227,8 +2227,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         {
                         // State is changed on button down event
                         ChangeState( EFalse );
-                        redrawNeeded = EFalse;
-                        DrawNow();  //Redraw before noticing the observer for observer might open dialog                        
+                        redrawNeeded = ETrue;
                         if ( Observer() )
                             {
                             Observer()->HandleControlEventL( this,
@@ -2336,7 +2335,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                     iButtonPressed = EFalse;
                     }
 
-                TBool hasDrawn( EFalse );
                 if ( buttonEvent && !IsDimmed() )
                     {
                         // feedback/BasicButton on up event, if hit test is
@@ -2359,12 +2357,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                          !( iExtension->iFlags.IsSet( CAknButtonExtension::EKeyRepeatEventReported ) ) )
                         {
                         ChangeState( EFalse );
-                        if ( !hasDrawn )
-                        	{
-	                        DrawNow();
-	                        hasDrawn = ETrue;
-                        	}
-                        
+                        redrawNeeded = ETrue;
                         if ( Observer() )
                             {
                             Observer()->HandleControlEventL( this,
@@ -2375,11 +2368,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         {
                         if ( iExtension->iFlags.IsSet( CAknButtonExtension::ELongPressReported ) && Observer() )
                             {
-                            if ( redrawNeeded && !hasDrawn )
-                            	{
-                            	DrawNow();
-                            	hasDrawn = ETrue;
-                            	}
                             Observer()->HandleControlEventL( this, 
                                 static_cast<MCoeControlObserver::TCoeEvent>( 
                                 CAknButton::ELongPressEndedEvent ) );
@@ -2390,11 +2378,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
 
                     if ( RequestExit() && Observer() )
                         {
-                        if ( redrawNeeded && !hasDrawn )
-                        	{
-                        	DrawNow();
-                        	hasDrawn = ETrue;
-                        	}
                         Observer()->HandleControlEventL( this,
                             MCoeControlObserver::EEventRequestExit );
                         }
@@ -2402,11 +2385,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         
                 if ( !buttonEvent && !IsDimmed() && Observer() )
                    {
-                   if ( redrawNeeded && !hasDrawn )
-                	   {
-                	   DrawNow();
-                	   hasDrawn = ETrue;
-                	   }
                    Observer()->HandleControlEventL( this,
                         MCoeControlObserver::EEventRequestCancel );
                         
@@ -2419,10 +2397,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         iExtension->iFlags.Clear( CAknButtonExtension::EKeyRepeatEventReported );
                         }                        
                    }
-                if ( hasDrawn )
-                	{
-                	redrawNeeded = EFalse;
-                	}
+
                 break;
                 }
 

@@ -4194,10 +4194,5 @@
 //r: TB9.2
 #define qtn_tin_option_menu_add_smiley "Add smiley"
 
-//d:Restart phone note for inserting SIM card. Shown if SIM card has been inserted and offline mode has been changed to another one when phone is on.
-//l:popup_note_window
-//r: TB9.2
-#define qtn_su_note_insert_sim_and_restart "Insert SIM card and restart phone"
-
 
 // End of File

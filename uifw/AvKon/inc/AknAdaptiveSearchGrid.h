@@ -234,14 +234,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          
          static const TInt EDeleteLastCharPressed = -1;
 		 static const TInt ECloseGridPressed = -2;  
-		 
-    public:
-		 
-		/**
-		 * When the rect of find pane is set, this functions will be notified
-         * to record the size of it.
-		 */
-		void SaveFindPaneRect( const TRect &aRect );
   
     protected: // From base class
   
@@ -424,10 +416,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
         TBool iPopupFindpane;
         // The length of overlap section 
         TInt iOverlapLength;
-        
-        TRect iFindpaneRect;
-        
-        TBool iFindPaneSizeChanged;
 
     };
 

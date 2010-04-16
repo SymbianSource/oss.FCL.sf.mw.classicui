@@ -55,8 +55,6 @@
 #include <e32property.h>
 #include "pslninternalcrkeys.h"
 #include <AknSkinsInternalCRKeys.h>             // wallpaper, screen saver
-#include <ScreensaverInternalCRKeys.h>          // KScreenSaverObject
-#include <ScreensaverInternalPSKeys.h>          // KScreenSaverPreviewMode
 #include <cenrepnotifyhandler.h>
 
 // For enabling first component transition effect
@@ -70,8 +68,6 @@
 // CONSTANTS
 // Path of skin files.
 _LIT( KPslnSkinNamesFile,"z:PslnSkinNames.rsc" );
-// Preview mode activated.
-const TInt KPslnActivatePreviewMode = 1;
 
 // Default item index.
 const TInt KPslnDefaultItemIndex = 0;
@@ -367,15 +363,6 @@ EXPORT_C void CPslnModel::InvokeSSPluginFunctionL(
     PSLN_TRACE_DEBUG1("CPslnModel::InvokeSSPluginFunctionL lexed: %d", err );
     User::LeaveIfError( err );
 
-    CScreensaverPluginInterfaceDefinition* plugin =
-        CScreensaverPluginInterfaceDefinition::NewL(
-        TUid::Uid( screenSaverPluginImpUid ) );
-    CleanupStack::PushL( plugin );
-
-    err = plugin->PluginFunction( aFunction, iEikEnv );
-    PSLN_TRACE_DEBUG1("CPslnModel::InvokeSSPluginFunctionL call return: %d", err );
-    CleanupStack::PopAndDestroy( plugin );
-
     if( err == KErrCancel && aIndex == CurrentPropertyIndexL( KPslnScreenSettingId ) )
         {
         SetScreenSaverToDefault();
@@ -429,7 +416,6 @@ EXPORT_C void CPslnModel::LoadScreensaverArrayL()
 
     // System screensavers have no capabilities
     User::LeaveIfError( iScreensaverCapsArr.Append( EFalse ) );
-    User::LeaveIfError( iScreensaverCapsArr.Append( EScpCapsConfigure ) );
 
     if ( IsSupportScreenSaverNoneOption() )
         {
@@ -1060,23 +1046,6 @@ EXPORT_C void CPslnModel::SetCurrentPropertyTypeL(
                     }
                 }
             
-            if ( screensaverType == KPslnSsObject )
-                {
-                retVal = iScreenSaverRepository->Set(
-                    KScreenSaverPluginName,
-                    iScreensaverFilenameArr->MdcaPoint( aCurItemIndex ) );
-                }
-            else
-                {
-                retVal = iScreenSaverRepository->Set(
-                    KScreenSaverPluginName,
-                    KNullDesC );
-                }
-                
-            retVal = iScreenSaverRepository->Set(
-                KScreenSaverObject,
-                screensaverType );
-            
             break;
             }
         default:
@@ -1219,14 +1188,6 @@ EXPORT_C void CPslnModel::TransEffect(TInt aAction) const
 //
 EXPORT_C void CPslnModel::SetScreenSaverToDefault()
     {
-    // Default Screensaver is Date
-    iScreenSaverRepository->Set(
-        KScreenSaverObject,
-        KPslnSsDate );
-    iScreenSaverRepository->Set(
-        KScreenSaverPluginName,
-        KNullDesC );
-        
     }
 
 // -----------------------------------------------------------------------------
@@ -1284,7 +1245,7 @@ void CPslnModel::ConstructL( MAknsSkinChangeObserver* aObserver )
 
     PSLN_TRACE_DEBUG("CPslnModel::ConstructL CenRep");
     iSkinsRepository = CRepository::NewL( KCRUidPersonalisation );
-    iScreenSaverRepository = CRepository::NewL( KCRUidScreenSaver );
+    iScreenSaverRepository = NULL;
     iThemesAppRepository = CRepository::NewL( KCRUidThemes );
 
     // Connect to skin server.
@@ -1358,8 +1319,6 @@ TBool CPslnModel::FindAndAppendScreensaversL()
     RImplInfoPtrArray screenSaverList;
     CleanupResetAndDestroyPushL( screenSaverList );
 
-    CScreensaverPluginInterfaceDefinition::ListImplementationsL( screenSaverList );
-
     const TInt ssCount = screenSaverList.Count();
 
     for( TInt i = 0; i < ssCount; i++ )
@@ -1380,77 +1339,9 @@ TBool CPslnModel::FindAndAppendScreensaversL()
         ssNamePtr = impUid.Name();
         ssNamePtr.AppendNum( implInfo->Drive() );
 
-        // Query plugin name.
-        MScreensaverPlugin* plugin = NULL;
-
-        TRAPD( err, plugin = static_cast<MScreensaverPlugin*>(
-            CScreensaverPluginInterfaceDefinition::NewL(
-                TUid::Uid( impUid.iUid  ) ) ) );
-
         PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Getting caps");
-
-        if ( err == KErrNone )
-            {
-            CleanupStack::PushL( plugin );
-
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Getting caps");
-
-            // Convert the string stored in OpaqueData to an integer
-            // It is the string represantation of TScPluginCaps values
-            // opaque_data has the type TDescC8 so we have to use TLex8
-            TLex8 lex(implInfo->OpaqueData());
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL After Getting caps");
-            TInt capabilities = EScpCapsNone;
-            TInt err2 = KErrNone;
-            if ( !lex.Eos() )
-                {
-                err2 = lex.Val( capabilities );
-                }
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL After Eos check");
-            if ( err2 != KErrNone )
-                {
-                PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Failed");
-                // skip the failing plugin
-                CleanupStack::Pop( plugin ); // using PopAndDestroy fails here.
-                delete plugin;
-                plugin = NULL;
-                break;
                 }
 
-            // Append screensaver name.
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Do Check");
-            if ( plugin && iScreensaverNameArr )
-                {
-                if ( plugin->Name() != KNullDesC )
-                    {
-                    PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Trying to add Name");
-                    iScreensaverNameArr->AppendL( plugin->Name() );
-                    }
-                else
-                    {
-                    PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Trying to add DisplayName");
-                    iScreensaverNameArr->AppendL( implInfo->DisplayName() );
-                    }
-                }
-            CleanupStack::Pop( plugin ); // using PopAndDestroy fails here.
-            delete plugin;
-            plugin = NULL;
-
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL CapsArr Append");
-            User::LeaveIfError(
-                iScreensaverCapsArr.Append( capabilities ) );
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL CapsArrAppend OK");
-
-            found = ETrue;
-
-            PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL Append");
-            if ( iScreensaverFilenameArr )
-                {
-                iScreensaverFilenameArr->AppendL( ssNamePtr );
-                }
-            }
-        CleanupStack::PopAndDestroy( ssName );
-        }
     PSLN_TRACE_DEBUG("CPslnModel::FindAndAppendScreensaversL COMPLETED");
     CleanupStack::PopAndDestroy( &screenSaverList );
     return found;
@@ -1566,10 +1457,9 @@ TBool CPslnModel::QueryAndSetScreensaverTextL()
     HBufC* displayText = HBufC::NewLC( KPslnMaxNumberOfScreenSaverText );
     TPtr txtPtr = displayText->Des();
 
-    TInt error = iScreenSaverRepository->Get( KScreenSaverText, txtPtr );
 
     // Just load the default text if nothing was set in the skin settings.
-    if ( ( txtPtr.Length() == 0 ) || ( error != KErrNone ) )
+    if ( txtPtr.Length() == 0 )
         {
         GetDefaultTextToScreensaverL( txtPtr );
         }
@@ -1590,11 +1480,7 @@ TBool CPslnModel::QueryAndSetScreensaverTextL()
     // Show query for Screen saver txt.
     if( dlg->ExecuteLD( R_PSLN_SCREEN_SAVER_TEXT_QUERY_DIALOG ) )
         {
-        error = iScreenSaverRepository->Set( KScreenSaverText, txtPtr );
-        if ( error == KErrNone )
-            {
             retValue = ETrue;
-            }
         }
     CleanupStack::PopAndDestroy( displayText );
     return retValue;
@@ -1710,9 +1596,6 @@ TInt CPslnModel::GetScreenSaverItemIndexL()
     TInt screenObjectType = KErrNotFound;
     TInt error = KErrNone;
     
-    error = iScreenSaverRepository->Get( 
-        KScreenSaverObject, screenObjectType );
-        
     if ( error != KErrNone )
         {
         return KErrNotFound;
@@ -1742,9 +1625,6 @@ TInt CPslnModel::GetScreenSaverItemIndexL()
     TInt itemIndex = KErrNotFound;
     HBufC* screenSaverFileName = HBufC::NewLC( KMaxFileName );
     TPtr ssFilePtr = screenSaverFileName->Des();
-    error = iScreenSaverRepository->Get(
-        KScreenSaverPluginName,
-        ssFilePtr );
 
     // Try to look for ']'.
     TInt eqPos = ssFilePtr.Find( KPslnScreenSaverUidEndMark );
@@ -1835,7 +1715,6 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
     {
     PSLN_TRACE_DEBUG("CPslnModel::ActivateScreenSaver");
     
-    TInt error = KErrNone;
     if ( aActivationType == EPslnScreenSaverPreviewActivation )
         {
         // get screen saver type to be previewed
@@ -1850,26 +1729,6 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
             {
             iScreenSaverInfo = CPslnScreenSaverInfo::NewL();
             }
-        
-        //backup current screensaver settings
-        error = iScreenSaverRepository->Get(
-            KScreenSaverObject,
-            iScreenSaverInfo->iScreenSaverType );
-
-        if ( previewSsType == KPslnSsText )
-            {
-            TPtr ptr = iScreenSaverInfo->iScreenSaverTxt->Des();
-            error = iScreenSaverRepository->Get(
-                KScreenSaverText,
-                ptr );
-            }
-        else if ( previewSsType == KPslnSsObject )
-            {
-            TPtr ptr = iScreenSaverInfo->iFileName->Des();
-            error = iScreenSaverRepository->Get(
-                KScreenSaverPluginName,
-                ptr );
-            }
             
         //set values to screen saver needed to preview
         if ( previewSsType == KPslnSsText )
@@ -1881,62 +1740,8 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
                 TPtr ptr = screensaverText->Des();
 
                 GetDefaultTextToScreensaverL( ptr );
-                
-                error = iScreenSaverRepository->Set(
-                    KScreenSaverText,
-                    ptr );
-
                 CleanupStack::PopAndDestroy(screensaverText);
                 }
-            }
-        else if ( previewSsType == KPslnSsObject )
-            {
-            // Get Screen saver filename based on index.
-            if( ( aItemIndex >= 0 ) && ( aItemIndex < iScreensaverFilenameArr->Count() ) )
-                {
-                TPtrC ptr = iScreensaverFilenameArr->MdcaPoint( aItemIndex );
-                error = iScreenSaverRepository->Set(
-                    KScreenSaverPluginName,
-                    ptr );
-                }
-            }
-            
-        error = iScreenSaverRepository->Set(
-            KScreenSaverObject,
-            previewSsType );
-            
-        // Set preview mode active, the screensaver is listening the value.
-        error = RProperty::Set(
-            KPSUidScreenSaver,
-            KScreenSaverPreviewMode,
-            KPslnActivatePreviewMode );     
-        }
-    else if ( aActivationType == EPslnScreenSaverPreviewDeactivation )
-        {
-        TInt previewSsType = KErrNotFound;
-        error = iScreenSaverRepository->Get(
-            KScreenSaverObject,
-            previewSsType );
-
-        //restore the screen saver settings.
-        if ( previewSsType == KPslnSsObject )
-            {
-            error = iScreenSaverRepository->Set(
-                KScreenSaverPluginName,
-                iScreenSaverInfo->iFileName->Des() );
-            }
-        else if ( previewSsType == KPslnSsText )
-            {
-            error = iScreenSaverRepository->Set(
-                KScreenSaverText,
-                iScreenSaverInfo->iScreenSaverTxt->Des() );
-            }
-            
-        if ( error == KErrNone )
-            {        
-            error = iScreenSaverRepository->Set(
-                KScreenSaverObject,
-                iScreenSaverInfo->iScreenSaverType );
             }
         }
     else

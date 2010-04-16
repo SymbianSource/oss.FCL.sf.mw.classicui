@@ -37,10 +37,10 @@ namespace HgVgConstants
     // selected item index
     const TInt KSelectedItemIndex(8);
 
-    // fi
+    // 
     const TReal KMinFlickSpeed(0.5f);
 
-    const TInt KViewUpdateInterval( 16000 ); // > ~60 fps
+    const TInt KViewScrollingUpdateInterval( 16000 ); // > ~60 fps
     
     // The amound of pixels one item (virtually) takes on the screen (if you think coverflow as uniform list)
     const TReal KRowHeight(1.0f);
@@ -103,71 +103,24 @@ namespace HgVgConstants
     
     // zooming factor to use in animation
     const TReal KCameraZoomFactor(0);
-        
-    // maximum opacity of the letter popup (1.0 would be fully opaque)
-    const TReal KMaxLetterPopupOpacity(0.85);
     
-    // update rate for the key scrolling timer
+    const TInt KLetterPopupSizeX(128);
+    const TInt KLetterPopupSizeY(128);
+    const TInt KLetterPopupFontSize(100);
+    const TReal KMaxLetterPopupOpacity(0.85);
+        
+    const TReal KZOffset(1.0f);
+
     const TInt KMediaWallKeyScrollingUpdateInterval( 50000 );
     
-    // number of rows in grid mediawall
+    
     const TInt KGridRowCount(3);
     
-    // flipping angle in flip animation in grid mediawall
     const TReal KGridFlipAngle(PI * 2);
     
-    // space between items in grid mediawall
     const TReal KSpaceBetweenGridItems(0.02f);
     
-    // blur deviation factor for blur in zoom animation
     const TReal KDefaultBlurDeviation(4);
-
-    // Specific constants for full screen coverflow mediawall
-    const TInt KMediaWallFullScreenItemsOnScreen(5);
-    const TReal KMediaWallFullScreenCameraZoomFactor(1.5);
-    const TReal KMediaWallFullScreenCameraRotationFactor(PI/5.0);
-    const TReal KMediaWallFullScreenSpringVelocityToAnimationFactor(10);
-    const TReal KMediaWallFullScreenZOffset(1);
-    const TInt KMediaWallFullScreenRowCount(1);
-    const TReal KMediaWallFullScreenSpringK(28);
-    const TReal KMediaWallFullScreenSpringDamping(KSpringDamping);
-    const TReal KMediaWallFullScreenSpringMaxVelocity(KMaxSpringVelocity);
-    const TReal KMediaWallFullScreenItemsToMoveOnFullScreenDrag(5);
-
-    // distance to target item where titles get rendered in fullscreen mediawall
-    // eg. if distance is greater than this, titles are not rendered
-    const TReal KTitleDrawDistance(2.0);
-    
-    // Specific constants for tbone "portrait" mediawall
-    const TInt KMediaWallTBoneItemsOnScreen(3);
-    const TReal KMediaWallTBoneCameraZoomFactor(2);
-    const TReal KMediaWallTBoneCameraRotationFactor(KCameraRotationFactor);
-    const TReal KMediaWallTBoneSpringVelocityToAnimationFactor(KSpringVelocityToAnimationFactor);
-    const TInt KMediaWallTBonePopupFontSize(100);
-    const TInt KMediaWallTBoneLabelFontSize(18);
-    const TReal KMediaWallTBoneZOffset(0.5);
-    const TInt KMediaWallTBoneRowCount(1);
-    const TReal KMediaWallTBoneSpringK(KSpringK);
-    const TReal KMediaWallTBoneSpringDamping(KSpringDamping);
-    const TReal KMediaWallTBoneSpringMaxVelocity(KMaxSpringVelocity);
-    const TReal KMediaWallTBoneItemsToMoveOnFullScreenDrag(3);
-
-    // if distance to target item is over this in tbone mediawall, it shows letter popup
-    const TReal KDrawLetterPopupDistance(2.0);
-
-    // Specific constants for mediawall grid (for photos application)
-    const TInt KMediaWallGridItemsOnScreen(3*7);
-    const TReal KMediaWallGridCameraZoomFactor(0.2);
-    const TReal KMediaWallGridCameraRotationFactor(KCameraRotationFactor);
-    const TReal KMediaWallGridSpringVelocityToAnimationFactor(KSpringVelocityToAnimationFactor/3);
-    const TInt KMediaWallGridPopupFontSize(30);
-    const TReal KMediaWallGridZOffset(0.5);
-    const TInt KMediaWallGridRowCount(3);
-    const TReal KMediaWallGridSpringK(KSpringK);
-    const TReal KMediaWallGridSpringDamping(KSpringDamping*2);
-    const TReal KMediaWallGridSpringMaxVelocity(KMaxSpringVelocity/3);
-    const TReal KMediaWallGridItemsToMoveOnFullScreenDrag(15);
-    
     }
 
 #endif /* HGVGCONSTANTS */

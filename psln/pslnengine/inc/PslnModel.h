@@ -19,10 +19,22 @@
 #ifndef C_PSLNMODEL_H
 #define C_PSLNMODEL_H
 
-#include <ScreensaverpluginIntDef.h>
 #include <AknsSrvClient.h>
 #include <babitflags.h>
 #include <cenrepnotifyhandler.h>
+
+// Screen saver plugin capabilities
+enum TScPluginCaps
+    {
+    // Plugin has no special capabilities
+    EScpCapsNone = 0x00,
+    // Plugin implements the configure function
+    EScpCapsConfigure = 0x01,
+    // Plugin wants to be notified when selected as the active screensaver
+    EScpCapsSelectionNotification = 0x02,
+    // Plugin wants to be notified when preview command is selected
+    EScpCapsPreviewNotification = 0x04
+    };
 
 // Determines the type of skin list.
 enum TPslnSkinNameType

@@ -407,18 +407,8 @@ void CHgScroller::InitPhysicsL()
         {
         iPhysics = CAknPhysics::NewL(*this, this);
         }
-
-    // For to be able to pan on a empty area. 
-    // The world is set to be at least the size of the view.
-    TSize worldSize = TotalSize();
     
-    if( !iLandscapeScrolling && (worldSize.iHeight < iHeight) )
-        worldSize.iHeight = iHeight;
-    
-    if( iLandscapeScrolling && (worldSize.iWidth < iWidth) )
-        worldSize.iWidth = iWidth;
-
-    iPhysics->InitPhysicsL( worldSize, 
+    iPhysics->InitPhysicsL( TotalSize(), 
             TSize(iWidth, iHeight), 
             iLandscapeScrolling);
     }
@@ -564,10 +554,7 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
             iPointerDown = ETrue;
             HandleDownEventL( aEvent );
 
-            if( iDetector 
-                    && iSelectedIndex != KErrNotFound 
-                    && !HasHighlight() 
-                    && iActionMenu->InitMenuL() )
+            if( iDetector && !HasHighlight() && iActionMenu->InitMenuL() )
                 iDetector->PointerEventL( aEvent );
             }
         // Drag
@@ -608,7 +595,7 @@ TBool CHgScroller::HandleScrollbarEventL( const TPointerEvent& aEvent )
                 {
                 if ( feedback )
                     {
-                    feedback->InstantFeedback( this, ETouchFeedbackSlider, aEvent );
+                    feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aEvent );
                     }
                 }
             // Drag
@@ -637,7 +624,7 @@ TBool CHgScroller::HandleScrollbarEventL( const TPointerEvent& aEvent )
                     {
                     feedback->StopFeedback( this );
                     TTouchFeedbackType type = ETouchFeedbackVibra;
-                    feedback->InstantFeedback( this, ETouchFeedbackSlider, type, aEvent );
+                    feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, type, aEvent );
                     }
                 iPopupText1.Zero();
                 iPopupText2.Zero();
@@ -690,9 +677,9 @@ void CHgScroller::HandleDownEventL( const TPointerEvent& aEvent )
         SetHighlightL();
         }
     MTouchFeedback* feedback = MTouchFeedback::Instance();
-    if ( feedback && iSelectedIndex != KErrNotFound )
+    if ( feedback )
         {
-        feedback->InstantFeedback( this, ETouchFeedbackList, aEvent );
+        feedback->InstantFeedback( this, ETouchFeedbackBasicItem, aEvent );
         }
     }
 
@@ -744,17 +731,17 @@ void CHgScroller::HandleUpEventL( const TPointerEvent& aEvent )
         if(iLandscapeScrolling && AknLayoutUtils::LayoutMirrored())
             drag = -drag;
         iPhysics->StartPhysics(drag, iStartTime);
-        if ( feedback && iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
+        if ( feedback )
             {
-            feedback->InstantFeedback( this, ETouchFeedbackFlick, type, aEvent );
+            feedback->InstantFeedback( this, ETouchFeedbackItemScroll, type, aEvent );
             }
         }
     else
         {
         HandleSelectionL();
-        if ( feedback && iSelectedIndex != KErrNotFound )
+        if ( feedback )
             {
-            feedback->InstantFeedback( this, ETouchFeedbackList, type, aEvent );
+            feedback->InstantFeedback( this, ETouchFeedbackBasicItem, type, aEvent );
             }
         }
     }
@@ -1479,14 +1466,12 @@ void CHgScroller::SetHighlightL()
     iHighlightTimer->Cancel();
 
     TInt index = GetSelected(iStart);
-    if((index != KErrNotFound || !HasHighlight())
-            && iPointerDown )
+    if(index != KErrNotFound && iPointerDown )
         {
         iSelectionToFocusedItem = index == iSelectedIndex;            
         iSelectedIndex = index;
         iFocusedIndex = index;
-        // Selection has changed to valid item
-        if( !iSelectionToFocusedItem && iSelectedIndex != KErrNotFound ) 
+        if( !iSelectionToFocusedItem ) // Selection has changed
             {
             if( iSelectionObserver )
                 iSelectionObserver->HandleSelectL(iSelectedIndex);

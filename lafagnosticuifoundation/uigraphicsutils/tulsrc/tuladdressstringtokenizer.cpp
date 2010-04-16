@@ -23,7 +23,7 @@
 
 // DEFINE
 
-const TInt KFindItemMaxNumbers  = 20;
+const TInt KFindItemMaxNumbers  = 48; // Maximum phone number supported in Contacts
 const TInt KFindItemMinNumbers  = 3;
 const TInt KDotsInIpAddress     = 3;
 const TInt KNumbersInIpAddress  = 3;

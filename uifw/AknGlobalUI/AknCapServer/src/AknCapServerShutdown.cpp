@@ -251,16 +251,12 @@ void CAknCapServerShutdown::AppExitNotifierL(
         {
 #ifdef _DEBUG
         RDebug::Print(_L("SHUTDOWN: App with ThreadId %d has exited"), TUint(aNotifier->ThreadId()));
-#else
-        aNotifier->ThreadId(); // just for fixing warning
 #endif
         }
     else if (aHowClosed == CAppExitNotifier::EAppExitForced)
         {
 #ifdef _DEBUG
         RDebug::Print(_L("SHUTDOWN: App with ThreadId %d was killed"), TUint(aNotifier->ThreadId()));
-#else
-        aNotifier->ThreadId(); // just for fixing warning
 #endif
         }
     iTotalAppExitNotifiers--;

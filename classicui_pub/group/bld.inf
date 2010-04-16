@@ -34,7 +34,6 @@
 #include "../screen_clearer_api/group/bld.inf"
 #include "../notifiers_api/group/bld.inf"
 #include "../notes_api/group/bld.inf"
-#include "../screen_saver_api/group/bld.inf"
 #include "../status_pane_api/group/bld.inf"
 #include "../base_controls_api/group/bld.inf"
 #include "../grids_api/group/bld.inf"
@@ -79,3 +78,4 @@
 #include "../stylus_popup_menu_api/group/bld.inf"
 #include "../information_preview_popup_api/group/bld.inf"
 #include "../intermediate_state_api/group/bld.inf"
+#include "../help_launcher_api/group/bld.inf"

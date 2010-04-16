@@ -1259,11 +1259,7 @@ void CAknTab::HandleResourceChange( TInt aType )
 void CAknTab::SetTotalAmountOfTabs( TInt aAmount )
     {
     iExtension->iNumberOfTabsInTabGroup = aAmount;
-    
-    if ( !iColorBitmaps )
-    	{
-      LoadColorBitmapL();
-      }
+    LoadColorBitmapL();
     }
 
 void CAknTab::SetNarrowTabLayout( TBool aNarrow )
@@ -2881,7 +2877,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 if ( feedback && !isActiveTab )
                     {
                     feedback->InstantFeedback( this,
-                        ETouchFeedbackTab, 
+                        ETouchFeedbackBasic, 
                         type,
                         aPointerEvent );
                     }
@@ -2908,7 +2904,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 if ( feedback && !isActiveTab )
                     {
                     feedback->InstantFeedback( this,
-                        ETouchFeedbackTab, 
+                        ETouchFeedbackBasic, 
                         ETouchFeedbackVibra,
                         aPointerEvent );
                     }
@@ -2921,7 +2917,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 }
 
             // if the button up event occurs ouside tabgroup, ignore it.
-            if ( !Rect().Contains( aPointerEvent.iPosition ) || iExtension->iPointerDownTab != newTab )
+            if ( !Rect().Contains( aPointerEvent.iPosition ) )
                 {
                 iExtension->iPointerDownTab       = -1;
                 iExtension->iPointerDownXPosition = -1;
