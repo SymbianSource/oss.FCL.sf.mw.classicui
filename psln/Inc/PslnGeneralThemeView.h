@@ -31,8 +31,7 @@
 *  @since S60 v3.1
 */
 class CPslnGeneralThemeView : public CPslnBaseView, 
-                              public MPslnFWMSKObserver,
-                              public MPslnThemePreviewObserver
+                              public MPslnFWMSKObserver
     {
     public:  // Constructors and destructor
 
@@ -83,22 +82,6 @@ class CPslnGeneralThemeView : public CPslnBaseView,
         */
         void UpdateSkinListItemsDColumnOnlyL();
 
-        /**
-        * From MPslnThemePreviewObserver.
-        * New theme preview state available.
-        */
-        void HandlePreviewStateChange( const TBool& aPreviewMode );
-        
-        /**
-        * Restart Quick Preview
-        */
-        void RestartQuickPreviewL();
-
-        /**
-        * Remove local skin items.
-        */
-        void RemoveLocalSkinItems();
-
     private:
 
         /**
@@ -124,11 +107,6 @@ class CPslnGeneralThemeView : public CPslnBaseView,
         * From CPslnBaseView.
         */
         void HandleListBoxSelectionL();
-        
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxItemHighlightL();
 
         /**
         * From CPslnBaseView.
@@ -153,16 +131,6 @@ class CPslnGeneralThemeView : public CPslnBaseView,
         */
         void ConstructL();
         
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxStylusDown();
-        
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxStylusDrag();
-        
         
     private:    // Data
 
@@ -175,21 +143,6 @@ class CPslnGeneralThemeView : public CPslnBaseView,
     * Download item index.
     */
     TInt iDownloadItemIndex;
-    
-    /**
-    * What is current skin preview mode.
-    *   ETrue - preview is occuring.
-    *   EFalse - preview is ready / no skin preview active.
-    */
-    TBool iPreviewMode;
-
-    /**
-    * Is delayed skin activation ongoing.
-    * If user highlights a skin and immediately activates it, 
-    * preview is first done completely AND then skin activation
-    * is handled.
-    */
-    TBool iDelayedSkinActivation;
 
     /**
     * Index to be used when skin is activated AFTER skin preview.

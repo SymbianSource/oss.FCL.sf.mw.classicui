@@ -420,14 +420,6 @@ void CPslnWallpaperView::HandleListBoxSelectionL()
         }
     HandleCommandL( EAknSoftkeyOk );
     }
-    
-// -----------------------------------------------------------------------------
-// CPslnWallpaperView::HandleListBoxItemHighlightL
-// -----------------------------------------------------------------------------
-//
-void CPslnWallpaperView::HandleListBoxItemHighlightL()
-    {    
-    }    
 
 // -----------------------------------------------------------------------------
 // CPslnWallpaperView::NewContainerL

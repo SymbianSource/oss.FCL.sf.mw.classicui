@@ -162,7 +162,7 @@ private:
     void SwitchTablesOrPagesL();
     TBool SwitchTablesL();
     void SwitchPagesL();
-    void RefreshTitleAndNavi();
+    void RefreshTitleAndNaviL();
 
     void ChangeCategoryL(const TInt aCategory);
     void ChangeLayoutL(const TBool aLayoutChanged);

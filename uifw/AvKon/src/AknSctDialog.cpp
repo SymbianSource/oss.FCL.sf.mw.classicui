@@ -595,7 +595,7 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
             case EKeyDownArrow:
                 {
                 TKeyResponse res = charmapControl->OfferKeyEventL(aKeyEvent, aModifiers);
-                RefreshTitleAndNavi();
+                RefreshTitleAndNaviL();
                 return res;
                 }
 
@@ -956,23 +956,16 @@ EXPORT_C void CAknCharMapDialog::DisableRecentCharsRow()
 //
 EXPORT_C void CAknCharMapDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
-    if (!Rect().Contains( aPointerEvent.iPosition))
+    if(!Rect().Contains(aPointerEvent.iPosition))
         {
         if(aPointerEvent.iType == TPointerEvent::EButton1Down)
             {
-            TryExitL (EAknSoftkeyCancel);
+            TryExitL(EAknSoftkeyCancel);
             return;
             }
-         else if(aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            CAknCharMap* charMap = STATIC_CAST( CAknCharMap*, Control( EAknSCTQueryContentId ) );
-            charMap->HandlePointerEventL( aPointerEvent);
-            }
         }
-    else
-        {
-        CAknDialog::HandlePointerEventL(aPointerEvent);
-        }
+
+    CAknDialog::HandlePointerEventL(aPointerEvent);
     }
 
 void CAknCharMapDialog::SwitchTablesOrPagesL()
@@ -1007,10 +1000,10 @@ void CAknCharMapDialog::SwitchPagesL()
     CAknPopupHeadingPane* headingPane = STATIC_CAST(CAknPopupHeadingPane*, Control(EAknSCTQueryHeadingId));
     
     charmapControl->NextPageL();
-    RefreshTitleAndNavi();
+    RefreshTitleAndNaviL();
     }
 
-void CAknCharMapDialog::RefreshTitleAndNavi()
+void CAknCharMapDialog::RefreshTitleAndNaviL()
     {
     CAknCharMap* charmapControl = STATIC_CAST(CAknCharMap*, Control(EAknSCTQueryContentId));
     CAknPopupHeadingPane* headingPane = STATIC_CAST(CAknPopupHeadingPane*, Control(EAknSCTQueryHeadingId));

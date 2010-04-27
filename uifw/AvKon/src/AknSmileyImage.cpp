@@ -230,19 +230,19 @@ void CSmileyImage::DoLoadL()
 
     TFileName smileyMifName;
     SmileyUtils::GetCustomizableResPath(smileyMifName, KSmileyMif);
-    
+
     if(iImageSkinItemId.iMinor > 0)
         {
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        TRAP_IGNORE( AknsUtils::CreateColorIconL(skin, iImageSkinItemId, 
-                                               KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19, 
-                                               iFrame, iFrameMask, 
-                                               smileyMifName, iImageMifPkgItemId, iImageMifPkgItemId, 
+        TRAPD(err, AknsUtils::CreateColorIconL(skin, iImageSkinItemId, 
+                                               KAknsIIDQsnTextColors,EAknsCIQsnTextColorsCG19, 
+                                               iFrame,iFrameMask, 
+                                               smileyMifName, iImageMifPkgItemId,iImageMifPkgItemId, 
                                                AKN_LAF_COLOR(215)));
         }
     else
         {
-        TRAP_IGNORE( AknIconUtils::CreateIconL(iFrame, iFrameMask, smileyMifName, iImageMifPkgItemId, iImageMifPkgItemId));
+        TRAPD(err, AknIconUtils::CreateIconL(iFrame,iFrameMask,smileyMifName,iImageMifPkgItemId,iImageMifPkgItemId));
         }
     
     if(iIsAnimation) // the first frame of animation svg is blank without correct content
@@ -258,7 +258,6 @@ void CSmileyImage::DoLoadL()
         }
 
     AknIconUtils::SetSize(iFrame, iSize);
-    TUid i = iFrame->ExtendedBitmapType();
     }
 
 void CSmileyImage::DoRelease()

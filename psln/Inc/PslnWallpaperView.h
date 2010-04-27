@@ -100,11 +100,6 @@ class CPslnWallpaperView : public CPslnBaseView,
 
         /* From CPslnBaseView. */
         void HandleListBoxSelectionL();
-        
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxItemHighlightL();        
 
         /* From CPslnBaseView. */
         void NewContainerL();

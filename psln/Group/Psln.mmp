@@ -116,8 +116,6 @@ LIBRARY                 apgrfx.lib
 LIBRARY                 featmgr.lib
 LIBRARY                 eikdlg.lib
 LIBRARY                 hal.lib
-
-LIBRARY                 aknlocalskinlib.lib
 LIBRARY                 aknlistloadertfx.lib
 LIBRARY                 psmclient.lib
 

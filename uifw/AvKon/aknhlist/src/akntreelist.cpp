@@ -402,21 +402,26 @@ EXPORT_C void CAknTreeList::SetMarked( TAknTreeItemID aItem,
     if ( item && item->Parent() && item->Parent()->IsNode() )
         {
         CAknTreeNode* node = item->Parent()->Node();
-        TBool wasMarked = node->IsMarked();
-        if ( node && node->IsMarkable() )
+        if (node)
             {
-            if ( node->AllChildrenMarked() )
+            TBool wasMarked = node->IsMarked();
+            
+            if (node->IsMarkable())
                 {
-                node->SetMarked( ETrue );
-                }            
-            else
-                {
-                node->SetMarked( EFalse );
+                if (node->AllChildrenMarked())
+                    {
+                    node->SetMarked(ETrue);
+                    }            
+                else
+                    {
+                    node->SetMarked(EFalse);
+                    }
                 }
-            }
-        if ( wasMarked != node->IsMarked() )
-            {
-            Window().Invalidate( View().Rect() );
+            
+            if (wasMarked != node->IsMarked())
+                {
+                Window().Invalidate(View().Rect());
+                }
             }
         }
     }

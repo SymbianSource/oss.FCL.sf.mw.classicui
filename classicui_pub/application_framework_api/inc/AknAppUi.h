@@ -738,7 +738,7 @@ protected:
 
 private:
     void UpdateKeyBlockMode();
-    TBool SimulateHashKeyMarkingEvent(const TWsEvent& aEvent);
+    TBool SimulateHashKeyMarkingEventL(const TWsEvent& aEvent);
 
 private:
     TBool iDumpNextControl;

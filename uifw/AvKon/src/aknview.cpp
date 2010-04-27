@@ -226,11 +226,10 @@ void CAknViewExtension::PrepareToolbar()
         {
         
         if ( newFixedToolbar && newFixedToolbar->ToolbarFlags() & KAknToolbarDefault )
-        	{
-        	oldFixedToolbar->HandleResourceChange( KAknToolbarSetHiddenAndDrawBackground );
-        	return;
-        	}
-        
+            {
+            return;
+            }
+
         oldFixedToolbar->HandleResourceChange( KAknToolbarSetHidden );         
         }
 #endif 

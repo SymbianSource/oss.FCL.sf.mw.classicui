@@ -1484,7 +1484,7 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS )
                             {
                             layout =
-                                aknLayoutScalable_Avkon.navi_pane( 10 ).LayoutLine();
+                                aknLayoutScalable_Avkon.navi_pane( 2 ).LayoutLine();
                             }
                         else
                             {
@@ -1504,7 +1504,7 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         if ( aLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS )
                             {
                             layout =
-                                aknLayoutScalable_Avkon.title_pane( 12 ).LayoutLine();
+                                aknLayoutScalable_Avkon.title_pane( 2 ).LayoutLine();
                             }
                         else
                             {
@@ -1515,8 +1515,17 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         }
                     case EEikStatusPaneUidIndic:
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.uni_indicator_pane( 5 ).LayoutLine();
+                        if (aLayoutId
+                                == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS)
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.uni_indicator_pane( 1 ).LayoutLine();
+                            }
+                        else
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.uni_indicator_pane( 5 ).LayoutLine();
+                            }
                         break;
                         }
                     case EEikStatusPaneUidBattery:

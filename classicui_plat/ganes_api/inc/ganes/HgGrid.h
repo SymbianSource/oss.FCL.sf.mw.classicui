@@ -66,6 +66,14 @@ public:
      */
     IMPORT_C void SetLandscapeScrollingSupport( TBool aSupportLandscapeScrolling );
     
+    /**
+     * Set toolbar visibilty. The toolbar visibility ETrue changes the lanscape layout to 
+     * fill the toolbar space with grid content.
+     * 
+     * @param aToolbarVisible Is toolbar visible or not.
+     */
+    IMPORT_C void SetToolbarVisibility( TBool aToolbarVisible );
+    
 protected: // CHgScroller
     TInt GetSelected( TPoint aPosition ) const;
     void HandleSizeChanged();
@@ -110,6 +118,7 @@ private: // DATA
 
     TInt iRowWidth;
     TBool iLandScapeScrollingSupported;
+    TBool iToolbarVisible;
     };
 
 #endif // HGGRID_H_

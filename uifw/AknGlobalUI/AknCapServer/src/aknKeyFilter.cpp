@@ -891,13 +891,12 @@ void CAknServKeyFilter::UpdateStateAndNotifyL( TInt aState )
             0,
             0,
             KAknScreenModeUnset );
-        
-        }
-    
-    if (screenMode == screen->CurrentScreenMode() )
-        {
-        // Remember that there was at least one inhibited screen mode
-        iAppUi->SgcServer()->SetBackgroundAppsStateChangeDeferred( ETrue );
+            
+        if ( screenMode == screen->CurrentScreenMode() )
+            {
+            // Remember that there was at least one inhibited screen mode
+            iAppUi->SgcServer()->SetBackgroundAppsStateChangeDeferred( ETrue );
+            }
         }
     }
 

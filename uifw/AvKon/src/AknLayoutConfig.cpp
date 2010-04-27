@@ -341,6 +341,8 @@ void CAknLayoutConfig::GetScreenMapFromAknPrivL(CResourceFile* aResFile,
 												RArray<SAknScreenModeInfo>& aScreenInfoArray, 
 											    RArray<SHardwareStateInfo>& aHardwareStateArray)
 	{
+    ::CleanupClosePushL(aScreenInfoArray);
+    ::CleanupClosePushL(aHardwareStateArray);
 	// get state screen map
 #if defined(__WINS__)
     TInt screenMapResource = R_AKNPRIV_HARDWARE_STATE_SCREEN_MAP_EMUL;
@@ -387,11 +389,14 @@ void CAknLayoutConfig::GetScreenMapFromAknPrivL(CResourceFile* aResFile,
 		}
 
 	CleanupStack::PopAndDestroy(); // reader's HBufC
+	CleanupStack::Pop(&aHardwareStateArray);
+	CleanupStack::Pop(&aScreenInfoArray);
 	}
 	
 void CAknLayoutConfig::GetKeyMapFromAknPrivL(CResourceFile* aResFile,
 											 RArray<SHardwareStateInfo>& aHardwareStateArray)
 	{
+    ::CleanupClosePushL(aHardwareStateArray);
 	// get the state key map
 #if defined(__WINS__)
     TInt hwMapResource = R_AKNPRIV_HARDWARE_STATE_KEY_MAP_EMUL;
@@ -416,6 +421,7 @@ void CAknLayoutConfig::GetKeyMapFromAknPrivL(CResourceFile* aResFile,
         }
 
     CleanupStack::PopAndDestroy(); // reader's HBufC
+    CleanupStack::Pop(&aHardwareStateArray);
 	}
 
 TAknPrivSoftkeyLocation CAknLayoutConfig::GetLandscapeSoftkeyLocationFromAknPrivL(CResourceFile* aResFile)
@@ -444,6 +450,7 @@ void CAknLayoutConfig::GetScreenModesFromWservL(SAknLayoutConfig& aConfig,
 												RArray<SAknScreenModeInfo>& aScreenInfoArray, 
 												TAknPrivSoftkeyLocation aLandscapeSoftkeyLocation)
 	{
+	::CleanupClosePushL(aScreenInfoArray);
 	CEikonEnv* eikonEnv = CEikonEnv::Static();
 	CWsScreenDevice* dev = eikonEnv->ScreenDevice();
 
@@ -475,6 +482,7 @@ void CAknLayoutConfig::GetScreenModesFromWservL(SAknLayoutConfig& aConfig,
     	screenMode.iDisplayMode = dev->GetScreenModeDisplayMode(ii);
 		aScreenInfoArray.AppendL(screenMode);
 		}
+	CleanupStack::Pop(&aScreenInfoArray);
 	}
 
 //

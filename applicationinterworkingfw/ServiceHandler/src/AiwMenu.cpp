@@ -26,7 +26,7 @@
 
 // This is needed for resource reading.
 const TInt KCCMask(0x00000fff);
-
+const TInt KNominalTextLength = 40;
 
 EXPORT_C CAiwMenuPane::CAiwMenuPane(CEikMenuPane& aMenuPane, TInt aBaseCmdId) 
 : iMenuPane(&aMenuPane), iBaseCmdId(aBaseCmdId)
@@ -98,7 +98,8 @@ EXPORT_C void CAiwMenuPane::AddMenuItemsL(
         data.iCommandId = aReader.ReadInt32();
         data.iCascadeId = aReader.ReadInt32();  
         data.iFlags = aReader.ReadInt32();
-        data.iText.Copy(aReader.ReadTPtrC());
+        TPtrC text( aReader.ReadTPtrC() );
+        data.iText.Copy( text.Ptr(), Min( KNominalTextLength, text.Length() ) );
         
         // Extra text (additional submenu text) must be handled separately
         // because SData doesn't offer space for it.
@@ -224,7 +225,7 @@ EXPORT_C void CAiwMenuPane::AddTitleItemL(const TDesC& aTitle, TInt aIndex)
     data.iCommandId = AIW_SUBMENU_TITLE;
     data.iCascadeId = 0;  
     data.iFlags = 0;
-    data.iText.Copy(aTitle);
+    data.iText.Copy(aTitle.Ptr(),Min(KNominalTextLength,aTitle.Length()));
 
     iMenuPane->InsertMenuItemL(data, aIndex);       
     }

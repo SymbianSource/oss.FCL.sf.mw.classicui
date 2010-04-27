@@ -1917,104 +1917,133 @@ EXPORT_C void CEikDialog::FocusChanged(TDrawNow aDrawNow)
  */
 EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
     {
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE("iDialogFlags = %d, buttonId = %d", iDialogFlags, aButtonId);
-    if ( iDialogFlags & EEikDialogFlagNoUserExit )
+    _AKNTRACE("CEikDialog::TryExitL iDialogFlags = %d, buttonId = %d", iDialogFlags, aButtonId);
+    if (iDialogFlags & EEikDialogFlagNoUserExit)
         {
-		return;
+        return;
         }
         
     // use delayed exit if pointer event handling is in progress
-    if ( Extension()->iPublicFlags.IsSet( CEikDialogExtension::EDelayedExit ) )
+    if (Extension()->iPublicFlags.IsSet(CEikDialogExtension::EDelayedExit))
         {
         Extension()->iButtonId = aButtonId;
         Extension()->StartDelayedExit();
+        
         _AKNTRACE("CEikDialog::TryExitL return with delayedExit");
         return;
         }
 
-    TBool effectTriggered = EFalse;
-    
-        TBool effectButton = aButtonId == EEikBidCancel
-                          || aButtonId == EAknSoftkeyExit
-                          || aButtonId == EAknSoftkeyBack
-                          || aButtonId == EAknSoftkeyNo;
+    TBool effectButton = aButtonId == EEikBidCancel
+                      || aButtonId == EAknSoftkeyExit
+                      || aButtonId == EAknSoftkeyBack
+                      || aButtonId == EAknSoftkeyNo;
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
-        effectButton =    effectButton
-                          || aButtonId == EAknSoftkeyClose
-                          || aButtonId == EAknSoftkeyDone
-                          || aButtonId == EAknSoftkeyOk;
+    effectButton =    effectButton
+                      || aButtonId == EAknSoftkeyClose
+                      || aButtonId == EAknSoftkeyDone
+                      || aButtonId == EAknSoftkeyOk;
 #endif
-    CAknAppUi* aknAppUi = static_cast<CAknAppUi*>( iEikonEnv->EikAppUi() );
-        if (GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
+
+    TBool effectTriggered = EFalse;
+    CAknAppUi* aknAppUi = static_cast<CAknAppUi*>(iEikonEnv->EikAppUi());
+    
+    if (!(iDialogFlags & EEikDialogFlagDelayEffects)
+        && GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS        
-        && !(iDialogFlags&EEikDialogFlagSleeping)
+        && !(iDialogFlags & EEikDialogFlagSleeping)
 #endif
-            && (!aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground())
+        && (!aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground())
         && !IsBlankScreenDisplayed()
-         )
-            {
+        )
+        {
         CAknTransitionUtils::SetAllParents(this);
         GfxTransEffect::Begin(this, KGfxControlDisappearAction);
         GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
         TRect demarcation;
-        CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup,
-                                            demarcation);
+        CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
         GfxTransEffect::SetDemarcation(this, demarcation);
         effectTriggered = ETrue;
         }
 
-    if (aButtonId!=EEikBidCancel)
+    if (aButtonId != EEikBidCancel)
+        {
         PrepareForFocusTransitionL();
-    else if (!(iDialogFlags&EEikDialogFlagNotifyEsc))
+        }
+    else if (!(iDialogFlags & EEikDialogFlagNotifyEsc))
+        {
         goto finished;
+        }
+    
     if (!OkToExitL(aButtonId))
+        {
+        if (effectTriggered)
             {
-        if ( effectTriggered )
-            {
-            GfxTransEffect::NotifyExternalState( ECaptureComponentsAbort,
-                                                 ( const TDesC8* ) this );
-            GfxTransEffect::Abort( this );
-            }
-            _AKNTRACE_FUNC_EXIT;
-            return;
+            GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
+            GfxTransEffect::Abort(this);
             }
         
-        if (aButtonId != EEikBidCancel)
+        _AKNTRACE("CEikDialog::TryExitL return with OkToExitL false");
+        return;
+        }
+        
+    if (aButtonId != EEikBidCancel)
+        {
         GetAutoValues();
+        }
+
 finished:
+
     if (iExitConfirmed)
-        *iExitConfirmed=((MappedCommandId( aButtonId ) ==EEikBidCancel)? 0: aButtonId);
+        {
+        *iExitConfirmed = MappedCommandId(aButtonId) == EEikBidCancel ? 0 : aButtonId;
+        }
 
     // Remove content observer in order to prevent unnecessary layout 
     // calculations in dialog shutdown.
-    EnableContentObserver( EFalse );
+    EnableContentObserver(EFalse);
 
-    if (iDialogFlags&EEikDialogFlagSleeping)
+    if (iDialogFlags & EEikDialogFlagSleeping)
+        {
         ExitSleepingDialog();
+        }
     else
         {
         // Remove content observer in order to prevent unnecessary layout 
         // calculations in dialog shutdown.
-        EnableContentObserver( EFalse );
-
-        if ( effectTriggered )
-                        {
-                MakeVisible(EFalse);
-                CAknTransitionUtils::MakeVisibleSubComponents( this,
-                                        CAknTransitionUtils::EForceInvisible );
-
-                GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
-                GfxTransEffect::End(this);
-                }
-            else
+        EnableContentObserver(EFalse);
+        
+        // The dialog is asked to postpone the effect after OkToExitL.
+        if ((iDialogFlags & EEikDialogFlagDelayEffects) && !effectTriggered)
+            {
+            if (GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
+                && (!aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground())
+                && !IsBlankScreenDisplayed()
+                )
                 {
-                MakeVisible(EFalse);
-                CAknTransitionUtils::MakeVisibleSubComponents( this,
-                                        CAknTransitionUtils::EForceInvisible );
-                GfxTransEffect::NotifyExternalState( ECaptureComponentsAbort,
-                                                 ( const TDesC8* ) this );
-                GfxTransEffect::Abort(this);
+                TRect demarcation;
+                CAknTransitionUtils::SetAllParents(this);
+                GfxTransEffect::Begin(this, KGfxControlDisappearAction);
+                GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
+                CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
+                GfxTransEffect::SetDemarcation(this, demarcation);
+                effectTriggered = ETrue;
+                }
+            }
+
+        if (effectTriggered)
+            {
+            MakeVisible(EFalse);
+            CAknTransitionUtils::MakeVisibleSubComponents(this, CAknTransitionUtils::EForceInvisible);
+            GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
+            GfxTransEffect::End(this);
+            }
+        else
+            {
+            // Why we need abort the effect here ??
+            MakeVisible(EFalse);
+            CAknTransitionUtils::MakeVisibleSubComponents(this, CAknTransitionUtils::EForceInvisible);
+            GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
+            GfxTransEffect::Abort(this);
             }
         delete(this);
         }

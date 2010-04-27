@@ -295,30 +295,28 @@ void CAknScreenClearerBase::SetSkinShapeL()
         iExtension->iBgContext->SetLayerImage( n, KAknsIIDNone );                
         }            
 
-    TBool widescreenPaneUsed(
-        R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL ==
-            AVKONENV->StatusPaneResIdForCurrentLayout(
-                R_AVKON_STATUS_PANE_LAYOUT_USUAL ) ||
-        R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE ==
-            AVKONENV->StatusPaneResIdForCurrentLayout(
-                R_AVKON_STATUS_PANE_LAYOUT_IDLE ) );
+    CAknEnv* aknEnv = AVKONENV;
+    
+    TInt usualSpLayout =
+        aknEnv->StatusPaneResIdForCurrentLayout(
+            R_AVKON_STATUS_PANE_LAYOUT_USUAL );
+    
+    TInt idleSpLayout =
+        aknEnv->StatusPaneResIdForCurrentLayout(
+            R_AVKON_STATUS_PANE_LAYOUT_IDLE );
+    
+    TBool widescreenPaneUsed =
+        ( usualSpLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL ) ||
+        ( idleSpLayout  == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE );
     
     // Check that if in landscape mode statuspane is changed to stacon pane
     TBool staconPaneUsedInLandscape = 
-        ( ( R_AVKON_STATUS_PANE_LAYOUT_USUAL !=
-                AVKONENV->StatusPaneResIdForCurrentLayout(
-                    R_AVKON_STATUS_PANE_LAYOUT_USUAL ) ) &&
-          ( R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED !=
-                AVKONENV->StatusPaneResIdForCurrentLayout(
-                    R_AVKON_STATUS_PANE_LAYOUT_USUAL ) ) );
+        ( usualSpLayout != R_AVKON_STATUS_PANE_LAYOUT_USUAL ) &&
+        ( usualSpLayout != R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED );
 
     TBool flatStatuspaneusedInLandscape =
-        ( R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ==
-            AVKONENV->StatusPaneResIdForCurrentLayout(
-                R_AVKON_STATUS_PANE_LAYOUT_USUAL ) );
-        ( R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT ==
-            AVKONENV->StatusPaneResIdForCurrentLayout(
-                R_AVKON_STATUS_PANE_LAYOUT_USUAL ) );
+        ( usualSpLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ) ||
+        ( usualSpLayout == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT );
     
 
     // TRect application_window = iAvkonAppUi->ApplicationRect();
@@ -485,7 +483,7 @@ void CAknScreenClearerBase::SetSkinShapeL()
             CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
             if (statusPane)
                 {
-                TInt currentStatusPaneLayoutResId = AVKONENV->StatusPaneResIdForCurrentLayout(statusPane->CurrentLayoutResId());
+                TInt currentStatusPaneLayoutResId = aknEnv->StatusPaneResIdForCurrentLayout(statusPane->CurrentLayoutResId());
 
                 staconPaneRight = ((currentStatusPaneLayoutResId == R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_RIGHT) ||
                                    (currentStatusPaneLayoutResId == R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_RIGHT) ||

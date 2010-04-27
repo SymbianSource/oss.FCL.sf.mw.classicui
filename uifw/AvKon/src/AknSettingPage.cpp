@@ -1357,24 +1357,6 @@ EXPORT_C void CAknSettingPage::HandleControlEventL(CCoeControl* /*aControl*/,
  */
 EXPORT_C void CAknSettingPage::AttemptExitL(TBool aAccept)
 	{
-    if ( AknLayoutUtils::PenEnabled() )
-        {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-            if ( CAknTransitionUtils::TransitionsEnabled(
-                    AknTransEffect::EComponentTransitionsOff ) )
-                {
-                fbLogicalType = ETouchFeedbackDecreasingPopUp;
-                }
-            feedback->InstantFeedback(
-                                   this,
-                                   fbLogicalType,
-                                   ETouchFeedbackVibra,
-                                   TPointerEvent() );
-            }
-        }
 	if ( OkToExitL( aAccept ) )
 		{
 		DismissL( aAccept );
@@ -1409,6 +1391,25 @@ EXPORT_C TBool CAknSettingPage::OkToExitL(TBool /*aAccept*/ )
  */
 EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 	{
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
+    
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
 
 	if ( aAccept )

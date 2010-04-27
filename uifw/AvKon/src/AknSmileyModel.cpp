@@ -289,7 +289,7 @@ void CSmileyTnumbnailAsynLoader::DoNextTaskL()
             }
         else
             {
-            icon->LoadStillImageL(1); // 1 is for asynchronous
+            icon->LoadStillImageL();
             }
         }
     }

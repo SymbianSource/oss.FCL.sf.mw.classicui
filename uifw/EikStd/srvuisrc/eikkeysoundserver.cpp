@@ -314,6 +314,11 @@ void CEikKeySoundServer::PlaySid(TInt aSid, TBool aPlaySelf)
         aPlaySelf = ETrue;
         }
 
+	if(!iATSoundServerAPI)
+        {
+    	aPlaySelf = ETrue;
+    	}
+
     if(!aPlaySelf && iATSoundServerAPI)
         {
         TAudioThemeEvent event = static_cast<TAudioThemeEvent>(aSid);
@@ -425,7 +430,10 @@ CEikKeySoundSession::~CEikKeySoundSession()
     RemoveSids(iClientUid);
     if (iHasLockedContext)
         {
-        iServer->SetContextLocked(EFalse);
+        if( iServer )
+            {
+            iServer->SetContextLocked(EFalse);
+            }
         }
     if (iOwnsDefaultSounds)
         {
@@ -1120,55 +1128,15 @@ CAknFileSoundInfo::CAknFileSoundInfo(TInt aPriority, TInt aPreference)
 CAknFileSoundInfo::~CAknFileSoundInfo()
     {
     delete iAudioPlayer;
-    delete iAudioData;
     }
 
 void CAknFileSoundInfo::InitL(const TDesC& aFileName, CMdaServer* aMdaServer)
     {
     LOGTEXT(_L("CAknFileSoundInfo::InitL() - Filename:"));
     LOGTEXT(aFileName);
-
-    iMdaServer = aMdaServer;
-
-    delete iAudioData;
-    iAudioData = NULL;
-
-    RFs fsSession;
-    User::LeaveIfError( fsSession.Connect() );
-    CleanupClosePushL(fsSession);
-
-    TEntry entry;
-    User::LeaveIfError(fsSession.Entry(aFileName, entry));
-    TInt fileSize = entry.iSize;
-
-    LOGTEXT1(_L(" CAknFileSoundInfo::InitL() - File size:%d"), fileSize);
-
-    iAudioData = HBufC8::NewMaxL(fileSize);
-
-    TPtr8 dataPtr = iAudioData->Des();
-    LoadAudioDataL(fsSession, aFileName, dataPtr);
-
-    CleanupStack::PopAndDestroy();   // fsSession
-
+    iFileName = aFileName;
     LOGTEXT(_L(" CAknFileSoundInfo::InitL() - Exit"));
     }
-
-
-void CAknFileSoundInfo::LoadAudioDataL(RFs& aFs, const TDesC& aFileName, TDes8& aDes)
-    {
-    RDebug::Print(_L("CAknFileSoundInfo::LoadAudioDataL()."));
-
-    RFile file;
-    User::LeaveIfError( file.Open(aFs, aFileName,EFileRead|EFileShareAny) );
-    CleanupClosePushL(file);
-    TInt error = file.Read(aDes, aDes.Length());
-    file.Close();
-    CleanupStack::Pop();    //file
-    User::LeaveIfError(error);
-
-    LOGTEXT(_L(" CAknFileSoundInfo::LoadAudioDataL() - Exit"));
-    }
-
 
 void CAknFileSoundInfo::PlayL()
     {
@@ -1179,9 +1147,7 @@ void CAknFileSoundInfo::PlayL()
     Stop();
 
     // Create audio player. DoPlay() will be called in all circumstances.
-    iAudioPlayer = CMdaAudioPlayerUtility::NewDesPlayerReadOnlyL(
-        *iAudioData, *this, iPriority, (TMdaPriorityPreference)iPreference, iMdaServer);
-
+    iAudioPlayer = CMdaAudioPlayerUtility::NewFilePlayerL(iFileName, *this);
     LOGTEXT(_L(" CAknFileSoundInfo::PlayL() - Exit"));
     }
 

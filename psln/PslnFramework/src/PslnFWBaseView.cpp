@@ -129,21 +129,27 @@ EXPORT_C void CPslnFWBaseView::SetNaviPaneL()
         if ( appUi )
             {
             CEikStatusPane* sp = appUi->StatusPane();
-            iNaviControlContainer = static_cast<CAknNavigationControlContainer*>
-                ( sp->ControlL( TUid::Uid( EEikStatusPaneUidNavi ) ) );
+            if ( sp )
+                {
+                iNaviControlContainer = static_cast<CAknNavigationControlContainer*>
+                    ( sp->ControlL( TUid::Uid( EEikStatusPaneUidNavi ) ) );
+                }
             }
         }
 
     _LIT( KPanicText, "CPslnFWBaseView" );
     __ASSERT_DEBUG( iNaviControlContainer, User::Panic( KPanicText, KErrGeneral ) );
-    	        
-    if ( iNaviPaneContext )
+
+    if ( iNaviControlContainer )
         {
-        iNaviControlContainer->PushL( *iNaviPaneContext );
-        }
-    else
-        {
-        iNaviControlContainer->PushDefaultL();
+        if ( iNaviPaneContext )
+            {
+            iNaviControlContainer->PushL( *iNaviPaneContext );
+            }
+        else
+            {
+            iNaviControlContainer->PushDefaultL();
+            }
         }
     PSLN_TRACE_DEBUG("CPslnFWBaseView::SetNaviPaneL END");
     }

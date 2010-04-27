@@ -147,6 +147,13 @@ public: // NEW FUNCTIONS
     IMPORT_C TInt FirstIndexOnScreen();
     
     /**
+     * Sets the first index on the screen.
+     * 
+     * @param aFirstIndexOnScreen The index of the first item on the screen. 
+     */
+    IMPORT_C void SetFirstIndexOnScreen( TInt aFirstIndexOnScreen );
+    
+    /**
      * How many items fit on one screen. 
      * @return Item count.
      */

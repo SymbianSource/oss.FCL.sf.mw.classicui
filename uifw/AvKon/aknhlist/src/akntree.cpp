@@ -780,6 +780,7 @@ void CAknTree::EnableMarking( TAknTreeItemID aItem, TBool aEnable )
 void CAknTree::GetMarkedItemsL( TAknTreeItemID aNode,
     RArray<TAknTreeItemID>& aMarkedItems ) const
     {
+    ::CleanupClosePushL(aMarkedItems);
     aMarkedItems.Reset();
     if ( aNode == KAknTreeIIDRoot )
         {
@@ -811,6 +812,7 @@ void CAknTree::GetMarkedItemsL( TAknTreeItemID aNode,
                 }
             }
         }
+	CleanupStack::Pop(&aMarkedItems);
     }
 
 

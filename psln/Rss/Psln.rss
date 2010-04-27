@@ -459,7 +459,7 @@ RESOURCE MENU_BAR r_psln_gen_view_menubar
         {
         MENU_TITLE { menu_pane = r_psln_basic_menupane; },
         MENU_TITLE { menu_pane = r_psln_transition_effects_menu_pane; },
-//        MENU_TITLE { menu_pane = r_psln_anim_background_menu_pane; },
+        MENU_TITLE { menu_pane = r_psln_anim_background_menu_pane; },
         MENU_TITLE { menu_pane = R_PSLN_GEN_VIEW_MENUPANE; }
         };
     }
@@ -1004,5 +1004,19 @@ RESOURCE MENU_PANE r_psln_anim_background_cascade_menu
             flags = EEikMenuItemRadioEnd;
             }
         };
+    }
+
+// **PROCESSING NOTE
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_gen_note_processing
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_gen_note_processing
+    {
+    buf = qtn_gen_note_processing;
     }
 // End of File

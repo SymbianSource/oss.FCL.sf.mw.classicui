@@ -51,6 +51,7 @@ LIBRARY         eikdlg.lib
 LIBRARY         estor.lib 
 LIBRARY         eiksrvui.lib
 LIBRARY         akncapserverclient.lib
+LIBRARY         gfxtrans.lib
 
 deffile         AKNNOTIFIERWRAPPER.DEF
 

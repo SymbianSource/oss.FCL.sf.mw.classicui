@@ -22,21 +22,6 @@
 
 #include "PslnBaseContainer.h"
 
-class CAknLocalSkinInstance;
-
-/**
-*  Observer interface for theme preview state changes.
-*  aPreviewMode new mode for theme preview - ETrue preview is active
-*                                            EFalse preview is now ready
-*
-*  @since S60 v5.0
-*/
-class MPslnThemePreviewObserver
-    {
-    public:
-        virtual void HandlePreviewStateChange( const TBool& aPreviewMode ) = 0;
-    };
-
 /**
 *  General theme container.
 *  Contains available skins.
@@ -95,119 +80,14 @@ class CPslnGeneralThemeContainer : public CPslnBaseContainer
         * @since 5.0
         */
         void UpdateSkinListItemsDColumnOnlyL();
-
-        /**
-        * Starts theme preview.
-        *
-        * @since 5.0
-        */
-        void StartThemePreviewL( TBool aTouch = ETrue );
-                
-        
-        /**
-        * Cancel theme preview.
-        *
-        * @since 5.0
-        */
-        void CancelThemePreviewL();
-
-
-        /**
-        * Sets theme preview change observer (MPslnThemePreviewObserver).
-        * aObserver observer for theme preview changes.
-        *
-        * @since 5.0
-        */
-        void SetThemePreviewObserver( MPslnThemePreviewObserver* aObserver );
-
-        /**
-        * Locks/enables up and down key events to this container.
-        *
-        * @since 5.0
-        */
-        void LockUpAndDownKeys( const TBool& aLocked );
-        
-        /**
-        * Restart Quick Preview
-        */
-        void RestartQuickPreviewL();
-
-        /**
-        * Set theme preview state active.
-        */    
-        void SetPreviewStateActive();
-        
-        /**
-        * Is current focus theme in preview state. 
-        * @return ETrue if theme is in preview state.
-        */    
-        TBool CurrentThemeInPreviewState();
         
 
     private:            
         
         // Gets Help context.        
         void GetHelpContext( TCoeHelpContext& aContext ) const;
-        // From CPslnBaseContainer
-        TKeyResponse OfferKeyEventL(
-            const TKeyEvent& aKeyEvent, 
-            TEventCode aType );
-        // From CCoeControl
-        void HandlePointerEventL( const TPointerEvent &aPointerEvent );
-
-        /* Creates (&initializes) a locally skinnable item list.*/
-        void CreateSkinItemList();
-        
-        /* Adds skin item to locally skinnable item list. */
-        TInt AddItemToList( const TAknsItemID& aSkinID );
-
-        /* Callback interface for idle time. */
-        static TInt DoHandleIdleTimeL( TAny* aAny );
-
-        /* Callback interface for theme effect ending. */
-        static TInt DoHandleEffectEndL( TAny* aAny );
-
-        /* Handle idle time. */
-        void HandleIdleTimeL();
-
-        /* Handle theme effect ending. */
-        void HandleEffectEndL();
-        
-        /*
-        * Get Preview Skin Index.
-        */
-        TInt PreviewSkinIndex();
-
-        /* Initialize theme preview delay time settings. */
-        void InitPreviewTime();
-        
-        /* Show Error Note. */
-        void ShowErrorNoteL( TInt  aResourceId  ); 
 
     private: // data
-
-        /*
-        * List of skin items to skin locally.
-        */
-        RArray<TAknsItemID> iSkinItemList;
-
-        /*
-        * Timer for delay.
-        * Own.
-        */
-        CPeriodic* iPreviewIdle;
-
-        /*
-        * Skin preview library instance.
-        * Own.
-        */
-        CAknLocalSkinInstance* iLocalSkinInstance;
-
-        /*
-        * Theme preview state change observer.
-        * Not own.
-        */
-        MPslnThemePreviewObserver* iObserver;
 
         /*
         * To be used index in highlight when container is updated.
@@ -217,32 +97,10 @@ class CPslnGeneralThemeContainer : public CPslnBaseContainer
         TInt iToBeUsedIndex;
 
         /*
-        * Up and down key events are ignored while a skin is activating.
-        * This is to avoid drawing of container when the skin items might
-        * not be valid.
-        */
-        TBool iLockedKeys;
-                
-        /*
         * Current preview theme index in listbox.
         */
         TInt iActiveSkinItemIndex;
-        
-        /*
-        * Theme preview delay time.
-        */
-        TInt iPreviewDelayTime;
-        
-        /*
-        * Theme preview delay time, arisen by navigation key.
-        */
-        TInt iPreviewDelayTimeOnHardKey;
-        
-        /*
-        * Theme preview interval time.
-        */
-        TInt iPreviewIntervalTime;
-        
+
         /*
         * Old Skin Num.
         */

@@ -1962,15 +1962,16 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
         TInt uid = indicator->Uid().iUid;
 
-        if ( uid == EAknNaviPaneEditorIndicatorSecuredConnection ||
-             uid == EAknNaviPaneEditorIndicatorProgressBar       ||
-             uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe      ||
-             uid == EAknNaviPaneEditorIndicatorGprs              ||
-             uid == EAknNaviPaneEditorIndicatorFileSize          ||
-             uid == EAknNaviPaneEditorIndicatorWaitBar           ||
-             uid == EAknNaviPaneEditorIndicatorWlanAvailable     ||
-             uid == EAknNaviPaneEditorIndicatorWlanActive        ||
-             uid == EAknNaviPaneEditorIndicatorWlanActiveSecure )
+        if ( uid == EAknNaviPaneEditorIndicatorGprs || 
+             uid == EAknNaviPaneEditorIndicatorWlanAvailable ||
+             uid == EAknNaviPaneEditorIndicatorWlanActive || 
+             uid == EAknNaviPaneEditorIndicatorWlanActiveSecure || 
+             (!isLandscape && 
+                     (uid  == EAknNaviPaneEditorIndicatorProgressBar ||
+                      uid  == EAknNaviPaneEditorIndicatorFileSize || 
+                      uid  == EAknNaviPaneEditorIndicatorWaitBar || 
+                      uid  == EAknNaviPaneEditorIndicatorSecuredConnection || 
+                      uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe)))
             {
             // These indicators are not shown in this statuspane layout.
             indicator->SetExtent( TPoint( 0, 0 ), TSize( 0, 0 ) );
@@ -1981,6 +1982,16 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
         if ( iLayoutOrientation == EVertical )
             {
+            if (uid == EAknNaviPaneEditorIndicatorProgressBar || uid
+                    == EAknNaviPaneEditorIndicatorFileSize || uid
+                    == EAknNaviPaneEditorIndicatorWaitBar || uid
+                    == EAknNaviPaneEditorIndicatorSecuredConnection || uid
+                    == EAknNaviPaneEditorIndicatorWmlWaitGlobe)
+                {
+                indicator->SetExtent(TPoint(0, 0), TSize(0, 0));
+                iIndicatorsShown++;
+                continue;
+                }
             // Highest priority indicator is put topmost.
             if ( height < indicator->IconSize().iHeight )
                 {
@@ -2022,6 +2033,112 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
             TInt textIndicatorLeftOffset = KMinSpaceBetweenIconsInPixels;
 
+            ////////////////////////////////////////////////////////////////////////////
+            //small status pane
+            TRect smallStatusPaneRect;
+            AknLayoutUtils::LayoutMetricsRect(AknLayoutUtils::EStatusPane,
+                    smallStatusPaneRect);
+
+            // small statuspane, secure state indicator
+            TAknWindowLineLayout
+                    smallStatusSecureStateLayout =
+                            AknLayout::Small_status_pane_descendants_and_elements_Line_5();
+            TAknLayoutRect smallStatusSecureStateLayoutRect;
+            smallStatusSecureStateLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusSecureStateLayout);
+            TRect smallStatusSecureStateRect(
+                    smallStatusSecureStateLayoutRect.Rect());
+
+            // small statuspane, wait pane
+            TAknWindowComponentLayout smallStatusWaitPaneLayout =
+                    AknLayoutScalable_Avkon::status_small_wait_pane(3);
+            TAknLayoutRect smallStatusWaitPaneLayoutRect;
+            smallStatusWaitPaneLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusWaitPaneLayout);
+            TRect smallStatusWaitPaneRect(
+                    smallStatusWaitPaneLayoutRect.Rect());
+
+            // small statuspane, globe
+            TAknWindowComponentLayout smallStatusWmlGlobeLayout =
+                    AknLayoutScalable_Avkon::status_small_pane_g4(0);
+            TAknLayoutRect smallStatusWmlGlobeLayoutRect;
+            smallStatusWmlGlobeLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusWmlGlobeLayout);
+            TRect smallStatusWmlGlobeRect(
+                    smallStatusWmlGlobeLayoutRect.Rect());
+
+            TInt waitBarIndicatorLeftOffset = smallStatusWaitPaneRect.iTl.iX;
+            TInt progressBarIndicatorLeftOffset = 0;
+            TInt wmlWaitGlobeLeftOffset = smallStatusWmlGlobeRect.iTl.iX;
+
+            TRect rectForMiddleIndicators(wmlWaitGlobeLeftOffset,
+                    containerRect.iTl.iY, wmlWaitGlobeLeftOffset,
+                    containerRect.iBr.iY);
+
+            if (AknLayoutUtils::LayoutMirrored())
+                {
+                wmlWaitGlobeLeftOffset = smallStatusPaneRect.iBr.iX
+                        - smallStatusWmlGlobeRect.iBr.iX;
+                waitBarIndicatorLeftOffset = smallStatusPaneRect.iBr.iX
+                        - smallStatusWaitPaneRect.iBr.iX;
+                }
+
+            if (uid == EAknNaviPaneEditorIndicatorProgressBar)
+                {
+                indicatorWidth = smallStatusWaitPaneRect.Width();
+                indicatorHeight = smallStatusWaitPaneRect.Height();                
+                verticalOffset = (containerRect.Height() - indicatorHeight)/ 2;
+                leftOffset = progressBarIndicatorLeftOffset;
+
+                textIndicatorOffsetNeeded = ETrue;
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorFileSize)
+                {
+                verticalOffset = verticalOffsetForTextIndicator;
+
+                // need left offset in western, right offset in A&H layout.
+                if (AknLayoutUtils::LayoutMirrored())
+                    {
+                    rightOffset = textIndicatorLeftOffset;
+                    }
+                else
+                    {
+                    leftOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe)
+                {
+                verticalOffset = (containerRect.Height()
+                        - indicator->IconSize().iHeight) / 2;
+                indicatorWidth = smallStatusWmlGlobeRect.Width();
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorWaitBar)
+                {
+                indicatorWidth = smallStatusWaitPaneRect.Width();
+                indicatorHeight = smallStatusWaitPaneRect.Height();
+                verticalOffset = (containerRect.Height() - indicatorHeight)/ 2;
+                leftOffset = waitBarIndicatorLeftOffset;
+                textIndicatorOffsetNeeded = ETrue;
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorSecuredConnection)
+                {
+                verticalOffset = (containerRect.Height()
+                        - smallStatusSecureStateRect.Height()) / 2;
+
+                // because icon bitmap does not contain enough space, increase offset as
+                // the layout spec states.
+                if (AknLayoutUtils::LayoutMirrored())
+                    {
+                    leftOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                else
+                    {
+                    rightOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                textIndicatorOffsetNeeded = EFalse;
+                progressBarIndicatorLeftOffset = 0;
+                }
+            ////////////////////////////////////////////////////////////////////////
             if ( uid == EAknNaviPaneEditorIndicatorMessageInfo    ||
                  uid == EAknNaviPaneEditorIndicatorWmlWindowsText ||
                  uid == EAknNaviPaneEditorIndicatorMessageLength )
@@ -2190,9 +2307,30 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
             // Place indicators to the middle if any.
             if ( indicatorPosition == EMiddle )
                 {
-                // Not supported for now, always set size to zero.
-                indicator->SetExtent( TPoint( 0, 0 ), TSize( 0, 0 ) );
-                iIndicatorsShown++;
+                TRect requiredRect( rectForMiddleIndicators.iTl.iX,
+                        rectForMiddleIndicators.iTl.iY,
+                        rectForMiddleIndicators.iTl.iX + leftOffset
+                                + indicatorWidth + rightOffset,
+                        rectForMiddleIndicators.iBr.iY );
+
+                // check if indicator fits
+                if (( requiredRect.Intersects( rectForRightSideIndicators )
+                        || requiredRect.Intersects(rectForLeftSideIndicators ))
+                        || ( rectForMiddleIndicators.Width() != 0 ))
+                    {
+                    indicator->SetExtent(TPoint(0, 0), TSize(0, 0));
+                    iIndicatorsShown++;
+                    continue;
+                    }
+                else
+                    {
+                    indicator->SetExtent( TPoint(
+                            rectForMiddleIndicators.iTl.iX + leftOffset,
+                            verticalOffset ), TSize( indicatorWidth,
+                            indicatorHeight ));
+                    rectForMiddleIndicators.iTl.iX += rightOffset;
+                    rectForMiddleIndicators.iTl.iX += indicatorWidth;
+                    }
                 }
             }
 

@@ -2924,8 +2924,13 @@ TInt CAknFastSwapWindowControl::NumberOfVisibleRows()
 TPtrC CAknFastSwapWindowControl::CurrentAppName()
     {
     _AKNTRACE_FUNC_ENTER;
-    TPtrC name = iGrid->Model()->ItemText( iGrid->CurrentDataIndex() );
-    name.Set( name.Mid( name.Find(KTab)+1) );
+    TInt textindex = iGrid->CurrentDataIndex();
+    TPtrC name;
+    if ( textindex > 0 )
+        {
+        name.Set( iGrid->Model()->ItemText( textindex ) );
+        name.Set( name.Mid( name.Find(KTab)+1 ) );
+        }
     _AKNTRACE_FUNC_EXIT;
     return name;
     }        

@@ -135,7 +135,7 @@ EXPORT_C void CAknMessageQueryControl::SetMessageTextL( TDesC* aMessage )
     TPtr message( msgBuf->Des() );
     if( iListQLayout )
         {
-        TruncateTextForListQLayout( message );
+        TruncateTextForListQLayoutL( message );
         iEdwin->SetTextL( &message );
         LayoutEditorL(); 
         }
@@ -798,7 +798,7 @@ TBool CAknMessageQueryControl::ScrollBarGrabbing()
     return grabbing;
     }
 
-void CAknMessageQueryControl::TruncateTextForListQLayout( TDes& aMessage )
+void CAknMessageQueryControl::TruncateTextForListQLayoutL( TDes& aMessage )
     {
     if( !iListQLayout )
         return;
@@ -829,7 +829,7 @@ void CAknMessageQueryControl::DoSizeChangedL()
         TPtr message( msgBuf->Des() );
         iEdwin->SetTextL( &message );
         LayoutEditorL(); 
-        TruncateTextForListQLayout( message );
+        TruncateTextForListQLayoutL( message );
         iEdwin->SetTextL( &message );
         CleanupStack::PopAndDestroy( msgBuf );  // After all usages of message        
         iNumberOfLines = iEdwin->TextLayout()->NumFormattedLines();

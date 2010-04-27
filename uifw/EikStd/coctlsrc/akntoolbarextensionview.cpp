@@ -487,12 +487,23 @@ void CAknToolbarExtensionView::HandleResourceChange( TInt aType )
                         *button, EColorControlBackground, KRgbWhite ) );
                     TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                         *button, EColorButtonText, KRgbBlack ) );
+                    }               
+                else 
+                    {
+                    //Reset the pressed down text color when get the skin change message and 
+                    // KAknTbExtensionDsaMode isn't used.
+                    TRgb pressDownColor;
+                    if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), 
+                            pressDownColor, KAknsIIDQsnTextColors, 
+                            EAknsCIQsnTextColorsCG11 ) == KErrNone )
+                        {
+                        TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( *button, 
+                                    EColorButtonTextPressed, pressDownColor ) );                        
+                        }               
                     }
                 }
             }
         }
-
-
 
     // Remember to check here if iSelectedItem still is in iVisibleItems, and if 
     // not then do something. 
@@ -770,14 +781,40 @@ void CAknToolbarExtensionView::AdjustButtonL( CAknButton& aButton )
         cell_tb_ext_pane_t1( useOutline ? 0 : 1 ).LayoutLine().FontId() );
 
     aButton.SetTextFont( font ); 
-    aButton.SetTextColorIds( KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG60 );
-
+    aButton.SetTextColorIds( KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG20 );
+    
+    
+    //Using CAknButton default frame if KAknTbExtensionTransparent 
+    //and KAknTbExtensionDsaMode are not defined.
+    if ( !( iExtension->ExtensionFlags() & KAknTbExtensionTransparent  ||
+            iExtension->ExtensionFlags() & KAknTbExtensionDsaMode ) ) 
+        {
+        aButton.SetFrameAndCenterIds(
+                KAknsIIDQsnFrButtonNormal, KAknsIIDQsnFrButtonCenterNormal,
+                KAknsIIDQsnFrButtonPressed, KAknsIIDQsnFrButtonCenterPressed,
+                KAknsIIDQsnFrButtonInactive, KAknsIIDQsnFrButtonCenterInactive, 
+                KAknsIIDQsnFrGrid, KAknsIIDQsnFrGridCenter,
+                KAknsIIDQsnFrButtonInactive, KAknsIIDQsnFrButtonCenterInactive );
+        }
+    
     if ( iExtension->ExtensionFlags() & KAknTbExtensionDsaMode )
         {
         AknLayoutUtils::OverrideControlColorL( aButton, 
             EColorControlBackground, KRgbWhite );
         AknLayoutUtils::OverrideControlColorL( aButton, 
             EColorButtonText, KRgbBlack );
+        }
+    else
+        {
+        //Reset the pressed down text color when get the skin change message and 
+        // KAknTbExtensionDsaMode isn't used.
+        TRgb pressDownColor;
+        if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), pressDownColor, 
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG11 ) == KErrNone )
+            {
+            AknLayoutUtils::OverrideControlColorL( aButton, 
+                    EColorButtonTextPressed, pressDownColor );        
+            }
         }
     }
 

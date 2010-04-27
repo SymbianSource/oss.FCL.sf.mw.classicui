@@ -151,7 +151,7 @@ void CAknCapServerDiscreetPopupHandler::DoHandleDiscreetPopupMessageL(
             }
         case ( TAknDiscreetPopupData::EAknPopupTypeQueryInUseRect ):
             {
-            HandleQueryInUseRect( aMessage );
+            HandleQueryInUseRectL( aMessage );
             break;
             }        
         default:
@@ -281,10 +281,10 @@ void CAknCapServerDiscreetPopupHandler::HandleRequestCancellationL(
     }
 
 // ---------------------------------------------------------------------------
-// CAknCapServerDiscreetPopupHandler::HandleQueryInUseRect
+// CAknCapServerDiscreetPopupHandler::HandleQueryInUseRectL
 // ---------------------------------------------------------------------------
 //
-void CAknCapServerDiscreetPopupHandler::HandleQueryInUseRect( 
+void CAknCapServerDiscreetPopupHandler::HandleQueryInUseRectL( 
         const RMessage2& aMessage )
     {
     _AKNTRACE_FUNC_ENTER;

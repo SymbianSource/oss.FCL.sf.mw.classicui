@@ -31,6 +31,8 @@ class MPslnFWMSKObserver;
 */
 class CPslnBaseContainer : public CCoeControl
     {
+    friend class CPslnGeneralThemeView;
+
     public:
 
         /**

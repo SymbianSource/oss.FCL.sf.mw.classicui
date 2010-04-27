@@ -1308,20 +1308,19 @@ TInt CFormattedCellListBoxDataExtension::ConvertTextToSmiley( TDes& aText)
 
 EXPORT_C CCoeControl *CFormattedCellListBoxData::Control() const 
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->iControl;
     }
 
 EXPORT_C void CFormattedCellListBoxData::SetSeparatorLinePosition(TAknSeparatorLinePosition aPosition)
     {
-    if (iExtension)
-        iExtension->iSeparatorLinePosition = aPosition;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iSeparatorLinePosition = aPosition;
     }
 EXPORT_C TAknSeparatorLinePosition CFormattedCellListBoxData::SeparatorLinePosition() const
     {
-    if (iExtension)
-        return iExtension->iSeparatorLinePosition;
-    else
-        return ENoLine;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iSeparatorLinePosition;
     }
 EXPORT_C CAknLayoutData *CFormattedCellListBoxData::LayoutData() const
     {
@@ -1341,11 +1340,13 @@ CFormattedCellListBoxDataExtension *CFormattedCellListBoxData::Extension() const
 
 EXPORT_C void CFormattedCellListBoxData::SetControl(CCoeControl *aControl)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->SetControl( aControl );
     }
 
 EXPORT_C MAknsControlContext* CFormattedCellListBoxData::SkinBackgroundContext() const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iSkinEnabled)
         {
         if (iExtension->iPopupFrame)
@@ -1366,18 +1367,20 @@ EXPORT_C MAknsControlContext* CFormattedCellListBoxData::SkinBackgroundContext()
 
 EXPORT_C void CFormattedCellListBoxData::SetSkinEnabledL(TBool aEnabled)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     CListBoxData::SetSkinEnabledL(aEnabled);
     iExtension->iSkinEnabled = aEnabled;
     }
 
 EXPORT_C TBool CFormattedCellListBoxData::SkinEnabled() const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->iSkinEnabled;
     }
 
 EXPORT_C void CFormattedCellListBoxData::SetSkinStyle(const TAknsItemID *id, const TRect &aTileRect)
     {
-
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetTiledBitmap(*id);
@@ -1386,6 +1389,7 @@ EXPORT_C void CFormattedCellListBoxData::SetSkinStyle(const TAknsItemID *id, con
     }
 EXPORT_C void CFormattedCellListBoxData::SetSkinParentPos(const TPoint &aPos)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetParentPos(aPos);
@@ -1393,6 +1397,7 @@ EXPORT_C void CFormattedCellListBoxData::SetSkinParentPos(const TPoint &aPos)
     }
 EXPORT_C void CFormattedCellListBoxData::SetBackgroundSkinStyle(const TAknsItemID *aId, const TRect &aRect)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetBitmap(*aId);
@@ -1401,6 +1406,7 @@ EXPORT_C void CFormattedCellListBoxData::SetBackgroundSkinStyle(const TAknsItemI
     }
 EXPORT_C void CFormattedCellListBoxData::SetListEndSkinStyle(const TAknsItemID *aListEndId, const TRect &aRect)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetBottomBitmap(*aListEndId);
@@ -1410,13 +1416,15 @@ EXPORT_C void CFormattedCellListBoxData::SetListEndSkinStyle(const TAknsItemID *
 
 EXPORT_C void CFormattedCellListBoxData::SetSkinHighlightFrame(const TAknsItemID *aFrameId, const TAknsItemID *aFrameCenterId)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iSkinHighlightFrameId = aFrameId;
     iExtension->iSkinHighlightFrameCenterId = aFrameCenterId;
     }
     
 EXPORT_C void CFormattedCellListBoxData::SetSkinPopupFrame(const TAknsItemID *aFrameId, const TAknsItemID *aFrameCenterId)
     {
-    if (iExtension && iExtension->iPopupFrame)
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( iExtension->iPopupFrame)
         {
         iExtension->iPopupFrame->SetFrame(*aFrameId);
         iExtension->iPopupFrame->SetCenter(*aFrameCenterId);
@@ -1438,24 +1446,27 @@ EXPORT_C void CFormattedCellListBoxData::SetSkinPopupFrame(const TAknsItemID *aF
     
 EXPORT_C void CFormattedCellListBoxData::SetSkinPopupFramePosition(const TRect &aOuterRect, const TRect &aInnerRect)
     {
-    if (iExtension && iExtension->iPopupFrame)
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( iExtension->iPopupFrame)
         iExtension->iPopupFrame->SetFrameRects(aOuterRect, aInnerRect);
     }
 
 EXPORT_C void CFormattedCellListBoxData::UseLogicalToVisualConversion(
     TBool aUseConversion )
     {
-    if (iExtension)
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iUseLogicalToVisualConversion = aUseConversion;
     }
 
 void CFormattedCellListBoxData::CreatePictographInterfaceL()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->CreatePictographInterfaceL();
     }
 
 void CFormattedCellListBoxData::CreateMarqueeControlL()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TCallBack callBack(CFormattedCellListBoxDataExtension::RedrawEvent, iExtension->iControl);
     //iExtension->iMarquee = CAknMarqueeControl::NewL();
     iExtension->CreateMarqueeControlL();
@@ -1713,6 +1724,7 @@ CFormattedCellListBoxData::SubCellAlignment(TInt aSubCellIndex) const
 EXPORT_C void 
 CFormattedCellListBoxData::SetSubCellAlignmentL(TInt aSubCellIndex, CGraphicsContext::TTextAlign aAlign)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TInt index = 0;
     FindSubCellIndexOrAddL(index,aSubCellIndex);
     At(index).iAlign=aAlign;
@@ -1860,15 +1872,14 @@ CFormattedCellListBoxData::SetIconArray(CArrayPtr<CGulIcon>* aArray)
 
 EXPORT_C TBool CFormattedCellListBoxData::RespectFocus() const
     {
-    if (iExtension)
-        return iExtension->iRespectFocus;
-    return EFalse;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iRespectFocus;
     }
 
 EXPORT_C void CFormattedCellListBoxData::SetRespectFocus(TBool aBool)
     {
-    if (iExtension)
-        iExtension->iRespectFocus = aBool;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iRespectFocus = aBool;
     }
 
 EXPORT_C CFont* 
@@ -2262,6 +2273,7 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
             aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
             aItemRect.iBr.iY);
     
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
     if (!view->ViewRect().Intersects(aItemRect))
         {
@@ -2330,6 +2342,8 @@ CFormattedCellListBoxData::BitBltColored( CWindowGc&      aGc,
                                           TBool           aColorIcon,
                                           const TRect&    aGraphicRect ) const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    
     // se also eikclbd.cpp ( sigh ).
     CFbsBitmap* bitmap( aIcon->Bitmap() );
     CFbsBitmap* mask( aIcon->Mask() );
@@ -2393,6 +2407,8 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             aItemRect.iTl.iX, aItemRect.iTl.iY, aItemRect.iBr.iX, 
             aItemRect.iBr.iY);
     
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    
     TRect textRect(aItemRect);
     const TColors *subcellColors = &aColors;
 
@@ -2439,7 +2455,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             ++ subcell;
             continue;
             }
-        if (!iExtension) break;
+
         if (iExtension->FindSLSubCellIndex(SCindex,subcell)!=0) break;
 
         if (UseSubCellColors(subcell))
@@ -2930,7 +2946,9 @@ EXPORT_C void CPopupFormattedListBoxData::Draw(TListItemProperties aProperties, 
 
 void CFormattedCellListBoxData::DrawDefaultHighlight(CWindowGc &aGc, const TRect &aItemRect, TBool aHighlight) const
     {
-    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_ENTER;    
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    
     // When this flag set, draw pressed down state and don't use animation.
     // There are several derived CListboxData in this file. All of them do  
     // this same thing.
@@ -3040,6 +3058,7 @@ void CFormattedCellListBoxData::DrawPopupHighlight(CWindowGc &aGc, const TRect &
 void CFormattedCellListBoxData::DrawPopupFrame(CWindowGc &aGc) const
     {
     _AKNTRACE_FUNC_ENTER;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     CCoeControl* control = Control();
 
     if ( control )
@@ -3064,15 +3083,14 @@ void CFormattedCellListBoxData::SetWordWrappedSubcellIndices(
     TInt aFirstIndex,
     TInt aSecondIndex )
     {
-    if ( iExtension ) 
-        {
-        iExtension->iFirstWordWrappedSubcellIndex = (TInt16)aFirstIndex;
-        iExtension->iSecondWordWrappedSubcellIndex = (TInt16)aSecondIndex;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iFirstWordWrappedSubcellIndex = (TInt16)aFirstIndex;
+    iExtension->iSecondWordWrappedSubcellIndex = (TInt16)aSecondIndex;
     }
 
 EXPORT_C void CFormattedCellListBoxData::EnableMarqueeL(TBool aEnable)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     // CreateMarqueeControlL does nothing if marquee already exists,
     // so let's just call it just in case.
     CreateMarqueeControlL();
@@ -3084,11 +3102,13 @@ EXPORT_C void CFormattedCellListBoxData::EnableMarqueeL(TBool aEnable)
 #ifdef __WINS__
 EXPORT_C const TBool CFormattedCellListBoxData::IsMarqueeOn()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->IsMarqueeOn();
     }
 #else
 EXPORT_C TBool CFormattedCellListBoxData::IsMarqueeOn()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->IsMarqueeOn();
     }
 #endif // __WINS__
@@ -3096,17 +3116,20 @@ EXPORT_C TBool CFormattedCellListBoxData::IsMarqueeOn()
 
 void CFormattedCellListBoxData::FocusGained()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->FocusGained();
     }
 
 void CFormattedCellListBoxData::FocusLost()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->FocusLost();
     }
 
 void CFormattedCellListBoxData::HandleResourceChange( TInt aType )
     {
     _AKNTRACE_FUNC_ENTER;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     // Animation is skin dependent, whenever skin changes animation changes
     // too.
     if( KAknsMessageSkinChange == aType )
@@ -3140,9 +3163,8 @@ void CFormattedCellListBoxData::HandleResourceChange( TInt aType )
 //
 EXPORT_C const CAknsEffectAnim* CFormattedCellListBoxData::HighlightAnim() const
     {
-    if( iExtension )
-        return iExtension->iAnimation;
-    return NULL;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iAnimation;
     }
 
 // -----------------------------------------------------------------------------
@@ -3151,10 +3173,7 @@ EXPORT_C const CAknsEffectAnim* CFormattedCellListBoxData::HighlightAnim() const
 //
 EXPORT_C void CFormattedCellListBoxData::AboutToDrawHighlightAnim() const
     {
-    if( !iExtension )
-        {
-        return;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if( !iExtension->iAnimation || !iExtension->iControl )
         {
         return;
@@ -3183,10 +3202,8 @@ EXPORT_C void CFormattedCellListBoxData::AboutToDrawHighlightAnim() const
 EXPORT_C void CFormattedCellListBoxData::SetHighlightAnimBackgroundDrawer(
     MListBoxAnimBackgroundDrawer* aDrawer )
     {
-    if( iExtension )
-        {
-        iExtension->iHighlightBgDrawer = aDrawer;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iHighlightBgDrawer = aDrawer;
     }
 
 // -----------------------------------------------------------------------------
@@ -3195,14 +3212,12 @@ EXPORT_C void CFormattedCellListBoxData::SetHighlightAnimBackgroundDrawer(
 //
 EXPORT_C void CFormattedCellListBoxData::SetItemCellSize( const TSize& aSize )
     {
-    if( iExtension )
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if( iExtension->iAnimSize != aSize )
         {
-        if( iExtension->iAnimSize != aSize )
-            {
-            iExtension->Play();
-            }
-        iExtension->iAnimSize = aSize;
+        iExtension->Play();
         }
+    iExtension->iAnimSize = aSize;
     }
 
 // -----------------------------------------------------------------------------
@@ -3211,11 +3226,8 @@ EXPORT_C void CFormattedCellListBoxData::SetItemCellSize( const TSize& aSize )
 //
 EXPORT_C TBool CFormattedCellListBoxData::HasHighlightAnim() const
     {
-    if( !iExtension )
-        return EFalse;
-    if( !iExtension->iAnimation )
-        return EFalse;
-    return ETrue;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return ( iExtension->iAnimation != NULL );
     }
 
 // -----------------------------------------------------------------------------
@@ -3225,9 +3237,7 @@ EXPORT_C TBool CFormattedCellListBoxData::HasHighlightAnim() const
 EXPORT_C TBool CFormattedCellListBoxData::DrawHighlightAnim(
         CBitmapContext& aGc, const TRect& aRect ) const
     {
-    if( !iExtension )
-        return EFalse;
-
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if( !iExtension->iAnimation )
         return EFalse;
 
@@ -3236,6 +3246,7 @@ EXPORT_C TBool CFormattedCellListBoxData::DrawHighlightAnim(
 
 void CFormattedCellListBoxData::ResetMarquee()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if (iExtension->iMarquee)
         {
         iExtension->iMarquee->Reset();
@@ -3248,6 +3259,7 @@ void CFormattedCellListBoxData::ResetMarquee()
 
 TInt CFormattedCellListBoxData::CurrentMarqueeItemIndex()
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->iCurrentItem;
     }
 
@@ -3255,6 +3267,7 @@ void CFormattedCellListBoxData::SetCurrentMarqueeItemIndex(TInt aIndex)
     {
     _AKNTRACE("CFormattedCellListBoxData::SetCurrentMarqueeItemIndex aIndex=%d",
             aIndex);
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     
     iExtension->iCurrentItem = aIndex;
     }
@@ -3262,6 +3275,7 @@ void CFormattedCellListBoxData::SetCurrentMarqueeItemIndex(TInt aIndex)
 void CFormattedCellListBoxData::SetCurrentItemIndex(TInt aIndex)
     {
     _AKNTRACE("CFormattedCellListBoxData::SetCurrentItemIndex aIndex=%d", aIndex);
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if( iExtension->iCurrentRow != aIndex )
         {
         iExtension->iAnimFlags.Set( CFormattedCellListBoxDataExtension::EFlagUpdateBg );
@@ -3273,16 +3287,14 @@ void CFormattedCellListBoxData::SetCurrentlyDrawnItemIndex( TInt aIndex )
     {
     _AKNTRACE("CFormattedCellListBoxData::SetCurrentlyDrawnItemIndex aIndex=%d", 
             aIndex);
-    if ( iExtension )
-        {
-        iExtension->iCurrentlyDrawnItemIndex = aIndex;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iCurrentlyDrawnItemIndex = aIndex;
     }
 
 EXPORT_C const CFont* 
 CFormattedCellListBoxData::RowAndSubCellFont(TInt aRow,TInt aSubCellIndex) const
     {
-    if (!iExtension) return 0;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TInt index = 0;
     if (iExtension->FindRowAndSubCellIndex(index,aRow,aSubCellIndex)!=0)
         return 0;
@@ -3293,7 +3305,7 @@ EXPORT_C void CFormattedCellListBoxData::SetSubCellFontForRowL(TInt aRowIndex,
                                                                TInt aSubCellIndex,
                                                                const CFont* aFont)
     {
-    if (!iExtension) return;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TInt index = 0;
     iExtension->FindRowAndSubCellIndexOrAddL(index,aRowIndex,aSubCellIndex);
     iExtension->At(index).iFont=aFont;
@@ -3305,6 +3317,7 @@ EXPORT_C void CFormattedCellListBoxData::SetSubCellFontForRowL(TInt aRowIndex,
 */ 
 EXPORT_C void CFormattedCellListBoxData::SetDrawBackground(const TBool aDrawBackground)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iDrawBackground = aDrawBackground;
     if( !aDrawBackground )
         {
@@ -3317,6 +3330,7 @@ EXPORT_C void CFormattedCellListBoxData::SetDrawBackground(const TBool aDrawBack
 */ 
 TBool CFormattedCellListBoxData::IsBackgroundDrawingEnabled() const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->iDrawBackground;
     }
 
@@ -3327,6 +3341,7 @@ TBool CFormattedCellListBoxData::IsBackgroundDrawingEnabled() const
 */ 
 void CFormattedCellListBoxData::SetDrawScrollbarBackground(const TBool aDrawBackground)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iDrawScrollbarBackground = aDrawBackground;
     }
 
@@ -3335,6 +3350,7 @@ void CFormattedCellListBoxData::SetDrawScrollbarBackground(const TBool aDrawBack
 */ 
 TBool CFormattedCellListBoxData::IsScrollbarBackgroundDrawingEnabled() const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     return iExtension->iDrawScrollbarBackground;
     }
 
@@ -3342,6 +3358,7 @@ TBool CFormattedCellListBoxData::IsScrollbarBackgroundDrawingEnabled() const
 EXPORT_C void CFormattedCellListBoxData::SetMarqueeParams(const TInt aLoops, const TInt aScrollAmount, 
                                                           const TInt aScrollDelay, const TInt aInterval)
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if ( iExtension->iMarquee )
         {
         iExtension->iMarquee->SetLoops( aLoops );
@@ -3361,7 +3378,8 @@ EXPORT_C void CFormattedCellListBoxData::SetMarqueeParams(const TInt aLoops, con
 
 EXPORT_C void CFormattedCellListBoxData::SetSubCellIconSize(TInt aIndex, TSize aSize)
     {
-    if (iExtension && aIndex <= KMaxSubCellIndex && aIndex >= 0)
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( aIndex <= KMaxSubCellIndex && aIndex >= 0)
         {
         iExtension->iSubCellIconSize[aIndex] = aSize;
         }
@@ -3369,7 +3387,8 @@ EXPORT_C void CFormattedCellListBoxData::SetSubCellIconSize(TInt aIndex, TSize a
 
 TSize CFormattedCellListBoxData::GetSubCellIconSize(TInt aIndex)
     {
-    if (iExtension && aIndex <= KMaxSubCellIndex && aIndex >= 0)
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( aIndex <= KMaxSubCellIndex && aIndex >= 0)
         {
         return iExtension->iSubCellIconSize[aIndex];
         }
@@ -3438,6 +3457,8 @@ void CFormattedCellListBoxData::SetupSkinContextL()
 // extended skin support
 void CFormattedCellListBoxData::SetESSTextColor( TAknsQsnTextColorsIndex aIndex )
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    
     TRgb color;
     
     TInt error = AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
@@ -3454,6 +3475,7 @@ void CFormattedCellListBoxData::SetESSTextColor( TAknsQsnTextColorsIndex aIndex 
 // extended skin support
 void CFormattedCellListBoxData::SetESSHighlightedTextColor( TAknsQsnTextColorsIndex aIndex )
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TRgb color;
     
     TInt error = AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
@@ -3470,7 +3492,7 @@ void CFormattedCellListBoxData::SetESSHighlightedTextColor( TAknsQsnTextColorsIn
 void CFormattedCellListBoxData::SetGraphicSubCellL( TInt aSubCell,
                                                     const TAknWindowLineLayout &aGraphicLayout )
     {
-    if ( !iExtension ) return;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
     // this does happen with caknsetstyle, caknform(wide)style lists.
     // eventually they'll get here again with list!=0, so this check is enough
@@ -3519,7 +3541,7 @@ void CFormattedCellListBoxData::SetGraphicSubCellL( TInt aSubCell,
 void CFormattedCellListBoxData::SetTextSubCellL( TInt aSubCell,
                                                  const TAknTextLineLayout &aTextLayout )
     {
-    if (!iExtension) return;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
     // this does happen with caknsetstyle, caknform(wide)style lists.
     // eventually they'll get here again with list!=0, so this check is enough
@@ -3572,6 +3594,7 @@ void CFormattedCellListBoxData::SetConditionalSubCellL(TInt aSubCell,
                                                        const TAknTextLineLayout &aTextLayout,
                                                        TInt aAffectedSubCell)  
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     // iConditionValue of affected subcell (=text subcell, which has different layouts)
     // contains index of graphical subcell, which existence should be checked first.
     // This graphical subcell has in iConditionValue index of graphical subcell,
@@ -3580,8 +3603,6 @@ void CFormattedCellListBoxData::SetConditionalSubCellL(TInt aSubCell,
 
     // for compabitility - needed at least for text wrapping
     SetNotAlwaysDrawnSubCellL( aSubCell, ETrue );
-
-    if (!iExtension) return;
 
     TInt i = 0x01;
     i = i << aSubCell;
@@ -3639,50 +3660,40 @@ void CFormattedCellListBoxData::SetConditionalSubCellL(TInt aSubCell,
 //
 TBool CFormattedCellListBoxData::UsesScalableLayoutData() const
     {
-    if (iExtension)
-        return iExtension->iSimpleList;
-
-    return EFalse;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iSimpleList;
     }
 void CFormattedCellListBoxData::UseScalableLayoutData( TBool aUse )
     {
-    if ( iExtension )
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( !aUse && iExtension->iSimpleList )
         {
-        if ( !aUse && iExtension->iSimpleList )
-            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
-            CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
-            MAknListBoxTfxInternal* transApi =
-                CAknListLoader::TfxApiInternal( list->View()->ItemDrawer()->Gc() );
-            if ( transApi )
-                {
-                transApi->SetPosition( MAknListBoxTfxInternal::EListTLMargin, TPoint( 0, 0 ) );
-                transApi->SetPosition( MAknListBoxTfxInternal::EListBRMargin, TPoint( 0, 0 ) );
-                }
-#endif
+        CEikFormattedCellListBox* list = static_cast<CEikFormattedCellListBox*>( iExtension->iControl );
+        MAknListBoxTfxInternal* transApi =
+            CAknListLoader::TfxApiInternal( list->View()->ItemDrawer()->Gc() );
+        if ( transApi )
+            {
+            transApi->SetPosition( MAknListBoxTfxInternal::EListTLMargin, TPoint( 0, 0 ) );
+            transApi->SetPosition( MAknListBoxTfxInternal::EListBRMargin, TPoint( 0, 0 ) );
             }
-        iExtension->iSimpleList = aUse;
+#endif
         }
+    iExtension->iSimpleList = aUse;
     }
 
 EXPORT_C void CFormattedCellListBoxData::SetSubcellUnderlined( TBitFlags32 aUnderlinedCells )
     {
-    if ( iExtension )
-        {
-        iExtension->iUnderlineFlagSet = ETrue;
-        iExtension->iUnderlineFlags   = aUnderlinedCells;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iUnderlineFlagSet = ETrue;
+    iExtension->iUnderlineFlags   = aUnderlinedCells;
     }
 
 void CFormattedCellListBoxData::SetUnderlineStyle( TListItemProperties aProperties,
                                                    CWindowGc& aGc,
                                                    TInt aSubCell ) const
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     if ( !iExtension->iUnderlineFlagSet )
         {
         // underlining is already either on or off and
@@ -3705,19 +3716,14 @@ void CFormattedCellListBoxData::SetUnderlineStyle( TListItemProperties aProperti
 
 void CFormattedCellListBoxData::UseHighlightIconSwapping( TBool aUse )
     {
-    if ( iExtension )
-        {
-        iExtension->iUseHighligthIconSwapping = aUse;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iUseHighligthIconSwapping = aUse;
     }
 
 TBool CFormattedCellListBoxData::UseHighlightIconSwapping() const
     {
-    if ( iExtension )
-        {
-        return iExtension->iUseHighligthIconSwapping;
-        }
-    return EFalse;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iUseHighligthIconSwapping;
     }
 
 // -----------------------------------------------------------------------------
@@ -3795,11 +3801,7 @@ void CFormattedCellListBoxData::SetStretchableConditionalSubCellL(
 //
 void CFormattedCellListBoxData::ResetSLSubCellArray()
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iMarginRect = TRect::EUninitialized;
 
     UseScalableLayoutData( EFalse );
@@ -3817,11 +3819,7 @@ void CFormattedCellListBoxData::ResetSLSubCellArray()
 TBool CFormattedCellListBoxData::StretchingEnabled() const
     {
 #ifdef RD_LIST_STRETCH    
-    if ( !iExtension )
-        {
-        return EFalse;
-        }
-        
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));        
     return iExtension->iStretchingEnabled;
 #else
     return EFalse;
@@ -3835,11 +3833,7 @@ TBool CFormattedCellListBoxData::StretchingEnabled() const
 //
 void CFormattedCellListBoxData::EnableStretching( const TBool aEnabled )
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-        
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));        
     iExtension->iStretchingEnabled = aEnabled;        
     }
 
@@ -3849,11 +3843,7 @@ void CFormattedCellListBoxData::EnableStretching( const TBool aEnabled )
 //
 void CFormattedCellListBoxData::HideSecondRow( const TBool aHide )
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-        
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));        
     iExtension->iHideSecondRow = aHide;        
     }
 #endif // RD_LIST_STRETCH
@@ -3864,11 +3854,7 @@ void CFormattedCellListBoxData::HideSecondRow( const TBool aHide )
 //
 TBool CFormattedCellListBoxData::SecondRowHidden() const
     {
-    if ( !iExtension )
-        {
-        return EFalse;
-        }
-        
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));        
     return iExtension->iHideSecondRow;        
     }
 
@@ -3878,10 +3864,7 @@ TBool CFormattedCellListBoxData::SecondRowHidden() const
 //
 void CFormattedCellListBoxData::ToggleDropShadows( const TBool aEnable )
     {
-    if ( !iExtension )
-        {
-        return;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iUseDropShadows = aEnable;
     }
 
@@ -3895,6 +3878,7 @@ void CFormattedCellListBoxData::CheckIfSubCellsIntersect(
     const TDesC& aText, 
     const TRect& aItemRect ) const
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     TInt subCell = 0;
     TInt subCell2;
     TInt subCellIndex;
@@ -4007,6 +3991,7 @@ void CFormattedCellListBoxData::CheckIfSubCellsIntersect(
 //
 void CFormattedCellListBoxData::SubCellsMightIntersect( const TBool aMightIntersect )
     {
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     iExtension->iSubCellsMightIntersect = aMightIntersect;
     }
 
@@ -4121,6 +4106,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                                              const TColors& aColors ) const
     {
     _AKNTRACE_FUNC_ENTER;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     
     TRect aRect(aItemRect);
     const TColors *subcellColors = &aColors;
@@ -4350,7 +4336,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             {
             aGc.SetPenColor(subcellColors->iHighlightedText);
             aGc.SetBrushColor(subcellColors->iHighlightedBack); 
-            if ( skinEnabled && iExtension )
+            if ( skinEnabled )
                 {
                 if ( iExtension->iHighlightedTextColor != NULL )
                     {
@@ -4363,7 +4349,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             aGc.SetPenColor(subcellColors->iText);
             aGc.SetBrushColor(subcellColors->iBack);
             
-            if ( skinEnabled && iExtension )
+            if ( skinEnabled )
                 {
                 if ( iExtension->iTextColor != NULL )
                     {
@@ -4381,11 +4367,6 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             CGraphicsContext::TTextAlign align=sc->iAlign;
             if (!sc->iGraphics)
                 {
-                if ( !iExtension )
-                    {
-                    _AKNTRACE_FUNC_EXIT;
-                    return;
-                    }
                 const CFont* rowAndCellFont=RowAndSubCellFont(iExtension->iCurrentlyDrawnItemIndex,subcell);
                 const CFont* cellFont=sc->iBaseFont;
                 const CFont* tempFont=(cellFont) ? cellFont : font;
@@ -4539,28 +4520,27 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                     CGulIcon* icon=(*iIconArray)[index];
                     CFbsBitmap* bitmap=icon->Bitmap();
                     
-                    if ( iExtension )
+
+                    TInt w, h;
+                    TSize sz = bitmap->SizeInPixels();
+
+                    w = iExtension->iSubCellIconSize[subcell].iWidth;
+                    h = iExtension->iSubCellIconSize[subcell].iHeight;
+
+                    if (h != 0 && w != 0 && !( sz.iWidth == w || sz.iHeight == h ) )
                         {
-                        TInt w, h;
-                        TSize sz = bitmap->SizeInPixels();
-                        
-                        w = iExtension->iSubCellIconSize[subcell].iWidth;
-                        h = iExtension->iSubCellIconSize[subcell].iHeight;
-                        
-                        if (h != 0 && w != 0 && !( sz.iWidth == w || sz.iHeight == h ) )
-                            {
-                            AknIconUtils::SetSize( bitmap,
-                                                   iExtension->iSubCellIconSize[subcell],
-                                                   EAspectRatioPreservedAndUnusedSpaceRemoved );
-                            }
-                        else if ( sz.iWidth == 0 || sz.iHeight == 0 ) // check if size is set at all
-                            {
-                            // just in case fallback
-                            AknIconUtils::SetSize( bitmap,
-                                                   textRect.Size(),
-                                                   EAspectRatioPreservedAndUnusedSpaceRemoved );
-                            }
+                        AknIconUtils::SetSize( bitmap,
+                                               iExtension->iSubCellIconSize[subcell],
+                                               EAspectRatioPreservedAndUnusedSpaceRemoved );
                         }
+                    else if ( sz.iWidth == 0 || sz.iHeight == 0 ) // check if size is set at all
+                        {
+                        // just in case fallback
+                        AknIconUtils::SetSize( bitmap,
+                                               textRect.Size(),
+                                               EAspectRatioPreservedAndUnusedSpaceRemoved );
+                        }
+
                     
                     TSize size=bitmap->SizeInPixels();
                     
@@ -4625,33 +4605,30 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
 
 void CFormattedCellListBoxData::SetClippedByWrap( TUint32 aClippedCells, TBool aUseClippedByWrap )
     {
-    if ( iExtension )
-        {
-        iExtension->iClippedByWrap = aClippedCells;
-        iExtension->iUseClippedByWrap = aUseClippedByWrap;
-        }
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    iExtension->iClippedByWrap = aClippedCells;
+    iExtension->iUseClippedByWrap = aUseClippedByWrap;
     }
 
 EXPORT_C TUint32 CFormattedCellListBoxData::CurrentItemTextWasClipped() const
     {
-    return iExtension ? iExtension->iClippedSubcells : 0;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iClippedSubcells;
     }
 
 
 
 TBool CFormattedCellListBoxData::KineticScrollingEnabled() const
     {
-    if ( iExtension )
-        {
-        return iExtension->iKineticScrolling;       
-        }
-    return EFalse;
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    return iExtension->iKineticScrolling;
     }
     
     
 CEikListBox* CFormattedCellListBoxData::ListBox() const
     {
-    if ( iExtension && iExtension->iControl )
+    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    if ( iExtension->iControl )
         {
         return static_cast<CEikListBox*>( iExtension->iControl );
         }
@@ -4660,7 +4637,7 @@ CEikListBox* CFormattedCellListBoxData::ListBox() const
 void CFormattedCellListBoxData::InitSmileyL()
     {
     __ASSERT_DEBUG( iExtension, Panic( EAknPanicObjectNotFullyConstructed ));
-    if ( iExtension && !iExtension->iSmileyMan )
+    if ( !iExtension->iSmileyMan )
         {
         iExtension->iSmileyMan = CAknSmileyManager::NewL( iExtension );
         }

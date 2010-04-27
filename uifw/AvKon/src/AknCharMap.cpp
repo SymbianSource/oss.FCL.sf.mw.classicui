@@ -216,22 +216,21 @@ class CAknCharMapHistory : public CBase
 // Navi button class definition
 // ----------------------------------------------------------------------------
 //
-NONSHARABLE_CLASS(CAknSctNaviButton) : public CBase
+NONSHARABLE_CLASS(CAknSctNaviButton) : public CBase, public MCoeControlObserver
     {
     public:
-        static CAknSctNaviButton* NewL(
-            const CCoeControl& aParent,
-            TInt aButtonId,
-            TResourceReader& reader);
+        static CAknSctNaviButton* NewL(const CCoeControl& aParent, TInt aButtonId, TResourceReader& reader);
         ~CAknSctNaviButton();
 
     private:
         CAknSctNaviButton(TInt aButtonId);
-        void ConstructL(
-            const CCoeControl& aParent,
-            TResourceReader& reader);
+        void ConstructL(const CCoeControl& aParent, TResourceReader& reader);
+        
+    private: // from MCoeControlObserver
+        virtual void HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType);
 
     public:
+        void SetObserver(MCoeControlObserver* aObserver);
         void SetFocused(TBool aState);
         void SetEnabled(TBool aState);
         TBool IsFocused();
@@ -239,6 +238,7 @@ NONSHARABLE_CLASS(CAknSctNaviButton) : public CBase
 
     public:
         CAknButton* iButtonControl;
+        MCoeControlObserver* iObserver;
         TInt iButtonId;
         TBool iPressed;
         TBool iRepeat;
@@ -248,7 +248,7 @@ NONSHARABLE_CLASS(CAknSctNaviButton) : public CBase
 // Table Navi class definition
 // ----------------------------------------------------------------------------
 //
-NONSHARABLE_CLASS(CAknSctTableNavi) : public CAknControl, public MAknSctFocusHandler
+NONSHARABLE_CLASS(CAknSctTableNavi) : public CAknControl, public MAknSctFocusHandler, public MCoeControlObserver
     {
     public:
         CAknSctTableNavi(CAknCharMap* aCharMap, CAknCharMapExtension* aExtension);
@@ -259,9 +259,11 @@ NONSHARABLE_CLASS(CAknSctTableNavi) : public CAknControl, public MAknSctFocusHan
         CCoeControl* ComponentControl( TInt aIndex ) const;
         virtual TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode);
         void ConstructFromResourceL(TResourceReader& aReader);
-        virtual void HandlePointerEventL(const TPointerEvent& aPointerEvent);
         virtual TSize MinimumSize();
         virtual void SizeChanged();
+        
+    public: // from MCoeControlObserver
+        void HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType);
 
     public: // from MAknSctFocusHandler
         virtual CCoeControl* FocusedControl();
@@ -272,14 +274,19 @@ NONSHARABLE_CLASS(CAknSctTableNavi) : public CAknControl, public MAknSctFocusHan
 
     public:
         TInt TableCount();
-        void TableExitL();
-        static TInt DoTableExit(TAny* aThis);
         void UpdateNextTableButtonL();
-
+        
+    private:
+        void TableExitL();
+        static TInt TableExitCallBackL(TAny* aThis);
+        void DoTableExitL();
+        
+        void NextTableL();
+        static TInt NextTableCallBackL(TAny* aThis);
+        void DoNextTableL();
+        
     private:
         TInt ButtonPosition(TInt aButtonIndex) const;
-        TInt SetStatusChanged();
-        void NextTableL();
 
     private:  // data
         TInt iButtonIndex;
@@ -556,6 +563,17 @@ void CAknSctNaviButton::ConstructL(const CCoeControl& aParent, TResourceReader& 
     {
     iButtonControl = CAknButton::NewL(aReader);
     iButtonControl->SetContainerWindowL(aParent);
+    iButtonControl->SetObserver(this);
+    }
+
+void CAknSctNaviButton::SetObserver(MCoeControlObserver* aObserver)
+    {
+    iObserver = aObserver;
+    }
+
+void CAknSctNaviButton::HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType)
+    {
+    if(iObserver) iObserver->HandleControlEventL(aControl, aEventType);
     }
 
 CAknSctNaviButton::~CAknSctNaviButton()
@@ -742,32 +760,52 @@ TKeyResponse CAknSctTableNavi::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEvent
 
 void CAknSctTableNavi::TableExitL()
     {
-    delete iIdle;
-    iIdle = 0;
-    iIdle = CIdle::NewL(CActive::EPriorityStandard);
-    iIdle->Start(TCallBack(DoTableExit, this));
+    if(!iIdle)
+        {
+        iIdle = CIdle::NewL(CActive::EPriorityStandard);
+        }
+
+    iIdle->Cancel();
+    iIdle->Start(TCallBack(TableExitCallBackL, this));
     }
 
-TInt CAknSctTableNavi::DoTableExit(TAny* aThis)
+TInt CAknSctTableNavi::TableExitCallBackL(TAny* aThis)
     {
-    return ((CAknSctTableNavi*)aThis)->SetStatusChanged();
+    ((CAknSctTableNavi*)aThis)->DoTableExitL();
+    return KErrNone;
+    }
+
+void CAknSctTableNavi::DoTableExitL()
+    {
+    iCharMap->SetStatusChanged(EAknCharSelectedTableExitButton);
+    }
+
+void CAknSctTableNavi::NextTableL()
+    {
+    if(!iIdle)
+        {
+        iIdle = CIdle::NewL(CActive::EPriorityStandard);
+        }
+
+    iIdle->Cancel();
+    iIdle->Start(TCallBack(NextTableCallBackL, this));
+    }
+
+TInt CAknSctTableNavi::NextTableCallBackL(TAny* aThis)
+    {
+    ((CAknSctTableNavi*)aThis)->DoNextTableL();
+    return KErrNone;
+    }
+
+void CAknSctTableNavi::DoNextTableL()
+    {
+    iCharMap->SetStatusChanged(EAknCharSelectedNextTableButton);
     }
 
 TInt CAknSctTableNavi::ButtonPosition(TInt aButtonIndex) const
     {
     // buttons behind the 1th are behavior as one button
     return (aButtonIndex==0) ? 0 : 1;
-    }
-
-TInt CAknSctTableNavi::SetStatusChanged()
-    {
-    TRAPD(err, iCharMap->SetStatusChanged(EAknCharSelectedTableExitButton));
-    return err;
-    }
-
-void CAknSctTableNavi::NextTableL()
-    {
-    iCharMap->SetStatusChanged(EAknCharSelectedNextTableButton);
     }
 
 void CAknSctTableNavi::ConstructFromResourceL(TResourceReader& aReader)
@@ -781,70 +819,10 @@ void CAknSctTableNavi::ConstructFromResourceL(TResourceReader& aReader)
         TResourceReader buttonReader;
         iCoeEnv->CreateResourceReaderLC(buttonReader, resId);
         CAknSctNaviButton* buttonObj = CAknSctNaviButton::NewL(*this, buttonId, buttonReader);
+        buttonObj->SetObserver(this);
         iButtonArray.Append(buttonObj);
         CleanupStack::PopAndDestroy(); // buttonReader
         }
-    }
-
-void CAknSctTableNavi::HandlePointerEventL(const TPointerEvent& aPointerEvent)
-    {
-    if (AknLayoutUtils::PenEnabled() && Rect().Contains(aPointerEvent.iPosition))
-        {
-        if (aPointerEvent.iType == TPointerEvent::EButton1Down)
-            {
-            iPressedButtonIndex = -1;
-            
-            for (TInt index = 0; index < iButtonArray.Count(); index++)
-                {
-                CAknSctNaviButton* buttonObj = iButtonArray[index];
-                if(buttonObj->IsEnabled())
-                    {
-                    TRect buttonRect = buttonObj->iButtonControl->Rect();
-                    if (buttonRect.Contains(aPointerEvent.iPosition))
-                        {
-                        iPressedButtonIndex = index;
-                        }
-                    }
-                }
-            }
-        else if (aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            if(iPressedButtonIndex >= 0)
-                {
-                CAknSctNaviButton* buttonObj = iButtonArray[iPressedButtonIndex];
-                if(buttonObj->IsEnabled())
-                    {
-                    iButtonIndex = iPressedButtonIndex;
-                    
-                    TRect buttonRect = buttonObj->iButtonControl->Rect();
-                    if (buttonRect.Contains(aPointerEvent.iPosition))
-                        {
-                        switch (buttonObj->iButtonId)
-                            {
-                            case EAknSctTableNaviExit:
-                                {
-                                iExtension->iKeyOkEvent = ETrue;
-                                TableExitL();
-                                }
-                                return;
-                                
-                            case EAknSctTableNaviSpecialChar:
-                            case EAknSctTableNaviEmotion:
-                                {
-                                NextTableL();
-                                }
-                                return;
-                                
-                            default:
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    
-    CCoeControl::HandlePointerEventL(aPointerEvent);
     }
 
 TSize CAknSctTableNavi::MinimumSize()
@@ -903,6 +881,41 @@ void CAknSctTableNavi::SizeChanged()
             }
 
         TRAP_IGNORE(UpdateNextTableButtonL());
+        }
+    }
+
+void CAknSctTableNavi::HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType)
+    {
+    if(aEventType == EEventStateChanged)
+        {
+        for(TInt i=0; i<iButtonArray.Count(); i++)
+            {
+            CAknSctNaviButton* button = iButtonArray[i];
+            if(button->iButtonControl == aControl)
+                {
+                switch(button->iButtonId)
+                    {
+                    case EAknSctTableNaviExit:
+                        {
+                        iExtension->iKeyOkEvent = ETrue;
+                        TableExitL();
+                        }
+                        return;
+                        
+                    case EAknSctTableNaviSpecialChar:
+                    case EAknSctTableNaviEmotion:
+                        {
+                        NextTableL();
+                        }
+                        return;
+                        
+                    default:
+                        break;
+                    }
+            
+                break;
+                }
+            }
         }
     }
 
@@ -6616,8 +6629,6 @@ EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEven
             iExtension->iHighlightVisible = EFalse;
             DrawCursor();
             }
-			
-        CCoeControl::HandlePointerEventL(aPointerEvent);
 
         // if Stylus is lifted we clear all flags.
         if (aPointerEvent.iType == TPointerEvent::EButton1Up)
@@ -6625,17 +6636,26 @@ EXPORT_C void CAknCharMap::HandlePointerEventL(const TPointerEvent& aPointerEven
             iExtension->iFlags &= (~EAknCharMapButton1DownInGrid);
             iExtension->iFlags &= (~EAknCharMapHasBeenScrolledByDrag);
             iExtension->iFlags &= (~EAknCharMapPressedDown);
-            if ( !iSBFrame )
+            if ( iSBFrame )
                 {
-                return;
-                }
-            CEikScrollBar* vScrollBar = iSBFrame->VerticalScrollBar();
-            if(vScrollBar)
-                {
-                vScrollBar->HandlePointerEventL(aPointerEvent);
+                CEikScrollBar* vScrollBar = iSBFrame->VerticalScrollBar();
+                if(vScrollBar)
+                    {
+                    vScrollBar->HandlePointerEventL(aPointerEvent);
+                    }
                 }
             }
         }
+    else
+        {
+        if(iExtension->iSingleClickEnabled)
+            {
+            iExtension->iHighlightVisible = EFalse;
+            DrawCursor();
+            }
+        }
+    
+    CCoeControl::HandlePointerEventL(aPointerEvent);
     }
 
 // -----------------------------------------------------------------------------

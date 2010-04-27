@@ -33,6 +33,7 @@ _LIT(KSMSNumberValidChars, "+1234567890()- ./*");
 // DEFINES
 const TInt KPhoneNoUtilsMinNumbers  = 1;
 const TInt KPhoneNoUtilsMaxNumbers  = 48; // Maximum phone number supported in Contacts
+                                          // see dependent test case t_phonenumberutils.cpp when changing this 
 
 // ---------------------------------------------------------
 // Phone number parsing methods

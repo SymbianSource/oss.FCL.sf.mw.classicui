@@ -144,11 +144,6 @@ class CPslnScreenSaverView : public CPslnBaseView,
         * Handles listbox selection.
         */
         void HandleListBoxSelectionL();
-              
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxItemHighlightL();
 
         /**
         * From CPslnBaseView.

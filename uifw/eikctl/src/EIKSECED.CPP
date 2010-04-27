@@ -230,6 +230,7 @@ public: // Data
     TBool iWindowSet;
     TBool iLaunchPenInputAutomatic;
     TBool iPartialScreenInput;
+    TBool iLockQuerySCT;
     };
 
 EXPORT_C void CEikSecretEditor::AknSetFont(const CFont &aFont)
@@ -582,16 +583,18 @@ EXPORT_C void CEikSecretEditor::Draw(const TRect& /*aRect*/) const
     gc.UseFont(iFont);
 
     TSize size=iBorder.SizeDelta();
-
-    if ( iRevealSecretText )
-        {
-        gc.DrawText( iSecCharArr->Des(), iExtension->iTextRect, 
-            iAscent, iAlign, 0 );
-        }
-    else
-        {
-        gc.DrawText(iBuf, iExtension->iTextRect, iAscent, iAlign, 0);
-        }
+    if ( iExtension )
+    	{
+		if ( iRevealSecretText )
+			{
+			gc.DrawText( iSecCharArr->Des(), iExtension->iTextRect, 
+				iAscent, iAlign, 0 );
+			}
+		else
+			{
+			gc.DrawText(iBuf, iExtension->iTextRect, iAscent, iAlign, 0);
+			}
+    	}
         
     gc.DiscardFont();    
     }
@@ -623,11 +626,14 @@ TInt CEikSecretEditor::CharsFitOnEditor() const
 
 void CEikSecretEditor::ReportUpdate()
     {
-    TRAP_IGNORE (
-        iExtension->iExtendedInputCapabilities->ReportEventL(
-        CAknExtendedInputCapabilities::MAknEventObserver::EControlContentUpdatedInternally,
-        NULL );
-        )
+	if ( iExtension )
+		{
+        TRAP_IGNORE (
+            iExtension->iExtendedInputCapabilities->ReportEventL(
+            CAknExtendedInputCapabilities::MAknEventObserver::EControlContentUpdatedInternally,
+            NULL );
+            )
+		}
     }
 
 EXPORT_C void CEikSecretEditor::AppendCharacterL( TInt aKeyCode )
@@ -728,7 +734,7 @@ EXPORT_C void CEikSecretEditor::RevealSecretText( TBool aReveal )
     TBool oldShown = iRevealSecretText;
     iRevealSecretText = aReveal;
 
-    if ( !COMPARE_BOOLS( oldShown, iRevealSecretText ) )
+    if ( !COMPARE_BOOLS( oldShown, iRevealSecretText ) && iExtension )
         {
         TInt caps = iExtension->iExtendedInputCapabilities->Capabilities();
         if ( iRevealSecretText )
@@ -784,12 +790,11 @@ EXPORT_C void CEikSecretEditor::SetSkinBackgroundControlContextL(
     
 EXPORT_C void CEikSecretEditor::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-    if ( iFepState )
+    if ( iFepState && iExtension )
         {
         if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
             {
-            if ( iExtension 
-              && iExtension->iFeedback )
+            if ( iExtension->iFeedback )
                 {
                 // tactile feedback is always given on down event
                 iExtension->iFeedback->InstantFeedback( this, ETouchFeedbackEdit );
@@ -809,9 +814,9 @@ EXPORT_C void CEikSecretEditor::HandlePointerEventL(const TPointerEvent& aPointe
                 }
             }
         else if ( aPointerEvent.iType == TPointerEvent::EButton1Up && 
-            iExtension && !iExtension->iDisablePenInput)
+                  !iExtension->iDisablePenInput )
             {
-            if (iExtension && iExtension->iFeedback)
+            if ( iExtension->iFeedback )
                 {
                 // Edit feedback is given if PenInput will open on up event
                 iExtension->iFeedback->InstantFeedback( this,
@@ -1049,7 +1054,26 @@ EXPORT_C TInt CEikSecretEditor::SetFeature( TInt aFeatureId, TInt aFeatureParam 
                     ret = KErrGeneral;
                     }
                 break;
-
+            case ELockQuerySCT:
+                {
+                if ( iExtension )
+                    {
+                    iExtension->iLockQuerySCT = aFeatureParam;
+                    CAknEdwinState* edwinState = STATIC_CAST( CAknEdwinState*,State(KNullUid) );
+                    if ( iExtension->iLockQuerySCT && edwinState )
+                        {
+                        edwinState->SetSpecialCharacterTableResourceId(
+                                R_AVKON_SPECIAL_CHARACTER_TABLE_DIALOG_FOR_LOCKCODE_SYMBOL_INPUT );
+                        TRAP_IGNORE( edwinState->ReportAknEdStateEventL( 
+                            MAknEdStateObserver::EAknEdwinStateEventStateUpdate ) );
+                        }
+                    }
+                else
+                    {
+                    ret = KErrGeneral;
+                    }
+                }
+                break;
             default:
                 ret = KErrNotSupported;
                 break;
@@ -1101,7 +1125,18 @@ EXPORT_C TInt CEikSecretEditor::GetFeature( TInt aFeatureId, TInt& aFeatureParam
                     ret = KErrGeneral;
                     }
                 break;
-
+            case ELockQuerySCT:
+                {
+                if ( iExtension )
+                    {
+                    aFeatureParam = iExtension->iLockQuerySCT;
+                    }
+                else
+                    {
+                    ret = KErrGeneral;
+                    }
+                }
+                break;
             default:
                 ret = KErrNotSupported;
                 break;
@@ -1119,7 +1154,8 @@ EXPORT_C TBool CEikSecretEditor::SupportsFeature( TInt aFeatureId ) const
         {
         EDisablePenInput,
         ELaunchPenInputAutomatic,
-        EPartialScreenInput
+        EPartialScreenInput,
+        ELockQuerySCT       
         };
         
     TBool ret = EFalse;
@@ -1137,28 +1173,31 @@ EXPORT_C TBool CEikSecretEditor::SupportsFeature( TInt aFeatureId ) const
     }
 
 void CEikSecretEditor::SetCursorFormat()
-    {    
-    iExtension->iCursor.iType = TTextCursor::ETypeRectangle;        
-    iExtension->iCursor.iFlags = 0;    
-    iExtension->iCursor.iHeight = AknLayoutUtils::CursorHeightFromFont( 
-        iFont->FontSpecInTwips() );
-    iExtension->iCursor.iAscent = AknLayoutUtils::CursorAscentFromFont( 
-        iFont->FontSpecInTwips() );
-    iExtension->iCursor.iWidth  = AknLayoutUtils::CursorWidthFromFont ( 
-        iFont->FontSpecInTwips() );
-    iExtension->iCursor.iColor = KRgbWhite;
-    if ( !iExtension->iWindowSet )
-        {
-#ifdef RD_UI_TRANSITION_EFFECTS_PHASE2
-        CRedirectionListener* listener = ( CRedirectionListener* )
-        CAknTransitionUtils::GetData( (TInt) this );
-        listener->SetWindows( &( iCoeEnv->RootWin() ), DrawableWindow() );
-#else           
-        iExtension->iWg = &( iCoeEnv->RootWin() );
-        iExtension->iWindow = DrawableWindow();
-#endif
-        iExtension->iWindowSet = ETrue;
-        }
+    { 
+	if ( iExtension )
+		{
+		iExtension->iCursor.iType = TTextCursor::ETypeRectangle;        
+		iExtension->iCursor.iFlags = 0;    
+		iExtension->iCursor.iHeight = AknLayoutUtils::CursorHeightFromFont( 
+			iFont->FontSpecInTwips() );
+		iExtension->iCursor.iAscent = AknLayoutUtils::CursorAscentFromFont( 
+			iFont->FontSpecInTwips() );
+		iExtension->iCursor.iWidth  = AknLayoutUtils::CursorWidthFromFont ( 
+			iFont->FontSpecInTwips() );
+		iExtension->iCursor.iColor = KRgbWhite;
+		if ( !iExtension->iWindowSet )
+			{
+	#ifdef RD_UI_TRANSITION_EFFECTS_PHASE2
+			CRedirectionListener* listener = ( CRedirectionListener* )
+			CAknTransitionUtils::GetData( (TInt) this );
+			listener->SetWindows( &( iCoeEnv->RootWin() ), DrawableWindow() );
+	#else           
+			iExtension->iWg = &( iCoeEnv->RootWin() );
+			iExtension->iWindow = DrawableWindow();
+	#endif
+			iExtension->iWindowSet = ETrue;
+			}
+		}
     }
 
 TPoint CEikSecretEditor::CursorPos()
@@ -1170,18 +1209,21 @@ TPoint CEikSecretEditor::CursorPos()
         iFont->TextWidthInPixels( *iSecCharArr ) : 
         iFont->CharWidthInPixels( KSecretChar ) * pos );
     TInt x;
-    if ( iAlign == CGraphicsContext::ELeft )
+    if ( iExtension )
     	{
-        x = iExtension->iTextRect.iTl.iX + textWidth;
-    	}
-    else if (iAlign == CGraphicsContext::ECenter)
-    	{
-        x = iExtension->iTextRect.iTl.iX +
-            (iExtension->iTextRect.Width() + textWidth) / 2;
-    	}
-    else
-    	{
-    	x = iExtension->iTextRect.iBr.iX;
+		if ( iAlign == CGraphicsContext::ELeft )
+			{
+			x = iExtension->iTextRect.iTl.iX + textWidth;
+			}
+		else if (iAlign == CGraphicsContext::ECenter )
+			{
+			x = iExtension->iTextRect.iTl.iX +
+				(iExtension->iTextRect.Width() + textWidth) / 2;
+			}
+		else
+			{
+			x = iExtension->iTextRect.iBr.iX;
+			}
     	}
     TInt y( Rect().iTl.iY + iAscent );    
     return TPoint( x, y );
@@ -1248,21 +1290,24 @@ EXPORT_C void CEikSecretEditor::EnableCursor( TBool aEnable )
 
 void CEikSecretEditor::UpdateCursor()
     {
-#ifdef RD_UI_TRANSITION_EFFECTS_PHASE2
-    CRedirectionListener* listener = ( CRedirectionListener* )
-        CAknTransitionUtils::GetData( (TInt) this );
-    listener->UpdateCursor( iExtension->iCursor );
-#else
-    if ( iExtension->iCursorEnabled )
-        {                
-        if ( iExtension->iWindow )
-            {            
-            iExtension->iWg->SetTextCursor( *iExtension->iWindow, CursorPos(), 
-                iExtension->iCursor );            
+    if ( iExtension )
+        {
+    #ifdef RD_UI_TRANSITION_EFFECTS_PHASE2
+        CRedirectionListener* listener = ( CRedirectionListener* )
+            CAknTransitionUtils::GetData( (TInt) this );
+        listener->UpdateCursor( iExtension->iCursor );
+    #else
+        if ( iExtension->iCursorEnabled )
+            {                
+            if ( iExtension->iWindow )
+                {            
+                iExtension->iWg->SetTextCursor( *iExtension->iWindow, CursorPos(), 
+                    iExtension->iCursor );            
+                }
+            iExtension->iCursorEnabled = ETrue;
             }
-        iExtension->iCursorEnabled = ETrue;
+    #endif   
         }
-#endif       
     }
 
 EXPORT_C void CEikSecretEditor::FocusChanged( TDrawNow /*aDrawNow*/ )

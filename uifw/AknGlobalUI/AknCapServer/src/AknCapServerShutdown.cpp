@@ -112,7 +112,7 @@ void CAknCapServerShutdown::ShutdownAppsL(
       // This UID comes from the app, not the mmp!
       TUid uid = doomed->AppUid(); 
       iWs.GetWindowGroupClientThreadId(wgIds->At(ii), threadId);
-      thd.Open(threadId);  
+      TInt error = thd.Open(threadId);  
 	  CleanupClosePushL( thd );
 
       // Is this app OK to kill? We don't kill the this app, EikSrv backdrop or the app that 

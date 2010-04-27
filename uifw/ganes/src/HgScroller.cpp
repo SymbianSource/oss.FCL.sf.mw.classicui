@@ -173,7 +173,7 @@ EXPORT_C void CHgScroller::RefreshScreen( TInt aIndex )
     }
 
 // -----------------------------------------------------------------------------
-// CHgScroller::RefreshScreen()
+// CHgScroller::FirstIndexOnScreen()
 // -----------------------------------------------------------------------------
 //
 EXPORT_C TInt CHgScroller::FirstIndexOnScreen()
@@ -182,7 +182,16 @@ EXPORT_C TInt CHgScroller::FirstIndexOnScreen()
     }
 
 // -----------------------------------------------------------------------------
-// CHgScroller::RefreshScreen()
+// CHgScroller::SetFirstIndexOnScreen()
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void CHgScroller::SetFirstIndexOnScreen( TInt aFirstIndexOnScreen )
+    {
+    FitTopItemToView( aFirstIndexOnScreen );
+    }
+
+// -----------------------------------------------------------------------------
+// CHgScroller::ItemsOnScreen()
 // -----------------------------------------------------------------------------
 //
 EXPORT_C TInt CHgScroller::ItemsOnScreen()
@@ -191,7 +200,7 @@ EXPORT_C TInt CHgScroller::ItemsOnScreen()
     }
 
 // -----------------------------------------------------------------------------
-// CHgScroller::RefreshScreen()
+// CHgScroller::SelectedIndex()
 // -----------------------------------------------------------------------------
 //
 EXPORT_C TInt CHgScroller::SelectedIndex()
@@ -200,7 +209,7 @@ EXPORT_C TInt CHgScroller::SelectedIndex()
     }
 
 // -----------------------------------------------------------------------------
-// CHgScroller::RefreshScreen()
+// CHgScroller::SetSelectedIndex()
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CHgScroller::SetSelectedIndex( TInt aIndex )
@@ -292,6 +301,7 @@ EXPORT_C void CHgScroller::UnMarkAll()
 //
 EXPORT_C void CHgScroller::GetMarkedItemsL( RArray<TInt>& aIndexes )
     {
+    ::CleanupClosePushL(aIndexes);
     for(TInt i = 0; i < iItems.Count(); ++i)
         {
         if(iItems[i]->Flags() & CHgItem::EHgItemFlagMarked )
@@ -299,6 +309,7 @@ EXPORT_C void CHgScroller::GetMarkedItemsL( RArray<TInt>& aIndexes )
             aIndexes.AppendL( i );
             }
         }
+    CleanupStack::Pop(&aIndexes);
     }
 
 // -----------------------------------------------------------------------------
@@ -610,6 +621,21 @@ TBool CHgScroller::HandleScrollbarEventL( const TPointerEvent& aEvent )
     if( iScrollbar )
         {
         sbHandles = iScrollbar->HandlePointerEventL( aEvent );
+        
+        if(  sbHandles 
+                && iPhysics 
+                && iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
+            {
+            iPhysics->StopPhysics();
+            iScrollbar->Reset();
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if ( feedback )
+                {
+                feedback->InstantFeedback( this, ETouchFeedbackList, aEvent );
+                }
+            return sbHandles;
+            }
+        
         if ( sbHandles && !iScrollbar->IsStatic() )
             {
             MTouchFeedback* feedback = MTouchFeedback::Instance();
@@ -634,7 +660,7 @@ TBool CHgScroller::HandleScrollbarEventL( const TPointerEvent& aEvent )
                     feedback->StartFeedback( this, 
                                              ETouchContinuousSlider, 
                                              &aEvent, 
-                                             KIntensity, // intensity 50%
+                                             KIntensity, // intensity
                                              timeout );
                     }
                 }
@@ -745,8 +771,6 @@ void CHgScroller::HandleDragEventL( const TPointerEvent& aEvent )
 //
 void CHgScroller::HandleUpEventL( const TPointerEvent& aEvent )
     {
-    MTouchFeedback* feedback = MTouchFeedback::Instance();
-    TTouchFeedbackType type = ETouchFeedbackVibra;
     if( iPanning )
         {
         // enable physics
@@ -754,17 +778,14 @@ void CHgScroller::HandleUpEventL( const TPointerEvent& aEvent )
         if(iLandscapeScrolling && AknLayoutUtils::LayoutMirrored())
             drag = -drag;
         iPhysics->StartPhysics(drag, iStartTime);
-        if ( feedback && iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
-            {
-            feedback->InstantFeedback( this, ETouchFeedbackFlick, type, aEvent );
-            }
         }
     else
         {
         HandleSelectionL();
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
         if ( feedback && iSelectedIndex != KErrNotFound )
             {
-            feedback->InstantFeedback( this, ETouchFeedbackList, type, aEvent );
+            feedback->InstantFeedback( this, ETouchFeedbackList, ETouchFeedbackVibra, aEvent );
             }
         }
     }
@@ -1016,6 +1037,9 @@ void CHgScroller::ViewPositionChanged( const TPoint& aNewPosition,
 //
 void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
     {
+    if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
+        return;
+    
     iViewPosition = aNewPosition;
     iPhysics->StopPhysics();
     
@@ -1088,8 +1112,8 @@ void CHgScroller::HandleViewPositionChanged(TBool aUpdateScrollbar)
         iCurrentRow = newRow;
         
         TBool needsFeedback = 
-                ( iCurrentRow >= 0 && iCurrentRow <= iItems.Count() )
-                || ( iItems.Count() - iCurrentRow > ItemsOnScreen() );
+                ( CurrentIndex() > 0 && CurrentIndex() <= iItems.Count() )
+                || ( iItems.Count() - CurrentIndex() > ItemsOnScreen() );
         
         TInt action = iPhysics->OngoingPhysicsAction();
         if( action !=  CAknPhysics::EAknPhysicsActionNone && needsFeedback )

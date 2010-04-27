@@ -224,14 +224,6 @@ void CPslnMainView::HandleListBoxSelectionL()
     HandleCommandL( EPslnCmdAppOpen );
     }
 
-// -----------------------------------------------------------------------------
-// CPslnMainView::HandleListBoxItemHighlightL
-// -----------------------------------------------------------------------------
-//
-void CPslnMainView::HandleListBoxItemHighlightL()
-    {    
-    }
-
 // ---------------------------------------------------------------------------
 // CPslnMainView::NewContainerL
 // ---------------------------------------------------------------------------

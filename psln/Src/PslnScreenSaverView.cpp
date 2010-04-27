@@ -478,14 +478,6 @@ void CPslnScreenSaverView::HandleListBoxSelectionL()
     }
 
 // -----------------------------------------------------------------------------
-// CPslnScreenSaverView::HandleListBoxItemHighlightL
-// -----------------------------------------------------------------------------
-//
-void CPslnScreenSaverView::HandleListBoxItemHighlightL()
-    {    
-    }
-
-// -----------------------------------------------------------------------------
 // CPslnScreenSaverView::NewContainerL
 // -----------------------------------------------------------------------------
 //

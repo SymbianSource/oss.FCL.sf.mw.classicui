@@ -27,6 +27,7 @@
 #include <AknsSrvClient.h>
 #include <e32property.h>
 
+class CAknWaitDialog;
 class CAknNavigationControlContainer;
 class CAknNavigationDecorator;
 class MAknBackgroundProcess;
@@ -216,18 +217,6 @@ public:
     void ConstructTabGroupL();
 
     /**
-    * Toggles screen blanker on/off. 
-    * @param aToggleValue ETrue activates screen blanker; EFalse removes it.
-    * @param aStatusPaneVisible indicates if the blanker should cover the 
-    *        statuspane as well. This is irrelevant, when removing the blanker.
-    * @since 3.1
-    */
-    void ToggleScreenBlankerL(
-        const TBool& aToggleValue,
-        const TBool& aStatusPaneVisible,
-        const TBool& aRealAct = ETrue );
-
-    /**
     * Indicates if the UI class has deployed the skin already and is ready to 
     * receive further skin activation related commands.
     * @return ETrue when UI class can handle a new skin activation related 
@@ -391,6 +380,20 @@ private:
     */
     void HandleUSBCallBackL();
 
+    /**
+     * show progress bar when it is hiden 
+     *
+     * @return none.
+     */
+    void ShowProgressBarL();
+
+    /**
+     * hide progress bar when it is shown 
+     *
+     * @return none.
+     */
+    void HideProgressBar();
+
 private: // data
 
     /**
@@ -544,6 +547,11 @@ private: // data
     */
     CPslnGeneralThemeView* iGeneralThemeView;
 
+    /**
+     * the waiting note
+     * Own
+     */    
+    CAknWaitDialog* iWaitDialog;    
     };
 
 // Inline methods.

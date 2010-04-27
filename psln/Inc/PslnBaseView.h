@@ -99,12 +99,6 @@ class CPslnBaseView : public CAknView, public MEikListBoxObserver
         * Handles list box selections.
         */
         virtual void HandleListBoxSelectionL() = 0;
-                
-        /**
-        * Called by HandleListBoxEventL.
-        * Handles list box item highlight events.
-        */
-        virtual void HandleListBoxItemHighlightL() = 0;
 
         /**
         * Adds given resource text as MSK to CBA.
@@ -136,18 +130,6 @@ class CPslnBaseView : public CAknView, public MEikListBoxObserver
         * @since 5.0
         */
         virtual TInt CbaResourceId( const TVwsViewId& aPrevViewId,TUid aCustomMessageId );
-        
-        /**
-        * Called by HandleListBoxEventL.
-        * Handles list box stylus down event.
-        */
-        virtual void HandleListBoxStylusDown();
-        
-        /**
-        * Called by HandleListBoxEventL.
-        * Handles list box stylus move event.
-        */
-        virtual void HandleListBoxStylusDrag();
         
     private:
 

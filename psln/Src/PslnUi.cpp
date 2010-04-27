@@ -31,6 +31,7 @@
 // Notes & Dialogs
 #include <AknGlobalNote.h>
 #include <aknnotewrappers.h>
+#include <AknWaitDialog.h> 
 
 // DRM.
 #include <DRMHelper.h>
@@ -154,6 +155,7 @@ CPslnUi::~CPslnUi()
     {
     PSLN_TRACE_DEBUG("CPslnUi::Destructor");
 
+    HideProgressBar();
     // Reset skin info when exiting normally. This prevents model class
     // from trying to revert back to previous skin.
     if ( iView && iView->Id().iUid == KPslnMainView2.iUid )
@@ -327,7 +329,6 @@ void CPslnUi::SkinConfigurationChanged(
     if ( err != KErrNone )
         {
         TRAP_IGNORE( iGeneralThemeView->UpdateSkinListItemsL() );
-        TRAP_IGNORE( ToggleScreenBlankerL( EFalse, EFalse ) );
         }
     }
 
@@ -721,47 +722,6 @@ void CPslnUi::ConstructTabGroupL()
 #endif //RD_CONTROL_PANEL
     }
 
-// ---------------------------------------------------------------------------
-// Activates screen blanker. Note that second parameter is only used when
-// enabling blanker (i.e. first parameter is ETrue ).
-// ---------------------------------------------------------------------------
-void CPslnUi::ToggleScreenBlankerL( 
-    const TBool& aToggleValue, const TBool& /*aStatusPaneVisible*/, const TBool& aRealAct )
-    {
-    TInt transitionEffectsValue = iModel->GetTransitionEffectStateL();
-    if ( aToggleValue )
-        {
-        // Effects are enabled if value is NOT KMaxTInt.
-        if( transitionEffectsValue != KMaxTInt )
-            {
-            if ( aRealAct )
-                {
-                iModel->TransEffect(EPslnTransitionEffectStartThemeActivation);
-                }
-            else
-                {
-                iModel->TransEffect(EPslnTransitionEffectStartPreview);
-                }
-            }
-//        else if ( iView && iView->MenuBar()->IsDisplayed() )
-//            {
-//            iView->MenuBar()->StopDisplayingMenuBar();
-//            }
-        }
-    else
-        {
-        // Effects are enabled if value is NOT KMaxTInt.
-        if( transitionEffectsValue != KMaxTInt )
-            {
-            iModel->TransEffect(EPslnTransitionEffectStop);
-            }
-//        else if ( iView && iView->MenuBar()->IsDisplayed() )
-//            {
-//            iView->MenuBar()->MenuPane()->DrawNow();
-//            }
-        }
-    }
-
 
 // ---------------------------------------------------------------------------
 // Is this class able to handle a new skin activation related command.
@@ -957,6 +917,7 @@ void CPslnUi::SkinConfigurationChangedL(
             if ( GetStatus( EPslnSkinActivated ) )
                 {
                 SetStateOff( EPslnSkinActivated );
+                HideProgressBar();
                 DoCreateWaitNoteL();
                 }
             break;
@@ -972,6 +933,7 @@ void CPslnUi::SkinConfigurationChangedL(
             if ( GetStatus( EPslnSkinActivated ) )
                 {
                 SetStateOff( EPslnSkinActivated );
+                HideProgressBar();
                 DoCreateWaitNoteL();
                 }
             SetStateOn( EPslnListUpdateNeeded );
@@ -985,6 +947,7 @@ void CPslnUi::SkinConfigurationChangedL(
             if ( GetStatus( EPslnSkinActivated ) )
                 {
                 SetStateOff( EPslnSkinActivated );
+                HideProgressBar();
                 SkinDeployedL();
                 }
             else // Theme changed by other app, update view.
@@ -992,7 +955,6 @@ void CPslnUi::SkinConfigurationChangedL(
                 iModel->PerformCompleteUpdateL();             
                 iGeneralThemeView->UpdateSkinListItemsL( iModel->ActiveSkinIndex() + 
                                 PslnFeatures::IsEnhancedEmbeddedLinksSupported() );
-                iGeneralThemeView->RemoveLocalSkinItems();
                 }
             
             if ( GetStatus( EPslnSoundActivationPending ) )
@@ -1000,7 +962,6 @@ void CPslnUi::SkinConfigurationChangedL(
                 SetStateOff( EPslnSoundActivationPending );
                 ActivateSoundsL();
                 }
-            ToggleScreenBlankerL( EFalse, EFalse );
             break;
         default:
             break;
@@ -1113,11 +1074,9 @@ void CPslnUi::ActivateSkinL()
             iModel->GuardActivationLC();
             TBool shownote = EFalse;
 
-            // Show screen clearer when skin is changing.
-            ToggleScreenBlankerL( ETrue, ETrue );
-
             PSLN_TRACE_DEBUG("CPslnUi::ActivateSkinL directly");
             shownote = iModel->ActivateSkinL( skinIndex );
+            ShowProgressBarL();
 
             if ( shownote )
                 {
@@ -1132,8 +1091,6 @@ void CPslnUi::ActivateSkinL()
                     {
                     PSLN_TRACE_DEBUG("CPslnUi::ActivateSkinL decline DRM activation");
                     SetStateOff( EPslnSkinChangeRequested );
-                    // Remove screen clearer.
-                    ToggleScreenBlankerL( EFalse, EFalse );
                     }
                 }
             CleanupStack::PopAndDestroy(); // activation guard
@@ -1359,7 +1316,6 @@ TInt CPslnUi::ActivateSkin( const TInt aPslnStatus )
             error = err;
             }
         }
-    iGeneralThemeView->RemoveLocalSkinItems();
     return error;
     }
 
@@ -1475,8 +1431,43 @@ void CPslnUi::HandleUSBCallBackL()
             {
             iUSBAttached = EFalse;
             }
-        static_cast< CPslnGeneralThemeView* >( iView )->RestartQuickPreviewL();
         }
     }
+
+// ---------------------------------------------------------------------------
+// CPslnUi::ShowProgressBarL
+// ---------------------------------------------------------------------------
+//
+void CPslnUi::ShowProgressBarL()
+    {
+    if ( iWaitDialog == NULL )
+        {
+        iWaitDialog = new (ELeave) CAknWaitDialog(
+                    ( REINTERPRET_CAST( CEikDialog**, &iWaitDialog ) ), ETrue );
+        iWaitDialog->PrepareLC( R_PSLN_GENERAL_WAIT_NOTE );
+
+        HBufC* noteText = NULL;
+        noteText = StringLoader::LoadLC( R_PSLN_QTN_GEN_NOTE_PROCESSING, iEikonEnv );
+        iWaitDialog->SetTextL( *noteText );
+        CleanupStack::PopAndDestroy( noteText );
+
+        iWaitDialog->RunLD();
+        }
+    }
+
+// ---------------------------------------------------------------------------
+// CPslnUi::HideProgressBar
+// ---------------------------------------------------------------------------
+//
+void CPslnUi::HideProgressBar()
+    {
+    if( iWaitDialog )
+        {
+        TRAP_IGNORE( iWaitDialog->ProcessFinishedL() )
+        delete iWaitDialog;
+        iWaitDialog = NULL;
+        }
+    }
+
 // End of File
 

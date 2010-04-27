@@ -454,7 +454,14 @@ void CAknDiscreetPopupControl::NotifyObserverL()
         {
         _AKNTRACE( "CAknDiscreetPopupControl::NotifyObserverL(), tap event will be disposed." );
         // Play feedback if there is command associated with the popup
-        ImmediateFeedback( ETouchFeedbackSensitive );
+        if ( iFeedBack )
+            {
+            iFeedBack->InstantFeedback( this,
+                                        ETouchFeedbackSensitive,
+                                        ETouchFeedbackVibra,
+                                        TPointerEvent()
+                                      );
+            }
         iCommandObserver->ProcessCommandL( iCommand );
         }
     _AKNTRACE_FUNC_EXIT;

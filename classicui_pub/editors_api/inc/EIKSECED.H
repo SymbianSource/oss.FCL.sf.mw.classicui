@@ -78,7 +78,8 @@ public:
         
         ELaunchPenInputAutomatic,
         
-        EPartialScreenInput
+        EPartialScreenInput,
+        ELockQuerySCT
         };    
         
         

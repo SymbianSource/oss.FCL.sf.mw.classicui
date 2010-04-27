@@ -782,11 +782,6 @@ EXPORT_C TBool CPslnModel::ActivateSkinL(
         User::Leave( KErrGeneral );
         }
 
-    if ( !activeEntry->IsSupportAnimBg() )
-        {
-        //Stop animated background
-        SetAnimBackground( EPslnDisableAllEffects );
-        }
     TAknsPkgID activeSkinPid = activeEntry->PkgID();
     // Activate whole skin
     PSLN_TRACE_DEBUG("CPslnModel::ActivateSkinL set all definition sets");

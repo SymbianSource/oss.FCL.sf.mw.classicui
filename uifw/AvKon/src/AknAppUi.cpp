@@ -1868,7 +1868,7 @@ EXPORT_C void CAknAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDes
 
     // This method call practically adds a shift modifier to hash key + joystick events.
     // This is because of marking in lists and editors when edit there is no edit key in device.
-    if (SimulateHashKeyMarkingEvent(aEvent))
+    if (SimulateHashKeyMarkingEventL(aEvent))
         {
         return;
         }
@@ -2099,7 +2099,7 @@ EXPORT_C void CAknAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDes
 // and ok key events, if hash key is simultaneously down. This is done because of making the 
 // edit key optional in the device. Therefore, hash key with joystick (or single hash press, 
 // see eiklbx.cpp) can be used for marking in lists and editors.    
-TBool CAknAppUi::SimulateHashKeyMarkingEvent(const TWsEvent& aEvent)
+TBool CAknAppUi::SimulateHashKeyMarkingEventL(const TWsEvent& aEvent)
     {
     TInt eventType = aEvent.Type();        
         

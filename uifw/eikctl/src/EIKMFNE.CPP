@@ -1611,7 +1611,7 @@ EXPORT_C TKeyResponse CEikMfne::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEven
     if ( !ConsumesUpAndDownKeys() && (code==EKeyDownArrow || code==EKeyUpArrow))
         return EKeyWasNotConsumed;
 
-    if ((aType==EEventKey) && (iCurrentField!=ENullIndex) && 
+    if ((aType==EEventKey) && (iCurrentField!=ENullIndex) && iExtension &&
         ( aKeyEvent.iRepeats == 0 || code == EKeyLeftArrow || 
             code == EKeyRightArrow || code == EKeyDownArrow || code == EKeyUpArrow ) )
         {
@@ -1741,7 +1741,7 @@ EXPORT_C void CEikMfne::HandleInteraction(TBool aHandleDeHighlight, TInt aNewCur
     {
     const CFont& font=*Font();
     TBool drawAllFields = ETrue;
-    if (aHandleDeHighlight)
+    if ( aHandleDeHighlight && iExtension )
         {
         iFields[iCurrentField]->HandleDeHighlight(font, *iEikonEnv, aDataAltered, aError);
         iExtension->iValidateValueCallBack.CallBack();
@@ -1843,7 +1843,7 @@ EXPORT_C void CEikMfne::SetMfneAlignment(TInt aAlignment)
             return;
             }
         }
-    if ( aAlignment >= ELayoutAlignNone && iExtension )
+    if ( aAlignment >= ELayoutAlignNone )
         {
         iAlignment = aAlignment;
         TUint capabilities = iExtension->
@@ -2439,7 +2439,7 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
             {
             if (i>=aFirstField)
                 {
-                if (focused && ( iExtension->iHighlightAll || ( i == iCurrentField 
+                if (focused && iExtension && ( iExtension->iHighlightAll || ( i == iCurrentField 
                     && iFields[i]->HighlightType() == CEikMfneField::EInverseVideo
                     && iFields[i]->FieldText().Length() > 0 ) ) && !isEmpty )
                     {
@@ -2696,12 +2696,15 @@ void CEikMfne::DrawCursor()
     GetCursorInfo( cursorPosition, cursorHeight, cursorWidth, cursorAscent );
 
     iEikonEnv->DrawCursor(this, cursorPosition, cursorWidth, cursorAscent, cursorHeight);
-    iExtension->iCursorShown = ETrue;
+    if ( iExtension )
+    	{
+        iExtension->iCursorShown = ETrue;
+    	}
     }
 
 void CEikMfne::HideCursor()
     {
-    if ( iExtension->iCursorShown )
+    if ( iExtension && iExtension->iCursorShown )
         {
         iEikonEnv->HideCursor(this);
         iExtension->iCursorShown = EFalse;
@@ -4577,7 +4580,7 @@ EXPORT_C void CEikMfne::SizeChanged()
 EXPORT_C void CEikMfne::MakeVisible( TBool aVisible )
     {
     CEikBorderedControl::MakeVisible( aVisible );
-    if ( !aVisible && iExtension->iCursorShown )
+    if ( !aVisible && iExtension && iExtension->iCursorShown )
         {
         HideCursor();
         }

@@ -45,11 +45,13 @@ RESOURCE MENU_PANE r_psln_gen_view_menupane
             {
             command = EPslnCmdAppDownload;
             txt = qtn_skins_option_dltheme;
+            flags = EEikMenuItemAction;
             },
         MENU_ITEM 
             {
             command = EPslnCmdAppActivate;
             txt = qtn_skins_option_activate;
+            flags = EEikMenuItemAction;
             }  
         };
     }

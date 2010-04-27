@@ -124,8 +124,11 @@ CAknAdaptiveSearchGrid::~CAknAdaptiveSearchGrid()
     { 
     _AKNTRACE_FUNC_ENTER;
     CEikonEnv::Static()->EikAppUi()->RemoveFromStack( this );
-    delete iBgContextOfControlPane;
- 
+    if ( iBgContextOfControlPane )
+    	{
+		delete iBgContextOfControlPane;
+		iBgContextOfControlPane = NULL;
+    	}
     // Clear current region of AS
     iCurrentRegion.Clear();    
     iButtonArray.ResetAndDestroy();
@@ -161,9 +164,12 @@ CAknAdaptiveSearchGrid::~CAknAdaptiveSearchGrid()
         iPageIndicator = NULL;
         }
        
-    CAknWsEventMonitor* eventMonitor = iAppUi->EventMonitor();    
-    eventMonitor->Enable( EFalse ); 
-    eventMonitor->RemoveObserver( this ); 
+    if ( iAppUi )
+        {
+        CAknWsEventMonitor* eventMonitor = iAppUi->EventMonitor();  
+        eventMonitor->Enable( EFalse ); 
+        eventMonitor->RemoveObserver( this ); 
+        }
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -630,7 +636,7 @@ CCoeControl* CAknAdaptiveSearchGrid::ComponentControl( TInt aIndex ) const
 // The position of the top left corner should be set in advance.
 // -----------------------------------------------------------------------------
 //
-void CAknAdaptiveSearchGrid::SetVisibilityL( TBool aVisible, TBool aSelectAll )
+void CAknAdaptiveSearchGrid::SetVisibilityL( TBool aVisible, TBool /*aSelectAll*/ )
     {
     _AKNTRACE( "[%s][%s] Visible : %d", "CAknAdaptiveSearchGrid", __FUNCTION__, aVisible );
     if ( aVisible )
@@ -1122,7 +1128,7 @@ void CAknAdaptiveSearchGrid::HideL()
 // This function is called whenever a control gains or loses focus.
 // -----------------------------------------------------------------------------
 // 
-void CAknAdaptiveSearchGrid::FocusChanged( TDrawNow aDrawNow )
+void CAknAdaptiveSearchGrid::FocusChanged( TDrawNow /*aDrawNow*/ )
     {
     if ( !iShown || IsNonFocusing() )
         {
@@ -1643,7 +1649,7 @@ MAknAdaptiveSearchGridObserver* CAknAdaptiveSearchGrid::AdaptiveSearchGridObserv
         
 
 // -----------------------------------------------------------------------------
-// CCAknAdaptiveSearch::SaveFindPaneRect()
+// CAknAdaptiveSearch::SaveFindPaneRect()
 // When the rect of find pane is set, this functions will be notified
 // to record the size of it.
 // -----------------------------------------------------------------------------
@@ -1652,11 +1658,15 @@ void CAknAdaptiveSearchGrid::SaveFindPaneRect( const TRect &aRect )
     {
     //When width is zero, no need to deal with.
     if ( 0 == aRect.Size().iWidth )
+        {
         return;
+        }
     
     //The same size already is set. No need to do further process.
-    if ( aRect.Size().iWidth == iFindpaneRect.Size().iWidth )
+    if ( aRect == iFindpaneRect )
+        {
         return;    
+        }
 
     iFindpaneRect = aRect;
     iFindPaneSizeChanged = ETrue;

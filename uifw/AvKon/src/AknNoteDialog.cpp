@@ -405,7 +405,7 @@ EXPORT_C void CAknNoteDialog::LayoutAndDraw()
         CAknNoteAttributes* attr = ControlAttributes();
         if ( attr )
             {
-            RDebug::Print(_L("CAknNoteDialog allowing opt. draw, %d"), (TUint)this );            
+            _AKNTRACE( "[%s][%s] allowing opt. draw,0x%x", "CAknNoteDialog", "LayoutAndDraw", this );
             attr->AllowOptimizedDrawing();
             }
         }
@@ -857,12 +857,22 @@ EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerE
         {
         CCoeControl* ctrl = GrabbingComponent();
         CCoeControl::HandlePointerEventL(aPointerEvent);
-        
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+        // Add tactile feedbacup when tap can close note.
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+            {
+            if ( DialogFlags()&EEikDialogFlagCloseDialogWhenTapped )
+            	{
+                MTouchFeedback* feedback = MTouchFeedback::Instance();
+                if ( feedback )
+                    {
+                    feedback->InstantFeedback( ETouchFeedbackPopUp );
+                    }
+            	}
+            }
+        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
             if ( DialogFlags()&EEikDialogFlagCloseDialogWhenTapped )
                 {
-                //Touch release gives pop-up effect if note can be dismissed.
                 if ( ctrl )
                     {
                     // if grabbingComponent and dialog has 'close dialog when 
@@ -872,11 +882,6 @@ EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerE
                         StaticDeleteL( this );
                         }
                     
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if ( feedback )
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackPopUp );
-                        }
                     }
                 }
             }

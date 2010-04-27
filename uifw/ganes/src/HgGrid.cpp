@@ -91,7 +91,8 @@ void CHgGrid::ConstructL (const TRect& aRect, RWsSession* aSession )
 CHgGrid::CHgGrid( 
         TInt aItemCount, 
         CGulIcon* aDefaultIcon )
-: CHgScroller( aItemCount, aDefaultIcon )
+: CHgScroller( aItemCount, aDefaultIcon ),
+  iToolbarVisible( ETrue )
     {
     // No implementation required
     }
@@ -351,34 +352,43 @@ void CHgGrid::CalculateSizes()
     {
     // Count number of visible rows
     // First is checked if 3x4 or 4x3 items fits to the grid.
-    TInt variety = Layout_Meta_Data::IsLandscapeOrientation() ? 1 : 0;
 
-    TAknLayoutScalableParameterLimits limits = cell_gallery2_pane_ParamLimits(variety);
+    TInt mainVariety = iToolbarVisible ? 0 : 1;
+    TInt gridVariety = iToolbarVisible ? 0 : 2;
+    TInt cellVariety = iToolbarVisible ? 0 : 4;
+
+    if( Layout_Meta_Data::IsLandscapeOrientation() )
+        {
+        ++gridVariety;
+        ++cellVariety;
+        }
+    
+    TAknLayoutScalableParameterLimits limits = cell_gallery2_pane_ParamLimits(cellVariety);
     iCols = limits.LastColumn() + 1;
     iRows = limits.LastRow() + 1;
     
     iLayoutData->ChangeCols( iCols );
     
-    iLayoutData->SetBaseLayout(main_gallery2_pane(0));
-    iLayoutData->SetItemLayout(grid_gallery2_pane(variety));
-    iLayoutData->SetIconLayout(cell_gallery2_pane_g2(variety));        
+    iLayoutData->SetBaseLayout(main_gallery2_pane(mainVariety));
+    iLayoutData->SetItemLayout(grid_gallery2_pane(gridVariety));
+    iLayoutData->SetIconLayout(cell_gallery2_pane_g2(cellVariety));        
     
     if( iLandscapeScrolling )
         {
         for(TInt i = 0; i < iRows; ++i)
             {
-            iLayoutData->SetColumnLayout(i, cell_gallery2_pane(variety, 0, i));            
+            iLayoutData->SetColumnLayout(i, cell_gallery2_pane(cellVariety, 0, i));            
             }
         }
     else
         {
         for(TInt i = 0; i < iCols; ++i)
             {
-            iLayoutData->SetColumnLayout(i, cell_gallery2_pane(variety, i, 0));            
+            iLayoutData->SetColumnLayout(i, cell_gallery2_pane(cellVariety, i, 0));            
             }
         }
-    iLayoutData->SetFirstIndicatorLayout(cell_gallery2_pane_g5(variety));
-    iLayoutData->SetSecondIndicatorLayout(cell_gallery2_pane_g4(variety));
+    iLayoutData->SetFirstIndicatorLayout(cell_gallery2_pane_g5(cellVariety));
+    iLayoutData->SetSecondIndicatorLayout(cell_gallery2_pane_g4(cellVariety));
     
     TAknLayoutRect gridAppPane;
     TAknLayoutRect gridItem;
@@ -806,6 +816,16 @@ void CHgGrid::ChangeSelectedIndex( TInt aMove )
 void CHgGrid::HandleScrollbarVisibilityChange( TBool /*aVisible*/ )
     {
     
+    }
+
+// -----------------------------------------------------------------------------
+// CHgGrid::SetToolbarVisibility()
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void CHgGrid::SetToolbarVisibility( TBool aToolbarVisible )
+    {
+    iToolbarVisible = aToolbarVisible;
+    HandleSizeChanged();
     }
 
 // End of File

@@ -143,7 +143,7 @@ private:
      * 
      * @param aMessage Server message.
      */    
-    void HandleQueryInUseRect( const RMessage2& aMessage );
+    void HandleQueryInUseRectL( const RMessage2& aMessage );
     
     /**
      * Shows popup.

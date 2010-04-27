@@ -243,7 +243,10 @@ EXPORT_C TBool CAknDialog::OkToExitL(TInt aButtonId)
  */
 EXPORT_C void CAknDialog::DisplayMenuL() 
 	{
-	iMenuBar->TryDisplayMenuBarL();
+    if (iMenuBar)
+        {
+        iMenuBar->TryDisplayMenuBarL();
+        }
 	}
 
 /**

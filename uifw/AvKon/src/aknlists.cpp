@@ -4187,7 +4187,7 @@ void CAknSettingStyleListBox::SizeChangedL()
     SetupStretchableListL( this,
                           AknLayoutScalable_Avkon::list_setting_pane( 0 ),
                           AknLayoutScalable_Avkon::list_setting_pane_vc( 0 ),
-                          EFalse );
+                          ETrue );
 
     SetSeparatorLinePosition( this, EAColumn );
     
@@ -4290,7 +4290,7 @@ void CAknSettingNumberStyleListBox::SizeChangedL()
     SetupStretchableListL( this,
                           AknLayoutScalable_Avkon::list_setting_number_pane( 0 ),
                           AknLayoutScalable_Avkon::list_setting_number_pane_vc( 0 ),
-                          EFalse );
+                          ETrue );
 
     SetSeparatorLinePosition( this, EABColumn );
     

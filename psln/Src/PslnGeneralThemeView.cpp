@@ -160,15 +160,6 @@ void CPslnGeneralThemeView::HandleCommandL( TInt aCommand )
 
             TInt error = iModel->SetTransitionEffectsL( EPslnEnableAllEffects );
             
-            if ( error == KErrNone )
-                {            
-                if ( PslnFeatures::IsSupported( KPslnSupportAnimBackground ) &&
-                     iModel->IsSupportAnimBg(  iModel->ActiveSkinIndex() ) )
-                    {
-                    error = iModel->SetAnimBackground( EPslnEnableAllEffects );
-                    }            
-                }
-            
             if ( error == KErrNoMemory )
                 {
                 HBufC* errorBuf = StringLoader::LoadLC(
@@ -186,12 +177,24 @@ void CPslnGeneralThemeView::HandleCommandL( TInt aCommand )
             break;
         case EPslnCmdTransitionEffectsDeactivate:
             iModel->SetTransitionEffectsL( EPslnDisableAllEffects );
-            //Deactive AnimBackground
-            iModel->SetAnimBackground( EPslnDisableAllEffects );
             break;
         
         case EPslnCmdAnimBackgroundActivate:
             {
+            TInt PsmMode = 0;
+            CPsmSettings *PsmSettings = CPsmSettings::NewL();
+            PsmSettings->GetCurrentMode( PsmMode );
+            delete PsmSettings;
+
+            if ( PsmMode == EPsmsrvModePowerSave ) // PSM on, setting is protected
+                {
+                HBufC* buf = StringLoader::LoadLC( R_PSLN_QTN_PSM_INFONOTE );
+                CAknInformationNote* note = new (ELeave) CAknInformationNote( ETrue );
+                note->ExecuteLD( *buf );
+                CleanupStack::PopAndDestroy( buf );
+                return;
+                }
+
             TInt error = iModel->SetAnimBackground( EPslnEnableAllEffects );
             if ( error == KErrNoMemory )
                 {
@@ -212,18 +215,6 @@ void CPslnGeneralThemeView::HandleCommandL( TInt aCommand )
             {
             if ( iContainer )
                 {
-                if ( iPreviewMode )
-                    {
-                    //stop preview
-                    iToBeActivatedSkinIndex = activeSkinIndex; 
-                    static_cast<CPslnGeneralThemeContainer*>(iContainer)->
-                        LockUpAndDownKeys( ETrue );
-                    static_cast<CPslnGeneralThemeContainer*>(iContainer)->
-                        CancelThemePreviewL();
-                        
-                    HandlePreviewStateChange( EFalse );
-                    }
-                    
                 if ( iToBeActivatedSkinIndex != KErrNotFound )
                     {
                     activeSkinIndex = iToBeActivatedSkinIndex;
@@ -232,9 +223,6 @@ void CPslnGeneralThemeView::HandleCommandL( TInt aCommand )
                 // Do nothing if active theme is selected.
                 if ( iModel->IsActiveSkinSelected( activeSkinIndex  ) )
                     {
-                    HandlePreviewStateChange( ETrue );
-                    static_cast<CPslnGeneralThemeContainer*>(iContainer)->
-                        StartThemePreviewL();
                     break;
                     }
                 // Check is the theme corrupted.
@@ -252,8 +240,6 @@ void CPslnGeneralThemeView::HandleCommandL( TInt aCommand )
                     {
                     iModel->SetCurrentSelectedSkinIndex( activeSkinIndex );
                     }
-                static_cast<CPslnGeneralThemeContainer*>(iContainer)->
-                    LockUpAndDownKeys( EFalse );
                 }
             }
         case EPslnCmdAppDownload: // Fallthrough
@@ -315,7 +301,6 @@ void CPslnGeneralThemeView::DoActivateL(
 
     CheckMiddleSoftkeyLabelL();
 
-    iPslnUi->ToggleScreenBlankerL( EFalse, EFalse );
     iToBeActivatedSkinIndex = -1;
     }
 
@@ -343,7 +328,18 @@ void CPslnGeneralThemeView::DynInitMenuPaneL(
         {
         if ( iContainer )
             {
-            iCurrentItem = iContainer->CurrentItemIndex();
+            if ( iContainer->iListBox->IsHighlightEnabled() )
+                {
+                iCurrentItem = iContainer->CurrentItemIndex();
+                }
+            else
+                {
+                iCurrentItem = iModel->ActiveSkinIndex();
+                if ( iDownloadItemIndex != KErrNotFound )
+                    {
+                    iCurrentItem++;
+                    }
+                }
             }
 
         TBool downloadExists = ETrue;
@@ -423,7 +419,7 @@ void CPslnGeneralThemeView::DynInitMenuPaneL(
             }
         TInt skinIndex = iCurrentItem - (TInt) downloadExists;
 		
-        if ( ( iCurrentItem != iDownloadItemIndex &&
+        if ( ( iCurrentItem == iDownloadItemIndex &&
              iDownloadItemIndex != KErrNotFound )||
              !iModel->IsActiveSkinSelected() ||
              !PslnFeatures::IsSupported( KPslnSupportAnimBackground ) ||
@@ -491,21 +487,6 @@ void CPslnGeneralThemeView::HandleListBoxSelectionL()
     }
 
 // -----------------------------------------------------------------------------
-// Handle listbox item highlight.
-//
-// -----------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::HandleListBoxItemHighlightL()
-    {
-    PSLN_TRACE_DEBUG("CPslnGeneralThemeView::HandleListBoxItemHighlightL");
-    if ( iContainer )
-        {
-        HandlePreviewStateChange( ETrue );
-        static_cast<CPslnGeneralThemeContainer*>(iContainer)->StartThemePreviewL();
-        }
-    }
-
-// -----------------------------------------------------------------------------
 // Create container.
 //
 // -----------------------------------------------------------------------------
@@ -514,8 +495,6 @@ void CPslnGeneralThemeView::NewContainerL()
     {
     iContainer = new(ELeave) CPslnGeneralThemeContainer();
     iContainer->SetMiddleSoftkeyObserver( this );
-    static_cast<CPslnGeneralThemeContainer*>(iContainer)->
-        SetThemePreviewObserver( this );
     }
 
 // -----------------------------------------------------------------------------
@@ -596,53 +575,6 @@ void CPslnGeneralThemeView::UpdateSkinListItemsDColumnOnlyL()
     }
 
 // -----------------------------------------------------------------------------
-// New theme preview state available.
-// -----------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::HandlePreviewStateChange( const TBool& aPreviewMode )
-    {
-    iPreviewMode = aPreviewMode;
-//    TRAPD( state, iModel->GetTransitionEffectStateL() );
-//    if ( state != KMaxTInt )
-//        {        
-//        CAknView::StopDisplayingMenuBar();
-//        }
-    if ( iDelayedSkinActivation && !iPreviewMode )
-        {
-        TRAP_IGNORE( HandleCommandL( EPslnCmdAppActivate ) );
-        iDelayedSkinActivation = EFalse;
-        }
-    }
-
-    
-// ---------------------------------------------------------------------------
-// Restart Quick Preview
-// ---------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::RestartQuickPreviewL()
-    {
-    CPslnGeneralThemeContainer* container = static_cast<CPslnGeneralThemeContainer*>(iContainer);
-
-    container->RestartQuickPreviewL();
-    }
-
-// -----------------------------------------------------------------------------
-// Remove local skin items.
-// -----------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::RemoveLocalSkinItems()
-    {
-    // Remove locally skinned items.
-    MAknsSkinInstance* si = AknsUtils::SkinInstance();
-    if ( si )
-        {        
-        si->SetChangeEventsEnabled( EFalse );
-        si->RemoveLocalItemDefs();
-        si->SetChangeEventsEnabled( ETrue );
-        }
-    }
-
-// -----------------------------------------------------------------------------
 // Remove MSK command mappings.
 // This method should do nothing but MSK issues.
 // -----------------------------------------------------------------------------
@@ -658,21 +590,7 @@ void CPslnGeneralThemeView::RemoveCommandFromMSK()
         cbaGroup->RemoveCommandFromStack( KPslnMSKControlID, EPslnCmdAppActivate );
         }
     }
-// -----------------------------------------------------------------------------
-// Handle listbox stylus down event.
-// -----------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::HandleListBoxStylusDown()
-    {
-    }
-    
-// -----------------------------------------------------------------------------
-// Handle listbox stylus move event.
-// -----------------------------------------------------------------------------
-//
-void CPslnGeneralThemeView::HandleListBoxStylusDrag()
-    {
-    }
+
 // -----------------------------------------------------------------------------
 // Hightligt Default skin
 // -----------------------------------------------------------------------------

@@ -66,8 +66,10 @@
 using namespace AknTouchGestureFw;
 using namespace HgVgConstants;
 
-#ifdef SYMBIAN_GRAPHICS_FIXNATIVEORIENTATION
-    #define MEDIAWALL_ORIENTATION_FIX
+#ifndef __WINSCW__
+    #ifdef SYMBIAN_GRAPHICS_FIXNATIVEORIENTATION
+        #define MEDIAWALL_ORIENTATION_FIX
+    #endif
 #endif
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -432,6 +434,8 @@ void CHgVgMediaWall::FillSystemGcWithSkin( ) const
 void CHgVgMediaWall::SizeChanged ( )
     {
     iRect = Rect();
+    
+    SetConstantsForStyle();
     
     if(iDelayedInit && !iDelayedInit->IsActive())
         iDelayedInit->Start(0, 1000000, TCallBack(DelayedInit, this));
@@ -1229,7 +1233,9 @@ void CHgVgMediaWall::HandleGainingForeground()
     
     // reload images to ive
     ReloadItemsImages();
-        
+
+    ClearFlags(EHgVgMediaWallUninitialized);
+
     // draw using openvg
     DrawNow();
     
@@ -1245,6 +1251,10 @@ void CHgVgMediaWall::HandleLosingForeground()
     
     // make sure we are not animating
     HandleTransitionAnimationStop();
+    
+    // cancel the initialization
+    if(iDelayedInit)
+        iDelayedInit->Cancel();
     
     if (iAnimationTimer->IsActive())
         {
@@ -1590,6 +1600,10 @@ void CHgVgMediaWall::InitScrollBarL(TBool /*aResize*/)
     
     iScrollBar->SetViewPosition( TPoint(iSelectedIndex, 0) );
     
+#ifdef MEDIAWALL_ORIENTATION_FIX
+    iScrollBar->EnableLandscapeRendering( iMediaWallStyle == CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen );
+#endif
+    
     }
 
 // ---------------------------------------------------------------------------
@@ -1646,7 +1660,26 @@ void CHgVgMediaWall::InitRenderingL(TBool aRecreateSurface)
             User::Leave(KErrNotSupported);
             } break;
         }
-        
+    
+    if( iOpenedItemRect != TRect() )
+        {
+        iRenderer->SetFlippedRect( iOpenedItemRect );
+        }
+    else
+        {
+        // set some default flipped rect for opening animation
+        if(iMediaWallStyle == EHgVgMediaWallStyleGrid)
+            {
+            iRenderer->SetFlippedRect(iRect);
+            }
+        else
+            {
+            iRenderer->SetFlippedRect(TRect(TPoint(iRect.Center().iX - iRect.Height() / 2,
+                    iRect.Center().iY - iRect.Height() / 2),
+                    TSize(iRect.Height(), iRect.Height())));
+            }
+        }
+
     // load default icon
     InitDefaultIconL();
 
@@ -2317,9 +2350,10 @@ EXPORT_C void CHgVgMediaWall::SetItemToOpenedState(TInt aIndex)
 //
 EXPORT_C void CHgVgMediaWall::SetOpenedItemRect(const TRect& aRect)
     {
+    iOpenedItemRect = aRect;
     if (iRenderer)
         {
-        iRenderer->SetFlippedRect(aRect);
+        iRenderer->SetFlippedRect(iOpenedItemRect);
         }
     }
 
@@ -2381,15 +2415,6 @@ TBool CHgVgMediaWall::DrawAll()
 //
 void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     {
-                
-    // set some factors to mediawall fullscreen mode specific values
-    iCameraZoomFactor = KMediaWallFullScreenCameraZoomFactor;
-    iCameraRotationFactor = KMediaWallFullScreenCameraRotationFactor;            
-    iItemsOnScreen = KMediaWallFullScreenItemsOnScreen;
-    iSpringVelocityToAnimationFactor = KMediaWallFullScreenSpringVelocityToAnimationFactor;
-    iItemsToMoveOnFullScreenDrag = KMediaWallFullScreenItemsToMoveOnFullScreenDrag;
-    iRowCount = KMediaWallFullScreenRowCount;
-    
     // get front rectange from layout
     TAknLayoutRect frontRect;
     frontRect.LayoutRect( iRect, AknLayoutScalable_Apps::cf0_flow_pane_g1(0) );
@@ -2397,11 +2422,6 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     // set items at the back a bit further in the fullscreen mode.
     iRenderer = CHgVgMediaWallRenderer::NewL(KMaxCoversVisible, iRect, frontRect.Rect(), 
             KMediaWallFullScreenZOffset);
-
-    // set some default flipped rect for opening animation
-    iRenderer->SetFlippedRect(TRect(TPoint(iRect.Center().iX - iRect.Height() / 2,
-            iRect.Center().iY - iRect.Height() / 2),
-            TSize(iRect.Height(), iRect.Height())));
 
     // in full screen, enable blurring on flip/zoom
     iRenderer->EnableBlurOnFlip(ETrue, KDefaultBlurDeviation, 
@@ -2414,12 +2434,6 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     InitButtonsL();
     
     InitScrollBarL(EFalse);
-
-    iSpring->SetConstants(
-            KMediaWallFullScreenSpringK, 
-            KMediaWallFullScreenSpringDamping, 
-            KMediaWallFullScreenSpringMaxVelocity, 
-            KPositionSnap, KMinSpringVelocity);    
 
 #ifdef MEDIAWALL_ORIENTATION_FIX    
     iRenderer->EnableLandscapeMode(ETrue);
@@ -2440,15 +2454,6 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
 //
 void CHgVgMediaWall::InitMediaWallTBonePortraitL()
     {
-    
-    // set some factors to mediawall fullscreen mode specific values
-    iCameraZoomFactor = KMediaWallTBoneCameraZoomFactor;
-    iCameraRotationFactor = KMediaWallTBoneCameraRotationFactor;            
-    iItemsOnScreen = KMediaWallTBoneItemsOnScreen;
-    iSpringVelocityToAnimationFactor = KMediaWallTBoneSpringVelocityToAnimationFactor;
-    iItemsToMoveOnFullScreenDrag = KMediaWallTBoneItemsToMoveOnFullScreenDrag;
-    iRowCount = KMediaWallTBoneRowCount;
-    
     // get front rectange from layout
     TAknLayoutRect frontRect;
     frontRect.LayoutRect( iRect, AknLayoutScalable_Apps::cf0_flow_pane_g1(0) );
@@ -2456,20 +2461,10 @@ void CHgVgMediaWall::InitMediaWallTBonePortraitL()
     iRenderer = CHgVgMediaWallRenderer::NewL(KMaxCoversVisible, iRect, frontRect.Rect(), 
             KMediaWallTBoneZOffset);
                 
-    iRenderer->SetFlippedRect(TRect(TPoint(iRect.Center().iX - iRect.Height() / 2,
-            iRect.Center().iY - iRect.Height() / 2),
-            TSize(iRect.Height(), iRect.Height())));
-    
     InitLabelsL(0);
     
     InitPopupL(0);
     
-    iSpring->SetConstants(
-            KMediaWallTBoneSpringK, 
-            KMediaWallTBoneSpringDamping, 
-            KMediaWallTBoneSpringMaxVelocity, 
-            KPositionSnap, KMinSpringVelocity);
-        
     }
 
 void CHgVgMediaWall::InitMediaWallGridLandscapeL()
@@ -2482,19 +2477,9 @@ void CHgVgMediaWall::InitMediaWallGridLandscapeL()
     frontRect = TRect(TPoint(iRect.Center().iX - size.iWidth/2, iRect.Center().iY - 45 + 90), 
             size);
                 
-    iCameraZoomFactor = KMediaWallGridCameraZoomFactor;
-    iCameraRotationFactor = KMediaWallGridCameraRotationFactor;            
-    iItemsOnScreen = KMediaWallGridItemsOnScreen;
-    iSpringVelocityToAnimationFactor = KMediaWallGridSpringVelocityToAnimationFactor;
-    iItemsToMoveOnFullScreenDrag = KMediaWallGridItemsToMoveOnFullScreenDrag;
-    iRowCount = KMediaWallGridRowCount;
-    iOpeningAnimationType = EHgVgOpeningAnimationZoomIn;
-    
     iRenderer = CHgVgMediaWallRenderer::NewL((KMaxCoversVisible+1) * KMediaWallGridRowCount, 
             iRect, frontRect, KMediaWallGridZOffset);
     
-    iRenderer->SetFlippedRect(iRect);
-                                        
     InitButtonsL();
     
     InitScrollBarL(EFalse);
@@ -2507,12 +2492,6 @@ void CHgVgMediaWall::InitMediaWallGridLandscapeL()
             iRect.Center().iY - lsize.iHeight / 2), lsize), 
             &ScreenFont( TCoeFont( KMediaWallGridPopupFontSize, TCoeFont::EPlain )));
     
-    iSpring->SetConstants(
-            KMediaWallGridSpringK, 
-            KMediaWallGridSpringDamping, 
-            KMediaWallGridSpringMaxVelocity, 
-            KPositionSnap, 
-            KMinSpringVelocity);
     }
 
 
@@ -2570,6 +2549,74 @@ TInt CHgVgMediaWall::DelayedInit( TAny* aSelf)
     return KErrNone;
     }
 
+// -----------------------------------------------------------------------------
+// CHgVgMediaWall::SetConstantsForStyle()
+// -----------------------------------------------------------------------------
+//
+void CHgVgMediaWall::SetConstantsForStyle()
+    {
+    switch (iMediaWallStyle)
+        {
+        case EHgVgMediaWallStyleCoverflowFullScreen:
+            {
+            // set some factors to mediawall fullscreen mode specific values
+            iCameraZoomFactor = KMediaWallFullScreenCameraZoomFactor;
+            iCameraRotationFactor = KMediaWallFullScreenCameraRotationFactor;            
+            iItemsOnScreen = KMediaWallFullScreenItemsOnScreen;
+            iSpringVelocityToAnimationFactor = KMediaWallFullScreenSpringVelocityToAnimationFactor;
+            iItemsToMoveOnFullScreenDrag = KMediaWallFullScreenItemsToMoveOnFullScreenDrag;
+            iRowCount = KMediaWallFullScreenRowCount;
+
+            iSpring->SetConstants(
+                    KMediaWallFullScreenSpringK, 
+                    KMediaWallFullScreenSpringDamping, 
+                    KMediaWallFullScreenSpringMaxVelocity, 
+                    KPositionSnap, KMinSpringVelocity);    
+
+            } break;
+        
+        case EHgVgMediaWallStyleCoverflowTBonePortrait:
+            {
+            // set some factors to mediawall tbone mode specific values
+            iCameraZoomFactor = KMediaWallTBoneCameraZoomFactor;
+            iCameraRotationFactor = KMediaWallTBoneCameraRotationFactor;            
+            iItemsOnScreen = KMediaWallTBoneItemsOnScreen;
+            iSpringVelocityToAnimationFactor = KMediaWallTBoneSpringVelocityToAnimationFactor;
+            iItemsToMoveOnFullScreenDrag = KMediaWallTBoneItemsToMoveOnFullScreenDrag;
+            iRowCount = KMediaWallTBoneRowCount;
+
+            iSpring->SetConstants(
+                    KMediaWallTBoneSpringK, 
+                    KMediaWallTBoneSpringDamping, 
+                    KMediaWallTBoneSpringMaxVelocity, 
+                    KPositionSnap, KMinSpringVelocity);
+                
+            } break;
+        
+        case EHgVgMediaWallStyleGrid:
+            {
+            // set some factors to mediawall grid mode specific values
+            iCameraZoomFactor = KMediaWallGridCameraZoomFactor;
+            iCameraRotationFactor = KMediaWallGridCameraRotationFactor;            
+            iItemsOnScreen = KMediaWallGridItemsOnScreen;
+            iSpringVelocityToAnimationFactor = KMediaWallGridSpringVelocityToAnimationFactor;
+            iItemsToMoveOnFullScreenDrag = KMediaWallGridItemsToMoveOnFullScreenDrag;
+            iRowCount = KMediaWallGridRowCount;
+            iOpeningAnimationType = EHgVgOpeningAnimationZoomIn;
+
+            iSpring->SetConstants(
+                    KMediaWallGridSpringK, 
+                    KMediaWallGridSpringDamping, 
+                    KMediaWallGridSpringMaxVelocity, 
+                    KPositionSnap, 
+                    KMinSpringVelocity);
+            
+            } break;
+        default: 
+            {
+            } break;
+        }
+    }
 
 
 // End of File

@@ -107,11 +107,6 @@ class CPslnMainView : public CPslnBaseView
         * From CPslnBaseView.
         */
         void HandleListBoxSelectionL();
-        
-        /**
-        * From CPslnBaseView.
-        */
-        void HandleListBoxItemHighlightL();
 
         /**
         * From CPslnBaseView.

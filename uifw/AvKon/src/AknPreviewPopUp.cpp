@@ -78,6 +78,13 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
 //
 CAknPreviewPopUp::~CAknPreviewPopUp()
     {
+
+    if ( IsVisible() )
+        {
+        iCloseMenu = ETrue;
+        iController.HidePopUp();
+        }
+		
     AKNTASHOOK_REMOVE();
     
     GfxTransEffect::Deregister( this );

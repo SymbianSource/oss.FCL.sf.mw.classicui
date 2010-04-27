@@ -25,6 +25,9 @@
 #include "appfwk_test_AppUi.h"
 #include <tulphonenumberutils.h>
 
+const TInt KMaxTestBufferSize = 128;
+const TInt KPhoneNoUtilsMaxNumbers = 48; // see hard coded value in ... tulphonenumberutils.cpp
+
 _LIT(KT_PhoneNumberUtilsStep,"t_phonenumberutils");
 
 //PPN == EPlainPhoneNumber

@@ -1393,26 +1393,19 @@ EXPORT_C void CDocumentHandler::OpenTempFileL(
         CloseSharableFS();
         User::LeaveIfError(iSharableFS.Connect());
         User::LeaveIfError(iSharableFS.ShareProtected());
-        TInt err = aSharableFile.Open(iSharableFS,aFileName,EFileShareReadersOnly);
-        if (err == KErrInUse)
-            {
-            err = aSharableFile.Open( iSharableFS,aFileName,EFileShareReadersOrWriters );
-            }
-        else if ( err == KErrTooBig )
-        	{
-			RFile64* file64 = NULL;
-			file64 = static_cast<RFile64*> (&aSharableFile);
-			if( file64 != NULL )
-				{
-				err = file64->Open(iSharableFS,aFileName,EFileShareReadersOnly);
-				if( err == KErrInUse )
-					{
-                    err = aSharableFile.Open( iSharableFS,aFileName,EFileShareReadersOrWriters );
-					}
-				}
-        	}
-        error = err; // Otherwise possible KErrNotReady caused by hotswap leads to crash later           
-        }
+
+		error = aSharableFile.Open( iSharableFS, aFileName, EFileShareReadersOrWriters );
+        if( error == KErrTooBig )
+			{
+		    RFile64* file64 = NULL;
+		    file64 = static_cast<RFile64*> (&aSharableFile);
+		    if( file64 != NULL )
+			    {
+			    error = file64->Open( iSharableFS, aFileName, EFileShareReadersOrWriters );
+			    }
+			}
+		}
+    
     #ifdef _DEBUG
     RDebug::Print( _L("DocumentHandler: CDocumentHandler::OpenTempFileL: finished with error=%d."), error);
     #endif

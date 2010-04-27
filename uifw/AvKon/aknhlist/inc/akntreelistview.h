@@ -1098,6 +1098,14 @@ private: // data
 	 * Whether or not mirrored layout is currently in use.
 	 */
 	TBool iMirroredLayoutInUse;
+	
+
+    /**
+     * Remember pointer to bottom item. Use for drawing line seperator only.
+     * iBottomIndex is not valid in some case becaue of iItems already changed.
+     * Not own.
+     */
+	CAknTreeItem* iBottomItem;	
     };
 
 

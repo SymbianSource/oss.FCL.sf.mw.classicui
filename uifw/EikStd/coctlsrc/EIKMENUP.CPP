@@ -2287,7 +2287,7 @@ TRect CEikMenuPane::CalculateSizeAndPosition()
         numItemsInPane = iItemArray->Count();
         }
 
-    if ( iExtension->iSct )
+    if ( iExtension && iExtension->iSct )
         {
         numItemsInPane++;
         }
@@ -3766,7 +3766,7 @@ void CEikMenuPane::ReportCanceled()
         {
         TPointerEvent ptrEvent;
         ptrEvent.iType = TPointerEvent::EButton1Up;
-        menubar->HandlePointerEventL( ptrEvent );
+        TRAP_IGNORE( menubar->HandlePointerEventL( ptrEvent ) );
         }
     else
         {
@@ -4284,6 +4284,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
             else
                 {
                 // Clicked out side submenu, parent handles this
+                iExtension->iDownOnMenuArea = EFalse;
                 if ( iOwner )
                     {
                     iExtension->CalculateParentEvent(aPointerEvent, parentEvent);                                        
@@ -4381,7 +4382,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 iExtension->EnableHighlight( EFalse );
                 }    
                          
-            if ( iExtension->iPanningActive )
+            if ( iExtension->iPanningActive && iExtension->iDownOnMenuArea )
                 {
                 TPoint delta( 
                     0, iExtension->iPrevPoint.iY - aPointerEvent.iPosition.iY );
@@ -4434,20 +4435,6 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                 iExtension->iShowCascadeTransition = ETrue;
                                 CloseCascadeMenu();
                                 }
-                            }
-                        else
-                            {
-                            TInt oldSelected = iSelectedItem;
-                            // update highlight to new item
-                            if ( oldSelected != ii )
-                                {
-                                iExtension->iPressedDown = EFalse;
-                                }
-                            TRect screenRect( TPoint( KMinTInt, KMinTInt ),
-                                    TPoint( KMaxTInt, KMaxTInt ) );
-                            TRect repeatRect( screenRect.iTl.iX, item->iPos,
-                                    screenRect.iBr.iX, item->iPos
-                                            + iItemHeight );
                             }
                         // item found, break                      
                         break;
@@ -5104,7 +5091,7 @@ void CEikMenuPane::ScrollToMakeItemVisible(TInt aItemIndex)
             }
         else
             {
-            DoUpdateScrollBarL();
+            TRAP_IGNORE( DoUpdateScrollBarL() );
             }        
         }
     _AKNTRACE_FUNC_EXIT;
@@ -5383,7 +5370,7 @@ EXPORT_C void CEikMenuPane::HandleResourceChange( TInt aType )
                     pointerEvent.iType = TPointerEvent::EButton1Up;
                     // Sending a up event to scroll bar for dehighlighting 
                     // the scroll bar.
-                    verScrollBar->HandlePointerEventL(pointerEvent);   
+                    TRAP_IGNORE ( verScrollBar->HandlePointerEventL(pointerEvent) );   
                     iSBFrame->DrawScrollBarsDeferred();
                     ClaimPointerGrab( EFalse );
                     }

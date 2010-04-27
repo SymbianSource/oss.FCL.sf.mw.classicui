@@ -831,6 +831,8 @@ enum TEikStockButtonGroupControls
 #define EEikDialogFlagDontEatUpDownEvents 0x200000
 #define EEikDialogFlagCloseDialogWhenTapped   0x400000
 #define EEikDialogFlagVirtualInput            0x800000
+// New flag for postponing the disappear effect after OkToExitL.
+#define EEikDialogFlagDelayEffects      0x01000000
 
 
 #define EEikDlgItemNoSeparator          0

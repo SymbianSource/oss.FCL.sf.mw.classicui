@@ -114,4 +114,6 @@ EXPORTS
 	?SetItemToOpenedState@CHgVgMediaWall@@QAEXH@Z @ 113 NONAME ; void CHgVgMediaWall::SetItemToOpenedState(int)
 	?SetOpenedItemRect@CHgVgMediaWall@@QAEXABVTRect@@@Z @ 114 NONAME ; void CHgVgMediaWall::SetOpenedItemRect(class TRect const &)
 	?SetMenuProviderL@CHgScroller@@QAEXPAVMObjectProvider@@@Z @ 115 NONAME ; void CHgScroller::SetMenuProviderL(class MObjectProvider *)
+	?SetToolbarVisibility@CHgGrid@@QAEXH@Z @ 116 NONAME ; void CHgGrid::SetToolbarVisibility(int)
+	?SetFirstIndexOnScreen@CHgScroller@@QAEXH@Z @ 117 NONAME ; void CHgScroller::SetFirstIndexOnScreen(int)
 

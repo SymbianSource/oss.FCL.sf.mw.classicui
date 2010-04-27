@@ -2768,10 +2768,10 @@ void CAknTreeListView::UpdateMSKCommand()
 void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
     {
     TBool empty = IsEmpty();
+    TInt offset = Offset();  
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST    
     CWindowGc& gc = iGc && !empty ? *iGc : SystemGc();
-    TInt offset = Offset();
 #else
     CWindowGc& gc = SystemGc();
 #endif
@@ -2834,11 +2834,6 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 
             if ( iItems[ii].Item() )
                 {
-                if ( !aRect.Intersects(drawRect) )
-                    {
-                    //invisible item yet
-                    continue;
-                    }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
                 TRect tfxDrawRect( drawRect );
@@ -2862,16 +2857,25 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                         clippingRect.iBr.iY = viewRect.iBr.iY;
                         }
                     }
-                
                 // Set clipping rect.    
-                gc.SetClippingRect( clippingRect );
-
+                if ( clippingRect.Intersects( aRect ) )
+                    {
+                    clippingRect.Intersection( aRect );
+                    gc.SetClippingRect( clippingRect );
+                    }
+                else
+                    {
+                    //Draw nothing if no overlap between item rectangel and given rect.
+                    continue;
+                    }
+                
                 if ( transApi )
                     {
                     transApi->StopDrawing();
                     }
 #endif
-                if ( ii < iBottomIndex )
+
+                if ( iItems[ii].Item() != iBottomItem )
                     {
                     TRect offsetRect( drawRect );
                     offsetRect.Move( 0, -offset );
@@ -3158,7 +3162,9 @@ void CAknTreeListView::HandleLongTapEventL(
 void CAknTreeListView::LongTapPointerEventL(
         const TPointerEvent& aPointerEvent)
     {
-    if ( iLongTapDetector && iItemActionMenu && iItemActionMenu->InitMenuL() )
+    if ( iLongTapDetector && iItemActionMenu 
+            && !( HasMarkedItemsL() && FocusedItem() 
+            && !FocusedItem()->IsMarked() ) && iItemActionMenu->InitMenuL() )
         {
         iLongTapDetector->PointerEventL( aPointerEvent );
         }
@@ -3246,7 +3252,8 @@ void CAknTreeListView::UpdateIndexes()
             {
             if (iItems[i].Item())   
                 {
-                iBottomIndex = iTree.VisibleItemIndex(iItems[i].Item());
+                iBottomItem = iItems[i].Item();
+                iBottomIndex = iTree.VisibleItemIndex( iBottomItem );
                 break;
                 }
             }

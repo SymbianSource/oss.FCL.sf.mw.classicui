@@ -233,7 +233,7 @@ private:
     * If the message query doesn't use the list query layout (iListQLayout == EFalse),
     * this function returns immediately.
     */
-    void TruncateTextForListQLayout( TDes& aMessage );
+    void TruncateTextForListQLayoutL( TDes& aMessage );
     
     void DoSizeChangedL();
     

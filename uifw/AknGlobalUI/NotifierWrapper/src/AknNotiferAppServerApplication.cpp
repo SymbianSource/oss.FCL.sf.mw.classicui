@@ -24,6 +24,9 @@
 #include <aknnotewrappers.h>
 #include <AknCapServerDefs.h>
 
+#include <gfxtranseffect/gfxtranseffect.h>
+#include "akntranseffect.h" // for Transition effect enumerations
+
 #include <avkondomainpskeys.h>
 #include <e32property.h>
 
@@ -348,6 +351,7 @@ EXPORT_C void CAknNotifierAppServerAppUi::HandleSystemEventL(const TWsEvent& aEv
         {
     case EApaSystemEventBroughtToForeground:
         { // ignore this event as it causes undesired effects on applications underneath
+        GfxTransEffect::EndFullScreen();
         break;
         }
     default:

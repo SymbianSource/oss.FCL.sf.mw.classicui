@@ -660,6 +660,7 @@ EXPORT_C void CAknGrid::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             iSBFrame->VerticalScrollBar()->Size()).Contains ( aPointerEvent.iPosition ))
             {
             if ( !ScrollingDisabled()
+                && iExtension 
                 && iExtension->iFlags & EAknGridStateButton1DownInGrid )
                 {
                 if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
@@ -687,17 +688,25 @@ EXPORT_C void CAknGrid::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             switch (aPointerEvent.iType)
                 {
                 case TPointerEvent::EButton1Down:
-                    iExtension->iLastPoint = aPointerEvent.iPosition;
-                    if ( visibleItemsRect.Contains(aPointerEvent.iPosition) )
-                        {
-                        iExtension->iFlags |= EAknGridStateButton1DownInGrid;                
-                        }
+                	{
+                    if( iExtension )
+                      {
+                      iExtension->iLastPoint = aPointerEvent.iPosition;
+                      if ( visibleItemsRect.Contains(aPointerEvent.iPosition) )
+                          {
+                          iExtension->iFlags |= EAknGridStateButton1DownInGrid;
+                          }
+                      }
                     _AKNTRACE( "TPointerEvent::EButton1Down" );
                     break;
-
+                	}
+                	
                 case TPointerEvent::EButton1Up:
                     {
-                    iExtension->iFlags &= ~EAknGridStateButton1DownInGrid;
+                    if ( iExtension )
+                        {
+                        iExtension->iFlags &= ~EAknGridStateButton1DownInGrid;
+                        }
                     _AKNTRACE( "TPointerEvent::EButton1Up" );
                     break;
                     }
@@ -1087,7 +1096,8 @@ EXPORT_C TKeyResponse CAknGrid::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEvent
         }
         
     // With single click first key event enables highlight
-    if ( iExtension->iSingleClickEnabled
+    if ( iExtension 
+            && iExtension->iSingleClickEnabled
             && ItemDrawer()->Flags()
             &  CListItemDrawer::ESingleClickDisabledHighlight )
         {
@@ -1499,7 +1509,7 @@ EXPORT_C void CAknGrid::HandleDragEventL(TPoint aPointerPos)
     
     if ( AknLayoutUtils::PenEnabled() )
         {
-        if ( !(iExtension->iFlags & EAknGridStateButton1DownInGrid) )
+        if ( !( iExtension && iExtension->iFlags & EAknGridStateButton1DownInGrid) )
             {
             _AKNTRACE_FUNC_EXIT;
             return;
@@ -1515,8 +1525,8 @@ EXPORT_C void CAknGrid::HandleDragEventL(TPoint aPointerPos)
         CListBoxView::TSelectionMode selectionMode = CListBoxView::ENoSelection;
         //        CListBoxView::TSelectionMode selectionMode = (iListBoxFlags & EMultipleSelection) ? CListBoxView::EContiguousSelection : CListBoxView::ESingleSelection;
         // END OF SERIES60 LAF
-        TInt speed = iExtension->GetScrollingSpeed( pointerIsOverAnItem, itemIndex, 
-                                                    *gridView, aPointerPos );
+        TInt speed = iExtension ? iExtension->GetScrollingSpeed( pointerIsOverAnItem, itemIndex, 
+                                                    *gridView, aPointerPos ):0;
         
         TInt oldCurrentItemIndex = CurrentItemIndex();
         TRect currentItemRect(gridView->ItemPos(oldCurrentItemIndex), gridView->ItemSize(oldCurrentItemIndex));       
@@ -1860,7 +1870,7 @@ EXPORT_C void CAknGrid::UpdateScrollBarsL()
         if (vSbarModel.iScrollSpan-vSbarModel.iThumbPosition<vSbarModel.iThumbSpan)
             {
             vSbarModel.iThumbPosition=Max(0,vSbarModel.iScrollSpan-vSbarModel.iThumbSpan);
-            if ( !iExtension->iSingleClickEnabled )
+            if ( iExtension && !iExtension->iSingleClickEnabled )
                 {
                 // force a scroll if neccessary
                 gridView->MoveToItemIndexL( currentIndex, 

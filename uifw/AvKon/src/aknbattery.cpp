@@ -70,12 +70,6 @@ EXPORT_C CAknBatteryPane::~CAknBatteryPane()
     {
     AKNTASHOOK_REMOVE();
     
-    MTouchFeedback* feedback = MTouchFeedback::Instance();
-    if ( feedback )
-        {
-        feedback->RemoveFeedbackForControl( this );
-        }
-    
     AknsUtils::DeregisterControlPosition( this );
 
     delete iBatteryIconControl;
@@ -105,26 +99,6 @@ EXPORT_C void CAknBatteryPane::ConstructL()
     iPrivateFlags = 0; // reset flags
     iDataObserver = new (ELeave) CAknBatteryDataObserver( this );
     iStatusPane = CEikStatusPaneBase::Current();
-    
-    MTouchFeedback* feedback = MTouchFeedback::Instance();
-    if ( feedback )
-        {
-        CFeedbackSpec* fbSpec = CFeedbackSpec::New();
-        if ( fbSpec )
-            {
-            fbSpec->AddFeedback( ETouchEventStylusDown,
-                                 ETouchFeedbackSensitiveButton );
-            fbSpec->AddFeedback( ETouchEventStylusUp,
-                                 ETouchFeedbackSensitiveButton,
-                                 ETouchFeedbackVibra );
-
-            feedback->SetFeedbackArea( this,
-                                       0,
-                                       Rect(),
-                                       fbSpec );
-            delete fbSpec; 
-            }        
-        }
     }
 
 
@@ -370,9 +344,6 @@ EXPORT_C void CAknBatteryPane::SizeChanged()
         else
             {
             feedback->EnableFeedbackForControl( this, ETrue );
-            feedback->ChangeFeedbackArea( this,
-                                          0,
-                                          parent );
             }
         }
     }
@@ -582,22 +553,18 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         }
 
     CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
-	if( sp )
+	if ( sp )
 	    {
         TInt statusPaneCurrentLayoutResourceId = sp->CurrentLayoutResId();
-        if(statusPaneCurrentLayoutResourceId == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE
-                    || statusPaneCurrentLayoutResourceId == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED)
+        if ( statusPaneCurrentLayoutResourceId ==
+                 R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE ||
+             statusPaneCurrentLayoutResourceId ==
+                 R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED )
             {
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-                {
-                feedback->RemoveFeedbackForControl( this );
-                }
-        
             AknsUtils::DeregisterControlPosition( this );
             return;
             }
-          }       
+        }
     // Get the rect of battery pane.
     TRect rect( Rect() );
 
@@ -611,6 +578,11 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 {
                 // set flag that pointerdown was inside battery pane
                 iPrivateFlags |= EAknBatteryPaneButton1DownInBatteryRect;
+                MTouchFeedback* feedback = MTouchFeedback::Instance();
+                if ( feedback )
+                    {
+                    feedback->InstantFeedback( ETouchFeedbackSensitiveButton );
+                    }
                 }
             }
             break;
@@ -662,20 +634,14 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                      pointerUpInClockArea ||
                      pointerUpInIndicatorArea )
                     {
-                    if ( pointerUpInClockArea || pointerUpInIndicatorArea )
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if ( feedback )
                         {
-                        MTouchFeedback* feedback = MTouchFeedback::Instance();
-                        if ( feedback )
-                            {
-                            // The pointer down was received in another
-                            // control, so the tactile feedback must be
-                            // given directly.
-                            feedback->InstantFeedback(
-                                this,
-                                ETouchFeedbackSensitiveButton,
-                                ETouchFeedbackVibra,
-                                aPointerEvent );
-                            }
+                        feedback->InstantFeedback(
+                            this,
+                            ETouchFeedbackSensitiveButton,
+                            ETouchFeedbackVibra,
+                            aPointerEvent );
                         }
 
                     CAknSmallIndicator* indicatorNotifier =

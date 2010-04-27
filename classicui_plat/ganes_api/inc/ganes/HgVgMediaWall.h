@@ -677,6 +677,11 @@ private:
      * 
      */
     void FillSystemGcWithSkin( ) const;
+    
+    /**
+     * 
+     */
+    void SetConstantsForStyle();
 
 protected:
     CHgScrollBufferManager* iManager; // Own
@@ -799,6 +804,7 @@ protected:
     TInt iDragFrames;
     TBool iObserverNotified;
 
+    TRect iOpenedItemRect;
     };
 
        

@@ -510,7 +510,7 @@ void CAknItemActionMenu::ProcessCommandL( TInt aCommandId )
             }
         }
     // Inform collection that submenu was closed
-    if ( iStates.Find( informState ) != KErrNotFound ) 
+    if ( informState && iStates.Find( informState ) != KErrNotFound ) 
         {
         informState->ItemActionMenuClosed();
         }

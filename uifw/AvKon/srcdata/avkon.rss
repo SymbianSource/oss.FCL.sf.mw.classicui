@@ -10202,4 +10202,39 @@ RESOURCE COMBINED_PANE r_avkon_status_pane_combined_default
         };
     }
 
+RESOURCE DIALOG r_avkon_special_character_table_dialog_for_lockcode_symbol_input
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    buttons = r_avkon_softkeys_select_cancel__select;
+    items=
+        {
+	DLG_LINE
+	    {
+	    type = EAknCtPopupHeadingPane;
+	    id = EAknSCTQueryHeadingId;
+	    control = AVKON_HEADING
+		{
+		label = qtn_pop_up_select_character;
+		headinglayout = r_avkon_sct_list_heading_pane;
+		};
+	    },
+	DLG_LINE
+	    {
+	    type = EAknCtSpecialCharacterMap;
+	    id = EAknSCTQueryContentId;
+	    control = SPECIAL_CHAR_TABLE
+		{
+		contents =
+		    {
+		    SCT_CHAR_SET
+			{
+			id = EAknSCTLowerCase;
+			chars = qtn_sct_special_characters_lockcode;
+			}
+		    };
+		};
+	    }
+	};
+    }
+
 // End of File

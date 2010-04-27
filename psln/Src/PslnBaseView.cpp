@@ -62,7 +62,10 @@ CPslnBaseView::~CPslnBaseView()
     {
     if ( iContainer )
         {
-        iPslnUi->RemoveFromStack( iContainer );
+        if( iPslnUi )
+            {
+            iPslnUi->RemoveFromStack( iContainer );
+            }
         delete iContainer;
         }
     if ( iNaviPaneContext &&
@@ -81,24 +84,9 @@ void CPslnBaseView::HandleListBoxEventL(
     {
     switch ( aEventType )
         {
-        case EEventItemClicked:
-        case EEventFlickStopped:
-            if ( iContainer && iContainer->GetMiddleSoftkeyObserver() )
-                {
-                iContainer->GetMiddleSoftkeyObserver()->CheckMiddleSoftkeyLabelL();
-                }
-            HandleListBoxItemHighlightL();    
-            break;
         case EEventEnterKeyPressed:
-        case EEventItemDoubleClicked:
         case EEventItemSingleClicked:
             HandleListBoxSelectionL();
-            break;
-        case EEventPenDownOnItem:
-            HandleListBoxStylusDown();
-            break;
-        case EEventItemDraggingActioned:
-            HandleListBoxStylusDrag();
             break;
         default:
            break;
@@ -261,22 +249,6 @@ TInt CPslnBaseView::CbaResourceId(const TVwsViewId& /*aPrevViewId*/,TUid /*aCust
     return R_AVKON_SOFTKEYS_OPTIONS_BACK;
     }
     
-// -----------------------------------------------------------------------------
-// Handle listbox stylus move event.
-// -----------------------------------------------------------------------------
-//
-void CPslnBaseView::HandleListBoxStylusDown()
-    {
-    }
-    
-// -----------------------------------------------------------------------------
-// Handle listbox stylus move event.
-// -----------------------------------------------------------------------------
-//
-void CPslnBaseView::HandleListBoxStylusDrag()
-    {
-    }
-
 // ---------------------------------------------------------------------------
 // Removes container.
 // ---------------------------------------------------------------------------

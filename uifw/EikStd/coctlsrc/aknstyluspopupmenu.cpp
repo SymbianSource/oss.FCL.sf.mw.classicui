@@ -119,7 +119,10 @@ EXPORT_C CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewLC(
 //
 CAknStylusPopUpMenu::~CAknStylusPopUpMenu()
     {
-    iContent->SetObserver(NULL);
+    if ( iContent )
+        {
+        iContent->SetObserver(NULL);
+        }
     if ( iIsDeleted )
         {
         *iIsDeleted = ETrue;
