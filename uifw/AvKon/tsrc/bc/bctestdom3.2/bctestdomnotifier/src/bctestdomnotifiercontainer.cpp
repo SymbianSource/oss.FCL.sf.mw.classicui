@@ -16,9 +16,6 @@
 */
 
 #include <eikenv.h>
-#include <AknMarqueeControl.h>
-#include <aknlayoutscalable_avkon.cdl.h>
-
 #include "bctestdomnotifiercontainer.h"
 
 #define KAknAtListGray TRgb( 0xaaaaaa )
@@ -66,17 +63,6 @@ void CBCDomainTestNotifierContainer::Draw( const TRect& aRect ) const
     gc.SetBrushColor( KAknAtListGray );
     gc.SetBrushStyle( CGraphicsContext::ESolidBrush );  
     gc.DrawRect( aRect );
-    
-    _LIT( KStart, "DRAW" );
-    const TBuf<32>  txt( KStart );
-    TRect rect( TRect(1,1,99,99) );   
-    const CFont* font = CEikonEnv::Static()->NormalFont();
-    TAknTextComponentLayout textlayout;
-    CAknMarqueeControl* marcontrol = CAknMarqueeControl::NewL();
-    CleanupStack::PushL( marcontrol ); 
-       
-    marcontrol->DrawText( gc, rect, textlayout, txt, font ); 
-    CleanupStack::PopAndDestroy();
     
     }
 

@@ -17,11 +17,77 @@
 
 
 // INCLUDE FILES
-#include <pticore.h>
-#include <ptihwrrecognizer.h>
 
+#include "peninputclient.h"
 #include "bctestdompeninputclient.h"
 
+// ---------------------------------------------------------------------------
+// CMPenUiA::CMPenUiA
+// ---------------------------------------------------------------------------
+//   
+CMPenUiA::CMPenUiA()
+    {
+    }
+
+// ---------------------------------------------------------------------------
+// CMPenUiA::OnPeninputUiDeactivated
+// ---------------------------------------------------------------------------
+//   
+void CMPenUiA::OnPeninputUiDeactivated()
+    {
+    }
+
+// ---------------------------------------------------------------------------
+// CMPenUiA::OnPeninputUiActivated
+// ---------------------------------------------------------------------------
+//   
+void CMPenUiA::OnPeninputUiActivated()
+    {
+    }
+    
+// ---------------------------------------------------------------------------
+// CPenUiNotificationHandler::NewL
+// ---------------------------------------------------------------------------
+//   
+CPenUiNotificationHandler* CPenUiNotificationHandler::NewL(
+                                            MPenUiActivationHandler* aHandler,
+                                            RPeninputServer* aClient )
+    {
+    CPenUiNotificationHandler* self = new ( ELeave ) 
+                                    CPenUiNotificationHandler( aHandler, aClient );
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    return self;
+    }
+    
+// ---------------------------------------------------------------------------
+// CPenUiNotificationHandler::CPenUiNotificationHandler
+// ---------------------------------------------------------------------------
+//   
+CPenUiNotificationHandler::CPenUiNotificationHandler(
+                    MPenUiActivationHandler* aHandler,RPeninputServer* aClient)
+                    : iHandler( aHandler ), iClient( aClient )
+    {    
+    }
+
+// ---------------------------------------------------------------------------
+// CPenUiNotificationHandler::ConstructL
+// ---------------------------------------------------------------------------
+//   
+void CPenUiNotificationHandler::ConstructL()
+    {
+    }
+    
+    
+// ---------------------------------------------------------------------------
+// CPenUiNotificationHandler::HandleServerEventL
+// ---------------------------------------------------------------------------
+//   
+TBool CPenUiNotificationHandler::HandleServerEventL( TInt /*aEventId*/ )
+    {
+    return ETrue;
+    }
 
 // ---------------------------------------------------------------------------
 // CBCTestHwrRecognizer::NewL
@@ -89,15 +155,4 @@ void CBCTestDomHwrRecognizer::GetSymbolModelL( TUdmType aType,
                                      aHelpLine, 
                                      aBaseLine );
     }
-    
-// ---------------------------------------------------------------------------
-// From class CPtiCore. 
-// Bceause the api is not IMPORT_C, implemented for get iDtorKeyId.
-// ---------------------------------------------------------------------------
-//   
-TInt CPtiCore::DestructorKeyId() const
-	{
-	return iDtorKeyId;	
-	}
-
 // End of File

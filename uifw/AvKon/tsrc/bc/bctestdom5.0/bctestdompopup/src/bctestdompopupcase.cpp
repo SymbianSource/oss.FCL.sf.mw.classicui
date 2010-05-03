@@ -37,7 +37,6 @@
 #include <AknSettingCache.h>
 #include <aknsgcc.h>
 #include <aknshortcuts.h>
-#include <ResolutionUtil.h>
 #include <s32mem.h>
 
 
@@ -353,7 +352,7 @@ void  CBCDomainTestPopupCase::TestOtherL()
 	AssertTrueL( ETrue, KCalculateScreenMode );
 	 
     CAknSgcClient::CalculateScreenMode( EFalse, EFalse ,EFalse,
-        CResolutionUtil::EQVGA );
+        1 );
 
     AssertTrueL( ETrue, KCalculateScreenMode );
     CAknSgcClient::SetKeyBlockMode( EEnableKeyBlock );
@@ -490,7 +489,7 @@ void  CBCDomainTestPopupCase::TestOtherElseL()
 	mapdlg->HandleDialogPageEventL( MEikDialogPageObserver::EUnknownType );
     AssertTrueL( ETrue, KHandleDialogPageEventL );
     
-    mapdlg->HandleResourceChange( KEikDefaultCursorWidth );
+    mapdlg->HandleResourceChange( 1 );
     AssertTrueL( ETrue, KHandleResourceChange );
     
     mapdlg->DisableRecentCharsRow();	 

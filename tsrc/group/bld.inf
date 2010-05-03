@@ -57,7 +57,6 @@ PRJ_TESTMMPFILES
 #include "../../classicui_plat/media_shared_document_api/tsrc/group/bld.inf"
 #include "../../classicui_plat/memory_card_ui_api/tsrc/group/bld.inf"
 #include "../../classicui_plat/number_grouping_api/tsrc/group/bld.inf"
-#include "../../classicui_plat/personalisation_framework_api/tsrc/group/bld.inf"
 #include "../../classicui_plat/phone_number_text_utilities_api/tsrc/group/bld.inf"
 #include "../../classicui_plat/pointer_event_modifier_api/tsrc/group/bld.inf"
 #include "../../classicui_plat/popup_form_api/tsrc/group/bld.inf"

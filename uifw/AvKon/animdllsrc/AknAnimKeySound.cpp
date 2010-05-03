@@ -33,7 +33,7 @@
 // This is currently nasty set dependencies, API should be moved to middleware layer asap 
 #include <ctsydomainpskeys.h> 
 #include <activeidle2domainpskeys.h>
-#include <NetworkHandlingDomainPSKeys.h>
+#include <networkhandlingdomainpskeys.h>
 #include <PSVariables.h>
 
 #include <hwrmlight.h> 

@@ -19,12 +19,79 @@
 #ifndef C_BCRPENINPUTSERVEROBSERVER_H
 #define C_BCRPENINPUTSERVEROBSERVER_H
 
-class MPenUiActivationHandler;
 class MPeninputServerEventHandler;
 class RPeninputServer;
 
-#include <ecom/ecom.h>
+#include <pticore.h>
+#include <ptihwrrecognizer.h>
+#include <peninputsrveventhandler.h>
 
+/**
+ *  inherit from pure virtual class MPenUiActivationHandler, 
+ *  it's for test RPeninputServer
+ */
+class CMPenUiA : public CBase,public MPenUiActivationHandler
+    {
+public:
+
+    /**
+     * Constructor
+     */
+    CMPenUiA();
+
+    /**
+     * implement pure virtual function. 
+     */
+    void OnPeninputUiDeactivated();
+
+    /**
+     * implement pure virtual function. 
+     */
+    void OnPeninputUiActivated();
+    
+    };
+
+/**
+ *  inherit from pure virtual class MPeninputServerEventHandler,
+ *  it's for test RPeninputServer
+ */
+class CPenUiNotificationHandler: public CBase,public MPeninputServerEventHandler
+    {
+public:
+
+    /**
+     * create object. 
+     * @param aHandler, MPenUiActivationHandler
+     * @param aClient, RPeninputServer
+     * @return Pointer to created CPenUiNotificationHandler class object.
+    */
+    static CPenUiNotificationHandler* NewL( MPenUiActivationHandler* aHandler,
+                                            RPeninputServer* aClient );
+
+    /**
+     * implement pure virtual function. 
+     * @param aEventId, a EventId
+     * @return handle event state.
+     */
+    TBool HandleServerEventL( TInt aEventId );
+
+private:
+
+    /**
+     * Constructor
+     */
+    CPenUiNotificationHandler( MPenUiActivationHandler* aHandler, RPeninputServer* aClient );
+
+    /**
+     * 2nd ctor
+     */
+    void ConstructL();
+
+    MPenUiActivationHandler* iHandler;        
+
+    RPeninputServer* iClient;
+    };
+    
 /**
  *  inherit from CHwrRecognizer, it's only for test protected api.
  */

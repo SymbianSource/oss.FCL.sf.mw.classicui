@@ -241,7 +241,7 @@ EXPORT_C TBool CAiwCriteriaItem::operator==(const CAiwCriteriaItem& aItem)
     {
     return ((iCriteriaId                                  == aItem.iCriteriaId)           &&
             (iServiceCmd                                  == aItem.iServiceCmd)           &&
-            (iContentType->Compare(*(aItem.iContentType)) == KErrNone)                    &&
+            (ContentType().Compare(aItem.ContentType())   == KErrNone)                    &&
             (iServiceClass.iUid                           == aItem.iServiceClass.iUid)    &&
             (iDefaultProvider.iUid                        == aItem.iDefaultProvider.iUid) &&
             (iMaxProviders                                == aItem.iMaxProviders)         &&

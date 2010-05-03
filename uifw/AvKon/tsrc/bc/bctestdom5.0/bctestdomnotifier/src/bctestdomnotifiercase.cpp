@@ -66,12 +66,13 @@
 #include <eikmenup.h>
 
 #include <bctestdomnotifier.rsg>
-#include "PslnModel.h"
 #include "bctestdomnotifiercase.h"
 #include "bctestdomnotifiercontainer.h"
 #include "bctestdomnotifier.hrh"
 #include "bctestdomnotifierview.h"
 #include "bctestdomnotifierapp.h"
+
+_LIT( KCAknNotifierAppServerAppUi, "App server error" );
 
 // ======== MEMBER FUNCTIONS ========
 // ---------------------------------------------------------------------------
@@ -209,31 +210,7 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     rfile.Create( fs, KFilePath, EFileWrite | EFileShareAny );
     CleanupClosePushL( rfile );
 
-    CAiwGenericParamList* aiwparalist = CAiwGenericParamList::NewL();
-    CPslnModel* psmodel= CPslnModel::NewL();
-    MAknServerAppExitObserver* serappexit =
-        static_cast<MAknServerAppExitObserver*> ( psmodel );
 
-    CAknOpenFileService* fileserv = NULL;
-    TRAPD( err, fileserv = CAknOpenFileService::NewL(
-        KFilePath, serappexit, aiwparalist ) );
-    _LIT( KCAknOpenFileServiceNewL, "CAknOpenFileService::NewL()" );
-    AssertTrueL( ETrue, KCAknOpenFileServiceNewL );
-    delete fileserv;
-    fileserv = NULL;
-
-    TUid KUid = { 0xA0004001 };
-    TInt err1;
-    TRAP( err1, fileserv = CAknOpenFileService::NewL(
-        KUid, rfile, serappexit, aiwparalist ) );
-    _LIT( KCAknOpenFileServiceNewLOver, "CAknOpenFileService::NewL()" );
-    AssertTrueL( ETrue, KCAknOpenFileServiceNewLOver );
-
-    CleanupStack::PopAndDestroy(); // rfile 
-    delete fileserv;
-    delete psmodel;
-    delete aiwparalist;
-    _LIT( KCAknNotifierAppServerAppUi,"CAknNotifierAppServerAppUi" );
     // AknNotiferAppServerApplication.h
 
     CBCNotifierAppServer *notifierapp = new ( ELeave )
@@ -303,7 +280,6 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     _LIT( KSetImplementationFinderL, "SetImplementationFinderL");
     _LIT( KUnbalanceReferenceCountForNotif, "UnbalanceReferenceCountForNotif");
     _LIT( KCreateServiceL, "CreateServiceL");
-    _LIT( KLoadNotifiersL, "LoadNotifiersL");
     _LIT( KCAknNotifierAppServerDestroy, "SCAknNotifierAppServerDestroy" );
     _LIT( KUpdateNotifierAndGetResponseL, "UpdateNotifierAndGetResponseL" );
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -320,6 +296,7 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     //AssertTrueL( ETrue,KLoadNotifiersL );
 
     TBuf8<32> bf;
+    TInt err;
     TRAP( err,notiserver->StartNotifierL(
         KUidBCDomainTestNotifier, bf, bf ) );
     AssertTrueL( ETrue,KStartNotifierL );
@@ -720,7 +697,6 @@ void CBCDomainTestNotifierCase::TestOtherL()
     _LIT( KTfxApiInternal, "TfxApiInternal" );
     _LIT( KTfxApi, "TfxApi" );
     _LIT( KRemoveTfxGc, "RemoveTfxGc" );
-    _LIT( KCreateTfxGc, "CreateTfxGc" );
     _LIT( KInvalidateAll, "InvalidateAll" );
 
     CAknListLoader::TfxApiInternal( &gc );
@@ -895,7 +871,6 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     //delete ary;
 
     // AknPhoneNumberEditor.h
-    _LIT( KCAknPhoneNumberEditor, "CAknPhoneNumberEditor" );
     _LIT( KConstructFromResourceL, "ConstructFromResourceL" );
     _LIT( KFormat, "Format" );
     _LIT( KWouldTextFitInFormat, "WouldTextFitInFormat" );

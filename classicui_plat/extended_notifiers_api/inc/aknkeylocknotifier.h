@@ -32,7 +32,6 @@ class CAknKeyLockControl;
 class CAknEcsNote;
 class CAknKeyLockNotifierSubject;
 class CKeyLockPolicyApi; 
-class CAknKeylockScreenSaverObserver;
 
 NONSHARABLE_CLASS(CAknSleepingNote) : public CAknNoteDialog
     {
@@ -185,7 +184,6 @@ private:
     TBool iFeatureNoPowerkey;
     TLockHardware iHardwareSupport;
     CKeyLockPolicyApi* iKeylockApi; 
-    CAknKeylockScreenSaverObserver* iKeylockScreenSaverObserver;    
     TBool iConsumeNextEventKey;
 public:
     TBool iAutolockEnabled;

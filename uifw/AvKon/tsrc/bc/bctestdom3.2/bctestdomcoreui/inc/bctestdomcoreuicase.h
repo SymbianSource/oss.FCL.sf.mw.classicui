@@ -79,36 +79,6 @@ protected: // new functions
     void TestMenuSATInterfaceL();
     
     /**
-     * Test TestAddVoiceTagDialogL
-     */
-    void TestAddVoiceTagDialogL();
-    
-    /**
-     * Test TestChangeVoiceTagDialogL
-     */
-    void TestChangeVoiceTagDialogL();
-    
-    /**
-    * Test TestEraseVoiceTagDialogL
-    */
-    void TestEraseVoiceTagDialogL();
-    
-    /**
-    * Test TestVoiceDialerL
-    */
-    void TestVoiceDialerL();
-    
-    /**
-     * Test TestVoiceTagContactL
-     */
-    void TestVoiceTagContactL();
-    
-    /**
-     * Test TestVoiceTagFieldL
-     */
-    void TestVoiceTagFieldL();
-    
-    /**
      * Test TestVoiceRecogL
      */
     void TestVoiceRecogL();
@@ -117,8 +87,6 @@ protected: // new functions
      * Test TestVoiceRecognitionDialogL
      */
     void TestVoiceRecognitionDialogL();
-    
-    void TestPlaybackVoiceTagDialogL();
         
 private: // constructor
     

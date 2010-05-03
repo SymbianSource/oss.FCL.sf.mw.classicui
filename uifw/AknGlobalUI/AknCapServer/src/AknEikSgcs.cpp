@@ -47,7 +47,7 @@
 #include <akntransitionutils.h>
 #endif
 
-#include <LayoutPack.cdl.h>
+#include <layoutpack.cdl.h>
 #include <CdlRefs.h>
 const TInt KCdlEComInterfaceId = 0x101f8243;
 

@@ -17,14 +17,12 @@
 
 
 PRJ_EXPORTS
-../../BCTestLauncher/group/config_dom32.xml /epoc32/winscw/c/BCTestLog/config.xml
+../../bctestlauncher/group/config_dom32.xml /epoc32/winscw/c/BCTestLog/config.xml
 
 PRJ_MMPFILES
 ../../bctestutil/group/bctestutil.mmp
 
 ../../bctestlauncher/group/bctestlauncher.mmp
-
-../bctestdomavkonpsln/group/bctestdomavkonpsln.mmp
 
 ../bctestdomaiwakn/group/bctestdomaiwakn.mmp
 

@@ -18,8 +18,7 @@
 
 #include <w32std.h>
 #include <coecntrl.h>
-#include <vuicvoicerecog.h>
-#include <vuicvoicerecogdialog.h>
+
 #include <bctestdomcoreui.rsg>
 
 #include "bctestdomcoreuicase.h" 
@@ -181,15 +180,7 @@ void CBCTestDomCoreUiCase::TestMenuSATInterfaceL()
 //    
 void CBCTestDomCoreUiCase::TestVoiceRecogL()
     {
-    CVoiceRecog* voiceRecog = CVoiceRecog::NewL();
-    CleanupStack::PushL( voiceRecog );//push
-
-    _LIT( msiLogNewL, "VoiceRecog::NewL()" );
-    AssertNotNullL( voiceRecog, msiLogNewL );
-    _LIT( msiLogNewLC, "VoiceRecog::NewLC()" );
-    AssertTrueL( ETrue, msiLogNewLC );
-
-    CleanupStack::PopAndDestroy( voiceRecog );    
+    
     }
 
 // ---------------------------------------------------------------------------
@@ -198,21 +189,7 @@ void CBCTestDomCoreUiCase::TestVoiceRecogL()
 //    
 void CBCTestDomCoreUiCase::TestVoiceRecognitionDialogL()
     {
-    CVoiceRecognitionDialog* voiceRec = new( ELeave ) CVoiceRecognitionDialog();
-    _LIT( msiLogVRD, "CVoiceRecognitionDialog::CVoiceRecognitionDialog()" );
-    AssertTrueL( ETrue, msiLogVRD );
-    
-    voiceRec->ExecuteLD();
-    _LIT( msiLogExecuteLD, "CVoiceRecognitionDialog::ExecuteLD()" );
-    AssertTrueL( ETrue, msiLogExecuteLD );
 
-    CVoiceRecognitionDialog* voiceRec2 = new( ELeave ) CVoiceRecognitionDialog();
-    voiceRec2->Cancel();
-    _LIT( msiLogCancel, "CVoiceRecognitionDialog::Cancel()" );
-    AssertTrueL( ETrue, msiLogCancel );
-
-    _LIT( msiLogDesc, "CVoiceRecognitionDialog::~CVoiceRecognitionDialog()" );
-    AssertTrueL( ETrue, msiLogDesc );
     
     }
 

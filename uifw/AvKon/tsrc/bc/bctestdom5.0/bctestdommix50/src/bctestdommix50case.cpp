@@ -42,9 +42,6 @@ const TInt KCurrMark = 5;
 const TInt KTimeOutSec = 40;
 const TInt KBuffSmallSize = 32;
 
-const TInt KXRightPos = 100;
-const TInt KYDownPos  = 100;
-
 const TInt KDefaultVolumeLevel = 5;
 
 _LIT( KTitle, "Title" );

@@ -59,7 +59,8 @@ void CBCTestDomAiwAknAppUi::ConstructL()
     
     ActivateLocalViewL( view->Id() );
 
-
+    
+    CWindowGc& gc = CCoeEnv::Static()->SystemGc();
     // test aknanimview.h
     iAnimView =
         CBCTestDomAknAnimatedView::NewLC();  

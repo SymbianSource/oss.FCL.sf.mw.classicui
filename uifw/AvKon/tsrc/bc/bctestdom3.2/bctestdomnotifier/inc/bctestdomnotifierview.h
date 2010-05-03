@@ -33,7 +33,6 @@ class CBCTestUtil;
  */
 class CBCDomainTestNotifierView : public CAknView
     {
-    friend class CBCDomainTestNotifierCase;
 public: // Constructors and destructor
 
     /**

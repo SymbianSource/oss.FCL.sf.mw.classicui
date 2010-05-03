@@ -29,9 +29,9 @@
 #include <featmgr.h>
 #include "AknDebug.h"
 
-#include <CPhCltEmergencyCall.h>
-#include <MPhCltEmergencyCallObserver.h>
-#include <PhCltTypes.h>
+#include <cphcltemergencycall.h>
+#include <mphcltemergencycallobserver.h>
+#include <phclttypes.h>
 #include <AvkonInternalCRKeys.h>
 #include <PtiDefs.h>
 #include <e32property.h>

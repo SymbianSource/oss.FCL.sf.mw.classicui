@@ -92,7 +92,7 @@ void CT_PhoneNumberUtilsStep::RunTestCases()
 void CT_PhoneNumberUtilsStep::ParsePhoneNumberForPPN()
     {
 	INFO_PRINTF1(_L("Test to Parse PhoneNumber With Valid PlainPhoneNumber"));
-    TBuf<50> number = _L("+46 345 34(34347) 42443 42"); // This should be a parseable Plain Phone Number
+    TBuf<KMaxTestBufferSize> number = _L("+46 345 34(34347) 42443 42"); // This should be a parseable Plain Phone Number
 	TEST(TulPhoneNumberUtils::Normalize(number, TulPhoneNumberUtils::EPlainPhoneNumber));
 	INFO_PRINTF2(_L("Normalized Phone No. is %S"), &number);
 	
@@ -152,7 +152,7 @@ void CT_PhoneNumberUtilsStep::ParsePhoneNumberForPPN()
  void CT_PhoneNumberUtilsStep::ParsePhoneNumberForCCN()
     {
   	INFO_PRINTF1(_L("Test to Parse PhoneNumber With Valid ContactCardNumber"));
-  	TBuf<50> number = _L("*31*6(0)35/6546"); // This should be a parseable Contact Card Number
+  	TBuf<KMaxTestBufferSize> number = _L("*31*6(0)35/6546"); // This should be a parseable Contact Card Number
 	TEST(TulPhoneNumberUtils::Normalize(number, TulPhoneNumberUtils::EContactCardNumber));
 	INFO_PRINTF2(_L("Normalized Contact Card No. is %S"), &number);
 
@@ -204,15 +204,24 @@ void CT_PhoneNumberUtilsStep::ParsePhoneNumberForPPN()
 void CT_PhoneNumberUtilsStep::ParsePhoneNumberForSMSNumber()
    {
    INFO_PRINTF1(_L("Test to Validate SMS number"));
-   TBuf<50> number = _L("12*3-45/345-24.3"); // This should be a Valid SMS number
+   TBuf<KMaxTestBufferSize> number = _L("12*3-45/345-24.3"); // This should be a Valid SMS number
    TEST(TulPhoneNumberUtils::IsValid(number, TulPhoneNumberUtils::ESMSNumber));
    
    TEST(TulPhoneNumberUtils::Normalize(number, TulPhoneNumberUtils::ESMSNumber));
    INFO_PRINTF2(_L("Normalized SMS No. is %S"), &number);
 
-   number = _L("123453452431234534524312345345243"); // This should be a NOT Valid SMS number
-   TEST(!(TulPhoneNumberUtils::IsValid(number, TulPhoneNumberUtils::ESMSNumber)));
-
+   if (KPhoneNoUtilsMaxNumbers < KMaxTestBufferSize)
+        {
+        // form number more than max number
+        number.Zero();
+        for (TInt i = 0; i <= KPhoneNoUtilsMaxNumbers; ++i)
+            {
+            number.Append('0' + i % 10);
+            }
+        // This should be a NOT Valid SMS number
+        TEST(!(TulPhoneNumberUtils::IsValid(number, TulPhoneNumberUtils::ESMSNumber)));
+        }
+   
    number = _L(" "); // This should NOT be a Valid SMS numbernumber
    TEST(!(TulPhoneNumberUtils::IsValid(number, TulPhoneNumberUtils::ESMSNumber)));
    
@@ -250,7 +259,7 @@ void CT_PhoneNumberUtilsStep::ParsePhoneNumberForPCN()
 	{
    	INFO_PRINTF1(_L("Test to Validate PhoneClientNumber"));
 
-   	TBuf<50> number = _L("1p23-4534w5-2*43#34"); // This should be a Valid Phone Client Number
+   	TBuf<KMaxTestBufferSize> number = _L("1p23-4534w5-2*43#34"); // This should be a Valid Phone Client Number
 	TEST(TulPhoneNumberUtils::IsValid(number, TulPhoneNumberUtils::EPhoneClientNumber));
     
     TEST(TulPhoneNumberUtils::Normalize(number, TulPhoneNumberUtils::EPhoneClientNumber));

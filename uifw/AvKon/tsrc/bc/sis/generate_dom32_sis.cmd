@@ -36,11 +36,6 @@ attrib *.sis* -r
 makesis bctestdomaiwakn.pkg
 signsis bctestdomaiwakn.sis bctestdomaiwakn.sisx /s60/rd.cer /s60/rd-key.pem
 
-cd ../../bctestdomavkonpsln/sis
-attrib *.sis* -r
-makesis bctestdomavkonpsln.pkg
-signsis bctestdomavkonpsln.sis bctestdomavkonpsln.sisx /s60/rd.cer /s60/rd-key.pem
-
 cd ../../bctestdomcdl/sis
 attrib *.sis* -r
 makesis bctestdomcdl.pkg

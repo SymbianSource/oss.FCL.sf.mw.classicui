@@ -47,7 +47,7 @@ CAknCharMapDialog::~CAknCharMapDialog()
 //
 TInt CAknCharMap::CharacterCase()
     {
-    return iCharCase;
+    return iSpecialCharCase;
     }
     
 // -----------------------------------------------------------------------------

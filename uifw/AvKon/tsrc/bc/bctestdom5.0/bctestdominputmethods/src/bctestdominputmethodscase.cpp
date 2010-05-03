@@ -538,7 +538,7 @@ void CBCTestDomInputMethodsCase::TestPtiCoreL()
     AssertTrueL( ETrue, msiLogSetToneMark );
 
     CleanupStack::PopAndDestroy(3);  
-    ptiCore->Descecom( ptiCore->DestructorKeyId());
+    ptiCore->Descecom( 1 );
 
     _LIT( msiLogDesc, "CPtiCore::~CPtiCore()" );
     AssertTrueL( ETrue, msiLogDesc );

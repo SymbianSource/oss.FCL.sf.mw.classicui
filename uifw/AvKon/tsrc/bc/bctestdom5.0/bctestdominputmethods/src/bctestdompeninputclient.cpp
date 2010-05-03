@@ -155,10 +155,4 @@ void CBCTestDomHwrRecognizer::GetSymbolModelL( TUdmType aType,
                                      aHelpLine, 
                                      aBaseLine );
     }
-
-TInt CPtiCore::DestructorKeyId() const
-	{
-	return iDtorKeyId;	
-	}
-
 // End of File

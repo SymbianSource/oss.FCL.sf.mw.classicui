@@ -20,9 +20,12 @@
 #include <w32std.h>
 #include <coecntrl.h>
 #include <pticore.h>
+#include <peninputclient.h>
 #include <ptihwrrecognizer.h>
 #include <ptiengine.h> 
 #include <ptiuserdicentry.h> 
+#include <peninputserverhandler.h>
+#include <peninputgenericitutcustomization.h>
 
 #include "bctestdompeninputclient.h"
 #include "bctestdominputmethodscase.h"
@@ -80,7 +83,7 @@ void CBCTestDomInputMethodsCase::ConstructL()
 void CBCTestDomInputMethodsCase::BuildScriptL()
     { 
     // Add script as your need.   
-    AddTestL(DELAY(3), LeftCBA, KeyOK,TEND);    
+    AddTestL(DELAY(1), LeftCBA, KeyOK,TEND);    
     }
     
 // ---------------------------------------------------------------------------
@@ -146,19 +149,221 @@ void CBCTestDomInputMethodsCase::ReleaseCaseL()
 //    
 void CBCTestDomInputMethodsCase::TestFunctionL() //memory leak, TestPtiCoreL(); 
     {
+    TestPenInputServerHandlerL();
+    TestRPeninputServerL();  
     TestPtiCoreL();
     TestCHwrRecognizerL();
     }
 
+void CBCTestDomInputMethodsCase::TestPenInputServerHandlerL()
+    {
+    CPenInputServerHandler* penISH = CPenInputServerHandler::NewL();
+    CleanupStack::PushL( penISH );//push
+    _LIT( msiLogNewL, "CPenInputServerHandler::NewL()" );
+    AssertNotNullL( penISH, msiLogNewL );
+    
+    penISH->ConnectServer();
+    _LIT( msiLogConnect, "CPenInputServerHandler::ConnectServer()" );
+    AssertTrueL( ETrue, msiLogConnect );
+ 
+    penISH->SetUiLayout( 0 );
+    _LIT( msiLogSetUi, "CPenInputServerHandler::SetUiLayout()" );
+    AssertTrueL( ETrue, msiLogSetUi );
+
+    penISH->ActivateUiLayout( EFalse );
+    _LIT( msiLogActivateUi, "CPenInputServerHandler::ActivateUiLayout()" );
+    AssertTrueL( ETrue, msiLogActivateUi );
+
+    penISH->SendCommandToServer( 0 );
+    _LIT( msiLogSendCommand1, "CPenInputServerHandler::SendCommandToServer(TInt)" );
+    AssertTrueL( ETrue, msiLogSendCommand1 );
+
+    penISH->SendCommandToServer( 0, 0 );
+    _LIT( msiLogSendCommand2, "CPenInputServerHandler::SendCommandToServer(TInt,TInt)" );
+    AssertTrueL( ETrue, msiLogSendCommand2 );
+
+    TBuf<10> param;
+    penISH->SendCommandToServer( 0, param );
+    _LIT( msiLogSendCommand3, "CPenInputServerHandler::SendCommandToServer(TInt,TDesC&)" );
+    AssertTrueL( ETrue, msiLogSendCommand3 );
+
+    //TItutBmp itutBmp;
+    //TItutKey itutkey(0, itutBmp, itutBmp, itutBmp, itutBmp, 0);
+    //penISH->SendNewKeyToServer( 0, itutkey );
+    //_LIT( msiLogSendCommand4, "CPenInputServerHandler::SendCommandToServer(TInt,TItutKey&)" );
+    //AssertTrueL( ETrue, msiLogSendCommand4 );
+
+    TFepInputContextFieldData data;
+    penISH->SetIcfText( data );
+    _LIT( msiLogSetIcfText, "CPenInputServerHandler::SetIcfText()" );
+    AssertTrueL( ETrue, msiLogSetIcfText );
+
+    //TItutPromptText promptText;
+    //penISH->SendPromptTextToServer( 0, promptText );
+    //_LIT( msiLogSendPrompt, "CPenInputServerHandler::SendPromptTextToServer()" );
+    //AssertTrueL( ETrue, msiLogSendPrompt );
+
+    penISH->DisconnectServer();
+    _LIT( msiLogDisconnect, "CPenInputServerHandler::DisconnectServer()" );
+    AssertTrueL( ETrue, msiLogDisconnect );
+    
+    CleanupStack::PopAndDestroy( penISH );
+    _LIT( msiLogDes, "CPenInputServerHandler::~CPenInputServerHandler()" );
+    AssertTrueL( ETrue, msiLogDes );
+
+    }
+
+
+// ---------------------------------------------------------------------------
+// CBCTestDomInputMethodsCase::TestRPeninputServerL
+// ---------------------------------------------------------------------------
+//   
+void CBCTestDomInputMethodsCase::TestRPeninputServerL()
+    {
+    //RPeninputServer didn't init private data(two points), 
+    //so, use User::AllocZL alloc mem and init points.
+    RPeninputServer* penInput = 
+    static_cast<RPeninputServer*>( User::AllocZL( sizeof( RPeninputServer ) ) );
+    CleanupStack::PushL( penInput );//push
+    
+    TInt error = penInput->Connect(); 
+    _LIT( msiLogConnect, "RPeninputServer::Connect()" );
+    AssertTrueL( ETrue, msiLogConnect );
+   
+    penInput->Version();
+    _LIT( msiLogVersion, "RPeninputServer::Version()" );
+    AssertTrueL( ETrue, msiLogVersion );
+    
+    TInt cmd = 0;
+    TBuf8<10> buf;
+    
+    penInput->HandleCommand( cmd );
+    _LIT( msiLogHandleCommand, "RPeninputServer::HandleCommand()" );
+    AssertTrueL( ETrue, msiLogHandleCommand );
+    
+    penInput->HandleCommand( cmd, buf );
+    _LIT( msiLogHandleCommand2, "RPeninputServer::HandleCommand( , )" );
+    AssertTrueL( ETrue, msiLogHandleCommand2 );
+    
+    penInput->HandleCommand( cmd, buf, cmd );
+    _LIT( msiLogHandleCommand3, "RPeninputServer::HandleCommand( , ,)" );
+    AssertTrueL( ETrue, msiLogHandleCommand3 );
+    
+    penInput->IsVisible();
+    _LIT( msiLogIsVisible, "RPeninputServer::IsVisible()" );
+    AssertTrueL( ETrue, msiLogIsVisible );
+    
+    const TUid testUid =  { 0x174657FC };
+    penInput->SetUiLayoutId( testUid );
+    _LIT( msiLogSetUiLayoutId, "RPeninputServer::SetUiLayoutId()" );
+    AssertTrueL( ETrue, msiLogSetUiLayoutId );
+    
+    penInput->SetUiLayoutId( testUid, buf );
+    _LIT( msiLogSetUiLayoutId2, "RPeninputServer::SetUiLayoutId( , )" );
+    AssertTrueL( ETrue, msiLogSetUiLayoutId2 );
+    
+    TPoint pos;
+    penInput->SetUiLayoutPos( pos );
+    _LIT( msiLogSetUiLayoutPos, "RPeninputServer::SetUiLayoutPos()" );
+    AssertTrueL( ETrue, msiLogSetUiLayoutPos );
+    
+    penInput->UiLayoutPos(); 
+    _LIT( msiLogUiLayoutPos, "RPeninputServer::UiLayoutPos()" );
+    AssertTrueL( ETrue, msiLogUiLayoutPos );
+    
+    penInput->ResourceChanged( cmd );
+    _LIT( msiLogResourceChanged, "RPeninputServer::ResourceChanged()" );
+    AssertTrueL( ETrue, msiLogResourceChanged );
+    
+    penInput->ActivateLayout( EFalse );
+    _LIT( msiLogActivateLayout, "RPeninputServer::ActivateLayout()" );
+    AssertTrueL( ETrue, msiLogActivateLayout );
+    
+    TBuf<10> buf16;
+    penInput->GetServerEventData( buf16 );
+    _LIT( msiLogGetServerEventData, "RPeninputServer::GetServerEventData()" );
+    AssertTrueL( ETrue, msiLogGetServerEventData );
+    
+    penInput->ServerEventDataNum();
+    _LIT( msiLogServerEventDataNum, "RPeninputServer::ServerEventDataNum()" );
+    AssertTrueL( ETrue, msiLogServerEventDataNum );
+
+    
+    TDisplayMode displayMode = EGray2;
+    penInput->SetDisplayMode( displayMode, displayMode );
+    _LIT( msiLogSetDisplayMode, "RPeninputServer::SetDisplayMode();" );
+    AssertTrueL( ETrue, msiLogSetDisplayMode );
+ 
+    penInput->ClearServerEvent();
+    _LIT( msiLogClearServerEvent, "RPeninputServer::ClearServerEvent();" );
+    AssertTrueL( ETrue, msiLogClearServerEvent );
+
+    TInt language = 1;
+    TInt pluginMode = 0;
+    RArray<TInt> implmentationIds;
+    penInput->GetImePluginIdListL( language, pluginMode, implmentationIds);
+    _LIT( msiLogGetImePluginIdListL, "RPeninputServer::GetImePluginIdListL();" );
+    AssertTrueL( ETrue, msiLogGetImePluginIdListL );
+    
+    penInput->SetForeground( EFalse );
+    _LIT( msiLogSetForeground, "RPeninputServer::SetForeground()" );
+    AssertTrueL( ETrue, msiLogSetForeground );
+ 
+    penInput->IsForeground();
+    _LIT( msiLogIsForeground, "RPeninputServer::IsForeground()" );
+    AssertTrueL( ETrue, msiLogIsForeground );
+
+    CMPenUiA* penUi = new( ELeave ) CMPenUiA();
+    CleanupStack::PushL( penUi );//push
+
+    CPenUiNotificationHandler* handler= CPenUiNotificationHandler::NewL( penUi ,penInput);
+    CleanupStack::PushL( handler );//push
+    
+    penInput->AddPeninputServerObserverL( handler );
+    _LIT( msiLogAddPSO, "RPeninputServer::AddPeninputServerObserverL()" );
+    AssertTrueL( ETrue, msiLogAddPSO );
+    
+    penInput->AddPenUiActivationHandler(penUi, 0);
+    _LIT( msiLogAddPUH, "RPeninputServer::AddPenUiActivationHandler()" );
+    AssertTrueL( ETrue, msiLogAddPUH );
+
+    RArray<TInt> languageLists(5);
+    penInput->PenSupportLanguagesL( languageLists );
+    _LIT( msiLogPenSupportLanguagesL, "RPeninputServer::PenSupportLanguagesL();" );
+    AssertTrueL( ETrue, msiLogPenSupportLanguagesL );
+
+    penInput->RemovePeninputServerObserver();;
+    _LIT( msiLogRemovePeninputServerObserver, "RPeninputServer::RemovePeninputServerObserver();" );
+    AssertTrueL( ETrue, msiLogRemovePeninputServerObserver );
+    
+    penInput->RemovePenUiActivationHandler();
+    _LIT( msiLogRemovePenUiActivationHandler, "RPeninputServer::RemovePenUiActivationHandler()" );
+    AssertTrueL( ETrue, msiLogRemovePenUiActivationHandler );
+
+    languageLists.Close();
+    implmentationIds.Close();
+    
+    penInput->Close();
+    _LIT( msiLogClose, "RPeninputServer::Close()" );
+    AssertTrueL( ETrue, msiLogClose );
+ 
+    CleanupStack::PopAndDestroy(3);  
+
+    RPeninputServer penInput2 = RPeninputServer();
+    _LIT( msiLogInit, "RPeninputServer::RPeninputServer()" );
+    AssertTrueL( ETrue, msiLogInit );
+      
+    }
+    
 // ---------------------------------------------------------------------------
 // CBCTestDomInputMethodsCase::TestPtiCoreL
 // ---------------------------------------------------------------------------
 //   
 void CBCTestDomInputMethodsCase::TestPtiCoreL()
     {
-
+   
     TUid coreUid =  { 0xa00040ad };//from CBCTestDomPtiCore
-
+    
     CBCTestDomPtiCore* ptiCore = static_cast<CBCTestDomPtiCore*>(CPtiCore::CreateCoreL( coreUid ));
     CleanupStack::PushL( ptiCore );//push
     _LIT( msiLogCreateCoreL, "CPtiCore::CreateCoreL()" );
@@ -331,7 +536,7 @@ void CBCTestDomInputMethodsCase::TestPtiCoreL()
     AssertTrueL( ETrue, msiLogSetToneMark );
 
     CleanupStack::PopAndDestroy(3);  
-    ptiCore->Descecom( ptiCore->DestructorKeyId());
+    ptiCore->Descecom( 1 );
 
     _LIT( msiLogDesc, "CPtiCore::~CPtiCore()" );
     AssertTrueL( ETrue, msiLogDesc );

@@ -477,7 +477,7 @@ void  CBCDomainTestPopupCase::TestOtherElseL()
 	mapdlg->HandleDialogPageEventL( MEikDialogPageObserver::EUnknownType );
     AssertTrueL( ETrue, KHandleDialogPageEventL );
     
-    mapdlg->HandleResourceChange( KEikDefaultCursorWidth );
+    mapdlg->HandleResourceChange( 1 );
     AssertTrueL( ETrue, KHandleResourceChange );
     
     mapdlg->DisableRecentCharsRow();	 

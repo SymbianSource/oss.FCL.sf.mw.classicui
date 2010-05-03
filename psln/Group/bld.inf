@@ -19,7 +19,6 @@
 
 
 #include <platform_paths.hrh>
-#include "../PslnGSPlugin/group/bld.inf"
 #include "../help/group/bld.inf"
 
 PRJ_PLATFORMS
@@ -57,9 +56,6 @@ PRJ_MMPFILES
 
 #ifndef TOOLS
 
-// Application engine
-../pslnengine/group/PslnEngine.mmp
-
 // Application specific skinning framework
 ../PslnFramework/PslnFramework.mmp
 
@@ -71,9 +67,6 @@ PRJ_MMPFILES
 
 // Slide set setting dialogs.
 ../pslnslidesetdialog/group/pslnslidesetdialog.mmp
-
-// Application itself
-Psln.mmp
 
 #endif // TOOLS
 

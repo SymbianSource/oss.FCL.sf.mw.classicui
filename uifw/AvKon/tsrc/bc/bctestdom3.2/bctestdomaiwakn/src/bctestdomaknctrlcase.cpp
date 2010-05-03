@@ -555,6 +555,15 @@ void CBCTestDomAknCtrlCase::TestAknIndicator()
            
     if( aknIndicator )
         {
+        TInt bitmapIndex = 0;
+        TInt maskIndex = 0 ;
+        CAknIndicator::GetBitmapIndexL( 0, 0, 
+            bitmapIndex, maskIndex );
+        _LIT( 
+            KGetBitmapIndexL, 
+            "CAknIndicator::GetBitmapIndexL() test" );
+        AssertTrueL( ETrue,  KGetBitmapIndexL );          
+        
         aknIndicator->SetIndicatorObserver( NULL );
         _LIT( 
             KSetIndicatorObserver, 
@@ -568,13 +577,19 @@ void CBCTestDomAknCtrlCase::TestAknIndicator()
             KHandlePointerEventL, 
             "CAknIndicator::HandlePointerEventL() test" );
         AssertTrueL( ETrue,  KHandlePointerEventL );
+        
+        aknIndicator->PositionChanged();
+        _LIT( 
+            KAknIndicatorPositionChanged, 
+            "CAknIndicator::PositionChanged() test" );
+        AssertTrueL( ETrue,  KAknIndicatorPositionChanged );    
+            
         }
 
 
     CleanupStack::PopAndDestroy( indicatorPane );    
    
-    
-    TUid pluginUid = TUid::Uid( KImplUIDMessagingIndicatorsPlugin );
+    TUid pluginUid = TUid::Uid( KImplUIDPoCIndicatorsPlugin );//
     CAknIndicatorPlugin* aknIndicatorPlugin = NULL;
     TRAPD(err, 
         aknIndicatorPlugin =
@@ -583,6 +598,22 @@ void CBCTestDomAknCtrlCase::TestAknIndicator()
     CleanupStack::PushL( aknIndicatorPlugin );
     _LIT( KPluginNewL, "CAknIndicatorPlugin::NewL() test" );     
     AssertIntL( err, err, KPluginNewL );
+    
+    if( aknIndicatorPlugin )
+        {
+        TInt textType = 0;
+        aknIndicatorPlugin->TextL( 0, textType );
+        _LIT( KTextL, "CAknIndicatorPlugin::TextL()  test" );
+        AssertTrueL( ETrue, KTextL );   
+        
+        aknIndicatorPlugin->IconL( 0 );
+        _LIT( KIconL, "CAknIndicatorPlugin::IconL()  test" );
+        AssertTrueL( ETrue, KIconL );   
+        
+        aknIndicatorPlugin->UpdateL( 0 );
+        _LIT( KUpdateL, "CAknIndicatorPlugin::UpdateL()  test" );
+        AssertTrueL( ETrue, KUpdateL );          
+        }
     
     CleanupStack::Pop( aknIndicatorPlugin );   
     delete aknIndicatorPlugin;

@@ -1,4 +1,4 @@
-// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -719,99 +719,95 @@ void CEikTestClock::Draw(const TRect& /*aRect*/) const
 	{
 	}
 
- 
- 
+
 /**
   Auxiliary function for AutoTestBackGroundL
- 
+
   The function creates different controls and set them in the status pane.
 */
 void CTspaneContainer::SwapBackgroundTestControlL(TInt aControlType)
 	{
-	
-
-	CCoeControl* newControl=0;
+	CCoeControl* newControl=NULL;
 	CCoeControl* container = iStatusPane->ContainerControlL(TUid::Uid(ETSpanePaneUid3));
-	
- 
+
 	switch(aControlType)
 		{
-		 	case 0: 
+		case 0: 
 			// Pane 1 - normal label
 			newControl = new(ELeave) CEikLabel;
-		 	CleanupStack::PushL(newControl);
-			newControl->SetContainerWindowL(*container);
-		 
-			((CEikLabel*)newControl)->SetEmphasis(CEikLabel::EPartialEmphasis);
-			((CEikLabel*)newControl)->SetTextL(_L("Normal Label"));
-			break;
-	
-			case 1: 
-			// Pane 2 -  label not drawn
-			 
-			newControl = new(ELeave) CEikTestLabel;
-		 	CleanupStack::PushL(newControl);
+			CleanupStack::PushL(newControl);
 			newControl->SetContainerWindowL(*container);
 
-			((CEikLabel*)newControl)->SetEmphasis(CEikLabel::EPartialEmphasis);
-			((CEikLabel*)newControl)->SetTextL(_L("Test Label"));
+			static_cast<CEikLabel*>(newControl)->SetEmphasis(CEikLabel::EPartialEmphasis);
+			static_cast<CEikLabel*>(newControl)->SetTextL(_L("Normal Label"));
 			break;
-			
-			case 2: 
-			// Pane 3 - normal text button	
-		 
+
+		case 1: 
+			// Pane 2 -  label not drawn
+			newControl = new(ELeave) CEikTestLabel;
+			CleanupStack::PushL(newControl);
+			newControl->SetContainerWindowL(*container);
+
+			static_cast<CEikLabel*>(newControl)->SetEmphasis(CEikLabel::EPartialEmphasis);
+			static_cast<CEikLabel*>(newControl)->SetTextL(_L("Test Label"));
+			break;
+
+		case 2:
+			// Pane 3 - normal text button
 			newControl = new(ELeave) CEikTextButton;
 			CleanupStack::PushL(newControl);
 			newControl->SetContainerWindowL(*container);
 
-			((CEikTextButton*)newControl)->SetTextL(_L(" Normal Text Button"));	
-			 break;
-			 
-			case 3:
+			static_cast<CEikTextButton*>(newControl)->SetTextL(_L(" Normal Text Button"));
+			break;
+
+		case 3:
 			// Pane 4 - text button	not drawn
-		 
 			newControl = new(ELeave) CEikTestTextButton;
 			CleanupStack::PushL(newControl);
 			newControl->SetContainerWindowL(*container);
 
-			((CEikTextButton*)newControl)->SetTextL(_L("Test Text Button"));	
+			static_cast<CEikTextButton*>(newControl)->SetTextL(_L("Test Text Button"));
 			break;
-			
-			case 4:
+
+		case 4:
 			// Pane 5 - normal clock
+			{
 			newControl = new(ELeave) CEikClock;
 			CleanupStack::PushL(newControl);
 			newControl->SetContainerWindowL(*container);
 			TResourceReader res;
 			iEikonEnv->CreateResourceReaderLC(res, R_TSPANE_CLOCK) ;
-			((CEikClock*)newControl)->ConstructFromResourceL(res);
+			static_cast<CEikClock*>(newControl)->ConstructFromResourceL(res);
 			CleanupStack::PopAndDestroy();	// res
+			}
 			break;
-			
-			case 5:
+
+		case 5:
 			// Pane 6 - test clock
+			{
 			newControl = new(ELeave) CEikTestClock;
 			CleanupStack::PushL(newControl);
 			newControl->SetContainerWindowL(*container);
 			TResourceReader res1;
 			iEikonEnv->CreateResourceReaderLC(res1, R_TSPANE_CLOCK) ;
-			((CEikClock*)newControl)->ConstructFromResourceL(res1);
-			CleanupStack::PopAndDestroy();	// res1	    	    
+			static_cast<CEikClock*>(newControl)->ConstructFromResourceL(res1);
+			CleanupStack::PopAndDestroy();	// res1
+			}
 			break;
 		}
- 
+
 	TRect rect = iStatusPane->PaneRectL(TUid::Uid(ETSpanePaneUid3));
 	newControl->SetRect(rect);
 	newControl->DrawNow();
 	newControl->ActivateL();
 
-	CCoeControl* oldControl= iStatusPane->SwapControlL(TUid::Uid(ETSpanePaneUid3), newControl); // iStatusPane takes ownership of newControl
-	iStatusPane->MakeVisible(ETrue); 
+	CCoeControl* oldControl=iStatusPane->SwapControlL(TUid::Uid(ETSpanePaneUid3), newControl); // iStatusPane takes ownership of newControl
+	CleanupStack::Pop(newControl);
+	CleanupStack::PushL(oldControl);
+	iStatusPane->MakeVisible(ETrue);
 	iStatusPane->ApplyCurrentSettingsL();
-
-	CleanupStack::Pop(); 
- 
-	delete oldControl;
+	CleanupStack::PopAndDestroy(oldControl);
 	}
 
 /**

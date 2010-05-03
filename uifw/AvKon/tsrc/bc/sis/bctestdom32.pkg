@@ -39,7 +39,6 @@
 @"../bctestutil/sis/bctestutil.sisx",                                     (0x20004742)
 @"../bctestlauncher/sis/bctestlauncher.sisx",                             (0x20004743)
 @"../bctestdom3.2/bctestdomaiwakn/sis/bctestdomaiwakn.sisx",              (0xA000409E)
-@"../bctestdom3.2/bctestdomavkonpsln/sis/bctestdomavkonpsln.sisx",        (0xA00040A1)
 @"../bctestdom3.2/bctestdomcdl/sis/bctestdomcdl.sisx",                    (0xA00040A5)
 @"../bctestdom3.2/bctestdomcoreui/sis/bctestdomcoreui.sisx",              (0xA000409F)
 @"../bctestdom3.2/bctestdomfntlay/sis/bctestdomfntlay.sisx",              (0xA00040A3)

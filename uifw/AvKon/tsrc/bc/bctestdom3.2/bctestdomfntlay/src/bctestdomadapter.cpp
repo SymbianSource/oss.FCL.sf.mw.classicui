@@ -65,18 +65,18 @@ CBCTestDomAdapter::~CBCTestDomAdapter()
 //
 void CBCTestDomAdapter::ConstructL()
     {   
-    iAdpDataLookup = new (ELeave) TUint[10];
-    iAdpDataLookup[0] = ( TUint )CBCTestDomAdapter::TextLine0f;
-    iAdpDataLookup[1] = 0x0001;
-    iAdpDataLookup[2] = KWindowTxtStart;
-    iAdpDataLookup[3] = ( TUint )CBCTestDomAdapter::WindowLine0f;
-    iAdpDataLookup[4] = ( TUint )CBCTestDomAdapter::WindowLine1f;
-    iAdpDataLookup[5] = 0x0001;
-    iAdpDataLookup[6] = KWindowTxtStart;
+    iAdpDataLookup = new (ELeave) TUint[12];
+    iAdpDataLookup[0] = 0x18;
+    iAdpDataLookup[1] = 2;
+    iAdpDataLookup[2 ] = ( TUint )CBCTestDomAdapter::WindowLine0f;
+    iAdpDataLookup[3] = ( TUint )CBCTestDomAdapter::WindowLine1f;
+    iAdpDataLookup[4] = 0x0001;
+    iAdpDataLookup[5] = KWindowTxtStart;
+    iAdpDataLookup[6] = 2;
     iAdpDataLookup[7] = ( TUint )CBCTestDomAdapter::TextLine0f;
     iAdpDataLookup[8] = ( TUint )CBCTestDomAdapter::TextLine1f;
-    iAdpDataLookup[9] = 0x518; 
-   
+    iAdpDataLookup[9] = 0x0001;
+    iAdpDataLookup[10] = KWindowTxtStart;
     }
     
 // ---------------------------------------------------------------------------

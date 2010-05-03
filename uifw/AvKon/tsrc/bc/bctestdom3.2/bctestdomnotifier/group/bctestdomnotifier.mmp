@@ -78,7 +78,6 @@ LIBRARY         aknlayout2.lib
 LIBRARY         aknlayout2adaptation.lib
 LIBRARY         aknLayout2hierarchy.lib
 LIBRARY         aknlayout2scalable.lib
-LIBRARY         pslnengine.lib
 
 START RESOURCE ../group/bctestdomnotifier_reg.rss
 DEPENDS bctestdomnotifier.rsg

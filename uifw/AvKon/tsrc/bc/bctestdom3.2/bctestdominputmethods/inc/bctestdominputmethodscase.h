@@ -73,7 +73,16 @@ protected: // new functions
      */
     void TestFunctionL();
     
- 
+    /**
+     * Test TestPenInputServerHandlerL
+     */
+    void TestPenInputServerHandlerL();
+    
+    /**
+     * Test TestRPeninputServerL
+     */
+    void TestRPeninputServerL();
+    
     /**
      * Test TestPtiCoreL
      */

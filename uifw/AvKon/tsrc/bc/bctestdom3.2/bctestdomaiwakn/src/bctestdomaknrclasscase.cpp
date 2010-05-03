@@ -44,7 +44,7 @@
 #include "bctestdomuiservershutdownapps.h"//test RAknUiServer::ShutdownApps()
                                           //in akncapserverclient.h
 
-
+const TInt KDelay = 500*1000;   //500 ms
 // ======== MEMBER FUNCTIONS ========
 
 // ---------------------------------------------------------------------------
@@ -532,6 +532,11 @@ void   CBCTestDomAknRClassCase::TestAknCapServerClient()
         "RAknUiServer::UpdateTaskList() test" );
     AssertTrueL( ETrue,  KUpdateTaskList);
 
+	User::After(KDelay*2);
+    CEikonEnv* eikEnv = CEikonEnv::Static();
+	TRawEvent event;
+    event.Set( TRawEvent::EKeyDown, EStdKeyDevice1 );
+    eikEnv->WsSession().SimulateRawEvent( event );
 
     uiServer.CancelShutdownApps();//uiServer.ShutdownApps(...);
     _LIT(
@@ -750,8 +755,8 @@ void   CBCTestDomAknRClassCase::TestAknCapServerClient()
     AssertTrueL( ETrue,  KDoNotifierControllerCommand);
 
 
-    uiServer.RotateScreen();// Rotate screen first time.
-    uiServer.RotateScreen(); //Rotate screen back
+    //uiServer.RotateScreen(); // Rotate screen first time.
+    //uiServer.RotateScreen(); //Rotate screen back
     _LIT(
         KRotateScreen,
         "RAknUiServer::RotateScreen() test" );

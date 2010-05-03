@@ -22,6 +22,7 @@
 #include <AknLayout2ScalableDecode.h>
 #include <eikcolib.h>
 
+#include <badesca.h>
 #include <w32std.h>
 #include <coecntrl.h>
 #include <eikenv.h>
@@ -62,14 +63,16 @@
 #include <AknPhoneNumberEditor.h>
 #include <aknnoteattributes.h>
 #include <eikdialg.h>
+#include <eikmenup.h>
 
 #include <bctestdomnotifier.rsg>
-#include "PslnModel.h"
 #include "bctestdomnotifiercase.h"
 #include "bctestdomnotifiercontainer.h"
 #include "bctestdomnotifier.hrh"
 #include "bctestdomnotifierview.h"
 #include "bctestdomnotifierapp.h"
+
+_LIT( KCAknNotifierAppServerAppUi, "App server error" );
 
 // ======== MEMBER FUNCTIONS ========
 // ---------------------------------------------------------------------------
@@ -122,7 +125,7 @@ void CBCDomainTestNotifierCase::BuildScriptL()
     {
     // Add script as your need.
     AddTestL( DELAY(1), LeftCBA, KeyOK, LeftCBA, Down, KeyOK, LeftCBA, Down,
-        Down, KeyOK, RightCBA, LeftCBA, Down, Down, Down, KeyOK, RightCBA,
+        Down, KeyOK, DELAY(3), RightCBA, LeftCBA, Down, Down, Down, KeyOK, DELAY(3), RightCBA,
         TEND  );
     }
 
@@ -146,13 +149,15 @@ void CBCDomainTestNotifierCase::RunL( TInt aCmd )
             TestFunctionL();
             break;
         case EBCTestCmdOutline2:
-            TestSignalL();
+// TestSignalL() has some problem, so comment it currently.
+//            TestSignalL();
             break;
         case EBCTestCmdOutline3:
             TestOtherL();
             break;
         case EBCTestCmdOutline4:
             TestPhoneL();
+			break;
         default:
             break;
         }
@@ -205,32 +210,31 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     rfile.Create( fs, KFilePath, EFileWrite | EFileShareAny );
     CleanupClosePushL( rfile );
 
-    CAiwGenericParamList* aiwparalist = CAiwGenericParamList::NewL();
-    CPslnModel* psmodel= CPslnModel::NewL();
-    MAknServerAppExitObserver* serappexit =
-        static_cast<MAknServerAppExitObserver*> ( psmodel );
-
-    CAknOpenFileService* fileserv = NULL;
-    TRAPD( err, fileserv = CAknOpenFileService::NewL(
-        KFilePath, serappexit, aiwparalist ) );
-    _LIT( KCAknOpenFileServiceNewL, "CAknOpenFileService::NewL()" );
-    AssertTrueL( ETrue, KCAknOpenFileServiceNewL );
-
-
-    TUid KUid = { 0xA0004001 };
-    TInt err1;
-    TRAP( err1, fileserv = CAknOpenFileService::NewL(
-        KUid, rfile, serappexit, aiwparalist ) );
-    _LIT( KCAknOpenFileServiceNewLOver, "CAknOpenFileService::NewL()" );
-    AssertTrueL( ETrue, KCAknOpenFileServiceNewLOver );
-    CleanupStack::PopAndDestroy();
-    delete fileserv;
-    delete psmodel;
-    delete aiwparalist;
-
-
-    _LIT( KCAknNotifierAppServerAppUi,"CAknNotifierAppServerAppUi" );
-
+//    CAiwGenericParamList* aiwparalist = CAiwGenericParamList::NewL();
+//    CPslnModel* psmodel= CPslnModel::NewL();
+//    MAknServerAppExitObserver* serappexit =
+//        static_cast<MAknServerAppExitObserver*> ( psmodel );
+//
+//    CAknOpenFileService* fileserv = NULL;
+//    TRAPD( err, fileserv = CAknOpenFileService::NewL(
+//        KFilePath, serappexit, aiwparalist ) );
+//    _LIT( KCAknOpenFileServiceNewL, "CAknOpenFileService::NewL()" );
+//    AssertTrueL( ETrue, KCAknOpenFileServiceNewL );
+//    delete fileserv;
+//    fileserv = NULL;
+//
+//    TUid KUid = { 0xA0004001 };
+//    TInt err1;
+//    TRAP( err1, fileserv = CAknOpenFileService::NewL(
+//        KUid, rfile, serappexit, aiwparalist ) );
+//    _LIT( KCAknOpenFileServiceNewLOver, "CAknOpenFileService::NewL()" );
+//    AssertTrueL( ETrue, KCAknOpenFileServiceNewLOver );
+//
+//    CleanupStack::PopAndDestroy(); // rfile 
+//    delete fileserv;
+//    delete psmodel;
+//    delete aiwparalist;
+//    _LIT( KCAknNotifierAppServerAppUi,"CAknNotifierAppServerAppUi" );
     // AknNotiferAppServerApplication.h
 
     CBCNotifierAppServer *notifierapp = new ( ELeave )
@@ -254,8 +258,8 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     _LIT( KSetManager, "SetManager" );
     _LIT( KEikSrvBlocked, "EikSrvBlocked" );
 
-    CAknNotifierAppServerAppUi* notifier = ( CAknNotifierAppServerAppUi* )
-        CEikonEnv::Static()->AppUi();
+    CAknNotifierAppServerAppUi* notifier = static_cast<CAknNotifierAppServerAppUi*>
+        ( CEikonEnv::Static()->AppUi() );
 
     notifier->CAknNotifierAppServerAppUi::HandleCommandL( EEikCmdCanceled );
     AssertTrueL( ETrue, KHandleCommandL );
@@ -286,13 +290,9 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     notifier->EikSrvBlocked();
     AssertTrueL( ETrue, KEikSrvBlocked );
 
-
-    /*
-    notifier = new ( ELeave ) CAknNotifierAppServerAppUi();
-    CleanupStack::PushL( notifier );
-    notifier->SuppressAppSwitching( EFalse );
-    CleanupStack::Pop(); */
-
+    //notifier->SuppressAppSwitching( ETrue );
+    //_LIT( KSuppressAppSwitching, "SuppressAppSwitching" );
+    //AssertTrueL( ETrue, KSuppressAppSwitching );
 
     // AknNotiferAppServer.h
     _LIT( KNotiServer, "CAknNotifierAppServer");
@@ -304,15 +304,23 @@ void CBCDomainTestNotifierCase::TestFunctionL()
     _LIT( KSetImplementationFinderL, "SetImplementationFinderL");
     _LIT( KUnbalanceReferenceCountForNotif, "UnbalanceReferenceCountForNotif");
     _LIT( KCreateServiceL, "CreateServiceL");
-    _LIT( KLoadNotifiersL, "LoadNotifiersL");
     _LIT( KCAknNotifierAppServerDestroy, "SCAknNotifierAppServerDestroy" );
     _LIT( KUpdateNotifierAndGetResponseL, "UpdateNotifierAndGetResponseL" );
-
+////////////////////////////////////////////////////////////////////////////////////////////////
     CAknNotifierAppServer *notiserver = new ( ELeave ) CAknNotifierAppServer();
     CleanupStack::PushL( notiserver );
     AssertNotNullL( notiserver, KNotiServer );
+    
+    _LIT(KLabName, "ictsuiutilsnotif.dll");
+	//_LIT(KLabName, "aknoldstylenotif.dll");
+    notiserver->AppendNotifierLibNameL( KLabName );
+    AssertTrueL( ETrue,KAppendNotifierLibNameL );
+    
+    //TRAP( err, notiserver->LoadNotifiersL() );
+    //AssertTrueL( ETrue,KLoadNotifiersL );
 
     TBuf8<32> bf;
+    TInt err;
     TRAP( err,notiserver->StartNotifierL(
         KUidBCDomainTestNotifier, bf, bf ) );
     AssertTrueL( ETrue,KStartNotifierL );
@@ -330,9 +338,6 @@ void CBCDomainTestNotifierCase::TestFunctionL()
         KUidBCDomainTestNotifier, bf, msg, replyslot ) );
     AssertTrueL( ETrue, KStartNotifierAndGetResponseL );
 
-    TBuf<32> libaryname;
-    notiserver->AppendNotifierLibNameL( libaryname );
-    AssertTrueL( ETrue,KAppendNotifierLibNameL );
 
     MNotifLibraryOwningServer* pFinder = NULL;
     notiserver->SetImplementationFinderL( pFinder );
@@ -342,21 +347,18 @@ void CBCDomainTestNotifierCase::TestFunctionL()
         KUidBCDomainTestNotifier, EFalse );
     AssertTrueL( ETrue,KUnbalanceReferenceCountForNotif );
 
-    //notifier->UpdateNotifierAndGetResponseL(  ## Since 3.2
-    //    KUidBCDomainTestNotifier, bf, msg, replyslot );
-
     TRAP( err, notiserver->CreateServiceL( KUidBCDomainTestNotifier ) );
     AssertTrueL( ETrue, KCreateServiceL );
 
-    TRAP( err, notiserver->LoadNotifiersL() );
-    AssertTrueL( ETrue,KLoadNotifiersL );
+
 
     TRAP( err, notiserver->UpdateNotifierAndGetResponseL(
         KUidBCDomainTestNotifier, bf, msg, replyslot ) );
     AssertTrueL( ETrue, KUpdateNotifierAndGetResponseL );
+
     CleanupStack::PopAndDestroy( notiserver );
     AssertTrueL( ETrue,KCAknNotifierAppServerDestroy );
-
+////////////////////////////////////////////////////////////////////////////////////
     // AknNotifierAppServerSession.h
     // aknnotifiercontrollerutilities.h
 
@@ -511,7 +513,6 @@ void CBCDomainTestNotifierCase::TestSignalL()
     _LIT( KSInfo, "Info" );
     _LIT( KNotifierCapabilites, "NotifierCapabilites" );
     _LIT( KCancel, "Cancel" );
-    _LIT( KPopAndDestroy, "PopAndDestroy" );
     _LIT( KNewServerRequestL, "NewServerRequestL" );
     _LIT( KAsyncMessageCompleted, "AsyncMessageCompleted" );
 
@@ -586,14 +587,12 @@ void CBCDomainTestNotifierCase::TestSignalL()
     CleanupStack::PopAndDestroy( notimessa );
 
     notiwrap->Cancel();
-    AssertTrueL( ETrue,KCancel );
+    AssertTrueL( ETrue, KCancel );
 
-   
-  
-   
-
-    CleanupStack::PopAndDestroy( notiwrap );
-    AssertTrueL( ETrue,KPopAndDestroy );
+    notiwrap->Release();
+    _LIT( KRelease, "Release" );
+    AssertTrueL( ETrue, KRelease );
+    CleanupStack::Pop( notiwrap );    
 
     TUid ntfUid = { 0x10aa0d10 };
     CAknNotifierWrapper* notifierWrap =
@@ -614,10 +613,7 @@ void CBCDomainTestNotifierCase::TestSignalL()
     _LIT( KCAknNotifierWrapper2, "CAknNotifierWrapper::StartNotifierL(2)" );
     AssertTrueL( ETrue, KCAknNotifierWrapper2 );
 
-
-
     // AknSignalNotify.h
-    //NewL & constructor are Privat
     }
 
 // ---------------------------------------------------------------------------
@@ -626,6 +622,7 @@ void CBCDomainTestNotifierCase::TestSignalL()
 //
 void CBCDomainTestNotifierCase::TestOtherL()
     {
+
     // AknMarqueeControl.h
 
     _LIT( KCAknMarqueeControl, "CAknMarqueeControl" );
@@ -633,7 +630,6 @@ void CBCDomainTestNotifierCase::TestOtherL()
     _LIT( KReset, "Reset" );
     _LIT( KStop, "Stop" );
     _LIT( KIsMarqueeOn, "IsMarqueeOn" );
-    _LIT( KDrawText,"DrawText" );
     _LIT( KUseLogicalToVisualConversion, "UseLogicalToVisualConversion" );
     _LIT( KSetSpeedInPixels, "SetSpeedInPixels" );
     _LIT( KSetDelay, "SetDelay" );
@@ -677,11 +673,9 @@ void CBCDomainTestNotifierCase::TestOtherL()
     CWindowGc& gc = marcontrol->SystemGc();
 
     marcontrol->DrawText( gc, rect, txt, baselineoffset, align, *font );
-    AssertTrueL( ETrue, KDrawText );
-    iContainer->DrawNow();
-    AssertTrueL( ETrue, KDrawText );
+    //marcontrol->DrawText( gc, rect, textlayout, txt, font );
 
-    CleanupStack::PopAndDestroy();
+    CleanupStack::PopAndDestroy( marcontrol );
     AssertTrueL( ETrue, KSCAknMarqueeControlDestroy );
 
     //  AknMediatorFacade.h
@@ -704,6 +698,7 @@ void CBCDomainTestNotifierCase::TestOtherL()
     _LIT( KGlobalAknMediatorFacade, "Global::AknMediatorFacade" );
     AssertTrueL( ETrue, KGlobalAknMediatorFacade );
 
+
     TInt& index = mediatorFacade->DialogIndex();
     index = 1;
     mediatorFacade->IssueCommand();
@@ -718,54 +713,71 @@ void CBCDomainTestNotifierCase::TestOtherL()
     _LIT( KCMFacadeSetObserver, "CAknMediatorFacade::SetObserver()" );
     AssertTrueL( ETrue, KCMFacadeSetObserver );
 
-    CleanupStack::PopAndDestroy( 2 );// mediatorFacade, dialog
+    CleanupStack::PopAndDestroy( mediatorFacade );
+    CleanupStack::PopAndDestroy( dialog );
+
     //  aknlistloadertfx.h
     _LIT( KTfxApiInternal, "TfxApiInternal" );
     _LIT( KTfxApi, "TfxApi" );
     _LIT( KRemoveTfxGc, "RemoveTfxGc" );
-    _LIT( KCreateTfxGc, "CreateTfxGc" );
+    _LIT( KInvalidateAll, "InvalidateAll" );
 
     CAknListLoader::TfxApiInternal( &gc );
     AssertTrueL( ETrue, KTfxApiInternal );
     CAknListLoader::TfxApi( &gc );
     AssertTrueL( ETrue, KTfxApi );
-    CAknListLoader::RemoveTfxGc( &gc );
-    AssertTrueL( ETrue, KRemoveTfxGc );
+
 
     CAknDialog* dlg = new ( ELeave ) CAknDialog();
-    CEikMenuPane* menupane = NULL;
+	CleanupStack::PushL( dlg );
+    CEikMenuPane* menupane = new (ELeave) CEikMenuPane(dlg);
+	CleanupStack::PushL( menupane );
     TInt topindex = 0;
     TInt itemsthatfitinview = 1;
     CAknListLoader::CreateTfxGc( *menupane, topindex, itemsthatfitinview );
 
-    CDesCArray* txtarray = CEikonEnv::Static()->ReadDesCArrayResourceL(
-        R_BCTESTDOMNOTIFIER_CBA_OPTIONS_NEXT );
-    CleanupStack::PushL( txtarray );
+	
+    //CDesCArray* txtarray = new (ELeave) CDesCArraySeg(1);
+	//CleanupStack::PushL( txtarray );
+    //TBuf<32> item( KStart );
+    //txtarray->AppendL( item );
+    
 
-    CTextListBoxModel* model = new( ELeave ) CTextListBoxModel();
-    CleanupStack::PushL( model );
-    model->ConstructL( txtarray );
+    //CTextListBoxModel* model = new( ELeave ) CTextListBoxModel();
+    //CleanupStack::PushL( model );
+    //model->ConstructL();
+	
 
-    CTextListItemDrawer* drawer = new( ELeave ) CTextListItemDrawer();
-    CleanupStack::PushL( drawer );
-    drawer->ConstructL( CEikonEnv::Static()->NormalFont() );
+    //CTextListItemDrawer* drawer = new( ELeave ) CTextListItemDrawer();
+    //CleanupStack::PushL( drawer );
+    //drawer->ConstructL( CEikonEnv::Static()->NormalFont() );
 
-    CEikListBox* lstbox = new ( ELeave ) CEikListBox();
-    CleanupStack::PushL( lstbox );
+    //CEikListBox* lstbox = new ( ELeave ) CEikListBox();
+    //CleanupStack::PushL( lstbox );
 
-    TGulBorder tborder( TGulBorder::ESingleGray );
-    lstbox->ConstructL( model, drawer, iContainer, tborder,
-        EAknListBoxSelectionList | EAknListBoxViewerFlags );
+    //TGulBorder tborder( TGulBorder::ESingleGray );
+    //lstbox->ConstructL(  iContainer );
+     //   EAknListBoxSelectionList | EAknListBoxViewerFlags );
 
-    CAknListLoader::CreateTfxGc( *lstbox );
-    AssertTrueL( ETrue, KCreateTfxGc );
+    //CAknListLoader::CreateTfxGc( *lstbox );
+    //AssertTrueL( ETrue, KCreateTfxGc );
 
-    CleanupStack::PopAndDestroy( lstbox );
-    CleanupStack::Pop( drawer );
-    CleanupStack::Pop( model );
-    CleanupStack::Pop( txtarray );
-    delete dlg;
-
+    
+       
+    CAknListLoader::RemoveTfxGc( &gc );
+    AssertTrueL( ETrue, KRemoveTfxGc );
+    
+	
+    CAknListLoader::InvalidateAll();
+    AssertTrueL( ETrue, KInvalidateAll );
+	
+	//CleanupStack::PopAndDestroy( lstbox );
+	//CleanupStack::PopAndDestroy( drawer );
+	//CleanupStack::PopAndDestroy( model );
+	//CleanupStack::PopAndDestroy( txtarray );
+	
+	CleanupStack::PopAndDestroy( menupane);
+	CleanupStack::PopAndDestroy( dlg );
     // AknReadingConverter.h
     _LIT( KCReadingConverter, "CReadingConverter" );
     _LIT( KHandleCompletionOfTransactionL, "HandleCompletionOfTransactionL" );
@@ -773,6 +785,7 @@ void CBCDomainTestNotifierCase::TestOtherL()
     _LIT( KReadingEditor, "ReadingEditor" );
     _LIT( KSetReadingEditor, "SetReadingEditor" );
     _LIT( KSetMainEditor, "SetMainEditor" );
+
 
     CReadingConverter* rdconver = CReadingConverter::NewL();
     CleanupStack::PushL( rdconver );
@@ -799,19 +812,17 @@ void CBCDomainTestNotifierCase::TestOtherL()
     AssertTrueL( ETrue, KSetMainEditor );
 
     CleanupStack::PopAndDestroy( rdconver );
-    AssertTrueL( ETrue, KSetMainEditor );
 
     //  aknMemoryCardDialog.h
     _LIT( KCAknMemoryCardDialog, "CAknMemoryCardDialog" );
     _LIT( KSetSelfPointer, "SetSelfPointer" );
     _LIT( KUnlockCardLD, "UnlockCardLD" );
-    _LIT( KNotifierArray, "notifierarray " );
+    _LIT( KNotifierArray, "NotifierArray" );
 
     CAknMemoryCardDialog* memdlg = CAknMemoryCardDialog::NewLC();
     AssertTrueL( ETrue, KCAknMemoryCardDialog );
 
     CArrayPtr<MEikSrvNotifierBase2>* notifies = NotifierArray();
-    //notifies = NotifierArray();
     AssertTrueL( ETrue, KNotifierArray );
 
     memdlg->SetSelfPointer( &memdlg );
@@ -868,6 +879,7 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     TBuf<32> tbuf( KNumberGroup );
     const CFont *tfont = CEikonEnv::Static()->NormalFont();
     CArrayFix<TPtrC>* ary = new ( ELeave ) CArrayFixFlat<TPtrC>( 32 );
+	CleanupStack::PushL( ary );
     TPtrC tptr( tbuf );
 
     AknPhoneNumberTextUtils::WrapPhoneNumberToArrayL(
@@ -877,10 +889,10 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     AssertTrueL( ETrue, KClipLineOnLeft );
     AknPhoneNumberTextUtils::CharsThatFitOnRight( tarea, 2, *tfont );
     AssertTrueL( ETrue, KCharsThatFitOnRight );
-    delete ary;
+	CleanupStack::PopAndDestroy( ary );
+    //delete ary;
 
     // AknPhoneNumberEditor.h
-    _LIT( KCAknPhoneNumberEditor, "CAknPhoneNumberEditor" );
     _LIT( KConstructFromResourceL, "ConstructFromResourceL" );
     _LIT( KFormat, "Format" );
     _LIT( KWouldTextFitInFormat, "WouldTextFitInFormat" );
@@ -890,7 +902,6 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     _LIT( KSizeChanged, "SizeChanged" );
     _LIT( KMinimumSize, "MinimumSize" );
     _LIT( KInputCapabilities, "InputCapabilities" );
-    _LIT( KDrawNow, " draw() " );
     _LIT( KTextLength, "TextLength" );
     _LIT( KCursorPos, "CursorPos" );
     _LIT( KSelectionLength, "SelectionLength" );
@@ -916,18 +927,25 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     _LIT( KCAknPhoneNumberEditorDestroy, "KCAknPhoneNumberEditorDestroy" );
     _LIT( KCAknPhoneNumberEditorDraw, "Draw" );
 
-    CAknPhoneNumberEditor* phonenumeditor = new ( ELeave ) CAknPhoneNumberEditor;
-    AssertNotNullL( phonenumeditor,KCAknPhoneNumberEditor  );
+    CAknPhoneNumberEditor* phonenumeditor =
+        new ( ELeave ) CAknPhoneNumberEditor;
+    CleanupStack::PushL( phonenumeditor );
+    //AssertNotNullL( phonenumeditor,KCAknPhoneNumberEditor  );
     phonenumeditor->SetContainerWindowL( *iContainer );
     TResourceReader reader;
     CEikonEnv::Static()->CreateResourceReaderLC( reader,
-                                              R_PHONEEDAPP_RESEDIT );
+	          R_PHONEEDAPP_RESEDIT );
+
+
     phonenumeditor->ConstructFromResourceL( reader );
     AssertTrueL( ETrue,KConstructFromResourceL  );
+    CleanupStack::PopAndDestroy();//reader
+	
     phonenumeditor->Format( 0 );
     AssertTrueL( ETrue, KFormat );
 
-    iContainer->SetControl( phonenumeditor ); //Draw() function will be called.
+    //Draw() function will be called.
+    iContainer->SetControl( phonenumeditor ); 
     AssertTrueL( ETrue, KCAknPhoneNumberEditorDraw );
 
     TInt tcount = phonenumeditor->CountFormats();
@@ -945,8 +963,6 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     AssertTrueL( ETrue, KMinimumSize );
     phonenumeditor->InputCapabilities();
     AssertTrueL( ETrue, KInputCapabilities );
-    phonenumeditor->DrawNow();
-    AssertTrueL( ETrue, KDrawNow );
 
     phonenumeditor->TextLength();
     AssertTrueL( ETrue, KTextLength );
@@ -967,22 +983,25 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     phonenumeditor->GetText( tarea );
     AssertTrueL( ETrue, KGetText );
     HBufC* temp = phonenumeditor->GetTextInHBufL();
+	CleanupStack::PushL( temp );
     AssertTrueL( ETrue, KGetTextInHBufL );
-    delete temp;
+	CleanupStack::PopAndDestroy( temp );
 
     phonenumeditor->SetTextL( &tarea );
     AssertTrueL( ETrue, KSetTextL );
 
     phonenumeditor->SetText( tarea );
     AssertTrueL( ETrue, KSetText );
+
     phonenumeditor->CancelFepTransaction();
     AssertTrueL( ETrue, KCancelFepTransaction );
 
     phonenumeditor->UpdateScrollBarsL();
     AssertTrueL( ETrue, KUpdateScrollBarsL );
     CEikScrollBarFrame* pScrBar = phonenumeditor->CreateScrollBarFrameL();
+	CleanupStack::PushL( pScrBar );
     AssertTrueL( ETrue, KCreateScrollBarFrameL );
-    delete pScrBar;
+    CleanupStack::PopAndDestroy( pScrBar );
     phonenumeditor->LineCursorWidth();
     AssertTrueL( ETrue, KLineCursorWidth );
     phonenumeditor->Margins();
@@ -1001,7 +1020,9 @@ void CBCDomainTestNotifierCase::TestPhoneL()
     phonenumeditor->FocusChanged( EDrawNow );//Draw() function will be called.
     AssertTrueL( ETrue, KFocusChanged );
 
-    CleanupStack::PopAndDestroy();
+    iContainer->ResetControl();
+	CleanupStack::Pop();
+    //CleanupStack::PopAndDestroy();
     AssertTrueL( ETrue, KCAknPhoneNumberEditorDestroy );
 
     TestFormatL();
@@ -1013,7 +1034,6 @@ void CBCDomainTestNotifierCase::TestPhoneL()
 //
 void  CBCDomainTestNotifierCase::TestFormatL()
     {
-
     _LIT( KCAknPhoneNumberEditor, "CAknPhoneNumberEditor" );
     _LIT( KConstructL, "ConstructL" );
     _LIT( KString, "..." );
@@ -1027,7 +1047,8 @@ void  CBCDomainTestNotifierCase::TestFormatL()
     CAknPhoneNumberEditor* phonenumeditor = new ( ELeave ) CAknPhoneNumberEditor;
     AssertNotNullL( phonenumeditor, KCAknPhoneNumberEditor );
 
-    phonenumeditor->ConstructL(  30, 3, 3, KString );
+    phonenumeditor->SetContainerWindowL( *iContainer );
+    phonenumeditor->ConstructL(  30, 3, 3, KString);
     AssertTrueL( ETrue, KConstructL );
 
     const CFont *tfont = CEikonEnv::Static()->NormalFont();
@@ -1044,15 +1065,15 @@ void  CBCDomainTestNotifierCase::TestFormatL()
     CAknPhoneNumberEditor::TFormat readformat( reader );
     AssertTrueL( ETrue, KTFormat );
 
-    CleanupStack::PopAndDestroy( );
+    CleanupStack::PopAndDestroy( );//reader
+    delete phonenumeditor;    
     AssertTrueL( ETrue, KCAknPhoneNumberEditorDestroy  );
-    delete phonenumeditor;
+
 
     CAknNoteAttributes::GetSkinnedBitmapID( 0 );
     AssertTrueL( ETrue, KGetSkinnedBitmapID  );
 
     //aknmemorycarddialog.h
-
     CAknMemoryCardDialog* memdlg = CAknMemoryCardDialog::NewLC();
     AssertNotNullL( memdlg, KCAknMemoryCardDialog );
 

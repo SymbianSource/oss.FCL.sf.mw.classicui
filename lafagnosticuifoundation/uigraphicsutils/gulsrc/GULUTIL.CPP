@@ -866,6 +866,12 @@ TRgb TGradientFill::Map(const TRgb aRgb) const
 		return TRgb::Color16M(aRgb.Color16M());
 	case EColor4K:
 		return TRgb::Color4K(aRgb.Color4K());
+	case EColor16MU:
+		return TRgb::Color16MU(aRgb.Color16MU());
+	case EColor16MA:
+		return TRgb::Color16MA(aRgb.Color16MA());
+	case EColor16MAP:
+		return TRgb::Color16MAP(aRgb.Color16MAP());
 	default:
 		return aRgb;
 		}
@@ -893,6 +899,12 @@ TInt TGradientFill::Index(const TRgb aRgb) const
 		return aRgb.Color16M();
 	case EColor4K:
 		return aRgb.Color4K();
+	case EColor16MU:
+	    return aRgb.Color16MU();
+	case EColor16MA:
+	    return aRgb.Color16MA();
+	case EColor16MAP:
+	    return aRgb.Color16MAP();
 	default:
 		return aRgb.Color16M();
 		}

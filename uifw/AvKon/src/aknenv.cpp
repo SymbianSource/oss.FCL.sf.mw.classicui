@@ -41,7 +41,7 @@
 #include <CdlEngine.h>
 #include <CdlRefs.h>
 #include <AknLayout2DataDef.h>
-#include <LayoutPack.cdl.h>
+#include <layoutpack.cdl.h>
 #include <CdlExplorer.h>
 #include <aknlayout.cdl.h>
 #include <aknapaclayout.cdl.h>

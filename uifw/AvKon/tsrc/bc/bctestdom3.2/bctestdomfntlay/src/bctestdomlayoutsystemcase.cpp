@@ -32,7 +32,6 @@
 #include "bctestdomadapter.h"
 
 //constant variable define
-const TInt KTableIndex( 2 );
 const TUint8  KByteCodedData[] = {
 // 0x0000 for Screen
 0x02,0xfe,0x00,0x00,0xfe,0xfe,0xf0,0xff,0x01,0x40,
@@ -134,11 +133,7 @@ const TUint16 KDataLookup[ ] ={
 
 0x2fd0,	// main_burst_pane
 
-0x01c0,
-
-0x0001, //19
-KTableIndex,
-0x016e
+0x01c0
 };
 
 
@@ -241,7 +236,6 @@ void CBCTestDomLayoutSystemCase::RunL( TInt aCmd )
 //
 void CBCTestDomLayoutSystemCase::TestLayout2AdaptationDataDefL()
     {
-    
     TRect rect( TPoint( 1, 1 ), TSize( 20, 20 ) );
     CBCTestDomAdapter* testAdapter = CBCTestDomAdapter::NewL();
     CleanupStack::PushL( testAdapter ); 
@@ -253,26 +247,24 @@ void CBCTestDomLayoutSystemCase::TestLayout2AdaptationDataDefL()
     _LIT( KTxtMultiLineTextLine,
         "AknLayoutAdaptationDecodeSupport::MultiLineTextLine" );
     AssertTrueL( ETrue, KTxtMultiLineTextLine );
-    
-    dataLookup += 1;
-    
+
     TAknWindowLineLayout winLineLayout;
     AknLayoutAdaptationDecodeSupport::WindowTable(
         winLineLayout, dataLookup, 0, 0, 0, 0, 0, 0 ); 
     _LIT( KTxtWindowTable,
         "AknLayoutAdaptationDecodeSupport::WindowTable" );
     AssertTrueL( ETrue, KTxtWindowTable );
-       
+
     AknLayoutAdaptationDecodeSupport::WindowTable(
-        winLineLayout, dataLookup, 1, rect, 1, 1, 0, 0, 4 ); 
+        winLineLayout, dataLookup, 0, rect, 1, 1, 0, 0, 4 ); 
     _LIT( KTxtWindowTable2,
         "AknLayoutAdaptationDecodeSupport::WindowTable2" );
     AssertTrueL( ETrue, KTxtWindowTable2 ); 
 
-    const TUint * dataLookup2 = dataLookup + 4; 
+    const TUint * dataLookup2 = dataLookup + 5; 
 
     AknLayoutAdaptationDecodeSupport::TextTable(
-        txtLineLayout, dataLookup2, 1, 1, 1, 0, 0, 0 ); 
+        txtLineLayout, dataLookup2, 0, 0, 0, 0, 0, 0 ); 
     _LIT( KTxtTextTable,
         "AknLayoutAdaptationDecodeSupport::TextTable" );
     AssertTrueL( ETrue, KTxtTextTable );
@@ -283,8 +275,7 @@ void CBCTestDomLayoutSystemCase::TestLayout2AdaptationDataDefL()
         "AknLayoutAdaptationDecodeSupport::TableLimits" );
     AssertTrueL( ETrue, KTxtTableLimits );
 
-    CleanupStack::PopAndDestroy( testAdapter ); 
-    
+    CleanupStack::PopAndDestroy( testAdapter );   
     }
     
 // ---------------------------------------------------------------------------
@@ -356,36 +347,7 @@ void CBCTestDomLayoutSystemCase::TestLayout2DataDefL()
         "AknLayoutDecodeSupport::MultiLineTextLine2" );
     AssertTrueL( ETrue, KTxtMultiLineTextLine2 );  
 
-    implData.iDataLookup += 19;
-    AknLayoutDecodeSupport::WindowTable( winLineLayImp2,
-        &implData, 0, 0, 0, 0, 0, 0 );
-    _LIT( KTxtWindowTable,
-        "AknLayoutDecodeSupport::WindowTable" );
-    AssertTrueL( ETrue, KTxtWindowTable );  
 
-    AknLayoutDecodeSupport::WindowTable( winLineLayImp2,
-        &implData, 0, rect, 0, 0, 0, 0, 0 );
-    _LIT( KTxtWindowTable2,
-        "AknLayoutDecodeSupport::WindowTable2" );
-    AssertTrueL( ETrue, KTxtWindowTable2 );  
-
-    AknLayoutDecodeSupport::TextTable( txtLineLayImp2,
-        &implData, 0, 0, 0, 0, 0, 0 );
-    _LIT( KTxtTextTable,
-        "AknLayoutDecodeSupport::TextTable" );
-    AssertTrueL( ETrue, KTxtTextTable );
-
-    AknLayoutDecodeSupport::TextTable( txtLineLayImp2,
-        &implData, 0, rect, 0, 0, 0, 0, 0 );
-    _LIT( KTxtTextTable2,
-        "AknLayoutDecodeSupport::TextTable2" );
-    AssertTrueL( ETrue, KTxtTextTable2 );   
-
-    TAknLayoutTableLimits layTableLims =
-        AknLayoutDecodeSupport::TableLimits( implData.iDataLookup );
-    _LIT( KTxtTableLimits,
-        "AknLayoutDecodeSupport::TableLimits" );
-    AssertTrueL( ETrue, KTxtTableLimits );    
     }
     
 // ---------------------------------------------------------------------------

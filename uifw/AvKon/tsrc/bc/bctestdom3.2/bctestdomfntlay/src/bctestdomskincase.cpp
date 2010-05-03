@@ -1161,7 +1161,7 @@ void CBCTestDomSkinCase::TestSrvClientL()//AknsSrvClient.h 25
         "RAknsSrvSession::ClientError" );
     AssertTrueL( ETrue, KTxtClientError );
 
-    ret = srvSession.SetAllDefinitionSets( KAknsPIDSkin6 );
+    ret = srvSession.SetAllDefinitionSets( KAknsPIDS60DefaultSkin ); 
     _LIT( KTxtSetAllDefinitionSets,
         "RAknsSrvSession::SetAllDefinitionSets" );
     AssertTrueL( ETrue, KTxtSetAllDefinitionSets );
