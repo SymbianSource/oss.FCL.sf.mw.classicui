@@ -35,7 +35,7 @@
 #include <avkon.hrh>  
 #include <akninfopopupnotecontroller.h>     // CAknInfoPopupNoteController
 #include <gulalign.h>                       // TGulAlignmentValue
-#include <aknsconstants.h>                  // KAknsMessageSkinChange
+#include <AknsConstants.h>                  // KAknsMessageSkinChange
 #include <akndef.h>                         // KEikDynamicLayoutVariantSwitch
 #include <aknpictographinterface.h>         // CAknPictographInterface
 #include <e32debug.h>

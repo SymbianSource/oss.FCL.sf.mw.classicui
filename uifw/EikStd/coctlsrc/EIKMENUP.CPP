@@ -143,7 +143,7 @@ public:
     /**
      * Prepares cascade menu for item specific commands.
      */
-    void PrepareCascadeForItemCommands();
+    void PrepareCascadeForItemCommandsL();
 
     /**
      * Returns ETrue if this menu pane belongs to a CS menu.
@@ -237,7 +237,8 @@ public: // Data
         EHideItemSpecificCommands,
         EContextSensitive,
         ESkipScrollbarUpdate,
-        EHighlightEnabled
+        EHighlightEnabled,
+        EHideViewSpecificCommands
         };
 
     /**
@@ -839,6 +840,11 @@ void CEikMenuPaneExtension::StartCascadeMenuAppearTransition()
         {
         cascadeMenuPane->SetParent( iControl );
         GfxTransEffect::Begin( cascadeMenuPane, KGfxControlAppearAction );
+        if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+            {
+            ImmediateFeedback( ETouchFeedbackSubMenuOpened,
+                                            ETouchFeedbackVibra );
+            }
         cascadeMenuPane->StartDisplayingMenuPane( iControl->iHotKeyTable,
                                                   iControl->Position(),
                                                   NULL,
@@ -1248,6 +1254,7 @@ void CEikMenuPaneExtension::MenuClosed()
     iFlags.Clear( EHideItemSpecificCommands );
     iFlags.Clear( EContextSensitive );
     iFlags.Clear( EHighlightEnabled );
+    iFlags.Clear( EHideViewSpecificCommands );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1329,8 +1336,8 @@ void CEikMenuPaneExtension::ImmediateFeedback(
     TTouchLogicalFeedback aType,
     TTouchFeedbackType aFbType  = TTouchFeedbackType( ETouchFeedbackAudio |
                                                       ETouchFeedbackVibra ))
-    {   
-    if ( iFeedback )
+    {
+    if( iFeedback && AknLayoutUtils::PenEnabled() )
         {
         iFeedback->InstantFeedback( iControl, aType, aFbType, TPointerEvent() );
         }
@@ -1338,10 +1345,10 @@ void CEikMenuPaneExtension::ImmediateFeedback(
 
 
 // -----------------------------------------------------------------------------
-// CEikMenuPaneExtension::PrepareCascadeForItemCommands
+// CEikMenuPaneExtension::PrepareCascadeForItemCommandsL
 // -----------------------------------------------------------------------------
 //
-void CEikMenuPaneExtension::PrepareCascadeForItemCommands()
+void CEikMenuPaneExtension::PrepareCascadeForItemCommandsL()
     {
     if ( iFlags.IsSet( ESingleClickEnabled )
             && iControl->iOwner
@@ -1354,7 +1361,7 @@ void CEikMenuPaneExtension::PrepareCascadeForItemCommands()
             }
         else if ( ownerFlags.IsSet( EHideItemSpecificCommands ) )
             {
-            iControl->SetItemCommandsDimmed();
+            iControl->SetItemCommandsStateL( ETrue );
             }
         }
     }
@@ -1795,6 +1802,13 @@ EXPORT_C CEikMenuPane::~CEikMenuPane()
     {
     _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
+
+    if ( iIsDeleted )
+        {
+        *iIsDeleted = ETrue;
+        iIsDeleted = NULL;
+        }
+    
     CloseCascadeMenu();
     if ( !ItemArrayOwnedExternally() )
         {
@@ -2246,7 +2260,7 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         iEditMenuObserver->DynInitMenuPaneL( aCascadeMenuId, iCascadeMenuPane );
         }
 
-    iCascadeMenuPane->iExtension->PrepareCascadeForItemCommands();
+    iCascadeMenuPane->iExtension->PrepareCascadeForItemCommandsL();
     iCascadeMenuPane->iExtension->EnableHighlight( EFalse );
     iCascadeMenuPane->FilterDimmedItems();
 
@@ -2259,13 +2273,7 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         {
         iExtension->StartCascadeMenuAppearTransition();
         }
-
-    TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-    if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-        {
-        fbLogicalType = ETouchFeedbackSubMenuOpened;
-        }
-    iExtension->ImmediateFeedback( fbLogicalType,
+    iExtension->ImmediateFeedback( ETouchFeedbackPopUp,
                                        ETouchFeedbackVibra );
     _AKNTRACE_FUNC_EXIT;
     }
@@ -3099,10 +3107,35 @@ void CEikMenuPane::ReportSelectionMadeL( TBool aAbortTransition )
         CEikMenuPane* menu = iOwner ? iOwner : this;
         MCoeControlObserver* observer = menu->Observer();
 
-        if ( commandId != EAknCmdTaskSwapper )
+        if ( commandId >= EAknCmdMarkingModeEnter 
+                && commandId <= EAknCmdMarkingModeUnmarkAll )
+            {
+            CEikMenuBar* menuBar = static_cast<CEikMenuBar*>( Parent() );
+            if ( menuBar && menuBar->MenuPane() == this )
+                {
+                static_cast<MEikCommandObserver*>(
+                        menuBar)->ProcessCommandL( commandId );
+                }
+            ReportCanceled();
+            }
+        else if ( commandId != EAknCmdTaskSwapper )
             {
             _AKNTRACE( "commandId = %d",  commandId );
+            TBool isDeleted = EFalse;
+            iIsDeleted = &isDeleted;
             iMenuObserver->ProcessCommandL( commandId ); 
+
+            if ( !isDeleted )
+                {
+                CEikMenuBar* menuBar = static_cast<CEikMenuBar*>( Parent() );
+                if ( menuBar && menuBar->MenuPane() == this )
+                    {
+                    static_cast<MEikCommandObserver*>(
+                            menuBar)->ProcessCommandL( commandId );
+                    }
+                }            
+
+            iIsDeleted = NULL;
             }
         else
             {
@@ -4014,10 +4047,10 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 _AKNTRACE_FUNC_EXIT;
                 return iOwner->HandlePointerEventL( parentEvent );
                 }
-            iExtension->iDownOnMenuArea = EFalse;
 
             iExtension->iPanningActive = EFalse;
-            if ( !(iExtension->iSct &&  iExtension->iSct->Rect().Contains( iExtension->iStartPoint ) ) )
+            if ( !(iExtension->iSct &&  iExtension->iSct->Rect().Contains( iExtension->iStartPoint ) ) 
+                && iExtension->iDownOnMenuArea )
                 {
                 TPoint drag = iExtension->iStartPoint - aPointerEvent.iPosition;
                 if ( iExtension->iPhysics->StartPhysics( 
@@ -4027,6 +4060,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                     iExtension->ResetPressedHighlight();
                     }
                 }
+             iExtension->iDownOnMenuArea = EFalse;
             if ( iExtension->HighlightTimerActive() &&
                  !iExtension->iPressedDown )
                 {
@@ -4375,11 +4409,11 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
             if( Abs( threshold ) > iExtension->iPhysics->DragThreshold() 
                 && iExtension->iDownOnMenuArea )
                 {
+                iExtension->EnableHighlight( EFalse );
                 iExtension->iButtonDownItem = KErrNotFound;
                 iExtension->ResetPressedHighlight();
                 iExtension->iNextHighlightItem = KErrNotFound;
                 iExtension->iPanningActive = ETrue;
-                iExtension->EnableHighlight( EFalse );
                 }    
                          
             if ( iExtension->iPanningActive && iExtension->iDownOnMenuArea )
@@ -6514,24 +6548,50 @@ CEikMenuPane* CEikMenuPane::NewItemCommandMenuL( MEikMenuObserver* aObserver )
 
 
 // -----------------------------------------------------------------------------
-// CEikMenuPane::SetItemCommandsDimmed
+// CEikMenuPane::SetItemCommandsStateL
 // -----------------------------------------------------------------------------
 //
-void CEikMenuPane::SetItemCommandsDimmed()
+void CEikMenuPane::SetItemCommandsStateL( TBool aDimmed )
     {
     if ( iExtension && iExtension->iFlags.IsSet(
             CEikMenuPaneExtension::ESingleClickEnabled ) )
         {
-        iExtension->iFlags.Set(
-                CEikMenuPaneExtension::EHideItemSpecificCommands );
+        if ( aDimmed )
+            {
+            iExtension->iFlags.Set(
+                    CEikMenuPaneExtension::EHideItemSpecificCommands );
+            }
+        else
+            {
+            iExtension->iFlags.Set(
+                    CEikMenuPaneExtension::EHideViewSpecificCommands );
+            }
         for ( TInt i = 0; i < iItemArray->Count(); ++i )
             {
             CEikMenuPaneItem* item = iItemArray->At( i );
-            if ( item->iData.iFlags & EEikMenuItemAction
+            TBool itemSpecificItem(
+                    item->iData.iFlags & EEikMenuItemAction
                     || item->iData.iFlags & EEikMenuItemSpecific
-                    || item->iData.iFlags & EEikMenuItemSpecificListQuery )
+                    || item->iData.iFlags & EEikMenuItemSpecificListQuery );
+            // Dim item specific items
+            if ( aDimmed && itemSpecificItem )
                 {
                 item->iData.iFlags |= EEikMenuItemDimmed;
+                }
+            // Dim items not item specific
+            else if ( !aDimmed
+                        && ( !itemSpecificItem
+                        || item->iData.iFlags & EEikMenuItemAction ) )
+                {
+                item->iData.iFlags |= EEikMenuItemDimmed;
+                if ( item->iData.iCascadeId ) 
+                    {
+                    // i is not updated in AddCascadeMenuItemsToMenuL so going 
+                    // through added items again here. Then it goes through
+                    // also submenus of submenus. 
+                    AddCascadeMenuItemsToMenuL(
+                            item->iData.iCascadeId, ETrue, EFalse, NULL, i );
+                    }
                 }
             }
         }
@@ -6560,8 +6620,8 @@ void CEikMenuPane::AddMenuItemsToItemActionMenuL(
             if ( !( item->iData.iFlags & EEikMenuItemSpecificListQuery )
                     && item->iData.iCascadeId )
                 {
-                AddCascadeMenuItemsToActionMenuL(
-                        item->iData.iCascadeId, EFalse, aMenuData );
+                AddCascadeMenuItemsToMenuL(
+                        item->iData.iCascadeId, EFalse, ETrue, &aMenuData );
                 }
             // If menu item is list query or it does not have cascade menu
             else
@@ -6577,21 +6637,23 @@ void CEikMenuPane::AddMenuItemsToItemActionMenuL(
         else if ( item->iData.iCascadeId && 
                 !( item->iData.iFlags & EEikMenuItemDimmed ) )
             {
-            AddCascadeMenuItemsToActionMenuL(
-                    item->iData.iCascadeId, ETrue, aMenuData );
+            AddCascadeMenuItemsToMenuL(
+                    item->iData.iCascadeId, ETrue, ETrue, &aMenuData );
             }
         }
     }
 
 
 // -----------------------------------------------------------------------------
-// CEikMenuPane::AddCascadeMenuItemsToActionMenuL
+// CEikMenuPane::AddCascadeMenuItemsToMenuL
 // -----------------------------------------------------------------------------
 //
-void CEikMenuPane::AddCascadeMenuItemsToActionMenuL(
+void CEikMenuPane::AddCascadeMenuItemsToMenuL(
         TInt aCascadeId,
         TBool aItemSpecific,
-        CAknItemActionMenuData& aMenuData )
+        TBool aAddToItemActionMenu,
+        CAknItemActionMenuData* aMenuData,
+        TInt aItemIndex )
     {
     if ( aCascadeId && iCoeEnv->IsResourceAvailableL( aCascadeId ) )
         {
@@ -6610,10 +6672,17 @@ void CEikMenuPane::AddCascadeMenuItemsToActionMenuL(
                 || ( !aItemSpecific
                         && !( item->iData.iFlags & EEikMenuItemDimmed ) ) )
                 {
-                aMenuData.AddMenuItemToDataArrayL(
-                        item->iData.iCommandId,
-                        item->iData.iCascadeId,
-                        item->iData.iText );
+                if ( aAddToItemActionMenu )
+                    {
+                    aMenuData->AddMenuItemToDataArrayL(
+                            item->iData.iCommandId,
+                            item->iData.iCascadeId,
+                            item->iData.iText );
+                    }
+                else 
+                    {
+                    InsertMenuItemL( item->iData, ++aItemIndex );
+                    }
                 }
             }
         CleanupStack::PopAndDestroy( cascadeMenu );

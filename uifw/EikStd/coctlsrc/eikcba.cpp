@@ -56,6 +56,7 @@
 #include <aknitemactionmenu.h>
 #include "akncollectionobserver.h"
 #include "aknitemactionmenuregister.h"
+#include "aknmarkingmode.h"
 #include "akntrace.h"
 /**
  * Color value for transparent pixel (ARGB format).
@@ -213,7 +214,8 @@ enum TCbaChangeRecordedFlags
     ECbaSingleClickEnabled, // single click enabled in appUi
     ECbaItemSoftkeyDisabled, // item specific softkey disabled
     ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
-    ECbaItemSoftkeyDisabledByClient // client has disabled item specific softkey
+    ECbaItemSoftkeyDisabledByClient, // client disabled item specific softkey
+    ECbaMultipleMarkingActive // multiple marking has changed RSK
     };
 
 enum TCbaLayers
@@ -717,6 +719,28 @@ public:
         }
 
     /**
+     * Returns ETrue if the command cancels multiple marking and should not
+     * be forwarded to actual command observer.
+     * 
+     * @return ETrue if multiple marking was cancelled.
+     */
+    TBool CancelMultipleMarking( TInt aCommandId )
+        {
+        _AKNTRACE_FUNC_ENTER;
+        TBool cancelled( EFalse );
+        if ( aCommandId == EAknSoftkeyCancel
+                && iItemActionMenu
+                && iOwner.Flags().IsSet( ECbaMultipleMarkingActive ) )
+            {
+            iItemActionMenu->MarkingMode().SetCollectionMultipleMarkingState(
+                    EFalse );
+            cancelled = ETrue;
+            }
+        _AKNTRACE_FUNC_EXIT;
+        return cancelled;
+        }
+
+    /**
      * From MAknCollectionObserver.
      * This method is used to set the item action menu to observer.
      * 
@@ -745,6 +769,8 @@ public:
             {
             iOwner.UpdateItemSpecificSoftkey();
             }
+
+        iOwner.UpdateMultipleMarkingSoftkey();
         _AKNTRACE_FUNC_EXIT;
         }
 
@@ -764,19 +790,15 @@ public:
     /*
      * Using the special theme Id draw background
      */
-    void DrawSemiTransparency( CWindowGc& aGc, 
-            const TRect& aRect )
+    void DrawSemiTransparency( CWindowGc& aGc )
         {
         _AKNTRACE_FUNC_ENTER;
-        aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-        aGc.SetBrushColor( TRgb(128, 128, 128, 64) );
-        aGc.Clear();
         
-        TAknsItemID SemiButtonID = KAknsIIDQgnHomeButtonWidget;
-        TAknsItemID SemiButtonCenterID = KAknsIIDQgnHomeButtonWidgetCenter;
-        TAknsItemID SemiButtonPressedID = KAknsIIDQgnHomeButtonWidget;
-        TAknsItemID SemiButtonPressedCenterID = KAknsIIDQsnFrHomeCenterPressed;
-
+        TAknsItemID SemiButtonID              = KAknsIIDQgnFrSctrlSkButton;
+        TAknsItemID SemiButtonCenterID        = KAknsIIDQgnFrSctrlSkButtonCenter;
+        TAknsItemID SemiButtonPressedID       = KAknsIIDQgnFrSctrlSkButtonPressed;
+        TAknsItemID SemiButtonPressedCenterID = KAknsIIDQgnFrSctrlSkButtonCenterPressed;
+        
         CEikCbaButton* button1 = static_cast<CEikCbaButton*>
             (iOwner.Control(KControlArrayCBAButton1Posn));
         CEikCbaButton* button2 = static_cast<CEikCbaButton*>
@@ -784,9 +806,6 @@ public:
 
         if (IsMskEnabledLayoutActive())
             {
-            TRect innerRect = iMiddleFrameOuterRect;
-            innerRect.Shrink(4, 4);
-
             CEikCbaButton* buttonMSK = static_cast<CEikCbaButton*>
                 (iOwner.Control(KControlArrayCBAButtonMSKPosn));
 
@@ -794,7 +813,7 @@ public:
                 {
                 AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                         iMiddleFrameOuterRect,
-                        innerRect,//iMiddleFrameInnerRect,
+                        iMiddleFrameInnerRect,
                         SemiButtonPressedID,
                         SemiButtonPressedCenterID);
                 }
@@ -802,20 +821,17 @@ public:
                 {
                 AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                         iMiddleFrameOuterRect,
-                        innerRect,//iMiddleFrameInnerRect,
+                        iMiddleFrameInnerRect,
                         SemiButtonID,
                         SemiButtonCenterID);
                 }
             }
 
-        TRect innerRect = iLeftFrameOuterRect;
-        innerRect.Shrink(4, 4);
-
         if (button1 && button1->PressedDown())
             {
             AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                     iLeftFrameOuterRect,
-                    innerRect,//iLeftFrameInnerRect,
+                    iLeftFrameInnerRect,
                     SemiButtonPressedID,
                     SemiButtonPressedCenterID);
             }
@@ -823,18 +839,16 @@ public:
             {
             AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                     iLeftFrameOuterRect,
-                    innerRect,//iLeftFrameInnerRect,
+                    iLeftFrameInnerRect,
                     SemiButtonID,
                     SemiButtonCenterID);
             }
 
-        innerRect = iRightFrameOuterRect;
-        innerRect.Shrink(4, 4);
         if (button2 && button2->PressedDown())
             {
             AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                     iRightFrameOuterRect,
-                    innerRect,//iRightFrameInnerRect,
+                    iRightFrameInnerRect,
                     SemiButtonPressedID,
                     SemiButtonPressedCenterID);
             }
@@ -842,7 +856,7 @@ public:
             {
             AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
                     iRightFrameOuterRect,
-                    innerRect,//iRightFrameInnerRect,
+                    iRightFrameInnerRect,
                     SemiButtonID,
                     SemiButtonCenterID);
             }                    
@@ -1606,8 +1620,6 @@ void CEikCba::ConstructL(TInt aResourceId)
             }
         }
 
-    // Set CBA faded in case the softkeys are empty.
-    SetFadeState();
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1703,8 +1715,6 @@ void CEikCba::ConstructFromResourceL(TResourceReader& aReader)
             }
         }
 
-    // Set CBA faded in case the softkeys are empty.
-    SetFadeState();
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -2052,11 +2062,7 @@ void CEikCba::SetCommandL( TInt aPosition,
                            const CFbsBitmap* /*aMask*/ )
     {
     _AKNTRACE_FUNC_ENTER;
-    // We need to check if this call changes the softkeys from being
-    // empty to having a command or vice versa to be able to maintain
-    // correct fade state.
-    TBool isEmptyBefore( IsEmpty() );
-    
+
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
     groupCtrl.iId = aCommandId;
     groupCtrl.iLongId = 0;
@@ -2084,13 +2090,6 @@ void CEikCba::SetCommandL( TInt aPosition,
             static_cast<CAknCommandButtonState*>( button->State() );
         buttonState->SetTextL( *aText );
         buttonState->SetCommand( aCommandId );
-        }
-    
-    TBool isEmptyAfter( IsEmpty() );
-    
-    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
-        {
-        SetFadeState();
         }
 
     ReportContentChangedEvent();      
@@ -2278,10 +2277,12 @@ void CEikCba::AddCommandToStackWithoutSizeChangedL(TInt aPosition,
                                                const TDesC* aText)
     {
     _AKNTRACE_FUNC_ENTER;
-    // We need to check if this call changes the softkeys from being
-    // empty to having a command or vice versa to be able to maintain
-    // correct fade state.
-    TBool isEmptyBefore( IsEmpty() );
+    
+    if ( !CommandChangeAllowed() )
+        {
+        _AKNTRACE_FUNC_EXIT;
+        return;
+        }
     
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
     
@@ -2316,13 +2317,6 @@ void CEikCba::AddCommandToStackWithoutSizeChangedL(TInt aPosition,
         iMSKset = ETrue;
         }
     SetMSKIconL(); // If MSK id was changed, this sets MSK icon accordingly.
-
-    TBool isEmptyAfter( IsEmpty() );
-
-    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
-        {
-        SetFadeState();
-        }
 
     ReportContentChangedEvent();
     _AKNTRACE_FUNC_EXIT;
@@ -2503,11 +2497,6 @@ void CEikCba::RemoveCommandFromStack( TInt aPosition, TInt aCommandId )
     SizeChanged();
     
     TBool isEmptyAfter( IsEmpty() );
-    
-    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
-        {
-        SetFadeState();
-        }
 
     DrawDeferred();
     ReportContentChangedEvent();
@@ -3414,7 +3403,9 @@ EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
     
     //has not supported semi-transparent, ignore the flag at this moment.
     //TODO: if the tranparent style CBA is approved and the new icon was delivered, open it again.
-    iCbaFlags &= ~EEikCbaFlagSemiTransparent;
+    
+    //steven yao
+    //iCbaFlags &= ~EEikCbaFlagSemiTransparent;
     
     if (( iCbaFlags & EEikCbaFlagTransparent || iCbaFlags & EEikCbaFlagSemiTransparent ) && 
             CAknEnv::Static()->TransparencyEnabled() )
@@ -3632,7 +3623,13 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
 
             if (aKeyEvent.iRepeats == 0 && shortCommand)
                 {
-                iCommandObserver->ProcessCommandL((TInt)shortCommand);
+                // Notify command observer only if multiple marking
+                // was not cancelled
+                if ( !iExtension || !iExtension->CancelMultipleMarking(
+                        shortCommand ) )
+                    {
+                    iCommandObserver->ProcessCommandL( ( TInt ) shortCommand );
+                    }
                 }
             else if (longCommand)
                 {
@@ -4176,7 +4173,13 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
 
                     if( shortCommand )
                         {
-                        iCommandObserver->ProcessCommandL( shortCommand );
+                        // Notify command observer only if multiple marking
+                        // was not cancelled
+                        if ( !iExtension || !iExtension->CancelMultipleMarking(
+                                shortCommand ) )
+                            {
+                            iCommandObserver->ProcessCommandL( shortCommand );
+                            }
                         }
 
                     break;
@@ -4362,7 +4365,6 @@ void CEikCba::HandleResourceChange( TInt aType )
         case KEikMessageUnfadeWindows:
             {
             DoLayoutChange();
-            SetFadeState();
             
             if ( iFlags.IsSet( ECbaInsideDialog ) )
                 {
@@ -4390,8 +4392,7 @@ void CEikCba::HandleResourceChange( TInt aType )
                  AknStatuspaneUtils::IdleLayoutActive() )
                 {
                 SetMSKVisibility( MskAllowed() );
-                }                
-            SetFadeState();
+                }
             break;
             }
 
@@ -4539,13 +4540,13 @@ void CEikCba::Draw( const TRect& aRect ) const
         return;
         }
     
-//    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
-//        {
-//        CWindowGc &gc = SystemGc();
-//
-//        iExtension->DrawSemiTransparency( gc, Rect() );
-//        return;
-//        }
+    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
+        {
+        CWindowGc &gc = SystemGc();
+
+        iExtension->DrawSemiTransparency( gc );
+        return;
+        }
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     
@@ -4604,7 +4605,7 @@ void CEikCba::Draw( const TRect& aRect ) const
                 gc.BitBlt( leftSKRect.iTl, iExtension->iLskPostingOverlayBitmap, 
                     TRect( leftSKSize ) );
                 }
-            else if ( !( ( iCbaFlags & EEikCbaFlagTransparent) || ( iCbaFlags & EEikCbaFlagSemiTransparent))  )
+            else if ( !( iCbaFlags & EEikCbaFlagTransparent ) )
                 {// Old way to render
                 if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
                     {
@@ -4728,7 +4729,7 @@ void CEikCba::Draw( const TRect& aRect ) const
             gc.BitBlt( bottomSKRect.iTl, iExtension->iLskPostingOverlayBitmap, 
                 TRect( bottomSKRect.Size() ) );
             }
-        else if ( !( ( iCbaFlags & EEikCbaFlagTransparent) || ( iCbaFlags & EEikCbaFlagSemiTransparent))  )
+        else if ( !( iCbaFlags & EEikCbaFlagTransparent) )
             {
             // Old way to render
             if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
@@ -5224,18 +5225,29 @@ void CEikCba::SizeChangedInControlPane()
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
     
     TBool isLandscape( Layout_Meta_Data::IsLandscapeOrientation() );
-    TBool flatLscLayout( isLandscape &&
-                         AknStatuspaneUtils::FlatLayoutActive() );
+    TInt spLayout( AknStatuspaneUtils::CurrentStatusPaneLayoutResId() );
+    
+    // Treat the empty status pane layout the same way as the flat layout
+    // in landscape orientation, as the CBA layout is the same in both.
+    TBool flatLscLayout(
+        isLandscape &&
+        ( spLayout == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT || 
+          spLayout == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT ||
+          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ||
+          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ||
+          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS ||
+          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS ||
+          spLayout == R_AVKON_STATUS_PANE_LAYOUT_EMPTY ) );
     
     // We must check for landscape mode bottom softkeys.
     TInt bottomPaneVariety = isLandscape ? ( flatLscLayout ? 2 : 6 ) : 1;
-        
+    
+    // Skip application_window between screen and area_bottom_pane since
+    // screen and application_window are always the same.
     TAknWindowComponentLayout controlPane(
         DoCompose(
-            AknLayoutScalable_Avkon::application_window( 0 ),
-            DoCompose(
-                AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
-                AknLayoutScalable_Avkon::control_pane() ) ) );
+            AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
+            AknLayoutScalable_Avkon::control_pane() ) );
     
     TAknLayoutRect cbarect;
     cbarect.LayoutRect( screen, controlPane.LayoutLine() );
@@ -5250,7 +5262,7 @@ void CEikCba::SizeChangedInControlPane()
     
     // Set the softkey frame rectangles in touch layouts.
     if ( iExtension && AknLayoutUtils::PenEnabled() )
-        {        
+        {
         TAknLayoutRect layoutRect;
         TBool frameSizeChanged( EFalse );
 
@@ -7238,28 +7250,6 @@ void CEikCba::BroadcastPostingTransparency( TBool aEnable )
 
 
 // ---------------------------------------------------------------------------
-// CEikCba::SetFadeState
-// Sets the CBA faded if it's contents are empty.
-// ---------------------------------------------------------------------------
-//
-void CEikCba::SetFadeState()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    TBool canBeFaded =
-        IsEmpty() && !( ( iCbaFlags & EEikCbaFlagTransparent )
-        || ( iExtension && iExtension->iEnablePostingTransparency ) );
-
-    // No unfading when system is faded
-    if ( !( !canBeFaded
-            && static_cast<CAknAppUi*>( iCoeEnv->AppUi() )->IsFaded() ) )
-        {
-        Window().SetFaded( canBeFaded, RWindowTreeNode::EFadeIncludeChildren );
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// ---------------------------------------------------------------------------
 // CEikCba::UpdateLabels
 // Updates softkey labels in case of embedded softkeys.
 // ---------------------------------------------------------------------------
@@ -7848,6 +7838,60 @@ void CEikCba::UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable )
             }
         }
     _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CEikCba::UpdateMultipleMarkingSoftkey
+// Updates RSK when multiple marking is activated or deactivated.
+// ---------------------------------------------------------------------------
+//     
+void CEikCba::UpdateMultipleMarkingSoftkey()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    if ( iFlags.IsSet( ECbaSingleClickEnabled )
+            && iExtension && iExtension->iItemActionMenu )
+        {
+        TBool markingActive(
+                iExtension->iItemActionMenu->MarkingMode(
+                        ).MultipleMarkingActive() );
+        TBool markingActivated( iFlags.IsSet( ECbaMultipleMarkingActive ) );
+        if ( markingActive && !markingActivated )
+            {
+            TRAPD( error, 
+                AddCommandSetToStackL( R_AVKON_SOFTKEYS_OPTIONS_CANCEL ) );
+                
+            if ( error == KErrNone )
+                {
+                iFlags.Set( ECbaMultipleMarkingActive );
+                }
+            }
+        else if ( !markingActive && markingActivated )
+            {
+            RemoveCommandFromStack(
+                    KControlArrayCBAButton1Posn, EAknSoftkeyOptions );
+            RemoveCommandFromStack(
+                    KControlArrayCBAButton2Posn, EAknSoftkeyCancel );
+            iFlags.Clear( ECbaMultipleMarkingActive );
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CEikCba::CommandChangeAllowed
+// 
+// ---------------------------------------------------------------------------
+//     
+TBool CEikCba::CommandChangeAllowed()
+    {
+    if ( iFlags.IsSet( ECbaSingleClickEnabled ) 
+            && iFlags.IsSet( ECbaMultipleMarkingActive ) )
+        {
+        return EFalse;
+        }
+    return ETrue;
     }
 
 

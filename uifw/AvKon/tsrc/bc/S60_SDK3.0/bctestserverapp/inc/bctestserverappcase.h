@@ -20,7 +20,7 @@
 #define BCTEST_SERVERAPPCASE_H
 
 #include "bctestcase.h"
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 #include <aknwseventobserver.h>
 
 //TUid Kmysimpleserver = { 0x06C22C0C	};

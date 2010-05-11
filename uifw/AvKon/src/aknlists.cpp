@@ -1612,6 +1612,12 @@ CWordWrappedFormattedCellItemDrawer::DrawItemText( TInt aItemIndex,
     TInt pos = -1;
 
     TBool removeicon = (!aItemIsSelected && !ItemMarkReverse()) || (aItemIsSelected && ItemMarkReverse());
+    
+    if ( Flags() & CListItemDrawer::EMarkingModeEnabled )
+        {
+        removeicon = EFalse;
+        }
+
     if ( Flags() & EDrawMarkSelection && ItemMarkPosition() != -1 && removeicon)
         {
         repl.Set( ItemMarkReplacement() );
@@ -3097,8 +3103,23 @@ EXPORT_C void AknListBoxLinesTemplate<T>::Draw(const TRect& aRect) const
                 transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
                 }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
-            gc->SetBrushColor(this->BackColor());
-            AknsDrawUtils::BackgroundBetweenRects( AknsUtils::SkinInstance(), cc, this, *gc, clientRect, this->iView->ViewRect() );
+
+            if ( this->iItemDrawer->Flags() 
+                    & CListItemDrawer::EDrawWholeBackground )
+                {
+                AknsDrawUtils::Background( 
+                    AknsUtils::SkinInstance(), cc, this, *gc, clientRect );
+                
+                this->iItemDrawer->SetFlags( CListItemDrawer::EBackgroundDrawn );
+                }
+            else
+                {
+                gc->SetBrushColor(this->BackColor());
+                AknsDrawUtils::BackgroundBetweenRects( 
+                        AknsUtils::SkinInstance(), cc, this, *gc, clientRect, 
+                        this->iView->ViewRect() );
+                }
+
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
             if ( transApi )
                 {

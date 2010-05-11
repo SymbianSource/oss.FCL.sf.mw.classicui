@@ -29,8 +29,8 @@
 #include <aknlists.h>
 #include <eikclbd.h>
 #include <aknsfld.h>
-#include <aknlayout2def.h>
-#include <aknlayout2scalabledef.h>
+#include <AknLayout2Def.h>
+#include <AknLayout2ScalableDef.h>
 #include <eikmfne.h>
 #include <eikseced.h>
 #include <aknfontspecification.h>

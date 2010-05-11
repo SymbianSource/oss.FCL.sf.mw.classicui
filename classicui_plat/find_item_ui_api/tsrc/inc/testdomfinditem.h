@@ -128,6 +128,14 @@ private: // test functions in finditemdialog.h
     */
     virtual TInt TestDialogOfferKeyEventL( CStifItemParser& aItem );
 
+    /**
+    * test EnableSingleClick method.
+    * @since S60 5.2
+    * @param aItem never used.
+    * @return Symbian OS error code.
+    */
+    virtual TInt TestDialogEnableSingleClick( CStifItemParser& aItem );
+
 private: // test functions in finditemmenu.h
 
     /**

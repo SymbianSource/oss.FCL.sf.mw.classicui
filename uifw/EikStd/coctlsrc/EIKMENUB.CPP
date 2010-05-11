@@ -60,6 +60,7 @@
 #include "aknitemactionmenuregister.h"
 #include <AknPriv.hrh>
 #include "akntrace.h"
+#include "aknmarkingmode.h"
 
 enum { EEikMenuBarTitleArrayGranularity=10 };
 enum { EEikMenuBarPosArrayGranularity=2 };
@@ -74,9 +75,18 @@ public:
     void FadeBehindPopup(TBool aFade);
 
     /**
-     * Sets item specific commands dimmed if highlight is not visible.
+     * Dims item specific commands if no highlight in list or dims
+     * other than item specific commands if list is in multiple marking
+     * state.
      */
-    void SetItemCommandsDimmedL();
+    void SetItemCommandsStateL();
+
+    /**
+     * Returns active marking mode object. Otherwise NULL.
+     * 
+     * @return Active marking mode object.
+     */
+    CAknMarkingMode* MarkingModeActive();
 
     /**
      * Saves current value of iItemActionMenu->CollectionHighlightVisible() to 
@@ -110,6 +120,11 @@ public:
      * Not own.
      */
     CAknItemActionMenu* iItemActionMenu;
+
+    /**
+     * ETrue if single click has been enabled in application.
+     */
+    TBool iSingleClickEnabled; 
 
     /**
      * When menu pane is opened this value is updated to store the value about
@@ -146,20 +161,56 @@ void CEikMenuBarExtension::FadeBehindPopup(TBool aFade)
     }
 
 
-void CEikMenuBarExtension::SetItemCommandsDimmedL()
+void CEikMenuBarExtension::SetItemCommandsStateL()
     {
-    if ( !iItemActionMenu )
+    if ( iSingleClickEnabled && !iItemActionMenu )
         {
         AknItemActionMenuRegister::RegisterMenuBarL( *iBar );
         }
-    // hide item-specific commands if highlight not visible 
-    if ( iBar->GetMenuType() != CEikMenuBar::EMenuContext 
-            && ( ( iItemActionMenu 
-            && !iItemActionMenu->CollectionHighlightVisible() ) 
-            || !iItemActionMenu ) ) 
-        {  
-        iBar->iMenuPane->SetItemCommandsDimmed();
+
+    // Hide item-specific commands if highlight not visible
+    // or show only item specific commands if list is in multiple marking
+    // state
+    if ( iBar->GetMenuType() != CEikMenuBar::EMenuContext )
+        {
+        if ( iItemActionMenu )
+            {
+            TBool dimCommands( EFalse );
+            TBool changeState( EFalse );
+            if ( iItemActionMenu->MarkingMode().MultipleMarkingActive() )
+                {
+                changeState = ETrue;
+                dimCommands = EFalse;
+                }
+            else if ( !iItemActionMenu->CollectionHighlightVisible() )
+                {
+                changeState = ETrue;
+                dimCommands = ETrue;
+                }
+            if ( changeState )
+                {
+                iBar->iMenuPane->SetItemCommandsStateL( dimCommands );
+                }
+            }
+        else if ( iSingleClickEnabled )
+            {
+            // Dim tagged item action and item specific commands 
+            // anyway, fixes case where listbox creation is not 
+            // finished yet when options menu is opened
+            iBar->iMenuPane->SetItemCommandsStateL( ETrue );
+            }
         }
+    }
+
+CAknMarkingMode* CEikMenuBarExtension::MarkingModeActive()
+    {
+    CAknMarkingMode* markingMode( NULL );
+    if ( iItemActionMenu
+            && iItemActionMenu->MarkingMode().MultipleMarkingActive() )
+        {
+        markingMode = &iItemActionMenu->MarkingMode();
+        }
+    return markingMode;
     }
 
 
@@ -171,10 +222,14 @@ void CEikMenuBarExtension::StoreCollectionHighlightValue()
                 = iItemActionMenu->CollectionHighlightVisible();
         }
     }
+
 CEikMenuBarExtension::CEikMenuBarExtension(CEikMenuBar* aBar)
     :iBar(aBar),
      iDoingMenuCloseTransition(EFalse),
-     iItemActionMenu( NULL )
+     iItemActionMenu( NULL ),
+     iSingleClickEnabled(
+             static_cast<CAknAppUi*>(
+                     aBar->ControlEnv()->AppUi() )->IsSingleClickCompatible() )
     {
     }
 
@@ -885,6 +940,12 @@ void CEikMenuBar::StartDisplayingMenuBarL()
 
     TInt titles = iTitleArray->Count() - 1;
     
+    CAknMarkingMode* marking( NULL );
+    if ( iExt )
+        {
+        marking = iExt->MarkingModeActive();
+        }
+    
     if ( titles < 0 )
         {
         delete iMenuCba;
@@ -893,31 +954,77 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         iMenuPane->Close();
         return;
         }
-        
-    // Create the menu pane using the last pane in the menu bar
-    iMenuObserver->RestoreMenuL(iMenuPane,(*iTitleArray)[titles]->iData.iMenuPaneResourceId,MEikMenuObserver::EMenuPane);
-    if (fepMenuObserver)
-        fepMenuObserver->DynInitMenuPaneL((*iTitleArray)[titles]->iData.iMenuPaneResourceId,iMenuPane);
-    if (iActiveEditMenuObserver)
-        iActiveEditMenuObserver->DynInitMenuPaneL((*iTitleArray)[titles]->iData.iMenuPaneResourceId,iMenuPane);
 
-    titles = iTitleArray->Count() - 2;
-    iMenuPane->FilterDimmedItems();
-
-    // Add the remaining menu panes from right to left at the end of the current pane
-    while (titles >= 0)
+    TBool markedItems( EFalse ); 
+    if ( marking )
         {
-        TInt resource = (*iTitleArray)[titles]->iData.iMenuPaneResourceId;
-        iMenuPane->AddMenuItemsL(resource, 0, ETrue);       
-        iMenuObserver->DynInitMenuPaneL(resource,iMenuPane);
-        if (fepMenuObserver)
-            fepMenuObserver->DynInitMenuPaneL(resource,iMenuPane);
-        if (iActiveEditMenuObserver)
-            iActiveEditMenuObserver->DynInitMenuPaneL(resource,iMenuPane);
-        iExt->SetItemCommandsDimmedL();
-        iMenuPane->FilterDimmedItems();
-        titles--;
+        markedItems = marking->MarkedItems(); 
         }
+    // In marking mode do not add commands if no marked items in list
+    if ( !marking || markedItems )
+        {
+        // Create the menu pane using the last pane in the menu bar
+        iMenuObserver->RestoreMenuL(
+                iMenuPane,
+                ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId,
+                MEikMenuObserver::EMenuPane );
+        if ( fepMenuObserver )
+            fepMenuObserver->DynInitMenuPaneL(
+                    ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId,
+                    iMenuPane );
+        if ( iActiveEditMenuObserver )
+            iActiveEditMenuObserver->DynInitMenuPaneL(
+                    ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId,
+                    iMenuPane );
+
+        titles = iTitleArray->Count() - 2;
+        iMenuPane->FilterDimmedItems();
+
+        // Add the remaining menu panes from right to left
+        // at the end of the current pane
+        while ( titles >= 0 )
+            {
+            TInt resource =
+                ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId;
+            iMenuPane->AddMenuItemsL( resource, 0, ETrue );
+            iMenuObserver->DynInitMenuPaneL( resource, iMenuPane );
+            if ( fepMenuObserver )
+                fepMenuObserver->DynInitMenuPaneL( resource, iMenuPane );
+            if ( iActiveEditMenuObserver )
+                iActiveEditMenuObserver->DynInitMenuPaneL(
+                        resource,iMenuPane );
+
+            if ( resource == R_AVKON_MENUPANE_MARK_MULTIPLE )
+                {
+                iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
+                }
+
+            titles--;
+            }
+        iExt->SetItemCommandsStateL();
+        iMenuPane->FilterDimmedItems();
+        }
+
+    // Multiple marking mode active
+    if ( marking )
+        {
+        iMenuPane->AddMenuItemsL( R_AVKON_MENUPANE_MARK_MULTIPLE, 0, ETrue );
+
+        if ( !marking->CollectionEmpty() )
+            {
+            iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkAll, EFalse );
+            }
+
+        if ( markedItems )
+            {
+            iMenuPane->SetItemDimmed( EAknCmdMarkingModeUnmarkAll, EFalse );
+            }
+
+        iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
+        iMenuPane->SetItemDimmed( EAknCmdMarkingModeEnter, ETrue );
+        iMenuPane->FilterDimmedItems();
+        }
+
     iMenuObserver->SetEmphasis(this,ETrue);
 	iMenuCba = CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba, 
 	    CEikButtonGroupContainer::EHorizontal,
@@ -930,8 +1037,11 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         {
         iMenuPane->SetEmbeddedCba( cba );
         }
-    
-    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    MTouchFeedback* feedback = NULL;
+    if( AknLayoutUtils::PenEnabled() )
+        {
+        feedback = MTouchFeedback::Instance();
+        }
     if ( feedback )
         {
         feedback->FlushRegistryUpdates();
@@ -942,7 +1052,11 @@ void CEikMenuBar::StartDisplayingMenuBarL()
                 KPSUidAvkonInternal, 
                 KAknMenuOptionNoTaskSwapper, 
                 taskSwapper);      
-    if ( iMenuPane->NumberOfItemsInPane() != 0 && iExt->iMenuType == EMenuOptions && taskSwapper == ETaskSwapper )      
+
+   if ( iMenuPane->NumberOfItemsInPane() != 0 
+           && iExt->iMenuType == EMenuOptions 
+           && taskSwapper == ETaskSwapper
+           && !marking )
         {
         // 'Active Applications' menu item is added at the first item of the 
         // options menu after other menu items are added.
@@ -999,20 +1113,6 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         // menu pane captures all pointer events, and forwards them to CBA if neccessary
         iMenuPane->SetGloballyCapturing(ETrue);
         iMenuPane->SetPointerCapture(ETrue);
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                {
-                fbLogicalType = ETouchFeedbackOptionsMenuOpened;
-                }
-            feedback->InstantFeedback(
-                                   this,
-                                   fbLogicalType,
-                                   ETouchFeedbackVibra,
-                                   TPointerEvent() );
-            }      
         }
     
     iMenuPane->MakeVisible( EFalse );
@@ -1023,6 +1123,16 @@ void CEikMenuBar::StartDisplayingMenuBarL()
     if( optMenuFg )
         {
         GfxTransEffect::Begin( iMenuPane, KGfxControlAppearAction );
+        if( feedback && CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ))
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackOptionsMenuOpened;
+            if( iExt->iMenuType == EMenuContext || iExt->iMenuType == EMenuEdit )
+                {
+                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                }
+            feedback->InstantFeedback( this, fbLogicalType,
+                                        ETouchFeedbackVibra, TPointerEvent() );
+            }      
         } 
     
     iMenuPane->StartDisplayingMenuPane(NULL, menuPosition, NULL, screenSize.iWidth, EPopupTargetBottomLeft);
@@ -1039,6 +1149,11 @@ void CEikMenuBar::StartDisplayingMenuBarL()
                                          demarcation );
         GfxTransEffect::SetDemarcation( iMenuPane, demarcation );
         GfxTransEffect::End( iMenuPane );
+        }
+    if( feedback )
+        {
+        feedback->InstantFeedback( this, ETouchFeedbackPopUp,
+                                    ETouchFeedbackVibra, TPointerEvent() );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1193,9 +1308,18 @@ void CEikMenuBar::ProcessCommandL(TInt aCommandId)
                 if ( feedback )
                     {
                     TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-                    if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                    if ( CAknTransitionUtils::TransitionsEnabled(
+                            AknTransEffect::EComponentTransitionsOff ) )
                         {
-                        fbLogicalType = ETouchFeedbackOptionsMenuClosed;
+                        if ( iExt->iMenuType == EMenuContext ||
+                             iExt->iMenuType == EMenuEdit )
+                            {
+                            fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                            }
+                        else
+                            {
+                            fbLogicalType = ETouchFeedbackOptionsMenuClosed;
+                            }
                         }
                     feedback->InstantFeedback(
                                            this,
@@ -1206,7 +1330,49 @@ void CEikMenuBar::ProcessCommandL(TInt aCommandId)
                 }
             break;
 // AKNLAF end
+
+        case EAknCmdMarkingModeEnter:
+            {
+            if ( iExt->iItemActionMenu )
+                {
+                iExt->iItemActionMenu->MarkingMode(
+                        ).SetCollectionMultipleMarkingState( ETrue );
+                }
+            break;
+
+        case EAknCmdMarkingModeMarkOne:
+            {
+            if ( iExt->iItemActionMenu )
+                {
+                iExt->iItemActionMenu->MarkingMode().MarkCurrentItemL();
+                }
+            }
+            break;
+
+        case EAknCmdMarkingModeMarkAll:
+            {
+            if ( iExt->iItemActionMenu )
+                {
+                iExt->iItemActionMenu->MarkingMode().MarkAllL();
+                }
+            }
+            break;
+
+        case EAknCmdMarkingModeUnmarkAll:
+            {
+            if ( iExt->iItemActionMenu )
+                {
+                iExt->iItemActionMenu->MarkingMode().UnmarkAll();
+                }
+            }
+            break;
+            }
+
         default:
+            if ( iExt->iItemActionMenu )
+                {
+                iExt->iItemActionMenu->MarkingMode().TryExitMarkingMode();
+                }
             break;
         }
     }
@@ -1438,6 +1604,15 @@ CEikMenuPane* CEikMenuBar::PopulateItemActionMenuL(
                     {
                     menuPane->AddMenuItemsL( resource, 0 );
                     iMenuObserver->DynInitMenuPaneL( resource, menuPane );                    
+
+                    if ( resource == R_AVKON_MENUPANE_MARK_MULTIPLE ) 
+                        {
+                        if ( iExt->iItemActionMenu->MarkingMode().MultipleMarkingActive() || 
+                             !iExt->iItemActionMenu->MarkingMode().CurrentItemMarkable() )
+                            {
+                            menuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
+                            }
+                        }
                     }
                 titles--;
                 }

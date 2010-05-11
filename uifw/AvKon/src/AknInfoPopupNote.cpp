@@ -472,7 +472,8 @@ void CAknInfoPopupNote::HandlePointerEventL( const TPointerEvent& aPointerEvent 
              || aPointerEvent.iType == TPointerEvent::EButton1Up
              || aPointerEvent.iType == TPointerEvent::EDrag )
             {
-            if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+            Hide();
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Down && !IsVisible() )
                 {
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
                 if ( feedback )
@@ -481,7 +482,6 @@ void CAknInfoPopupNote::HandlePointerEventL( const TPointerEvent& aPointerEvent 
                     }
                 }
 
-            Hide();
             SetPointerCapture( EFalse ); 
             }
         }

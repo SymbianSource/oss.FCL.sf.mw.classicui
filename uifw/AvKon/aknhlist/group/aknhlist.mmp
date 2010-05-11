@@ -88,3 +88,4 @@ LIBRARY                 AknNotify.lib // akntrace
 LIBRARY         aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 DEFFILE                 aknhlist.def
+LIBRARY                 fbscli.lib

@@ -1158,6 +1158,16 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
 
                     CAknSmallIndicator* indicatorNotifier = CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
                     indicatorNotifier->HandleIndicatorTapL();
+                    //for indicator popup event
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if ( feedback )
+                        {
+                        feedback->InstantFeedback(
+                                           this,
+                                           ETouchFeedbackPopUp,
+                                           ETouchFeedbackVibra,
+                                           aPointerEvent );
+                        }
                     CleanupStack::PopAndDestroy( indicatorNotifier );
                     }
 
@@ -4058,9 +4068,8 @@ EXPORT_C void CAknIndicatorContainer::ReplaceIndicatorIconL(
             }
         }
 
-    if ( indicator &&
-         indicator->IndicatorState() ||
-         indicator->Priority() != KIndicatorNotShown )
+    if (indicator && (indicator->IndicatorState() || 
+            indicator->Priority()!= KIndicatorNotShown))
         {
         SizeChanged();
         DrawDeferred();

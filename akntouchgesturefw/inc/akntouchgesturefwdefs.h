@@ -47,7 +47,7 @@ const TInt KDefaultMaxDoubleTapDuration = 400000;
 const TInt KTapThreshold = 20;
 
 /// Pixel threshold value used for deciding if pointer has been dragged.
-const TInt KDefaultDragThreshold = 20;
+const TInt KDefaultDragThreshold = 40;
 
 /// Initial threshold for pinch. This is used when both pointers are 
 /// just set down.

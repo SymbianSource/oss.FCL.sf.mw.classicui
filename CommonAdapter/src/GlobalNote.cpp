@@ -17,7 +17,7 @@
 
 
 // INCLUDE FILES
-#include <globalnote.h>
+#include <GlobalNote.h>
 #include <avkon.rsg> // For softkey resources
 
 #include "GlobalNoteImpl.h"

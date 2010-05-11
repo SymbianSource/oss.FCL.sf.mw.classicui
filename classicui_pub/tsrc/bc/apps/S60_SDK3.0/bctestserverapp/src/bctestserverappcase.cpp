@@ -25,7 +25,7 @@
 
 #include <w32std.h>
 #include <coecntrl.h>
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 #include <avkon.hrh>
 #include <aknwseventobserver.h>
 #include <aknBitmapAnimation.h>

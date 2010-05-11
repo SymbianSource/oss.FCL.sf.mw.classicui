@@ -4304,4 +4304,18 @@
 //r: 5.0
 #define qtn_activate_korean_mode "Korean mode"
 
+//d:Command in options menu.
+//d:Mark multiple -operation. Launches list multiple marking mode.
+//l:list_single_pane_t1_cp2/opt3
+//r: TB9.2
+//
+#define qtn_options_list_mark_multiple "Mark multiple"
+
+//d: Text shown in navi pane when phone is in marking mode
+//l: navi_text_pane_t1
+//r: TB9.2
+//
+#define qtn_navi_pane_marking_mode "Marking mode"
+
 // End of File
+

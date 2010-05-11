@@ -24,8 +24,6 @@
 
 #include <AknTasHook.h> // for testability hooks
 #include <touchfeedback.h>
-const TInt KStartIntensity = 1;
-const TInt KEndIntensity = 100;
 #include "aknlongtapanimation.h"
 
 enum TInternalFlags
@@ -195,15 +193,9 @@ EXPORT_C void CAknLongTapAnimation::ShowAnimationL( const TInt aX,
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
         {
-        CBitmapAnimClientData* animData = iAnim->BitmapAnimData();	
-		TInt interval = animData->FrameIntervalInMilliSeconds()
-		             * KConversionFromMillisecondsToMicroseconds;
-        TInt frameCount = animData->FrameArray().Count();
-
-        // timeout should be greater than normal animation time 
-        // so that timeout does not interfere into normal operation
-        TInt timeout = interval * (frameCount+1); 
-        feedback->StartFeedback( this, ETouchContinuousSmooth, NULL, KStartIntensity, timeout );
+        feedback->InstantFeedback( 
+                this, ETouchFeedbackLongTap,
+                ETouchFeedbackVibra, TPointerEvent() );
         }
 	StartAnimation();
     }
@@ -375,11 +367,6 @@ void CAknLongTapAnimation::CancelAnimation()
 		{
 		iExtension->iTimer->Cancel();
 		iExtension->iFlags &= ~EAnimationStarted;
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            feedback->StopFeedback( this );
-            }
 		}
 	}
 
@@ -398,14 +385,6 @@ void CAknLongTapAnimation::NextFrame()
 	{
 		iExtension->iIndex = frameCount - 1;
 	}
-    MTouchFeedback* feedback = MTouchFeedback::Instance();
-    if ( feedback )
-        {
-        // intensity should go from 0 to 100
-        TInt intensity = KEndIntensity
-                       * (iExtension->iIndex+1) / frameCount;
-        feedback->ModifyFeedback( this, intensity );
-        }
 	DrawNow();
 	}
 

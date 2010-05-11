@@ -54,14 +54,14 @@ void CHgVgPopup::ConstructL (  )
     {
     iPrevText = ((TDesC)KNullDesC).AllocL();
 
-    iDrawBuffer = CHgVgDrawBuffer::NewL(iRect.Size(), EGray2);
+    iDrawBuffer = CHgVgDrawBuffer::NewL(iRect.Size(), EGray256);
 
     iDrawBuffer->Gc().UseFont(iFont);
     iDrawBuffer->Gc().SetPenColor(KRgbWhite);
     iDrawBuffer->Gc().SetBrushColor(KRgbBlack);
     
     // Create VG Image to use
-    iLetterImage = vgCreateImage(VG_A_1, 
+    iLetterImage = vgCreateImage(VG_A_8, 
             iRect.Width(), iRect.Height(), 
             VG_IMAGE_QUALITY_NONANTIALIASED);
 
@@ -140,7 +140,7 @@ void CHgVgPopup::SetTextL(const TDesC& aText)
         TPoint pos(iRect.Width() / 2 - width / 2, 
                 iRect.Height() / 2 + height / 2);
         iDrawBuffer->DrawText(aText, iFont, KRgbWhite, pos);*/
-        iDrawBuffer->GetDrawBufferToVgImage(iRect.Size(), TPoint(0,0), iLetterImage, VG_A_1);
+        iDrawBuffer->GetDrawBufferToVgImage(iRect.Size(), TPoint(0,0), iLetterImage, VG_A_8);
         }
     }
 
@@ -159,7 +159,7 @@ void CHgVgPopup::SetTexts(const TDesC& aText1, const TDesC& aText2)
     pos.iY += height;
     pos.iX = iRect.Width() / 2 - w2 / 2;
     iDrawBuffer->Gc().DrawText(aText2, pos);
-    iDrawBuffer->GetDrawBufferToVgImage(iRect.Size(), TPoint(0,0), iLetterImage, VG_A_1);    
+    iDrawBuffer->GetDrawBufferToVgImage(iRect.Size(), TPoint(0,0), iLetterImage, VG_A_8);    
     }
 
 // -----------------------------------------------------------------------------

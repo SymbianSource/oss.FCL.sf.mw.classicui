@@ -41,7 +41,7 @@ EXPORT_C void AknItemActionMenuRegister::SetConstructingMenuBarOwnerL(
 
     if ( instance )
         {
-        instance->DoSetConstructingMenuBarOwnerL( aMenuBarOwner ); 
+        instance->iMenuBarOwner = aMenuBarOwner;
         }
 
     _AKNTRACE_FUNC_EXIT;
@@ -905,28 +905,6 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::CreateInstanceL()
     return instance;
     }
 
-// ---------------------------------------------------------------------------
-// AknItemActionMenuRegister::DoSetConstructingMenuBarOwnerL
-// ---------------------------------------------------------------------------
-//
-void AknItemActionMenuRegister::DoSetConstructingMenuBarOwnerL( 
-        MObjectProvider* aMenuBarOwner )
-    {
-    if ( aMenuBarOwner )
-        {
-        CEikDialog* dialog( NULL );
-        aMenuBarOwner->MopGetObjectNoChaining( dialog );
-        // Get information if the constructing menu bar owner is a dialog  
-        // and store it to iIsConstructingDialog
-        if ( dialog )
-            {
-            iIsConstructingDialog = ETrue; 
-            }
-        }
-    
-    iMenuBarOwner = aMenuBarOwner;
-    }
-
 
 // ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner
@@ -945,21 +923,6 @@ void AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner(
         if ( data.iOwner == iMenuBarOwner ) 
             {
             data.iOwner = iMenuBarOwner = NULL;
-            
-            // When setting constructing menubar owner to NULL from a dialog
-            // check if there is item with the same menubar owner in 
-            // iUnregisteredMenus and try to find correct menubar for it.
-            if ( iIsConstructingDialog )
-                {
-                CEikMenuBar* menuBar = FindCurrentMenuBar(); 
-
-                if ( menuBar )
-                    {
-                    TRAP_IGNORE( AddRegisterEntryL( *menuBar, *data.iMenu ) );
-                    iUnregisteredMenus.Remove( i );
-                    continue;
-                    }
-                }
             }
         
         ++i;
@@ -978,7 +941,6 @@ void AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner(
     
     if ( iMenuBarOwner == aMenuBarOwner )
         {
-        iIsConstructingDialog = EFalse; 
         iMenuBarOwner = NULL;
         }
     }

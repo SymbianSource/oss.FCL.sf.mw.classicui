@@ -19,7 +19,7 @@
 #include <w32std.h>
 #include <coecntrl.h>   
 #include <eikenv.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <aknsdrawutils.h>
 #include <aknsimageattributedata.h>
 

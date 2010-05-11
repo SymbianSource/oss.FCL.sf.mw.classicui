@@ -31,7 +31,7 @@
 #include <Aknedsts.h>
 #include <aknipfed.h>
 #include <aknnumed.h>
-#include <aknnumedwin.h>
+#include <AknNumEdwin.h>
 #include <eikccpu.h>
 #include <eikedwin.h>
 #include <eikfpne.h>

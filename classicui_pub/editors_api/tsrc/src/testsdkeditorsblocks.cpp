@@ -661,6 +661,7 @@ TInt CTestSDKEditors::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestMFNETOEHandlePointerEventL", CTestSDKEditors::TestMFNETOEHandlePointerEventL ),
         ENTRY( "TestEikEdwinSmileyInputL", CTestSDKEditors::TestEikEdwinSmileyInputL ),       
         ENTRY( "TestEEnableKineticScrollingL", CTestSDKEditors::TestEEnableKineticScrollingL ),
+        ENTRY( "TestEEnableKineticScrollingPhysicsL", CTestSDKEditors::TestEEnableKineticScrollingPhysicsL ),
         };
 
     const TInt count = sizeof( KFunctions ) / sizeof( TStifFunctionInfo );

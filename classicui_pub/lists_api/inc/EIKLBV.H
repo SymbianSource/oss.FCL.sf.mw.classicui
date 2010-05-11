@@ -846,6 +846,18 @@ public:
      *         @c EFalse if it's not visible or fully visible.
      */
     IMPORT_C TBool ItemIsPartiallyVisible( TInt aItemIndex ) const;
+    
+    /**
+     * Resets the selection state so that there is nothing selected.
+     *
+     * @param  aDrawItems  Whether or not to draw the items which are
+     *                     deselected.
+     *
+     * @panic  EEikPanicListBoxNoSelIndexArray  Panics if selection indexes
+     *                                          have not been defined for
+     *                                          this class. 
+     */
+    void ClearSelection( TBool aDrawItems );
 
 protected:
 

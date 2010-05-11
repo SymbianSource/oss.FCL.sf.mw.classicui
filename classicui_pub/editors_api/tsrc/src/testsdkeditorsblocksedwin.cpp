@@ -36,6 +36,7 @@
 #include <eikrted.h>
 #include <aknextendedinputcapabilities.h>
 #include <baclipb.h>
+#include <aknphysics.h>
 
 #include <testsdkeditors.rsg>
 
@@ -6027,3 +6028,127 @@ TInt CTestSDKEditors::TestEikEdwinSmileyInputL(CStifItemParser& /*aItem*/)
     return err;
     }
 
+
+// -----------------------------------------------------------------------------
+// CTestSDKEditors::TPhysicsObserver::ViewPositionChanged
+// -----------------------------------------------------------------------------
+//
+void CTestSDKEditors::TPhysicsObserver::ViewPositionChanged(
+    const TPoint& /*aNewPosition*/, TBool /*aDrawNow*/, TUint /*aFlags*/ )
+    {
+    }
+
+
+// -----------------------------------------------------------------------------
+// CTestSDKEditors::TPhysicsObserver::PhysicEmulationEnded
+// -----------------------------------------------------------------------------
+//
+void CTestSDKEditors::TPhysicsObserver::PhysicEmulationEnded()
+    {
+    }
+
+
+// -----------------------------------------------------------------------------
+// CTestSDKEditors::TPhysicsObserver::ViewPosition
+// -----------------------------------------------------------------------------
+//
+TPoint CTestSDKEditors::TPhysicsObserver::ViewPosition() const
+    {
+    TPoint point (0,0);
+    return point;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CTestSDKEditors::TestEEnableKineticScrollingPhysicsL
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKEditors::TestEEnableKineticScrollingPhysicsL( CStifItemParser&
+        /*aItem*/ )
+    {
+    CTestEditorsControl* control = CTestEditorsControl::NewL();
+    CleanupStack::PushL( control );
+    STIF_ASSERT_NOT_NULL( control );
+
+    CTestSDKEditorsEdwin* edwin = new ( ELeave ) CTestSDKEditorsEdwin;
+    CleanupStack::PushL( edwin );
+    STIF_ASSERT_NOT_NULL( edwin );
+    // Enable kinetic scrolling
+
+    TPhysicsObserver obs;
+    CAknPhysics* physics ( NULL );
+    STIF_ASSERT_TRUE ( CAknPhysics::FeatureEnabled() );
+
+    physics = CAknPhysics::NewL( obs, control );
+    CleanupStack::PushL( physics );
+
+    edwin->EnableKineticScrollingL( physics );
+    edwin->SetContainerWindowL( *control );
+
+    TResourceReader reader;
+    CCoeEnv::Static()->CreateResourceReaderLC( reader, R_TESTSDK_EDWIN );
+    edwin->ConstructFromResourceL( reader );
+    CleanupStack::PopAndDestroy();
+
+    // CreateLayoutL
+    CParaFormatLayer* paraFormatLayer = CParaFormatLayer::NewL();
+    CleanupStack::PushL( paraFormatLayer );
+    CCharFormatLayer* charFormatLayer = CCharFormatLayer::NewL();
+    CleanupStack::PushL( charFormatLayer );
+    CGlobalText * globalText =
+        CGlobalText::NewL( paraFormatLayer, charFormatLayer );
+    CleanupStack::PushL( globalText );
+    edwin->CreateLayoutL( globalText );
+    CleanupStack::Pop( globalText );
+    CleanupStack::Pop( charFormatLayer );
+    CleanupStack::Pop( paraFormatLayer );
+
+    edwin->CreateTextViewL();
+
+    // SetTextL
+    _LIT( KText, "one text" );
+    TBuf<KLength> text( KText );
+    edwin->SetTextL( &text );
+
+    edwin->ForceScrollBarUpdateL();
+    edwin->HandleSizeChangedL();
+
+    // Set selection
+    const TInt KSelectionPosition( 2 );
+    edwin->SetSelectionL( 0, KSelectionPosition );
+    TCursorSelection cursorSelection( 0, KSelectionPosition );
+    STIF_ASSERT_TRUE(
+            cursorSelection.iCursorPos == edwin->Selection().iCursorPos );
+    STIF_ASSERT_TRUE(
+            cursorSelection.iAnchorPos == edwin->Selection().iAnchorPos );
+    edwin->ClearSelectionL();
+    STIF_ASSERT_TRUE( 0 == edwin->Selection().iCursorPos );
+
+    edwin->MoveCursorL( TCursorPosition::EFRight, ETrue );
+    STIF_ASSERT_FALSE( edwin->IdleL( edwin ) );
+
+    // HandlePointerEventL
+    TPointerEvent event;
+    event.iType = TPointerEvent::EButton1Down;
+    edwin->HandlePointerEventL( event );
+
+    // HandleScrollEventL
+    CEikScrollBar* scrollBar = new ( ELeave ) CEikScrollBar;
+    CleanupStack::PushL( scrollBar );
+    STIF_ASSERT_NOT_NULL( scrollBar );
+    scrollBar->ConstructL( static_cast<MEikScrollBarObserver*>( edwin ),
+                           control,
+                           CEikScrollBar::EVertical,
+                           KLength,
+                           CEikScrollBar::EEikScrollBarDefaultBehaviour );
+    TAknDoubleSpanScrollBarModel doubleModel;
+    scrollBar->SetModel( &doubleModel );
+    edwin->HandleScrollEventL( scrollBar, EEikScrollThumbDragHoriz );
+    CleanupStack::PopAndDestroy( scrollBar );
+
+    CleanupStack::PopAndDestroy( physics );
+    CleanupStack::PopAndDestroy( edwin );
+    CleanupStack::PopAndDestroy( control );
+
+    return KErrNone;
+    }

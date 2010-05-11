@@ -19,7 +19,7 @@
 #include <aknsinglestyletreelist.h>
 #include <akniconutils.h>
 #include <avkon.mbg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 
 #include "testsdkhierarchicallists.h"
 #include "testsdkhierarchicallistsordering.h"

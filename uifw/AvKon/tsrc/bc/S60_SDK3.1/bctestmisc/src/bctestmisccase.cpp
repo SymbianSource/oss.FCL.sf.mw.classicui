@@ -21,7 +21,7 @@
 #include <aknscreenmode.h>
 #include <aknappui.h>
 #include <bctestmisc.rsg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <eikmenub.h>
 #include <aknutils.h>
 

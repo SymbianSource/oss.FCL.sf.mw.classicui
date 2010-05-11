@@ -69,116 +69,116 @@ void CHgIndicatorManager::InitIndicatorsL( const TSize& aIndicatorSize )
     InitIconL( iBrokenPlaylistIcon, 
             EMbmGanesQgn_graf_mup_lst_brokenplayl, 
             EMbmGanesQgn_graf_mup_lst_brokenplayl_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Broken track icon
     InitIconL( iBrokenTrackIcon, 
             EMbmGanesQgn_graf_mup_lst_brokentrack, 
             EMbmGanesQgn_graf_mup_lst_brokentrack_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Corrupted track icon
     InitIconL( iCorruptedTrackIcon, 
             EMbmGanesQgn_graf_mup_lst_corrupttrack, 
             EMbmGanesQgn_graf_mup_lst_corrupttrack_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // New podcast icon 
     InitIconL( iNewPodcastIcon, 
             EMbmGanesQgn_graf_mup_lst_pdc_new, 
             EMbmGanesQgn_graf_mup_lst_pdc_new_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Played podcast icon 
     InitIconL( iPlayedPodcastIcon, 
             EMbmGanesQgn_graf_mup_lst_pdc_partplay, 
             EMbmGanesQgn_graf_mup_lst_pdc_partplay_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
 
     // Completely played podcast icon 
     InitIconL( iCompletelyPlayedPodcastIcon, 
             EMbmGanesQgn_graf_mup_lst_pdc_compplay, 
             EMbmGanesQgn_graf_mup_lst_pdc_compplay_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
+
+    // Video icon
+    InitIconL( iVideoIcon,
+            EMbmGanesQgn_indi_media_thumbnail, 
+            EMbmGanesQgn_indi_media_thumbnail_mask, 
+            aIndicatorSize );
 
     // Skinned icons
     // Mark icon
     InitIconL( iMarkIcon, KAknsIIDQgnPropSubMarked, 
             EMbmGanesQgn_prop_sub_marked, 
             EMbmGanesQgn_prop_sub_marked_mask, 
-            aIndicatorSize);
-    
-    // Video icon
-    InitIconL( iVideoIcon, KAknsIIDQgnPropFileVideo,
-            EMbmGanesQgn_prop_file_video, 
-            EMbmGanesQgn_prop_file_video_mask, 
-            aIndicatorSize);
-    
+            aIndicatorSize );
+
     // DRM valid icon
     InitIconL( iDrmIcon, KAknsIIDQgnPropDrmRightsValidSuper, 
             EMbmGanesQgn_prop_drm_rights_valid_super, 
             EMbmGanesQgn_prop_drm_rights_valid_super_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // DRM expired icon
     InitIconL( iDrmExpIcon, KAknsIIDQgnPropDrmRightsExpSuper, 
             EMbmGanesQgn_prop_drm_rights_exp_super, 
             EMbmGanesQgn_prop_drm_rights_exp_super_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Playback icon
     InitIconL( iPlaybackIndicatorIcon, KAknsIIDQgnIndiMupPlay, 
             EMbmGanesQgn_indi_mup_play, 
             EMbmGanesQgn_indi_mup_play_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Pause icon
     InitIconL( iPauseIndicatorIcon, KAknsIIDQgnIndiMupPause, 
             EMbmGanesQgn_indi_mup_pause, 
             EMbmGanesQgn_indi_mup_pause_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // New Video icon
     InitIconL( iNewVideoIcon, KAknsIIDQgnPropFmgrFileVideo, 
             EMbmGanesQgn_prop_fmgr_file_video, 
             EMbmGanesQgn_prop_fmgr_file_video_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Phone memory icon
     InitIconL( iPhoneStorageIcon, KAknsIIDQgnPropPhoneMemc, 
             EMbmGanesQgn_prop_phone_memc, 
             EMbmGanesQgn_prop_phone_memc_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
 
     // MMC memory icon
     InitIconL( iMmcIcon, KAknsIIDQgnPropMmcMemc, 
             EMbmGanesQgn_prop_mmc_memc, 
             EMbmGanesQgn_prop_mmc_memc_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Mass memory icon
     InitIconL( iMassStorageIcon, KAknsIIDQgnPropFmgrMsSmall, 
             EMbmGanesQgn_prop_fmgr_ms_small, 
             EMbmGanesQgn_prop_fmgr_ms_small_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
 
     // Move up icon
     InitIconL( iMoveUpIcon, KAknsIIDQgnGrafMupAdtlReorderUp, 
             EMbmGanesQgn_graf_mup_adtl_reorder_up, 
             EMbmGanesQgn_graf_mup_adtl_reorder_up_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Move down icon
     InitIconL( iMoveDownIcon, KAknsIIDQgnGrafMupAdtlReorderDown, 
             EMbmGanesQgn_graf_mup_adtl_reorder_down, 
             EMbmGanesQgn_graf_mup_adtl_reorder_down_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     
     // Move updown icon
     InitIconL( iMoveUpDownIcon, KAknsIIDQgnGrafMupAdtlReorderUpdown, 
             EMbmGanesQgn_graf_mup_adtl_reorder_updown, 
             EMbmGanesQgn_graf_mup_adtl_reorder_updown_mask, 
-            aIndicatorSize);
+            aIndicatorSize );
     }
 
 void CHgIndicatorManager::DrawIndicators( 

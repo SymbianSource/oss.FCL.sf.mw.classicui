@@ -30,7 +30,7 @@
 #include <eikdef.h>
 #include <eikedwin.h>
 #include "aknsettingpage.h"
-#include "aknnumedwin.h"
+#include "AknNumEdwin.h"
 
 /**
 * This class is an intermediate pure virtual class for all setting page classes that host 

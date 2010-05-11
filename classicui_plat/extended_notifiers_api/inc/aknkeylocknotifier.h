@@ -98,8 +98,8 @@ public:
     CAknKeyLockControl();
     ~CAknKeyLockControl();
     void ConstructL();
-    void EnableKeylock(TBool aShowNote = ETrue);
-    void DisableKeylock();
+    void EnableKeylock(TBool aShowNote = ETrue, TBool aNotifySysApp = ETrue);
+    void DisableKeylock(TBool aNotifySysApp = ETrue);
     void OfferKeylock();
 
     void DisplayLockedNote();

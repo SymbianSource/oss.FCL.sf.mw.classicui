@@ -539,6 +539,7 @@ void CPslnSlidesetDialog::HandleSettingPageEventL(
                     // If images is selected, start MGFetch.
                     if ( current != KPslnSlideSetRandomIndex )
                         {
+                        aSettingPage->MakeVisible( EFalse );
                         HandleLaunchMGFetchL();
                         }
                     else

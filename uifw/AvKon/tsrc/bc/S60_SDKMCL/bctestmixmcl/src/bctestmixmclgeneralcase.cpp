@@ -34,6 +34,8 @@
 #include <aknradiobuttonsettingpage.h>
 #include <aknpopupsettingpage.h>  
 #include <ItemFinder.h>
+#include <finditemdialog.h>
+#include <aknphysics.h>
 
 #include "bctestmixmclgeneralcase.h"
 #include "bctestmixmclcontainer.h"
@@ -130,7 +132,9 @@ void CBCTestMixMCLGeneralCase::RunL( TInt aCmd )
     TestRadioButtonSettingPageL();
     TestPopupSettingPageL();   
     TestItemFinder();
+    TestFindItemDialog();
     TestEditorKineticScrollingL();
+    TestEnableKineticScrollingPhysicsL();
     TestAknPhysicsSuspendPhysicsL();
     TestAknPhysicsResumePhysicsL();
     TestCbaL();
@@ -521,6 +525,36 @@ void CBCTestMixMCLGeneralCase::TestEditorKineticScrollingL()
     AssertTrueL( ETrue, KEdwinEnableScrolling );
     }
 
+
+// ---------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestEnableKineticScrollingPhysicsL
+// ---------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestEnableKineticScrollingPhysicsL()
+    {
+    CEikEdwin* editor = new ( ELeave ) CEikEdwin;
+    CleanupStack::PushL( editor );
+
+    CAknPhysics* physics ( NULL );
+    AssertTrueL ( CAknPhysics::FeatureEnabled() );
+    CCoeControl* control ( NULL );
+    control = new (ELeave) CCoeControl;
+    CleanupStack::PushL( control );
+
+    physics = CAknPhysics::NewL( *this, control );
+    CleanupStack::PushL( physics );
+
+    editor->EnableKineticScrollingL( physics );
+
+    CleanupStack::PopAndDestroy( physics );
+    CleanupStack::PopAndDestroy( control );
+    CleanupStack::PopAndDestroy( editor );
+
+    _LIT( KEdwinEnableScrollingPhysics,
+            "CEikEdwin::TestEnableKineticScrollingPhysicsL tested" );
+    AssertTrueL( ETrue, KEdwinEnableScrollingPhysics );
+    }
+
 // ---------------------------------------------------------------------------
 // CBCTestMixMCLGeneralCase::TestAknPhysicsSuspendPhysicsL
 // ---------------------------------------------------------------------------
@@ -646,6 +680,28 @@ void CBCTestMixMCLGeneralCase::TestItemFinder()
     AssertTrueL( ETrue, KSetItemFinderObserverL );
 
     CleanupStack::PopAndDestroy( itemfinder );
+    }
+
+
+// -----------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestFindItemDialog
+// -----------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestFindItemDialog()
+    {
+    _LIT( KEnableSingleClick,
+            "CFindItemDialog::EnableSingleClick() tested" );
+    _LIT( KUrlDes, "http://www.symbian.com" );
+
+    CFindItemDialog* dialog = CFindItemDialog::NewL( KUrlDes,
+            CFindItemEngine::EFindItemSearchURLBin );
+    CleanupStack::PushL( dialog );
+
+    dialog->EnableSingleClick ( EFalse );
+    dialog->EnableSingleClick ( ETrue );
+    AssertTrueL( ETrue, KEnableSingleClick );
+
+    CleanupStack::PopAndDestroy( dialog );
     }
 
 

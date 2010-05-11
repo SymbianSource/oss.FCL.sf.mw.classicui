@@ -43,3 +43,4 @@ PRJ_EXPORTS
 ../inc/EIKLBD.H     MW_LAYER_PUBLIC_EXPORT_PATH(eiklbd.h)
 ../inc/AknSelectionList.h     MW_LAYER_PUBLIC_EXPORT_PATH(aknselectionlist.h)
 ../inc/EIKLBO.H     MW_LAYER_PUBLIC_EXPORT_PATH(eiklbo.h)
+../inc/aknmarkingmodeobserver.h     MW_LAYER_PUBLIC_EXPORT_PATH(aknmarkingmodeobserver.h)

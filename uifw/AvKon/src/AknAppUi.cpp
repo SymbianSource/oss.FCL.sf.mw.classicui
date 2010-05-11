@@ -69,7 +69,7 @@
 #include <gfxtranseffect/gfxtranseffect.h>
 
 #include <aknSDData.h>
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <startupdomainpskeys.h>
 
 #include "transitionmanager.h"
@@ -1809,6 +1809,12 @@ EXPORT_C void CAknAppUi::HandleViewDeactivation(const TVwsViewId& /*aViewIdToBeD
 
 EXPORT_C void CAknAppUi::PrepareToExit()
     {
+    // Hide application toolbar to prevent it from showing 
+    // after views are deleted    
+    if ( CurrentFixedToolbar() )
+        {
+        CurrentFixedToolbar()->SetToolbarVisibility( EFalse );   
+        }
     if( IsForeground() && Document() )
         {
         //only if focused, otherwise next app HandleForeground may never come.

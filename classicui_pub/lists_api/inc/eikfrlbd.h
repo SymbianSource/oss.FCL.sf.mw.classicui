@@ -1061,37 +1061,6 @@ public:
                               TBool aHighlight) const;
 
     /**
-     * Renders a settings animated highlight.
-     *
-     * @param aGc Graphics context used for drawing.
-     * @param aItemRect the area of the screen for drawing.
-     * @param aHighlight If @c ETrue highlight is rendered 
-     *        if @c EFalse, nothing is done.
-     */
-    void DrawSettingHighlight(CWindowGc &aGc,
-                              const TRect &aItemRect,
-                              TBool aHighlight) const;
-
-    /**
-     * Renders a popup animated highlight.
-     *
-     * @param aGc Graphics context used for drawing.
-     * @param aItemRect the area of the screen for drawing.
-     * @param aHighlight If @c ETrue highlight is rendered 
-     *        if @c EFalse, nothing is done.
-     */
-    void DrawPopupHighlight(CWindowGc &aGc,
-                            const TRect &aItemRect,
-                            TBool aHighlight) const;
-
-    /**
-     * Draws a popup frame.
-     *
-     * @param aGc Graphics context used for drawing.
-     */
-    void DrawPopupFrame(CWindowGc &aGc) const;
-
-    /**
      * Disables logical-to-visual conversion in subcells between indexes.
      *
      * @param aFirstIndex First subcell not to use logical-to-visual conversion.

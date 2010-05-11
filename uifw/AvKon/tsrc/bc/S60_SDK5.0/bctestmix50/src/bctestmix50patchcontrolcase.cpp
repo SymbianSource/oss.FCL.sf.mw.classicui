@@ -43,7 +43,7 @@
 #include <aknsinglecolumnstyletreelist.h>
 #include <aknsinglestyletreelist.h>
 #include <avkon.mbg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <eikhkeyt.h>
 #include <aknindicatorcontainer.h>
 #include <akninfrm.h>

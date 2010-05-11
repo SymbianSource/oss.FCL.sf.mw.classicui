@@ -286,6 +286,11 @@ void CAknIndicator::SetIndicatorState(TInt aState)
         this->MakeVisible(EFalse);
         DeleteBitmaps();
         }
+    else if (iState == EAknIndicatorStateAnimate )
+        {
+        MakeVisible( ETrue );
+        }
+        
     SizeChanged();
     }
 

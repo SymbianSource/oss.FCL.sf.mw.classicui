@@ -40,6 +40,7 @@ class CEikButtonBase;
 class CMatchBuffer;
 class CListBoxExt;
 class CEikListBox;
+class MAknMarkingModeObserver;
 
 //  CLASS DECLARATION
 
@@ -1530,6 +1531,26 @@ public:
      */
     IMPORT_C TBool IsHighlightEnabled();
     
+    /**
+     * Turns the marking mode on / off.
+     *
+     * @since S60 5.2
+     * 
+     * @param  aEnable @c ETrue to turn marking mode on
+     *                 @c EFalse to turn marking mode off
+     */
+    IMPORT_C void SetMarkingMode( TBool aEnable );
+
+    /**
+     * Sets the marking mode observer.
+     *
+     * @since S60 5.2
+     * 
+     * @param  aObserver Marking mode observer, @c NULL removes the existing
+     *                   observer.
+     */
+    IMPORT_C void SetMarkingModeObserver( MAknMarkingModeObserver* aObserver );
+    
 private:
     IMPORT_C virtual void CEikListBox_Reserved(); // listbox use only
     void HorizontalScroll(TInt aScrollAmountInPixels);
@@ -1573,6 +1594,24 @@ private:
      */
     void UpdateHighlightL( TInt aItemIndex );
 
+    /**
+     * Checks whether marking mode is on or off.
+     *
+     * @since S60 5.2
+     * 
+     * @return @c ETrue if marking mode is on, otherwise @c EFalse
+     */
+    TBool MarkingMode() const;
+    
+    /**
+     * Returns the marking mode observer.
+     *
+     * @since S60 5.2
+     * 
+     * @return Pointer to the marking mode observer.
+     */
+    MAknMarkingModeObserver* MarkingModeObserver();
+    
 public:
     /**
      * Sets this control as visible or invisible.

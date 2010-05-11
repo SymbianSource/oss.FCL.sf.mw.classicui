@@ -621,7 +621,7 @@ void CAknToolbarExtensionView::HandlePointerEventL(
                         // focus has moved from one button to another due to dragging, 
                         // give sensitive feedback
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
-                        if ( feedback && 
+                        if ( feedback && !button->IsDimmed() &&
                         ( aPointerEvent.iType == TPointerEvent::EDrag ||
                           aPointerEvent.iType == TPointerEvent::EButtonRepeat ) )
                             {
@@ -645,12 +645,14 @@ void CAknToolbarExtensionView::HandlePointerEventL(
                     {
                     // Up and down events are in different items, give basic
                     // feedback to the released item.
-                    if ( ii != iDownItem )
+                    if ( ii != iDownItem && !button->IsDimmed() )
                         {
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( ETouchFeedbackBasicButton );
+                            feedback->InstantFeedback(
+                                    this, ETouchFeedbackBasicButton,
+                                    ETouchFeedbackVibra, aPointerEvent );
                             }
                         }
                 

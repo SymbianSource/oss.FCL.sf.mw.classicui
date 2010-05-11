@@ -199,15 +199,6 @@ private: // defining reserved method.
 
 protected:
 
-    /**
-     * Draw the item background.
-     *
-     * Internal member, not intended for use.
-     *
-     * @param aRect Drawing area. 
-     */
-    void DrawCurrentItemRect(const TRect& aRect) const;
-	
     /** 
      * Array of properties.
      */

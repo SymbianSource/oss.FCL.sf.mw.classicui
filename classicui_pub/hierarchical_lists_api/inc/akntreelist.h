@@ -24,6 +24,7 @@
 #include <w32std.h>
 #include <akntreelistobserver.h>
 #include <AknIconUtils.h> // TScaleMode
+#include <aknmarkingmodeobserver.h>
 
 class CAknTree;
 class CAknTreeListView;
@@ -920,6 +921,15 @@ public:
      */
     IMPORT_C void SetEmptyTextL(const TDesC& aText);
 
+    /**
+     * Sets the marking mode observer.
+     *
+     * @since S60 5.2
+     * 
+     * @param aObserver Marking mode observer, @c NULL removes the existing
+     *                   observer.
+     */
+    IMPORT_C void SetMarkingModeObserver( MAknMarkingModeObserver* aObserver );
 
 // From base class CCoeControl
 
@@ -1009,6 +1019,15 @@ public:
      */
     CCoeControl* ComponentControl( TInt aIndex ) const;
 
+    /**
+     * Returns the marking mode observer.
+     *
+     * @since S60 5.2
+     * 
+     * @return Pointer to the marking mode observer.
+     */
+    MAknMarkingModeObserver* MarkingModeObserver();
+    
 protected:
 
     /**
@@ -1133,6 +1152,10 @@ private: // data
      */
     TInt iIndex;
 
+    /**
+     * Marking mode observer
+     */
+    MAknMarkingModeObserver* iMarkingModeObserver; 
     };
 
 

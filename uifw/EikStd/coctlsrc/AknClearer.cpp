@@ -309,11 +309,6 @@ void CAknScreenClearerBase::SetSkinShapeL()
         ( usualSpLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL ) ||
         ( idleSpLayout  == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE );
     
-    // Check that if in landscape mode statuspane is changed to stacon pane
-    TBool staconPaneUsedInLandscape = 
-        ( usualSpLayout != R_AVKON_STATUS_PANE_LAYOUT_USUAL ) &&
-        ( usualSpLayout != R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED );
-
     TBool flatStatuspaneusedInLandscape =
         ( usualSpLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ) ||
         ( usualSpLayout == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT );

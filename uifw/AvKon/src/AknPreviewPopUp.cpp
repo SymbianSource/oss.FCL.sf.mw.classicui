@@ -218,8 +218,12 @@ void CAknPreviewPopUp::Hide()
         return; 
         }
 
+    // Skip disappear transition if the popup is either permanent, fixed or
+    // faded. Fading status is checked because there can't be two parallel
+    // effects applied to the same window.
     TBool useTfx = !( iFlags & CAknPreviewPopUpController::EPermanentMode 
-            || iFlags & CAknPreviewPopUpController::EFixedMode );
+            || iFlags & CAknPreviewPopUpController::EFixedMode ) 
+                    && !Window().IsFaded();
     
     if ( useTfx && GfxTransEffect::IsRegistered( this ) )
         {

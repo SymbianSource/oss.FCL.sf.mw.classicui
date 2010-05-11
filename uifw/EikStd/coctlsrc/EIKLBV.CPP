@@ -956,33 +956,28 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
 		return;
 	    }
 
-    TBool transparencyEnabled( CAknEnv::Static()->TransparencyEnabled() );
-
     if ((ITEM_EXISTS_ONCE(aItemIndex)) && ItemIsVisible(aItemIndex))
 		{
 		TBool drawingInitiated = ETrue;
 
-		if ( transparencyEnabled )
-		    {
-		    if ( iWin && iWin->GetDrawRect() == TRect::EUninitialized )
-			    {
+        if ( iWin && iWin->GetDrawRect() == TRect::EUninitialized )
+            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                MAknListBoxTfxInternal* transApi =
-                    CAknListLoader::TfxApiInternal( iGc );
-                drawingInitiated = transApi && !transApi->EffectsDisabled();
+            MAknListBoxTfxInternal* transApi =
+                CAknListLoader::TfxApiInternal( iGc );
+            drawingInitiated = transApi && !transApi->EffectsDisabled();
 #else
-                drawingInitiated = EFalse;
+            drawingInitiated = EFalse;
 #endif			
-                }
+            }
 
-            if ( !drawingInitiated )
-			    {
-                TRect rect( ItemPos(aItemIndex), iItemDrawer->ItemCellSize() );
-			    rect.Intersection( iViewRect );
-			    iWin->Invalidate( rect );
-			    iWin->BeginRedraw( rect );
-			    }
-		    }
+        if ( !drawingInitiated )
+            {
+            TRect rect( ItemPos(aItemIndex), iItemDrawer->ItemCellSize() );
+            rect.Intersection( iViewRect );
+            iWin->Invalidate( rect );
+            iWin->BeginRedraw( rect );
+            }
 		
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iGc );
@@ -994,8 +989,16 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+        TBool backgroundDrawingSuppressed = ( iItemDrawer 
+		        && ( iItemDrawer->Flags() 
+                & ( CListItemDrawer::EDrawWholeBackground
+                | CListItemDrawer::EBackgroundDrawn ) ) );
         
-        iGc->SetClippingRect( iViewRect );
+        if ( !backgroundDrawingSuppressed )
+            {
+            iGc->SetClippingRect( iViewRect );
+            }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         if ( transApi )
@@ -1016,7 +1019,10 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
             
-		iGc->CancelClippingRect();
+        if ( !backgroundDrawingSuppressed )
+            {
+    		iGc->CancelClippingRect();
+            }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         if ( transApi )
@@ -1032,7 +1038,7 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-		if ( transparencyEnabled && !drawingInitiated )
+        if ( !drawingInitiated )
 			{
 			iWin->EndRedraw();
 			}
@@ -1418,6 +1424,54 @@ EXPORT_C TBool CListBoxView::ItemIsPartiallyVisible( TInt aItemIndex ) const
     return itemPartiallyVisible;
     }
 
+
+// ---------------------------------------------------------------------------
+// Resets the selection state so that there is nothing selected.
+// ---------------------------------------------------------------------------
+//
+void CListBoxView::ClearSelection( TBool aDrawItems )
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    __ASSERT_DEBUG( iSelectionIndexes,
+                    Panic( EEikPanicListBoxNoSelIndexArray ) );
+
+    TInt numSelectedItems = iSelectionIndexes->Count();
+    TKeyArrayFix key( 0, ECmpTInt );
+    TInt selectedItemIndex;
+    TInt pos;
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+    
+    for ( TInt i = 0; i < numSelectedItems; i++ )
+        {
+        selectedItemIndex = ( *( iSelectionIndexes ) )[0];
+
+        if ( !( iSelectionIndexes->Find( selectedItemIndex, key, pos ) ) )
+            {
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+            if ( transApi )
+                {
+                transApi->Invalidate( MAknListBoxTfxInternal::EListItem,
+                                      selectedItemIndex );
+                }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+            iSelectionIndexes->Delete( pos );
+
+            if ( aDrawItems )
+                {
+                DrawItem( selectedItemIndex );
+                }
+            }
+        }
+
+    ClearSelectionAnchorAndActiveIndex();
+
+    _AKNTRACE_FUNC_EXIT;
+    }
 
 
 // class CSnakingListBoxView

@@ -10187,6 +10187,54 @@ RESOURCE DIALOG r_avkon_insert_word_fs_query
         };
     }
 
+
+// ---------------------------------------------------------------------------
+// r_avkon_menupane_mark_multiple
+// Multiple marking mode menu pane.
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_avkon_menupane_mark_multiple
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeMarkOne;
+            txt = qtn_options_list_mark_one;
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeMarkAll;
+            txt = qtn_options_list_mark_all;
+            flags = EEikMenuItemDimmed;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeUnmarkAll;
+            txt = qtn_options_list_unmark_all;
+            flags = EEikMenuItemDimmed;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeEnter;
+            txt = qtn_options_list_mark_multiple;
+            }
+        };
+    }
+
+
+// ---------------------------------------------------------------------------- 
+// r_marking_mode_navi_pane
+// Multiple marking mode navi pane
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE NAVI_LABEL r_marking_mode_navi_pane
+    {
+    txt = qtn_navi_pane_marking_mode;
+    }
+
+
 RESOURCE COMBINED_PANE r_avkon_status_pane_combined_default
     {
     panes =
@@ -10238,3 +10286,4 @@ RESOURCE DIALOG r_avkon_special_character_table_dialog_for_lockcode_symbol_input
     }
 
 // End of File
+

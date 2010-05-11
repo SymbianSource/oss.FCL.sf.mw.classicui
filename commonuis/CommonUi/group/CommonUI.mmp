@@ -163,5 +163,6 @@ LIBRARY         rsfwmountman.lib
 #endif
 
 LIBRARY         AknLayout2Scalable.lib
+LIBRARY         touchfeedback.lib
 
 // End of file.

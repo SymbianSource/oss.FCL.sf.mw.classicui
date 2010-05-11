@@ -90,4 +90,5 @@ EXPORTS
 	?SetMenuItemVisibility@CFindItemMenu@@QAEXW4TMenuItem@1@H@Z @ 89 NONAME ; void CFindItemMenu::SetMenuItemVisibility(enum CFindItemMenu::TMenuItem, int)
 	?HandleNotifyL@MPBAiwNotify@@UAEHHHAAVCAiwGenericParamList@@ABV2@@Z @ 90 NONAME ; int MPBAiwNotify::HandleNotifyL(int, int, class CAiwGenericParamList &, class CAiwGenericParamList const &)
 	?SetItemFinderObserverL@CItemFinder@@QAEXPAVMAknItemFinderObserver@@@Z @ 91 NONAME ; void CItemFinder::SetItemFinderObserverL(class MAknItemFinderObserver *)
+	?EnableSingleClick@CFindItemDialog@@QAEXH@Z @ 92 NONAME ; void CFindItemDialog::EnableSingleClick(int)
 

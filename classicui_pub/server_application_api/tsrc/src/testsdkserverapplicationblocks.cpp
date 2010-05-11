@@ -20,7 +20,7 @@
 #include <e32svr.h>
 #include <stifparser.h>
 #include <stiftestinterface.h>
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 #include <avkon.hrh>
 #include <aknenv.h>
 #include <documenthandler.h>

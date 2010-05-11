@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -283,7 +283,8 @@ class CIdleCallbackData;
 * Extension class for additional data members.
 *
 */
-NONSHARABLE_CLASS( CEikCapCExtension ): public MEikFormAnimObserver
+NONSHARABLE_CLASS( CEikCapCExtension ) : public CBase,
+                                         public MEikFormAnimObserver
     {
     friend class CEikCaptionedControl ;
 
@@ -379,7 +380,7 @@ CEikCapCExtension::CEikCapCExtension() :
     iViewModeHighlightControlContext ( NULL ) ,
     iEditModeHighlightControlContextPressed( NULL ),
     iViewModeHighlightControlContextPressed( NULL ),
-    iPreviousRect( TPoint(0, 0), TSize(0, 0) ) ,
+    iPreviousRect( 0, 0, 0, 0 ),
     iPreviousState( EFalse ) ,
     iPressDownEffect( EFalse ),
     iXOffsetForDataPaneInEditMode( ELayoutEmpty ) ,
@@ -389,6 +390,7 @@ CEikCapCExtension::CEikCapCExtension() :
 	, iIndicator(NULL),
 	iIndicator2(NULL),
 	iObserver(NULL),
+	iSimulatedDownEvent( EFalse ),
     iFeedback( MTouchFeedback::Instance() ),
 	iIdle(NULL),
 	iIdleData(NULL),
@@ -400,7 +402,7 @@ CEikCapCExtension::CEikCapCExtension() :
         iUsesSingleClick = iAvkonAppUi->IsSingleClickCompatible();
         }
     _AKNTRACE_FUNC_EXIT;
-    };
+    }
 
 CEikCapCExtension::~CEikCapCExtension()
     {
@@ -488,25 +490,23 @@ void CEikCapCExtension::SimulatePointerEventToControlL(
          && ( aPointerEvent.iType == TPointerEvent::EButton1Down 
             || aPointerEvent.iType == TPointerEvent::EButton1Up ) )
         {
-
         // Check control type
         TBool edwinControl( LaunchInputType() );
         TBool simulate = EFalse;
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down
-                && iSelf->Rect().Contains( aPointerEvent.iPosition )
-                && !iSelf->iControl->Rect().Contains(
-                        aPointerEvent.iPosition ) )
+
+        if ( iSelf->Rect().Contains( aPointerEvent.iPosition ) )
             {
-            iSimulatedDownEvent = ETrue;
-            if ( !edwinControl )
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+                 !iSelf->iControl->Rect().Contains( aPointerEvent.iPosition ) )
+                {
+                iSimulatedDownEvent = ETrue;
+                simulate = ETrue;
+                }
+            else if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
+                      iSimulatedDownEvent )
                 {
                 simulate = ETrue;
                 }
-            }
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up
-                && iSimulatedDownEvent )
-            {
-            simulate = ETrue;
             }
 
         // Simulate pointer event to control
@@ -519,23 +519,39 @@ void CEikCapCExtension::SimulatePointerEventToControlL(
             }
 
         // With edwin do action directly (due to cursor problems)
-        else if ( edwinControl && simulate
-                && aPointerEvent.iType == TPointerEvent::EButton1Up )
+        else if ( edwinControl &&
+                  simulate &&
+                  ( aPointerEvent.iType == TPointerEvent::EButton1Up ||
+                    aPointerEvent.iType == TPointerEvent::EButton1Down ) )
             {
-            CAknExtendedInputCapabilities* input( NULL );
-            iSelf->iControl->InputCapabilities().ObjectProvider(
-                    )->MopGetObjectNoChaining( input );
-            if ( input )
+            // Basic list feedback is given instead of sensitive edit
+            // feedback when tapping editor fields in forms.
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
                 {
-                iFeedback->InstantFeedback(
-                        iSelf->iControl,  ETouchFeedbackEdit,
-                        ETouchFeedbackVibra, aPointerEvent );
-                input->ReportEventL(
+                iFeedback->InstantFeedback( iSelf->iControl,
+                                            ETouchFeedbackList );
+                }
+            else
+                {
+                iFeedback->InstantFeedback( iSelf->iControl,
+                                            ETouchFeedbackList,
+                                            ETouchFeedbackVibra,
+                                            aPointerEvent );
+                
+                CAknExtendedInputCapabilities* input( NULL );
+                iSelf->iControl->InputCapabilities().ObjectProvider(
+                        )->MopGetObjectNoChaining( input );
+                
+                if ( input )
+                    {
+                    input->ReportEventL(
                         CAknExtendedInputCapabilities::\
-                        MAknEventObserver::EActivatePenInputRequest,
+                            MAknEventObserver::EActivatePenInputRequest,
                         NULL );
+                    }
                 }
             }
+
         if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
             iSimulatedDownEvent = EFalse;
@@ -1405,25 +1421,28 @@ static TInt IdleCallback(TAny *aAny)
 	return EFalse;	
 }
 
-void CEikCaptionedControl::ScrollBackEditor()
-{
-_AKNTRACE_FUNC_ENTER;
-        //
-		// For long single-line edwin, scroll horizontally to show beginning of the edwin
-		// when focus changes away from the edwin.
-		// 
-      	if ( iIsEditable && ControlIsAnEdwin(iControlType) )
-			{
-			delete iExtension->iIdle;
-			delete iExtension->iIdleData;
-			iExtension->iIdleData = new (ELeave) CIdleCallbackData;
-			iExtension->iIdleData->iCtrl = this;
-			iExtension->iIdleData->iExt = iExtension;
-			iExtension->iIdle = CIdle::NewL(0);
-			iExtension->iIdle->Start(TCallBack(&IdleCallback, iExtension->iIdleData));
-			}	
-_AKNTRACE_FUNC_EXIT;
-}
+void CEikCaptionedControl::ScrollBackEditorL()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    //
+    // For long single-line edwin, scroll horizontally to show beginning
+    // of the edwin when focus changes away from the edwin.
+    // 
+    if ( iIsEditable && ControlIsAnEdwin( iControlType ) )
+        {
+        delete iExtension->iIdle;
+        iExtension->iIdle = NULL;
+        delete iExtension->iIdleData;
+        iExtension->iIdleData = NULL;
+        iExtension->iIdleData = new (ELeave) CIdleCallbackData;
+        iExtension->iIdleData->iCtrl = this;
+        iExtension->iIdleData->iExt = iExtension;
+        iExtension->iIdle = CIdle::NewL( 0 );
+        iExtension->iIdle->Start(
+            TCallBack( &IdleCallback, iExtension->iIdleData ) );
+        }
+    _AKNTRACE_FUNC_EXIT;
+    }
 
 EXPORT_C void CEikCaptionedControl::FocusChanged(TDrawNow aDrawNow)
     {    
@@ -1438,7 +1457,7 @@ EXPORT_C void CEikCaptionedControl::FocusChanged(TDrawNow aDrawNow)
             }
         else if( iIsCurrentLine && !iIsEditable ) // Current and in view mode
             {
-            CAknAppUi* aui = static_cast<CAknAppUi*>(CEikonEnv::Static()->AppUi());
+            CAknAppUi* aui = static_cast<CAknAppUi*>(iEikonEnv->AppUi());
             if( aui->IsForeground() )
                 {
                 iExtension->iAnimation->Play();
@@ -1839,14 +1858,14 @@ In fact I will hard code this until later.
 //
 TAknsQsnTextColorsIndex CEikCaptionedControl::TextColorIndex() const
     {
-    TAknsQsnTextColorsIndex colorIndex = EAknsCIQsnTextColorsCG8;
+    TAknsQsnTextColorsIndex colorIndex = EAknsCIQsnTextColorsCG6;
 
     // Note control doesn't use highlight text color
     if ( iControlType != EAknCtNote )
         {
         if ( iIsCurrentLine && iDialogPage->HighlightVisible() )
             {
-            colorIndex = EAknsCIQsnTextColorsCG10;
+            colorIndex = EAknsCIQsnTextColorsCG8;
             }
         }
     
@@ -2002,23 +2021,56 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
                 }
             }
         }
-     if (iIsFormControl)
+
+    TBool edwinControl( ControlIsAnEdwin( iControlType ) );
+    
+     if ( iIsFormControl )
         {
-        if ( PressedDownState()&&
-            aPointerEvent.iType == TPointerEvent::EButton1Down )
+        if ( !PressedDownState() &&
+             aPointerEvent.iType == TPointerEvent::EButton1Down )
             {
             SetPressedDownState( ETrue );
-            DrawDeferred();    
+            DrawDeferred();
             }
-        else if(aPointerEvent.iType == TPointerEvent::EButton1Up)
+        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
-            _AKNTRACE("TPointerEvent::EButton1Up");
+            _AKNTRACE( "TPointerEvent::EButton1Up" );
             SetPressedDownState( EFalse );
             DrawDeferred();
-            }       
+            }
+        
+        if ( ( aPointerEvent.iType == TPointerEvent::EButton1Down || 
+               aPointerEvent.iType == TPointerEvent::EButton1Up ) &&
+             iIsEditable &&
+             edwinControl &&
+             iExtension &&
+             iExtension->iFeedback &&
+             iControl->Rect().Contains( aPointerEvent.iPosition ) )
+            {
+            CEikEdwin* edwin = static_cast<CEikEdwin*>( iControl );
+            if ( edwin &&
+                 ( edwin->UserFlags() & CEikEdwin::EDisplayOnly ||
+                   edwin->IsReadOnly() ) )
+                {
+                // For edwins in view only mode we must produce the feedback
+                // here, as the edwin itself doesn't.
+                if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+                    {
+                    iExtension->iFeedback->InstantFeedback( iControl,
+                                                            ETouchFeedbackList );
+                    }
+                else
+                    {
+                    iExtension->iFeedback->InstantFeedback( iControl,
+                                                            ETouchFeedbackList,
+                                                            ETouchFeedbackVibra,
+                                                            aPointerEvent );
+                    }
+                }
+            }
         }
     
-    if ( !iIsEditable && (ControlIsAnEdwin(iControlType) || ControlIsAMfne(iControlType))
+    if ( !iIsEditable && ( edwinControl || ControlIsAMfne( iControlType ) )
        &&( iDialogPage && CEikDialogPage::EDouble == iDialogPage->FormLayout() ))
         {
         _AKNTRACE_FUNC_EXIT;
@@ -2027,7 +2079,7 @@ EXPORT_C void CEikCaptionedControl::HandlePointerEventL(const TPointerEvent& aPo
 
     CCoeControl::HandlePointerEventL(aPointerEvent);    
      
-    if ( iExtension )
+    if ( iExtension && iIsFormControl )
         {
         iExtension->SimulatePointerEventToControlL( aPointerEvent );
         }

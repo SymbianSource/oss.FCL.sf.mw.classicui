@@ -15,7 +15,7 @@
 *
 */
 
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 
 
 

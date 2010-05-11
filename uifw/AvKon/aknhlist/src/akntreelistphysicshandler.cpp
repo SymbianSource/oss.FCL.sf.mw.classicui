@@ -163,7 +163,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
             // flicking was ongoing when content stopped
             if ( iFeedback )
                 {
-                iFeedback->InstantFeedback( ETouchFeedbackBasic );
+                iFeedback->InstantFeedback( ETouchFeedbackList );
                 }
             wasFlicking = ETrue;
             }
@@ -326,23 +326,10 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
             // also on up event -> play basic list feedback
             if ( iFeedback )
                  {
-                 TTouchLogicalFeedback fbType = ETouchFeedbackList;
                  if ( iItemToBeSelected != NULL )
                      {
-                     if ( iItemToBeSelected->IsLeaf() && iItemToBeSelected->IsMarkable() )
-                         {
-                         fbType = ETouchFeedbackCheckbox;
-                         }
-                     else if ( iItemToBeSelected->Node() != NULL )
-                         {
-                         if ( iItemToBeSelected->Node()->ChildCount() == 0 && 
-                                 iItemToBeSelected->Node()->IsMarkable() )
-                             {
-                             fbType = ETouchFeedbackCheckbox;
-                             }
-                         }
                      iFeedback->InstantFeedback( iTreeListView, 
-                                                 fbType,
+                                                 ETouchFeedbackList,
                                                  ETouchFeedbackVibra,
                                                  aPointerEvent );
                      }

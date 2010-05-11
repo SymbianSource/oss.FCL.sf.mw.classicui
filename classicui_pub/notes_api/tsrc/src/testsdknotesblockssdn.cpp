@@ -20,7 +20,7 @@
 #include <barsread.h>
 #include <coeaui.h>
 #include <akncontrol.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <testsdknotes.rsg>
 
 #include "testsdknotesstaticnotedialog.h"

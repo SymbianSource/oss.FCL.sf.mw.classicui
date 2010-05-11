@@ -135,6 +135,7 @@ SOURCE          aknitemactionmenuregister.cpp
 SOURCE          aknitemactionmenudata.cpp
 SOURCE          aknitemactionmenuregisterarray.cpp
 SOURCE          aknedwinphysicshandler.cpp
+SOURCE          aknmarkingmode.cpp
 
 LIBRARY         euser.lib
 LIBRARY         efsrv.lib

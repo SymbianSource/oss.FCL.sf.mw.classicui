@@ -282,7 +282,7 @@ public:
     IMPORT_C void ShowAdaptiveSearchGrid() const;   
     
    /**
-    * Set column filter flag for adaptive search grid  
+    * Set column filter flag  
     * @since 5.0
     * @param aFlag The bit flag shows which columns take into account
     * during filtering.
@@ -290,7 +290,7 @@ public:
     IMPORT_C void SetListColumnFilterFlags( const TBitFlags32 aFlag );
 
    /**
-    * Send column filter flag for adaptive search grid  
+    * Send column filter flag
     * @since 5.0
     * @return aFlag The bit flag shows which columns take into account
     * during filtering.

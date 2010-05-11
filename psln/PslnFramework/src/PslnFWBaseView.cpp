@@ -187,20 +187,27 @@ EXPORT_C void CPslnFWBaseView::SetNaviPaneL( const TInt aTabLocation )
         if ( appUi )
             {
             CEikStatusPane* sp = appUi->StatusPane();
-            iNaviControlContainer = static_cast<CAknNavigationControlContainer*>
-                ( sp->ControlL( TUid::Uid( EEikStatusPaneUidNavi ) ) );
+            if ( sp )
+                {
+                iNaviControlContainer = static_cast<CAknNavigationControlContainer*>
+                    ( sp->ControlL( TUid::Uid( EEikStatusPaneUidNavi ) ) );
+                }
             }
         }
-    if ( iNaviPaneContext && ( aTabLocation > 0 ) )
+
+    if ( iNaviControlContainer )
         {
-        CAknTabGroup* tabGrp = static_cast <CAknTabGroup*>
-                    ( iNaviPaneContext->DecoratedControl() );
-        tabGrp->SetActiveTabByIndex( aTabLocation );
-        iNaviControlContainer->PushL( *iNaviPaneContext );
-        }
-    else
-        {
-        iNaviControlContainer->PushDefaultL();
+        if ( iNaviPaneContext && ( aTabLocation > 0 ) )
+            {
+            CAknTabGroup* tabGrp = static_cast <CAknTabGroup*>
+                        ( iNaviPaneContext->DecoratedControl() );
+            tabGrp->SetActiveTabByIndex( aTabLocation );
+            iNaviControlContainer->PushL( *iNaviPaneContext );
+            }
+        else
+            {
+            iNaviControlContainer->PushDefaultL();
+            }
         }
     PSLN_TRACE_DEBUG("CPslnFWBaseView::SetNaviPaneL w/ param END");
     }

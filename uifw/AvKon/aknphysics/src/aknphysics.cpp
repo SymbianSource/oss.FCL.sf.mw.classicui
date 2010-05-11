@@ -426,7 +426,15 @@ EXPORT_C TBool CAknPhysics::StartPhysics( TPoint& aDrag,
                                           const TTime& aStartTime )
     {
     // Check that world really exists
-    if ( !iEngine || !iEngine->WorldExists() )
+    if ( iEngine )
+        {
+        if ( ( !iLandscape && iWorldSize.iHeight <= iViewSize.iHeight ) ||
+                ( iLandscape && iWorldSize.iWidth <= iViewSize.iWidth ) )
+            {
+            return EFalse;
+            }
+        }
+    else
         {
         return EFalse;
         }
@@ -544,6 +552,14 @@ EXPORT_C TInt CAknPhysics::OngoingPhysicsAction() const
 //
 EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
     {
+    TInt viewSize = !iLandscape ? iViewSize.iHeight : iViewSize.iWidth;
+    TInt worldSize = !iLandscape ? iWorldSize.iHeight : iWorldSize.iWidth;
+    
+    if ( worldSize <= viewSize )
+        {
+        return;
+        }
+	
     TTimeIntervalMicroSeconds time;
     TInt err( KErrNone );
     if ( iNullThread.Handle() )
@@ -589,7 +605,8 @@ EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
     iPanningDrawOmitted = !drawNow;
     
     TPoint position( iObserver.ViewPosition() );
-    position += aDelta;
+    
+    TPoint movement( aDelta );
 
     if ( iRestrictor && iRestrictor->AllowedViewPosition( position ) )
         {
@@ -602,6 +619,23 @@ EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
                 iEngine->StartFpsLogging();
                 }
             }
+
+        // reduce movement if content is dragged over boundaries
+        if ( OngoingPhysicsAction() == EAknPhysicsActionDragging )
+            {
+            TInt currentPosition = !iLandscape ? position.iY : position.iX;
+            TInt* movementPtr = !iLandscape ? &movement.iY : &movement.iX;
+        
+            TInt top = viewSize / 2;
+            TInt bottom = worldSize - top;
+            
+            if ( currentPosition < top || currentPosition > bottom )
+                {
+                *movementPtr /= 2;
+                }
+            }
+
+        position += movement;
         
         NotifyViewPositionChanged( position, drawNow );
         

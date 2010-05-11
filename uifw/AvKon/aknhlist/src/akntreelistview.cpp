@@ -26,6 +26,9 @@
 #include <aknitemactionmenu.h>
 #include <AknTasHook.h> // for testability hooks
 #include <AknPriv.hrh>
+#include <AknIconArray.h>
+#include <avkon.mbg>
+#include <gulicon.h>
 #include "akntreelistview.h"
 #include "akntree.h"
 #include "akntreelist.h"
@@ -49,6 +52,8 @@ const TInt KLongPressInterval = 600000; // 0.6 seconds
 // Number of additional items to draw
 const TInt KAdditionalItems = 2;
 
+// Space for check box in marking mode
+const TInt KCheckBoxOffset = 30;
 
 // Tree list view flag definitions.
 enum TAknTreeListViewFlags
@@ -58,7 +63,7 @@ enum TAknTreeListViewFlags
     EFlagLooping,
     EFlagUpdateBackground,
     EFlagMarkingEnabled, // Marking of list items is enabled.
-    EFlagMarkingMode, // List in marking mode (MSK controlled by list). 
+    EFlagMarkingState, // List in marking state (MSK controlled by list).
     EFlagMark, // List items are being marked.
     EFlagUnmark, // List items are being unmarked.
     EFlagSimultaneousMarking, // Simultaneous marking ongoing.
@@ -111,6 +116,13 @@ CAknTreeListView::~CAknTreeListView()
         iItemActionMenu->RemoveCollection( *this );
         }
     delete iLongTapDetector;
+
+    if ( iMarkingIconArray )
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    delete iMarkingIconArray;
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     if ( CAknListLoader::TfxApiInternal( iGc ) )
@@ -470,7 +482,21 @@ void CAknTreeListView::SetHighlight( CAknTreeItem* aItemToBeFocused,
 //     
 void CAknTreeListView::SelectItem( CAknTreeItem* aSelectedItem )
     {
-    SelectItem( aSelectedItem, EFalse );
+    if ( iMarkingMode )
+        {
+        if ( aSelectedItem->IsMarkable() )
+            {
+            MarkItem( aSelectedItem, !aSelectedItem->IsMarked(), ETrue );
+            }
+        else if ( aSelectedItem->IsNode() )
+            {
+            SelectItem( aSelectedItem, EFalse );
+            }
+        }
+    else 
+        {
+        SelectItem( aSelectedItem, EFalse );
+        }
     }
 
 
@@ -787,6 +813,11 @@ void CAknTreeListView::HandleResourceChange( TInt aType )
     
     switch ( aType )
         {
+        case KEikMessageWindowsFadeChange:
+             {
+             ReportCollectionChangedEvent();
+             }        
+
         case KAknsMessageSkinChange:
             {
             TRAPD( error, CreateAnimationL() )
@@ -795,6 +826,8 @@ void CAknTreeListView::HandleResourceChange( TInt aType )
                 delete iAnimation;
                 iAnimation = NULL;
                 }
+
+            TRAP_IGNORE( LoadMarkingIconsL() );
             break;
             }
 
@@ -1308,6 +1341,7 @@ void CAknTreeListView::ConstructL( const CCoeControl& aContainer )
         }
     
     iMirroredLayoutInUse = AknLayoutUtils::LayoutMirrored();
+    LoadMarkingIconsL();
     }
 
 
@@ -1639,13 +1673,16 @@ void CAknTreeListView::HandleSelectionKeyEvent()
     CAknTreeItem* item = FocusedItem();
     if ( item )
         {
-        if ( MarkingOngoing() )
+        if ( iMarkingMode )
             {
-            MarkItem( item, !item->IsMarked(), ETrue );
+            if ( item->IsMarkable() )
+                {
+                MarkItem( item, !item->IsMarked(), ETrue );
+                }
             }
         else
             {
-            SelectItem( item, true );
+            SelectItem( item, EFalse );
             }
         }
     }
@@ -1987,6 +2024,11 @@ void CAknTreeListView::LayoutView()
         {
         iterator.SetCurrent( first );
         iterator.Previous();
+        }
+
+    if ( iMarkingMode )
+        {
+        itemRect.iBr.iX -= KCheckBoxOffset;
         }
 
     // Update items and their rectangles.
@@ -2581,9 +2623,9 @@ void CAknTreeListView::EndMarking()
         }
 
     // Exits marking mode.
-    if ( iFlags.IsSet( EFlagMarkingMode ) )
+    if ( iFlags.IsSet( EFlagMarkingState ) )
         {
-        ExitMarkingMode();
+        ExitMarking();
         }
 
     // Remove MSK observer.
@@ -2644,18 +2686,18 @@ TInt CAknTreeListView::ReportLongPressL( TAny* aThis )
 //
 void CAknTreeListView::DoHandleLongPressL()
     {
-    if ( iFlags.IsClear( EFlagMarkingMode ) )
+    if ( iFlags.IsClear( EFlagMarkingState ) )
         {
-        EnterMarkingMode();
+        EnterMarking();
         }
     }
 
 
 // ---------------------------------------------------------------------------
-// Enters marking mode.
+// Enters marking state.
 // ---------------------------------------------------------------------------
 //
-void CAknTreeListView::EnterMarkingMode()
+void CAknTreeListView::EnterMarking()
     {
     CEikButtonGroupContainer* bgc;
     CCoeControl* MSK = NULL;
@@ -2689,7 +2731,7 @@ void CAknTreeListView::EnterMarkingMode()
             {
             ReportTreeListEvent( MAknTreeListObserver::EMarkingModeEnabled,
                 iTree.Id( FocusedItem() ) );
-            iFlags.Set( EFlagMarkingMode );
+            iFlags.Set( EFlagMarkingState );
             bgc->DrawNow();
             }
         }
@@ -2697,12 +2739,12 @@ void CAknTreeListView::EnterMarkingMode()
 
 
 // ---------------------------------------------------------------------------
-// Exits marking mode.
+// Exits marking state.
 // ---------------------------------------------------------------------------
 //
-void CAknTreeListView::ExitMarkingMode()
+void CAknTreeListView::ExitMarking()
     {
-    if ( iFlags.IsSet( EFlagMarkingMode ) )
+    if ( iFlags.IsSet( EFlagMarkingState ) )
         {
         CEikButtonGroupContainer* bgc = NULL;
         CCoeControl* MSK = NULL;
@@ -2722,7 +2764,7 @@ void CAknTreeListView::ExitMarkingMode()
             }
         ReportTreeListEvent( MAknTreeListObserver::EMarkingModeDisabled,
             iTree.Id( FocusedItem() ) );
-        iFlags.Clear( EFlagMarkingMode );
+        iFlags.Clear( EFlagMarkingState );
         }
     }
 
@@ -2768,8 +2810,7 @@ void CAknTreeListView::UpdateMSKCommand()
 void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
     {
     TBool empty = IsEmpty();
-    TInt offset = Offset();  
-
+    TInt offset = Offset();
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST    
     CWindowGc& gc = iGc && !empty ? *iGc : SystemGc();
 #else
@@ -2827,10 +2868,52 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                                    KAknsIIDQsnTextColors,
                                    EAknsCIQsnTextColorsCG6 );
 
+        if ( iMarkingMode && iMarkingIconArray && iMarkingIconArray->Count()== 2 )
+            {
+            // Set sizes for marking icon bitmaps
+            TRect drawRect; 
+            if ( iItems.Count() > 0 ) 
+                {
+                drawRect = iItems[0].Rect();
+                drawRect.iBr.iX += KCheckBoxOffset;
+                }
+
+            // Rect for the marking icon
+            TRect iconRect = RectFromLayout( drawRect,
+                    AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+            iconRect.Move( 0, -offset );
+            
+            gc.SetPenColor( textColor );
+            gc.SetPenStyle( CGraphicsContext::ESolidPen );
+            
+            for ( TInt ii = 0; ii < iMarkingIconArray->Count(); ++ii )
+                {
+                CGulIcon* icon = (*iMarkingIconArray)[ii];
+                CFbsBitmap* bitmap = icon->Bitmap();
+
+                if ( bitmap )
+                    {
+                    TSize size( bitmap->SizeInPixels() ); // set size if not already
+                    TSize targetSize( iconRect.Size() );
+
+                    if ( size.iWidth != targetSize.iWidth && size.iHeight
+                            != targetSize.iHeight )
+                        {
+                        AknIconUtils::SetSize( bitmap, targetSize,
+                                EAspectRatioPreservedAndUnusedSpaceRemoved );
+                        }
+                    }
+                }
+            }
         const TInt itemCount = iItems.Count();
         for ( TInt ii = 0; ii < itemCount; ++ii )
             {
             TRect drawRect( iItems[ii].Rect() );
+
+            if ( iMarkingMode )
+                {
+                drawRect.iBr.iX += KCheckBoxOffset;
+                }
 
             if ( iItems[ii].Item() )
                 {
@@ -2875,11 +2958,41 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     }
 #endif
 
+                if ( iMarkingMode && iMarkingIconArray && iMarkingIconArray->Count()== 2 )
+                    {
+                    // Rect for the marking icon
+                    TRect iconRect = RectFromLayout( drawRect,
+                        AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+            
+                    iconRect.Move( 0, -offset );
+                    CGulIcon* icon = (*iMarkingIconArray)[1]; // unchecked
+
+                    TBool marked = ( iItems[ii].Item()->IsMarked() );
+                    if ( marked )
+                        {
+                        icon = (*iMarkingIconArray)[0];
+                        }
+
+                    CFbsBitmap* bitmap = icon->Bitmap();
+
+                    if ( bitmap )
+                        {
+                        gc.BitBltMasked( iconRect.iTl, bitmap, 
+                            iconRect.Size(), icon->Mask(), EFalse );
+                       }
+                    }
+
                 if ( iItems[ii].Item() != iBottomItem )
                     {
                     TRect offsetRect( drawRect );
                     offsetRect.Move( 0, -offset );
                     AknListUtils::DrawSeparator( gc, offsetRect, textColor, skin );
+                    }
+
+                if ( iMarkingMode )
+                    {
+                    gc.SetOrigin( TPoint( KCheckBoxOffset, 0 ) );
+                    drawRect.iBr.iX -= KCheckBoxOffset;
                     }
 
                 TBool focused = ( FocusedItem() &&
@@ -2944,9 +3057,26 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-                // Draw item.
-                iItems[ii].Draw( gc, iTree, drawRect, focused, iViewLevel,
-                    StructureLines(), Indention(), IndentionWidth() );
+                if ( iMarkingMode )
+                    {
+                    TBool marked = iItems[ii].Item()->IsMarked();
+                    if ( marked )
+                        {
+                        iItems[ii].Item()->SetMarked( EFalse );
+                        }           
+                    iItems[ii].Draw( gc, iTree, drawRect, focused, iViewLevel,
+                        StructureLines(), Indention(), IndentionWidth() );
+
+                    if ( marked )
+                        {
+                        iItems[ii].Item()->SetMarked( ETrue );
+                        }
+                    }
+                else
+                    {
+                    iItems[ii].Draw( gc, iTree, drawRect, focused, iViewLevel,
+                            StructureLines(), Indention(), IndentionWidth() );                
+                    }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
                 if ( transApi )
@@ -2959,6 +3089,10 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                 }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
+                if ( iMarkingMode )
+                    {
+                    gc.SetOrigin( TPoint( 0, 0 ) );
+                    }
                 }
             }
         }
@@ -3070,8 +3204,11 @@ void CAknTreeListView::Draw( const TRect& aRect ) const
 // Enables or disables the highlight drawing
 // ---------------------------------------------------------------------------
 //
-void CAknTreeListView::EnableHighlight( TBool aEnabled )
+void CAknTreeListView::EnableHighlight( TBool aEnabled, 
+                                        TBool aPointerEnabled )
     {
+    TBool wasEnabled = iFlags.IsSet( EFlagHighlightEnabled );
+
     if ( aEnabled )
         {
         iFlags.Set( EFlagHighlightEnabled );
@@ -3079,6 +3216,13 @@ void CAknTreeListView::EnableHighlight( TBool aEnabled )
     else
         {
         iFlags.Clear( EFlagHighlightEnabled );
+        }
+
+    if ( !aPointerEnabled
+            && ( ( wasEnabled && !aEnabled )
+                    || ( !wasEnabled && aEnabled ) ) )
+        {
+        ReportCollectionChangedEvent();
         }
     }
 
@@ -3111,7 +3255,7 @@ TBool CAknTreeListView::SingleClickEnabled() const
 TUint CAknTreeListView::CollectionState() const
     {
     TUint state( 0 );
-    if ( IsVisible() )
+    if ( IsVisible() && ( !DrawableWindow() || !DrawableWindow()->IsFaded() ) )
         {
         state |= MAknCollection::EStateCollectionVisible;
         }
@@ -3119,6 +3263,12 @@ TUint CAknTreeListView::CollectionState() const
         {
         state |= MAknCollection::EStateHighlightVisible;
         }
+
+    if ( iList.Flags() & KAknTreeListMarkable )
+        {
+        state |= MAknCollection::EStateMultipleSelection;        
+        }
+
     return state;
     }
 
@@ -3137,11 +3287,173 @@ void CAknTreeListView::ItemActionMenuClosed()
 // CAknTreeListView::CollectionExtension
 // -----------------------------------------------------------------------------
 //
-TInt CAknTreeListView::CollectionExtension( TUint /*aExtensionId*/,
-        TAny*& /*a0*/, TAny* /*a1*/ )
+TInt CAknTreeListView::CollectionExtension(
+        TUint aExtensionId, TAny*& a0, TAny* /*a1*/ )
     {
+    if ( aExtensionId == MAknMarkingCollection::TYPE )
+        {
+        a0 = static_cast<MAknMarkingCollection*>( this );
+        }
+
     return KErrNone;
     }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::SetMultipleMarkingState
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::SetMultipleMarkingState( TBool aActive )
+    {
+    if ( iMarkingMode != aActive )
+        {
+        if ( !aActive )
+            {
+            TBool markedItems( EFalse );
+            TRAP_IGNORE( markedItems = HasMarkedItemsL() );
+            if ( markedItems )
+                {
+                UnmarkAll();
+                }
+            }
+        
+        EnableMarking( aActive );
+        iMarkingMode = aActive;
+        LayoutView();
+        DrawDeferred();
+
+        if ( iList.MarkingModeObserver() )
+            {
+            iList.MarkingModeObserver()->MarkingModeStatusChanged( aActive );
+            }
+        }
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::MarkingState
+// -----------------------------------------------------------------------------
+//
+TUint CAknTreeListView::MarkingState() const
+    {
+    TUint state( 0 );
+
+    if ( iMarkingMode )
+        {
+        state |= MAknMarkingCollection::EStateMarkingMode;
+
+        TBool markedItems ( EFalse );
+        TRAP_IGNORE( markedItems = HasMarkedItemsL() );
+        if ( markedItems )
+            {
+            state |= MAknMarkingCollection::EStateMarkedItems;
+            }
+        if ( iItems.Count() == 0 )
+            {
+            state |= MAknMarkingCollection::EStateCollectionEmpty;
+            }
+        }
+    return state;
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::MarkCurrentItemL
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::MarkCurrentItemL()
+    {
+    if ( iMarkingMode && FocusedItem() && FocusedItem()->IsMarkable() )
+        {
+        MarkItem( FocusedItem(), ETrue, ETrue );
+        }
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::MarkAllL
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::MarkAllL()
+    {
+    if ( iMarkingMode )
+        {
+        TAknTreeIterator iterator = iTree.Iterator();
+        CAknTreeItem* item = NULL;
+        item = iterator.First(); 
+        while ( item && iterator.HasNext() )
+            {
+            if ( item->IsMarkable() )
+                {
+                MarkItem( item, ETrue, EFalse );
+                }
+            item = iterator.Next();
+            }
+        DrawDeferred(); 
+        }
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::UnmarkAll
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::UnmarkAll()
+    {
+    if ( iMarkingMode )
+        {
+        TAknTreeIterator iterator = iTree.Iterator();
+        CAknTreeItem* item = NULL;
+        item = iterator.First(); 
+        while ( item && iterator.HasNext() )
+            {
+            MarkItem( item, EFalse, EFalse );
+            item = iterator.Next();
+            }
+        DrawDeferred(); 
+        }
+    }
+
+
+ // -----------------------------------------------------------------------------
+// CAknTreeListView::CurrentItemMarkable
+// -----------------------------------------------------------------------------
+//
+TBool CAknTreeListView::CurrentItemMarkable()
+    {
+    if ( FocusedItem() && !FocusedItem()->IsMarkable() ) 
+        {
+        return EFalse;
+        }
+    return ETrue; 
+    }
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::ExitMarkingMode
+// -----------------------------------------------------------------------------
+//
+TBool CAknTreeListView::ExitMarkingMode()
+    {
+    if ( iList.MarkingModeObserver() )
+        {
+        return iList.MarkingModeObserver()->ExitMarkingMode();
+        }
+    return ETrue; 
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::ReportCollectionChangedEvent
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::ReportCollectionChangedEvent()
+    {
+    if ( iItemActionMenu )
+        {
+        iItemActionMenu->CollectionChanged( *this );
+        }
+    }
+
 
 // ---------------------------------------------------------------------------
 // CAknTreeListView::HandleLongTapEventL
@@ -3186,7 +3498,7 @@ void CAknTreeListView::CancelLongTapDetectorL()
 // CAknTreeListView::HasMarkedItemsL
 // ---------------------------------------------------------------------------
 //
-TBool CAknTreeListView::HasMarkedItemsL()
+TBool CAknTreeListView::HasMarkedItemsL() const
     {
     RArray<TInt> selection;
     CleanupClosePushL( selection );
@@ -3263,5 +3575,45 @@ void CAknTreeListView::UpdateIndexes()
         iHighlightIndex = iTree.VisibleItemIndex(FocusedItem());
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
         } 
+    }
+
+
+// -----------------------------------------------------------------------------
+// CAknTreeListView::LoadMarkingIconsL
+// -----------------------------------------------------------------------------
+//
+void CAknTreeListView::LoadMarkingIconsL()
+    {
+    if ( !iMarkingIconArray )
+        {
+        iMarkingIconArray = new ( ELeave ) CAknIconArray( 2 );
+        }
+    else
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    const TDesC& avkonIconFile = AknIconUtils::AvkonIconFileName();
+
+    CGulIcon* icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOn, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_on, 
+            EMbmAvkonQgn_prop_checkbox_on_mask );
+    
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
+
+    icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOff, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_off, 
+            EMbmAvkonQgn_prop_checkbox_off_mask );
+
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
     }
 

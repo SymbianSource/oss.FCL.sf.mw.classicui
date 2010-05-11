@@ -664,6 +664,17 @@ EXPORT_C void CAknTreeList::SetEmptyTextL(const TDesC& aText)
 
 
 // ---------------------------------------------------------------------------
+// CAknTreeList::SetMarkingModeObserver
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void CAknTreeList::SetMarkingModeObserver( 
+        MAknMarkingModeObserver* aObserver )
+    {
+    iMarkingModeObserver = aObserver;
+    }
+
+
+// ---------------------------------------------------------------------------
 // Handles key events by mediating them to the view.
 // ---------------------------------------------------------------------------
 //
@@ -920,6 +931,16 @@ void CAknTreeList::PositionChanged()
 TTypeUid::Ptr CAknTreeList::MopSupplyObject( TTypeUid aId )
     {
     return CAknControl::MopSupplyObject( aId );
+    }
+
+
+// ---------------------------------------------------------------------------
+// Marking mode observer
+// ---------------------------------------------------------------------------
+//
+MAknMarkingModeObserver* CAknTreeList::MarkingModeObserver()
+    {
+    return iMarkingModeObserver;
     }
 
 

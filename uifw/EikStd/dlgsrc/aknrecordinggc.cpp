@@ -189,6 +189,14 @@ void CAknRecordingGc::FlushBuffer( const TRect& aRect, TInt aLineToSkip )
                             gc->DrawLine( item->iRect.iTl, item->iRect.iBr );
                             }
                         break;
+                        
+                    case CBufferItem::EUseBrushPattern:
+                        gc->UseBrushPattern( item->iBitmap );
+                        break;
+                        
+                    case CBufferItem::EDiscardBrushPattern:
+                        gc->DiscardBrushPattern();
+                        break;
                     }
                 }
                 
@@ -612,8 +620,15 @@ void CAknRecordingGc::SetBrushOrigin( const TPoint& /*aOrigin*/ )
 // From class CWindowGc
 // ---------------------------------------------------------------------------
 //
-void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* /*aDevice*/ )
+void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* aDevice )
     {
+    CBufferItem* buffer = BufferItem();
+    buffer->iType = CBufferItem::EUseBrushPattern;
+    
+    CFbsBitmap* bitmap = NULL;
+    TRAP_IGNORE( bitmap = new (ELeave) CFbsBitmap() );
+    bitmap->Duplicate(aDevice->Handle());
+    buffer->iBitmap = bitmap;
     }
     
     
@@ -623,6 +638,8 @@ void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* /*aDevice*/ )
 //
 void CAknRecordingGc::DiscardBrushPattern()
     {
+    CBufferItem* buffer = BufferItem();
+    buffer->iType = CBufferItem::EDiscardBrushPattern;    
     }
     
     

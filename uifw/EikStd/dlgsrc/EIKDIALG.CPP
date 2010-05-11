@@ -84,10 +84,10 @@ TBool IsBlankScreenDisplayed();
 //
 TBool CbaEmbeddedInDialog( const TInt& aFlags )
     {
-    return AknLayoutUtils::PenEnabled() && 
-        !( aFlags & EEikDialogFlagFillAppClientRect ) &&
+    return !( aFlags & EEikDialogFlagFillAppClientRect ) &&
         !( aFlags & EEikDialogFlagFillScreen ) &&
-        !( aFlags & EEikDialogFlagVirtualInput );
+        !( aFlags & EEikDialogFlagVirtualInput ) &&
+        !( aFlags & EEikDialogFlagNoEmbeddedSoftkeys );
     }
 
 
@@ -280,7 +280,40 @@ void CEikDialog::DynamicConstructL()
 
     EnableContentObserver( ETrue );
 
+    // Extension member variable iDeleteEmbeddedCba is used to track whether
+    // dialog's implementation of CCoeControl::SizeChanged gets called. If it
+    // isn't then embedded softkeys won't work.
+    CEikDialogExtension* extension = Extension();
+    TBool checkCba = extension && iButtonGroupContainer 
+            && CbaEmbeddedInDialog( iDialogFlags );
+        
+    if ( checkCba )
+        {
+        extension->iDeleteEmbeddedCba = ETrue;
+        }
+
     Layout();
+
+    // At this point CBA's rect should be correctly set. If it isn't, then
+    // assume that dialog didn't properly call CEikDialog::SizeChanged thus 
+    // embedded softkeys won't work.
+    // In that case softkeys are deleted and re-created as a window-owning
+    // component in "legacy" way.    
+    if ( checkCba && extension->iDeleteEmbeddedCba 
+	        && extension->iButtonGroupResourceId != 0 )
+        {
+        delete iButtonGroupContainer;
+        iButtonGroupContainer = NULL;
+        iButtonGroupContainer = CEikButtonGroupContainer::NewL(
+                CEikButtonGroupContainer::ECba,
+                CEikButtonGroupContainer::EHorizontal,
+                iButtonCommandObserver,
+                extension->iButtonGroupResourceId,
+                0 );
+
+        iDialogFlags |= EEikDialogFlagNoEmbeddedSoftkeys; 
+        }
+
     PostLayoutDynInitL();
     _AKNTRACE_FUNC_EXIT;
 	}
@@ -773,6 +806,11 @@ void CEikDialog::CreateButtonGroupContainerL(TInt aResourceId)
             iButtonCommandObserver, aResourceId, *this, flags );
 
     EnableContentObserver( ETrue );
+    
+    if ( Extension() )
+        {
+        Extension()->iButtonGroupResourceId = aResourceId;
+        }
 	
 	AknGlobalPopupPriorityController::AddSubPopupL(*this, *iButtonGroupContainer->ButtonGroup()->AsControl());
 	AknGlobalPopupPriorityController::AddPopupToControlStackL(*iButtonGroupContainer->ButtonGroup()->AsControl(), ECoeStackPriorityCba, ECoeStackFlagRefusesFocus);
@@ -913,6 +951,7 @@ EXPORT_C TSize CEikDialog::MinimumSize()
  */
 EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
 	{
+    _AKNTRACE_FUNC_ENTER;
 	if (iDialogFlags&EEikDialogFlagFillScreen)
 		return iEikonEnv->ScreenDevice()->SizeInPixels();
 	else if (iDialogFlags&EEikDialogFlagFillAppClientRect)
@@ -927,20 +966,24 @@ EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
                 CAknView* view = iAvkonViewAppUi->View(uid.iViewUid);
                 if (view)
                     {
+                    _AKNTRACE_FUNC_EXIT;
                     return view->ClientRect().Size();
                     }
                 else
                     {
+                    _AKNTRACE_FUNC_EXIT;
                     return iEikonEnv->EikAppUi()->ClientRect().Size();
                     }
                 }
             else
                 {
+                _AKNTRACE_FUNC_EXIT;
                 return iEikonEnv->EikAppUi()->ClientRect().Size();
                 }
             }
         else
             {
+            _AKNTRACE_FUNC_EXIT;
             return iEikonEnv->EikAppUi()->ClientRect().Size();
             }
 	    }
@@ -991,6 +1034,7 @@ EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
             }
         }
         
+    _AKNTRACE_FUNC_EXIT;
 	return preferredSize;
 	}
 
@@ -1059,7 +1103,12 @@ EXPORT_C void CEikDialog::SizeChanged()
                 cba->SetRect( TRect(0, 0, 0, 0 ) );
                 }
             }
-		}
+
+        if ( Extension() )
+            {
+            Extension()->iDeleteEmbeddedCba = EFalse;
+            }
+        }
 	if (iTitleBar)
 		{
 		TRect nullRect(0,0,0,0);
@@ -1184,6 +1233,7 @@ EXPORT_C void CEikDialog::MakeWholeLineVisible(TInt aControlId,TBool aVisible)
  */
 EXPORT_C void CEikDialog::Layout()
 	{
+    _AKNTRACE_FUNC_ENTER;
     TAknWindowLineLayout windowLineLayoutScreen = AknLayoutScalable_Avkon::Screen().LayoutLine();
     TRect rectZero = TRect(0,0,0,0);
     TAknLayoutRect layoutRect;
@@ -1192,7 +1242,10 @@ EXPORT_C void CEikDialog::Layout()
 
 	TSize maxSize = rectScreen.Size();
 
+    _AKNTRACE( "size = %d x %d", iSize.iWidth, iSize.iHeight );
 	SetSizeAndPosition(PreferredSize( maxSize ));
+    _AKNTRACE( "size = %d x %d", iSize.iWidth, iSize.iHeight );
+    _AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -1948,6 +2001,7 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
     CAknAppUi* aknAppUi = static_cast<CAknAppUi*>(iEikonEnv->EikAppUi());
     
     if (!(iDialogFlags & EEikDialogFlagDelayEffects)
+        && IsFocusedWindowGroup( this )
         && GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS        
         && !(iDialogFlags & EEikDialogFlagSleeping)
@@ -1981,6 +2035,9 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
             GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
             GfxTransEffect::Abort(this);
             }
+            
+        // Draw again in cast any content change in OkToExitL
+        DrawDeferred();
         
         _AKNTRACE("CEikDialog::TryExitL return with OkToExitL false");
         return;

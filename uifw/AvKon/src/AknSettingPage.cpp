@@ -1694,6 +1694,11 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
             }
         }
     
+	//
+  	// Set editor control to be invisible
+  	//
+	iEditorControl->MakeVisible( EFalse );
+
 	DynamicInitL();
 	ActivateL();
 
@@ -1711,11 +1716,13 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
                 demarcation );
         GfxTransEffect::SetDemarcation( this, demarcation );
 
+		iEditorControl->MakeVisible( ETrue );
         MakeVisible( ETrue );
         GfxTransEffect::End( this );
         }
     else
         {
+        iEditorControl->MakeVisible( ETrue );
         MakeVisible( ETrue );
         }
 
@@ -1777,7 +1784,9 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 		StartActiveScheduler();
 		}
 	else
-		AttemptExitL(EFalse);
+		{
+        AttemptExitL(EFalse);	
+        }
 	
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 	CleanupStack::Pop(); // this

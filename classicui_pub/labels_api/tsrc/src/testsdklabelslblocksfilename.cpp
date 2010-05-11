@@ -20,7 +20,7 @@
 // [INCLUDE FILES]
 
 #include <eikfnlab.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <akndef.h>
 #include <coeaui.h>
 

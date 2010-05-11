@@ -28,7 +28,6 @@ OPTION TARGETFILE ganes.mif
 OPTION HEADERFILE ganes.mbg
 OPTION SOURCES\
  -c32,8 qgn_prop_sub_marked\
- -c32,8 qgn_prop_file_video\
  -c32,8 qgn_prop_fmgr_file_video\
  -c32,8 qgn_prop_drm_rights_valid_super\
  -c32,8 qgn_prop_drm_rights_exp_super\
@@ -47,7 +46,8 @@ OPTION SOURCES\
  -c32,8 qgn_graf_mup_adtl_reorder_up\
  -c32,8 qgn_graf_mup_adtl_reorder_updown\
  -c32,8 qgn_prop_checkbox_on\
- -c32,8 qgn_indi_button_exit_fs
+ -c32,8 qgn_indi_button_exit_fs\
+ -c32,8 qgn_indi_media_thumbnail
 END
 #endif
 

@@ -105,7 +105,13 @@ void Ctestdomfinditem::ConstructL()
                           EFalse );
 
     _LIT( KResourceFile, "C:\\resource\\testdomfinditem.rsc" );
-    iOffset = CCoeEnv::Static()->AddResourceFileL( KResourceFile );
+    TRAPD ( err, iOffset = CCoeEnv::Static()->AddResourceFileL( KResourceFile ) );
+
+    if ( KErrNone != err )
+        {
+        _LIT( KZResourceFile, "Z:\\resource\\testdomfinditem.rsc" );
+        iOffset = CCoeEnv::Static()->AddResourceFileL( KZResourceFile );
+        }
 
     SendTestClassVersion();
 

@@ -499,22 +499,6 @@ void CAknAdaptiveSearchGrid::InitGrid()
         AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EControlPane,
                                            controlPaneRect );
         currentWindowRect.iBr.iY = controlPaneRect.iTl.iY;
-        
-        TRect mainPaneRect;
-        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
-                                           mainPaneRect );
-        
-        if ( 0 != iFindpaneRect.Size().iWidth 
-                && iFindpaneRect.Size().iWidth <= mainPaneRect.Size().iWidth )
-            {
-            currentWindowRect.iBr.iX = currentWindowRect.iTl.iX 
-                                        + iFindpaneRect.Size().iWidth;
-            }
-        else
-            {
-            currentWindowRect.iBr.iX = currentWindowRect.iTl.iX 
-                                        + mainPaneRect.Size().iWidth;
-            }
         }
         
     TRect grid_pane = RectFromLayout( currentWindowRect, AknLayoutScalable_Apps::grid_afind_pane( iLayoutOption ) );
@@ -1163,24 +1147,15 @@ void CAknAdaptiveSearchGrid::HandleWsEventL( const TWsEvent& aEvent, CCoeControl
         TPointerEvent& pointerEvent = *aEvent.Pointer();
         
         if( pointerEvent.iType == TPointerEvent::EButton1Down ) 
-            {     
-        if ( !iFindpaneRect.Contains( pointerEvent.iPosition ) &&
-            aDestination != this )     
-                {  
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            
-            // according to Touch UI spec tapping on input frame should cause feedback, 
-            // even if action is to cancel dialog..
-            if ( feedback )
+            {
+            if ( !iFindpaneRect.Contains( pointerEvent.iPosition ) &&
+                aDestination != this )
                 {
-                feedback->InstantFeedback( this, ETouchFeedbackBasic );
-                }
-                
                 HideL();
-                return;                          
-                }                             
-            }   
-        }                     
+                return;
+                }
+            }
+        }
     }
         
        

@@ -21,7 +21,7 @@
 #include <coemain.h>
 #include <coeaui.h>
 #include <gulbordr.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <e32base.h>
 #include <s32mem.h>
 #include <testsdknotes.rsg>

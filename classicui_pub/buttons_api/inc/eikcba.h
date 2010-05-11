@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -950,6 +950,17 @@ public:
      */
     void UpdateItemSpecificSoftkey( TBool aVisibleCollection = ETrue );
 
+    /**
+     * Updates RSK when multiple marking is activated or deactivated.
+     */
+    void UpdateMultipleMarkingSoftkey();
+    
+    /**
+     * Checks wheter softkey command change is allowed.
+     * 
+     * @return ETrue if softkey command change is allowed.
+     */    
+    TBool CommandChangeAllowed();
 
 private: // new methods
 
@@ -1007,11 +1018,6 @@ private: // new methods
      * to CEikCbaButtons.
      */
     void BroadcastPostingTransparency( TBool aEnable );
-
-    /**
-    * Sets the CBA fading according to button content.
-    */
-    void SetFadeState();
     
     /**
      * A better version of AddCommandToStackL

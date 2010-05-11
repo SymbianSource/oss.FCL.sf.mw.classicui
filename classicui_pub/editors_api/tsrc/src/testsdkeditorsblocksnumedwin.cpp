@@ -19,11 +19,11 @@
 
 // [INCLUDE FILES]
 
-#include <aknnumedwin.h>
+#include <AknNumEdwin.h>
 #include <barsread.h>
 #include <coemain.h>
 #include <coeaui.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <akndef.h>
 #include <testsdkeditors.rsg>
 

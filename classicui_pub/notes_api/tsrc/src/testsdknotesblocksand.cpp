@@ -22,7 +22,7 @@
 #include <coemain.h>
 #include <coeaui.h>
 #include <akndef.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <testsdknotes.rsg>
 #include <aknnotecontrol.h>
 

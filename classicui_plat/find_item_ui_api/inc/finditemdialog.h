@@ -59,6 +59,7 @@ class CAknsBasicBackgroundControlContext;
 class CRichTextEditorContainer;
 class CSendUi;
 class CItemFinderExtension;
+class MTouchFeedback;
 
 // CLASS DECLARATION
 
@@ -167,6 +168,14 @@ NONSHARABLE_CLASS(CFindItemDialog)
         * @return CAknDialog::ExecuteLD()
         */
         IMPORT_C TInt ExecuteLD();
+        
+        /**
+         * Enable single click
+         * @since S60 5.2
+         * @param aEnable     Enables single click.
+         *                    Disabled by default.
+         */
+        IMPORT_C void EnableSingleClick ( TBool aEnable );
 
     public: // Functions from base classes
         /**
@@ -179,6 +188,13 @@ NONSHARABLE_CLASS(CFindItemDialog)
         IMPORT_C TKeyResponse OfferKeyEventL(
             const TKeyEvent& aKeyEvent,
             TEventCode aType );
+        
+        /**
+         * From CCoeControl
+         * Handle pointer events.
+         * @param aPointerEvent information about the pointerevent
+         */
+        void HandlePointerEventL ( const TPointerEvent& aPointerEvent );
 
     protected:  // Functions from base classes
 
@@ -424,6 +440,26 @@ NONSHARABLE_CLASS(CFindItemDialog)
         */
         void CreateInternetCallL();
 
+        /**
+         * Handles pointer events in single click mode.
+         *
+         * @param aPointerEvent information about the pointerevent
+         */
+        void DoHandlePointerEventL ( const TPointerEvent& aPointerEvent );
+
+        /**
+         * Returns ETrue if current item has visible highlight
+         *
+         * @return ETrue if current item has visible highlight
+         */
+        TBool CurrentItemHasHighlight();
+        
+        /**
+         * Highlights current item.
+         */
+        void HighlightCurrentItem();
+
+
     private: //data
         // Pointer to controller which controls engine and dialog
         CFindItemController* iController;
@@ -507,8 +543,17 @@ NONSHARABLE_CLASS(CFindItemDialog)
         // Rows used in viewer.
         TInt iRows;
         
-        CItemFinderExtension*	iExtension;
+        CItemFinderExtension* iExtension;
+        
+        // Last tapped item
+        TPoint iLastTappedItem;
 
+        // Is single click enabled
+        TBool iSingleClick;
+
+        // Tactile Feedback interface
+        MTouchFeedback* iFeedback;        		
+		
     public: // new methods
         void DeleteMeL();
         static TInt DeleteMe(TAny* aThis);
@@ -516,7 +561,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
     private: // new methods
         void FormatDialDataL( TInt aCommandId );
         TBool IsSendKeyCallVoIP() const;
-
 };
 
 #endif  // FINDITEMDIALOG_H

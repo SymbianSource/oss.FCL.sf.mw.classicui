@@ -15,7 +15,7 @@
 *
 */
 
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 
 #ifndef C_TESTSDKAPPSERVICEBASE_H
 #define C_TESTSDKAPPSERVICEBASE_H

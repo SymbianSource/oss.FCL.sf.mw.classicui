@@ -1061,7 +1061,7 @@ TBool CAknMessageQueryDialog::ExecuteLinkL()
         return EFalse;
         }
     TInt curLink = control->CurrentLink();
-    TRAPD( err, iMsgQueryExtension->ExecuteLinkCallbackL( curLink ) );
+    TRAP_IGNORE( iMsgQueryExtension->ExecuteLinkCallbackL( curLink ) );
     control->DehighlightLink();
     _AKNTRACE_FUNC_EXIT;
     return ETrue;

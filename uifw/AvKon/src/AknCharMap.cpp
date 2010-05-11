@@ -584,7 +584,7 @@ CAknSctNaviButton::~CAknSctNaviButton()
 void CAknSctNaviButton::SetFocused(TBool aState)
     {
     iButtonControl->SetFocus(aState);
-    iButtonControl->DrawNow();
+    iButtonControl->DrawDeferred();
     }
 
 void CAknSctNaviButton::SetEnabled(TBool aState)
@@ -1753,7 +1753,7 @@ CAknSctCategoryButton::~CAknSctCategoryButton()
 void CAknSctCategoryButton::SetFocused(TBool aState)
     {
     iButtonControl->SetFocus(aState);
-    iButtonControl->DrawNow();
+    iButtonControl->DrawDeferred();
     }
 
 
@@ -2962,7 +2962,10 @@ EXPORT_C CAknCharMap::~CAknCharMap()
     iPictographCases.Close();
     iPictographPages.Close();
     MTouchFeedback* feedback = MTouchFeedback::Instance();
-    feedback->RemoveFeedbackForControl( this );
+    if ( feedback != NULL )
+        {
+        feedback->RemoveFeedbackForControl( this );
+        }
    }
 
 void CAknCharMap::DoLayout()

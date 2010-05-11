@@ -25,6 +25,7 @@
 #include <AknSmallIndicator.h>
 #include <aknappui.h>
 #include <uikon/eikdefmacros.h>
+#include <touchfeedback.h>
 
 #include "akncombinedpane.h"
 #include "aknstatuspanedatasubscriber.h"
@@ -192,6 +193,16 @@ void CAknCombinedPane::HandlePointerEventL(
                 CAknSmallIndicator* indicatorNotifier =
                     CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
                 indicatorNotifier->HandleIndicatorTapL();
+                //for indicator popup event
+                MTouchFeedback* feedback = MTouchFeedback::Instance();
+                if ( feedback )
+                    {
+                    feedback->InstantFeedback(
+                                       this,
+                                       ETouchFeedbackPopUp,
+                                       ETouchFeedbackVibra,
+                                       aPointerEvent );
+                    }
                 CleanupStack::PopAndDestroy( indicatorNotifier );
                 }
             

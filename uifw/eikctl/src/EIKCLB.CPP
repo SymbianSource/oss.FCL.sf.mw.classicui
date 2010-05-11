@@ -594,17 +594,6 @@ EXPORT_C void CColumnListBoxItemDrawer::SetItemCellSize(
     data->SetItemCellSize( iItemCellSize );
     }
 
-void CColumnListBoxItemDrawer::DrawCurrentItemRect(const TRect& aRect) const
-//
-//    Draw the item background
-//
-    {
-    iGc->SetClippingRect(iViewRect);
-    iGc->SetBrushStyle(CGraphicsContext::ENullBrush);
-    iGc->SetPenColor(iHighlightedBackColor);    // KDefaultLbxHighlightRectColor
-    iGc->DrawRect(aRect);
-    iGc->CancelClippingRect();
-    }
 
 /**
 * Returns a pointer to the column data. Does not imply transfer of ownership.
@@ -656,6 +645,12 @@ void CColumnListBoxItemDrawer::DrawItemText( TInt aItemIndex,
     TInt pos = -1;
 
     TBool removeicon = (!aItemIsSelected && !ItemMarkReverse()) || (aItemIsSelected && ItemMarkReverse());
+    
+    if ( Flags() & CListItemDrawer::EMarkingModeEnabled )
+        {
+        removeicon = EFalse;
+        }
+
     if ( Flags() & EDrawMarkSelection && ItemMarkPosition() != -1 && removeicon)
         {
         repl.Set( ItemMarkReplacement() );
@@ -810,8 +805,15 @@ EXPORT_C void* CEikColumnListBoxEditor::ExtensionInterface( TUid /*aInterface*/ 
 #define ITEM_EXISTS_ONCE(x) (((x) > -1) && ((x) < iModel->NumberOfItems()))
 
 EXPORT_C void
-CColumnListBoxView::Draw( const TRect* aRect ) const
+CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
     {
+    // If we get here background is drawn via avkon implementation -> raise the
+    // corresponding flag in item drawer.
+    if ( iItemDrawer )
+        {
+        iItemDrawer->SetFlags( CListItemDrawer::ENativeImplementation );
+        }
+
     if ( RedrawDisabled() || !IsVisible() )
         {
         return;
@@ -831,28 +833,7 @@ CColumnListBoxView::Draw( const TRect* aRect ) const
         cc = lbi->ColumnData()->SkinBackgroundContext();
         }
 
-    // Draw the whole background at once, this is faster than drawing
-    // it in separate items.
-    if ( listbox && listbox->BackgroundDrawingSuppressed() )
-        {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-            MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
-            if ( transApi )
-                {
-                transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
-                }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-        AknsDrawUtils::Background( skin, cc, listbox, *iGc, *aRect );
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        if ( transApi )
-            {
-            transApi->StopDrawing();
-            }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-        }
-    else if ( !listbox )
+    if ( !listbox )
         {
         iGc->Clear();
         }
@@ -860,6 +841,7 @@ CColumnListBoxView::Draw( const TRect* aRect ) const
     TInt firstPotentialItemIndex = iTopItemIndex;
     TInt lastPotentialItemIndex =
         iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect ) - 1;
+    TBool backgroundDrawingSuppressed = ( listbox && listbox->BackgroundDrawingSuppressed() );
 
     if ( iModel->NumberOfItems() == 0 )
         {
@@ -870,6 +852,11 @@ CColumnListBoxView::Draw( const TRect* aRect ) const
         if ( lastPotentialItemIndex > iBottomItemIndex )
             {
             lastPotentialItemIndex = iBottomItemIndex;
+            }
+
+        if ( backgroundDrawingSuppressed )
+            {
+            iGc->SetClippingRect( iViewRect );
             }
 
         ITEM_EXISTS_BEGIN;
@@ -884,9 +871,14 @@ CColumnListBoxView::Draw( const TRect* aRect ) const
                 break;
                 }
             }
+
+        if ( backgroundDrawingSuppressed )
+            {
+            iGc->CancelClippingRect();
+            }
         }
 
-    if ( listbox && !listbox->BackgroundDrawingSuppressed() )
+    if ( !backgroundDrawingSuppressed )
         {
         // Clear the unused portion of the viewing area
         // (this handles drawing the vertical line too :)

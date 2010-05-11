@@ -27,6 +27,7 @@
 #include <testclassassert.h>
 #include <fldbase.h>
 #include <flddef.h>
+#include <aknphysicsobserveriface.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <uikon/eikenvinterface.h>
 #endif //SYMBIAN_ENABLE_SPLIT_HEADERS
@@ -3202,6 +3203,30 @@ private: // Test Aknedsts.h
      * @return Symbian OS error code.
      */
     virtual TInt TestEEnableKineticScrollingL( CStifItemParser& aItem );
+
+    /**
+     * TPhysicsObserver test class for testing the
+     * kinetic scrolling feature of CEikEdwin.
+     */
+    NONSHARABLE_CLASS (TPhysicsObserver) : public MAknPhysicsObserver
+        {
+        public:
+
+        void ViewPositionChanged( const TPoint& aNewPosition,
+                                  TBool aDrawNow, TUint aFlags );
+        void PhysicEmulationEnded();
+        TPoint ViewPosition() const;
+        };
+
+    /**
+     * TestEEnableKineticScrollingPhysicsL test function for testing the
+     * kinetic scrolling feature of CEikEdwin.
+     *
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestEEnableKineticScrollingPhysicsL( CStifItemParser& aItem );
 
     //EikGTED.h
 /*                              class CEikGlobalTextEditor                  */

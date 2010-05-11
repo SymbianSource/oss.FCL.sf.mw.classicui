@@ -35,7 +35,7 @@
 #include <eikdpage.h>
 
 #include <AknControl.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 
 class CEikImage ;
 class CEikDialogPage;
@@ -367,7 +367,7 @@ public:
      * If the dialog instance is not registered, them flags set with SetFormFlags() are used. 
      */	
     void PositionFormComponents();
-    void ScrollBackEditor();
+    void ScrollBackEditorL();
     
 public:
     void DrawClosingLine() const;

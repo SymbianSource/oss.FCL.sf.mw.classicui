@@ -246,7 +246,7 @@ void CAknSearchField::ConstructL( const CCoeControl& aParent,
         {
         aFieldStyle = EPopupWindow;
         }
-
+    iColumnFlag = 0xFFFFFFFF;   
     switch ( aFieldStyle )
         {
         case EFixed:
@@ -304,8 +304,7 @@ void CAknSearchField::ConstructL( const CCoeControl& aParent,
         case EAdaptiveSearch:
             bitmapId = EMbmAvkonQgn_indi_find_glass;
             bitmapMaskId = EMbmAvkonQgn_indi_find_glass_mask;
-            SetContainerWindowL( aParent );  
-            iColumnFlag = 0xFFFFFFFF;     
+            SetContainerWindowL( aParent );      
             if( AknLayoutUtils::PenEnabled() )
                 {
                 iAdaptiveSearch = CAknAdaptiveSearch::NewL( aTextLimit, aFieldStyle );       
@@ -323,7 +322,6 @@ void CAknSearchField::ConstructL( const CCoeControl& aParent,
             bitmapId = EMbmAvkonQgn_indi_find_glass;
             bitmapMaskId = EMbmAvkonQgn_indi_find_glass_mask;
             CreateWindowL( &aParent ); 
-            iColumnFlag = 0xFFFFFFFF; 
             if( AknLayoutUtils::PenEnabled() )
                 {
                 iAdaptiveSearch = CAknAdaptiveSearch::NewL( aTextLimit, aFieldStyle );       
@@ -342,7 +340,6 @@ void CAknSearchField::ConstructL( const CCoeControl& aParent,
             bitmapMaskId = EMbmAvkonQgn_indi_find_glass_mask;
             flags |= CAknInputFrame::EPopupLayout;
             CreateWindowL(); 
-            iColumnFlag = 0xFFFFFFFF; 
             iIsPopup = ETrue;
             if( AknLayoutUtils::PenEnabled() )
                 {
@@ -376,7 +373,6 @@ void CAknSearchField::ConstructL( const CCoeControl& aParent,
             flags |= CAknInputFrame::EPopupWindowLayout;
             flags |= CAknInputFrame::EFixedFindWithoutLine;
             SetContainerWindowL( aParent ); 
-            iColumnFlag = 0xFFFFFFFF;   
             if( AknLayoutUtils::PenEnabled() )
                 {
                 iAdaptiveSearch = CAknAdaptiveSearch::NewL( aTextLimit, aFieldStyle );       
@@ -1180,7 +1176,7 @@ EXPORT_C void CAknSearchField::SetAdaptiveGridChars( const TDesC& aGridChars ) c
 
 // -----------------------------------------------------------------------------
 // CAknSearchField::SetListColumnFilterFlags
-// Set flag of columns for adaptive search grid.
+// Set flag of columns.
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CAknSearchField::SetListColumnFilterFlags( const TBitFlags32 aFlag )

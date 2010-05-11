@@ -27,7 +27,7 @@
 #include <barsread.h>
 #include <coeaui.h>
 #include <avkon.rsg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <testsdkanimation.rsg>
 
 #include "testsdkacontrol.h"

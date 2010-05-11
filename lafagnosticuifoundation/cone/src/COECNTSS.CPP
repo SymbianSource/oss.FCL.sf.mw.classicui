@@ -208,6 +208,7 @@ EXPORT_C void CCoeControlStaticSettings::SetSystemTypefaceL(const TDesC& aTypefa
  @param aLogicalToPixelSizes TInt array to be poulated with font sizes */			
 EXPORT_C void CCoeControlStaticSettings::GetLogicalToPixelFontSizesL(RArray<TInt>& aLogicalToPixelSizes)
 	{
+    CleanupClosePushL(aLogicalToPixelSizes);
 	CCoeControlStaticSettings* self = Self();
 	aLogicalToPixelSizes.Reset();
 	
@@ -224,6 +225,7 @@ EXPORT_C void CCoeControlStaticSettings::GetLogicalToPixelFontSizesL(RArray<TInt
 	    User::LeaveIfError(aLogicalToPixelSizes.Append(22)); 
 	    User::LeaveIfError(aLogicalToPixelSizes.Append(26)); 
 		}
+	CleanupStack::Pop(&aLogicalToPixelSizes);
 	}
 	
 /**

@@ -77,7 +77,7 @@ TBool IsFocusedWindowGroup( CAknNoteDialog* aThis )
     
     if ( nodeWindowGroupId == focusedWindowGroupId )
         {
-        return ETrue;
+        return aThis->IsFocused();
         }
 
     TInt count = wsSession.NumWindowGroups( 0 );
@@ -860,18 +860,21 @@ EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerE
         // Add tactile feedbacup when tap can close note.
         if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
             {
-            if ( DialogFlags()&EEikDialogFlagCloseDialogWhenTapped )
-            	{
-                MTouchFeedback* feedback = MTouchFeedback::Instance();
-                if ( feedback )
+            if ( DialogFlags() & EEikDialogFlagCloseDialogWhenTapped )
+                {
+                if( Rect().Contains( aPointerEvent.iPosition ) )
                     {
-                    feedback->InstantFeedback( ETouchFeedbackPopUp );
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if ( feedback )
+                        {
+                        feedback->InstantFeedback( ETouchFeedbackPopUp );
+                        }
                     }
-            	}
+                }
             }
         else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
-            if ( DialogFlags()&EEikDialogFlagCloseDialogWhenTapped )
+            if ( DialogFlags() & EEikDialogFlagCloseDialogWhenTapped )
                 {
                 if ( ctrl )
                     {

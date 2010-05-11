@@ -221,13 +221,6 @@ public: // from CListItemDrawer
 protected:
     
     /**
-     * Draws current item rectangle.
-     * 
-     * @param aRect Current item rectangle.
-     */
-	void DrawCurrentItemRect(const TRect& aRect) const;
-
-    /**
      * @c WordWrapListItem is used with @c CAknDouble* style listboxes.
      * If listbox does not have 2nd line defined, @c WordWrapListItem
      * wraps 1st line to 2nd line, if text does not fit to 1st line.

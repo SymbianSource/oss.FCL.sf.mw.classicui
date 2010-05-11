@@ -40,6 +40,8 @@
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <layoutmetadata.cdl.h>
 #include <aknphysics.h>
+#include <AknIconArray.h>
+#include <avkon.mbg>
 
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
@@ -183,6 +185,8 @@ public:
                              TBool aUseLogicalToVisualConversion, 
                              const TRgb &aColor);
     TInt ConvertTextToSmiley( TDes& aText );
+    void LoadMarkingIconsL();
+
 private: // New internal methods
     TBool DrawHighlightBackground( CFbsBitGc& aGc );
     void PostDeleteAnimation();
@@ -277,6 +281,7 @@ public:
     TBool iKineticScrolling;
     CAknSmileyManager* iSmileyMan;
     TSize iSmileySize; // last set simley size
+    CAknIconArray* iMarkingIconArray;
     };
 
 
@@ -325,6 +330,7 @@ void CFormattedCellListBoxDataExtension::ConstructL(
 #endif
 
     iKineticScrolling = CAknPhysics::FeatureEnabled();
+    LoadMarkingIconsL();
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -353,6 +359,13 @@ CFormattedCellListBoxDataExtension::~CFormattedCellListBoxDataExtension()
     delete iAnimation;
     delete iColorBmp;
     delete iHiliBmp;
+    
+    if ( iMarkingIconArray )
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    delete iMarkingIconArray;
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -697,6 +710,7 @@ void CFormattedCellListBoxDataExtension::SkinChanged()
     DeleteAnim();
     TryCreateAnimation();
     TRAP_IGNORE(CreateColorBitmapsL());
+    TRAP_IGNORE( LoadMarkingIconsL() );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1305,6 +1319,47 @@ TInt CFormattedCellListBoxDataExtension::ConvertTextToSmiley( TDes& aText)
     TRAPD( err, count = iSmileyMan->ConvertTextToCodesL( aText )) ;
     return err == KErrNone ? count : err;
     }
+
+
+// -----------------------------------------------------------------------------
+// CFormattedCellListBoxDataExtension::LoadMarkingIconsL
+// -----------------------------------------------------------------------------
+//
+void CFormattedCellListBoxDataExtension::LoadMarkingIconsL()
+    {
+    if ( !iMarkingIconArray )
+        {
+        iMarkingIconArray = new ( ELeave ) CAknIconArray( 2 );
+        }
+    else
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    const TDesC& avkonIconFile = AknIconUtils::AvkonIconFileName();
+
+    CGulIcon* icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOn, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_on, 
+            EMbmAvkonQgn_prop_checkbox_on_mask );
+    
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
+
+    icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOff, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_off, 
+            EMbmAvkonQgn_prop_checkbox_off_mask );
+
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
+    }
+
 
 EXPORT_C CCoeControl *CFormattedCellListBoxData::Control() const 
     {
@@ -2274,7 +2329,11 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
             aItemRect.iBr.iY);
     
     __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
-    CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
+    __ASSERT_DEBUG( iExtension->iControl, Panic( EAknPanicNullPointer ));
+
+    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl ); 
+    CListBoxView* view = listbox->View();
+
     if (!view->ViewRect().Intersects(aItemRect))
         {
         // outside of the clipping rect -> don't process this item
@@ -2285,10 +2344,12 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
         {
         iExtension->iClippedSubcells = 0;
         }
+
+    TBool backgroundDrawingSuppressed = listbox->BackgroundDrawingSuppressed();
     
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
-    if ( transApi )
+    if ( transApi && !backgroundDrawingSuppressed )
         {
         transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
         if(transApi->EffectsDisabled())
@@ -2297,7 +2358,10 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
             }
         }
 #else
-    aGc.SetClippingRect( view->ViewRect() );
+    if ( !backgroundDrawingSuppressed )
+        {
+        aGc.SetClippingRect( view->ViewRect() );
+        }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
     TRect vr(view->ViewRect());
     _AKNTRACE("Clipping: Width %d, (%d,%d)", vr.Width(), vr.iTl.iX, vr.iBr.iX );
@@ -2318,7 +2382,7 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
         }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST  
-    if ( transApi )
+    if ( transApi && !backgroundDrawingSuppressed )
         {        
         if(transApi->EffectsDisabled())
             {
@@ -2328,7 +2392,10 @@ CFormattedCellListBoxData::DrawFormatted( TListItemProperties aProperties,
         transApi->StopDrawing();
         }
 #else
-    aGc.CancelClippingRect();
+    if ( !backgroundDrawingSuppressed )
+        {
+        aGc.CancelClippingRect();
+        }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST 
     _AKNTRACE_FUNC_EXIT;
     }
@@ -2410,6 +2477,46 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
     __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     
     TRect textRect(aItemRect);
+    
+    CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
+    
+    if ( listbox->View()->ItemDrawer()->Flags() 
+            & CListItemDrawer::EMarkingModeEnabled 
+            && iExtension->iMarkingIconArray
+            &&  iExtension->iMarkingIconArray->Count() == 2 )
+        {
+        textRect.iTl.iX += 
+                AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ).LayoutLine().il;
+
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( aItemRect, 
+                AknLayoutScalable_Avkon::list_double_graphic_pane_g1( 0 ) );
+        
+        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
+
+        if ( listbox->View()->ItemIsSelected( 
+                iExtension->iCurrentlyDrawnItemIndex ) )
+            {
+            icon = (*iExtension->iMarkingIconArray)[0];
+            }
+        
+        CFbsBitmap* bitmap = icon->Bitmap();
+
+        if ( bitmap )
+            {
+            TSize size( bitmap->SizeInPixels() ); // set size if not already
+            TSize targetSize( layoutRect.Rect().Size() );
+            
+            if ( size.iWidth != targetSize.iWidth && size.iHeight != targetSize.iHeight )
+                {
+                AknIconUtils::SetSize( bitmap, targetSize,
+                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                }
+
+            aGc.BitBltMasked( layoutRect.Rect().iTl, bitmap, TRect( layoutRect.Rect().Size() ), icon->Mask(), EFalse );
+            }
+        }
+    
     const TColors *subcellColors = &aColors;
 
     TInt lastSubCell = Min( LastSubCell(), KMaxSubCellIndex );
@@ -2433,7 +2540,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
     
     if ( iExtension->iSubCellsMightIntersect )
         {
-        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, aItemRect );
+        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, textRect );
         }
 
     TInt SCindex=0;
@@ -2936,9 +3043,9 @@ EXPORT_C void CPopupFormattedListBoxData::Draw(TListItemProperties aProperties, 
     {
     _AKNTRACE_FUNC_ENTER;
     const TRect &aItemRect = aRect;
-    
-    DrawPopupHighlight(aGc, aItemRect, aHighlight);
-    
+
+    DrawDefaultHighlight( aGc, aItemRect, aHighlight );
+
     // Draw the actual items.
     DrawFormatted(aProperties,aGc,aText,aItemRect,aHighlight,aColors);
     _AKNTRACE_FUNC_EXIT;
@@ -3041,43 +3148,6 @@ void CFormattedCellListBoxData::DrawDefaultHighlight(CWindowGc &aGc, const TRect
     _AKNTRACE_FUNC_EXIT;
     }
 
-void CFormattedCellListBoxData::DrawSettingHighlight(CWindowGc &aGc, const TRect &aItemRect, TBool aHighlight) const
-    {
-    _AKNTRACE_FUNC_ENTER;
-    DrawDefaultHighlight( aGc, aItemRect, aHighlight );
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-void CFormattedCellListBoxData::DrawPopupHighlight(CWindowGc &aGc, const TRect &aItemRect, TBool aHighlight) const
-    {
-    _AKNTRACE_FUNC_ENTER;
-    DrawDefaultHighlight( aGc, aItemRect, aHighlight );
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-void CFormattedCellListBoxData::DrawPopupFrame(CWindowGc &aGc) const
-    {
-    _AKNTRACE_FUNC_ENTER;
-    __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
-    CCoeControl* control = Control();
-
-    if ( control )
-        {
-        aGc.SetPenStyle( CGraphicsContext::ENullPen );
-
-        TBool done = AknsDrawUtils::Background( AknsUtils::SkinInstance(), 
-                                                iExtension->iPopupFrame, 
-                                                control, 
-                                                aGc, 
-                                                control->Rect() );
-        
-        if ( !done )
-            {
-            aGc.Clear( control->Rect() );
-            }
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
 
 void CFormattedCellListBoxData::SetWordWrappedSubcellIndices(
     TInt aFirstIndex,
@@ -4107,27 +4177,81 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
     {
     _AKNTRACE_FUNC_ENTER;
     __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
+    _AKNTRACE( "DrawFormattedOld: aText=%S, aItemRect=(%d,%d,%d,%d)",
+               aText, aItemRect.iTl.iX,
+               aItemRect.iTl.iY,
+               aItemRect.iBr.iX, 
+               aItemRect.iBr.iY );
+
+    TRect itemRect( aItemRect );
     
-    TRect aRect(aItemRect);
-    const TColors *subcellColors = &aColors;
-    
-    TInt lastSubCell=LastSubCell();
-    if (lastSubCell==KErrNotFound)
+    TInt lastSubCell = LastSubCell();
+    if ( lastSubCell == KErrNotFound )
         {
-        aGc.UseFont(CEikonEnv::Static()->NormalFont());
-        aGc.DrawText(TPtrC(),aRect,0); // use draw text so that don't need to change pen color/style
+        aGc.UseFont( CEikonEnv::Static()->NormalFont() );
+        // Use draw text so that there's no need to change pen color/style.
+        aGc.DrawText( TPtrC(), itemRect, 0 );
         aGc.DiscardFont(); // Release the font cache
         _AKNTRACE_FUNC_EXIT;
         return;
         }
+    
+    CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
+    
+    if ( listbox->View()->ItemDrawer()->Flags()
+            & CListItemDrawer::EMarkingModeEnabled &&
+         iExtension->iMarkingIconArray && 
+         iExtension->iMarkingIconArray->Count() == 2 )
+        {
+        itemRect.iTl.iX +=
+            AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ).LayoutLine().il;
+
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect(
+            aItemRect, 
+            AknLayoutScalable_Avkon::list_double_graphic_pane_g1( 0 ) );
+        TRect iconRect( layoutRect.Rect() );
+        
+        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
+
+        if ( listbox->View()->ItemIsSelected( 
+                iExtension->iCurrentlyDrawnItemIndex ) )
+            {
+            icon = (*iExtension->iMarkingIconArray)[0];
+            }
+        
+        CFbsBitmap* bitmap = icon->Bitmap();
+
+        if ( bitmap )
+            {
+            TSize size( bitmap->SizeInPixels() ); // set size if not already
+            TSize targetSize( layoutRect.Rect().Size() );
+            
+            if ( size.iWidth != targetSize.iWidth &&
+                 size.iHeight != targetSize.iHeight )
+                {
+                AknIconUtils::SetSize( bitmap, targetSize,
+                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                }
+
+            aGc.BitBltMasked( iconRect.iTl,
+                              bitmap,
+                              TRect( iconRect.Size() ),
+                              icon->Mask(),
+                              EFalse );
+            }
+        }
+    
+    const TColors* subcellColors = &aColors;
+    
     const CFont* font=SubCellFont(0);
     if (font==NULL)
         {
         font=CEikonEnv::Static()->NormalFont();
         }
     
-    TRect textRect=aRect;
-    textRect.iBr.iX=aRect.iTl.iX;
+    TRect textRect( itemRect );
+    textRect.iBr.iX = itemRect.iTl.iX;
     TInt subcell=0;
     TInt subcell2=0;
 
@@ -4237,7 +4361,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                     }
                 
                 // This is called O(N^2) times - Do not put anything extra to it, it'll slow down drawing!
-                TRect bRect2 = TRect(SubCellPosition(subcell2),SubCellSize(subcell2));
+                TRect bRect2( SubCellPosition( subcell2 ), SubCellSize( subcell2 ) );
                 if (cRect.Intersects(bRect2) && bRect.Intersects(bRect2) && !istrans && !SubCellIsTransparent(subcell2)) 
                     {
                     cRect.iBr.iX = bRect2.iTl.iX;
@@ -4255,7 +4379,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                     }
                 
                 // This is called O(N^2) times - Do not put anything extra to it, it'll slow down drawing!
-                TRect bRect2 = TRect(SubCellPosition(subcell2),SubCellSize(subcell2));
+                TRect bRect2( SubCellPosition( subcell2 ), SubCellSize( subcell2 ) );
                 if (cRect.Intersects(bRect2) && bRect.Intersects(bRect2) && !istrans && !SubCellIsTransparent(subcell2)) 
                     {
                     cRect.iTl.iX = bRect2.iBr.iX;
@@ -4313,15 +4437,17 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         
         if ( layoutMirrored ) 
             {
-            TRect bRect = TRect(sc->iPosition,sc->iSize);
-            TRect cRect2 = TRect(bRect.iTl+TSize(m.iLeft,m.iTop),bRect.Size()-TSize(m.iRight+m.iLeft,m.iBottom+m.iTop));
+            TRect bRect( sc->iPosition, sc->iSize );
+            TRect cRect2( bRect.iTl + TSize( m.iLeft, m.iTop ),
+                          bRect.Size() - TSize( m.iRight + m.iLeft,
+                                                m.iBottom + m.iTop ) );
             
             TInt shift = (cRect2.Size() - sc->iRealTextSize).iWidth;
             cRect.iTl.iX += shift;
             cRect.iBr.iX += shift;
             }
         
-        textRect=TRect(aItemRect.iTl+cRect.iTl,cRect.Size());
+        textRect = TRect( itemRect.iTl + cRect.iTl, cRect.Size() );
         
         if (sc->iUseSubCellColors)
             {
@@ -4451,8 +4577,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
                                    iExtension->i2ndLineMarquee;
                 
                 TBool marqueeDisabled =
-                        static_cast<CEikListBox*>(
-                            Control() )->View()->ItemDrawer()->Flags() & CListItemDrawer::EDisableMarquee;
+                    listbox->View()->ItemDrawer()->Flags() & CListItemDrawer::EDisableMarquee;
                 
                 if ( aHighlight && iExtension->IsMarqueeOn() && clipped && !marqueeDisabled )
                     {                    

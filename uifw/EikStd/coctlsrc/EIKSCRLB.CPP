@@ -2382,25 +2382,35 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
                 scrollBarRect.Move( Position().iX - 
                     windowOwningParent->Position().iX, 0 );
                 } 
-            
-            // left to right layout in use
-            if ( !AknLayoutUtils::LayoutMirrored() )
-                {
-                xGap = parentRect.iBr.iX - scrollBarRect.iBr.iX;  
-                if ( Abs( xGap ) < scrollBarRect.Width() )
-                    {
-                    extension.iBr.iX += xGap;
-                    }
-                }
-            // right to left layout in use
+            if ( iOrientation == CEikScrollBar::EVertical )
+            	{
+				// left to right layout in use
+				if ( !AknLayoutUtils::LayoutMirrored() )
+					{
+					xGap = parentRect.iBr.iX - scrollBarRect.iBr.iX;  
+					if ( Abs( xGap ) < scrollBarRect.Width() )
+						{
+						extension.iBr.iX += xGap;
+						}				
+					}
+				// right to left layout in use
+				else
+					{				
+					xGap = parentRect.iTl.iX - scrollBarRect.iTl.iX;
+					if ( Abs( xGap ) < scrollBarRect.Width() )
+						{
+						extension.iTl.iX += xGap;
+						}
+					} 
+            	}
             else
-                {
-                xGap = parentRect.iTl.iX - scrollBarRect.iTl.iX;
-                if ( Abs( xGap ) < scrollBarRect.Width() )
-                    {
-                    extension.iTl.iX += xGap;
-                    }
-                }  
+            	{
+				xGap = parentRect.iBr.iY - scrollBarRect.iBr.iY;  
+				if ( Abs( xGap ) < scrollBarRect.Height() )
+					{
+					extension.iBr.iY += xGap;
+					}
+            	}             
             }
         }     
     
@@ -2416,7 +2426,7 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
         area.iTl.iX = scrollbar.iTl.iY - extension.iTl.iY;
         area.iTl.iY = scrollbar.Width() - extension.Width();
         area.iBr.iX = iSize.iWidth + ( extension.Height() - scrollbar.Height() );
-        area.iBr.iY = area.iTl.iY + extension.Width();
+        area.iBr.iY = area.iTl.iY + extension.Height();
         }
     
     return area;

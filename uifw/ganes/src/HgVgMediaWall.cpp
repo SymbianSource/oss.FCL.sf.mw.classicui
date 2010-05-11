@@ -334,7 +334,6 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
     delete iDelayedInit;
     delete iEGL;
     delete iSpring;
-    delete iSurfaceBitmap;
     
     iPopupText1.Close();
     iPopupText2.Close();
@@ -369,7 +368,7 @@ EXPORT_C CHgVgMediaWall::THgVgOpeningAnimationType CHgVgMediaWall::OpeningAnimat
 void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
     {
 
-    if(iFlags & EHgVgMediaWallUninitialized)
+    if( iFlags & EHgVgMediaWallUninitialized || !iIsForeground )
         {
         FillSystemGcWithSkin( );
         return;
@@ -377,47 +376,36 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
     
     CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
 
-    if (iIsForeground)
+    if( iFlags & EHgVgMediaWallDrawToWindowGC )
         {
-        if( iFlags & EHgVgMediaWallDrawToWindowGC )
+        CFbsBitmap* screenshot = NULL;
+        screenshot = self->DrawToBitmap();
+        if (screenshot)
             {
-            CFbsBitmap* screenshot = NULL;
-            screenshot = self->DrawToBitmap();
-            if (screenshot)
-                {
-                SystemGc().BitBlt( Rect().iTl,screenshot );
-                delete screenshot;
-                }
-            else
-                {
-                FillSystemGcWithSkin( );
-                }
-            }
-        else
-            {
-            
-            // draw with alpha to make a hole to composition layer
-            SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
-            SystemGc().SetBrushColor(TRgb(0,0,0,0));
-            SystemGc().Clear();
-            
-            DrawOpenVG();        
-            }
-        }
-    else
-        {
-        if (iSurfaceBitmap)
-            {
-            SystemGc().BitBlt( Rect().iTl, iSurfaceBitmap );
+            SystemGc().BitBlt( Rect().iTl,screenshot );
+            delete screenshot;
             }
         else
             {
             FillSystemGcWithSkin( );
             }
         }
-    
+    else
+        {
+        // draw with alpha to make a hole to composition layer
+        SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        SystemGc().SetBrushColor(TRgb(0,0,0,0));
+        SystemGc().Clear();
+        
+        DrawOpenVG();        
+        }
     }
 
+// -----------------------------------------------------------------------------
+// CHgVgMediaWall::FillSystemGcWithSkin()
+// Draws the display.
+// -----------------------------------------------------------------------------
+//
 void CHgVgMediaWall::FillSystemGcWithSkin( ) const
     {
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
@@ -1219,26 +1207,10 @@ void CHgVgMediaWall::HandleGainingForeground()
     {
     if(iIsForeground) return; // don't react to gaining foreground without losing it
     
-    // draw previous screenshot
-    DrawNow();
-        
-    // delete it
-    delete iSurfaceBitmap;
-    iSurfaceBitmap = NULL;
-
     iIsForeground = ETrue;
-
-    // init egl and openvg again
-    TRAP_IGNORE( InitRenderingL(EFalse); )
     
-    // reload images to ive
-    ReloadItemsImages();
-
-    ClearFlags(EHgVgMediaWallUninitialized);
-
-    // draw using openvg
-    DrawNow();
-    
+    if(iDelayedInit && !iDelayedInit->IsActive())
+        iDelayedInit->Start(100000, 1000000, TCallBack(DelayedInit, this));
     }    
 
 // ---------------------------------------------------------------------------
@@ -1268,11 +1240,6 @@ void CHgVgMediaWall::HandleLosingForeground()
 
     iIsForeground = EFalse;
     
-    // take a screenshot 
-    delete iSurfaceBitmap;
-    iSurfaceBitmap = NULL;
-    iSurfaceBitmap = DrawToBitmap();
-
     // draw screenshot using window gc, this is needed
     // for nga effects to work
     DrawNow();
@@ -1281,9 +1248,10 @@ void CHgVgMediaWall::HandleLosingForeground()
     FreeItemsImages();
     // free other resources
     DestroyRendering();
+
+    SetFlags( EHgVgMediaWallUninitialized | EHgVgMediaWallDrawToWindowGC );
     
     iCoeEnv->WsSession().Flush();
-
     }
 
 // ---------------------------------------------------------------------------

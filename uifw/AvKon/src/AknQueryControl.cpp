@@ -237,8 +237,11 @@ EXPORT_C void TAknQueryEcsObserver::HandleEcsEvent( CAknEcsDetector* /*aDetector
         if ( iParent->QueryType() == EPinLayout )
             {
             _AKNTRACE( "[%s][%s] ", "RevealSecretText( EFalse )", __FUNCTION__);
-            static_cast<CAknNumericSecretEditor*>
-                ( iParent->ControlByLayoutOrNull( EPinLayout ) )->RevealSecretText( EFalse );
+            if( iParent->ControlByLayoutOrNull( EPinLayout ) )
+            	{
+				static_cast<CAknNumericSecretEditor*>
+					( iParent->ControlByLayoutOrNull( EPinLayout ) )->RevealSecretText( EFalse );
+            	}
             }
         }
     

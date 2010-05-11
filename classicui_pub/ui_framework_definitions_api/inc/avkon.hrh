@@ -381,7 +381,15 @@ enum
         
     EChinFepCmdModePinyinPhrase,
     EChinFepCmdModeZhuyinPhrase,
-    EChinFepCmdModeStrokePhrase,    
+    EChinFepCmdModeStrokePhrase,
+
+    /**
+     * Command ids for multiple marking state.
+     */
+    EAknCmdMarkingModeEnter,
+    EAknCmdMarkingModeMarkOne,
+    EAknCmdMarkingModeMarkAll,
+    EAknCmdMarkingModeUnmarkAll,
 
     /**
     * @deprecated

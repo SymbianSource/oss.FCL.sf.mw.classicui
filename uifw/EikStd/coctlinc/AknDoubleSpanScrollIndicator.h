@@ -255,8 +255,7 @@ private: // new methods
     */
     void CreateScrollBarItemsL();    
 
-    TInt ScrollHandleMaxVisibleSizeInPixels();
-    TInt HandleBackgroundMinSizeInPixels();
+    TInt HandleMaxSizeInPixels();
     TInt HandleMinSizeInPixels();
 
     /**
@@ -267,14 +266,6 @@ private: // new methods
     */
     void DrawBackground() const;
     
-    /**
-    * Layout scrollbar handle
-    * 
-    * @since    3.1
-    *
-    */
-    void LayoutHandleGraphics();
-
     CAknDoubleSpanScrollIndicatorItem* LoadScrollIndicatorItemL(
             const TAknsItemID &aTopId,
             const TAknsItemID &aMidId,
@@ -293,7 +284,6 @@ private: // data
     TInt iFieldPosition;        // Size of the current field. (Optional double span)
     TInt iFieldSize;            // Position inside the current field. (Optional double span)
     TBool iOwnsWindow;            // Is window owning
-    TInt iSpare;
 
     TRect iBackgroundRect;       // Rect for scrollbar background.
     TRect iHandleBackgroundRect; // Rect for scrollbar handle background.
@@ -317,8 +307,17 @@ private: // data
     CAknDoubleSpanScrollIndicatorItem* iHighlightHandleBar;
  
     TInt iHeadItemSize;
-    TInt iMidItemSize;
     TInt iTailItemSize;
+
+    /**
+     * Minimum handle size.
+     */
+    TInt iHandleMinSize;
+    
+    /**
+     * Maximum handle size.
+     */
+    TInt iHandleMaxSize;
     };
 
 #endif

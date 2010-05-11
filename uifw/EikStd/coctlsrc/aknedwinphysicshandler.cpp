@@ -142,10 +142,12 @@ void CAknEdwinPhysicsHandler::HandlePointerEvent(
                 }
             else
                 {
-                TInt deltaY( iPrevPosition.iY - aPointerEvent.iPosition.iY );
-    
-                TPoint deltaPoint( 0, deltaY );
-                iPhysics->RegisterPanningPosition( deltaPoint );
+                if ( !iEdwin.ContentFitsToViewRect() )
+                    {
+                    TInt deltaY( iPrevPosition.iY - aPointerEvent.iPosition.iY );
+                    TPoint deltaPoint( 0, deltaY );
+                    iPhysics->RegisterPanningPosition( deltaPoint );
+                    }
                 }
             iPrevPosition = aPointerEvent.iPosition;
             }
@@ -157,8 +159,12 @@ void CAknEdwinPhysicsHandler::HandlePointerEvent(
                 }
             
             iFlags.Clear( EFlagDraggingAllowed );
-            TPoint drag( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
-            iPhysics->StartPhysics( drag, iStartTime );
+
+            if ( !iEdwin.ContentFitsToViewRect() )
+                {
+                TPoint drag( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
+                iPhysics->StartPhysics( drag, iStartTime );
+                }
             }
         }
     }

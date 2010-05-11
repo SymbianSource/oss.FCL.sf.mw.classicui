@@ -677,7 +677,14 @@ EXPORT_C void CAknPopupSettingPage::ConstructL()
     SetEditedItemFrameIID( KAknsIIDQsnFrSetOpt, KAknsIIDQsnFrSetOptCenter );
 
 	iQueryValue.SetQueryMode( MAknQueryValue::ESettingPageMode );
+	//
+	// SetQueryValue make the view item drawn by default, SetDisableRedraw can remove flick
+	//
+	TBool bRedrawDisabled = PopupSettingListBox()->View()->RedrawDisabled();
+	PopupSettingListBox()->View()->SetDisableRedraw( ETrue );
 	PopupSettingListBox()->SetQueryValueL( &iQueryValue );
+	PopupSettingListBox()->View()->SetDisableRedraw( bRedrawDisabled);
+
 	CheckAndSetDataValidity();
 	UpdateCbaL();
 

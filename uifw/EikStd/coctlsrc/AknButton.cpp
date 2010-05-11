@@ -1979,10 +1979,8 @@ EXPORT_C TKeyResponse CAknButton::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                 {
                 // show press changes
                 iButtonPressed = ETrue;
-                if ( iExtension )
-                    {
-                    iExtension->iPrePointerPos.SetXY( -1, -1 );
-                    }
+                iExtension->iPrePointerPos.SetXY( -1, -1 );
+                
                 if ( NeedsRedrawWhenPressed() )
                     {
                     DrawNow();
@@ -2146,7 +2144,7 @@ EXPORT_C void CAknButton::PrepareForFocusGainL()
 EXPORT_C void CAknButton::SizeChanged()
     {
     //Reset state if observer modified the rectangel.
-    if ( iButtonPressed && iExtension && !Rect().Contains( iExtension->iPrePointerPos ) )
+    if ( iButtonPressed && !Rect().Contains( iExtension->iPrePointerPos ) )
         {
         ResetState();               
         }

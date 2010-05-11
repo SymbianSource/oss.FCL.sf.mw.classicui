@@ -3057,6 +3057,13 @@ public:
      *        context.
      */
     void DrawViewBackground( TBool aStart ) const;
+	
+	/**
+     * Returns ETrue if editor content fits to view rect.
+     *
+     * @return ETrue if editor content fits to view rect.
+     */
+	TBool ContentFitsToViewRect() const;
 
 protected:
 

@@ -44,6 +44,7 @@ TInt Ctestdomfinditem::RunMethodL( CStifItemParser& aItem )
         ENTRY( "TestDialogExecuteLD", Ctestdomfinditem::TestDialogExecuteLDL ),
         ENTRY( "TestDialogProcessCommandL", Ctestdomfinditem::TestDialogProcessCommandL ),
         ENTRY( "TestDialogOfferKeyEventL", Ctestdomfinditem::TestDialogOfferKeyEventL ),
+        ENTRY( "TestDialogEnableSingleClick", Ctestdomfinditem::TestDialogEnableSingleClick ),
 
         // test functions in finditemmenu.h
         ENTRY( "TestMenuNewL", Ctestdomfinditem::TestMenuNewL ),

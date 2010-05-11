@@ -18,7 +18,7 @@
 #ifndef C_TESTSDKDOCUMENTHANDLEROBSERVER_H
 #define C_TESTSDKDOCUMENTHANDLEROBSERVER_H
 
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 
 class CTestSDKDocumentHandlerObserver : public CBase,
                                         public MAknServerAppExitObserver

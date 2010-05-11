@@ -21,7 +21,7 @@
 #include <aknlists.h>
 #include <barsread.h>
 #include <akndef.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <eiktxlbm.h>
 #include <eikclbd.h>
 

@@ -147,6 +147,8 @@ const TInt KAdditionalPixels = 0x400;
 
 const TInt KFullFormatLengthForSmiley = 5000;
 
+const TInt KContentThreshold = 8;
+
 //
 // class CEikEdwin::CUndoBuffer
 //
@@ -2872,16 +2874,20 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                     // on down event feedback is given if cursor/selection changes
                     if ( paintingPossible && !readOnly || editorWillGetFocus )
                         {
-                        iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackBasic );
+                        iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackEdit );
                         }
                     }
                 else  if ( selectionChanged && 
-                       ( ( aPointerEvent.iType == TPointerEvent::EDrag ) ||
+                         ( selectionAfter.iAnchorPos != selectionAfter.iCursorPos ) &&
+                         ( ( aPointerEvent.iType == TPointerEvent::EDrag ) ||
                          ( aPointerEvent.iType == TPointerEvent::EButtonRepeat ) ) )
                     {
-                    TInt readPos = ( selectionAfter.iCursorPos >= selectionBefore.iCursorPos ) ?
-                                          selectionBefore.iCursorPos : selectionAfter.iCursorPos ;
-                    TChar currentSelectedChar = Text()->Read( readPos, 1 )[0]; 
+                    TInt readPos = selectionAfter.iCursorPos;
+                    if ( selectionAfter.iCursorPos > selectionAfter.iAnchorPos )
+                        {
+                        readPos -= 1;//drag backword
+                        }
+                    TChar currentSelectedChar = Text()->Read( readPos, 1 )[0];
                     TBool isSpace = currentSelectedChar.IsSpace();
                     TBool isSmiley = CSmileyManager::IsSmileyCode(currentSelectedChar);
                     TBool isText = currentSelectedChar.IsGraph();
@@ -2889,10 +2895,10 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                     // case line
                     TInt prevLineNr = TextLayout()->GetLineNumber(selectionBefore.iCursorPos);
                     TInt lineNr = TextLayout()->GetLineNumber(selectionAfter.iCursorPos);
-                    if ( prevLineNr != lineNr && ( selection.Length() != 0 ) )
+                    if ( prevLineNr != lineNr )
                         {
-                        TInt group = ( currentSelectedChar.GetCategory() & 0xF0 );
-                        TBool isEmptyLine = ( group == TChar::ESeparatorGroup );
+                        TInt group = currentSelectedChar.GetCategory();
+                        TBool isEmptyLine = ( group == TChar::EZpCategory );
                         TTouchLogicalFeedback fType = ( isEmptyLine ? 
                             ETouchFeedbackEmptyLineSelection : ETouchFeedbackLineSelection );
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, fType );
@@ -8926,6 +8932,7 @@ void CEikEdwin::HandleSelectionForSmiley( TCursorSelection aSelect )
 		}
     }
 
+
 // ---------------------------------------------------------------------------
 // CEikEdwin::SkipBackgroundDrawer
 // ---------------------------------------------------------------------------
@@ -8935,6 +8942,24 @@ TBool CEikEdwin::SkipBackgroundDrawer() const
     return iEdwinInternalFlags & ESkipBackgroundDrawer;
     }
 
+
+// ---------------------------------------------------------------------------
+// CEikEdwin::ContentFitsToViewRect
+// ---------------------------------------------------------------------------
+//
+TBool CEikEdwin::ContentFitsToViewRect() const
+    {
+    if ( iLayout && !iLayout->IsFormattingBand() )
+        {
+        if ( iLayout->FormattedHeightInPixels()
+            <= AdjustedViewRect().Height() + KContentThreshold )
+            {
+            return ETrue;
+            }
+        }
+
+    return EFalse;
+    }
 
 
 // End of File

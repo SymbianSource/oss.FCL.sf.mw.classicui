@@ -738,6 +738,7 @@ void CHgScroller::HandleDownEventL( const TPointerEvent& aEvent )
 //
 void CHgScroller::HandleDragEventL( const TPointerEvent& aEvent )
     {
+    TBool prevPanning = iPanning;
     if(!iPanning)
         {
         TInt delta = 0;
@@ -754,6 +755,9 @@ void CHgScroller::HandleDragEventL( const TPointerEvent& aEvent )
         iPanning = delta >= iPhysics->DragThreshold();
         }
 
+    if( prevPanning != iPanning )
+        DrawDeferred(); // to clear highlight
+    
     if(iPanning)
         {
         TPoint delta = iPrev - aEvent.iPosition;

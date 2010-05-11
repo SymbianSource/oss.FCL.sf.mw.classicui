@@ -32,6 +32,8 @@
 #include <layoutmetadata.cdl.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <aknphysics.h>
+#include <AknIconArray.h>
+#include <avkon.mbg>
 
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
@@ -116,7 +118,7 @@ public:
     void DeleteAnim();
     void FocusGained();
     void FocusLost();
-    void SkinChanged();
+    void SkinChangedL();
     void SetControl( CCoeControl* aControl );
 
     // Implementation of MCoeForegroundObserver
@@ -141,6 +143,9 @@ public:
                                  CWindowGc& aGc, 
                                  const TRect& aOutRect, 
                                  const TRect& aInnerRect ) const;
+
+    void LoadMarkingIconsL();
+
 public: //for handling column alignment
     struct TColumnExt
         {
@@ -239,6 +244,7 @@ public:
     
     CArrayFix<TColumnExt>* iColumnExtArray; //for column alignment
     TRect iMarginRect;
+    CAknIconArray* iMarkingIconArray;
     };
 
 /**
@@ -306,6 +312,7 @@ void CColumnListBoxDataExtension::ConstructL(
 
     
     iKineticScrolling = CAknPhysics::FeatureEnabled();
+    LoadMarkingIconsL();
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -330,6 +337,13 @@ CColumnListBoxDataExtension::~CColumnListBoxDataExtension()
     delete iColorBmp;
     delete iHiliBmp;
     delete  iColumnExtArray;
+
+    if ( iMarkingIconArray )
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    delete iMarkingIconArray;
     }
 
 MAknsControlContext* CColumnListBoxDataExtension::SkinBackgroundContext() const
@@ -520,16 +534,19 @@ void CColumnListBoxDataExtension::FocusLost()
         }
     }
 
+
 // -----------------------------------------------------------------------------
-// CColumnListBoxDataExtension::SkinChanged
+// CColumnListBoxDataExtension::SkinChangedL
 // -----------------------------------------------------------------------------
 //
-void CColumnListBoxDataExtension::SkinChanged()
+void CColumnListBoxDataExtension::SkinChangedL()
     {
     DeleteAnim();
     TryCreateAnimation();
     CreateColorBitmapsL();
+    LoadMarkingIconsL();
     }
+
 
 // -----------------------------------------------------------------------------
 // CColumnListBoxDataExtension::SetControl
@@ -1122,19 +1139,63 @@ TBool CColumnListBoxDataExtension::DrawPressedDownEffectL( MAknsSkinInstance* aI
                                      KAknsIIDQsnFrListCenterPressed );
     }
 
+
+// -----------------------------------------------------------------------------
+// CColumnListBoxDataExtension::LoadMarkingIconsL
+// -----------------------------------------------------------------------------
+//
+void CColumnListBoxDataExtension::LoadMarkingIconsL()
+    {
+    if ( !iMarkingIconArray )
+        {
+        iMarkingIconArray = new ( ELeave ) CAknIconArray( 2 );
+        }
+    else
+        {
+        iMarkingIconArray->ResetAndDestroy();
+        }
+
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    const TDesC& avkonIconFile = AknIconUtils::AvkonIconFileName();
+
+    CGulIcon* icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOn, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_on, 
+            EMbmAvkonQgn_prop_checkbox_on_mask );
+    
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
+
+    icon = AknsUtils::CreateGulIconL( skin, 
+            KAknsIIDQgnPropCheckboxOff, 
+            avkonIconFile, 
+            EMbmAvkonQgn_prop_checkbox_off, 
+            EMbmAvkonQgn_prop_checkbox_off_mask );
+
+    CleanupStack::PushL( icon );
+    iMarkingIconArray->AppendL( icon );
+    CleanupStack::Pop( icon );
+    }
+
+
 EXPORT_C CCoeControl *CColumnListBoxData::Control() const 
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     return iExtension->iControl;
     }
 
 EXPORT_C void CColumnListBoxData::SetControl(CCoeControl *aControl)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->SetControl( aControl );
     }
 
 
 EXPORT_C MAknsControlContext* CColumnListBoxData::SkinBackgroundContext() const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if (iExtension->iSkinEnabled)
         {
         return iExtension->iSkinControlContext;
@@ -1145,12 +1206,14 @@ EXPORT_C MAknsControlContext* CColumnListBoxData::SkinBackgroundContext() const
 
 void CColumnListBoxData::SetSkinBackgroundContext(CAknsListBoxBackgroundControlContext *aContext)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     delete iExtension->iSkinControlContext;
     iExtension->iSkinControlContext = aContext;
     }
 
 void CColumnListBoxData::CreatePictographInterfaceL()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if ( !iExtension->iPictoInterface )
         {
         iExtension->iPictoInterface = CAknPictographInterface::NewL(
@@ -1160,6 +1223,7 @@ void CColumnListBoxData::CreatePictographInterfaceL()
 
 EXPORT_C void CColumnListBoxData::SetSkinHighlightFrame(const TAknsItemID *aFrameId, const TAknsItemID *aFrameCenterId)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     iExtension->iSkinHighlightFrameId = aFrameId;
     iExtension->iSkinHighlightFrameCenterId = aFrameCenterId;
@@ -1167,12 +1231,14 @@ EXPORT_C void CColumnListBoxData::SetSkinHighlightFrame(const TAknsItemID *aFram
 
 EXPORT_C void CColumnListBoxData::SetSkinEnabledL(TBool aEnabled)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     CListBoxData::SetSkinEnabledL(aEnabled);
     iExtension->iSkinEnabled = aEnabled;
     }
 
 EXPORT_C void CColumnListBoxData::SetSkinStyle(const TAknsItemID *aId, const TRect &aTileRect)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetTiledBitmap(*aId);
@@ -1182,6 +1248,7 @@ EXPORT_C void CColumnListBoxData::SetSkinStyle(const TAknsItemID *aId, const TRe
 
 EXPORT_C void CColumnListBoxData::SetListEndSkinStyle(const TAknsItemID *aId, const TRect &aTileRect)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if (iExtension->iSkinControlContext)
         {
         iExtension->iSkinControlContext->SetBottomBitmap(*aId);
@@ -1191,6 +1258,7 @@ EXPORT_C void CColumnListBoxData::SetListEndSkinStyle(const TAknsItemID *aId, co
 
 void CColumnListBoxData::CreateMarqueeControlL()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     if ( !iExtension->iMarquee )
         {
@@ -1210,6 +1278,7 @@ void CColumnListBoxData::CreateMarqueeControlL()
 
 void CColumnListBoxData::ResetMarquee()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     if (iExtension->iMarquee)
         {
@@ -1223,11 +1292,13 @@ void CColumnListBoxData::ResetMarquee()
 
 TInt CColumnListBoxData::CurrentMarqueeItemIndex()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     return iExtension->iCurrentItem;
     }
 
 void CColumnListBoxData::SetCurrentMarqueeItemIndex(TInt aIndex)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->iCurrentItem = aIndex;
     }
 
@@ -1236,6 +1307,7 @@ void CColumnListBoxData::SetCurrentMarqueeItemIndex(TInt aIndex)
 //
 EXPORT_C void CColumnListBoxData::EnableMarqueeL(TBool aEnable)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     // CreateMarqueeControlL does nothing if marquee already exists,
     // so let's just call it just in case.
@@ -1246,15 +1318,13 @@ EXPORT_C void CColumnListBoxData::EnableMarqueeL(TBool aEnable)
 
 EXPORT_C void CColumnListBoxData::SetSeparatorLinePosition(TAknSeparatorLinePosition aPosition)
     {
-    if (iExtension)
-        iExtension->iSeparatorLinePosition = aPosition;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    iExtension->iSeparatorLinePosition = aPosition;
     }
 EXPORT_C TAknSeparatorLinePosition CColumnListBoxData::SeparatorLinePosition() const
     {
-    if (iExtension)
-        return iExtension->iSeparatorLinePosition;
-    else
-        return ENoLine;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iSeparatorLinePosition;
     }
 EXPORT_C CAknLayoutData *CColumnListBoxData::LayoutData() const
     {
@@ -1311,12 +1381,12 @@ EXPORT_C CColumnListBoxData::~CColumnListBoxData()
 //    D'tor
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     delete iColumnArray;
     if (IconArray())
         {
         IconArray()->ResetAndDestroy();
-        if (iExtension)
-            delete iExtension->iIconArray;
+        delete iExtension->iIconArray;
         }
     delete iExtension;
     }
@@ -1393,10 +1463,11 @@ EXPORT_C void CColumnListBoxData::SetColumnWidthPixelL(TInt aColumn,TInt aWidth)
 //    Set a columns width
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     TInt index;
     FindColumnIndexOrAddL(index,aColumn);
     At(index).iWidth=aWidth;
-    if ( iExtension && iExtension->iUseLayoutData )
+    if ( iExtension->iUseLayoutData )
         {
         iExtension->iUseLayoutData = EFalse;
         CListBoxView* view = static_cast<CEikListBox*>( iExtension->iControl )->View();
@@ -1467,6 +1538,7 @@ EXPORT_C void CColumnListBoxData::SetColumnBaselinePosL(TInt aColumn,TInt aPos)
 //  Set a columns baseline position
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     TInt index;
     FindColumnIndexOrAddL(index,aColumn);
@@ -1474,7 +1546,7 @@ EXPORT_C void CColumnListBoxData::SetColumnBaselinePosL(TInt aColumn,TInt aPos)
     
     // can not be nicely supported by new drawing system
     // --> revert to Symbian style drawing
-    if ( iExtension && iExtension->iUseLayoutData )
+    if ( iExtension->iUseLayoutData )
         {
         iExtension->iUseLayoutData = EFalse;
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
@@ -1509,6 +1581,7 @@ EXPORT_C void CColumnListBoxData::SetColumnMarginsL(TInt aColumn,TMargins aMargi
 //  Set a columns vertical cap
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     TInt index;
     FindColumnIndexOrAddL(index,aColumn);
@@ -1516,7 +1589,7 @@ EXPORT_C void CColumnListBoxData::SetColumnMarginsL(TInt aColumn,TMargins aMargi
 
     // can not be nicely supported by new drawing system
     // --> revert to Symbian style drawing
-    if ( iExtension && iExtension->iUseLayoutData )
+    if ( iExtension->iUseLayoutData )
         {
         iExtension->iUseLayoutData = EFalse;
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
@@ -1628,6 +1701,7 @@ EXPORT_C void CColumnListBoxData::SetColumnAlignmentL(TInt aColumn,CGraphicsCont
 //    Set a columns alignment
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     TInt index;
     FindColumnIndexOrAddL(index,aColumn);
     At(index).iAlign=aAlign;
@@ -1728,10 +1802,8 @@ EXPORT_C CArrayPtr<CGulIcon>* CColumnListBoxData::IconArray() const
 //    Return the list of icons
 //
     {
-    if (iExtension)
-        return iExtension->iIconArray;
-    else
-        return 0;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iIconArray;
     }
 
 EXPORT_C void CColumnListBoxData::SetIconArray(CArrayPtr<CGulIcon>* aArray)
@@ -1739,14 +1811,9 @@ EXPORT_C void CColumnListBoxData::SetIconArray(CArrayPtr<CGulIcon>* aArray)
 //    Passes ownership of the icon list aArray (assumes any previous list has been deleted by the caller)
 //
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if (iExtension)
-        iExtension->iIconArray=aArray;
-    else
-        {
-        aArray->ResetAndDestroy();
-        delete aArray;
-        }    
+    iExtension->iIconArray=aArray; 
     }
 
 EXPORT_C CFont* CColumnListBoxData::Font(const TListItemProperties& /*aItemProperties*/, TInt aColumn) const
@@ -1778,6 +1845,7 @@ EXPORT_C CFont* CColumnListBoxData::Font(const TListItemProperties& /*aItemPrope
 
 void CColumnListBoxData::DrawHighLight( CWindowGc& aGc, const TRect& aRect, TBool aHighlight, MAknsSkinInstance* aSkin ) const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     // SERIES60 Highlight drawing.
     if( aHighlight )
         {
@@ -1943,6 +2011,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                                      TBool aHighlight,
                                      const TColors& aColors ) const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );    
     
     __ASSERT_DEBUG( iExtension->iControl, Panic( EEikPanicNullPointer ));
@@ -1960,6 +2029,22 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
     TPtrC tempText;
 
     TRgb aTextColor = aHighlight ? aColors.iHighlightedText : aColors.iText;
+    
+    TBool markingMode = EFalse;
+    TRect itemRect( aRect );
+    
+    if ( listbox->View() && listbox->View()->ItemDrawer() )
+        {
+        if ( listbox->View()->ItemDrawer()->Flags() 
+                & CListItemDrawer::EMarkingModeEnabled
+                && iExtension->iMarkingIconArray
+                &&  iExtension->iMarkingIconArray->Count() == 2 )
+            {
+            markingMode = ETrue;
+            itemRect.iTl.iX += 
+                    AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 0 ).LayoutLine().il;
+            }
+        }
 
     MAknsSkinInstance *skin = AknsUtils::SkinInstance();
     MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
@@ -1975,9 +2060,8 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
     
     if ( iExtension->iSubCellsMightIntersect )
         {
-        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, aRect );
+        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, itemRect );
         }
-
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -2017,11 +2101,43 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
         }
     DrawHighLight( aGc, aRect, aHighlight, skin );
     
+    if ( markingMode && !aItemProperties.IsSelectionHidden() )
+        {
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( aRect, 
+                AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+        
+        aGc.SetPenColor( aColors.iText );
+        aGc.SetPenStyle( CGraphicsContext::ESolidPen );
+
+        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
+
+        if ( listbox->View()->ItemIsSelected( iExtension->iCurrentRow ) )
+            {
+            icon = (*iExtension->iMarkingIconArray)[0];
+            }
+        
+        CFbsBitmap* bitmap = icon->Bitmap();
+
+        if ( bitmap )
+            {
+            TSize size( bitmap->SizeInPixels() ); // set size if not already
+            TSize targetSize( layoutRect.Rect().Size() );
+            
+            if ( size.iWidth != targetSize.iWidth && size.iHeight != targetSize.iHeight )
+                {
+                AknIconUtils::SetSize( bitmap, targetSize,
+                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                }
+
+            aGc.BitBltMasked( layoutRect.Rect().iTl, bitmap, TRect( layoutRect.Rect().Size() ), icon->Mask(), EFalse );
+            }
+        
+        }
+    
     // The column draw loop
     column = 0;
     TInt subCellIndex = 0;
-
-    if ( !iExtension ) { return; }
     
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST   
     if ( transApi )
@@ -2129,7 +2245,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 }
             
             TAknLayoutText textLayout;
-            textLayout.LayoutText( aRect, textLineLayout, usedFont );
+            textLayout.LayoutText( itemRect, textLineLayout, usedFont );
             // *2 == leave some room for marquee
             const TInt maxlen( KMaxColumnDataLength * 2 ); 
             TBuf<maxlen> convBuf = text.Left(maxlen);
@@ -2176,7 +2292,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 {
                 iExtension->iMarquee->UseLogicalToVisualConversion( bidiConv );
                 
-                if ( iExtension->iMarquee->DrawText( aGc, aRect, textLineLayout, convBuf, usedFont, textColor ) )
+                if ( iExtension->iMarquee->DrawText( aGc, itemRect, textLineLayout, convBuf, usedFont, textColor ) )
                     {
                     // all the loops have been executed
                     textLayout.DrawText( aGc, convBuf, bidiConv, textColor );
@@ -2266,7 +2382,7 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
             TAknWindowLineLayout graphicLayout = iExtension->AtSL(subCellIndex).iGraphicLayout;
             TAknLayoutRect graphicRect; 
             
-            graphicRect.LayoutRect(aRect,graphicLayout);
+            graphicRect.LayoutRect( itemRect,graphicLayout );
             TSize graphicSize( graphicRect.Rect().Size() );
             
             if ( index>=0 && IconArray() )
@@ -2309,6 +2425,7 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
                                TBool aHighlight,
                                const TColors& aColors ) const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ ); 
 
     if ( aHighlight )
@@ -2342,11 +2459,28 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
         return;
         }
 
+    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
+    TBool markingMode = EFalse;
+    TRect itemRect( aRect );
+    
+    if ( listbox->View() && listbox->View()->ItemDrawer() )
+        {
+        if ( listbox->View()->ItemDrawer()->Flags() 
+                & CListItemDrawer::EMarkingModeEnabled &&
+             iExtension->iMarkingIconArray && 
+             iExtension->iMarkingIconArray->Count() == 2 )
+            {
+            markingMode = ETrue;
+            itemRect.iTl.iX += 
+                AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 0 ).LayoutLine().il;
+            }
+        }
+    
     TInt extraVerticalSpace=(aRect.Height()-font->HeightInPixels());
     TInt baseLineOffset=extraVerticalSpace/2+font->AscentInPixels();
-    TRect textRect( aRect );
+    TRect textRect( itemRect );
     TRect textMRect; // textrect with margins.
-    textRect.iBr.iX=aRect.iTl.iX;
+    textRect.iBr.iX = itemRect.iTl.iX;
     TInt column=0;
     TPtrC text;
 
@@ -2356,11 +2490,11 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
     // be too difficult to do without - and this is cleaner solution.
     
     // pass 1, figures out x-coordinates for columns.
-    TInt x = aRect.iTl.iX;
+    TInt x = itemRect.iTl.iX;
     TBool mirror = AknLayoutUtils::LayoutMirrored();
     if (mirror)
         {
-        x = aRect.iBr.iX;
+        x = itemRect.iBr.iX;
         }
     TInt maxx = x;
     while(column <= lastColumn)
@@ -2433,13 +2567,6 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
         cc = SkinBackgroundContext();
         }
 
-    // aRect is list item's rect, width of which is smaller than width of the list
-    // with a scroll bar. List needs to draw under scroll bar anyway, so we need to
-    // modify given rect here.
-    TRect r(aRect);
-    
-    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
-
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 
     MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
@@ -2475,9 +2602,7 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
 
-    CEikListBox* list = static_cast<CEikListBox*>( iExtension->iControl );
-
-    if ( iExtension->iCurrentRow < list->BottomItemIndex() )
+    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
         {
         AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
         }
@@ -2494,6 +2619,47 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
         }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
+    if ( markingMode && !aItemProperties.IsSelectionHidden() )
+        {
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect(
+            aRect, 
+            AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+        
+        aGc.SetPenColor( aColors.iText );
+        aGc.SetPenStyle( CGraphicsContext::ESolidPen );
+
+        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
+
+        if ( listbox->View()->ItemIsSelected( iExtension->iCurrentRow ) )
+            {
+            icon = (*iExtension->iMarkingIconArray)[0];
+            }
+        
+        CFbsBitmap* bitmap = icon->Bitmap();
+
+        if ( bitmap )
+            {
+            TSize size( bitmap->SizeInPixels() ); // set size if not already
+            TSize targetSize( layoutRect.Rect().Size() );
+            
+            if ( size.iWidth != targetSize.iWidth &&
+                 size.iHeight != targetSize.iHeight )
+                {
+                AknIconUtils::SetSize(
+                    bitmap,
+                    targetSize,
+                    EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                }
+
+            aGc.BitBltMasked( layoutRect.Rect().iTl,
+                              bitmap,
+                              TRect( layoutRect.Rect().Size() ),
+                              icon->Mask(),
+                              EFalse );
+            }
+        }
+    
     // The column draw loop
     column = 0;
     FOREVER
@@ -2547,7 +2713,7 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
                     aGc.SetBrushColor(aColors.iHighlightedBack);    
                     }
 
-                if (AknsUtils::AvkonSkinEnabled() && iExtension)
+                if ( AknsUtils::AvkonSkinEnabled() )
                     {
                     if (iExtension->iTextColor != NULL)
                         {
@@ -2680,8 +2846,7 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
                         {
                         CGulIcon* icon=(*IconArray())[index];
                         
-                        if ( iExtension
-                             && iExtension->iSubCellIconSize[column] != TSize(0,0) )
+                        if ( iExtension->iSubCellIconSize[column] != TSize(0,0) )
                             {
                             TSize wanted( iExtension->iSubCellIconSize[column] );
                             TSize got( icon->Bitmap()->SizeInPixels() );
@@ -2880,8 +3045,8 @@ EXPORT_C void CColumnListBoxData::SetColumnFontForRowL(TInt aRow,
                                                        TInt aColumn,
                                                        const CFont* aFont)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if (!iExtension) return;
     TInt index = 0;
     iExtension->FindRowAndColumnIndexOrAddL(index,aRow,aColumn);
     iExtension->At(index).iFont=aFont;
@@ -2890,7 +3055,7 @@ EXPORT_C void CColumnListBoxData::SetColumnFontForRowL(TInt aRow,
 EXPORT_C const CFont* 
 CColumnListBoxData::RowAndColumnFont(TInt aRow,TInt aColumn) const
     {
-    if (!iExtension) return 0;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     TInt index = 0;
     if (iExtension->FindRowAndColumnIndex(index,aRow,aColumn)!=0)
         return 0;
@@ -2899,6 +3064,7 @@ CColumnListBoxData::RowAndColumnFont(TInt aRow,TInt aColumn) const
 
 void CColumnListBoxData::SetCurrentItemIndex(TInt aIndex)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     if( iExtension->iCurrentRow != aIndex )
         {
@@ -2925,6 +3091,7 @@ EXPORT_C void CColumnListBoxData::DrawText(
     const TBool aHighlight,
     const TBool aIsTextClipped ) const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     TBool marqueeDisabled =
         static_cast<CEikListBox*>(
@@ -2952,6 +3119,7 @@ EXPORT_C void CColumnListBoxData::DrawText(
 
 EXPORT_C void CColumnListBoxData::SetMarqueeParams(const TInt aLoops, const TInt aScrollAmount, const TInt aScrollDelay)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     if ( iExtension->iMarquee )
         {
@@ -2970,6 +3138,7 @@ EXPORT_C void CColumnListBoxData::SetMarqueeParams(const TInt aLoops, const TInt
 EXPORT_C void CColumnListBoxData::SetMarqueeParams(const TInt aLoops, const TInt aScrollAmount, 
                                                    const TInt aScrollDelay, const TInt aInterval)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     if ( iExtension->iMarquee )
         {
@@ -2983,8 +3152,9 @@ EXPORT_C void CColumnListBoxData::SetMarqueeParams(const TInt aLoops, const TInt
 EXPORT_C
 void CColumnListBoxData::SetSubCellIconSize(TInt aIndex, TSize aSize)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if (iExtension && aIndex < 6 && aIndex >= 0)
+    if ( aIndex < 6 && aIndex >= 0 )
         {
         iExtension->iSubCellIconSize[aIndex] = aSize;
         }
@@ -2992,7 +3162,8 @@ void CColumnListBoxData::SetSubCellIconSize(TInt aIndex, TSize aSize)
 
 TSize CColumnListBoxData::GetSubCellIconSize(TInt aIndex)
     {
-    if (iExtension && aIndex < 6 && aIndex >= 0)
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    if ( aIndex < 6 && aIndex >= 0 )
         {
         return iExtension->iSubCellIconSize[aIndex];
         }
@@ -3005,9 +3176,8 @@ TSize CColumnListBoxData::GetSubCellIconSize(TInt aIndex)
 //
 EXPORT_C const CAknsEffectAnim* CColumnListBoxData::HighlightAnim() const
     {
-    if( iExtension )
-        return iExtension->iAnimation;
-    return NULL;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iAnimation;
     }
 
 // -----------------------------------------------------------------------------
@@ -3016,10 +3186,7 @@ EXPORT_C const CAknsEffectAnim* CColumnListBoxData::HighlightAnim() const
 //
 EXPORT_C void CColumnListBoxData::AboutToDrawHighlightAnim() const
     {
-    if( !iExtension )
-        {
-        return;
-        }
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if( !iExtension->iAnimation || !iExtension->iControl )
         {
         return;
@@ -3048,11 +3215,9 @@ EXPORT_C void CColumnListBoxData::AboutToDrawHighlightAnim() const
 EXPORT_C void CColumnListBoxData::SetHighlightAnimBackgroundDrawer(
     MColumnListBoxAnimBackgroundDrawer* aDrawer )
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if( iExtension )
-        {
-        iExtension->iHighlightBgDrawer = aDrawer;
-        }
+    iExtension->iHighlightBgDrawer = aDrawer;
     }
 
 // -----------------------------------------------------------------------------
@@ -3061,15 +3226,14 @@ EXPORT_C void CColumnListBoxData::SetHighlightAnimBackgroundDrawer(
 //
 EXPORT_C void CColumnListBoxData::SetItemCellSize( const TSize& aSizeInPixels )
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if( iExtension )
+ 
+    if( iExtension->iAnimSize != aSizeInPixels )
         {
-        if( iExtension->iAnimSize != aSizeInPixels )
-            {
-            iExtension->Play();
-            }
-        iExtension->iAnimSize = aSizeInPixels;
+        iExtension->Play();
         }
+    iExtension->iAnimSize = aSizeInPixels;
     }
 
 // -----------------------------------------------------------------------------
@@ -3078,8 +3242,7 @@ EXPORT_C void CColumnListBoxData::SetItemCellSize( const TSize& aSizeInPixels )
 //
 EXPORT_C TBool CColumnListBoxData::HasHighlightAnim() const
     {
-    if( !iExtension )
-        return EFalse;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if( !iExtension->iAnimation )
         return EFalse;
     return ETrue;
@@ -3092,9 +3255,7 @@ EXPORT_C TBool CColumnListBoxData::HasHighlightAnim() const
 EXPORT_C TBool CColumnListBoxData::DrawHighlightAnim(
         CBitmapContext& aGc, const TRect& aRect ) const
     {
-    if( !iExtension )
-        return EFalse;
-
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if( !iExtension->iAnimation )
         return EFalse;
 
@@ -3107,6 +3268,7 @@ EXPORT_C TBool CColumnListBoxData::DrawHighlightAnim(
 //
 void CColumnListBoxData::FocusGained()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->FocusGained();
     }
 
@@ -3116,17 +3278,19 @@ void CColumnListBoxData::FocusGained()
 //
 void CColumnListBoxData::FocusLost()
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->FocusLost();
     }
 
 void CColumnListBoxData::HandleResourceChange( TInt aType )
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s] aType = %d", "CColumnListBoxData", __FUNCTION__, aType  );
     // Animation is skin dependent, whenever skin changes animation changes
     // too.
     if( KAknsMessageSkinChange == aType )
         {
-        iExtension->SkinChanged();
+        TRAP_IGNORE( iExtension->SkinChangedL() );
         }
     else if(aType == KEikDynamicLayoutVariantSwitch)
         {
@@ -3178,34 +3342,28 @@ void CColumnListBoxData::SetupSkinContextL()
 
 void CColumnListBoxData::SetESSTextColor(TRgb aTextColor)
     {
-    if (iExtension)
-        iExtension->iTextColor = aTextColor;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    iExtension->iTextColor = aTextColor;
     }
 
 void CColumnListBoxData::SetESSHighlightedTextColor(TRgb aHighlightedTextColor)
     {
-    if (iExtension)
-        iExtension->iHighlightedTextColor = aHighlightedTextColor;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    iExtension->iHighlightedTextColor = aHighlightedTextColor;
     }
 
 EXPORT_C void CColumnListBoxData::SetColumnUnderlined( TBitFlags32 aUnderlinedColumns )
     {
-    if ( iExtension )
-        {
-        iExtension->iUnderlineFlagSet = ETrue;
-        iExtension->iUnderlineFlags   = aUnderlinedColumns;
-        }
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    iExtension->iUnderlineFlagSet = ETrue;
+    iExtension->iUnderlineFlags   = aUnderlinedColumns;
     }
 
 void CColumnListBoxData::SetUnderlineStyle( TListItemProperties aProperties,
                                             CWindowGc& aGc,
                                             TInt aColumn ) const
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     if ( !iExtension->iUnderlineFlagSet )
         {
         // underlining is already either on or off and
@@ -3232,13 +3390,9 @@ void CColumnListBoxData::SetUnderlineStyle( TListItemProperties aProperties,
 //
 EXPORT_C void CColumnListBoxData::ResetSLSubCellArray()
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->iMarginRect = TRect::EUninitialized;
-    if ( iExtension && iExtension->iUseLayoutData )
+    if ( iExtension->iUseLayoutData )
         {
         iExtension->iUseLayoutData = EFalse;
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST 
@@ -3266,8 +3420,8 @@ EXPORT_C void CColumnListBoxData::ResetSLSubCellArray()
 EXPORT_C void CColumnListBoxData::SetGraphicSubCellL(TInt aSubCell,
                                                    const TAknWindowLineLayout &aGraphicLayout)       
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if (!iExtension) return;
     TInt index = 0;
     iExtension->FindSLSubCellIndexOrAddL(index,aSubCell);
     iExtension->AtSL(index).iTextLayout=NULL;
@@ -3315,8 +3469,8 @@ EXPORT_C void CColumnListBoxData::SetGraphicSubCellL(TInt aSubCell,
 EXPORT_C void CColumnListBoxData::SetTextSubCellL(TInt aSubCell,
                                                 const TAknTextLineLayout &aTextLayout)
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
-    if (!iExtension) return;
     TInt index = 0;
     iExtension->FindSLSubCellIndexOrAddL(index,aSubCell);
     iExtension->AtSL(index).iTextLayout=aTextLayout;
@@ -3365,6 +3519,7 @@ EXPORT_C void CColumnListBoxData::SetConditionalSubCellL(TInt aSubCell,
                                                          const TAknTextLineLayout &aTextLayout,
                                                          TInt aAffectedSubCell)  
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
     // iConditionValue of affected subcell (=text subcell, which has different layouts)
     // contains index of graphical subcell, which existence should be checked first.
@@ -3374,7 +3529,6 @@ EXPORT_C void CColumnListBoxData::SetConditionalSubCellL(TInt aSubCell,
 
     // for compabitility - needed at least for text wrapping
     SetOptionalColumnL( aSubCell, ETrue );
-    if (!iExtension) return;
 
     TInt i = 0x01;
     i = i << aSubCell;
@@ -3501,10 +3655,8 @@ EXPORT_C void CColumnListBoxData::SetStretchableConditionalSubCellL(
 //
 TBool CColumnListBoxData::UsesScalableLayoutData() const
     {
-    if (iExtension)
-        return iExtension->iUseLayoutData;
-
-    return EFalse;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iUseLayoutData;
     }
 
 // -----------------------------------------------------------------------------
@@ -3513,11 +3665,7 @@ TBool CColumnListBoxData::UsesScalableLayoutData() const
 //
 void CColumnListBoxData::EnableStretching( const TBool aEnabled )
     {
-    if ( !iExtension )
-        {
-        return;
-        }
-        
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->iStretchingEnabled = aEnabled;        
     }
 
@@ -3528,11 +3676,7 @@ void CColumnListBoxData::EnableStretching( const TBool aEnabled )
 //
 EXPORT_C TBool CColumnListBoxData::StretchingEnabled() const
     {
-    if ( !iExtension )
-        {
-        return EFalse;
-        }
-        
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );      
     return iExtension->iStretchingEnabled;        
     }
 
@@ -3558,6 +3702,7 @@ void CColumnListBoxData::CheckIfSubCellsIntersect(
     const TDesC& aText, 
     const TRect& aItemRect ) const
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     _AKNTRACE( "[%s][%s][%d].", "CColumnListBoxData", __FUNCTION__, __LINE__ );
 
     TInt column = 0;
@@ -3672,6 +3817,7 @@ void CColumnListBoxData::CheckIfSubCellsIntersect(
 //
 EXPORT_C void CColumnListBoxData::SubCellsMightIntersect( const TBool aMightIntersect )
     {
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
     iExtension->iSubCellsMightIntersect = aMightIntersect;
     }
     
@@ -3772,16 +3918,14 @@ void CColumnListBoxDataExtension::CreateColorBitmapsL()
 
 EXPORT_C TUint32 CColumnListBoxData::CurrentItemTextWasClipped() const
     {
-    return iExtension ? iExtension->iClippedColumns : 0;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iClippedColumns;
     }
 
 TBool CColumnListBoxData::KineticScrollingEnabled() const
     {
-    if ( iExtension )
-        {
-        return iExtension->iKineticScrolling;       
-        }
-    return EFalse;
+	__ASSERT_DEBUG( iExtension, Panic( EEikPanicNullPointer ) );
+    return iExtension->iKineticScrolling;       
     }
 
 

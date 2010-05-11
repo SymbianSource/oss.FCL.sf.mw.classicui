@@ -1885,14 +1885,17 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
     
     // an index to end of array
     TInt indexEnd = iShownIndexes->Count();
+
+    TBitFlags32 columnFlag = iSearchField->ListColumnFilterFlags(); 
+    HBufC16* temptext = HBufC16::NewL( KMatchingBufferLength );  
+    CleanupStack::PushL( temptext );  
+    TPtr ptr_temptext( temptext->Des() );  
+
     // If adaptive search manage with next characters
     if( iSearchField && IsAdaptiveSearch() )
         {        
         ClearNextChars();
-        TBitFlags32 columnFlag = iSearchField->ListColumnFilterFlags(); 
-        HBufC16* temptext = HBufC16::NewL( KMatchingBufferLength );  
-        CleanupStack::PushL( temptext );  
-        TPtr ptr_temptext( temptext->Des() );  
+        
         for ( TInt i = iShownIndexes->Count()-1; i>=0; i-- )
            {
            TInt realindex = iShownIndexes->At( i );        
@@ -1945,15 +1948,17 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
         CleanupStack::PopAndDestroy(array);   
 
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
-        CleanupStack::PopAndDestroy( temptext );
         }
     else
         {
         for (TInt i = iShownIndexes->Count()-1; i>=0 ; i--)
             {
-            TInt realindex = iShownIndexes->At(i);
-            TPtrC itemtext = array->MdcaPoint(realindex);
-            TBool isItemVisible = IsItemVisible(itemtext, aCriteria);
+
+            TInt realindex = iShownIndexes->At( i );        
+            TPtrC itemtext = arr->ItemTextArray()->MdcaPoint( realindex );
+            AknFind::UpdateItemTextAccordingToFlag( itemtext, columnFlag, ptr_temptext );
+            TBool isItemVisible = IsItemVisible( ptr_temptext, aCriteria );
+
             TBool isItemSelected = IsItemSelected(realindex);
             // EAJA-7SK9UC set indexToSet as current index when found item
             if ( isItemVisible )
@@ -1964,8 +1969,10 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
                 {
                 iShownIndexes->Delete(i);
                 }
+            ptr_temptext.Zero();  
             }  
-        }   
+        } 
+    CleanupStack::PopAndDestroy( temptext );  
     InstallEmptyTextL();
 
     // Set highlight to the first match item in markable list
@@ -1985,17 +1992,19 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
     // An index to set highlight after find pane updating
     TInt indexToSet = KInvalidIndex;    
     iShownIndexes->Reset();
+
+    const MDesCArray *array = iModel->MatchableTextArray();
+    const CAknFilteredTextListBoxModel* arr = (CAknFilteredTextListBoxModel*)( iModel->MatchableTextArray() );
+    TInt count = array->MdcaCount();
+    TBitFlags32 columnFlag = iSearchField->ListColumnFilterFlags();
+    HBufC16* temptext = HBufC16::NewL( KMatchingBufferLength ); 
+    CleanupStack::PushL( temptext );
+    TPtr ptr_temptext( temptext->Des() );   
+
     // If adaptive search field 
     if( iSearchField && IsAdaptiveSearch() )
         {        
         ClearNextChars();
-        TBitFlags32 columnFlag = iSearchField->ListColumnFilterFlags();
-        HBufC16* temptext = HBufC16::NewL( KMatchingBufferLength ); 
-        CleanupStack::PushL( temptext );
-        TPtr ptr_temptext( temptext->Des() );       
-        const MDesCArray *array = iModel->MatchableTextArray();
-        const CAknFilteredTextListBoxModel* arr = (CAknFilteredTextListBoxModel*)(iModel->MatchableTextArray());
-        TInt count = array->MdcaCount();
         
         for (TInt i = 0; i < count; i++)
            {            
@@ -2015,12 +2024,10 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
            }                
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         InstallEmptyTextL(); 
-        CleanupStack::PopAndDestroy( temptext );
         }
     else
         {
-        const MDesCArray *array = iModel->MatchableTextArray();
-        TInt count = array->MdcaCount();
+
         TInt i;
 
         if ( aCriteria.Length() == 0)
@@ -2040,8 +2047,10 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
             {
             for( i = 0; i < count ; i++ )
                 {
-                TPtrC itemtext = array->MdcaPoint(i);
-                TBool isItemVisible = IsItemVisible(itemtext, aCriteria);
+
+                TPtrC itemtext = arr->ItemTextArray()->MdcaPoint( i );    
+                AknFind::UpdateItemTextAccordingToFlag( itemtext, columnFlag, ptr_temptext );
+                TBool isItemVisible = IsItemVisible( temptext->Des(), aCriteria );
                 
                 // Find first match item to set highlight
                 if ((indexToSet == KInvalidIndex) && isItemVisible)
@@ -2052,10 +2061,12 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
                     {
                     iShownIndexes->AppendL(i);
                     }
+                ptr_temptext.Zero();  
                 } 
             InstallEmptyTextL();
             }
         }
+    CleanupStack::PopAndDestroy( temptext );
     
     // Set highlight to the first match item in markable list
     if ( iListBox && indexToSet != KInvalidIndex )

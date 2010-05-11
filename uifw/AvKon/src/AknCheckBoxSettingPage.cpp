@@ -146,14 +146,20 @@ EXPORT_C void CAknCheckBoxSettingPage::ConstructL()
 
     CreateCheckBoxBitmapsL();
 
+    // Only a reference to the CBase object; not owned
+    CAknSetStyleListBox* listBox = ListBoxControl();
+
+	//
+	// SelectItemL make the view item drawn by default, SetDisableRedraw can remove flick
+	//
+	TBool bRedrawDisabled = listBox->View()->RedrawDisabled();
+	listBox->View()->SetDisableRedraw( ETrue );
     GenerateInternalArrayAndGiveToListBoxL();
+	listBox->View()->SetDisableRedraw( bRedrawDisabled );
 
     // This updates the CBA
     CheckAndSetDataValidity();
     UpdateCbaL();
-
-    // Only a reference to the CBase object; not owned
-    CAknSetStyleListBox* listBox = ListBoxControl();
 
     listBox->SetListBoxObserver(this);
 

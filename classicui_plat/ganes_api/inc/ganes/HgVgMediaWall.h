@@ -793,9 +793,7 @@ protected:
     
     CAlfCompositionSource* iCompositionSource;    
     
-    CFbsBitmap* iSurfaceBitmap;
     CPeriodic* iDelayedInit;
-
     
     TBool iFirstTime;
 

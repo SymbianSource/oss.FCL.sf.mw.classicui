@@ -29,7 +29,7 @@
 #include <gulftflg.hrh>
 #include <prnsetup.h>
 #include <eikenv.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <aknutils.h>
 #include <gdi.h>
 #include <aknsbasicbackgroundcontrolcontext.h>

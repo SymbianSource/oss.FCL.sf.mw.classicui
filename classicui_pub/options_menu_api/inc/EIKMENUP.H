@@ -886,12 +886,14 @@ public: // new functions
     static CEikMenuPane* NewItemCommandMenuL( MEikMenuObserver* aObserver );
 
     /**
-     * Sets item specific commands dimmed.
+     * Sets item specific commands state.
      * 
      * @internal
      * @since S60 v5.2
+     * @param aDimmed If ETrue, item specific commands are dimmed. If EFalse,
+     * other than item specific commands are dimmed.
      */
-    void SetItemCommandsDimmed();
+    void SetItemCommandsStateL( TBool aDimmed );
 
     /**
      * Adds menu items to this menu and item action menu data. 
@@ -910,12 +912,18 @@ public: // new functions
      * @since S60 v5.2
      * @param aCascadeId Cascade menu id.
      * @param aItemSpecific If ETrue, adds only item specific items.
+     * @param aAddToItemActionMenu If ETrue, adds items to item action menu, 
+     * otherwise to iItemArray
      * @param aMenuData Item action menu data.
+     * @param aItemIndex specifies to which position to add submenu items, 
+     * used only when aAddToItemActionMenu is EFalse
      */
-    void AddCascadeMenuItemsToActionMenuL(
+    void AddCascadeMenuItemsToMenuL(
             TInt aCascadeId,
             TBool aItemSpecific,
-            CAknItemActionMenuData& aMenuData );
+            TBool aAddToItemActionMenu,
+            CAknItemActionMenuData* aMenuData = NULL,
+            TInt aItemIndex = 0 );
     
     /**
      * Enables the default highlight in menu
@@ -1086,7 +1094,12 @@ private: // data
     CMenuScroller* iScroller;
     CEikButtonBase* iLaunchingButton; // for popouts only
     TInt iSubPopupWidth; // 0..2
-    TInt iSpare;
+
+    /**
+     * Used to track if object has been deleted while calling client callback.
+     */
+    TBool* iIsDeleted;
+
     CEikMenuPaneExtension* iExtension;
 
     };

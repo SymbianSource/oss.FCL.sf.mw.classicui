@@ -22,7 +22,7 @@
 #include <documenthandler.h>
 #include <eikcolib.h>
 #include <eikctlib.h>
-#include <aknserverapp.h> 
+#include <AknServerApp.h> 
 
 #include "bctestcase.h"
 

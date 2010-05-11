@@ -25,7 +25,7 @@
 #include <gdi.h>
 #include <barsread.h>
 #include <coeaui.h>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <eikappui.h>
 #include <eikenv.h>
 #include <aknpictographinterface.h> 

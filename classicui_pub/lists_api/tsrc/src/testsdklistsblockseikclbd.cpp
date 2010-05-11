@@ -29,8 +29,8 @@
 #include <stringloader.h>
 #include <avkon.hrh>
 #include <aknslistboxbackgroundcontrolcontext.h>
-#include <aknlayout2scalabledef.h>
-#include <aknsconstants.h>
+#include <AknLayout2ScalableDef.h>
+#include <AknsConstants.h>
 
 #include "testsdklists.h"
 #include "testsdkcontainer.h"

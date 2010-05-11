@@ -133,6 +133,11 @@ protected: // new functions
      */
     void TestEditorKineticScrollingL();
     
+    /*
+     * Tests editor's kinetic scrolling related functions.
+     */
+    void TestEnableKineticScrollingPhysicsL();
+
     /**
      * Tests the SuspendPhysics() method in CAknPhysics.
      */
@@ -157,6 +162,12 @@ protected: // new functions
       * Tests ItemFinder.
       */
      void TestItemFinder();
+
+     /**
+      * Tests FindItemDialog.
+      */
+     void TestFindItemDialog();
+
 
 protected: // From base class MAknPhysicsObserver
     

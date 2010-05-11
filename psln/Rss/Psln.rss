@@ -539,7 +539,7 @@ RESOURCE MENU_PANE r_psln_ss_view_menupane
             {
             command = EPslnCmdAppChangeScreenSaver;
             txt = qtn_options_change;
-            flags = EEikMenuItemSpecific;
+            flags = EEikMenuItemAction;
             },
         MENU_ITEM
             {
@@ -798,7 +798,7 @@ RESOURCE MENU_PANE r_psln_wallpaper_menupane
             {
             command = EPslnCmdAppChangeWallpaper;
             txt = qtn_options_change;
-            flags = EEikMenuItemSpecific;
+            flags = EEikMenuItemAction;
             }
 #ifdef RD_SLIDESHOW_WALLPAPER
       ,

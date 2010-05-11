@@ -165,7 +165,9 @@ private:
             ESetBrushStyle,
             EDrawRect,
             EClear,
-            EDrawLine
+            EDrawLine,
+            EUseBrushPattern,
+            EDiscardBrushPattern
             };
         
         public:

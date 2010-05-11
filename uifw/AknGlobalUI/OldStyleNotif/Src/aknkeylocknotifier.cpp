@@ -33,7 +33,7 @@
 #include <aknnotecontrol.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <avkondomainpskeys.h> // KPSUidAvkonDomain, KAknKeyguardStatus, TAknKeyguardStatus
 #include <startupdomainpskeys.h> // KStartupSecurityCodeQueryStatus
 #include <coreapplicationuisdomainpskeys.h> // KCoreAppUIsAutolockStatus
@@ -1131,7 +1131,7 @@ void CAknKeyLockControl::ConstructL()
 // Enable key lock.
 // ---------------------------------------------------------------------------
 //
-void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
+void CAknKeyLockControl::EnableKeylock( TBool aShowNote, TBool aNotifySysApp )
     {
     TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock %d"), aShowNote); )
 
@@ -1153,7 +1153,7 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
                                             EKeyguardLocked );
     iKeyLockEnabled = ETrue;
 
-    if ( !iAutolockEnabled )
+    if ( !iAutolockEnabled && aNotifySysApp )
         {
         SendMessageToSysAp( EEikKeyLockEnabled );
         }
@@ -1208,23 +1208,23 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
             }
         }
 
-		// in case Telephone-app is topmost, then the user is confused because he sees but can't use it.
-		// therefore it's required to hide it, by sending to background. ETMA-7M8A2Y 20090105
-		if ( AknLayoutUtils::PenEnabled() )
-       	{ 		
-	   			TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
-	   			#define KPhoneAppUid TUid::Uid(0x100058B3)
+        // in case Telephone-app is topmost, then the user is confused because he sees but can't use it.
+        // therefore it's required to hide it, by sending to background. ETMA-7M8A2Y 20090105
+        if ( AknLayoutUtils::PenEnabled() )
+            {
+            TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
+            #define KPhoneAppUid TUid::Uid(0x100058B3)
 
-     			TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
-     			if (apaTask.Exists())
-         	{
-				 		#if defined(_DEBUG)
-				 			RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock() Bring phone to background"));
-				 		#endif
-         		// Bring phone to background
-         		apaTask.SendToBackground();
-         	}
-				}
+            TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
+            if (apaTask.Exists())
+                {
+                #if defined(_DEBUG)
+                RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock() Bring phone to background"));
+                #endif
+                // Bring phone to background
+                apaTask.SendToBackground();
+                }
+            }
 
     // Start capturing system keys.
     CaptureSystemKeys();
@@ -1266,7 +1266,7 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
 // Disable key lock.
 // ---------------------------------------------------------------------------
 //
-void CAknKeyLockControl::DisableKeylock()
+void CAknKeyLockControl::DisableKeylock(TBool aNotifySysApp)
     {
     TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::DisableKeylock")); )
 
@@ -1301,38 +1301,39 @@ void CAknKeyLockControl::DisableKeylock()
     iStatusProperty.Set( EKeyguardNotActive );
     iKeyLockEnabled = EFalse;
 
-    if ( !iAutolockEnabled )	// only when Autolock was user-activated
+    if ( !iAutolockEnabled )    // only when Autolock was user-activated
         {
-		    // in case Telephone-app was topmost and sent to background, then the user is confused because he expects to see it again.
-				// therefore it's required to show it, by sending to foreground. 
-				if ( AknLayoutUtils::PenEnabled() )
-		     	{ 		
-    	    TInt callState;
-    	    RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, callState );
-    	    #if defined(_DEBUG)
-						RDebug::Printf( "%s %s (%u) callState=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, callState );
-						RDebug::Printf( "%s %s (%u) EPSCTsyCallStateNone=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, EPSCTsyCallStateNone );
-					#endif
-          if (callState != EPSCTsyCallStateNone )
-              {
-                	
-				   			TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
-				   			#define KPhoneAppUid TUid::Uid(0x100058B3)
-				
-				   			TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
-				   			if (apaTask.Exists())
-				       	{
-									RDebug::Printf( "%s %s (%u) foreground=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, 1 );
-							 		#if defined(_DEBUG)
-							 			RDebug::Print(_L("(AUTOLOCK)CAknKeyLockControl::EnableKeylock() Send phone to foreground"));
-							 		#endif
-				       		// Bring phone to foreground
-				       		apaTask.BringToForeground();
-				       	}
-		       		}
-					}	// PenEnabled()
+        // in case Telephone-app was topmost and sent to background, then the user is confused because he expects to see it again.
+        // therefore it's required to show it, by sending to foreground. 
+        if ( AknLayoutUtils::PenEnabled() )
+            {       
+            TInt callState;
+            RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, callState );
+            #if defined(_DEBUG)
+            RDebug::Printf( "%s %s (%u) callState=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, callState );
+            RDebug::Printf( "%s %s (%u) EPSCTsyCallStateNone=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, EPSCTsyCallStateNone );
+            #endif
+            if (callState != EPSCTsyCallStateNone )
+                {
+                TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
+                #define KPhoneAppUid TUid::Uid(0x100058B3)
+                TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
+                if (apaTask.Exists())
+                    {
+                    RDebug::Printf( "%s %s (%u) foreground=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, 1 );
+                    #if defined(_DEBUG)
+                    RDebug::Print(_L("(AUTOLOCK)CAknKeyLockControl::EnableKeylock() Send phone to foreground"));
+                    #endif
+                    // Bring phone to foreground
+                    apaTask.BringToForeground();
+                    }
+                }
+            }   // PenEnabled()
 
-        SendMessageToSysAp( EEikKeyLockDisabled );
+        if (aNotifySysApp)
+            {
+            SendMessageToSysAp( EEikKeyLockDisabled );
+            }
         }
     if ( iNotif )
         {
@@ -2393,13 +2394,13 @@ void CAknKeyLockNotifierSubject::LockKeys( TBool aAutoLockOn )
     // We'll have to disable keylock if we are changing autolock status.
     if ( IsKeyLockEnabled() && aAutoLockOn != iKeyLockControl->iAutolockEnabled )
         {
-        iKeyLockControl->DisableKeylock();
+        iKeyLockControl->DisableKeylock(EFalse);
         }
 
     if ( !IsKeyLockEnabled() )
         {
         iKeyLockControl->AutolockEnabled( aAutoLockOn );
-        iKeyLockControl->EnableKeylock();
+        iKeyLockControl->EnableKeylock(ETrue, EFalse);
         }
     }
 

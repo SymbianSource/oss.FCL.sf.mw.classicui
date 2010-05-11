@@ -95,6 +95,7 @@
 #include <aknnavilabel.h> // for changing the lable of navipane
 
 #include <AknTasHook.h> // for testability hooks
+#include <touchfeedback.h>
 _LIT( KResFileName, "z:\\resource\\finditemui.rsc" );
 
 // Panic
@@ -236,51 +237,50 @@ TInt PBAiwNotify::HandleNotifyL(TInt /*aCmdId*/, TInt aEventId,
     }    
 
 NONSHARABLE_CLASS(CItemFinderExtension) : public CBase
-	{
+    {
 public: 
-	~CItemFinderExtension(); 
-	static CItemFinderExtension* NewL(); 
-	
-	//new function
+    ~CItemFinderExtension(); 
+    static CItemFinderExtension* NewL(); 
+
+    //new function
 public:
-	PBAiwNotify* CallBack();
-	
+    PBAiwNotify* CallBack();
+
 private: 
-	CItemFinderExtension(); 
-	void ConstructL();	
-	
+    CItemFinderExtension(); 
+    void ConstructL();	
+
 public:
-	PBAiwNotify iCallBack;
-	};
+    PBAiwNotify iCallBack;
+    };
 
 CItemFinderExtension::~CItemFinderExtension()
-	{
-	
-	}
+    {
+    }
 
 CItemFinderExtension* CItemFinderExtension::NewL()
-	{
-	CItemFinderExtension* self = new ( ELeave )CItemFinderExtension;
-	CleanupStack::PushL(self);
-	self->ConstructL();
-	CleanupStack::Pop();
-	return self;
-	}
+    {
+    CItemFinderExtension* self = new ( ELeave )CItemFinderExtension;
+    CleanupStack::PushL(self);
+    self->ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
 
 PBAiwNotify* CItemFinderExtension::CallBack()
-	{
-	return &iCallBack;
-	}
+    {
+    return &iCallBack;
+    }
 
 CItemFinderExtension::CItemFinderExtension()
-	{
-	
-	}
+    {
+
+    }
 
 void CItemFinderExtension::ConstructL()
-	{
-	
-	}
+    {
+
+    }
 
 
 
@@ -457,8 +457,126 @@ void CFindItemDialog::ConstructL()
     iFindItemVoIPExtension = CFindItemVoIPExtension::NewL();
     
     iExtension = CItemFinderExtension::NewL();
+    iFeedback = MTouchFeedback::Instance();
     }
 
+// -----------------------------------------------------------------------------
+// CFindItemDialog::HandlePointerEventL
+// -----------------------------------------------------------------------------
+//
+void CFindItemDialog::HandlePointerEventL( const TPointerEvent& aPointerEvent )
+    {
+    if ( !iSingleClick )
+        {
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+            {
+            this->PointerEvent( NULL, aPointerEvent );
+            }
+        }
+    else
+        {
+        DoHandlePointerEventL( aPointerEvent );
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+            {
+            iEdwin->ClearSelectionL();
+            iEdwin->DrawDeferred();
+            }
+        }
+    }
+
+// -----------------------------------------------------------------------------
+// CFindItemDialog::DoHandlePointerEventL
+// -----------------------------------------------------------------------------
+//
+void CFindItemDialog::DoHandlePointerEventL ( const TPointerEvent& aPointerEvent )
+    {
+    if ( aPointerEvent.iType == TPointerEvent::EButton1Up ||
+             aPointerEvent.iType == TPointerEvent::EButton1Down )
+        {
+        TPoint tapPoint( aPointerEvent.iPosition - iTappingOffset );
+        TInt pos = 0;
+        TInt len = iEdwin->TextLayout()->PosRangeInBand( pos );
+        CFindItemEngine::SFoundItem item;
+        TRect rect;
+        TInt i = 0;
+        while ( i < iController->ItemCount() ) // Check visible rects
+            {
+            if ( !iController->Item( i, item ) ) // Get item.
+                {
+                break; // Error: invalid item.
+                }
+            TInt end = item.iStartPos + item.iLength - 1;
+            if ( end < pos )
+                {
+                i++;
+                continue; // item not visible.
+                }
+            TInt start = item.iStartPos;
+            if ( start >= ( pos + len ) )
+                {
+                break; // item not visible.
+                }
+            TInt lastLine = iEdwin->TextLayout()->GetLineNumber( end );
+            TInt nextLine = 0;
+            TInt lastPos = start;
+            do // Check all rects of one item.
+                {
+                TInt error = KErrNone;
+                TRAP( error, rect =
+                        iEdwin->TextLayout()->GetLineRectL( start, end ) );
+                if ( error == KErrNone )
+                    {
+                    if ( rect.Contains( tapPoint ) ) // Item rect tapped.
+                        {
+                        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+                            {
+                            TRAP( error, iController->TappedItemL( i ) );
+                            // Change selection
+                            if ( error != KErrNone )
+                                {
+                                return; // Error: no selection made.
+                                }
+                            if ( iFeedback )
+                                {
+                                iFeedback->InstantFeedback( ETouchFeedbackBasicButton );	
+                                }
+                            iLastTappedItem = TPoint ( item.iStartPos, item.iLength
+                                + item.iStartPos );
+                            return; // Hit, no further handling.
+                            }
+                        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+                            {
+                            if ( iLastTappedItem == TPoint ( item.iStartPos,
+                                item.iLength + item.iStartPos ) )
+                                {
+                                iIsSensitiveMenu = ETrue;
+                                iMenuBar->SetMenuType( CEikMenuBar::EMenuContext );
+                                TRAP_IGNORE( CAknDialog::DisplayMenuL() );
+                                }
+                            return; // Hit, no further handling.
+                            }
+                        }
+                    }
+                else
+                    {
+                    return; // Error: no rect.
+                    }
+                TPoint midPoint( rect.iBr.iX,
+                        ( rect.iBr.iY + rect.iTl.iY ) / 2 );
+                TRAP( error, lastPos =
+                        iEdwin->TextLayout()->XyPosToDocPosL( midPoint ) );
+                if ( error != KErrNone )
+                    {
+                    return; // Error: no last pos.
+                    }
+                start = lastPos + 1;
+                nextLine = iEdwin->TextLayout()->GetLineNumber( lastPos );
+                } while ( nextLine != lastLine );
+            i++;
+            }
+        }
+    return;   // No hit, no further handling.
+    }
 
 // -----------------------------------------------------------------------------
 // CFindItemDialog::DoCopyToClipboardL
@@ -826,12 +944,38 @@ void CFindItemDialog::AddToBookmarkL()
     }
 
 // -----------------------------------------------------------------------------
+// CFindItemDialog::EnableSingleClick
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void CFindItemDialog::EnableSingleClick ( TBool aEnable )
+    {
+    iSingleClick = aEnable;
+    }
+
 // CFindItemDialog::ProcessCommandL
 //  Prosesses menu commands
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
     {
+    TBool selectionVisibility ( ETrue );
+    if ( iSingleClick && iEdwin && iEdwin->TextView() )
+        {
+        selectionVisibility = iEdwin->TextView()->SelectionVisible();
+        iEdwin->TextView()->SetSelectionVisibilityL( EFalse );
+
+        CFindItemEngine::SFoundItem item;
+        TBool founditem = iController->Item( item );
+        if ( founditem )
+            {
+            iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength );
+            }
+        else
+            {
+            iEdwin->SetSelectionL( iLastTappedItem.iX, iLastTappedItem.iY );
+            }
+        }
+
     CAknDialog::ProcessCommandL( aCommandId );
     switch (aCommandId)
         {
@@ -890,7 +1034,7 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
            #ifndef RD_UNIFIED_EDITOR
            if( !iMMSFeatureSupported )
                {
-           	   mtmFilter->AppendL(KSenduiMtmMmsUid);
+               mtmFilter->AppendL(KSenduiMtmMmsUid);
                }
            #endif
            
@@ -915,7 +1059,7 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
                    item.iItemType == CFindItemEngine::EFindItemSearchPhoneNumberBin &&
                    iSearchCase == KSearchTelInternetNumber ) ) )
                {
-       	       mtmFilter->AppendL(KSenduiMtmSmtpUid);
+               mtmFilter->AppendL(KSenduiMtmSmtpUid);
                mtmFilter->AppendL(KSenduiMtmImap4Uid);
                mtmFilter->AppendL(KSenduiMtmPop3Uid);
                mtmFilter->AppendL(KSenduiMtmSyncMLEmailUid);
@@ -943,6 +1087,12 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
             {
             if ( LaunchGenericUriL() )
                 {
+                if ( iSingleClick && iEdwin && iEdwin->TextView() )
+                    {
+                    iEdwin->TextView()->SetSelectionVisibilityL( selectionVisibility );
+                    iEdwin->ClearSelectionL();
+                    iEdwin->DrawDeferred();
+                    }
                 return;
                 }
             break;
@@ -1014,6 +1164,15 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
             break;
             }
         }
+    if ( iSingleClick && iEdwin && iEdwin->TextView() )
+        {
+        iEdwin->TextView()->SetSelectionVisibilityL( selectionVisibility );
+        if ( aCommandId != EFindItemCmdNextItem && aCommandId != EFindItemCmdPrevItem )
+            {
+            iEdwin->ClearSelectionL();
+            }
+        iEdwin->DrawDeferred();
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -1031,15 +1190,23 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
         }
 
     CFindItemEngine::SFoundItem item;
-    TBool founditem = iController->Item( item );
-
+    TBool foundItem = iController->Item( item );
+    if ( iSingleClick )
+        {
+        // foundItem remains as ETrue, if item found by controller is exactly
+        // same as highlighted selection
+        foundItem = foundItem && ( item.iLength == iEdwin->SelectionLength()
+                && item.iStartPos == Min( iEdwin->Selection().iCursorPos,
+                iEdwin->Selection().iAnchorPos ) );
+        }
+        
     if ( aMenuId == R_FINDITEM_CALLUI_AIW_SUBMENU )
         {
         if ( iFindItemVoIPExtension->IsVoIPSupported() &&
             ( iSearchCase ==
                 CFindItemEngine::EFindItemSearchMailAddressBin ||
             ( iSearchCase == KSearchTelInternetNumber &&
-            founditem && item.iItemType ==
+            foundItem && item.iItemType ==
                 CFindItemEngine::EFindItemSearchMailAddressBin ) ) )
             {
             CAiwGenericParamList* inList = CAiwGenericParamList::NewLC();
@@ -1123,11 +1290,49 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
 
         aMenuPane->AddMenuItemsL( resource, EAknFormMaxDefault - 1, ETrue );
 
+        if ( iSingleClick && !foundItem )
+            {
+            switch ( resource )
+                {
+                case (R_FINDITEM_MAIL_ADDRESS_MENU):
+                    {
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemSubMenuSend, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
+                    break;
+                    }
+
+                case (R_FINDITEM_URL_ADDRESS_MENU):
+                    {
+                    aMenuPane->SetItemDimmed ( EFindItemCmdGoToUrl, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdAddToBookmark, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
+                    break;
+                    }
+
+                case (R_FINDITEM_PHONENUMBER_MENU): // fall through
+                case (R_FINDITEM_TELINTERNETNUMBER_MENU):
+                    {
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCall, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemSubMenuSend, ETrue );
+                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
+                    break;
+                    }
+
+                default:
+                    {
+                    break;
+                    }
+                }
+            }
+
         if ( iSearchCase == KSearchTelInternetNumber &&
             iFindItemVoIPExtension->VoIPProfilesExistL() ||
             iSearchCase == KSearchTelInternetNumber &&
             !iFindItemVoIPExtension->VoIPProfilesExistL() &&
-            founditem &&
+            foundItem &&
             item.iItemType ==
                 CFindItemEngine::EFindItemSearchPhoneNumberBin ||
             iSearchCase & CFindItemEngine::EFindItemSearchMailAddressBin &&
@@ -1149,10 +1354,13 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
             iSearchCase & CFindItemEngine::EFindItemSearchPhoneNumberBin &&
             !iHideCallMenu )
             {
-            aMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
-            aMenuPane->AddMenuItemsL(
-                R_FINDITEM_CALLUI_AIW_ITEM,
-                EFindItemCmdCall );
+            if ( !iSingleClick || foundItem )
+                {
+                aMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
+                aMenuPane->AddMenuItemsL(
+                    R_FINDITEM_CALLUI_AIW_ITEM,
+                    EFindItemCmdCall );
+                }
             }
 
         aMenuPane->DeleteMenuItem( EAknFormCmdEdit );
@@ -1162,14 +1370,20 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
         aMenuPane->DeleteMenuItem( EAknFormCmdDelete );
 
 #ifndef RD_VIRTUAL_PHONEBOOK
-        iPbkDataSave->AddMenuItemsL(
-            aMenuPane,
-            EFindItemCmdCreateContactCard );
+        if ( !iSingleClick || foundItem )
+            {
+            iPbkDataSave->AddMenuItemsL(
+                aMenuPane,
+                EFindItemCmdCreateContactCard );
+            }
 #else
-        aMenuPane->SetItemDimmed( EFindItemCmdCreateContactCard, ETrue );
-        aMenuPane->AddMenuItemsL(
-            R_FINDITEM_CONTACTS_AIW_ITEM,
-            EFindItemCmdCreateContactCard );
+        if ( !iSingleClick || foundItem )
+            {
+            aMenuPane->SetItemDimmed( EFindItemCmdCreateContactCard, ETrue );
+            aMenuPane->AddMenuItemsL(
+                R_FINDITEM_CONTACTS_AIW_ITEM,
+                EFindItemCmdCreateContactCard );
+            }
 #endif // !RD_VIRTUAL_PHONEBOOK
 
         // Delete next/prev item items from menu if a last/next
@@ -1238,29 +1452,59 @@ EXPORT_C TKeyResponse CFindItemDialog::OfferKeyEventL(
     switch ( code )
         {
         case EKeyRightArrow:
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
             iController->NextItemL();
             break;
         case EKeyDownArrow:
-            iController->MoveDownL();
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
+            iController->MoveDownL();   
             break;
         case EKeyLeftArrow:
-            iController->PrevItemL();
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
+            iController->PrevItemL();	
             break;
         case EKeyUpArrow:
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
             iController->MoveUpL();
             break;
         case EKeyOK:
         case EKeyEnter:
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
             iIsSensitiveMenu = ETrue;
             iMenuBar->SetMenuType(CEikMenuBar::EMenuContext);
             CAknDialog::DisplayMenuL();
             break;
         case EKeyPhoneSend:
+            if ( iSingleClick && !CurrentItemHasHighlight() )
+                {
+                HighlightCurrentItem();
+                break;
+                }
+
             if ( !iDialData )
                 {
                 break;
                 }
-
             CFindItemEngine::SFoundItem item;
             founditem = iController->Item( item );
 
@@ -1388,23 +1632,24 @@ void CFindItemDialog::PostLayoutDynInitL()
     TRgb color;
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     TInt error = AknsUtils::GetCachedColor(skin, color, KAknsIIDQsnTextColors, 
-    												EAknsCIQsnTextColorsCG6 );
+        EAknsCIQsnTextColorsCG6 );
     if(error==KErrNone)
-    	{
-      	TCharFormat charFormat;
-    	TCharFormatMask charFormatMask;
-    	charFormatMask.SetAttrib(EAttColor);
-    	charFormat.iFontPresentation.iTextColor = color; 
-    
-    	CRichText * richText = NULL;
-    	richText = iEdwin->RichText();
-    	if( NULL!=richText )
-    		{
-    		TInt length = richText->DocumentLength();
-    		length++;
-    		// apply the color to text
-    		TRAP_IGNORE(richText->ApplyCharFormatL( charFormat, charFormatMask, 0, length ));
-    		}
+        {
+        TCharFormat charFormat;
+        TCharFormatMask charFormatMask;
+        charFormatMask.SetAttrib(EAttColor);
+        charFormat.iFontPresentation.iTextColor = color; 
+
+        CRichText * richText = NULL;
+        richText = iEdwin->RichText();
+        if( NULL!=richText )
+            {
+            TInt length = richText->DocumentLength();
+            length++;
+            // apply the color to text
+            TRAP_IGNORE(richText->ApplyCharFormatL( charFormat,
+                charFormatMask, 0, length ));
+            }
        	}
     if ( anyFound )
         {
@@ -1555,7 +1800,7 @@ TBool CFindItemDialog::AtSameLine( const TInt& aItem1, const TInt& aItem2 )
         {
         return EFalse;
         }
-    TBool pos2 = EFalse;        
+    TBool pos2 = EFalse;
     TPoint point2;
     TRAP( error, pos2 = iEdwin->TextLayout()->DocPosToXyPosL( 
         aItem2, point2, CLayoutData::EFWholeTBoxesOnly ) );
@@ -1681,7 +1926,10 @@ void CFindItemDialog::ActivateL()
         UpdateScrollIndicatorL();
 
         iEdwin->TextView()->SetSelectionVisibilityL( ETrue );
-        iEdwin->SetSelectionL( item.iStartPos, item.iLength + item.iStartPos );
+        if ( !iSingleClick )
+            {
+            iEdwin->SetSelectionL( item.iStartPos, item.iLength + item.iStartPos );
+            }
         }
     else
         {// Let's show a information note if no items were found
@@ -1807,17 +2055,17 @@ void CFindItemDialog::UpdateNaviPaneL()
         KPosIndicator, iController->Position() + 1, iController->ItemCount() );
 
     if(NULL == iNaviDecorator)
-    	{
-    	iNaviDecorator = iNaviPane->CreateNavigationLabelL( naviText );
-       	iNaviDecorator->SetNaviDecoratorObserver( this );  
-       	iNaviDecorator->MakeScrollButtonVisible( ETrue );
-       	}
+        {
+        iNaviDecorator = iNaviPane->CreateNavigationLabelL( naviText );
+        iNaviDecorator->SetNaviDecoratorObserver( this );
+        iNaviDecorator->MakeScrollButtonVisible( ETrue );
+        }
     else
-    	{
-    	// Change the label on Nave pane control...
-    	CAknNaviLabel * label =( CAknNaviLabel* )iNaviDecorator->DecoratedControl();
-    	label->SetTextL(naviText);
-    	}
+        {
+        // Change the label on Nave pane control...
+        CAknNaviLabel * label =( CAknNaviLabel* )iNaviDecorator->DecoratedControl();
+        label->SetTextL(naviText);
+        }
 
     // Dimm arrows if needed
     if ( iController->LastItem() )
@@ -1936,10 +2184,10 @@ void CFindItemDialog::HandleResourceChange( TInt aType )
     {
 	//Update Horizantal Scroll bar color if skin changes
     if( aType == KAknsMessageSkinChange)
-    	{
-    	CAknScrollBar *scrollBar = iSBFrame->VerticalScrollBar();
-    	scrollBar->HandleResourceChange(aType);
-    	}
+        {
+        CAknScrollBar *scrollBar = iSBFrame->VerticalScrollBar();
+        scrollBar->HandleResourceChange(aType);
+        }
     CAknDialog::HandleResourceChange( aType );
     }
 
@@ -1978,7 +2226,7 @@ void CFindItemDialog::SizeChanged()
             {
             TRAP_IGNORE( iEdwin->MoveDisplayL( TCursorPosition::EFPageDown ) );
             }
-    	}
+        }
 
     TRAP_IGNORE( UpdateScrollIndicatorL() );
     }
@@ -2035,7 +2283,7 @@ void CFindItemDialog::FocusChanged( TDrawNow /*aDrawNow*/ )
     if ( AknLayoutUtils::PenEnabled() &&
         aPointerEvent.iType == TPointerEvent::EButton1Down )
         {
-        TPoint tapPoint( aPointerEvent.iPosition - iTappingOffset );        
+        TPoint tapPoint( aPointerEvent.iPosition - iTappingOffset );
         TInt pos = 0;
         TInt len = iEdwin->TextLayout()->PosRangeInBand( pos );
         CFindItemEngine::SFoundItem item;
@@ -2047,12 +2295,12 @@ void CFindItemDialog::FocusChanged( TDrawNow /*aDrawNow*/ )
                 {
                 break; // Error: invalid item.
                 };
-            TInt end = item.iStartPos + item.iLength - 1;                            
+            TInt end = item.iStartPos + item.iLength - 1;
             if ( end < pos )
                 {
                 i++;
-                continue; // item not visible.                
-                };                                            
+                continue; // item not visible.
+                };
             TInt start = item.iStartPos;
             if ( start >= ( pos + len ) )
                 {
@@ -2062,13 +2310,13 @@ void CFindItemDialog::FocusChanged( TDrawNow /*aDrawNow*/ )
             TInt nextLine = 0;
             TInt lastPos = start;
             do // Check all rects of one item.
-                {     
-                TInt error = KErrNone;                   
+                {
+                TInt error = KErrNone;
                 TRAP( error, rect = iEdwin->TextLayout()->GetLineRectL( start, end ) );
                 if ( error == KErrNone )
                     {
                     if ( rect.Contains( tapPoint ) ) // Item rect tapped.
-                        {                                    
+                        {
                         TRAP( error, iController->TappedItemL( i ) ); // Change selection
                         if ( error != KErrNone )
                             {
@@ -2083,15 +2331,15 @@ void CFindItemDialog::FocusChanged( TDrawNow /*aDrawNow*/ )
                 else
                     {
                     return false; // Error: no rect.
-                    }                                                    
+                    }
                 TPoint midPoint( rect.iBr.iX, ( rect.iBr.iY + rect.iTl.iY) / 2 );
-                TRAP( error, lastPos = iEdwin->TextLayout()->XyPosToDocPosL( midPoint ) );            
+                TRAP( error, lastPos = iEdwin->TextLayout()->XyPosToDocPosL( midPoint ) );
                 if ( error != KErrNone )
                     {
                     return false; // Error: no last pos.
                     }
                 start = lastPos + 1;
-                nextLine = iEdwin->TextLayout()->GetLineNumber( lastPos );                       
+                nextLine = iEdwin->TextLayout()->GetLineNumber( lastPos );
                 } while ( nextLine != lastLine ); 
             i++;
             }
@@ -2156,7 +2404,47 @@ void CFindItemDialog::HandleNaviDecoratorEventL( TInt aEventID )
         default:
             break;
         }    
-    }   
+    }
+
+// ----------------------------------------------------------------------------
+// CFindItemDialog::CurrentItemHasHighlight
+// ----------------------------------------------------------------------------
+//
+TBool CFindItemDialog::CurrentItemHasHighlight()
+    {
+    CFindItemEngine::SFoundItem item;
+    TBool foundItem = iController->Item( item );
+
+    // foundItem remains as ETrue, if item found by controller is exactly
+    // same as highlighted selection
+    
+    TCursorSelection selection( iEdwin->Selection() );
+    TInt selectionLength = iEdwin->SelectionLength();
+
+    foundItem = foundItem && ( ( item.iLength == selectionLength ) && ( item.iStartPos == Min( selection.iCursorPos, selection.iAnchorPos ) ) );
+
+    foundItem = foundItem && ( iEdwin && iEdwin->TextView()
+        && iEdwin->TextView()->SelectionVisible() );
+
+    return foundItem;
+    }
+
+// ----------------------------------------------------------------------------
+// CFindItemDialog::HighlightCurrentItem
+// ----------------------------------------------------------------------------
+//
+void CFindItemDialog::HighlightCurrentItem()
+    {
+    CFindItemEngine::SFoundItem item;
+    TBool found = iController->Item( item );
+
+    if ( found && iEdwin && iEdwin->TextView() )
+        {
+        iEdwin->TextView()->SetSelectionVisibilityL( ETrue );
+        iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength );
+        }
+    }
+
 
 //
 // CONTAINER CLASS
@@ -2242,24 +2530,24 @@ void CRichTextEditorContainer::SizeChanged()
         TRgb color;
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
         TInt error = AknsUtils::GetCachedColor(skin, color, KAknsIIDQsnTextColors, 
-        												EAknsCIQsnTextColorsCG6 );
+            EAknsCIQsnTextColorsCG6 );
         if(error==KErrNone)
-        	{
-           	TCharFormat charFormat;
-        	TCharFormatMask charFormatMask;
-        	charFormatMask.SetAttrib(EAttColor);
-        	charFormat.iFontPresentation.iTextColor = color; 
-     
-        	CRichText * richText = NULL;
-        	richText = iEditor->RichText();
-        	if( NULL!=richText )
-        		{
-        		TInt length = richText->DocumentLength();
-        		length++;
-        		// apply the color to the text
-        		TRAP_IGNORE(richText->ApplyCharFormatL( charFormat, charFormatMask, 0, length ));
-        		}
-           	}
+            {
+            TCharFormat charFormat;
+            TCharFormatMask charFormatMask;
+            charFormatMask.SetAttrib(EAttColor);
+            charFormat.iFontPresentation.iTextColor = color; 
+
+            CRichText * richText = NULL;
+            richText = iEditor->RichText();
+            if( NULL!=richText )
+                {
+                TInt length = richText->DocumentLength();
+                length++;
+                // apply the color to the text
+                TRAP_IGNORE(richText->ApplyCharFormatL( charFormat, charFormatMask, 0, length ));
+                }
+            }
         }
     }
 

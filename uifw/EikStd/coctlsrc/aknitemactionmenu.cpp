@@ -29,6 +29,7 @@
 #include "aknitemactionmenudata.h"
 #include "aknitemactionmenuregister.h"
 #include "akntrace.h"
+#include "aknmarkingmode.h"
 
 /**
  * Index for invalid list index.
@@ -78,6 +79,7 @@ CAknItemActionMenu::~CAknItemActionMenu()
     delete iPopupMenu;
     delete iMenuPane;
     delete iMenuData;
+    delete iMarking;
     iStates.Close();
     
     for ( TInt i = 0; i < iObservers.Count(); ++i )
@@ -378,6 +380,18 @@ TInt CAknItemActionMenu::CollectionCount() const
 
 
 // ---------------------------------------------------------------------------
+// CAknItemActionMenu::MarkingMode
+// ---------------------------------------------------------------------------
+//
+CAknMarkingMode& CAknItemActionMenu::MarkingMode()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return *iMarking;
+    }
+
+
+// ---------------------------------------------------------------------------
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------
 //
@@ -387,7 +401,8 @@ CAknItemActionMenu::CAknItemActionMenu( MObjectProvider* aOwner )
     iMenuBar( NULL ),
     iMenuPane( NULL ),
     iMenuData( NULL ),
-    iOwner( aOwner )
+    iOwner( aOwner ),
+    iMarking( NULL )
     {
     _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_ADD( this, "CAknItemActionMenu" );
@@ -404,6 +419,7 @@ void CAknItemActionMenu::ConstructL( MAknCollection& aCollection )
     _AKNTRACE_FUNC_ENTER;
     AddCollectionStateL( aCollection );
     iMenuData = CAknItemActionMenuData::NewL();
+    iMarking = CAknMarkingMode::NewL( *this, iStates );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -496,17 +512,24 @@ void CAknItemActionMenu::ProcessCommandL( TInt aCommandId )
             {
             TMenuItemTextBuf text = iMenuData->MenuItemText( aCommandId );
             iMenuData->Reset();
-            iMenuPane->AddCascadeMenuItemsToActionMenuL(
-                    cascadeId, EFalse, *iMenuData );
+            iMenuPane->AddCascadeMenuItemsToMenuL(
+                    cascadeId, EFalse, ETrue, iMenuData );
             aCommandId = LaunchSubMenuQueryL( text );
             }
                 
-        if ( aCommandId > 0 && iMenuBarObserver )
+        if ( aCommandId > 0 && iMenuData->MenuItemCommandId( aCommandId ) 
+                == EAknCmdMarkingModeMarkOne && iMenuBar )
+            {
+            MarkingMode().MarkCurrentItemL();
+            }
+        else if ( aCommandId > 0 && iMenuBarObserver )
             {
             iProcessingCommand = ETrue; 
             iMenuBarObserver->ProcessCommandL(
                     iMenuData->MenuItemCommandId( aCommandId ) );
             iProcessingCommand = EFalse; 
+            // Try exit marking mode
+            MarkingMode().TryExitMarkingMode();
             }
         }
     // Inform collection that submenu was closed
@@ -538,3 +561,4 @@ void CAknItemActionMenu::UnregisterMenu()
     }
 
 // End of File
+

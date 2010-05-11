@@ -39,36 +39,51 @@ const VGfloat KColorByteToFloatFactor(255.0f);
 namespace HgVgHelper
     {
 
+// ---------------------------------------------------------------------------
+// CreateNonMaskedVgImageL()
+// ---------------------------------------------------------------------------
+//     
 static VGImage CreateNonMaskedVgImageL( const CFbsBitmap& aBitmap )
     {
     TSize size = aBitmap.SizeInPixels();    
     VGImage image = vgCreateImage(VG_sRGB_565, size.iWidth, size.iHeight,VG_IMAGE_QUALITY_NONANTIALIASED);        
-
-    if ( image == VG_INVALID_HANDLE )
-        {
-        User::Leave(KErrNoMemory);
-        }
     
-    if (aBitmap.DisplayMode() == EColor64K && !aBitmap.IsCompressedInRAM())
+    if ( image != VG_INVALID_HANDLE  ) // to check if the image was created 
         {
-        aBitmap.BeginDataAccess();
-        TInt stride = aBitmap.DataStride();
-        TUint8* ptr = (TUint8*)aBitmap.DataAddress();
-        vgImageSubData (image, ptr, stride, VG_sRGB_565, 0, 0, size.iWidth, size.iHeight );        
-        aBitmap.EndDataAccess();
+        if (aBitmap.DisplayMode() == EColor64K && !aBitmap.IsCompressedInRAM())
+            {
+            aBitmap.BeginDataAccess();
+            TInt stride = aBitmap.DataStride();
+            TUint8* ptr = (TUint8*)aBitmap.DataAddress();
+            
+            vgGetError(); // to zero the error flag
+            vgImageSubData (image, ptr, stride, VG_sRGB_565, 0, 0, size.iWidth, size.iHeight );
+            
+            if(vgGetError() != VG_NO_ERROR)
+                {
+                vgDestroyImage(image);
+                image = VG_INVALID_HANDLE;
+                }
+            aBitmap.EndDataAccess();
+            }
+        else
+            {
+            TSize size = aBitmap.SizeInPixels();
+            CHgVgDrawBuffer* temp = CHgVgDrawBuffer::NewL(size, EColor64K);
+            temp->Gc().BitBlt(TPoint(0,0), &aBitmap);
+            temp->GetDrawBufferToVgImage(size, TPoint(0,0), image, 
+                    VG_sRGB_565);
+            delete temp;        
+            }
         }
-    else
-        {
-        TSize size = aBitmap.SizeInPixels();
-        CHgVgDrawBuffer* temp = CHgVgDrawBuffer::NewL(size, EColor64K);
-        temp->Gc().BitBlt(TPoint(0,0), &aBitmap);
-        temp->GetDrawBufferToVgImage(size, TPoint(0,0), image, 
-                VG_sRGB_565);
-        delete temp;        
-        }
+
     return image;
     }
 
+// ---------------------------------------------------------------------------
+// CreateMaskedVgImageL()
+// ---------------------------------------------------------------------------
+//     
 static VGImage CreateMaskedVgImageL( CFbsBitmap* aBitmap, CFbsBitmap* aMask )
     {
     TSize size = aBitmap->SizeInPixels();

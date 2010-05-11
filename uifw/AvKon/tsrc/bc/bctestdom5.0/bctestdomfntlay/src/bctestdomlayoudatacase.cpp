@@ -20,8 +20,8 @@
 #include <coecntrl.h>
 #include <eikenv.h>
 
-#include <aknlayout2def.h>
-#include <aknlayout2scalabledef.h>
+#include <AknLayout2Def.h>
+#include <AknLayout2ScalableDef.h>
 
 
 #include "bctestdomlayoutdatacase.h"

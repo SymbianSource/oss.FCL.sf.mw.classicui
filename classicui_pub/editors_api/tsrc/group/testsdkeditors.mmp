@@ -120,6 +120,7 @@ LIBRARY         aknswallpaperutils.lib
 LIBRARY         fbscli.lib
 LIBRARY         print.lib
 LIBRARY         apparc.lib
+LIBRARY         aknphysics.lib
 
 LANG            SC
 

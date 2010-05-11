@@ -474,7 +474,8 @@ public:
             if ( aKeyEvent.iScanCode == EStdKeyUpArrow || 
                  aKeyEvent.iScanCode == EStdKeyDownArrow || 
                  aKeyEvent.iScanCode == EStdKeyEnter ||
-                 aKeyEvent.iScanCode == EStdKeyDevice3 )
+                 aKeyEvent.iScanCode == EStdKeyDevice3 ||
+                 aKeyEvent.iScanCode == EStdKeyNkpEnter )
                 {            
                 return iList->OfferKeyEventL(aKeyEvent, aType);    
                 }

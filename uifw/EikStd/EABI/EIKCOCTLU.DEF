@@ -2012,4 +2012,6 @@ EXPORTS
 	_ZN18CAknItemActionMenu19RegisterCollectionLER14MAknCollectionP15MObjectProvider @ 2011 NONAME
 	_ZN25AknItemActionMenuRegister30RemoveConstructingMenuBarOwnerEP15MObjectProvider @ 2012 NONAME
 	_ZN11CEikListBox18IsHighlightEnabledEv @ 2013 NONAME
+	_ZN11CEikListBox14SetMarkingModeEi @ 2014 NONAME
+	_ZN11CEikListBox22SetMarkingModeObserverEP23MAknMarkingModeObserver @ 2015 NONAME
 

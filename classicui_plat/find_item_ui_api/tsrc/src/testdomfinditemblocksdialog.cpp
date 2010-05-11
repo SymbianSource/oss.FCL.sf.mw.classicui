@@ -131,3 +131,29 @@ TInt Ctestdomfinditem::TestDialogOfferKeyEventL( CStifItemParser& /*aItem*/ )
 
     }
 
+
+// -----------------------------------------------------------------------------
+// Ctestdomfinditem::TestDialogEnableSingleClick
+// -----------------------------------------------------------------------------
+//
+TInt Ctestdomfinditem::TestDialogEnableSingleClick( CStifItemParser& /*aItem*/ )
+    {
+    // Print to UI
+    _LIT( Ktestdomfinditem, "testdomfinditem" );
+    _LIT( KTestEnableSingleClick, "In DialogEnableSingleClick" );
+    TestModuleIf().Printf( 0, Ktestdomfinditem, KTestEnableSingleClick );
+    // Print to log file
+    iLog->Log( KTestEnableSingleClick );
+
+    CFindItemDialog* dialog = CFindItemDialog::NewL( KUrlDes,
+            CFindItemEngine::EFindItemSearchURLBin );
+    CleanupStack::PushL( dialog );
+    STIF_ASSERT_NOT_NULL( dialog );
+
+    dialog->EnableSingleClick ( EFalse );
+    dialog->EnableSingleClick ( ETrue );
+
+    CleanupStack::PopAndDestroy( dialog );
+    return KErrNone;
+    }
+

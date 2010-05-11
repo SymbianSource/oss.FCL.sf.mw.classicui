@@ -326,7 +326,31 @@ public:
         /**
          * This flag indicates that simley icon is enabled.
          */
-        EDrawSmileyIcon = 0x0100
+        EDrawSmileyIcon = 0x0100,
+
+        /**
+         * This flag indicates that marking mode is enabled.
+         */
+        EMarkingModeEnabled = 0x0200,
+
+        /**
+         * If set then itemdrawer draws the whole list area's background in one
+         * frame while scrolling. Normally background is drawn separately for
+         * each list item.
+         */
+        EDrawWholeBackground = 0x0400,
+        
+        /**
+         * Always set unless client application has implemented a custom item
+         * drawer that overrides background drawing code. 
+         */
+        ENativeImplementation = 0x0800,
+        
+        /**
+         * This flag is used during scrolling to indicate that background has
+         * been already drawn.
+         */
+        EBackgroundDrawn = 0x1000
         };
 
 public:

@@ -26,7 +26,7 @@
 #include <testclassassert.h>
 #include <eikenv.h>
 #include <e32std.h>
-#include <aknlayout2scalabledef.h>
+#include <AknLayout2ScalableDef.h>
 #include <aknstylusactivatedpopupcontent.h>
 
 #include "testdomstylusactivepopupcontainer.h"

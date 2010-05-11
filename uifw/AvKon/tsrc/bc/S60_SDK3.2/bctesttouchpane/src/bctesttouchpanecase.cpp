@@ -22,7 +22,7 @@
 #include <aknappui.h>
 #include <akntouchpane.h>
 #include <bctesttouchpane.rsg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <aknutils.h> 
 
 #include "bctesttouchpanecase.h"

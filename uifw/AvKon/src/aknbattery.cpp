@@ -578,10 +578,13 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 {
                 // set flag that pointerdown was inside battery pane
                 iPrivateFlags |= EAknBatteryPaneButton1DownInBatteryRect;
-                MTouchFeedback* feedback = MTouchFeedback::Instance();
-                if ( feedback )
+                if ( !AknStatuspaneUtils::ExtendedFlatLayoutActive() )
                     {
-                    feedback->InstantFeedback( ETouchFeedbackSensitiveButton );
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if ( feedback )
+                        {
+                        feedback->InstantFeedback( ETouchFeedbackSensitiveButton );
+                        }
                     }
                 }
             }
@@ -647,6 +650,15 @@ void CAknBatteryPane::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     CAknSmallIndicator* indicatorNotifier =
                         CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
                     indicatorNotifier->HandleIndicatorTapL();
+                    //for indicator popup event
+                    if ( feedback )
+                        {
+                        feedback->InstantFeedback(
+                                           this,
+                                           ETouchFeedbackPopUp,
+                                           ETouchFeedbackVibra,
+                                           aPointerEvent );
+                        }
                     CleanupStack::PopAndDestroy( indicatorNotifier );
                     }
                 }

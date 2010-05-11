@@ -65,8 +65,6 @@ const TInt KAknSliderDefaultDrawColor = 120;
 const TInt KScrollRepeatTimeout = 250000; // 0.25 seconds
 const TInt KStableFeedbackIntesity = 100;
 const TInt KFeedbackTimeout = 100000;
-const TInt KNoFeedbackTimeout = 0;
-const TInt KStepThreshold = 15;
 // ============================================================================
 // Internal class to hold slider control data, primarily coming from resource.
 NONSHARABLE_CLASS( CAknSliderData ): public CBase
@@ -4255,7 +4253,7 @@ void CAknSlider::StartFeedback( const TPointerEvent* aPointerEvent, TTimeInterva
             {
             intensity = FeedbackIntensity();
             }
-        feedback->StartFeedback( this, ETouchContinuousSlider, aPointerEvent, intensity, aTimeout );
+        feedback->StartFeedback( this, ETouchDynamicSlider, aPointerEvent, intensity, aTimeout );
         iExt->SetFlag( CAknSliderExtension::EFlagPlayingContinuousFb );
         }
     }

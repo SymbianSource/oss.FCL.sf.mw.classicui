@@ -61,9 +61,9 @@ void CHgVgLabel::ConstructL (const TDesC& aText)
     {
     iText = aText.AllocL();
     
-    iTextRenderer = CHgVgDrawBuffer::NewL(iRect.Size(), EGray2);
+    iTextRenderer = CHgVgDrawBuffer::NewL(iRect.Size(), EGray256);
         
-    iTextImage = vgCreateImage(VG_A_1, 
+    iTextImage = vgCreateImage(VG_A_8, 
             iRect.Width(), iRect.Height(), 
             VG_IMAGE_QUALITY_NONANTIALIASED);
     
@@ -178,7 +178,7 @@ void CHgVgLabel::Update()
     text.DrawText(iTextRenderer->Gc(), *iText, ETrue, KRgbWhite);
     
     iTextRenderer->GetDrawBufferToVgImage(TRect(TPoint(0,0), iRect.Size()), 
-            TPoint(0, 0), iTextImage, VG_A_1);    
+            TPoint(0, 0), iTextImage, VG_A_8);    
     }
 
 
@@ -195,7 +195,7 @@ void CHgVgLabel::DrawEmptyText(const TRect& aClientRect, const TDesC& aText)
     iTextRenderer->Clear(iRect.Size(), KRgbBlack);
     DrawEmptyListImpl_real(aClientRect, iTextRenderer->Gc(), aText, KRgbWhite);
     iTextRenderer->GetDrawBufferToVgImage(TRect(TPoint(0,0), iRect.Size()), 
-            TPoint(0, 0), iTextImage, VG_A_1);
+            TPoint(0, 0), iTextImage, VG_A_8);
     iDirty = EFalse;
     Draw(aClientRect, 1.0f);
     }

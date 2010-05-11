@@ -48,7 +48,7 @@
 
 // CONSTANTS
 // Number of default system screensavers.
-const TInt KPslnSystemScreenSavers = 2;
+const TInt KPslnSystemScreenSavers = 3;
 // Value in PubSub when screensaver preview is off.
 const TInt KPslnScreenSaverPreviewOff = 0;
 
@@ -426,6 +426,8 @@ void CPslnScreenSaverView::DynInitMenuPaneL(
             {
             // Remove Set screensaver, if current selection is already active.
             aMenuPane->SetItemDimmed( EPslnCmdAppSetScreenSaver, ETrue );
+            // Remove Settings which works exactly the same as Change
+            aMenuPane->SetItemDimmed( EPslnCmdAppSettings, ETrue );
             }
         else if ( IsApplyCommandVisibleL() )
             {

@@ -22,7 +22,7 @@
 //  INCLUDES
 #include <e32std.h>
 #include <AknGlobalNote.h>
-#include <globalnote.h>
+#include <GlobalNote.h>
 
 // CLASS DECLARATION
 

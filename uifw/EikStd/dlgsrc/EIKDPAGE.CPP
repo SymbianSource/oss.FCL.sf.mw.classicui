@@ -99,15 +99,25 @@ public:
     static CDialogPageExtension* NewL();
     ~CDialogPageExtension();
 
-    void Feedback( CEikDialogPage* aControl, TTouchLogicalFeedback aFeedback ) const;
+    void Feedback( const CEikDialogPage& aControl,
+                   TTouchLogicalFeedback aFeedback ) const;
+
     /**
-     * Produces vibra-only feedback. Event filtering by pointer event is used..
+     * Produces vibra-only feedback.
+     * Event filtering by pointer event is used.
      */
-    void SilentFeedback( CEikDialogPage* aDPage, 
+    void SilentFeedback( const CEikDialogPage& aDPage, 
                          TTouchLogicalFeedback aFeedback, 
                          const TPointerEvent& aPointerEvent ) const;
-    
-    void HandleFormFeedback( CEikDialogPage* aControl, const TPointerEvent& aPointerEvent, TInt aTouchedLineIndex, TInt aCurrentLine );
+
+    /**
+     * Produces feedback in cases where the captioned control itself
+     * doesn't do it.
+     */
+    void HandleFormFeedback( const CEikDialogPage& aDPage,
+                             const TPointerEvent& aPointerEvent,
+                             TInt aTouchedLineIndex,
+                             TInt aCurrentLine );
 
 protected:  
     void ConstructL();
@@ -141,7 +151,6 @@ public:
     TInt iLastTouchedLine;
     TPoint iSynchronizedPosition;
     TBool iScrolling;
-    TBool iScrolled;
     TBool iInitialLayoutDone;
     TBool iSetInitialFocusDone;
     TBool iHandlingResourceChange;
@@ -160,6 +169,8 @@ public:
     TBool iUsesSingleClick;
     // It is used to distinguish if the focus item has changed.
     TBool iFocusItemChanged;
+    // Boolean to check if form was scrolling on button down
+    TBool iWasScrolling;
     };
 
 CDialogPageExtension::CDialogPageExtension()
@@ -201,14 +212,18 @@ void CDialogPageExtension::ConstructL()
     }
 
 void CDialogPageExtension::HandleFormFeedback(
-    CEikDialogPage* aDPage,
+    const CEikDialogPage& aDPage,
     const TPointerEvent& aPointerEvent,
     TInt aTouchedLineIndex,
     TInt aCurrentLine )
     {
+    CEikCaptionedControl* firstLine( aDPage.LineOnPageOrNull( 0 ) );
+    TBool viewMode( !aDPage.IsEditable() );
+    
     // note, that iFormControl is checked in Feedback()
     if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-        aCurrentLine != aTouchedLineIndex && aDPage->LineOnPageOrNull( 0 ) ) 
+         aCurrentLine != aTouchedLineIndex &&
+         firstLine ) 
         {
         // feedback for edit/view mode form, when non-focused line is clicked
         // feedback for focused item is responsibility of the item
@@ -219,57 +234,66 @@ void CDialogPageExtension::HandleFormFeedback(
             }
         iFocusItemChanged = ETrue;
         }
-
-    else if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-        aTouchedLineIndex == aCurrentLine && aDPage->LineOnPageOrNull( 0 ) )
+    else if ( viewMode && firstLine )
         {
-        // Feedback for view mode form, when focused item is
-        // clicked. Basically same case as for msk simulation later on
-        // the function, but on pointer
-        // down. iExtension->iFocusedClicked is not valid here, since
-        // it can't be known in this phase whether user drags pointer
-        // away.
-        Feedback( aDPage, ETouchFeedbackList );
-        iFocusItemChanged = EFalse;
-        }
-
-    else if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-            aDPage->LineOnPageOrNull( 0 ) )
-        {// when focus changed, it should not send feedback on up event.
-        //when up event comes, aTouchedLineIndex always equal to aCurrentLine
-        if ( !iFocusItemChanged )
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+             aTouchedLineIndex == aCurrentLine )
             {
-            SilentFeedback( aDPage, ETouchFeedbackList, aPointerEvent );
+            // Feedback for view mode form, when focused item is
+            // clicked. Basically same case as for msk simulation later on
+            // the function, but on pointer
+            // down. iExtension->iFocusedClicked is not valid here, since
+            // it can't be known in this phase whether user drags pointer
+            // away.
+            Feedback( aDPage, ETouchFeedbackList );
+            iFocusItemChanged = EFalse;
+            }
+        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+            {
+            // When focus changed, it should not send feedback on up event.
+            // When up event comes, aTouchedLineIndex always equal to
+            // aCurrentLine.
+            if ( !iFocusItemChanged )
+                {
+                SilentFeedback( aDPage, ETouchFeedbackList, aPointerEvent );
+                }
             }
         }
     }
 
-void CDialogPageExtension::Feedback( CEikDialogPage* aDPage, 
+
+void CDialogPageExtension::Feedback( const CEikDialogPage& aDPage, 
                                      TTouchLogicalFeedback aFeedback ) const
     {
-    if ( aDPage
-        && aDPage->IsForm()
-        && iFeedback
-        && !aDPage->IsDimmed()
-        && aDPage->IsVisible() )
+    if ( iFeedback &&
+         aDPage.IsForm() &&
+         !aDPage.IsDimmed() &&
+         aDPage.IsVisible() && 
+         aDPage.IsEditable() )
         {
         iFeedback->InstantFeedback( aFeedback );
         }
     }
 
-void CDialogPageExtension::SilentFeedback( CEikDialogPage* aDPage, 
-                                           TTouchLogicalFeedback aFeedback, 
-                                           const TPointerEvent& aPointerEvent ) const
+
+void CDialogPageExtension::SilentFeedback(
+    const CEikDialogPage& aDPage,
+    TTouchLogicalFeedback aFeedback,
+    const TPointerEvent& aPointerEvent ) const
     {
-    if ( aDPage
-        && aDPage->IsForm()
-        && iFeedback
-        && !aDPage->IsDimmed()
-        && aDPage->IsVisible() )
+    if ( iFeedback &&
+         aDPage.IsForm() &&
+         !aDPage.IsDimmed() &&
+         aDPage.IsVisible() &&
+         aDPage.IsEditable() )
         {
-        iFeedback->InstantFeedback( aDPage, aFeedback, ETouchFeedbackVibra, aPointerEvent );
+        iFeedback->InstantFeedback( &aDPage,
+                                    aFeedback,
+                                    ETouchFeedbackVibra,
+                                    aPointerEvent );
         }
     }
+
 
 class CAknPaneScroll : public CBase
 {
@@ -846,12 +870,10 @@ TKeyResponse CEikDialogPage::OfferUpDownKeyEventL(const TKeyEvent& aKeyEvent,TEv
             switch (aFocusNavigationMode)
                 {
                 case ECyclic:
-                    iExtension->iScrolled = ETrue;                    
                     response=HandleCyclicFocusNavigationKeyL(aKeyEvent);
                     break;
                     
                 case ENonCyclic:
-                    iExtension->iScrolled = ETrue;                    
                     response=HandleNonCyclicFocusNavigationKeyL(aKeyEvent);
                     break;
                     
@@ -1069,7 +1091,7 @@ void CEikDialogPage::ChangeFocusToAndExposeL( TInt aLine, TBool /*aShowWholeCont
     TInt oldLine = iCurrentLine;
     
     if( aLine != iCurrentLine )
-        (*iLines)[iCurrentLine]->ScrollBackEditor();
+        (*iLines)[iCurrentLine]->ScrollBackEditorL();
     
     ChangeFocusTo( aLine );
     ExposeLine( iCurrentLine, EFalse );
@@ -1882,7 +1904,6 @@ void CEikDialogPage::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScrollEven
         case EEikScrollPageUp:
         case EEikScrollPageDown:
         case EEikScrollThumbDragVert:
-            iExtension->iScrolled = ETrue;
             iExtension->iScrolling = ETrue;
             iLines->MoveLineToScreen( iCurrentLine, 0, EFalse );
             break;
@@ -2114,7 +2135,7 @@ void CEikDialogPage::ChangeFocusTo(TInt aLineIndex)
         CEikEdwin* edwinPtr = STATIC_CAST( CEikEdwin*, theNewLine->iControl );
         if( edwinPtr->Text() )
         	{
-            edwinPtr->SetCursorPosL( edwinPtr->TextLength(), EFalse );       
+            TRAP_IGNORE( edwinPtr->SetCursorPosL( edwinPtr->TextLength(), EFalse ) );       
         	}
     	}
 
@@ -2128,10 +2149,10 @@ void CEikDialogPage::ChangeFocusTo(TInt aLineIndex)
         if ( oldLine != -1 )
             {
             iLines->MoveLineToScreen( oldLine, 0, EFalse );
-            RecordLineL( oldLine );
+            TRAP_IGNORE( RecordLineL( oldLine ) );
             }
 
-		RecordLineL( iCurrentLine );
+		TRAP_IGNORE( RecordLineL( iCurrentLine ) );
 		iLines->MoveLineToScreen( iCurrentLine, iPhysics->ViewTopY(), ETrue );
 		}
     _AKNTRACE_FUNC_EXIT;
@@ -2845,10 +2866,13 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                 }
             }
         iExtension->iScrolling = EFalse;
-        iExtension->HandleFormFeedback( this, aPointerEvent, touchedLine, iCurrentLine );
+        iExtension->HandleFormFeedback( *this,
+                                        aPointerEvent,
+                                        touchedLine,
+                                        iCurrentLine );
         
-        TBool wasScrolling = ( iPhysics->OngoingPhysicsAction() != 
-            CAknPhysics::EAknPhysicsActionNone );
+        iExtension->iWasScrolling = ( iPhysics->OngoingPhysicsAction() != 
+        CAknPhysics::EAknPhysicsActionNone ); 
         iPhysics->Stop();
         iExtension->iLastTouchedLine = touchedLine;
         iExtension->iDragStartPosition = aPointerEvent.iPosition;
@@ -2861,10 +2885,17 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
 
             if ( iExtension->iUsesSingleClick )
                 {
-                if ( !wasScrolling )
+                if ( !iExtension->iWasScrolling )
                     {
-                    HighlightVisible( ETrue );
-                    HighlightTimerCallBack( this );
+                    if ( iFormFlags & EEikFormDisableHighlightInViewMode )
+                        {
+                        HighlightVisible( EFalse );
+                        }                
+                    else
+                        {
+                        HighlightVisible( ETrue );
+                        HighlightTimerCallBack( this );
+                        }
                     }
                 }
             else
@@ -2918,7 +2949,6 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                     }
 
                 iExtension->iScrolling = ETrue;
-                iExtension->iScrolled = ETrue;
                 iExtension->iLastPointerPos = aPointerEvent.iPosition;
                 RemovePressedDownHighlight();
                 iLines->MoveLineToScreen( iCurrentLine, 0, EFalse );
@@ -2943,8 +2973,11 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
     
     if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
-    _AKNTRACE( "TPointerEvent::EButton1Up" );
-        iExtension->HandleFormFeedback( this, aPointerEvent, touchedLine, iCurrentLine );
+        _AKNTRACE( "TPointerEvent::EButton1Up" );
+        iExtension->HandleFormFeedback( *this,
+                                        aPointerEvent,
+                                        touchedLine,
+                                        iCurrentLine );
         if ( !IsEditable() && iExtension->iUsesSingleClick && 
              HighlightVisible() )
             {
@@ -2966,7 +2999,7 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                 {
                 iExtension->iScrolling = EFalse;
                 
-                if ( iPageObserver && GrabbingComponent() )
+                if ( iPageObserver && GrabbingComponent() && !iExtension->iWasScrolling )
                     {
                     iPageObserver->HandleDialogPageEventL( MEikDialogPageObserver::EDialogPageTapped );
                     }
@@ -2979,12 +3012,14 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                     {
                     // feedback is given every time when new item 
                     // appears to the screen -> follows the visual feedback
-                    iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, aPointerEvent );
+                    iExtension->SilentFeedback( *this,
+                                                ETouchFeedbackSensitiveList,
+                                                aPointerEvent );
+
                     // It might happen that there are no drag events between down and
                     // up if the distance is short enough.
                     iExtension->iHighlightTimer->Cancel();
                     iExtension->iScrolling = ETrue;
-                    iExtension->iScrolled = ETrue;
                     iLines->MoveLineToScreen( iCurrentLine, 0, EFalse );
                     RemovePressedDownHighlight();
                     }
@@ -3020,9 +3055,9 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         mskPress = ETrue;
         callDefaultImplementation = EFalse;
         }
-    
     if ( callDefaultImplementation && ( iExtension->iFocusedClicked || 
-            iExtension->iUsesSingleClick ) && newLine )
+            iExtension->iUsesSingleClick ) && newLine && 
+            !iExtension->iWasScrolling )
         {
         if ( newLine->ControlIsAPopfield( controlType ) )
             {
@@ -3048,7 +3083,7 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         key.iCode=EKeyOK;
         key.iModifiers=0;
         key.iRepeats = 0;
-        CEikonEnv::Static()->SimulateKeyEventL( key, EEventKey );
+        iEikonEnv->SimulateKeyEventL( key, EEventKey );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -3121,9 +3156,10 @@ void CEikDialogPage::HandleHighlightTimer()
         
         if ( LineIsFocusable( touchedLine ) )
             {
-            TRAP_IGNORE( PrepareForFocusTransitionL() );
-            ChangeFocusToAndExposeL( touchedLine );
-            LineChangedL( (*iLines)[touchedLine]->iId );
+            TRAP_IGNORE( PrepareForFocusTransitionL();
+                         ChangeFocusToAndExposeL( touchedLine );
+                         LineChangedL( (*iLines)[touchedLine]->iId );
+                       );
             }
         }
     }
@@ -3187,11 +3223,15 @@ void CEikDialogPage::ScrollCacheByPixels(
             {
             if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
                 {
-                iExtension->Feedback( this, ETouchFeedbackSensitiveList );
+                iExtension->Feedback( *this, ETouchFeedbackSensitiveList );
                 }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking)
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
                 {
-                iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                }
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionBouncing )
+                {
+                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
                 }
             }
         }
@@ -3201,11 +3241,15 @@ void CEikDialogPage::ScrollCacheByPixels(
             {
             if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
                 {
-                iExtension->Feedback( this, ETouchFeedbackSensitiveList );
+                iExtension->Feedback( *this, ETouchFeedbackSensitiveList );
                 }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking)
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
                 {
-                iExtension->SilentFeedback( this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                }
+            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionBouncing )
+                {
+                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
                 }
             }
         }
@@ -3375,7 +3419,7 @@ void CEikDialogPage::RemovePressedDownHighlight()
             currentLine->SetPressedDownState( EFalse );
             if ( IsForm() )
                 {
-                RecordLineL( iCurrentLine );
+                TRAP_IGNORE( RecordLineL( iCurrentLine ) );
                 }
             }
         }
@@ -3649,16 +3693,19 @@ void CEikDialogPage::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         clear = ETrue;
         }
         
-    if ( focusItem || iExtension->iFocusedClicked)
+    if ( focusItem || iExtension->iFocusedClicked )
         {
-        iExtension->HandleFormFeedback( this, aPointerEvent, touchedLineIndex, iCurrentLine );
+        iExtension->HandleFormFeedback( *this,
+                                        aPointerEvent,
+                                        touchedLineIndex,
+                                        iCurrentLine );
         }
                 
     if ( focusItem )
         {
         PrepareForFocusTransitionL();
         
-        (*iLines)[iCurrentLine]->ScrollBackEditor();
+        (*iLines)[iCurrentLine]->ScrollBackEditorL();
         ShowFocus( EFalse, EFalse );
         iCurrentLine = touchedLineIndex;
         ShowFocus( ETrue, EFalse );        
@@ -3677,7 +3724,7 @@ void CEikDialogPage::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         key.iCode=EKeyOK;
         key.iModifiers=0;
         key.iRepeats = 0;
-        CEikonEnv::Static()->SimulateKeyEventL(key, EEventKey);
+        iEikonEnv->SimulateKeyEventL(key, EEventKey);
         // SimulateKeyEventL has to be last, because it can
         // possibly delete the dialog.. Must not do anything
         // to the dialog after the call.

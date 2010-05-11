@@ -37,7 +37,7 @@ DEFFILE         testdomfinditem.def
     MW_LAYER_SYSTEMINCLUDE
 
     SOURCEPATH     ../data
-    START RESOURCE  testdomfineitem.rss
+    START RESOURCE  testdomfinditem.rss
     HEADER
     TARGETPATH RESOURCE_FILES_DIR
     LANGUAGE_IDS

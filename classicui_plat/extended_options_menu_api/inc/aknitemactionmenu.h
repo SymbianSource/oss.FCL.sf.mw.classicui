@@ -27,6 +27,7 @@ class MAknCollectionObserver;
 class CAknStylusPopUpMenu;
 class CEikMenuBar;
 class CAknItemActionMenuData;
+class CAknMarkingMode;
 
 /**
  * Item action menu.
@@ -222,6 +223,14 @@ public:
      */
     MObjectProvider* Owner() const;
 
+    /**
+     * Provides marking mode handler.
+     *
+     * @internal
+     * @return Marking mode handler.
+     */
+    CAknMarkingMode& MarkingMode();
+
 private:
 
     /**
@@ -328,6 +337,12 @@ private: // data
      * Not own
      */
     MObjectProvider* iOwner;
+
+    /**
+     * Multiple marking handler.
+     * Own.
+     */
+    CAknMarkingMode* iMarking;
     };
 
 #endif // C_AKNITEMACTIONMENU_H

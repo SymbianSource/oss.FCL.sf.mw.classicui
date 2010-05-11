@@ -191,7 +191,6 @@ EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
             
         iController->SetPopUpShowDelay( KDefaultPopUpShowDelay );
         iController->SetPopUpHideDelay( KDefaultPopUpHideDelay );
-        iContent->Parent()->DrawableWindow()->SetNonFading(ETrue);
         }
     
     TSize size(iController->Size());
@@ -414,6 +413,7 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
             {
             iPreviewPopup->HidePopUp();
             }
+
         if ( iController )
             {
             iController->HidePopUp();

@@ -32,7 +32,7 @@
 
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
  
 #include "AknAppsKeyCleanup.inl"
 

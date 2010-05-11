@@ -29,6 +29,7 @@
 #include <txtfrmat.h>
 #include <AknUtils.h> // for AknUtils
 #include <AknsUtils.h>
+#include <touchfeedback.h>
 
 // scheme recog
 #include <ecom/ecom.h>
@@ -217,6 +218,7 @@ void CItemFinder::ConstructL()
     CRichText::ActivateParserL(this);
     iSchemeResolver = CSchemeResolver::NewL();
     iMinDigitsToFind = GetMinDigitsToFindL(); // variated.
+    iFeedback = MTouchFeedback::Instance();
     }
 
 TInt CItemFinder::GetMinDigitsToFindL()
@@ -1290,6 +1292,10 @@ void CItemFinder::MonitorPointerEventL( TPointerEvent &aPointerEvent,
             // if no item was tapped remove selection
             if ( tapped )
                 {
+                if ( iFeedback )
+                    {
+                    iFeedback->InstantFeedback( ETouchFeedbackBasicButton );       
+                    }
                 iTapPoint = tapPoint;
                 }
             else

@@ -319,7 +319,8 @@ TBool CAknPhysicsConeObserver::MonitorPointerEvent(
         }
 
     if ( aEvent->iType == TPointerEvent::EButton1Up && 
-         iPhysics->IsPanningDrawOmitted() )
+         iPhysics->IsPanningDrawOmitted() && 
+         eventTarget == ETargetViewControl )
         {
         // Ensure that the last panning position gets drawn if the last
         // view redraw was omitted due to too high CPU use.

@@ -37,6 +37,7 @@ class CFindItemEngine;
 class MAknItemFinderObserver;
 class CCoeEnv;
 class CCoeControl;
+class MTouchFeedback;
 
 // CLASS DECLARATION
 class MItemFinderObserver
@@ -395,6 +396,11 @@ NONSHARABLE_CLASS(CItemFinder) :
          * Drag threshold
          */
         TInt iDragThreshold;
+
+        /**
+         * Tactile Feedback interface
+         */		
+        MTouchFeedback* iFeedback;
         
     };
 

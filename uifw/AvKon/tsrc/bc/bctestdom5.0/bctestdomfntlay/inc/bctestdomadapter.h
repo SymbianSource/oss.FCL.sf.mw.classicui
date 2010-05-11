@@ -19,7 +19,7 @@
 #ifndef C_CBCTESTDOMADAPTER_H
 #define C_CBCTESTDOMADAPTER_H
 
-#include <aknlayout2def.h>
+#include <AknLayout2Def.h>
 #include <aknlayout2datadef.h>
 
 class CBCTestDomAdapter: public CBase

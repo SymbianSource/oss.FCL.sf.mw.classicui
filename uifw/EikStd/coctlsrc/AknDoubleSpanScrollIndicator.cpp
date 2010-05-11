@@ -93,13 +93,13 @@ void CAknDoubleSpanScrollIndicator::Draw(const TRect& /*aRect*/) const
 
     DrawTiled(gc, iHandleRect, handleBar);
     }
+
 void CAknDoubleSpanScrollIndicator::UpdateScrollBarLayout()
     {
     iHeadItemSize = 12;
-    iMidItemSize = 12 * 5;
     iTailItemSize = 12;
     
-    TRect rect = Rect();
+    TRect rect( Rect() );
     if(rect.IsEmpty())
         {        
         return;
@@ -114,18 +114,13 @@ void CAknDoubleSpanScrollIndicator::UpdateScrollBarLayout()
     TAknLayoutRect layRect;
     TAknWindowComponentLayout layout = AknLayoutScalable_Avkon::scroll_bg_pane_g1( varietyIndex ); //top
     layRect.LayoutRect( rect, layout.LayoutLine() );    
-    TSize newSize = layRect.Rect().Size();  
+    TSize newSize( layRect.Rect().Size() );  
     iHeadItemSize = (iOrientation == CEikScrollBar::EVertical?newSize.iHeight:newSize.iWidth);
     
     layout = AknLayoutScalable_Avkon::scroll_bg_pane_g3(varietyIndex); // bottom
     layRect.LayoutRect(rect, layout.LayoutLine());
     newSize = layRect.Rect().Size();
     iTailItemSize =  (iOrientation == CEikScrollBar::EVertical?newSize.iHeight:newSize.iWidth);
-        
-    layout = AknLayoutScalable_Avkon::scroll_bg_pane_g2(varietyIndex); //middle
-    layRect.LayoutRect(rect, layout.LayoutLine());
-    newSize = layRect.Rect().Size();    
- //   iMidItemSize = (iOrientation == CEikScrollBar::EVertical?newSize.iHeight:newSize.iWidth) * 5;
     }
 
 void CAknDoubleSpanScrollIndicator::DrawTiled(
@@ -155,7 +150,7 @@ void CAknDoubleSpanScrollIndicator::DrawTiled(
         midRect.iTl.iY += headRect.Height();
         midRect.iBr.iY -= tailRect.Height();
         midDrawLength = midRect.Height();
-        midSize.SetSize(midRect.Width(), iMidItemSize);
+        midSize.SetSize(midRect.Width(), midDrawLength);
         }
     else
         {
@@ -165,7 +160,7 @@ void CAknDoubleSpanScrollIndicator::DrawTiled(
         midRect.iTl.iX += iHeadItemSize;
         midRect.iBr.iX -= iTailItemSize;
         midDrawLength = midRect.Width();
-        midSize.SetSize(iMidItemSize, midRect.Height());
+        midSize.SetSize(midDrawLength, midRect.Height());
         }
    
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
@@ -175,28 +170,20 @@ void CAknDoubleSpanScrollIndicator::DrawTiled(
     AknsUtils::GetCachedMaskedBitmap(skin, aIndicatorItem->iTopId, bmp, mask);
     AknIconUtils::SetSize(bmp, headRect.Size(), EAspectRatioNotPreserved);
     AknIconUtils::SetSize(mask, headRect.Size(), EAspectRatioNotPreserved);
-    aGc.BitBltMasked(headRect.iTl, bmp, TRect(TPoint(0, 0), headRect.Size()), mask, ETrue);
+    aGc.BitBltMasked(headRect.iTl, bmp, TRect(headRect.Size()), mask, ETrue);
     
     AknsUtils::GetCachedMaskedBitmap(skin, aIndicatorItem->iMidId, bmp, mask);
     AknIconUtils::SetSize(bmp, midSize, EAspectRatioNotPreserved);
     AknIconUtils::SetSize(mask, midSize, EAspectRatioNotPreserved);
 
-    TInt count = midDrawLength / iMidItemSize;
     TPoint destPos(midRect.iTl.iX, midRect.iTl.iY);
-    TRect sourRect(TPoint(0, 0), bmp->SizeInPixels());
-    for(TInt i = 0; i < count; i++)
-        {
-        aGc.BitBltMasked(destPos, bmp, sourRect, mask, ETrue);
-        iOrientation == CEikScrollBar::EVertical?destPos.iY += iMidItemSize : destPos.iX += iMidItemSize;
-        }
-    iOrientation == CEikScrollBar::EVertical?sourRect.iBr.iY = midRect.Height() % iMidItemSize
-                    :sourRect.iBr.iX = midRect.Width() % iMidItemSize;
+    TRect sourRect(bmp->SizeInPixels());
     aGc.BitBltMasked(destPos, bmp, sourRect, mask, ETrue);
 
     AknsUtils::GetCachedMaskedBitmap(skin, aIndicatorItem->iBottomId, bmp, mask);
     AknIconUtils::SetSize(bmp, tailRect.Size(), EAspectRatioNotPreserved);
     AknIconUtils::SetSize(mask, tailRect.Size(), EAspectRatioNotPreserved);
-    aGc.BitBltMasked(tailRect.iTl, bmp, TRect(TPoint(0, 0), tailRect.Size()), mask, ETrue);
+    aGc.BitBltMasked(tailRect.iTl, bmp, TRect(tailRect.Size()), mask, ETrue);
     }
 
 void CAknDoubleSpanScrollIndicator::CalculateRects()
@@ -258,21 +245,9 @@ void CAknDoubleSpanScrollIndicator::CalculateRects()
         scrollBarHeightInPixels = iBackgroundRect.Height();
         }
     
-    // The code block below was probably used to prevent
-    // a truncation-vs-rounding error from happening
-    /*
-    if ((checkedWindowSize > 0) && (checkedScrollSpan > 0))
-        {
-        if((checkedFocusPosition + checkedWindowSize) == checkedScrollSpan)
-            windowSizeInPixels = scrollBarHeightInPixels - focusPositionInPixels;
-        else
-            windowSizeInPixels = scrollBarHeightInPixels*checkedWindowSize/checkedScrollSpan;
-        }
-    */
-    
     TInt windowSizeInPixels = 
         Max( checkedWindowSize * scrollBarHeightInPixels / checkedScrollSpan,
-             HandleBackgroundMinSizeInPixels() );
+                iHandleMinSize );
     
     TInt roomForMovementInSpan   = checkedScrollSpan - checkedWindowSize;
     TInt roomForMovementInPixels = 
@@ -289,28 +264,25 @@ void CAknDoubleSpanScrollIndicator::CalculateRects()
 
     // If window would cover whole scrollbar, then modify 
     // it to leave the thumb little short from bottom
-    TInt scrollBarHandleMaxSizeInPixels =  ScrollHandleMaxVisibleSizeInPixels();
+    TInt scrollBarHandleMaxSizeInPixels =  iHandleMaxSize;
+
     if (windowSizeInPixels >= scrollBarHeightInPixels)
         {
         windowSizeInPixels = scrollBarHandleMaxSizeInPixels;    
         }
 
     TBool doubleSpanInUse = (checkedFieldPosition >= 0) && (checkedFieldSize > 0);
-    TInt minHandleBackgroundSize = 0;
+    TInt minHandleBackgroundSize = iHandleMinSize;
     TInt fieldSizeInPixels = 0; // sub field size
     TInt fieldPositionInPixels = 0;
+    TInt handleMinSize = iHandleMinSize;
+
     if (doubleSpanInUse)
         {
         fieldSizeInPixels = windowSizeInPixels/checkedFieldSize;
         fieldPositionInPixels = windowSizeInPixels*checkedFieldPosition/checkedFieldSize;
-        minHandleBackgroundSize = HandleBackgroundMinSizeInPixels();
         }
-    else
-        {
-        minHandleBackgroundSize = HandleMinSizeInPixels();
-        }
-    
-    TInt handleMinSize = HandleMinSizeInPixels();
+
     // Similar compensation for handle if double span is in use
     if (doubleSpanInUse && (fieldSizeInPixels < handleMinSize))
         {
@@ -496,10 +468,11 @@ void CAknDoubleSpanScrollIndicator::SizeChanged()
         {
         iOldRect = rect;        
         AknsUtils::RegisterControlPosition( this );
+        iHandleMinSize = HandleMinSizeInPixels();
+        iHandleMaxSize = HandleMaxSizeInPixels();
         CalculateRects();
-
         UpdateScrollBarLayout();
-        
+
         if (IsVisible() & iOwnsWindow)
             DrawDeferred();
         }
@@ -520,14 +493,9 @@ void CAknDoubleSpanScrollIndicator::SetIndicatorValues(TInt aScrollSpan, TInt aF
     iWindowSize = aWindowSize;
     iFieldPosition = aFieldPosition;
     iFieldSize = aFieldSize;
-    
+
     // Calculate the sizes for graphics
     CalculateRects();            
-    if( iWindowSize > 0 )
-        {   
-        // layout handle graphics
-        LayoutHandleGraphics();
-        }
     }
 
 TInt CAknDoubleSpanScrollIndicator::ScrollSpan()
@@ -682,9 +650,10 @@ TInt CAknDoubleSpanScrollIndicator::IndicatorWidth()
         return layRect.Rect().Width();
     }
 
-TInt CAknDoubleSpanScrollIndicator::ScrollHandleMaxVisibleSizeInPixels()
+
+TInt CAknDoubleSpanScrollIndicator::HandleMaxSizeInPixels()
     {
-    TRect scbRect = Rect();
+    TRect scbRect( Rect() );
     if ( iOrientation == CEikScrollBar::EHorizontal )
         scbRect.SetRect(scbRect.iTl, TSize(scbRect.Height(), scbRect.Width()));
     
@@ -694,10 +663,6 @@ TInt CAknDoubleSpanScrollIndicator::ScrollHandleMaxVisibleSizeInPixels()
     return layRect.Rect().Height();
     }
 
-TInt CAknDoubleSpanScrollIndicator::HandleBackgroundMinSizeInPixels()
-    {
-    return HandleMinSizeInPixels();
-    }
 
 TInt CAknDoubleSpanScrollIndicator::HandleMinSizeInPixels()
     {
@@ -734,8 +699,8 @@ TBool CAknDoubleSpanScrollIndicator::DrawBackgroundState()
 void CAknDoubleSpanScrollIndicator::DrawBackground() const
     {
     CWindowGc& gc=SystemGc();
-    TPoint pos = Position();
-    TRect rect = Rect();
+    TPoint pos( Position() );
+    TRect rect( Rect() );
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
     
@@ -761,56 +726,6 @@ void CAknDoubleSpanScrollIndicator::DrawBackground() const
         }
     }
 
-void CAknDoubleSpanScrollIndicator::LayoutHandleGraphics()
-    {
-    
-    // We layout the handle middle graphics here according to the given inidcator values
-    TRect rect = Rect();
-    
-    if (!iHandleBar || rect.IsEmpty())
-        return;
-    
-    TInt varietyIndex = 0;
-    TInt varietyIndexForHandle = 0;
-    if (iOrientation == CEikScrollBar::EHorizontal)
-        {        
-        varietyIndex = 1;
-        varietyIndexForHandle = 2;
-        }
-    
-    TAknLayoutRect layRect;
-    TAknWindowComponentLayout // layout handle bottom & top as they do not scale according to handle size
-    layout = AknLayoutScalable_Avkon::scroll_handle_pane(varietyIndexForHandle); // handle (the shadow if two handles)
-    layRect.LayoutRect(rect, layout.LayoutLine());
-    layout = AknLayoutScalable_Avkon::scroll_handle_focus_pane(varietyIndex); // focus handle
-    // The horizontal data for focus handle is missing so switch the values from the vertical data
-    TAknWindowLineLayout layoutLine = layout.LayoutLine();
-    if (iOrientation == CEikScrollBar::EHorizontal)
-        {
-        TInt height = layoutLine.iH;
-        TInt width = layoutLine.iW;
-        layoutLine.iW = height;
-        layoutLine.iH = width;
-        }
-    layRect.LayoutRect(layRect.Rect(), layoutLine);
-    rect = layRect.Rect(); // parent rect is now the focus handle
-    
-    // the retangle includes the variated length of the middle, 
-    // the top and bottom graphics must subtracted from the value
-    
-    // do not change the handle retangle, the full size is needed in drawing
-    // set the width or height to be correct
-    if (iOrientation == CEikScrollBar::EVertical)
-        {
-        iHandleRect.iTl.iX = rect.iTl.iX;
-        iHandleRect.iBr.iX = rect.iBr.iX;
-        }
-    else
-        {
-        iHandleRect.iTl.iY = rect.iTl.iY;
-        iHandleRect.iBr.iY = rect.iBr.iY;
-        }
-    }
 
 TInt CAknDoubleSpanScrollIndicator::GetCurrentThumbSpanInPixels()
     {

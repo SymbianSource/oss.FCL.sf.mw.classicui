@@ -146,17 +146,6 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
         iPressedDown = EFalse;              
         TPoint adjustedPosition( aPointerEvent.iPosition + TPoint(0, Offset() ) );
         TInt item = iPopUpMenuContent->ContainingItem( adjustedPosition );
-        if ( item != KNoItemSelected )
-            {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-                feedback->InstantFeedback( NULL,
-                                           ETouchFeedbackList,
-                                           ETouchFeedbackVibra,
-                                           aPointerEvent );
-                }
-            }
  
         TPoint distance( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
         if ( iPhysics->StartPhysics( distance, iStartTime ) )
@@ -170,6 +159,15 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
             {
             if ( iViewRect.Contains( aPointerEvent.iPosition ) )
                 {
+                if( AknLayoutUtils::PenEnabled() )
+                    {
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if( feedback )
+                        {
+                        feedback->InstantFeedback( NULL, ETouchFeedbackList,
+                                            ETouchFeedbackVibra, aPointerEvent );
+                        }
+                    }
                 iPopUpMenuContent->SelectItemL( 
                         iPopUpMenuContent->CurrentItem() );
                 }

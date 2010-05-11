@@ -22,7 +22,7 @@
 #include <stifparser.h>
 #include <stiftestinterface.h>
 #include <testsdkbuttons.rsg>
-#include <aknsconstants.h>
+#include <AknsConstants.h>
 #include <avkon.hrh>
 #include <avkon.rsg>
 

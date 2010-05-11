@@ -225,7 +225,16 @@ EXPORT_C void CAknTransparentCameraSettingPage::ConstructL()
 
     // Set the current "pushed in" indication
     if ( iCurrentSelectionIndex != -1 )
-        listBox->View()->SelectItemL( iCurrentSelectionIndex );
+    	{
+    	//
+    	// SelectItemL make the view item drawn by default, SetDisableRedraw can remove flick
+    	//
+    	TBool bRedrawDisabled = listBox->View()->RedrawDisabled();
+    	listBox->View()->SetDisableRedraw( ETrue );
+
+    	listBox->View()->SelectItemL( iCurrentSelectionIndex );
+    	listBox->View()->SetDisableRedraw( bRedrawDisabled );
+    	}
 
     // Set the scroller indication off
     listBox->CreateScrollBarFrameL(ETrue);
@@ -235,7 +244,9 @@ EXPORT_C void CAknTransparentCameraSettingPage::ConstructL()
     listBox->UpdateScrollBarsL();
     
     if(!IsBackgroundDrawingEnabled())
-            listBox->ScrollBarFrame()->DrawBackground(EFalse, EFalse);
+    	{
+    	listBox->ScrollBarFrame()->DrawBackground(EFalse, EFalse);	
+    	}
     
 
     // Force a size changed

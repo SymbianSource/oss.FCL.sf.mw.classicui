@@ -49,7 +49,8 @@ enum TAknDiscreetPopupControlFlags
     EPressedDown,     // Pointer down is received in popup area
     EDismissed,       // Popup is dismissed (pointer up is received in popup area)
     EGlobal,          // Popup is global
-    EDragged          // Pointer is dragged while popup open
+    EDragged,         // Pointer is dragged while popup open
+    EStartTimerAgain  // Start timer again when timer is out and keep pressing  
     };
 
 
@@ -412,13 +413,19 @@ void CAknDiscreetPopupControl::ConstructFromResourceL(
 void CAknDiscreetPopupControl::DoTimeOut()
     {
 	_AKNTRACE_FUNC_ENTER;
-    if ( !iInternalFlags.IsSet( EPressedDown ) )
+    if ( !iInternalFlags.IsSet( EPressedDown ) || 
+    	 iInternalFlags.IsSet( EStartTimerAgain ) )
         {
         TRAP_IGNORE( RequestExitL() );
         }
     else
         {
         iTimer->Cancel();
+        // if time is out and keep pressing, start short timer again.
+        iInternalFlags.Set( EStartTimerAgain );
+        iTimer->Start( KShortTimeout, 
+                       0, 
+                       TCallBack( TimeOut, this ) );
         }
 	_AKNTRACE_FUNC_EXIT;
     }
@@ -438,6 +445,7 @@ void CAknDiscreetPopupControl::RequestExitL()
         }
     HidePopup();
     ReportEventL( MCoeControlObserver::EEventRequestExit );
+    iInternalFlags.Clear( EStartTimerAgain );
     iInternalFlags.Clear( EPressedDown );
     _AKNTRACE_FUNC_EXIT;
     }
@@ -763,52 +771,46 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
     {
     TBool eventInRect( Rect().Contains( aPointerEvent.iPosition ) );
     
-    // The discreet popup which is global won't handle pointer event if there is notifier be popping up.
-    if( !iInternalFlags.IsSet( EGlobal ) || iCoeEnv->RootWin().OrdinalPriority() < ECoeWinPriorityAlwaysAtFront ) 
+    // Pointer down - set pressed-down state (popup completely visible while
+    // pressed-down)
+    if ( aPointerEvent.iType == TPointerEvent::EButton1Down 
+         && eventInRect
+         && iInternalFlags.IsClear( EDismissed ) )
         {
-        // Pointer down - set pressed-down state (popup completely visible while
-        // pressed-down)
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down 
-        	 && eventInRect
-             && iInternalFlags.IsClear( EDismissed ) )
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Down" );
+        SetPressedDownState( ETrue );
+        ImmediateFeedback( ETouchFeedbackSensitive );
+        }
+
+    // Pointer drag - reset pressed-down state if pointer out of popup area
+    else if ( aPointerEvent.iType == TPointerEvent::EDrag )
+        {
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EDrag" );
+        iInternalFlags.Set( EDragged );
+        if ( !eventInRect && iInternalFlags.IsSet( EPressedDown ) )
             {
-            _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Down" );
-            SetPressedDownState( ETrue );
-            ImmediateFeedback( ETouchFeedbackSensitive );
+            iInternalFlags.Clear( EPressedDown );
             }
-    
-        // Pointer drag - reset pressed-down state if pointer out of popup area
-        else if ( aPointerEvent.iType == TPointerEvent::EDrag )
+        else if ( eventInRect && !iInternalFlags.IsSet( EPressedDown ) )
             {
-            _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EDrag" );
-            iInternalFlags.Set( EDragged );
-            if ( !eventInRect && iInternalFlags.IsSet( EPressedDown ) )
-                {
-                iInternalFlags.Clear( EPressedDown );
-                }
-            else if ( eventInRect && !iInternalFlags.IsSet( EPressedDown ) )
-                {
-                iInternalFlags.Set( EPressedDown );
-                }
-            }
-    
-        // Pointer up - reset pressed-down state 
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {        
-            _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Up" );
-            if ( eventInRect )
-                {
-                NotifyObserverL();
-                }        
-            // Start fading away
-            if ( iInternalFlags.IsClear( EDismissed ) )
-                {
-                iInternalFlags.Set( EDismissed );
-                RequestExitL();
-                }
-            SetPressedDownState( EFalse );
+            iInternalFlags.Set( EPressedDown );
             }
         }
 
+    // Pointer up - reset pressed-down state 
+    else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+        {        
+        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Up" );
+        if ( eventInRect )
+            {
+            NotifyObserverL();
+            }        
+        // Start fading away
+        if ( iInternalFlags.IsClear( EDismissed ) )
+            {
+            iInternalFlags.Set( EDismissed );
+            RequestExitL();
+            }
+        SetPressedDownState( EFalse );
+        }
     }
-

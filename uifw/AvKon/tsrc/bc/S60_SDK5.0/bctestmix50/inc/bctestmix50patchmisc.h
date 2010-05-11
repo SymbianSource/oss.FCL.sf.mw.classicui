@@ -38,7 +38,7 @@
 #include <COECOBS.H>
 #include <eikfnlab.h>
 #include <maknfilefilter.h>
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 #include <AknsItemData.h>
 #include <AknNoteDialog.h>
 

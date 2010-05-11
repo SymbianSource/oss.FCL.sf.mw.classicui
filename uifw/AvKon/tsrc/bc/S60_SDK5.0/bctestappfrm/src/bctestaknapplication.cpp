@@ -14,7 +14,7 @@
 * Description:
 *
 */
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 #include <aknapp.h>
 #include <eikenv.h>
 #include <eikappui.h>
