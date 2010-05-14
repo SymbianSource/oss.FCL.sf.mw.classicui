@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description: 
+* Description:  
 *
 */
 
@@ -55,9 +55,6 @@
 #include "finditem.hrh"
 #include <FindItemui.rsg>
 #include <aknnotewrappers.h>
-
-// add to gallery related
-#include <AknCommonDialogs.h>
 
 #include <featmgr.h>
 
@@ -1365,35 +1362,7 @@ void CFindItemMenu::CreateContactCardL( TInt aCommandId )
 
 void CFindItemMenu::AddToGalleryL()
     {
-    _LIT( KRamFileExtension,".ram" );
-    TFileName fileName;
-    iCoeEnv->ReadResourceL( fileName, R_FINDITEMMENU_DEFAULT_GALL_NAME );
-    fileName.Append( KRamFileExtension );
-    if ( AknCommonDialogs::RunSaveDlgLD(
-        fileName, R_MEMORY_SELECTION_LOCATIONS ) )
-        {
-        CDesCArrayFlat* array = new (ELeave)CDesCArrayFlat( 1 );
-        CleanupStack::PushL( array );
-        array->AppendL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-        TInt err = KErrNone;
-        if( !iMPEngineDllLoaded )
-            {
-            LoadMPEngineApiL();
-            }
-        err = iMPEngineApi->CreateNewLinkFileL( fileName, array, ETrue );
-        CleanupStack::PopAndDestroy( 1 );
-
-        if ( err == KErrNone )
-            {
-            // Show note
-            HBufC* msgBuffer =
-                iCoeEnv->AllocReadResourceLC( R_FINDITEMMENU_LINK_SAVED );
-            CAknConfirmationNote* note =
-                new (ELeave) CAknConfirmationNote( ETrue );
-            note->ExecuteLD( *msgBuffer );
-            CleanupStack::PopAndDestroy(); // msgBuffer
-            }
-        }
+    //no need to do anything ,due to the remove of AknCommonDialogs
     }
 
 EXPORT_C void CFindItemMenu::SetSenderDescriptorType(

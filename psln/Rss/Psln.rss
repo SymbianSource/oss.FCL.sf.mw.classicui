@@ -37,8 +37,6 @@ NAME    PSLN // 4 letter ID
 
 // Commands etc.
 #include <AvkonIcons.hrh>
-#include <CommonDialogs.rh>
-#include <CommonDialogs.hrh>
 #include <data_caging_paths_strings.hrh>
 
 // Localized texts.

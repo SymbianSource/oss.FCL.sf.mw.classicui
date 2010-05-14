@@ -30,7 +30,6 @@ NAME MIXM
 #include <avkonicons.hrh>
 
 #include <appinfo.rh>
-#include <commondialogs.rh>
 
 #include "bctestmixmcl.hrh"
 #include "bctestmixmcl.loc"

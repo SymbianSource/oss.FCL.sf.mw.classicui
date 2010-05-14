@@ -30,7 +30,6 @@ NAME MIX5
 #include <avkonicons.hrh>
 
 #include <appinfo.rh>
-#include <commondialogs.rh>
 
 #include "bctestmix50.hrh"
 #include "bctestmix50.loc"
@@ -1126,19 +1125,6 @@ RESOURCE BCTouchPane r_bctest_mix50patch_touchpane
     flags = 0;
     }
 
-//----------------------------------------------------------------------------
-//    r_bctest_mix50patch_touchpane
-//    
-//----------------------------------------------------------------------------
-//
-RESOURCE MEMORYSELECTIONDIALOG r_bctest_mix50patch_memory_selection_locations
-    {
-    locations =
-        {
-        LOCATION { root_path = PHONE; },
-        LOCATION { root_path = MMC; }
-        };
-    }
 
 //-----------------------------------------------------------------------------
 //

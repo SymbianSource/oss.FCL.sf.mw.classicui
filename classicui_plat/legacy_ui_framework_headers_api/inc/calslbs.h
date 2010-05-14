@@ -22,7 +22,7 @@
 #ifndef __CALSLBS_H__
 #define __CALSLBS_H__
 
-#include <aknutils.h>
+#include <AknUtils.h>
 
 #endif
 

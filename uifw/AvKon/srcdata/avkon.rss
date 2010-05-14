@@ -35,8 +35,8 @@ NAME AVKN
 #include <aknsconstants.hrh>
 
 #include <smiley.mbg>
-#include <trui_icons.mbg>
-#include <peninputcommonctrls.loc>
+//#include <trui_icons.mbg>
+//#include <peninputcommonctrls.loc>
 
 RESOURCE RSS_SIGNATURE { }
 

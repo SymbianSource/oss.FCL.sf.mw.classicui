@@ -1,4 +1,4 @@
-// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -605,96 +605,45 @@ TBool CCtlContainer::TestSetUniqueHandleOOM()
 	delete child ;
 	return ( err == KErrNoMemory ) ;
 	}
-	
-NONSHARABLE_CLASS(RDebugHeap) : public RHeap
-	{
-public:
-	static bool OOMTrigered() 
-		{
-		RDebugHeap& heap = STATIC_CAST(RDebugHeap&,User::Heap());
-		return (!(heap.iFailAllocCount%heap.iFailRate) && (RAllocator::ENone == heap.iFailType));
-		}
-	static bool OOMComplete() 
-		{
-		RDebugHeap& heap = STATIC_CAST(RDebugHeap&,User::Heap());
-		return ((RAllocator::EFailNext == heap.iFailType) && (heap.iFailAllocCount%heap.iFailRate));
-		}
-	};
 
+// Check that we can still insert into the array even when OOM
 TBool CCtlContainer::TestInsertAfter()
-	{
-	_LIT(KNameDes, "child3");
-	CCtlContainee* child = NULL;
+    {
+    _LIT(KNameDes, "child3");
+    CCtlContainee* child = NULL;
+    TInt err;
 
-	TInt err;
-	TInt oomCount = 1;
+    TRAP(err,
+        {
+        child = new (ELeave) CCtlContainee;
+        child->ConstructL(KNameDes);
+        });
+    
+    if(err ==KErrNone)
+        {
+        // Now check that the next insert succeeds even when OOM
+        __UHEAP_FAILNEXT(1);
+        
+        TRAP(err,
+            {
+            Components().InsertAfterLC(KChildOneID, child, KChildFiveID);
+            CleanupStack::Pop(child);
+            });
+            
+        __UHEAP_RESET;
+        
+        if(err == KErrNone)
+            {
+            if(Components().At(1).iId == KChildFiveID)
+                {
+                return ETrue;   // Insert succeeded, test has passed
+                }
+            }
+        }
 
-#ifdef __WINS__
-	while(oomCount < 100)
-		{
-		__UHEAP_FAILNEXT(oomCount);
-		err = KErrNone;
-#endif
-		TRAP(err,
-			{
-			child = new (ELeave) CCtlContainee;
-			Components().InsertAfterLC(KChildOneID, child, KChildFiveID);
-			child->ConstructL(KNameDes);
-			CleanupStack::Pop(child);
-			});
-#ifdef __WINS__
-		if (RDebugHeap::OOMTrigered())
-			{
-			__UHEAP_RESET;
-			if(err == KErrNone)
-				{
-				if(Components().At(1).iId != KChildFiveID)
-					{
-					return EFalse;
-					}
-				Components().Remove( child );
-				delete child;
-				}
-			if(Components().At(1).iId == KChildFiveID)
-				{
-				return EFalse;
-				}
-			if(err != KErrNone && err != KErrNoMemory)
-				{
-				return EFalse;
-				}
+    return EFalse;   // An error has occurred, fail the test
+    }
 
-			// If we get to here, it was a properly-handled OOM situation
-			oomCount++;
-			}
-		else if(RDebugHeap::OOMComplete())
-			{
-			__UHEAP_RESET;
-			break;
-			}
-		else
-			{
-			__UHEAP_RESET;
-			return EFalse;
-			}
-		}
-#endif
-	if (err == KErrNone && oomCount != 100)
-		{
-		if (Components().At(1).iId == KChildFiveID)
-			{
-			return ETrue;
-			}
-		else
-			{
-			return EFalse;
-			}
-		}
-	else
-		{
-		return EFalse;
-		}
-	}
 
 //Tests the Insertion of the control after the last control using InsertAfterLC 
 TBool CCtlContainer::TestInsertLast()

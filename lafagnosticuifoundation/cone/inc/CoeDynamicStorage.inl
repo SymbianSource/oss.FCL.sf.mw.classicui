@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -57,7 +57,7 @@ class RCoeDynamicDataStorage
 	{
 public:
 	RCoeDynamicDataStorage();
-	void Open();
+	TInt Open();
 	void Close();
 	TInt Count() const;
 	void ResetCount();
@@ -98,17 +98,22 @@ RCoeDynamicDataStorage::RCoeDynamicDataStorage()
 	ResetCount();
 	}
 
-void RCoeDynamicDataStorage::Open()
+TInt RCoeDynamicDataStorage::Open()
 	{
 	ASSERT(!iDynamicData);
-	ReserveData();
-	
+	TInt err = ReserveData();
+
 #ifdef PROFILE_MEMORY
-	MEMORY_SAVED += KCurrentNumberOfOptionalVaraiblesInCCoeControl*sizeof(TAny*);
-	MEMORY_SAVED -= sizeof(RCoeDynamicDataStorage);
-#endif	
+	if (err==KErrNone)
+		{
+		MEMORY_SAVED += KCurrentNumberOfOptionalVaraiblesInCCoeControl*sizeof(TAny*);
+		MEMORY_SAVED -= sizeof(RCoeDynamicDataStorage);
+		}
+#endif
+
+	return err;
 	}
-	
+
 void RCoeDynamicDataStorage::Close()
 	{
 #ifdef PROFILE_MEMORY
@@ -181,14 +186,14 @@ TInt RCoeDynamicDataStorage::SetData(TInt aSlotIndex, TAny* aAny)
 
 inline TAny* RCoeDynamicDataStorage::Data(TInt aSlotIndex, TAny* aDefaultValue) const
 	{
-	if(!this)
+	if (!this)
 		return aDefaultValue;
-		
+
 	const TInt dataIndex = DataIndex(aSlotIndex);
-	if(dataIndex != KUndefinedIndex)
+	if (dataIndex!=KUndefinedIndex && iDynamicData!=NULL)	//Defensive Code
 		return iDynamicData[dataIndex];
 	else
-		return aDefaultValue;	
+		return aDefaultValue;
 	}
 
 inline TInt RCoeDynamicDataStorage::DataIndex(TInt aSlotIndex) const

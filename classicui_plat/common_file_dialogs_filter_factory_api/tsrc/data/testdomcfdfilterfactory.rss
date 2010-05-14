@@ -22,9 +22,6 @@ NAME    TEST
 #include <avkon.rh>
 #include <eikon.rh>
 
-#include <CommonDialogs.hrh> // Enumerations
-#include <CommonDialogs.rh> // Resource structures
-
 RESOURCE RSS_SIGNATURE
     {
     }
@@ -33,20 +30,3 @@ RESOURCE TBUF
     buf = "";
     }
 
-// ---------------------------------------------------------------------------
-// r_test_file_filter_factory
-// ---------------------------------------------------------------------------
-//
-RESOURCE FILTER r_test_attribute_filter_factory
-    {
-        filter_type = EAttributeFilter;
-        filter_style = EExclusiveFilter;
-        filter_data = { "SH", "R" }; // Excludes system, hidden and read-only attributes        
-    }
-
-RESOURCE FILTER r_test_filename_filter_factory
-    {
-        filter_type = EFilenameFilter;
-        filter_style = EExclusiveFilter;
-        filter_data = { "*.jpg", "*.gif" }; // Excludes system, hidden and read-only attributes        
-    }

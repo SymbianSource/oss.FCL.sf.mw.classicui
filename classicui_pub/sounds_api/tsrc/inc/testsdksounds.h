@@ -28,10 +28,6 @@
 #include <aknsoundinfo.h>
 #include <coemain.h>
 #include <coeaui.h>
-#include <caknmemoryselectionsettingpage.h>
-#include <caknfilenamepromptdialog.h>
-#include <maknfileselectionobserver.h>
-#include <caknfileselectiondialog.h>
 
 #include <aknsoundsystem.h>
 

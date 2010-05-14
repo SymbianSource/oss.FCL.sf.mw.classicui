@@ -72,15 +72,6 @@ TInt CTestDOMCFDFilterFactory::TestFFFCreateAttributeFilterLC( CStifItemParser& 
     // Print to log file
     iLog->Log( KTestFFFCreateAttributeFilterLC );
 
-    MAknFileFilter* fileFilter;
-    TResourceReader reader;
-    CCoeEnv::Static()->CreateResourceReaderLC( reader, R_TEST_ATTRIBUTE_FILTER_FACTORY );
-        
-    fileFilter = AknFileFilterFactory::CreateFilterLC( reader );
-    STIF_ASSERT_NOT_NULL( fileFilter );
-    CleanupStack::Pop();
-    CleanupStack::PopAndDestroy();
-    
     return KErrNone;
     }
 
@@ -98,15 +89,6 @@ TInt CTestDOMCFDFilterFactory::TestFFFCreateFilenameFilterLC( CStifItemParser& /
     // Print to log file
     iLog->Log( KTestFFFCreateFilenameFilterLC );
 
-    MAknFileFilter* fileFilter;
-    TResourceReader reader;
-    CCoeEnv::Static()->CreateResourceReaderLC( reader, R_TEST_FILENAME_FILTER_FACTORY );
-        
-    fileFilter = AknFileFilterFactory::CreateFilterLC( reader );
-    STIF_ASSERT_NOT_NULL( fileFilter );
-    CleanupStack::Pop();
-    CleanupStack::PopAndDestroy();
-    
     return KErrNone;
     }
 

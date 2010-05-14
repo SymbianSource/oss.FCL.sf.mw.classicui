@@ -1,4 +1,4 @@
-// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -48,12 +48,13 @@ class CTestCone2Control : public CCoeControl
 	{
 public:
 	DECLARE_TYPE_ID(0x10004C77)
-    void ConstructL();
+	void ConstructL();
+	TInt CreateWindow();
 private: // from CCoeControl
 	void MakeVisible(TBool aVisible);
 public:
-    TBool iDisplayed;
-    };
+	TBool iDisplayed;
+	};
 
 
 //! A CCoeControl Derived Class.\n
@@ -97,7 +98,8 @@ public:
 	void TestConeInputCapabilitiesAPIs();
 	void TestReadResourceAPIsL();
 	void TestSetandGetCCoeControlAPIsL();
-	CTestExecuteLogger& Logger(){return iStep->Logger();};
+	void TestLowMemoryCoeControl();
+	inline CTestExecuteLogger& Logger() {return iStep->Logger();}
 private:
 	//! Handle to AppUi Class.\n
 	CCoeAppUi& iAppUi;

@@ -3,7 +3,7 @@
 *  Name        : bctestdomaknctrlcase.h
 *  Part of     : BCTest / bctestdomaiwakn       
 *  Description : declaration of test case
-*  Version     : %version: 1 % << Don't touch! Updated by Synergy at check-out.
+*  Version     : %version: be1nfmx1#1.1.1 % << Don't touch! Updated by Synergy at check-out.
 *
 *  Copyright © 2007.  All rights reserved.
 *  This material, including documentation and any related computer
@@ -133,12 +133,6 @@ protected:
      */
     void TestAknCharMap(); //Ctrl  
 
-    /**
-     * Test functions
-     *
-     * @since S60 v5.0            
-     */
-    void TestAknFileFilterFactory(); //Not Ctrl  
                           
     /**
      * Test functions
