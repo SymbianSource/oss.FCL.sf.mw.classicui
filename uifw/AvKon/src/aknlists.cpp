@@ -3413,7 +3413,9 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         formattedCellData->SetStretchableGraphicSubCellL(
             5,
             AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) ,
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g4( 0 ) );
+            // darios: list_double_graphic_pane_vc_g4 is not defined
+			//AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g4( 0 ) );
+			AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) );
             
 
         // On default new cell is always drawn but this cell should NOT be drawn!
