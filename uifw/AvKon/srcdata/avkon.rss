@@ -10034,6 +10034,11 @@ RESOURCE AVKON_SCT_NAVI_BUTTONS r_avkon_sct_page_navi_control
         {
         AVKON_SCT_NAVI_BUTTON
             {
+            id = EAknSctTableNaviExit;
+            button = r_avkon_sct_navi_table_exit_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
             id = EAknSctPageNaviPrevPage;
             button = r_avkon_sct_navi_prev_page_button;
             },
@@ -10041,6 +10046,16 @@ RESOURCE AVKON_SCT_NAVI_BUTTONS r_avkon_sct_page_navi_control
             {
             id = EAknSctPageNaviNextPage;
             button = r_avkon_sct_navi_next_page_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
+            id = EAknSctTableNaviSpecialChar;
+            button = r_avkon_sct_navi_table_special_char_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
+            id = EAknSctTableNaviEmotion;
+            button = r_avkon_sct_navi_table_emotion_button;
             }
         };
     }

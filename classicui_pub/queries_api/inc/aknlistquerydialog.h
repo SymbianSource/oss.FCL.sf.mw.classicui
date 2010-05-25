@@ -282,13 +282,6 @@ class CAknListQueryDialog : public CAknQueryDialog,
          */
         IMPORT_C CAknSearchField* FindBox() const;
         
-    private:
-        /**
-        * Returns whether the left softkey is shown
-        * @return ETrue If the left softkey is shown
-        */
-        TBool IsLeftSoftkeyShown();
-        
     public:
         /** 
          * Sets the tone for the dialog.

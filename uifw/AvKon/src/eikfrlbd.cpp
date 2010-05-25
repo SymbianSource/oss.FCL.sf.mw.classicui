@@ -59,6 +59,10 @@ const TInt KMaxSubCellIndex = 16 + 1;
 // colored tick marks support
 const TInt KColorIconFlag = -1;
 const TInt KColorIconIdx  =  0;
+
+// Number of icons in marking mode icon array
+const TInt KMarkingModeIconArraySize = 2;
+
 // smiley text place holder
 _LIT( KPlaceHolder, "\xFFF0i" );
 
@@ -1329,7 +1333,8 @@ void CFormattedCellListBoxDataExtension::LoadMarkingIconsL()
     {
     if ( !iMarkingIconArray )
         {
-        iMarkingIconArray = new ( ELeave ) CAknIconArray( 2 );
+        iMarkingIconArray = new ( ELeave ) CAknIconArray( 
+                KMarkingModeIconArraySize );
         }
     else
         {
@@ -2477,45 +2482,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
     __ASSERT_DEBUG( iExtension, Panic( EAknPanicNullPointer ));
     
     TRect textRect(aItemRect);
-    
-    CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
-    
-    if ( listbox->View()->ItemDrawer()->Flags() 
-            & CListItemDrawer::EMarkingModeEnabled 
-            && iExtension->iMarkingIconArray
-            &&  iExtension->iMarkingIconArray->Count() == 2 )
-        {
-        textRect.iTl.iX += 
-                AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ).LayoutLine().il;
-
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect( aItemRect, 
-                AknLayoutScalable_Avkon::list_double_graphic_pane_g1( 0 ) );
-        
-        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
-
-        if ( listbox->View()->ItemIsSelected( 
-                iExtension->iCurrentlyDrawnItemIndex ) )
-            {
-            icon = (*iExtension->iMarkingIconArray)[0];
-            }
-        
-        CFbsBitmap* bitmap = icon->Bitmap();
-
-        if ( bitmap )
-            {
-            TSize size( bitmap->SizeInPixels() ); // set size if not already
-            TSize targetSize( layoutRect.Rect().Size() );
-            
-            if ( size.iWidth != targetSize.iWidth && size.iHeight != targetSize.iHeight )
-                {
-                AknIconUtils::SetSize( bitmap, targetSize,
-                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
-                }
-
-            aGc.BitBltMasked( layoutRect.Rect().iTl, bitmap, TRect( layoutRect.Rect().Size() ), icon->Mask(), EFalse );
-            }
-        }
+    DrawMarkingModeIcons( aProperties, aGc, textRect );
     
     const TColors *subcellColors = &aColors;
 
@@ -2878,6 +2845,67 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
     _AKNTRACE_FUNC_EXIT;
     }
 
+// -----------------------------------------------------------------------------
+// CFormattedCellListBoxData::DrawMarkingModeIcons
+// -----------------------------------------------------------------------------
+//
+void CFormattedCellListBoxData::DrawMarkingModeIcons( 
+                                            TListItemProperties& aProperties,
+                                            CWindowGc& aGc,
+                                            TRect& aItemRect ) const
+    {
+    CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
+    TRect textRect( aItemRect );
+    
+    if ( listbox->View()->ItemDrawer()->Flags() 
+            & CListItemDrawer::EMarkingModeEnabled 
+            && !aProperties.IsSelectionHidden()            
+            && iExtension->iMarkingIconArray
+#ifdef RD_TOUCH2_MARKING
+            &&  iExtension->iMarkingIconArray->Count() 
+                == KMarkingModeIconArraySize )         
+#else            
+            &&  iExtension->iMarkingIconArray->Count() == 2 )
+#endif // RD_TOUCH2_MARKING        
+        {
+        textRect.iTl.iX += 
+                AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                        0 ).LayoutLine().il;
+
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( aItemRect, 
+                AknLayoutScalable_Avkon::list_double_graphic_pane_g1( 0 ) );
+
+        // unchecked icon
+        CGulIcon* icon = ( *iExtension->iMarkingIconArray )[1];        
+        
+        if ( listbox->View()->ItemIsSelected( 
+                iExtension->iCurrentlyDrawnItemIndex ) )
+            {
+            icon = ( *iExtension->iMarkingIconArray )[0];        
+            }
+        
+        CFbsBitmap* bitmap = icon->Bitmap();
+
+        if ( bitmap )
+            {
+            TSize size( bitmap->SizeInPixels() ); // set size if not already
+            TSize targetSize( layoutRect.Rect().Size() );
+            
+            if ( size.iWidth != targetSize.iWidth && 
+                 size.iHeight != targetSize.iHeight )
+                {
+                AknIconUtils::SetSize( bitmap, targetSize,
+                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                }
+            aGc.BitBltMasked( layoutRect.Rect().iTl, 
+                              bitmap, 
+                              TRect( layoutRect.Rect().Size() ),
+                              icon->Mask(), EFalse );
+            }
+        aItemRect = textRect;
+        }    
+    }
 
 EXPORT_C 
 CFormattedCellListBoxData::CFormattedCellListBoxData()
@@ -4198,49 +4226,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
     
     CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
     
-    if ( listbox->View()->ItemDrawer()->Flags()
-            & CListItemDrawer::EMarkingModeEnabled &&
-         iExtension->iMarkingIconArray && 
-         iExtension->iMarkingIconArray->Count() == 2 )
-        {
-        itemRect.iTl.iX +=
-            AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ).LayoutLine().il;
-
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect(
-            aItemRect, 
-            AknLayoutScalable_Avkon::list_double_graphic_pane_g1( 0 ) );
-        TRect iconRect( layoutRect.Rect() );
-        
-        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
-
-        if ( listbox->View()->ItemIsSelected( 
-                iExtension->iCurrentlyDrawnItemIndex ) )
-            {
-            icon = (*iExtension->iMarkingIconArray)[0];
-            }
-        
-        CFbsBitmap* bitmap = icon->Bitmap();
-
-        if ( bitmap )
-            {
-            TSize size( bitmap->SizeInPixels() ); // set size if not already
-            TSize targetSize( layoutRect.Rect().Size() );
-            
-            if ( size.iWidth != targetSize.iWidth &&
-                 size.iHeight != targetSize.iHeight )
-                {
-                AknIconUtils::SetSize( bitmap, targetSize,
-                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
-                }
-
-            aGc.BitBltMasked( iconRect.iTl,
-                              bitmap,
-                              TRect( iconRect.Size() ),
-                              icon->Mask(),
-                              EFalse );
-            }
-        }
+    DrawMarkingModeIcons( aProperties, aGc, itemRect );
     
     const TColors* subcellColors = &aColors;
     

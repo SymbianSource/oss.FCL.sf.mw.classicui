@@ -1076,12 +1076,12 @@ void CPslnUi::ActivateSkinL()
 
             PSLN_TRACE_DEBUG("CPslnUi::ActivateSkinL directly");
             shownote = iModel->ActivateSkinL( skinIndex );
-            ShowProgressBarL();
 
             if ( shownote )
                 {
                 PSLN_TRACE_DEBUG("CPslnUi::ActivateSkinL skin activated");
                 SetStateOn( EPslnSkinActivated );
+                ShowProgressBarL();
                 }
             else
                 {

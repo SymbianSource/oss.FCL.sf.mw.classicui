@@ -49,19 +49,26 @@
 #include "akntrace.h"
 const TInt EEikDialogFlagSleeping   =0x20000;
 
+
+
 // -----------------------------------------------------------------------------
 // Finds out if this control belongs to the window group that is in focus.
-// This information can be used to skip effects when the window group is
-// not visible.
+// This information can be used to skip effects when the window group is not visible.
 //
-// @param aThis The control in question.
+// @param aControl The control in question.
 //
 // @return ETrue if the window group is in focus, otherwise EFalse
 // -----------------------------------------------------------------------------
 //
-TBool IsFocusedWindowGroup( CAknNoteDialog* aThis )
+TBool IsFocusedWindowGroup( const CCoeControl* aControl )
     {
-    RWindowTreeNode* node = aThis->DrawableWindow();
+    if( !aControl )
+    	{
+    	return EFalse;	
+    	}
+
+    RWindowTreeNode* node = aControl->DrawableWindow();
+
     // this code finds out if this control belongs to window group
     // that is in focus, there are some rare cases when the latest opened
     // popup goes behind another one (e.g. system lock query -> power key menu)
@@ -72,12 +79,13 @@ TBool IsFocusedWindowGroup( CAknNoteDialog* aThis )
         {
         return EFalse;
         }
+        
     TInt nodeWindowGroupId = node->WindowGroupId();
     TInt focusedWindowGroupId = wsSession.GetFocusWindowGroup();
     
     if ( nodeWindowGroupId == focusedWindowGroupId )
         {
-        return aThis->IsFocused();
+        return aControl->IsFocused();
         }
 
     TInt count = wsSession.NumWindowGroups( 0 );
@@ -101,7 +109,8 @@ TBool IsFocusedWindowGroup( CAknNoteDialog* aThis )
             }
         }
     return EFalse;
-    }
+    }  
+    
 
 //////////////////////////////////////////////////////////////////////
 // CAknNoteDialogExtension
@@ -440,7 +449,7 @@ EXPORT_C TInt CAknNoteDialog::StaticDeleteL(TAny *aThis)
         
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS           
     if ( self->IsVisible() && GfxTransEffect::IsRegistered( self ) &&
-        IsFocusedWindowGroup( self ) )
+         IsFocusedWindowGroup( self ) )
 		{
         TBool rsWasEnabled( EFalse );
         if( !CAknEnv::Static()->TransparencyEnabled() && self->DrawableWindow() && self->Window().IsRedrawStoreEnabled() )

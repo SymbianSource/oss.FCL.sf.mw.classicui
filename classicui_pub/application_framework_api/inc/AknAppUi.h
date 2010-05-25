@@ -105,7 +105,14 @@ private:
          *
          * @since S60 5.2
          */
-        EAknSingleClickCompatibleFlag           = 0x01000000
+        EAknSingleClickCompatibleFlag           = 0x01000000,
+        
+        /**
+         * Application disables animation background
+         *
+         * @since S60 5.2
+         */
+        EAknDisableAnimationBackgroundFlag = 0x02000000
         };
 
     public:
@@ -169,7 +176,8 @@ private:
         // Since 5.0
         EAknTouchCompatible = EAknTouchCompatibleFlag,
         // Since 5.2
-        EAknSingleClickCompatible = EAknSingleClickCompatibleFlag
+        EAknSingleClickCompatible = EAknSingleClickCompatibleFlag, 
+        EAknDisableAnimationBackground = EAknDisableAnimationBackgroundFlag
         };
     enum TKeyEventFlag
         {

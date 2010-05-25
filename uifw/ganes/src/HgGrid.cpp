@@ -316,10 +316,7 @@ void CHgGrid::HandleSizeChanged ( )
 
         iItemsOnScreen *= iRows;
 
-        if( oldCount != iRows )
-            {
-            FitTopItemToView( iCurrentRow*oldCount );        
-            }                
+        FitTopItemToView( iCurrentRow*oldCount );        
         }
     else
         {
@@ -337,10 +334,7 @@ void CHgGrid::HandleSizeChanged ( )
 
         iItemsOnScreen *= iCols;
 
-        if( oldCount != iCols )
-            {
-            FitTopItemToView( iCurrentRow*oldCount );        
-            }        
+        FitTopItemToView( iCurrentRow*oldCount );        
         }        
     }
 

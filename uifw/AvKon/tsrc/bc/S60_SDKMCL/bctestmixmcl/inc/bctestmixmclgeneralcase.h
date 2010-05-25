@@ -168,6 +168,10 @@ protected: // new functions
       */
      void TestFindItemDialog();
 
+    /**
+     * Tests button component API.
+     */
+    void TestAknButtonEnableFeedbackL();
 
 protected: // From base class MAknPhysicsObserver
     

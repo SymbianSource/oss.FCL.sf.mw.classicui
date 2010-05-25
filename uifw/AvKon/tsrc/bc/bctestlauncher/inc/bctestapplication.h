@@ -58,6 +58,11 @@ public: // constructor
 	* select the application to run
 	*/
 	void Select(TBool aSelected = ETrue){ iSelected = aSelected; }
+	
+	/**
+	* test whether the application is selected
+	*/
+	TBool IsSelect(){ return iSelected; }
     
 private:
     void StartAutoTest();

@@ -24,6 +24,7 @@
 #include <eikapp.h>
 #include <aknappui.h>
 #include <AknDef.h>
+#include <touchfeedback.h>
 
 #include "aknstyluspopupmenu.h"
 #include "aknstyluspopupmenucontent.h"
@@ -195,7 +196,18 @@ EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
     
     TSize size(iController->Size());
     iController->ShowPopUp();
-
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            feedback->InstantFeedback(
+                    iContent,
+                    ETouchFeedbackPopUp,
+                    ETouchFeedbackVibra,
+                    TPointerEvent() );
+            }
+        }
     if ( size.iWidth == 0 && size.iHeight == 0 )
         {
         if ( iPositionType != KErrNotFound )
@@ -391,8 +403,10 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
             TBool isDeleted = EFalse;
             iIsDeleted = &isDeleted;
 
+            CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
             iMenuObserver->ProcessCommandL( iContent->CurrentCommandId() );
-
+            CleanupStack::Pop();
+            
             if ( isDeleted )
                 {
                 return;
@@ -509,4 +523,13 @@ void CAknStylusPopUpMenu::RemoveController()
         delete iController;
         iController = NULL;
         }
+    }
+
+// -----------------------------------------------------------------------------
+// CAknStylusPopUpMenu::CleanLocalRef
+// -----------------------------------------------------------------------------
+//
+void CAknStylusPopUpMenu::CleanLocalRef( TAny* any )
+    {
+    static_cast<CAknStylusPopUpMenu*>( any )->iIsDeleted = NULL;
     }

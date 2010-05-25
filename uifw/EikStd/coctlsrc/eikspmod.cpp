@@ -1495,8 +1495,17 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         }
                     case EEikStatusPaneUidSignal:
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.signal_pane( 13 ).LayoutLine();
+                        if (aLayoutId
+                                == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS)
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.signal_pane(2).LayoutLine();
+                            }
+                        else
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.signal_pane(13).LayoutLine();
+                            }                       
                         break;
                         }
                     case EEikStatusPaneUidTitle:
@@ -1530,8 +1539,17 @@ TRect CEikStatusPaneLayoutTree::AknLayoutRect(TInt aLayoutId, TPaneId aPaneId)
                         }
                     case EEikStatusPaneUidBattery:
                         {
-                        layout =
-                            aknLayoutScalable_Avkon.battery_pane( 13 ).LayoutLine();
+                         if (aLayoutId
+                                == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS)
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.battery_pane(2).LayoutLine();
+                            }
+                        else
+                            {
+                            layout
+                                    = aknLayoutScalable_Avkon.battery_pane(13).LayoutLine();
+                            }
                         break;
                         }
                     case EEikStatusPaneUidDigitalClock:

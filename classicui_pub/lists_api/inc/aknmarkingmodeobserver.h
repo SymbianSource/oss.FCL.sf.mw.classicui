@@ -34,7 +34,7 @@ public:
     /**
      * This method is called when marking mode is activated or deactivated.
      * 
-     * @param aActivated @c ETrue if marking mode was activate, @c EFalse
+     * @param aActivated @c ETrue if marking mode was activated, @c EFalse
      *                   if marking mode was deactivated.
      */
     virtual void MarkingModeStatusChanged( TBool aActivated ) = 0;

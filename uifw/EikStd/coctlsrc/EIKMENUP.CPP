@@ -238,7 +238,8 @@ public: // Data
         EContextSensitive,
         ESkipScrollbarUpdate,
         EHighlightEnabled,
-        EHideViewSpecificCommands
+        EHideViewSpecificCommands, 
+        EHideMarkAndUnmark
         };
 
     /**
@@ -2260,6 +2261,19 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         iEditMenuObserver->DynInitMenuPaneL( aCascadeMenuId, iCascadeMenuPane );
         }
 
+    if ( iExtension->iFlags.IsSet( CEikMenuPaneExtension::EHideMarkAndUnmark ) )
+        {
+        TInt pos; 
+        if ( iCascadeMenuPane->MenuItemExists( EAknCmdMark, pos ) ) 
+            {
+            iCascadeMenuPane->SetItemDimmed( EAknCmdMark, ETrue ); 
+            }
+        if ( iCascadeMenuPane->MenuItemExists( EAknCmdUnmark, pos ) ) 
+            {
+            iCascadeMenuPane->SetItemDimmed( EAknCmdUnmark, ETrue ); 
+            } 
+        }
+    
     iCascadeMenuPane->iExtension->PrepareCascadeForItemCommandsL();
     iCascadeMenuPane->iExtension->EnableHighlight( EFalse );
     iCascadeMenuPane->FilterDimmedItems();
@@ -3123,7 +3137,10 @@ void CEikMenuPane::ReportSelectionMadeL( TBool aAbortTransition )
             _AKNTRACE( "commandId = %d",  commandId );
             TBool isDeleted = EFalse;
             iIsDeleted = &isDeleted;
+            
+            CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );            
             iMenuObserver->ProcessCommandL( commandId ); 
+            CleanupStack::Pop();
 
             if ( !isDeleted )
                 {
@@ -6701,6 +6718,32 @@ void CEikMenuPane::SetDefaultHighlight()
         iExtension->SetDefaultHighlight();
         }
     }
+
+// -----------------------------------------------------------------------------
+// CEikMenuPane::HideMarkAndUnmark
+// -----------------------------------------------------------------------------
+//
+void CEikMenuPane::HideMarkAndUnmark( TBool aHide )
+    {
+    if ( aHide )
+        {
+        iExtension->iFlags.Set( CEikMenuPaneExtension::EHideMarkAndUnmark );
+        }
+    else 
+        {
+        iExtension->iFlags.Clear( CEikMenuPaneExtension::EHideMarkAndUnmark );
+        }
+    }
+	
+// -----------------------------------------------------------------------------
+// CEikMenuPane::CleanLocalRef
+// -----------------------------------------------------------------------------
+//
+void CEikMenuPane::CleanLocalRef( TAny* any )
+    {
+    static_cast<CEikMenuPane*>( any )->iIsDeleted = NULL;
+    }
+
 
 // end of file
 

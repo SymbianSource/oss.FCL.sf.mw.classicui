@@ -41,6 +41,7 @@
 #include <eikdpage.h>
 #include <eikmop.h>
 #include <aknenv.h>
+#include <touchfeedback.h>
 //<SKIN>
 #include "eikdialogext.h"
 #include <AknsListBoxBackgroundControlContext.h>
@@ -70,6 +71,7 @@
 #include <AknQueryDialog.h>
 #include <aknQueryControl.h>
 #include <aknitemactionmenuregister.h>
+#include <layoutmetadata.cdl.h>
 
 #include "akncbacontentobserver.h"
 #include "akntrace.h"
@@ -849,32 +851,33 @@ EXPORT_C void CEikDialog::SetSizeAndPosition(const TSize& aSize)
 	_AKNTRACE_FUNC_ENTER;
 	if (iDialogFlags&EEikDialogFlagFillAppClientRect)
 	    {
+        TRect destRect = iEikonEnv->EikAppUi()->ClientRect();       
         // if this is a view app then ask client rect from the currently active view
         TVwsViewId uid;    
         if ( iAvkonAppUi->GetActiveViewId( uid ) == KErrNone )
             {
             if ( uid.iAppUid != uid.iViewUid )
                 {
-                CAknView* view = iAvkonViewAppUi->View(uid.iViewUid);
-                if (view)
+                CAknView* view = iAvkonViewAppUi->View( uid.iViewUid );
+                if ( view )
                     {
-                    SetRect(view->ClientRect());
+                    destRect = view->ClientRect();
                     }
-                else
-                    {
-                    SetRect(iEikonEnv->EikAppUi()->ClientRect());
-                    }
-                }
-            else
-                {
-                SetRect(iEikonEnv->EikAppUi()->ClientRect());
                 }
             }
-         else
+
+        if ( !Layout_Meta_Data::IsLandscapeOrientation() && iButtonGroupContainer != NULL )
             {
-            SetRect( iEikonEnv->EikAppUi()->ClientRect() );
-            }
-	    }
+            TRect controlPane;
+            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EControlPane, controlPane );
+
+            if ( destRect.iBr.iY > controlPane.iTl.iY )
+                {
+                destRect.iBr.iY = controlPane.iTl.iY;
+                }
+            }        
+        SetRect( destRect );
+        }
 	else
         {
         SetRect( TRect( AknPopupUtils::Position( aSize, this ), aSize ) );
@@ -1652,6 +1655,16 @@ EXPORT_C TInt CEikDialog::RunLD()
 		GfxTransEffect::NotifyExternalState(EInternalHandleSequence, (const TDesC8*)this);
 #endif
 		GfxTransEffect::Begin(this, KGfxControlAppearAction);
+        MTouchFeedback* feedback = NULL;
+		if(AknLayoutUtils::PenEnabled())
+		    {
+            feedback = static_cast<MTouchFeedback*>(ExtensionInterface(KExIfTactileFeedbackUid));
+		    }
+		if(feedback && CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff ))
+		    {
+            feedback->InstantFeedback(this, ETouchFeedbackIncreasingPopUp,
+                                        ETouchFeedbackVibra, TPointerEvent());
+		    }
 		GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
 		
 		TRect demarcation;
@@ -1664,6 +1677,11 @@ EXPORT_C TInt CEikDialog::RunLD()
 
 		GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
 		GfxTransEffect::End(this);
+		if(feedback)
+		    {
+            feedback->InstantFeedback(this, ETouchFeedbackPopUp,
+                                        ETouchFeedbackVibra, TPointerEvent());
+		    }
 		}
 	else
 		{
@@ -1999,7 +2017,13 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
 
     TBool effectTriggered = EFalse;
     CAknAppUi* aknAppUi = static_cast<CAknAppUi*>(iEikonEnv->EikAppUi());
-    
+
+    MTouchFeedback* feedback = NULL;
+    if(AknLayoutUtils::PenEnabled())
+        {
+        feedback = static_cast<MTouchFeedback*>(ExtensionInterface(KExIfTactileFeedbackUid));
+        }
+
     if (!(iDialogFlags & EEikDialogFlagDelayEffects)
         && IsFocusedWindowGroup( this )
         && GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
@@ -2012,6 +2036,21 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
         {
         CAknTransitionUtils::SetAllParents(this);
         GfxTransEffect::Begin(this, KGfxControlDisappearAction);
+
+        if(feedback)
+            {
+            if(CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff))
+                {
+                feedback->InstantFeedback(this, ETouchFeedbackDecreasingPopUp,
+                                        ETouchFeedbackVibra, TPointerEvent());
+                }
+            else
+                {
+                feedback->InstantFeedback(this, ETouchFeedbackPopUp,
+                                        ETouchFeedbackVibra, TPointerEvent());
+                }
+            }
+
         GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
         TRect demarcation;
         CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
@@ -2080,6 +2119,21 @@ finished:
                 TRect demarcation;
                 CAknTransitionUtils::SetAllParents(this);
                 GfxTransEffect::Begin(this, KGfxControlDisappearAction);
+
+                if(feedback)
+                    {
+                    if(CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff))
+                        {
+                        feedback->InstantFeedback(this, ETouchFeedbackDecreasingPopUp,
+                                                ETouchFeedbackVibra, TPointerEvent());
+                        }
+                    else
+                        {
+                        feedback->InstantFeedback(this, ETouchFeedbackPopUp,
+                                                ETouchFeedbackVibra , TPointerEvent());
+                        }
+                    }
+
                 GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
                 CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
                 GfxTransEffect::SetDemarcation(this, demarcation);
@@ -3241,7 +3295,8 @@ void CEikDialog::HandleEmbeddedSofkeyStateChange()
     // softkeys
     if ( iExtension && CbaEmbeddedInDialog( iDialogFlags ) )
         {
-        TSize dialogSize( Rect().Size() );
+        TRect oldDialogRect( Rect() );
+        TSize dialogSize( oldDialogRect.Size() );
         CEikCba* cba = static_cast<CEikCba*>(
                 iButtonGroupContainer->ButtonGroup() );
         TBool cbaVisible( cba->IsVisible() && !cba->IsEmpty() );
@@ -3266,8 +3321,14 @@ void CEikDialog::HandleEmbeddedSofkeyStateChange()
             dialogSize.iHeight -= cbaRect.Rect().Height();
             }
 
-        SetRect( TRect(
-            AknPopupUtils::Position( dialogSize, this ), dialogSize ) );
+        TRect newDialogRect( AknPopupUtils::Position( dialogSize, cbaVisible ),
+                             dialogSize );
+        SetRect( newDialogRect );
+        
+        if ( oldDialogRect != newDialogRect )
+            {
+            DrawDeferred();
+            }
         }
     }
 

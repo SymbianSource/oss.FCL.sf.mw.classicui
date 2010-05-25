@@ -2329,12 +2329,37 @@ it accepts hotkeys.
 
   Added Enter key as a special case... 
 */
+       
     if ( (iCurrentLine!=-1) && (iCurrentLine < iLines->Count()) )
+        {
         if ( (*iLines)[iCurrentLine]->OfferHotKeys() ||
             (*iLines)[iCurrentLine]->TakesEnterKey() && (aKeyEvent.iCode==EKeyEnter)
-            )
+            ) 
+            {
+            CEikCaptionedControl* currentLine = ( *iLines )[iCurrentLine];
+            const TInt controlType( currentLine->iControlType );
+            
+            if ( currentLine->ControlIsAnEdwin( controlType ) )
+                {
+                CEikEdwin* edwin = ( CEikEdwin* )currentLine->iControl;
+                TBool readOnly = edwin->IsReadOnly();
+    
+                // The control is an editor which is read-only, 
+                // such as an on/off control
+                if ( readOnly )
+                    {
+                    iPageObserver->HandleDialogPageEventL( 
+                            MEikDialogPageObserver::EDialogPageTapped );
+                    return EKeyWasConsumed;                                
+                    }
+                }
+
             if (!IsForm()|| iIsEditable)
+                {
                 return (*iLines)[iCurrentLine]->iControl->OfferKeyEventL(aKeyEvent,aType);
+                }
+            }
+        }
     return EKeyWasNotConsumed;
     }
 
@@ -2999,7 +3024,9 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                 {
                 iExtension->iScrolling = EFalse;
                 
-                if ( iPageObserver && GrabbingComponent() && !iExtension->iWasScrolling )
+                if ( iPageObserver && GrabbingComponent() 
+                    && !iExtension->iWasScrolling 
+                    && touchedLine == iCurrentLine )
                     {
                     iPageObserver->HandleDialogPageEventL( MEikDialogPageObserver::EDialogPageTapped );
                     }
@@ -3052,7 +3079,13 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         ( iExtension->iFocusedClicked || iExtension->iUsesSingleClick ) &&
         !iExtension->iScrolling )
         {
-        mskPress = ETrue;
+        // Not need to sent key event when focus lost.
+        CEikCaptionedControl* currentLine = (*iLines)[iCurrentLine];     
+        if ( currentLine->IsFocused() )
+        	{
+            mskPress = ETrue;
+        	}
+        
         callDefaultImplementation = EFalse;
         }
     if ( callDefaultImplementation && ( iExtension->iFocusedClicked || 

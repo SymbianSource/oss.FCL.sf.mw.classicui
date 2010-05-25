@@ -214,8 +214,9 @@ enum TCbaChangeRecordedFlags
     ECbaSingleClickEnabled, // single click enabled in appUi
     ECbaItemSoftkeyDisabled, // item specific softkey disabled
     ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
-    ECbaItemSoftkeyDisabledByClient, // client disabled item specific softkey
-    ECbaMultipleMarkingActive // multiple marking has changed RSK
+    ECbaItemSoftkeyDisabledByClient, // client has disabled item specific softkey
+    ECbaMultipleMarkingActive, // multiple marking has changed RSK
+    ECbaCombinePaneUncovered // The combine pane in status pane is invisible.
     };
 
 enum TCbaLayers
@@ -1780,9 +1781,14 @@ void CEikCba::SetMSKIconL()
       
     TAknLayoutRect qgn_graf_sk_msk;
     TRect rect;
+    TInt graphicMSKVariety = 1;
+    if ( iCbaFlags & EEikCbaFlagAppMskIcon )
+    	{
+        graphicMSKVariety = 0 ;
+    	}
     qgn_graf_sk_msk.LayoutRect(
         rect,
-        AknLayoutScalable_Avkon::control_pane_g4( 1 ).LayoutLine() );
+        AknLayoutScalable_Avkon::control_pane_g4( graphicMSKVariety ).LayoutLine() );
 
     TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                     qgn_graf_sk_msk.Rect().Height() );
@@ -2952,12 +2958,27 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
             }
         
         // We must check for landscape mode bottom sks 
+        TBool isLandscapeOrient = Layout_Meta_Data::IsLandscapeOrientation();
         TInt bottomPaneVariety = 1;
-        if ( Layout_Meta_Data::IsLandscapeOrientation() )
+        if ( isLandscapeOrient )
             {
             bottomPaneVariety = 6;
             }
             
+        // SetBoundingRect is always called by status pane when it is changing visibility.
+        // If the status pane is invisible in landscape, softkey need to draw frame to cover
+        // the area of combine pane.
+        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
+        if (statusPane && !statusPane->IsVisible() && isLandscapeOrient &&
+            statusPane->PaneCapabilities(TUid::Uid(EEikStatusPaneUidCombined)).IsInCurrentLayout())
+            {
+            iFlags.Set( ECbaCombinePaneUncovered );
+            }
+        else
+            {
+            iFlags.Clear( ECbaCombinePaneUncovered );
+            }
+        
         TAknWindowLineLayout controlPane( DoCompose(
             AknLayoutScalable_Avkon::application_window( 0 ),
             DoCompose( AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
@@ -2971,8 +2992,6 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         // Set correct window region incase we have been in stacon mode.
         RRegion region;
         region.AddRect( Rect() );
-            
-        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
         
         // If status indicators and clock are shown in control pane area,
         // then remove those areas from cba window region.
@@ -4622,7 +4641,7 @@ void CEikCba::Draw( const TRect& aRect ) const
                     CEikCbaButton* button2 = static_cast<CEikCbaButton*>(
                         (*iControlArray)[KControlArrayCBAButton2Posn].iControl );
                     
-                    if ( IsMskEnabledLayoutActive() )
+                    if ( IsMskEnabledLayoutActive() || iFlags.IsSet( ECbaCombinePaneUncovered ) )
                         {
                         CEikCbaButton* buttonMSK = static_cast<CEikCbaButton*>(
                             (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl );
@@ -5288,7 +5307,7 @@ void CEikCba::SizeChangedInControlPane()
                         .LayoutLine() );
             iExtension->iRightFrameInnerRect = layoutRect.Rect();
 
-            if ( mskEnabledInPlatform )
+            if ( mskEnabledInPlatform || ( isLandscape && iFlags.IsSet( ECbaCombinePaneUncovered ) ) )
                 {
                 layoutRect.LayoutRect(
                     rect,
@@ -5488,6 +5507,10 @@ void CEikCba::SizeChangedInControlPane()
         TInt textMSKVariety = 3;
         TInt graphicMSKVariety = 1;
 
+        if ( iCbaFlags & EEikCbaFlagAppMskIcon )
+        	{
+            graphicMSKVariety = 0 ;
+        	}
         if ( mskEnabledInApplication && mskEnabledInPlatform )
             {
             MSKSoftkey = (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl;
@@ -6455,7 +6478,7 @@ void CEikCba::UpdateFonts()
     // Right pane:    
     TInt rightPaneTextVariety = 0;
     
-    if ( iExtension->iEnablePostingTransparency ||
+    if ( ( iExtension && iExtension->iEnablePostingTransparency ) ||
          ( iCbaFlags & EEikCbaFlagTransparent ) )
         {
         rightPaneTextVariety = 1; // Outline font used
@@ -7657,11 +7680,16 @@ TBool CEikCba::UpdateIconL()
         CFbsBitmap *bitmap = NULL;
         CFbsBitmap *mask = NULL;
       
+        TInt graphicMSKVariety = 1;
+        if ( iCbaFlags & EEikCbaFlagAppMskIcon )
+        	{
+            graphicMSKVariety = 0 ;
+        	}
         TAknLayoutRect qgn_graf_sk_msk;
         TRect rect;
         qgn_graf_sk_msk.LayoutRect(
             rect,
-            AknLayoutScalable_Avkon::control_pane_g4( 1 ).LayoutLine() );
+            AknLayoutScalable_Avkon::control_pane_g4( graphicMSKVariety ).LayoutLine() );
 
         TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                         qgn_graf_sk_msk.Rect().Height() );
@@ -7881,17 +7909,12 @@ void CEikCba::UpdateMultipleMarkingSoftkey()
 
 // ---------------------------------------------------------------------------
 // CEikCba::CommandChangeAllowed
-// 
 // ---------------------------------------------------------------------------
 //     
-TBool CEikCba::CommandChangeAllowed()
+TBool CEikCba::CommandChangeAllowed() const
     {
-    if ( iFlags.IsSet( ECbaSingleClickEnabled ) 
-            && iFlags.IsSet( ECbaMultipleMarkingActive ) )
-        {
-        return EFalse;
-        }
-    return ETrue;
+    return ( !( iFlags.IsSet( ECbaSingleClickEnabled ) 
+            && iFlags.IsSet( ECbaMultipleMarkingActive ) ) );
     }
 
 

@@ -1147,7 +1147,7 @@ void CAknFileSoundInfo::PlayL()
     Stop();
 
     // Create audio player. DoPlay() will be called in all circumstances.
-    iAudioPlayer = CMdaAudioPlayerUtility::NewFilePlayerL(iFileName, *this);
+    iAudioPlayer = CMdaAudioPlayerUtility::NewFilePlayerL(iFileName, *this, iPriority,(TMdaPriorityPreference)iPreference );
     LOGTEXT(_L(" CAknFileSoundInfo::PlayL() - Exit"));
     }
 

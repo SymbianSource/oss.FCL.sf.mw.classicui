@@ -1000,6 +1000,10 @@ TUint CListBoxExt::CollectionState() const
         {
         state |= MAknCollection::EStateMultipleSelection;
         }
+    if ( MarkedItems() )
+        {
+        state |= MAknCollection::EStateMarkedItems; 
+        }
     _AKNTRACE_FUNC_EXIT;
     return state;
     }
@@ -1399,7 +1403,7 @@ TBool CListBoxExt::MarkedItems() const
     {
     return ( iListBox.iListBoxFlags & CEikListBox::ES60StyleMarkable
             || iListBox.iListBoxFlags & CEikListBox::EMultipleSelection )
-            && iListBox.SelectionIndexes()->Count() > 0;
+            && iListBox.iView && iListBox.SelectionIndexes()->Count() > 0;
     }
 
 
@@ -1423,11 +1427,9 @@ TBool CListBoxExt::IgnorePointerEventsUntilUp()
     if ( windowOwningControl )
         {
         windowOwningControl->IgnoreEventsUntilNextPointerUp();   
-        _AKNTRACE_FUNC_EXIT;
-        return ETrue;
         }
     _AKNTRACE_FUNC_EXIT;
-    return EFalse; 
+    return ( windowOwningControl != NULL );
     }
 
 
@@ -1803,6 +1805,13 @@ void CListBoxExt::PhysicEmulationEnded()
     _AKNTRACE_FUNC_ENTER;    
     if ( iScrolling )
         {
+        // currently, this is the only way to fix ou1cimx1#375869
+        // iViewPosision is changed but we can't provent that
+        if ( iListBox.iView->TopItemIndex() == 0 
+             && iListBox.iView->ItemOffsetInPixels() > 0 )
+            {
+            iListBox.ScrollView( -iListBox.iView->ItemOffsetInPixels(), ETrue );
+            }        
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         iListBox.SuspendEffects( EFalse );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -2342,7 +2351,8 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
     iView->CalcBottomItemIndex();
     iView->CalcDataWidth();
     TInt currentItemIndex = iView->CurrentItemIndex();
-
+    TInt totalItems = iModel->NumberOfItems();
+    
     if ( ItemExists(currentItemIndex) )
         {
         TInt topItemIndex( iView->TopItemIndex() );
@@ -2358,7 +2368,6 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
                 {
                 TInt offset = (iListBoxExt->iWorldSize.iHeight / 2)
                         - iListBoxExt->iViewPosition.iY;
-                TInt totalItems = iModel->NumberOfItems();
                 TInt itemsInRect =
                         iView->NumberOfItemsThatFitInRect( iView->ViewRect() );
 
@@ -2382,15 +2391,15 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
             }
         else
             {
-            // recalculates top index of list when mode be changed
-            TInt totalItems = iModel->NumberOfItems();
+            // recalculates top index of list when mode be changed            
             if ( (totalItems - topItemIndex) < numberOfItems )
                 {
                 newTopItemIndex = Max( 0, totalItems - numberOfItems );
                 }
             }
 
-        if ( newTopItemIndex != KEikListBoxInvalidIndex )
+        if ( newTopItemIndex > KEikListBoxInvalidIndex 
+             && newTopItemIndex < totalItems )
         	{
         	iView->SetTopItemIndex( newTopItemIndex );
             }
@@ -5156,6 +5165,18 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                         }
                     else
                         {
+                        if( itemIndex == oldCurrentItemIndex )
+                            {
+                            if( !( ( iListBoxFlags & EViewerFlag ) && 
+                                    ( iListBoxFlags & EDisableItemSpecificMenu ) ) )
+                                {
+                                iListBoxExt->ImmediateFeedback( 
+							                                   iListBoxExt->iFeedbackType,
+														       TTouchFeedbackType( ETouchFeedbackVibra | 
+														       ETouchFeedbackAudio ),
+														       aPointerEvent );
+                               }
+							}
                         ReportListBoxEventL( 
                                 MEikListBoxObserver::EEventPenDownOnItem );    
                         }
@@ -5324,9 +5345,13 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             
         case TPointerEvent::EButton1Up:
             _AKNTRACE("TPointerEvent::EButton1Up");
-            if ( iListBoxExt->FeedbackEnabledOnUpEvent() && iListBoxExt->iClickEventsAllowed 
-            	                    && ( !( ( iListBoxFlags & EViewerFlag ) && 
-                            ( iListBoxFlags & EDisableItemSpecificMenu ) ) ) )
+            if ( iListBoxExt->FeedbackEnabledOnUpEvent() && 
+			     iListBoxExt->iClickEventsAllowed && 
+				 ( !( ( iListBoxFlags & EViewerFlag ) && 
+				 ( iListBoxFlags & EDisableItemSpecificMenu ) ) )&& 
+				 ( iListBoxExt->iLastDownTappedItem == itemIndex ) && 
+				 (Buffer()->iPressedIndex != KEikListBoxInvalidIndex) && 
+				 itemIndex == iView->CurrentItemIndex() )
                 {
                 TTouchLogicalFeedback fbType = ETouchFeedbackList;
                 if ( iListBoxFlags & ES60StyleMultiselection 
@@ -5403,14 +5428,13 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                     }
                 // Due to the feature of capactior panel, the pointer position
                 // may change between pointer down and up during user click 
-                // action. When the click position is between two items, the
-                // item index may change unwanted, so we make a threshold 
-                // for this situation.                
-                else if ( s60StyleMultiselection
+                // action. When the click position is between two items 
+                // and flick or drag event is not performed, the item index may
+                // change unwanted, so we make a threshold for this situation.
+                else if ( s60StyleMultiselection && !Buffer()->iDragToAnotherItem
                          && ( iListBoxExt->iLastDownTappedItem == itemIndex
-                         || Abs( iListBoxExt->iLastPointerPos.iY 
-                         - aPointerEvent.iPosition.iY ) < KPointerDownAndUpThreshold )
-                         && !Buffer()->iDragToAnotherItem )
+                         || ( iListBoxExt->iLastDownTappedItem != KErrNotFound 
+                         && Abs( iListBoxExt->iLastPointerPos.iY - aPointerEvent.iPosition.iY ) < KPointerDownAndUpThreshold ) ) )
                     {
                     iListBoxFlags |= EStateChanged;
                     Buffer()->iPressedIndex = itemIndex;
@@ -6138,10 +6162,12 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
             // Some client does not let list get button1up, so we do it there...
             iItemDrawer->ClearFlags( CListItemDrawer::EPressedDownState );
             TInt index = View()->CurrentItemIndex();
-            if ( index != KErrNotFound )
+            TBool enabled( !( iItemDrawer->Flags()
+                & CListItemDrawer::ESingleClickDisabledHighlight ) );
+            if ( index != KErrNotFound && enabled )
             	{
                 Window().Invalidate( TRect( View()->ItemPos(index), 
-            		                 View()->ItemSize() ) );
+                                    iItemDrawer->ItemCellSize() ) );
             	}
             break;
             }
@@ -6153,13 +6179,12 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
 
         case KAknMessageFocusLost:
             {
-            TInt oldWinPos = iListBoxExt->iOldWinPos;
-            TInt winPos = DrawableWindow()->OrdinalPosition();
-            
-            // Do not remove higlight if window ordinal position has changed
+            // Do not remove highlight if window ordinal position has changed
             // during the time when stylus menu is open
-            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled
-                 && ( oldWinPos == KErrNotFound || oldWinPos == winPos ) )
+            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled &&
+                 ( iListBoxExt->iOldWinPos == KErrNotFound ||
+                   iListBoxExt->iOldWinPos == 
+                   DrawableWindow()->OrdinalPosition() ) )
                 {
                 TBool enabled( iItemDrawer && !( iItemDrawer->Flags()
                     & CListItemDrawer::ESingleClickDisabledHighlight ) );
@@ -6563,9 +6588,13 @@ EXPORT_C void CEikListBox::SuspendEffects( TBool aSuspend )
 EXPORT_C void CEikListBox::DisableSingleClick( TBool aDisabled )
     {
     _AKNTRACE_FUNC_ENTER;    
-    if ( aDisabled && iListBoxExt && iListBoxExt->iSingleClickEnabled )
+    if ( aDisabled && 
+         iListBoxExt && 
+    	 iListBoxExt->iSingleClickEnabled && 
+    	 iItemDrawer )
         {
         iListBoxExt->DisableSingleClick(); 
+        iItemDrawer->ClearFlags( CListItemDrawer::ESingleClickEnabled);
         }
     _AKNTRACE_FUNC_EXIT;
     }

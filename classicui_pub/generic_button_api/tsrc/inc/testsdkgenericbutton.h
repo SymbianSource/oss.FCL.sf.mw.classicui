@@ -727,26 +727,19 @@ private:
      * @return Symbian OS error code.
      */
     virtual TInt TestGBHideHelpL( CStifItemParser& aItem );
+    /**
+     * TestGBEnableFeedbackL test function for testing the EnableFeedback
+     * function
+     * @since S60 5.2
+     * @param aItem never used
+     * @return Symbian OS error code.
+     */
+    virtual TInt TestGBEnableFeedbackL( CStifItemParser& aItem );
     
     /**
      * Method used to log version of test class
      */
     void SendTestClassVersion();
-    
-        /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
-
 
 private: 
 

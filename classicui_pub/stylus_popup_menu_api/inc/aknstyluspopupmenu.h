@@ -212,6 +212,14 @@ private:
      */
     void RemoveController();
     
+    /**
+     * Cleans the internal pointer which is used 
+     * to track object deletion.
+     * 
+     * @param aParam Pointer to stylus menu object.
+     */
+    static void CleanLocalRef( TAny* aParam );
+    
 private: // data
 
     /**

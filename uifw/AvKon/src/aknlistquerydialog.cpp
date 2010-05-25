@@ -262,17 +262,9 @@ EXPORT_C void CAknListQueryDialog::PreLayoutDynInitL()
 		listbox->SetListBoxObserver(this);
     
 		CAknListQueryControl* listControl = ListControl();
-        if ( listControl )
-            {
-            listControl->SetLayout( &iLayout );
-            }            
-        
-        if ( iAvkonAppUi->IsSingleClickCompatible() && 
-             !IsLeftSoftkeyShown() )
-            {
-            MakeLeftSoftkeyVisible( EFalse );
-            }    
-        }
+		if (listControl)
+			listControl->SetLayout(&iLayout);
+		}
 
     if (FindBox())
         {
@@ -469,16 +461,6 @@ EXPORT_C void CAknListQueryDialog::HandleListBoxEventL(CEikListBox* aListBox,
                         iIdle->Start(TCallBack(ClosePopupAcceptingChanges, this));
                         }
                     }  
-                
-                if( iAvkonAppUi->IsSingleClickCompatible() && 
-                        aListBox->IsMultiselection() )
-                    {
-                    CEikListBox* listbox = ListBox();
-                    if( listbox )
-                        {
-                        MakeLeftSoftkeyVisible( IsLeftSoftkeyShown() );
-                        }    
-                    }
                 }
                 break;
             default:
@@ -583,22 +565,16 @@ EXPORT_C TKeyResponse CAknListQueryDialog::OfferKeyEventL(const TKeyEvent& aKeyE
 	        }
 
         TInt currentSelection = listbox->CurrentItemIndex();
-        TBool isSingleClick = iAvkonAppUi->IsSingleClickCompatible(); 
-        if ( currentSelection == KErrNotFound )
+        if( currentSelection == KErrNotFound )
             {
-            MakeLeftSoftkeyVisible( EFalse );
+            MakeLeftSoftkeyVisible(EFalse);
             }
-        else if ( isSingleClick )
+        else
             {
-            MakeLeftSoftkeyVisible( IsLeftSoftkeyShown() );
+            MakeLeftSoftkeyVisible(ETrue);
             }
             
         TKeyResponse response = listbox->OfferKeyEventL( aKeyEvent, aType);
-        
-        if ( isSingleClick && IsLeftSoftkeyShown() )
-            {
-            MakeLeftSoftkeyVisible( ETrue );
-            }
         if (currentSelection != listbox->CurrentItemIndex() && iMediatorObs)
             {
             iMediatorObs->UpdateL(listbox->CurrentItemIndex());
@@ -766,8 +742,12 @@ TInt CAknListQueryDialog::ClosePopupAcceptingChanges(TAny *aObj)
     }
 
 
-EXPORT_C void* CAknListQueryDialog::ExtensionInterface( TUid /*aInterface*/ ) 
-    { 
+EXPORT_C void* CAknListQueryDialog::ExtensionInterface( TUid aInterface ) 
+    {
+    if(aInterface == KExIfTactileFeedbackUid)
+        {
+        return MTouchFeedback::Instance();
+        }
     return NULL;
     }
 
@@ -793,18 +773,6 @@ EXPORT_C CAknSearchField *CAknListQueryDialog::FindBox() const
     if (control) { return control->iFind; }
     return NULL;
     }
-
-TBool CAknListQueryDialog::IsLeftSoftkeyShown()
-	{
-    CEikListBox* listbox = ListBox();
-    __ASSERT_DEBUG( listbox, Panic(EAknPanicNullPointer));
-    // This flag indicators that listbox is a viewer listbox.    
-    TBool isViewMode = listbox->View()->ItemDrawer()->Flags() & 
-                           CListItemDrawer::EDisableHighlight; 
-
-    return listbox->IsHighlightEnabled() || 
-               listbox->SelectionIndexes()->Count() > 0 || isViewMode;
-	}
 
 EXPORT_C void CAknListQueryDialog::SetTone(TInt aTone)
 	{

@@ -1625,4 +1625,5 @@ EXPORTS
 	?IsHighlightEnabled@CEikListBox@@QAEHXZ @ 1624 NONAME ; int CEikListBox::IsHighlightEnabled(void)
 	?SetMarkingModeObserver@CEikListBox@@QAEXPAVMAknMarkingModeObserver@@@Z @ 1625 NONAME ; void CEikListBox::SetMarkingModeObserver(class MAknMarkingModeObserver *)
 	?SetMarkingMode@CEikListBox@@QAEXH@Z @ 1626 NONAME ; void CEikListBox::SetMarkingMode(int)
+	?EnableFeedback@CAknButton@@QAEXH@Z @ 1627 NONAME ; void CAknButton::EnableFeedback(int)
 

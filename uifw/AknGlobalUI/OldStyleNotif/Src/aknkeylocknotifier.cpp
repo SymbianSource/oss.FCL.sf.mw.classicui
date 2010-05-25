@@ -991,11 +991,7 @@ void CAknKeyLockControl::ConstructL()
 
     TBool touchEnabled( AknLayoutUtils::PenEnabled() );
 
-	TBool hasSlider(iHardwareSupport != EKeyguardDefaultHardware);
-    if( FeatureManager::FeatureSupported( KFeatureIdFfPowerKeyAsKeyguard ) )
-    {
-	hasSlider = ETrue;  // the only purpose is to display empty sotkeys
-	}
+    TBool hasSlider = HasSliderKey();
     iKeyLockCba = CEikButtonGroupContainer::NewL(
                     CEikButtonGroupContainer::ECba,
                     CEikButtonGroupContainer::EHorizontal,
@@ -1157,8 +1153,8 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote, TBool aNotifySysApp )
         {
         SendMessageToSysAp( EEikKeyLockEnabled );
         }
-
-    if ( !AknLayoutUtils::PenEnabled() || iHardwareSupport == EKeyguardDefaultHardware)
+    TBool hasSliderKey = HasSliderKey();
+    if ( !AknLayoutUtils::PenEnabled() || !hasSliderKey)
         {
         iKeyLockCba->MakeVisible( ETrue );
         }
@@ -1190,7 +1186,7 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote, TBool aNotifySysApp )
         DisplayLockedNote();
         }
 
-    if ( !AknLayoutUtils::PenEnabled() || iHardwareSupport == EKeyguardDefaultHardware)
+    if ( !AknLayoutUtils::PenEnabled() || !hasSliderKey)
         {
         ShowKeylockCba();
         }
@@ -2071,6 +2067,16 @@ void CAknKeyLockControl::UnCapturePointerEvents()
         }
     }
 
+TBool CAknKeyLockControl::HasSliderKey()
+    {
+    TBool hasSlider(iHardwareSupport != EKeyguardDefaultHardware);
+    if( FeatureManager::FeatureSupported( KFeatureIdFfPowerKeyAsKeyguard ) )
+        {
+        hasSlider = ETrue;  // the only purpose is to display empty sotkeys
+        }
+    return hasSlider;
+    }
+
 
 // ===========================================================================
 // class CAknKeyLockNotifierSubject
@@ -2379,6 +2385,7 @@ void CAknKeyLockNotifierSubject::UnlockKeys()
     {
     if ( IsKeyLockEnabled() )
         {
+        iKeyLockControl->AutolockEnabled( EFalse );
         iKeyLockControl->DisableKeylock();
         }
     }

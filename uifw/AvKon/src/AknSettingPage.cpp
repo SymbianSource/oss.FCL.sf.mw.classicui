@@ -52,6 +52,14 @@
 #include "aknitemactionmenuregister.h"
 #include "aknqueryeditorindicator.h"
 
+
+
+//
+// the function's definition is in the AknNoteDialog.cpp
+//
+TBool IsFocusedWindowGroup( const CCoeControl* aControl );
+
+
 // This determines the maximum number of digits in the optional number displayed on the
 // top left of the setting page
 const TInt KAknSettingPageMaxOrdinalDigits = 3;
@@ -1425,7 +1433,7 @@ EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 			iSettingPageObserver->HandleSettingPageEventL(this, MAknSettingPageObserver::EEventSettingCancelled);
 		}
 	
-	if ( GfxTransEffect::IsRegistered( this ) )
+	if ( GfxTransEffect::IsRegistered( this ) && IsFocusedWindowGroup( this ) && IsVisible() )
 	    {
         GfxTransEffect::Begin( this, KGfxControlDisappearAction );
         MakeVisible( EFalse );

@@ -985,6 +985,17 @@ private:
                            const TRect& aItemRect,
                            TBool aHighlight,
                            const TColors& aColors ) const;
+    /**
+    * Draws check boxes in marking mode
+    * 
+    * @param aProperties Item properties
+    * @param aGc Graphics context
+    * @param aItemRect Item area
+    * @internal
+    */
+    void DrawMarkingModeIcons( TListItemProperties& aProperties,
+                               CWindowGc& aGc,
+                               TRect& aItemRect ) const;
 
     /**
     * @internal helper

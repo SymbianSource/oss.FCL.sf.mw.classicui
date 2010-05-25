@@ -53,6 +53,8 @@ const TInt KMaxColumn = 6;
 const TInt KColorIconFlag = -1;
 const TInt KColorIconIdx  =  0;
 
+// Number of icons in marking mode icon array
+const TInt KMarkingModeIconArraySize = 2;
 
 /**
 * About animation usage:
@@ -1148,7 +1150,8 @@ void CColumnListBoxDataExtension::LoadMarkingIconsL()
     {
     if ( !iMarkingIconArray )
         {
-        iMarkingIconArray = new ( ELeave ) CAknIconArray( 2 );
+        iMarkingIconArray = new ( ELeave ) CAknIconArray( 
+                KMarkingModeIconArraySize );
         }
     else
         {
@@ -2030,22 +2033,6 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
 
     TRgb aTextColor = aHighlight ? aColors.iHighlightedText : aColors.iText;
     
-    TBool markingMode = EFalse;
-    TRect itemRect( aRect );
-    
-    if ( listbox->View() && listbox->View()->ItemDrawer() )
-        {
-        if ( listbox->View()->ItemDrawer()->Flags() 
-                & CListItemDrawer::EMarkingModeEnabled
-                && iExtension->iMarkingIconArray
-                &&  iExtension->iMarkingIconArray->Count() == 2 )
-            {
-            markingMode = ETrue;
-            itemRect.iTl.iX += 
-                    AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 0 ).LayoutLine().il;
-            }
-        }
-
     MAknsSkinInstance *skin = AknsUtils::SkinInstance();
     MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
     if ( !cc )
@@ -2057,11 +2044,6 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
     TBool rectClipped[KMaxColumn];
     
     Mem::FillZ( &rectClipped[0], KMaxColumn * sizeof( TBool ) );
-    
-    if ( iExtension->iSubCellsMightIntersect )
-        {
-        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, itemRect );
-        }
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -2095,45 +2077,18 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
  
+    TRect itemRect( aRect );
+    DrawMarkingModeIcons( aItemProperties, aGc, itemRect );
+    if ( iExtension->iSubCellsMightIntersect )
+        {
+        CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, itemRect );
+        }
     if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
         {
         AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
         }
     DrawHighLight( aGc, aRect, aHighlight, skin );
     
-    if ( markingMode && !aItemProperties.IsSelectionHidden() )
-        {
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect( aRect, 
-                AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
-        
-        aGc.SetPenColor( aColors.iText );
-        aGc.SetPenStyle( CGraphicsContext::ESolidPen );
-
-        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
-
-        if ( listbox->View()->ItemIsSelected( iExtension->iCurrentRow ) )
-            {
-            icon = (*iExtension->iMarkingIconArray)[0];
-            }
-        
-        CFbsBitmap* bitmap = icon->Bitmap();
-
-        if ( bitmap )
-            {
-            TSize size( bitmap->SizeInPixels() ); // set size if not already
-            TSize targetSize( layoutRect.Rect().Size() );
-            
-            if ( size.iWidth != targetSize.iWidth && size.iHeight != targetSize.iHeight )
-                {
-                AknIconUtils::SetSize( bitmap, targetSize,
-                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
-                }
-
-            aGc.BitBltMasked( layoutRect.Rect().iTl, bitmap, TRect( layoutRect.Rect().Size() ), icon->Mask(), EFalse );
-            }
-        
-        }
     
     // The column draw loop
     column = 0;
@@ -2153,7 +2108,10 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
         TextUtils::ColumnText( text, column, aText );
         if ( text == KNullDesC ) { continue; }
 
-        if ( iExtension->FindSLSubCellIndex( subCellIndex, column )!=0 ) { continue; }
+        if ( iExtension->FindSLSubCellIndex( subCellIndex, column )!=0 ) 
+            { 
+            continue; 
+            }
         
         CGraphicsContext::TTextAlign align=ColumnAlignment(column);
         TBool isLayoutAlignment = iExtension->ColumnLayoutAlignment(column);
@@ -2460,27 +2418,57 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
         }
 
     CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
-    TBool markingMode = EFalse;
     TRect itemRect( aRect );
-    
-    if ( listbox->View() && listbox->View()->ItemDrawer() )
-        {
-        if ( listbox->View()->ItemDrawer()->Flags() 
-                & CListItemDrawer::EMarkingModeEnabled &&
-             iExtension->iMarkingIconArray && 
-             iExtension->iMarkingIconArray->Count() == 2 )
-            {
-            markingMode = ETrue;
-            itemRect.iTl.iX += 
-                AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 0 ).LayoutLine().il;
-            }
-        }
     
     TInt extraVerticalSpace=(aRect.Height()-font->HeightInPixels());
     TInt baseLineOffset=extraVerticalSpace/2+font->AscentInPixels();
+    // SERIES60 Background drawing.
+    MAknsSkinInstance *skin = AknsUtils::SkinInstance();
+    MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
+    if (!cc)
+        {
+        cc = SkinBackgroundContext();
+        }
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+
+    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
+
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+    if ( !listbox || !listbox->BackgroundDrawingSuppressed() )
+        {
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+        if ( transApi )
+            {
+            transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
+            }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+        aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        aGc.SetPenStyle(CGraphicsContext::ESolidPen);
+
+        if ( listbox )
+            {
+            AknsDrawUtils::Background( skin, cc, listbox, aGc, aRect );
+            }
+        else
+            {
+            aGc.Clear(aRect);
+            }
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST   
+        if ( transApi )
+            {
+            transApi->StopDrawing();
+            }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+        }
+    
+    DrawMarkingModeIcons( aItemProperties, aGc, itemRect );
     TRect textRect( itemRect );
+    textRect.iBr.iX = itemRect.iTl.iX;    
     TRect textMRect; // textrect with margins.
-    textRect.iBr.iX = itemRect.iTl.iX;
     TInt column=0;
     TPtrC text;
 
@@ -2559,48 +2547,6 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
 
     // pass 3 drawing
 
-    // SERIES60 Background drawing.
-    MAknsSkinInstance *skin = AknsUtils::SkinInstance();
-    MAknsControlContext *cc = AknsDrawUtils::ControlContext( Control() );
-    if (!cc)
-        {
-        cc = SkinBackgroundContext();
-        }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-
-    MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( &aGc );
-
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-    if ( !listbox || !listbox->BackgroundDrawingSuppressed() )
-        {
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST
-        if ( transApi )
-            {
-            transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
-            }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-        aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
-        aGc.SetPenStyle(CGraphicsContext::ESolidPen);
-
-        if ( listbox )
-            {
-            AknsDrawUtils::Background( skin, cc, listbox, aGc, aRect );
-            }
-        else
-            {
-            aGc.Clear(aRect);
-            }
-
-#ifdef RD_UI_TRANSITION_EFFECTS_LIST   
-        if ( transApi )
-            {
-            transApi->StopDrawing();
-            }
-#endif // RD_UI_TRANSITION_EFFECTS_LIST
-        }
 
     if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
         {
@@ -2618,48 +2564,6 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
         aGc.SetClippingRect( view->ViewRect() );
         }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
-
-    if ( markingMode && !aItemProperties.IsSelectionHidden() )
-        {
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect(
-            aRect, 
-            AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
-        
-        aGc.SetPenColor( aColors.iText );
-        aGc.SetPenStyle( CGraphicsContext::ESolidPen );
-
-        CGulIcon* icon = (*iExtension->iMarkingIconArray)[1]; // unchecked
-
-        if ( listbox->View()->ItemIsSelected( iExtension->iCurrentRow ) )
-            {
-            icon = (*iExtension->iMarkingIconArray)[0];
-            }
-        
-        CFbsBitmap* bitmap = icon->Bitmap();
-
-        if ( bitmap )
-            {
-            TSize size( bitmap->SizeInPixels() ); // set size if not already
-            TSize targetSize( layoutRect.Rect().Size() );
-            
-            if ( size.iWidth != targetSize.iWidth &&
-                 size.iHeight != targetSize.iHeight )
-                {
-                AknIconUtils::SetSize(
-                    bitmap,
-                    targetSize,
-                    EAspectRatioPreservedAndUnusedSpaceRemoved ); 
-                }
-
-            aGc.BitBltMasked( layoutRect.Rect().iTl,
-                              bitmap,
-                              TRect( layoutRect.Rect().Size() ),
-                              icon->Mask(),
-                              EFalse );
-            }
-        }
-    
     // The column draw loop
     column = 0;
     FOREVER
@@ -2919,6 +2823,71 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
     }
 
+// -----------------------------------------------------------------------------
+// CColumnListBoxData::DrawMarkingModeIcons
+// -----------------------------------------------------------------------------
+//
+void CColumnListBoxData::DrawMarkingModeIcons( 
+                const TListItemProperties& aProperties,
+                CWindowGc& aGc,
+                TRect& aItemRect ) const
+    {
+    CEikListBox* listbox = static_cast<CEikListBox*>( iExtension->iControl );
+    TRect textRect( aItemRect );
+    
+    if ( listbox->View() && listbox->View()->ItemDrawer() )
+        {
+        if ( listbox->View()->ItemDrawer()->Flags() 
+                & CListItemDrawer::EMarkingModeEnabled &&
+                !aProperties.IsSelectionHidden() &&
+                iExtension->iMarkingIconArray &&
+#ifdef RD_TOUCH2_MARKING
+                iExtension->iMarkingIconArray->Count() == 
+                        KMarkingModeIconArraySize )
+#else
+                iExtension->iMarkingIconArray->Count() == 2 )
+#endif // RD_TOUCH2_MARKING            
+            {
+            textRect.iTl.iX += 
+                AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 
+                        0 ).LayoutLine().il;
+            TAknLayoutRect layoutRect;
+            layoutRect.LayoutRect( aItemRect, 
+                AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+            
+            // unchecked icon
+            CGulIcon* icon = (*iExtension->iMarkingIconArray)[1];
+            
+            if ( listbox->View()->ItemIsSelected( iExtension->iCurrentRow ) )
+                {
+                icon = (*iExtension->iMarkingIconArray)[0];
+                }
+            CFbsBitmap* bitmap = icon->Bitmap();
+            
+            if ( bitmap )
+                {
+                TSize size( bitmap->SizeInPixels() ); // set size if not already
+                TSize targetSize( layoutRect.Rect().Size() );
+                
+                if ( size.iWidth != targetSize.iWidth &&
+                     size.iHeight != targetSize.iHeight )
+                    {
+                    AknIconUtils::SetSize(
+                        bitmap,
+                        targetSize,
+                        EAspectRatioPreservedAndUnusedSpaceRemoved ); 
+                    }
+
+                aGc.BitBltMasked( layoutRect.Rect().iTl,
+                                  bitmap,
+                                  TRect( layoutRect.Rect().Size() ),
+                                  icon->Mask(),
+                                  EFalse );
+                }   
+            aItemRect = textRect;
+            }
+        }
+    }
 
 void CColumnListBoxData::AddColumnL(TInt aColumn)
 //

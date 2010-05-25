@@ -353,7 +353,30 @@ class CAknButtonState : public CBase
          * created by owning Button
          */
         void SetGeneratedDimmedIcon( TBool aDimmedIconCreatedByButton );
+        
+        /**
+         * Tells if frame update is needed, it is needed when the flag 
+         * KAknButtonStateHasLatchedFrame has changed. 
+         * @return ETrue if flag KAknButtonStateHasLatchedFrame has changed.
+         */
+        TBool FlagsChanged();
 
+        /**
+         * Frame has been updated. No need to update anymore. 
+         */
+        void ResetFlagsChanged();
+
+        /**
+         * Checks if text has changed. 
+         * @return ETrue is state's text has changed. 
+         */
+        TBool TextChanged(); 
+        
+        /**
+         * Visual text has been updated, so iTextChanged can be set to EFalse.
+         */
+        void ResetTextChanged(); 
+        
         friend class CAknButton;
 
     protected: // data
@@ -1163,6 +1186,17 @@ class CAknButton : public CAknControl
         */
         TRect TouchArea() const;
 
+        /**
+        * Enables or disables tactile feedback for button. By default it is 
+        * enabled. Should be used to temporarily prevent updating of tactile 
+        * feedback area for performance reasons when button is moved 
+        * constantly.
+        *
+        * @param aEnable, ETrue to enable, EFalse to disable 
+        * @since S60 5.2
+        */
+        IMPORT_C void EnableFeedback( TBool aEnable ); 
+
     protected: // Constructors
 
         /**
@@ -1305,6 +1339,12 @@ class CAknButton : public CAknControl
         void DrawTextButton( CWindowGc& aGc ) const;
 
         /**
+         * Continues drawing of the button which has text. Called from 
+         * DrawTextButton and DrawTextAndIconButton
+         */
+        void DrawText( CWindowGc& aGc, TRect& aTextRect ) const;
+
+        /**
          * Continues drawing of the button which has only an icon in it.
          */
         void DrawIconButton( CWindowGc& aGc ) const;
@@ -1430,6 +1470,24 @@ class CAknButton : public CAknControl
          * @param aNewIndex New state index
          */
         void SetStateIndexL( TInt aNewIndex );
+        
+        /**
+         * Sets frame IDs for background context. This is called when there
+         * are possible changes in frame ids. 
+         */
+        void SetFrameIDs() const; 
+
+        /**
+         * Sets frame rects for background context. This is called when
+         * button's size changes 
+         */
+        void SetFrameRects(); 
+
+        /**
+         * Converts text to visual and clips it. This is called when there
+         * are possible changes in visual text.
+         */
+        void ConvertTextToVisualAndClip() const; 
 
     protected: // Data
 

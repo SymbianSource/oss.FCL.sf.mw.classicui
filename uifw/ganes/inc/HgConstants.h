@@ -51,8 +51,7 @@ const TInt KAknSensibleLength   = 80;
 const TInt KAknMaxMarqueeLength = 512;
 
 _LIT( KGanesMif, "\\resource\\apps\\ganes.mif" );
-_LIT( KGanesDateString, "%D%M%Y%/0%1%/1%2%/2%3%/3" );
-_LIT( KGanesYearString, "%Y%3" );
-_LIT( KGanesMonthString, "%N%M%2" );
+_LIT( KGanesYearString, "%F%Y" );
+_LIT( KGanesMonthString, "%F%N" );
 
 #endif /* HGCONSTANTS_H_ */

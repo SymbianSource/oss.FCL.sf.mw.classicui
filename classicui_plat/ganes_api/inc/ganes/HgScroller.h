@@ -516,6 +516,8 @@ protected:
     TSelectionMode iSelectionMode;
     
     CPeriodic* iKeyScrollingTimer; // Timer for key scrolling, own.
+    TInt iOldWinPos;
+
     };
 
 #endif /*HGSCROLLER_H_*/

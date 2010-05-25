@@ -534,9 +534,20 @@ void CAknAdaptiveSearchGrid::Draw( CWindowGc& aGc, const CCoeControl& /*aControl
          const TRect& aRect ) const 
     {
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    MAknsControlContext* cc = AknsDrawUtils::ControlContext( this ); 
-    aGc.SetBrushColor( KRgbWhite );
-    aGc.SetPenColor( KRgbBlack );
+
+    TRgb color;
+    TInt error = AknsUtils::GetCachedColor(skin, color, KAknsIIDFsTextColors, 
+        		   EAknsCIFsTextColorsCG3 );
+    if( error == KErrNone )
+        {
+        aGc.SetBrushColor( color );
+        aGc.SetPenColor( color );
+        }
+    else
+        {
+        aGc.SetBrushColor( KRgbWhite );
+        aGc.SetPenColor( KRgbBlack );
+        }
     aGc.SetBrushStyle( CGraphicsContext::ESolidBrush );
     aGc.DrawRect( aRect );   
     }

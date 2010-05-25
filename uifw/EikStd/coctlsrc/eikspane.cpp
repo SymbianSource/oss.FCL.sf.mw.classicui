@@ -3247,7 +3247,65 @@ EXPORT_C CCoeControl* CEikStatusPaneBase::SwapControlL(
 		}
 
 	CCoeControl* oldControl = cont->Control();
+	
+	// Make the old control invisible and effectively remove it from data
+    // subscriber's observer array. This ensures that:
+	//
+	// 1. Old control won't receive messages about layout switch etc.
+	// 2. Old control doesn't try to draw. It must be prevented because its
+	//    window might be invalid due to layout change.
+	if ( oldControl )
+	    {
+        oldControl->MakeVisible( EFalse );
+        
+        TInt count = oldControl->CountComponentControls();
+        
+        for ( TInt i = 0; i < count; ++i )
+            {
+            CCoeControl* child = oldControl->ComponentControl( i );
+            
+            if ( child )
+                {
+                child->MakeVisible( EFalse );
+                }
+            }
+	    }
+	
+	// Make the new control visible and so that it gets added to data
+	// subscriber's observer array. This is only done if the new control is
+    // properly constructed before swapping, i.e. it already
+    // has a container window set.
+	if ( aNewControl && aNewControl->DrawableWindow() )
+	    {
+        SetContainersL( *aNewControl, *cont );
+
+        if ( cont->IsVisible() )
+            {
+            aNewControl->MakeVisible( ETrue );
+
+            TInt count = aNewControl->CountComponentControls();
+            
+            for ( TInt i = 0; i < count; ++i )
+                {
+                CCoeControl* child = aNewControl->ComponentControl( i );
+                
+                if ( child )
+                    {
+                    child->MakeVisible( ETrue );
+                    }
+                }
+            }
+	    }
+	
 	cont->SetControl( aNewControl );
+	
+	// ensure that indicator's priorities etc are up-to-date
+	CAknStatusPaneDataSubscriber* subscriber = DataSubscriber();
+	
+	if ( subscriber )
+	    {
+        subscriber->RefreshDataL();
+	    }
 
 	return oldControl;
 	}

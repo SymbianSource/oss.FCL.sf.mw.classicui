@@ -82,6 +82,7 @@ LIBRARY         hwrmhapticsclient.lib
 LIBRARY         AknSkinSrv.lib
 LIBRARY         aknphysics.lib
 LIBRARY         bitgdi.lib
+LIBRARY         eikcoctl.lib
 
 
 START RESOURCE ../group/bctestmixmcl_reg.rss

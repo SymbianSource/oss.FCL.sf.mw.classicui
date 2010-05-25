@@ -148,7 +148,9 @@ public:
             /** Signals observer (FEP) to open a stylus menu with ccpu
                 options.
                 Parameter not used. */
-            EOpenStylusMenuCcpu
+            EOpenStylusMenuCcpu,
+            /** Close pen input (VKB or HWR), parameter not used */
+            EClosePenInputRequest
             };
             
         /**

@@ -57,7 +57,11 @@ public:
         /**
          * Collection is view-only (no highlight ever).
          */
-        EStateViewOnly                = 0x00000008
+        EStateViewOnly                = 0x00000008, 
+        /**
+         * Collection has marked items. 
+         */
+        EStateMarkedItems             = 0x00000010 
         };
 
     /**
@@ -91,6 +95,7 @@ public:
      * @param  aExtensionId  Extension id. 
      * @param  a0            First extension method parameter.
      * @param  a1            Second extension method parameter.
+     * @return Error code
      */    
     virtual TInt CollectionExtension(
             TUint aExtensionId, TAny*& a0, TAny* a1 ) = 0;
@@ -123,7 +128,7 @@ public:
         /**
          * Collection is in multiple marking mode.
          */
-        EStateMarkingMode     = 0x00000001,
+        EStateMarkingMode             = 0x00000001,
         /**
          * Collection has marked items.
          */

@@ -387,7 +387,11 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
             }
         else
             {
-            FillSystemGcWithSkin( );
+            // draw with alpha to make a hole to composition layer
+            SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+            SystemGc().SetBrushColor(TRgb(0,0,0,0));
+            SystemGc().Clear();
+            DrawOpenVG();
             }
         }
     else
@@ -396,8 +400,7 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
         SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
         SystemGc().SetBrushColor(TRgb(0,0,0,0));
         SystemGc().Clear();
-        
-        DrawOpenVG();        
+        DrawOpenVG();
         }
     }
 
@@ -484,7 +487,6 @@ void CHgVgMediaWall::HandlePointerEventL( const TPointerEvent& aEvent )
     {
     // Not faded and initialized and the drawing is set to be done to WinGc
     if( aEvent.iType == TPointerEvent::EButton1Down 
-            && !( iFlags & EHgVgMediaWallFaded )
             && !( iFlags & EHgVgMediaWallUninitialized )
             && iFlags & EHgVgMediaWallDrawToWindowGC )
         {
@@ -735,6 +737,15 @@ void CHgVgMediaWall::HandleKeyDown()
     iKeyRepeats = 0;
     iKeyScrollingState = ENoKeyScrolling;    
     iPointerDown = EFalse;
+    
+    // Not faded and initialized and the drawing is set to be done to WinGc
+    if( !( iFlags & EHgVgMediaWallUninitialized )
+        && iFlags & EHgVgMediaWallDrawToWindowGC )
+        {
+        // Draw with OpenVg to our surface.
+        ClearFlags( EHgVgMediaWallDrawToWindowGC );
+        DrawNow();
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -854,12 +865,14 @@ TKeyResponse CHgVgMediaWall::HandleKeyEvent(const TKeyEvent& aKeyEvent)
             {
             if( iSelectedIndex != KErrNotFound && iSelectionObserver )
                 {
-                TRAP_IGNORE( StartOpeningAnimationL(ETrue ); )                
+                TRAP_IGNORE( DoStartOpeningAnimationL( ); )                
                 return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;
             }
-        default: 
+        default:
+            TChar key(aKeyEvent.iCode);
+            SearchItem(key);
             break;
         }
     
@@ -1169,13 +1182,13 @@ void CHgVgMediaWall::HandleResourceChange( TInt aType )
             iAnimationTimer->Cancel();
             }
     
-        SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallFaded );
+        SetFlags( EHgVgMediaWallDrawToWindowGC  );
         DrawNow();
         }
     
     if( aType == KEikMessageUnfadeWindows )
         {
-        ClearFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallFaded );
+        ClearFlags( EHgVgMediaWallDrawToWindowGC );
         DrawNow();
         }
 
@@ -2212,6 +2225,10 @@ TBool CHgVgMediaWall::BeginSelection(TInt aIndex)
         TInt y = aIndex % iRowCount;
         StartAnimationToPosition(x, y, ETrue);
         }
+    else if (aIndex >= 0 && aIndex < iItems.Count())
+        {
+        StartAnimationToPosition(aIndex, 0, ETrue);
+        }
     return ETrue;
     }
 
@@ -2586,5 +2603,49 @@ void CHgVgMediaWall::SetConstantsForStyle()
         }
     }
 
+
+TBool CHgVgMediaWall::SearchItem( TChar& aFirstLetter )
+    {
+
+    TInt searchStartIndex = iSelectedIndex+1;
+    
+    // From selected to end
+    for(TInt i = searchStartIndex; i < iItems.Count(); ++i)
+        {
+        if(iItems[i]->Title().Length() > 0 )
+            {
+            TChar compare( iItems[i]->Title()[0] );
+            compare.UpperCase();
+            aFirstLetter.UpperCase();
+            
+            if(compare - aFirstLetter == 0)
+                {
+                iSelectedIndex = i;
+                StartAnimationToPosition(iSelectedIndex, ETrue);
+                return ETrue;
+                }
+            }
+        }
+
+    // From beginning to selected - 1
+    for(TInt i = 0; i < iSelectedIndex; ++i)
+        {
+        if(iItems[i]->Title().Length() > 0 )
+            {
+            TChar compare( iItems[i]->Title()[0] );
+            compare.UpperCase();
+            aFirstLetter.UpperCase();
+            
+            if(compare - aFirstLetter == 0)
+                {
+                iSelectedIndex = i;
+                StartAnimationToPosition(iSelectedIndex, ETrue);
+                return ETrue;
+                }
+            }
+        }
+    
+    return EFalse;
+    }
 
 // End of File

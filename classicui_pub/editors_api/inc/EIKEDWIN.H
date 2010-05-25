@@ -490,6 +490,11 @@ private:
          * Not own.
          */
         MAknsSkinInstance* iSkinInstance;
+        
+        /**
+		 * Record enableSmiley is supported.
+		 */
+		TBool iEnableSmileySupported;
         };
 
 public:

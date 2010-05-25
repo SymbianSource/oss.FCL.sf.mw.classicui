@@ -683,6 +683,11 @@ private:
      */
     void SetConstantsForStyle();
 
+    /**
+     * 
+     */
+    TBool SearchItem( TChar& aFirstLetter );
+
 protected:
     CHgScrollBufferManager* iManager; // Own
     

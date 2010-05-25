@@ -131,7 +131,16 @@ public:
         * Removable external memory card
         *
         */
-        EMemoryTypeMMCExternal = 0x00000010
+        EMemoryTypeMMCExternal = 0x00000010,
+
+        /*
+         * EMemoryTypeMMCExternalInDevice 
+         * Removable external memory card, but memory type which is 
+         * DriveInfo::EDriveUsbMemory is not included.
+         * Do not use EMemoryTypeMMCExternalInDevice  and EMemoryTypeMMCExternal
+         * at the same time. If doing so, EMemoryTypeMMCExternalInDevice works.
+         * */
+        EMemoryTypeMMCExternalInDevice = 0x00000020
 
         };
 

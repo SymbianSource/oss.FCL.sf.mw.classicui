@@ -4584,6 +4584,15 @@ EXPORT_C void CEikMfne::MakeVisible( TBool aVisible )
         {
         HideCursor();
         }
+    
+    if ( iExtension && !aVisible )
+        {
+        TRAP_IGNORE (
+            iExtension->iExtendedInputCapabilities->ReportEventL( 
+                CAknExtendedInputCapabilities::MAknEventObserver::EClosePenInputRequest, 
+                0 );
+            )
+        }
     }
 
 void CEikMfne::SetValidateCallBack( TCallBack aCallBack )

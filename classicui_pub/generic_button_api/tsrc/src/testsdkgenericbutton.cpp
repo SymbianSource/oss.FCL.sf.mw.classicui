@@ -22,7 +22,6 @@
  */
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 #include <coemain.h>
 
@@ -85,11 +84,15 @@ void CTestSDKGENERICBUTTON::ConstructL()
                           CStifLogger::EFile,
                           EFalse );
     
-    iOffset = CCoeEnv::Static()->AddResourceFileL(_L("C:\\resource\\testsdkgenericbutton.rsc"));
+    TRAPD ( err, iOffset = CCoeEnv::Static()->AddResourceFileL(
+            _L("C:\\resource\\testsdkgenericbutton.rsc") ) );
+    if ( KErrNone != err )
+        {
+        _LIT ( KGenericbuttonRsc, "Z:\\resource\\testsdkgenericbutton.rsc" );
+        iOffset = CCoeEnv::Static()->AddResourceFileL( KGenericbuttonRsc );
+        }
     
     SendTestClassVersion();
-    
-    TurnOffScreenSaver();
     }
 
 // -----------------------------------------------------------------------------
@@ -117,8 +120,6 @@ CTestSDKGENERICBUTTON::~CTestSDKGENERICBUTTON()
     delete iLog; 
 
     CCoeEnv::Static()->DeleteResourceFile( iOffset );
-
-    RestoreScreenSaver();
     }
 
 //-----------------------------------------------------------------------------
@@ -153,32 +154,6 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) CTestSDKGENERICBUTTON::NewL( aTestModuleIf );
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKGENERICBUTTON::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestSDKGENERICBUTTON::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
 //End file
 
 

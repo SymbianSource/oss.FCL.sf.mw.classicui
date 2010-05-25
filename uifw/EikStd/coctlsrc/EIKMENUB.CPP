@@ -177,6 +177,7 @@ void CEikMenuBarExtension::SetItemCommandsStateL()
             {
             TBool dimCommands( EFalse );
             TBool changeState( EFalse );
+            TBool dimMarkAndUnmark( EFalse ); 
             if ( iItemActionMenu->MarkingMode().MultipleMarkingActive() )
                 {
                 changeState = ETrue;
@@ -184,13 +185,30 @@ void CEikMenuBarExtension::SetItemCommandsStateL()
                 }
             else if ( !iItemActionMenu->CollectionHighlightVisible() )
                 {
-                changeState = ETrue;
-                dimCommands = ETrue;
+                if ( iItemActionMenu->CollectionHasMarkedItems() )
+                    {
+                    TInt pos; 
+                    if ( iBar->iMenuPane->MenuItemExists( EAknCmdMark, pos ) ) 
+                        {
+                        iBar->iMenuPane->SetItemDimmed( EAknCmdMark, ETrue ); 
+                        }
+                    if ( iBar->iMenuPane->MenuItemExists( EAknCmdUnmark, pos ) ) 
+                        {
+                        iBar->iMenuPane->SetItemDimmed( EAknCmdUnmark, ETrue ); 
+                        } 
+                    dimMarkAndUnmark = ETrue; 
+                    }
+                else 
+                    {
+                    changeState = ETrue;
+                    dimCommands = ETrue;
+                    }
                 }
             if ( changeState )
                 {
                 iBar->iMenuPane->SetItemCommandsStateL( dimCommands );
                 }
+            iBar->iMenuPane->HideMarkAndUnmark( dimMarkAndUnmark ); 
             }
         else if ( iSingleClickEnabled )
             {
@@ -973,9 +991,11 @@ void CEikMenuBar::StartDisplayingMenuBarL()
                     ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId,
                     iMenuPane );
         if ( iActiveEditMenuObserver )
+            {
             iActiveEditMenuObserver->DynInitMenuPaneL(
                     ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId,
                     iMenuPane );
+            }
 
         titles = iTitleArray->Count() - 2;
         iMenuPane->FilterDimmedItems();
@@ -991,14 +1011,16 @@ void CEikMenuBar::StartDisplayingMenuBarL()
             if ( fepMenuObserver )
                 fepMenuObserver->DynInitMenuPaneL( resource, iMenuPane );
             if ( iActiveEditMenuObserver )
+                {
                 iActiveEditMenuObserver->DynInitMenuPaneL(
                         resource,iMenuPane );
+                }
 
             if ( resource == R_AVKON_MENUPANE_MARK_MULTIPLE )
                 {
                 iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
                 }
-
+            iMenuPane->FilterDimmedItems();
             titles--;
             }
         iExt->SetItemCommandsStateL();
@@ -1100,9 +1122,13 @@ void CEikMenuBar::StartDisplayingMenuBarL()
     
     iMenuPane->SetFocus(ETrue);
     if (fepMenuObserver)
+        {
         fepMenuObserver->SetEmphasis(this, ETrue);
+        }        
     if (iActiveEditMenuObserver)
+        {
         iActiveEditMenuObserver->SetEmphasis(this, ETrue);
+        }
     
     // Set the position of the menu pane to the top of the CBA area, 
     // and set the width to the width of the screen

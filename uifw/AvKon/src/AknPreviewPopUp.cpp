@@ -78,6 +78,11 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
 //
 CAknPreviewPopUp::~CAknPreviewPopUp()
     {
+    if( iIsDeleted )
+        {
+    	*iIsDeleted = ETrue ;
+        iIsDeleted = 0 ;
+        }
 
     if ( IsVisible() )
         {
@@ -519,7 +524,10 @@ void CAknPreviewPopUp::SizeChanged()
 // -----------------------------------------------------------------------------
 //
 void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
-    {
+    {   
+	TBool isDelete = EFalse; 
+	iIsDeleted = &isDelete;
+	
     if ( AknLayoutUtils::PenEnabled() )
         {
         iCloseMenu = EFalse;
@@ -531,8 +539,14 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         // redirect pointer event to content
         if ( Rect().Contains( aPointerEvent.iPosition ) && IsVisible() )
             {
-            iAllowUpEvent = ETrue;
+            iAllowUpEvent = ETrue;         
+            CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
             CCoeControl::HandlePointerEventL( aPointerEvent );
+            CleanupStack::Pop();
+            if( isDelete )
+            	{
+            	return;
+            	}
             if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) && aPointerEvent.iType == TPointerEvent::EButton1Up && IsVisible() )
                 {
             	  // if pointer up is already redirected to the content, but the popup is still visible,
@@ -603,7 +617,13 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     aPointerEvent.iType == TPointerEvent::EButtonRepeat ||
                     (aPointerEvent.iType == TPointerEvent::EButton1Up && iAllowUpEvent ) )
                     {
+                    CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    CleanupStack::Pop();
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
             else
@@ -611,7 +631,13 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 if ( aPointerEvent.iType == TPointerEvent::EDrag || 
                     aPointerEvent.iType == TPointerEvent::EButtonRepeat )
                     {
+                    CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    CleanupStack::Pop();
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
                 
@@ -621,6 +647,8 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             iAllowUpEvent = EFalse;
             }
         }
+       
+    iIsDeleted = NULL;
     }
     
 // -----------------------------------------------------------------------------
@@ -805,6 +833,15 @@ void CAknPreviewPopUp::DrawBackground( CWindowGc& aGc, const TRect& aRect ) cons
         
         aGc.CancelClippingRect();
         }   
+    }
+
+// -----------------------------------------------------------------------------
+// CAknPreviewPopUp::CleanLocalRef
+// -----------------------------------------------------------------------------
+//
+void CAknPreviewPopUp::CleanLocalRef( TAny* any )
+    {
+    static_cast<CAknPreviewPopUp*>( any )->iIsDeleted = NULL;
     }
 
 //  End of File  

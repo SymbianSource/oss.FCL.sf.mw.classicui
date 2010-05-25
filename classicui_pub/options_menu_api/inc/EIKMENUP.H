@@ -929,6 +929,14 @@ public: // new functions
      * Enables the default highlight in menu
      */
     void SetDefaultHighlight();
+
+    /**
+     * Updates flag which is used for hiding mark and unmark -commands from 
+     * submenus. This is called with ETrue when collection has marked items. 
+     *
+     * @param aHide ETrue to hide, EFalse to show
+     */
+    void HideMarkAndUnmark( TBool aHide );
     
 private:
     enum { EInvalidCurrentSize=0x01, EBackgroundFaded=0x02 };
@@ -1014,6 +1022,14 @@ private : // new functions
 	 * @return Item height.
      */
     TInt CalculateItemHeight() const;
+    
+    /**
+     * Cleans the internal pointer which is used 
+     * to track object deletion.
+     * 
+     * @param aParam Pointer to options menu object.
+     */
+    static void CleanLocalRef( TAny* aParam );
 
 protected: // from CoeControl
 

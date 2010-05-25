@@ -619,9 +619,9 @@ void CAknMemorySelectionDialogMultiDrive::LoadIconsL(
             EMbmAknmemorycarduiQgn_prop_mmc_non_mask );
         //For external USB Driver
         AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *aIconArray,
-            skin, KAknsIIDQgnPropFmgrUsbMemcSub, KCommonDialogsBitmapFile,
-            EMbmCommondialogsQgn_prop_usb_memc_sub,
-            EMbmCommondialogsQgn_prop_usb_memc_sub_mask );
+            skin, KAknsIIDQgnPropUsbMemc, KCommonDialogsBitmapFile,
+            EMbmCommondialogsQgn_prop_usb_memc,
+            EMbmCommondialogsQgn_prop_usb_memc_mask );
         }
     _LOG1( "[CAknMemorySelectionDialog] aIconArray count=%d",
            aIconArray->Count() );

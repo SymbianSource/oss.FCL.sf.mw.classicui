@@ -29,7 +29,6 @@
 #include <akntreelistobserver.h>
 #include <akncollection.h>
 #include <aknlongtapdetector.h>
-#include <aknmarkingmodeobserver.h>
 
 #include "akntreeobserver.h"
 #include "akntreelistviewitem.h"
@@ -1113,9 +1112,6 @@ private: // data
      */
     CAknTreeItem* iPreviouslyFocusedItem;
 
-    TBool iIsPressedDownState;
-    
-    TBool iIsDragged;
     
     /**
      * Physics handler. Used only when physics feature is enabled.
@@ -1123,10 +1119,6 @@ private: // data
      */
     CAknTreeListPhysicsHandler* iPhysicsHandler;
 
-    /**
-     * ETrue if physics view should be adjusted according to top item.
-     */
-    TBool iScrollPhysicsTop;
 
     /**
     * Pointer to tfx redirect gc for effects
@@ -1150,10 +1142,6 @@ private: // data
 	*/
 	TInt iBottomIndex;
 	
-	/**
-	 * Whether or not mirrored layout is currently in use.
-	 */
-	TBool iMirroredLayoutInUse;
 	
     /**
      * Remember pointer to bottom item. Use for drawing line seperator only.
@@ -1162,16 +1150,17 @@ private: // data
      */
 	CAknTreeItem* iBottomItem;	
 
-	/**
-	 * Whether marking mode is activated or not.
-	 */
-	TBool iMarkingMode;
 	
 	/**
 	 * Array for marking mode icons.
 	 * Own.
 	 */
     CAknIconArray* iMarkingIconArray;
+    
+    /**
+     * Ordinal position of window, before stylus menu is opened.
+     */
+    TInt iOldWinPos;
     };
 
 #endif // C_AKNTREELISTVIEW_H

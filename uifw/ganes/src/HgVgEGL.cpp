@@ -292,7 +292,13 @@ CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape) c
         {
         // create temporary buffer for data
         RBuf8 buf;
-        buf.Create(aRect.Width() * aRect.Height() * 4);
+        TInt bufCreateErr = buf.Create(aRect.Width() * aRect.Height() * 4);
+        if(bufCreateErr != KErrNone) {
+            buf.Close(); //just in case
+            delete bitmap;
+            bitmap = NULL;
+            return NULL;
+        }
         buf.Fill(0xFF);
 
         // read data back from vg (this is sloooww)
@@ -301,18 +307,25 @@ CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape) c
             {
             dataStride = 4 * aRect.Height();
             vgReadPixels((void*)buf.Ptr(), 
-                    dataStride, VG_sARGB_8888, 0, 0, aRect.Height(), aRect.Width());
+                         dataStride, VG_sARGB_8888, 0, 0, aRect.Height(), aRect.Width());
             }
         else
             {
             dataStride = 4 * aRect.Width();
             vgReadPixels((void*)buf.Ptr(), 
-                    dataStride, VG_sARGB_8888, 0, 0, aRect.Width(), aRect.Height());            
+                         dataStride, VG_sARGB_8888, 0, 0, aRect.Width(), aRect.Height());
             }
 
         // because of bug in vg driver we need to swap memory using for loop, because
         // negative datastrides cause crash
-        bitmap->Create(TSize(aRect.Width(), aRect.Height()), EColor16MA);
+        TInt bitmapCreateErr = bitmap->Create(TSize(aRect.Width(), aRect.Height()), EColor16MA);
+        if(bitmapCreateErr != KErrNone) {
+            buf.Close();
+            delete bitmap;
+            bitmap = NULL;
+            return NULL;
+        }
+        
         bitmap->BeginDataAccess();
         if (!aLandscape)
             {

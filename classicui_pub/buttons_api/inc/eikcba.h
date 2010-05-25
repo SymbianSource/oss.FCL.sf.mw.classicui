@@ -956,11 +956,11 @@ public:
     void UpdateMultipleMarkingSoftkey();
     
     /**
-     * Checks wheter softkey command change is allowed.
+     * Checks whether softkey command change is allowed.
      * 
      * @return ETrue if softkey command change is allowed.
      */    
-    TBool CommandChangeAllowed();
+    TBool CommandChangeAllowed() const;
 
 private: // new methods
 

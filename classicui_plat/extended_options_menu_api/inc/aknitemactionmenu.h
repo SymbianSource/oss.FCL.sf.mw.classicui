@@ -230,6 +230,14 @@ public:
      * @return Marking mode handler.
      */
     CAknMarkingMode& MarkingMode();
+    
+    /**
+     * Returns ETrue if collection has marked items.
+     * 
+     * @internal
+     * @return ETrue if collection has marked items.
+     */
+    TBool CollectionHasMarkedItems();
 
 private:
 

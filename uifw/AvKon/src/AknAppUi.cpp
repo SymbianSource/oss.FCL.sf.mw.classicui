@@ -1410,6 +1410,12 @@ EXPORT_C void CAknAppUi::BaseConstructL(TInt aAppUiFlags)
         {
         AknsUtils::SetAvkonHighlightAnimationEnabledL( EFalse );
         }
+    
+    if (( aAppUiFlags & EAknDisableAnimationBackground ) != 0)
+        {
+        AknsUtils::SetAnimationBackgroundDisabledL( ETrue );
+        
+        }
 
 #ifdef RD_SCALABLE_UI_V2
     if ( CAknTouchPane* tp = TouchPane() )

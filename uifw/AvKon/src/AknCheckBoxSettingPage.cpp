@@ -210,7 +210,7 @@ EXPORT_C void CAknCheckBoxSettingPage::ConstructL()
         if (newResourceId)
             {
             bgc->SetCommandL(3,newResourceId);
-            cba->DrawNow();
+            cba->DrawDeferred();
             }
         }
 

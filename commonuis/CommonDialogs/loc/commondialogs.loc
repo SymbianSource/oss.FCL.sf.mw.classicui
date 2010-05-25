@@ -210,7 +210,7 @@
 
 //d:Text for USB Memory (no name) in memory selection
 //l:list_single_graphic_pane_t1_cp2
-#define qtn_memc_USB_available_single_list "%U USB memory"
+#define qtn_memc_usb_available_single_list "%U USB memory"
 
 //d:Text for USB Memory in  memory selection when USB memory is unavilable
 //l:list_single_graphic_pane_t1_cp2
@@ -218,7 +218,7 @@
 
 //d:Text for USB Memory (no name) in memory selection
 //l:list_double_large_graphic_pane_t1_cp2
-#define qtn_memc_USB_available_double "%U USB memory"
+#define qtn_memc_usb_available_double "%U USB memory"
 
 //d:Text for USB Memory in memory selection when USB memory is unavilable
 //l:list_double_large_graphic_pane_t1_cp2

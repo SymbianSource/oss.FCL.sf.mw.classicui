@@ -167,6 +167,7 @@ TInt CTestSDKGENERICBUTTON::RunMethodL(
         ENTRY( "TestGBGetCurrentIconL", CTestSDKGENERICBUTTON::TestGBGetCurrentIconL ),
         ENTRY( "TestGBShowHelpLL", CTestSDKGENERICBUTTON::TestGBShowHelpLL ),
         ENTRY( "TestGBHideHelpL", CTestSDKGENERICBUTTON::TestGBHideHelpL ),
+        ENTRY( "TestGBEnableFeedbackL", CTestSDKGENERICBUTTON::TestGBEnableFeedbackL ),
         // [test cases entries]
 
         };
@@ -2303,6 +2304,29 @@ TInt CTestSDKGENERICBUTTON::TestGBExtensionInterfaceL( CStifItemParser& /*aItem*
     STIF_ASSERT_NULL( returnvalue );
     CleanupStack::PopAndDestroy( button );
     
+    return KErrNone;
+    }
+
+// -----------------------------------------------------------------------------
+// CTestSDKGENERICBUTTON::TestGBEnableFeedbackL
+// -----------------------------------------------------------------------------
+//
+TInt CTestSDKGENERICBUTTON::TestGBEnableFeedbackL ( CStifItemParser& /*aItem*/ )
+    {
+    CTestButton* button = CTestButton::NewL();
+    CleanupStack::PushL( button );
+    button->ConstructFromResourceL( R_BUTTON );
+
+    button->EnableFeedback ( EFalse );
+    button->MakeVisible( ETrue );
+    button->SetDimmed( ETrue );
+
+    button->EnableFeedback ( ETrue );
+    button->MakeVisible( ETrue );
+    button->SetDimmed( ETrue );
+
+    CleanupStack::PopAndDestroy( button );
+
     return KErrNone;
     }
 

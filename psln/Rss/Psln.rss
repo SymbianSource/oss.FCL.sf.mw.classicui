@@ -243,9 +243,7 @@ RESOURCE ARRAY r_screen_saver_setting_page_lbx
     {
     items =
         {
-        LBUF { txt = qtn_sanim_object_none; },
-        LBUF { txt = qtn_sanim_object_date; },
-        LBUF { txt = qtn_sanim_object_text; }
+        LBUF { txt = qtn_sanim_object_none; }
         };
     }
 

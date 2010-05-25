@@ -663,28 +663,16 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
             if ( aDocumentPosition >= inlineText.LowerPos() && 
                 aDocumentPosition + length <= inlineText.HigherPos() )
                 {
-                iEdwin.iEdwinExtension->iSmiley->ConvertTextForSmileyL(
-                    aDocumentPosition, aEditorContent, EFalse );
+                smiley->ConvertTextForSmileyL( aDocumentPosition, aEditorContent, 
+                    EFalse );
                 }
             }
-        TBool prevIsCode( EFalse );
         for ( TInt i( 0 ); i < length; i++ )
             {
-            if ( aEditorContent[i] == CSmileyManager::KCompensateChar )
+            if ( smiley->SmileyCodeByPos( aDocumentPosition + i ) > 0 &&
+                !CSmileyManager::IsSmileyCode( aEditorContent[i] ) )
                 {
-                if ( i == 0 )
-                    {
-                    prevIsCode = ( CSmileyManager::IsSmileyCode( 
-                        smiley->SmileyCodeByPos( aDocumentPosition ) ) );
-                    }
-                if ( prevIsCode )
-                    {
-                    aEditorContent[i] = CSmileyManager::KPlaceHolder;
-                    }
-                }
-            else
-                {
-                prevIsCode = CSmileyManager::IsSmileyCode( aEditorContent[i] );
+                aEditorContent[i] = CSmileyManager::KPlaceHolder;
                 }
             }
         }
@@ -2104,6 +2092,7 @@ is a selection operation
             const TCursorSelection sel(lower,lower);
             iTextView->SetPendingSelection(sel);
             iTextView->HandleInsertDeleteL(sel,toDelete.Length(),formatHasChanged);
+            cursorPos = lower;
             reportChange=ETrue;
             }
         else if ( replaceSelection ) // All neutral protection cases 
@@ -6751,6 +6740,18 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
     case KEikInputLanguageChange:
         {
         UpdateCache(KEikInputLanguageChange);
+        TLanguage language = CAknEnv::Static()->SettingCache().InputLanguage(); 
+		if ( language == ELangArabic || language == ELangFarsi || 
+			language == ELangUrdu || language == ELangHebrew )
+			{
+			iEdwinUserFlags &= ~EAvkonEnableSmileySupport;
+			EnableSmileySupportL( EFalse );
+			}
+		else if ( iEdwinExtension->iEnableSmileySupported )
+			{
+			iEdwinUserFlags |= EAvkonEnableSmileySupport;
+			EnableSmileySupportL( ETrue );
+			}
         DoAlignment();
         }
         break;
@@ -7628,6 +7629,7 @@ EXPORT_C void CEikEdwin::AddFlagToUserFlags(TUint32 aFlag)
     SetVKBStatus(); 
     if ( aFlag & EAvkonEnableSmileySupport )
         {
+        iEdwinExtension->iEnableSmileySupported = ETrue;
         EnableSmileySupportL( ETrue );
         }
     }
@@ -7638,6 +7640,7 @@ EXPORT_C void CEikEdwin::RemoveFlagFromUserFlags(TUint32 aFlag)
     SetVKBStatus(); 
     if ( aFlag & EAvkonEnableSmileySupport )
         {    
+        iEdwinExtension->iEnableSmileySupported = EFalse;
         EnableSmileySupportL( EFalse );
         }
     }
@@ -8299,20 +8302,25 @@ void CEikEdwin::EnableSmileySupportL( TBool aEnableSmiley )
     {
     if ( aEnableSmiley && !AknLayoutUtils::LayoutMirrored() && iEdwinExtension )
         {
-        if ( !iEdwinExtension->iSmiley )
-            {
-            iEdwinExtension->iSmiley = CSmileyManager::NewL( *this );
-            iEdwinExtension->iSmiley->SetAnimationPlayTimes( KNormalAnimPlayTimes );
-            if ( IsReadOnly() || iEdwinUserFlags & EDisplayOnly )
-                {
-                iEdwinExtension->iSmiley->SetAnimationPlayTimes( 
-                    KInfiniteAnimPlayTimes );
-                }
-            }        
-        if ( TextLayout() )
-            {
-            TextLayout()->SetCustomWrap( iEdwinExtension->iSmileyWrap );
-            }
+        TLanguage language = CAknEnv::Static()->SettingCache().InputLanguage();
+		if ( language != ELangArabic && language != ELangFarsi && 
+			language != ELangUrdu && language != ELangHebrew )
+			{
+			if ( !iEdwinExtension->iSmiley )
+				{
+				iEdwinExtension->iSmiley = CSmileyManager::NewL( *this );
+				iEdwinExtension->iSmiley->SetAnimationPlayTimes( KNormalAnimPlayTimes );
+				if ( IsReadOnly() || iEdwinUserFlags & EDisplayOnly )
+					{
+					iEdwinExtension->iSmiley->SetAnimationPlayTimes( 
+						KInfiniteAnimPlayTimes );
+					}
+				}        
+			if ( TextLayout() )
+				{
+				TextLayout()->SetCustomWrap( iEdwinExtension->iSmileyWrap );
+				}
+			}
         }    
     else if ( iEdwinExtension )
         {

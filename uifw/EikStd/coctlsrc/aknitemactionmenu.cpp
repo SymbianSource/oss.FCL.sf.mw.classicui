@@ -392,6 +392,28 @@ CAknMarkingMode& CAknItemActionMenu::MarkingMode()
 
 
 // ---------------------------------------------------------------------------
+// CAknItemActionMenu::CollectionHasMarkedItems
+// ---------------------------------------------------------------------------
+//
+TBool CAknItemActionMenu::CollectionHasMarkedItems()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    TBool markedItems( EFalse );
+    for ( TInt i = 0; i < iStates.Count(); i++ )
+        {
+        TInt state( iStates[ i ]->CollectionState() );
+        if ( state & MAknCollection::EStateCollectionVisible )
+            {
+            if ( state & MAknCollection::EStateMarkedItems )
+                {
+                markedItems = ETrue;
+                }
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    return markedItems;
+    }
+// ---------------------------------------------------------------------------
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------
 //

@@ -61,6 +61,7 @@
 
 // constant definitions
 const TInt KAknMediatorFacade(0x10275076);
+const TUid KExIfTactileFeedbackUid = {0x2000B494};
 
 
 class CEikMover;

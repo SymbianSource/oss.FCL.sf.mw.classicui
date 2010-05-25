@@ -1753,18 +1753,13 @@ enum TAknFepDualLanguageSettingDualInput
     EAknFepDualLanguageSettingDualInputSecondary
     };
 
-enum TAknSctTableNaviButtons
-    {
-    EAknSctTableNaviExit = 0,
-    EAknSctTableNaviSpecialChar,
-    EAknSctTableNaviEmotion,
-    EAknSctTableNaviLastId
-    };
-
 enum TAknSctPageNaviButtons
     {
-    EAknSctPageNaviPrevPage = 0,
+    EAknSctTableNaviExit = 0,
+    EAknSctPageNaviPrevPage,
     EAknSctPageNaviNextPage,
+    EAknSctTableNaviSpecialChar,
+    EAknSctTableNaviEmotion,
     EAknSctPageNaviLastId
     };
 

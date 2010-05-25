@@ -175,6 +175,7 @@ LIBRARY         eikctl.lib
 LIBRARY         gfxtrans.lib
 LIBRARY         hal.lib
 LIBRARY         apgrfx.lib
+LIBRARY         alfdecoderserverclient.lib
 
 LIBRARY         touchfeedback.lib
 

@@ -24,12 +24,12 @@
 #include <w32std.h>
 #include <akntreelistobserver.h>
 #include <AknIconUtils.h> // TScaleMode
-#include <aknmarkingmodeobserver.h>
 
 class CAknTree;
 class CAknTreeListView;
 class MAknCustomTreeOrdering;
 class TAknsItemID;
+class MAknMarkingModeObserver;
 
 /** Flag to indicate that hierarchical list is looping. */
 const TUint32 KAknTreeListLooping = 0x0001;
@@ -1154,6 +1154,7 @@ private: // data
 
     /**
      * Marking mode observer
+     * Not own
      */
     MAknMarkingModeObserver* iMarkingModeObserver; 
     };

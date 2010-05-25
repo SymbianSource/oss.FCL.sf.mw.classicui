@@ -235,6 +235,26 @@ RESOURCE TBUF R_CFD_QTN_MEM_NAMED_MEMORY_CARD_SETTING_LIST
     buf = qtn_mem_named_memory_card_setting_list;
     }
 
+RESOURCE TBUF R_CFD_QTN_MEMC_USB_AVAILABLE_SINGLE_LIST
+    {
+    buf = qtn_memc_usb_available_single_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_USB_UNAVAILABLE_SINGLE_LIST
+    {
+    buf = qtn_memc_usb_unavailable_single_list;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_USB_AVAILABLE_DOUBLE
+    {
+    buf = qtn_memc_usb_available_double;
+    }
+
+RESOURCE TBUF R_CFD_QTN_MEMC_USB_UNAVAILABLE_DOUBLE
+    {
+    buf = qtn_memc_usb_unavailable_double;
+    }
+
 // ---------------------------------------------------------
 //
 //    Softkey texts from AVKON.LOC

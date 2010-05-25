@@ -424,12 +424,6 @@ EXPORT_C void CPslnModel::LoadScreensaverArrayL()
     // Add descriptors for system screensavers
     iScreensaverFilenameArr =
         new (ELeave) CDesC16ArrayFlat( KPslnSsArrayGranularity );
-    iScreensaverFilenameArr->AppendL( KPslnScreenSaverTypeDateTime );
-    iScreensaverFilenameArr->AppendL( KPslnScreenSaverTypeText );
-
-    // System screensavers have no capabilities
-    User::LeaveIfError( iScreensaverCapsArr.Append( EFalse ) );
-    User::LeaveIfError( iScreensaverCapsArr.Append( EScpCapsConfigure ) );
 
     if ( IsSupportScreenSaverNoneOption() )
         {

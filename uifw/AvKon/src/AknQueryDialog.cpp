@@ -1025,35 +1025,47 @@ EXPORT_C TInt CAknQueryDialog::MaxTextLength(const CAknQueryControl* aControl, c
     }
 
 EXPORT_C void CAknQueryDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
-    { 
-    if ( AknLayoutUtils::PenEnabled() )
+    {
+    CAknAppUi *appUi = iAvkonAppUi;
+    CCoeControl *redirectControl = NULL;
+    TRect rectToScreenOfControl;
+ 
+    if (!Rect().Contains(aPointerEvent.iPosition))
         {
-
-        CAknTouchPane* touchPane = iAvkonAppUi->TouchPane();
-        
-        if ( !Rect().Contains( aPointerEvent.iPosition ) && touchPane
-            && touchPane->IsVisible() )
+        CAknTouchPane* touchPane = appUi->TouchPane();
+        CEikStatusPane *statusPane = appUi->StatusPane();
+ 
+        if ( touchPane && touchPane->IsVisible() )
             {
             // touchpane is a window-owning control -> Rect() cannot be used
-            TRect touchPaneRect( touchPane->Position(), touchPane->Size() );
-                
-            if ( touchPaneRect.Contains( aPointerEvent.iParentPosition ) )
+            rectToScreenOfControl.SetRect( touchPane->Position(), touchPane->Size() );
+            redirectControl = touchPane;
+            }
+        else if ( statusPane && statusPane->IsVisible() && 
+                Layout_Meta_Data::IsLandscapeOrientation() && 
+                !IsFocused())
+            {
+            CCoeControl* cbControl = statusPane->ControlL(TUid::Uid(EEikStatusPaneUidCombined));
+            if ( cbControl && !statusPane->IsFaded() )
                 {
-                TPointerEvent pointerEvent( aPointerEvent );
-                   
-                // make event's coordinates touch pane relative
-                pointerEvent.iPosition = aPointerEvent.iParentPosition - 
-                    touchPaneRect.iTl;
-                    
-                static_cast<CCoeControl*>( touchPane )->HandlePointerEventL( 
-                    pointerEvent );
+                rectToScreenOfControl.SetRect( cbControl->PositionRelativeToScreen(), cbControl->Size() );
+                redirectControl = cbControl;
                 }
             }
-        else
-            {
-            // Forward also those pointerevents that the dialog rect does not contain
-            CAknDialog::HandlePointerEventL( aPointerEvent );
-            }
+        }
+ 
+    if ( redirectControl && rectToScreenOfControl.Contains(aPointerEvent.iParentPosition) )
+        {
+        // make event's coordinates relative to new control.
+        TPointerEvent pointerEvent( aPointerEvent );
+        pointerEvent.iPosition = aPointerEvent.iParentPosition - rectToScreenOfControl.iTl;
+ 
+        redirectControl->HandlePointerEventL( pointerEvent );
+        }
+    else
+        {
+        // Forward also those pointerevents that the dialog rect does not contain
+        CAknDialog::HandlePointerEventL( aPointerEvent );
         }
     }
 

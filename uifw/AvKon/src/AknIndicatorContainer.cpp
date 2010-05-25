@@ -855,7 +855,14 @@ TInt CAknIndicatorContainer::CountShownIndicator() const
 
 EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) const
     {
-    return iIndicators->At(aIndex);
+    if ( aIndex >= 0 && aIndex < iIndicators->Count() )
+        {
+        return iIndicators->At( aIndex );
+        }
+    else
+        {
+        return NULL;
+        }
     }
 
 

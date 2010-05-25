@@ -148,6 +148,8 @@ private:
         ETextRemoteDrive,
         ETextInternalMassStorage,
         ETextInternalMassStorageUnavailable,
+        ETextUSBDefaultName,
+        ETextUSBUnavailable,
         ETextMMCNamed,
         ETextCount // Count of the localized texts - must remain last!
         };

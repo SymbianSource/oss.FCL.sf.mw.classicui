@@ -36,6 +36,7 @@
 #include <aknlayoutscalable_avkon.cdl.h>
 #include <layoutmetadata.cdl.h>
 #include <AknStatuspaneUtils.h>
+#include <alf/alfcompositionutility.h>
 
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <uikon/eikenvinterface.h> 
@@ -196,6 +197,10 @@ EXPORT_C void CAknScreenClearerBase::ConstructL(RWindowGroup& aParent, TInt aOrd
     iExtension = new (ELeave) CAknScreenClearerBaseExtension();
 
 	CreateWindowL(&aParent);
+
+    CAlfEffectObserver* alfEffectObserver = CAlfEffectObserver::NewL(); 
+    alfEffectObserver->SetDistractionWindow(*DrawableWindow());
+    delete alfEffectObserver;
 
 	iFlags.Assign(EAknScreenClearerBlankAppStatusPane, aBlankAppStatusPane);
 

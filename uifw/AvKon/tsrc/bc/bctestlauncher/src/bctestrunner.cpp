@@ -105,6 +105,10 @@ TBool CBCTestRunner::RunL( TInt aCommand )
     LOG << KTEST << EndLine << End;
     for ( TInt i = 0; i < iTestApps.Count(); ++i )
         {
+        if ( !( iTestApps[ i ]->IsSelect() || aCommand == EAutoTestAll ) )
+        	{
+            continue;
+        	}
         TRAPD( errno, iTestApps[ i ]->RunL( aCommand ) );
         switch( errno )
         {

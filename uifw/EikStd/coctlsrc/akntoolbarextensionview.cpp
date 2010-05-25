@@ -539,6 +539,14 @@ void CAknToolbarExtensionView::HandlePointerEventL(
             {
             // tapped outside view, 
             MakeVisible( EFalse ); 
+
+          	MTouchFeedback* feedback = MTouchFeedback::Instance();
+	        if ( feedback )
+				{
+        		feedback->InstantFeedback( this, ETouchFeedbackPopUp,
+                                   		   ETouchFeedbackVibra, aPointerEvent );
+                }
+
             // Close extension view and let also extension know about it
             // so it can change state
             iExtension->ViewClosed(); 

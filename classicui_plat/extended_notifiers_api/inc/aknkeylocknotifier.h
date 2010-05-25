@@ -136,6 +136,8 @@ private:
     // For screen lock
     void CapturePointerEvents();
     void UnCapturePointerEvents();
+	// whether Silder-key exists
+    TBool HasSliderKey();
 
 private:
     CEikButtonGroupContainer* iKeyLockCba;

@@ -48,7 +48,7 @@
 
 // CONSTANTS
 // Number of default system screensavers.
-const TInt KPslnSystemScreenSavers = 3;
+const TInt KPslnSystemScreenSavers = 1;
 // Value in PubSub when screensaver preview is off.
 const TInt KPslnScreenSaverPreviewOff = 0;
 
@@ -203,7 +203,7 @@ void CPslnScreenSaverView::HandlePluginListChangeL()
         TInt newDefault = iModel->CurrentPropertyIndexL( KPslnScreenSettingId );
         if ( newDefault == KErrNotFound )
             {
-            // If no default found, assume that date is default.
+            // If no default found, assume that None is default.
             newDefault = 0;
             iModel->SetCurrentPropertyTypeL(
                 KPslnScreenSettingId,

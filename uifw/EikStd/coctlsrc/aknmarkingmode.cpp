@@ -21,7 +21,9 @@
 #include <aknnavide.h>
 #include <barsread.h>
 #include <AknUtils.h>
+#include <AknTasHook.h>
 
+#include "akntrace.h"
 #include "aknmarkingmode.h"
 
 // ---------------------------------------------------------------------------
@@ -32,8 +34,10 @@ CAknMarkingMode* CAknMarkingMode::NewL(
         CAknItemActionMenu& aItemActionMenu,
         CollectionArray& aArray )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknMarkingMode* self =
         new ( ELeave ) CAknMarkingMode( aItemActionMenu, aArray );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -44,7 +48,10 @@ CAknMarkingMode* CAknMarkingMode::NewL(
 //
 CAknMarkingMode::~CAknMarkingMode()
     {
+    _AKNTRACE_FUNC_ENTER;
+    AKNTASHOOK_REMOVE();    
     delete iMarkingDecorator;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -54,9 +61,10 @@ CAknMarkingMode::~CAknMarkingMode()
 //
 void CAknMarkingMode::SetCollectionMultipleMarkingState( TBool aActive )
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );
         // Assume the command applies to first list with multiple selection
         if ( collection->CollectionState() &
                 MAknCollection::EStateMultipleSelection )
@@ -72,6 +80,7 @@ void CAknMarkingMode::SetCollectionMultipleMarkingState( TBool aActive )
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -81,9 +90,10 @@ void CAknMarkingMode::SetCollectionMultipleMarkingState( TBool aActive )
 //
 void CAknMarkingMode::TryExitMarkingMode()
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );
         MAknMarkingCollection* markingCollection
             = MarkingCollection( *collection );
         if ( markingCollection && markingCollection->MarkingState(
@@ -96,6 +106,7 @@ void CAknMarkingMode::TryExitMarkingMode()
             }
         break;
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -105,10 +116,11 @@ void CAknMarkingMode::TryExitMarkingMode()
 //
 TBool CAknMarkingMode::MultipleMarkingActive() const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool markingActive( EFalse );
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );
         if ( collection->CollectionState() &
                 MAknCollection::EStateCollectionVisible )
             {
@@ -122,6 +134,7 @@ TBool CAknMarkingMode::MultipleMarkingActive() const
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return markingActive;
     }
 
@@ -132,10 +145,11 @@ TBool CAknMarkingMode::MultipleMarkingActive() const
 //
 TBool CAknMarkingMode::MarkedItems() const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool markedItems( EFalse );
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );
         if ( collection->CollectionState() &
                 MAknCollection::EStateCollectionVisible )
             {
@@ -154,6 +168,7 @@ TBool CAknMarkingMode::MarkedItems() const
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return markedItems;
     }
 
@@ -163,10 +178,11 @@ TBool CAknMarkingMode::MarkedItems() const
 //
 TBool CAknMarkingMode::CollectionEmpty() const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool empty( EFalse );
      for ( TInt i = 0; i < iCollections.Count(); i++ )
          {
-         MAknCollection* collection( iCollections[ i ] );
+         MAknCollection* collection( iCollections[i] );
          if ( collection->CollectionState() &
                  MAknCollection::EStateCollectionVisible )
              {
@@ -185,6 +201,7 @@ TBool CAknMarkingMode::CollectionEmpty() const
              break;
              }
          }
+     _AKNTRACE_FUNC_EXIT;
     return empty;    
     }
 
@@ -195,12 +212,14 @@ TBool CAknMarkingMode::CollectionEmpty() const
 //
 void CAknMarkingMode::MarkAllL()
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknMarkingCollection* collection = ActiveMarkingCollection();
     
     if ( collection )
         {
         collection->MarkAllL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -210,12 +229,14 @@ void CAknMarkingMode::MarkAllL()
 //
 void CAknMarkingMode::UnmarkAll()
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknMarkingCollection* collection = ActiveMarkingCollection();
     
     if ( collection )
         {
         collection->UnmarkAll();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -225,6 +246,7 @@ void CAknMarkingMode::UnmarkAll()
 //
 void CAknMarkingMode::MarkCurrentItemL()
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknMarkingCollection* collection = ActiveMarkingCollection();
     
     // first activate marking mode if needed
@@ -239,6 +261,7 @@ void CAknMarkingMode::MarkCurrentItemL()
         {
         collection->MarkCurrentItemL();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // ---------------------------------------------------------------------------
@@ -247,6 +270,8 @@ void CAknMarkingMode::MarkCurrentItemL()
 //
 TBool CAknMarkingMode::CurrentItemMarkable()
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     return MarkingCollection()->CurrentItemMarkable();
     }
 
@@ -261,6 +286,9 @@ CAknMarkingMode::CAknMarkingMode(
     iItemActionMenu( aItemActionMenu ),
     iMarkingDecorator( NULL )
     {
+    _AKNTRACE_FUNC_ENTER;
+    AKNTASHOOK_ADD( this, "CAknMarkingMode" );
+    _AKNTRACE_FUNC_EXIT;    
     }
 
 
@@ -271,9 +299,11 @@ CAknMarkingMode::CAknMarkingMode(
 MAknMarkingCollection* CAknMarkingMode::MarkingCollection(
         MAknCollection& aCollection )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAny* extension( NULL );
     aCollection.CollectionExtension(
             MAknMarkingCollection::TYPE, extension, NULL );
+    _AKNTRACE_FUNC_EXIT;
     return static_cast<MAknMarkingCollection*>( extension );
     }
 
@@ -284,16 +314,18 @@ MAknMarkingCollection* CAknMarkingMode::MarkingCollection(
 //
 MAknMarkingCollection* CAknMarkingMode::MarkingCollection()
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );    
         if ( collection->CollectionState() &
                 MAknCollection::EStateCollectionVisible )
             {
+            _AKNTRACE_FUNC_EXIT;
             return MarkingCollection( *collection );
             }
         }
-
+    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
@@ -304,9 +336,10 @@ MAknMarkingCollection* CAknMarkingMode::MarkingCollection()
 //
 MAknMarkingCollection* CAknMarkingMode::ActiveMarkingCollection()
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
-        MAknCollection* collection( iCollections[ i ] );
+        MAknCollection* collection( iCollections[i] );
         
         MAknMarkingCollection* markingCollection = 
                 MarkingCollection( *collection );
@@ -314,10 +347,11 @@ MAknMarkingCollection* CAknMarkingMode::ActiveMarkingCollection()
         if ( markingCollection && markingCollection->MarkingState() & 
                 MAknMarkingCollection::EStateMarkingMode )
             {
+            _AKNTRACE_FUNC_EXIT;
             return markingCollection;
             }
         }
-
+    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
@@ -327,6 +361,7 @@ MAknMarkingCollection* CAknMarkingMode::ActiveMarkingCollection()
 //
 void CAknMarkingMode::UpdateMarkingModeNaviPaneL( TBool aEnable )
     {
+    _AKNTRACE_FUNC_ENTER;
     CEikonEnv* eikonEnv = CEikonEnv::Static();
         
     if ( eikonEnv && eikonEnv->AppUiFactory() )
@@ -364,6 +399,7 @@ void CAknMarkingMode::UpdateMarkingModeNaviPaneL( TBool aEnable )
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // End of File

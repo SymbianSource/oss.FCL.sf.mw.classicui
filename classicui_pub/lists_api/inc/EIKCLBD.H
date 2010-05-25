@@ -448,6 +448,18 @@ public:
     IMPORT_C void SetColumnUnderlined( TBitFlags32 aUnderlinedColumns );
 
 private:
+    /**
+      * Draws check boxes in marking mode
+      * 
+      * @param aProperties Item properties
+      * @param aGc Graphics context
+      * @param aItemRect Item area
+      * @internal
+      */
+    void DrawMarkingModeIcons( const TListItemProperties& aProperties,
+                               CWindowGc& aGc,
+                               TRect& aItemRect ) const;
+private:
     struct SColumn
         {
         TInt iColumn; // Must be first entry

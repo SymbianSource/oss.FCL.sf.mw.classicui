@@ -499,7 +499,7 @@ void TAknPhedViewLine::DrawText( CGraphicsContext& aGc,
     {
     TRgb color = KRgbBlack;
     AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), color,
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG51 );
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
     aGc.SetPenColor( color );
     // This function shifts the RHS of aRect left by the width of the text drawn.
     // It temporarily limits the draw rectangle to the text width to prevent flicker.
@@ -523,7 +523,7 @@ void TAknPhedViewLine::DrawTextWithTranslation( CGraphicsContext& aGc,
     TRgb color;
     color = KRgbBlack;
     AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), color,
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG51 );
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
     aGc.SetPenColor( color );
     TPtr buf( TranslatedText( aText ) );
     aGc.DrawText( buf, aRect, aBaseline, CGraphicsContext::ERight );
@@ -574,12 +574,10 @@ void TAknPhedViewLine::DrawHighlightText( CGraphicsContext& aGc,
     aGc.DrawRect( rect );
     aGc.SetPenStyle( CGraphicsContext::ESolidPen );
     aGc.SetPenColor( penColor );
-    TInt selStart( iModel->LeftMark() );
     TInt endPos( iModel->Length() - SelectionStart() );
     TInt startPos( iModel->Length() - SelectionEnd() );
-    TPtrC text( TranslatedText( iModel->Selection().Mid( startPos - selStart, 
-        endPos - startPos ) ) );
-    aGc.DrawText( text, rect, baseline, CGraphicsContext::ERight );
+    TPtrC text( TranslatedText( iModel->Text( startPos, endPos - 1 ) ) );
+    aGc.DrawText( text, rect, baseline, CGraphicsContext::ELeft );
     }
 
 TPtr TAknPhedViewLine::TranslatedText( const TDesC& aText ) const

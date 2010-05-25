@@ -94,8 +94,6 @@ enum
 const TUint KHistoryEmptyChar = CEditableText::ETabCharacter;
 const TUint KHistoryEmptyCharForDisplay = CEditableText::ESpace;
 
-const TInt KAknSctRadioOn = 1;
-const TInt KAknSctRadioOff = 0;
 const TInt KAreaIdRecent = 0;
 const TInt KAreaIdMain   = 1;
 const TInt KAreaIdTail   = 2;
@@ -245,60 +243,6 @@ NONSHARABLE_CLASS(CAknSctNaviButton) : public CBase, public MCoeControlObserver
     };
 
 // ----------------------------------------------------------------------------
-// Table Navi class definition
-// ----------------------------------------------------------------------------
-//
-NONSHARABLE_CLASS(CAknSctTableNavi) : public CAknControl, public MAknSctFocusHandler, public MCoeControlObserver
-    {
-    public:
-        CAknSctTableNavi(CAknCharMap* aCharMap, CAknCharMapExtension* aExtension);
-        ~CAknSctTableNavi();
-
-    public:  // from CCoeControl
-        TInt CountComponentControls() const;
-        CCoeControl* ComponentControl( TInt aIndex ) const;
-        virtual TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode);
-        void ConstructFromResourceL(TResourceReader& aReader);
-        virtual TSize MinimumSize();
-        virtual void SizeChanged();
-        
-    public: // from MCoeControlObserver
-        void HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType);
-
-    public: // from MAknSctFocusHandler
-        virtual CCoeControl* FocusedControl();
-        virtual TBool EnterControl(TInt aX, TInt aY);
-        virtual void MoveFocus(TInt aX, TInt aY);
-        virtual TBool ExitWithKey(TInt aKeycode);
-        virtual TBool LeaveControl();
-
-    public:
-        TInt TableCount();
-        void UpdateNextTableButtonL();
-        
-    private:
-        void TableExitL();
-        static TInt TableExitCallBackL(TAny* aThis);
-        void DoTableExitL();
-        
-        void NextTableL();
-        static TInt NextTableCallBackL(TAny* aThis);
-        void DoNextTableL();
-        
-    private:
-        TInt ButtonPosition(TInt aButtonIndex) const;
-
-    private:  // data
-        TInt iButtonIndex;
-        RPointerArray<CAknSctNaviButton> iButtonArray;
-        CAknCharMap* iCharMap;
-        CAknCharMapExtension* iExtension;
-        CIdle *iIdle;
-        
-        TInt iPressedButtonIndex;
-    };
-
-// ----------------------------------------------------------------------------
 // Navigator class definition
 // ----------------------------------------------------------------------------
 //
@@ -331,8 +275,21 @@ NONSHARABLE_CLASS(CAknSctPageNavi) : public CAknControl, public MAknSctFocusHand
         virtual TBool ExitWithKey(TInt aKeycode);
         virtual TBool LeaveControl();
 
+    public:
+        void UpdateNextTableButtonL();
+        TInt LastButton() const;
+        
     private:
+        void MoveFocus(TBool aInternalMove, TInt aX, TInt aY );
         TBool IsNextButton() const;
+        TBool CalcNextStep( TUint aKey, TInt& aX, TInt& aY );
+        void TableExitL();
+        static TInt TableExitCallBackL(TAny* aThis);
+        void DoTableExitL();
+        
+        void NextTableL();
+        static TInt NextTableCallBackL(TAny* aThis);
+        void DoNextTableL();
 
     private:  // data
         TInt iButtonIndex;
@@ -340,8 +297,8 @@ NONSHARABLE_CLASS(CAknSctPageNavi) : public CAknControl, public MAknSctFocusHand
         CAknCharMap* iCharMap;
         CAknCharMapExtension* iExtension;
         CEikLabel* iTitle;
+        CIdle *iIdle;
     };
-
 // ----------------------------------------------------------------------------
 // Category button class defintion
 // ----------------------------------------------------------------------------
@@ -377,60 +334,27 @@ class CAknSctCategoryButton : public CBase
 // Radio button class defintion
 // ----------------------------------------------------------------------------
 //
-class CAknSctRadioButton : public CAknControl, public MAknSctFocusHandler
+// stay for BC
+class CAknSctRadioButton : public CAknControl
     {
     public:
-        enum TAknSctRadioButtonFlags
-            {
-            EAknSctRadioButtonResize = 0x1,
-            EAknSctRadioButtonEnd
-            };
-    public:
         CAknSctRadioButton();
-        CAknSctRadioButton(CAknCharMap* aCharMap,
-                           CAknCharMapExtension* aExtension);
         ~CAknSctRadioButton();
-    public: // from MAknSctFocusHandler
-        virtual CCoeControl* FocusedControl();
-        virtual TBool EnterControl(TInt aX, TInt aY);
-        virtual void MoveFocus(TInt aX, TInt aY);
-        virtual TBool ExitWithKey(TInt aKeycode);
-        virtual TBool LeaveControl();
-
-    public:  // from CCoeControl
-        TInt CountComponentControls() const;
-        CCoeControl* ComponentControl( TInt aIndex ) const;
-        virtual TKeyResponse OfferKeyEventL(
-            const TKeyEvent& aKeyEvent, TEventCode);
-        void ConstructFromResourceL(TResourceReader& aReader);
-
-        /**
-         * This function handles pointer events directed at the charmapdialog.
-         * @param aPointerEvent The pointer event directed at the charmapdialog.
-         */
-        virtual void HandlePointerEventL(const TPointerEvent& aPointerEvent);
-
-        virtual TSize MinimumSize();
-        virtual void SizeChanged();
-        virtual void Draw(const TRect& aRect) const;
-
-    public:  // New function
-        // The number of Buttons
-        inline TInt Count() const;
-
-        void SetCurrentCategory(TInt aCategory);
-        void SetValidSctCase(TInt aSctCase);
-        void RemoveInvalidButton();
 
     private:  // data
         RPointerArray<CAknSctCategoryButton> iButtonArray;
-        MCoeControlObserver* iObserver;
-        TInt iFlags;
-        CAknCharMapExtension* iExtension;
-        CAknCharMap* iCharMap;
-        TInt iButtonIndex;
-        TInt iEntryIndex;
     };
+
+CAknSctRadioButton::CAknSctRadioButton()
+    {
+    }
+
+CAknSctRadioButton::~CAknSctRadioButton()
+    {
+    iButtonArray.ResetAndDestroy();
+    iButtonArray.Close();
+    }
+
 // end of CAknSctRadioButton class definition
 
 // ----------------------------------------------------------------------------
@@ -497,15 +421,11 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         // FeatureManager
         TBool iPictographsBuffer;         // ETrue means Picto is valid.
         TBool iPictographsBufferGrouping; // ETrue means Picto grouping is valid.
-        TBool iJapaneseSctUi;       // Title and Softkey for Japanese varinat
-        TBool iHasCategoryButtonUi; // Has Category button UI
-        CAknSctRadioButton* iRadioButton;
         TInt  iCurrentCategory;     // defined enum TAknSCTCategoryButton on avkon.hrh
 
         // QHD layout.
         CAknCharMap* iCharMapProxy;
         MAknSctFocusHandler* iFocusHandler;
-        CAknSctTableNavi* iTableNavi;
         CAknSctPageNavi* iPageNavi;
         HBufC* iEntryBuf;
         CEikLabel* iCategoryTitle;
@@ -540,6 +460,9 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         * Is keyboard event
         */
         TBool iKeyBrdEvent;
+        
+    private:
+        CAknSctRadioButton iForBCDoNotUse;
     };
 
 // ----------------------------------------------------------------------------
@@ -603,518 +526,6 @@ TBool CAknSctNaviButton::IsEnabled()
     }
 
 // ----------------------------------------------------------------------------
-// Table navi class implementation
-// ----------------------------------------------------------------------------
-//
-CAknSctTableNavi::CAknSctTableNavi(CAknCharMap* aCharMap, CAknCharMapExtension* aExtension) : 
-iCharMap(aCharMap), iExtension(aExtension)
-    {
-    }
-
-CAknSctTableNavi::~CAknSctTableNavi()
-    {
-    if (iButtonArray.Count())
-        {
-        iButtonArray.ResetAndDestroy();
-        }
-    iButtonArray.Close();
-    delete iIdle;
-    }
-
-TInt CAknSctTableNavi::CountComponentControls() const
-    {
-    return iButtonArray.Count();
-    }
-
-CCoeControl* CAknSctTableNavi::ComponentControl( TInt aIndex ) const
-    {
-    CCoeControl* rtn;
-    if (aIndex < iButtonArray.Count())
-        {
-        rtn = iButtonArray[aIndex]->iButtonControl;
-        }
-    else
-        {
-        rtn = NULL;
-        }
-    return rtn;
-    }
-
-TKeyResponse CAknSctTableNavi::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aModifiers)
-    {
-    CAknSctNaviButton* buttonObj = iButtonArray[iButtonIndex];
-    buttonObj->iButtonControl->OfferKeyEventL(aKeyEvent,aModifiers);
-    TKeyResponse response = EKeyWasNotConsumed;
-    TUint code=aKeyEvent.iCode;
-    switch (code)
-        {
-        case EKeyEnter:
-        case EKeyOK:
-            {
-            switch (buttonObj->iButtonId)
-                {
-                case EAknSctTableNaviExit:
-                    {
-                    iExtension->iKeyOkEvent = ETrue;
-                    TableExitL();
-                    response = EKeyWasConsumed;
-                    }
-                    break;
-                // add all supported table types here.
-                case EAknSctTableNaviSpecialChar:
-                case EAknSctTableNaviEmotion:
-                    {
-                    NextTableL();
-                    response = EKeyWasConsumed;
-                    }
-                    break;
-                default:
-                    break;
-                }
-            }
-            break;
-        case EKeyLeftArrow:
-        case '4':
-            {
-            MoveFocus(-1,0);
-            response = EKeyWasConsumed;
-            }
-            break;
-        case EKeyRightArrow:
-        case '6':
-            {
-            MoveFocus(1,0);
-            response = EKeyWasConsumed;
-            }
-            break;
-        case EKeyUpArrow:
-        case '2':
-            {
-            response = EKeyWasConsumed;
-            if ((iButtonIndex==0) && !Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                // Left page button.
-                if (iExtension->iPageNavi && iExtension->iPageNavi->EnterControl(0,0))
-                    {
-                    LeaveControl();
-                    }
-                }
-            else
-                {
-                // Last radio button.
-                if ((iButtonIndex==0) && iExtension->iRadioButton)
-                    {
-                    if (iExtension->iRadioButton->EnterControl(0,iExtension->iRadioButton->Count()-1))
-                        {
-                        LeaveControl();
-                        }
-                    break;
-                    }
-
-                // Grid bottom row.
-                TInt xPos = ButtonPosition(iButtonIndex);
-                if (iCharMap->ColMax(0) > iCharMap->ColMax(xPos))
-                    {
-                    xPos = iCharMap->RowMax(iCharMap->ColMax(0));
-                    }
-
-                if (iExtension->EnterControl(xPos,iCharMap->ColMax(xPos)))
-                    {
-                    LeaveControl();
-                    break;
-                    }
-                }
-            }
-            break;
-            
-        case EKeyDownArrow:
-        case '8':
-            {
-            response = EKeyWasConsumed;
-            
-            // First radio button.
-            if ((iButtonIndex==0) && iExtension->iRadioButton)
-                {
-                if (iExtension->iRadioButton->EnterControl(0,0))
-                    {
-                    LeaveControl();
-                    }
-                break;
-                }
-            
-            // Grid top row.
-            TInt xPos = ButtonPosition(iButtonIndex);
-            if (iExtension->EnterControl(xPos,iCharMap->ColMin(xPos)))
-                {
-                LeaveControl();
-                break;
-                }
-            }
-            break;
-            
-        default:
-            break;
-        }
-    return response;
-    }
-
-void CAknSctTableNavi::TableExitL()
-    {
-    if(!iIdle)
-        {
-        iIdle = CIdle::NewL(CActive::EPriorityStandard);
-        }
-
-    iIdle->Cancel();
-    iIdle->Start(TCallBack(TableExitCallBackL, this));
-    }
-
-TInt CAknSctTableNavi::TableExitCallBackL(TAny* aThis)
-    {
-    ((CAknSctTableNavi*)aThis)->DoTableExitL();
-    return KErrNone;
-    }
-
-void CAknSctTableNavi::DoTableExitL()
-    {
-    iCharMap->SetStatusChanged(EAknCharSelectedTableExitButton);
-    }
-
-void CAknSctTableNavi::NextTableL()
-    {
-    if(!iIdle)
-        {
-        iIdle = CIdle::NewL(CActive::EPriorityStandard);
-        }
-
-    iIdle->Cancel();
-    iIdle->Start(TCallBack(NextTableCallBackL, this));
-    }
-
-TInt CAknSctTableNavi::NextTableCallBackL(TAny* aThis)
-    {
-    ((CAknSctTableNavi*)aThis)->DoNextTableL();
-    return KErrNone;
-    }
-
-void CAknSctTableNavi::DoNextTableL()
-    {
-    iCharMap->SetStatusChanged(EAknCharSelectedNextTableButton);
-    }
-
-TInt CAknSctTableNavi::ButtonPosition(TInt aButtonIndex) const
-    {
-    // buttons behind the 1th are behavior as one button
-    return (aButtonIndex==0) ? 0 : 1;
-    }
-
-void CAknSctTableNavi::ConstructFromResourceL(TResourceReader& aReader)
-    {
-    // Table navi buttons.
-    TInt counts = aReader.ReadInt16();
-    for (TInt i = 0; i < counts; i++)
-        {
-        TInt buttonId = aReader.ReadInt16();
-        TInt resId = aReader.ReadInt32();
-        TResourceReader buttonReader;
-        iCoeEnv->CreateResourceReaderLC(buttonReader, resId);
-        CAknSctNaviButton* buttonObj = CAknSctNaviButton::NewL(*this, buttonId, buttonReader);
-        buttonObj->SetObserver(this);
-        iButtonArray.Append(buttonObj);
-        CleanupStack::PopAndDestroy(); // buttonReader
-        }
-    }
-
-TSize CAknSctTableNavi::MinimumSize()
-    {
-    return Rect().Size();
-    }
-
-void CAknSctTableNavi::SizeChanged()
-    {
-    if (iButtonArray.Count()>0)
-        {
-
-        TInt ctrlVariety = 2;
-        TInt cellVariety = 1;
-        if(!iCharMap->IsJapaneseSctUi())
-            {
-            ctrlVariety = (iCharMap->TableCount()>1) ? 0 : 1;
-            cellVariety = 0;
-            }
-        
-        TAknLayoutRect cellLayRect, buttonLayRect;
-        TRect buttonRect;
-
-        // Table exit.
-        cellLayRect.LayoutRect(Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(ctrlVariety,0));
-        buttonLayRect.LayoutRect(cellLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(cellVariety));
-        buttonRect = buttonLayRect.Rect();
-
-        TAknLayoutRect iconLayRect;
-        iconLayRect.LayoutRect(buttonRect, AknLayoutScalable_Avkon::cell_graphic2_control_pane_g1(cellVariety));
-        TSize iconSize = iconLayRect.Rect().Size();
-
-        CAknSctNaviButton* buttonObj = iButtonArray[0];
-        buttonObj->iButtonControl->SetRect(buttonRect);
-        buttonObj->iButtonControl->SetHighlightRect(buttonRect);
-        buttonObj->iButtonControl->SetIconScaleMode(EAspectRatioPreserved);
-        buttonObj->iButtonControl->SetIconSize(iconSize);
-        buttonObj->SetEnabled(ETrue);
-
-        // Table change.
-        if (iCharMap->TableCount() > 1)
-            {
-            cellLayRect.LayoutRect(Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(ctrlVariety,1));
-            buttonLayRect.LayoutRect(cellLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(cellVariety));
-            buttonRect = buttonLayRect.Rect();
-            
-            for (TInt i(1); i<iButtonArray.Count(); i++)
-                {
-                CAknSctNaviButton* buttonObj = iButtonArray[i];
-                buttonObj->iButtonControl->SetRect(buttonRect);
-                buttonObj->iButtonControl->SetHighlightRect(buttonRect);
-                buttonObj->iButtonControl->SetIconScaleMode(EAspectRatioPreserved);
-                buttonObj->iButtonControl->SetIconSize(iconSize);
-                buttonObj->SetEnabled(ETrue);
-                }
-            }
-
-        TRAP_IGNORE(UpdateNextTableButtonL());
-        }
-    }
-
-void CAknSctTableNavi::HandleControlEventL(CCoeControl* aControl, TCoeEvent aEventType)
-    {
-    if(aEventType == EEventStateChanged)
-        {
-        for(TInt i=0; i<iButtonArray.Count(); i++)
-            {
-            CAknSctNaviButton* button = iButtonArray[i];
-            if(button->iButtonControl == aControl)
-                {
-                switch(button->iButtonId)
-                    {
-                    case EAknSctTableNaviExit:
-                        {
-                        iExtension->iKeyOkEvent = ETrue;
-                        TableExitL();
-                        }
-                        return;
-                        
-                    case EAknSctTableNaviSpecialChar:
-                    case EAknSctTableNaviEmotion:
-                        {
-                        NextTableL();
-                        }
-                        return;
-                        
-                    default:
-                        break;
-                    }
-            
-                break;
-                }
-            }
-        }
-    }
-
-
-void CAknSctTableNavi::UpdateNextTableButtonL()
-    {
-    
-    TBool isFocused = EFalse;
-    
-    // table switch buttons stay in one place.
-    for(TInt index(1); index<iButtonArray.Count(); index++)
-        {
-        CAknSctNaviButton* buttonObj = iButtonArray[index];
-        if(buttonObj->IsEnabled())
-            {
-            isFocused = buttonObj->IsFocused();
-            }
-        }
-    
-    // fresh focused button
-    for (TInt index(1); index<iButtonArray.Count(); index++)
-        {
-        CAknSctNaviButton* buttonObj = iButtonArray[index];
-        if (iCharMap->TableCount() > 1)
-            {
-            switch (iCharMap->NextTableCase())
-                {
-                case EAknCharMapTableSpecialChar:
-                    {
-                    TBool isShown = EFalse;
-                    if(iExtension->IsShowingEmotion())
-                        {
-                        isShown = (buttonObj->iButtonId==EAknSctTableNaviSpecialChar);
-                        }
-                    else
-                        {
-                        isShown = (buttonObj->iButtonId==EAknSctTableNaviEmotion);
-                        }
-                    buttonObj->SetEnabled(isShown);
-                    buttonObj->SetFocused(isShown && isFocused);
-                    if(isShown && isFocused)
-                        {
-                        iButtonIndex = index;
-                        }
-                    }
-                    break;
-
-                default:
-                    buttonObj->SetEnabled(EFalse);
-                    break;
-                }
-            }
-        else
-            {
-            buttonObj->SetEnabled(EFalse);
-            }
-        }
-    }
-
-CCoeControl* CAknSctTableNavi::FocusedControl()
-    {
-    return this;
-    }
-
-TBool CAknSctTableNavi::EnterControl(TInt aX, TInt /*aY*/)
-    {
-    if (IsVisible())
-        {
-        if ((aX >= 0) && (aX < iButtonArray.Count()))
-            {
-            TInt index = aX;
-            if (AknLayoutUtils::LayoutMirrored()) // reverse.
-                {
-                index = (iButtonArray.Count() - 1) - aX;
-                }
-
-            index = ButtonPosition(index);
-
-            for(; index<iButtonArray.Count(); index++)
-                {
-                CAknSctNaviButton* buttonObj = iButtonArray[index];
-                if (buttonObj->IsEnabled())
-                    {
-                    iButtonIndex = index;
-                    iExtension->iFocusHandler = this;
-                    buttonObj->SetFocused(ETrue);
-                    return ETrue;
-                    }
-                }
-            }
-        }
-    return EFalse;
-    }
-
-void CAknSctTableNavi::MoveFocus(TInt aX, TInt /*aY*/)
-    {
-    TInt delta = aX;
-    if (AknLayoutUtils::LayoutMirrored()) // reverse.
-        {
-        delta = -aX;
-        }
-
-    TInt buttonIndex = iButtonIndex + delta;
-
-    // loop until find next position
-    for (TInt i = 0; i < iButtonArray.Count(); i++)
-        {
-
-        if (buttonIndex > iButtonArray.Count() - 1) // goto Next control
-            {
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                // First radio button.
-                if (iExtension->iRadioButton)
-                    {
-                    if (iExtension->iRadioButton->EnterControl(0,0))
-                        {
-                        LeaveControl();
-                        }
-                    break;
-                    }
-                // Grid start.
-                if (iExtension->EnterControl(0,iCharMap->ColMin(0)))
-                    {
-                    LeaveControl();
-                    }
-                }
-            else
-                {
-                // Left page button.
-                if (iExtension->iPageNavi &&
-                    iExtension->iPageNavi->EnterControl(0,0))
-                    {
-                    LeaveControl();
-                    }
-                }
-            break;
-            }
-
-        else if (buttonIndex < 0) // goto Prev control
-            {
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                // Right page button.
-                if (iExtension->iPageNavi &&
-                    iExtension->iPageNavi->EnterControl(1,0))
-                    {
-                    LeaveControl();
-                    }
-                }
-            else
-                {
-                // Grid end.
-                TInt posY = iCharMap->ColMax(0);
-                if (iExtension->EnterControl(iCharMap->RowMax(posY),posY))
-                    {
-                    LeaveControl();
-                    }
-                }
-            break;
-            }
-
-        if (iButtonArray[buttonIndex]->IsEnabled()) // goto next button in This control
-            {
-            CAknSctNaviButton* buttonObj;
-            buttonObj = iButtonArray[iButtonIndex];
-            buttonObj->SetFocused(EFalse);
-            iButtonIndex = buttonIndex;
-            buttonObj = iButtonArray[iButtonIndex];
-            buttonObj->SetFocused(ETrue);
-            break;
-            }
-        
-        buttonIndex += (delta < 0) ? -1 : 1; // get next position
-        }
-    }
-
-TBool CAknSctTableNavi::LeaveControl()
-    {
-    for (TInt i = 0; i < iButtonArray.Count(); i++ )
-        {
-        iButtonArray[i]->SetFocused(EFalse);
-        }
-    return ETrue;
-    }
-
-TBool CAknSctTableNavi::ExitWithKey(TInt /*aKeycode*/)
-    {
-    if (iButtonArray[iButtonIndex]->iButtonId != EAknSctTableNaviExit)
-        {
-        return EFalse;
-        }
-    else
-        {
-        return ETrue;
-        }
-    }
-
-// ----------------------------------------------------------------------------
 // Page Navi class implementation
 // ----------------------------------------------------------------------------
 //
@@ -1134,6 +545,7 @@ CAknSctPageNavi::~CAknSctPageNavi()
         }
     iButtonArray.Close();
     delete iTitle;
+    delete iIdle;
     }
 
 TInt CAknSctPageNavi::CountComponentControls() const
@@ -1182,6 +594,12 @@ TKeyResponse CAknSctPageNavi::OfferKeyEventL(
             {
             switch (buttonObj->iButtonId)
                 {
+                case EAknSctTableNaviExit:
+                    {
+                    iExtension->iKeyOkEvent = ETrue;
+                    TableExitL();
+                    }
+                    break;
                 case EAknSctPageNaviPrevPage:
                     {
                     iCharMap->PrevPageL();
@@ -1190,6 +608,13 @@ TKeyResponse CAknSctPageNavi::OfferKeyEventL(
                 case EAknSctPageNaviNextPage:
                     {
                     iCharMap->NextPageL();
+                    }
+                    break;
+                // add all supported table types here.
+                case EAknSctTableNaviSpecialChar:
+                case EAknSctTableNaviEmotion:
+                    {
+                    NextTableL();
                     }
                     break;
                 default:
@@ -1202,110 +627,18 @@ TKeyResponse CAknSctPageNavi::OfferKeyEventL(
             break;
         case EKeyLeftArrow:
         case '4':
-            {
-            MoveFocus(-1,0);
-            response = EKeyWasConsumed;
-            }
-            break;
         case EKeyRightArrow:
         case '6':
-            {
-            MoveFocus(1,0);
-            response = EKeyWasConsumed;
-            }
-            break;
         case EKeyUpArrow:
         case '2':
-            {
-            response = EKeyWasConsumed;
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                if (iExtension->iRadioButton && !IsNextButton())
-                    {
-                    // Last radio button.
-                    if (iExtension->iRadioButton->EnterControl(
-                        0,iExtension->iRadioButton->Count()-1))
-                        {
-                        LeaveControl();
-                        }
-                    break;
-                    }
-                }
-            TInt xPos;
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                xPos = IsNextButton() ? iCharMap->MaxCols() - 1 : 0;
-                }
-            else
-                {
-                if (IsNextButton())
-                    {
-                    xPos = iCharMap->MaxCols() - 1;
-                    }
-                else
-                    {
-                    xPos = !iExtension->iRadioButton ?
-                        iCharMap->TableCount() : iCharMap->MaxCols()-2;
-                    }
-                }
-            if (iCharMap->ColMax(0) > iCharMap->ColMax(xPos))
-                {
-                xPos = iCharMap->RowMax(iCharMap->ColMax(0));
-                }
-            // Grid bottom row.
-            if (iExtension->EnterControl(xPos,iCharMap->ColMax(xPos)))
-                {
-                LeaveControl();
-                break;
-                }
-            }
-            break;
         case EKeyDownArrow:
         case '8':
             {
+            TInt gridX;
+            TInt gridY;
+            TBool gridInvolved = CalcNextStep( code, gridX, gridY );
+            MoveFocus( !gridInvolved, gridX, gridY );
             response = EKeyWasConsumed;
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                if (!IsNextButton())
-                    {
-                    // First table button.
-                    if (iExtension->iTableNavi &&
-                        iExtension->iTableNavi->EnterControl(0,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                else
-                    {
-                    // Grid top row.
-                    TInt xPos = iCharMap->MaxCols() - 1;
-                    if (iExtension->EnterControl(xPos,iCharMap->ColMin(xPos)))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                }
-            else
-                {
-                TInt xPos;
-                if (IsNextButton())
-                    {
-                    xPos = iCharMap->MaxCols() - 1;
-                    }
-                else
-                    {
-                    xPos = !iExtension->iRadioButton ?
-                        iCharMap->TableCount() : iCharMap->MaxCols() - 2;
-                    }
-                // Grid top row.
-                if (iExtension->EnterControl(xPos,iCharMap->ColMin(xPos)))
-                    {
-                    LeaveControl();
-                    break;
-                    }
-                }
             }
             break;
         default:
@@ -1313,6 +646,176 @@ TKeyResponse CAknSctPageNavi::OfferKeyEventL(
         }
     return response;
     }
+
+TBool CAknSctPageNavi::CalcNextStep( TUint aKey, TInt& aX, TInt& aY )
+	{
+	TBool landscape = Layout_Meta_Data::IsLandscapeOrientation();
+	TBool mirrored = AknLayoutUtils::LayoutMirrored();
+	TBool emotionEnabled = iExtension->IsEmotionEnabled();
+	TInt scPages = iCharMap->PageCount();
+	
+	aX = 0;
+	aY = 0;
+	TInt xOffset = 0;
+	TInt yOffset = 0;
+	
+	// Simplify key events to two variants
+	switch ( aKey )
+		{
+        case EKeyLeftArrow:
+        case '4':
+        	{
+        	xOffset = -1;
+        	}
+        	break;
+        case EKeyRightArrow:
+        case '6':
+        	{
+        	xOffset = 1;
+        	}
+        	break;
+        case EKeyDownArrow:
+        case '8':
+        	{
+        	yOffset = 1;
+        	}
+        	break;
+        case EKeyUpArrow:
+        case '2':
+        	{
+        	yOffset = -1;
+        	}
+        	break;
+        default:
+        	break;
+		}
+
+	TInt runtimeIndex = iButtonIndex;
+	if ( !emotionEnabled )
+        {
+	    // SC/Emotion unabled, button regrouped!
+        if ( ( mirrored && iButtonIndex == EAknSctPageNaviPrevPage && xOffset != 1 )
+          || ( !mirrored && iButtonIndex == EAknSctPageNaviNextPage && xOffset != -1) )
+        	{
+            runtimeIndex = iExtension->IsShowingEmotion()?EAknSctTableNaviSpecialChar:EAknSctTableNaviEmotion;
+        	}
+        }
+    // calculate when moving from PageNavi to grid, the column position
+    switch ( runtimeIndex ) 
+    	{
+    	case EAknSctTableNaviExit:
+    		{
+    		aX = 0;
+            if ( ( !mirrored && xOffset == -1 ) || ( mirrored && xOffset == 1 ) )
+            	{
+                // Grid end
+                aY = iCharMap->ColMax(0);
+                aX = iCharMap->RowMax( aY );
+                return ETrue;
+            	}
+            else if ( mirrored && xOffset == -1 && scPages >= 2 )
+            	{
+                xOffset = EAknSctPageNaviNextPage;
+            	}
+            else if ( scPages < 2 
+                    && ( ( !mirrored && xOffset == 1 ) || ( mirrored && xOffset == -1 ) ) )
+                {
+                if ( !emotionEnabled )
+                    {
+                    // Grid start
+                    aX = 0;
+                    aY = iCharMap->ColMin( aX );
+                    return ETrue;
+                    }
+                else
+                    {
+                    xOffset = LastButton();
+                    }
+                }
+            else
+            	{
+                xOffset = EAknSctTableNaviExit + xOffset;
+            	}
+    		}
+    		break;
+    	case EAknSctPageNaviPrevPage:
+    		{
+    		aX = mirrored ? iCharMap->MaxCols()-2 : 1;
+    		if ( mirrored && xOffset == -1 )
+    			{
+    		    xOffset = LastButton();
+    			}
+    		else
+    			{
+    		    xOffset = xOffset + EAknSctPageNaviPrevPage;
+    			}
+    		}
+    		break;
+    	case EAknSctPageNaviNextPage:
+    		{
+    		aX = mirrored ? 1 : iCharMap->MaxCols()-2;
+    		if ( mirrored && xOffset == 1 )
+    			{
+    		    xOffset = 0;
+    			}
+    		else if ( !mirrored && xOffset == 1 )
+    			{
+    		    xOffset = LastButton();
+    			}
+    		else
+    			{
+    		    xOffset = EAknSctPageNaviNextPage + xOffset;
+    			}
+    		}
+    		break;
+    	case EAknSctTableNaviSpecialChar:
+    	case EAknSctTableNaviEmotion:
+    		{
+    		aX = iCharMap->MaxCols()-1;
+            if ( ( !mirrored && xOffset == 1 ) || ( mirrored && xOffset == -1 ) )
+            	{
+                // Grid start
+                aX = 0;
+                aY = iCharMap->ColMin( aX );
+                return ETrue;
+                }
+            else if ( scPages < 2 
+                    && ( ( !mirrored && xOffset == -1 ) || ( mirrored && xOffset == 1 ) ) )
+                {
+                xOffset = EAknSctTableNaviExit;
+                }
+            else if ( mirrored && xOffset == 1 )
+            	{
+                xOffset = EAknSctPageNaviPrevPage;
+            	}
+            else
+            	{
+                xOffset = EAknSctPageNaviNextPage;
+            	}
+    		}
+    		break;
+    	default:
+    		break;
+    	}
+    
+    if ( yOffset == 1 )
+    	{
+        // DOWN
+        aY = iCharMap->ColMin( aX );
+        return ETrue;
+    	}
+    else if ( yOffset == -1 )
+    	{
+        // and UP
+        aY = iCharMap->ColMax( aX );
+        return ETrue;
+    	}
+
+    // Return False means it's internal moving focus within Page Navi
+    aX = xOffset;
+    aY = 0;
+    return EFalse;
+	}
 
 TBool CAknSctPageNavi::IsNextButton() const
     {
@@ -1350,7 +853,6 @@ void CAknSctPageNavi::HandleControlEventL(
         for (TInt index=0; index < iButtonArray.Count(); index++)
             {
             CAknSctNaviButton* buttonObj = iButtonArray[index];
-            TRect buttonRect = buttonObj->iButtonControl->Rect();
             if (buttonObj->iButtonControl == aControl)
                 {
                 if (buttonObj->IsEnabled() && buttonObj->iPressed)
@@ -1364,14 +866,14 @@ void CAknSctPageNavi::HandleControlEventL(
                             iCharMap->PrevPageL();
                             UpdatePageTitleL();
                             }
-                            break;
+                            return;
                         case EAknSctPageNaviNextPage:
                             {
                             buttonObj->iRepeat = ETrue; // Set button repeat.
                             iCharMap->NextPageL();
                             UpdatePageTitleL();
                             }
-                            break;
+                            return;
                         default:
                             break;
                         }
@@ -1392,13 +894,19 @@ void CAknSctPageNavi::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                 CAknSctNaviButton* buttonObj = iButtonArray[index];
                 buttonObj->iPressed = EFalse;
                 buttonObj->iRepeat = EFalse;
+                TInt buttonIndex = buttonObj->iButtonId;
                 TRect buttonRect = buttonObj->iButtonControl->Rect();
-                if (buttonRect.Contains(aPointerEvent.iPosition))
+                if ( buttonRect.Contains(aPointerEvent.iPosition))
                     {
                     if (buttonObj->IsEnabled())
                         {
-                        buttonObj->iButtonControl->SetButtonFlags(KAknButtonKeyRepeat);
                         buttonObj->iPressed = ETrue; // Set button pressed.
+                        if ( buttonIndex == EAknSctPageNaviPrevPage 
+                          || buttonIndex == EAknSctPageNaviNextPage )
+                            {
+                            // Only Prev/Next button can repeat
+                            buttonObj->iButtonControl->SetButtonFlags( KAknButtonKeyRepeat );
+                            }
                         }
                     }
                 }
@@ -1430,6 +938,18 @@ void CAknSctPageNavi::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                                     UpdatePageTitleL();
                                     }
                                     break;
+                                case EAknSctTableNaviExit:
+                                    {
+                                    iExtension->iKeyOkEvent = ETrue;
+                                    TableExitL();
+                                    }
+                                    break;
+                                case EAknSctTableNaviSpecialChar:
+                                case EAknSctTableNaviEmotion:
+                                    {
+                                    NextTableL();
+                                    }
+                                    break;
                                 default:
                                     break;
                                 }
@@ -1452,59 +972,111 @@ TSize CAknSctPageNavi::MinimumSize()
 void CAknSctPageNavi::SizeChanged()
     {
 
-    TAknLayoutRect pageButtonLayRect;
-    TInt pageVariate = !iCharMap->IsJapaneseSctUi() ? ((iCharMap->TableCount() > 1) ? 0 : 1) : 2;
-                       
+    TAknLayoutRect pageButtonLayRect, buttonLayRect;
+    TInt cellVar = Layout_Meta_Data::IsLandscapeOrientation()? 3 : 2;
+    TInt bgVar = 2;
+    TBool landScape = Layout_Meta_Data::IsLandscapeOrientation();       
+    TBool emotionEnabled = ETrue;
+    TBool mirrored = AknLayoutUtils::LayoutMirrored();
     CAknSctNaviButton* buttonObj;
     TRect rect;
 
-    buttonObj = iButtonArray[0];
-    buttonObj->iButtonControl->SetButtonFlags(0);
-    if (!AknLayoutUtils::LayoutMirrored())
-        {
-        buttonObj->iButtonId = EAknSctPageNaviPrevPage;
-        pageButtonLayRect.LayoutRect(Rect(),AknLayoutScalable_Avkon::bg_button_pane_cp10(pageVariate));
-        }
-    else
-        {
-        buttonObj->iButtonId = EAknSctPageNaviNextPage;
-        pageButtonLayRect.LayoutRect(Rect(),AknLayoutScalable_Avkon::bg_button_pane_cp11(pageVariate));
-        }
-    rect = pageButtonLayRect.Rect();
-    buttonObj->iButtonControl->SetRect(rect);
-    buttonObj->iButtonControl->SetHighlightRect(rect);
-    TAknLayoutRect pageButtonIconLayRect;
-    pageButtonIconLayRect.LayoutRect(pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::graphic2_pages_pane_g1(pageVariate));
-    buttonObj->iButtonControl->SetIconScaleMode(EAspectRatioPreserved);
-    TSize iconSize = pageButtonIconLayRect.Rect().Size();
-    buttonObj->iButtonControl->SetIconSize(iconSize);
-
+    if ( iExtension )
+    	{
+        emotionEnabled = iExtension->IsEmotionEnabled();
+    	}
+    
+    // Prev button
     buttonObj = iButtonArray[1];
     buttonObj->iButtonControl->SetButtonFlags(0);
-    if (!AknLayoutUtils::LayoutMirrored())
-        {
-        buttonObj->iButtonId = EAknSctPageNaviNextPage;
-        pageButtonLayRect.LayoutRect(Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp11(pageVariate));
-        }
+    TInt col = 0;
+    if ( !landScape )
+    	{
+        col = mirrored ? ( !emotionEnabled?4:3 ) : 1;
+    	}
     else
-        {
-        buttonObj->iButtonId = EAknSctPageNaviPrevPage;
-        pageButtonLayRect.LayoutRect(Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp10(pageVariate));
-        }
-    rect = pageButtonLayRect.Rect();
+    	{
+        col = mirrored ? ( !emotionEnabled?6:5 ) : 1;
+    	}
+    pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col) );
+    buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
+    rect = buttonLayRect.Rect();
     buttonObj->iButtonControl->SetRect(rect);
     buttonObj->iButtonControl->SetHighlightRect(rect);
-    buttonObj->iButtonControl->SetIconScaleMode(EAspectRatioPreserved);
+    
+    // ...Prev button icon
+    TAknLayoutRect iconLayRect;
+    iconLayRect.LayoutRect(rect, AknLayoutScalable_Avkon::cell_graphic2_control_pane_g1(bgVar));
+    TSize iconSize = iconLayRect.Rect().Size();
     buttonObj->iButtonControl->SetIconSize(iconSize);
-
+    
+    // Next button
+    buttonObj = iButtonArray[2];
+    buttonObj->iButtonControl->SetButtonFlags(0);
+    if ( !landScape )
+    	{
+        col = mirrored ? 1 : ( !emotionEnabled?4:3 );
+    	}
+    else
+    	{
+        col = mirrored ? 1 : ( !emotionEnabled?6:5 );
+    	}
+    pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col) );
+    buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
+    rect = buttonLayRect.Rect();
+    buttonObj->iButtonControl->SetRect(rect);
+    buttonObj->iButtonControl->SetHighlightRect(rect);
+    
+    // ...Next button icon
+    buttonObj->iButtonControl->SetIconSize(iconSize);
+    
+    // Exit button
+    buttonObj = iButtonArray[0];
+    buttonObj->iButtonControl->SetButtonFlags(0);
+    pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,0) );
+    buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
+    rect = buttonLayRect.Rect();
+    buttonObj->iButtonControl->SetRect(rect);
+    buttonObj->iButtonControl->SetHighlightRect(rect);
+    
+    // ...Exit button icon
+    buttonObj->iButtonControl->SetIconSize(iconSize);
+    
+    // Emotion/Special-char button
+    col = landScape? 6 : 4;
+    pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col) );
+    buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
+    rect = buttonLayRect.Rect();
+    for ( TInt i = 3; i < iButtonArray.Count();i++ )
+        {
+        buttonObj = iButtonArray[i];
+        buttonObj->iButtonControl->SetButtonFlags(0);
+        buttonObj->iButtonControl->SetRect(rect);
+        buttonObj->iButtonControl->SetHighlightRect(rect);
+        
+        // ...its icon
+        buttonObj->iButtonControl->SetIconSize(iconSize);
+        }
+    TRAP_IGNORE(UpdateNextTableButtonL());
+    
     // Page text.
-    TRect parentRect = Rect();
-    AknLayoutUtils::LayoutLabel(iTitle, parentRect, AknLayoutScalable_Avkon::graphic2_pages_pane_t1(pageVariate).LayoutLine());
+    col = landScape? 3 : 2;
+    pageButtonLayRect.LayoutRect(Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col));
+    TAknTextComponentLayout textlayout = AknLayoutScalable_Avkon::cell_graphic2_control_pane_t1();
+    TRect titleRect( pageButtonLayRect.Rect() );
+    if ( !emotionEnabled )
+        {
+        // start complex dynamic logic to locate title rect when emotion is unable
+        TInt orientation = mirrored ? -1 : 1;
+        TInt newLeft = titleRect.iTl.iX + orientation*rect.Width()/2;
+        TPoint titleTL( newLeft, titleRect.iTl.iY );
+        titleRect.SetRect( titleTL, titleRect.Size() );
+        }
+    AknLayoutUtils::LayoutLabel(iTitle, titleRect, textlayout.LayoutLine());
 
     // Page text color
     TAknLayoutText textLayout;
-    textLayout.LayoutText(parentRect, AknLayoutScalable_Avkon::graphic2_pages_pane_t1(pageVariate));
-    TRect textRect = textLayout.TextRect();
+    textLayout.LayoutText( titleRect, textlayout );
     TRgb color = textLayout.Color();
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     if (skin)
@@ -1522,10 +1094,16 @@ void CAknSctPageNavi::Draw(const TRect& /*aRect*/) const
 
 void CAknSctPageNavi::UpdatePageTitleL() const
     {
+    TInt pages = iCharMap->PageCount();
+    if ( pages < 2 )
+        {
+        iTitle->MakeVisible( EFalse );
+        return;
+        }
     CArrayFix<TInt>* numbers = new(ELeave)CArrayFixFlat<TInt>(2);
-    CleanupStack::PushL(numbers);
-    numbers->AppendL(iCharMap->CurrentPage());
-    numbers->AppendL(iCharMap->PageCount());
+    CleanupStack::PushL( numbers );
+    numbers->AppendL( iCharMap->CurrentPage() );
+    numbers->AppendL( pages );
     HBufC* page =
         StringLoader::LoadL(
             R_AVKON_SPECIAL_CHARACTERS_PAGE_INDICATOR, *numbers, iEikonEnv);
@@ -1542,6 +1120,7 @@ CCoeControl* CAknSctPageNavi::FocusedControl()
 
 TBool CAknSctPageNavi::EnterControl(TInt aX, TInt /*aY*/)
     {
+	// Note, the button index is fixed on spite of mirrored case
     if (IsVisible())
         {
         if ((aX >= 0) && (aX < iButtonArray.Count()))
@@ -1550,10 +1129,6 @@ TBool CAknSctPageNavi::EnterControl(TInt aX, TInt /*aY*/)
             buttonObj = iButtonArray[iButtonIndex];
             buttonObj->SetFocused(EFalse);
             TInt index = aX;
-            if (AknLayoutUtils::LayoutMirrored()) // reverse.
-                {
-                index = iButtonArray.Count() - 1 - aX;
-                }
             buttonObj = iButtonArray[index];
             if (buttonObj->IsEnabled())
                 {
@@ -1567,132 +1142,25 @@ TBool CAknSctPageNavi::EnterControl(TInt aX, TInt /*aY*/)
     return EFalse;
     }
 
-void CAknSctPageNavi::MoveFocus(TInt aX, TInt /*aY*/)
+void CAknSctPageNavi::MoveFocus(TInt aX, TInt aY )
     {
-    TInt delta = aX;
-    TInt buttonIndex = iButtonIndex + delta;
-    for (TInt i = 0; i < iButtonArray.Count(); i++)
-        {
-        if (buttonIndex > iButtonArray.Count() - 1) // Next control.
-            {
-            if (!AknLayoutUtils::LayoutMirrored())
-                {
-                if (!Layout_Meta_Data::IsLandscapeOrientation())
-                    {
-                    // First table button.
-                    if (iExtension->iTableNavi &&
-                        iExtension->iTableNavi->EnterControl(0,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                else
-                    {
-                    // First radio button.
-                    if (iExtension->iRadioButton &&
-                        iExtension->iRadioButton->EnterControl(0,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    // Grid start.
-                    TInt yPos = iCharMap->ColMin(0);
-                    if (iExtension->EnterControl(iCharMap->RowMin(yPos),yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                }
-            else
-                {
-                if (!Layout_Meta_Data::IsLandscapeOrientation())
-                    {
-                    // Grid end.
-                    TInt yPos = iCharMap->ColMax(0);
-                    if (iExtension->EnterControl(iCharMap->RowMax(yPos),yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                else
-                    {
-                    // Last table button.
-                    TInt xPos = iCharMap->TableCount() - 1;
-                    if (iExtension->iTableNavi &&
-                        iExtension->iTableNavi->EnterControl(xPos,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                }
-            break;
-            }
-        else if (buttonIndex < 0) // Prev control
-            {
-            if (!AknLayoutUtils::LayoutMirrored())
-                {
-                if (!Layout_Meta_Data::IsLandscapeOrientation())
-                    {
-                    // Grid end.
-                    TInt yPos = iCharMap->ColMax(0);
-                    if (iExtension->EnterControl(iCharMap->RowMax(yPos),yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                else
-                    {
-                    // Last table button.
-                    if (iExtension->iTableNavi && 
-                        iExtension->iTableNavi->EnterControl(iCharMap->TableCount()-1,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                }
-            else
-                {
-                if (!Layout_Meta_Data::IsLandscapeOrientation())
-                    {
-                    // First table button.
-                    if (iExtension->iTableNavi &&
-                        iExtension->iTableNavi->EnterControl(0,0))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                else
-                    {
-                    // Grid start.
-                    TInt yPos = iCharMap->ColMin(0);
-                    if (iExtension->EnterControl(iCharMap->RowMin(yPos),yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                }
-            }
+    (void)aX;
+    (void)aY;
+    }
 
-        if (iButtonArray[buttonIndex]->IsEnabled()) // This control
+void CAknSctPageNavi::MoveFocus(TBool aInternalMove, TInt aX, TInt aY )
+    {
+    if ( aInternalMove )
+    	{
+        EnterControl( aX, 0 );
+    	}
+    else
+    	{
+        if (iExtension->EnterControl( aX, aY ) )
             {
-            CAknSctNaviButton* buttonObj;
-            buttonObj = iButtonArray[iButtonIndex];
-            buttonObj->SetFocused(EFalse);
-            iButtonIndex = buttonIndex;
-            buttonObj = iButtonArray[iButtonIndex];
-            buttonObj->SetFocused(ETrue);
-            break;
+            LeaveControl();
             }
-        buttonIndex += (delta < 0) ? -1 : 1;
-        }
+    	}
     }
 
 TBool CAknSctPageNavi::LeaveControl()
@@ -1707,6 +1175,136 @@ TBool CAknSctPageNavi::LeaveControl()
 TBool CAknSctPageNavi::ExitWithKey(TInt /*aKeycode*/)
     {
     return EFalse;
+    }
+
+
+void CAknSctPageNavi::TableExitL()
+    {
+    if(!iIdle)
+        {
+        iIdle = CIdle::NewL(CActive::EPriorityStandard);
+        }
+
+    iIdle->Cancel();
+    iIdle->Start(TCallBack(TableExitCallBackL, this));
+    }
+
+TInt CAknSctPageNavi::TableExitCallBackL(TAny* aThis)
+    {
+    ((CAknSctPageNavi*)aThis)->DoTableExitL();
+    return KErrNone;
+    }
+
+void CAknSctPageNavi::DoTableExitL()
+    {
+    iCharMap->SetStatusChanged(EAknCharSelectedTableExitButton);
+    }
+
+void CAknSctPageNavi::NextTableL()
+    {
+    if(!iIdle)
+        {
+        iIdle = CIdle::NewL(CActive::EPriorityStandard);
+        }
+
+    iIdle->Cancel();
+    iIdle->Start(TCallBack(NextTableCallBackL, this));
+    }
+
+TInt CAknSctPageNavi::NextTableCallBackL(TAny* aThis)
+    {
+    ((CAknSctPageNavi*)aThis)->DoNextTableL();
+    return KErrNone;
+    }
+
+void CAknSctPageNavi::DoNextTableL()
+    {
+    iCharMap->SetStatusChanged(EAknCharSelectedNextTableButton);
+    }
+
+void CAknSctPageNavi::UpdateNextTableButtonL()
+    {
+    
+    TBool isFocused = EFalse;
+    
+    // table switch buttons stay in one place.
+    for(TInt index(3); index<iButtonArray.Count(); index++)
+        {
+        CAknSctNaviButton* buttonObj = iButtonArray[index];
+        if(buttonObj->IsEnabled())
+            {
+            isFocused = buttonObj->IsFocused();
+            }
+        }
+    
+    // fresh focused button
+    for (TInt index(1); index<iButtonArray.Count(); index++)
+        {
+        CAknSctNaviButton* buttonObj = iButtonArray[index];
+        if ( index == EAknSctPageNaviPrevPage 
+               || index == EAknSctPageNaviNextPage )
+        	{
+            // No need to display Prev/Next
+            if ( iCharMap->PageCount() < 2 )
+                {
+                buttonObj->SetEnabled(EFalse);
+                }
+            continue;
+        	}
+        if (iCharMap->TableCount() > 1)
+            {
+            switch (iCharMap->NextTableCase())
+                {
+                case EAknCharMapTableSpecialChar:
+                    {
+                    TBool isShown = EFalse;
+                    if(iExtension->IsShowingEmotion())
+                        {
+                        isShown = (buttonObj->iButtonId==EAknSctTableNaviSpecialChar);
+                        }
+                    else
+                        {
+                        isShown = (buttonObj->iButtonId==EAknSctTableNaviEmotion);
+                        }
+                    buttonObj->SetEnabled(isShown);
+                    buttonObj->SetFocused(isShown && isFocused);
+                    if(isShown && isFocused)
+                        {
+                        iButtonIndex = index;
+                        }
+                    }
+                    break;
+
+                default:
+                    buttonObj->SetEnabled(EFalse);
+                    break;
+                }
+            }
+        else
+            {
+            buttonObj->SetEnabled(EFalse);
+            }
+        }
+    }
+
+TInt CAknSctPageNavi::LastButton() const
+    {
+    TBool emotionEnable = iExtension->IsEmotionEnabled();
+    if ( emotionEnable )
+    	{
+        return iExtension->IsShowingEmotion()?EAknSctTableNaviSpecialChar:EAknSctTableNaviEmotion;
+    	}
+    else if ( iCharMap->PageCount() < 2 && !emotionEnable )
+        {
+        // Only one page, must have no SC/Emotion also, left Exit only.
+        return EAknSctTableNaviExit;
+        }
+    else
+    	{
+        // emotion doesn't support, no SC/Emotion icon then
+        TBool mirrored = AknLayoutUtils::LayoutMirrored();
+        return mirrored ? EAknSctPageNaviPrevPage : EAknSctPageNaviNextPage;
+    	}
     }
 
 // ----------------------------------------------------------------------------
@@ -1758,680 +1356,6 @@ void CAknSctCategoryButton::SetFocused(TBool aState)
 
 
 // ----------------------------------------------------------------------------
-// Radio button class implementation
-// ----------------------------------------------------------------------------
-//
-CAknSctRadioButton::CAknSctRadioButton()
-    {
-    }
-
-CAknSctRadioButton::CAknSctRadioButton(
-    CAknCharMap* aCharMap,
-    CAknCharMapExtension* aExtension)
-    :iExtension(aExtension),
-    iCharMap(aCharMap)
-    {
-    }
-
-CAknSctRadioButton::~CAknSctRadioButton()
-    {
-    iButtonArray.ResetAndDestroy();
-    iButtonArray.Close();
-    }
-
-TInt CAknSctRadioButton::CountComponentControls() const
-    {
-    return iButtonArray.Count();
-    }
-
-CCoeControl* CAknSctRadioButton::ComponentControl( TInt aIndex ) const
-    {
-    if (aIndex < iButtonArray.Count())
-        {
-        return iButtonArray[aIndex]->iButtonControl;
-        }
-    return NULL;
-    }
-
-TKeyResponse CAknSctRadioButton::OfferKeyEventL(
-    const TKeyEvent& aKeyEvent,
-    TEventCode /*aModifiers*/)
-    {
-    TKeyResponse responce = EKeyWasNotConsumed;
-    TUint code=aKeyEvent.iCode;
-    switch (code)
-        {
-        case EKeyEnter:
-        case EKeyOK:
-            {
-            if (AknLayoutUtils::PenEnabled())
-                {
-                // Grid.
-                TInt yPos = iCharMap->ColMin(0);
-                TInt xPos = iCharMap->RowMin(yPos);
-                if (iExtension->EnterControl(xPos,yPos))
-                    {
-                    CAknButton* buttonCtrlObj;
-                    TInt currentIndex;
-                    TInt newIndex;
-                    for (TInt index=0; index < iButtonArray.Count(); index++)
-                        {
-                        buttonCtrlObj = iButtonArray[index]->iButtonControl;
-                        currentIndex = buttonCtrlObj->StateIndex();
-                        if (index == iButtonIndex)
-                            {
-                            newIndex = KAknSctRadioOn;
-                            }
-                        else
-                            {
-                            newIndex = KAknSctRadioOff;
-                            }
-                        if (currentIndex != newIndex)
-                            {
-                            buttonCtrlObj->SetCurrentState(newIndex, ETrue);
-                            if (newIndex == KAknSctRadioOn)
-                                {
-                                iExtension->iCurrentCategory =
-                                    iButtonArray[index]->iButtonId;
-                                iCharMap->SetStatusChanged(EAknCharChangedCategory);
-                                }
-                            }
-                        }
-                    LeaveControl();
-                    }
-                }
-            responce = EKeyWasConsumed;
-            }
-            break;
-        case EKeyLeftArrow:
-        case '4':
-            {
-            responce = EKeyWasConsumed;
-            if (AknLayoutUtils::PenEnabled())
-                {
-                TInt yPos = iButtonIndex - 1;
-                if (iCharMap->RowMax(yPos) < 0)
-                    {
-                    if (Layout_Meta_Data::IsLandscapeOrientation())
-                        {
-                        if (iExtension->iRadioButton)
-                            {
-                            // Right page button.
-                            if (iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(1,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
-                            }
-                        }
-                    // Next button up.
-                    MoveFocus(0,-1);
-                    break;
-                    }
-                else
-                    {
-                    //Previous row end.
-                    TInt xPos = iCharMap->RowMax(yPos);
-                    if (iExtension->EnterControl(xPos,yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                break;
-                }
-            // Move by grid.
-            iCharMap->TakeFocus();
-            TInt xPos = iCharMap->CursorPos().iX;
-            TInt yPos = iCharMap->CursorPos().iY;
-            if (xPos == 0)
-                {
-                iCharMap->MoveFocus(-1,0);
-                }
-            iCharMap->ShowFocus();
-            }
-            break;
-        case EKeyRightArrow:
-        case '6':
-            {
-            responce = EKeyWasConsumed;
-            if (AknLayoutUtils::PenEnabled())
-                {
-                TInt yPos = iButtonIndex;
-                if (iCharMap->RowMax(yPos) < 0)
-                    {
-                    // Next button down.
-                    MoveFocus(0,1);
-                    break;
-                    }
-                else
-                    {
-                    // 1st cell in the row.
-                    if (iExtension->EnterControl(0,yPos))
-                        {
-                        LeaveControl();
-                        break;
-                        }
-                    }
-                break;
-                }
-            // Move by grid.
-            iCharMap->TakeFocus();
-            TInt xPos = iCharMap->CursorPos().iX;
-            TInt yPos = iCharMap->CursorPos().iY;
-            if (xPos == iCharMap->RowMax(yPos))
-                {
-                iCharMap->MoveFocus(1,0);
-                }
-            iCharMap->ShowFocus();
-            }
-            break;
-        case EKeyDownArrow:
-        case '8':
-            {
-            MoveFocus(0, 1);
-            responce = EKeyWasConsumed;
-            }
-            break;
-        case EKeyUpArrow:
-        case '2':
-            {
-            MoveFocus(0,-1);
-            responce = EKeyWasConsumed;
-            }
-            break;
-        default:
-            break;
-        }
-    return responce;
-    }
-
-void CAknSctRadioButton::ConstructFromResourceL(TResourceReader& aReader)
-    {
-    TInt counts = aReader.ReadInt16();
-    TResourceReader reader;
-    TInt categorybutton_id;
-    TInt sctcase_id;
-    TInt resId;
-    CAknSctCategoryButton* buttonObj;
-    TBool allowCreation;
-
-    for (TInt index=0; index < counts; index++)
-        {
-        allowCreation = EFalse;
-        // button id
-        categorybutton_id = aReader.ReadInt16();
-        sctcase_id = aReader.ReadInt16();
-        switch (categorybutton_id)
-            {
-            case EAknSCTCategoryButtonHalfCase:
-            case EAknSCTCategoryButtonFullCase:
-                allowCreation = ETrue;
-                break;
-            case EAknSCTCategoryButtonPicto:
-                if (iExtension->iPictographsBuffer)
-                    {
-                    allowCreation = ETrue;
-                    }
-                break;
-            case EAknSCTCategoryButtonPicto1:
-            case EAknSCTCategoryButtonPicto2:
-                if (iExtension->iPictographsBuffer &&
-                    iExtension->iPictographsBufferGrouping)
-                    {
-                    allowCreation = ETrue;
-                    }
-                break;
-            default:
-                break;
-            }
-
-        if (allowCreation)
-            {
-            // read the button resource
-            resId = aReader.ReadInt32();
-            iCoeEnv->CreateResourceReaderLC( reader, resId );
-            // create Category button object
-            buttonObj = CAknSctCategoryButton::NewL(
-                *this, reader, categorybutton_id, sctcase_id);
-            // Append button
-            iButtonArray.Append(buttonObj);
-            CleanupStack::PopAndDestroy(); // reader
-            }
-        else
-            {
-            // Skip data
-            resId = aReader.ReadInt32();
-            }
-        }
-
-    }
-
-void CAknSctRadioButton::HandlePointerEventL(const TPointerEvent& aPointerEvent)
-    {
-    TRect rect(Rect());
-    if (AknLayoutUtils::PenEnabled() && rect.Contains(aPointerEvent.iPosition))
-        {
-        if (aPointerEvent.iType == TPointerEvent::EButton1Down)
-            {
-            CAknButton* buttonCtrlObj;
-            TRect rectButton;
-            TInt currentIndex;
-            TInt newIndex;
-            for (TInt index=0; index < iButtonArray.Count(); index++)
-                {
-                buttonCtrlObj = iButtonArray[index]->iButtonControl;
-                rectButton = buttonCtrlObj->Rect();
-                currentIndex = buttonCtrlObj->StateIndex();
-
-                if (rectButton.Contains(aPointerEvent.iPosition))
-                    {
-                    newIndex = KAknSctRadioOn;
-                    }
-                else
-                    {
-                    newIndex = KAknSctRadioOff;
-                    }
-                if (currentIndex != newIndex)
-                    {
-                    buttonCtrlObj->SetCurrentState(newIndex, ETrue);
-                    if (newIndex == KAknSctRadioOn)
-                        {
-                        if (AknLayoutUtils::PenEnabled())
-                            {
-                            iButtonIndex = index;
-                            }
-                        iExtension->iCurrentCategory =
-                            iButtonArray[index]->iButtonId;
-                        iCharMap->SetStatusChanged(EAknCharChangedCategory);
-                        }
-                    }
-                }
-            }
-        else if (aPointerEvent.iType == TPointerEvent::EDrag)
-            {
-            }
-        else if (aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            }
-        }
-    else
-        {
-        CCoeControl::HandlePointerEventL(aPointerEvent);
-        }
-    }
-
-TSize CAknSctRadioButton::MinimumSize()
-    {
-    TAknLayoutRect oneButtonLayRect;
-    if (!AknLayoutUtils::PenEnabled())
-        {
-        TAknLayoutScalableParameterLimits charMapDialogVariety =
-            AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
-
-        // Main pane without softkeys
-        TRect mainPaneRect;
-        if(!AknLayoutUtils::LayoutMetricsRect(
-            AknLayoutUtils::EPopupParent, mainPaneRect))
-            {
-            mainPaneRect = iAvkonAppUi->ClientRect();
-            }
-
-        // Calc the variety
-        TInt maxVariety = charMapDialogVariety.LastVariety();
-
-        TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(mainPaneRect,
-            AknLayoutScalable_Avkon::popup_grid_graphic_window(maxVariety));
-
-        // Calculate the size relatively
-        TRect relativeDialog(TPoint(0,0),popupGridLayRect.Rect().Size());
-
-        // Get the layout of the actual character grid with scrollbar
-        TAknLayoutRect gridWithScrollLayRect;
-        gridWithScrollLayRect.LayoutRect(relativeDialog,
-            AknLayoutScalable_Avkon::listscroll_popup_graphic_pane());
-
-        TAknLayoutRect categoryButtonLayRect;
-        categoryButtonLayRect.LayoutRect(gridWithScrollLayRect.Rect(),
-            AknLayoutScalable_Avkon::grid_sct_catagory_button_pane());
-
-        oneButtonLayRect.LayoutRect(categoryButtonLayRect.Rect(),
-            AknLayoutScalable_Avkon::cell_sct_catagory_button_pane());
-        }
-    else
-        {
-        TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
-            AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
-
-        TAknLayoutRect oneButtonLayRect;
-        TAknLayoutRect categoryButtonLayRect;
-        if (!Layout_Meta_Data::IsLandscapeOrientation())
-            {
-            oneButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_control_pane(4));
-
-            categoryButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_catg_pane(0));
-            }
-        else
-            {
-            oneButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_control_pane(5));
-
-            categoryButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_catg_pane(1));
-
-            }
-        }
-
-    TSize size(oneButtonLayRect.Rect().Width(),
-        oneButtonLayRect.Rect().Height() * iButtonArray.Count());
-    return size;
-    }
-
-void CAknSctRadioButton::SizeChanged()
-    {
-    TRect base;
-    if (!AknLayoutUtils::PenEnabled())
-        {
-        TAknLayoutScalableParameterLimits charMapDialogVariety =
-            AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
-
-        // Main pane without softkeys
-        TRect mainPaneRect;
-        if(!AknLayoutUtils::LayoutMetricsRect(
-            AknLayoutUtils::EPopupParent, mainPaneRect))
-            {
-            mainPaneRect = iAvkonAppUi->ClientRect();
-            }
-
-        // Calc the variety
-        TInt maxVariety = charMapDialogVariety.LastVariety();
-
-        TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(mainPaneRect,
-            AknLayoutScalable_Avkon::popup_grid_graphic_window(maxVariety));
-
-        // Calculate the size relatively
-        TRect relativeDialog(TPoint(0,0), popupGridLayRect.Rect().Size());
-
-        // Get the layout of the actual character grid with scrollbar
-        TAknLayoutRect gridWithScrollLayRect;
-        gridWithScrollLayRect.LayoutRect(relativeDialog,
-            AknLayoutScalable_Avkon::listscroll_popup_graphic_pane());
-
-        TAknLayoutRect categoryButtonLayRect;
-        categoryButtonLayRect.LayoutRect(gridWithScrollLayRect.Rect(),
-            AknLayoutScalable_Avkon::grid_sct_catagory_button_pane());
-
-        TAknLayoutRect oneButtonLayRect;
-        oneButtonLayRect.LayoutRect(categoryButtonLayRect.Rect(),
-            AknLayoutScalable_Avkon::cell_sct_catagory_button_pane());
-
-        base = oneButtonLayRect.Rect();
-        }
-    else
-        {
-        TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
-            AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
-
-        TAknLayoutRect oneButtonLayRect;
-        TAknLayoutRect categoryButtonLayRect;
-        if ( !Layout_Meta_Data::IsLandscapeOrientation() )
-            {
-            oneButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_control_pane(4));
-
-            categoryButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_catg_pane(0));
-            }
-        else
-            {
-            oneButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_control_pane(5));
-
-            categoryButtonLayRect.LayoutRect(popupGridLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic2_catg_pane(1));
-
-            }
-        base.iTl = categoryButtonLayRect.Rect().iTl;
-        base.SetSize(oneButtonLayRect.Rect().Size());
-        }
-
-    if (iButtonArray.Count() > 0)
-        {
-        CAknButton* buttonCtrlObj;
-
-        TMargins8 margins;
-        margins.iTop = 1;
-        margins.iBottom = 0;
-        margins.iLeft = 0;
-        margins.iRight = 0;
-
-        // Change the size of buttons
-        for (TInt index=0; index < iButtonArray.Count(); index++)
-            {
-            buttonCtrlObj = iButtonArray[index]->iButtonControl;
-            if (buttonCtrlObj)
-                {
-                if (AknLayoutUtils::PenEnabled())
-                    {
-                    buttonCtrlObj->SetHighlightRect(base);
-                    }
-                buttonCtrlObj->SetRect( base );
-                buttonCtrlObj->SetIconSize( base.Size() );
-                buttonCtrlObj->SetMargins( margins );
-                buttonCtrlObj->SetIconScaleMode(EAspectRatioPreserved);
-                base.Move(TPoint(0, base.Size().iHeight));
-                }
-            }
-        }
-    }
-
-void CAknSctRadioButton::Draw(const TRect& /*aRect*/) const
-    {
-    // no draw
-    }
-
-/**
- * Returns ETrue if the aFlag bitfield in iFlags is set, EFalse if it
- * is clear
- */
-inline TInt CAknSctRadioButton::Count() const
-    {
-    return iButtonArray.Count();
-    }
-
-void CAknSctRadioButton::SetCurrentCategory(TInt aCategory)
-    {
-    CAknSctCategoryButton* buttonObj;
-    TInt status;
-
-    for (TInt index=0; index < iButtonArray.Count(); index++)
-        {
-        buttonObj = iButtonArray[index];
-        status = (buttonObj->iButtonId == aCategory)?
-                     KAknSctRadioOn : KAknSctRadioOff;
-        buttonObj->iButtonControl->SetCurrentState(status, ETrue);
-        }
-    }
-
-void CAknSctRadioButton::SetValidSctCase(TInt aSctCase)
-    {
-    CAknSctCategoryButton* buttonObj;
-
-    for (TInt index=0; index < iButtonArray.Count(); index++)
-        {
-        buttonObj = iButtonArray[index];
-        if (buttonObj->iSctCaseId == aSctCase)
-            {
-            buttonObj->iValid = ETrue;
-            break;
-            }
-        // Here is the special case for Half-width/Lower/Upper
-        else if (buttonObj->iSctCaseId == EAknSCTHalfCase
-              && (aSctCase == EAknSCTLowerCase
-                 || aSctCase == EAknSCTUpperCase)
-                )
-            {
-            buttonObj->iValid = ETrue;
-            break;
-            }
-        }
-    }
-
-void CAknSctRadioButton::RemoveInvalidButton()
-    {
-    CAknSctCategoryButton* buttonObj;
-
-    for (TInt index=iButtonArray.Count()-1; index >= 0; index--)
-        {
-        buttonObj = iButtonArray[index];
-        if (!buttonObj->iValid)
-            {
-            if (buttonObj->iSctCaseId == EAknSCTHalfCase)
-                {
-                if (iButtonArray.Count() > 1)
-                    {
-                    delete buttonObj;
-                    iButtonArray.Remove(index);
-                    }
-                }
-            else
-                {
-                delete buttonObj;
-                iButtonArray.Remove(index);
-                }
-            }
-        }
-    }
-
-CCoeControl* CAknSctRadioButton::FocusedControl()
-    {
-    return this;
-    }
-
-TBool CAknSctRadioButton::EnterControl(TInt /*aX*/, TInt aY)
-    {
-    if (IsVisible())
-        {
-        if ((aY >= 0) && (aY < Count()))
-            {
-            if (iExtension->iHasCategoryButtonUi)
-                {
-                iEntryIndex = aY;
-                iExtension->iFocusHandler = this;
-                if (AknLayoutUtils::PenEnabled())
-                    {
-                    iButtonIndex = aY;
-                    CAknSctCategoryButton* buttonObj =
-                        iButtonArray[iButtonIndex];
-                    buttonObj->SetFocused(ETrue);
-                    }
-                return ETrue;
-                }
-            }
-        }
-    return EFalse;
-    }
-
-void CAknSctRadioButton::MoveFocus(TInt /*aX*/, TInt aY)
-    {
-    CAknSctCategoryButton* buttonObj;
-    CAknButton* buttonCtrlObj;
-    TInt buttonIndex = iButtonIndex + aY;
-    if (buttonIndex > iButtonArray.Count() - 1)
-        {
-        if (!AknLayoutUtils::PenEnabled())
-            {
-             // First radio button.
-            buttonIndex = 0;
-            }
-        else
-            {
-            if (!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                // Left page button.
-                if (iExtension->iPageNavi &&
-                    iExtension->iPageNavi->EnterControl(0,0))
-                    {
-                    LeaveControl();
-                    return;
-                    }
-                }
-            else
-                {
-                // First table button.
-                if (iExtension->iTableNavi &&
-                    iExtension->iTableNavi->EnterControl(0,0))
-                    {
-                    LeaveControl();
-                    return;
-                    }
-                }
-            }
-        }
-    else if (buttonIndex < 0)
-        {
-         if (!AknLayoutUtils::PenEnabled())
-            {
-            // Last radio button.
-            buttonIndex = iButtonArray.Count() - 1;
-            }
-         else
-            {
-            // First table button.
-            if (iExtension->iTableNavi &&
-                iExtension->iTableNavi->EnterControl(0,0))
-                {
-                LeaveControl();
-                return;
-                }
-            }
-        }
-
-    if (!AknLayoutUtils::PenEnabled())
-        {
-        buttonObj = iButtonArray[iButtonIndex];
-        buttonCtrlObj = buttonObj->iButtonControl;
-        buttonCtrlObj->SetCurrentState(KAknSctRadioOff, ETrue);
-        iButtonIndex = buttonIndex;
-        buttonObj = iButtonArray[iButtonIndex];
-        buttonCtrlObj = buttonObj->iButtonControl;
-        buttonCtrlObj->SetCurrentState(KAknSctRadioOn, ETrue);
-        iExtension->iCurrentCategory =
-            iButtonArray[buttonIndex]->iButtonId;
-        iCharMap->SetStatusChanged(EAknCharChangedCategory);
-        }
-    else
-        {
-        buttonObj = iButtonArray[iButtonIndex];
-        buttonObj->SetFocused(EFalse);
-        iButtonIndex = buttonIndex;
-        buttonObj = iButtonArray[iButtonIndex];
-        buttonObj->SetFocused(ETrue);
-        }
-    }
-
-TBool CAknSctRadioButton::LeaveControl()
-    {
-    for (TInt i = 0; i < iButtonArray.Count(); i++ )
-        {
-        iButtonArray[i]->SetFocused(EFalse);
-        }
-    return ETrue;
-    }
-
-TBool CAknSctRadioButton::ExitWithKey(TInt /*aKeycode*/)
-    {
-    return EFalse;
-    }
-
-// ----------------------------------------------------------------------------
 // Extension class implementation
 // ----------------------------------------------------------------------------
 //
@@ -2464,11 +1388,9 @@ CAknCharMapExtension::~CAknCharMapExtension()
     delete iCharsQwerty;
     delete iBgContext;
 
-    delete iRadioButton;
     delete iTitleBuf;
 
     delete iPageNavi;
-    delete iTableNavi;
     delete iCategoryTitle;
     delete iCategoryEntry;
     delete iEntryBuf;
@@ -2901,17 +1823,6 @@ EXPORT_C CAknCharMap::CAknCharMap() : iMaxColumns(-1)
         return;
 
     iExtension->iFlags = 0x00;
-
-    // if feature language is Japanese
-    CAknEnv* env = CAknEnv::Static();
-    if (env)
-        {
-        if (env->IsFeatureLanguage(KFeatureIdJapanese))
-            {
-            iExtension->iJapaneseSctUi = ETrue;
-            iExtension->iHasCategoryButtonUi = ETrue;
-            }
-        }
     iExtension->iFocusHandler = iExtension;
     iExtension->SetCharMapControl(this);
 	
@@ -2962,6 +1873,7 @@ EXPORT_C CAknCharMap::~CAknCharMap()
     iPictographCases.Close();
     iPictographPages.Close();
     MTouchFeedback* feedback = MTouchFeedback::Instance();
+    
     if ( feedback != NULL )
         {
         feedback->RemoveFeedbackForControl( this );
@@ -2977,11 +1889,6 @@ void CAknCharMap::DoLayout()
             {
             specialCharItemLayout =
                 AknLayoutScalable_Avkon::cell_graphic2_pane_t1(1);
-            }
-        else if (IsJapaneseSctUi())
-            {
-            specialCharItemLayout =
-                AknLayoutScalable_Avkon::cell_graphic2_pane_t1(2);
             }
         else
             {
@@ -3006,11 +1913,21 @@ void CAknCharMap::DoLayout()
     CountMaxColumnsAndCellSizes();
     SizeChanged();
 
-    // load Emotion icon resource, but not load images
-    TSize iconSize(iGridItemWidth,iGridItemHeight);
-    iconSize.iWidth = iconSize.iWidth * 3 / 4;
-    iconSize.iHeight = iconSize.iHeight * 3 / 4;
-    Extension()->SetEmotionSize(iconSize);
+    // set smiley size
+    TAknWindowComponentLayout cellGraphicsLayout;
+    if ( Layout_Meta_Data::IsLandscapeOrientation() )
+        {
+        cellGraphicsLayout = AknLayoutScalable_Avkon::cell_graphic2_pane_g5(1);
+        }
+    else
+        {
+        cellGraphicsLayout = AknLayoutScalable_Avkon::cell_graphic2_pane_g5(0);
+        }
+
+    TAknLayoutRect cellGraphicsRect;
+    cellGraphicsRect.LayoutRect(TRect(TSize(iGridItemWidth,iGridItemHeight)), cellGraphicsLayout);
+    
+    Extension()->SetEmotionSize(cellGraphicsRect.Rect().Size());
     }
 
 
@@ -3074,19 +1991,7 @@ EXPORT_C void CAknCharMap::ConstructFromResourceL(TResourceReader& aReader)
     // Alternate components.
     if (AknLayoutUtils::PenEnabled())
         {
-        if (iExtension->iHasCategoryButtonUi)
-            {
-            EnableCategoryInputFieldL();
-            EnableCategoryButtonsL();
-            }
         EnableNavigationButtonsL();
-        }
-    else
-        {
-        if (iExtension->iHasCategoryButtonUi)
-            {
-            EnableCategoryButtonsL();
-            }
         }
 
     // Offscreen background.
@@ -3243,10 +2148,6 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         }
 
     iExtension->iCurrentCategory = Category();
-    if (iExtension->iRadioButton)
-        {
-        iExtension->iRadioButton->SetCurrentCategory(iExtension->iCurrentCategory);
-        }
 
     // Create and set the scb visible even though there is nothing to scroll
     delete iSBFrame;
@@ -3262,12 +2163,6 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         }
     
     iExtension->LoadEmotionTumbnails(*iChars);
-
-    CAknSctPageNavi* pageNavi = Extension()->iPageNavi;
-    if(pageNavi)
-        {
-        pageNavi->MakeVisible(PageCount()>1);
-        }
     
     SetSmileyAnimationActivityInCurrentPageL(ETrue);
     
@@ -3469,40 +2364,21 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
         case EKeyLeftArrow:
         case '4':
             {
-            if (iExtension->iRadioButton && (iCursorPos.iX == 0)) // Radio button.
-                {
-                if (iExtension->iRadioButton->EnterControl(iCursorPos.iX,iCursorPos.iY))
-                    {
-                    LeaveControl();
-                    break;
-                    }
-                }
-
             if (AknLayoutUtils::PenEnabled())
                 {
                 if (!iIsMirrored)
                     {
                     if ((iCursorPos.iX == 0) && (iCursorPos.iY == ColMin(0)))
                         {
-                        if (!Layout_Meta_Data::IsLandscapeOrientation())
+                        // western, move left from first one in grid, focus pageNavi last button
+                        if ( iExtension->iPageNavi )
                             {
-                            // Last table button.
-                            if (iExtension->iTableNavi &&
-                                iExtension->iTableNavi->EnterControl(TableCount() - 1,0))
-                                {
+                            TInt maxButt = iExtension->iPageNavi->LastButton();
+                            if ( iExtension->iPageNavi->EnterControl( maxButt,0 ) )
+                            	{
                                 LeaveControl();
                                 break;
-                                }
-                            }
-                        else
-                            {
-                            // Right page button.
-                            if (iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(1,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
+                            	}
                             }
                         }
                     }
@@ -3510,25 +2386,12 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                     {
                     if (((iCursorPos.iY == ColMax(0)) && (iCursorPos.iX == RowMax(ColMax(0)))))
                         {
-                        if (!Layout_Meta_Data::IsLandscapeOrientation())
+                        // mirrored, move left from last one in grid, focus pgNavi first button
+                        if (iExtension->iPageNavi &&
+                            iExtension->iPageNavi->EnterControl(0,0))
                             {
-                            // Left page button.
-                            if (iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(0,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
-                            }
-                        else
-                            {
-                            // First table button.
-                            if (iExtension->iTableNavi &&
-                                iExtension->iTableNavi->EnterControl(0,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
+                            LeaveControl();
+                            break;
                             }
                         }
                     }
@@ -3539,17 +2402,6 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
         case EKeyRightArrow:
         case '6':
             {
-            if (iExtension->iRadioButton &&
-                (iCursorPos.iX == RowMax(iCursorPos.iY)) &&
-                    (iCursorPos.iY <= (iExtension->iRadioButton->Count() - 2)))
-                {
-                // Radio button.
-                if (iExtension->iRadioButton->EnterControl(iCursorPos.iX,iCursorPos.iY+1))
-                    {
-                    LeaveControl();
-                    break;
-                    }
-                }
             if (AknLayoutUtils::PenEnabled())
                 {
                 if (!iIsMirrored)
@@ -3557,25 +2409,12 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                     if ((iCursorPos.iY == ColMax(0)) &&
                         (iCursorPos.iX == RowMax(ColMax(0))))
                         {
-                        if (!Layout_Meta_Data::IsLandscapeOrientation())
+                        // western, move right from last one in grid, focus pgNavi first button
+                        if (iExtension->iPageNavi &&
+                            iExtension->iPageNavi->EnterControl(0,0))
                             {
-                            // Left page button.
-                            if (iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(0,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
-                            }
-                        else
-                            {
-                            // First table button.
-                            if (iExtension->iTableNavi &&
-                                iExtension->iTableNavi->EnterControl(0,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
+                            LeaveControl();
+                            break;
                             }
                         }
                     }
@@ -3584,22 +2423,11 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                     if ((iCursorPos.iY == ColMin(0)) &&
                         (iCursorPos.iX == 0))
                         {
-                        if (!Layout_Meta_Data::IsLandscapeOrientation())
+                        // mirrored, move right from first one in grid, focus pgNavi last button
+                        if ( iExtension->iPageNavi )
                             {
-                            // First table button.
-                            if (iExtension->iTableNavi &&
-                                iExtension->iTableNavi->EnterControl(0,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
-
-                            }
-                        else
-                            {
-                            // Left page button.
-                            if (iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(1,0))
+                            TInt maxButt = iExtension->iPageNavi->LastButton();
+                            if ( iExtension->iPageNavi->EnterControl( maxButt,0 ) )
                                 {
                                 LeaveControl();
                                 break;
@@ -3616,59 +2444,54 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
             {
             if (AknLayoutUtils::PenEnabled())
                 {
-                if (iCursorPos.iY == ColMin(iCursorPos.iX))
+                if ( iCursorPos.iY == ColMin(iCursorPos.iX) )
                     {
-                    if (!iExtension->iRadioButton && iCursorPos.iX < TableCount())
+                    // cell is at the top row, need to go on to PageNavi
+                    if ( iExtension->iPageNavi )
                         {
-                        // Table button up.
-                        if ( iExtension->iTableNavi &&
-                            iExtension->iTableNavi->EnterControl(iCursorPos.iX,0))
+                        TInt aX = 0;
+                        
+                        if ( iCursorPos.iX == MaxCols() - 1 )
+                            {
+                            aX = iExtension->iPageNavi->LastButton();
+                            }
+                        else if ( iCursorPos.iX == MaxCols() - 2 )
+                            {
+                            // a bit complex as unable-emotion SCT has no SC/Emotion icon
+                            if ( iExtension->IsEmotionEnabled() )
+                            	{
+                                aX = iIsMirrored? 1 : 2;
+                            	}
+                            else
+                            	{
+                                aX = -1;
+                            	}
+                            }
+                        else if (iCursorPos.iX == 1 )  
+                            {
+                            aX = iIsMirrored? 2 : 1;
+                            }
+                        else if ( iCursorPos.iX == 0 )
+                            {
+                            // first button in PageNavi
+                            aX = 0;
+                            }
+                        else
+                        	{
+                            aX = -1;
+                        	}
+                        if ( iExtension->iPageNavi->EnterControl( aX,0 ) )
                             {
                             LeaveControl();
                             break;
                             }
                         }
-                    else
-                        {
-                        if (iCursorPos.iX == MaxCols() - 1)
-                            {
-                            // Right page button.
-                            if ( iExtension->iPageNavi &&
-                                iExtension->iPageNavi->EnterControl(1,0))
-                                {
-                                LeaveControl();
-                                break;
-                                }
-                            }
-                        if (Layout_Meta_Data::IsLandscapeOrientation())
-                            {
-                            if ((!iExtension->iRadioButton &&
-                                 (iCursorPos.iX == TableCount())) ||
-                               ((iExtension->iRadioButton) &&
-                                 (iCursorPos.iX == MaxCols()-2)))
-                                {
-                                // Left page button.
-                                if ( iExtension->iPageNavi &&
-                                    iExtension->iPageNavi->EnterControl(0,0))
-                                    {
-                                    LeaveControl();
-                                    break;
-                                    }
-                                }
-                            }
-                        // Grid bottom row.
-                        if (ColMax(0) > ColMax(iCursorPos.iX))
-                            {
-                            EnterControl(RowMax(ColMax(0)), ColMax(0));
-                            break;
-                            }
-                        EnterControl(iCursorPos.iX, ColMax( iCursorPos.iX));
-                        break;
-                        }
+                    EnterControl(iCursorPos.iX, ColMax( iCursorPos.iX));
+                    break;
                     }
                 }
-            MoveFocus(0,-1);
-            break;
+                MoveFocus(0,-1);
+                break;
             }
         case EKeyDownArrow:
         case '8':
@@ -3677,52 +2500,51 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                 {
                 if (iCursorPos.iY == ColMax(iCursorPos.iX))
                     {
+                    if (  iExtension->iPageNavi )
+                    	{
+                        TInt aX = 0;
+                    
+                        if ( iCursorPos.iX == MaxCols() - 1 )
+                            {
+                            aX = iExtension->iPageNavi->LastButton();
+                            }
+                        else if ( iCursorPos.iX == MaxCols() - 2 )
+                            {
+                             // a bit complex as unable-emotion SCT has no SC/Emotion icon
+                            if ( iExtension->IsEmotionEnabled() )
+                                {
+                                aX = iIsMirrored? 1 : 2;
+                                }
+                            else
+                                {
+                                aX = -1;
+                                }
+                            }
+                        else if ( iCursorPos.iX == 1 )  
+                            {
+                            aX = iIsMirrored? 2 : 1;
+                            }
+                        else if ( iCursorPos.iX == 0 )
+                            {
+                            // default: first button in PageNavi
+                            aX = 0;
+                            }
+                        else
+                        	{
+                            aX = -1;
+                        	}
+                        if ( iExtension->iPageNavi->EnterControl( aX,0 ) )
+                            {
+                            LeaveControl();
+                            break;
+                            }
+                    	}
+                    // cell is at bottom row
                     if (iCursorPos.iX > RowMax(ColMax(0)))
                         {
                         // Grid last item.
                         EnterControl(RowMax(ColMax(0)), ColMax(0));
                         break;
-                        }
-                    if ((iCursorPos.iX == MaxCols() - 1) ||
-                        (!Layout_Meta_Data::IsLandscapeOrientation() &&
-                            iExtension->iRadioButton &&
-                                (iCursorPos.iX == MaxCols() - 2)))
-                        {
-                        // Right page button.
-                        if (iExtension->iPageNavi &&
-                            iExtension->iPageNavi->EnterControl(1,0))
-                            {
-                            LeaveControl();
-                            break;
-                            }
-                        }
-                    if ((Layout_Meta_Data::IsLandscapeOrientation() &&
-                            !iExtension->iRadioButton &&
-                                (iCursorPos.iX == TableCount())) ||
-                        (!Layout_Meta_Data::IsLandscapeOrientation() &&
-                            (iCursorPos.iX == 0)) ||
-                        (Layout_Meta_Data::IsLandscapeOrientation() &&
-                            iExtension->iRadioButton &&
-                                (iCursorPos.iX == MaxCols() - 2)))
-                        {
-                        // Left page button.
-                        if (iExtension->iPageNavi &&
-                            iExtension->iPageNavi->EnterControl(0,0))
-                            {
-                            LeaveControl();
-                            break;
-                            }
-                        }
-                    if (!iExtension->iRadioButton &&
-                            iCursorPos.iX < TableCount())
-                        {
-                         // Table button down.
-                        if (iExtension->iTableNavi &&
-                            iExtension->iTableNavi->EnterControl(iCursorPos.iX,0))
-                            {
-                            LeaveControl();
-                            break;
-                            }
                         }
                     // Grid top row.
                     EnterControl(iCursorPos.iX, ColMin(iCursorPos.iX));
@@ -3820,14 +2642,7 @@ EXPORT_C void CAknCharMap::SizeChanged()
         gridWithScrollLayRect.LayoutRect(relativePopup, AknLayoutScalable_Avkon::listscroll_popup_graphic_pane());
 
         TAknLayoutRect gridLayRect;
-        if (iExtension->iHasCategoryButtonUi)
-            {
-            gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(), AknLayoutScalable_Avkon::grid_graphic_popup_pane(2));
-            }
-        else
-            {
-            gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(), AknLayoutScalable_Avkon::grid_graphic_popup_pane(0));
-            }
+        gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(), AknLayoutScalable_Avkon::grid_graphic_popup_pane(0));
 
         // Grid.
         TRect contentRect = Extension()->iMenuSct ? Rect() : gridLayRect.Rect();
@@ -3848,24 +2663,6 @@ EXPORT_C void CAknCharMap::SizeChanged()
             iGridTopLeft.iX = contentRect.iTl.iX;
             }
 
-        // Category buttons.
-        if (iExtension && iExtension->iHasCategoryButtonUi)
-            {
-            if (iExtension->iRadioButton)
-                {
-                TAknLayoutRect categoryButtonLayRect;
-                categoryButtonLayRect.LayoutRect(gridWithScrollLayRect.Rect(),AknLayoutScalable_Avkon::grid_sct_catagory_button_pane());
-
-                TAknLayoutRect oneButtonLayRect;
-                oneButtonLayRect.LayoutRect(categoryButtonLayRect.Rect(),AknLayoutScalable_Avkon::cell_sct_catagory_button_pane());
-
-                TSize size(oneButtonLayRect.Rect().Width(), oneButtonLayRect.Rect().Height()*iExtension->iRadioButton->Count());
-                TRect rectRadio(categoryButtonLayRect.Rect().iTl, size);
-                iExtension->iRadioButton->SetRect(rectRadio);
-                }
-            }
-
-
         // Background context.
         if(iExtension && iExtension->iBgContext)
             {
@@ -3879,17 +2676,7 @@ EXPORT_C void CAknCharMap::SizeChanged()
         }
     else
         {
-        
-        TInt variety;
-        if (!IsJapaneseSctUi())
-            {
-            variety = Layout_Meta_Data::IsLandscapeOrientation() ? 3 : 1;
-            if(TableCount() > 1) variety--;
-            }
-        else
-            {
-            variety = Layout_Meta_Data::IsLandscapeOrientation() ? 5 : 4;
-            }
+        TInt variety = Layout_Meta_Data::IsLandscapeOrientation() ? 7 : 6;
         
         // Popup.
         TAknLayoutRect popupGridLayRect;
@@ -3914,56 +2701,14 @@ EXPORT_C void CAknCharMap::SizeChanged()
             iGridTopLeft.iX = gridRect.iTl.iX;
             }
 
-        // Category
-        if (iExtension->iHasCategoryButtonUi && iExtension->iRadioButton) // Radio buttons.
-            {
-            TAknLayoutRect oneButtonLayRect;
-            TAknLayoutRect categoryButtonLayRect;
-            TInt oneButtonLayVariety, categoryButtonLayVariety;
-            
-            if (Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                oneButtonLayVariety = 5;
-                categoryButtonLayVariety = 1;
-                }
-            else
-                {
-                oneButtonLayVariety = 4;
-                categoryButtonLayVariety = 0;
-                }
-            
-            oneButtonLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::grid_graphic2_control_pane(oneButtonLayVariety));
-            categoryButtonLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::grid_graphic2_catg_pane(categoryButtonLayVariety));
-
-            TSize size(oneButtonLayRect.Rect().Width(), 
-                       oneButtonLayRect.Rect().Height() * iExtension->iRadioButton->Count());
-            TRect rectRadio(categoryButtonLayRect.Rect().iTl, size);
-            iExtension->iRadioButton->SetRect(rectRadio);
-            }
-
-        // Table navigation.
-        if (iExtension->iTableNavi)
-            {
-            TAknLayoutRect tableNaviLayRect;
-            tableNaviLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::grid_graphic2_control_pane(variety));
-            iExtension->iTableNavi->SetRect(tableNaviLayRect.Rect());
-            }
-
         // Page navigation.
         if (iExtension->iPageNavi)
             {
-            if (PageCount() > 1)
-                {
-                iExtension->iPageNavi->MakeVisible(ETrue);
-                
-                TAknLayoutRect pageNaviLayRect;
-                pageNaviLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::graphic2_pages_pane(variety));
-                iExtension->iPageNavi->SetRect(pageNaviLayRect.Rect());
-                }
-            else
-                {
-                iExtension->iPageNavi->MakeVisible(EFalse);
-                }
+            iExtension->iPageNavi->MakeVisible(ETrue);
+
+            TAknLayoutRect pageNaviLayRect;
+            pageNaviLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::grid_graphic2_control_pane(variety));
+            iExtension->iPageNavi->SetRect(pageNaviLayRect.Rect());
             }
 
         // Background context.
@@ -4058,33 +2803,15 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
             }
 
         // Sets alternate UI controls.
-        if (iExtension->iHasCategoryButtonUi)
+        if (AknLayoutUtils::PenEnabled())
             {
-            if (AknLayoutUtils::PenEnabled())
-                {
-                EnableCategoryInputFieldL();
-                EnableNavigationButtonsL();
-                }
-            else
-                {
-                DisableCategoryInputFieldL();
-                DisableNavigationButtonsL();
-                }
-            EnableCategoryButtonsL();
+            EnableNavigationButtonsL();
             }
         else
             {
-            DisableCategoryInputFieldL();
-            DisableCategoryButtonsL();
-            if (AknLayoutUtils::PenEnabled())
-                {
-                EnableNavigationButtonsL();
-                }
-            else
-                {
-                DisableNavigationButtonsL();
-                }
+            DisableNavigationButtonsL();
             }
+
 
         // and finally updates the page counts (from setcasetable)
         iSpecialCharPages.Reset(); // reset the current page count for different charsets
@@ -4144,20 +2871,6 @@ void CAknCharMap::EnableNavigationButtonsL()
     {
     if ( iExtension )
         {
-        if ( !iExtension->iTableNavi )
-            {
-            iExtension->iTableNavi = new(ELeave) CAknSctTableNavi(this, iExtension);
-            iExtension->iTableNavi->SetContainerWindowL(*this);
-            TResourceReader reader;
-            iCoeEnv->CreateResourceReaderLC(reader, R_AVKON_SCT_TABLE_NAVI_CONTROL);
-            iExtension->iTableNavi->ConstructFromResourceL(reader);
-            iExtension->iTableNavi->SetNonFocusing();
-            iExtension->iTableNavi->SetMopParent(iExtension);
-            CleanupStack::PopAndDestroy(); // reader
-            }
-
-        iExtension->iTableNavi->MakeVisible(ETrue);
-
         if ( !iExtension->iPageNavi )
             {
             iExtension->iPageNavi = new(ELeave) CAknSctPageNavi(this, iExtension);
@@ -4176,37 +2889,9 @@ void CAknCharMap::EnableNavigationButtonsL()
 
 void CAknCharMap::DisableNavigationButtonsL()
     {
-    if ( iExtension && iExtension->iTableNavi )
-        {
-        iExtension->iTableNavi->MakeVisible( EFalse );
-        }
     if ( iExtension && iExtension->iPageNavi )
         {
         iExtension->iPageNavi->MakeVisible( EFalse );
-        }
-    }
-
-void CAknCharMap::EnableCategoryButtonsL()
-    {
-    if (!iExtension->iRadioButton)
-        {
-        iExtension->iRadioButton = new(ELeave) CAknSctRadioButton(this, iExtension);
-        iExtension->iRadioButton->SetContainerWindowL(*this);
-        TResourceReader reader;
-        iCoeEnv->CreateResourceReaderLC(reader, R_AVKON_SCT_CATEGORY_BUTTON_CONTROL);
-        iExtension->iRadioButton->ConstructFromResourceL(reader);
-        iExtension->iRadioButton->SetNonFocusing();
-        iExtension->iRadioButton->SetMopParent(iExtension);
-        CleanupStack::PopAndDestroy(); // reader
-        }
-    iExtension->iRadioButton->MakeVisible(ETrue);
-    }
-
-void CAknCharMap::DisableCategoryButtonsL()
-    {
-    if (iExtension && iExtension->iRadioButton)
-        {
-        iExtension->iRadioButton->MakeVisible(EFalse);
         }
     }
 
@@ -4299,24 +2984,20 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
 
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+    AknLayoutUtils::TAknCbaLocation location = AknLayoutUtils::CbaLocation();
 
     TRect rect = Rect();
 
     if (!AknLayoutUtils::PenEnabled() || Extension()->iMenuSct)
         {
         TRect mainPaneRect;
-        if(!AknLayoutUtils::LayoutMetricsRect(
-            AknLayoutUtils::EPopupParent, mainPaneRect))
+        if(!AknLayoutUtils::LayoutMetricsRect(AknLayoutUtils::EPopupParent, mainPaneRect))
             {
             mainPaneRect = iAvkonAppUi->ClientRect();
             }
 
-        TAknLayoutScalableParameterLimits charMapDialogVariety =
-            AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
-
+        TAknLayoutScalableParameterLimits charMapDialogVariety = AknLayoutScalable_Avkon::popup_grid_graphic_window_ParamLimits();
         TInt maxVariety = charMapDialogVariety.LastVariety();
-
-        AknLayoutUtils::TAknCbaLocation location = AknLayoutUtils::CbaLocation();
         TInt maxVarietyOffset = 0;
         TInt varietyOffset = maxVariety + 1;
 
@@ -4347,25 +3028,19 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
         varietyNumber += maxVarietyOffset;
 
         TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(mainPaneRect,
-            AknLayoutScalable_Avkon::popup_grid_graphic_window(varietyNumber));
+        popupGridLayRect.LayoutRect(mainPaneRect, AknLayoutScalable_Avkon::popup_grid_graphic_window(varietyNumber));
 
         // Background height.
-        TInt backgroundHeightOffset =
-            popupGridLayRect.Rect().Height() - rect.iBr.iY;
-
+        TInt backgroundHeightOffset = popupGridLayRect.Rect().Height() - rect.iBr.iY;
         rect.iBr.iY += backgroundHeightOffset;
         }
     else
         {
         TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
-            AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
+        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(), AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
 
         // Background height.
-        TInt backgroundHeightOffset =
-            popupGridLayRect.Rect().Height() - rect.iBr.iY;
-
+        TInt backgroundHeightOffset = popupGridLayRect.Rect().Height() - rect.iBr.iY;
         rect.iBr.iY += backgroundHeightOffset * 2;
         }
 
@@ -4373,44 +3048,49 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
     if ( !Extension()->iMenuSct )
         {
         // 1) Draw the background
-
         // Check if we got an offscreen bitmap allocated for skin background and
         // there is bitmap background in the current skin.
 		if( CAknEnv::Static()->TransparencyEnabled() )
 			{
 			TRegionFix<10> clipReg;
 			clipReg.AddRect(rect);
+
 			if ( iFirstVisibleRow == 0 && iSetRecentSct )
 				{
 				TPoint pos = iGridTopLeft;
-				TInt endX = pos.iX + iGridItemWidth * iMaxColumns + 1;
-				TInt endY = pos.iY + iGridItemHeight;
+				TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
+				if(iIsMirrored)
+				    {
+                    pos.iX += iGridItemWidth - size.iWidth;
+				    }
 				// eliminate the overlap area between menu sct and the first menu item.
 				if ( Extension()->iMenuSct )
 					{
-					endY--;
+                    size.iHeight--;
 					}
-				clipReg.SubRect( TRect( pos, TPoint( endX, endY ) ) );
+				clipReg.SubRect(TRect(pos,size));
 				}
+			
 			// Take scroll bar out of clip region
 			if (iSBFrame)
 				{
-				clipReg.SubRect(iSBFrame->GetScrollBarHandle(
-					CEikScrollBar::EVertical)->Rect());
+				clipReg.SubRect(iSBFrame->GetScrollBarHandle(CEikScrollBar::EVertical)->Rect());
 				}
+
 			gc.SetClippingRegion(clipReg);
 			}
+		
 		AknsDrawUtils::Background( skin, cc, this, gc, rect,KAknsDrawParamNoClearUnderImage);
+		
 		if( CAknEnv::Static()->TransparencyEnabled() )
 			{
 			gc.CancelClippingRegion();
 			}
 
-        gc.SetPenStyle(CGraphicsContext::ESolidPen);
+        // 2) Draw the grid
+		gc.SetPenStyle(CGraphicsContext::ESolidPen);
         gc.SetBrushStyle(CGraphicsContext::ENullBrush);
         gc.SetPenSize(TSize(1,1));
-
-        // 2) Draw the grid
         DrawGrid(gc);
         }
 
@@ -4612,10 +3292,6 @@ void CAknCharMap::DrawItem(
             {
             specialCharItemLayout = AknLayoutScalable_Avkon::cell_graphic2_pane_t1(1);
             }
-        else if (IsJapaneseSctUi())
-            {
-            specialCharItemLayout = AknLayoutScalable_Avkon::cell_graphic2_pane_t1(2);
-            }
         else
             {
             specialCharItemLayout = AknLayoutScalable_Avkon::cell_graphic2_pane_t1(0);
@@ -4629,7 +3305,6 @@ void CAknCharMap::DrawItem(
     TRect textRect = aSctPosition;
     if( IsRecentChar(aCharIndex) )
         {
-        textRect.Move(0, -1);       //because height of recent char frame decreased 1.
         if( Extension()->iMenuSct )
             {
             textRect.Move(0, -1);   //because menu sct will also shrink 1.
@@ -4749,7 +3424,7 @@ void CAknCharMap::SetRecentCharFrameStyle( CWindowGc& aGc) const
 //
 void CAknCharMap::DrawRecentCharFrame( CWindowGc& aGc) const
     {
-    MAknsSkinInstance*   skin = AknsUtils::SkinInstance();
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = iExtension->iBgContext;
     if ( !cc )
         {
@@ -4757,27 +3432,22 @@ void CAknCharMap::DrawRecentCharFrame( CWindowGc& aGc) const
         }
 
     TPoint pos = iGridTopLeft;
-    TInt endX = pos.iX + iGridItemWidth * iMaxColumns + 1;
-    TInt endY = pos.iY + iGridItemHeight;
-    TRect drawRect(TPoint(pos.iX, pos.iY), TPoint(endX, endY));
+    TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
+    if(iIsMirrored)
+        {
+        pos.iX += iGridItemWidth - size.iWidth;
+        }
     // eliminate the overlap area between menu sct and the first menu item.
     if ( Extension()->iMenuSct )
         {
-        drawRect = Rect();
-        endY--;
+        size.iHeight--;
         }
 
-    AknsDrawUtils::Background( skin, cc, this, aGc, drawRect );
+    AknsDrawUtils::Background(skin, cc, this, aGc, TRect(pos,size));
 
     SetRecentCharFrameStyle(aGc);
-    if(iIsMirrored)
-        {
-        pos.iX = iGridTopLeft.iX - ((iMaxColumns - 1) * iGridItemWidth);
-        endX = iGridTopLeft.iX + iGridItemWidth + 1;
-        }
+    aGc.DrawRect(TRect(pos,size));
 
-    aGc.DrawRect( TRect(TPoint(pos.iX-1, pos.iY-1), TPoint(endX, endY)));
-    
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     CFeedbackSpec* spec = CFeedbackSpec::New();
 
@@ -5100,11 +3770,7 @@ void CAknCharMap::MoveCursorL(TInt aDeltaX, TInt aDeltaY)
        )
         {
         caseChange = ETrue;
-        // Cursor was on the second line
-        if (aDeltaY < 0)
-            {
-            globalYPos--;
-            }
+
         // Cursor was on the second line and first position
         if (aDeltaX < 0 && iCursorPos.iX == 0)
             {
@@ -5492,14 +4158,7 @@ void CAknCharMap::UpdateScrollIndicatorL()
     TRect parent = gridWithScrollLayRect.Rect();
 
     TAknWindowComponentLayout scrollbarLayout;
-    if (iExtension->iHasCategoryButtonUi)
-        {
-        scrollbarLayout = AknLayoutScalable_Avkon::scroll_pane_cp5(1);
-        }
-    else
-        {
-        scrollbarLayout = AknLayoutScalable_Avkon::scroll_pane_cp5(0);
-        }
+    scrollbarLayout = AknLayoutScalable_Avkon::scroll_pane_cp5(0);
 
     vSbarModel.iScrollSpan = PageCount() * iExtension->iMaxVisibleRows;
     vSbarModel.iThumbSpan = iExtension->iMaxVisibleRows;
@@ -5925,15 +4584,6 @@ EXPORT_C CCoeControl* CAknCharMap::ComponentControl(TInt aIndex) const
         aIndex--;
         }
 
-    if (iExtension->iRadioButton)
-        {
-         if ( aIndex == 0 )
-            {
-            return iExtension->iRadioButton;
-            }
-        aIndex--;
-        }
-
     if (iExtension->iCategoryTitle)
         {
         if ( aIndex == 0 )
@@ -5947,15 +4597,6 @@ EXPORT_C CCoeControl* CAknCharMap::ComponentControl(TInt aIndex) const
         if ( aIndex == 0 )
             {
             return iExtension->iCategoryEntry;
-            }
-        aIndex--;
-        }
-
-    if (iExtension->iTableNavi)
-        {
-         if ( aIndex == 0 )
-            {
-            return iExtension->iTableNavi;
             }
         aIndex--;
         }
@@ -5978,19 +4619,11 @@ EXPORT_C TInt CAknCharMap::CountComponentControls() const
         {
         num++;
         }
-    if (iExtension->iRadioButton)
-        {
-        num++;
-        }
     if (iExtension->iCategoryTitle)
         {
         num++;
         }
     if (iExtension->iCategoryEntry)
-        {
-        num++;
-        }
-    if (iExtension->iTableNavi)
         {
         num++;
         }
@@ -6033,11 +4666,6 @@ void CAknCharMap::SetCaseTableL(const RArray<TInt> & aCase)
     iSpecialCharPages.AppendL( PageCountFromChars(*currentcasechars) );
 
     iSpecialCharCases.AppendL( iSpecialCharCase );
-    if (iExtension->iRadioButton)
-        {
-        // Set the sct case mode to valid
-        iExtension->iRadioButton->SetValidSctCase(iSpecialCharCase);
-        }
 
     if (aCase.Count() > 0)
         {
@@ -6048,11 +4676,6 @@ void CAknCharMap::SetCaseTableL(const RArray<TInt> & aCase)
                 {
                 iSpecialCharCases.AppendL( aCase[i] );
                 iSpecialCharPages.AppendL( PageCountFromChars(*chars) );
-                if (iExtension->iRadioButton)
-                    {
-                    // Set the sct case mode to valid
-                    iExtension->iRadioButton->SetValidSctCase(aCase[i]);
-                    }
                 }
             }
         }
@@ -6068,29 +4691,7 @@ void CAknCharMap::SetCaseTableL(const RArray<TInt> & aCase)
             {
             iPictographPages.AppendL( PageCountFromChars(*iPictographsBuffer2) );
             iPictographCases.AppendL(EAknCharMapTablePicto2);
-            if (iExtension->iRadioButton)
-                {
-                // Set the sct case mode to valid
-                iExtension->iRadioButton->SetValidSctCase(EAknSCTPictograph1);
-                iExtension->iRadioButton->SetValidSctCase(EAknSCTPictograph2);
-                }
             }
-        else
-            {
-            if (iExtension->iRadioButton)
-                {
-                // Set the sct case mode to valid
-                iExtension->iRadioButton->SetValidSctCase(EAknSCTPictograph);
-                }
-            }
-        }
-
-    if (iExtension->iRadioButton)
-        {
-        // Remove invalid category buttons
-        iExtension->iRadioButton->RemoveInvalidButton();
-        __ASSERT_DEBUG( iExtension->iRadioButton->Count() > 0,
-            Panic(EAknPanicInvalidValue));
         }
     }
 
@@ -6188,6 +4789,8 @@ TInt CAknCharMap::SwitchAnotherTableL(TInt aIncrement)
 
 void CAknCharMap::CountMaxColumnsAndCellSizes()
     {
+    const TBool isLandscape = Layout_Meta_Data::IsLandscapeOrientation();
+
     TRect mainPaneRect;
     if (!AknLayoutUtils::PenEnabled() || Extension()->iMenuSct)
         {
@@ -6204,7 +4807,7 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
         AknLayoutUtils::TAknCbaLocation location = AknLayoutUtils::CbaLocation();
         TInt maxVarietyOffset = 0;
         TInt varietyOffset = maxVariety + 1;
-        if(Layout_Meta_Data::IsLandscapeOrientation())
+        if(isLandscape)
             {
             varietyOffset = (maxVariety + 1) / KAknSctCBaButtonDirections;
             }
@@ -6228,16 +4831,8 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
 
 
         TAknLayoutRect gridLayRect;
-        if (iExtension->iHasCategoryButtonUi)
-            {
-            gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic_popup_pane(2));
-            }
-        else
-            {
-            gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(),
-                AknLayoutScalable_Avkon::grid_graphic_popup_pane(0));
-            }
+        gridLayRect.LayoutRect(gridWithScrollLayRect.Rect(),
+            AknLayoutScalable_Avkon::grid_graphic_popup_pane(0));
 
         TRect gridRect = Extension()->iMenuSct ? Rect(): gridLayRect.Rect();
 
@@ -6293,39 +4888,19 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
     else
         {
         TAknLayoutRect popupGridLayRect;
-        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(),
-            AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
-
+        popupGridLayRect.LayoutRect(iAvkonAppUi->ApplicationRect(), AknLayoutScalable_Avkon::popup_grid_graphic2_window(0));
         TRect popupGridRect = popupGridLayRect.Rect();
 
-        TInt gridVariety;
-        if (!IsJapaneseSctUi())
-            {
-            if(!Layout_Meta_Data::IsLandscapeOrientation())
-                {
-                gridVariety = (TableCount() > 1) ? 0 : 1;
-                }
-            else
-                {
-                gridVariety = (TableCount() > 1) ? 2 : 3;
-                }
-            }
-        else
-            {
-            gridVariety = !Layout_Meta_Data::IsLandscapeOrientation() ? 4 : 5;
-            }
-
+        TInt gridVariety = isLandscape ? 7 : 6;
         TAknLayoutRect gridLayRect;
-        gridLayRect.LayoutRect(popupGridRect,
-            AknLayoutScalable_Avkon::grid_graphic2_pane(gridVariety));
-
+        gridLayRect.LayoutRect(popupGridRect, AknLayoutScalable_Avkon::grid_graphic2_pane(gridVariety));
         TRect gridRect = gridLayRect.Rect();
 
+        TInt cellVariety = isLandscape ? 1 : 0;
         TAknLayoutRect firstCellLayRect;
-        firstCellLayRect.LayoutRect(popupGridRect,
-            AknLayoutScalable_Avkon::aid_size_cell_graphic2(gridVariety,0,0));
-
+        firstCellLayRect.LayoutRect(gridRect, AknLayoutScalable_Avkon::cell_graphic2_pane(cellVariety));
         TRect firstCellRect = firstCellLayRect.Rect();
+        
         TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
 
         // Max columns.
@@ -6335,10 +4910,8 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
         // Max visible rows.
         iExtension->iMaxVisibleRows = gridRect.Height() / firstCellRect.Height();
 
-        // Cell width.
+        // Cell.
         iGridItemWidth = firstCellRect.Width();
-
-        // Cell height.
         iGridItemHeight = firstCellRect.Height();
         }
     }
@@ -7491,9 +6064,7 @@ void CAknCharMap::UpdateHeadingPane( TBool aUpdateTitle )
                 // Update also title if requested
                 if ( aUpdateTitle)
                     {
-                    const TDesC* title = (IsJapaneseSctUi())?
-                                         TitleWithSelectingSpecialChar()
-                                         :Title();
+                    const TDesC* title = Title();
                     if ( title )
                         {
                         //
@@ -7624,12 +6195,12 @@ TBool CAknCharMap::ChangeCategoryL(const TInt aCategory, TBool& aLayoutChanged)
 
 TBool CAknCharMap::IsSupportCategoryButtonUi() const
     {
-    return (iExtension)? iExtension->iHasCategoryButtonUi : EFalse;
+    return EFalse;
     }
 
 TBool CAknCharMap::IsJapaneseSctUi() const
     {
-    return (iExtension)? iExtension->iJapaneseSctUi : EFalse;
+    return EFalse;
     }
 
 // -----------------------------------------------------------------------------
@@ -8234,10 +6805,10 @@ TBool CAknCharMap::SwitchSctAndEmotionL()
         
         SetSmileyAnimationActivityInCurrentPageL(ETrue);
         
-        CAknSctTableNavi* tableNavi = Extension()->iTableNavi;
-        if(tableNavi)
+        CAknSctPageNavi* pageNavi = Extension()->iPageNavi;
+        if(pageNavi)
             {
-            tableNavi->UpdateNextTableButtonL();
+            pageNavi->UpdateNextTableButtonL();
             }
 
         DrawNow();

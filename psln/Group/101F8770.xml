@@ -7,9 +7,9 @@ Definition in file ScreensaverInternalCRKeys.h
 
 <PowerSaveModeConfig>
     <Setting mode="1"><!-- PSM mode Full PSM -->
-        <SetItem key="2" type="0" value="1"></SetItem>
+        <SetItem key="2" type="0" value="4"></SetItem>
     </Setting>
     <Setting mode="2"><!-- PSM mode Partial PSM-->
-				<SetItem key="2" type="0" value="1"></SetItem>
-		</Setting>
+        <SetItem key="2" type="0" value="4"></SetItem>
+    </Setting>
 </PowerSaveModeConfig>

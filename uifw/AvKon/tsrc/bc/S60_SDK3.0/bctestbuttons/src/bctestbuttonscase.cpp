@@ -286,6 +286,7 @@ void CBCTestButtonsCase::TestEikBgftyAndEikBtgpcL()
     buttonGroupContainer4->DimCommand( commandId, dimmed );
     _LIT( KDimCommand, "DimCommand test" );
     AssertTrueL( ETrue, KDimCommand );
+    buttonGroupContainer4->DimCommand( commandId, EFalse );
 
     TBool isCommandDimmed = buttonGroupContainer4->IsCommandDimmed( commandId );
     _LIT( KIsCommandDimmed, "IsCommandDimmed test" );

@@ -36,6 +36,7 @@
 #include <ItemFinder.h>
 #include <finditemdialog.h>
 #include <aknphysics.h>
+#include <aknbutton.h>
 
 #include "bctestmixmclgeneralcase.h"
 #include "bctestmixmclcontainer.h"
@@ -139,6 +140,7 @@ void CBCTestMixMCLGeneralCase::RunL( TInt aCmd )
     TestAknPhysicsResumePhysicsL();
     TestCbaL();
 	TestCommonDialogsL();
+	TestAknButtonEnableFeedbackL();
     }
 
 // ---------------------------------------------------------------------------
@@ -714,6 +716,24 @@ void CBCTestMixMCLGeneralCase::HandleFindItemEventL(
             MAknItemFinderObserver::TEventFlag /*aEvent*/, TUint /*aFlags*/)
     {
     // do nothing
+    }
+
+
+// ---------------------------------------------------------------------------
+// CBCTestMixMCLGeneralCase::TestAknButtonEnableFeedbackL
+// ---------------------------------------------------------------------------
+//
+void CBCTestMixMCLGeneralCase::TestAknButtonEnableFeedbackL()
+    {
+    CAknButton* button = CAknButton::NewLC();
+
+    button->EnableFeedback( EFalse );
+    button->EnableFeedback( ETrue );
+
+    CleanupStack::PopAndDestroy ( button );
+
+    _LIT( KEnableFeedback, "CAknButton::EnableFeedback tested" );
+    AssertTrueL( ETrue, KEnableFeedback );
     }
 
 //end of file

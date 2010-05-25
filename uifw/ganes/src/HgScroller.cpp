@@ -50,8 +50,6 @@
 
 #include <featdiscovery.h>
 
-const TInt KIntensity = 100; // 100%
-
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -374,7 +372,8 @@ CHgScroller::CHgScroller(
     iCurrentRow(-1),
     iSelectedIndex(KErrNotFound),
     iScrollBarType( EHgScrollerScrollBar ),
-    iFirstTime(ETrue)
+    iFirstTime(ETrue),
+    iOldWinPos(KErrNotFound)
     {
     // No implementation required
     }
@@ -436,7 +435,7 @@ void CHgScroller::InitPhysicsL()
     }
 
 // -----------------------------------------------------------------------------
-// CHgGrid::Draw()
+// CHgScroller::Draw()
 // Draws the display.
 // -----------------------------------------------------------------------------
 //
@@ -589,7 +588,9 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
                     && iSelectedIndex != KErrNotFound 
                     && !HasHighlight() 
                     && iActionMenu->InitMenuL() )
+                {
                 iDetector->PointerEventL( aEvent );
+                }
             }
         // Drag
         else if( aEvent.iType == TPointerEvent::EDrag && iPointerDown )
@@ -647,24 +648,6 @@ TBool CHgScroller::HandleScrollbarEventL( const TPointerEvent& aEvent )
                     feedback->InstantFeedback( this, ETouchFeedbackSlider, aEvent );
                     }
                 }
-            // Drag
-            else if( aEvent.iType == TPointerEvent::EDrag 
-                    && iScrollbar->IsDragging() )
-                {
-                // Smooth continuous tactile feedback is produced
-                // during thumb dragging. The tactile feedback API 
-                // filters out possible re-startings of the effect.
-                if ( feedback )
-                    {
-                    TTimeIntervalMicroSeconds32 timeout( 300000 );
-                    feedback->StartFeedback( this, 
-                                             ETouchContinuousSlider, 
-                                             &aEvent, 
-                                             KIntensity, // intensity
-                                             timeout );
-                    }
-                }
-            // End drag
             else if( aEvent.iType == TPointerEvent::EButton1Up )
                 {
                 // Stop the continuous tactile feedback that may be playing
@@ -723,6 +706,8 @@ void CHgScroller::HandleDownEventL( const TPointerEvent& aEvent )
         }
     else if( !iPanning )
         {
+        // to get Handle Selected to be called for sure in single touch
+        iSelectedIndex = KErrNotFound; 
         SetHighlightL();
         }
     MTouchFeedback* feedback = MTouchFeedback::Instance();
@@ -755,8 +740,18 @@ void CHgScroller::HandleDragEventL( const TPointerEvent& aEvent )
         iPanning = delta >= iPhysics->DragThreshold();
         }
 
+    //if user has dragged onto another item
+    if( !iPanning && GetSelected(iStart) != GetSelected(aEvent.iPosition) )
+        {
+        // after setting iPanning true, longtap is cancelled
+        iPanning = ETrue;    
+        }
+    
     if( prevPanning != iPanning )
+        {
+        iPrev = aEvent.iPosition;
         DrawDeferred(); // to clear highlight
+        }
     
     if(iPanning)
         {
@@ -1271,7 +1266,7 @@ EXPORT_C void CHgScroller::Reset()
         {
         iItems.ResetAndDestroy();
         iItemCount = 0;
-        iSelectedIndex = -1;
+        iSelectedIndex = KErrNotFound;
         
         if( iManager )
             {
@@ -1494,8 +1489,6 @@ TInt CHgScroller::MarqueeCallback( TAny* aSelf )
 void CHgScroller::HandleGainingForeground()
     {
     iSelectionMode = ENoSelection;
-    TRect rect( PositionRelativeToScreen(), Size() );
-    TRAP_IGNORE( InitScreenL( rect ); )
     iScrollbar->Reset();
     }
 
@@ -1505,7 +1498,12 @@ void CHgScroller::HandleGainingForeground()
 //
 void CHgScroller::HandleLosingForeground()
     {
-    iPointerDown = EFalse;
+    if( iOldWinPos == KErrNotFound 
+            || iOldWinPos == DrawableWindow()->OrdinalPosition() ) 
+        {
+        iPointerDown = EFalse;
+        }
+    
     iPopupText1.Zero();
     iPopupText2.Zero();
     }
@@ -1570,7 +1568,7 @@ void CHgScroller::SetHighlightL()
     if((index != KErrNotFound || !HasHighlight())
             && iPointerDown )
         {
-        iSelectionToFocusedItem = index == iSelectedIndex;            
+        iSelectionToFocusedItem = (index == iSelectedIndex);            
         iSelectedIndex = index;
         iFocusedIndex = index;
         // Selection has changed to valid item
@@ -1723,6 +1721,9 @@ void CHgScroller::HandleResourceChange( TInt aType )
             {
             delete iIndicatorManager; iIndicatorManager = NULL;
             iIndicatorManager = CHgIndicatorManager::NewL();
+            delete iScrollbar; iScrollbar = NULL;
+            iScrollbar = CHgScrollbar::NewL(*this);
+            InitScrollbarL();
             InitGraphicsL();
             }
         )
@@ -1737,8 +1738,9 @@ void CHgScroller::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
     {
     if( iActionMenu )
         {
-        iPointerDown = EFalse;
+        iOldWinPos = DrawableWindow()->OrdinalPosition();
         iActionMenu->ShowMenuL(aPenEventScreenLocation);
+        iPointerDown = EFalse;
         }
     }
 
@@ -1750,12 +1752,26 @@ TUint CHgScroller::CollectionState() const
     {
     TUint ret = 0;
     
-    if(IsFocused()) ret |= MAknCollection::EStateCollectionVisible;
-    
-    if(HasHighlight()) ret |= MAknCollection::EStateHighlightVisible; 
-    
-    if( iFlags & EHgScrollerSelectionMode ) ret |= MAknCollection::EStateMultipleSelection;
-    
+    if( IsFocused() ) 
+        {
+        ret |= MAknCollection::EStateCollectionVisible;
+        }
+    if( HasHighlight() ) 
+        {
+        ret |= MAknCollection::EStateHighlightVisible;
+        } 
+    if( iFlags & EHgScrollerSelectionMode )
+        {
+        ret |= MAknCollection::EStateMultipleSelection;
+        for( TInt i = 0; i < iItems.Count(); ++i )
+            {
+            if( iItems[i]->Flags() & CHgItem::EHgItemFlagMarked )
+                {
+                ret |= MAknCollection::EStateMarkedItems; 
+                break; 
+                }
+            }
+        }
     return ret; 
     }
 
@@ -1765,6 +1781,7 @@ TUint CHgScroller::CollectionState() const
 //     
 void CHgScroller::ItemActionMenuClosed()
     {
+    iOldWinPos = KErrNotFound;
     DrawDeferred();
     }
 
