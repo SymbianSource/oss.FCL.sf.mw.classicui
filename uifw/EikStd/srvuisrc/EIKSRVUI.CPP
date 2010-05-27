@@ -126,6 +126,7 @@
 
 #include <hb/hbcore/hbsymbianvariant.h>
 #include <hb/hbcore/hbdevicedialogsymbian.h>
+#include <apaidpartner.h>
 
 #if defined(__WINS__)
 const TInt KEikServSideBarWidth = 35;

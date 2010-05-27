@@ -100,3 +100,5 @@
 #include "../discreet_popup_api/group/bld.inf"
 #include "../touch_gesture_framework_api/group/bld.inf"
 #include "../extended_options_menu_api/group/bld.inf"
+#include "../findutil_api/group/bld.inf"
+#include "../directory_localizer_api/group/bld.inf"
