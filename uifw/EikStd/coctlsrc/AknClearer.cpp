@@ -198,9 +198,11 @@ EXPORT_C void CAknScreenClearerBase::ConstructL(RWindowGroup& aParent, TInt aOrd
 
 	CreateWindowL(&aParent);
 
+#ifndef NO_ALF_OBSERVER
     CAlfEffectObserver* alfEffectObserver = CAlfEffectObserver::NewL(); 
     alfEffectObserver->SetDistractionWindow(*DrawableWindow());
     delete alfEffectObserver;
+#endif
 
 	iFlags.Assign(EAknScreenClearerBlankAppStatusPane, aBlankAppStatusPane);
 
