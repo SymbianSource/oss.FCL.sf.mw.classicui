@@ -873,17 +873,19 @@ void CAknToolbarExtensionView::Draw( const TRect& aRect ) const
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     if ( iExtension->ExtensionFlags() & KAknTbExtensionDsaMode )
         {
+        TSize cornerSize(20,20);
         gc.SetDrawMode( CGraphicsContext::EDrawModeWriteAlpha );
         gc.SetBrushColor( TRgb( KToolbarExtensionBgColor, KToolBarExtensionBgAlpha ) );
         gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-        gc.DrawRect( rect );
+        gc.DrawRoundRect( rect, cornerSize );
+
         gc.SetDrawMode( CGraphicsContext::EDrawModePEN );
         TSize penSize( 1, 1 );
         gc.SetPenSize( penSize );
-        gc.SetPenStyle( CGraphicsContext::EDottedPen );
-        gc.SetPenColor( KRgbWhite );
+        gc.SetPenStyle( CGraphicsContext::ESolidPen );
+        gc.SetPenColor( KRgbDarkGray );
         gc.SetBrushStyle( CGraphicsContext::ENullBrush );
-        gc.DrawRect( rect );
+        gc.DrawRoundRect( rect, cornerSize );
         }
     else
         {

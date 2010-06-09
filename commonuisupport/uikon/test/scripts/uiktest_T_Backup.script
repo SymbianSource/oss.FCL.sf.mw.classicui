@@ -16,6 +16,10 @@
 //
 PRINT Run TBackup test
 //
+
+// Init MTM before it will be used by backup service
+RUN_WS_PROGRAM mailinit.exe
+
 LOAD_SUITE UiktestServer
 RUN_TEST_STEP 1000 UiktestServer TBackup
 

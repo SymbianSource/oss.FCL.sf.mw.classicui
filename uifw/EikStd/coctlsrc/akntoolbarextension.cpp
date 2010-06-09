@@ -22,6 +22,10 @@
 #include <aknconsts.h>
 #include <akntoolbar.h>
 
+#include <touchfeedback.h>
+#include <akntranseffect.h>
+#include <akntransitionutils.h>
+
 #include "akntoolbarextensionview.h"
 
 
@@ -309,6 +313,28 @@ void CAknToolbarExtension::HandleControlEventL( CCoeControl* aControl,
                     iView->SetFocusing( !nonFocusing ); 
                     if ( IsVisible() )
                         {
+
+                        //
+                        // the pop up feedback for droping out toolbar extention view
+                        //
+                        if ( AknLayoutUtils::PenEnabled() )
+                            {
+                            MTouchFeedback* feedback = MTouchFeedback::Instance();
+                            if ( feedback )
+                                {
+                                TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+                                if ( CAknTransitionUtils::TransitionsEnabled(
+                                        AknTransEffect::EComponentTransitionsOff ) )
+                                    {
+                                    fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                                    }
+
+                                feedback->InstantFeedback( this,
+                                                           fbLogicalType,
+                                                           ETouchFeedbackVibra, TPointerEvent() );
+                                }
+                            }
+
                         iToolbar->DynInitExtensionL( this );
                         iView->MakeVisible( ETrue ); // show view
                         }

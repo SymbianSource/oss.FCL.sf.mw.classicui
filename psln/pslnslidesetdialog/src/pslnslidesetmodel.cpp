@@ -47,8 +47,8 @@ const TInt KPslnSlideSetDefaultDuration = 5;
 const TInt KPslnSlideSetBacklightOff = 0;
 // Slide set interval default value: 10min.
 const TInt KPslnSlideSetDefaultInterval = EPslnSlideSetInterval10Min;
-// Slide set minimum duration is 1 second.
-const TInt KPslnSlideSetMinDuration = 1;
+// Slide set minimum duration is 5 second.
+const TInt KPslnSlideSetMinDuration = 5;
 // Slide set maximum duration is 60 seconds.
 const TInt KPslnSlideSetMaxDuration = 60;
 // Slide set maximum backlight period is 30secs.

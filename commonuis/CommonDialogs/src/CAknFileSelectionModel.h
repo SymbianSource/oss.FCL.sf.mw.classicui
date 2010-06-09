@@ -63,10 +63,9 @@ public:
         EPlaylistFileIcon,
         ECompoFileIcon,
         ENoteFileIcon,
-        ESisFileIcon,
+        EAppFileIcon,
         EVideoFileIcon,
         EGameFileIcon,
-        EJavaFileIcon,
         EUnknowTypeIcon,
         EFolderEmptyIcon,
         EFlashFileIcon

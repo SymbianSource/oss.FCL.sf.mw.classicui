@@ -382,6 +382,7 @@ void CAknVolumePopup::ConstructL( CCoeControl* aParent,
         {
         TInt feedbackStyle = (TAknFeedbackStyle)reader.ReadInt16();
         iFlags = reader.ReadInt16();
+        reader.Rewind( 4 ); // Rewind to the beginning, then construct slider.
         }
     else
         {
@@ -521,7 +522,7 @@ void CAknVolumePopup::ConstructL( CCoeControl* aParent,
         iExt->TryLoadDefaultSliderVolumeBitmap();
         iExt->iSliderControl->ReportMarkerDragEvent( ETrue );
         iExt->iSliderControl->SuppressDrawing( ETrue );
-       }           
+        }
     else
         {
         iExt->iSliderControl = new( ELeave )CAknSlider;

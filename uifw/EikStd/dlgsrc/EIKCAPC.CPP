@@ -3645,7 +3645,7 @@ Have to convert aParent to form equivalent and use that layout.
 		{ // popup field will be same size as text element
 		TAknLayoutText r;
 		r.LayoutText(layoutRect, labelLayout);
-		TRect resultRect = r.TextRect();
+		TRect resultRect( r.TextRect() );
 		aPopfield->SetRect(resultRect);
 		}
 	else

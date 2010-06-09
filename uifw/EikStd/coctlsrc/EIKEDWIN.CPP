@@ -653,9 +653,9 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
     {
     TInt length( Min( aLengthToRetrieve, iEdwin.TextLength() - aDocumentPosition ) );
     iEdwin.iText->Extract( aEditorContent, aDocumentPosition, length );
-    if ( iEdwin.IsSmileyEnabled() )
-        {
-        CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
+    CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
+    if ( smiley && smiley->HasSmileyIconsInText() )
+        {        
         CAknEdwinState* state( iEdwin.EditorState() );
         if ( state )
             {
@@ -663,16 +663,21 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
             if ( aDocumentPosition >= inlineText.LowerPos() && 
                 aDocumentPosition + length <= inlineText.HigherPos() )
                 {
-                smiley->ConvertTextForSmileyL( aDocumentPosition, aEditorContent, 
-                    EFalse );
+                TRAP_IGNORE( smiley->ConvertTextForSmileyL( aDocumentPosition, aEditorContent, 
+                    EFalse ); )
                 }
             }
+        TInt smileyEndPos( 0 );
         for ( TInt i( 0 ); i < length; i++ )
             {
-            if ( smiley->SmileyCodeByPos( aDocumentPosition + i ) > 0 &&
-                !CSmileyManager::IsSmileyCode( aEditorContent[i] ) )
+            if ( aEditorContent[i] == CSmileyManager::KCompensateChar && 
+                i < smileyEndPos )
                 {
                 aEditorContent[i] = CSmileyManager::KPlaceHolder;
+                }
+            else if ( smiley->IsSmileyCode( aEditorContent[i] ) )
+                {
+                smileyEndPos = i + smiley->SmileyLength( aDocumentPosition + i );
                 }
             }
         }
@@ -8510,9 +8515,7 @@ TBool CEikEdwin::ConvertSmileyForDeleteL( TInt aDocPos, TBool aBackSpace )
         checkPos--;
         checkPos = checkPos >= 0 ? checkPos : 0;
         }
-    if ( CSmileyManager::IsSmileyCode( iEdwinExtension->iSmiley->
-        SmileyCodeByPos( checkPos ) ) && 
-        !iEdwinExtension->iSmiley->IsDisabledSmileyIcon( checkPos ) )
+    if ( iEdwinExtension->iSmiley->SmileyCodeByPos( checkPos ) > 0 )
         {
         TInt codeLength( iEdwinExtension->iSmiley->SmileyLength( checkPos ) );
         iEdwinExtension->iSmiley->DisableSmileyIcon( checkPos );
@@ -8939,7 +8942,6 @@ void CEikEdwin::HandleSelectionForSmiley( TCursorSelection aSelect )
 	        aSelect.Length() );
 		}
     }
-
 
 // ---------------------------------------------------------------------------
 // CEikEdwin::SkipBackgroundDrawer

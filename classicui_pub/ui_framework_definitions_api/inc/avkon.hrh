@@ -41,17 +41,18 @@
 #define EEikStatusPaneLayoutAknLafDefined    0x10
 
 // internal, do not use (maybe you might need to use LoopScrolling though, but use it with some other flags...)
-#define EAknListBoxMultipleSelection         EEikListBoxMultipleSelection
-#define EAknListBoxIncrementalMatching       EEikListBoxIncrementalMatching
-#define EAknListBoxScrollBarSizeExcluded     0x0080
-#define EAknListBoxLoopScrolling             0x1000
-#define EAknListBoxEnterMarks                0x2000
-#define EAknListBoxShiftEnterMarks           0x4000
+#define EAknListBoxMultipleSelection          EEikListBoxMultipleSelection
+#define EAknListBoxIncrementalMatching        EEikListBoxIncrementalMatching
+#define EAknListBoxScrollBarSizeExcluded      0x0080
+#define EAknListBoxLoopScrolling              0x1000
+#define EAknListBoxEnterMarks                 0x2000
+#define EAknListBoxShiftEnterMarks            0x4000
 // Note there's also EAknListBoxViewerFlags, which is better for apps.
-#define EAknListBoxViewerFlag                0x8000
-#define EAknListBoxPointerMultiselectionList 0x10000
-#define EAknListBoxPointerMarkableList       0x20000
-#define EAknListBoxDisableItemSpecificMenu   0x40000
+#define EAknListBoxViewerFlag                 0x8000
+#define EAknListBoxPointerMultiselectionList  0x10000
+#define EAknListBoxPointerMarkableList        0x20000
+#define EAknListBoxDisableItemSpecificMenu    0x40000
+#define EAknListBoxAlwaysShowItemSpecificMenu 0x80000
 
 
 // These are combined to the viewerflag to make it fit to WORD in resources.
@@ -93,6 +94,7 @@
 
 #define EAknListBoxMenuGrid                   (EAknListBoxMenuList)
 #define EAknListBoxItemSpecificMenuDisabled   ( EAknListBoxDisableItemSpecificMenu )
+#define EAknListBoxItemSpecificMenuAlwaysShown ( EAknListBoxAlwaysShowItemSpecificMenu )
 //
 // Viewers (see Selection service)
 //

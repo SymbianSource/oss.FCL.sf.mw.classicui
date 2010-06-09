@@ -265,7 +265,7 @@ void CSmileyManager::HandleSelection( TInt aStart, TInt aLength )
 TText CSmileyManager::SmileyCodeByPos( TInt aDocPos )
     {
     CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( aDocPos ) );
-    if ( icon )
+    if ( icon && !icon->IsDisabled() )
         {
         return icon->Code();
         }

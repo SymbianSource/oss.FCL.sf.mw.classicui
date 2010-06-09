@@ -526,6 +526,11 @@ public: // MAknPhysicsObserver
     void DisableSingleClick();
 
     /**
+     * Enables single click
+     */
+    void EnableSingleClickL();    
+    
+    /**
      * Disables item specific menu.
      */
     void DisableItemSpecificMenu();
@@ -757,6 +762,12 @@ public:
      * Ordinal position of listbox window, before stylus menu is opened.
      */
     TInt iOldWinPos;
+
+    /**
+     * If double click modifier is set on PointerEvent, the event may be ignored
+     * in some situation(To prevent extra dialog launched by AO).
+     */
+    TBool iDoubleClickEventIgnored;
     
 private:
     CMatchBuffer* iBuffer;
@@ -790,7 +801,7 @@ private:
     /**
      * Height of the list in pixels.
      */    
-    TInt iListBottomLimit;
+    TInt iListBottomLimit;    
     };
     
 // CEikListBoxExt    
@@ -1270,6 +1281,28 @@ void CListBoxExt::DisableSingleClick()
     _AKNTRACE_FUNC_EXIT;
     }
 
+// -----------------------------------------------------------------------------
+// CListBoxExt::EnableSingleClickL
+// -----------------------------------------------------------------------------
+//
+void CListBoxExt::EnableSingleClickL()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    if ( !iLongTapDetector )
+        {
+        iLongTapDetector = CAknLongTapDetector::NewL( this );
+        }
+    if ( !iItemActionMenu )
+        {
+        iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( 
+            *this, &iListBox );
+        iListBox.iListBoxFlags &= ( ~CEikListBox::EDisableItemSpecificMenu );
+        }    
+    iSingleClickEnabled = ETrue;
+    EnableHighlight( EFalse );
+    // iListBox.UpdateHighlightL( iListBox.iView->CurrentItemIndex() );
+    _AKNTRACE_FUNC_EXIT;
+    }
 
 // -----------------------------------------------------------------------------
 // CListBoxExt::DisableItemSpecificMenu
@@ -1299,8 +1332,9 @@ void CListBoxExt::LongTapPointerEventL( const TPointerEvent& aPointerEvent )
         // Send event on down only if item specific items were found. 
         // Long tap is also disabled if current item is not marked while
         // there are some marked items or marking mode is active.
-        if ( !( ( iListBox.MarkingMode() || MarkedItems() )
+        if ( ( !( ( iListBox.MarkingMode() || MarkedItems() )
             && !iListBox.View()->ItemIsSelected( iListBox.CurrentItemIndex() ) )
+            || ( iListBox.iListBoxFlags & CEikListBox::EItemSpecificMenuAlwaysShown ) )
             && ( aPointerEvent.iType != TPointerEvent::EButton1Down
             || iItemActionMenu->InitMenuL() ) ) 
             {
@@ -4192,6 +4226,11 @@ EXPORT_C void CEikListBox::ReportListBoxEventL(MEikListBoxObserver::TListBoxEven
         case MEikListBoxObserver::EEventFlickStarted:
         case MEikListBoxObserver::EEventPanningStarted:
             {
+            if ( iListBoxExt && ( iListBoxExt->iWorldSize.iHeight 
+                    <= iListBoxExt->iViewSize.iHeight ) )
+                {
+                return; 
+                }
             iItemDrawer->SetFlags( CListItemDrawer::EDisableMarquee );
             if ( iListBoxExt )
                 { 
@@ -4210,6 +4249,11 @@ EXPORT_C void CEikListBox::ReportListBoxEventL(MEikListBoxObserver::TListBoxEven
         case MEikListBoxObserver::EEventFlickStopped:
         case MEikListBoxObserver::EEventPanningStopped:
             {
+            if ( iListBoxExt && ( iListBoxExt->iWorldSize.iHeight 
+                    <= iListBoxExt->iViewSize.iHeight ) )
+                {
+                return; 
+                }
             iItemDrawer->ClearFlags( CListItemDrawer::EDisableMarquee );
             if ( iListBoxExt )
                 { 
@@ -4999,6 +5043,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             }
 
         iListBoxExt->iFeedbackType = ETouchFeedbackList;
+        iListBoxExt->iDoubleClickEventIgnored = EFalse;
         
         if ( !iListBoxExt->iSingleClickEnabled &&
             itemIndex != iView->CurrentItemIndex() )
@@ -5068,6 +5113,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
     if(Buffer()->iPressedIndex == itemIndex)
         {
         Buffer()->iPressedIndex = KEikListBoxInvalidIndex;
+        iListBoxExt->iDoubleClickEventIgnored = ETrue;
         _AKNTRACE_FUNC_EXIT;
         return;
         }
@@ -5350,7 +5396,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
 				 ( !( ( iListBoxFlags & EViewerFlag ) && 
 				 ( iListBoxFlags & EDisableItemSpecificMenu ) ) )&& 
 				 ( iListBoxExt->iLastDownTappedItem == itemIndex ) && 
-				 (Buffer()->iPressedIndex != KEikListBoxInvalidIndex) && 
+				 ( !iListBoxExt->iDoubleClickEventIgnored ) && 
 				 itemIndex == iView->CurrentItemIndex() )
                 {
                 TTouchLogicalFeedback fbType = ETouchFeedbackList;
@@ -5411,7 +5457,8 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                     }
                 if ( !s60StyleMultiselection )
                     {
-                    if ( !iListBoxExt->iSingleClickEnabled )
+                    if ( !iListBoxExt->iSingleClickEnabled &&
+                         itemIndex == iListBoxExt->iLastDownTappedItem )
                         {
                         ReportListBoxEventL(MEikListBoxObserver::EEventItemClicked);
                         }
@@ -6595,6 +6642,14 @@ EXPORT_C void CEikListBox::DisableSingleClick( TBool aDisabled )
         {
         iListBoxExt->DisableSingleClick(); 
         iItemDrawer->ClearFlags( CListItemDrawer::ESingleClickEnabled);
+        }
+    else if ( !aDisabled &&
+              iListBoxExt &&
+              !iListBoxExt->iSingleClickEnabled &&
+              iItemDrawer )
+        {
+        TRAP_IGNORE( iListBoxExt->EnableSingleClickL() );
+        iItemDrawer->SetFlags( CListItemDrawer::ESingleClickEnabled );
         }
     _AKNTRACE_FUNC_EXIT;
     }

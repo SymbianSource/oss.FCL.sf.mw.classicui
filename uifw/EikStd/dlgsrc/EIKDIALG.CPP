@@ -300,9 +300,9 @@ void CEikDialog::DynamicConstructL()
     // assume that dialog didn't properly call CEikDialog::SizeChanged thus 
     // embedded softkeys won't work.
     // In that case softkeys are deleted and re-created as a window-owning
-    // component in "legacy" way.    
-    if ( checkCba && extension->iDeleteEmbeddedCba 
-	        && extension->iButtonGroupResourceId != 0 )
+    // component in "legacy" way.
+    if (checkCba && extension->iButtonGroupResourceId != 0 &&
+        (extension->iDeleteEmbeddedCba || Size().iWidth <= 0))
         {
         delete iButtonGroupContainer;
         iButtonGroupContainer = NULL;
@@ -1656,15 +1656,23 @@ EXPORT_C TInt CEikDialog::RunLD()
 #endif
 		GfxTransEffect::Begin(this, KGfxControlAppearAction);
         MTouchFeedback* feedback = NULL;
-		if(AknLayoutUtils::PenEnabled())
-		    {
-            feedback = static_cast<MTouchFeedback*>(ExtensionInterface(KExIfTactileFeedbackUid));
-		    }
-		if(feedback && CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff ))
-		    {
-            feedback->InstantFeedback(this, ETouchFeedbackIncreasingPopUp,
-                                        ETouchFeedbackVibra, TPointerEvent());
-		    }
+        if( AknLayoutUtils::PenEnabled() )
+            {
+            feedback = static_cast<MTouchFeedback*>( ExtensionInterface( KExIfTactileFeedbackUid ) );
+            }
+        if( feedback )
+            {
+            if( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                {
+                feedback->InstantFeedback( this, ETouchFeedbackIncreasingPopUp,
+                                            ETouchFeedbackVibra, TPointerEvent() );
+                }
+            else
+                {
+                feedback->InstantFeedback( this, ETouchFeedbackPopUp,
+                                            ETouchFeedbackVibra, TPointerEvent() );
+                }
+            }
 		GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
 		
 		TRect demarcation;
@@ -1677,11 +1685,6 @@ EXPORT_C TInt CEikDialog::RunLD()
 
 		GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
 		GfxTransEffect::End(this);
-		if(feedback)
-		    {
-            feedback->InstantFeedback(this, ETouchFeedbackPopUp,
-                                        ETouchFeedbackVibra, TPointerEvent());
-		    }
 		}
 	else
 		{
@@ -2432,7 +2435,13 @@ EXPORT_C void CEikDialog::HandleResourceChange(TInt aType)
         else if (iExtension)
         	iExtension->iFlags.Set(CEikDialogExtension::ELayoutChangeWhileInvisible);
 
-        CCoeControl::HandleResourceChange(aType);
+        TBool isForm = ( iPageSelector && iPageSelector->IsForm() );
+
+        if ( !isForm )
+            {
+            CCoeControl::HandleResourceChange( aType );
+            }
+
         _AKNTRACE_FUNC_EXIT;
         return;
         }
@@ -2454,16 +2463,22 @@ void CEikDialog::DoResourceChangeLayout()
     // Must work through all pages
 	_AKNTRACE_FUNC_ENTER;
     Layout();
-    SizeChanged();
     
-    TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
-    TInt pageIndex = 0;
-    CEikDialogPage* page;
-
-    while ( pageIndex++ <= lastPage )
+    TBool isForm = ( iPageSelector && iPageSelector->IsForm() );
+    
+    if ( !isForm )
         {
-        page = iPageSelector->PageContainer()->Page( pageIndex );
-        page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
+        SizeChanged();
+    
+        TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
+        TInt pageIndex = 0;
+        CEikDialogPage* page;
+    
+        while ( pageIndex++ <= lastPage )
+            {
+            page = iPageSelector->PageContainer()->Page( pageIndex );
+            page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
+            }
         }
 
    	if (iExtension)

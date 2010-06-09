@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -235,11 +235,19 @@ EXPORT_C void CAknViewAppUi::BaseConstructL( TInt aAppUiFlags )
 	AddToStackL( iExtension->iNavigator, ECoeStackPriorityDefault - 1, ECoeStackFlagRefusesFocus );
 #endif // RD_SPLIT_VIEW
 
-	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 && // only clear the window for foreground apps
+	// Only clear the window for foreground apps.
+	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 &&
 	     iExtension->iUseDefaultScreenClearer )
-		{
-		iClearer = CAknLocalScreenClearer::NewL( ETrue );
-		}
+        {
+	    if ( !iEikonEnv->StartedAsServerApp() )
+            {
+            iClearer = CAknLocalScreenClearer::NewL( ETrue );
+            }
+        else
+            {
+            iClearer = CAknLocalScreenClearer::NewL( ETrue, ETrue );
+            }
+        }
 	}
 
 // -----------------------------------------------------------------------------

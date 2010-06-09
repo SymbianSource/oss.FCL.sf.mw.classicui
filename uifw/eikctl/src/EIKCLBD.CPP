@@ -2076,20 +2076,18 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
- 
+    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
+        {
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
+        }
+    
+    DrawHighLight( aGc, aRect, aHighlight, skin );    
     TRect itemRect( aRect );
     DrawMarkingModeIcons( aItemProperties, aGc, itemRect );
     if ( iExtension->iSubCellsMightIntersect )
         {
         CheckIfSubCellsIntersect( &textLines[0], &rectClipped[0], *aText, itemRect );
         }
-    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
-        {
-        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
-        }
-    DrawHighLight( aGc, aRect, aHighlight, skin );
-    
-    
     // The column draw loop
     column = 0;
     TInt subCellIndex = 0;
@@ -2464,7 +2462,11 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
         }
-    
+    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
+        {
+        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
+        }
+    DrawHighLight( aGc, aRect, aHighlight, skin );        
     DrawMarkingModeIcons( aItemProperties, aGc, itemRect );
     TRect textRect( itemRect );
     textRect.iBr.iX = itemRect.iTl.iX;    
@@ -2548,13 +2550,6 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
     // pass 3 drawing
 
 
-    if ( iExtension->iCurrentRow < listbox->BottomItemIndex() )
-        {
-        AknListUtils::DrawSeparator( aGc, aRect, aColors.iText, skin );
-        }
-    
- // LISTBOX LINES NEED TO BE DRAWN HERE.
-    DrawHighLight( aGc, aRect, aHighlight, skin );
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     if ( transApi )
@@ -2848,9 +2843,18 @@ void CColumnListBoxData::DrawMarkingModeIcons(
                 iExtension->iMarkingIconArray->Count() == 2 )
 #endif // RD_TOUCH2_MARKING            
             {
-            textRect.iTl.iX += 
-                AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 
+            if ( AknLayoutUtils::LayoutMirrored() )
+                {
+                textRect.iBr.iX -= 
+                    AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 
+                        0 ).LayoutLine().ir;
+                }
+            else
+                {
+                textRect.iTl.iX += 
+                    AknLayoutScalable_Avkon::list_single_graphic_pane_t1( 
                         0 ).LayoutLine().il;
+                }            
             TAknLayoutRect layoutRect;
             layoutRect.LayoutRect( aItemRect, 
                 AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );

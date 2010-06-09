@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -86,6 +86,19 @@ protected:
     * Sets skin background and shape for the cleared window.
     */
 	void SetSkinShapeL();
+    
+    /**
+    * Creates the extension class.
+    */
+	void CreateExtensionL();
+
+    /**
+    * Sets the clearer as transparent or opaque.
+    *
+    * @param aTransparent @c ETrue to set transparency on,
+	*                     @c EFalse otherwise.
+    */
+	void SetTransparent( TBool aTransparent );
 
 private:
     CAknScreenClearerBaseExtension* iExtension;
@@ -115,13 +128,32 @@ public:
     *                            @c EFalse if not.
     */
 	IMPORT_C static CAknLocalScreenClearer* NewLC(TBool aBlankAppStatusPane);
-
+    
+    /**
+    * Two-phased constructor.
+    * @param aBlankAppStatusPane @c ETrue if application status pane is blank,
+    *                            @c EFalse if not.
+    * @param aTransparent        @c ETrue to construct a transparent clearer,
+    *                            @c EFalse to create an opaque one that draws
+    *                            the skin background.
+    */
+    IMPORT_C static CAknLocalScreenClearer* NewLC(TBool aBlankAppStatusPane, TBool aTranparent);
     /**
     * Two-phased constructor.
     * @param aBlankAppStatusPane @c ETrue if application status pane is blank, 
     *                            @c EFalse if not.
     */
 	IMPORT_C static CAknLocalScreenClearer* NewL(TBool aBlankAppStatusPane);
+
+    /**
+    * Two-phased constructor.
+    * @param aBlankAppStatusPane @c ETrue if application status pane is blank,
+    *                            @c EFalse if not.
+    * @param aTransparent        @c ETrue to construct a transparent clearer,
+    *                            @c EFalse to create an opaque one that draws
+    *                            the skin background.
+    */
+    IMPORT_C static CAknLocalScreenClearer* NewL(TBool aBlankAppStatusPane, TBool aTransparent);
 
     /**
     * From CCoeControl

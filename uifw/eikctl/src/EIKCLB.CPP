@@ -840,7 +840,7 @@ CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
 
     TInt firstPotentialItemIndex = iTopItemIndex;
     TInt lastPotentialItemIndex =
-        iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect );
+        iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect ) - 1;
     TBool backgroundDrawingSuppressed = ( listbox && listbox->BackgroundDrawingSuppressed() );
 
     if ( iModel->NumberOfItems() == 0 )

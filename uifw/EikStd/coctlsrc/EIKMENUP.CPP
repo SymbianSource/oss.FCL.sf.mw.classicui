@@ -841,11 +841,6 @@ void CEikMenuPaneExtension::StartCascadeMenuAppearTransition()
         {
         cascadeMenuPane->SetParent( iControl );
         GfxTransEffect::Begin( cascadeMenuPane, KGfxControlAppearAction );
-        if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-            {
-            ImmediateFeedback( ETouchFeedbackSubMenuOpened,
-                                            ETouchFeedbackVibra );
-            }
         cascadeMenuPane->StartDisplayingMenuPane( iControl->iHotKeyTable,
                                                   iControl->Position(),
                                                   NULL,
@@ -1256,6 +1251,7 @@ void CEikMenuPaneExtension::MenuClosed()
     iFlags.Clear( EContextSensitive );
     iFlags.Clear( EHighlightEnabled );
     iFlags.Clear( EHideViewSpecificCommands );
+    iFlags.Clear( EHideMarkAndUnmark ); 
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -2287,7 +2283,13 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         {
         iExtension->StartCascadeMenuAppearTransition();
         }
-    iExtension->ImmediateFeedback( ETouchFeedbackPopUp,
+
+    TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+    if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+        {
+        fbLogicalType = ETouchFeedbackSubMenuOpened;
+        }
+    iExtension->ImmediateFeedback( fbLogicalType,
                                        ETouchFeedbackVibra );
     _AKNTRACE_FUNC_EXIT;
     }

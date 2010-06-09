@@ -920,11 +920,10 @@ void AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner(
         {
         TAknUnregisteredMenuData& data( iUnregisteredMenus[i] );
 
-        if ( data.iOwner == iMenuBarOwner ) 
+        if ( data.iOwner == aMenuBarOwner ) 
             {
-            data.iOwner = iMenuBarOwner = NULL;
+            data.iOwner = NULL;
             }
-        
         ++i;
         }
     

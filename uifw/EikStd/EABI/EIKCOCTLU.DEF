@@ -2015,4 +2015,6 @@ EXPORTS
 	_ZN11CEikListBox14SetMarkingModeEi @ 2014 NONAME
 	_ZN11CEikListBox22SetMarkingModeObserverEP23MAknMarkingModeObserver @ 2015 NONAME
 	_ZN10CAknButton14EnableFeedbackEi @ 2016 NONAME
+	_ZN22CAknLocalScreenClearer4NewLEii @ 2017 NONAME
+	_ZN22CAknLocalScreenClearer5NewLCEii @ 2018 NONAME
 

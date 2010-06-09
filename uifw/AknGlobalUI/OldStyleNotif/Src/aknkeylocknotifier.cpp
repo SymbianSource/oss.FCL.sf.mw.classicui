@@ -1325,13 +1325,14 @@ void CAknKeyLockControl::DisableKeylock(TBool aNotifySysApp)
                     }
                 }
             }   // PenEnabled()
-
-        if (aNotifySysApp)
-            {
-            SendMessageToSysAp( EEikKeyLockDisabled );
-            }
         }
-    if ( iNotif )
+
+	if (aNotifySysApp)
+		{
+		SendMessageToSysAp( EEikKeyLockDisabled );
+		}
+
+	if ( iNotif )
         {
         iNotif->NotifyStatusChange( EKeyLockDisabled );
         }
@@ -2385,7 +2386,6 @@ void CAknKeyLockNotifierSubject::UnlockKeys()
     {
     if ( IsKeyLockEnabled() )
         {
-        iKeyLockControl->AutolockEnabled( EFalse );
         iKeyLockControl->DisableKeylock();
         }
     }

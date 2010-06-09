@@ -2868,9 +2868,18 @@ void CFormattedCellListBoxData::DrawMarkingModeIcons(
             &&  iExtension->iMarkingIconArray->Count() == 2 )
 #endif // RD_TOUCH2_MARKING        
         {
-        textRect.iTl.iX += 
+        if ( AknLayoutUtils::LayoutMirrored() )
+            {
+            textRect.iBr.iX -= 
                 AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
-                        0 ).LayoutLine().il;
+                    0 ).LayoutLine().ir;
+            }
+        else
+            {
+            textRect.iTl.iX += 
+                AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                    0 ).LayoutLine().il;
+            }                    
 
         TAknLayoutRect layoutRect;
         layoutRect.LayoutRect( aItemRect, 
@@ -4227,6 +4236,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
     CEikListBox* listbox = static_cast<CEikListBox*>( Control() ); 
     
     DrawMarkingModeIcons( aProperties, aGc, itemRect );
+    TInt iconOffset = aItemRect.Width() - itemRect.Width();
     
     const TColors* subcellColors = &aColors;
     
@@ -4334,6 +4344,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             }
         
         TRect bRect = TRect(sc->iPosition,sc->iSize);
+        bRect.iBr.iX -= iconOffset;
         TMargins m = sc->iMargin;
         TRect cRect = TRect(bRect.iTl+TSize(m.iLeft,m.iTop),bRect.Size()-TSize(m.iRight+m.iLeft,m.iBottom+m.iTop));
         const TBool istrans = sc->iTransparent;
@@ -4424,6 +4435,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
         if ( layoutMirrored ) 
             {
             TRect bRect( sc->iPosition, sc->iSize );
+            bRect.iBr.iX -= iconOffset;
             TRect cRect2( bRect.iTl + TSize( m.iLeft, m.iTop ),
                           bRect.Size() - TSize( m.iRight + m.iLeft,
                                                 m.iBottom + m.iTop ) );

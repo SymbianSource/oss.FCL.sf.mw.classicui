@@ -254,6 +254,7 @@ void CAknLongTapDetector::DoCancel()
         {
         StopAnimation();
         }
+    iState = EWaiting;
     }
 
 
@@ -321,7 +322,6 @@ void CAknLongTapDetector::MonitorWsMessage(const TWsEvent& aEvent)
             && aEvent.Pointer()->iType == TPointerEvent::EButton1Up ) )
 		{
         Cancel();
-        iState = EWaiting;		
 	    }
     }
 

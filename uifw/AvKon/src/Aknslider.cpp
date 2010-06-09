@@ -1497,7 +1497,12 @@ EXPORT_C CFbsBitmap* CAknSlider::CreateBitmapL( TInt aValue, TInt aResourceId )
     TResourceReader reader;
     CEikonEnv::Static()->CreateResourceReaderLC( reader, aResourceId );
 
-    reader.ReadInt16(); // ignore layout
+    TInt sliderType = reader.ReadInt16();
+    if ( sliderType == EAknSliderWithFeedbackStyle )
+        {
+        reader.ReadInt16(); // ignore type
+        reader.ReadInt16(); // ignore layout
+        }
     TInt minValue = reader.ReadInt16();
     TInt maxValue = reader.ReadInt16();
     CleanupStack::PopAndDestroy(); // reader
@@ -1538,7 +1543,12 @@ EXPORT_C CGulIcon* CAknSlider::CreateSetStyleListBoxIconL(
     TResourceReader reader;
     CEikonEnv::Static()->CreateResourceReaderLC( reader, aResourceId );
 
-    reader.ReadInt16(); // ignore layout
+    TInt sliderType = reader.ReadInt16();
+    if ( sliderType == EAknSliderWithFeedbackStyle )
+        {
+        reader.ReadInt16(); // ignore type
+        reader.ReadInt16(); // ignore layout
+        }
     TInt minValue = reader.ReadInt16();
     TInt maxValue = reader.ReadInt16();
     CleanupStack::PopAndDestroy(); // reader
@@ -4248,12 +4258,16 @@ void CAknSlider::StartFeedback( const TPointerEvent* aPointerEvent, TTimeInterva
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
         {
+        TTouchContinuousFeedback type = ETouchContinuousSmooth;
         TInt intensity = KStableFeedbackIntesity;
+        
         if ( SliderData()->iFeedbackStyle == EAknSliderFbDynamic )
             {
+            type = ETouchDynamicSlider;
             intensity = FeedbackIntensity();
             }
-        feedback->StartFeedback( this, ETouchDynamicSlider, aPointerEvent, intensity, aTimeout );
+        
+        feedback->StartFeedback( this, type, aPointerEvent, intensity, aTimeout );
         iExt->SetFlag( CAknSliderExtension::EFlagPlayingContinuousFb );
         }
     }

@@ -367,6 +367,11 @@ void CAknLongTapAnimation::CancelAnimation()
 		{
 		iExtension->iTimer->Cancel();
 		iExtension->iFlags &= ~EAnimationStarted;
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            feedback->StopFeedback( this );
+            }
 		}
 	}
 

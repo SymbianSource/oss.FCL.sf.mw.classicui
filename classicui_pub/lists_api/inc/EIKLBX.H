@@ -242,8 +242,16 @@ public:
         /**
          * Construction flag for disabling item specific stylus popup menu.
          */
-        EDisableItemSpecificMenu    = 0x00040000
+        EDisableItemSpecificMenu    = 0x00040000,
+        
+        /**
+         * Construction flag to make item specific stylus popup menu always
+         * shown regardless of list's marking state if the tapped item has 
+         * associated commands.
+         */
+        EItemSpecificMenuAlwaysShown = 0x00080000
         };
+
     enum {KEikMaxMatchingBufferLength = 2};
 
     /** 

@@ -785,7 +785,12 @@ EXPORT_C void CEikMenuBar::SetTitleArrayOwnedExternally(TBool /*aOwnedExternally
 EXPORT_C TKeyResponse CEikMenuBar::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
     {
     const TInt code=aKeyEvent.iCode;
-
+    //Filter msk event from dialog page.
+    if ( aKeyEvent.iCode == EKeyOK && aKeyEvent.iModifiers & EModifierSpecial )
+    	{
+        return EKeyWasConsumed;
+    	}
+    
     if (MenuHasPane())
         {
         iMenuPane->OfferKeyEventL(aKeyEvent, aType);
@@ -1139,6 +1144,26 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         // menu pane captures all pointer events, and forwards them to CBA if neccessary
         iMenuPane->SetGloballyCapturing(ETrue);
         iMenuPane->SetPointerCapture(ETrue);
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                {
+                if( iExt->iMenuType == EMenuContext || iExt->iMenuType == EMenuEdit )
+                    {
+                    fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                    }
+                else
+                    {
+                    fbLogicalType = ETouchFeedbackOptionsMenuOpened;
+                    }
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
         }
     
     iMenuPane->MakeVisible( EFalse );
@@ -1149,16 +1174,6 @@ void CEikMenuBar::StartDisplayingMenuBarL()
     if( optMenuFg )
         {
         GfxTransEffect::Begin( iMenuPane, KGfxControlAppearAction );
-        if( feedback && CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ))
-            {
-            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackOptionsMenuOpened;
-            if( iExt->iMenuType == EMenuContext || iExt->iMenuType == EMenuEdit )
-                {
-                fbLogicalType = ETouchFeedbackIncreasingPopUp;
-                }
-            feedback->InstantFeedback( this, fbLogicalType,
-                                        ETouchFeedbackVibra, TPointerEvent() );
-            }      
         } 
     
     iMenuPane->StartDisplayingMenuPane(NULL, menuPosition, NULL, screenSize.iWidth, EPopupTargetBottomLeft);
@@ -1175,11 +1190,6 @@ void CEikMenuBar::StartDisplayingMenuBarL()
                                          demarcation );
         GfxTransEffect::SetDemarcation( iMenuPane, demarcation );
         GfxTransEffect::End( iMenuPane );
-        }
-    if( feedback )
-        {
-        feedback->InstantFeedback( this, ETouchFeedbackPopUp,
-                                    ETouchFeedbackVibra, TPointerEvent() );
         }
     _AKNTRACE_FUNC_EXIT;
     }

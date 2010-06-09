@@ -1626,4 +1626,5 @@ EXPORTS
 	?SetMarkingModeObserver@CEikListBox@@QAEXPAVMAknMarkingModeObserver@@@Z @ 1625 NONAME ; void CEikListBox::SetMarkingModeObserver(class MAknMarkingModeObserver *)
 	?SetMarkingMode@CEikListBox@@QAEXH@Z @ 1626 NONAME ; void CEikListBox::SetMarkingMode(int)
 	?EnableFeedback@CAknButton@@QAEXH@Z @ 1627 NONAME ; void CAknButton::EnableFeedback(int)
-
+	?NewLC@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1628 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewLC(int, int)
+	?NewL@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1629 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewL(int, int)

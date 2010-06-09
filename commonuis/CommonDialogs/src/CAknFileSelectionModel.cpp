@@ -51,6 +51,13 @@ _LIT( KCFDMimeTypeNote, "text/*" );
 _LIT( KCFDMimeTypeJava, "application/java-archive" );
 _LIT( KCFDMimeTypeFlash, "application/x-shockwave-flash" );
 
+_LIT( KCFDMimeTypeJad, "text/vnd.sun.j2me.app-descriptor" );
+_LIT( KCFDMimeTypePdf, "application/pdf" );
+_LIT( KCFDMimeTypeZip, "application/*zip*");
+_LIT( KCFDMimeTypeDoc, "application/vnd.ms-word");
+_LIT( KCFDMimeTypePpt, "application/vnd.ms-powerpoint");
+_LIT( KCFDMimeTypeXls, "application/vnd.ms-excel");
+
 _LIT( KCFDFileExtSis, ".sis" );
 _LIT( KCFDFileExtSisx, ".sisx");
 _LIT( KCFDFileExtMid, ".mid" );
@@ -714,17 +721,26 @@ void CAknFileSelectionModel::AppendIconForFileL(const TDesC& aFileName)
             {
             iconIndex = EGameFileIcon;
             }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeNote ) == 0 )
+        else if( dataTypeBuf.MatchF( KCFDMimeTypeJava ) == 0
+                || dataTypeBuf.MatchF( KCFDMimeTypeJad ) == 0 )
             {
-            iconIndex = ENoteFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeJava ) == 0 )
-            {
-            iconIndex = EJavaFileIcon;
+            iconIndex = EAppFileIcon;
             }
         else if ( dataTypeBuf.MatchF( KCFDMimeTypeFlash ) == 0 )
             {
             iconIndex = EFlashFileIcon;
+            }
+        else if ( dataTypeBuf.MatchF( KCFDMimeTypeZip ) == 0 )
+            {
+            iconIndex = EAppFileIcon;
+            }
+        else if ( dataTypeBuf.MatchF( KCFDMimeTypePdf ) == 0
+                || dataTypeBuf.MatchF( KCFDMimeTypeDoc ) == 0
+                || dataTypeBuf.MatchF( KCFDMimeTypePpt ) == 0
+                || dataTypeBuf.MatchF( KCFDMimeTypeXls ) == 0
+                || dataTypeBuf.MatchF( KCFDMimeTypeNote ) == 0 )
+            {
+            iconIndex = ENoteFileIcon;
             }
         else
             {
@@ -740,7 +756,7 @@ void CAknFileSelectionModel::AppendIconForFileL(const TDesC& aFileName)
             if( ext.CompareF( KCFDFileExtSis ) == 0
                 || ext.CompareF( KCFDFileExtSisx ) == 0 )
                 {
-                iconIndex = ESisFileIcon;
+                iconIndex = EAppFileIcon;
                 }
             // RApaLsSession does not recognize .mid's:
             else if( ext.CompareF( KCFDFileExtMid ) == 0 )

@@ -20,7 +20,6 @@
 #include <eikspane.h>
 #include "aknclearer.h"
 #include <aknconsts.h>
-#include <aknnavi.h>
 #include <avkon.mbg>
 #include <AknLayout.lag>
 #include <AknSgcc.h>
@@ -51,152 +50,90 @@
 
 enum TAknScreenClearerBaseFlags
 	{
-	EAknScreenClearerDrawNavi,
-	EAknScreenClearerBlankAppStatusPane,
-	EAknScreenClearerDrawNaviSolid,
+	EAknScreenClearerBlankAppStatusPane
 	};
 
 enum 
     {
-    ELayerCbaBackground=0,
-    ELayerBackground = 1,
-    ELayerExtension = 2,
-    ELayerStripe = 3,
-    ELayerWallpaper = 4,
-    ELayerN = 5
+    ELayerBackground = 0,
+    ELayerExtension = 1,
+    ELayerStripe = 2,
+    ELayerWallpaper = 3,
+    ELayerN = 4
     };
-
-    enum 
-        {
-        ELayerStaconCbaBackground=0,
-        ELayerStaconTop = 1,
-        ELayerStaconBottom = 2,
-        ELayerStaconMain = 3,
-        ELayerStaconWallpaper = 4,
-        ELayerStaconN = 5
-        };
 
 enum 
     {
-    ELayerFlatCbaBackground=0,
-    ELayerFlatBackground = 1,
-    ELayerFlatTl = 2,
-    ELayerFlatTr = 3,
-    ELayerFlatBl = 4,
-    ELayerFlatBr = 5,
-    ELayerFlatT = 6,
-    ELayerFlatB = 7,
-    ELayerFlatR = 8,
-    ELayerFlatL = 9,
-    ELayerFlatCenter = 10,
-    ELayerFlatMain = 11,
-    ELayerFlatWallpaper = 12,
-    ELayerSCtrl1 = 13,
-    ELayerSCtrl2 = 14,
-    ELayerSCtrl3 = 15,
-    ELayerSCtrl4 = 16,
-    ELayerSCtrl5 = 17,
-    ELayerFlatN = 18
+    ELayerStaconTop = 0,
+    ELayerStaconBottom = 1,
+    ELayerStaconMain = 2,
+    ELayerStaconWallpaper = 3,
+    ELayerStaconN = 4
+    };
+
+enum 
+    {
+    ELayerFlatBackground = 0,
+    ELayerFlatTl = 1,
+    ELayerFlatTr = 2,
+    ELayerFlatBl = 3,
+    ELayerFlatBr = 4,
+    ELayerFlatT = 5,
+    ELayerFlatB = 6,
+    ELayerFlatR = 7,
+    ELayerFlatL = 8,
+    ELayerFlatCenter = 9,
+    ELayerFlatMain = 10,
+    ELayerFlatWallpaper = 11,
+    ELayerFlatN = 12
     };
 
 
 class CAknScreenClearerBaseExtension : public CBase
     {
-    public:
-        ~CAknScreenClearerBaseExtension()
-            {
-            delete iNaviWipe;
-            delete iNaviMask;
-            delete iBgContext;
-            }
-    public:
-	    CFbsBitmap* iNaviWipe;
-        CFbsBitmap* iNaviMask;
-        CAknsLayeredBackgroundControlContext* iBgContext;
-        TInt iOrdinalPosition;
+public:
+    ~CAknScreenClearerBaseExtension()
+        {
+        delete iBgContext;
+        }
+public:
+    CAknsLayeredBackgroundControlContext* iBgContext;
+    TInt iOrdinalPosition;
+	TBool iTransparent;
     };
 
-/* THIS FUNCTION IS NOT USED
-
-static void LoadAndFlipBitmapL( 
-    CFbsBitmap* aTrg, const TDesC& aFile, const TInt aIndex )
-    {
-    User::LeaveIfNull(aTrg);
-
-    CFbsBitmap* sourceBitmap = new (ELeave) CFbsBitmap();   
-    CleanupStack::PushL(sourceBitmap);
-    User::LeaveIfError(sourceBitmap->Load(aFile, aIndex, ETrue));    
-    TSize sourceBitmapSize = sourceBitmap->SizeInPixels();
-
-    User::LeaveIfError(aTrg->Create(sourceBitmapSize, sourceBitmap->DisplayMode()));
-
-    CFbsBitmapDevice* destinationDevice = CFbsBitmapDevice::NewL( aTrg );
-    CleanupStack::PushL(destinationDevice);
-
-    CFbsBitGc* destinationGc;
-    User::LeaveIfError( destinationDevice->CreateContext( destinationGc ) );
-
-    TRect sourceBitmapBlittingRect( 0,0,1,sourceBitmapSize.iHeight );  
-
-    for ( TInt xPos=sourceBitmapSize.iWidth-1; xPos >= 0; xPos-- )
-        {
-        destinationGc->BitBlt( TPoint(xPos,0), sourceBitmap, sourceBitmapBlittingRect );
-        sourceBitmapBlittingRect.iTl.iX++;
-        sourceBitmapBlittingRect.iBr.iX++;
-        }
-
-    delete destinationGc;  
-    CleanupStack::PopAndDestroy(2); // sourceBitmap, destinationDevice
-    }
-*/
-
-/* THIS FUNCTION IS NOT USED
-
-static CFbsBitmap* FlipBitmapL( CFbsBitmap* aBitmap )
-    {
-    User::LeaveIfNull(aBitmap);   
-
-    TSize sourceBitmapSize = aBitmap->SizeInPixels();
-
-    // get a copy of wanted rect of source bitmap to tmpBitmap
-    CFbsBitmap* tmpBitmap = new (ELeave) CFbsBitmap();   
-    CleanupStack::PushL( tmpBitmap );                      
-
-    User::LeaveIfError( tmpBitmap->Create( sourceBitmapSize, aBitmap->DisplayMode() ) );
-
-    CFbsBitmapDevice* destinationDevice = CFbsBitmapDevice::NewL( tmpBitmap );
-    CleanupStack::PushL( destinationDevice );
-    
-    CFbsBitGc* destinationGc;
-    User::LeaveIfError( destinationDevice->CreateContext( destinationGc ) );           
-    
-    TRect sourceBitmapBlittingRect( 0,0,1,sourceBitmapSize.iHeight );  
-    
-    for ( TInt xPos=sourceBitmapSize.iWidth-1; xPos >= 0; xPos-- )
-        {
-        destinationGc->BitBlt( TPoint(xPos,0), aBitmap, sourceBitmapBlittingRect );
-        sourceBitmapBlittingRect.iTl.iX++;
-        sourceBitmapBlittingRect.iBr.iX++;
-        }
-    
-    delete destinationGc;  
-    CleanupStack::PopAndDestroy(); // destinationDevice
-    CleanupStack::Pop(); // tmpBitmap
-  
-    return tmpBitmap;
-    }
-*/
 
 EXPORT_C CAknScreenClearerBase::~CAknScreenClearerBase()
 	{
     delete iExtension;
 	}
 
+
+void CAknScreenClearerBase::CreateExtensionL()
+	{
+	if ( !iExtension )
+		{
+		iExtension = new (ELeave) CAknScreenClearerBaseExtension;
+		}
+	}
+
+
+void CAknScreenClearerBase::SetTransparent( TBool aTransparent )
+    {
+    iExtension->iTransparent = aTransparent;
+    }
+
+
 EXPORT_C void CAknScreenClearerBase::ConstructL(RWindowGroup& aParent, TInt aOrdinalPos, TBool aBlankAppStatusPane)
 	{
-    iExtension = new (ELeave) CAknScreenClearerBaseExtension();
+	CreateExtensionL();
 
 	CreateWindowL(&aParent);
+
+	if ( iExtension->iTransparent )
+		{
+		EnableWindowTransparency();
+		}
 
     CAlfEffectObserver* alfEffectObserver = CAlfEffectObserver::NewL(); 
     alfEffectObserver->SetDistractionWindow(*DrawableWindow());
@@ -231,7 +168,17 @@ EXPORT_C void CAknScreenClearerBase::Draw(const TRect& /*aRect*/) const
 	{
 	CWindowGc& gc = SystemGc();
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    AknsDrawUtils::Background( skin, iExtension->iBgContext, this, gc, Rect() );
+
+    if ( !iExtension->iTransparent )
+        {
+        AknsDrawUtils::Background( skin, iExtension->iBgContext, this, gc, Rect() );
+        }
+    else
+        {
+        gc.SetDrawMode( CGraphicsContext::EDrawModeWriteAlpha );
+        gc.Clear( Rect() );
+        gc.Reset();
+        }
 
     iEikonEnv->WsSession().Flush();
     return;
@@ -264,31 +211,51 @@ void CAknScreenClearerBase::SetShapeL()
 
 	CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
     
-    if (iFlags[EAknScreenClearerBlankAppStatusPane])
+	// Set the clearer window's size so that it covers the screen in both
+	// portrait and landscape orientations simultaneously.
+	// This is done in order to prevent NGA from drawing control groups
+	// underneath the fullscreen foreground application in cases the clearer
+	// orientation can't be readily updated during the layout switch, due
+	// to e.g. application startup taking a long time.
+	// Note that only the clearer window's size is set to be larger, the
+	// skin background is still the screen size so that the skin background
+	// won't get stretched.
+	TRect screenRect( KWholeScreen );
+	TRect squareScreenRect( screenRect );
+    if ( squareScreenRect.Width() > squareScreenRect.Height() )
         {
-        shape.AddRect(KWholeScreen);
+        squareScreenRect.SetHeight( squareScreenRect.Width() );
         }
     else
         {
-        shape.AddRect(KWholeScreen);
-		sp->GetShapeL(appStatuspaneShape, !iFlags[EAknScreenClearerBlankAppStatusPane], ETrue);
-        shape.SubRegion(appStatuspaneShape);
+        squareScreenRect.SetWidth( squareScreenRect.Height() );
+        }
+	
+    if ( iFlags[EAknScreenClearerBlankAppStatusPane] )
+        {
+        shape.AddRect( squareScreenRect );
+        }
+    else
+        {
+        // Square shape is used only if the clearer is used to clear the
+        // whole screen.
+        shape.AddRect( screenRect );
+		sp->GetShapeL( appStatuspaneShape,
+		               !iFlags[EAknScreenClearerBlankAppStatusPane],
+		               ETrue );
+        shape.SubRegion( appStatuspaneShape );
         }
 
-	if (shape.CheckError())
-		User::Leave(KErrNoMemory);
+	if ( shape.CheckError() )
+	    {
+		User::Leave( KErrNoMemory );
+	    }
 
-	SetRect(KWholeScreen);
-	DrawableWindow()->SetShape(shape);
+	SetRect( iFlags[EAknScreenClearerBlankAppStatusPane] ? squareScreenRect :
+                                                           screenRect );
+	DrawableWindow()->SetShape( shape );
 
-	CleanupStack::PopAndDestroy(2);		// close shapes	
-
-	TBool drawNavi =
-		iFlags[EAknScreenClearerBlankAppStatusPane] && 
-		sp->IsVisible() && 
-		sp->PaneCapabilities(TUid::Uid(EEikStatusPaneUidNavi)).IsInCurrentLayout();
-
-	iFlags.Assign(EAknScreenClearerDrawNavi, drawNavi);
+	CleanupStack::PopAndDestroy( 2, &shape ); // close shapes
 	}
 
 
@@ -508,41 +475,7 @@ void CAknScreenClearerBase::SetSkinShapeL()
             iExtension->iBgContext->SetLayerRect( 0, main_pane.Rect() );
             iExtension->iBgContext->SetLayerRect( 1, staconTop );
             iExtension->iBgContext->SetLayerRect( 2, staconBottom );
-            }                        
-
-	if (Layout_Meta_Data::IsPenEnabled())
-		{
-		TAknLayoutRect area_side_right_pane;
-		TInt variety = 0;
-		area_side_right_pane.LayoutRect(application_window, AknLayoutScalable_Avkon::area_side_right_pane(variety));
-
-		TAknLayoutRect sctrl_sk_top_pane;
-		sctrl_sk_top_pane.LayoutRect(area_side_right_pane.Rect(), AknLayoutScalable_Avkon::sctrl_sk_top_pane(0));
-	
-		TAknLayoutRect sctrl_sk_bottom_pane;
-		sctrl_sk_bottom_pane.LayoutRect(area_side_right_pane.Rect(), AknLayoutScalable_Avkon::sctrl_sk_bottom_pane(0));
-	
-		TAknLayoutRect grid_sctrl_middle_pane;
-		grid_sctrl_middle_pane.LayoutRect(area_side_right_pane.Rect(), AknLayoutScalable_Avkon::grid_sctrl_middle_pane(0));
-	
-		TAknLayoutRect cell_sctrl_middle_pane1;
-		cell_sctrl_middle_pane1.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,0));
-		TAknLayoutRect cell_sctrl_middle_pane2;
-		cell_sctrl_middle_pane2.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,1));
-		TAknLayoutRect cell_sctrl_middle_pane3;
-		cell_sctrl_middle_pane3.LayoutRect(grid_sctrl_middle_pane.Rect(), AknLayoutScalable_Avkon::cell_sctrl_middle_pane(0,0,2));
-	
-
-
-		iExtension->iBgContext->SetLayerImage( ELayerFlatCbaBackground, KAknsIIDQsnBgScreen );
-
-
-		iExtension->iBgContext->SetLayerRect( ELayerFlatCbaBackground, application_window );
-		}
-
-
-
-
+            }
         }
     else
         {
@@ -684,13 +617,35 @@ EXPORT_C CAknLocalScreenClearer* CAknLocalScreenClearer::NewLC(TBool aBlankAppSt
 	return(self);
 	}
 
+
+EXPORT_C CAknLocalScreenClearer* CAknLocalScreenClearer::NewLC(TBool aBlankAppStatusPane, TBool aTransparent)
+	{
+	CAknLocalScreenClearer* self=new(ELeave) CAknLocalScreenClearer;
+	CleanupStack::PushL(self);
+	self->CreateExtensionL();
+	self->SetTransparent(aTransparent);
+	CEikonEnv& eikEnv = *static_cast<CEikonEnv*>(self->ControlEnv());
+	self->ConstructL(eikEnv.RootWin(), 0, aBlankAppStatusPane);
+	return(self);
+	}
+
+
 EXPORT_C CAknLocalScreenClearer* CAknLocalScreenClearer::NewL(TBool aBlankAppStatusPane)
 	{
 	CAknLocalScreenClearer* self = CAknLocalScreenClearer::NewLC(aBlankAppStatusPane);
 	CleanupStack::Pop(self);
 	return(self);
 	}
-	
+
+
+EXPORT_C CAknLocalScreenClearer* CAknLocalScreenClearer::NewL(TBool aBlankAppStatusPane, TBool aTransparent)
+	{
+	CAknLocalScreenClearer* self = CAknLocalScreenClearer::NewLC(aBlankAppStatusPane, aTransparent);
+	CleanupStack::Pop(self);
+	return(self);
+	}
+
+
 EXPORT_C void CAknLocalScreenClearer::HandleResourceChange(TInt aType)
 	{
 	if (aType == KEikDynamicLayoutVariantSwitch)

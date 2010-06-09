@@ -657,15 +657,33 @@ EXPORT_C void CListBoxView::CalcBottomItemIndex()
 
 EXPORT_C TInt CListBoxView::NumberOfItemsThatFitInRect(const TRect& aRect) const
 	{
+    TInt itemNumber = 0;
 	if (iItemHeight == 0)
 	    {
 	    _AKNTRACE( "Number of items is 0" );
-		return 0;
+		return itemNumber;
 	    }
-    TInt items = aRect.Height() / iItemHeight;
-	if ( ( iVerticalOffset != 0 ) || ( (aRect.Height() - iVerticalOffset) % iItemHeight > 0 ) ) items++;
-	_AKNTRACE( "Number of items is %d", items );
-	return items;
+    TInt items = aRect.Height() / iItemHeight;     
+    TInt extraHeight = aRect.Height() % iItemHeight;
+    // if there is offset or extra height, then there is at least one partical
+    // displayed item
+    if ( iVerticalOffset != 0 || extraHeight > 0 )
+        {
+        items++;
+        }
+    // if extra height is not totally taken by top partically displayed item,
+    // then there is still place to display a partcial item in bottom. consider
+    // a example which view height is 35 and item height is 10, then it's possible
+    // to display 5 items with the height like 3,10,10,10,2
+    if ( iVerticalOffset != 0 && 
+         extraHeight != 0 && 
+         ( iItemHeight + iVerticalOffset ) < extraHeight )
+        {
+        items++;
+        }
+    itemNumber = items;
+	_AKNTRACE( "Number of items is %d", itemNumber );
+	return itemNumber;
 	}
 
 EXPORT_C void CListBoxView::DeselectRangeL(TInt aItemIndex1, TInt aItemIndex2)
@@ -1193,16 +1211,17 @@ EXPORT_C TInt CListBoxView::CalcNewTopItemIndexSoItemIsVisible(TInt aItemIndex) 
     RDebug::Print( _L( "CListBoxView::CalcNewTopItemIndexSoItemIsVisible" ) );
 #endif // _DEBUG
 	TInt newTopItemIndex=iTopItemIndex;
-	const TInt numItemsThatFitInRect=NumberOfItemsThatFitInRect(iViewRect);
-	if (aItemIndex < iTopItemIndex || numItemsThatFitInRect == 0)
-		newTopItemIndex = aItemIndex;
-	else if (aItemIndex > iBottomItemIndex)
-		newTopItemIndex = aItemIndex - numItemsThatFitInRect + 1;
-    else if ( ( iVerticalOffset < 0 )
-            && ( aItemIndex == iBottomItemIndex )
-            && ( 0 == iViewRect.Height() % iItemHeight ) )
+	const TInt numItemsThatFitInRect=NumberOfItemsThatFitInRect( iViewRect );
+	if ( aItemIndex < iTopItemIndex || numItemsThatFitInRect == 0 )
         {
-        newTopItemIndex += 1;
+		newTopItemIndex = aItemIndex;
+        }   
+	else 
+        {
+        if (aItemIndex > iBottomItemIndex)
+		   {
+	       newTopItemIndex = aItemIndex - numItemsThatFitInRect + 1;
+		   }
         }
 
 	if (!ITEM_EXISTS_ONCE(newTopItemIndex) && newTopItemIndex != 0 )
@@ -1229,6 +1248,13 @@ EXPORT_C TInt CListBoxView::CalcNewTopItemIndexSoItemIsVisible(TInt aItemIndex) 
             {
             me->SetItemOffsetInPixels( 0 );
             }
+        //after reset vertical offset, 
+        //the number of items which fit in the view maybe change
+        TInt newNumItemsThatFitInRect = NumberOfItemsThatFitInRect( iViewRect );
+        if ( newNumItemsThatFitInRect != numItemsThatFitInRect )
+        	{
+			newTopItemIndex = aItemIndex - newNumItemsThatFitInRect + 1;
+        	}
 	    }
 
 	_AKNTRACE_FUNC_EXIT;

@@ -411,7 +411,14 @@ EXPORT_C void CAknTextSettingPage::ConstructL()
 	// Construct an appropriate control context for the contained editor areas.
 	// Context produced is owned by CAknSettingPage. 
     SetEditedItemFrameIID( KAknsIIDQsnFrInput, KAknsIIDQsnFrInputCenter );
-	TextControl()->ScrollBarFrame()->VerticalScrollBar()->SetMopParent(this);
+    
+    // ScrollBarFrame always exists in this phase
+    CEikScrollBar* sb = editor->ScrollBarFrame()->VerticalScrollBar();
+    if ( sb )
+        {
+        sb->SetMopParent( this );
+        sb->MakeVisible( ETrue );
+        }
 	}
 
 /**

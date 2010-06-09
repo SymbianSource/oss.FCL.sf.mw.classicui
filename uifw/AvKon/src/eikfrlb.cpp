@@ -827,11 +827,11 @@ CFormattedCellListBoxView::Draw( const TRect* aClipRect ) const
 
         TInt lastPotentialItemIndex =
             Min( numberOfItems,
-                 iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect ) );
+                 iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect ) - 1 ) ;
 
         gc->SetClippingRect( iViewRect );
         
-        while ( i < lastPotentialItemIndex )      
+        while ( i <= lastPotentialItemIndex )      
             {
             DrawItem( i++ );
             }

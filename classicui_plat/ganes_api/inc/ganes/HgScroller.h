@@ -504,7 +504,7 @@ protected:
     RBuf iPopupText1;
     RBuf iPopupText2;
     
-    TBool iFirstTime; // Flag to indicating first time run.
+    TBool iResetViewPosition; // ETrue on the first time run, and when iViewPosition must be reset.
     TBool iPointerDown;
 
     CPeriodic* iHighlightTimer; // Higlight timer, own.

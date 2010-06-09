@@ -601,8 +601,6 @@ void CAknView::AknViewDeactivated()
 
 	DoDeactivate();
 
-	AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
-	
 	if ( iCba )
 		{
 		iCba->MakeVisible( EFalse );
@@ -861,7 +859,7 @@ void CAknView::ConstructMenuAndCbaL( TBool aVisible )
 	if ( iCba )
 		{
 		if ( aVisible )
-			{
+			{			
 			iCba->DrawableWindow()->SetOrdinalPosition( 0 );
 			iCba->MakeVisible( ETrue );
 			iCba->DrawNow(); // This is needed because problems if TRANSPARENCY is set, see MTVN-6HXCN4

@@ -371,10 +371,6 @@ void CAknCapAppServerAppUi::ConstructL()
     TFileName fileName(KEikSrvUIResFileName);
     BaflUtils::NearestLanguageFile(iEikonEnv->FsSession(),fileName);
     iResourceFileOffset=iCoeEnv->AddResourceFileL(fileName);
-
-    // Create FSW
-    iFSControl= new (ELeave) CAknFastSwapWindowControl(*this);
-    iFSControl->ConstructL();
     
     // MMC unlocker
     iMMCUnlock = CAknMMCPasswordRequester::NewL();
@@ -489,8 +485,14 @@ void CAknCapAppServerAppUi::ConstructL()
 
     // Create capserver discreetpopuphandler     
     CAknCapServerDiscreetPopupHandler::CreateDiscreetPopupHandlerL();     
-	LoadAlternateFsPlugin();
-
+	
+    LoadAlternateFsPlugin();
+    // Create FSW
+    if ( iAlternateFS == NULL )
+        {
+        iFSControl= new (ELeave) CAknFastSwapWindowControl(*this);
+        iFSControl->ConstructL();
+        }
 	ProcessInitFlipStatus();
     }
     
@@ -584,19 +586,22 @@ void CAknCapAppServerAppUi::DoTaskListCommandL(const RMessage2& aMessage)
                     }
                 else
                     {
-                    if ( aMessage.Int0() )
-                        {
-                        TInt err = KErrNone;
-                        TRAP( err, iFSControl->InitializeWindowGroupListL( EFalse ));
-                        if ( !err )
-                            {   
-                            iFSControl->RunFastSwapL();             
+                    if ( iFSControl )
+                    	{
+                        if ( aMessage.Int0() )
+                            {
+                            TInt err = KErrNone;
+                            TRAP( err, iFSControl->InitializeWindowGroupListL( EFalse ));
+                            if ( !err )
+                                {   
+                                iFSControl->RunFastSwapL();             
+                                }
                             }
-                        }
-                    else
-                        {
-                        iFSControl->CloseFastSwap();
-                        }                        
+                        else
+                            {
+                            iFSControl->CloseFastSwap();
+                            }  
+                    	}
                     }
                 }
             aMessage.Complete(KErrNone);
@@ -607,7 +612,10 @@ void CAknCapAppServerAppUi::DoTaskListCommandL(const RMessage2& aMessage)
             TInt err = UpdateTaskListL( ETrue );
             if ( err != KErrNone )
                 {
-                iFSControl->CloseFastSwap();
+                if ( iFSControl )
+                	{
+                    iFSControl->CloseFastSwap();
+                	}
                 }
             aMessage.Complete(err);
             break;
@@ -802,11 +810,15 @@ TBool CAknCapAppServerAppUi::HandleShortAppsKeyPressL()
         iAlternateFS->HandleShortAppKeyPress();
         return ETrue;
         }
-    if (iFSControl->IsVisible())
-        {
-        iFSControl->HandleShortAppsKeyPressL();
-        return ETrue;
-        }
+    if ( iFSControl )
+    	{
+        if (iFSControl->IsVisible())
+            {
+            iFSControl->HandleShortAppsKeyPressL();
+            return ETrue;
+            }
+    	}
+    
         
     return EFalse;
     }
@@ -821,21 +833,25 @@ TBool CAknCapAppServerAppUi::HandleLongAppsKeyPressL()
             }
         else
             {
-            if (iFSControl->IsVisible())
-                {
-                iFSControl->HandleLongAppsKeyPressL();
-                }
-            else
-                {
-                if (iFSControl->VisibleWindowGroupsCountL()<1)
+            if ( iFSControl )
+            	{
+                if ( iFSControl->IsVisible())
                     {
-                    return EFalse;
+                    iFSControl->HandleLongAppsKeyPressL();
                     }
                 else
                     {
-                    iFSControl->RunFastSwapL();
+                    if (iFSControl->VisibleWindowGroupsCountL()<1)
+                        {
+                        return EFalse;
+                        }
+                    else
+                        {
+                        iFSControl->RunFastSwapL();
+                        }
                     }
-                }            
+            	}
+                        
             }
         }
     return ETrue;
@@ -1007,7 +1023,9 @@ void CAknCapAppServerAppUi::HandleResourceChangeL(TInt aType)
     
 void CAknCapAppServerAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDestination)
     {
-    if ( iMessageReaderLongPressDetector && !IsAppsKeySuppressed() && !iFSControl->IsDisplayed() )
+    if ( iMessageReaderLongPressDetector && 
+    	 !IsAppsKeySuppressed() && 
+    	 ( iFSControl == NULL || !iFSControl->IsDisplayed() ) )
         {
         // Message Reader can be launched by long pressing left soft key 
         // events need to be intercepted/consumed before they are forwarded to cba
@@ -1067,7 +1085,7 @@ void CAknCapAppServerAppUi::RotateScreenL()
 TInt CAknCapAppServerAppUi::UpdateTaskListL( TBool aTaskListRefreshNeeded )
     {
     TInt err = KErrNone;
-    if ( iFSControl->IsDisplayed() )
+    if ( iFSControl && iFSControl->IsDisplayed() )
         {
         // update window group list (task list)
         TInt windowGroupListChanged = ETrue;

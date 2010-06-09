@@ -238,7 +238,7 @@ RESOURCE SLIDER r_psln_backlight_slider
 RESOURCE SLIDER r_psln_duration_slider
     {
     layout = EAknSettingsItemSliderLayout;
-    minvalue = 1;
+    minvalue = 5;
     maxvalue = 60;
     step = 1;
     valuetype = EAknSliderValueBareFigure;

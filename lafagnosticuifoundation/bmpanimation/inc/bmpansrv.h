@@ -1,4 +1,4 @@
-// Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of "Eclipse Public License v1.0"
@@ -272,7 +272,7 @@ inline TInt CBitmapAnim::Count() const
 
 // Returns ETrue every time the index frame is valid, otherwise it returns EFalse.
 inline TBool CBitmapAnim::IsFrameDisplayable() const
-	{ return ( (iIndex >= 0) && iBitmapAnimFrameDataArray[iIndex]->iBitmap ); }
+	{ return ( (iIndex >= 0) && (iIndex < Count()) && iBitmapAnimFrameDataArray[iIndex]->iBitmap ); }
 
 // Returns ETrue if the animation is running, otherwise it returns EFalse.
 inline TBool CBitmapAnim::IsRunning() const

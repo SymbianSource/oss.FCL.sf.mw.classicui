@@ -2612,8 +2612,7 @@ void CEikStatusPaneContainer::SetParentWindowL(
     {
     if ( aParentWindowGroup )
         {
-        MakeVisible( EFalse );
-    
+            
         SetMopParent( iEikonEnv->EikAppUi() );
         SetParent( NULL );
 
@@ -2626,8 +2625,8 @@ void CEikStatusPaneContainer::SetParentWindowL(
             }
 
         CreateWindowL( aParentWindowGroup );
-
-        RWindow& window = Window();
+        
+		RWindow& window = Window();
         if ( aRedrawStoreHandler )
             {
             aRedrawStoreHandler->SetStore( &window, KEnableRedrawStoring );
@@ -2652,6 +2651,10 @@ void CEikStatusPaneContainer::SetParentWindowL(
 
         SetContainersL( *iControl, *this );
 
+        //these 2 lines is to fix the error ou1cimx1#390645
+        MakeVisible( ETrue );
+        MakeVisible( EFalse );
+		
         window.SetFaded( aIsFaded, RWindowTreeNode::EFadeIncludeChildren );
         window.SetOrdinalPosition( ordinalPos );
         

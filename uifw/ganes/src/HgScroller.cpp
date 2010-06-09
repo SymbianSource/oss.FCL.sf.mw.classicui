@@ -372,7 +372,7 @@ CHgScroller::CHgScroller(
     iCurrentRow(-1),
     iSelectedIndex(KErrNotFound),
     iScrollBarType( EHgScrollerScrollBar ),
-    iFirstTime(ETrue),
+    iResetViewPosition(ETrue),
     iOldWinPos(KErrNotFound)
     {
     // No implementation required
@@ -423,15 +423,21 @@ void CHgScroller::InitPhysicsL()
     // The world is set to be at least the size of the view.
     TSize worldSize = TotalSize();
     
-    if( !iLandscapeScrolling && (worldSize.iHeight < iHeight) )
+    if( !iLandscapeScrolling && (worldSize.iHeight <= iHeight) )
+        {
         worldSize.iHeight = iHeight;
+        iResetViewPosition = ETrue;
+        }
     
-    if( iLandscapeScrolling && (worldSize.iWidth < iWidth) )
+    if( iLandscapeScrolling && (worldSize.iWidth <= iWidth) )
+        {
         worldSize.iWidth = iWidth;
+        iResetViewPosition = ETrue;
+        }
 
     iPhysics->InitPhysicsL( worldSize, 
-            TSize(iWidth, iHeight), 
-            iLandscapeScrolling);
+                            TSize(iWidth, iHeight), 
+                            iLandscapeScrolling);
     }
 
 // -----------------------------------------------------------------------------
@@ -516,10 +522,10 @@ void CHgScroller::SizeChanged ( )
         iPopupDrawer->Init( Rect(), iPopupFont );
         }
     
-    if(iFirstTime)
+    if(iResetViewPosition)
         {
         iViewPosition = TPoint(iWidth/2, iHeight/2);
-        iFirstTime = EFalse;
+        iResetViewPosition = EFalse;
         }
     
     HandleViewPositionChanged();
@@ -607,7 +613,6 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
                 iDetector->PointerEventL( aEvent );
             
             HandleUpEventL( aEvent );
-            iPointerDown = EFalse;
             }
         }
     }
@@ -777,15 +782,17 @@ void CHgScroller::HandleUpEventL( const TPointerEvent& aEvent )
         if(iLandscapeScrolling && AknLayoutUtils::LayoutMirrored())
             drag = -drag;
         iPhysics->StartPhysics(drag, iStartTime);
+        iPointerDown = EFalse;
         }
     else
         {
-        HandleSelectionL();
         MTouchFeedback* feedback = MTouchFeedback::Instance();
         if ( feedback && iSelectedIndex != KErrNotFound )
             {
             feedback->InstantFeedback( this, ETouchFeedbackList, ETouchFeedbackVibra, aEvent );
             }
+
+        HandleSelectionL();
         }
     }
 
@@ -804,6 +811,8 @@ void CHgScroller::HandleSelectionL()
             // this is not usually the case since interval is 50ms but just to be sure.
             SetHighlightL();
             }
+
+        iPointerDown = EFalse;
         
         // selection needs to be valid.
         if( iSelectedIndex >= 0 && iSelectedIndex < iItems.Count() )
@@ -830,6 +839,10 @@ void CHgScroller::HandleSelectionL()
                     }
                 }
             }
+        }
+    else
+        {
+        iPointerDown = EFalse;
         }
     }
 
@@ -1180,21 +1193,21 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
             {
             if( iSelectedIndex != KErrNotFound && HasHighlight() )
                 {
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
                 iShowHighlight = EFalse;
                 iDrawUtils->EnableMarquee(HasHighlight());
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
                 return EKeyWasConsumed;
                 }
             else if( iItemCount )
                 {
                 iSelectedIndex = iCurrentRow;
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
                 FitSelectionToView();
                 iShowHighlight = ETrue;
                 iDrawUtils->EnableMarquee(HasHighlight());
                 DrawDeferred();
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
                 return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;

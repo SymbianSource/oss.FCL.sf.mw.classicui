@@ -218,44 +218,46 @@ void CDialogPageExtension::HandleFormFeedback(
     TInt aCurrentLine )
     {
     CEikCaptionedControl* firstLine( aDPage.LineOnPageOrNull( 0 ) );
-    TBool viewMode( !aDPage.IsEditable() );
     
-    // note, that iFormControl is checked in Feedback()
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-         aCurrentLine != aTouchedLineIndex &&
-         firstLine ) 
+    if( aDPage.IsEditable() )
         {
-        // feedback for edit/view mode form, when non-focused line is clicked
-        // feedback for focused item is responsibility of the item
-        // no feedback with focus change when single click is enabled
-        if ( !iUsesSingleClick )
-            {
-            Feedback( aDPage, ETouchFeedbackSensitiveList );
-            }
-        iFocusItemChanged = ETrue;
-        }
-    else if ( viewMode && firstLine )
-        {
+        // note, that iFormControl is checked in Feedback()
         if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-             aTouchedLineIndex == aCurrentLine )
+             aCurrentLine != aTouchedLineIndex &&
+             firstLine ) 
             {
-            // Feedback for view mode form, when focused item is
-            // clicked. Basically same case as for msk simulation later on
-            // the function, but on pointer
-            // down. iExtension->iFocusedClicked is not valid here, since
-            // it can't be known in this phase whether user drags pointer
-            // away.
-            Feedback( aDPage, ETouchFeedbackList );
-            iFocusItemChanged = EFalse;
-            }
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {
-            // When focus changed, it should not send feedback on up event.
-            // When up event comes, aTouchedLineIndex always equal to
-            // aCurrentLine.
-            if ( !iFocusItemChanged )
+            // feedback for edit mode form, when non-focused line is clicked
+            // feedback for focused item is responsibility of the item
+            // no feedback with focus change when single click is enabled
+            if ( !iUsesSingleClick )
                 {
-                SilentFeedback( aDPage, ETouchFeedbackList, aPointerEvent );
+                Feedback( aDPage, ETouchFeedbackSensitiveList );
+                }
+            iFocusItemChanged = ETrue;
+            }
+        else if ( firstLine )
+            {
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+                 aTouchedLineIndex == aCurrentLine )
+                {
+                // Feedback for edit mode form, when focused item is
+                // clicked. Basically same case as for msk simulation later on
+                // the function, but on pointer
+                // down. iExtension->iFocusedClicked is not valid here, since
+                // it can't be known in this phase whether user drags pointer
+                // away.
+                Feedback( aDPage, ETouchFeedbackList );
+                iFocusItemChanged = EFalse;
+                }
+            else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+                {
+                // When focus changed, it should not send feedback on up event.
+                // When up event comes, aTouchedLineIndex always equal to
+                // aCurrentLine.
+                if ( !iFocusItemChanged )
+                    {
+                    SilentFeedback( aDPage, ETouchFeedbackList, aPointerEvent );
+                    }
                 }
             }
         }
@@ -268,8 +270,7 @@ void CDialogPageExtension::Feedback( const CEikDialogPage& aDPage,
     if ( iFeedback &&
          aDPage.IsForm() &&
          !aDPage.IsDimmed() &&
-         aDPage.IsVisible() && 
-         aDPage.IsEditable() )
+         aDPage.IsVisible() )
         {
         iFeedback->InstantFeedback( aFeedback );
         }
@@ -284,8 +285,7 @@ void CDialogPageExtension::SilentFeedback(
     if ( iFeedback &&
          aDPage.IsForm() &&
          !aDPage.IsDimmed() &&
-         aDPage.IsVisible() &&
-         aDPage.IsEditable() )
+         aDPage.IsVisible() )
         {
         iFeedback->InstantFeedback( &aDPage,
                                     aFeedback,
@@ -685,18 +685,16 @@ void CEikDialogPage::SetActiveL()
         AknsUtils::RegisterControlPosition(capCtrl->iTrailer);
         AknsUtils::RegisterControlPosition(capCtrl->iBitmap);
 
-    if ( capCtrl->iIsFormControl && iCurrentLine != i)
-        {
-
-        if (capCtrl->ControlIsAnEdwin(capCtrl->iControlType))
+        if ( capCtrl->iIsFormControl && iCurrentLine != i)
             {
-            CEikEdwin *edwin = (CEikEdwin*)capCtrl->iControl;
-            TRAP_IGNORE(edwin->TextView()->SetDocPosL(0)
-                );
+            if (capCtrl->ControlIsAnEdwin(capCtrl->iControlType))
+                {
+                CEikEdwin *edwin = (CEikEdwin*)capCtrl->iControl;
+                TRAP_IGNORE( edwin->TextView()->SetDocPosL( 0 ) );
+                }
             }
-       }
-
         }
+    
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -778,12 +776,6 @@ TBool CEikDialogPage::SetInitialFocus()
             continue;
         ChangeFocusTo(ii);
         focusSet=ETrue;
-        
-        if ( IsForm() )
-            {
-            // move line with initial focus to the screen
-    		iLines->MoveLineToScreen( ii, iPhysics->ViewTopY(), ETrue );
-            }
         break;
         }
     iExtension->iSetInitialFocusDone = ETrue;
@@ -1516,6 +1508,37 @@ TInt CEikDialogPage::ControlHeight(TInt aLineIndex) const
 void CEikDialogPage::SizeChanged()
     {
 	_AKNTRACE_FUNC_ENTER;
+	if ( IsForm() )
+	    {
+        iExtension->iInitialLayoutDone = EFalse;
+	
+        iScroll->SetOutsideRect( Rect() );
+        
+        // force each line to resize
+        TInt count = iLines->Count();
+        
+        for ( TInt i = 0; i < count; ++i )
+            {
+            (*iLines)[i]->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
+            }
+
+        iLines->SetRect( Rect(), iScroll->Top(), iScroll->Middle(), iScroll->Bottom() );
+
+        iExtension->iInitialLayoutDone = ETrue;
+        UpdatePhysics();
+
+        if ( ( count > 0 ) && ( iCurrentLine >= 0 ) )
+            {
+            ExposeLine( iCurrentLine, ETrue );
+            }
+        
+        TRAP_IGNORE( UpdateScrollBarL() ); // ignore any errors.
+        AknsUtils::RegisterControlPosition( this ); 
+
+        _AKNTRACE_FUNC_EXIT;
+        return;
+	    }
+	
     // update form area's size to scroll control
     iScroll->SetOutsideRect( Rect() );
     iLines->SetRect( Rect(), iScroll->Top(), iScroll->Middle(), iScroll->Bottom() );
@@ -1528,7 +1551,6 @@ void CEikDialogPage::SizeChanged()
     TRAP_IGNORE( UpdateScrollBarL() ); // ignore any errors.
     AknsUtils::RegisterControlPosition( this ); 
 
-    UpdatePhysics();
     iExtension->iInitialLayoutDone = ETrue;
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1677,8 +1699,8 @@ void CEikDialogPage::HandlePopupFieldEventL(CAknPopupField* aPopupField, TAknPop
             {
             iExtension->iPopFieldEvents = 1;
             }     
-                
-        ReconsiderPageSize();
+  
+        (*iLines)[iCurrentLine]->SetRect( (*iLines)[iCurrentLine]->Rect() );
         ExposeLine( index, ETrue );
         DrawNow();
 
@@ -1814,9 +1836,19 @@ TBool CEikDialogPage::ResizeEdwinToFitTextL(CEikEdwin* aEdwin, TDrawNow /*aDrawN
     size.iHeight = height;
 
     // Must force a size change on current captioned contrl even if control doesn't change size (so that edwin is resized by aknutils)
-    aEdwin->SetSize(size);  
-    ReconsiderPageSize();
-    ExposeLine(iCurrentLine, ETrue);
+    aEdwin->SetSize(size);
+    
+    if ( IsForm() )
+        {
+        (*iLines)[iCurrentLine]->SetRect( (*iLines)[iCurrentLine]->Rect() );
+        ExposeLine( iCurrentLine, ETrue );
+        }
+    else
+        {
+        ReconsiderPageSize();
+        ExposeLine(iCurrentLine, ETrue);
+        }
+
     PrepareToDrawVerticalLine(); // do flushes here.
 
 /* improved redraw code
@@ -2146,11 +2178,18 @@ void CEikDialogPage::ChangeFocusTo(TInt aLineIndex)
     if ( ( oldLine != iCurrentLine && IsForm() ) && 
             iExtension->iInitialLayoutDone )
         {
+        // Set temporarily for EFalse to prevent one extra physics update
+        // because of two calls to iLines->MoveLineToScreen
+        iExtension->iInitialLayoutDone = EFalse;
+    
         if ( oldLine != -1 )
             {
             iLines->MoveLineToScreen( oldLine, 0, EFalse );
             TRAP_IGNORE( RecordLineL( oldLine ) );
             }
+        
+        // set back to correct value
+        iExtension->iInitialLayoutDone = ETrue;
 
 		TRAP_IGNORE( RecordLineL( iCurrentLine ) );
 		iLines->MoveLineToScreen( iCurrentLine, iPhysics->ViewTopY(), ETrue );
@@ -2182,7 +2221,7 @@ void CEikDialogPage::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseList) co
 void CEikDialogPage::HandleResourceChange(TInt aType)
     {
 	_AKNTRACE_FUNC_ENTER;
-    if ( aType==KEikDynamicLayoutVariantSwitch )
+    if ( aType==KEikDynamicLayoutVariantSwitch && !IsForm() )
         {
         const TInt numLines=iLines->Count();
         for ( TInt i=0; i < numLines; i++ )
@@ -2377,6 +2416,9 @@ void CEikDialogPage::SetEditableL( TBool aEditable, TBool /*aActivePage*/ )
     _AKNTRACE( "CEikDialogPage::SetEditableL() aEditable: [%d]", aEditable );
     iIsEditable = aEditable;
 
+    TBool initialLayoutDone = iExtension->iInitialLayoutDone;
+    iExtension->iInitialLayoutDone = EFalse;
+    
     HighlightVisible( aEditable );
     
     if ( iExtension->iUsesSingleClick && iExtension->iSetInitialFocusDone )
@@ -2453,6 +2495,14 @@ Then set iCurrentLine to the top focusable control
         {
         ExposeLine(iCurrentLine,ETrue); 
         }
+    
+    iExtension->iInitialLayoutDone = initialLayoutDone;
+    
+    if ( IsForm() )
+        {
+        UpdatePhysics();
+        }
+    
   _AKNTRACE_FUNC_EXIT;
   }
 
@@ -2897,8 +2947,12 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                                         iCurrentLine );
         
         iExtension->iWasScrolling = ( iPhysics->OngoingPhysicsAction() != 
-        CAknPhysics::EAknPhysicsActionNone ); 
-        iPhysics->Stop();
+        CAknPhysics::EAknPhysicsActionNone );
+        if(iExtension->iWasScrolling)
+            {
+            iPhysics->Stop();
+            iExtension->Feedback( *this, ETouchFeedbackList );
+            }
         iExtension->iLastTouchedLine = touchedLine;
         iExtension->iDragStartPosition = aPointerEvent.iPosition;
         iExtension->iLastPointerPos = aPointerEvent.iPosition;
@@ -3079,13 +3133,7 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         ( iExtension->iFocusedClicked || iExtension->iUsesSingleClick ) &&
         !iExtension->iScrolling )
         {
-        // Not need to sent key event when focus lost.
-        CEikCaptionedControl* currentLine = (*iLines)[iCurrentLine];     
-        if ( currentLine->IsFocused() )
-        	{
-            mskPress = ETrue;
-        	}
-        
+		mskPress = ETrue;
         callDefaultImplementation = EFalse;
         }
     if ( callDefaultImplementation && ( iExtension->iFocusedClicked || 
@@ -3114,7 +3162,7 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         {
         TKeyEvent key;
         key.iCode=EKeyOK;
-        key.iModifiers=0;
+        key.iModifiers=EModifierSpecial;
         key.iRepeats = 0;
         iEikonEnv->SimulateKeyEventL( key, EEventKey );
         }
@@ -3303,6 +3351,13 @@ void CEikDialogPage::ScrollCacheByPixels(
 void CEikDialogPage::UpdateLineInCache( CEikCaptionedControl* aLine )
     {
 	_AKNTRACE_FUNC_ENTER;
+	
+	if ( !IsActivated() )
+	    {
+        _AKNTRACE_FUNC_EXIT;
+        return;
+	    }
+
     TInt lineIndex = iLines->FindLineIndex( aLine );
     
     if ( lineIndex != KErrNotFound )
@@ -4412,7 +4467,9 @@ void CEikDialogPageContainer::HandleResourceChange(TInt aType)
 
     CCoeControl::HandleResourceChange(aType);
 
-    if(aType==KEikDynamicLayoutVariantSwitch)
+    // if this is a form then its size has been set already by 
+    // CEikDialog::HandleResourceChange
+    if ( aType == KEikDynamicLayoutVariantSwitch && !iForm )
         {
         SizeChanged();
         }

@@ -653,8 +653,12 @@ void CEikCapCArray::SetRect(const TRect& aRect, TInt aTop, TInt /*aMiddle*/, TIn
     TRect formRect = formtLayoutRect.Rect();
 	
 	CEikCapCArrayExtension *extension_or_null = ExtensionOrNull();
+	
+	TBool rectChanged = ETrue;
+	
 	if (extension_or_null)
 		{
+        rectChanged = ( extension_or_null->iRect != formRect );
 		extension_or_null->iRect = formRect;
 		}
 
@@ -665,7 +669,11 @@ void CEikCapCArray::SetRect(const TRect& aRect, TInt aTop, TInt /*aMiddle*/, TIn
         
         if ( control->DialogPage()->IsForm() )
             {
-            SetRealRect( aRect, aTop, aBottom );
+            if ( rectChanged )
+                {
+                SetRealRect( aRect, aTop, aBottom );
+                }
+
             _AKNTRACE_FUNC_EXIT;
             return;
             }
@@ -1137,7 +1145,12 @@ void CEikCapCArray::MoveLineToScreen( TInt aLine, TInt aTopY, TBool aVisible )
             topLeft.SetXY( Rect().iTl.iX, LineIndexToYPosition( aLine, aTopY ) );
             }
         
-        line->SetRect( TRect( topLeft, line->Size() ) );
+        TRect newRect( topLeft, line->Size() );
+        
+        if ( newRect != line->Rect() )
+            {
+            line->SetRect( TRect( topLeft, line->Size() ) );
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }
