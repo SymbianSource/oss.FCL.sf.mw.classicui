@@ -36,8 +36,8 @@ SOURCE 	gfxtransadapterstub.cpp
 LIBRARY       euser.lib
 
 #if defined(WINSCW)
-deffile ../Adapter/BWINS/GFXTRANSADAPTER.DEF
+deffile ../Adapter/bwins/GFXTRANSADAPTER.DEF
 #else
-deffile ../Adapter/EABI/GFXTRANSADAPTER.DEF
+deffile ../Adapter/eabi/GFXTRANSADAPTER.DEF
 #endif
 SMPSAFE

@@ -17,7 +17,7 @@
 #include <e32std.h>
 #include <e32math.h>
 #include <centralrepository.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 #include <eiksrvc.h>
 #include <eiksvdef.h>
 #include <s32mem.h>

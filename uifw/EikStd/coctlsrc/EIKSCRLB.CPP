@@ -41,7 +41,7 @@
 #include "eikscrlb.h"
 #include "EIKSBEXT.H"
 
-const TInt KIntensity = 50; // 50%
+const TInt KIntensity = 100; // 100%
 
 const TInt KScrollBarWidth=9;
 // const TInt KScrollButtonHeight=10;
@@ -1324,7 +1324,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                             feedback->StartFeedback( this, 
                                                      ETouchContinuousSlider, 
                                                      &aPointerEvent, 
-                                                     KIntensity, // intensity 50%
+                                                     KIntensity, // intensity 100%
                                                      timeout );
                             }
                         extension->SetModelThumbPosition(thumbPosition);

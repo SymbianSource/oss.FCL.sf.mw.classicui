@@ -265,8 +265,9 @@ void CFrames::TestFramesL(TInt aFlags)
 	iTransSpriteAnimWin->Window()->Invalidate();
 	iFrameWin->Window()->Invalidate();
 	iTransFrameWin->Window()->Invalidate();
-	Ws().Flush();
+	Ws().Finish();
 	WaitForRedrawsToFinish();
+    Ws().Finish();
 	
 	// Start the animations:
 	TAnimationConfig config;
@@ -288,17 +289,27 @@ void CFrames::TestFramesL(TInt aFlags)
 				break;
 			}
 		iBasicAnimations[frame]->Start(config);
+		Wait(KFramesFrameLength);
+	    Ws().Finish();
+	    WaitForRedrawsToFinish();
+	    
 		iSpriteAnimations[frame]->Start(config);
+		Wait(KFramesFrameLength);
+	    Ws().Finish();
+	    WaitForRedrawsToFinish();
 		}
 	
 	// Why * 4? because we seem to go very slowly?
 	Wait(KFramesFrameLength * iBasicAnimations.Count() * 4);
-
-	// Verify output:
+	Ws().Finish();
 	WaitForRedrawsToFinish();
-	ANIMTESTRECT(TRect(iBasicAnimWinPosition, iWinSize), TRect(iFrameWinPosition, iWinSize));
+    Ws().Finish();
+    
+    // When verifying output,
+    // Should have at least one animation frame drawn 
+    ANIMTESTRECT(TRect(iBasicAnimWinPosition, TSize(KFramesWindowHeight,KFramesWindowHeight)), TRect(iFrameWinPosition, TSize(KFramesWindowHeight,KFramesWindowHeight)));
 	if(!(aFlags & ENoSprites))
-		ANIMTESTRECT(TRect(iSpriteAnimWinPosition, iWinSize), TRect(iFrameWinPosition, iWinSize));
+		ANIMTESTRECT(TRect(iSpriteAnimWinPosition, TSize(KFramesWindowHeight,KFramesWindowHeight)), TRect(iFrameWinPosition, TSize(KFramesWindowHeight,KFramesWindowHeight)));
 	}
 /**
 	@SYMTestCaseID UIF-animation-TFrames-TestFramesL2

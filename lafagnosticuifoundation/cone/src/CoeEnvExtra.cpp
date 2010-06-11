@@ -169,11 +169,13 @@ void CCoeEnvExtra::DestroyFep(TFep& aFep)
 void CCoeEnvExtra::AddObserverL(RArray<TAny*>& aArrayOfObservers, TAny* aObserver)
 	{
 	__ASSERT_ALWAYS(aObserver!=NULL, Panic(ECoePanicIllegalNullParameter3));
+	CleanupClosePushL(aArrayOfObservers);
 	for (TInt i=aArrayOfObservers.Count()-1; i>=0; --i)
 		{
 		__ASSERT_ALWAYS(aArrayOfObservers[i]!=aObserver, Panic(ECoePanicFocusObserverHasAlreadyBeenAdded));
 		}
 	User::LeaveIfError(aArrayOfObservers.Append(aObserver));
+	CleanupStack::Pop(&aArrayOfObservers);
 	}
 
 void CCoeEnvExtra::RemoveObserver(RArray<TAny*>& aArrayOfObservers, const TAny* aObserver)

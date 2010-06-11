@@ -35,11 +35,6 @@
 #include <eikbtgpc.h> // for ButtonGroupContainer
 #include <uikon.hrh> // for EKeyOk
 
-#include <FavouritesLimits.h> // KFavouritesMaxUrl
-#include <FavouritesItem.h> // for CBookmarkItem
-
-#include <FavouritesDb.h>
-
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 
 #ifndef RD_VIRTUAL_PHONEBOOK
@@ -59,8 +54,6 @@
 #include <commonphoneparser.h> // Phonenumber parser
 
 #include <baclipb.h> // For CClipboard
-
-#include <SchemeHandler.h> // For CSchemeHandler
 
 #include <aknnotewrappers.h>
 
@@ -318,8 +311,6 @@ EXPORT_C CFindItemDialog::~CFindItemDialog()
 
     delete iServiceHandler;
     delete iFindItemVoIPExtension;
-
-    delete iSchemeHandler;
 
     delete iBgContext;
 
@@ -707,23 +698,6 @@ TBool CFindItemDialog::LaunchGenericUriL()
         }
     // If current app is other than Browser, use schemehandler for launching
     // file
-    else
-        {
-        if ( iSchemeHandler )
-            {
-            delete iSchemeHandler;
-            iSchemeHandler = 0;
-            }
-        iSchemeHandler = CSchemeHandler::NewL( itemtextPtr );
-        if ( itemtext->FindF( KRtspUrlAddress ) != KErrNotFound )
-            {
-            iSchemeHandler->HandleUrlEmbeddedL();
-            }
-        else
-            {
-            iSchemeHandler->HandleUrlStandaloneL();
-            }
-        }
 
     CleanupStack::PopAndDestroy(); // itemtext
     return EFalse;
@@ -744,9 +718,7 @@ void CFindItemDialog::GoToUrlL( const TPtr& aItemtextPtr )
     TPtr paramPtr = parameters->Des();
     paramPtr.Copy( KWmlBrowserParameter );
     paramPtr.Append( KSpace );
-    paramPtr.Append(
-        aItemtextPtr.Mid(
-            0, Min( aItemtextPtr.Length(), KFavouritesMaxUrl ) ) );
+    paramPtr.Append( aItemtextPtr.Mid( 0, aItemtextPtr.Length() ) );
 
     TApaTaskList taskList( iEikonEnv->WsSession() );
     TApaTask task = taskList.FindApp( KWapUid );
@@ -778,10 +750,6 @@ void CFindItemDialog::AddToBookmarkL()
     {
     __ASSERT_DEBUG( iEdwin->SelectionLength() > 0, Panic( ENoItemSelected ) );
 
-    // Create an item and fill with meaningful data.
-    CFavouritesItem* item = CFavouritesItem::NewLC();
-    item->SetParentFolder( KFavouritesRootUid );
-    item->SetType( CFavouritesItem::EItem );
     // Read default name from resources
     HBufC* defaultName =
         iEikonEnv->AllocReadResourceLC( R_FINDITEM_DEFAULT_BOOKMARK_NAME );
@@ -796,33 +764,17 @@ void CFindItemDialog::AddToBookmarkL()
     if ( !dlg->ExecuteLD( R_FINDITEM_BOOKMARK_QUERY_DIALOG ) )
         {
         // User press cancel - do not add bookmark
-        CleanupStack::PopAndDestroy( ); // item
         return;
         }
-
-    item->SetNameL( retName );
+    
     TCursorSelection selection = iEdwin->Selection();
-    item->SetUrlL( iPlainText.Mid( selection.LowerPos(), selection.Length() ) );
-
-    RFavouritesSession sess;
-    RFavouritesDb db;
-
-    User::LeaveIfError( sess.Connect() );
-    CleanupClosePushL<RFavouritesSession>( sess );
-    User::LeaveIfError( db.Open( sess, KBrowserBookmarks ) );
-    CleanupClosePushL<RFavouritesDb>( db );
-
-    // Add item.
-    db.Add( *item, ETrue );
-    // Close the database.
-    db.Close();
-
+    
     HBufC* msgBuffer =
         iCoeEnv->AllocReadResourceLC( R_FINDITEM_BOOKMARK_SAVED );
     CAknConfirmationNote* note = new (ELeave)CAknConfirmationNote( ETrue );
     note->ExecuteLD( *msgBuffer );
 
-    CleanupStack::PopAndDestroy( 4 );   // magBuffer, db, sess, item
+    CleanupStack::PopAndDestroy();   // magBuffer
     }
 
 // -----------------------------------------------------------------------------

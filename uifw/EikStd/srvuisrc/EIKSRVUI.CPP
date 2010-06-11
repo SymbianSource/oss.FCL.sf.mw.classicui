@@ -126,7 +126,6 @@
 
 #include <hb/hbcore/hbsymbianvariant.h>
 #include <hb/hbcore/hbdevicedialogsymbian.h>
-#include <apaidpartner.h>
 
 #if defined(__WINS__)
 const TInt KEikServSideBarWidth = 35;
@@ -629,12 +628,13 @@ EXPORT_C void CEikServAppUiBase::InitializeL(TEikServCtrlFactories& aCtrlFactori
 
 EXPORT_C void CEikServAppUiBase::HandleThreadExitL(RThread& aThread)
     {
+    _LIT(KAppArcServerThread, "AppArcServerThread");
     if (aThread.Name() == ASCliDefinitions::ServerAndThreadName()) // alarm server died
         {
         aThread.Close(); // need to Close() before restarting with same name
         iServerToRestart |= EAlwlSvr; // restarted under active object
         }
-    else if (aThread.Name()==NameApaServServerThread()) // AppArc server died
+    else if (aThread.Name() == KAppArcServerThread) // AppArc server died
         {
         aThread.Close();
         iServerToRestart|=EApaSvr;

@@ -20,7 +20,7 @@
 #include <eikpanic.h>
 #include <apacmdln.h>
 #include <apparc.h>
-#include "apfdef.h"
+#include "APFDEF.H"
 #include <eikenv.h>
 
 

@@ -34,13 +34,11 @@ file=ABI_DIR\BUILD_DIR\aknhlist.dll              SHARED_LIB_DIR\aknhlist.dll
 
 SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,avkon2)
 SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,callstatus)
-SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,smiley)
 
 // Avkon2.mif CDL header
 ECOM_PLUGIN(102827CF.dll,102827CF.rsc)
 data=DATAZ_\resource\cdl\102827CF_cdl_detail.rsc Resource\Cdl\102827CF_cdl_detail.rsc
 data=ZRESOURCE\aknpriv.rsc                       RESOURCE_FILES_DIR\aknpriv.rsc
-data=ZRESOURCE\smiley.rsc                        RESOURCE_FILES_DIR\smiley.rsc
 
 #include "aknglobalui.iby"
 

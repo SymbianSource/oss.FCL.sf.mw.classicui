@@ -70,7 +70,7 @@
 #include <uiklaf/private/lafshut.h>
 #include <ecom/ecom.h>
 #include <eikserverapp.h>
-#include "eiksrvc.h"
+#include "EIKSRVC.H"
 
 #include "eikdebugprefs.h"
 #include "eikprivate.h"
@@ -80,8 +80,8 @@
 #include <graphics/cone/coeerrorconsts.h>
 #include "eikdefconst.h"
 #include "eikdefconstinternal.h"
-#include "eiklibry.h"
-#include "eikdgfty.h"
+#include "EIKLIBRY.H"
+#include "EIKDGFTY.H"
 
 GLDEF_C void Panic(TEikPanic aPanic)
 	{

@@ -20,7 +20,7 @@
 #include <bautils.h>
 #include <coeutils.h>
 #include <apgicnfl.h>
-#include "apfdef.h"
+#include "APFDEF.H"
 #include <apgcli.h>
 #include <barsc2.h>
 #include <barsread2.h>

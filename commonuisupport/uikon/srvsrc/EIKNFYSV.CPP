@@ -988,6 +988,7 @@ TBool CEikSrvNotifierManager::NotifierHandlesScreenMode(MEikSrvNotifierBase2* aN
 
 void CEikSrvNotifierManager::LookForNotifierInObservedListL(TUid aNotifierUid, TUid aChannelUid, RArray<TInt>& aNotifierPositions)
 	{
+    CleanupClosePushL(aNotifierPositions);
 	const TInt count = iObservedList->Count();
 	for (TInt ii = 0; ii < count; ii++)
 		{
@@ -996,6 +997,7 @@ void CEikSrvNotifierManager::LookForNotifierInObservedListL(TUid aNotifierUid, T
 		if (info.iUid == aNotifierUid && (aChannelUid == KNonExistentUid || info.iChannel == aChannelUid))
 			User::LeaveIfError(aNotifierPositions.Append(ii));
 		}
+	CleanupStack::Pop(&aNotifierPositions);
 	}
 
 void CEikSrvNotifierManager::NotifierStartAndGetResponseL(TUid aNotifierUid, const TDesC8& aBuffer, TInt aReplySlot,

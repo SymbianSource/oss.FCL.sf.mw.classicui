@@ -2794,7 +2794,7 @@ void CEikMenuPane::DoLaunchCascadeMenuL( TInt aCascadeMenuId )
         TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
         if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
             {
-            fbLogicalType = ETouchFeedbackPopupOpen;
+            fbLogicalType = ETouchFeedbackSubMenuOpen;
             }
         iExtension->ImmediateFeedback( fbLogicalType,
                                        ETouchFeedbackVibra );
@@ -4953,7 +4953,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                 {
                 if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                     {
-                    iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
+                    iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                     }
                 else
                     {
@@ -5312,7 +5312,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             {                            
                             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                                 {
-                                iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
+                                iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                                 }
                             else
                                 {
@@ -5440,7 +5440,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                             {                            
                             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                                 {
-                                iExtension->ImmediateFeedback( ETouchFeedbackPopupClose );
+                                iExtension->ImmediateFeedback( ETouchFeedbackSubMenuClosed );
                                 }
                             else
                                 {
@@ -5549,7 +5549,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
                                             AknTransEffect::EComponentTransitionsOff ) )
                                         {
                                         iExtension->ImmediateFeedback(
-                                                ETouchFeedbackPopupClose );
+                                                ETouchFeedbackSubMenuClosed );
                                         }
                                     else
                                         {

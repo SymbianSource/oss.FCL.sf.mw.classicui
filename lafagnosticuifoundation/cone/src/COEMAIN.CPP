@@ -21,7 +21,7 @@
 #include "COETLS.H"
 #include "COEFEP.H"		// class FepName
 #include "coepanic.h"
-#include "coever.h"
+#include "COEVER.H"
 #include <coecntrl.h>
 #include <coeerror.h>
 #include "coeenvextra.h"
@@ -30,7 +30,7 @@
 #include <viewcli.h>
 #include <coeaui.h>
 #include <hal.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 #include <coefontprovider.h>
 #include <centralrepository.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS

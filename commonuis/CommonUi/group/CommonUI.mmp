@@ -102,15 +102,11 @@ LIBRARY         ecom.lib
 LIBRARY         CommonEngine.lib        // For class Stringloader, etc.
 LIBRARY         apgrfx.lib              // For class RApaLsSession, class TApaTask
 LIBRARY         FeatMgr.lib             // For class FeatureManager
-#ifdef __SERIES60_MMC
-LIBRARY         CommonDialogs.lib
-#endif
 
 // FindUI
 LIBRARY         etext.lib               // For class CPlainText, class TCharFormat
 LIBRARY         form.lib                // For class CTextLayout
 LIBRARY         eikctl.lib              // For class CRichText
-LIBRARY         FavouritesEngine.lib    // For class CFavouritesItem, etc.
 LIBRARY         sendui.lib              // For class CSendUi, class CMessageData
 #ifndef RD_VIRTUAL_PHONEBOOK
 LIBRARY         PbkView.lib             // For class RPbkViewResourceFile, class CPbkDataSaveAppUi
