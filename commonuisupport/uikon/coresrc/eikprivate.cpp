@@ -25,7 +25,7 @@ TUnlimitedFileName* TUnlimitedFileName::NewLC(const TDesC& aString)
 	{ // static
 	const TInt maxLength = Max(KMaxFileName, aString.Length());
 	// Get the mempory required
-	TUnlimitedFileName* const fakeFileName = STATIC_CAST(TUnlimitedFileName*, User::AllocLC(_FOFF(TUnlimitedFileName, iBuf[maxLength])));
+	TUnlimitedFileName* const fakeFileName = STATIC_CAST(TUnlimitedFileName*, User::AllocLC(_FOFF_DYNAMIC(TUnlimitedFileName, iBuf[maxLength])));
 	// Create the TUnlimitedFileName object inside the memory
 	new(fakeFileName) TUnlimitedFileName(aString, maxLength);
 	return fakeFileName;

@@ -270,7 +270,7 @@ class CAknVolumeControl : public CAknControl, public MAknNaviDecoratorObserver
         *
         * @return Colume value scaled to range of [0-10].
         */
-        TInt CAknVolumeControl::ScaledValue() const;
+        TInt ScaledValue() const;
 
        /*
         * Set extended touch area to be used 

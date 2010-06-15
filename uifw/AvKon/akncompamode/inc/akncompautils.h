@@ -73,7 +73,7 @@ public: // functions
     static TBool IsEikSrv(TSecureId aSecureId);
     static TBool IsAknCapSrv(TSecureId aSecureId);
 
-    static void AknCompaUtils::ReadButtonsL(
+    static void ReadButtonsL(
         RPointerArray<CAknCompaButton>& aButtons, TInt& aPenButton,
         CCoeEnv& aCoeEnv);
 

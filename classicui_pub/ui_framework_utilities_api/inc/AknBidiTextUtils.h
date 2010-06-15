@@ -422,7 +422,7 @@ class AknBidiTextUtils
     * @param aOrder Whether the text provided is in visual or logical order
     * @return       width of the text in pixels.
     */
-    IMPORT_C static TInt AknBidiTextUtils::MeasureTextBoundsWidth(
+    IMPORT_C static TInt MeasureTextBoundsWidth(
         const CFont& aFont,
         const TDesC& aText,
         CFont::TMeasureTextInput::TFlags aOrder);

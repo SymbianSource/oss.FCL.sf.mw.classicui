@@ -1561,7 +1561,7 @@ public:
          * @return editor flags if existed
          * @or return KErrNotFound
          */
-    IMPORT_C TInt CEikEdwin::AknEditorFlags();
+    IMPORT_C TInt AknEditorFlags();
     
 
 	

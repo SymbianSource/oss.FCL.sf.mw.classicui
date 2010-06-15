@@ -27,10 +27,10 @@ PRJ_EXPORTS
 
 PRJ_MMPFILES
 
-#if defined(WINSCW)
-aknextendedfader_winscw.mmp
-#else
+#if defined(ARMV5)
 aknextendedfader_armv5.mmp
 aknextendedfader_arm11.mmp
+#else
+aknextendedfader_winscw.mmp
 #endif
 

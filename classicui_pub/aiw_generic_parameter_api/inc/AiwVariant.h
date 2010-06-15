@@ -112,7 +112,7 @@ class TAiwVariant
         *
         * @param aValue The source object.
         */
-        IMPORT_C TAiwVariant& TAiwVariant::operator=(const TAiwVariant& aValue);
+        IMPORT_C TAiwVariant& operator=(const TAiwVariant& aValue);
 
         // This class does not need a destructor because memory allocation
         // policy for variant class has been implemented by TAiwGenericParam
