@@ -3472,7 +3472,7 @@ EXPORTS
 	_ZTI16CAknGMSStyleGrid @ 3471 NONAME ; #<TI>#
 	_ZTI16CAknIntegerEdwin @ 3472 NONAME ; #<TI>#
 	_ZTI16CAknQueryControl @ 3473 NONAME ; #<TI>#
-	_ZTI17AknPopupListEmptyI24CEikFormattedCellListBoxE @ 3474 NONAME ; #<TI>#
+	_ZTI17AknPopupListEmptyI24CEikFormattedCellListBoxE @ 3474 NONAME ABSENT ; #<TI>#
 	_ZTI17CAknAnimationData @ 3475 NONAME ; #<TI>#
 	_ZTI17CAknCharMapDialog @ 3476 NONAME ; #<TI>#
 	_ZTI17CAknColumnListBox @ 3477 NONAME ; #<TI>#
@@ -3540,9 +3540,9 @@ EXPORTS
 	_ZTI22CAknSingleStyleListBox @ 3539 NONAME ; #<TI>#
 	_ZTI22CFormattedCellGridData @ 3540 NONAME ; #<TI>#
 	_ZTI22TAknDesCArrayDecorator @ 3541 NONAME ; #<TI>#
-	_ZTI23AknListBoxLinesTemplateI17CAknColumnListBoxE @ 3542 NONAME ; #<TI>#
-	_ZTI23AknListBoxLinesTemplateI19CEikSettingsListBoxE @ 3543 NONAME ; #<TI>#
-	_ZTI23AknListBoxLinesTemplateI24CEikFormattedCellListBoxE @ 3544 NONAME ; #<TI>#
+	_ZTI23AknListBoxLinesTemplateI17CAknColumnListBoxE @ 3542 NONAME ABSENT ; #<TI>#
+	_ZTI23AknListBoxLinesTemplateI19CEikSettingsListBoxE @ 3543 NONAME ABSENT ; #<TI>#
+	_ZTI23AknListBoxLinesTemplateI24CEikFormattedCellListBoxE @ 3544 NONAME ABSENT ; #<TI>#
 	_ZTI23CAknCheckBoxSettingPage @ 3545 NONAME ; #<TI>#
 	_ZTI23CAknDoubleStyle2ListBox @ 3546 NONAME ; #<TI>#
 	_ZTI23CAknDurationQueryDialog @ 3547 NONAME ; #<TI>#
@@ -3668,7 +3668,7 @@ EXPORTS
 	_ZTV16CAknGMSStyleGrid @ 3667 NONAME ; #<VT>#
 	_ZTV16CAknIntegerEdwin @ 3668 NONAME ; #<VT>#
 	_ZTV16CAknQueryControl @ 3669 NONAME ; #<VT>#
-	_ZTV17AknPopupListEmptyI24CEikFormattedCellListBoxE @ 3670 NONAME ; #<VT>#
+	_ZTV17AknPopupListEmptyI24CEikFormattedCellListBoxE @ 3670 NONAME ABSENT ; #<VT>#
 	_ZTV17CAknAnimationData @ 3671 NONAME ; #<VT>#
 	_ZTV17CAknCharMapDialog @ 3672 NONAME ; #<VT>#
 	_ZTV17CAknColumnListBox @ 3673 NONAME ; #<VT>#
@@ -3736,9 +3736,9 @@ EXPORTS
 	_ZTV22CAknSingleStyleListBox @ 3735 NONAME ; #<VT>#
 	_ZTV22CFormattedCellGridData @ 3736 NONAME ; #<VT>#
 	_ZTV22TAknDesCArrayDecorator @ 3737 NONAME ; #<VT>#
-	_ZTV23AknListBoxLinesTemplateI17CAknColumnListBoxE @ 3738 NONAME ; #<VT>#
-	_ZTV23AknListBoxLinesTemplateI19CEikSettingsListBoxE @ 3739 NONAME ; #<VT>#
-	_ZTV23AknListBoxLinesTemplateI24CEikFormattedCellListBoxE @ 3740 NONAME ; #<VT>#
+	_ZTV23AknListBoxLinesTemplateI17CAknColumnListBoxE @ 3738 NONAME ABSENT ; #<VT>#
+	_ZTV23AknListBoxLinesTemplateI19CEikSettingsListBoxE @ 3739 NONAME ABSENT ; #<VT>#
+	_ZTV23AknListBoxLinesTemplateI24CEikFormattedCellListBoxE @ 3740 NONAME ABSENT ; #<VT>#
 	_ZTV23CAknCheckBoxSettingPage @ 3741 NONAME ; #<VT>#
 	_ZTV23CAknDoubleStyle2ListBox @ 3742 NONAME ; #<VT>#
 	_ZTV23CAknDurationQueryDialog @ 3743 NONAME ; #<VT>#
