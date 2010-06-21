@@ -134,7 +134,7 @@ private: // test functions in finditemdialog.h
     * @param aItem never used.
     * @return Symbian OS error code.
     */
-    virtual TInt TestDialogEnableSingleClick( CStifItemParser& aItem );
+    virtual TInt TestDialogEnableSingleClickL( CStifItemParser& aItem );
 
 private: // test functions in finditemmenu.h
 

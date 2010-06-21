@@ -184,7 +184,7 @@ void CPslnSkinStore::UpdateAllSkinsL( RFs& aFsSession )
             {
             // Default skin found.
             iSkinArray.Remove( i );
-            iSkinArray.Insert( entry, 0 );
+            iSkinArray.InsertL( entry, 0 );
             entry = NULL; // this is not owned by us.
             break;
             }

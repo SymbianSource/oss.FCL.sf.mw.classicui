@@ -1320,25 +1320,31 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                     if ( extension->iShowPopup && extension->iPopupController )
                         {
                         TPoint infoPoint = PositionRelativeToScreen();
-
+                        
                         if ( iOrientation == EVertical )
                             {
                             if ( AknLayoutUtils::LayoutMirrored() )
-                                {
-                                infoPoint.iX += Rect().Width();
-                                infoPoint.iY += aPointerEvent.iPosition.iY;
-                                extension->iPopupController->SetPositionAndAlignment (
-                                    infoPoint, EHLeftVCenter );
-                                }
-                            else
-                                {
+                            	{
+								TRect mainPaneRect( 0, 0, 0, 0 );    
+                                AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane, 
+                                                mainPaneRect );
+                                TInt mainPaneWidth = mainPaneRect.Width();
+                                infoPoint.iX += ( mainPaneWidth - infoPoint.iX + Rect().Width() ) / 2 ;
                                 infoPoint.iY += aPointerEvent.iPosition.iY;
                                 extension->iPopupController->SetPositionAndAlignment (
                                     infoPoint, EHRightVCenter );
                                 }
+                            else
+                                {
+                                infoPoint.iX = infoPoint.iX / 2;
+                                infoPoint.iY += aPointerEvent.iPosition.iY;
+                                extension->iPopupController->SetPositionAndAlignment (
+                                    infoPoint, EHLeftVCenter );
+                                }
                             }
                         else if ( iOrientation == EHorizontal )
                             {
+                            //infoPoint.iY = infoPoint.iY / 2;
                             infoPoint.iX += aPointerEvent.iPosition.iX;
                             extension->iPopupController->SetPositionAndAlignment(
                                 infoPoint, EHCenterVBottom );

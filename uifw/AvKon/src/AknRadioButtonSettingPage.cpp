@@ -75,13 +75,26 @@ public: // Data
      * Extension flags.
      */
     TBitFlags iFlags;
+
+    /**
+     * Item that received pen down event
+     */
+    TInt iPenDownOnItem;
+    
+    /**
+     * Is selection valid
+     */
+    TBool iIsValidSelection;
+    
     };
 // end of CAknRadioButtonSettingPageExtension class definition
 
 
 CAknRadioButtonSettingPageExtension::CAknRadioButtonSettingPageExtension(
     CCoeControl& aOwner ) :
-    iOldFocusedItemIndex(-1), iIsDragged( EFalse )
+    iOldFocusedItemIndex(-1), iIsDragged( EFalse ), 
+    iIsValidSelection( ETrue ),
+    iPenDownOnItem ( KErrNotFound )
     {
     if ( static_cast<CAknAppUi*>(
             aOwner.ControlEnv()->AppUi() )->IsSingleClickCompatible() )
@@ -229,6 +242,14 @@ EXPORT_C void CAknRadioButtonSettingPage::HandleListBoxEventL(CEikListBox* /*aLi
 		
     switch ( aEventType )
         {
+        case MEikListBoxObserver::EEventPenDownOnItem:
+            {
+            if ( iExtension )
+                {
+                iExtension->iPenDownOnItem = ListBoxControl()->CurrentItemIndex();
+                }
+            break;
+            }
         case MEikListBoxObserver::EEventItemSingleClicked:
         case MEikListBoxObserver::EEventItemDoubleClicked:
             {
@@ -287,8 +308,17 @@ void CAknRadioButtonSettingPage::SetRadioButtonSelectionL( TInt aPushed )
 	} 
 
 EXPORT_C void CAknRadioButtonSettingPage::SelectCurrentItemL()
-	{
-    iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
+	{   
+    if ( ListBoxControl()->IsHighlightEnabled() || 
+            ( iExtension && iExtension->iIsValidSelection ) )
+        {
+        iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
+        }
+    else
+        {
+        ListBoxControl()->SetCurrentItemIndex ( iCurrentSelectionIndex );
+        }
+
     SetRadioButtonSelectionL( iCurrentSelectionIndex );
 	UpdateSettingL();
 	if( iSettingPageObserver )
@@ -456,7 +486,22 @@ EXPORT_C void CAknRadioButtonSettingPage::HandlePointerEventL(const TPointerEven
     TPointerEvent& event = const_cast<TPointerEvent&>( aPointerEvent );
     event.iModifiers &= ~EModifierShift;
     event.iModifiers &= ~EModifierCtrl;
-
+    
+    if ( iExtension )
+        {
+        TInt index ( KErrNotFound );
+        ListBoxControl()->View()->XYPosToItemIndex( 
+            aPointerEvent.iPosition, index );
+        if ( index == iExtension->iPenDownOnItem 
+                && iExtension->iPenDownOnItem != KErrNotFound )
+            {
+            iExtension->iIsValidSelection = ETrue;
+            }
+        else
+            {
+            iExtension->iIsValidSelection = EFalse;
+            }
+        }
     CAknListBoxSettingPage::HandlePointerEventL( aPointerEvent );
     }
 

@@ -132,8 +132,8 @@ void CBCTestMixMCLGeneralCase::RunL( TInt aCmd )
     TestAknListUtilsL(); 
     TestRadioButtonSettingPageL();
     TestPopupSettingPageL();   
-    TestItemFinder();
-    TestFindItemDialog();
+    TestItemFinderL();
+    TestFindItemDialogL();
     TestEditorKineticScrollingL();
     TestEnableKineticScrollingPhysicsL();
     TestAknPhysicsSuspendPhysicsL();
@@ -666,10 +666,10 @@ TPoint CBCTestMixMCLGeneralCase::ViewPosition() const
     }
 
 // -----------------------------------------------------------------------------
-// CBCTestMixMCLGeneralCase::TestItemFinder
+// CBCTestMixMCLGeneralCase::TestItemFinderL
 // -----------------------------------------------------------------------------
 //
-void CBCTestMixMCLGeneralCase::TestItemFinder()
+void CBCTestMixMCLGeneralCase::TestItemFinderL()
     {
     _LIT( KSetItemFinderObserverL,
             "CItemFinder::SetItemFinderObserverL() tested" );
@@ -686,10 +686,10 @@ void CBCTestMixMCLGeneralCase::TestItemFinder()
 
 
 // -----------------------------------------------------------------------------
-// CBCTestMixMCLGeneralCase::TestFindItemDialog
+// CBCTestMixMCLGeneralCase::TestFindItemDialogL
 // -----------------------------------------------------------------------------
 //
-void CBCTestMixMCLGeneralCase::TestFindItemDialog()
+void CBCTestMixMCLGeneralCase::TestFindItemDialogL()
     {
     _LIT( KEnableSingleClick,
             "CFindItemDialog::EnableSingleClick() tested" );

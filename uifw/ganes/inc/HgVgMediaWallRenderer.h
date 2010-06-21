@@ -218,7 +218,7 @@ private:
     /**
      * Sorts quads by z from iQuads to sorted quads.
      */
-    void SortQuads(TInt aNumVisibleNumQuads);
+    void SortQuadsL(TInt aNumVisibleNumQuads);
    
     /**
      * Draws quads using VG

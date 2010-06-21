@@ -1337,9 +1337,6 @@ void CEikCba::BaseConstructL()
     // Skin background is not drawn by embedded CBA.
     if ( !iFlags.IsSet( ECbaEmbedded ) )
         {
-        TRect screen;
-        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
-
         // Construct background control context, SizeChanged will update
         // the layout rectangle.
         iBgIID = AknStatuspaneUtils::IdleLayoutActive() ?
@@ -1353,50 +1350,10 @@ void CEikCba::BaseConstructL()
             2 );
 
         // Other context for staconpane
-
-        // There is a need for two layers in each context: one for wallpaper, 
-        // the other for skin graphics.
-        iStaconBgContextTop = CAknsMaskedLayerBackgroundControlContext::NewL(
-            KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
-        iStaconBgContextBottom = CAknsMaskedLayerBackgroundControlContext::NewL(
-            KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
-            
-        for ( TInt i = 0; i < ECbaLayerN; i++ )
+        if ( AknStatuspaneUtils::StaconPaneActive() )
             {
-            iStaconBgContextBottom->SetLayerImage( i, KAknsIIDNone );
+            CheckAndCreateStaconContextsL();
             }
-        
-        TAknWindowLineLayout layout( AknLayoutScalable_Avkon::area_top_pane(2).LayoutLine() );
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect( screen, layout );
-        TRect staconTop( layoutRect.Rect() );
-    
-        layout = AknLayoutScalable_Avkon::area_bottom_pane(2).LayoutLine();
-        layoutRect.LayoutRect( screen, layout );        
-        TRect staconBottom( layoutRect.Rect() );
-    
-        // Set layers to stacon contexts.
-        // Set bottom as parent to top, so that top is re-drawn, if bottom is drawn.
-        iStaconBgContextTop->SetLayerImage( ECbaLayerWallpaper, KAknsIIDWallpaper );
-        iStaconBgContextTop->SetLayerRect( ECbaLayerWallpaper, screen );
-        iStaconBgContextTop->SetLayerImage( ECbaLayerBackground, KAknsIIDQsnBgAreaStaconRt );
-        iStaconBgContextTop->SetLayerRect( ECbaLayerBackground, staconTop );
-    
-        iStaconBgContextBottom->SetLayerImage( ECbaLayerWallpaper, KAknsIIDWallpaper );
-        iStaconBgContextBottom->SetLayerRect( ECbaLayerWallpaper, screen );
-        iStaconBgContextBottom->SetLayerImage( ECbaLayerBackground, KAknsIIDQsnBgAreaStaconRb );
-        iStaconBgContextBottom->SetLayerRect( ECbaLayerBackground, staconBottom );
-        iStaconBgContextBottom->SetParentPos( TPoint( 0, 0 ) );
-    
-        iStaconBgContextTop->SetParentContext( iStaconBgContextBottom );
-    
-        TBool idle = AknLayoutFlags() & EAknLayoutCbaInStaconPaneIdle;
-        if ( idle )
-            {
-            iStaconBgContextTop->SetLayerMaskAndSizeL( KAknsIIDQgnGrafBgLscTopMaskIcon, staconTop );
-            iStaconBgContextBottom->SetLayerMaskAndSizeL( KAknsIIDQgnGrafBgLscBottomMaskIcon, staconBottom );
-            }
-
         }
 
     iExtension->UpdateSoftkeyFrameL( EFalse );
@@ -4304,6 +4261,11 @@ void CEikCba::HandleResourceChange( TInt aType )
                 {
                 DoLayoutChange();
                 SetBoundingRect( TRect() );
+                if( iExtension->iIfMskIconSet 
+                	    && ( iCbaFlags & EEikCbaFlagAppMskIcon ) )
+                    {
+                    TRAP_IGNORE( UpdateIconL() );
+                    }
                 if ( iFlags.IsSet( ECbaInsideDialog )
                         || iFlags.IsSet( ECbaEmbedded ) )
                     {
@@ -4534,6 +4496,9 @@ TTypeUid::Ptr CEikCba::MopSupplyObject(TTypeUid aId)
             // Always provide top object to mop-chain.
             // Bottom is parent of Top, so bottom is re-drawn
             // automatically when top is drawn.
+            // Ensure that the context exists.
+            TRAP_IGNORE( CheckAndCreateStaconContextsL() );
+
             _AKNTRACE_FUNC_EXIT;
             return MAknsControlContext::SupplyMopObject( aId, iStaconBgContextTop );
             }
@@ -5741,6 +5706,8 @@ void CEikCba::SizeChangedInStaconPane()
     TRect screen( iAvkonAppUi->ApplicationRect() );
     TBool softKeysUpAndDownMirrored = EFalse;
 
+    TRAP_IGNORE( CheckAndCreateStaconContextsL() );
+    
     TInt variety = 0;
     if (AknLayoutFlags() & EAknLayoutCbaInStaconPaneLeft)
         {
@@ -7918,6 +7885,80 @@ TBool CEikCba::CommandChangeAllowed() const
     }
 
 
+// ---------------------------------------------------------------------------
+// CEikCba::CheckAndCreateStaconContextsL
+// Creates the skin background contexts used in StaCon layout.
+// ---------------------------------------------------------------------------
+//
+void CEikCba::CheckAndCreateStaconContextsL()
+    {
+    if ( !iStaconBgContextTop && !iStaconBgContextBottom )
+        {
+        TRect screen;
+        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
+        
+        // There is a need for two layers in each context: one for wallpaper, 
+        // the other for skin graphics.
+        if ( !iStaconBgContextTop )
+            {
+            iStaconBgContextTop =
+                CAknsMaskedLayerBackgroundControlContext::NewL(
+                    KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
+            }
+        
+        if ( !iStaconBgContextBottom )
+            {
+            iStaconBgContextBottom =
+                CAknsMaskedLayerBackgroundControlContext::NewL(
+                    KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
+            }
+            
+        for ( TInt i = 0; i < ECbaLayerN; i++ )
+            {
+            iStaconBgContextBottom->SetLayerImage( i, KAknsIIDNone );
+            }
+    
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( screen,
+                               AknLayoutScalable_Avkon::area_top_pane( 2 ) );
+        TRect staconTop( layoutRect.Rect() );
+    
+        layoutRect.LayoutRect( screen,
+                               AknLayoutScalable_Avkon::area_bottom_pane( 2 ) );        
+        TRect staconBottom( layoutRect.Rect() );
+    
+        // Set layers to stacon contexts.
+        // Set bottom as parent to top, so that top is re-drawn, if bottom is drawn.
+        iStaconBgContextTop->SetLayerImage( ECbaLayerWallpaper,
+                                            KAknsIIDWallpaper );
+        iStaconBgContextTop->SetLayerRect( ECbaLayerWallpaper, screen );
+        iStaconBgContextTop->SetLayerImage( ECbaLayerBackground,
+                                            KAknsIIDQsnBgAreaStaconRt );
+        iStaconBgContextTop->SetLayerRect( ECbaLayerBackground, staconTop );
+    
+        iStaconBgContextBottom->SetLayerImage( ECbaLayerWallpaper,
+                                               KAknsIIDWallpaper );
+        iStaconBgContextBottom->SetLayerRect( ECbaLayerWallpaper, screen );
+        iStaconBgContextBottom->SetLayerImage( ECbaLayerBackground,
+                                               KAknsIIDQsnBgAreaStaconRb );
+        iStaconBgContextBottom->SetLayerRect( ECbaLayerBackground, staconBottom );
+        iStaconBgContextBottom->SetParentPos( TPoint( 0, 0 ) );
+    
+        iStaconBgContextTop->SetParentContext( iStaconBgContextBottom );
+    
+        TBool idle = AknLayoutFlags() & EAknLayoutCbaInStaconPaneIdle;
+        if ( idle )
+            {
+            iStaconBgContextTop->SetLayerMaskAndSizeL(
+                KAknsIIDQgnGrafBgLscTopMaskIcon, staconTop );
+            iStaconBgContextBottom->SetLayerMaskAndSizeL(
+                KAknsIIDQgnGrafBgLscBottomMaskIcon, staconBottom );
+            }
+        }
+    }
+
+
+
 //
 // class CEikCbaButton
 //
@@ -8753,12 +8794,14 @@ void CEikCommandTable::ConstructL()
         {       
         TInt priorities( reader.ReadInt16() ); // Amount of priorities for current button.
         RArray<TInt> arr;
+        CleanupClosePushL( arr );
         for ( TInt ii = 0; ii < priorities; ii++ )
             {
             TInt8 commandType( reader.ReadInt8() );
-            arr.Append( commandType );
+            arr.AppendL( commandType );
             }
-        iPriorities.Append( arr );
+        iPriorities.AppendL( arr );
+        CleanupStack::Pop(); //arr
         }
     
     CleanupStack::PopAndDestroy(); // reader

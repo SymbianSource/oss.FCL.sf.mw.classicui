@@ -597,8 +597,11 @@ void CPslnGeneralThemeView::RemoveCommandFromMSK()
 //
 void CPslnGeneralThemeView::HightlightDefaultSkin()
     {
-    CPslnGeneralThemeContainer* container = static_cast<CPslnGeneralThemeContainer*>(iContainer);
-    TInt modifier = container->IsEmbeddedLinkVisible( );
-    container->SetCurrentItemIndex( modifier );
+    if ( iContainer )
+        {
+        CPslnGeneralThemeContainer* container = static_cast<CPslnGeneralThemeContainer*>(iContainer);
+        TInt modifier = container->IsEmbeddedLinkVisible( );
+        container->SetCurrentItemIndex( modifier );
+        }
     }
 //  End of File

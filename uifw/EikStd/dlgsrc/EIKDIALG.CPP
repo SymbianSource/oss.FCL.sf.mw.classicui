@@ -2673,9 +2673,14 @@ EXPORT_C void CEikDialog::ControlsOnPage(RArray<CEikCaptionedControl*>& aControl
 		{
 		control = dlgPage->LineOnPageOrNull(i++);
 		if (control)
-			aControls.Append(control);
+			{
+			if ( KErrNone != aControls.Append(control) )
+				{
+				return;
+				}
+			}
 		}
-		while (control != NULL);
+	while (control != NULL);
 	}
 
 EXPORT_C TInt CEikDialog::DialogFlags()

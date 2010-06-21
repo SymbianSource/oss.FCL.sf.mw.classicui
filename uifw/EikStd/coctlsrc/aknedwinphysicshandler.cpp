@@ -218,7 +218,11 @@ void CAknEdwinPhysicsHandler::MoveScrollIndex( TInt aPixelsToMove )
         {
         return;
         }
-
+    if ( !IsBouncing() )
+        {
+        iFlags.Clear( EFlagBouncingDown ); 
+        iFlags.Clear( EFlagBouncingUp ); 
+        }
     iWorldIndex += aPixelsToMove;
     ScrollView( EFalse );
     }

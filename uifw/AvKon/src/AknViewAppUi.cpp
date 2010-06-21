@@ -319,15 +319,23 @@ EXPORT_C void CAknViewAppUi::RemoveView( TUid aViewId )
 	
 	for ( TInt i = 0; i < count; ++i )
 		{
-		CAknView* view( iViews->At( i ) );
-		
-		if ( view->Id() == aViewId )
-			{
-			iViews->Delete( i );
-			CCoeAppUi::DeregisterView( *view );
-			delete view;
-			return;
-			}
+        CAknView* view( iViews->At( i ) );
+        if ( view->Id() == aViewId )
+            {
+            // remove the deleted view from iExtensione's list. Or the pointer 
+            // is invalid 
+            TInt index = iExtension->iActiveViews.Find(view);
+            if ( index >= 0 && index < iExtension->iActiveViews.Count() )
+                {
+                iExtension->iActiveViews.Remove(index);
+                view->AknViewDeactivated();
+                } 
+                
+                iViews->Delete( i );
+                CCoeAppUi::DeregisterView( *view );
+                delete view;
+                return;
+            }
 		}
 	}
 
@@ -618,12 +626,15 @@ void CAknViewAppUi::ActivationTick()
             // (default granularity is 8) -> no memory allocation failures.
             if ( splitView )
                 {
-                iExtension->iActiveViews.Append( View( splitView->iViewIds[0] ) );
-                iExtension->iActiveViews.Append( View( splitView->iViewIds[1] ) );
+                error = iExtension->iActiveViews.Append( View( splitView->iViewIds[0] ) );
+                if (KErrNone == error)
+                    {
+                    error = iExtension->iActiveViews.Append( View( splitView->iViewIds[1] ) );
+                    }
                 }
             else
                 {
-                iExtension->iActiveViews.Append( item->iNewView );
+                error = iExtension->iActiveViews.Append( item->iNewView );
                 }
 
             iView = item->iNewView;

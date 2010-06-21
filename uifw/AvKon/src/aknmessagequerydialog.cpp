@@ -302,8 +302,11 @@ EXPORT_C void CAknMessageQueryDialog::SetLinkTextL( const TDesC& aLinkText )
         else
             {
             // SetLinkTextL creates new callback in the callback array for the new link
-            iMsgQueryExtension->iFormatTextArray.Append( aLinkText.AllocL() );
-            iMsgQueryExtension->iFormatTypeArray.Append( EMsgQueryLink );
+			HBufC* linkText = aLinkText.AllocL();
+			CleanupStack::PushL( linkText );
+			iMsgQueryExtension->iFormatTextArray.AppendL( linkText );
+			CleanupStack::Pop( linkText );
+            iMsgQueryExtension->iFormatTypeArray.AppendL( EMsgQueryLink );
                
             // If the other method SetLink has been already called 
             // the new link is finished by adding the link count
@@ -346,7 +349,10 @@ EXPORT_C void CAknMessageQueryDialog::SetLink( TCallBack& aCallBack )
         if ( iMsgQueryExtension->iCallBackArray.Count() < iMsgQueryExtension->iLinkCount )
             {
             // SetLink creates new callback in the callback array for the new link
-            iMsgQueryExtension->iCallBackArray.Append( aCallBack );                
+			if ( KErrNone != iMsgQueryExtension->iCallBackArray.Append( aCallBack ) )
+				{
+				return;
+				}
             }
         }         
     else if ( iMsgQueryExtension->iLinkCount < KMaxLinks ) 
@@ -359,7 +365,10 @@ EXPORT_C void CAknMessageQueryDialog::SetLink( TCallBack& aCallBack )
         else
             {
             // SetLink creates new callback in the callback array for the new link
-            iMsgQueryExtension->iCallBackArray.Append( aCallBack );
+            if ( KErrNone != iMsgQueryExtension->iCallBackArray.Append( aCallBack ) )
+            	{
+            	return;
+            	}
                 
             // If the other method SetLinkText has been already called 
             // the new link is finished by adding the link count
@@ -688,7 +697,7 @@ TBool CAknMessageQueryDialog::SetNextLinkTextLocationL( const TDesC* aLinkText )
             }
         delete messageBuf;
         }      
-     iMsgQueryExtension->iFormatTextLocationArray.Append( linkTextLocation );         
+     iMsgQueryExtension->iFormatTextLocationArray.AppendL( linkTextLocation );         
      return ETrue;
     }
     

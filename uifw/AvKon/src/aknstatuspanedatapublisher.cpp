@@ -302,7 +302,10 @@ EXPORT_C void CAknStatusPaneDataPublisher::SetIncallBubbleAllowedInUsual( TBool 
         {
         if( iStatusPaneStateData->iProcessList.Find( aClientId ) == KErrNotFound )
             {
-            iStatusPaneStateData->iProcessList.Append( aClientId );
+            if ( KErrNone != iStatusPaneStateData->iProcessList.Append( aClientId ) )
+            	{
+				return;
+            	}
             }
         }
     else

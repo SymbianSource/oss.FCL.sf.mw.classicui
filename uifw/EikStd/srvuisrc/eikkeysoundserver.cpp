@@ -36,7 +36,7 @@ _LIT(KKeySoundServerThreadName,"KeySoundServerThread");
 _LIT(KKeySoundServerSemaphoreName,"KeySoundServerSemaphore");
 _LIT(KKeySoundServerDll,"AtSoundServerClient.dll");
 
-const TInt KKeySoundServerStackSize     = 1024*4; // 4K
+const TInt KKeySoundServerStackSize     = 1024*8; // 8K
 const TInt KAknSoundInfoMapGranularity  = 16;
 const TInt KKeyClickPreference          = 0x00140001;
 const TInt KKeySoundServerBufExpandSize = 1024*1; // 1K

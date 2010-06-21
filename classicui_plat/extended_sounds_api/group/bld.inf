@@ -33,7 +33,7 @@ PRJ_EXPORTS
 // TEMP
 // Temp solution to remove original version exported from audiothemes
 // To be removed after one release cycle to platform
-../inc/ataudioeventapi.h                  MW_LAYER_PLATFORM_EXPORT_PATH(../../ataudioeventapi.h)
-../inc/mateventcompleteobserver.h  MW_LAYER_PLATFORM_EXPORT_PATH(../../mateventcompleteobserver.h)
+//../inc/ataudioeventapi.h                  MW_LAYER_PLATFORM_EXPORT_PATH(../../ataudioeventapi.h)
+//../inc/mateventcompleteobserver.h  MW_LAYER_PLATFORM_EXPORT_PATH(../../mateventcompleteobserver.h)
 // TEMP
 // TEMP

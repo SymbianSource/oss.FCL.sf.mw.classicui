@@ -530,11 +530,11 @@ EXPORT_C void AknFind::HandleFindSizeChanged(CCoeControl *aParentControl,
     _AKNDEBUG(
             if ( aListBox )
                 {
-    		_AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
-    				"AknFind", __FUNCTION__, 
-    				aParentControl->Rect().iTl.iX, aParentControl->Rect().iTl.iY, 
-    				aParentControl->Rect().iBr.iX, aParentControl->Rect().iBr.iY 
-				);
+            _AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
+                    "AknFind", __FUNCTION__, 
+                    aParentControl->Rect().iTl.iX, aParentControl->Rect().iTl.iY, 
+                    aParentControl->Rect().iBr.iX, aParentControl->Rect().iBr.iY 
+                );
                 }
         );
     _AKNTRACE_FUNC_EXIT;
@@ -621,7 +621,7 @@ EXPORT_C void AknFind::HandleFindSizeChangedLayouts(
         
     AknLayoutUtils::LayoutControl(aListBox, aParentControl->Rect(), tempListArea);
     _AKNDEBUG(
-    		if ( aListBox )
+            if ( aListBox )
                 {
                 _AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
                             "AknFind", __FUNCTION__,
@@ -629,7 +629,7 @@ EXPORT_C void AknFind::HandleFindSizeChangedLayouts(
                             aListBox->Rect().iBr.iX, aListBox->Rect().iBr.iY 
                             );
                 }
-		);
+        );
     if ( aListBox )
         {
         aListBox->DrawNow();
@@ -762,7 +762,7 @@ inline TChar ReplaceVietnameseChar( const TChar aCh )
  *
  * @since 5.0
  * @return @c ETrue If it is accent from Vietnamese language, otherwise EFalse. 
- */	
+ */ 
 inline TBool IsVietnameseSpecialCharacter( TChar aCh )
     {  
     if ( ( aCh >= 0x0300 && aCh <= 0x0303 ) || aCh == 0x0306 ||     
@@ -779,10 +779,10 @@ inline TBool IsVietnameseSpecialCharacter( TChar aCh )
 inline TBool IsThaiSpecialCharacter( TChar aCh )
     {    
     if( ( aCh > 0xE46 && aCh < 0xE4F ) ||  aCh == 0xE3A )
-		{
-		return ETrue;
-		}       
-	return EFalse;
+        {
+        return ETrue;
+        }       
+    return EFalse;
     }
   
 // ---------------------------------------------------------------------------
@@ -790,25 +790,25 @@ inline TBool IsThaiSpecialCharacter( TChar aCh )
 // ---------------------------------------------------------------------------
 //
 EXPORT_C TBool AknFind::IsAdaptiveFindMatch( const TDesC& aItemText, 
-										     const TDesC& aSearchText,
- 										 	 HBufC*& aNextChars )
-	{	
-	HBufC16* searchText( NULL );
-	TRAPD( error, searchText = HBufC16::NewL( KMatchingBufferLength ) );
-	if ( error == KErrNone )
-	    {
-	    TInt itemStringLength = aItemText.Length();
+                                             const TDesC& aSearchText,
+                                             HBufC*& aNextChars )
+    {   
+    HBufC16* searchText( NULL );
+    TRAPD( error, searchText = HBufC16::NewL( KMatchingBufferLength ) );
+    if ( error == KErrNone )
+        {
+        TInt itemStringLength = aItemText.Length();
         TInt searchTextLength = aSearchText.Length();    
         
         if ( searchTextLength < KMatchingBufferLength )
-        	{
-        	searchText->Des().Append( aSearchText );
-        	}
+            {
+            searchText->Des().Append( aSearchText );
+            }
         else
-        	{
-        	searchText->Des().Append( aSearchText.Left(KMatchingBufferLength-1) );
-        	}    
-    	
+            {
+            searchText->Des().Append( aSearchText.Left(KMatchingBufferLength-1) );
+            }    
+        
         searchText->Des().Append( KLitStar );
             
         TInt all_result = KErrNotFound;
@@ -821,34 +821,34 @@ EXPORT_C TBool AknFind::IsAdaptiveFindMatch( const TDesC& aItemText,
                 if( result != KErrNotFound ) 
                     {
                     all_result = result;
-                    if( i < (itemStringLength-searchTextLength) )                	   	       	   		
+                    if( i < (itemStringLength-searchTextLength) )                                       
                         {                 
-                	   	 if( !(IsThaiSpecialCharacter(aItemText[i+searchTextLength])) && !(IsVietnameseSpecialCharacter( aItemText[i+searchTextLength]) ))
+                         if( !(IsThaiSpecialCharacter(aItemText[i+searchTextLength])) && !(IsVietnameseSpecialCharacter( aItemText[i+searchTextLength]) ))
                                 {
                                 TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemText[i+searchTextLength]) );   
                                 }   
                         }
-                    }                                                                  	   	
+                    }                                                                       
                 } // if (i==0 ..)        
-      	    } // for	 
-	    
-  	    if( all_result != KErrNotFound )
+            } // for     
+        
+        if( all_result != KErrNotFound )
             {
             delete searchText;
             return ETrue;
-           	}    
+            }    
         else 
             {
             delete searchText;
             return EFalse;
             }
-        	            		
+                                
          } // if (error == KErrNone)   
 
     delete searchText;                 
     return EFalse;
-	}
-	
+    }
+    
 
 /**
  * For Devanagari AS
@@ -978,41 +978,78 @@ inline TBool IsIndicHalantChar(const TChar aCh)
     return ( aCh == 0x094D );
     }
 
+static void SortCharsForAdaptiveSearchL( TPtr &aChars )
+    {
+    const TInt KDefaultArraySize = 10;// the default length of for sort
+    CDesCArray* arrayFlat = new ( ELeave ) CDesCArrayFlat( KDefaultArraySize );
+    CleanupStack::PushL( arrayFlat );
+    
+    TInt length = aChars.Length();                 
+    TInt arrayCount( 0 );      
+      
+    for( TInt i = 0; i < length; i++ )
+        {
+        // the "IndicHalant" Chars occupys two spaces.
+        if ( ( i < length-2 ) && IsIndicHalantChar( aChars[i+1] ) )
+           {
+           arrayFlat->AppendL( aChars.Mid( i, 3 ) );
+           // One "IndicHalant" character occupys two spaces
+           i+=2;
+           ++arrayCount;
+           }
+       else
+           {
+           arrayFlat->AppendL( aChars.Mid( i, 1 ) );
+           ++arrayCount;
+           }
+        }  
+    
+    // Alphabetical sort        
+    arrayFlat->Sort( ECmpCollated );
+    aChars.Delete( 0, aChars.Length() );
+
+    for( TInt i = 0; i < arrayCount; i++ )
+        {
+        aChars.Append( arrayFlat->MdcaPoint( i ) );
+        }  
+    CleanupStack::PopAndDestroy( arrayFlat );  
+    }
+
 // ---------------------------------------------------------------------------
 // For Devanagari AS
 // AknFind::UpdateNextCharsL
 // ---------------------------------------------------------------------------
 //
 void AknFind::UpdateNextCharsL( HBufC*& aNextChars, const TDesC& aItemString )
-	{
-	_AKNTRACE_FUNC_ENTER;
-	TChar searchChar = aItemString[0];
-	    //Check if this is an Indic special ligature
-	    if ( IsIndicConsonant(searchChar) && aItemString.Length() > 2
-	            && IsSpecialIndicLigature(aItemString) 
-	            && KErrNotFound == (*aNextChars).Find(aItemString.Mid(0,3)) )
-	        {
-	        //Check if we have enough space for 3 more characters
-	        if( aNextChars->Des().Length() >= aNextChars->Des().MaxLength()-3 )
-	            {
-	            aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
-	            TInt length1 = aNextChars->Des().Length();
-	            TInt maxlength1 = aNextChars->Des().MaxLength();
-	            }       
-	        aNextChars->Des().Append( aItemString.Mid(0,3) );        
-	        }
-	    else
-	        {
-	        if ( !IsValidCharForASGrid(searchChar) ) 
-	            {
-	            return;	            
-	            }
-	        //check if this is an Indic combined Char
-	        if ( IsIndicCombinedChar(searchChar) )
-	            {
-	            searchChar = RemoveIndicNukta( searchChar );
-	            }
-	        //Now update the nextChars string
+    {
+    _AKNTRACE_FUNC_ENTER;
+    TChar searchChar = aItemString[0];
+        //Check if this is an Indic special ligature
+        if ( IsIndicConsonant(searchChar) && aItemString.Length() > 2
+                && IsSpecialIndicLigature(aItemString) 
+                && KErrNotFound == (*aNextChars).Find(aItemString.Mid(0,3)) )
+            {
+            //Check if we have enough space for 3 more characters
+            if( aNextChars->Des().Length() >= aNextChars->Des().MaxLength()-3 )
+                {
+                aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
+                TInt length1 = aNextChars->Des().Length();
+                TInt maxlength1 = aNextChars->Des().MaxLength();
+                }       
+            aNextChars->Des().Append( aItemString.Mid(0,3) );        
+            }
+        else
+            {
+            if ( !IsValidCharForASGrid(searchChar) ) 
+                {
+                return;             
+                }
+            //check if this is an Indic combined Char
+            if ( IsIndicCombinedChar(searchChar) )
+                {
+                searchChar = RemoveIndicNukta( searchChar );
+                }
+            //Now update the nextChars string
             TInt strLength = aNextChars->Length();
             for ( TInt i(0); i < strLength ; ++i )
                 {
@@ -1037,9 +1074,9 @@ void AknFind::UpdateNextCharsL( HBufC*& aNextChars, const TDesC& aItemString )
                 aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
                 }       
             aNextChars->Des().Append( searchChar );   
-	        }
-	    _AKNTRACE_FUNC_EXIT;
-	}
+            }
+        _AKNTRACE_FUNC_EXIT;
+    }
 
 // -----------------------------------------------------------------------------
 // AknFind::UpdateNextCharsL
@@ -1068,25 +1105,25 @@ void AknFind::UpdateNextCharsL( HBufC*& aNextChars, TChar aCh )
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void AknFind::UpdateNextCharsFromString( HBufC*& aNextChars, const TDesC& aItemString )
-	{
-	TInt itemStringLength = aItemString.Length();
-	     
-	for( TInt i = 0; i < itemStringLength; i++ )
-	    {
-	    if ( i == 0 || IsFindWordSeparator( aItemString[i-1] ) )
-	        {  
-	        // If Indic letter
-	        if ( aItemString[i] >= 0x0900 && aItemString[i] <= 0x0980 )
-	            {
-	            TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString.Mid(i) ) );
-	            }
-	        else  if (!(IsVietnameseSpecialCharacter( aItemString[i])))
-	            {
-	            TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString[i] ) );
-	            }
-	        }
-	    }
-	}
+    {
+    TInt itemStringLength = aItemString.Length();
+         
+    for( TInt i = 0; i < itemStringLength; i++ )
+        {
+        if ( i == 0 || IsFindWordSeparator( aItemString[i-1] ) )
+            {  
+            // If Indic letter
+            if ( aItemString[i] >= 0x0900 && aItemString[i] <= 0x0980 )
+                {
+                TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString.Mid(i) ) );
+                }
+            else  if (!(IsVietnameseSpecialCharacter( aItemString[i])))
+                {
+                TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString[i] ) );
+                }
+            }
+        }
+    }
 
 // ---------------------------------------------------------------------------
 // UpdateItemTextAccordingToFlag
@@ -1468,6 +1505,10 @@ EXPORT_C void CAknListBoxFilterItems::HandleItemArrayChangeL()
                 }
             ptr_temptext.Zero(); 
             }
+        
+        TPtr nextChars = iExtension->iNextChars->Des();
+        SortCharsForAdaptiveSearchL( nextChars );
+        
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         CleanupStack::PopAndDestroy ( temptext );
         }
@@ -1773,7 +1814,6 @@ EXPORT_C void CAknListBoxFilterItems::UpdateCachedDataL()
     FetchSelectionIndexesFromListBoxL();
     }
 
-
 void CAknListBoxFilterItems::NoCriteriaL(TBool aUpdateAS)
     {
     if (iDisableChangesToShownIndexes) return;
@@ -1820,36 +1860,7 @@ void CAknListBoxFilterItems::NoCriteriaL(TBool aUpdateAS)
         if( aUpdateAS )
             {
             TPtr nextChars = iExtension->iNextChars->Des(); 
-            CDesCArray* array = new (ELeave) CDesCArrayFlat(10);
-            CleanupStack::PushL(array);
-            
-            TInt length = nextChars.Length();                 
-            TInt count(0);      
-              
-            for( TInt i = 0; i < length; i++ )
-                {
-                if ( (i < length-2) && IsIndicHalantChar( nextChars[i+1] ) )
-                   {
-                   array->AppendL( nextChars.Mid(i,3) );
-                   i+=2;
-                   ++count;
-                   }
-               else
-                   {
-                   array->AppendL( nextChars.Mid(i,1) );
-                   ++count;
-                   }
-                }  
-            
-            // Alphabetical sort        
-            array->Sort( ECmpCollated );
-            nextChars.Delete( 0, nextChars.Length() );
-
-            for( TInt i = 0; i < count; i++ )
-                {
-                nextChars.Append(array->MdcaPoint(i));
-                }  
-            CleanupStack::PopAndDestroy(array);   
+            SortCharsForAdaptiveSearchL( nextChars );  
             
             iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) );
             }
@@ -1913,36 +1924,7 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
             }           
    
         TPtr nextChars = iExtension->iNextChars->Des(); 
-        CDesCArray* array = new (ELeave) CDesCArrayFlat(10);
-        CleanupStack::PushL(array);
-        
-        TInt length = nextChars.Length();                 
-        TInt count(0);      
-          
-        for( TInt i = 0; i < length; i++ )
-            {
-            if ( (i < length-2) && IsIndicHalantChar( nextChars[i+1] ) )
-               {
-               array->AppendL( nextChars.Mid(i,3) );
-               i+=2;
-               ++count;
-               }
-           else
-               {
-               array->AppendL( nextChars.Mid(i,1) );
-               ++count;
-               }
-            }  
-        
-        // Alphabetical sort        
-        array->Sort( ECmpCollated );
-        nextChars.Delete( 0, nextChars.Length() );
-
-        for( TInt i = 0; i < count; i++ )
-            {
-            nextChars.Append(array->MdcaPoint(i));
-            }  
-        CleanupStack::PopAndDestroy(array);   
+        SortCharsForAdaptiveSearchL( nextChars );
 
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         CleanupStack::PopAndDestroy( temptext );
@@ -1974,6 +1956,7 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
         iListBox->SetCurrentItemIndex( Max( iShownIndexes->Count() - indexEnd, 0 ));    
         }
     }
+
 
 void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
     {
@@ -2012,7 +1995,11 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
                 iShownIndexes->AppendL(i);
                 }
             ptr_temptext.Zero();    
-           }                
+           }  
+        
+        TPtr nextChars = iExtension->iNextChars->Des(); 
+        SortCharsForAdaptiveSearchL( nextChars );
+        
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         InstallEmptyTextL(); 
         CleanupStack::PopAndDestroy( temptext );
@@ -4838,7 +4825,7 @@ EXPORT_C void AknDrawWithSkins::DrawEmptyListForSettingPage(const TRect &aRect, 
     {
     if ( aControl && aControl->FindBackground() )
         {        
-		DrawEmptyListImpl_real(  aRect, aGc, text, NULL, ETrue);        
+        DrawEmptyListImpl_real(  aRect, aGc, text, NULL, ETrue);        
         return;
         }
 

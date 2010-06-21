@@ -2440,8 +2440,12 @@ void CFindItemDialog::HighlightCurrentItem()
 
     if ( found && iEdwin && iEdwin->TextView() )
         {
-        iEdwin->TextView()->SetSelectionVisibilityL( ETrue );
-        iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength );
+        TRAPD( err, iEdwin->TextView()->SetSelectionVisibilityL( ETrue ) );
+        if ( KErrNone == err )
+            {
+            //When set selection leaves, we can't highlight the item, so just ignore this leave.
+            TRAP_IGNORE( iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength ) );
+            }
         }
     }
 

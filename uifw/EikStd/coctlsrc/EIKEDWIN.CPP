@@ -102,6 +102,10 @@
 #include "smileycustomwrap.h"
 #include <touchfeedback.h>
 
+// declare function
+void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId );
+void ReadSCTHeadPane( TResourceReader& aReader );
+
 GLDEF_C void Panic(TEikEdwinPanic aPanic)
     {
     _LIT(KPanicCat,"EIKON-EDWIN");
@@ -148,6 +152,11 @@ const TInt KAdditionalPixels = 0x400;
 const TInt KFullFormatLengthForSmiley = 5000;
 
 const TInt KContentThreshold = 8;
+
+const TInt KNmericSCTLimit( 256 );
+const TInt KTInt16Length( sizeof( TInt16 ) );
+const TInt KTInt32Length( sizeof( TInt32 ) );
+const TInt KTUint32Length( sizeof( TUint32 ) );
 
 //
 // class CEikEdwin::CUndoBuffer
@@ -641,7 +650,9 @@ void CEikEdwinFepSupport::SetCursorSelectionForFepL(const TCursorSelection& aCur
     TCursorSelection select( aCursorSelection.iCursorPos, aCursorSelection.iAnchorPos );
     iEdwin.HandleSelectionForSmiley( select );
     iEdwin.iTextView->SetSelectionL( select );
-    iEdwin.ReportEdwinEventL(MEikEdwinObserver::EEventNavigation);
+    iEdwin.UpdateVertScrollBarThumbL();
+    iEdwin.UpdateHorizScrollBarThumb();
+    iEdwin.ReportEdwinEventL( MEikEdwinObserver::EEventNavigation );
     }
 
 void CEikEdwinFepSupport::GetCursorSelectionForFep(TCursorSelection& aCursorSelection) const
@@ -667,13 +678,21 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
                     EFalse ); )
                 }
             }
+        // Replace all 'i' following smiley code to invisbile placeholder for
+        // Touch Input can not recognize it as part of smiley code string.
         TInt smileyEndPos( 0 );
         for ( TInt i( 0 ); i < length; i++ )
             {
-            if ( aEditorContent[i] == CSmileyManager::KCompensateChar && 
-                i < smileyEndPos )
+            if ( aEditorContent[i] == CSmileyManager::KCompensateChar )
                 {
-                aEditorContent[i] = CSmileyManager::KPlaceHolder;
+                // when 'i' is the first character, it is unkonwn whether it is
+                // part of a smiley code string or not, so we have to use another 
+                // function to decide.
+                if ( ( i > 0 && i < smileyEndPos ) ||
+                     ( i == 0 && smiley->SmileyCodeByPos( aDocumentPosition ) > 0 ) )
+                    {
+                    aEditorContent[i] = CSmileyManager::KPlaceHolder;
+                    }
                 }
             else if ( smiley->IsSmileyCode( aEditorContent[i] ) )
                 {
@@ -707,7 +726,6 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
     {
     __ASSERT_ALWAYS(iPositionOfInlineTextInDocument>=0,Panic(EEikPanicBadInlineEditingState9)); // assert that we're currently inline editing
     __ASSERT_DEBUG((iOriginalSelection.iCursorPos>=0) && (iOriginalSelection.iAnchorPos>=0) && (iPositionOfInsertionPointInDocument>=0) && (iPositionOfInlineTextInDocument>=0) && (iLengthOfInlineText>=0) && (iPointerEventHandlerDuringInlineEdit!=NULL),Panic(EEikPanicBadInlineEditingState10));
-    iEdwin.iEdwinExtension->iInlineEditing = EFalse;
     iCharsInserted = 0;
     iCharsDeleted = 0;
     TBool paragraphContainingStartPositionOfInlineTextHasChangedFormat=EFalse;
@@ -721,6 +739,9 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
         {
         iEdwin.iUndoStore->SetNewText( select );
         }    
+
+    iEdwin.iEdwinExtension->iInlineEditing = EFalse;
+
     if ( iEdwin.IsSmileyEnabled() )
         {
         CAknEdwinState* state( iEdwin.EditorState() );
@@ -741,7 +762,14 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
                     }
                 }
             iEdwin.SetAmountToFormatL( EFalse, ETrue );
-            iEdwin.DrawDeferred();
+
+            CAknEdwinState* edwinState = 
+                    static_cast<CAknEdwinState*>( iEdwin.iEdwinFepSupport->State( KNullUid ) );
+            
+            if ( !( edwinState->Flags() & EAknEditorFlagHideTextView ) )
+                {
+                iEdwin.DrawDeferred();
+                }
             }
         }
     iOriginalSelection.SetSelection(-1,-1);
@@ -2962,6 +2990,12 @@ EXPORT_C void CEikEdwin::FocusChanged(TDrawNow /*aDrawNow*/)
                 {
                 TRAP_IGNORE( edwinState->ReportAknEdStateEventL( 
                     MAknEdStateObserver::EAknSyncEdwinState ) );
+                if ( edwinState->Flags() & EAknEditorFlagHideTextView )
+                    {
+                    iTextView->MakeVisible( ETrue );
+                    edwinState->SetFlags( edwinState->Flags() & 
+                        ~EAknEditorFlagHideTextView );
+                    }
                 }
             else
                 {
@@ -6023,6 +6057,8 @@ void CEikEdwin::HandleScrollEventWithPhysics( CEikScrollBar* aScrollBar )
         
         // Actual scrolling is done by calling MoveScrollIndex
         iEdwinExtension->iPhysicsHandler->MoveScrollIndex( -textMovePixels );
+        iEdwinExtension->iEndBorderExceeded = EFalse; 
+        iEdwinExtension->iStartBorderExceeded = EFalse; 
         
         iEdwinExtension->iScrolledByScrollBar = EFalse;
     	}
@@ -6705,6 +6741,8 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
         if ( iEdwinExtension )
         	{
 			iEdwinExtension->iThumbPos = KErrNotFound;
+	        iEdwinExtension->iEndBorderExceeded = EFalse; 
+	        iEdwinExtension->iStartBorderExceeded = EFalse; 
         	}
         SizeChanged();
         if ( !IsReadOnly() && !IsNonFocusing() 
@@ -7429,7 +7467,29 @@ HBufC* CEikEdwin::GetAllowedCharsLC() const
                 break;
             }
 
-        return iEikonEnv->AllocReadResourceLC(resId);
+	    // get special character table resource ID
+        TInt sctResourceId = state->SpecialCharacterTableResourceId();
+		if ( sctResourceId && ( state->Flags() & EAknEditorFlagUseSCTNumericCharmap ) )
+			{
+		    // numericSCTBuf containing number and special characters
+			HBufC* numericSCTBuf = HBufC::NewLC( KNmericSCTLimit );
+			TPtr numericSCTPtr( numericSCTBuf->Des() );
+			
+			// read number characters and add them to numericSCTBuf
+			HBufC* numberResource = iEikonEnv->AllocReadResourceLC( resId );
+			TPtr numberResPtr( numberResource->Des() );
+			numericSCTPtr.Append( numberResPtr );
+			CleanupStack::PopAndDestroy( numberResource ); // numberResource
+			
+		    // read special characters from SCT by dialog ID
+		    ReadSpecialCharFromSCTL( numericSCTPtr, sctResourceId );
+		    
+		    return numericSCTBuf;
+			}
+		else
+			{
+		    return iEikonEnv->AllocReadResourceLC( resId );
+			}
         }
     else
         {
@@ -8287,7 +8347,22 @@ void CEikEdwin::OnEditorStateFlagChange( TInt aOldFlags, TInt aNewFlags )
     if ( chinesePopup != ( aNewFlags & EAknEditorFlagChinesePopup ) )
         {
         TRAP_IGNORE( ReportChinesePopupEventL( chinesePopup == 0 ) );
-        }    
+        }
+    
+    if ( iTextView )
+        {
+        if ( ( aNewFlags & EAknEditorFlagHideTextView )
+                && !( aOldFlags & EAknEditorFlagHideTextView ) )
+            {
+            iTextView->MakeVisible( EFalse );
+            }
+        else if ( ( aOldFlags & EAknEditorFlagTouchInputModeOpened )
+                && !( aNewFlags & EAknEditorFlagTouchInputModeOpened ) )
+            {
+            iTextView->MakeVisible( ETrue );
+            DrawNow();
+            }
+        }
     }
 
 void CEikEdwin::ReportChinesePopupEventL( TBool aChinesePopupOpen )
@@ -8423,7 +8498,13 @@ void CEikEdwin::ConvertTextForSmileyL( TCursorSelection aSelect,
         CleanupStack::PopAndDestroy( buf );
         if ( aRedraw )
             {
-            DrawDeferred();
+            CAknEdwinState* edwinState = 
+                static_cast<CAknEdwinState*>( iEdwinFepSupport->State( KNullUid ) );
+
+            if ( !( edwinState->Flags() & EAknEditorFlagHideTextView ) )
+                {
+                DrawDeferred();
+                }
             }
         }
     }
@@ -8971,6 +9052,76 @@ TBool CEikEdwin::ContentFitsToViewRect() const
     return EFalse;
     }
 
+
+// ---------------------------------------------------------------------------
+// ReadSpecialCharFromSCTL
+// ---------------------------------------------------------------------------
+//
+void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId )
+	{
+	TResourceReader aReader;
+	CCoeEnv::Static()->CreateResourceReaderLC( aReader, sctResourceId );
+	aReader.Advance( KTInt32Length ); // Diaog Flag
+	HBufC* titleBar = aReader.ReadHBufCL(); // title bar
+	// for titleBar useless, release it.
+	delete titleBar;
+	titleBar = NULL;
+	// Page Selector Resource Id, Button Group Container Resource Id
+	aReader.Advance( KTInt32Length + KTInt32Length );
+	TInt lineCount = aReader.ReadInt16(); // line Count
+	for ( TInt ii = 0; ii < lineCount; ii++ )
+		{
+        TInt controlType = aReader.ReadInt16(); // control Type
+	    if ( controlType == EAknCtPopupHeadingPane )
+	    	{
+	        // read HeadPane
+	    	ReadSCTHeadPane( aReader );
+	    	}
+	    else if ( controlType == EAknCtSpecialCharacterMap )
+	    	{
+	        aReader.ReadTPtrC(); // caption text
+			aReader.Advance( KTInt16Length + KTInt32Length ); // captioned control ID, item flags
+			
+			TInt component_count = aReader.ReadInt16();
+			for ( TInt jj = 0; jj < component_count; jj++ )
+				{
+				TInt component_id = aReader.ReadInt16();
+				if ( component_id == EAknSCTLowerCase || component_id == EAknSCTUpperCase ||
+					component_id == EAknSCTNumeric )
+					{
+					HBufC* specialChar = aReader.ReadHBufCL();
+					ptr.Append( specialChar->Des() );
+					delete specialChar;
+					}
+				}
+	    	}
+	    else
+	    	{
+	        break;
+	    	}
+		}
+	CleanupStack::PopAndDestroy(); // aReader
+	}
+
+// ---------------------------------------------------------------------------
+// ReadSCTHeadPane
+// ---------------------------------------------------------------------------
+//
+void ReadSCTHeadPane( TResourceReader& aReader )
+	{
+	aReader.ReadTPtrC(); // caption text
+	// captioned control ID, item flags
+	aReader.Advance( KTInt16Length + KTInt32Length );
+	aReader.ReadTPtrC(); // text of head pane
+	aReader.ReadTPtrC(); // bitmap File Name of head pane
+	// bitmap Id, bitmap Mask Id,animation Id, layout of head pane
+	aReader.Advance( KTInt16Length + KTInt16Length + KTUint32Length + KTUint32Length );
+	aReader.ReadTPtrC(); // trailer
+	aReader.ReadTPtrC(); // bitmap File Name of captioned control
+	// bitmap Id, bitmap Mask Id of captioned control
+	aReader.Advance( KTInt16Length + KTInt16Length );
+	aReader.ReadTPtrC(); // Process ToolTip
+	}
 
 // End of File
 

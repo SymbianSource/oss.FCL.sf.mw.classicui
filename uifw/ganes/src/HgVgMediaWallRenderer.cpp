@@ -115,7 +115,9 @@ void CHgVgMediaWallRenderer::ConstructL (TInt aMaxQuads)
         {
         TQuad* q = new (ELeave)TQuad;
         q->iItemIndex = -1;
-        iQuads.Append(q);
+        CleanupStack::PushL(q);
+        iQuads.AppendL(q);
+        CleanupStack::Pop(q);
         }
     CreateGround();
     }
@@ -200,14 +202,14 @@ void CHgVgMediaWallRenderer::SetCameraRotation(TReal aAngle)
 // Sorts quads from iQuads to iSortedQuads.
 // -----------------------------------------------------------------------------
 //
-void CHgVgMediaWallRenderer::SortQuads(TInt aNumQuads)
+void CHgVgMediaWallRenderer::SortQuadsL(TInt aNumQuads)
     {
     
     iSortedQuads.Reset();
     
     for(TInt i = 0; i < aNumQuads; ++i)
         {
-        iSortedQuads.Append(iQuads[i]);
+        iSortedQuads.AppendL(iQuads[i]);
         }
     
     for (TInt i = 1; i < aNumQuads; i++)
@@ -223,9 +225,7 @@ void CHgVgMediaWallRenderer::SortQuads(TInt aNumQuads)
                 }
             }
         }
-        
     }
-
 
 // -----------------------------------------------------------------------------
 // CHgVgScrollBar::GetItemIndex
@@ -1062,7 +1062,7 @@ void CHgVgMediaWallRenderer::TransformAndDraw(TInt itemsOnScreen,
         TransformQuads(itemsOnScreen, 
                 iReflectionsEnabled, iFov, aOpeningAnimationType);
 
-        SortQuads(itemsOnScreen);
+        TRAP_IGNORE( SortQuadsL(itemsOnScreen); )
         
         if (iReflectionsEnabled)
             DrawQuads(ETrue);

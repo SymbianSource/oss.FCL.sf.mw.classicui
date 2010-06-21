@@ -161,12 +161,12 @@ protected: // new functions
      /*
       * Tests ItemFinder.
       */
-     void TestItemFinder();
+     void TestItemFinderL();
 
      /**
       * Tests FindItemDialog.
       */
-     void TestFindItemDialog();
+     void TestFindItemDialogL();
 
     /**
      * Tests button component API.

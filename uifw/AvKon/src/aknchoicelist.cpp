@@ -119,7 +119,7 @@ public: // Functions from base classes
         if ( AknsUtils::AvkonSkinEnabled() )
             {
             AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
-                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
+                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19 );
             }
 
         ItemDrawer()->SetTextColor( color );
@@ -128,7 +128,7 @@ public: // Functions from base classes
         if ( AknsUtils::AvkonSkinEnabled() )
             {
             AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
-                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
+                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19 );
             }
 
         ItemDrawer()->SetHighlightedTextColor( color );
@@ -798,7 +798,7 @@ void CAknChoiceList::SizeChanged()
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
                 {
                 TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                     *iLabel, EColorLabelText, textColor) );
@@ -1080,7 +1080,7 @@ EXPORT_C void CAknChoiceList::HandleResourceChange( TInt aType )
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
                 {
                 TRAP_IGNORE( 
                     AknLayoutUtils::OverrideControlColorL( 
@@ -1515,7 +1515,7 @@ void CAknChoiceList::UpdateLabelL()
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
                 {
                 TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                     *iLabel, EColorLabelText, textColor) );

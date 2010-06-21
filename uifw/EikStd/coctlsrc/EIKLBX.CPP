@@ -4275,7 +4275,8 @@ EXPORT_C void CEikListBox::ReportListBoxEventL(MEikListBoxObserver::TListBoxEven
         TBool allowed = ETrue;
 
         if ( iListBoxExt && iListBoxExt->iPhysics
-             && aEvent != MEikListBoxObserver::EEventFlickStopped )
+             && aEvent != MEikListBoxObserver::EEventFlickStopped 
+             && aEvent != MEikListBoxObserver::EEventFlickStarted )
             {
             allowed = iListBoxExt->iClickEventsAllowed;
             }
@@ -5149,6 +5150,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
 
             // update index of the last down tapped item
             iListBoxExt->iLastDownTappedItem = itemIndex;
+            iListBoxExt->iMarkableListShiftKeyPressed = EFalse; 
 
             if ((! (Rect().Contains(aPointerEvent.iPosition))) && (iListBoxFlags & EPopout)) 
                 {
@@ -5312,7 +5314,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                             }
                         }
 
-                    if ( itemIndex == oldCurrentItemIndex )
+                    if ( itemIndex == oldCurrentItemIndex && !iListBoxExt->iSingleClickEnabled )
                         {
                         if ( shiftKeyPressed )
                             {
@@ -7150,7 +7152,15 @@ void CEikListBox::UpdateHighlightL( TInt aItemIndex )
 
     if ( iListBoxExt && iListBoxExt->iMarkableListMarking )
         {
-        if ( iListBoxExt->iMarkableListShiftKeyPressed )
+        if ( iListBoxExt->iSingleClickEnabled )
+            {
+            if ( iListBoxExt->iMarkableListShiftKeyPressed )
+                {
+                iView->ToggleItemL( iView->CurrentItemIndex() );
+                iListBoxExt->iClickEventsAllowed = EFalse;
+                }
+            }
+        else if ( iListBoxExt->iMarkableListShiftKeyPressed )
            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
            iListBoxExt->iAnchor = oldCurrentItemIndex;

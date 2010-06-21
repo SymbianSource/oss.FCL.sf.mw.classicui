@@ -44,6 +44,7 @@
 #endif // RD_SCALABLE_UI_V2
 
 #include <AknUtils.h>
+#include <layoutmetadata.cdl.h>
 #include "aknitemactionmenuregister.h"
 
 // MODULE DATA STRUCTURES
@@ -54,6 +55,8 @@ enum TAknViewFlags
 
 
 // CLASS DECLARATION
+static const TUid KUidGlxApp = { 0x200009ee }; // App uid of photo
+static const TUid KUidVideoApp = { 0x200159b2 }; // App uid of video
 
 /**
 * Extension class.
@@ -856,11 +859,20 @@ void CAknView::ConstructMenuAndCbaL( TBool aVisible )
 			}
 		}
 
-	if ( iCba )
-		{
-		if ( aVisible )
-			{			
-			iCba->DrawableWindow()->SetOrdinalPosition( 0 );
+	if (iCba)
+        {
+        if (aVisible)
+            {
+            //Added for fixing EAMI-856GRV and ESLM-85ZHQH:           
+            //As video app and photo app spend a long time at deactiveview,during this time only cba shows up,and this is ugly in landscape mode
+            //so the solution is to don't call SetOrdinalPosition in video app and photo app while in landscape mode
+            TUid appid = iAppUi->Application()->AppDllUid();
+            if (!(( appid == KUidVideoApp || appid == KUidGlxApp )
+                    && Layout_Meta_Data::IsLandscapeOrientation()))
+                {
+                iCba->DrawableWindow()->SetOrdinalPosition( 0 );
+                }
+
 			iCba->MakeVisible( ETrue );
 			iCba->DrawNow(); // This is needed because problems if TRANSPARENCY is set, see MTVN-6HXCN4
 			}

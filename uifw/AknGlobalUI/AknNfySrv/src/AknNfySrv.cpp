@@ -20,7 +20,7 @@
 #include "AknNfySrv.h"
 
 const TUid KDllUid = {0x10000079};
-
+const TInt KCheckInterval = 1000000 / 64;
     
 class CAknNotifierEntry: public CBase
     {
@@ -65,6 +65,7 @@ TBool CheckUnusedLibraries(TAny* aThis)
             if (me->iLibraryArray[ii]->iNestingLevel >= CActiveScheduler::Current()->StackDepth())
                 {
                 me->DoUnload(me->iLibraryArray[ii]->iLibraryName->Des());
+                me->iLibraryRemover->Cancel();
                 }
             else
                 {
@@ -111,7 +112,7 @@ void CAknNfySrv::CheckPendingRemovalsL()
     {
     if (!iLibraryRemover)
         {
-        iLibraryRemover = CIdle::NewL(CActive::EPriorityIdle); // there is no hurry
+        iLibraryRemover = CPeriodic::NewL(CActive::EPriorityIdle); // there is no hurry
         }
     else if (iLibraryRemover->IsActive())
         {
@@ -291,7 +292,7 @@ TBool CAknNfySrv::CheckReferenceCount(const TDesC& aLibName, TBool aIncrease)
                         {                            
                         if (!iLibraryRemover->IsActive())
                             {
-                            iLibraryRemover->Start(TCallBack(CheckUnusedLibraries, this));
+                            iLibraryRemover->Start(0, KCheckInterval, TCallBack(CheckUnusedLibraries, this));
                             }
                         }
                     }

@@ -49,7 +49,7 @@ public: // new functions
     * Set component control, and container will own the control
     * @param aControl pointer to a control.
     */
-    void SetControl( CCoeControl* aControl ); 
+    void SetControlL( CCoeControl* aControl ); 
     
     /**
      * Delete control

@@ -307,9 +307,6 @@ EXPORT_C void CAknIndicatorContainer::ConstructL()
         iIndicators =
             new (ELeave) CAknIndicatorQueue( KAknIndicatorQueueGranularity );
         }
-
-
-    iTicker = CPeriodic::NewL( CActive::EPriorityLow );
     }
 
 
@@ -4288,24 +4285,37 @@ void CAknIndicatorContainer::ResetAnimTicker( TBool bForeground )
     if ( !iExtension->iIsForeground ||
             R_AVKON_STATUS_PANE_LAYOUT_EMPTY == curId )
         {
-        if ( iTicker->IsActive() )
+        if ( iTicker )
             {
             iTicker->Cancel();
+            delete iTicker;
+            iTicker = NULL;
             }
+
         return;
         }
 
-    if ( !iTicker->IsActive() && iAnimatedIndicatorsShown > 0 )
+    if ( iAnimatedIndicatorsShown > 0 )
         {
-        iTicker->Start( KAknIndicatorAnimationShortDelay,
-                        KAknIndicatorAnimationInterval,
-                        TCallBack( TickerCallback, this ) );
+        if ( !iTicker )
+            {
+            TRAP_IGNORE( iTicker = CPeriodic::NewL( CActive::EPriorityLow ) );
+            }
+
+        if ( iTicker && !iTicker->IsActive() )
+            {
+            iTicker->Start( KAknIndicatorAnimationShortDelay,
+                            KAknIndicatorAnimationInterval,
+                            TCallBack( TickerCallback, this ) );
+            }
         }
-    else if ( iTicker->IsActive() && iAnimatedIndicatorsShown == 0 )
+    else if ( iTicker && iAnimatedIndicatorsShown == 0 )
         {
         // Cancel animation timer if animated indicators
         // are not visible anymore.
         iTicker->Cancel();
+        delete iTicker;
+        iTicker = NULL;
         iSynchronizingValue = 0;
         }
     }

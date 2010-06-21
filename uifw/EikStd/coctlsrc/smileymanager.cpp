@@ -115,18 +115,33 @@ TBool CSmileyManager::ConvertTextToCodesL( TDes& aText, TInt aStart )
             {
             TInt smileyLength( iModel->SmileyStringLength( index ) );
             TInt docPos( aStart + i );
-            CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( docPos ) );
-            if ( !icon || ( icon && !icon->IsDisabled() ) )
+            
+            if( iModel->IsSmileyBySemanticAnalysis( aText.Left( docPos + smileyLength ), 
+				smileyLength ) )
                 {
-                if ( !icon )
+                TText smileyCode( iModel->SmileyCode( index ) );
+                CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( docPos ) );
+                // If icon is existed but smiley codes are different, it means smiely 
+				// string has been changed and editor doesn't know it, so delete old icon 
+				// and create a new one. Otherwise, nothing needs to do since the icon is 
+				// already existed.
+                if ( icon && icon->Code() != smileyCode )
                     {
-                    TText smileyCode( iModel->SmileyCode( index ) );
-                    AddSmileyToRecordL( aText.Mid( i, smileyLength ), docPos, 
-                        smileyCode );
+                    iIconRecord->DeleteIconAtPos( docPos );
+                    icon = NULL;
                     }
-                iModel->ReplaceTextWithCodes( aText, i, index );
-                ret = ETrue;
+                if ( !icon || ( icon && !icon->IsDisabled() ) )
+                    {
+                    if ( !icon )
+                        {                    
+                        AddSmileyToRecordL( aText.Mid( i, smileyLength ), docPos, 
+                            smileyCode );
+                        }
+                    iModel->ReplaceTextWithCodes( aText, i, index );
+                    ret = ETrue;
+                    }
                 }
+
             i += smileyLength;
             }
         else
@@ -279,7 +294,7 @@ TText CSmileyManager::SmileyCodeByPos( TInt aDocPos )
 TInt CSmileyManager::SmileyLength( TInt aDocPos )
     {
     CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( aDocPos ) );
-    if ( icon )
+    if ( icon && !icon->IsDisabled() )
         {
         return icon->SmileyLength();
         }

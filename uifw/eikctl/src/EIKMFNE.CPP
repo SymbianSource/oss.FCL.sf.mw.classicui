@@ -2448,11 +2448,6 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
                     }
                 else 
                     {
-                    if (IsDimmed())
-                        SetGcToDimmedVideo(aGc);
-                    else
-                        SetGcToNormalVideo(aGc);
-
                     // Note!! This is taking responsibility away from the CEikMfne Field for drawing
                     // Skin background is drawn for the fields here
                     if( SkinningBackground() && !iFlags[EUseOverrideColors] )
@@ -2485,6 +2480,15 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
 
                         // Set up null brush GC here for the upcoming draw
                         aGc.SetBrushStyle(CGraphicsContext::ENullBrush);
+                        }
+                    // set aGc for drawing field text
+                    if ( IsDimmed() )
+                        {
+                        SetGcToDimmedVideo( aGc );
+                        }
+                    else
+                        {
+                        SetGcToNormalVideo( aGc );
                         }
                     }
                 // This draw must only draw the text with a null brush or draw block highlight 

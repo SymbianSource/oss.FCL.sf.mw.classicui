@@ -1059,7 +1059,8 @@ void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
         {
         // Show first item's time.
         TInt selectedItem = CurrentIndex();
-        if( selectedItem >= 0 && selectedItem < iItems.Count() )
+        if( selectedItem >= 0 && selectedItem < iItems.Count()
+                && iItems[selectedItem]->Time().Int64() )
             {
             TRAP_IGNORE(
                     iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );

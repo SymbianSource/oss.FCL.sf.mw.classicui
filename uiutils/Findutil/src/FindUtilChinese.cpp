@@ -325,14 +325,17 @@ TBool CFindUtilChinese::T9ChineseTranslationL(TInt16 aHZUnicode,
 	    {
 	    if (wordInterpretationBuf[i] == KSeperator) 
 	        {
-	        aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	        HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	        aSpellList.AppendL(tmpStr);
+	        CleanupStack::Pop(tmpStr);
 	        start = i + 1;
 	        }
 	    }
-	        
-	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());   	
 
-    
+	HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+	aSpellList.AppendL(tmpStr);
+    CleanupStack::Pop(tmpStr);
+
     return ETrue;
 	}
 
@@ -465,12 +468,16 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+	            CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-	        
-	    aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());   	
+
+	    HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+	    aSpellList.AppendL(tmpStr);   	
+        CleanupStack::Pop(tmpStr);
 	    }
     //Could look advanced cangjie as normal and easy cangjie
     else 
@@ -482,14 +489,17 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+                CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-        
-    	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc()); 
-    	 
-    	
+
+	    HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+    	aSpellList.AppendL(tmpStr); 
+        CleanupStack::Pop(tmpStr);
+
     	iPtiEngine->GetSpelling(aHZUnicode, wordInterpretationBuf, EPtiCangJie);
 	    len = wordInterpretationBuf.Length();
         start = 0;
@@ -497,12 +507,16 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+                CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-        
-    	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());  
+
+	    tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+    	aSpellList.AppendL(tmpStr);
+        CleanupStack::Pop(tmpStr);
 	    }
     
     return ETrue;

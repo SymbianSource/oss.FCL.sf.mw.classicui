@@ -446,7 +446,20 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                     // are not used in marking mode.
                     SetHighlight();   
                     }
-                }
+                }                      
+            else if ( aPointerEvent.iType == TPointerEvent::EDrag )
+                {
+                if ( iTreeListView->SingleClickEnabled() && !wasFlicking )
+                    {
+                    if ( ii != iTreeListView->FocusedItemIndex() )
+                        {
+                        iItemToBeSelected = NULL;
+                        iTreeListView->EnableHighlight( EFalse );
+                        iTreeListView->CancelLongTapDetectorL();
+                        iTreeListView->DrawNow();
+                        }
+                    }     
+                } 
             (*iItems)[ii].HandlePointerEventL( aPointerEvent, aViewLevel,
                 iTreeListView->Indention(), iTreeListView->IndentionWidth() );
             }

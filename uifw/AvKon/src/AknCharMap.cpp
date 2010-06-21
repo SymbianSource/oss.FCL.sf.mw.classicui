@@ -648,75 +648,75 @@ TKeyResponse CAknSctPageNavi::OfferKeyEventL(
     }
 
 TBool CAknSctPageNavi::CalcNextStep( TUint aKey, TInt& aX, TInt& aY )
-	{
-	TBool landscape = Layout_Meta_Data::IsLandscapeOrientation();
-	TBool mirrored = AknLayoutUtils::LayoutMirrored();
-	TBool emotionEnabled = iExtension->IsEmotionEnabled();
-	TInt scPages = iCharMap->PageCount();
-	
-	aX = 0;
-	aY = 0;
-	TInt xOffset = 0;
-	TInt yOffset = 0;
-	
-	// Simplify key events to two variants
-	switch ( aKey )
-		{
+    {
+    TBool landscape = Layout_Meta_Data::IsLandscapeOrientation();
+    TBool mirrored = AknLayoutUtils::LayoutMirrored();
+    TBool emotionEnabled = iExtension->IsEmotionEnabled();
+    TInt scPages = iCharMap->PageCount();
+    
+    aX = 0;
+    aY = 0;
+    TInt xOffset = 0;
+    TInt yOffset = 0;
+    
+    // Simplify key events to two variants
+    switch ( aKey )
+        {
         case EKeyLeftArrow:
         case '4':
-        	{
-        	xOffset = -1;
-        	}
-        	break;
+            {
+            xOffset = -1;
+            }
+            break;
         case EKeyRightArrow:
         case '6':
-        	{
-        	xOffset = 1;
-        	}
-        	break;
+            {
+            xOffset = 1;
+            }
+            break;
         case EKeyDownArrow:
         case '8':
-        	{
-        	yOffset = 1;
-        	}
-        	break;
+            {
+            yOffset = 1;
+            }
+            break;
         case EKeyUpArrow:
         case '2':
-        	{
-        	yOffset = -1;
-        	}
-        	break;
+            {
+            yOffset = -1;
+            }
+            break;
         default:
-        	break;
-		}
+            break;
+        }
 
-	TInt runtimeIndex = iButtonIndex;
-	if ( !emotionEnabled )
+    TInt runtimeIndex = iButtonIndex;
+    if ( !emotionEnabled )
         {
-	    // SC/Emotion unabled, button regrouped!
+        // SC/Emotion unabled, button regrouped!
         if ( ( mirrored && iButtonIndex == EAknSctPageNaviPrevPage && xOffset != 1 )
           || ( !mirrored && iButtonIndex == EAknSctPageNaviNextPage && xOffset != -1) )
-        	{
+            {
             runtimeIndex = iExtension->IsShowingEmotion()?EAknSctTableNaviSpecialChar:EAknSctTableNaviEmotion;
-        	}
+            }
         }
     // calculate when moving from PageNavi to grid, the column position
     switch ( runtimeIndex ) 
-    	{
-    	case EAknSctTableNaviExit:
-    		{
-    		aX = 0;
+        {
+        case EAknSctTableNaviExit:
+            {
+            aX = 0;
             if ( ( !mirrored && xOffset == -1 ) || ( mirrored && xOffset == 1 ) )
-            	{
+                {
                 // Grid end
                 aY = iCharMap->ColMax(0);
                 aX = iCharMap->RowMax( aY );
                 return ETrue;
-            	}
+                }
             else if ( mirrored && xOffset == -1 && scPages >= 2 )
-            	{
+                {
                 xOffset = EAknSctPageNaviNextPage;
-            	}
+                }
             else if ( scPages < 2 
                     && ( ( !mirrored && xOffset == 1 ) || ( mirrored && xOffset == -1 ) ) )
                 {
@@ -733,47 +733,47 @@ TBool CAknSctPageNavi::CalcNextStep( TUint aKey, TInt& aX, TInt& aY )
                     }
                 }
             else
-            	{
+                {
                 xOffset = EAknSctTableNaviExit + xOffset;
-            	}
-    		}
-    		break;
-    	case EAknSctPageNaviPrevPage:
-    		{
-    		aX = mirrored ? iCharMap->MaxCols()-2 : 1;
-    		if ( mirrored && xOffset == -1 )
-    			{
-    		    xOffset = LastButton();
-    			}
-    		else
-    			{
-    		    xOffset = xOffset + EAknSctPageNaviPrevPage;
-    			}
-    		}
-    		break;
-    	case EAknSctPageNaviNextPage:
-    		{
-    		aX = mirrored ? 1 : iCharMap->MaxCols()-2;
-    		if ( mirrored && xOffset == 1 )
-    			{
-    		    xOffset = 0;
-    			}
-    		else if ( !mirrored && xOffset == 1 )
-    			{
-    		    xOffset = LastButton();
-    			}
-    		else
-    			{
-    		    xOffset = EAknSctPageNaviNextPage + xOffset;
-    			}
-    		}
-    		break;
-    	case EAknSctTableNaviSpecialChar:
-    	case EAknSctTableNaviEmotion:
-    		{
-    		aX = iCharMap->MaxCols()-1;
+                }
+            }
+            break;
+        case EAknSctPageNaviPrevPage:
+            {
+            aX = mirrored ? iCharMap->MaxCols()-2 : 1;
+            if ( mirrored && xOffset == -1 )
+                {
+                xOffset = LastButton();
+                }
+            else
+                {
+                xOffset = xOffset + EAknSctPageNaviPrevPage;
+                }
+            }
+            break;
+        case EAknSctPageNaviNextPage:
+            {
+            aX = mirrored ? 1 : iCharMap->MaxCols()-2;
+            if ( mirrored && xOffset == 1 )
+                {
+                xOffset = 0;
+                }
+            else if ( !mirrored && xOffset == 1 )
+                {
+                xOffset = LastButton();
+                }
+            else
+                {
+                xOffset = EAknSctPageNaviNextPage + xOffset;
+                }
+            }
+            break;
+        case EAknSctTableNaviSpecialChar:
+        case EAknSctTableNaviEmotion:
+            {
+            aX = iCharMap->MaxCols()-1;
             if ( ( !mirrored && xOffset == 1 ) || ( mirrored && xOffset == -1 ) )
-            	{
+                {
                 // Grid start
                 aX = 0;
                 aY = iCharMap->ColMin( aX );
@@ -785,37 +785,37 @@ TBool CAknSctPageNavi::CalcNextStep( TUint aKey, TInt& aX, TInt& aY )
                 xOffset = EAknSctTableNaviExit;
                 }
             else if ( mirrored && xOffset == 1 )
-            	{
+                {
                 xOffset = EAknSctPageNaviPrevPage;
-            	}
+                }
             else
-            	{
+                {
                 xOffset = EAknSctPageNaviNextPage;
-            	}
-    		}
-    		break;
-    	default:
-    		break;
-    	}
+                }
+            }
+            break;
+        default:
+            break;
+        }
     
     if ( yOffset == 1 )
-    	{
+        {
         // DOWN
         aY = iCharMap->ColMin( aX );
         return ETrue;
-    	}
+        }
     else if ( yOffset == -1 )
-    	{
+        {
         // and UP
         aY = iCharMap->ColMax( aX );
         return ETrue;
-    	}
+        }
 
     // Return False means it's internal moving focus within Page Navi
     aX = xOffset;
     aY = 0;
     return EFalse;
-	}
+    }
 
 TBool CAknSctPageNavi::IsNextButton() const
     {
@@ -838,7 +838,9 @@ void CAknSctPageNavi::ConstructFromResourceL(TResourceReader& aReader)
         CAknSctNaviButton* buttonObj =
             CAknSctNaviButton::NewL(*this, buttonId, oneButtonReader);
         buttonObj->iButtonControl->SetObserver(this); // for handling control events.
-        iButtonArray.Append(buttonObj);
+        CleanupStack::PushL( buttonObj );
+        iButtonArray.AppendL(buttonObj);
+        CleanupStack::Pop( buttonObj );
         CleanupStack::PopAndDestroy(); // oneButtonReader
         }
     iTitle = new (ELeave) CEikLabel;
@@ -982,22 +984,22 @@ void CAknSctPageNavi::SizeChanged()
     TRect rect;
 
     if ( iExtension )
-    	{
+        {
         emotionEnabled = iExtension->IsEmotionEnabled();
-    	}
+        }
     
     // Prev button
     buttonObj = iButtonArray[1];
     buttonObj->iButtonControl->SetButtonFlags(0);
     TInt col = 0;
     if ( !landScape )
-    	{
+        {
         col = mirrored ? ( !emotionEnabled?4:3 ) : 1;
-    	}
+        }
     else
-    	{
+        {
         col = mirrored ? ( !emotionEnabled?6:5 ) : 1;
-    	}
+        }
     pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col) );
     buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
     rect = buttonLayRect.Rect();
@@ -1014,13 +1016,13 @@ void CAknSctPageNavi::SizeChanged()
     buttonObj = iButtonArray[2];
     buttonObj->iButtonControl->SetButtonFlags(0);
     if ( !landScape )
-    	{
+        {
         col = mirrored ? 1 : ( !emotionEnabled?4:3 );
-    	}
+        }
     else
-    	{
+        {
         col = mirrored ? 1 : ( !emotionEnabled?6:5 );
-    	}
+        }
     pageButtonLayRect.LayoutRect( Rect(), AknLayoutScalable_Avkon::cell_graphic2_control_pane(cellVar,col) );
     buttonLayRect.LayoutRect( pageButtonLayRect.Rect(), AknLayoutScalable_Avkon::bg_button_pane_cp05(bgVar));
     rect = buttonLayRect.Rect();
@@ -1120,7 +1122,7 @@ CCoeControl* CAknSctPageNavi::FocusedControl()
 
 TBool CAknSctPageNavi::EnterControl(TInt aX, TInt /*aY*/)
     {
-	// Note, the button index is fixed on spite of mirrored case
+    // Note, the button index is fixed on spite of mirrored case
     if (IsVisible())
         {
         if ((aX >= 0) && (aX < iButtonArray.Count()))
@@ -1151,16 +1153,16 @@ void CAknSctPageNavi::MoveFocus(TInt aX, TInt aY )
 void CAknSctPageNavi::MoveFocus(TBool aInternalMove, TInt aX, TInt aY )
     {
     if ( aInternalMove )
-    	{
+        {
         EnterControl( aX, 0 );
-    	}
+        }
     else
-    	{
+        {
         if (iExtension->EnterControl( aX, aY ) )
             {
             LeaveControl();
             }
-    	}
+        }
     }
 
 TBool CAknSctPageNavi::LeaveControl()
@@ -1174,7 +1176,14 @@ TBool CAknSctPageNavi::LeaveControl()
 
 TBool CAknSctPageNavi::ExitWithKey(TInt /*aKeycode*/)
     {
-    return EFalse;
+    if (iButtonArray[iButtonIndex]->iButtonId != EAknSctTableNaviExit)
+        {
+        return EFalse;
+        }
+    else
+        {
+        return ETrue;
+        }
     }
 
 
@@ -1243,14 +1252,14 @@ void CAknSctPageNavi::UpdateNextTableButtonL()
         CAknSctNaviButton* buttonObj = iButtonArray[index];
         if ( index == EAknSctPageNaviPrevPage 
                || index == EAknSctPageNaviNextPage )
-        	{
+            {
             // No need to display Prev/Next
             if ( iCharMap->PageCount() < 2 )
                 {
                 buttonObj->SetEnabled(EFalse);
                 }
             continue;
-        	}
+            }
         if (iCharMap->TableCount() > 1)
             {
             switch (iCharMap->NextTableCase())
@@ -1291,20 +1300,20 @@ TInt CAknSctPageNavi::LastButton() const
     {
     TBool emotionEnable = iExtension->IsEmotionEnabled();
     if ( emotionEnable )
-    	{
+        {
         return iExtension->IsShowingEmotion()?EAknSctTableNaviSpecialChar:EAknSctTableNaviEmotion;
-    	}
+        }
     else if ( iCharMap->PageCount() < 2 && !emotionEnable )
         {
         // Only one page, must have no SC/Emotion also, left Exit only.
         return EAknSctTableNaviExit;
         }
     else
-    	{
+        {
         // emotion doesn't support, no SC/Emotion icon then
         TBool mirrored = AknLayoutUtils::LayoutMirrored();
         return mirrored ? EAknSctPageNaviPrevPage : EAknSctPageNaviNextPage;
-    	}
+        }
     }
 
 // ----------------------------------------------------------------------------
@@ -1489,7 +1498,9 @@ HBufC* CAknCharMapExtension::ReadEmotionHBufCL()
 
 void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aChars)
     {
-    iSmileyModel->LoadStillImagesL(aChars);
+    //If emotion tumbbails can't be load, 
+    // no emotion tumbnail will be dispalyed.
+    TRAP_IGNORE( iSmileyModel->LoadStillImagesL(aChars) );
     }
 
 void CAknCharMapExtension::SetEmotionSize(const TSize& aSize)
@@ -1825,7 +1836,7 @@ EXPORT_C CAknCharMap::CAknCharMap() : iMaxColumns(-1)
     iExtension->iFlags = 0x00;
     iExtension->iFocusHandler = iExtension;
     iExtension->SetCharMapControl(this);
-	
+    
     if ( iExtension->iSingleClickEnabled )
         {
         iExtension->iHighlightVisible = EFalse;
@@ -2343,7 +2354,7 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
         }
     
     TUint code=aKeyEvent.iCode;
-	
+    
     // First key event enables the highlight
     if ( iExtension->iSingleClickEnabled && !iExtension->iHighlightVisible )
         {
@@ -2375,10 +2386,10 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                             {
                             TInt maxButt = iExtension->iPageNavi->LastButton();
                             if ( iExtension->iPageNavi->EnterControl( maxButt,0 ) )
-                            	{
+                                {
                                 LeaveControl();
                                 break;
-                            	}
+                                }
                             }
                         }
                     }
@@ -2459,13 +2470,13 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                             {
                             // a bit complex as unable-emotion SCT has no SC/Emotion icon
                             if ( iExtension->IsEmotionEnabled() )
-                            	{
+                                {
                                 aX = iIsMirrored? 1 : 2;
-                            	}
+                                }
                             else
-                            	{
+                                {
                                 aX = -1;
-                            	}
+                                }
                             }
                         else if (iCursorPos.iX == 1 )  
                             {
@@ -2477,9 +2488,9 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                             aX = 0;
                             }
                         else
-                        	{
+                            {
                             aX = -1;
-                        	}
+                            }
                         if ( iExtension->iPageNavi->EnterControl( aX,0 ) )
                             {
                             LeaveControl();
@@ -2501,7 +2512,7 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                 if (iCursorPos.iY == ColMax(iCursorPos.iX))
                     {
                     if (  iExtension->iPageNavi )
-                    	{
+                        {
                         TInt aX = 0;
                     
                         if ( iCursorPos.iX == MaxCols() - 1 )
@@ -2530,15 +2541,15 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
                             aX = 0;
                             }
                         else
-                        	{
+                            {
                             aX = -1;
-                        	}
+                            }
                         if ( iExtension->iPageNavi->EnterControl( aX,0 ) )
                             {
                             LeaveControl();
                             break;
                             }
-                    	}
+                        }
                     // cell is at bottom row
                     if (iCursorPos.iX > RowMax(ColMax(0)))
                         {
@@ -2752,9 +2763,9 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
 
         // Sets the character case because the buffer content may have changed.
         SetCharacterCaseL(iSpecialCharCase);
-		
+        
         SetSmileyAnimationActivityInCurrentPageL(ETrue);
-		
+        
         TInt cursorIndexAfterSwitch;
         if ( !iExtension->iKeyBrdEvent )
             {
@@ -2858,13 +2869,13 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
     else if(aType == KAknMessageFocusLost) // focus lost
         {
         SetSmileyAnimationActivityInCurrentPageL(EFalse);
-		
-    	if ( iExtension->iHighlightVisible )
-        	{
-        	iExtension->iHighlightVisible = EFalse;
-        	DrawCursor();
-        	}
-    	}
+        
+        if ( iExtension->iHighlightVisible )
+            {
+            iExtension->iHighlightVisible = EFalse;
+            DrawCursor();
+            }
+        }
     }
 
 void CAknCharMap::EnableNavigationButtonsL()
@@ -3050,45 +3061,45 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
         // 1) Draw the background
         // Check if we got an offscreen bitmap allocated for skin background and
         // there is bitmap background in the current skin.
-		if( CAknEnv::Static()->TransparencyEnabled() )
-			{
-			TRegionFix<10> clipReg;
-			clipReg.AddRect(rect);
+        if( CAknEnv::Static()->TransparencyEnabled() )
+            {
+            TRegionFix<10> clipReg;
+            clipReg.AddRect(rect);
 
-			if ( iFirstVisibleRow == 0 && iSetRecentSct )
-				{
-				TPoint pos = iGridTopLeft;
-				TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
-				if(iIsMirrored)
-				    {
+            if ( iFirstVisibleRow == 0 && iSetRecentSct )
+                {
+                TPoint pos = iGridTopLeft;
+                TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
+                if(iIsMirrored)
+                    {
                     pos.iX += iGridItemWidth - size.iWidth;
-				    }
-				// eliminate the overlap area between menu sct and the first menu item.
-				if ( Extension()->iMenuSct )
-					{
+                    }
+                // eliminate the overlap area between menu sct and the first menu item.
+                if ( Extension()->iMenuSct )
+                    {
                     size.iHeight--;
-					}
-				clipReg.SubRect(TRect(pos,size));
-				}
-			
-			// Take scroll bar out of clip region
-			if (iSBFrame)
-				{
-				clipReg.SubRect(iSBFrame->GetScrollBarHandle(CEikScrollBar::EVertical)->Rect());
-				}
+                    }
+                clipReg.SubRect(TRect(pos,size));
+                }
+            
+            // Take scroll bar out of clip region
+            if (iSBFrame)
+                {
+                clipReg.SubRect(iSBFrame->GetScrollBarHandle(CEikScrollBar::EVertical)->Rect());
+                }
 
-			gc.SetClippingRegion(clipReg);
-			}
-		
-		AknsDrawUtils::Background( skin, cc, this, gc, rect,KAknsDrawParamNoClearUnderImage);
-		
-		if( CAknEnv::Static()->TransparencyEnabled() )
-			{
-			gc.CancelClippingRegion();
-			}
+            gc.SetClippingRegion(clipReg);
+            }
+        
+        AknsDrawUtils::Background( skin, cc, this, gc, rect,KAknsDrawParamNoClearUnderImage);
+        
+        if( CAknEnv::Static()->TransparencyEnabled() )
+            {
+            gc.CancelClippingRegion();
+            }
 
         // 2) Draw the grid
-		gc.SetPenStyle(CGraphicsContext::ESolidPen);
+        gc.SetPenStyle(CGraphicsContext::ESolidPen);
         gc.SetBrushStyle(CGraphicsContext::ENullBrush);
         gc.SetPenSize(TSize(1,1));
         DrawGrid(gc);
@@ -3116,15 +3127,15 @@ void CAknCharMap::Draw(const TRect& /*aRect*/) const
         
         // grid is focused and cursor pos is same with the current index.
         if ( iExtension->iMenuSct )
-        	{
+            {
             highlighted = iExtension->iMenuSctHighlighted && 
                           (iExtension->iFocusHandler->FocusedControl()==this) && 
                           (j==cursorPos);
-        	}
+            }
         else
-        	{
-        	highlighted = ((iExtension->iFocusHandler->FocusedControl()==this) && (j==cursorPos));
-        	}
+            {
+            highlighted = ((iExtension->iFocusHandler->FocusedControl()==this) && (j==cursorPos));
+            }
         DrawItem(gc, CursorRect(j, charIndex), charIndex, highlighted, EFalse);
         charIndex++;
         }
@@ -3235,7 +3246,7 @@ void CAknCharMap::DrawItemShade( CWindowGc& aGc,
     if( aHighlighted )
         {
         TRgb color = AKN_LAF_COLOR(210);
-		
+        
         if( !( iExtension->iFlags & EAknCharMapPressedDown ) 
             || iExtension->iSingleClickEnabled )
             {
@@ -3244,7 +3255,7 @@ void CAknCharMap::DrawItemShade( CWindowGc& aGc,
                     KAknsIIDQsnHighlightColors, 
                     EAknsCIQsnHighlightColorsCG1 );
             }
-			
+            
         else
             {
             AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnHighlightColors, EAknsCIQsnHighlightColorsCG2 );
@@ -4394,7 +4405,7 @@ TBool CAknCharMap::SwitchTablesL(TBool& aLayoutChanged)
 
 void CAknCharMap::CreateOffscreenBackgroundL()
     {
-	
+    
     }
 
 TInt CAknCharMap::NextPageL()
@@ -4542,15 +4553,15 @@ void CAknCharMap::DrawPicto(
     // Draw the background of the item if requested
     else if ( aDrawBackground )
         {
-		aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
-		aGc.SetBrushColor(AKN_LAF_COLOR(0));
+        aGc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        aGc.SetBrushColor(AKN_LAF_COLOR(0));
 
-		TRect innerRect = aSctPosition;
-		if (IsRecentChar(aCharIndex))
-			{
-			innerRect.Shrink(1,1);
-			}
-		aGc.Clear( innerRect );
+        TRect innerRect = aSctPosition;
+        if (IsRecentChar(aCharIndex))
+            {
+            innerRect.Shrink(1,1);
+            }
+        aGc.Clear( innerRect );
         }
     if (iPictoInterface->Interface()->IsPictograph((*iChars)[aCharIndex]))
         {
@@ -4570,7 +4581,7 @@ void CAknCharMap::DrawPicto(
 
 void CAknCharMap::DrawOffscreenBackgroundIfRequired() const
     {
-	
+    
     }
 
 EXPORT_C CCoeControl* CAknCharMap::ComponentControl(TInt aIndex) const
@@ -5753,8 +5764,9 @@ EXPORT_C void CAknCharMap::HighlightSctRow(TBool aHighlight)
         {
         return;
         }
-
-    SetSmileyAnimationActivityInCurrentPageL(aHighlight);
+    // The "PlayAnimationL" in "SetSmileyAnimationActivityInCurrentPageL"
+    // will leave. If we ignore it, just no animation is played.
+    TRAP_IGNORE( SetSmileyAnimationActivityInCurrentPageL(aHighlight) );
     
     CWindowGc& gc = SystemGc();
     if( !CAknEnv::Static()->TransparencyEnabled() )
@@ -5773,9 +5785,9 @@ EXPORT_C void CAknCharMap::HighlightSctRow(TBool aHighlight)
         }
     // Menu SCT is being used.
     if ( Extension()->iMenuSct )
-    	{
-    	Extension()->iMenuSctHighlighted = aHighlight;
-    	}
+        {
+        Extension()->iMenuSctHighlighted = aHighlight;
+        }
     }
 // -----------------------------------------------------------------------------
 // CAknCharMap::SetMenuSctRect()
@@ -5947,7 +5959,9 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
     
     iExtension->LoadEmotionTumbnails(*iChars);
 
-    SetSmileyAnimationActivityInCurrentPageL(ETrue);
+    // The "PlayAnimationL" in "SetSmileyAnimationActivityInCurrentPageL"
+    // will leave. If we ignore it, just no animation is played.
+    TRAP_IGNORE( SetSmileyAnimationActivityInCurrentPageL(ETrue) );
     }
 
 // -----------------------------------------------------------------------------
@@ -6701,19 +6715,25 @@ void CAknCharMap::SetSmileyAnimationActivityInCurrentPageL(TBool aIsActive)
     {
     TInt begin = iFirstVisibleRow * iMaxColumns;
     TInt end = iExtension->iMaxVisibleRows * iMaxColumns + begin;
-    if(end > iChars->Length()) end = iChars->Length();
+    if( end > iChars->Length() ) 
+        {
+        end = iChars->Length();
+        }
 
-    for(TInt i(begin); i<end; i++)
+    for( TInt i(begin); i<end; i++ )
         {
         TChar code = (*iChars)[i];
         CAknSmileyIcon* icon = iExtension->EmotionIcon(code);
-        if(!icon) continue;
+        if( !icon ) 
+            {
+            continue;
+            }
 
-        if((aIsActive) && 
-           (Extension()->IsShowingEmotion()||Extension()->iMenuSctHighlighted)
+        if( ( aIsActive ) && 
+           ( Extension()->IsShowingEmotion() || Extension()->iMenuSctHighlighted) 
            )
             {
-            icon->PlayAnimationL(KAnimationRepeat, KAnimationDelay);
+            icon->PlayAnimationL( KAnimationRepeat, KAnimationDelay );
             }
         else
             {

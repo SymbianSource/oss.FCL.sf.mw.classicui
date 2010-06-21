@@ -36,6 +36,7 @@ USERINCLUDE     ../../AknCapServer/inc
 USERINCLUDE     ../../CommonInc 
 USERINCLUDE     ../../notpiinc
 USERINCLUDE         ../../../../inc
+USERINCLUDE     ../../../inc
 
 SOURCEPATH      ../Src
 

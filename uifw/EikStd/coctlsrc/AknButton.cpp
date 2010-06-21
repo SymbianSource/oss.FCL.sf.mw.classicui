@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -290,7 +290,9 @@ private: // Data
     CAknsFrameBackgroundControlContext* iHighlightContext;  
     // buffer for visually ordered text
     TBuf<255 + KAknBidiExtraSpacePerLine> iVisualText; 
-    TBool iFeedbackEnabled; 
+    TBool iFeedbackEnabled;
+    TAknsItemID iBackgroundSkinIID;
+    TRect iBgFrameRect;
     };
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -1036,8 +1038,8 @@ EXPORT_C void CAknButtonState::SetHelpTextL( const TDesC& aHelpText )
 //
 EXPORT_C void CAknButtonState::SetFlags( const TInt aFlags )
     {
-    if ( iFlags & KAknButtonStateHasLatchedFrame != 
-        aFlags & KAknButtonStateHasLatchedFrame )
+    if ( ( iFlags & KAknButtonStateHasLatchedFrame ) != 
+        ( aFlags & KAknButtonStateHasLatchedFrame ) )
         {
         iExtension->iFlagsChanged = ETrue; 
         }
@@ -4578,10 +4580,15 @@ void CAknButton::SetFrameIDs() const
             frameIdIndex = KDimmedFrameId;
             }
 
-        if ( SkinIID( frameIdIndex ) != KAknsIIDNone )
+        TAknsItemID skinIID( SkinIID( frameIdIndex ) );
+
+        // Only change the background frame graphics if necessary.
+        if ( skinIID != KAknsIIDNone &&
+             skinIID != iExtension->iBackgroundSkinIID )
             {
-            iBgContext->SetFrame( SkinIID( frameIdIndex ) );
+            iBgContext->SetFrame( skinIID );
             iBgContext->SetCenter( SkinIID( ++frameIdIndex) );
+            iExtension->iBackgroundSkinIID = skinIID;
             }
         }
     if ( state )
@@ -4597,13 +4604,20 @@ void CAknButton::SetFrameIDs() const
 void CAknButton::SetFrameRects()
     {
     TRect rect( Rect() );
-    TAknLayoutRect centerLayout;
-    centerLayout.LayoutRect( rect,
-        AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
-    TRect innerRect( centerLayout.Rect() );
 
-    iBgContext->SetFrameRects( rect, innerRect ); 
-    iExtension->iHighlightContext->SetFrameRects( rect, innerRect ); 
+    // Only change the frame rects is the button rectangle is valid and the
+    // button size has changed.
+    if ( !rect.IsEmpty() && iExtension->iBgFrameRect != rect )
+        {
+        TAknLayoutRect centerLayout;
+        centerLayout.LayoutRect( rect,
+            AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
+        TRect innerRect( centerLayout.Rect() );
+
+        iBgContext->SetFrameRects( rect, innerRect );
+        iExtension->iHighlightContext->SetFrameRects( rect, innerRect );
+        iExtension->iBgFrameRect = rect;
+        }
     }
 
 // -----------------------------------------------------------------------------

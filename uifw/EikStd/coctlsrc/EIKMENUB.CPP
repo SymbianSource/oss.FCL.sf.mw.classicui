@@ -182,6 +182,7 @@ void CEikMenuBarExtension::SetItemCommandsStateL()
                 {
                 changeState = ETrue;
                 dimCommands = EFalse;
+                iBar->iMenuPane->SetItemActionsStateL( ETrue );
                 }
             else if ( !iItemActionMenu->CollectionHighlightVisible() )
                 {
@@ -196,6 +197,7 @@ void CEikMenuBarExtension::SetItemCommandsStateL()
                         {
                         iBar->iMenuPane->SetItemDimmed( EAknCmdUnmark, ETrue ); 
                         } 
+                    iBar->iMenuPane->SetItemActionsStateL( ETrue );
                     dimMarkAndUnmark = ETrue; 
                     }
                 else 
@@ -1012,6 +1014,30 @@ void CEikMenuBar::StartDisplayingMenuBarL()
             TInt resource =
                 ( *iTitleArray )[ titles ]->iData.iMenuPaneResourceId;
             iMenuPane->AddMenuItemsL( resource, 0, ETrue );
+            // Multiple marking mode active
+            if ( markedItems && resource == R_AVKON_MENUPANE_MARK_MULTIPLE )
+                {
+                if ( !marking->CollectionEmpty() )
+                    {
+                    iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkAll, EFalse );
+                    // Setting the item item specific so it will be shown in menu
+                    iMenuPane->SetItemSpecific( EAknCmdMarkingModeMarkAll, ETrue ); 
+                    }
+
+                if ( markedItems )
+                    {
+                    iMenuPane->SetItemDimmed( EAknCmdMarkingModeUnmarkAll, EFalse );
+                    // Setting the item item specific so it will be shown in menu
+                    iMenuPane->SetItemSpecific( EAknCmdMarkingModeUnmarkAll, ETrue ); 
+                    }
+
+                iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
+                iMenuPane->SetItemDimmed( EAknCmdMarkingModeEnter, ETrue );
+                }
+            else if ( resource == R_AVKON_MENUPANE_MARK_MULTIPLE )
+                {
+                iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
+                }
             iMenuObserver->DynInitMenuPaneL( resource, iMenuPane );
             if ( fepMenuObserver )
                 fepMenuObserver->DynInitMenuPaneL( resource, iMenuPane );
@@ -1020,22 +1046,18 @@ void CEikMenuBar::StartDisplayingMenuBarL()
                 iActiveEditMenuObserver->DynInitMenuPaneL(
                         resource,iMenuPane );
                 }
-
-            if ( resource == R_AVKON_MENUPANE_MARK_MULTIPLE )
-                {
-                iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
-                }
             iMenuPane->FilterDimmedItems();
             titles--;
             }
         iExt->SetItemCommandsStateL();
         iMenuPane->FilterDimmedItems();
         }
-
-    // Multiple marking mode active
-    if ( marking )
+    // If no marked items but marking mode is active we need to add "Mark all"
+    // and "Unmark all" to menu. 
+    else if ( marking )
         {
-        iMenuPane->AddMenuItemsL( R_AVKON_MENUPANE_MARK_MULTIPLE, 0, ETrue );
+        TInt resource( R_AVKON_MENUPANE_MARK_MULTIPLE ); 
+        iMenuPane->AddMenuItemsL( resource, 0, ETrue );
 
         if ( !marking->CollectionEmpty() )
             {
@@ -1049,6 +1071,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
 
         iMenuPane->SetItemDimmed( EAknCmdMarkingModeMarkOne, ETrue );
         iMenuPane->SetItemDimmed( EAknCmdMarkingModeEnter, ETrue );
+        iMenuObserver->DynInitMenuPaneL( resource, iMenuPane ); 
         iMenuPane->FilterDimmedItems();
         }
 

@@ -1084,6 +1084,12 @@ private: // new methods
      */
     void UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable );
 
+    /**
+     * Creates the skin background contexts used in StaCon layout if they
+     * don't already exist. 
+     */
+    void CheckAndCreateStaconContextsL();
+
 private: // from CCoeControl
     void SizeChanged();
 

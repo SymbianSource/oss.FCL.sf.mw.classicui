@@ -2663,6 +2663,7 @@ void CEikStatusPaneContainer::SetParentWindowL(
     else if ( aParentControl )
         {
         SetContainersL( *this, *aParentControl );
+        MakeVisible( aParentControl->IsVisible() );
         }
     }
 

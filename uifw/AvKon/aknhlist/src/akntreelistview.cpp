@@ -876,6 +876,22 @@ void CAknTreeListView::HandleResourceChange( TInt aType )
                         {
                         SetFocusedItem( focusedItem, index, ETrue );
                         }
+                    else
+                        {
+                        // This block moves visible view after layout switch
+                        // if there are not enough items to fill whole screen
+                        TInt visibleItemIndex = iTree.VisibleItemIndex( focusedItem );
+                        if ( visibleItemIndex != KErrNotFound )
+                            {
+                            TInt visibleItemCount( iTree.VisibleItemCount() );
+                            TInt itemCountLimit = iItems.Count();
+                            if ( visibleItemCount <= itemCountLimit - KAdditionalItems )
+                                {
+                                UpdateVisibleItems( visibleItemIndex, focusedItem );
+                                }
+                            }
+                        }
+
                     }
                 else
                     {
@@ -899,9 +915,8 @@ void CAknTreeListView::HandleResourceChange( TInt aType )
                             if ( height < itemCountLimit &&
                                  height < visibleItemCount )
                                 {
-                                TInt move = itemCountLimit - height;                
-                                UpdateVisibleItems(
-                                    focusedItemIndex + move, focusedItem );
+                                TInt move = itemCountLimit - height;
+                                UpdateVisibleItems( focusedItemIndex + move, focusedItem );
                                 }
                             }
                         }
@@ -2036,7 +2051,10 @@ void CAknTreeListView::LayoutView()
             // This should not fail, if enough space was reserved for the
             // array, and if it fails, it results only fewer items being
             // shown in the list.
-            iItems.Append( TAknTreeListViewItem() );
+			if ( KErrNone != iItems.Append( TAknTreeListViewItem() ) )
+				{
+				return;
+				}
             }
         }
 
@@ -2050,11 +2068,19 @@ void CAknTreeListView::LayoutView()
         iterator.Previous();
         }
     if ( iFlags.IsSet( EFlagMarkingMode ) )    
-
         {
-        itemRect.iBr.iX -= 
-                AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
-                        0 ).LayoutLine().il;
+        if ( iFlags.IsSet( EFlagMirroredLayoutInUse ))
+            {
+            itemRect.iBr.iX -= 
+                    AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                            0 ).LayoutLine().ir;        
+            }
+        else
+            {
+            itemRect.iBr.iX -= 
+                    AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                            0 ).LayoutLine().il;
+            }
         }
 
     // Update items and their rectangles.
@@ -2844,9 +2870,22 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
     CWindowGc& gc = SystemGc();
 #endif
 
-    TInt checkBoxOffset = 
-            AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
-                    0 ).LayoutLine().il;                                         
+    TInt checkBoxOffset ( 0 );
+    if ( iFlags.IsSet( EFlagMarkingMode ) )
+        {
+        if ( iFlags.IsSet( EFlagMirroredLayoutInUse ) )
+            {   
+            checkBoxOffset = 
+                    AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                            0 ).LayoutLine().ir;                                         
+            }
+        else
+            {
+            checkBoxOffset =           
+                    AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 
+                            0 ).LayoutLine().il;                                         
+            }
+        }
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
     MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( &gc );
     if ( !empty && transApi )
@@ -2982,46 +3021,13 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     }
 #endif
 
-                if ( iFlags.IsSet( EFlagMarkingMode ) && iMarkingIconArray 
-                        && iMarkingIconArray->Count() == 
-                                KMarkingModeIconArraySize )
-                    {
-                    // Rect for the marking icon
-                    TRect iconRect = RectFromLayout( drawRect,
-                        AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
-            
-                    iconRect.Move( 0, -offset );
-                    // unchecked icon
-                    CGulIcon* icon = ( *iMarkingIconArray )[1];                    
-
-                    TBool marked = ( iItems[ii].Item()->IsMarked() );
-                    if ( marked )
-                        {
-                        icon = (*iMarkingIconArray)[0];
-                        }
-
-                    CFbsBitmap* bitmap = icon->Bitmap();
-
-                    if ( bitmap )
-                        {
-                        gc.BitBltMasked( iconRect.iTl, bitmap, 
-                            iconRect.Size(), icon->Mask(), EFalse );
-                       }
-                    }
-
                 if ( iItems[ii].Item() != iBottomItem )
                     {
                     TRect offsetRect( drawRect );
                     offsetRect.Move( 0, -offset );
                     AknListUtils::DrawSeparator( gc, offsetRect, textColor, skin );
                     }
-
-                if ( iFlags.IsSet( EFlagMarkingMode ) )
-                    {
-                    gc.SetOrigin( TPoint( checkBoxOffset, 0 ) );
-                    drawRect.iBr.iX -= checkBoxOffset;                
-                    }
-
+                
                 TBool focused = ( FocusedItem() &&
                     iItems[ii].Item() == FocusedItem() );
 
@@ -3035,6 +3041,12 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
                     // Draw highlight for focused item.
                     TRect highlightRect( iItems[ii].HighlightRect(
                         iViewLevel, Indention(), IndentionWidth() ) );
+                     
+                    if ( iFlags.IsSet( EFlagMarkingMode ) )
+                        {
+                        highlightRect.iBr.iX = drawRect.iBr.iX;
+                        highlightRect.iTl.iX = drawRect.iTl.iX;
+                        }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
                         TRect tfxHighlightRect( highlightRect );
@@ -3071,6 +3083,42 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
                     tfxDrawRect.BoundingRect( tfxHighlightRect );
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
+                    }
+
+                if ( iFlags.IsSet( EFlagMarkingMode ) && iMarkingIconArray
+                        && iMarkingIconArray->Count() == 
+                                KMarkingModeIconArraySize )
+                    {
+                    // Rect for the marking icon
+                    TRect iconRect = RectFromLayout( drawRect,
+                        AknLayoutScalable_Avkon::list_single_graphic_pane_g1( 0 ) );
+            
+                    iconRect.Move( 0, -offset );
+                    // unchecked icon
+                    CGulIcon* icon = ( *iMarkingIconArray )[1];                    
+
+                    TBool marked = ( iItems[ii].Item()->IsMarked() );
+                    if ( marked )
+                        {
+                        icon = (*iMarkingIconArray)[0];
+                        }
+
+                    CFbsBitmap* bitmap = icon->Bitmap();
+
+                    if ( bitmap )
+                        {
+                        gc.BitBltMasked( iconRect.iTl, bitmap, 
+                            iconRect.Size(), icon->Mask(), EFalse );
+                       }
+                    }
+                
+                if ( iFlags.IsSet( EFlagMarkingMode ) )
+                    {
+                    drawRect.iBr.iX -= checkBoxOffset;
+                    if ( iFlags.IsClear( EFlagMirroredLayoutInUse ) )
+                        {
+                        gc.SetOrigin( TPoint( checkBoxOffset, 0 ) );
+                        }
                     }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST

@@ -3385,32 +3385,33 @@ void CAknQueryControl::LayoutPromptForFullScreen()
 
 EXPORT_C void CAknQueryControl::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-    CEikMfne* edwin = NULL;
-    if ( iTimeEdwin )
-        {
-        edwin = iTimeEdwin;
-        }        
-    else if ( iDateEdwin )
-        {
-        edwin = iDateEdwin;
-        }
-    else if ( LocationEd() )
-        {
-        edwin = LocationEd();
-        }
-    else if ( iDurationEdwin )
-        {
-        edwin = iDurationEdwin;
-        }
-        
-    if ( edwin && iEditorFrame.Rect().Contains(aPointerEvent.iPosition) )
-        {
-        edwin->HandlePointerEventL(aPointerEvent);
-        }
+    if ( iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
+    	{
+		/*For the events happening inside editor frame's rect, query control will forward
+		the events to editors to handle.This is added to fix bug ESLM-85YFCH:Text editor is hard 
+		to open in input dialog (usability). The valid area is enlarged to editor frame rect,
+		instead of text's rect, because text rect is too small for user to tap*/
+		CCoeControl* ctrl = ControlByLayoutOrNull( iQueryType );
+		if( ctrl )
+			{
+			TPointerEvent pointerEvent( aPointerEvent );
+			if( !ctrl->Rect().Contains( aPointerEvent.iPosition ) && ( NbrOfEditorLines() == 1 ) )
+				{
+				// for the pointerevents happening in editor frame rect, 
+				// query control forward events to editors after justification
+				pointerEvent.iPosition.iY = ctrl->Rect().iTl.iY + ctrl->Rect().Height()/2;
+				}
+			ctrl->HandlePointerEventL( pointerEvent ); 
+			}
+		else
+			{
+			CAknControl::HandlePointerEventL( aPointerEvent ); 
+			}
+		}
     else
-        {
-        CAknControl::HandlePointerEventL(aPointerEvent); 
-        }
+    	{
+		CAknControl::HandlePointerEventL( aPointerEvent ); 
+		}
     }
 
 EXPORT_C void* CAknQueryControl::ExtensionInterface( TUid /*aInterface*/ ) 
@@ -3787,14 +3788,33 @@ void CAknExtQueryControl::LayoutEditor(const TLayoutMethod& aLayoutM)
 
 EXPORT_C void CAknExtQueryControl::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-    if ( iIpEditor && iEditorFrame.Rect().Contains(aPointerEvent.iPosition) )
-        {
-        iIpEditor->HandlePointerEventL(aPointerEvent); 
-        }
-    else
-        {
-        CAknQueryControl::HandlePointerEventL(aPointerEvent);
-        }
+	if ( iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
+		{
+		/*For the events happening inside editor frame's rect, query control will forward
+		the events to editors to handle.This is added to fix bug ESLM-85YFCH:Text editor is hard 
+		to open in input dialog (usability). The valid area is enlarged to editor frame rect,
+		instead of text's rect, because text rect is too small for user to tap*/
+		CCoeControl* ctrl = ControlByLayoutOrNull( iQueryType );
+		if( ctrl )
+			{
+			TPointerEvent pointerEvent( aPointerEvent );
+			if( !ctrl->Rect().Contains( aPointerEvent.iPosition ) && ( NbrOfEditorLines() == 1 ) )
+				{
+				// for the pointerevents happening in editor frame rect, 
+				// query control forward events to editors after justification
+				pointerEvent.iPosition.iY = ctrl->Rect().iTl.iY + ctrl->Rect().Height()/2;
+				}
+			ctrl->HandlePointerEventL( pointerEvent ); 
+			}
+		else
+			{
+			CAknControl::HandlePointerEventL( aPointerEvent ); 
+			}
+		}
+	else
+		{
+		CAknControl::HandlePointerEventL( aPointerEvent ); 
+		}
     }
 
 EXPORT_C void* CAknExtQueryControl::ExtensionInterface( TUid /*aInterface*/ ) 

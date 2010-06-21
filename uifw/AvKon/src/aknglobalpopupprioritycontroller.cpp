@@ -285,7 +285,10 @@ TBool CAknGlobalPopupPriorityController::AddToStack(CCoeControl* aPopup)
         if (priority >= shownPriority)
             {
             maxWindowPosition = MinChainWindowPosition(stacked);
-            iShownStack.Insert(aPopup, ii); // will not fail because overflow is already checked
+            if (KErrNone != iShownStack.Insert(aPopup, ii))
+                {
+                return EFalse;
+                }
             insertPos = ii;
             break;
             }

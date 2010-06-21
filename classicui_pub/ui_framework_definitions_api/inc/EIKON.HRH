@@ -219,6 +219,7 @@ enum TAknEditorNumericKeymap
 #define EAknEditorFlagSelectionVisible                0x100000
 #define EAknEditorFlagEnablePartialScreen             0x200000
 #define EAknEditorFlagLaunchPenInputAutomatic         0x400000
+#define EAknEditorFlagHideTextView                    0x800000
 // NOTICE! Flag value 0x80000000 is reserved for internal use by FEP.
 
 // EIKLABEL.HRH

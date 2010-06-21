@@ -91,10 +91,10 @@ CCoeControl* CBCTestTemplateContainer::ComponentControl( TInt ) const
     }
     
 // ---------------------------------------------------------------------------
-// CBCTestTemplateContainer::SetControl
+// CBCTestTemplateContainer::SetControlL
 // ---------------------------------------------------------------------------
 //
-void CBCTestTemplateContainer::SetControl( CCoeControl* aControl )
+void CBCTestTemplateContainer::SetControlL( CCoeControl* aControl )
     {
     iControl = aControl;    
     if ( iControl )

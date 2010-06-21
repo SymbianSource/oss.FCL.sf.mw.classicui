@@ -239,7 +239,8 @@ public: // Data
         ESkipScrollbarUpdate,
         EHighlightEnabled,
         EHideViewSpecificCommands, 
-        EHideMarkAndUnmark
+        EHideMarkAndUnmark,
+        EHideItemActionCommands
         };
 
     /**
@@ -489,6 +490,12 @@ void CEikMenuPaneExtension::ViewPositionChanged( const TPoint& aNewPosition,
     _AKNTRACE( "delta = %d",  delta );
     _AKNTRACE( "iViewPosition(%d,%d)",  iViewPosition.iX, iViewPosition.iY );
     
+    //here checking the delta whether it is changed.
+    //if it is changed,the view must be drawn using the below code.
+    if ( delta != 0 )
+        {
+        aDrawNow = ETrue;
+    	}
     if ( aDrawNow )
         {
         if ( iFlags.IsClear( ESkipScrollbarUpdate ) )
@@ -1248,6 +1255,7 @@ void CEikMenuPaneExtension::MenuClosed()
         }
 		
     iFlags.Clear( EHideItemSpecificCommands );
+    iFlags.Clear( EHideItemActionCommands );
     iFlags.Clear( EContextSensitive );
     iFlags.Clear( EHighlightEnabled );
     iFlags.Clear( EHideViewSpecificCommands );
@@ -1356,9 +1364,16 @@ void CEikMenuPaneExtension::PrepareCascadeForItemCommandsL()
             {
             iFlags.Set( EContextSensitive );
             }
-        else if ( ownerFlags.IsSet( EHideItemSpecificCommands ) )
+        else
             {
-            iControl->SetItemCommandsStateL( ETrue );
+            if ( ownerFlags.IsSet( EHideItemSpecificCommands ) )
+                {
+                iControl->SetItemCommandsStateL( ETrue );
+                }
+            if ( ownerFlags.IsSet( EHideItemActionCommands ) )
+                {
+                iControl->SetItemActionsStateL( ETrue );
+                }
             }
         }
     }
@@ -2826,13 +2841,18 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
             skin->GetCachedItemData( KAknsIIDQgnIndiSubmenu, EAknsITMaskedBitmap ) );
         if( itemData )
             {
+            AknIconUtils::SetSize( itemData->Bitmap(),cascadeRect.Rect().Size() );
             aGc.BitBltMasked( cascadeRect.Rect().iTl, itemData->Bitmap(),
                 cascadeRect.Rect().Size(), itemData->Mask(), ETrue );
             }
         else
             {
-            aGc.BitBltMasked( cascadeRect.Rect().iTl, iExtension->iCascadeBitmap,
-                cascadeRect.Rect().Size(), iExtension->iCascadeBitmapMask, ETrue );
+            if ( iExtension->iCascadeBitmap && iExtension->iCascadeBitmapMask )
+               {
+               AknIconUtils::SetSize( iExtension->iCascadeBitmap,cascadeRect.Rect().Size() );
+               aGc.BitBltMasked( cascadeRect.Rect().iTl, iExtension->iCascadeBitmap,
+                   cascadeRect.Rect().Size(), iExtension->iCascadeBitmapMask, ETrue );
+               }
             }
         }
     else
@@ -6616,6 +6636,34 @@ void CEikMenuPane::SetItemCommandsStateL( TBool aDimmed )
         }
     }
 
+// -----------------------------------------------------------------------------
+// CEikMenuPane::SetItemActionsStateL
+// -----------------------------------------------------------------------------
+//
+void CEikMenuPane::SetItemActionsStateL( TBool aDimmed )
+    {
+    if ( iExtension && iExtension->iFlags.IsSet(
+            CEikMenuPaneExtension::ESingleClickEnabled ) )
+        {
+        if ( aDimmed )
+            {
+            iExtension->iFlags.Set(
+                    CEikMenuPaneExtension::EHideItemActionCommands );
+            }
+
+        for ( TInt i = 0; i < iItemArray->Count(); ++i )
+            {
+            CEikMenuPaneItem* item = iItemArray->At( i );
+            TBool itemActionItem(
+                    item->iData.iFlags & EEikMenuItemAction );
+            // Dim item specific items
+            if ( aDimmed && itemActionItem )
+                {
+                item->iData.iFlags |= EEikMenuItemDimmed;
+                }
+            }
+        }
+    }
 
 // -----------------------------------------------------------------------------
 // CEikMenuPane::AddMenuItemsToItemActionMenuL

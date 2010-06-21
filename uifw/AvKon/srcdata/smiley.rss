@@ -305,7 +305,7 @@ RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
             code = EAknSmileyAnimSilly;
             smileyIconId = EMbmSmileyQgn_indi_smiley_anim_silly;
             smileyStaticIconId = EMbmSmileyQgn_indi_smiley_silly;
-            strings = "8P 8p 8-P 8-p";
+            strings = "8-P 8-p";
             },
         SMILEY_ICON_ITEM
             {

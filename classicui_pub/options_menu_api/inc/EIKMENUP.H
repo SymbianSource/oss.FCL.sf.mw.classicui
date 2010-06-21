@@ -896,6 +896,15 @@ public: // new functions
     void SetItemCommandsStateL( TBool aDimmed );
 
     /**
+     * Sets item action commands state.
+     * 
+     * @internal
+     * @since S60 v5.2
+     * @param aDimmed If ETrue, item action commands are dimmed.
+     */
+    void SetItemActionsStateL( TBool aDimmed );    
+
+    /**
      * Adds menu items to this menu and item action menu data. 
      * 
      * @internal

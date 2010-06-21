@@ -129,7 +129,7 @@ void CPslnSoundActivator::CollectSoundsL( const TDesC& aSkinPath, TInt& aCount )
                 TPslnSoundActivatorEntry entry;
                 entry.iFullName = fullNamePtr;
                 entry.iID = KPslnSoundItems[i];
-                iSoundArray.Append( entry );
+                iSoundArray.AppendL( entry );
                 }
 
             CleanupStack::PopAndDestroy( 2, data ); // data, fullName

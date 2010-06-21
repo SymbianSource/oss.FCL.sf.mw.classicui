@@ -133,10 +133,10 @@ TInt Ctestdomfinditem::TestDialogOfferKeyEventL( CStifItemParser& /*aItem*/ )
 
 
 // -----------------------------------------------------------------------------
-// Ctestdomfinditem::TestDialogEnableSingleClick
+// Ctestdomfinditem::TestDialogEnableSingleClickL
 // -----------------------------------------------------------------------------
 //
-TInt Ctestdomfinditem::TestDialogEnableSingleClick( CStifItemParser& /*aItem*/ )
+TInt Ctestdomfinditem::TestDialogEnableSingleClickL( CStifItemParser& /*aItem*/ )
     {
     // Print to UI
     _LIT( Ktestdomfinditem, "testdomfinditem" );

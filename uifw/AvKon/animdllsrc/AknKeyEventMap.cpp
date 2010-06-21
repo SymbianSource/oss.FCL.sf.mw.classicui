@@ -859,7 +859,11 @@ TAknKeyBeacon CAknKeyEventMap::GetComboMapping(
         if ( (*(*iCombos)[i])[2] == aComboCandidate[0] && 
              ((*iCombos)[i])->Count()-2 == aComboCandidate.Count() ) 
             {
-            possibleMatch.Append(i);
+            if (KErrNone != possibleMatch.Append(i))
+                {
+                possibleMatch.Close();
+                return mapValue;
+                }
             __AKNANIMLOGSTRING1("CAknKeyEventMap::GetComboMapping ComboCandidate might hit iCombos[%d]",i);
             }                    
         }

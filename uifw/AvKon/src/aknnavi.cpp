@@ -69,7 +69,6 @@ public:
     ~CAknNavigationControlContainerExtension(){};
 
 public:
-    TInt                        iCurrentColorScheme;
     CAknNaviForegroundObserver* iForegroundObserver;
     TBool                       iDestructionOngoing;
     CFbsBitmap*                 iNaviColorBitmap;
@@ -144,7 +143,6 @@ EXPORT_C void CAknNavigationControlContainer::ConstructL()
         {
         iExtension =
             new (ELeave) CAknNavigationControlContainerExtension();
-        iExtension->iCurrentColorScheme = ColorScheme();
         iExtension->iForegroundObserver =
             CAknNaviForegroundObserver::NewL( this );
         iExtension->iStatusPane = CEikStatusPaneBase::Current();
@@ -1456,17 +1454,12 @@ EXPORT_C void CAknNavigationControlContainer::HandleResourceChange( TInt aType )
         CCoeControl::HandleResourceChange( aType ) ;
         }
 
-    if ( aType == KEikColorResourceChange ||
-         aType == KEikDynamicLayoutVariantSwitch ||
+    if ( aType == KEikDynamicLayoutVariantSwitch ||
          aType == KAknsMessageSkinChange )
         {
-        TInt colorScheme = ColorScheme();
-        if ( colorScheme != iExtension->iCurrentColorScheme ||
-             aType == KEikDynamicLayoutVariantSwitch ||
+        if ( aType == KEikDynamicLayoutVariantSwitch ||
              aType == KAknsMessageSkinChange )
             {
-            iExtension->iCurrentColorScheme = colorScheme;
-
             // updating color bitmap
             TRAP_IGNORE( LoadNaviColorBitmapL() );
             }
@@ -2352,16 +2345,9 @@ void CAknNavigationControlContainer::LoadNaviColorBitmapL()
     TRect screenRect;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
 
-    // app window
-    TAknLayoutRect applicationWindowLayoutRect;
-    applicationWindowLayoutRect.LayoutRect(
-        screenRect,
-        AknLayoutScalable_Avkon::application_window( 0 ) );
-    TRect applicationWindowRect( applicationWindowLayoutRect.Rect() );
-
-    // statuspane
+    // statuspane, skip application window because it's the same as screen.
     TAknLayoutRect statusPaneLayoutRect;
-    statusPaneLayoutRect.LayoutRect( applicationWindowRect,
+    statusPaneLayoutRect.LayoutRect( screenRect,
                                      AknLayoutScalable_Avkon::status_pane( 0 ) );
     TRect statusPaneRect( statusPaneLayoutRect.Rect() );
 
