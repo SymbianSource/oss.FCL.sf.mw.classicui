@@ -35,12 +35,8 @@
 #include <AiwGenericParam.h>        // Generic parameters
 
 #ifdef RD_MULTIPLE_DRIVE
-#include <CAknMemorySelectionDialogMultiDrive.h>
 #include <driveinfo.h>      //DriveInfo
-#include <AknCommonDialogsDynMem.h>
 #include <coemain.h>
-#else
-#include "CAknMemorySelectionDialog.h" // CAknMemorySelectionDialog
 #endif
 
 #include "pathinfo.h"               // PathInfo
@@ -1127,50 +1123,6 @@ TInt CDocDefaultHandler::GetDataDirL(
                 }
             path.Copy( iRootPath );
             }
-#ifdef RD_MULTIPLE_DRIVE 
-        else if( (!CanOnlyBeSavedToPhoneMemoryL())&&(1 < GetAvailableDrivesCountL()) )
-        	{
-        	TFileName defaultFolder;
-            CAknMemorySelectionDialogMultiDrive* dlg =NULL;
-			// Remote drives are not shown in the list of available drives.. FIX for error ANAE-76S7KX
-	        dlg = CAknMemorySelectionDialogMultiDrive::NewL(ECFDDialogTypeBrowse,0,EFalse, 
-	        			AknCommonDialogsDynMem::EMemoryTypePhone | AknCommonDialogsDynMem::EMemoryTypeInternalMassStorage | AknCommonDialogsDynMem::EMemoryTypeMMCExternal);
-		    CleanupStack::PushL( dlg );
-			TDriveNumber driveNumber;
-		    TBool result(dlg->ExecuteL(driveNumber,&path,&defaultFolder));// driveNumber );
-			CleanupStack::PopAndDestroy( dlg );
-			if (!result)
-				{
-		        SetAndReturnStatus( KErrCancel );
-		        return KErrCancel;
-		        }
-           }
-#else  
-        else if ( CanBeSavedToMmcL() )
-            {
-            CAknMemorySelectionDialog::TMemory mem( CAknMemorySelectionDialog::EPhoneMemory);
-            AddResourcesL();
-            TFileName defaultFolder;
-            CAknMemorySelectionDialog* memoryDialog = CAknMemorySelectionDialog::NewL(
-                                                            ECFDDialogTypeSave,
-                                                            R_DOCHANDLER_MEMORY_SELECTION_DIALOG,
-                                                            EFalse );
-            CleanupStack::PushL( memoryDialog );    
-            
-            TBool result( memoryDialog->ExecuteL( mem, &path, &defaultFolder ) );
-            if (!result)
-                {
-                RemoveResources();
-                CleanupStack::PopAndDestroy();  // memoryDialog
-                SetAndReturnStatus( KErrCancel );
-                return KErrCancel;
-                }
-
-            CleanupStack::PopAndDestroy();  // memoryDialog
-
-            RemoveResources();
-            }
-        #endif
         else 
             {
             path.Copy( PathInfo::PhoneMemoryRootPath() );

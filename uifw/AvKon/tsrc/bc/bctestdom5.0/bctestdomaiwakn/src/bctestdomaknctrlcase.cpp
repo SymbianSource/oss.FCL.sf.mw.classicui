@@ -27,8 +27,7 @@
 #include <aknindicator.h>       // for testing APIs in aknindicator.h    
 #include <aknindicatorplugin.h> // for testing APIs in aknindicatorplugin.h
 #include <aknindicatorpluginimpluids.hrh>
-#include <aknincallbubblenotify.h>      
-#include <aknfilefilterfactory.h> 
+#include <aknincallbubblenotify.h>
 #include <aknglobalpopupprioritycontroller.h> 
 #include <aknappgrid.h> // for testing APIs in aknappgrid.h
 
@@ -121,8 +120,6 @@ void CBCTestDomAknCtrlCase::RunL( TInt aCmd )
             // test Ctrl classes         
             TestAknBattery();//Ctrl 
             TestAknCharMap(); //Ctrl  
-             
-            TestAknFileFilterFactory(); //Not Ctrl  
                           
             TestAknGlobalPopupPriorityController(); // Not Ctrl                 
             TestAknIncallBubbleNotify();//Not Ctrl            
@@ -422,25 +419,6 @@ void   CBCTestDomAknCtrlCase::TestAknCharMap()
   
     }
     
-// ---------------------------------------------------------------------------
-// CBCTestDomAknCtrlCase::TestAknFileFilterFactory()
-// test APIs in AknFileFilterFactory.h 
-// Test Result: OK
-//           
-// ---------------------------------------------------------------------------
-//   
-void CBCTestDomAknCtrlCase::TestAknFileFilterFactory()
-    {
-    TResourceReader reader;
-    CCoeEnv::Static()->CreateResourceReaderLC( 
-        reader, 
-        R_BCTESTDOMAIWAKN_AKNFILEFILTERFACTORY_FILTER );// RESOURCE  FILTER 
-    AknFileFilterFactory::CreateFilterLC( reader ); //static function 
-    _LIT( KCreateFilterLC, "CreateFilterLC() test" );
-    AssertTrueL( ETrue,  KCreateFilterLC );     
- 
-    CleanupStack::PopAndDestroy(2); // reader and Filter
-    }
        
 // ---------------------------------------------------------------------------
 // CBCTestDomAknCtrlCase::TestAknGlobalPopupPriorityController()

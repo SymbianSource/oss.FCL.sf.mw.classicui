@@ -1,0 +1,136 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// UI Control framework
+// 
+//
+
+/**
+ @file
+*/
+
+PRJ_EXPORTS
+
+../inc/COEAUI.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeaui.h)
+../inc/COECCNTX.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeccntx.h)
+../inc/COECNTRL.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coecntrl.h)
+../inc/COECOBS.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coecobs.h)
+../inc/COEDEF.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coedef.h)
+../inc/COEERROR.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeerror.h)
+../inc/COEFEPFF.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coefepff.h)
+../inc/COEHELP.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coehelp.h)
+../inc/COEINPUT.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeinput.h)
+../inc/COEMAIN.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coemain.h)
+../inc/COEMAIN.INL SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coemain.inl)
+../inc/coesndpy.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coesndpy.h)
+../inc/COEUTILS.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeutils.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/COEVER.H /epoc32/include/coever.h //doesn't need to be exported to epoc32\include?
+#endif
+../inc/COEVIEW.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coeview.h)
+../inc/Coemop.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coemop.h)
+../inc/CoeDataStorage.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(coedatastorage.h)
+../inc/COEFONT.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coefont.h)
+../inc/CoeLayoutMan.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coelayoutman.h)
+../inc/COEFONTPROVIDER.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coefontprovider.h)
+../inc/coecontrolarray.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coecontrolarray.h)
+../inc/coetextdrawer.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coetextdrawer.h)
+../inc/CoeColorUse.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(coecoloruse.h)
+../inc/COECNTSS.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(coecntss.h)
+../inc/coescheduler.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/cone/coescheduler.h) 
+../inc/coedefkeys.h 	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/cone/coedefkeys.h)
+../inc/coeerrorconsts.h 	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/cone/coeerrorconsts.h)
+
+../bwins/COEFEPU.DEF		/epoc32/release/wins/coefepu.def
+../eabi/COEFEPU.DEF			/epoc32/include/def/eabi/coefepu.def
+
+../group/cone.iby      /epoc32/rom/include/cone.iby
+
+../inc/FEPPLUGIN.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(fepplugin.h)
+../inc/FEPPLUGIN.INL SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(fepplugin.inl)
+
+PRJ_TESTEXPORTS
+
+../group/coneTest.iby                       /epoc32/rom/include/conetest.iby
+
+../tef/ConeTestStdFile.txt                  z:/conetest/coneteststdfile.txt
+../tef/city.mbm	                            z:/conetest/city.mbm
+../tef/display.mbm	                       	z:/conetest/display.mbm
+../tef/errandconmsg_emulator.mbm	        /epoc32/release/winscw/udeb/z/conetest/errandconmsg.mbm
+../tef/errmsg_emulator.mbm	                /epoc32/release/winscw/udeb/z/conetest/errmsg.mbm
+../tef/errandconmsg_emulator.mbm	        /epoc32/release/winscw/urel/z/conetest/errandconmsg.mbm
+../tef/errmsg_emulator.mbm	                /epoc32/release/winscw/urel/z/conetest/errmsg.mbm
+../tef/errandconmsg_hardware.mbm	        /epoc32/data/z/conetest/errandconmsg.mbm
+../tef/errandconmsgh6_hardware.mbm	        /epoc32/data/z/conetest/errandconmsgh6.mbm
+../tef/errandconmsgh6vga_hardware.mbm	    	/epoc32/data/z/conetest/errandconmsgh6vga.mbm
+../tef/errandconmsgnavi_hardware.mbm	    /epoc32/data/z/conetest/errandconmsgnavi.mbm
+../tef/errmsg_hardware.mbm	                /epoc32/data/z/conetest/errmsg.mbm
+../tef/errmsgh6_hardware.mbm	            /epoc32/data/z/conetest/errmsgh6.mbm
+../tef/errmsgh6vga_hardware.mbm	            /epoc32/data/z/conetest/errmsgh6vga.mbm
+../tef/errmsgnavi_hardware.mbm	            /epoc32/data/z/conetest/errmsgnavi.mbm
+
+../tef/scripts/conetest_run.bat                 		z:/conetest/conetest_run.bat
+../tef/scripts/ctest_run.bat                    		z:/conetest/ctest_run.bat
+../tef/scripts/conetest_run.bat                 		/epoc32/release/winscw/udeb/conetest_run.bat
+../tef/scripts/conetest_run.bat                 		/epoc32/release/winscw/urel/conetest_run.bat
+../tef/scripts/ctest_run.bat                    		/epoc32/release/winscw/udeb/ctest_run.bat
+../tef/scripts/ctest_run.bat                   		 	/epoc32/release/winscw/urel/ctest_run.bat
+../tef/scripts/conetest_t_all.script            		z:/conetest/conetest_t_all.script
+../tef/scripts/conetest_T_Background.script     		z:/conetest/conetest_t_background.script
+../tef/scripts/conetest_t_conecoecntss.script 			z:/conetest/conetest_t_conecoecntss.script
+../tef/scripts/conetest_T_Cone0.script          		z:/conetest/conetest_t_cone0.script
+../tef/scripts/conetest_T_Cone1.script          		z:/conetest/conetest_t_cone1.script
+../tef/scripts/conetest_T_Cone2.script          		z:/conetest/conetest_t_cone2.script
+../tef/scripts/conetest_T_Cone3.script          		z:/conetest/conetest_t_cone3.script
+../tef/scripts/conetest_T_Cone4Exe.script       		z:/conetest/conetest_t_cone4exe.script
+../tef/scripts/conetest_T_Cone5.script          		z:/conetest/conetest_t_cone5.script
+../tef/scripts/conetest_T_Cone6.script          		z:/conetest/conetest_t_cone6.script
+../tef/scripts/conetest_T_Cone7.script          		z:/conetest/conetest_t_cone7.script
+../tef/scripts/conetest_T_ConeErrorMsg.script   		z:/conetest/conetest_t_coneerrormsg.script
+../tef/scripts/conetest_T_ConeHelpText.script			z:/conetest/conetest_t_conehelptext.script
+../tef/scripts/conetest_T_ConeInvalidate.script			z:/conetest/conetest_t_coneinvalidate.script
+../tef/scripts/conetest_T_ConeTransition.script			z:/conetest/conetest_t_conetransition.script
+../tef/scripts/conetest_T_ConeVisibility.script			z:/conetest/conetest_t_conevisibility.script
+../tef/scripts/conetest_T_coneTransparency.script		z:/conetest/conetest_t_conetransparency.script
+../tef/scripts/conetest_T_ConeZoomFont.script			z:/conetest/conetest_t_conezoomfont.script
+../tef/scripts/conetest_t_coedatastorage.script			z:/conetest/conetest_t_coedatastorage.script
+../tef/scripts/conetest_t_coneresourceloader.script		z:/conetest/conetest_t_coneresourceloader.script
+../tef/scripts/conetest_t_conestateobs.script			z:/conetest/conetest_t_conestateobs.script
+../tef/scripts/conetest_T_MultipleScreens.script		z:/conetest/conetest_t_multiplescreens.script
+../tef/scripts/conetest_t_conemultiptr.script			z:/conetest/conetest_t_conemultiptr.script
+../tef/scripts/conetest_t_conemultiptrcompound.script	z:/conetest/conetest_t_conemultiptrcompound.script
+../tef/scripts/conetest_t_coneevents.script				z:/conetest/conetest_t_coneevents.script
+
+../tef/scripts/menutest_run.bat	                	z:/conetest/menutest_run.bat
+../tef/scripts/menutest_run.bat                 	/epoc32/release/winscw/udeb/menutest_run.bat
+../tef/scripts/menutest_run.bat                 	/epoc32/release/winscw/urel/menutest_run.bat
+../tef/scripts/menutest_T_Menu0.script          	z:/conetest/menutest_t_menu0.script
+../tef/scripts/menutest_T_Menu1.script          	z:/conetest/menutest_t_menu1.script
+../tef/scripts/menutest_T_Vwa.script            	z:/conetest/menutest_t_vwa.script
+
+
+PRJ_MMPFILES
+
+../group/CONE.MMP
+
+PRJ_TESTMMPFILES
+
+../tef/TConeTestServer.mmp
+../tef/TMenuTestServer.mmp
+../tef/TConeTestExe.mmp support
+../tef/TErrMsgApp.mmp support
+../tef/TMulScreensApp.mmp support
+../tef/twindowposition/twindowposition.mmp
+
+
+

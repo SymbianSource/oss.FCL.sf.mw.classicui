@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource header file
+*
+*/
+
+
+#ifndef DIRECTORYLOCALIZER_RH
+#define DIRECTORYLOCALIZER_RH
+
+// -----------------------------------------------------------------------------
+// DIRECTORY
+// A resource structure for a directory entry
+// -----------------------------------------------------------------------------
+//
+STRUCT DIRECTORY
+    {
+    LTEXT fullPath; // Full path of the directory including drive
+    LTEXT localizedName; // Localised name defined in LOC file
+    LTEXT extraData; // For example localised name for another layout
+    WORD iconIndex; // Index of an icon. 
+                    // See definition of CDirectoryLocalizer::Icon()
+    }
+
+// -----------------------------------------------------------------------------
+// DIRECTORYLOCALIZER
+// A resource structure for directory localizer.
+// Contains DIRECTORY structures.
+// -----------------------------------------------------------------------------
+//
+STRUCT DIRECTORYLOCALIZER
+    {
+    STRUCT directories[]; // An array of DIRECTORY structures.
+    }
+            
+#endif // DIRECTORYLOCALIZER_RH

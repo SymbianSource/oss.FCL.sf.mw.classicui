@@ -343,6 +343,7 @@ LIBRARY         tacticon.lib
 LIBRARY         viewcli.lib
 LIBRARY         aknphysics.lib
 LIBRARY         HWRMLightClient.lib
+LIBRARY         lockclient.lib
 
 DEFFILE AVKON.def
 

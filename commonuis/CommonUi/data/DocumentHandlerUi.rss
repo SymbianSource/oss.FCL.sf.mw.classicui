@@ -33,11 +33,6 @@ NAME    DHUI
 
 #include "pathconfiguration.hrh"
 
-#ifdef __SERIES60_MMC
-#include <CommonDialogs.hrh> // Enumerations
-#include <CommonDialogs.rh> // Resource structures
-#endif // __SERIES60_MMC
-
 #include <documenthandler.loc>
 
 //  RESOURCE DEFINITIONS
@@ -499,16 +494,6 @@ RESOURCE ARRAY r_extension_guaranteed_extensions
 
 
 #ifdef __SERIES60_MMC
-RESOURCE MEMORYSELECTIONDIALOG r_dochandler_memory_selection_dialog
-    {
-    softkey_1 = text_softkey_select;
-    locations =
-        {
-        LOCATION { root_path = text_phone_memory_root_path; },
-        LOCATION { root_path = text_memory_card_root_path; }
-        };
-    }
-
 
 //
 // Mime types in this list are automatically saved to default directories

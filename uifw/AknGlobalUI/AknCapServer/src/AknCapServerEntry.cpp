@@ -32,7 +32,6 @@
 #endif
 #include "avkoninternalpskeys.h"     // KAknIdleAppWindowGroupId
 #include <AknCapServerDefs.h>
-#include <activeidle2domainpskeys.h>
 #include <eikpriv.rsg>
 #include <coedef.h>
 #include <eiksvdef.h>
@@ -84,7 +83,7 @@
 #include "akncapserverdiscreetpopuphandler.h"
 
 const TUid KPtiEnginePSUid = {0x101F8610}; // Same as PtiEngine dll
-
+const TUid KPhoneUid = { 0x100058B3 };
 enum TPtiEnginePSKeys
     {
     EKeyMapPropertyCount,
@@ -153,7 +152,6 @@ CAknCapAppServerAppUi::CAknCapAppServerAppUi( CAknCapServer* aCapServer ) : iCap
 CAknCapAppServerAppUi::~CAknCapAppServerAppUi()
     {
     delete iAlternateFS;
-    delete iTelephonyIdleUidSubscriber;
     delete iGlobalNotesAllowedSubscriber;
     
     if (iKeyCaptureControl)
@@ -442,16 +440,6 @@ void CAknCapAppServerAppUi::ConstructL()
 
     iGlobalNotesAllowedSubscriber->Subscribe();
     
-    // Start listening "telephony idle uid" property.
-    User::LeaveIfError(iTelephonyIdleUidProperty.Attach(
-        KPSUidAiInformation, 
-        KActiveIdleUid));
-
-    iTelephonyIdleUidSubscriber = new (ELeave) CPropertySubscriber(
-        TCallBack(TelephonyIdleUidCallBack, this), 
-        iTelephonyIdleUidProperty);
-
-    iTelephonyIdleUidSubscriber->Subscribe();    
 #ifdef RD_INTELLIGENT_TEXT_INPUT
          
     TInt err1 = 0;         
@@ -1359,15 +1347,6 @@ TInt CAknCapAppServerAppUi::GlobalNotesAllowedCallBack(TAny* aPtr)
     return KErrNone;
     }
 
-TInt CAknCapAppServerAppUi::TelephonyIdleUidCallBack(TAny* aPtr)
-    {
-    CAknCapAppServerAppUi* self = static_cast<CAknCapAppServerAppUi*>(aPtr);
-    if (self)
-        {
-        self->HandlePropertyChange(KActiveIdleUid);
-        }
-    return KErrNone;
-    }
     
 void CAknCapAppServerAppUi::HandlePropertyChange(const TInt aProperty)
     {
@@ -1375,29 +1354,15 @@ void CAknCapAppServerAppUi::HandlePropertyChange(const TInt aProperty)
         {
         case KUikGlobalNotesAllowed:
             {
-            TInt globalNotesAllowed = 0;
-            TInt err = iTelephonyIdleUidProperty.Get(globalNotesAllowed);
-            if(!err && globalNotesAllowed)
+            TUid uid = KPhoneUid;
+            TApaTaskList taskList ( CEikonEnv::Static ()->WsSession () );
+            TApaTask task = taskList.FindApp ( uid );
+            if ( task.Exists() )
                 {
-                // Global notes allowed, so the boot is finished. Now the idle app uid and its
-                // window group id can be fetched.
-                HandlePropertyChange(KActiveIdleUid);
-                }
-            }
-            break;
-        case KActiveIdleUid:
-            {
-            TInt idleAppUid = 0;
-            TInt err = iTelephonyIdleUidProperty.Get(idleAppUid);
-            if(!err)
-                {
-                // Fetch the Idle application window group id.
-                TApaTaskList taskList(CEikonEnv::Static()->WsSession());
-                TApaTask task = taskList.FindApp(TUid::Uid(idleAppUid));
-                TInt wgId = task.WgId();
-                
+                TInt wgId = task.WgId ();
                 // Save the window group id to PubSub. 
-                RProperty::Set(KPSUidAvkonInternal, KAknIdleAppWindowGroupId, wgId);     
+                RProperty::Set ( KPSUidAvkonInternal, KAknIdleAppWindowGroupId,
+                        wgId );
                 }
             }
             break;

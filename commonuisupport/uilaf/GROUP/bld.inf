@@ -1,0 +1,56 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// UIKON look&feel API definition
+// 
+//
+
+/**
+ @file
+*/
+
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in \epoc32\include
+
+../bwins/uiklaf_unbranchedu.def	/epoc32/include/uiklaf/private/bwins/uiklafu.def
+../eabi/uiklaf_unbranchedu.def	/epoc32/include/uiklaf/private/eabi/uiklafu.def
+
+// from \uiklaf\inc
+../inc/uikon.hrh	/epoc32/include/uikon.hrh
+../inc/eikcolor.hrh     /epoc32/include/eikcolor.hrh
+../inc/eiksfont.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksfont.h)
+../inc/lafmain.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(lafmain.h)
+
+../inc/LAFAPPUI.H	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafappui.h)
+../inc/lafenv.h		SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafenv.h)
+../inc/lafmsg.h		SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafmsg.h)
+../inc/lafshut.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafshut.h)
+../inc/lafspane.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafspane.h)
+../inc/lafsrv.h		SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafsrv.h)
+../inc/lafvcurs.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafvcurs.h)
+../inc/lafnotcap.h	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uiklaf/private/lafnotcap.h)
+../inc/pluginuid.hrh    /epoc32/include/uiklaf/private/pluginuid.hrh
+
+../resource/EIKCORE.rsg /epoc32/include/uiklafgt/eikcore.rsg
+../resource/EIKPRIV.rsg /epoc32/include/uiklafgt/eikpriv.rsg
+
+./loadlafshutdown.iby		/epoc32/rom/include/loadlafshutdown.iby
+
+PRJ_MMPFILES
+./loadlafshutdown.mmp
+
+uiklaf_lib

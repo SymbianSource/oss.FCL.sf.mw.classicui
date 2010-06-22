@@ -37,7 +37,6 @@
 #include <aknfeppensupportinterface.h>
 #include <COECOBS.H>
 #include <eikfnlab.h>
-#include <maknfilefilter.h>
 #include <aknserverapp.h>
 #include <AknsItemData.h>
 #include <AknNoteDialog.h>
@@ -435,24 +434,6 @@ class CBCTestEikFileNameLabel : public CEikFileNameLabel
 	friend class CBCTestMix50PatchControlCase;
 	};
 
-/**
- *  MonkFilter
- */
-struct MonkFilter: public MAknFileFilter
-    {
-
-    /**
-     * Checks if a file is accepted by the filter.
-     * @param aDriveAndPath Drive and full path of the file.
-     * @param aEntry A directory entry.
-     * @return Returns ETrue if filter accepts the file.
-     */
-    TBool Accept( const TDesC& /*aDriveAndPath*/, 
-            const TEntry& /*aEntry*/ ) const
-        {
-        return ETrue;
-        }
-    };
 
 /**
 *  helper class for test CAknAppServiceBase 

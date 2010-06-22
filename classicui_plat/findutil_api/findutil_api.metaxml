@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="5311c0915be9c721affbd95d5308cf9a" dataversion="2.0">
+  <name>FindUtil API</name>
+  <description>Utility for search functionality in lists. Used e.g. in phonebook.</description>
+  <type>c++</type>
+  <collection>domain</collection>
+  <libs>
+    <lib name="findutil.lib" />
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -29,6 +29,7 @@
 #include <apasvst.h>
 #include <aknconsts.h>
 #include <AknNotifierControllerUtilities.h>
+#include <e32notif.h>
 
 // For global note.
 #include <AknGlobalNote.h>

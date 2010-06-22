@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description: 
+* Description:  
 *
 */
 
@@ -34,11 +34,6 @@
 #include <commonphoneparser.h> // Phonenumber parser
 #include <SendUiConsts.h> // Mtm uids
 
-#include <FavouritesLimits.h> // KFavouritesMaxUrl
-#include <FavouritesItem.h> // for CBookmarkItem
-
-#include <FavouritesDb.h>
-
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 #include <apgtask.h>
 
@@ -56,16 +51,12 @@
 #include <FindItemui.rsg>
 #include <aknnotewrappers.h>
 
-// add to gallery related
-#include <AknCommonDialogs.h>
-
 #include <featmgr.h>
 
 #include <centralrepository.h>
 #include <CommonUiInternalCRKeys.h>
 
 #include <AiwCommon.hrh>
-#include <SchemeHandler.h>
 
 // Callback query
 #include <aknlists.h>
@@ -228,7 +219,6 @@ CFindItemMenu::~CFindItemMenu()
 
 
     delete iCallbackNumber;
-    delete iSchemeHandler;
 
     delete iDialData;
 
@@ -961,12 +951,12 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
 
         case EFindItemCmdGoToUrl:
             {
-            LaunchGenericUriL();
+            
             break;
             }
         case EFindItemCmdGoToRstp:
             {
-            LaunchGenericUriL();
+            
             break;
             }
 
@@ -1018,7 +1008,6 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
 
         case EFindItemCmdUse:
             {
-            LaunchGenericUriL();
             break;
             }
 
@@ -1177,10 +1166,6 @@ void CFindItemMenu::GoToUrlL( TUid /*aHandlerAppUid*/ )
 
 void CFindItemMenu::AddToBookmarkL()
     {
-    // Create an item
-    CFavouritesItem* item = CFavouritesItem::NewLC();
-    item->SetParentFolder( KFavouritesRootUid );
-    item->SetType( CFavouritesItem::EItem );
     // Read default name from resources
     RConeResourceLoader ldr( *iCoeEnv );
 
@@ -1202,31 +1187,15 @@ void CFindItemMenu::AddToBookmarkL()
     if ( !dlg->ExecuteLD( R_FINDITEM_BOOKMARK_QUERY_DIALOG ) )
         {
         // User press cancel - do not add bookmark
-        CleanupStack::PopAndDestroy( 3 ); // item, defaultName, resourceLoader
+        CleanupStack::PopAndDestroy( 2 ); // defaultName, resourceLoader
         return;
         }
-
-    item->SetNameL( retName );            
-    item->SetUrlL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-
-    RFavouritesSession sess;
-    RFavouritesDb db;
-
-    User::LeaveIfError( sess.Connect() );
-    CleanupClosePushL<RFavouritesSession>( sess );
-    User::LeaveIfError( db.Open( sess, KBrowserBookmarks ) );
-    CleanupClosePushL<RFavouritesDb>( db );
-
-    // add item
-    db.Add( *item, ETrue );
-    // Close the database.
-    db.Close();
 
     HBufC* msgBuffer = iCoeEnv->AllocReadResourceLC( R_FINDITEM_BOOKMARK_SAVED );
     CAknConfirmationNote* note = new (ELeave)CAknConfirmationNote( ETrue );
     note->ExecuteLD( *msgBuffer );
 
-    CleanupStack::PopAndDestroy( 6 ); // item, db, sess, resourceLoader,
+    CleanupStack::PopAndDestroy( 3 ); // resourceLoader,
                                       // defaultName, msgBuffer
     }
 
@@ -1365,35 +1334,7 @@ void CFindItemMenu::CreateContactCardL( TInt aCommandId )
 
 void CFindItemMenu::AddToGalleryL()
     {
-    _LIT( KRamFileExtension,".ram" );
-    TFileName fileName;
-    iCoeEnv->ReadResourceL( fileName, R_FINDITEMMENU_DEFAULT_GALL_NAME );
-    fileName.Append( KRamFileExtension );
-    if ( AknCommonDialogs::RunSaveDlgLD(
-        fileName, R_MEMORY_SELECTION_LOCATIONS ) )
-        {
-        CDesCArrayFlat* array = new (ELeave)CDesCArrayFlat( 1 );
-        CleanupStack::PushL( array );
-        array->AppendL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-        TInt err = KErrNone;
-        if( !iMPEngineDllLoaded )
-            {
-            LoadMPEngineApiL();
-            }
-        err = iMPEngineApi->CreateNewLinkFileL( fileName, array, ETrue );
-        CleanupStack::PopAndDestroy( 1 );
-
-        if ( err == KErrNone )
-            {
-            // Show note
-            HBufC* msgBuffer =
-                iCoeEnv->AllocReadResourceLC( R_FINDITEMMENU_LINK_SAVED );
-            CAknConfirmationNote* note =
-                new (ELeave) CAknConfirmationNote( ETrue );
-            note->ExecuteLD( *msgBuffer );
-            CleanupStack::PopAndDestroy(); // msgBuffer
-            }
-        }
+    //no need to do anything ,due to the remove of AknCommonDialogs
     }
 
 EXPORT_C void CFindItemMenu::SetSenderDescriptorType(
@@ -1564,20 +1505,7 @@ TBool CFindItemMenu::FormatDialDataL( TBool aFormatVoIPDialData )
 
 void CFindItemMenu::LaunchGenericUriL()
     {
-    if ( iSchemeHandler )
-        {
-        delete iSchemeHandler;
-        iSchemeHandler = 0;
-        }    
-    iSchemeHandler = CSchemeHandler::NewL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-    if ( iAutomaticFind->CurrentItemExt().iItemDescriptor->FindF( KRtspUrlAddress ) != KErrNotFound )
-        {
-        iSchemeHandler->HandleUrlEmbeddedL();
-        }
-    else
-        {
-        iSchemeHandler->HandleUrlStandaloneL();
-        }
+	
     }
 
 EXPORT_C void CFindItemMenu::SetCallbackNumber( const TDesC& aPhoneNumber )

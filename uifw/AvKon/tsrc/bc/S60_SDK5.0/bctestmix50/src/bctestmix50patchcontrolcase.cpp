@@ -30,14 +30,7 @@
 #include <eikcmobs.h>
 #include <eikbgfty.h>
 #include <aknchoicelist.h>
-#include <caknmemoryselectionsettingpage.h>
-#include <CommonDialogs.rsg> // Common dialogs resource IDs
-#include <caknmemoryselectionsettingitemmultidrive.h>
-#include <caknmemoryselectiondialogmultidrive.h>
-#include <caknfilenamepromptdialog.h>
-#include <akncommondialogsdynmem.h>
 #include <documenthandler.h>
-#include <maknfileselectionobserver.h>
 #include <aknfontaccess.h>
 #include <AknColourSelectionGrid.h>
 #include <aknsinglecolumnstyletreelist.h>
@@ -65,7 +58,6 @@
 #include <S32MEM.H>
 #include <aknsoundsystem.h>
 #include <akntitle.h>
-#include <akncommondialogs.h>
 #include <akntoolbar.h>
 #include <akntouchpane.h>
 #include <aknlayoutfont.h>
@@ -424,127 +416,6 @@ void CBCTestMix50PatchControlCase::TestChoiceListL()
 //
 void CBCTestMix50PatchControlCase::TestCommonFileL()
     {
-    _LIT( KSetTitleL, 
-          "CAknMemorySelectionDialogMultiDrive::SetTitleL() invoked" );
-    _LIT( KSetLeftSoftkeyL, 
-          "CAknMemorySelectionDialogMultiDrivef::SetLeftSoftkeyL() invoked" );
-    _LIT( KSetRightSoftkeyL, 
-          "CAknMemorySelectionDialogMultiDrive::SetRightSoftkeyL() invoked" );
-    _LIT( KGetItem, 
-          "CAknMemorySelectionDialogMultiDrive::GetItem() invoked" );
-    _LIT( KExecute1, 
-          "CAknMemorySelectionDialogMultiDrive::ExecuteL1()invoked" );
-    _LIT( KExecute2, 
-          "CAknMemorySelectionDialogMultiDrive::ExecuteL2() invoked" );
-    _LIT( KRunDlgLD13, 
-          "CAknMemorySelectionDialogMultiDrive::RunDlgLD1()inovked" );
-    _LIT( KRunDlgLD14, 
-          "CAknMemorySelectionDialogMultiDrive::RunDlgLD2()invoked" );
-    _LIT( KRunDlgLD15, 
-          "CAknMemorySelectionDialogMultiDrive::RunDlgLD3()invoked" );
-    _LIT( KRunDlgLD16, 
-          "CAknMemorySelectionDialogMultiDrive::AddDrivePathsL()invoked" );
-    _LIT( KCAknMemorySelectionSettingItemMultiDriveDes, 
-          "~CAknMemorySelectionSettingItemMultiDrive()invoked");
-    _LIT( KMultiDriveNewL1, 
-          "CAknMemorySelectionDialogMultiDrive::NewL()1 invoked" );
-    _LIT( KMultiDriveNewL2, 
-          "CAknMemorySelectionDialogMultiDrive::NewL()2 invoked" );
-    _LIT( KCAknMemorySelectionSettingItemMultiDrive, 
-          "CAknMemorySelectionSettingItemMultiDrive() invoked");
-    _LIT( KCompleteConstructionL, 
-          "CAknMemorySelectionSettingItemMultiDrive::CompleteConstructionL(");
-    _LIT( KSettingTextL, 
-          "CAknMemorySelectionSettingItemMultiDrive::SettingTextL() invoked");
-    _LIT( KLoadL, 
-          "CAknMemorySelectionSettingItemMultiDrive::LoadL()invoked");
-    _LIT( KStoreL, 
-          "CAknMemorySelectionSettingItemMultiDrive::StoreL()invoked");
-    
-    TDriveNumber aSelDr = EDriveC;
-    
-    CAknMemorySelectionSettingItemMultiDrive* memSelection = 
-            new ( ELeave ) CAknMemorySelectionSettingItemMultiDrive( 
-            		R_BCTEST_MIX50PATCH_SETTING_PAGE, aSelDr );
-    AssertTrueL( ETrue, KCAknMemorySelectionSettingItemMultiDrive );
-    CleanupStack::PushL( memSelection );
-    
-    memSelection->CompleteConstructionL();
-    AssertTrueL( ETrue, KCompleteConstructionL );
-    
-    memSelection->SettingTextL();
-    AssertTrueL( ETrue, KSettingTextL );
-    
-    memSelection->LoadL();
-    AssertTrueL( ETrue, KLoadL );
-    
-    memSelection->StoreL();
-    AssertTrueL( ETrue, KStoreL );
-    
-    CleanupStack::PopAndDestroy( memSelection );
-    AssertTrueL( ETrue, KCAknMemorySelectionSettingItemMultiDriveDes );
-    
-    TInt includedMedias = 5; 
-    TCommonDialogType aDialogDr = ECFDDialogTypeNormal;    
-         
-    CAknMemorySelectionDialogMultiDrive* memSelDialogMulDriver =
-            CAknMemorySelectionDialogMultiDrive::NewL( aDialogDr, ETrue );
-    AssertNotNullL( memSelDialogMulDriver, KMultiDriveNewL1 );
-    
-    CleanupStack::PushL( memSelDialogMulDriver );           
-    CleanupStack::PopAndDestroy( memSelDialogMulDriver );
-        
-    memSelDialogMulDriver = CAknMemorySelectionDialogMultiDrive::NewL( 
-            aDialogDr, 0, EFalse, includedMedias );
-    AssertNotNullL( memSelDialogMulDriver, KMultiDriveNewL2 );
-    CleanupStack::PushL( memSelDialogMulDriver );           
-       
-    _LIT( tTxt, "Selection dialog title" );
-    TBuf<16> aDefaultFolder( _L("c:\\") );
-    TBuf<16> aRootPath( _L("d:\\") );
-    TBuf<KMaxFileName> rText;
-        
-    memSelDialogMulDriver->SetTitleL( tTxt );
-    AssertTrueL( ETrue, KSetTitleL );
-        
-    memSelDialogMulDriver->SetLeftSoftkeyL( _L("OK") );
-    AssertTrueL( ETrue, KSetLeftSoftkeyL );
-        
-    memSelDialogMulDriver->SetRightSoftkeyL( _L("Cancel") );
-    AssertTrueL( ETrue, KSetRightSoftkeyL );
-        
-    memSelDialogMulDriver->GetItem( 0, rText );
-    AssertTrueL( ETrue, KGetItem );
-        
-    memSelDialogMulDriver->ExecuteL( aSelDr );
-    AssertTrueL( ETrue, KExecute1); 
-        
-    memSelDialogMulDriver->ExecuteL( aSelDr, &rText, &aDefaultFolder );
-    AssertTrueL( ETrue, KExecute2 );
-            
-    memSelDialogMulDriver->RunDlgLD( aSelDr );
-    AssertTrueL( ETrue, KRunDlgLD13 );
-        
-    memSelDialogMulDriver->RunDlgLD( aSelDr, aDefaultFolder );
-    AssertTrueL( ETrue, KRunDlgLD14 );
-        
-    memSelDialogMulDriver->RunDlgLD( aSelDr, 0 );
-    AssertTrueL( ETrue, KRunDlgLD15 );
-        
-    memSelDialogMulDriver->AddDrivePathsL( aRootPath, aDefaultFolder );
-    AssertTrueL( ETrue, KRunDlgLD16 );
-            
-    CleanupStack::PopAndDestroy( memSelDialogMulDriver );
-    
-    TBuf<KMaxFileName> fileName( _L("c:\\data\\testcommonfile.txt") );
-    RFile file;
-    file.Replace( CCoeEnv::Static()->FsSession(), fileName, EFileWrite );
-    file.Close();
-    
-    CAknFileNamePromptDialog* promptDialog = CAknFileNamePromptDialog::NewL();
-    CleanupStack::PushL( promptDialog );
-    promptDialog->RenameL( fileName );
-    CleanupStack::PopAndDestroy( promptDialog );
     } 
 
 // ---------------------------------------------------------------------------
@@ -554,71 +425,6 @@ void CBCTestMix50PatchControlCase::TestCommonFileL()
 //
 void CBCTestMix50PatchControlCase::TestSelectCommonFileL()
 	{
-	_LIT( KTitle, "Common File Test " );
-	_LIT( KRunSelectDlgLD, "AknCommonDialogsDynMem::RunSelectDlgLD()invoked");
-	
-	TBuf<KMaxFileName> folder(_L("c:\\data"));
-	TBuf<KMaxFileName> fileName( _L("c:\\data\\testcommonfile.txt") );
-	TInt res = R_BCTEST_MIX50PATCH_MEMORY_SELECTION_LOCATIONS;
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD( 
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res);
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            KTitle());
-    
-    MonkFilter filter;
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            &filter );
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            0 );
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            &filter );
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            folder,
-            res );    
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            folder,
-            res,
-            &filter );
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            folder,
-            res,
-            0 );
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            folder,
-            res,
-            0,
-            KTitle() ); 
-    AssertTrueL( ETrue, KRunSelectDlgLD );
 	}
 
 // ---------------------------------------------------------------------------
@@ -628,61 +434,6 @@ void CBCTestMix50PatchControlCase::TestSelectCommonFileL()
 //
 void CBCTestMix50PatchControlCase::TestSaveCommonFileL()
 	{
-	_LIT( KTitle, "Common File Test " );
-	_LIT( KRunSaveDlgLD, "AknCommonDialogsDynMem::RunSaveDlgLD()invoked");
-	
-	TBuf<KMaxFileName> folder(_L("c:\\data"));
-	TBuf<KMaxFileName> fileName( _L("c:\\data\\testcommonfile.txt") );
-	TInt res = R_BCTEST_MIX50PATCH_MEMORY_SELECTION_LOCATIONS;
-	
-    AknCommonDialogsDynMem::RunSaveDlgLD( 
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res);
-    
-    
-    AknCommonDialogsDynMem::RunSelectDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            KTitle());
-    
-    MonkFilter filter;
-    AknCommonDialogsDynMem::RunSaveDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            &filter );
-    
-    AknCommonDialogsDynMem::RunSaveDlgLD(
-    		AknCommonDialogsDynMem::EMemoryTypePhone, 
-    		fileName,
-    		res,
-    		KTitle(),
-    		KTitle() );
-    
-    
-    AknCommonDialogsDynMem::RunSaveDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            0 );
-    
-    AknCommonDialogsDynMem::RunSaveDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            res,
-            0, 
-            KTitle() );
-    
-    AknCommonDialogsDynMem::RunSaveDlgLD(
-            AknCommonDialogsDynMem::EMemoryTypePhone, 
-            fileName,
-            folder,
-            res,
-            0,
-            KTitle() ); 
-    AssertTrueL( ETrue, KRunSaveDlgLD );
 	}
 
 // ---------------------------------------------------------------------------

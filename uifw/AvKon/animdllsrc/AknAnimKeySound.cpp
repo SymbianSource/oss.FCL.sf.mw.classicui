@@ -32,7 +32,7 @@
 
 // This is currently nasty set dependencies, API should be moved to middleware layer asap 
 #include <ctsydomainpskeys.h> 
-#include <activeidle2domainpskeys.h>
+
 #include <networkhandlingdomainpskeys.h>
 #include <PSVariables.h>
 
@@ -525,7 +525,6 @@ void EmulateEndKeyL(TKeyEmulationAction& aResult, const TRawEvent &aRawEvent,
 
         // If system is not in idle or there are calls ongoing, then end key ought to be generated.
         User::LeaveIfError( RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, ps ) );
-        User::LeaveIfError( RProperty::Get( KPSUidAiInformation, KActiveIdleState, idle ) );
         User::LeaveIfError( RProperty::Get( KPSUidUikon, KUikGlobalNotesAllowed, startupOk ) );
 
         RDebug::Print(_L("call: %d, idle %d, notes %d"), ps, idle, startupOk);
@@ -536,22 +535,10 @@ void EmulateEndKeyL(TKeyEmulationAction& aResult, const TRawEvent &aRawEvent,
             {
             return;
             }
-        
-        if ( idle == EPSAiForeground )
-            { 
-            // Notify active idle plugins that combined end key / power key has been pressed.
-            RProperty::Set(KPSUidAvkonDomain, KAknEndKeyEvent, 1); 
-            }
-        
         if ( ps != EPSCTsyCallStateNone )
             {
             // A phone call is active.
             aResult = EEmulateNowPhoneCallActive;
-            }
-        else if ( idle != EPSAiForeground )
-            {
-            // We are not in idle view. No active phone calls.
-            aResult = EEmulateNow;
             }
         else
             {

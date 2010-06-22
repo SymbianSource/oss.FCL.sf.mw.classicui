@@ -54,7 +54,6 @@ class CPbkDataSaveAppUi;
 #endif // !RD_VIRTUAL_PHONEBOOK
 class TCoeHelpContext;
 class CFindItemVoIPExtension;
-class CSchemeHandler;
 class CAknsBasicBackgroundControlContext;
 class CRichTextEditorContainer;
 class CSendUi;
@@ -474,8 +473,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         TBool iHideCallMenu;
         // Contains information of the VoIP profiles.
         CFindItemVoIPExtension* iFindItemVoIPExtension;
-
-        CSchemeHandler* iSchemeHandler;
 
         CAknsBasicBackgroundControlContext* iBgContext;
 

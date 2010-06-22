@@ -94,6 +94,7 @@ LIBRARY         akncapserverclient.lib
 LIBRARY         aknnotifierwrapper.lib
 LIBRARY         aknnotifyplugin.lib // for dialog controller stub
 LIBRARY         aknlayout2.lib
+LIBRARY        HbCore.lib
 
 LIBRARY         gdi.lib
 DEFFILE         EIKSVUI.DEF

@@ -42,7 +42,7 @@
 #include <AknPanic.h>
 #include "aknSctDialog.h" // CAknCharmapDialog
 #include <aknPopupHeadingPane.h>
-#include <aknfep.rsg>
+//#include <aknfep.rsg>
 #include <bautils.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <uikon/eikenvinterface.h>

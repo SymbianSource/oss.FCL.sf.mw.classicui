@@ -30,8 +30,6 @@ NAME ATOA
 #include <avkon.rh>
 #include <avkonicons.hrh>
 #include <appinfo.rh>
-#include <commondialogs.hrh> 
-#include <commondialogs.rh>
 #include <pathconfiguration.hrh>
  
 
@@ -286,23 +284,5 @@ RESOURCE ARRAY r_bctestdomaiwakn_aknanimdata_bmpanim_frame
             }
         };
     }
- 
-// ---------------------------------------------------------------------------
-// r_bctestdomaiwakn_aknfilefilterfactory_filter
-//
-// For testting APIs in AknFileFilterFactory.h    
-// ---------------------------------------------------------------------------
-//
-RESOURCE  FILTER r_bctestdomaiwakn_aknfilefilterfactory_filter
-    {
-    filter_type  = 1;
-    filter_style = EFilenameFilter;
-    filter_data  = 
-        {
-        qtn_bctestdomaiwakn_dummy,  
-        qtn_bctestdomaiwakn_dummy
-        };
-    }
-
 
 // End of File

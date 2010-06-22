@@ -34,12 +34,12 @@
 	logical_models 	(list unit_reference_list
 	    (object Class "CClock"
 		documentation 	
-|This class has the following properties:-
-|(i) RWindow * pointing to a window owned elsewhere;
-|(ii) CPeriodic * pointing to a periodic timer owned by the class;
-|(iii) TPoint storing the position of the centre of the clock;
-|(iv) TDateTime storing the date and time;
-|(v) TSize iSize;
+|This class has the following properties:-
+|(i) RWindow * pointing to a window owned elsewhere;
+|(ii) CPeriodic * pointing to a periodic timer owned by the class;
+|(iii) TPoint storing the position of the centre of the clock;
+|(iv) TDateTime storing the date and time;
+|(v) TSize iSize;
 |(vi) TUint iNumTicksPerUpdate.
 		
 		fields     	(list has_relationship_list
@@ -95,9 +95,9 @@
 		documentation 	"Provided by E32.")
 	    (object Class "CAnalogueDial"
 		documentation 	
-|Properties:
-|(i) RBitmap iDialFace;
-|(iii) a list of CHands.
+|Properties:
+|(i) RBitmap iDialFace;
+|(iii) a list of CHands.
 |(iv) CAnalogueDial *
 		
 		fields     	(list has_relationship_list
@@ -114,10 +114,10 @@
 		abstract   	TRUE)
 	    (object Class "CAnalogueDialHand"
 		documentation 	
-|This class models the behaviour of a clock hand, NOT its visual appearance. It has the following properties:-
-|(i) TPoint storing the position of the tip of the hand
-|(ii) TUint storing how long one revolution of the dial takes;
-|(iii) TUint storing how many updates per second are required;
+|This class models the behaviour of a clock hand, NOT its visual appearance. It has the following properties:-
+|(i) TPoint storing the position of the tip of the hand
+|(ii) TUint storing how long one revolution of the dial takes;
+|(iii) TUint storing how many updates per second are required;
 |Appearance and behaviour have been separated out since the former is decided upon by the USER-programmer, whereas the latter is determined by the SUBCLASSER-programmer.
 		
 		fields     	(list has_relationship_list
@@ -130,8 +130,8 @@
 			supplier   	"CHandAppearance")))
 	    (object Class "CHandAppearance"
 		documentation 	
-|This class is solely concerned with the visual form of the hand on the screen (see documentation on class "CAnalogueDialHand"). It has the following properties:
-|(i) TUint storing the length of the hand (i.e the distance from the centre to the furthest point);
+|This class is solely concerned with the visual form of the hand on the screen (see documentation on class "CAnalogueDialHand"). It has the following properties:
+|(i) TUint storing the length of the hand (i.e the distance from the centre to the furthest point);
 |(ii) TUint storing the length backwards (i.e. the distance the hand extends the other way).
 		
 		superclasses 	(list inheritance_relationship_list

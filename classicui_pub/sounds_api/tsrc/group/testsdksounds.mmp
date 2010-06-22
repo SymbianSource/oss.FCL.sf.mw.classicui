@@ -31,20 +31,6 @@ CAPABILITY      ALL -TCB
 
 DEFFILE         testsdksounds.def
 
-#ifdef SBSV2
-    USERINCLUDE     ../inc
-
-    MW_LAYER_SYSTEMINCLUDE
-
-
-    START RESOURCE ../data/testsdktestsdksounds.rss
-        TARGETPATH RESOURCE_FILES_DIR
-        HEADER
-        END
-    
-    SOURCEPATH      ../src
-    
-#else // SBSV2 not defined
     USERINCLUDE     ../inc 
 
     MW_LAYER_SYSTEMINCLUDE
@@ -54,7 +40,6 @@ DEFFILE         testsdksounds.def
         HEADER
         END
     SOURCEPATH      ../src
-#endif // SBSV2
 
 SOURCE          testsdksounds.cpp
 SOURCE          testsdksoundsblocks.cpp
