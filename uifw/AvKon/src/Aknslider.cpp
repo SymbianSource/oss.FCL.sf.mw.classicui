@@ -4282,7 +4282,7 @@ void CAknSlider::StartFeedback( const TPointerEvent* aPointerEvent, TTimeInterva
             {
             intensity = FeedbackIntensity();
             }
-        feedback->StartFeedback( this, ETouchDynamicSlider, aPointerEvent, intensity, aTimeout );
+        feedback->StartFeedback( this, ETouchContinuousSlider, aPointerEvent, intensity, aTimeout );
         iExt->SetFlag( CAknSliderExtension::EFlagPlayingContinuousFb );
         }
     }

@@ -48,7 +48,7 @@
 #include <coecntrl.h>
 #include <coeerror.h>
 #include <coesndpy.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 #include <eikenv.h>
 #include <eikappui.h>
 #include <eikdoc.h>
