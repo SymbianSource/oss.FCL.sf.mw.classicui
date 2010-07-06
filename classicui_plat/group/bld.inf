@@ -31,7 +31,6 @@
 #include "../extended_lists_api/group/bld.inf"
 #include "../input_block_api/group/bld.inf"
 #include "../avkon_ui_server_api/group/bld.inf"
-#include "../number_grouping_api/group/bld.inf"
 #include "../extended_status_pane_api/group/bld.inf"
 #include "../extended_notifiers_api/group/bld.inf"
 #include "../task_list_api/group/bld.inf"
