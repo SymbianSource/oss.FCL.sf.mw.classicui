@@ -1070,7 +1070,11 @@ LOCAL_C void ShowNotificationDialog(const TDesC& aNoteText)
     _LIT(KTimeout, "timeout");
     _LIT(KTitle,   "title");
 
-    CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL();
+    //@TODO replace the hardcoded parameter after enum EASyncServerStartup
+    // is defined(after MCL wk26).
+    //CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(
+    //                    CHbDeviceDialogSymbian::EASyncServerStartup);
+    CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(2);
     CleanupStack::PushL(dlg);
 
     TInt  timeout = 0;
