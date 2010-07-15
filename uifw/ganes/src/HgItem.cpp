@@ -67,8 +67,8 @@ EXPORT_C CHgItem::~CHgItem()
 //
 CHgItem::CHgItem( TInt aFlags, CGulIcon* aIcon ) :
     iIcon( aIcon ),
-    iFlags( aFlags ),
-    iTime(0)
+    iTime(0),
+    iFlags( aFlags )
     {
     }
 

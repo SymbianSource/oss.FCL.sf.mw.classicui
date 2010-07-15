@@ -115,16 +115,11 @@ TBool CAknFormPhysics::StartFlick( const TPoint& aLength,
                                    const TTime& aStartTime )
     {
     _AKNTRACE_FUNC_ENTER;
-    if (  PhysicsAllowed() )
+    TPoint drag( aLength );
+
+    if ( iPhysics->StartPhysics( drag, aStartTime ) )
         {
-        TPoint drag( aLength );
-        if ( iPhysics->StartPhysics( drag, aStartTime ) )
-            {
-            // reset benchmark variables
-            iStartTime.HomeTime();
-            iFrameCount = 0;
-            return ETrue;
-            }
+        return ETrue;
         }
 
     PhysicEmulationEnded();
@@ -170,7 +165,7 @@ TSize CAknFormPhysics::ViewSize() const
 void CAknFormPhysics::SetPanningPosition( const TPoint& aDelta )
     {
     _AKNTRACE_FUNC_ENTER;
-    if (  PhysicsAllowed() && iPhysics )
+    if ( iPhysics )
         {
         iPhysics->RegisterPanningPosition( aDelta );
         }
@@ -189,32 +184,9 @@ void CAknFormPhysics::ViewPositionChanged( const TPoint& aNewPosition,
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE( "The Position of aNewPosition are: ( %d, %d ) ", 
     		aNewPosition.iX, aNewPosition.iY );
-    if ( !PhysicsAllowed() )
-        {
-        return;
-        }
-    TInt fps = 0;
+
     iViewCenter = aNewPosition;
-
-    // benchmark / debug part
-    if ( iFrameCount != -1 )
-        {
-        ++iFrameCount;
-        TTime now;
-        now.HomeTime();
-        
-        TInt64 duration = now.MicroSecondsFrom( iStartTime ).Int64();
-        
-        if ( duration > 0 )
-            {
-            fps = iFrameCount * 1000000 / duration;
-            }
-        }
-
-    TBuf<128> msg;
-    msg.Format( _L( "%dfps" ), fps );
-
-    iParent.ScrollCacheByPixels( iViewCenter.iY, msg, aDrawNow );
+    iParent.ScrollCacheByPixels( iViewCenter.iY, aDrawNow );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -227,7 +199,6 @@ void CAknFormPhysics::PhysicEmulationEnded()
     {
     _AKNTRACE_FUNC_ENTER;
     iParent.Synchronize();
-    iFrameCount = -1;
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -300,13 +271,4 @@ TPoint CAknFormPhysics::ViewCenter() const
     {
     return iViewCenter;
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknFormPhysics::PhysicsAllowed
-// ---------------------------------------------------------------------------
-//
-TBool CAknFormPhysics::PhysicsAllowed() const
-    {
-    return ETrue;
-    }
+	

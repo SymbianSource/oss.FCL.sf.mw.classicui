@@ -261,7 +261,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
     if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
         iTreeListView->SetPressedDownState( EFalse );
-        if ( iTreeListView->SingleClickEnabled() && !aMarking )
+        if ( iTreeListView->SingleClickEnabled() )
             {
             iHighlightTimer->Cancel();
             iTreeListView->EnableHighlight( EFalse );
@@ -337,7 +337,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                  }
             }
 
-        if ( iItemToBeSelected != NULL && !aMarking)
+        if ( iItemToBeSelected != NULL && !aMarking )
             {
             iTreeListView->SelectItem( iItemToBeSelected );
             iItemToBeSelected = NULL;
@@ -355,7 +355,7 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
     
         if ( item && (*iItems)[ii].Rect().Contains( adjustedPosition ) )
             {        
-            if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
                 {            
                 // Marking mode 
                 if ( aMarking )
@@ -363,16 +363,26 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                     TBool drawNow = ( item == iTreeListView->FocusedItem() );    
                     if ( aShiftPressed )
                         {
-                        iTreeListView->MarkItems( iTreeListView->FocusedItem(), item,
-                            !item->IsMarked(), drawNow );
+                        if ( iTreeListView->HighlightEnabled() )
+                            {
+                            iTreeListView->MarkItems( iTreeListView->FocusedItem(), item,
+                                    !item->IsMarked(), drawNow );
+                            }
+                        else
+                            {
+                            iTreeListView->MarkItem( item, !item->IsMarked(), drawNow );
+                            }
                         }
                     else if ( aCtrlPressed )
                         {
                         iTreeListView->MarkItem( item, !item->IsMarked(), drawNow );
                         }
-                    }  
-                else if ( iTreeListView->SingleClickEnabled() 
-                          && !wasFlicking  )                    
+                    } 
+                }
+            else if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+                {     
+                if ( iTreeListView->SingleClickEnabled() 
+                        && !wasFlicking  && !aMarking )                    
                     {
                     iItemToBeSelected = item;             
                     iTreeListView->SetFocusedItem( item, ii, EFalse );
@@ -430,21 +440,12 @@ void CAknTreeListPhysicsHandler::HandlePointerEventL(
                         iPlayFeedbackOnUp = ETrue;
                         }
                     }
-                if ( !aMarking )
+                // timer will be launched everytime, but not
+                // if flicking was ongoing AND it was stopped by tapping 
+                // to highlighted item or to folder (=node)   
+                if ( !( wasFlicking && iItemToBeSelected != NULL ) )
                     {
-                    // timer will be launched everytime, but not
-                    // if flicking was ongoing AND it was stopped by tapping 
-                    // to highlighted item or to folder (=node)   
-                    if ( !( wasFlicking && iItemToBeSelected != NULL ) )
-                        {
-                        LaunchHighlightTimer( wasScrolling );
-                        }
-                    }
-                else
-                    {
-                    // Pressed down highlight or highlight timer 
-                    // are not used in marking mode.
-                    SetHighlight();   
+                    LaunchHighlightTimer( wasScrolling );
                     }
                 }                      
             else if ( aPointerEvent.iType == TPointerEvent::EDrag )
@@ -824,12 +825,6 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
     TUint /*aFlags*/ )
     {
     iScrollIndex = aNewPosition.iY - iViewRect.Height() / 2;
-    TTouchFeedbackType feedbackType = ETouchFeedbackVibra;
-    if ( iPhysics->OngoingPhysicsAction() 
-        == CAknPhysics::EAknPhysicsActionDragging )
-        {
-        feedbackType = static_cast<TTouchFeedbackType>(ETouchFeedbackAudio | ETouchFeedbackVibra);
-        }
     if ( iPhysics->OngoingPhysicsAction() 
             == CAknPhysics::EAknPhysicsActionBouncing )
         {
@@ -905,7 +900,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
                 if ( bottomItem != iTree->VisibleItemCount() - 1 )
                     iFeedback->InstantFeedback( iTreeListView,
                                                 ETouchFeedbackSensitiveList,
-                                                feedbackType,
+                                                ETouchFeedbackVibra,
                                                 TPointerEvent() );
                 }
             }
@@ -915,7 +910,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
                 {
                 iFeedback->InstantFeedback( iTreeListView,
                                             ETouchFeedbackSensitiveList,
-                                            feedbackType,
+                                            ETouchFeedbackVibra,
                                             TPointerEvent() );
                 }
             }
@@ -925,7 +920,7 @@ void CAknTreeListPhysicsHandler::ViewPositionChanged(
                 {
                 iFeedback->InstantFeedback( iTreeListView,
                                             ETouchFeedbackSensitiveList,
-                                            feedbackType,
+                                            ETouchFeedbackVibra,
                                             TPointerEvent() );
                 }
             }

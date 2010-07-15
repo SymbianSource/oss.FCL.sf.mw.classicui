@@ -168,7 +168,6 @@ public: // new functions
 public:
     TInt MaximumNumberOfControlLinesOnVisiblePage() const;
 	TInt NumberOfLines() const;
-	TInt NumberOfLinesForScrollBar() const;
 public:
     TBool ControlIsAnEdwin(TInt aControlType) const;
     TBool ControlIsAMfne(TInt aControlType) const;
@@ -212,18 +211,6 @@ public: // from CCoeControl
 public:
     void RegisterPageWithCaptionControl(CEikDialogPage* aPage);
 
-public: // internal layout properties
-	//void SetProperties(const TRegion &aRegion, const RArray<TCapCProperty> &aProperties);
-	//TRect Line(TInt aLineIndex); // text line rectangles
-	//TInt LineIndex(TPoint aPoint);
-	//TPoint LineControlPoint(TInt aLineIndex);
-	//RArray<TInt> LineIndexesIntersecting(TRect aRect);
-	//void SetProperty(TInt aLine, TCapCProperty &aProperty);
-	//void ClearProperty(TInt aLine, TCapCProperty &aProperty);
-	//TCapCProperty Properties(TInt aLine);
-	//void LineRegions(TRegion &aRegion);
-	//void SetVisibleArea(TRect aRect);
-	//void RemoveVisibleArea();
 private: // from CCoeControl
     IMPORT_C TInt CountComponentControls() const;
     IMPORT_C CCoeControl* ComponentControl(TInt aIndex) const;
@@ -264,7 +251,6 @@ public:
     IMPORT_C void SetEditableL( TBool aEditable, TBool aShowEmptyFields = ETrue ) ;
     
     IMPORT_C void SetFormFlags( TInt aFlags ) ;
-    void GetAknLayoutValuesL() ;  // Visible within DLL only.
     TBool HasSeparator() const;
     /** GetFullCaptionText() gets caption descriptor
      *
@@ -316,33 +302,10 @@ public:
      */    
     void SetCurrent(TBool aSelected, TBool aRedraw );
     
-protected:
-    TRect ViewRect() const;
-    TRect EditRect() const;
-
-private:
-    enum TWhichEars
-        {
-        ENoEar=0x00,
-        ELeftEar=0x01,
-        ERightEar=0x02,
-        EBothEars=0x03
-        };
 private: // new functions
-    TInt WidthForEars(TInt aWidthRemaining) const;
-    void DrawEarsNow(TWhichEars aEar) const;
-    void DrawEars(TWhichEars aEar) const;
-    void DrawSingleEar(TWhichEars aEar,TBool aPressed) const;
-    TRect EarRect(TWhichEars aEar) const;
-    void FireEarL(TWhichEars aEar,TInt aEarRepeat);
-    TInt SquashComponentWidth(TInt& aTotalWidth,const TInt aComponentWidthHint);
     void StretchComponents();
-    void SetVertEdgeSpacing( TInt aVertEdgeSpacing );
-    void SetHorzEdgeSpacing( TInt aHorzEdgeSpacing );
     void SquashComponents();
     void CalculateNumberOfLinesForControl( TInt aLines ) ;
-    void SizeDialogComponents() ;
-    void PositionDialogComponents() ;
     static TInt PictographAnimationCallBack( TAny* aPtr );
     /**
     * Sets a size for a bitmap that has already been loaded.
@@ -372,17 +335,15 @@ public:
 public:
     void DrawClosingLine() const;
 	const CEikDialogPage* DialogPage() const { return iDialogPage; }
-	void SetPartiallyVisible( TBool aPVisible );
     TBool PressedDownState() const;
 	void SetPressedDownState( TBool aPressed );
 private:
-    TSize EditorControlSize() const ;
     void SetElementBrushColorsL( TRgb aColor ) ;
     void SetElementTextColorsL( TRgb aColor ) ;
 
     TBool ShowBitmap() const;
-    void  LayoutBitmap(const TRect& aRect);
-    void  LayoutCaption(const TRect& aRect);
+    void LayoutBitmap(const TRect& aRect);
+    void LayoutCaption(const TRect& aRect);
     void DoFormCaptionSettingsL(const TDesC& aText);
 private:
     static void FormLayoutControlBitmap(CEikImage* aBitmap, const TRect& aParent, TBool aIsEditable, TBool aSingleLayout, TInt aNumberOfLines);
@@ -392,8 +353,6 @@ private:
     void FormLayoutControlPopfield(CAknPopupField* aPopfield, const TRect& aParent, TBool aIsEditable, TBool aSingleLayout, TInt aNumberOfLines, TBool aBitmapPresent, TBool aIsFocused);
     void FormLayoutControlSecretEditor(CEikSecretEditor* aSecretEd, const TRect& aParent, TBool aIsEditable, TBool aSingleLayout, TInt aNumberOfLines, TBool aBitmapPresent, TBool aIsFocused );
     static void FormLayoutControlSlider(CAknSlider* aSlider, const TRect& aParent, TBool aIsEditable, TBool aSingleLayout, TInt aNumberOfLines, TBool aBitmapPresent);
-    static void ConvertViewRectToEditRect(TRect& aRect);
-    static void ConvertEditRectToViewRect(TRect& aRect);
 
     /*	
     *
@@ -439,7 +398,6 @@ public:
     CCoeControl* iControl;
     CEikCapCLabel* iCaption;
     HBufC* iCaptionText;
-
     CEikLabel* iTrailer;
     TInt iId;
     TInt iControlType;
@@ -449,42 +407,24 @@ public:
     TBool iIsEditable ;
 
 private:
-    TBool iHasAppendedEditIndicator;
-    TSize iMinSize;
-    TInt  iCapCFlags;
-    TInt  iCaptionWidth;
-    TInt  iFullWidth;
-    TSize iNormalSize ;
-    HBufC*iToolTipText ;
-    TBool iDoNotDisplay ;
-
-    TInt iVertEdgeSpacing ;
-    TInt iHorzEdgeSpacing ;
-    TInt iOriginalHeight ;
-
-    TSize iEditorControlSize ;
-    TInt iNumberOfLines ;
-
+    TInt iSpare1[3];
+    TInt iCapCFlags;
+    TInt iCaptionWidth;
+    TInt iFullWidth;
+    TInt iSpare2[9];
+    TInt iNumberOfLines;
     friend class CEikCapCArray;
-
-    enum { ENotSupplied = -1 } ;
-    TInt iFlags ;
-
-    TBool iRefresh ;
-
-    TInt iCaptionFontId ;
-    TInt iEditorFontId ;
-    TInt iVerticalLineXPosition; //iAknTopSpacing ;         
+    enum { ENotSupplied = -1 };
+    TInt iFlags;
+    TInt iSpare3;
+    TInt iCaptionFontId;
+    TInt iEditorFontId;
+    TInt iVerticalLineXPosition;
     CCoeControl* iHighlightControl;
-    CEikCapCExtension* iExtension ;  // BC extension for additional Data members.
-    TInt iAknFormControlHeight ;
-    TInt iAknFormControlWidth ;
-    TInt iPenColor ;
-    TInt iShadowColor ;
+    CEikCapCExtension* iExtension;  // BC extension for additional Data members.
+    TInt iSpare4[4];
     TBool iIsCurrentLine;
     CEikDialogPage* iDialogPage;
-
-
     };
 
 

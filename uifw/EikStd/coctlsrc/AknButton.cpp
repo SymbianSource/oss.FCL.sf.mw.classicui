@@ -2739,6 +2739,7 @@ EXPORT_C void CAknButton::SetCurrentState( const TInt aStateIndex,
         }
 
     TRAP_IGNORE( SetStateIndexL( newIndex ) );
+    SetFrameIDs(); 
     if ( aDrawNow )
         {
         DrawNow();

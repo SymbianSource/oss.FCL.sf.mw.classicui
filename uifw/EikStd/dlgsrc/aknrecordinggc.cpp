@@ -183,8 +183,7 @@ void CAknRecordingGc::FlushBuffer( const TRect& aRect, TInt aLineToSkip )
                     case CBufferItem::EDrawLine:
                         // EDrawLine is used for separator line only and it
                         // should be skipped for the last visible item.
-                        if ( i < iLines.Count() - 1 
-                                && realRect.iBr.iY < aRect.iBr.iY )
+                        if ( i < iLines.Count() - 1 )
                             {
                             gc->DrawLine( item->iRect.iTl, item->iRect.iBr );
                             }

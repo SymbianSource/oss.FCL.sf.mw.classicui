@@ -112,19 +112,10 @@ public:
   	 */
 	IMPORT_C void SetDensePacking(TBool aDensePacking);
 	TBool CalcItemIndexes(TInt &aTopItemIndex, TInt &aMiddleItems, TInt &aBottomItemIndex, TSize aAreaSize);
-	TInt NumberOfTextLines() const; // for scrollbar
-	TInt NumberOfTextLinesBeforeLine(TInt aLine) const;
-	TInt FindItemFromTextLine(TInt aTextLine) const;
 	TRect Rect() const;
 	void SetRect(const TRect& aRect, TInt aTop, TInt aMiddle, TInt aBottom);
-	TInt YPosToLine(const TRect &aRect, TInt aTop, TInt aMiddle, TInt aBottom, TInt aYCoord);
 	void CreateExtensionL();
 	CEikCapCArrayExtension *ExtensionOrNull() const;
-	
-	/**
-     * Scrolls each item by aDelta pixels in y direction.
-     */
-	TInt ScrollByPixels( TInt aDelta );
 	
 	/**
      * Return the index of the line at aYPos.
@@ -159,10 +150,8 @@ private:
     void SetRealRect( const TRect& aRect, TInt aTop, TInt aBottom );
 	
 private:
-	//TInt iCaptionWidth;
 	CEikCapCArrayExtension *iExtension;
 	TBool iDensePacking;
-	//TRect iRect;
 	};
 
 #endif

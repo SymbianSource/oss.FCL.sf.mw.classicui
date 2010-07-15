@@ -219,15 +219,15 @@ void CAknPopupField::SetUpScrollBarL()
 void CAknPopupField::SetScrollBarSelectionL()
     {
     TInt selection = iValue->CurrentValueIndex();
+    //iOldItemIndex should be saved as original value.
+    if ( iExtension )
+        {
+        iExtension->iOldItemIndex = selection;
+        }
     if (IsInvalid()) selection = 0;
     __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
     iSelectionList->SetCurrentItemIndex(selection);
     iSelectionList->View()->SelectItemL(selection);
-
-    if ( iExtension )
-        {
-        iExtension->iOldItemIndex = iSelectionList->CurrentItemIndex();
-        }
     }
 
 

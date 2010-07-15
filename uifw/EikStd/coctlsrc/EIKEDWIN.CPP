@@ -228,6 +228,11 @@ NONSHARABLE_CLASS(CEikEdwinFepSupport) : public CBase, public MCoeFepAwareTextEd
     {
     friend class CEikEdwin;
 public:
+    // The length of text window
+    const static TInt KMaxSegmentLength = 10000;
+    // The threshold for text window position change
+    const static TInt KSegmentUpdateTrigger = 100;
+    
     static CEikEdwinFepSupport* New(CEikEdwin& aEdwin);
     virtual ~CEikEdwinFepSupport();
     TBool IsHandledByFepL(TPointerEvent::TType aType, TUint aModifiers, TInt aDocumentPosition);
@@ -243,7 +248,21 @@ public:
     // from MCoeFepAwareTextEditor_Extension1
     void SetStateTransferingOwnershipL(CState* aState, TUid aTypeSafetyUid);
     CState* State(TUid aTypeSafetyUid); // this function does *not* transfer ownership
+    
+    // New functions for Touch Input sync performance improvement. A sliding window method is used 
+    // here to show only part of text of editor to Touch Input, so the text sync between Touch input and 
+    // editor can be faster.
+    /**
+     * To update start position of text window according to cursor position. The cursor position has to
+     * be in the visible text window.
+     */
+    void UpdateDocPosOffsetL( TInt aCursorPos );
 
+    /**
+     * To check if FEP wants to get information of whole text, not the text window.
+     */
+    TBool FepRequireWholeTextData() const;
+    
 private:
     enum TPointerState
         {
@@ -303,6 +322,8 @@ public:
     MTouchFeedback* iFeedback;
     TBool iSelectionIsCancel;
     TInt iMoveThumbFeedbackNeeded;
+    // record start position of text window
+	TInt iDocPosOffset;
 private:    
     MFepPointerEventHandlerDuringInlineEdit* iPointerEventHandlerDuringInlineEdit; // does not own anything
     SPointerEventInInlineText iLastPointerEventInInlineText;
@@ -590,8 +611,6 @@ void CEikEdwinFepSupport::UpdateFepInlineTextL(const TDesC& aNewInlineText,TInt 
 
 void CEikEdwinFepSupport::SetInlineEditingCursorVisibilityL(TBool aCursorVisibility)
     {
-    __ASSERT_ALWAYS(iPositionOfInlineTextInDocument>=0,Panic(EEikPanicBadInlineEditingState7)); // assert that we're currently inline editing
-    __ASSERT_DEBUG((iOriginalSelection.iCursorPos>=0) && (iOriginalSelection.iAnchorPos>=0) && (iPositionOfInsertionPointInDocument>=0) && (iPositionOfInlineTextInDocument>=0) && (iLengthOfInlineText>=0) && (iPointerEventHandlerDuringInlineEdit!=NULL),Panic(EEikPanicBadInlineEditingState8));
     iEdwin.SetCursorVisibilityL(aCursorVisibility);
     iShowCursor = aCursorVisibility;
     }
@@ -637,32 +656,128 @@ void CEikEdwinFepSupport::CancelFepInlineEdit()
 
 TInt CEikEdwinFepSupport::DocumentLengthForFep() const
     {
+    // If the length between text window start position and text end is shorter
+    // than length of text window, return the short length, otherwise return
+    // text window length.
+    if ( !FepRequireWholeTextData() && iEdwin.TextLength() > KMaxSegmentLength )
+        {
+        TInt lengthToEnd( iEdwin.TextLength() - iDocPosOffset );
+        if ( lengthToEnd < KMaxSegmentLength )
+            {
+            return lengthToEnd;
+            }
+        return KMaxSegmentLength;
+        }
     return iEdwin.TextLength();
     }
 
 TInt CEikEdwinFepSupport::DocumentMaximumLengthForFep() const
     {
+    // return the length between textlimit and text window start position
+    if ( !FepRequireWholeTextData() && KMaxSegmentLength < iEdwin.iTextLimit )
+        {
+        return iEdwin.iTextLimit - iDocPosOffset;
+        }
     return iEdwin.iTextLimit;
     }
 
 void CEikEdwinFepSupport::SetCursorSelectionForFepL(const TCursorSelection& aCursorSelection)
     {
-    TCursorSelection select( aCursorSelection.iCursorPos, aCursorSelection.iAnchorPos );
-    iEdwin.HandleSelectionForSmiley( select );
-    iEdwin.iTextView->SetSelectionL( select );
-    iEdwin.UpdateVertScrollBarThumbL();
-    iEdwin.UpdateHorizScrollBarThumb();
-    iEdwin.ReportEdwinEventL( MEikEdwinObserver::EEventNavigation );
+    // if text window is enabled, the pos of parameter selection are relative to
+    // text window start position, so convert them back to actual doc pos.
+    TInt cursorPos( aCursorSelection.iCursorPos );
+    TInt anchorPos( aCursorSelection.iAnchorPos );
+    TInt textLength( iEdwin.TextLength() );
+    if ( !FepRequireWholeTextData() )
+        {
+        cursorPos += iDocPosOffset;
+        anchorPos += iDocPosOffset;
+        cursorPos = cursorPos > textLength ? textLength : cursorPos;
+        anchorPos = anchorPos > textLength ? textLength : anchorPos;
+        if ( cursorPos != anchorPos )
+            {
+            TCursorSelection select( iEdwin.Selection() );
+            if ( ( anchorPos == iDocPosOffset || anchorPos == iDocPosOffset + 
+                KMaxSegmentLength ) && anchorPos >= select.LowerPos() && 
+                anchorPos <= select.HigherPos() )
+                {
+                anchorPos = cursorPos > anchorPos ? select.LowerPos() : 
+                    select.HigherPos();
+                }
+            }
+        }
+    // Selection position can not be in smiley code string, so check if
+    // the position needs to be changed.
+    if ( iEdwin.IsSmileyEnabled() )
+        {  
+        CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
+        TInt oldPos = ( cursorPos == anchorPos ) ? iEdwin.CursorPos() : anchorPos; 
+        smiley->HandleSetCursor( oldPos, cursorPos );       
+        if ( aCursorSelection.iCursorPos == aCursorSelection.iAnchorPos )
+            {
+            anchorPos = cursorPos;
+            }
+        else
+            {
+            smiley->HandleSetCursor( cursorPos, anchorPos );
+            }
+        }
+    iEdwin.SetSelectionL( cursorPos, anchorPos );
+    // Cursor pos is changed, so update text window position.
+	UpdateDocPosOffsetL( cursorPos );
+    iEdwin.ReportEdwinEventL(MEikEdwinObserver::EEventNavigation);
     }
 
 void CEikEdwinFepSupport::GetCursorSelectionForFep(TCursorSelection& aCursorSelection) const
     {
     aCursorSelection=iEdwin.Selection();
+    // To use text window, FEP can not access text view of editor directly but 
+    // FEP needs to know some information which can not be provided by current 
+    // interface. So use below method to transfer the information to FEP.
+    CAknEdwinState* state( iEdwin.EditorState() );
+    if ( state )
+        {
+        TInt flag( state->Flags() );
+        TTmDocPos docPos;
+        iEdwin.TextView()->GetCursorPos( docPos );
+        if ( docPos.iLeadingEdge )
+            {
+            flag |= EAknEditorFlagCursorLedingEdge;
+            }
+        else
+            {
+            flag &= ~EAknEditorFlagCursorLedingEdge;
+            }
+        state->SetFlags( flag );
+        }
+    // If text window is enabled, convert the actual doc pos to relative doc pos.
+    if ( !FepRequireWholeTextData() )
+        {
+        if ( aCursorSelection.iAnchorPos < iDocPosOffset )
+            {
+            aCursorSelection.iAnchorPos = iDocPosOffset;
+            }
+        else if ( aCursorSelection.iAnchorPos > iDocPosOffset + KMaxSegmentLength )
+            {
+            aCursorSelection.iAnchorPos = iDocPosOffset + KMaxSegmentLength;
+            }
+        aCursorSelection.iCursorPos -= iDocPosOffset;
+        aCursorSelection.iAnchorPos -= iDocPosOffset;
+        }
     }
 
 void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocumentPosition,TInt aLengthToRetrieve) const
     {
+    // If text window is enabled, convert relative doc pos to actual doc pos.
+    if ( !FepRequireWholeTextData() )
+        {
+        aDocumentPosition += iDocPosOffset;
+        }
     TInt length( Min( aLengthToRetrieve, iEdwin.TextLength() - aDocumentPosition ) );
+    if ( !FepRequireWholeTextData() )
+        {
+        length = Min( length, KMaxSegmentLength );
+        }    
     iEdwin.iText->Extract( aEditorContent, aDocumentPosition, length );
     CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
     if ( smiley && smiley->HasSmileyIconsInText() )
@@ -710,6 +825,8 @@ void CEikEdwinFepSupport::GetFormatForFep(TCharFormat& aFormat,TInt aDocumentPos
 
 void CEikEdwinFepSupport::GetScreenCoordinatesForFepL(TPoint& aLeftSideOfBaseLine,TInt& aHeight,TInt& aAscent,TInt aDocumentPosition) const
     {
+    // If text window is enabled, convert relative doc pos to actual doc pos.
+    aDocumentPosition += iDocPosOffset;
     aDocumentPosition %= ( iEdwin.iText->DocumentLength() + 1 );    
     iEdwin.iTextView->DocPosToXyPosL(aDocumentPosition,aLeftSideOfBaseLine);
     aLeftSideOfBaseLine+=iEdwin.DrawableWindow()->InquireOffset(iEdwin.iCoeEnv->RootWin()); // make position "absolute" (i.e. not relative to the window that iEdwin is using) - note that *any* group window can be passed into InquireOffset to return the desired result, it doesn't have to be an ancestor of the window being used by iEdwin (i.e. this line of code does *not* make the assumption that iEdwin is (even indirectly) attached to iCoeEnv->RootWin())
@@ -878,6 +995,50 @@ void CEikEdwinFepSupport::MCoeFepSpecificExtensions_Reserved_2()
     {
     }
 
+// Update start position of text window, when cursor pos is out of current 
+// text window or it is in trigger range, the text window position needs to 
+// be changed and notify FEP the text change.
+void CEikEdwinFepSupport::UpdateDocPosOffsetL( TInt aCursorPos )
+    {
+    if ( FepRequireWholeTextData() )
+        {
+        return;
+        }
+    if ( iEdwin.TextLength() > KMaxSegmentLength )
+        {
+        TInt halfSegment( KMaxSegmentLength / 2 );
+        TBool validDocPosOffset( iDocPosOffset >= 0 && aCursorPos > iDocPosOffset &&
+            aCursorPos - iDocPosOffset < KMaxSegmentLength );
+        TBool cursorInHead( validDocPosOffset && 
+            aCursorPos - iDocPosOffset < KSegmentUpdateTrigger );
+        TBool cursorInTail( validDocPosOffset && 
+            iDocPosOffset + KMaxSegmentLength - aCursorPos < KSegmentUpdateTrigger &&
+            iDocPosOffset + KMaxSegmentLength < iEdwin.TextLength() );
+        if  ( !validDocPosOffset || cursorInHead || cursorInTail )
+            {
+            if ( iEdwin.TextLength() - aCursorPos < halfSegment )
+                {
+                iDocPosOffset = iEdwin.TextLength() - KMaxSegmentLength;
+                }
+            else
+                {
+                iDocPosOffset = aCursorPos - halfSegment;
+                iDocPosOffset = iDocPosOffset >= 0 ? iDocPosOffset : 0;
+                }            
+            static_cast<CAknEdwinState*>( State( KNullUid ) )->ReportAknEdStateEventL( 
+                MAknEdStateObserver::EAknCursorPositionChanged );
+            }
+        }
+    }
+
+// Check if FEP set the flag to indicate it wants to get information of whole
+// text, not the text window.
+TBool CEikEdwinFepSupport::FepRequireWholeTextData() const
+    {
+    CAknEdwinState* state( static_cast<CAknEdwinState*>( 
+        const_cast<CEikEdwinFepSupport*>( this )->State(KNullUid) ) );
+    return ( state->Flags() & EAknEditorFlagNeedWholeTextData );
+    }
 
 //
 //  CEikEdwinExtension
@@ -3509,6 +3670,8 @@ EXPORT_C void CEikEdwin::SetCursorPosL(TInt aDocPos,TBool aSelect)
     if ( iEdwinFepSupport && 
         ( aDocPos != oldPos || ( select.Length() > 0 && !aSelect ) ) )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( docPos );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( iEdwinFepSupport->State(KNullUid) );
         if ( edwinState )
             {
@@ -3558,6 +3721,8 @@ EXPORT_C void CEikEdwin::SetSelectionL(TInt aCursorPos,TInt aAnchorPos)
 
     if ( iEdwinFepSupport )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( aCursorPos );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( iEdwinFepSupport->State(KNullUid) );
         if ( edwinState )
             {
@@ -4054,6 +4219,8 @@ EXPORT_C void CEikEdwin::MoveCursorL(TCursorPosition::TMovementType aMovement,TB
 
     if ( iEdwinFepSupport )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( CursorPos() );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( 
             iEdwinFepSupport->State( KNullUid ) );
         if ( edwinState )

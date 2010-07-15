@@ -1131,17 +1131,10 @@ void CHgScroller::HandleViewPositionChanged(TBool aUpdateScrollbar)
         TInt action = iPhysics->OngoingPhysicsAction();
         if( action !=  CAknPhysics::EAknPhysicsActionNone && needsFeedback )
             {
-            TTouchFeedbackType type( ETouchFeedbackVibra );
-            if ( CAknPhysics::EAknPhysicsActionDragging == action )
-                {
-                type = TTouchFeedbackType(ETouchFeedbackVibra | ETouchFeedbackAudio);
-                }
-
             MTouchFeedback* feedback = MTouchFeedback::Instance();
             if(feedback)
                 feedback->InstantFeedback( this, ETouchFeedbackSensitiveList,
-                                            type,
-                                            TPointerEvent() );
+                                           ETouchFeedbackVibra, TPointerEvent() );
             }
 
         if(iManager)

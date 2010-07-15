@@ -109,7 +109,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x06 = 6 = tone_tick = 60ms
 			// 0x0B = 11 = OPCODE_END
 			file = KVolumeMinSoundFile;
-			volume = 9;
+			volume = 5;
 			},
 		AVKON_SOUND_INFO 
 			{
@@ -171,14 +171,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDChargingBatteryTone; 
 			priority=EAvkonLowLevelNotesPriority; 
 			preference=EAknAudioPrefCharging;
-			sequencelength=6;
-			sequence={0,17,10,118,17,11};
+			// sequencelength=6;
+			// sequence={0,17,10,118,17,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x11 = 17 = tone_tick = 170ms
 			// 0x0B = 11 = OPCODE_END
+			file = KDefaultBeepSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 

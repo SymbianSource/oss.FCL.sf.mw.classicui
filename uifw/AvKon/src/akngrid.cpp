@@ -1346,8 +1346,16 @@ EXPORT_C void CAknGrid::SetTopItemIndex(TInt aItemIndex) const
 EXPORT_C void CAknGrid::HandleResourceChange(TInt aType)
     {
     _AKNTRACE_FUNC_ENTER;
-    // Need to do this to set up the scroll bar model
-    TRAP_IGNORE( UpdateScrollBarsL() );
+    if ( aType != KEikMessageWindowsFadeChange && 
+    	 aType != KEikMessageUnfadeWindows && 
+    	 aType != KEikMessageFadeAllWindows && 
+    	 aType != KEikMessageColorSchemeChange && 
+    	 aType != KAknsMessageSkinChange )
+    	{
+        // Need to do this to set up the scroll bar model
+        TRAP_IGNORE( UpdateScrollBarsL() );
+    	}
+    
     
     if (aType==KEikDynamicLayoutVariantSwitch)
         {
@@ -1401,9 +1409,17 @@ EXPORT_C void CAknGrid::HandleResourceChange(TInt aType)
     TRAP_IGNORE( ItemDrawer()->FormattedCellData()->SetupSkinContextL());
     // Data extension has animations which will change when skin changes.
     ItemDrawer()->FormattedCellData()->HandleResourceChange( aType );
-
-    // Need to do this to set up the scroll bar model
-    TRAP_IGNORE( UpdateScrollBarsL() );
+    
+    if ( aType != KEikMessageWindowsFadeChange && 
+    	 aType != KEikMessageUnfadeWindows && 
+    	 aType != KEikMessageFadeAllWindows && 
+    	 aType != KEikMessageColorSchemeChange && 
+    	 aType != KAknsMessageSkinChange )
+        {
+        // Need to do this to set up the scroll bar model
+        TRAP_IGNORE( UpdateScrollBarsL() );
+        }
+    
     _AKNTRACE_FUNC_EXIT;
     }
 

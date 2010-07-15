@@ -184,11 +184,9 @@ public:
      * Scrolls cached drawing commands by @c aDelta pixels in y direction.
      * 
      * @param  aDelta     A y-asix base on the sliding control's coordinate.
-     * @param  aDebugMsg  Not used.
      * @param  aDrawNow   Whether or not the view should be drawn.  
      */
     void ScrollCacheByPixels( TInt aDelta,
-                              const TDesC& aDebugMsg,
                               TBool aDrawNow = ETrue );
     
     /**
@@ -229,8 +227,6 @@ private: // new functions
     TInt BottomFocusableLine() const;
     TBool LineIsFocusable(TInt aLine) const;
     TBool ResizeEdwinToFitTextL(CEikEdwin* aEdwin, TDrawNow aDrawNow, TSize aDesirableEdwinSize);
-    TInt YPosToLine2(TInt aYPos) const;
-    TInt LineToYPos(TInt& aLine) const;
     void ExposeLine(TInt aLine, TBool aForceResize, TBool aShowWholeLine = EFalse );
     void PassOnEventL(CCoeControl* aControl,MCoeControlObserver::TCoeEvent aEvent);
     CEikCaptionedControl* ConstructLineL(TInt aResourceId);
@@ -279,11 +275,6 @@ private: // new functions
     void RecordLineL( TInt aLine );
     
     /**
-    * Scrolls all lines by aPixels in y direction.
-    */
-    void ScrollByPixels( TInt aDelta );
-    
-    /**
     * Removes pressed down highlight.
     */
     void RemovePressedDownHighlight();
@@ -307,9 +298,7 @@ private: // new functions
 
 public: 
     TBool AnythingToDisplay() const;
-    void DrawVerticalLine() const;
     CEikCaptionedControl* LineOnPageOrNull(TInt aLine) const;
-    TSize RealDataSize() const;
     TInt NumberOfLines() const;
     CEikCaptionedControl* LineByIndex(TInt aIndex) const;
 

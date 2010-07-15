@@ -83,15 +83,21 @@ void CBCTestDocAndInitCase::BuildScriptL()
         {
         DELAY( 1 ), // delay between commands is 1*0.1 seconds = 0.1 seconds
         LeftCBA, 
+        LeftCBA,
+        WAIT( 10 ),
         LeftCBA, 
-        LeftCBA, KeyOK,
-        LeftCBA, KeyOK,
-        LeftCBA, KeyOK,
-        LeftCBA, LeftCBA, KeyOK,
+        WAIT( 5 ),
+        LeftCBA, 
+        WAIT( 5 ),
+        LeftCBA, 
+        WAIT( 5 ),
+        LeftCBA,
+        WAIT( 5 ),
+        LeftCBA, 
         DELAY( 15 ),         
         LeftCBA,
         DELAY( 1 ), 
-        REP(Down, 1 ), 
+        Down, 
         LeftCBA
         };
     AddTestScriptL( scripts, sizeof( scripts )/sizeof( TInt ) );

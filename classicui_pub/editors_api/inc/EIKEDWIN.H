@@ -2438,6 +2438,19 @@ protected:
 		ESuppressNotifyDraw  = 0x00000040,
 		ESuppressFormatting  = 0x00000080, // Suppresses calls to formatting
 		ESkipBackgroundDrawer = 0x00000100
+		/* NOTE : If you want to add new flags here please be carefull. There are other 
+		flags are defined as
+	    enum
+	        { // internal flags
+	        EWysiwygOn                   = 0x00000200,
+	        EUnderOneScreenFormattedText = 0x00000400,
+	        EPictureDelimits             = 0x00000800,
+	        EPunctuationDelimits         = 0x00001000,
+	        EPasteFromIrStore            = 0x00002000,
+	        ELockScrollBarState          = 0x00004000,
+	        EOnReformatting              = 0x00008000
+	        };
+	    */
         };
 
 protected: // from MEditObserver
@@ -2682,19 +2695,20 @@ protected: // Internal to Symbian
      * @return Pointer to Edwin's extension. 
      */
     IMPORT_C CEikEdwinExtension* EdwinExtension();
-
 private:
-
-	enum
-		{ // internal flags
-		EWysiwygOn						=0x00000010,
-		EUnderOneScreenFormattedText	=0x00000020,
-		EPictureDelimits				=0x00000040,
-		EPunctuationDelimits			=0x00000080,
-		EPasteFromIrStore				=0x00000100,
-		ELockScrollBarState				=0x00000200,
-		EOnReformatting					=0x00000400
-		};
+    // NOTE : the follow enume and the enum TEikEdwinFlags are both used for iEdwinInternalFlags
+    // it is very easy to conflict !!! So if you want add new flag please check if it has been
+    // declared in enum TEikEdwinFlags
+    enum
+        { // internal flags
+        EWysiwygOn                   = 0x00000200,
+        EUnderOneScreenFormattedText = 0x00000400,
+        EPictureDelimits             = 0x00000800,
+        EPunctuationDelimits         = 0x00001000,
+        EPasteFromIrStore            = 0x00002000,
+        ELockScrollBarState          = 0x00004000,
+        EOnReformatting              = 0x00008000
+        };
 
 private: // from CCoeControl
 

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -31,15 +31,8 @@ class CEikDialogPage;
 class CAknRecordingGc;
 
 /**
- *  ?one_line_short_description
- *  ?more_complete_description
- *
- *  @code
- *   ?good_class_usage_example(s)
- *  @endcode
- *
- *  @lib ?library
- *  @since S60 ?S60_version *** for example, S60 v3.0
+ *  @lib eikdlg.lib
+ *  @since S60 v5.0
  */
 NONSHARABLE_CLASS( CAknFormPhysics ) : public CBase, public MAknPhysicsObserver
     {
@@ -209,15 +202,6 @@ private:
     */
     void ConstructL();
 
-    /**
-    * Checks whether panning and flicking are allowed with current world and
-    * view sizes.
-    *
-    * @since S60 v5.0
-    * @return ETrue if allowed.
-    */
-    TBool PhysicsAllowed() const;
-
 private: // data
     /**
     * Center of the "view" (the visible window to the whole form i.e. form's
@@ -250,16 +234,6 @@ private: // data
     * View size.
     */
     TSize iViewSize;
-    
-    /**
-    * Benchmark timestamp.
-    */
-    TTime iStartTime;
-    
-    /**
-    * Benchmark frame counter.
-    */
-    TInt iFrameCount;
     };
 
 #endif // C_CAKNFORMPHYSICS_H

@@ -25,7 +25,8 @@
 #include <aknappui.h>
 #include <AknDef.h>
 #include <touchfeedback.h>
-
+#include <akntranseffect.h>
+#include <akntransitionutils.h>
 #include "aknstyluspopupmenu.h"
 #include "aknstyluspopupmenucontent.h"
 
@@ -201,9 +202,14 @@ EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
         MTouchFeedback* feedback = MTouchFeedback::Instance();
         if ( feedback )
             {
+            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                {
+                feedbackType = ETouchFeedbackOptionsMenuOpened;
+                }
             feedback->InstantFeedback(
                     iContent,
-                    ETouchFeedbackPopUp,
+                    feedbackType,
                     ETouchFeedbackVibra,
                     TPointerEvent() );
             }

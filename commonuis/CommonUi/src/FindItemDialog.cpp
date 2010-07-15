@@ -476,11 +476,6 @@ void CFindItemDialog::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     else
         {
         DoHandlePointerEventL( aPointerEvent );
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {
-            iEdwin->ClearSelectionL();
-            iEdwin->DrawDeferred();
-            }
         }
     }
 
@@ -958,24 +953,6 @@ EXPORT_C void CFindItemDialog::EnableSingleClick ( TBool aEnable )
 //
 EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
     {
-    TBool selectionVisibility ( ETrue );
-    if ( iSingleClick && iEdwin && iEdwin->TextView() )
-        {
-        selectionVisibility = iEdwin->TextView()->SelectionVisible();
-        iEdwin->TextView()->SetSelectionVisibilityL( EFalse );
-
-        CFindItemEngine::SFoundItem item;
-        TBool founditem = iController->Item( item );
-        if ( founditem )
-            {
-            iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength );
-            }
-        else
-            {
-            iEdwin->SetSelectionL( iLastTappedItem.iX, iLastTappedItem.iY );
-            }
-        }
-
     CAknDialog::ProcessCommandL( aCommandId );
     switch (aCommandId)
         {
@@ -1087,12 +1064,6 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
             {
             if ( LaunchGenericUriL() )
                 {
-                if ( iSingleClick && iEdwin && iEdwin->TextView() )
-                    {
-                    iEdwin->TextView()->SetSelectionVisibilityL( selectionVisibility );
-                    iEdwin->ClearSelectionL();
-                    iEdwin->DrawDeferred();
-                    }
                 return;
                 }
             break;
@@ -1163,15 +1134,6 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
 #endif // RD_VIRTUAL_PHONEBOOK
             break;
             }
-        }
-    if ( iSingleClick && iEdwin && iEdwin->TextView() )
-        {
-        iEdwin->TextView()->SetSelectionVisibilityL( selectionVisibility );
-        if ( aCommandId != EFindItemCmdNextItem && aCommandId != EFindItemCmdPrevItem )
-            {
-            iEdwin->ClearSelectionL();
-            }
-        iEdwin->DrawDeferred();
         }
     }
 
@@ -1290,43 +1252,6 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
 
         aMenuPane->AddMenuItemsL( resource, EAknFormMaxDefault - 1, ETrue );
 
-        if ( iSingleClick && !foundItem )
-            {
-            switch ( resource )
-                {
-                case (R_FINDITEM_MAIL_ADDRESS_MENU):
-                    {
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemSubMenuSend, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
-                    break;
-                    }
-
-                case (R_FINDITEM_URL_ADDRESS_MENU):
-                    {
-                    aMenuPane->SetItemDimmed ( EFindItemCmdGoToUrl, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdAddToBookmark, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
-                    break;
-                    }
-
-                case (R_FINDITEM_PHONENUMBER_MENU): // fall through
-                case (R_FINDITEM_TELINTERNETNUMBER_MENU):
-                    {
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCall, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCopy, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemSubMenuSend, ETrue );
-                    aMenuPane->SetItemDimmed ( EFindItemCmdCreateContactCard, ETrue );
-                    break;
-                    }
-
-                default:
-                    {
-                    break;
-                    }
-                }
-            }
 
         if ( iSearchCase == KSearchTelInternetNumber &&
             iFindItemVoIPExtension->VoIPProfilesExistL() ||
@@ -1354,13 +1279,10 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
             iSearchCase & CFindItemEngine::EFindItemSearchPhoneNumberBin &&
             !iHideCallMenu )
             {
-            if ( !iSingleClick || foundItem )
-                {
-                aMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
-                aMenuPane->AddMenuItemsL(
-                    R_FINDITEM_CALLUI_AIW_ITEM,
-                    EFindItemCmdCall );
-                }
+            aMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
+            aMenuPane->AddMenuItemsL(
+                R_FINDITEM_CALLUI_AIW_ITEM,
+                EFindItemCmdCall );
             }
 
         aMenuPane->DeleteMenuItem( EAknFormCmdEdit );
@@ -1370,20 +1292,14 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
         aMenuPane->DeleteMenuItem( EAknFormCmdDelete );
 
 #ifndef RD_VIRTUAL_PHONEBOOK
-        if ( !iSingleClick || foundItem )
-            {
-            iPbkDataSave->AddMenuItemsL(
-                aMenuPane,
-                EFindItemCmdCreateContactCard );
-            }
+        iPbkDataSave->AddMenuItemsL(
+            aMenuPane,
+            EFindItemCmdCreateContactCard );
 #else
-        if ( !iSingleClick || foundItem )
-            {
-            aMenuPane->SetItemDimmed( EFindItemCmdCreateContactCard, ETrue );
-            aMenuPane->AddMenuItemsL(
-                R_FINDITEM_CONTACTS_AIW_ITEM,
-                EFindItemCmdCreateContactCard );
-            }
+        aMenuPane->SetItemDimmed( EFindItemCmdCreateContactCard, ETrue );
+        aMenuPane->AddMenuItemsL(
+            R_FINDITEM_CONTACTS_AIW_ITEM,
+            EFindItemCmdCreateContactCard );
 #endif // !RD_VIRTUAL_PHONEBOOK
 
         // Delete next/prev item items from menu if a last/next
@@ -1452,54 +1368,24 @@ EXPORT_C TKeyResponse CFindItemDialog::OfferKeyEventL(
     switch ( code )
         {
         case EKeyRightArrow:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
             iController->NextItemL();
             break;
         case EKeyDownArrow:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
             iController->MoveDownL();   
             break;
         case EKeyLeftArrow:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
             iController->PrevItemL();	
             break;
         case EKeyUpArrow:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
             iController->MoveUpL();
             break;
         case EKeyOK:
         case EKeyEnter:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
             iIsSensitiveMenu = ETrue;
             iMenuBar->SetMenuType(CEikMenuBar::EMenuContext);
             CAknDialog::DisplayMenuL();
             break;
         case EKeyPhoneSend:
-            if ( iSingleClick && !CurrentItemHasHighlight() )
-                {
-                HighlightCurrentItem();
-                break;
-                }
 
             if ( !iDialData )
                 {
@@ -1926,10 +1812,7 @@ void CFindItemDialog::ActivateL()
         UpdateScrollIndicatorL();
 
         iEdwin->TextView()->SetSelectionVisibilityL( ETrue );
-        if ( !iSingleClick )
-            {
-            iEdwin->SetSelectionL( item.iStartPos, item.iLength + item.iStartPos );
-            }
+        iEdwin->SetSelectionL( item.iStartPos, item.iLength + item.iStartPos );
         }
     else
         {// Let's show a information note if no items were found
@@ -2404,49 +2287,6 @@ void CFindItemDialog::HandleNaviDecoratorEventL( TInt aEventID )
         default:
             break;
         }    
-    }
-
-// ----------------------------------------------------------------------------
-// CFindItemDialog::CurrentItemHasHighlight
-// ----------------------------------------------------------------------------
-//
-TBool CFindItemDialog::CurrentItemHasHighlight()
-    {
-    CFindItemEngine::SFoundItem item;
-    TBool foundItem = iController->Item( item );
-
-    // foundItem remains as ETrue, if item found by controller is exactly
-    // same as highlighted selection
-    
-    TCursorSelection selection( iEdwin->Selection() );
-    TInt selectionLength = iEdwin->SelectionLength();
-
-    foundItem = foundItem && ( ( item.iLength == selectionLength ) && ( item.iStartPos == Min( selection.iCursorPos, selection.iAnchorPos ) ) );
-
-    foundItem = foundItem && ( iEdwin && iEdwin->TextView()
-        && iEdwin->TextView()->SelectionVisible() );
-
-    return foundItem;
-    }
-
-// ----------------------------------------------------------------------------
-// CFindItemDialog::HighlightCurrentItem
-// ----------------------------------------------------------------------------
-//
-void CFindItemDialog::HighlightCurrentItem()
-    {
-    CFindItemEngine::SFoundItem item;
-    TBool found = iController->Item( item );
-
-    if ( found && iEdwin && iEdwin->TextView() )
-        {
-        TRAPD( err, iEdwin->TextView()->SetSelectionVisibilityL( ETrue ) );
-        if ( KErrNone == err )
-            {
-            //When set selection leaves, we can't highlight the item, so just ignore this leave.
-            TRAP_IGNORE( iEdwin->SetSelectionL( item.iStartPos, item.iStartPos + item.iLength ) );
-            }
-        }
     }
 
 

@@ -145,7 +145,7 @@ void CHgVgMediaWall::ConstructL (const TRect& aRect, MObjectProvider* aParent )
     
     
     SetMopParent( aParent );
-    SetFlags( EHgVgMediaWallUninitialized );
+    SetFlags( EHgVgMediaWallDrawToWindowGC | EHgVgMediaWallUninitialized );
     
     }
 
@@ -176,7 +176,7 @@ EXPORT_C void CHgVgMediaWall::InitScreenL( const TRect& aRect )
 //
 EXPORT_C void CHgVgMediaWall::RefreshScreen( TInt aIndex )
     {
-    ClearFlags(EHgVgMediaWallDrawToWindowGC);
+    
     if( !iIsForeground  )
         {
         return;
@@ -189,7 +189,15 @@ EXPORT_C void CHgVgMediaWall::RefreshScreen( TInt aIndex )
                         && aIndex <= FirstIndexOnScreen() + ItemsOnScreen()) )
             {
             UpdateLabelsAndPopup();
-            DrawNow();
+            if(iFlags & EHgVgMediaWallDrawToWindowGC)
+                {
+                DrawNow();
+                }
+            else
+                {
+                DrawOpenVG();
+                }
+        
             }
         }
     }
@@ -367,19 +375,34 @@ void CHgVgMediaWall::Draw ( const TRect& /*aRect*/ ) const
         return;
         }
     
-    if(iFlags & EHgVgMediaWallDrawToWindowGC)
+    CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);           
+
+    if( iFlags & EHgVgMediaWallDrawToWindowGC )
         {
-        CHgVgMediaWall* self = const_cast<CHgVgMediaWall*>(this);
-        self->ClearFlags(EHgVgMediaWallDrawToWindowGC);
-        FillSystemGcWithSkin( );
-        return;
+        CFbsBitmap* screenshot = NULL;
+        screenshot = self->DrawToBitmap();
+        if (screenshot)
+            {
+            SystemGc().BitBlt( Rect().iTl,screenshot );
+            delete screenshot;
+            }
+        else
+            {
+            // draw with alpha to make a hole to composition layer
+            SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+            SystemGc().SetBrushColor(TRgb(0,0,0,0));
+            SystemGc().Clear();
+            DrawOpenVG();
+            }
         }
-    
-    // draw with alpha to make a hole to composition layer
-    SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
-    SystemGc().SetBrushColor(TRgb(0,0,0,0));
-    SystemGc().Clear();
-    DrawOpenVG();
+    else
+        {
+        // draw with alpha to make a hole to composition layer
+        SystemGc().SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        SystemGc().SetBrushColor(TRgb(0,0,0,0));
+        SystemGc().Clear();
+        DrawOpenVG();
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -1164,6 +1187,9 @@ void CHgVgMediaWall::HandleResourceChange( TInt aType )
     
             iAnimationTimer->Cancel();
             }
+    
+        SetFlags( EHgVgMediaWallDrawToWindowGC  );
+        DrawNow();
         }
     
     if( aType == KEikMessageUnfadeWindows )
@@ -1171,7 +1197,14 @@ void CHgVgMediaWall::HandleResourceChange( TInt aType )
         ClearFlags( EHgVgMediaWallDrawToWindowGC );
         DrawNow();
         }
+
+    if( aType == KEikDynamicLayoutVariantSwitch && !(iFlags & EHgVgMediaWallDrawToWindowGC) )
+        {
+        SetFlags( EHgVgMediaWallDrawToWindowGC );
+        DrawNow();
+        }
     }
+
 
 // ---------------------------------------------------------------------------
 // CHgVgMediaWall::InitItemsL()
@@ -1226,13 +1259,16 @@ void CHgVgMediaWall::HandleLosingForeground()
 
     iIsForeground = EFalse;
     
+    // draw screenshot using window gc, this is needed
+    // for nga effects to work
+    DrawNow();
+    
     // free textures    
     FreeItemsImages();
     // free other resources
     DestroyRendering();
 
-    SetFlags( EHgVgMediaWallUninitialized );
-    DrawNow();
+    SetFlags( EHgVgMediaWallUninitialized | EHgVgMediaWallDrawToWindowGC );
     
     iCoeEnv->WsSession().Flush();
     }

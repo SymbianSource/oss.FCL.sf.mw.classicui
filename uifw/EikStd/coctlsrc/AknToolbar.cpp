@@ -1210,8 +1210,12 @@ EXPORT_C void CAknToolbar::HandleResourceChange( TInt aType )
         for(TInt i = 0; i < iVisibleItems.Count(); i++)
             {
             CAknToolbarItem* item = iVisibleItems[ i ];
-            CAknButton* button = static_cast<CAknButton*>( item->Control() ); 
-            button->ResetState();
+            if( item->ControlType() == EAknCtButton 
+                || item->ControlType() == EAknCtToolbarExtension )
+                {
+                CAknButton* button = static_cast<CAknButton*>( item->Control() ); 
+                button->ResetState();
+                }
             }
 
         if ( iFlags & KAknToolbarFixed )

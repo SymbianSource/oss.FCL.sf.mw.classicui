@@ -1172,14 +1172,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
             TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                if( iExt->iMenuType == EMenuContext || iExt->iMenuType == EMenuEdit )
-                    {
-                    fbLogicalType = ETouchFeedbackIncreasingPopUp;
-                    }
-                else
-                    {
-                    fbLogicalType = ETouchFeedbackOptionsMenuOpened;
-                    }
+                fbLogicalType = ETouchFeedbackOptionsMenuOpened;
                 }
             feedback->InstantFeedback(
                                    this,
@@ -1370,15 +1363,7 @@ void CEikMenuBar::ProcessCommandL(TInt aCommandId)
                     if ( CAknTransitionUtils::TransitionsEnabled(
                             AknTransEffect::EComponentTransitionsOff ) )
                         {
-                        if ( iExt->iMenuType == EMenuContext ||
-                             iExt->iMenuType == EMenuEdit )
-                            {
-                            fbLogicalType = ETouchFeedbackDecreasingPopUp;
-                            }
-                        else
-                            {
-                            fbLogicalType = ETouchFeedbackOptionsMenuClosed;
-                            }
+                        fbLogicalType = ETouchFeedbackOptionsMenuClosed;
                         }
                     feedback->InstantFeedback(
                                            this,

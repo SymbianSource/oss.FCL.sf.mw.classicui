@@ -30,10 +30,11 @@
 #include <aknview.h>
 #include <apgwgnam.h>
 #include <aknlayoutscalable_avkon.cdl.h>
-
+#include <akntransitionutils.h>
 #include <AknTasHook.h> // for testability hooks
 #include <touchfeedback.h>
 #include <gfxtranseffect/gfxtranseffect.h>
+#include <akntranseffect.h>
 #include <akntransitionutils.h>
 const TInt KWindowPosition = 1000;             // window's position
 
@@ -573,10 +574,16 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     
                     if ( aPointerEvent.iType != TPointerEvent::EButton1Up )
                         {
+                        // popup will be hiden when EButton1Down comes.
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( ETouchFeedbackPopUp );
+                            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
+                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                                {
+                                feedbackType = ETouchFeedbackOptionsMenuClosed;
+                                }
+                            feedback->InstantFeedback( feedbackType );
                             }        
                         iCloseMenu = ETrue; 
                         iController.HidePopUp(); 
@@ -600,13 +607,19 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                             }
                         else
                             {
+                            // popup will be hiden when EButton1Down comes.
+                            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
+                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                                {
+                                feedbackType = ETouchFeedbackOptionsMenuClosed;
+                                }
                             feedback->InstantFeedback( this,
-                                                       ETouchFeedbackPopUp,
+                                                       feedbackType,
                                                        aPointerEvent );
                             }
                         }
                     iCloseMenu = ETrue;
-                    iController.HidePopUp();    
+                    iController.HidePopUp();
                     }          
                 }
                 

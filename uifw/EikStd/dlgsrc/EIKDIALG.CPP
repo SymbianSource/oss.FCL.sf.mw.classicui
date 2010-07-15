@@ -1364,7 +1364,7 @@ EXPORT_C void CEikDialog::SetControlCaptionL(TInt aControlId,const TDesC& aText)
 	if (line)
 		{
 		line->SetCaptionL(aText);
-		line->DrawNow();
+		line->DrawDeferred();
 		}
 	}
 
@@ -2450,10 +2450,6 @@ EXPORT_C void CEikDialog::HandleResourceChange(TInt aType)
     	CCoeControl::HandleResourceChange(aType);
         }
     
-    if( !CAknEnv::Static()->TransparencyEnabled() && aType==KEikColorResourceChange)
-        {
-        Window().SetBackgroundColor(iEikonEnv->ControlColor(EColorDialogBackground,*this));
-        }
     _AKNTRACE_FUNC_EXIT;
     }
 

@@ -80,28 +80,26 @@ void CBCTestDocAndInitCase::ConstructL()
 void CBCTestDocAndInitCase::BuildScriptL()
     { 
     
-    TCFDDriveStatus status = DriveStatus( EDriveE );
-	
-	if (status != EDriveNotReady)
+       const TInt scripts[] =
         {
-		// Have E drive
-        AddTestL( DELAY( 10 ), 
-		LeftCBA, Down, LeftCBA, DELAY( 10 ), 
-		LeftCBA, LeftCBA, DELAY( 10 ), 
-		LeftCBA, DELAY( 10 ),
-		LeftCBA, DELAY( 10 ),
-		LeftCBA, DELAY( 10 ),
-		
-		LeftCBA, TEND );
-        }
-	else
-	    {
-		// Not have E drive
-		AddTestL( DELAY( 10 ), 
-		LeftCBA, Down, LeftCBA, DELAY( 10 ), 
-		LeftCBA, LeftCBA, DELAY( 20 ), 
-		LeftCBA, TEND );
-	    }
+        DELAY( 1 ), // delay between commands is 1*0.1 seconds = 0.1 seconds
+        LeftCBA, 
+        LeftCBA,
+        WAIT( 10 ),
+        LeftCBA, 
+        WAIT( 5 ),
+        LeftCBA, 
+        WAIT( 5 ),
+        LeftCBA,
+        WAIT( 5 ),
+        LeftCBA, 
+        DELAY( 15 ),         
+        LeftCBA,
+        DELAY( 1 ), 
+        Down, 
+        LeftCBA
+        };
+    AddTestScriptL( scripts, sizeof( scripts )/sizeof( TInt ) );
     }
 // ---------------------------------------------------------------------------
 // CBCTestDocAndInitCase::DriveStatus

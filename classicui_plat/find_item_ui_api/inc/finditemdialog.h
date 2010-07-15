@@ -447,18 +447,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
          */
         void DoHandlePointerEventL ( const TPointerEvent& aPointerEvent );
 
-        /**
-         * Returns ETrue if current item has visible highlight
-         *
-         * @return ETrue if current item has visible highlight
-         */
-        TBool CurrentItemHasHighlight();
-        
-        /**
-         * Highlights current item.
-         */
-        void HighlightCurrentItem();
-
 
     private: //data
         // Pointer to controller which controls engine and dialog

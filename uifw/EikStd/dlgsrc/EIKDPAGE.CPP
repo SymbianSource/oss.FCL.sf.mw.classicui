@@ -94,7 +94,8 @@ NONSHARABLE_CLASS(CDialogPageExtension) : public CBase
 public:
     enum TFlags
         {
-        ELineHandlerCalled
+        ELineHandlerCalled,
+        EDragEventsAllowed  // turned on when dragging is allowed
         };
     static CDialogPageExtension* NewL();
     ~CDialogPageExtension();
@@ -131,7 +132,6 @@ public:
     TBool iExternalScrollbar;
     TBool iIsDoubleQuery;
     TBool iFocusedClicked;
-    TInt iPreviousThumbPosition;
     TBool iPreviousThumbDirection;
     MTouchFeedback* iFeedback;
     TBitFlags iFlags;
@@ -495,7 +495,6 @@ AfterAddingNewLinesL, in an attempt to group code which has to be executed toget
         thisLine->iIsFormControl = aFormControl ;
         if ( aFormControl )
             {
-            thisLine->GetAknLayoutValuesL() ;   // should cause the control to have size.
             if ( iFormFlags )
             thisLine->SetFormFlags( iFormFlags ) ;
             }       
@@ -1329,27 +1328,6 @@ TInt CEikDialogPage::LineIndex(TInt aLineId)
     return KErrNotFound;
     }
 
-TInt CEikDialogPage::YPosToLine2(TInt aYPos) const
-    {
-    return iLines->YPosToLine( Rect(), iScroll->Top(), iScroll->Middle(), iScroll->Bottom(), aYPos );
-    }
-
-TInt CEikDialogPage::LineToYPos(TInt& aLine) const
-//
-// Calcs YPos of line relative to the ViewWin and adjusts aLine if its out of bounds
-    {
-	_AKNTRACE_FUNC_ENTER;
-    ASSERT(iLines);
-    const TInt numLines=iLines->Count();
-    ASSERT(numLines>0);
-    if (aLine<0)
-        aLine=0;
-    else if (aLine>=numLines)
-        aLine=numLines-1;
-    _AKNTRACE( "[%s][%s][%d]", "CEikDialogPage", __FUNCTION__, (*iLines)[aLine]->Position().iY );
-    _AKNTRACE_FUNC_EXIT;
-    return (*iLines)[aLine]->Position().iY; // TPREMOVAL +iDataWinPos.iY;
-    }
 
 void CEikDialogPage::ExposeLine(TInt aLine, TBool aForceResize, TBool aShowWholeLine) 
 //
@@ -1523,13 +1501,31 @@ void CEikDialogPage::SizeChanged()
             }
 
         iLines->SetRect( Rect(), iScroll->Top(), iScroll->Middle(), iScroll->Bottom() );
-
         iExtension->iInitialLayoutDone = ETrue;
         UpdatePhysics();
 
-        if ( ( count > 0 ) && ( iCurrentLine >= 0 ) )
+        if ( iExtension->iScrolling
+                || iExtension->iFlags.IsSet( 
+                        CDialogPageExtension::EDragEventsAllowed ) )
             {
+            iPhysics->Stop();
+            Synchronize();
+            }
+
+        if ( count > 0 && iCurrentLine != KErrNotFound )
+            {
+            if ( iLastExposedLine != -1 )
+                {
+                iLastExposedLineViewWinYPosition = 
+                        iLines->LineIndexToYPosition( iLastExposedLine, 0 );
+                }
+
             ExposeLine( iCurrentLine, ETrue );
+            
+            if ( Size() != TSize::EUninitialized )
+                {
+                (*iLines)[iCurrentLine]->DrawDeferred();
+                }
             }
         
         TRAP_IGNORE( UpdateScrollBarL() ); // ignore any errors.
@@ -1633,7 +1629,7 @@ void CEikDialogPage::HandleEdwinEventL(CEikEdwin* aEdwin,TEdwinEvent aEventType)
                     
                     if ( i != iCurrentLine )
                         {
-                        DrawNow();
+                        DrawDeferred();
                         }
                         
                     break;
@@ -1678,7 +1674,7 @@ void CEikDialogPage::HandlePopupFieldEventL(CAknPopupField* aPopupField, TAknPop
                     {
                     RecordLineL( i );
                     }
-                DrawNow();
+                DrawDeferred();
                 break;
                 }
             }
@@ -1737,16 +1733,10 @@ void CEikDialogPage::PrepareToDrawVerticalLine() const
                                              KAknsIIDQsnFrInput,
                                              KAknsIIDDefault ) ;
                 }
-
             }       
-        
         }
-    
     }
 
-void CEikDialogPage::DrawVerticalLine() const
-    {       
-    }
 
 void CEikDialogPage::HandleControlEventL(CCoeControl* aControl,TCoeEvent aEventType)
     {
@@ -1823,7 +1813,7 @@ TBool CEikDialogPage::ResizeEdwinToFitTextL(CEikEdwin* aEdwin, TDrawNow /*aDrawN
     if (height > maxHeight)
         height = maxHeight;
 
-    TSize size = aEdwin->Size();
+    TSize size( aEdwin->Size() );
     TInt maximumEdwinHeight = aEdwin->MaximumHeight();
 // ensure maxheight as dynamic construction may be done whilst form is of zero height.
     if ((maximumEdwinHeight > maxHeight) && maxHeight) 
@@ -1875,54 +1865,6 @@ as SizeChanged occurs multiple times on creation of multiline forms.
         TRAP_IGNORE(UpdateScrollBarL()); // ignore any errors 
         }
     return ETrue;
-    }
-
-
-static TInt CountNumberOfLines_Edwin(CEikEdwin *aEdwin, TRect aRect, TInt numOfLines)
-    {
-    TInt edwinLines = numOfLines;
-    TInt count = 0;
-    for(TInt i=0;i<edwinLines;i++)
-        {
-        TInt scrolledLines = aEdwin->TextLayout()->FirstLineInBand();
-        TInt docPos = aEdwin->TextLayout()->FirstCharOnLine(scrolledLines + i+1);
-        TPoint point;
-        aEdwin->TextLayout()->PosInBand(docPos, point);
-        TInt yPos = point.iY;
-        TRect lineRect;
-        aEdwin->TextLayout()->GetLineRect(yPos, lineRect);
-        lineRect.iTl += aEdwin->Position();
-        lineRect.iBr += aEdwin->Position();
-        if (aRect.Contains(lineRect.iTl) && aRect.Contains(lineRect.iBr))
-            count++;
-        }   
-    return count;
-    }
-static TInt CountNumberOfLines_Ctrl(CCoeControl *aControl, TRect aRect)
-    {
-    TRect rect = TRect(aControl->Position(), aControl->Size());
-    TInt count = 0;
-    if (aRect.Contains(rect.iTl) && aRect.Contains(rect.iBr))
-        count ++;
-    return count;
-    }
-
-static TInt CountNumberOfVisibleLines(CEikCaptionedControl *aControl, TRect aClipRect)
-    {
-    TInt count = 0;
-    if (aControl->ControlIsAnEdwin(aControl->iControlType))
-        count += CountNumberOfLines_Edwin((CEikEdwin*)aControl->iControl, aClipRect, aControl->NumberOfLines());
-    else
-        count += CountNumberOfLines_Ctrl(aControl->iControl, aClipRect);
-    count += CountNumberOfLines_Ctrl(aControl->iCaption, aClipRect);
-    return count;
-    }
-
-static TInt NumberOfTextLinesVisible(CEikCapCArray *aLines, TInt aItem, TRect aClipRect)
-    {
-    if (aItem < 0) return 0;
-    CEikCaptionedControl *control = (*aLines)[aItem];
-    return CountNumberOfVisibleLines(control, aClipRect);   
     }
 
 
@@ -1990,21 +1932,12 @@ void CEikDialogPage::UpdateScrollBarL()
 
     if (scrollBar)
         {
-        TInt top = iScroll->Top();
-        TInt middle = iScroll->Middle();
-        TInt bottom = iScroll->Bottom();
-        TRect parent( Rect() );
-        TBool topmostPartial = top == -1;
-        iLines->CalcItemIndexes(top, middle, bottom, parent.Size());
-        TInt extraLines = topmostPartial ? NumberOfTextLinesVisible(iLines, top-1, parent) : 0;
-        iExtension->iPreviousThumbPosition = iLines->NumberOfTextLinesBeforeLine( top - extraLines );
-
         // Using form layout, since this is used by AknForm only
         TAknWindowComponentLayout layout = TAknWindowComponentLayout::Compose( 
             AknLayoutScalable_Avkon::listscroll_form_pane(),  
             AknLayoutScalable_Avkon::scroll_pane_cp8());
             
-        TRect scrollBarParent( MainPane().Size()/*mainPaneRect.Size()*/ );
+        TRect scrollBarParent( MainPane().Size() );
     
         AknLayoutUtils::LayoutVerticalScrollBar(iPageContainer->ScrollBar(), scrollBarParent, layout.LayoutLine());
         if(!ScbState() &&  iCurrentLine!=-1 && iCurrentLine < iLines->Count() )
@@ -2047,7 +1980,6 @@ void CEikDialogPage::UpdateScrollBarThumb()
         vertModel.iThumbSpan = iSize.iHeight - iSize.iHeight % 2;
         vertModel.iThumbPosition = Max( iPhysics->ViewTopY(), 0 );
 
-        iExtension->iPreviousThumbPosition = vertModel.iThumbPosition;
         TRAP_IGNORE(scrollBar->SetModelL(&vertModel)); // won't leave now, but can't guarantee forever        
         iPageContainer->ScrollBar()->Tile(&vertModel);
         iPageContainer->ScrollBar()->SetVFocusPosToThumbPos(vertModel.iThumbPosition);
@@ -2423,7 +2355,7 @@ void CEikDialogPage::SetEditableL( TBool aEditable, TBool /*aActivePage*/ )
     
     if ( iExtension->iUsesSingleClick && iExtension->iSetInitialFocusDone )
         {
-        ShowFocus( EFalse );
+        ShowFocus( EFalse, EFalse );
         }
     
     const TInt numLines=iLines->Count() ;
@@ -2545,9 +2477,6 @@ void CEikDialogPage::Draw(const TRect& /*aRect*/) const
             // Have to call non const leaving function...  Ignore the TRAP as result is cosmetic only.
             TRAP_IGNORE( const_cast<CEikDialogPage*>(this)->DrawEmptyListL( windowGcRef ) ) ;
             }
-        else
-            DrawVerticalLine();
-        
         
         if ( IsForm() )
             {
@@ -2707,8 +2636,6 @@ void CEikDialogPage::RegisterComponentL(TInt aControlType, CCoeControl* aControl
         aLine->iIsFormControl = iFormControl ;
         if ( iFormFlags )
             aLine->SetFormFlags( iFormFlags ) ;
-
-        aLine->GetAknLayoutValuesL() ;  // should cause the control to have size.
         }
     };
 
@@ -2820,14 +2747,6 @@ TBool CEikDialogPage::VisibleSizeOnPage(TInt& aHeightOfControlVisibleOnPage, con
     CEikCaptionedControl* capCtrl =(*iLines)[lineIndex];
     aHeightOfControlVisibleOnPage=capCtrl->Rect().Height();
     return EFalse;
-    }
-
-TSize CEikDialogPage::RealDataSize() const
-    {
-    if (iLines)
-        if (iLines->Count()>0)
-            return TRect((*iLines)[0]->Rect().iTl,(*iLines)[iLines->Count()-1]->Rect().iBr).Size();
-    return iSize;
     }
 
 TInt CEikDialogPage::NumberOfLines() const
@@ -3001,6 +2920,8 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                     }
                 }
             }
+        
+        iExtension->iFlags.Set( CDialogPageExtension::EDragEventsAllowed );
         }
 
     if ( aPointerEvent.iType == TPointerEvent::EDrag )
@@ -3008,7 +2929,9 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         _AKNTRACE( "TPointerEvent::EDrag" );
         TPoint drag( iExtension->iDragStartPosition - aPointerEvent.iPosition );
         
-        if ( Abs( drag.iY ) > iPhysics->DragThreshold() )
+        if ( Abs( drag.iY ) > iPhysics->DragThreshold()
+                && iExtension->iFlags.IsSet( 
+                        CDialogPageExtension::EDragEventsAllowed ) )
             {
             iExtension->iHighlightTimer->Cancel();
 
@@ -3074,7 +2997,8 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
         
         if ( !textSelected )
             {
-            if ( !iPhysics->StartFlick( drag, iExtension->iStartTime ) )
+            if ( !iExtension->iFlags.IsSet( CDialogPageExtension::EDragEventsAllowed ) 
+                    || !iPhysics->StartFlick( drag, iExtension->iStartTime ) )
                 {
                 iExtension->iScrolling = EFalse;
                 
@@ -3106,6 +3030,8 @@ void CEikDialogPage::HandleFormPointerEventL( const TPointerEvent& aPointerEvent
                     }
                 }
             }
+        
+        iExtension->iFlags.Clear( CDialogPageExtension::EDragEventsAllowed );
         }
 
     // forward pointer event to line's observer
@@ -3186,13 +3112,13 @@ void CEikDialogPage::UpdatePhysics()
             viewCenter.iY = Abs( (*iLines)[0]->Rect().iTl.iY - iPosition.iY );
             }
             
-        viewCenter.iY += iPhysics->ViewCenterDistance();
+        TInt viewCenterDistance = iPhysics->ViewCenterDistance();
+        viewCenter.iY += viewCenterDistance;
         
         if ( iExtension->iInitialLayoutDone )
             {
             TInt oldScreenHeight = iPhysics->ViewSize().iHeight;
-            TInt delta = ( iPhysics->ViewCenterDistance() ) - 
-                ( oldScreenHeight / 2 );
+            TInt delta = ( viewCenterDistance ) - ( oldScreenHeight / 2 );
 
             viewCenter = iPhysics->ViewCenter();
             viewCenter.iY += delta;
@@ -3201,6 +3127,16 @@ void CEikDialogPage::UpdatePhysics()
         TSize worldSize( iLines->MinimumSize() );
         worldSize.iHeight = Max( worldSize.iHeight, iSize.iHeight );
 
+        // align to borders if those are crossed
+        if ( viewCenter.iY < viewCenterDistance )
+            {
+            viewCenter.iY = viewCenterDistance;
+            }
+        else if ( viewCenter.iY > ( worldSize.iHeight - viewCenterDistance ) )
+            {
+            viewCenter.iY = worldSize.iHeight - viewCenterDistance;
+            }
+        
         TRAP_IGNORE( iPhysics->InitPhysicsL( worldSize, iSize, viewCenter ) );
         TRAP_IGNORE( UpdateScrollBarL() );
         }
@@ -3267,7 +3203,7 @@ TBool CEikDialogPage::HighlightVisible() const
 // ---------------------------------------------------------------------------
 //
 void CEikDialogPage::ScrollCacheByPixels( 
-		TInt /*aDelta*/, const TDesC& /*aDebugMsg*/, TBool aDrawNow )
+		TInt /*aDelta*/, TBool aDrawNow )
     {
     if ( iLines->Count() <= 0 )
         return;
@@ -3302,17 +3238,16 @@ void CEikDialogPage::ScrollCacheByPixels(
         {
         if ( upperItem != iExtension->iTopItem || bottomItem != iExtension->iBottomItem )
             {
-            if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
+            switch(iPhysics->OngoingPhysicsAction())
                 {
-                iExtension->Feedback( *this, ETouchFeedbackSensitiveList );
-                }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
-                {
-                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
-                }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionBouncing )
-                {
-                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                case CAknPhysics::EAknPhysicsActionBouncing:
+                case CAknPhysics::EAknPhysicsActionDragging:
+                case CAknPhysics::EAknPhysicsActionFlicking:
+                    iExtension->SilentFeedback( *this,
+                            ETouchFeedbackSensitiveList, TPointerEvent() );
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -3320,17 +3255,16 @@ void CEikDialogPage::ScrollCacheByPixels(
         {
         if ( upperItem < iExtension->iTopItem || bottomItem > iExtension->iBottomItem )
             {
-            if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionDragging )
+            switch(iPhysics->OngoingPhysicsAction())
                 {
-                iExtension->Feedback( *this, ETouchFeedbackSensitiveList );
-                }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
-                {
-                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
-                }
-            else if( iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionBouncing )
-                {
-                iExtension->SilentFeedback( *this, ETouchFeedbackSensitiveList, TPointerEvent() );
+                case CAknPhysics::EAknPhysicsActionBouncing:
+                case CAknPhysics::EAknPhysicsActionDragging:
+                case CAknPhysics::EAknPhysicsActionFlicking:
+                    iExtension->SilentFeedback( *this,
+                            ETouchFeedbackSensitiveList, TPointerEvent() );
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -3395,6 +3329,7 @@ void CEikDialogPage::UpdateLineInCache( CEikCaptionedControl* aLine )
 void CEikDialogPage::Synchronize()
     {
     iExtension->iScrolling = EFalse;
+    iExtension->iFlags.Clear( CDialogPageExtension::EDragEventsAllowed );
     iLines->MoveLineToScreen( iCurrentLine, iPhysics->ViewTopY(), ETrue );
     }
 
@@ -3473,22 +3408,6 @@ void CEikDialogPage::RecordLineL( TInt aLine )
     
     Parent()->Parent()->Parent()->SetCustomGc( NULL );
     _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikDialogPage::ScrollByPixels
-// ---------------------------------------------------------------------------
-//
-void CEikDialogPage::ScrollByPixels( TInt aDelta )
-    {
-    if ( aDelta != 0 )
-        {
-        iLines->ScrollByPixels( aDelta );
-        TRAP_IGNORE( UpdateScrollBarL() );
-        DrawNow();
-        TRAP_IGNORE( RecordLinesL() );
-        }
     }
 
 
@@ -3592,12 +3511,10 @@ void CEikDialogPage::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     CCoeControl* grabbingComponent = GrabbingComponent(); 
     TBool callDefaultImplementation = ETrue;
     TBool focusItem = EFalse;
-    // YPosToLine is scaled to iDataWinPos, so add it to pointer Y position
-    TInt yPosition = aPointerEvent.iPosition.iY; // + iDataWinPos.iY;
-    TInt touchedLineIndex = YPosToLine2( yPosition );
+    TInt touchedLineIndex = iLines->YPositionToLineIndex( aPointerEvent.iPosition.iY );
+
     // If the stylus is down and the touched line is already the current one,
     // mark this fact in iExtension->iFocusedClicked to be used later when the stylus is up.
-    
     if ( touchedLineIndex != KErrNotFound && 
          iExtension->iCapturingItem != KErrNotFound &&
          touchedLineIndex != iExtension->iCapturingItem )

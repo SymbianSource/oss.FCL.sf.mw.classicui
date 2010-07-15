@@ -388,24 +388,19 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
             {
             if ( iPhysics )
                 {
-                TTouchFeedbackType feedbackType = ETouchFeedbackVibra;
-                switch( iPhysics->OngoingPhysicsAction() )
+                switch(iPhysics->OngoingPhysicsAction())
                     {
-                    case CAknPhysics::EAknPhysicsActionDragging:
-                        {
-                        feedbackType = static_cast<TTouchFeedbackType>
-                                  ( ETouchFeedbackVibra | ETouchFeedbackAudio );
-                        }
-                    case CAknPhysics::EAknPhysicsActionFlicking:
                     case CAknPhysics::EAknPhysicsActionBouncing:
+                    case CAknPhysics::EAknPhysicsActionDragging:
+                    case CAknPhysics::EAknPhysicsActionFlicking:
                         {
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
                             feedback->InstantFeedback( iPopUpMenuContent,
-                                                    ETouchFeedbackSensitiveList,
-                                                    feedbackType,
-                                                    TPointerEvent() );
+                                                ETouchFeedbackSensitiveList,
+                                                ETouchFeedbackVibra,
+                                                TPointerEvent() );
                             }
                         break;
                         }

@@ -4190,7 +4190,8 @@ void CAknSlider::SetLabelColor()
     if ( Layout() != EAknSettingsItemSliderLayout &&
          Layout() != EAknSettingsItemSliderLayoutWithGraphics  &&
          Layout() != EAknSliderLayoutVertical &&
-         Layout() != EAknSliderLayoutHorizontal ) 
+         Layout() != EAknSliderLayoutHorizontal &&
+         Layout() != EAknMIDPFormSliderLayout ) 
         {
         error = AknsUtils::GetCachedColor( skin, color,
                     KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );

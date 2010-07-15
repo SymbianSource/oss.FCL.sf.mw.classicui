@@ -1872,7 +1872,8 @@ void CListBoxExt::InitPhysicsL()
         TInt topItemIndex = iListBox.iView->TopItemIndex();
         TInt itemHeight = iListBox.iView->ItemHeight();
         TInt numberOfItems = iListBox.iModel->NumberOfItems();
-
+        TInt emptySpaceOffset ( 0 );
+        
         TSize viewSize( iListBox.iView->ViewRect().Size() );
         TSize worldSize( viewSize.iWidth, itemHeight * numberOfItems );
         
@@ -1887,6 +1888,15 @@ void CListBoxExt::InitPhysicsL()
                 {
                 worldSize.iHeight += itemHeight;
                 }
+            
+            // Check empty space below the grid
+            if ( topItemIndex != 0 )
+                {
+                TInt lastItemBottomY = 
+                        iListBox.iView->ItemPos( 
+                                numberOfItems - 1 ).iY + itemHeight +1;
+                emptySpaceOffset = Min( 0, lastItemBottomY - viewSize.iHeight );
+                }
             }
             
         // Reset offset if view's size has changed - this is needed if e.g.
@@ -1897,6 +1907,7 @@ void CListBoxExt::InitPhysicsL()
             }
 
         TPoint viewCenter( viewSize.iWidth / 2, ( topItemIndex / iItemsInSingleLine ) * itemHeight - iListBox.iView->ItemOffsetInPixels() + ( viewSize.iHeight / 2 ) );
+        viewCenter.iY += emptySpaceOffset;
 
         // Make sure that world's size is always at least view size.
         worldSize.iHeight = Max( worldSize.iHeight, viewSize.iHeight );
@@ -6787,18 +6798,18 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
                     ( newListBottomPos >= iListBoxExt->ListBottomLimit() ) ||
                     ( newListTopPos <= 0 && newListTopPos + viewHeight >= 0 && newListLastItemPos > viewHeight ) )
                     {
-                    if ( CAknPhysics::EAknPhysicsActionFlicking == iListBoxExt->iPhysics->OngoingPhysicsAction() || 
-                         CAknPhysics::EAknPhysicsActionBouncing == iListBoxExt->iPhysics->OngoingPhysicsAction() )
+                    switch(iListBoxExt->iPhysics->OngoingPhysicsAction())
                         {
-                        iListBoxExt->ImmediateFeedback( ETouchFeedbackSensitiveList,
-                                                        TTouchFeedbackType( ETouchFeedbackVibra ),
-                                                        TPointerEvent() );
-                        }
-                    else if ( CAknPhysics::EAknPhysicsActionDragging == iListBoxExt->iPhysics->OngoingPhysicsAction() )
-                        {
-                        iListBoxExt->ImmediateFeedback( ETouchFeedbackSensitiveList,
-                                                        TTouchFeedbackType( ETouchFeedbackVibra | ETouchFeedbackAudio ),
-                                                        TPointerEvent() );
+                        case CAknPhysics::EAknPhysicsActionBouncing:
+                        case CAknPhysics::EAknPhysicsActionDragging:
+                        case CAknPhysics::EAknPhysicsActionFlicking:
+                            iListBoxExt->ImmediateFeedback( 
+                                    ETouchFeedbackSensitiveList,
+                                    TTouchFeedbackType( ETouchFeedbackVibra ),
+                                    TPointerEvent() );
+                            break;
+                        default:
+                            break;
                         }
                     }
                 }

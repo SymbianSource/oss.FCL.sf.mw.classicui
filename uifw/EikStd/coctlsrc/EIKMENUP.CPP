@@ -573,24 +573,18 @@ void CEikMenuPaneExtension::DoOffset( TInt aOffset )
         if ( iFlickActive || iPanningActive )
             {
             if ( ( aOffset>0 && iListTopIndex <= listBottomLimit && iListTopIndex >= -iViewHeight ) ||
-            	  ( aOffset<0 && iListBottomIndex >= 0 && iListBottomIndex <= listBottomLimit+iViewHeight ) ) 
-            	{
-            	if ( iPhysics )
+                  ( aOffset<0 && iListBottomIndex >= 0 && iListBottomIndex <= listBottomLimit+iViewHeight ) ) 
+                {
+                if ( iPhysics )
                     {
-                    TTouchFeedbackType feedbackType = ETouchFeedbackVibra;
-                    switch( iPhysics->OngoingPhysicsAction() )
+                    switch(iPhysics->OngoingPhysicsAction())
                         {
-                        case CAknPhysics::EAknPhysicsActionDragging:
-                            {
-                            feedbackType = static_cast<TTouchFeedbackType> ( ETouchFeedbackVibra | ETouchFeedbackAudio );
-                            }
-                        case CAknPhysics::EAknPhysicsActionFlicking:
                         case CAknPhysics::EAknPhysicsActionBouncing:
-                            {
+                        case CAknPhysics::EAknPhysicsActionDragging:
+                        case CAknPhysics::EAknPhysicsActionFlicking:
                             ImmediateFeedback( ETouchFeedbackSensitiveList,
-                                               feedbackType );
+                                    ETouchFeedbackVibra );
                             break;
-                            }
                         default:
                             break;
                         }

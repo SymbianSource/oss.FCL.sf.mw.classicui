@@ -360,7 +360,7 @@ EXPORT_C void CEikDialog::SetEdwinTextL(TInt aControlId, const TDesC* aDes)
 	{
 	CEikEdwin* edwin=(CEikEdwin*)Control(aControlId);
 	edwin->SetTextL(aDes);
-	edwin->DrawNow();
+	edwin->DrawDeferred();
 	}
 
 /**

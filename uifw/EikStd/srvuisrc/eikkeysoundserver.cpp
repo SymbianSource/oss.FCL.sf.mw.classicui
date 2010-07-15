@@ -1229,7 +1229,8 @@ void CAknFileSoundInfo::DoSetVolume(CMdaAudioPlayerUtility* aAudioPlayer)
 
     if ( Preference() != KKeyClickPreference ) // Other sounds than key click
         {
-        aAudioPlayer->SetVolume( ((TInt)iVolume * max )/(TInt)ESoundVolume9);
+		//change (TInt)ESoundVolume9 to ((TInt)ESoundVolume9 + 1)) to keep consistent with audiotheme
+        aAudioPlayer->SetVolume( ((TInt)iVolume * max )/((TInt)ESoundVolume9 + 1));
         return;
         }
 
