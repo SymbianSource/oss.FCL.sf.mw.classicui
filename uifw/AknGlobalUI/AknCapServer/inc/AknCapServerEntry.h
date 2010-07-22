@@ -192,7 +192,6 @@ private:
     void PublishHiddenList();
     void PublishInstalledLanguagesL();
     static TInt GlobalNotesAllowedCallBack(TAny* aPtr);
-    static TInt TelephonyIdleUidCallBack(TAny* aPtr);
     void HandlePropertyChange(const TInt aProperty);
     void ProcessInitFlipStatus();
     void InitiateOFNStatus();
@@ -264,8 +263,6 @@ private:
     RProperty iGlobalNotesAllowedProperty;
     CPropertySubscriber* iGlobalNotesAllowedSubscriber;
     
-    RProperty iTelephonyIdleUidProperty;
-    CPropertySubscriber* iTelephonyIdleUidSubscriber;
     TBool iIdleActive;
     };
 

@@ -17,7 +17,7 @@
 #include <s32mem.h>
 #include <centralrepository.h>
 #include <coemain.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 #include <coedef.h>
 #include <gulcolor.h>
 #include <barsread.h>

@@ -18,7 +18,7 @@
 #include "coepanic.h"
 #include <fepplugin.h>
 #include "COEFEP.H"
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 
 
 #include <ecom/ecom.h>
@@ -74,6 +74,7 @@ Gets the UIDs, and optionally display names, of all the secure FEPs that are ava
 @param	aDisplayNames The array of FEP display names to be filled. May be passed as NULL if display names are not required.
 */
 	{
+    CleanupClosePushL(aUids);
 	aUids.Reset();
 	if(aDisplayNames)
 		{
@@ -93,6 +94,7 @@ Gets the UIDs, and optionally display names, of all the secure FEPs that are ava
 			}
 		}
 	CleanupStack::PopAndDestroy(&implementationArray);
+	CleanupStack::Pop(&aUids);
 	}
 
 EXPORT_C void CCoeEnv::InstallFepL(TUid aFepUid)

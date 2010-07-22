@@ -20,7 +20,7 @@
 */
 
 // include test code
-#include "../test/group/BLD.INF"
+#include "../test/group/bld.inf"
 
 PRJ_EXPORTS
 // specify the source file followed by its destination here
@@ -88,16 +88,16 @@ PRJ_EXPORTS
 
 ../group/uikon.iby      /epoc32/rom/include/uikon.iby
 
-../bwins/Eikinitu.def            /epoc32/release/wins/eikinitu.def
-../EABI/EIKINITU.DEF             /epoc32/include/def/eabi/eikinitu.def
+../bwins/EIKINITU.DEF            /epoc32/release/wins/eikinitu.def
+../eabi/EIKINITU.DEF             /epoc32/include/def/eabi/eikinitu.def
 
 // from ..\docs
-../docs/extended_notifier_design_spec.doc /epoc32/engdoc/application_framework/uikon/proposed/extended_notifier_design_spec.doc
-../docs/status_pane_design.doc /epoc32/engdoc/application_framework/uikon/status_pane_design.doc
-../docs/uikon_1.2_menu_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_menu_extensions.doc
-../docs/uikon_1.2_border_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_extensions.doc
-../docs/uikon_1.2_border_colours_utilities_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_colours_utilities_extensions.doc
-../docs/Uikon_1.2_Caps_Lock_Extension.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_caps_lock_extension.doc
+//../docs/extended_notifier_design_spec.doc /epoc32/engdoc/application_framework/uikon/proposed/extended_notifier_design_spec.doc
+//../docs/status_pane_design.doc /epoc32/engdoc/application_framework/uikon/status_pane_design.doc
+//../docs/uikon_1.2_menu_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_menu_extensions.doc
+//../docs/uikon_1.2_border_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_extensions.doc
+//../docs/uikon_1.2_border_colours_utilities_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_colours_utilities_extensions.doc
+//../docs/Uikon_1.2_Caps_Lock_Extension.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_caps_lock_extension.doc
 
 
 PRJ_MMPFILES

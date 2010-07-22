@@ -17,7 +17,7 @@
 #include <eiksvdef.h>
 #include <s32file.h>
 #include <s32mem.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 
 //
 // class CEikServSecureData

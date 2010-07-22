@@ -628,12 +628,13 @@ EXPORT_C void CEikServAppUiBase::InitializeL(TEikServCtrlFactories& aCtrlFactori
 
 EXPORT_C void CEikServAppUiBase::HandleThreadExitL(RThread& aThread)
     {
+    _LIT(KAppArcServerThread, "AppArcServerThread");
     if (aThread.Name() == ASCliDefinitions::ServerAndThreadName()) // alarm server died
         {
         aThread.Close(); // need to Close() before restarting with same name
         iServerToRestart |= EAlwlSvr; // restarted under active object
         }
-    else if (aThread.Name()==NameApaServServerThread()) // AppArc server died
+    else if (aThread.Name() == KAppArcServerThread) // AppArc server died
         {
         aThread.Close();
         iServerToRestart|=EApaSvr;
@@ -1069,7 +1070,11 @@ LOCAL_C void ShowNotificationDialog(const TDesC& aNoteText)
     _LIT(KTimeout, "timeout");
     _LIT(KTitle,   "title");
 
-    CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL();
+    //@TODO replace the hardcoded parameter after enum EASyncServerStartup
+    // is defined(after MCL wk26).
+    //CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(
+    //                    CHbDeviceDialogSymbian::EASyncServerStartup);
+    CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(2);
     CleanupStack::PushL(dlg);
 
     TInt  timeout = 0;

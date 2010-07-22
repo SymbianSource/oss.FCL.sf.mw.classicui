@@ -43,7 +43,6 @@ class CPbkContactEngine;
 class CPbkDataSaveAppUi;
 class RPbkViewResourceFile;
 #endif // !RD_VIRTUAL_PHONEBOOK
-class CSchemeHandler;
 class CFindItemVoIPExtension;
 class CCommonUiMPEngineApiLoader;
 
@@ -445,7 +444,6 @@ NONSHARABLE_CLASS(CFindItemMenu) :public CBase
 
         // Possible callback number, owned.
         HBufC* iCallbackNumber; 
-        CSchemeHandler* iSchemeHandler;
 
         // Contains information of the VoIP profiles.
         CFindItemVoIPExtension* iFindItemVoIPExtension;

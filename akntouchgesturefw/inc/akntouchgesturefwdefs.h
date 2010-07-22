@@ -99,7 +99,7 @@ const TReal KEpsilon = 0.00001f;
 const TUint32 KAknTouchGestureFwAllGestureTypes = 0x7fffffff;
 
 /// Default feedback intensity.
-const TInt KAknTouchGestureFwFeedbackIntensity = 50;
+const TInt KAknTouchGestureFwFeedbackIntensity = 100;
 
 /// Pinch feedback timeout (in microseconds).
 const TInt KAknTouchGestureFwPinchFeedbackTimeout = 200000;
