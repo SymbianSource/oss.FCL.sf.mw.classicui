@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI16CEikScrollBarExt @ 2 NONAME ; #<TI>#
+	_ZTI19CAknDouSpanScBarExt @ 3 NONAME ; #<TI>#
+	_ZTI20CTestScrollerControl @ 4 NONAME ; #<TI>#
+	_ZTV16CEikScrollBarExt @ 5 NONAME ; #<VT>#
+	_ZTV19CAknDouSpanScBarExt @ 6 NONAME ; #<VT>#
+	_ZTV20CTestScrollerControl @ 7 NONAME ; #<VT>#
+

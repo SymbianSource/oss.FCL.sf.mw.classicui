@@ -1,0 +1,48 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdksounds"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+
+"..\init\testsdksounds.ini"-"c:\Testframework\testsdksounds.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdksoundsaknsoundinfo.cfg"-"c:\Testframework\tctestsdksoundsaknsoundinfo.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksoundsaknsoundinfo.cfg"-"c:\Testframework\ui_testsdksoundsaknsoundinfo.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdksoundsaknsoundsystem.cfg"-"c:\Testframework\tctestsdksoundsaknsoundsystem.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksoundsaknsoundsystem.cfg"-"c:\Testframework\ui_testsdksoundsaknsoundsystem.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdksounds.dll"-"c:\sys\bin\testsdksounds.dll", FF
+
+"\epoc32\data\Z\resource\testsdksounds.rsc"-"c:\resource\testsdksounds.rsc", FF
+
+
+
+
+; Trim For Mms
+; ------------
+; to be added later

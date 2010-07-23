@@ -1,7 +1,0 @@
-EXPORTS
-	?NotifierArray@@YAPAV?$CArrayPtr@VMEikSrvNotifierBase2@@@@XZ @ 1 NONAME ; class CArrayPtr<class MEikSrvNotifierBase2> * NotifierArray(void)
-	?NewLC@CAknMemoryCardDialog@@SAPAV1@PAVMAknMemoryCardDialogObserver@@@Z @ 2 NONAME ; class CAknMemoryCardDialog * CAknMemoryCardDialog::NewLC(class MAknMemoryCardDialogObserver *)
-	?UnlockCardLD@CAknMemoryCardDialog@@QAEXH@Z @ 3 NONAME ; void CAknMemoryCardDialog::UnlockCardLD(int)
-	?SetSelfPointer@CAknMemoryCardDialog@@QAEXPAPAV1@@Z @ 4 NONAME ; void CAknMemoryCardDialog::SetSelfPointer(class CAknMemoryCardDialog * *)
-	_E32Dll=__E32Dll	; Entry point for emulation
-

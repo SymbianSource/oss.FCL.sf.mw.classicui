@@ -1,0 +1,59 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test sounds_api 
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+TARGET          testsdksounds.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdksounds.def
+
+    USERINCLUDE     ../inc 
+
+    MW_LAYER_SYSTEMINCLUDE
+
+    START RESOURCE ../data/testsdksounds.rss
+        TARGETPATH RESOURCE_FILES_DIR
+        HEADER
+        END
+    SOURCEPATH      ../src
+
+SOURCE          testsdksounds.cpp
+SOURCE          testsdksoundsblocks.cpp
+SOURCE          testsdksoundsblocksaknsoundinfo.cpp
+SOURCE          testsdksoundsblocksaknsoundsystem.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib
+LIBRARY         estor.lib
+LIBRARY         cone.lib
+
+
+LANG            SC
+
+// End of File

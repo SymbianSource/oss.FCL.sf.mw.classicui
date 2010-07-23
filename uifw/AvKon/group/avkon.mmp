@@ -61,6 +61,10 @@ USERINCLUDE   ../../eikctl/inc
 USERINCLUDE   ../../EikStd/coctlinc
 USERINCLUDE   . ../inc ../animdllinc ../akncompamode/inc
 
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
+
 // This is a SYSTEMINCLUDE macro containing the middleware
 // and applications layer specific include directories
 APP_LAYER_SYSTEMINCLUDE

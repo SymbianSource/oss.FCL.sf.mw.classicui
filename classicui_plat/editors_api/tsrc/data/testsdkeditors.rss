@@ -1,0 +1,505 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkeditors
+ *
+*/
+
+
+NAME    TSED
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+#include <avkon.mbg>
+#include <eikctl.rsg>
+
+#include "testsdkeditors.hrh"
+// ---------------------------------------------------------------------------
+// CONST ipaddress_min_value
+// ---------------------------------------------------------------------------
+//
+#define IPADDRESS_MIN_VALUE 0
+
+// ---------------------------------------------------------------------------
+// CONST ipaddress_max_value
+// ---------------------------------------------------------------------------
+//
+#define IPADDRESS_MAX_VALUE 255
+
+// -----------------------------------------------------------------------------
+//
+//    Define the resource file signature
+//    This resource should be empty.
+//
+// -----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    Default Document Name
+//
+// -----------------------------------------------------------------------------
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_editorsle
+// ---------------------------------------------------------------------------
+//
+RESOURCE LATITUDE_EDITOR r_testsdk_editorsle
+    {
+    flags = ELocationEdFlagLatitude;
+    latlongresourceid = r_testsdk_resourceid;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_resourceid
+// ---------------------------------------------------------------------------
+//
+RESOURCE LATITUDE_AND_LONGITUDE r_testsdk_resourceid
+    {
+    degreesign = "d" ;
+    minutesign = "'" ;
+    secondsign = "\"" ;
+    north = "B" ;
+    south = "N" ;
+    east = "E" ;
+    west = "T" ;
+    keytomatchfornorth = 0;
+    keytomatchforsouth = 0;
+    keytomatchforeast = 0;
+    keytomatchforwest = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_ipeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE IP_FIELD_EDITOR r_testsdk_ipeditor
+    {
+    min_field_values = IP_FIELD
+        { 
+        first_field = IPADDRESS_MIN_VALUE;
+        second_field = IPADDRESS_MIN_VALUE;
+        third_field = IPADDRESS_MIN_VALUE;
+        fourth_field = IPADDRESS_MIN_VALUE;
+        };
+    max_field_values = IP_FIELD
+        {
+        first_field = IPADDRESS_MAX_VALUE;
+        second_field = IPADDRESS_MAX_VALUE;
+        third_field = IPADDRESS_MAX_VALUE;
+        fourth_field = IPADDRESS_MAX_VALUE;
+        };
+    flags = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_ipreadeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE IP_FIELD r_testsdk_ipreadeditor
+    {
+    first_field = 0;
+    second_field = 0;
+    third_field = 0;
+    fourth_field = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_ieeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_INTEGER_EDWIN r_testsdk_ieeditor
+    {
+    maxlength = 0;
+    min = -99999999;
+    max = 99999999;
+    unset_value= -100000000;
+    extension1 = 0;
+    extension2 = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_ueeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_UNIT_EDITOR r_testsdk_ueeditor
+    {
+    min = 0;
+    max = 100;
+    value = 50;
+    maxfractionaldigits= 2;
+    unit = EAknUnitEditorCustomUnit;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_fpeeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE FLPTED r_testsdk_fpeeditor
+    {
+    maxlength = 18;
+    min = 0;
+    max = 100;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_xpeeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE FIXPTED r_testsdk_xpeeditor
+    {
+    decimalplaces = 2;
+    min = 0;
+    max = 100;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_edwin
+// ---------------------------------------------------------------------------
+//
+RESOURCE EDWIN r_testsdk_edwin
+    {
+    flags = EAknEditorFlagDefault;
+    width = 30;
+    lines= 1;
+    maxlength = 50;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_aknalledwin
+// ---------------------------------------------------------------------------
+//
+RESOURCE EDWIN r_testsdk_aknalledwin
+    {
+    flags = EAknEditorFlagDefault;
+    width = 30;
+    lines= 1;
+    maxlength = 50;
+    default_case=EAknEditorTextCase;
+    allowed_case_modes=EAknEditorAllCaseModes;
+    numeric_keymap=EAknEditorAlphanumericNumberModeKeymap;
+    allowed_input_modes=EAknEditorAllInputModes;
+    default_input_mode=EAknEditorTextInputMode;
+    special_character_table=-1;
+    avkon_flags=EAknEditorFlagDefault;
+    max_view_height_in_lines=0;
+    base_line_delta=0;
+    spare=0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_aknedwin
+// ---------------------------------------------------------------------------
+//
+RESOURCE EDWIN r_testsdk_aknedwin
+    {
+    default_case=EAknEditorTextCase;
+    allowed_case_modes=EAknEditorAllCaseModes;
+    numeric_keymap=EAknEditorAlphanumericNumberModeKeymap;
+    allowed_input_modes=EAknEditorAllInputModes;
+    default_input_mode=EAknEditorTextInputMode;
+    special_character_table=-1;
+    avkon_flags=EAknEditorFlagDefault;
+    max_view_height_in_lines=0;
+    base_line_delta=0;
+    spare=0;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_globaltext
+// ---------------------------------------------------------------------------
+//
+RESOURCE RTXTED r_testsdk_globaltext
+    {
+    width=20;
+    height=50;
+    numlines=5;
+    textlimit=10;
+    flags=0;
+    fontcontrolflags=1;
+    fontnameflags=EGulNoSymbolFonts;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_richtext
+// ---------------------------------------------------------------------------
+//
+RESOURCE RTXTED r_testsdk_richtext
+    {
+    width = 100;
+    height = 80;
+    numlines = 3;
+    textlimit = 100;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_secrettext
+// ---------------------------------------------------------------------------
+//
+RESOURCE SECRETED r_testsdk_secrettext
+   {
+    num_letters=8;  
+   }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_secrettext
+// ---------------------------------------------------------------------------
+//
+RESOURCE MFNE_SEPARATOR r_testsdk_separator
+    {
+    text = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_mfnenumber
+// ---------------------------------------------------------------------------
+//
+RESOURCE MFNE_NUMBER r_testsdk_mfnenumber
+    {
+    min = 0;
+    max = 99999999;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MFNE_SYMBOLIC_ITEM r_testsdk_item
+    {
+    id = 0;
+    keytomatch = 10;
+    text = "";
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_symbol
+// ---------------------------------------------------------------------------
+//
+RESOURCE MFNE_SYMBOL r_testsdk_symbol
+    {
+    symbolicitems =
+        {
+        MFNE_SYMBOLIC_ITEM
+            { 
+            id = 0;
+            keytomatch = 10;
+            text = "";
+            },
+        MFNE_SYMBOLIC_ITEM
+            { 
+            id = 1;
+            keytomatch = 9;
+            text = "";
+            }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_time
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME r_testsdk_time
+    {
+    second = 10;
+    minute = 10;
+    hour = 10;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_date
+// ---------------------------------------------------------------------------
+//
+RESOURCE DATE r_testsdk_date
+    {
+    day = 8;
+    month = 7;
+    year = 2008;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_timeanddate
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME_AND_DATE r_testsdk_timeanddate
+    {
+    day = 8;
+    month = 7;
+    year = 2008;
+    second = 10;
+    minute = 10;
+    hour = 10;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_duration
+// ---------------------------------------------------------------------------
+//
+RESOURCE DURATION r_testsdk_duration
+    {
+    seconds = 10;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_timeoffset
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME_OFFSET r_testsdk_timeoffset
+    {
+    seconds = 10;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_numbereditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE NUMBER_EDITOR r_testsdk_numbereditor
+    {
+    min = 0;
+    max = 100;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_rangeeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE RANGE_EDITOR r_testsdk_rangeeditor
+    {
+    min = 0;
+    max = 100;
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_timeeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME_EDITOR r_testsdk_timeeditor
+    {
+    minTime = TIME
+        {
+        second = 1;
+        minute = 1;
+        hour = 1;
+        };
+    maxTime = TIME
+        {
+        second = 12;
+        minute = 54;
+        hour = 12;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dateeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE DATE_EDITOR r_testsdk_dateeditor
+    {
+    minDate = DATE
+        {
+        year = 1900;
+        };
+    maxDate = DATE
+        {
+        year = 2100;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_dateeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME_AND_DATE_EDITOR r_testsdk_timedateeditor
+    {
+    minTimeAndDate = TIME_AND_DATE
+        {
+        year = 1900;
+        second = 0;
+        minute = 0;
+        hour = 0;
+        };
+    maxTimeAndDate = TIME_AND_DATE
+        {
+        year = 2100;
+        second = 59;
+        minute = 59;
+        hour = 23;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_durationeditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE DURATION_EDITOR r_testsdk_durationeditor
+    {
+    minDuration = DURATION
+        {
+        seconds = 0;
+        };
+    maxDuration = DURATION
+        {
+        seconds = 1000000;
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_testsdk_offseteditor
+// ---------------------------------------------------------------------------
+//
+RESOURCE TIME_OFFSET_EDITOR r_testsdk_offseteditor
+    {
+    minTimeOffset = TIME_OFFSET
+        {
+        seconds = 0;
+        };
+    maxTimeOffset = TIME_OFFSET
+        {
+        seconds = 1000000;
+        };
+    }
+
+RESOURCE DIALOG r_basicgui_edwin_dialog
+    {
+    flags = EEikDialogFlagNoDrag | 
+            EEikDialogFlagCbaButtons | 
+            EEikDialogFlagWait |
+            EEikDialogFlagFillAppClientRect |
+            EEikEdwinResizable |
+            EEikEdwinWidthInPixels;
+    title = "Hello";
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            id = EMyAppCmdSetnameEditor;
+            prompt = "Edit:";
+            itemflags = EEikDlgItemCtlGetsWidthFirst;
+            type = EEikCtEdwin;
+            control = EDWIN
+                {
+                width= 30;
+                lines= 2;
+                maxlength=300;
+                };
+            }
+
+        };
+    }

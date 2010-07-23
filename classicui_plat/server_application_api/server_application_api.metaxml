@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="f910cfa71c3371ffe05836b5c9e732f0" dataversion="1.0">
+  <name>Server Application API</name>
+  <description>An interface for server applications.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="sdk" sinceversion="3.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

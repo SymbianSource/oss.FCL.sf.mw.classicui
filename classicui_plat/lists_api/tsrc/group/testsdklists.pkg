@@ -1,0 +1,88 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdklists"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdklists.ini"-"c:\Testframework\testsdklists.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistslbld.cfg"-"c:\Testframework\tctestsdklistslbld.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistslbld.cfg"-"c:\Testframework\ui_testsdklistslbld.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistslbsp.cfg"-"c:\Testframework\tctestsdklistslbsp.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistslbsp.cfg"-"c:\Testframework\ui_testsdklistslbsp.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistsslist.cfg"-"c:\Testframework\tctestsdklistsslist.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistsslist.cfg"-"c:\Testframework\ui_testsdklistsslist.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseikclb.cfg"-"c:\Testframework\tctestsdklistseikclb.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseikclb.cfg"-"c:\Testframework\ui_testsdklistseikclb.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseikclbd.cfg"-"c:\Testframework\tctestsdklistseikclbd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseikclbd.cfg"-"c:\Testframework\ui_testsdklistseikclbd.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseikfrlb.cfg"-"c:\Testframework\tctestsdklistseikfrlb.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseikfrlb.cfg"-"c:\Testframework\ui_testsdklistseikfrlb.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseikfrlbd.cfg"-"c:\Testframework\tctestsdklistseikfrlbd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseikfrlbd.cfg"-"c:\Testframework\ui_testsdklistseikfrlbd.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiklbd.cfg"-"c:\Testframework\tctestsdklistseiklbd.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiklbd.cfg"-"c:\Testframework\ui_testsdklistseiklbd.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiklbed.cfg"-"c:\Testframework\tctestsdklistseiklbed.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiklbed.cfg"-"c:\Testframework\ui_testsdklistseiklbed.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiklbi.cfg"-"c:\Testframework\tctestsdklistseiklbi.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiklbi.cfg"-"c:\Testframework\ui_testsdklistseiklbi.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiklbv.cfg"-"c:\Testframework\tctestsdklistseiklbv.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiklbv.cfg"-"c:\Testframework\ui_testsdklistseiklbv.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiklbx.cfg"-"c:\Testframework\tctestsdklistseiklbx.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiklbx.cfg"-"c:\Testframework\ui_testsdklistseiklbx.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseikslb.cfg"-"c:\Testframework\tctestsdklistseikslb.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseikslb.cfg"-"c:\Testframework\ui_testsdklistseikslb.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiktxlbm.cfg"-"c:\Testframework\tctestsdklistseiktxlbm.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiktxlbm.cfg"-"c:\Testframework\ui_testsdklistseiktxlbm.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistseiktxlbx.cfg"-"c:\Testframework\tctestsdklistseiktxlbx.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistseiktxlbx.cfg"-"c:\Testframework\ui_testsdklistseiktxlbx.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdklistsaknlists.cfg"-"c:\Testframework\tctestsdklistsaknlists.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdklistsaknlists.cfg"-"c:\Testframework\ui_testsdklistsaknlists.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdklists.dll"-"c:\sys\bin\testsdklists.dll", FF
+
+"\epoc32\data\Z\resource\testsdklists.rsc"-"c:\resource\testsdklists.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

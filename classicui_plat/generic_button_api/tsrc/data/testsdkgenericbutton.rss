@@ -1,0 +1,121 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project ?myapp
+*
+*/
+
+
+NAME BUST
+
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.mbg>
+
+#include "testsdkgenericbutton.rls"
+
+RESOURCE RSS_SIGNATURE{ }
+
+RESOURCE TBUF 
+    {
+    buf = ""; 
+    }
+
+RESOURCE AVKON_BUTTON_STATE r_button_state
+    {
+    flags = 0;
+    txt = qtn_test_text;
+    helptxt = qtn_test_help;
+    bmpfile = qtn_bitmap_file;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    dim_bmpid = EMbmAvkonQgn_indi_mic;
+    dim_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    press_bmpid = EMbmAvkonQgn_indi_mic;
+    press_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    hover_bmpid = EMbmAvkonQgn_indi_mic;
+    hover_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    extension = 0;
+    }
+
+RESOURCE AVKON_BUTTON r_button
+    {
+    flags = KAknButtonNoFrame;
+    states =
+        {
+        AVKON_BUTTON_STATE
+            {
+            flags = 0;
+            txt = qtn_test_text;
+            helptxt = qtn_first_state;
+            bmpfile = qtn_bitmap_file;
+            bmpid = EMbmAvkonQgn_indi_mic;
+            bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            dim_bmpid = EMbmAvkonQgn_indi_mic;
+            dim_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            press_bmpid = EMbmAvkonQgn_indi_mic;
+            press_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            hover_bmpid = EMbmAvkonQgn_indi_mic;
+            hover_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            extension = 0;
+            },
+        AVKON_BUTTON_STATE
+            {
+            txt = qtn_text;
+            helptxt = qtn_second_state;
+            }   
+        };
+    }
+
+RESOURCE AVKON_BUTTON r_button_two
+    {
+    flags = KAknButtonNoFrame;
+    states = 
+        {
+        AVKON_BUTTON_STATE
+            {
+            flags = 0;
+            txt = qtn_test_text;
+            helptxt = qtn_first_state;
+            bmpfile = qtn_bitmap_file;
+            bmpid = EMbmAvkonQgn_indi_mic;
+            bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            dim_bmpid = EMbmAvkonQgn_indi_mic;
+            dim_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            press_bmpid = EMbmAvkonQgn_indi_mic;
+            press_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            hover_bmpid = EMbmAvkonQgn_indi_mic;
+            hover_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            extension = 0;
+            },
+        AVKON_BUTTON_STATE
+            {
+            flags = 0;
+            txt = qtn_test_text;
+            helptxt = qtn_first_state;
+            bmpfile = qtn_bitmap_file;
+            bmpid = EMbmAvkonQgn_indi_mic;
+            bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            dim_bmpid = EMbmAvkonQgn_indi_mic;
+            dim_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            press_bmpid = EMbmAvkonQgn_indi_mic;
+            press_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            hover_bmpid = EMbmAvkonQgn_indi_mic;
+            hover_bmpmask = EMbmAvkonQgn_indi_mic_mask;
+            extension = 0;
+            }   
+        };
+    }
+

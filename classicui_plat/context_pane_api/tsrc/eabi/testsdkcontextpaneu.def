@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CTestSDKCPView @ 2 NONAME ; #<TI>#
+	_ZTI19CTestSDKCPContainer @ 3 NONAME ; #<TI>#
+	_ZTI21CTestSDKCPContextPane @ 4 NONAME ; #<TI>#
+	_ZTV14CTestSDKCPView @ 5 NONAME ; #<VT>#
+	_ZTV19CTestSDKCPContainer @ 6 NONAME ; #<VT>#
+	_ZTV21CTestSDKCPContextPane @ 7 NONAME ; #<VT>#
+

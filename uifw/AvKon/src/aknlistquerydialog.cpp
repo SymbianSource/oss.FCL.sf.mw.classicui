@@ -19,6 +19,7 @@
 #include <AknMediatorFacade.h>
 #include <MediatorEventProvider.h>
 #include <MediatorDomainUIDs.h>
+#include <AknNotifyStd.h>
 #include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 
 #include "aknPopupHeadingPane.h"

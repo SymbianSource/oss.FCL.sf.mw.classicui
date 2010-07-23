@@ -1,0 +1,53 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  loc file
+ *
+*/
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                          "menuTestMenu"
+#define qtn_apps_tavl_grid                          "menuTestMenu"
+
+// MenuBar  
+#define qtn_menutestmenu_menubar                    "Option"
+#define qtn_menutestmenu_cba_next                   "Next"
+#define qtn_menutestmenu_autotest                   "Autotest"
+#define qtn_menutestmenu_menu_exit                  "Exit"
+
+// softkey
+#define text_softkey_option                         "Options"
+
+// outline 
+#define qtn_menutestmenu_outline1                   "TestMenuBar"
+#define qtn_menutestmenu_outline2                   "TestMenuBarTitle"
+#define qtn_menutestmenu_outline3                   "TestMenuPane"
+#define qtn_menutestmenu_outline4                   "TestMenuPaneTitle"
+#define qtn_menutestmenu_outline5                   "TestMenuPaneItem"
+
+// menu test
+#define qtn_menutest_menu_buf                       "menuTestMenu"
+#define qtn_menutest_menu_file                      "\\resource\\apps\\menuTestMenu"
+#define qtn_menutest_menu_name                      "menuTest"
+#define qtn_menutestmenu_menu_sub_new               "New Item %d"
+#define qtn_menutestvolume_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+#define qtn_menutestvolume_text_other_app_name      "menuTestSoftkey"
+
+// End of File

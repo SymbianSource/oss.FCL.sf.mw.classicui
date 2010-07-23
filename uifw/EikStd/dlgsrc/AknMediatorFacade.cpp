@@ -20,6 +20,7 @@
 #include <eikapp.h>
 #include <coedef.h>
 #include <MediatorDomainUIDs.h>
+#include <AknNotifyStd.h>
 #include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 
 #include "AknMediatorFacade.h" 

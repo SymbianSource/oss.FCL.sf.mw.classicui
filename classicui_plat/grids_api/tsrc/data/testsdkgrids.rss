@@ -1,0 +1,118 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkgrids
+*
+*/
+
+
+NAME GDRS
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF { buf=""; }
+
+RESOURCE CBA r_grids_cba_Ok_back
+    {
+    buttons =
+        {
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyOk;
+            txt = "Ok";
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyBack;
+            txt = "Back";
+            }
+        };
+    }
+
+RESOURCE GRID r_testsdkgrids_grid
+    {
+    array_id = r_list_items;
+    flags = EAknListBoxSelectionGrid;
+    style = r_selectiongrid_style;
+    }
+RESOURCE GRID_STYLE r_selectiongrid_style
+    {
+    layoutflags = EAknGridHorizontalOrientation |
+                    EAknGridLeftToRight |
+                    EAknGridTopToBottom;
+    primaryscroll = EAknGridFollowsItemsAndLoops;
+    secondaryscroll = EAknGridFollowsItemsAndLoops;
+    itemsinprimaryorient = 3;
+    itemsinsecondaryorient = 3;
+    gapwidth = 5;
+    gapheight = 5;
+    width = 100;
+    height = 100;
+    }
+RESOURCE ARRAY r_list_items
+    {
+    items =
+        {
+        LBUF { txt = "Item 0"; },
+        LBUF { txt = "Item 1"; },
+        LBUF { txt = "Item 2"; },
+        LBUF { txt = "Item 3"; },
+        LBUF { txt = "Item 4"; },
+        LBUF { txt = "Item 5"; },
+        LBUF { txt = "Item 6"; }
+        };
+    }
+
+RESOURCE DIALOG r_test_dialog
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_hewb_command_inputwords_text ;
+                control = EDWIN
+                    {
+                    width = 15;
+                    lines = 1;
+                    maxlength = 15;
+                    allowed_input_modes = EAknEditorNumericInputMode;
+                    default_input_mode = EAknEditorNumericInputMode;
+                    };
+                };
+            }
+        };
+    }
+

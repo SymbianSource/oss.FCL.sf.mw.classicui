@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         bctestbuttons resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+
+#include <appinfo.rh>
+#include <bctestbuttons.rsg>
+
+#include "bctestbuttons.loc"
+
+UID2 KUidAppRegistrationResourceFile
+UID3 0x20004744 // application UID
+
+RESOURCE APP_REGISTRATION_INFO
+    {
+    app_file = qtn_bctest_app_file;
+    localisable_resource_file = qtn_bctest_resource;
+    localisable_resource_id = R_BCTESTBUTTONS_LOCALISABLE_APP_INFO;
+    hidden = KAppIsHidden;
+    embeddability = KAppNotEmbeddable;
+    //newfile = KAppDoesNotSupportNewFile;
+    //launch = KAppLaunchInForeground;
+    group_name = qtn_bctest_group;
+    //default_screen_number = 2;
+    }

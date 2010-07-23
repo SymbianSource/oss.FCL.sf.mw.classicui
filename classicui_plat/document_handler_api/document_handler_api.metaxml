@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="3bce45fb97249e629e9ef7a518f32154" dataversion="1.0">
+  <name>Document handler API</name>
+  <description>Used for handling the opening and saving of any supported content.</description>
+  <type>c++</type>
+  <subsystem>commonuis</subsystem>
+  <libs>
+    <lib name="commonui.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

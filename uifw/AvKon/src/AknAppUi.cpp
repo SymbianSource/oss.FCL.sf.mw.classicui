@@ -69,6 +69,7 @@
 #include <gfxtranseffect/gfxtranseffect.h>
 
 #include <aknSDData.h>
+#include <AknNotifyStd.h>
 #include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <startupdomainpskeys.h>
 

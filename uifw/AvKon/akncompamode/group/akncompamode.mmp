@@ -56,6 +56,11 @@ SOURCE                  akncompaifimpl.cpp
 SOURCE                  akncompaclearer.cpp
 
 USERINCLUDE             ../inc ../srv/inc ../loc ../../../inc
+
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
+
 APP_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib

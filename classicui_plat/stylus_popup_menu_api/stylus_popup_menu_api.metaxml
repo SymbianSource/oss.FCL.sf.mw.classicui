@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="e459a1dcef283b28530b079dc4b133cd" dataversion="1.0">
+  <name>Stylus Pop-up Menu API</name>
+  <description>Provides stylus pop-up menu UI component. It is a floating component, which is meant for stylus usage only.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="5.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

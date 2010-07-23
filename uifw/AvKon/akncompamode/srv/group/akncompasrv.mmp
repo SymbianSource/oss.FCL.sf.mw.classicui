@@ -26,6 +26,11 @@ UID           0 0x2000F864
 CAPABILITY    swEvent ProtServ writeDeviceData
 
 USERINCLUDE	  ../inc
+
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
+
 APP_LAYER_SYSTEMINCLUDE
 
 SOURCEPATH	  ../src

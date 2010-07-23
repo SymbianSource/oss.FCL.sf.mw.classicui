@@ -1,0 +1,39 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:
+*
+*/
+
+RESOURCE AVKON_VIEW r_testsdknavipane_container_view
+    {
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+    menubar = r_testsdknavipane_container_options_menu;
+    toolbar = 0;
+    }
+
+RESOURCE MENU_BAR r_testsdknavipane_container_options_menu
+    {
+    titles=
+    {
+        MENU_TITLE { menu_pane=r_testsdknavipane_container_options_menupane;}            
+    };
+    }
+
+
+RESOURCE MENU_PANE r_testsdknavipane_container_options_menupane
+    {
+    
+    }
+
+// End of files

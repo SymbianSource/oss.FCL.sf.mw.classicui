@@ -45,6 +45,9 @@ USERINCLUDE   ../inc
 USERINCLUDE   ../../../inc
 USERINCLUDE   ../../inc
 
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
 
 SOURCE          EIKDLIB.CPP
 SOURCE          EIKCAPC.CPP

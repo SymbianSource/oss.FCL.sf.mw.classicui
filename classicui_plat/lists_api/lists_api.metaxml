@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<api id="58ca7f3d11650d8e7c5b630beca9dea3" dataversion="1.0">
+  <name>Lists API</name>
+  <description>Provides list UI components.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+    <lib name="eikcoctl.lib" />
+    <lib name="eikctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

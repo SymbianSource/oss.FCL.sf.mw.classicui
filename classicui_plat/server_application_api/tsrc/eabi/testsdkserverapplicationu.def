@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI18RTestSDKAppService @ 2 NONAME ; #<TI>#
+	_ZTI22CTestSDKAppServiceBase @ 3 NONAME ; #<TI>#
+	_ZTV18RTestSDKAppService @ 4 NONAME ; #<VT>#
+	_ZTV22CTestSDKAppServiceBase @ 5 NONAME ; #<VT>#
+

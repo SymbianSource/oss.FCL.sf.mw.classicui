@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Loc file
+*
+*/
+
+
+
+//  LOCALISATION STRINGS
+
+// Caption
+#define qtn_apps_tavl_list                                  "PRIVATEUIFRAMTESTPRIVATEUIFRM"
+#define qtn_apps_tavl_grid                                  "PRIVATEUIFRAMTESTPRIVATEUIFRM"
+//privateuifram PRIVATEUIFRAM
+// MenuBar
+#define qtn_privateuiframtestprivateuifrm_menubar           "Option"
+#define qtn_privateuiframtestprivateuifrm_cba_next          "Next"
+#define qtn_privateuiframtestprivateuifrm_autotest          "Autotest"
+#define qtn_privateuiframtestprivateuifrm_menu_exit         "Exit"
+
+// softkey
+#define text_softkey_option                                 "Options"
+
+// outline 
+#define qtn_privateuiframtestprivateuifrm_outline1          "Outline01"
+#define qtn_privateuiframtestvolume_label_outline06 \
+"Press 2/8 <-, ->\nor side volume keys\nto see AknVolumePopup\n0,1 to change label"
+
+// Application name
+#define qtn_privateuiframtestvolume_text_other_app_name     "PRIVATEUIFRAMTestSoftkey"
+
+// End of File
+
+

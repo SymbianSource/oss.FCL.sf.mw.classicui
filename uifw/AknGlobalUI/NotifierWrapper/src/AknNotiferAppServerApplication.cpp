@@ -33,6 +33,7 @@
 #include "AknNotiferAppServerApplicationInterface.h"
 
 #include <AknMediatorFacade.h>
+#include <AknNotifyStd.h>
 #include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <aknglobalpopupprioritycontroller.h>
 

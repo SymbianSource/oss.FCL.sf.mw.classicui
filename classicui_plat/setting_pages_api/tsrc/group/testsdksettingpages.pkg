@@ -1,0 +1,73 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdksettingpages"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+; ?remembers replacing "your uid3" with your uid3, and deletes this line
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdksettingpages.ini"-"c:\Testframework\testsdksettingpages.ini", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesakncheckboxsettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesakncheckboxsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesakncheckboxsettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesakncheckboxsettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesakndescarraydecorator.cfg"-"c:\Testframework\tctestsdksettingpagesakndescarraydecorator.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesakndescarraydecorator.cfg"-"c:\Testframework\ui_testsdksettingpagesakndescarraydecorator.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknmfnesettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknmfnesettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknmfnesettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknmfnesettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknpasswordsettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknpasswordsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknpasswordsettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknpasswordsettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknradiobuttonsettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknradiobuttonsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknradiobuttonsettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknradiobuttonsettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknsettingitemlist.cfg"-"c:\Testframework\tctestsdksettingpagesaknsettingitemlist.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknsettingitemlist.cfg"-"c:\Testframework\ui_testsdksettingpagesaknsettingitemlist.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknsettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknsettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknsettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknslidersettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknslidersettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknslidersettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknslidersettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesakntextsettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesakntextsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesakntextsettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesakntextsettingpage.cfg", FF   ; FF stands for Normal file
+
+"..\conf\tctestsdksettingpagesaknvolumesettingpage.cfg"-"c:\Testframework\tctestsdksettingpagesaknvolumesettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdksettingpagesaknvolumesettingpage.cfg"-"c:\Testframework\ui_testsdksettingpagesaknvolumesettingpage.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdksettingpages.dll"-"c:\sys\bin\testsdksettingpages.dll", FF
+
+; ?deletes this line, and deletes the follow line if you have not any resource
+"\epoc32\data\Z\resource\testsdksettingpages.rsc"-"c:\resource\testsdksettingpages.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later
+

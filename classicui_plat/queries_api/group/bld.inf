@@ -1,0 +1,42 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Queries API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/AknQueryDialog.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryDialog.h)
+../inc/AknQueryValueNumber.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValueNumber.h)
+../inc/aknlistquerydialog.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknlistquerydialog.h)
+../inc/AknQueryValue.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValue.h)
+../inc/AknQueryValuePhone.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValuePhone.h)
+../inc/AknQueryValueTime.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValueTime.h)
+../inc/AknQueryValueDuration.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValueDuration.h)
+../inc/AknQueryValueDate.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValueDate.h)
+../inc/aknmessagequerycontrol.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknmessagequerycontrol.h)
+../inc/AknQueryValueText.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknQueryValueText.h)
+../inc/akndialog.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknDialog.h)
+../inc/aknquerydata.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknquerydata.h)
+../inc/aknmessagequerydialog.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknmessagequerydialog.h)
+../inc/AknMultilineQueryControl.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknmultilinequerycontrol.h)
+../inc/aknlistquerycontrol.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknlistquerycontrol.h)
+../inc/AknQueryControl.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknQueryControl.h)

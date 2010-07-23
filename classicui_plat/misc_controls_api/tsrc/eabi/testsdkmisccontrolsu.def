@@ -1,0 +1,13 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI12CTestToolBar @ 2 NONAME ; #<TI>#
+	_ZTI15CTestSubToolBar @ 3 NONAME ; #<TI>#
+	_ZTI16CMiscControlView @ 4 NONAME ; #<TI>#
+	_ZTI22CMiscControlsContainer @ 5 NONAME ; #<TI>#
+	_ZTI24CTestSubCaptionedControl @ 6 NONAME ; #<TI>#
+	_ZTV12CTestToolBar @ 7 NONAME ; #<VT>#
+	_ZTV15CTestSubToolBar @ 8 NONAME ; #<VT>#
+	_ZTV16CMiscControlView @ 9 NONAME ; #<VT>#
+	_ZTV22CMiscControlsContainer @ 10 NONAME ; #<VT>#
+	_ZTV24CTestSubCaptionedControl @ 11 NONAME ; #<VT>#
+

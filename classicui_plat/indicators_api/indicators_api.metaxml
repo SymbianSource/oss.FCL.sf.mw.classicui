@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="d969246b2ae81efa07a8a5077dc33b87" dataversion="1.0">
+  <name>Indicators API</name>
+  <description>Indicators shown in UI.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

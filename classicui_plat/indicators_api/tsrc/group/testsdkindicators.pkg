@@ -1,0 +1,43 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkindicators"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+; ?remembers replacing "your uid3" with your uid3, and deletes this line
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+"..\init\testsdkindicators.ini"-"c:\Testframework\testsdkindicators.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkindicators.cfg"-"c:\Testframework\tctestsdkindicators.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkindicators.cfg"-"c:\Testframework\ui_testsdkindicators.cfg", FF   ; FF stands for Normal file
+; ?adds your cfg file if need
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkindicators.dll"-"c:\sys\bin\testsdkindicators.dll", FF
+
+; ?deletes this line, and deletes the follow line if you have not any resource
+"\epoc32\data\Z\resource\testsdkindicators.rsc"-"c:\resource\testsdkindicators.rsc", FF
+
+; Trim For Mms
+; ------------
+; to be added later

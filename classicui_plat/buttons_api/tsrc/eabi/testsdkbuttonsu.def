@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CButtonControl @ 2 NONAME ; #<TI>#
+	_ZTI14CTestCmdBtBase @ 3 NONAME ; #<TI>#
+	_ZTI15CTestButtonBase @ 4 NONAME ; #<TI>#
+	_ZTV14CButtonControl @ 5 NONAME ; #<VT>#
+	_ZTV14CTestCmdBtBase @ 6 NONAME ; #<VT>#
+	_ZTV15CTestButtonBase @ 7 NONAME ; #<VT>#
+

@@ -1,0 +1,66 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+
+TARGET          testsdkaiwservicehandler.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkaiwservicehandler.def
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc 
+    MW_LAYER_SYSTEMINCLUDE
+    SOURCEPATH      ../src
+    START RESOURCE ../data/testsdkaiwservicehandler.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#else // SBSV2 not defined
+    USERINCLUDE     ../inc 
+    MW_LAYER_SYSTEMINCLUDE
+    SOURCEPATH      ../src
+    START RESOURCE ../data/testsdkaiwservicehandler.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#endif // SBSV2
+
+SOURCE          testsdkaiwservicehandler.cpp
+SOURCE          testsdkaiwservicehandlerblocks.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         servicehandler.lib
+LIBRARY         eikcore.lib 
+LIBRARY         eikcoctl.lib
+LIBRARY         cone.lib
+
+LANG            SC
+
+// End of File

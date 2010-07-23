@@ -1,0 +1,46 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkscroller"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkscroller.ini"-"c:\Testframework\testsdkscroller.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkscrolleraknscbut.cfg"-"c:\Testframework\tctestsdkscrolleraknscbut.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkscrolleraknscbut.cfg"-"c:\Testframework\ui_testsdkscrolleraknscbut.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkscrollereiksbfrm.cfg"-"c:\Testframework\tctestsdkscrollereiksbfrm.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkscrollereiksbfrm.cfg"-"c:\Testframework\ui_testsdkscrollereiksbfrm.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkscrollereikscbut.cfg"-"c:\Testframework\tctestsdkscrollereikscbut.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkscrollereikscbut.cfg"-"c:\Testframework\ui_testsdkscrollereikscbut.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkscrollereikscrlb.cfg"-"c:\Testframework\tctestsdkscrollereikscrlb.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkscrollereikscrlb.cfg"-"c:\Testframework\ui_testsdkscrollereikscrlb.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkscroller.dll"-"c:\sys\bin\testsdkscroller.dll", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later

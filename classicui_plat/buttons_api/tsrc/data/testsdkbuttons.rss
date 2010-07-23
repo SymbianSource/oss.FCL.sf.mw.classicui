@@ -1,0 +1,231 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkbuttons
+ *
+*/
+
+
+NAME    EBUT//eik button
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.hrh>
+#include <eikon.rh>
+#include <eikon.hrh>
+#include <avkon.mbg>
+
+#include "testsdkbuttons.hrh"
+
+//  RESOURCE DEFINITIONS
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+// ---------------------------------------------------------------------------
+// r_test_menu
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_test_menu
+    {
+    items = 
+        {
+        MENU_ITEM { command = ETestFirst; txt = "testone"; },
+        MENU_ITEM { command = ETestSecond; txt = "testtwo"; }
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_test_menu_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE MNBUT r_test_menu_button
+    {
+    popout = r_test_menu;
+    }
+
+// ---------------------------------------------------------------------------
+// r_labelbutton
+// ---------------------------------------------------------------------------
+//
+RESOURCE LBBUT r_labelbutton
+    {
+    buttontype=0; // EEikCtCommandButton
+    button = CMBUT
+        {
+        version=0;
+        behavior=0;
+        layout=0; // ETextRightPictureLeft|EEikCmdButShareExcess
+        helptxt="";
+        extension=0;
+        txt="";
+        };
+    hotkey = 0;
+    flags=1; // EEikLabeledButtonShowHotKey
+    }
+
+// ---------------------------------------------------------------------------
+// r_cmdbutton
+// ---------------------------------------------------------------------------
+//
+RESOURCE CMBUT r_cmdbutton
+    {
+    version = 0;
+    behavior = 0;
+    layout = EEikCmdButTextRightPictureLeft;
+    helptxt="help";
+    txt="cmdbt";
+    bmpfile = "z:\\resource\\apps\\avkon2.mbm";
+    bmpid = EMbmAvkonQgn_indi_checkbox_on;
+    bmpmask = EMbmAvkonQgn_indi_checkbox_on_mask;
+    }
+
+// ---------------------------------------------------------------------------
+// r_gps_cbabutton
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_gps_cbabutton
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id = ELeftBt; txt = "left";},
+        CBA_BUTTON {id = ERightBt; txt = "right";}
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_gps_cbabutton_forset
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA r_gps_cbabutton_forset
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON {id = ELeftBt; txt = "leftforset";},
+        CBA_BUTTON {id = ERightBt; txt = "rightforset";}
+        };
+    }
+
+// ---------------------------------------------------------------------------
+// r_gps_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE CBA_BUTTON r_gps_button
+    {
+    version = 0;
+    id = ESingle;
+    txt = "isbutton";
+    }
+
+// ---------------------------------------------------------------------------
+// r_enhanced_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE ENHANCED_CBA_BUTTON r_enhanced_button
+    {
+    version = EEikEnhancedCbaButton;
+    operationType = EEikCommandTypeAnyCommand;
+    id = EEnhance;
+    txt = "enhancedbt";
+    }
+
+// ---------------------------------------------------------------------------
+// r_cmbut_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE CMBUT r_cmbut_button
+    {
+    version = 0;
+    behavior = 0;
+    layout = 0;
+    helptxt = "help";
+    txt = "cmbt";
+    }
+
+// ---------------------------------------------------------------------------
+// r_twopicbt_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE PICMBUT r_twopicbt_button
+    {
+    version = 0;
+    behavior = 0;
+    layout = 0;
+    helptxt = "help";
+    txt = "twopic";
+    }
+// ---------------------------------------------------------------------------
+// r_twopicbt_buttonttwo
+// ---------------------------------------------------------------------------
+//
+RESOURCE PICMBUT r_twopicbt_buttonttwo
+    {
+    version=0;
+    behavior=0;
+    layout=0;
+    helptxt="test";
+    extension=0;
+    txt="txt";
+    bmpfile="Z:\\resource\\apps\\avkon2.mbm";
+    bmpid=EMbmAvkonQgn_graf_tab_21;
+    bmpmask=EMbmAvkonQgn_graf_tab_21_mask;
+    bmpsecondid=EMbmAvkonQgn_graf_tab_22;
+    bmpsecondmask=EMbmAvkonQgn_graf_tab_22_mask;
+    }
+// ---------------------------------------------------------------------------
+// r_image
+// ---------------------------------------------------------------------------
+//
+RESOURCE IMAGE r_image
+    {
+    horiz_align = EEikLabelAlignHCenter;
+    vert_align = EEikLabelAlignVTop;
+    bmpfile = "z:\\resource\\apps\\avkon2.mbm";
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    }
+
+// ---------------------------------------------------------------------------
+// r_txtbt_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE TXTBUT r_txtbt_button
+    {
+    layout = 0;
+    helptxt = "help";
+    txt1 = "txt1";
+    txt2 = "txt2";
+    }
+
+// ---------------------------------------------------------------------------
+// r_bitmapbt_button
+// ---------------------------------------------------------------------------
+//
+RESOURCE BMPBUT r_bitmapbt_button
+    {
+    layout = 0;
+    helptxt = "help";
+    bmp1file = "z:\\resource\\apps\\avkon2.mbm";
+    bmp1id = EMbmAvkonQgn_indi_mic;
+    bmp1mask = EMbmAvkonQgn_indi_mic_mask;
+    bmp2file = "z:\\resource\\apps\\avkon2.mbm";
+    bmp2id = EMbmAvkonQgn_indi_speaker_active;
+    bmp2mask = EMbmAvkonQgn_indi_speaker_active_mask;
+    }
+

@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CTestSDKSFView @ 2 NONAME ; #<TI>#
+	_ZTI21CTestSDKSFASTObserver @ 3 NONAME ; #<TI>#
+	_ZTI28CTestSDKSearchFieldContainer @ 4 NONAME ; #<TI>#
+	_ZTV14CTestSDKSFView @ 5 NONAME ; #<VT>#
+	_ZTV21CTestSDKSFASTObserver @ 6 NONAME ; #<VT>#
+	_ZTV28CTestSDKSearchFieldContainer @ 7 NONAME ; #<VT>#
+

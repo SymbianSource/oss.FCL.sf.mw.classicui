@@ -1,0 +1,9 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI11CSliderView @ 2 NONAME ; #<TI>#
+	_ZTI14CTestAknSlider @ 3 NONAME ; #<TI>#
+	_ZTI16CSliderContainer @ 4 NONAME ; #<TI>#
+	_ZTV11CSliderView @ 5 NONAME ; #<VT>#
+	_ZTV14CTestAknSlider @ 6 NONAME ; #<VT>#
+	_ZTV16CSliderContainer @ 7 NONAME ; #<VT>#
+

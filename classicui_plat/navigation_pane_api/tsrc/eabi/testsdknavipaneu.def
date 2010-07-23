@@ -1,0 +1,11 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI23CTestSDKNaviTabObserver @ 2 NONAME ; #<TI>#
+	_ZTI26CTestSDKNavipaneNaviLblExt @ 3 NONAME ; #<TI>#
+	_ZTI29CTestSDKNaviDecoratorObserver @ 4 NONAME ; #<TI>#
+	_ZTI33CAknNavigationControlContainerExt @ 5 NONAME ; #<TI>#
+	_ZTV23CTestSDKNaviTabObserver @ 6 NONAME ; #<VT>#
+	_ZTV26CTestSDKNavipaneNaviLblExt @ 7 NONAME ; #<VT>#
+	_ZTV29CTestSDKNaviDecoratorObserver @ 8 NONAME ; #<VT>#
+	_ZTV33CAknNavigationControlContainerExt @ 9 NONAME ; #<VT>#
+

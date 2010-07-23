@@ -1,0 +1,34 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Buttons API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/EIKLBBUT.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbbut.h)
+../inc/EIKBUTB.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikbutb.h)
+../inc/EIKCMBUT.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikcmbut.h)
+../inc/Eikbgfty.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikbgfty.h)
+../inc/EIKMNBUT.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikmnbut.h)
+../inc/eikbtgps.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikbtgps.h)
+../inc/eikcba.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikcba.h)
+../inc/EIKBTGPC.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikbtgpc.h)

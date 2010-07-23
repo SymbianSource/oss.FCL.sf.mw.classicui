@@ -21,6 +21,11 @@
 #include "../uifw/group/bld.inf"
 #include "../commonuis/group/bld.inf"
 #include "../applicationinterworkingfw/group/bld.inf"
-#include "../CommonAdapter/group/bld.inf"
-#include "../akntouchgesturefw/group/bld.inf"
 #include "../uiutils/group/bld.inf"
+
+#include "../commonuisupport/uikon/group/bld.inf"
+#include "../commonuisupport/errorresolverdata/group/bld.inf"
+#include "../commonuisupport/grid/group/bld.inf"
+#include "../lafagnosticuifoundation/graphicseffects/group/bld.inf"
+#include "../lafagnosticuifoundation/bmpanimation/group/bld.inf"
+#include "../lafagnosticuifoundation/animation/group/bld.inf"

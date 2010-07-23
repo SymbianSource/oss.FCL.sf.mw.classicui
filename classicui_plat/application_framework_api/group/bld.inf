@@ -1,0 +1,31 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Application Framework API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/AknAppUi.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknappui.h)
+../inc/aknview.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknview.h)
+../inc/AknViewAppUi.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknViewAppUi.h)
+../inc/aknApp.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknapp.h)
+../inc/AknDoc.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknDoc.h)

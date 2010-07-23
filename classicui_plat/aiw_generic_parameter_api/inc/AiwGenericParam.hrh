@@ -1,0 +1,339 @@
+/*
+* Copyright (c) 2003-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     AIW generic parameter definitions.
+*
+*/
+
+
+
+
+
+#ifndef AIW_GENERIC_PARAM_HRH
+#define AIW_GENERIC_PARAM_HRH
+
+/**
+ * Pre-defined sematic IDs for generic parameters (TAiwGenericParam).
+ * The data type of the parameter specifies the representation of the parameter.
+ * Use TGenericParamId instead of using TGenericParamIdValue directly.
+ * Additional generic param definitions are possible besides this list.
+ * @see TAiwGenericParam.
+ */   
+enum TGenericParamIdValue 
+    {
+    EGenericParamUnspecified = 0,
+
+    // General parameters
+    EGenericParamError          = 1,  // Any error parameter
+    EGenericParamDir            = 2,  // Any directory  
+    EGenericParamFile           = 3,  // Any file
+    EGenericParamURL            = 4,  // Any URL
+    EGenericParamApplication    = 5,  // Application
+    EGenericParamInstallPackage = 6,  // Install package
+    EGenericParamDRMFile        = 7,
+    EGenericParamMIMEType       = 8,
+    EGenericParamCharSet        = 9,
+
+    // NOTE: Next id is a special semantic id reserved for AIW framework. 
+    // A consumer application should never add it to parameter list.
+    EGenericParamServiceCommand = 10,
+
+    // NOTE: Next id is to be used only internally by DocumentHandler.
+    // Do not not use it for anything else.
+    EGenericParamInternalFile = 11, 
+
+    // Application services
+    EGenericParamContactItem   = 20,
+    EGenericParamCalendarItem  = 21,
+    EGenericParamMessageItem   = 22,  
+    EGenericParamNoteItem      = 23,
+    EGenericParamHelpItem      = 24,
+    EGenericParamAlarmItem     = 25,
+    EGenericParamLogItem       = 26,
+    EGenericParamPhoneNumber   = 27,
+    EGenericParamAccessPoint   = 28,
+    EGenericParamSIPAddress    = 29,
+
+    EGenericParamMessageItemSMS   = 30,
+    EGenericParamMessageItemEMail = 31,
+    EGenericParamMessageItemMMS   = 32,
+    
+    EGenericParamEmailAddress = 33, 
+    EGenericParamWVID         = 34,
+    EGenericParamDateTime     = 35,
+    
+    EGenericParamMessageItemMbox = 36,  
+
+    // SIM items
+    EGenericParamSIMContactItem  = 40,
+    EGenericParamSIMAppItem      = 41,
+
+    // Browser items
+    EGenericParamReferringURI = 50,    
+
+    // Music Player items
+    EGenericParamPlayerInitMode = 60,
+    EGenericParamAlbumItems     = 61,
+    EGenericParamAlbumName      = 62,
+
+    // Print parameters
+    EGenericParamPrintXMLFile = 70,
+
+    // Call parameters
+    EGenericParamCallDialDataV1 = 80,
+    EGenericParamCallDialData   = 81,
+
+    // Sprint media gallery provider specific
+    EGenricParamMGItemType                 = 90, 
+    EGeneriParamMGMediaType                = 91,
+    EGeneriParamMGViewType                 = 92,
+    EGenericParamMGSubviewtype             = 93,
+    EGenericParamMGMarked                  = 94,
+    EGenericParamCdmaExtendedAMSData       = 95,
+    EGenericParamCdmaExtendedLightSurfData = 96,
+
+    EGenericParamSilentDownload  = 110,
+    EGenericParamSuppressLaunch  = 111,
+    EGenericParamSuppressNextUrl = 112,
+
+    EGenericParamPoCData       = 120,
+    EGenericParamPoCLaunchView = 121,
+
+    EGenericParamAllowMove = 130,
+    EGenericParamAllowSave = 131, 
+    
+    EGenericParamFileSaved = 140,
+    
+    EGenericParamLocation = 150,
+    
+    EGenericParamFotaPkgId = 160,
+    
+    EGenericParamMMSSizeLimit = 170,
+    EGenericParamResolution   = 171,
+    
+    EGenericParamSuppressDownloadConfirmation = 180,
+    EGenericParamDownloadId                   = 181,
+    
+    EGenericParamPassword     = 190,
+    EGenericParamUserName     = 191,
+    EGenericParamBookmarkName = 192,
+    
+    EGenericParamContactSelectionData = 200,
+    EGenericParamContactLinkArray     = 201,
+    EGenericParamContactStoreUriArray = 202,
+    EGenericParamSelectedCount        = 203,
+    EGenericParamContactAssignData    = 204,
+/*<branchInfo originator="gronoff" since="07-10-2008" category="new_feature" error=”none”>
+<PF5250_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 07-10-2008 : gronoff
+    EGenericParamContactFieldData      = 205,
+// BRANCH_END 07-10-2008 : gronoff    
+    EGenericParamLandmark             = 210,
+    EGenericParamLandmarkDatabase     = 211,
+    EGenericParamLandmarkId           = 212,
+    EGenericParamLandmarkIdList       = 213,
+    EGenericParamMnCommonOptions      = 214,
+    EGenericParamMnMapViewOptions     = 215,
+    EGenericParamMnGeocodingOptions   = 216,
+    EGenericParamRequestText          = 217,
+    
+    // Enterprise telephony parameters
+    EGenericParamModeActivation       = 220,
+    EGenericParamDisplayString        = 221,
+    
+    EGenericParamSpeedDialIndex       = 230,
+    
+    // In-device search parameters
+    EGenericParamKeywords             = 240,
+    EGenericParamCallAppLocName       = 241,
+    EGenericParamStartOption          = 242,
+    EGenericParamSearchContent        = 243,
+    
+    EGenericParamTerminate            = 250,
+    
+    //For Image viewer slideshow support
+    EGenericParamSlideshow			  = 251,
+    
+    //For Search functionality
+    EGenericParamSearchDomain		  = 260,
+    EGenericParamSearchSubject		  = 261,
+    EGenericParamSearchProvider		  = 262,
+    EGenericParamSearchOptions		  = 263    
+/*<branchInfo originator="juhuusit" since="07-04-10" category="new_feature" error=”none”>
+<MCSS_5132_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 07-04-10 : juhuusit
+    ,
+    EGenericParamDialMenuServiceEntry   = 270,
+    EGenericParamDialMenuServiceOptions = 271
+// BRANCH_END 07-04-10 : juhuusit
+
+
+/*<branchInfo originator="gronoff" since="08-28-08" category="new_feature" error=”none”>
+<PF5250_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 08-28-08: gronoff
+    ,
+    EGenericParamCNAP									= 290,
+    
+    EGenericParamXSpId                  = 1919,
+    EGenericParamFirstName              = 1920,
+    EGenericParamLastName               = 1921,
+    EGenericParamNickname               = 1922
+// BRANCH_END 08-28-08: gronoff
+    };
+
+
+// String constants for above sematic ids to be used in content matching.
+
+#define EGenericParamUnspecifiedStr    "0"
+#define EGenericParamErrorStr          "1"
+#define EGenericParamDirStr            "2"
+#define EGenericParamFileStr           "3"
+#define EGenericParamURLStr            "4"
+#define EGenericParamApplicationStr    "5"
+#define EGenericParamInstallPackageStr "6"
+#define EGenericParamDRMFileStr        "7"
+#define EGenericParamMIMETypeStr       "8"
+#define EGenericParamCharSetStr        "9"
+#define EGenericParamServiceCommandStr "10"
+#define EGenericParamInternalFileStr   "11"
+
+#define EGenericParamContactItemStr    "20"
+#define EGenericParamCalendarItemStr   "21"
+#define EGenericParamMessageItemStr    "22"
+#define EGenericParamNoteItemStr       "23"
+#define EGenericParamHelpItemStr       "24"
+#define EGenericParamAlarmItemStr      "25"
+#define EGenericParamLogItemStr        "26"
+#define EGenericParamPhoneNumberStr    "27"
+#define EGenericParamAccessPointStr    "28"
+#define EGenericParamSIPAddressStr     "29"
+
+#define EGenericParamMessageItemSMSStr   "30"
+#define EGenericParamMessageItemEMailStr "31"
+#define EGenericParamMessageItemMMSStr   "32"
+
+#define EGenericParamEmailAddressStr    "33"
+#define EGenericParamWVIDStr            "34"
+#define EGenericParamDateTimeStr        "35"
+
+#define EGenericParamMessageItemMboxStr "36"
+
+#define EGenericParamSIMContactItemStr "40"
+#define EGenericParamSIMAppItemStr     "41"
+
+#define EGenericParamReferringURIStr   "50"    
+
+#define EGenericParamPlayerInitModeStr "60"
+#define EGenericParamAlbumItemsStr     "61"
+#define EGenericParamAlbumNameStr      "62"
+
+#define EGenericParamPrintXMLFileStr   "70"
+
+#define EGenericParamCallDialDataV1Str "80"
+#define EGenericParamCallDialDataStr   "81"
+
+#define EGenricParamMGItemTypeStr                 "90" 
+#define EGeneriParamMGMediaTypeStr                "91"
+#define EGeneriParamMGViewTypeStr                 "92"
+#define EGenericParamMGSubviewtypeStr             "93"
+#define EGenericParamMGMarkedStr                  "94"
+#define EGenericParamCdmaExtendedAMSDataStr       "95"
+#define EGenericParamCdmaExtendedLightSurfDataStr "96"
+
+#define EGenericParamSilentDownloadStr  "110"
+#define EGenericParamSuppressLaunchStr  "111"
+#define EGenericParamSuppressNextUrlStr "112"
+
+#define EGenericParamPoCDataStr       "120"
+#define EGenericParamPoCLaunchViewStr "121"    
+
+#define EGenericParamAllowMoveStr      "130"
+#define EGenericParamAllowSaveStr      "131"
+
+#define EGenericParamFileSavedStr      "140"
+
+#define EGenericParamLocationStr       "150"
+
+#define EGenericParamFotaPkgIdStr      "160"
+
+#define EGenericParamMMSSizeLimitStr   "170"
+#define EGenericParamResolutionStr     "171"
+
+#define EGenericParamSuppressDownloadConfirmationStr "180"
+#define EGenericParamDownloadIdStr                   "181" 
+     
+#define EGenericParamPasswordStr       "190"
+#define EGenericParamUserNameStr       "191"
+#define EGenericParamBookmarkNameStr   "192"    
+
+#define EGenericParamContactSelectionDataStr    "200"
+#define EGenericParamContactLinkArrayStr        "201"
+#define EGenericParamContactStoreUriArrayStr    "202"
+#define EGenericParamSelectedCountStr           "203"
+#define EGenericParamContactAssignDataStr       "204"
+
+#define EGenericParamLandmarkStr                "210"
+#define EGenericParamLandmarkDatabaseStr        "211"
+#define EGenericParamLandmarkIdStr              "212"
+#define EGenericParamLandmarkIdListStr          "213"
+#define EGenericParamMnCommonOptionsStr         "214"
+#define EGenericParamMnMapViewOptionsStr        "215"
+#define EGenericParamMnGeocodingOptionsStr      "216"
+#define EGenericParamRequestTextStr             "217"
+
+#define EGenericParamModeActivationStr          "220"
+#define EGenericParamDisplayStringStr           "221"
+
+#define EGenericParamSpeedDialIndexStr          "230"
+
+#define EGenericParamKeywordsStr                "240"
+#define EGenericParamCallAppLocNameStr          "241"
+#define EGenericParamStartOptionStr             "242"
+#define EGenericParamSearchContentStr           "243"
+
+#define EGenericParamTerminateStr               "250"
+#define EGenericParamSlideshowStr               "251"
+
+#define EGenericParamSearchDomainStr            "260"
+#define EGenericParamSearchSubjectStr			"261"
+#define EGenericParamSearchProviderStr			"262"
+#define EGenericParamSearchOptionsStr			"263"
+
+/*<branchInfo originator="juhuusit" since="07-04-10" category="new_feature" error=”none”>
+<MCSS_5132_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 07-04-10 : juhuusit
+#define EGenericParamDialMenuServiceEntryStr            "270"
+#define EGenericParamDialMenuServiceOptionsStr          "271"
+// BRANCH_END 07-04-10 : juhuusit
+
+/*<branchInfo originator="gronoff" since="08-28-08" category="new_feature" error=”none”>
+<PF5250_OFF_CYCLE_SW_INT>
+</branchInfo>*/
+// BRANCH 08-28-08: gronoff
+
+#define EGenericParamCNAPStr										"290"
+
+#define EGenericParamXSpIdEntryStr              "1919"
+#define EGenericParamFirstNameEntryStr          "1920"
+#define EGenericParamLastNameEntryStr           "1921"
+#define EGenericParamNicknameEntryStr           "1922"
+// BRANCH_END 08-28-08: gronoff
+
+#endif // AIW_GENERIC_PARAM_HRH
+
+// End of file
+

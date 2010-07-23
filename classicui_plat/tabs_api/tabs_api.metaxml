@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="9ea34f0c89c651be63e03ade919b2478" dataversion="1.0">
+  <name>Tabs API</name>
+  <description>Provides the tab group UI component.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="avkon.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

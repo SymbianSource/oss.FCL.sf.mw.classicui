@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test EIKINFO.H EIKPROGI.H AknNoteDialog.h aknnotewrappers.h 
+*                     AknProgressDialog.h aknprogresstimer.h AknStaticNoteDialog.h 
+*                     aknwaitdialog.h AknWaitNoteWrapper.h aknnotecontrol.h
+*
+*/
+
+
+#ifndef C_TESTSDKNOTES_HRH
+#define C_TESTSDKNOTES_HRH
+
+// ---------------------------------------------------------------------------
+// enum TNotes
+// ---------------------------------------------------------------------------
+//
+enum TNotes
+    {
+    ETESTSDKNOTESIMAGE = 0x6001,
+    ETestSDKInformationNote,
+    ETestSDKProgressNote,
+    ETestSDKStaticNote,
+    ETestSDKWaitNoteWrapper,
+    ETestSDKNoteControl
+    };
+
+// ---------------------------------------------------------------------------
+// testsdk_notes_mapfile
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_NOTES_MAPFILE "z:\\resource\\apps\\avkon2.mbm"
+
+// ---------------------------------------------------------------------------
+// testsdk_notes_txt
+// ---------------------------------------------------------------------------
+//
+#define TESTSDK_NOTES_TXT "NoteWrapper"
+
+#endif /*C_TESTSDKNOTES_HRH*/

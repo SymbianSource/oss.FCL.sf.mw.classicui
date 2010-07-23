@@ -1,0 +1,46 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkhierarchicallists"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+
+"..\init\testsdkhierarchicallists.ini"-"c:\Testframework\testsdkhierarchicallists.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkhierarchicallistsscl.cfg"-"c:\Testframework\tctestsdkhierarchicallistsscl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkhierarchicallistsscl.cfg"-"c:\Testframework\ui_testsdkhierarchicallistsscl.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkhierarchicallistsssl.cfg"-"c:\Testframework\tctestsdkhierarchicallistsssl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkhierarchicallistsssl.cfg"-"c:\Testframework\ui_testsdkhierarchicallistsssl.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkhierarchicalliststl.cfg"-"c:\Testframework\tctestsdkhierarchicalliststl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkhierarchicalliststl.cfg"-"c:\Testframework\ui_testsdkhierarchicalliststl.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkhierarchicallists.dll"-"c:\sys\bin\testsdkhierarchicallists.dll", FF
+
+
+
+; Trim For Mms
+; ------------
+; to be added later

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="76aba68bde4f52a83f849489647ce964" dataversion="1.0">
+  <name>Generic Button API</name>
+  <description>Provides a generic button UI component.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="5.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

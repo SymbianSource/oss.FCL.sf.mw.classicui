@@ -1,0 +1,396 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         resources for the module
+*
+*/
+
+
+
+
+
+
+
+
+
+//  RESOURCE IDENTIFIER
+NAME BUTT
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <bctestbuttons.mbg>
+#include <appinfo.rh>
+
+#include "bctestbuttons.hrh"
+#include "bctestbuttons.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTBUTTONS_BMP_FNAME APP_BITMAP_DIR"\\bctestbuttons.mbm"
+
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_bctest_buf;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestbuttons_menubar_main;
+    cba = r_bctestbuttons_cba_options_next;
+    }
+
+//-----------------------------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestbuttons_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list;        
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_view
+//    AVKON_VIEW for CBCTestButtonsView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestbuttons_view
+    {
+    menubar = r_bctestbuttons_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestbuttons_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestbuttons_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestbuttons_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestbuttons_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdTestEikBgftyAndEikBtgpcL;
+            txt = qtn_bctestbuttons_testeikbgftyandeikbtgcl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCmdTestEikButbAndEikCbaL;
+            txt = qtn_bctestbuttons_testeikbutbandeikcbal;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikCommandButtonL;
+            txt = qtn_bctestbuttons_testceikcommandbuttonl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikTwoPictureCmdL;
+            txt = qtn_bctestbuttons_testceikpicturecmdl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikInverterCmdL;
+            txt = qtn_bctestbuttons_testceikinvertercmdl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikTextBtnL;
+            txt = qtn_bctestbuttons_testceiktextbtnl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikBitmapBtnL;
+            txt = qtn_bctestbuttons_testceikbitmapbtnl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestCEikLabeledBtnL;
+            txt = qtn_bctestbuttons_testceiklabeledbtnl;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestMnbutAndBtgpsAndBtgrpL;
+            txt = qtn_bctestbuttons_testmnbutandbtgpsandbtgrpl;
+            },          
+        MENU_ITEM
+            {
+            command = EBCTestCba;
+            txt = qtn_bctestbuttons_testcba;
+            }          
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestbuttons_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestbuttons_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestbuttons_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestbuttons_cba_options_next
+    {
+    buttons =
+	{
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestButtonsCbaCmdNext;
+            txt = qtn_bctestbuttons_cba_next;
+            }
+	};
+    }
+// ----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_toolbar
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TOOLBAR r_bctestbuttons_toolbar
+    {
+	length=0;
+	breadth=KEikStdToolBarWidth;
+	lines=1;
+    flags=0;
+	extension=0;
+    }
+    
+// ----------------------------------------------------------------------------
+//
+//    r_aknatbutton_button_mnbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE MNBUT r_bctestbuttons_mnbut
+    {
+	popout=0;
+	version=0;
+	behavior=0;
+    layout=0; // ETextRightPictureLeft
+	helptxt="";
+	extension=0;
+    txt="";
+	bmpfile="";
+    bmpid=0xffff;
+    bmpmask=0xffff;
+    }
+// ----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_picmbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE PICMBUT r_bctestbuttons_picmbut
+    {
+	version=0;
+	behavior=0;
+	layout=0;	// ETextRightPictureLeft|EEikCmdButShareExcess
+	helptxt="";
+	extension=0;
+	txt="";
+	bmpfile = BCTESTBUTTONS_BMP_FNAME;
+    bmpid = EMbmBctestbuttonsSampleicon;
+    bmpmask=  EMbmBctestbuttonsSampleiconmask;
+    bmpsecondid= EMbmBctestbuttonsSampleicon;
+    bmpsecondmask= EMbmBctestbuttonsSampleiconmask;
+    }
+// ----------------------------------------------------------------------------
+//
+//    r_bctestbuttons_txtbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE TXTBUT r_bctestbuttons_txtbut
+    {
+	version=0;
+	behavior=0;
+	layout=0; // EFirstRightSecondLeft|EEikCmdButShareExcess
+	helptxt="";
+	extension=0;
+    txt1="";
+    txt2="";
+    }
+// ----------------------------------------------------------------------------
+//
+//    r_bctest_lbbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE LBBUT r_bctestbuttons_lbbut
+    {
+	buttontype=0; // EEikCtCommandButton
+	button = CMBUT
+	    {
+	    version=0;
+  	    behavior=0;
+	    layout=0; // ETextRightPictureLeft|EEikCmdButShareExcess
+	    helptxt="";
+	    extension=0;
+ 	    txt="";
+	    bmpfile= BCTESTBUTTONS_BMP_FNAME;
+        bmpid=EMbmBctestbuttonsSampleicon;
+        bmpmask=EMbmBctestbuttonsSampleiconmask;
+    };
+	hotkey=0;
+	flags=1; // EEikLabeledButtonShowHotKey
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_aknatbutton_button_cmbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE CMBUT r_bctestbuttons_cmbut
+    {
+	version=0;
+	behavior=0;
+	layout=0; // ETextRightPictureLeft|EEikCmdButShareExcess
+	helptxt="";
+	extension=0;
+	txt="";
+	bmpfile="";
+    bmpid=0xffff;
+    bmpmask=0xffff;
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_aknatbutton_button_cmbut
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE BMPBUT r_bctestbuttons_bmpbut
+    {
+    version = 0;
+	behavior = 0;
+	layout = 0; // ETextRightPictureLeft|EEikCmdButShareExcess
+	helptxt = "";
+	extension = 0;
+	bmp1file = BCTESTBUTTONS_BMP_FNAME;
+    bmp1id = EMbmBctestbuttonsSampleicon;
+    bmp1mask = EMbmBctestbuttonsSampleiconmask;
+	bmp2file= BCTESTBUTTONS_BMP_FNAME;
+    bmp2id=EMbmBctestbuttonsSampleicon;
+    bmp2mask = EMbmBctestbuttonsSampleiconmask;
+    }
+
+
+ 

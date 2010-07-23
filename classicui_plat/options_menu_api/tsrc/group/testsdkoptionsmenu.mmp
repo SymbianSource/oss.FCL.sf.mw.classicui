@@ -1,0 +1,93 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  mmp file
+ *
+*/
+
+
+#include <data_caging_paths.hrh> 
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+TARGET          testsdkoptionsmenu.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkoptionsmenu.def
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc 
+
+    MW_LAYER_SYSTEMINCLUDE
+    
+    SOURCEPATH      ../src
+    
+    START RESOURCE ../data/testsdkoptionsmenu.rss
+        TARGETPATH RESOURCE_FILES_DIR
+        HEADER
+        END
+        
+
+#else // SBSV2 not defined
+    USERINCLUDE     ../inc 
+
+    MW_LAYER_SYSTEMINCLUDE
+    
+    SOURCEPATH      ../src
+    
+    START RESOURCE ../data/testsdkoptionsmenu.rss
+        TARGETPATH RESOURCE_FILES_DIR
+        HEADER
+        END
+
+#endif // SBSV2
+
+SOURCE          testsdkoptionsmenu.cpp
+SOURCE          testsdkoptionsmenublocks.cpp 
+SOURCE          testsdkoptionsmenublocksmenub.cpp 
+SOURCE          testsdkoptionsmenublocksmenup.cpp
+SOURCE          testsdkoptionsmenucontainer.cpp
+SOURCE          testoptionsmenu.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikcore.lib
+LIBRARY         egul.lib 
+LIBRARY         aknicon.lib 
+LIBRARY         cone.lib 
+LIBRARY         avkon.lib 
+LIBRARY         apparc.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY	        efsrv.lib
+LIBRARY         bafl.lib
+LIBRARY         fbscli.lib
+LIBRARY         eikdlg.lib 
+LIBRARY         eikcdlg.lib 
+LIBRARY         eikctl.lib
+
+
+
+LANG            SC
+
+//end of file
+

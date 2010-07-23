@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Private UI Framework API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/EIKHKEYC.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikhkeyc.h)
+../inc/eiklay.h     MW_LAYER_PLATFORM_EXPORT_PATH(eiklay.h)
+../inc/EIKALERT.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikalert.h)
+../inc/EIKDPAGE.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikdpage.h)
+../inc/EIKHFDLG.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikhfdlg.h)
+../inc/EIKBTPAN.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikbtpan.h)

@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2003-2005 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:     Variant data type for Generic Parameters library.
+*
+*/
+
+
+
+
+
+#ifndef AIW_VARIANT_TYPE_HRH
+#define AIW_VARIANT_TYPE_HRH
+
+/**
+* Data formats supported by TAiwVariant class.
+*/
+enum TVariantTypeId
+    {
+    EVariantTypeAny        = -1,  ///< Used only in searching
+    EVariantTypeNull       = 0,   ///< Null (empty) type
+
+    EVariantTypeTInt32     = 1,   ///< 32 bit Integer
+    EVariantTypeTUid       = 2,   ///< Globally unique UID
+    EVariantTypeDesC       = 3,   ///< Constant text literal
+    EVariantTypeTTime      = 4,   ///< Date and time
+    EVariantTypeDesC8      = 5,   ///< 8-bit data buffer
+    EVariantTypeFileHandle = 6    ///< File handle
+    };
+
+#endif // AIW_VARIANT_TYPE_HRH
+
+// End of file
+

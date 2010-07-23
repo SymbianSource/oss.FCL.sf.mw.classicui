@@ -1,0 +1,55 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkuifwutil"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkbuttons.ini"-"c:\Testframework\testsdkbuttons.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikbgfty.cfg"-"c:\Testframework\tctestsdkbuttonseikbgfty.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikbgfty.cfg"-"c:\Testframework\ui_testsdkbuttonseikbgfty.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikbtgpc.cfg"-"c:\Testframework\tctestsdkbuttonseikbtgpc.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikbtgpc.cfg"-"c:\Testframework\ui_testsdkbuttonseikbtgpc.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikbtgps.cfg"-"c:\Testframework\tctestsdkbuttonseikbtgps.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikbtgps.cfg"-"c:\Testframework\ui_testsdkbuttonseikbtgps.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikbutb.cfg"-"c:\Testframework\tctestsdkbuttonseikbutb.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikbutb.cfg"-"c:\Testframework\ui_testsdkbuttonseikbutb.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikcba.cfg"-"c:\Testframework\tctestsdkbuttonseikcba.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikcba.cfg"-"c:\Testframework\ui_testsdkbuttonseikcba.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikcmbut.cfg"-"c:\Testframework\tctestsdkbuttonseikcmbut.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikcmbut.cfg"-"c:\Testframework\ui_testsdkbuttonseikcmbut.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseiklbbut.cfg"-"c:\Testframework\tctestsdkbuttonseiklbbut.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseiklbbut.cfg"-"c:\Testframework\ui_testsdkbuttonseiklbbut.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkbuttonseikmnbut.cfg"-"c:\Testframework\tctestsdkbuttonseikmnbut.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkbuttonseikmnbut.cfg"-"c:\Testframework\ui_testsdkbuttonseikmnbut.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkbuttons.dll"-"c:\sys\bin\testsdkbuttons.dll", FF
+
+"\epoc32\data\Z\resource\testsdkbuttons.rsc"-"c:\resource\testsdkbuttons.rsc", FF
+
+; Trim For Mms
+; ------------
+; to be added later

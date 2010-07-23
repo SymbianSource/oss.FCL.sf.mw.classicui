@@ -1,0 +1,1093 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project testsdkqueries
+ *
+*/
+
+
+NAME    TEST
+
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.mbg>
+
+#include "testsdkqueries.hrh"
+#include "testsdkqueries.loc"
+
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+RESOURCE TBUF
+    {
+    buf = "";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_menubar
+//
+//-----------------------------------------------------------------------------
+RESOURCE MENU_BAR r_testquery_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_testquery_listquery_menu; }
+        };
+    }
+
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_listquery_menu
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_testquery_listquery_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = ETestCmdOutline01;
+            txt = qtn_testquery_outline01;
+            },
+        MENU_ITEM
+            {
+            command = ETestCmdOutline02;
+            txt = qtn_testquery_outline02;
+            }        
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_list_query_control
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY_CONTROL r_list_query_control
+    {
+    listtype = EAknCtSinglePopupMenuListBox;
+    listbox = AVKON_LIST_QUERY_LIST
+        {
+        
+        };
+    heading = qtn_testsdkqueries_query_control_txt ;
+    bmpfile = qtn_bitmap_file;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    animation = r_bmpanim_data;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_list_query_noheading_control
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY_CONTROL r_list_query_noheading_control
+    {
+    listtype = EAknCtSinglePopupMenuListBox;
+    listbox = AVKON_LIST_QUERY_LIST
+        {
+        
+        };
+    bmpfile = qtn_bitmap_file;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    animation = r_bmpanim_data;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bmpanim_data
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE BMPANIM_DATA r_bmpanim_data
+    {
+    identifier = 0;
+    frameinterval = 0;
+    bmpfile = qtn_bitmap_file;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_list_query_msg_control
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY_CONTROL_WITH_MSGBOX r_list_query_msg_control
+    {
+    listtype = EAknListQueryWithMsgBox;
+    actuallisttype = EAknCtSettingNumberListBox;
+    listbox = AVKON_LIST_QUERY_LIST
+        {
+        
+        };
+    message = qtn_testsdkqueries_test_txt;
+    heading = qtn_testsdkqueries_query_control_msg_txt;
+    bmpfile = qtn_bitmap_file;
+    bmpid = EMbmAvkonQgn_indi_mic;
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_update_query_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY r_update_query_dialog
+{
+   flags = EGeneralQueryFlags;
+   softkeys = R_AVKON_SOFTKEYS_OK_CANCEL;
+   items =
+       {
+          AVKON_LIST_QUERY_DLG_LINE
+              {
+                 control = AVKON_LIST_QUERY_CONTROL
+                     {
+                        listtype = EAknCtSinglePopupMenuListBox;
+                        listbox = AVKON_LIST_QUERY_LIST
+                        {
+                        };
+                        heading = qtn_testsdkqueries_select_option_txt;
+                     };
+              }
+       };
+}
+
+//-----------------------------------------------------------------------------
+//
+//    r_update_query_msg_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY r_update_query_msg_dialog
+{
+    flags = EGeneralQueryFlags;
+    softkeys = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+    {
+       AVKON_LIST_QUERY_DLG_LINE
+       {
+          control = AVKON_LIST_QUERY_CONTROL_WITH_MSGBOX
+              {
+              listtype = EAknListQueryWithMsgBox;
+              actuallisttype = EAknCtDoubleLargeGraphicPopupMenuListBox;
+              listbox = AVKON_LIST_QUERY_LIST
+                  {
+                  
+                  };
+              message = qtn_testsdkqueries_test_txt;
+              heading = qtn_testsdkqueries_query_control_msg_txt;
+              bmpfile = qtn_bitmap_file;
+              bmpid = EMbmAvkonQgn_indi_mic;
+              bmpmask = EMbmAvkonQgn_indi_mic_mask;
+              };
+       }
+    };
+}
+
+//-----------------------------------------------------------------------------
+//
+//    r_message
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_MESSAGE_QUERY r_message
+    {
+    message = qtn_testsdkqueries_test_txt;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_message_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_message_dialog
+        {
+        flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+        buttons = R_AVKON_SOFTKEYS_OK_BACK;
+        items=
+                {
+                DLG_LINE 
+                        {
+                        type = EAknCtPopupHeadingPane;
+                        id = EAknMessageQueryHeaderId;
+                        control = AVKON_HEADING
+                                {
+                                label = qtn_testsdkqueries_test_txt;
+                                bmpfile = qtn_bitmap_file;
+                                bmpid = EMbmAvkonQgn_indi_mic;
+                                bmpmask = EMbmAvkonQgn_indi_mic_mask;
+                                animation=0;
+                                headinglayout = R_AVKON_LIST_HEADING_PANE;
+                                };
+                        },
+                DLG_LINE
+                        {
+                        type = EAknCtMessageQuery;
+                        id = EAknMessageQueryContentId;
+                        control = AVKON_MESSAGE_QUERY
+                                {
+                                message = qtn_testsdkqueries_test_txt;
+                                };
+                        }
+                };
+        }
+
+//-----------------------------------------------------------------------------
+//
+//    r_query_dialog
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_query_dialog
+     {
+     flags = EGeneralQueryFlags;
+     buttons = R_AVKON_SOFTKEYS_YES_NO;
+     items =
+         {
+         DLG_LINE
+             {
+             type = EAknCtQuery;
+             id = EGeneralQuery;
+             control = AVKON_CONFIRMATION_QUERY
+                 {
+                 layout = EConfirmationQueryLayout;
+                 label = qtn_testsdkqueries_test_txt;
+                 };
+             }
+         };
+     } 
+
+//-----------------------------------------------------------------------------
+//
+//    r_confirmation_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_CONFIRMATION_QUERY r_confirmation_query
+    {
+    layout = EConfirmationQueryLayout;
+
+    label = qtn_testsdkqueries_test_txt;
+
+    bmpfile = qtn_bitmap_file;
+
+    bmpid = EMbmAvkonQgn_indi_mic;
+
+    bmpmask = EMbmAvkonQgn_indi_mic_mask;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknexquery_number_layout
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknexquery_number_layout
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control= AVKON_DATA_QUERY
+
+                {
+
+                layout = ENumberLayout;
+
+                label = qtn_aknexquery_num_label_text;
+
+                control = AVKON_INTEGER_EDWIN
+
+                    {
+
+                    min = 0;
+
+                    max = 100;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_demo_data_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_demo_data_query
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EDataLayout;
+
+                label = qtn_testsdkqueries_test_txt;
+
+                control = EDWIN
+
+                    {
+
+                      width = 5;
+
+                       lines = 1;
+
+                       maxlength = 15;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknexquery_time_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknexquery_time_query
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = ETimeLayout;
+
+                label = qtn_aknexquery_time_label_text;
+
+                control = TIME_EDITOR
+
+                    {
+
+                    minTime = TIME
+
+                        {
+
+                        second = 0;
+
+                        minute = 0;
+
+                        hour = 0;
+
+                        };
+
+                    maxTime = TIME
+
+                        {
+
+                        second = 59;
+
+                        minute = 59;
+
+                        hour = 23;
+
+                        };
+
+                    flags = EEikTimeWithoutSecondsField;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+RESOURCE DIALOG r_aknexquery_duration_layout
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EDurationLayout;
+
+                label = qtn_aknexquery_dura_label_text;
+
+                control = DURATION_EDITOR
+
+                    {
+
+                    minDuration = DURATION
+
+                        {
+
+                        };
+
+                    maxDuration = DURATION
+
+                        {
+
+                        seconds = 0;
+
+                        };
+
+                    flags = 0;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    } 
+
+//-----------------------------------------------------------------------------
+//
+//    r_demo_floating_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_demo_floating_query
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EFloatingPointLayout;
+
+                label = qtn_testsdkqueries_enter_value_txt;
+
+                control = FLPTED
+
+                    {
+
+                        maxlength = 10;
+
+                        min = 0;
+
+                        max = 100;
+
+                        default = 0;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+RESOURCE DIALOG r_aknexquery_multi_line_date_and_duration_layout
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtMultilineQuery;
+
+            id = EMultilineFirstLine;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EMultiDataFirstDateEd;
+
+                label = qtn_aknexquery_date_label_text;
+
+                control = DATE_EDITOR
+
+                    {
+
+                    minDate = DATE
+
+                        {
+
+                        year = 1900;
+
+                        };
+
+                    maxDate = DATE
+
+                        {
+
+                        year = 2900;
+
+                        };
+
+                    flags = 0;
+
+                    };
+
+                };
+
+            },
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtMultilineQuery;
+
+            id = EMultilineSecondLine;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EMultiDataSecondDurEd;
+
+                label = qtn_aknexquery_dura_label_text;
+
+                control = DURATION_EDITOR
+
+                    {
+
+                    minDuration = DURATION
+
+                        {
+
+                        };
+
+                    maxDuration = DURATION
+
+                        {
+
+                        seconds = 
+
+                          59;
+
+                        };
+
+                    flags = 0;
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_ip_address
+//    Resource of IP Address Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testquery_ip_address
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EIpLayout;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                    flags = 0;
+                    };
+                };
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_multi_line_ip_address
+//    Resource of Multiline IP Address Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testquery_multi_line_ip_address
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtMultilineQuery;
+            id = EMultilineFirstLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataFirstIpEd;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                        flags = 0;
+                    };
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknExtCtMultilineQuery;
+            id = EMultilineSecondLine;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EMultiDataSecondIpEd;
+                label = qtn_bctestquery_ip_query_label_text;
+                control = IP_FIELD_EDITOR
+                    {
+                    min_field_values = IP_FIELD
+                        { 
+                        first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+                        };
+                    max_field_values = IP_FIELD
+                        {
+                        first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+                        second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+                        third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+                        fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+                        };
+                        flags = 0;
+                    };
+                };
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_extcontrol
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_DATA_QUERY r_testquery_extcontrol
+    {
+    layout = EIpLayout;
+    label = qtn_bctestquery_ip_query_label_text;
+    control = IP_FIELD_EDITOR
+        {
+        min_field_values = IP_FIELD
+            { 
+            first_field = IPADDRESS_MIN_FIRST_FIELD_VALUE;
+            second_field = IPADDRESS_MIN_SECOND_FIELD_VALUE;
+            third_field = IPADDRESS_MIN_THIRD_FIELD_VALUE;
+            fourth_field = IPADDRESS_MIN_FOURTH_FIELD_VALUE;
+            };
+        max_field_values = IP_FIELD
+            {
+            first_field = IPADDRESS_MAX_FIRST_FIELD_VALUE;
+            second_field = IPADDRESS_MAX_SECOND_FIELD_VALUE;
+            third_field = IPADDRESS_MAX_THIRD_FIELD_VALUE;
+            fourth_field = IPADDRESS_MAX_FOURTH_FIELD_VALUE;
+            };
+        flags = 0;
+        };    
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_fixex_point
+//    Resource of Fixed Point Query.
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_testquery_fixed_point
+    {
+    flags = EGeneralQueryFlags;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknExtCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_DATA_QUERY
+                {
+                layout = EFixedPointLayout;
+                label = qtn_bctestquery_num_label_text;
+                control = FIXPTED
+                    {
+                    min = 0;
+                    max = 10000;
+                    };
+                };
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_bmp_animation
+//
+//-----------------------------------------------------------------------------
+//    
+RESOURCE BMPANIM_DATA r_testquery_bmp_animation
+    {
+    identifier = 0;
+    frameinterval = 1;
+    playmode = 0;
+    flash = 0;
+    bmpfile = AVKON_ICON_FILE;
+    frames = 0;
+    backgroundframe = 0;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_aknexquery_confirmation_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_aknexquery_confirmation_query
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_CONFIRMATION_QUERY
+
+                {
+
+                layout = EConfirmationQueryLayout;
+
+                label = qtn_testsdkqueries_test_txt;
+
+                bmpfile = qtn_bitmap_file;
+
+                bmpid = EMbmAvkonQgn_indi_mic;
+
+                bmpmask = EMbmAvkonQgn_indi_mic_mask;
+
+                };
+
+            }
+
+        };
+
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_demo_data_pin_query
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_demo_data_pin_query
+
+    {
+
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+
+    items =
+
+        {
+
+        DLG_LINE
+
+            {
+
+            type = EAknCtQuery;
+
+            id = EGeneralQuery;
+
+            control = AVKON_DATA_QUERY
+
+                {
+
+                layout = EPinLayout;
+
+                label = qtn_testsdkqueries_test_txt;
+
+                control = SECRETED
+
+                    {
+
+                    };
+
+                };
+
+            }
+
+        };
+
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_date_format_string
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_testquery_date_format
+    {
+    buf = qtn_testquery_date_format;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_caption
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_testquery_caption
+    {
+    buf = qtn_testquery_query_caption;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_date_setting_page
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_date_setting_page    
+    {    
+    label = qtn_date_txt;    
+    type = EEikCtDateEditor;    
+    editor_resource_id = r_date_control;    
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_date_control
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE DATE_EDITOR r_date_control    
+    {    
+    minDate = DATE { year = 1980; };    
+    maxDate = DATE { year = 2060; };    
+    flags = 0;    
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestquery_time_format
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF40 r_testquery_time_format
+    {
+    buf = qtn_testquery_time_format;
+    }      
+    
+
+//-----------------------------------------------------------------------------
+//
+//    r_testquery_number_format
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16 r_testquery_number_format
+    {
+    buf = qtn_testquery_number_format;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_query_valuephone_string
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_query_valuephone_string
+    {
+    buf = qtn_testsdkqueries_phone_txt;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_query_valuetext_string
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_query_valuetext_string
+    {
+    buf = qtn_testsdkqueries_text_txt;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_query_valuetime_string
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF32 r_query_valuetime_string
+    {
+    buf = qtn_testsdkqueries_time_txt;
+    }
+
+//End file
+
+

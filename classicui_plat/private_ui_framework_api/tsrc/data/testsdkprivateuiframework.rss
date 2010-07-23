@@ -1,0 +1,300 @@
+/*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  rss file
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME TEMP
+
+//  INCLUDES
+#include <eikon.hrh>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+#include "testsdkprivateuiframework.hrh"
+#include "testsdkprivateuiframework.loc"
+
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//RSS_SIGNATURE
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//TBUF16
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "privateuifrm";
+    }
+
+//-----------------------------------------------------------------------------
+// EIK_APP_INFO
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_privateuiframtestprivateuifrm_menubar_main;
+    cba = r_privateuiframtestprivateuifrm_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+// Provide Caption and Icon Info for Scalable UI
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_privateuiframtestprivateuifrm_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+// r_privateuiframtestprivateuifrm_view
+// AVKON_VIEW for CprivateuiframtestprivateuifrmView
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_privateuiframtestprivateuifrm_view
+    {
+    menubar = r_privateuiframtestprivateuifrm_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+// r_privateuiframtestprivateuifrm_menubar
+// MenuBar
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_privateuiframtestprivateuifrm_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_privateuiframtestprivateuifrm_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_privateuiframtestprivateuifrm_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------/
+// r_privateuiframtestprivateuifrm_case_menu
+// Menu pane
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_privateuiframtestprivateuifrm_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EPRIVATEUIFRAMTestCmdOutline1;
+            txt = qtn_privateuiframtestprivateuifrm_outline1;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+// r_privateuiframtestprivateuifrm_menu
+// Menu pane
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_privateuiframtestprivateuifrm_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_privateuiframtestprivateuifrm_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_privateuiframtestprivateuifrm_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+// r_privateuiframtestprivateuifrm_cba_options_next
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_privateuiframtestprivateuifrm_cba_options_next
+    {
+    buttons =
+    {
+    CBA_BUTTON 
+        {
+        id=EAknSoftkeyOptions; 
+        txt = text_softkey_option;
+        },
+    AVKON_CBA_BUTTON
+        {
+        id = EPRIVATEUIFRAMTestPrivateUIFrmCbaCmdNext;
+        txt = qtn_privateuiframtestprivateuifrm_cba_next;
+        }
+    };
+    }
+
+// ----------------------------------------------------------------------------
+// r_privateuiframtest_lbbut
+// ----------------------------------------------------------------------------
+//
+RESOURCE LBBUT r_privateuiframtestprivateui_lbbut
+    {
+    buttontype=0; // EEikCtCommandButton
+    button = CMBUT
+        {
+    version=0;
+    behavior=0;
+    layout=0; // ETextRightPictureLeft|EEikCmdButShareExcess
+    helptxt="";
+    extension=0;
+    txt="";
+    bmpfile="";
+        bmpid=0xffff;
+        bmpmask=0xffff;
+        };
+    hotkey=0;
+    flags=1; // EEikLabeledButtonShowHotKey
+    }
+
+// ----------------------------------------------------------------------------
+// r_privateuiframtest_button_panel
+// ----------------------------------------------------------------------------
+//
+RESOURCE DLG_BUTTONS r_privateuiframtest_button_panel
+    {
+    buttons = {};
+    }
+
+// ----------------------------------------------------------------------------
+// r_privateuiframtest_dialog
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_privateuiframtest_dialog
+    {
+    flags = EEikDialogFlagNoDrag;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            // The caption(prompt)
+            prompt = "Number1:";
+            id = ESinglePageIdOne;
+            // The control
+            control = NUMBER_EDITOR
+                {min=0; max=1000;};
+            // The tag, indicating the measurement unit
+            trailer = "cm";
+            },
+        DLG_LINE
+            {
+            type = EEikCtNumberEditor;
+            // The caption(prompt)
+            prompt = "Number2:";
+            id = ESinglePageIdTwo;
+            // The control
+            control = NUMBER_EDITOR
+                {min=0; max=1000;};
+            // The tag, indicating the measurement unit
+            trailer = "cm";
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+// r_privateuiframtest_form
+// ----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_privateuiframtest_formdlg
+    {
+    flags = EEikDialogFlagNoDrag;
+    buttons = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    form = r_privateuiframtest_form;
+    }
+// ----------------------------------------------------------------------------
+// r_privateuiframtest_form
+// FORM
+// ----------------------------------------------------------------------------
+//
+RESOURCE FORM r_privateuiframtest_form
+    {
+    items =
+        {
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = "test";
+            id = EFormOne;
+            itemflags = EEikDlgItemTakesEnterKey |
+            EEikDlgItemOfferAllHotKeys;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling |
+                EEikEdwinResizable;
+                width = 20;
+                lines = 1;
+                maxlength = 24;
+                max_view_height_in_lines = 5;
+                base_line_delta = 21;
+                };
+            },
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = "test";
+            id = EFormTwo;
+            itemflags = EEikDlgItemTakesEnterKey |
+            EEikDlgItemOfferAllHotKeys;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling |
+                EEikEdwinResizable;
+                width = 20;
+                lines = 1;
+                maxlength = 24;
+                max_view_height_in_lines = 5;
+                base_line_delta = 21;
+                };
+            }
+        };
+    }
+// End of File
+
+

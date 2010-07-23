@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="5f864957dd958daaf425dfc1d49f8441" dataversion="1.0">
+  <name>Options Menu API</name>
+  <description>Provides options menu UI component.</description>
+  <type>c++</type>
+  <subsystem>uifw</subsystem>
+  <libs>
+    <lib name="eikcoctl.lib" />
+  </libs>
+  <release category="sdk" sinceversion="0.9"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,11 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI19CTestSDKLabelsLabel @ 2 NONAME ; #<TI>#
+	_ZTI38CTestSDKLabelsSubAknPictographCallBack @ 3 NONAME ; #<TI>#
+	_ZTV19CTestSDKLabelsLabel @ 4 NONAME ; #<VT>#
+	_ZTV38CTestSDKLabelsSubAknPictographCallBack @ 5 NONAME ; #<VT>#
+	_ZTI18CTestSDKLabelsView @ 6 NONAME ; #<TI>#
+	_ZTI23CTestSDKLabelsContainer @ 7 NONAME ; #<TI>#
+	_ZTV18CTestSDKLabelsView @ 8 NONAME ; #<VT>#
+	_ZTV23CTestSDKLabelsContainer @ 9 NONAME ; #<VT>#
+

@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         BCTestDocAndInit resource header file
+*
+*/
+
+
+
+
+
+
+
+
+
+#ifndef BCTESTDOCANDINIT_HRH
+#define BCTESTDOCANDINIT_HRH
+
+enum TBCTestDocAndInitMenuCommands
+    {
+    EBCTestCmdEmptyOutline = 0x6000,
+    EBCTestCmdDoc,
+    EBCTestCmdInit,
+    EBCTestCmdMaxOutline,
+    EProgCmdAutoTest
+    };
+
+enum TBCTestDocAndInitCba
+    {
+    EBCTestDocAndInitCbaCmdNext = 0x6300
+    };
+
+#endif // BCTESTDOCANDINIT_HRH
+
+// End of File

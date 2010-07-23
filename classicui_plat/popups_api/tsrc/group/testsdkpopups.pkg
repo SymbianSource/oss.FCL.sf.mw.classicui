@@ -1,0 +1,54 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+; Languages
+&EN
+
+; Header
+#{"testsdkpopups"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+
+"..\init\testsdkpopups.ini"-"c:\Testframework\testsdkpopups.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupscpf.cfg"-"c:\Testframework\tctestsdkpopupscpf.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupscpf.cfg"-"c:\Testframework\ui_testsdkpopupscpf.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupscpft.cfg"-"c:\Testframework\tctestsdkpopupscpft.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupscpft.cfg"-"c:\Testframework\ui_testsdkpopupscpft.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupscphp.cfg"-"c:\Testframework\tctestsdkpopupscphp.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupscphp.cfg"-"c:\Testframework\ui_testsdkpopupscphp.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupscpl.cfg"-"c:\Testframework\tctestsdkpopupscpl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupscpl.cfg"-"c:\Testframework\ui_testsdkpopupscpl.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupspf.cfg"-"c:\Testframework\tctestsdkpopupspf.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupspf.cfg"-"c:\Testframework\ui_testsdkpopupspf.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupspl.cfg"-"c:\Testframework\tctestsdkpopupspl.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupspl.cfg"-"c:\Testframework\ui_testsdkpopupspl.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkpopupsspsp.cfg"-"c:\Testframework\tctestsdkpopupsspsp.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkpopupsspsp.cfg"-"c:\Testframework\ui_testsdkpopupsspsp.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkpopups.dll"-"c:\sys\bin\testsdkpopups.dll", FF
+
+"\epoc32\data\Z\resource\testsdkpopups.rsc"-"c:\resource\testsdkpopups.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later
