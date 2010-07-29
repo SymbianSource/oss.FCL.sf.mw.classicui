@@ -1,0 +1,43 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Common File Dialogs API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/MAknMemorySelectionObserver.h     MW_LAYER_PUBLIC_EXPORT_PATH(MAknMemorySelectionObserver.h)
+../inc/CommonDialogs.hrh     MW_LAYER_PUBLIC_EXPORT_PATH(CommonDialogs.hrh)
+../inc/AknCommonDialogsDynMem.h     MW_LAYER_PUBLIC_EXPORT_PATH(AknCommonDialogsDynMem.h)
+../inc/MAknFileFilter.h     MW_LAYER_PUBLIC_EXPORT_PATH(MAknFileFilter.h)
+../inc/CAknFileSelectionDialog.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknFileSelectionDialog.h)
+../inc/CommonDialogs.rh     MW_LAYER_PUBLIC_EXPORT_PATH(CommonDialogs.rh)
+../inc/CAknMemorySelectionSettingPage.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknMemorySelectionSettingPage.h)
+../inc/CAknMemorySelectionDialog.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknMemorySelectionDialog.h)
+../inc/AknCommonDialogs.h     MW_LAYER_PUBLIC_EXPORT_PATH(AknCommonDialogs.h)
+../inc/CAknMemorySelectionSettingItem.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknMemorySelectionSettingItem.h)
+../inc/CAknFileNamePromptDialog.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknFileNamePromptDialog.h)
+../inc/CAknCommonDialogsBase.h     MW_LAYER_PUBLIC_EXPORT_PATH(CAknCommonDialogsBase.h)
+../inc/MAknFileSelectionObserver.h     MW_LAYER_PUBLIC_EXPORT_PATH(MAknFileSelectionObserver.h)
+
+../inc/caknmemoryselectiondialogmultidrive.h      MW_LAYER_PUBLIC_EXPORT_PATH(CAknMemorySelectionDialogMultiDrive.h)
+../inc/caknmemoryselectionsettingitemmultidrive.h MW_LAYER_PUBLIC_EXPORT_PATH(CAknMemorySelectionSettingItemMultiDrive.h)
+
