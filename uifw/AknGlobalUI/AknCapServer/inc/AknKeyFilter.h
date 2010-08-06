@@ -37,7 +37,6 @@ private: // framework
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType);
     
 private: // new functions
-    TKeyResponse HandleHomeKeyEventL(TEventCode aType);
     TKeyResponse HandleQwertyKeyEvent(const TKeyEvent& aKeyEvent, TEventCode aType);
     void HandleFlipKeyEvent(TInt aCode);
     static TInt HomeTickL(TAny* aThis);
@@ -57,7 +56,6 @@ private:
     CAknCapAppServerAppUi* iAppUi; // not owned
     CPeriodic* iHomeTimer;
     TInt iSuppressAppSwitch;
-    TInt iHomeKeyHandle;
     TVwsViewId iHomeViewId;
     RArray<TInt32> iHardwareStateKeyCaptures;
     TInt iQwertyOnKeyHandle;

@@ -91,7 +91,6 @@ CAknServKeyFilter::~CAknServKeyFilter()
     FreeHardwareStateKeys();
 
     RWindowGroup& groupWin = iCoeEnv->RootWin();
-    groupWin.CancelCaptureKeyUpAndDowns( iHomeKeyHandle );
     groupWin.CancelCaptureKeyUpAndDowns( iQwertyOnKeyHandle );
     groupWin.CancelCaptureKeyUpAndDowns( iQwertyOffKeyHandle );
     groupWin.CancelCaptureKey( iFlipOpenKeyHandle );
@@ -111,7 +110,6 @@ CAknServKeyFilter::~CAknServKeyFilter()
 void CAknServKeyFilter::ConstructL( CAknCapAppServerAppUi& aAppUi )
     {
     RWindowGroup& groupWin = iCoeEnv->RootWin();
-    iHomeKeyHandle      = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication0, 0, 0);
     iQwertyOnKeyHandle  = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication7, 0, 0); // EKeyQwertyOn
     iQwertyOffKeyHandle = groupWin.CaptureKeyUpAndDowns(EStdKeyApplication8, 0, 0); // EKeyQwertyOff
     iFlipOpenKeyHandle  = groupWin.CaptureKey(EKeyDeviceA, 0, 0); // EKeyFlipOpen
@@ -342,11 +340,7 @@ TKeyResponse CAknServKeyFilter::OfferKeyEventL( const TKeyEvent& aKeyEvent,
         return EKeyWasConsumed;
         }
 
-    if ( aKeyEvent.iScanCode == EStdKeyApplication0 )
-        {
-        return HandleHomeKeyEventL( aType );
-        }
-    else if ( aKeyEvent.iScanCode == EStdKeyApplication7 || // EKeyQwertyOn
+    if ( aKeyEvent.iScanCode == EStdKeyApplication7 || // EKeyQwertyOn
               aKeyEvent.iScanCode == EStdKeyApplication8 )  // EKeyQwertyOff
         {
         return HandleQwertyKeyEvent( aKeyEvent, aType );
@@ -359,58 +353,6 @@ TKeyResponse CAknServKeyFilter::OfferKeyEventL( const TKeyEvent& aKeyEvent,
     return EKeyWasNotConsumed;
     }
 
-
-// ---------------------------------------------------------------------------
-// CAknServKeyFilter::HandleHomeKeyEventL
-// Handles the pressing of applications key.
-// ---------------------------------------------------------------------------
-//
-TKeyResponse CAknServKeyFilter::HandleHomeKeyEventL( TEventCode aType )
-    {
-    if ( iAppUi->IsAppsKeySuppressed() )
-        {
-        return EKeyWasNotConsumed;
-        }
-
-    if ( aType == EEventKeyDown )
-        {
-        delete iHomeTimer;
-        iHomeTimer = NULL;
-        iHomeTimer = CPeriodic::NewL( CActive::EPriorityHigh );
-
-        iHomeTimer->Start( KHomeHoldDelay, 1, TCallBack( HomeTickL, this ) );
-        return EKeyWasConsumed;
-        }
-    else if ( aType == EEventKeyUp )
-        {
-        if ( iHomeTimer && iHomeTimer->IsActive() )
-            {
-            iHomeTimer->Cancel();
-            delete iHomeTimer;
-            iHomeTimer = NULL;
-            if ( !iAppUi->HandleShortAppsKeyPressL() )
-                {
-                RWsSession& ws = iEikonEnv->WsSession();
-                TApaTaskList apList( ws );
-                TApaTask task = apList.FindApp( iHomeViewId.iAppUid );
-                if( task.Exists() && task.WgId() == ws.GetFocusWindowGroup() )
-                    {
-                    GfxTransEffect::BeginFullScreen(
-                        AknTransEffect::EApplicationExit,
-                        TRect(),
-                        AknTransEffect::EParameterType,
-                        AknTransEffect::GfxTransParam( iHomeViewId.iAppUid ) );
-                    }
-
-                ToggleShellL();
-                }
-
-            return EKeyWasConsumed;
-            }
-        }
-
-    return EKeyWasNotConsumed;
-    }
 
 
 // ---------------------------------------------------------------------------

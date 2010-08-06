@@ -28,11 +28,7 @@
 
 #include <ItemFinder.h>
 
-#include <sendui.h> // for CSendAppUi
-#include <CMessageData.h> // for CMessageData
-
 #include <commonphoneparser.h> // Phonenumber parser
-#include <SendUiConsts.h> // Mtm uids
 
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 #include <apgtask.h>
@@ -209,7 +205,7 @@ CFindItemMenu::~CFindItemMenu()
         }
     delete iRPbkResourceFile;
 #endif // !RD_VIRTUAL_PHONEBOOK
-    delete iSendUi;
+    
     delete iSenderDescriptor;
 
     delete iServiceHandler;
@@ -903,49 +899,6 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
             }
         case EFindItemSubMenuSend:
            {
-           TSendingCapabilities sendingCapabilities;
-           sendingCapabilities.iFlags = TSendingCapabilities::ESupportsEditor;
-           CArrayFixFlat<TUid>* mtmFilter = new(ELeave) CArrayFixFlat<TUid>( 1 );
-           CleanupStack::PushL(mtmFilter);
-           CItemFinder::TItemType itemType = iAutomaticFind ? iAutomaticFind->CurrentItemExt().iItemType : CItemFinder::ENoneSelected;
-           
-           mtmFilter->AppendL(KSenduiMtmPostcardUid);// dim postcard
-           // Hide SMS if not supported
-           
-           #ifndef RD_UNIFIED_EDITOR
-           if ( !iEmailOverSmsFeatureSupported )
-               {
-           	   mtmFilter->AppendL(KSenduiMtmSmsUid);
-               }
-           // Hide MMS if not supported
-           if (!iMMSFeatureSupported)
-               {
-               mtmFilter->AppendL(KSenduiMtmMmsUid);
-               }
-           #endif
-           
-           // Hide E-Mail if nosupported or phonenumber 
-           if ( !iEmailUiFeatureSupported || itemType == CItemFinder::EPhoneNumber )
-               {
-       	       mtmFilter->AppendL(KSenduiMtmSmtpUid);
-               mtmFilter->AppendL(KSenduiMtmImap4Uid);
-               mtmFilter->AppendL(KSenduiMtmPop3Uid);
-               mtmFilter->AppendL(KSenduiMtmSyncMLEmailUid);
-               }
-           // Hide Audio if not supported or E-mail address
-           if( !iAudioMessagingFeatureSupported || itemType == CItemFinder::EEmailAddress)
-               {
-           	   mtmFilter->AppendL(KSenduiMtmAudioMessageUid);
-               }
-           TUid uid = iSendUi->ShowTypedQueryL( CSendUi::EWriteMenu, NULL, sendingCapabilities, mtmFilter );
-           
-           CleanupStack::PopAndDestroy();
-           if ( uid == KNullUid )
-              {
-              break;
-              }
-           SendMessageL(uid);  
-      
            break;
            }
 
@@ -1134,29 +1087,7 @@ void CFindItemMenu::VoIPCallL()
 
 void CFindItemMenu::SendMessageL( const TUid aMtmUid )
     {
-    HBufC* parsedAddress = 0;
-    TBool isNumber = EFalse;            
-    if ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemType == CItemFinder::EEmailAddress )
-        {
-        parsedAddress = iAutomaticFind->CurrentItemExt().iItemDescriptor;
-        }
-    else
-        {
-        // if sender descriptor is something else than phone number it will
-        // still go through this brach..
-        TBool numberSelected = ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemType == CItemFinder::EPhoneNumber );        
-        parsedAddress = ( numberSelected ? iAutomaticFind->CurrentItemExt().iItemDescriptor : iSenderDescriptor)->AllocLC();
-        TPtr numberPtr = parsedAddress->Des();
-        CommonPhoneParser::ParsePhoneNumber( numberPtr, CommonPhoneParser::EPlainPhoneNumber );
-        AknTextUtils::ConvertDigitsTo( numberPtr, EDigitTypeWestern );            
-        isNumber = ETrue;
-        }
-
-    CMessageData* messageData = CMessageData::NewL();
-    CleanupStack::PushL( messageData );
-    messageData->AppendToAddressL( parsedAddress->Des() );
-    iSendUi->CreateAndSendMessageL( aMtmUid,messageData );
-    CleanupStack::PopAndDestroy( isNumber ? 2 : 1 ); // messageData, number
+	
     }
 
 void CFindItemMenu::GoToUrlL( TUid /*aHandlerAppUid*/ )
@@ -1355,7 +1286,6 @@ EXPORT_C void CFindItemMenu::AttachItemFinderMenuL( TInt /*aResource*/ )
     iPbkEngine = CPbkContactEngine::NewL();
     iPbkDataSave = CPbkDataSaveAppUi::NewL( *iPbkEngine );
 #endif // !RD_VIRTUAL_PHONEBOOK
-    iSendUi = CSendUi::NewL();
 
     TRAPD( ret, iCommonUiRepository = CRepository::NewL( KCRUidCommonUi ) );
     if ( ret == KErrNone )

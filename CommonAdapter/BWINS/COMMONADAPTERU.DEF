@@ -1,9 +1,0 @@
-EXPORTS
-	??1CGlobalNote@@UAE@XZ @ 1 NONAME ; public: virtual __thiscall CGlobalNote::~CGlobalNote(void)
-	?CancelNoteL@CGlobalNote@@QAEXH@Z @ 2 NONAME ; public: void __thiscall CGlobalNote::CancelNoteL(int)
-	?NewL@CGlobalNote@@SAPAV1@XZ @ 3 NONAME ; public: static class CGlobalNote * __cdecl CGlobalNote::NewL(void)
-	?NewLC@CGlobalNote@@SAPAV1@XZ @ 4 NONAME ; public: static class CGlobalNote * __cdecl CGlobalNote::NewLC(void)
-	?SetSoftkeys@CGlobalNote@@QAEXW4TGlobalNoteSoftkey@@@Z @ 5 NONAME ; public: void __thiscall CGlobalNote::SetSoftkeys(enum TGlobalNoteSoftkey)
-	?ShowNoteL@CGlobalNote@@QAEHAAVTRequestStatus@@W4TGlobalNoteType@@ABVTDesC16@@@Z @ 6 NONAME ; public: int __thiscall CGlobalNote::ShowNoteL(class TRequestStatus &,enum TGlobalNoteType,class TDesC16 const &)
-	?ShowNoteL@CGlobalNote@@QAEHW4TGlobalNoteType@@ABVTDesC16@@@Z @ 7 NONAME ; public: int __thiscall CGlobalNote::ShowNoteL(enum TGlobalNoteType,class TDesC16 const &)
-

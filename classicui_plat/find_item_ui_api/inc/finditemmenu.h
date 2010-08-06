@@ -37,7 +37,6 @@
 // FORWARD DECLARATIONS
 class CRepository;
 class CEikMenuPane;
-class CSendUi;
 #ifndef RD_VIRTUAL_PHONEBOOK
 class CPbkContactEngine;
 class CPbkDataSaveAppUi;
@@ -413,9 +412,6 @@ NONSHARABLE_CLASS(CFindItemMenu) :public CBase
         TBool iIsSenderKnown; // Shall we show add to Contacts for sender
         TBool iIsContextMenu;
         TInt iIndex;
-
-        // SendUi
-        CSendUi* iSendUi;
 
 #ifndef RD_VIRTUAL_PHONEBOOK
         CPbkContactEngine* iPbkEngine;

@@ -56,7 +56,6 @@ class TCoeHelpContext;
 class CFindItemVoIPExtension;
 class CAknsBasicBackgroundControlContext;
 class CRichTextEditorContainer;
-class CSendUi;
 class CItemFinderExtension;
 
 // CLASS DECLARATION
@@ -447,9 +446,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         CEikScrollBarFrame* iSBFrame;
         // Array to enable the scrollbar to know current position.
         CArrayFixFlat<TInt>* iItemArrayForScrollBar;
-
-        // SendUi
-        CSendUi* iSendUi;
 
 #ifndef RD_VIRTUAL_PHONEBOOK
         CPbkContactEngine* iPbkEngine;

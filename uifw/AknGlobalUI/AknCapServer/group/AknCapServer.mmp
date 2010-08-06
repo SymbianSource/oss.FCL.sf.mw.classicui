@@ -105,7 +105,6 @@ LIBRARY         gfxtrans.lib
 LIBRARY         syslangutil.lib
 LIBRARY         centralrepository.lib
 LIBRARY         akntransitionutils.lib
-LIBRARY         widgetregistryclient.lib
 LIBRARY         akndynamicsoftnoteeventmanager.lib
 LIBRARY         ecompluginnotifier.lib
 LIBRARY         touchfeedback.lib

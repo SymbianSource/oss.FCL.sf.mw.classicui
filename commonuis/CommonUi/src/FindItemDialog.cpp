@@ -47,10 +47,6 @@
 #include <AiwContactAssignDataTypes.h> // AiwContactAssign
 #endif // !RD_VIRTUAL_PHONEBOOK
 
-#include <sendui.h> // for CSendAppUi
-#include <CMessageData.h> // for CMessageData
-#include <SendUiConsts.h> // Mtm uids
-
 #include <commonphoneparser.h> // Phonenumber parser
 
 #include <baclipb.h> // For CClipboard
@@ -301,7 +297,6 @@ EXPORT_C CFindItemDialog::~CFindItemDialog()
     delete iSBFrame;
     delete iItemArrayForScrollBar;
 
-    delete iSendUi;
 #ifndef RD_VIRTUAL_PHONEBOOK
     delete iPbkDataSave;
     delete iPbkEngine;
@@ -612,39 +607,7 @@ void CFindItemDialog::CreateContactCardL( TInt aCommandId )
 //
 void CFindItemDialog::SendMessageL( const TUid aMtmUid )
     {
-    __ASSERT_DEBUG( iEdwin->SelectionLength() > 0, Panic( ENoItemSelected ) );
-
-    if ( !iSendUi )
-        {
-        return;
-        }
-
-    // Hide options menu if showing
-    if ( CAknDialog::MenuShowing() )
-        {
-        CAknDialog::HideMenu();
-        }
-
-    TCursorSelection selection = iEdwin->Selection();
-    HBufC* number = HBufC::NewLC( selection.Length() );
-    TPtr numberPtr = number->Des();
-    numberPtr.Append(
-        iPlainText.Mid(
-            selection.LowerPos(), selection.Length() ) );
-    if ( iSearchCase & CFindItemEngine::EFindItemSearchPhoneNumberBin )
-        {
-        CommonPhoneParser::ParsePhoneNumber(
-            numberPtr, CommonPhoneParser::EPlainPhoneNumber );
-        AknTextUtils::ConvertDigitsTo( numberPtr, EDigitTypeWestern );            
-        }
-
-    CMessageData* messageData = CMessageData::NewL();
-    CleanupStack::PushL( messageData );
-    messageData->AppendToAddressL( *number );
-
-    iSendUi->CreateAndSendMessageL( aMtmUid, messageData );
-    CleanupStack::PopAndDestroy(2); // messageData, number
-
+	
     }
 
 // -----------------------------------------------------------------------------
@@ -831,64 +794,6 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
         // fix for FAMZ-7JVQ4Y
         case EFindItemSubMenuSend:
            {
-           CFindItemEngine::SFoundItem item;
-           TBool founditem = iController->Item( item );
-           TSendingCapabilities sendingCapabilities;
-           sendingCapabilities.iFlags = TSendingCapabilities::ESupportsEditor;
-           CArrayFixFlat<TUid>* mtmFilter = new(ELeave) CArrayFixFlat<TUid>( 1 );
-           CleanupStack::PushL(mtmFilter);
-           mtmFilter->AppendL(KSenduiMtmPostcardUid);// hide postcard
-           // Hide MMs
-           #ifndef RD_UNIFIED_EDITOR
-           if( !iMMSFeatureSupported )
-               {
-           	   mtmFilter->AppendL(KSenduiMtmMmsUid);
-               }
-           #endif
-           
-           // Hide Sms
-           if ( iSearchCase == CFindItemEngine::EFindItemSearchMailAddressBin ||
-              ( iFindItemVoIPExtension->IsVoIPSupported() &&
-                  founditem && item.iItemType == CFindItemEngine::EFindItemSearchMailAddressBin &&
-                  iSearchCase == KSearchTelInternetNumber ) )
-              {
-              #ifndef RD_UNIFIED_EDITOR
-              if ( !iEmailOverSmsFeatureSupported )
-                  {
-                  mtmFilter->AppendL(KSenduiMtmSmsUid);
-                  }
-              #endif
-              }
-              
-           // Hide Mail
-           else if ( !iEmailUiFeatureSupported ||
-               ( iSearchCase == CFindItemEngine::EFindItemSearchPhoneNumberBin ||
-               ( iFindItemVoIPExtension->IsVoIPSupported() && founditem &&
-                   item.iItemType == CFindItemEngine::EFindItemSearchPhoneNumberBin &&
-                   iSearchCase == KSearchTelInternetNumber ) ) )
-               {
-       	       mtmFilter->AppendL(KSenduiMtmSmtpUid);
-               mtmFilter->AppendL(KSenduiMtmImap4Uid);
-               mtmFilter->AppendL(KSenduiMtmPop3Uid);
-               mtmFilter->AppendL(KSenduiMtmSyncMLEmailUid);
-               }
-           // Hide Audio
-           if ( iSearchCase != CFindItemEngine::EFindItemSearchPhoneNumberBin ||
-               !iAudioMessagingFeatureSupported )
-               {
-               mtmFilter->AppendL(KSenduiMtmAudioMessageUid);
-               }
-               
-           TUid uid = iSendUi->ShowTypedQueryL( CSendUi::EWriteMenu, NULL, sendingCapabilities, mtmFilter );
-          
-           CleanupStack::PopAndDestroy();
-           
-           if ( uid == KNullUid )
-              {
-              break;
-              }
-           SendMessageL(uid);  
-           
            break;
            }
         case EFindItemCmdGoToUrl:
@@ -1589,7 +1494,6 @@ void CFindItemDialog::ActivateL()
         if ( iSearchCase == KSearchTelInternetNumber )
             {
             resource = R_FINDITEM_TITLE_TELINTERNET;
-            iSendUi = CSendUi::NewL();
             }
         else if ( iSearchCase & CFindItemEngine::EFindItemSearchURLBin )
             {
@@ -1598,12 +1502,10 @@ void CFindItemDialog::ActivateL()
         else if ( iSearchCase & CFindItemEngine::EFindItemSearchMailAddressBin )
             {
             resource = R_FINDITEM_TITLE_MAIL;
-            iSendUi = CSendUi::NewL();
             }
         else if ( iSearchCase & CFindItemEngine::EFindItemSearchPhoneNumberBin )
             {
             resource = R_FINDITEM_TITLE_PHONE;
-            iSendUi = CSendUi::NewL();
             }
         else
           {

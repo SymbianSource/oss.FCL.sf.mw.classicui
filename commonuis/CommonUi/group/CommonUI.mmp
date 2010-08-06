@@ -111,7 +111,6 @@ LIBRARY         FeatMgr.lib             // For class FeatureManager
 LIBRARY         etext.lib               // For class CPlainText, class TCharFormat
 LIBRARY         form.lib                // For class CTextLayout
 LIBRARY         eikctl.lib              // For class CRichText
-LIBRARY         sendui.lib              // For class CSendUi, class CMessageData
 #ifndef RD_VIRTUAL_PHONEBOOK
 LIBRARY         PbkView.lib             // For class RPbkViewResourceFile, class CPbkDataSaveAppUi
 LIBRARY         PbkEng.lib              // For class CPbkContactEngine, class CPbkFieldInfo
