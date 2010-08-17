@@ -114,10 +114,6 @@ LIBRARY         AknNotify.lib
 LIBRARY         aknlistloadertfx.lib
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-#ifdef SYMBIAN_BUILD_GCE
-LIBRARY         alfclient.lib
-#endif // SYMBIAN_BUILD_GCE
-
 // #define WCPLOG WCPLOG
 #ifdef WCPLOG
 LIBRARY         flogger.lib

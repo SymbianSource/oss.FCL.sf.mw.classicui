@@ -73,10 +73,6 @@
     #include <akntranseffect.h> // for Transition effect enumerations
 #endif
 
-#ifdef SYMBIAN_BUILD_GCE
-    #include <alf/alfclientbase.h>
-#endif    
-
 #ifdef RD_INTELLIGENT_TEXT_INPUT
 #include <AvkonInternalCRKeys.h>
 
@@ -228,11 +224,7 @@ TInt StartOOM(TAny* aThis)
 
     me->iEikSrv.AllowNotifierAppServersToLoad();
     me->iEikSrv.Close(); // currently there is no use to keep this session alive.
-    
-#ifdef SYMBIAN_BUILD_GCE
-    TRAP(err, CAlfAsynchStartup::StartL());
-#endif     
-    
+
     return err;
     }
 
