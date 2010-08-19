@@ -123,6 +123,7 @@ void CPslnScreenSaverContainer::CreateListBoxItemsL()
             delete itemBuf;
             }
         }
+    iListBox->HandleItemAdditionL();
 
     // Create pre- and post-text icons.
     CPslnFWIconHelper* iconHelper = CPslnFWIconHelper::NewL();

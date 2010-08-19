@@ -37,7 +37,7 @@ DEFFILE         testsdksounds.def
     MW_LAYER_SYSTEMINCLUDE
 
 
-    START RESOURCE ../data/testsdktestsdksounds.rss
+    START RESOURCE ../data/testsdksounds.rss
         TARGETPATH RESOURCE_FILES_DIR
         HEADER
         END
@@ -62,7 +62,7 @@ SOURCE          testsdksoundsblocksaknsoundinfo.cpp
 SOURCE          testsdksoundsblocksaknsoundsystem.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         estor.lib

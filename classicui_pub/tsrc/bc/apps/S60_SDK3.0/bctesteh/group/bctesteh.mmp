@@ -63,12 +63,12 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         AknSkins.lib
+LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
-LIBRARY	        commonui.lib 
-LIBRARY         commonengine.lib
+LIBRARY	        commonui.lib
+LIBRARY         CommonEngine.lib
 
 START RESOURCE ../group/bctesteh_reg.rss
 DEPENDS bctesteh.rsg

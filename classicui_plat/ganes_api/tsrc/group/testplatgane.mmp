@@ -50,7 +50,7 @@ SOURCE 		testplatganeblockshgvgitem.cpp
 SOURCE 		testplatganeblockshgsingletextlistwithicon.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         ganes.lib
 LIBRARY         ws32.lib 

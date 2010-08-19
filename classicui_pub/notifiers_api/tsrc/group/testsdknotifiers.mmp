@@ -48,7 +48,7 @@ SOURCE          testsdknotifiersblocksgloballistmsgquery.cpp
 SOURCE          activeexample.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eiksrv.lib 
 LIBRARY         aknnotify.lib

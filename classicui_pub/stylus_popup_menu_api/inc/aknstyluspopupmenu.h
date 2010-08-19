@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -54,6 +54,12 @@ public:
         EPositionTypeRightBottom,
         EPositionTypeLeftBottom      
         };
+
+    enum TStylusPopupMode
+        {
+        EConsumeKeyEvents = 0x01 // Consumes key events
+        };
+
     /**
      * Two-phased constructor
      *
@@ -71,6 +77,22 @@ public:
      * Two-phased constructor
      *
      * @param aObserver Menu observer (not owned) that handles 
+     *                  stylus popup events.
+     * @param aPoint The position where stylus was tapped
+     * @param aPopup Preview popup from which stylus popup
+     *               menu was launched, can be NULL.
+     * @param aFlags Optional parameters
+     */
+
+    static CAknStylusPopUpMenu* NewL( MEikMenuObserver* aObserver,
+            const TPoint& aPoint,
+            CAknPreviewPopUpController* aPopup,
+            const TInt aFlags );
+
+    /**
+     * Two-phased constructor
+     *
+     * @param aObserver Menu observer (not owned) that handles
      *                  stylus popup events.
      * @param aPoint The position where stylus was tapped
      */
@@ -156,6 +178,14 @@ public:
      * @since s60 v5.2
      */
     void Clear();
+    
+    /**
+     * Hides the stylus popup menu.
+     *
+     * @internal
+     * @since S60 v5.2
+     */
+    void HideMenu();
 
 // from base class CCoeControl
 
@@ -188,9 +218,11 @@ private:
      * @param aPoint The position where stylus was tapped
      * @param aPopup Preview popup from which stylus popup
      *               menu was launched, can be NULL.
+     * @param aFlags Optional parameters
      */
     CAknStylusPopUpMenu( MEikMenuObserver* aObserver, const TPoint& aPoint,
-                         CAknPreviewPopUpController* aPopup );
+                         CAknPreviewPopUpController* aPopup,
+                         const TInt aFlags = 0 );
 
     /**
      * 2nd phase constructor
@@ -274,6 +306,11 @@ private: // data
      * Used to track if object has been deleted while calling client callback.
      */
     TBool* iIsDeleted;
+
+    /**
+     * Mode flags.
+     */
+    TInt iModeFlags;
     };
 
 

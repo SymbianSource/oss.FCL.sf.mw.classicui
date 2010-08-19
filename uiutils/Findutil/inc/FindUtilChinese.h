@@ -283,14 +283,6 @@ private:
     TBool IsChineseWord(const TDesC& aWord);
     
     /**
-     * Find pane text is just Chinese word
-     * 
-     * @param aWord Reference to text for analyse
-     * @return ETrue it is a Chinese word; otherwise EFalse
-     */
-    TBool ChineseWord(const TDesC& aWord);
-
-    /**
      * Find pane text is including stroke symbol
      *
      * @since S60 v3.2

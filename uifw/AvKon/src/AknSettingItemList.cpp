@@ -111,7 +111,7 @@ GLDEF_C void Panic(TAknSettingItemListPanic aPanic)
 // -------------------------------
 //
 
-NONSHARABLE_CLASS( CAknSettingItemExtension ) : CBase
+NONSHARABLE_CLASS( CAknSettingItemExtension ) : public CBase
     {
     public:
 

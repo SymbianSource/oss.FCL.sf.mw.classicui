@@ -49,7 +49,7 @@ SOURCE          testdomitemfinder.cpp
 SOURCE          testdomitemfinderblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         commonui.lib
 LIBRARY         egul.lib 

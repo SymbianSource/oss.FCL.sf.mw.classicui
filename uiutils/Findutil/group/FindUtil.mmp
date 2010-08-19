@@ -49,7 +49,7 @@ SOURCE          FindUtilBase.cpp
 LIBRARY         euser.lib
 
 #if defined(WINS)
-LIBRARY         FeatMgr.lib
+LIBRARY         featmgr.lib
 #endif
 
 // end of file

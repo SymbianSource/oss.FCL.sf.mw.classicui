@@ -394,6 +394,12 @@ enum
     EAknCmdMarkingModeUnmarkAll,
 
     /**
+     * Command ids for switching to portrait or landscape FSQ.
+     */
+    EPeninputCmdPortraitEditor,
+    EPeninputCmdLandscapeEditor,
+
+    /**
     * @deprecated
     * Do not use.
     */
@@ -1300,7 +1306,16 @@ enum // Signal indicator states
     EAknSignalHsdpaIndicatorEstablishingContext,
     EAknSignalHsdpaIndicatorContext,
     EAknSignalHsdpaIndicatorSuspended,
-    EAknSignalHsdpaIndicatorMultipdp
+    EAknSignalHsdpaIndicatorMultipdp,
+
+    // UMA indicator states
+    EAknSignalUmaIndicatorOff = 0x600,
+    EAknSignalUmaIndicatorAvailable,
+    EAknSignalUmaIndicatorAttached,
+    EAknSignalUmaIndicatorEstablishingContext,
+    EAknSignalUmaIndicatorContext,
+    EAknSignalUmaIndicatorSuspended,
+    EAknSignalUmaIndicatorMultipdp
     };
 
 #define KAknSignalOffLineMode 0x00010000

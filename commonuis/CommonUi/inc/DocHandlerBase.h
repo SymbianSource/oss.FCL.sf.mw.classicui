@@ -129,6 +129,16 @@ class CDocHandlerBase : public CBase
         *                   constant declared in CDocumentHandler.h
         */
         virtual TInt SetSrcFileName( const TDesC& aFileName ) = 0;
+        
+        /**
+        * Set the source file where the content must be fetched.
+        *
+        * @param aFile Source file handle
+        *
+        * @return           KErrNone if success. If fail, a fail reason 
+        *                   constant declared in CDocumentHandler.h
+        */
+        virtual TInt SetSrcFile( const RFile& aFile ) = 0;
 
         /**
         * Set the root path of the memory where the file should be moved.

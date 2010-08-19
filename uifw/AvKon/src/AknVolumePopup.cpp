@@ -1449,7 +1449,7 @@ void CAknVolumePopup::DoSetValue(TInt aValue)
    
     if ( iVisible )
         {
-        SetVisibilityL( ETrue );
+        TRAP_IGNORE(SetVisibilityL( ETrue ));
         DrawDeferred();
         }
     }
@@ -1719,7 +1719,7 @@ TKeyResponse CAknVolumePopup::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 EXPORT_C void CAknVolumePopup::UseMutedIcon( TBool aFlag )
     {
     iExt->iUseMutedIcon = aFlag;
-    CreateSpeakerL();
+    TRAP_IGNORE(CreateSpeakerL());
     }
 
 // ---------------------------------------------------------------------------

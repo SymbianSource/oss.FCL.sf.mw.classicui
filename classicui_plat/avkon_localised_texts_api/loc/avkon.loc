@@ -4317,5 +4317,10 @@
 //
 #define qtn_navi_pane_marking_mode "Marking mode"
 
+//d: handwriting setting menu items.
+//l: list_single_pane_t1_cp2/opt3
+//r: TB9.2
+#define qtn_handwriting_input_options "Handwriting input settings"
+
 // End of File
 

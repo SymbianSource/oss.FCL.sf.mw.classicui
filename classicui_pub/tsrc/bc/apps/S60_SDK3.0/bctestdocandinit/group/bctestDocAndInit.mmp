@@ -63,13 +63,13 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         AknSkins.lib
+LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
 LIBRARY			commonui.lib
 LIBRARY			apmime.lib 
-LIBRARY			PlatformEnv.lib 
+LIBRARY			platformenv.lib
 LIBRARY			eikctl.lib
 LIBRARY			sysutil.lib 
 LIBRARY                 bafl.lib

@@ -1241,7 +1241,12 @@ void CAknAdaptiveSearchGrid::HandleControlEventL( CCoeControl* aControl, TCoeEve
             }
         }
     _AKNTRACE_FUNC_EXIT;
-    }       
+    }     
+
+static CAknButton* GetButtonHelper( RPointerArray<CAknButton> &aButtonArray, TInt aIndex )
+    {
+    return ( aIndex < aButtonArray.Count() && aIndex >= 0 ) ? aButtonArray[aIndex] : NULL;
+    }
 
 // -----------------------------------------------------------------------------
 // CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
@@ -1274,8 +1279,11 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
         CAknButton* tmpButton = NULL;    
         for( TInt i = 0; i < iButtonArray.Count(); i++ )
             {
-            tmpButton = static_cast<CAknButton*>( iButtonArray[i] );            
-            tmpButton->MakeVisible( EFalse );
+            tmpButton = GetButtonHelper( iButtonArray, i );
+            if ( NULL != tmpButton )
+                {
+                tmpButton->MakeVisible( EFalse );
+                }
             }
                 
         TInt tempTotalGridButtons = iTotalGridButtons - KCloseAndClearButtonCount;               
@@ -1283,7 +1291,12 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
             {       
             for ( TInt i = 0; i < tempTotalGridButtons; i++ )
                 {
-                button = static_cast<CAknButton*>( iButtonArray[tempTotalGridButtons-i-1] );
+                button = GetButtonHelper( iButtonArray, tempTotalGridButtons-i-1 );
+                if ( NULL == button )
+                    {
+                    continue;
+                    }
+                
                 TInt charPosition = numOfChars-i-1-shift_Ind;
                 if ( charPosition >= 0 ) 
                     {
@@ -1299,7 +1312,7 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                         button->SetIconSize( iButtonIconSize );                                      
                         }
                     else
-                        {
+                        { 
                         if( bState->Icon() )
                             {
                             bState->SetIcon( NULL );          
@@ -1356,8 +1369,13 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                 TInt offset = tempTotalGridButtons - charsOnLastPage;   
                 
                 for ( TInt i = tempTotalGridButtons-1 ; i >= 0 ; --i )
-                    {
-                    button = static_cast<CAknButton*>(iButtonArray[i+shift_Ind]);
+                    {                  
+                    button = GetButtonHelper( iButtonArray, i+shift_Ind );
+                    if ( NULL == button )
+                        {
+                        continue;
+                        }
+                
                     if( i < offset )
                         {
                         button->MakeVisible( EFalse );                  
@@ -1414,8 +1432,13 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                 for ( TInt i = 0; i < numOfChars; i++ )
                     {
                     if ( ( i >= start) && (i < end) )
-                        {   
-                        button = static_cast<CAknButton*>(iButtonArray[i-start-shift_Ind]);
+                        {                      
+                        button = GetButtonHelper( iButtonArray, i-start-shift_Ind );
+                        if ( NULL == button )
+                            {
+                            continue;
+                            }
+                    
                         bState = button->State();               
                         if( ptr.Mid(i, 1) == KSpaceCharacter )
                             {  
@@ -1468,8 +1491,12 @@ void CAknAdaptiveSearchGrid::UpdateVisibleButtonsL()
                         }
                     for ( TInt i = tempTotalGridButtons; i < tempTotalGridButtons+iNumOfCols; i++ )
                         {
-                        button = static_cast<CAknButton*>(iButtonArray[i]);
-                        button->MakeVisible( EFalse );  
+                        button = GetButtonHelper( iButtonArray, i );
+                        if ( NULL != button )
+                            {
+                            button->MakeVisible( EFalse );  
+                            }
+                        
                         }           
                 }               
             }        

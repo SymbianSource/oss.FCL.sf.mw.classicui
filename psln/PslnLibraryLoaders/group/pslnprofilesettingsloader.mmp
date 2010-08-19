@@ -38,9 +38,9 @@ USERINCLUDE             ../../Inc
 APP_LAYER_SYSTEMINCLUDE
 
 LIBRARY                 euser.lib
-LIBRARY                 profileengine.lib
-LIBRARY                 profileEng.lib
-LIBRARY                 drmhelper.lib
+LIBRARY                 ProfileEngine.lib
+LIBRARY                 profileeng.lib
+LIBRARY                 DrmHelper.lib
 #ifdef RD_CONTENTNOTIFICATION
 LIBRARY                 contentnotification.lib
 #endif //RD_CONTENTNOTIFICATION

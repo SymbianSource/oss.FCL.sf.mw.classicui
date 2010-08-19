@@ -2127,15 +2127,19 @@ void CColumnListBoxData::DrawSimple( const TListItemProperties& aItemProperties,
                 }
             if ( AknsUtils::AvkonSkinEnabled() )
                 {
-                if ( iExtension->iTextColor != NULL )
-                    {
-                    textColor = iExtension->iTextColor;
-                    }
-                
-                if ( aHighlight && iExtension->iHighlightedTextColor != NULL )
-                    {
-                    textColor = iExtension->iHighlightedTextColor;
-                    }
+                CListBoxView* view = listbox->View();
+                TBool useOverrideColor = view->ItemDrawer()->Flags() & CListItemDrawer::EUseOverrideSkinTextColor;
+                if ( !useOverrideColor )
+                   {                 
+                   if ( iExtension->iTextColor != NULL )
+                       {
+                       textColor = iExtension->iTextColor;
+                       }
+                   if ( aHighlight && iExtension->iHighlightedTextColor != NULL )
+                       {
+                       textColor = iExtension->iHighlightedTextColor;
+                       }
+                   }
                 }
                 
             const CFont* rowAndColFont=RowAndColumnFont(iExtension->iCurrentRow,column);
@@ -2611,15 +2615,15 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
                     aGc.SetPenColor(aColors.iHighlightedText);
                     aGc.SetBrushColor(aColors.iHighlightedBack);    
                     }
-
-                if ( AknsUtils::AvkonSkinEnabled() )
+                CListBoxView* view = listbox->View();
+                TBool useOverrideColor = view->ItemDrawer()->Flags() & CListItemDrawer::EUseOverrideSkinTextColor;
+                if ( AknsUtils::AvkonSkinEnabled() && !useOverrideColor )
                     {
-                    if (iExtension->iTextColor != NULL)
+                    if ( iExtension->iTextColor != NULL )
                         {
                         aGc.SetPenColor(iExtension->iTextColor);
                         }
-
-                    if (aHighlight && iExtension->iHighlightedTextColor != NULL)
+                    if ( aHighlight && iExtension->iHighlightedTextColor != NULL )
                         {
                         aGc.SetPenColor(iExtension->iHighlightedTextColor);
                         }
@@ -2836,12 +2840,8 @@ void CColumnListBoxData::DrawMarkingModeIcons(
                 & CListItemDrawer::EMarkingModeEnabled &&
                 !aProperties.IsSelectionHidden() &&
                 iExtension->iMarkingIconArray &&
-#ifdef RD_TOUCH2_MARKING
                 iExtension->iMarkingIconArray->Count() == 
-                        KMarkingModeIconArraySize )
-#else
-                iExtension->iMarkingIconArray->Count() == 2 )
-#endif // RD_TOUCH2_MARKING            
+                        KMarkingModeIconArraySize )          
             {
             if ( AknLayoutUtils::LayoutMirrored() )
                 {

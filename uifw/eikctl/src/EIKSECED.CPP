@@ -942,7 +942,8 @@ EXPORT_C MCoeFepAwareTextEditor_Extension1::CState* CEikSecretEditor::CreateFepS
     editorState->SetFlags( EAknEditorFlagNoLRNavigation |
                            EAknEditorFlagLatinInputModesOnly |
                            EAknEditorFlagNoT9 |
-                           EAknEditorFlagUseSCTNumericCharmap );
+                           EAknEditorFlagUseSCTNumericCharmap |
+                           EAknEditorFlagAvkonSecretEditor );
 
     editorState->SetDefaultInputMode(EAknEditorSecretAlphaInputMode);
     editorState->SetCurrentInputMode(EAknEditorSecretAlphaInputMode);
@@ -1208,7 +1209,7 @@ TPoint CEikSecretEditor::CursorPos()
     TInt textWidth( iRevealSecretText ? 
         iFont->TextWidthInPixels( *iSecCharArr ) : 
         iFont->CharWidthInPixels( KSecretChar ) * pos );
-    TInt x;
+    TInt x( 0 );
     if ( iExtension )
     	{
 		if ( iAlign == CGraphicsContext::ELeft )
@@ -1278,11 +1279,11 @@ EXPORT_C void CEikSecretEditor::EnableCursor( TBool aEnable )
         TInt flags( edwinState->Flags() );
         if ( aEnable )
             {
-            flags &= ~EEikEdwinAvkonDisableCursor;
+            flags |= EAknEditorFlagTextCursorVisible;
             }
         else
             {
-            flags |= EEikEdwinAvkonDisableCursor;
+            flags &= ~EAknEditorFlagTextCursorVisible;
             }
         edwinState->SetFlags( flags );
         }    

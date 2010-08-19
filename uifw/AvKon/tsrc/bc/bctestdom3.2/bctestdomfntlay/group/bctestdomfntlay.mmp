@@ -66,18 +66,18 @@ LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
 LIBRARY         fontutils.lib
 LIBRARY         uiklaf.lib 
-LIBRARY         fontprovider.lib
+LIBRARY         FontProvider.lib
 LIBRARY         gdi.lib 
 LIBRARY         bitgdi.lib 
-LIBRARY         aknskinsrv.lib 
+LIBRARY         aknskinsrv.lib
 LIBRARY         fbscli.lib 
 LIBRARY         bafl.lib 
 LIBRARY         aknlayout2.lib
-LIBRARY         aknlayout2adaptation.lib
+LIBRARY         AknLayout2Adaptation.lib
 LIBRARY         aknLayout2hierarchy.lib
-LIBRARY         aknlayout2scalable.lib
+LIBRARY         AknLayout2Scalable.lib
 LIBRARY         aknicon.lib
-LIBRARY         cdlengine.lib
+LIBRARY         CdlEngine.lib
 
 // New registration resource defined.
 START RESOURCE ../group/bctestdomfntlay_reg.rss

@@ -45,7 +45,7 @@ const TInt KAknServiceCallMinLength = 3;
 _LIT( KAknEcsSeparator, " ");
 
 // Maximum time in Microseconds between keys in a valid emergency call entry:
-const TInt KEcsInterKeyTimeout = 4000000;
+const TInt KEcsInterKeyTimeout = 10000000;
 
 // Deprecated
 const TInt KAknMaxEmergencyNumberString = 200;

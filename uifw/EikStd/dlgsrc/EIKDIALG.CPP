@@ -2465,16 +2465,19 @@ void CEikDialog::DoResourceChangeLayout()
     if ( !isForm )
         {
         SizeChanged();
-    
-        TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
-        TInt pageIndex = 0;
-        CEikDialogPage* page;
-    
-        while ( pageIndex++ <= lastPage )
-            {
-            page = iPageSelector->PageContainer()->Page( pageIndex );
-            page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
-            }
+		}
+	
+    if( iPageSelector )
+    	{		
+		TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
+		TInt pageIndex = 0;
+		CEikDialogPage* page( NULL );
+	
+		while ( pageIndex++ <= lastPage )
+			{
+			page = iPageSelector->PageContainer()->Page( pageIndex );
+			page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
+			}   
         }
 
    	if (iExtension)

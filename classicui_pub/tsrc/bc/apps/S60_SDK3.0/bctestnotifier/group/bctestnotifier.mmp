@@ -66,12 +66,12 @@ LIBRARY         eikcoctl.lib
 LIBRARY         insock.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         AknSkins.lib
+LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY			efsrv.lib
 LIBRARY         estor.lib 
-LIBRARY         AknNotify.lib
+LIBRARY         aknnotify.lib
 LIBRARY         bafl.lib
 
 // Changes for Scalable UI:

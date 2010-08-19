@@ -77,6 +77,7 @@
 #include <PtiKeyMappings.h> 
 
 #include <akntoolbar.h>
+#include <akntoolbarextension.h>
 #include <eikdialg.h>
 
 #ifdef RD_SCALABLE_UI_V2
@@ -1815,12 +1816,18 @@ EXPORT_C void CAknAppUi::HandleViewDeactivation(const TVwsViewId& /*aViewIdToBeD
 
 EXPORT_C void CAknAppUi::PrepareToExit()
     {
-    // Hide application toolbar to prevent it from showing 
-    // after views are deleted    
+    //
+    // Hide application toolbar extension view (by toolbar extension)
+    //
     if ( CurrentFixedToolbar() )
         {
-        CurrentFixedToolbar()->SetToolbarVisibility( EFalse );   
+        CAknToolbarExtension* toolbarExt = CurrentFixedToolbar()->ToolbarExtension();
+        if ( toolbarExt && toolbarExt->IsShown() )
+            {
+            toolbarExt->SetShown( EFalse );
+            }
         }
+
     if( IsForeground() && Document() )
         {
         //only if focused, otherwise next app HandleForeground may never come.

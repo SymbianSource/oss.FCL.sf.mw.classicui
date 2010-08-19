@@ -88,18 +88,18 @@ LIBRARY         eikcoctl.lib
 LIBRARY         insock.lib
 LIBRARY         fepbase.lib
 LIBRARY         avkon.lib
-LIBRARY         cdlengine.lib
+LIBRARY         CdlEngine.lib
 LIBRARY         aknskins.lib
 LIBRARY         numberconversion.lib
 LIBRARY         aknpictograph.lib
 LIBRARY         aknicon.lib
-LIBRARY         AknLayout2.lib
+LIBRARY         aknlayout2.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         centralrepository.lib
-LIBRARY         Lbs.lib
+LIBRARY         lbs.lib
 LIBRARY         bitgdi.lib
 LIBRARY         cenrepnotifhandler.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY  aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
@@ -109,7 +109,7 @@ LIBRARY         akntransitionutils.lib
 LIBRARY         aknphysics.lib
 
 // For trace log
-LIBRARY         AknNotify.lib
+LIBRARY         aknnotify.lib
 DEFFILE         EIKCTL.DEF
 
 START WINS

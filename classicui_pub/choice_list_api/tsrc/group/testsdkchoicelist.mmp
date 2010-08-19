@@ -64,12 +64,12 @@ SOURCE          testsdkchoicelistblocks.cpp
 SOURCE          testsdkchoicelistcontrol.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         bafl.lib
-LIBRARY         AVKON.LIB
+LIBRARY         avkon.lib
 LIBRARY         cone.lib
-LIBRARY         EIKCOCTL.LIB
+LIBRARY         eikcoctl.lib
 LIBRARY         eikcore.lib
 
 LANG            SC

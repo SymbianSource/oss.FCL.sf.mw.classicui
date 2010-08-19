@@ -445,6 +445,7 @@ EXPORT_C TInt CDocumentHandler::CopyL(
 	TFileName filenameold;
     aFileOld.FullName( filenameold );
     iHandler->SetSrcFileName( filenameold );
+    iHandler->SetSrcFile( aFileOld );
 
     // If aFileNameNew is not set, use source file name
     if (aFileNameNew.Length() != 0)

@@ -312,7 +312,7 @@ TInt CAknFileSelectionModel::UpdateItemListL()
     TInt entryIndex = 0;
     for ( TInt i( 0 ); i < itemCount; i++ ) // Add entry or not
         {
-        const TEntry& entry = ( *entryArray )[i];
+        TEntry entry = ( *entryArray )[i];
         if ( EntryIsAccepted( entry ) )
             {
              // Add entry

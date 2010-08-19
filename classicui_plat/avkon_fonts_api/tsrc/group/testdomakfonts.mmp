@@ -34,8 +34,9 @@ DEFFILE         testdomakfonts.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-      MW_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
+SOURCEPATH      ../src
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
 
@@ -50,11 +51,11 @@ SOURCE          testdomakfontsblockssystemfont.cpp
 SOURCE          testdomakfontsblockslayoutfont.cpp 
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         uiklaf.lib
 LIBRARY         avkon.lib
-LIBRARY         fontutils.lib 
+LIBRARY         fontutils.lib
 LIBRARY         gdi.lib
 LIBRARY         eikcore.lib
 LIBRARY         cone.lib

@@ -1046,9 +1046,10 @@ TInt CListBoxExt::CollectionExtension(
     if ( aExtensionId == MAknMarkingCollection::TYPE )
         {
         a0 = static_cast<MAknMarkingCollection*>( this );
+        return KErrNone;
         }
 
-    return KErrNone;
+    return KErrNotFound;
     }
 
 
@@ -1115,7 +1116,7 @@ void CListBoxExt::MarkCurrentItemL()
         if ( index >= 0 && 
                 !iListBox.iItemDrawer->Properties( index ).IsSelectionHidden() )
             {
-            iListBox.View()->SelectItemL( iListBox.CurrentItemIndex() );
+            iListBox.View()->SelectItemL( index );
             }
         }
     _AKNTRACE_FUNC_EXIT;
@@ -1129,16 +1130,11 @@ void CListBoxExt::MarkCurrentItemL()
 void CListBoxExt::MarkAllL()
     {
     _AKNTRACE_FUNC_ENTER;
-
-    if ( iListBox.MarkingMode() )
-        {       
-        for ( TInt i = 0; i < iListBox.Model()->NumberOfItems(); ++i )
-            {
-            if ( !iListBox.iItemDrawer->Properties( i ).IsSelectionHidden() )
-                {
-                iListBox.View()->SelectItemL( i );
-                }
-            }
+    
+    if ( iListBox.MarkingMode() && 
+            iListBox.Model()->NumberOfItems() > 0 )
+        {               
+        iListBox.View()->SelectAllL( ETrue );   
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1190,7 +1186,6 @@ void CListBoxExt::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
     iLongTappedItem = iLastDownTappedItem;
     iLastDownTappedItem = KErrNotFound;
     iItemActionMenu->ShowMenuL( aPenEventScreenLocation, 0 );
-    IgnorePointerEventsUntilUp();
     iOldWinPos = iListBox.DrawableWindow()->OrdinalPosition();
     _AKNTRACE_FUNC_EXIT;
     }
@@ -3421,9 +3416,13 @@ void CEikListBox::HandleItemRemovalWithoutSelectionsL()
     iView->ClearFlags(CListBoxView::EItemCountModified);
 
 
-    if ( iListBoxExt && iListBoxExt->iLongTappedItem != KErrNotFound )
+    if ( iListBoxExt->iItemActionMenu &&
+         iListBoxExt->iLongTappedItem != KErrNotFound )
         {
-        iListBoxExt->EnableHighlight( EFalse );
+        // Item action menu is being shown and it needs to be closed when
+        // items are added or removed to the list array, otherwise the
+        // item specific commands may be targeted to the wrong item. 
+        iListBoxExt->iItemActionMenu->HideMenu();
         }
 
     FireItemChange();
@@ -3508,7 +3507,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
     {
     _AKNTRACE_FUNC_ENTER;
     __ASSERT_DEBUG( iView, Panic( EEikPanicListBoxNoView ) );
-    //fix the bug EGGO-7SQA4S and EVSG-7TD9WZ     
+
     TInt curItemIndex = iView->CurrentItemIndex();
     if(curItemIndex >= 0 && curItemIndex < iModel->NumberOfItems() )
       {
@@ -3516,8 +3515,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
       iView->SetTopItemIndex( newTopItemIndex );
       }
     iView->SetFlags(CListBoxView::EItemCountModified);
-    // following breaks lists in square layout, not needed in SERIES60?
-    //iView->CalcDataWidth();
+
     iView->CalcBottomItemIndex();
     UpdateScrollBarsL();
     UpdateScrollBarThumbs();
@@ -3527,7 +3525,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
     FireItemChange();
     
     if ( iListBoxExt )
-        {    
+        {
         iListBoxExt->CheckScrollBarVisibility();
         // Physics engine world size needs to be updated here, otherwise aknphysics 
         // cone observer may block pointer events on new items. this can happen 
@@ -3536,7 +3534,17 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
             {
             iListBoxExt->InitPhysicsL();
             }
-        }     
+        
+        if ( iListBoxExt->iItemActionMenu &&
+             iListBoxExt->iLongTappedItem != KErrNotFound )
+            {
+            // Item action menu is being shown and it needs to be closed when
+            // items are added or removed to the list array, otherwise the
+            // item specific commands may be targeted to the wrong item. 
+            iListBoxExt->iItemActionMenu->HideMenu();
+            }
+        }
+
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -5157,7 +5165,8 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             _AKNTRACE("TPointerEvent::EButton1Down");
             // For drag outside listbox
             iListBoxExt->iIsDownOnItem = pointerIsOverAnItem;
-            iListBoxExt->iLastPoint = pointerPos;
+            iListBoxExt->iLastPoint = pointerPos;            
+			iListBoxExt->iLongTappedItem = KErrNotFound;
 
             // update index of the last down tapped item
             iListBoxExt->iLastDownTappedItem = itemIndex;
@@ -6889,8 +6898,12 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
 
     TBool blockEvent = EFalse;
     
-    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) && !iListBoxExt->iScrollingDisabled );
-
+    // If tap down in listbox area, kinetic scrolling is enabled and style popup menu is not shown,
+    // drag event is sent to listbox.
+    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) 
+            && !iListBoxExt->iScrollingDisabled 
+            && ( iListBoxExt->iSingleClickEnabled 
+                    && iListBoxExt->iLongTappedItem == KErrNotFound ) );
     
     switch ( aPointerEvent.iType )
         {

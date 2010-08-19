@@ -355,7 +355,16 @@ private:
     void SizeChangedInNormalLayout();
     void SizeChangedInFlatLayout();
     void SizeChangedInNarrowLayout();
-
+    
+    /**
+     * Sets the flag to indicate the highlight status
+     * 
+     * @param  aHighlight  highlight status
+     *                     default is EFalse
+     */
+    void SetHighlight(TBool aHighlight);
+    
+    
 private:
 
     CEikLabel* iLabel;
@@ -861,6 +870,13 @@ public:
     *                   @c EFalse to hide them.
     */
     void SetNaviArrowsVisible( TBool aVisible );
+
+private:
+    /**
+     * Resets the highlight status for tabs
+     */
+    void ResetHighlightStatus();
+        
 
 private:
     CArrayPtr<CAknTab>*     iTabArray;

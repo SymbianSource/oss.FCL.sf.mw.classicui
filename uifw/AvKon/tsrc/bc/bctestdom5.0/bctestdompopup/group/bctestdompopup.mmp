@@ -67,7 +67,7 @@ LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
 LIBRARY         egul.lib
-LIBRARY         AknNotify.lib
+LIBRARY         aknnotify.lib
 
 START RESOURCE ../group/bctestdompopup_reg.rss
 DEPENDS bctestdompopup.rsg

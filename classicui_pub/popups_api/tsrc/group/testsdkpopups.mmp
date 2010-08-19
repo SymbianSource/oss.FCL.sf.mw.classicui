@@ -78,7 +78,7 @@ SOURCE          testsdkpopupscontrol.cpp
 SOURCE          testsdkpopupsspsp.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib 
 LIBRARY         eikcoctl.lib 

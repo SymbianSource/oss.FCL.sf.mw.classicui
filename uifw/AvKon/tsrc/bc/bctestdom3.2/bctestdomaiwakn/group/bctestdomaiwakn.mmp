@@ -82,20 +82,20 @@ LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
-LIBRARY	        servicehandler.lib  
+LIBRARY	        servicehandler.lib
 LIBRARY	        bafl.lib 
-LIBRARY	        aknkeyrotator.lib
-LIBRARY	        ptiengine.lib 
+LIBRARY	        AknKeyRotator.lib
+LIBRARY	        ptiengine.lib
 LIBRARY	        aknjapanesereading.lib
 LIBRARY	        commondialogs.lib
-LIBRARY	        aknnotify.lib    
+LIBRARY	        aknnotify.lib
 LIBRARY	        gdi.lib          
 LIBRARY	        eikctl.lib       
 LIBRARY	        fbscli.lib 
 LIBRARY	        akncapserverclient.lib
 LIBRARY	        eiksrvc.lib
 LIBRARY	        ecom.lib 
-LIBRARY	        platformEnv.lib 
+LIBRARY	        platformenv.lib
 
 START RESOURCE ../group/bctestdomaiwakn_reg.rss
 DEPENDS bctestdomaiwakn.rsg

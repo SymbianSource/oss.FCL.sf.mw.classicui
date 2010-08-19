@@ -52,7 +52,7 @@ SOURCE          testsdktouchuiutilblocksaknpointersuppressor.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 

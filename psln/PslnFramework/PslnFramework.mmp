@@ -49,7 +49,7 @@ LIBRARY     apgrfx.lib                 // for RApaLsSession
 LIBRARY     apparc.lib
 LIBRARY     avkon.lib
 LIBRARY     bafl.lib
-LIBRARY     commonengine.lib           // for RConeResourceLoader
+LIBRARY     CommonEngine.lib           // for RConeResourceLoader
 LIBRARY     cone.lib
 LIBRARY     ecom.lib
 LIBRARY     efsrv.lib

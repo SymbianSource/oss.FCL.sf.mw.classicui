@@ -330,7 +330,8 @@ void CAknServKeyFilter::ActivateViewL( const TVwsViewId& aViewId, TUid aCustomMe
                {
                thread.SetProcessPriority(EPriorityForeground);  
                }
-               
+            thread.Close();
+
             // start different fullscreen effect when launching app by KUidApaMessageSwitchOpenFile
             GfxTransEffect::BeginFullScreen(
                 AknTransEffect::EApplicationActivate,
@@ -350,7 +351,8 @@ void CAknServKeyFilter::ActivateViewL( const TVwsViewId& aViewId, TUid aCustomMe
                {
                thread.SetProcessPriority( EPriorityForeground );  
                }
-                           
+            thread.Close();
+
             // idle will bring itself foreground when getting the message below
             task.SendMessage( KUidApaMessageSwitchOpenFile , KNullDesC8 );
             

@@ -146,7 +146,7 @@ CArrayPtr<MEikSrvNotifierBase2>* DoCreateNotifierArrayL()
     // ----------------------------
     // Global list query.
     // ----------------------------
-    CAknGlobalListQuerySubject* listQuerySubject = CAknGlobalListQuerySubject::NewL();
+    CAknGlobalListQuerySubject* listQuerySubject = CAknGlobalListQuerySubject::NewL(keyLockNotifier);
     
     CleanupStack::PushL(listQuerySubject);
     subjects->AppendL(listQuerySubject);

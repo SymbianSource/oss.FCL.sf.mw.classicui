@@ -652,6 +652,62 @@ void CAknSignalIcon::LoadIconL( TInt aIconState,
                                              KRgbGray );          
                 break;        
     
+            case EAknSignalUmaIndicatorOff:
+                // default icon
+                AknsUtils::CreateColorIconL(skin, KAknsIIDQgnPropSignalIcon,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_prop_signal_icon,
+                        EMbmAvkonQgn_prop_signal_icon_mask, KRgbGray );
+                break;
+
+            case EAknSignalUmaIndicatorAvailable:
+                AknsUtils::CreateColorIconL( skin,
+                        KAknsIIDQgnIndiSignalUmaIcon,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_indi_signal_uma_icon,
+                        EMbmAvkonQgn_indi_signal_uma_icon_mask,
+                        KRgbGray );                         
+                break;
+                
+            case EAknSignalUmaIndicatorAttached:
+            case EAknSignalUmaIndicatorEstablishingContext:
+                AknsUtils::CreateColorIconL(skin,
+                        KAknsIIDQgnIndiSignalUmaAttach,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_indi_signal_uma_attach,
+                        EMbmAvkonQgn_indi_signal_uma_attach_mask, KRgbGray );                  
+                break;
+                
+            case EAknSignalUmaIndicatorContext:
+                AknsUtils::CreateColorIconL(skin,
+                        KAknsIIDQgnIndiSignalUmaContext,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_indi_signal_uma_context,
+                        EMbmAvkonQgn_indi_signal_uma_context_mask, KRgbGray );                   
+                break;
+                
+            case EAknSignalUmaIndicatorSuspended:
+                AknsUtils::CreateColorIconL(skin,
+                        KAknsIIDQgnIndiSignalUmaSuspended,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_indi_signal_uma_suspended,
+                        EMbmAvkonQgn_indi_signal_uma_suspended_mask, KRgbGray );                                   
+                break;
+                
+            case EAknSignalUmaIndicatorMultipdp:
+                AknsUtils::CreateColorIconL(skin,
+                        KAknsIIDQgnIndiSignalUmaMultipdp,
+                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
+                        AknIconUtils::AvkonIconFileName(),
+                        EMbmAvkonQgn_indi_signal_uma_multipdp,
+                        EMbmAvkonQgn_indi_signal_uma_multipdp_mask, KRgbGray );                      
+                        break;
+                        
             // Default in all situations
             default:
                 AknsUtils::CreateColorIconL( skin,

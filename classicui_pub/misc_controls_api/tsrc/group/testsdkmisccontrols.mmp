@@ -73,7 +73,7 @@ SOURCE          testsdktbarprotectedclass.cpp
 SOURCE          testsdkcapcsubprotectedclass.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib 
 LIBRARY         eikcoctl.lib 
@@ -82,10 +82,10 @@ LIBRARY         estor.lib
 LIBRARY         gdi.lib 
 LIBRARY         eikcore.lib 
 LIBRARY         avkon.lib 
-LIBRARY         aknskins.lib 
-LIBRARY         aknskinsrv.lib 
-LIBRARY         aknswallpaperutils.lib 
-LIBRARY         aknicon.lib 
+LIBRARY         aknskins.lib
+LIBRARY         aknskinsrv.lib
+LIBRARY         aknswallpaperutils.lib
+LIBRARY         aknicon.lib
 
 
 

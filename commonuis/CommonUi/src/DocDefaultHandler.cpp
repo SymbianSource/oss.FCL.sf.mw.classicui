@@ -106,7 +106,8 @@ CDocDefaultHandler::CDocDefaultHandler(
         iStatus( KErrNone ),
         iUid( aUid ),
         iOpenService( NULL ),
-        iMMCSaveAllowed ( ETrue )
+        iMMCSaveAllowed ( ETrue ),
+        iFileHandleSet( EFalse )
     {
     }
     
@@ -549,6 +550,13 @@ TInt CDocDefaultHandler::SetSrcFileName( const TDesC& aFileName )
     iSourceFile = aFileName;
     return SetAndReturnStatus( KErrNone );
     }
+
+TInt CDocDefaultHandler::SetSrcFile( const RFile& aFile )
+	{
+	TInt err = iFile.Duplicate( aFile );
+	iFileHandleSet = ( err == KErrNone ) ? ETrue : EFalse;
+	return SetAndReturnStatus( KErrNone );
+	}
 
 // ---------------------------------------------------------
 // CDocDefaultHandler::SetDestName()
@@ -1657,43 +1665,49 @@ void CDocDefaultHandler::CheckFileNameExtensionL(
         TBuf<6> ext;
 
 		CContent* content = NULL;
-        TRAPD(err,content = CContent::NewL( iSourceFile ));
-
-		if(err == KErrNone)
-			{	
-			CleanupStack::PushL(content);
-			content->GetAttribute( ContentAccess::EIsProtected, ret  );
-			if ( ret )
-				{
-				content->GetAttribute( EFileType, ret );
-            
-				#ifdef _DEBUG             
-				RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
-				#endif 
-    
-				if ( ret == EOma1Dcf )
-					{
-					// change extension to .dcf
-					ext.Copy( KOma1DcfExtension );         
-					ReplaceExtension( aFileName, ext );            
-					CleanupStack::PopAndDestroy();  // content
-					return;            
-					}
-				else if ( ret == EOma2Dcf )
-	                {
-		            // change extension to .odf if not already .o4a, .o4v or .odf
-			        ext.Copy( KOma2DcfExtension );
-				    if ( NeedsToReplaceDcf2Extension( aFileName ) )
-					    {
-						ReplaceExtension( aFileName, ext );
-	                    }
-		            CleanupStack::PopAndDestroy();  // content
-			        return;            
-				    }
-				}
-			CleanupStack::PopAndDestroy();  // content
+		if( iFileHandleSet )
+			{
+		    content = CContent::NewL( iFile );
+		    iFile.Close();
+		    iFileHandleSet = EFalse;
 			}
-        }
+		else
+			{
+		    content = CContent::NewL( iSourceFile );
+			}
+		
+		CleanupStack::PushL(content);
+		content->GetAttribute( ContentAccess::EIsProtected, ret  );
+		if ( ret )
+			{
+			content->GetAttribute( EFileType, ret );
+            
+			#ifdef _DEBUG             
+			RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
+			#endif 
+    
+			if ( ret == EOma1Dcf )
+				{
+				// change extension to .dcf
+				ext.Copy( KOma1DcfExtension );         
+				ReplaceExtension( aFileName, ext );            
+				CleanupStack::PopAndDestroy();  // content
+				return;            
+				}
+			else if ( ret == EOma2Dcf )
+	            {
+		        // change extension to .odf if not already .o4a, .o4v or .odf
+			    ext.Copy( KOma2DcfExtension );
+				if ( NeedsToReplaceDcf2Extension( aFileName ) )
+					{
+				    ReplaceExtension( aFileName, ext );
+	                }
+		        CleanupStack::PopAndDestroy();  // content
+			    return;            
+				}
+			}
+		CleanupStack::PopAndDestroy();  // content
+		}
 
     //if mime type=oma 2 dcf check extension separately
     if ( aDataType.Des8().FindF( KOma2DcfContentType ) != KErrNotFound )

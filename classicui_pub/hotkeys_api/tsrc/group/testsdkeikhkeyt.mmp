@@ -43,6 +43,7 @@ TARGETPATH RESOURCE_FILES_DIR
 LANGUAGE_IDS
 END
 
+SOURCEPATH      ../src
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
 USERINCLUDE     ../data
@@ -63,7 +64,7 @@ SOURCE          testsdkeikhkeyt.cpp
 SOURCE          testsdkeikhkeytblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         cone.lib

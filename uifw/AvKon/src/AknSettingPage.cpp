@@ -592,7 +592,7 @@ EXPORT_C CAknSettingPage::~CAknSettingPage()
 
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 
-    AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
+    TRAP_IGNORE(AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL ));
     
 	if (iMenuBar)
 		{
@@ -921,7 +921,8 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
         iCba = CEikButtonGroupContainer::NewL( CEikButtonGroupContainer::ECba,
             CEikButtonGroupContainer::EHorizontal, 
             this, resourceId, *this, CEikButtonGroupContainer::EIsEmbedded | 
-            CEikButtonGroupContainer::EAddToStack );
+            CEikButtonGroupContainer::EAddToStack | 
+            CEikButtonGroupContainer::EAlwaysShown );
 	    }
 	
 	iExtension->CreateBackgroundContextL();

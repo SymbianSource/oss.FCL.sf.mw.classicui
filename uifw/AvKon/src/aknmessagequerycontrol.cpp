@@ -898,7 +898,8 @@ void CAknMessageQueryControl::DoSizeChangedL()
     TAknMultiLineTextLayout multilineLayout = TAknTextComponentLayout::Multiline(textComponentLayoutArray);
     AknLayoutUtils::LayoutEdwin( iEdwin, listPopupInfoPane.Rect(),
         multilineLayout, EAknsCIQsnTextColorsCG19 );
-    //iEdwin->SetRect( listPopupInfoPane.Rect() );
+    // Use list_popup_info_pane as editor's rect
+    iEdwin->SetRect( listPopupInfoPane.Rect() );
     textComponentLayoutArray.Close();
     
     iEdwin->SetBorder( TGulBorder::ENone );

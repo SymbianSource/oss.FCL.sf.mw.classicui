@@ -177,8 +177,15 @@ public: // for smiley picker
 
     TChar SmileyCode(TInt aIndex, TInt aVariant=0) const;
     TChar SmileyCode(const CAknSmileyIcon* aSmileyIcon) const;
+
     void LoadStillImagesL(const TDesC& aText);
+    void PlayAnimationL(const TDesC& aText, TInt aRepeat=0, TInt aDelay=0);
+    void StopAnimation(const TDesC& aText);
+    
+private:
     void LoadStillImageL(TChar aChar);
+    void PlayAnimationL(TChar aChar, TInt aRepeat=0, TInt aDelay=0);
+    void StopAnimation(TChar aChar);
 
 private:
     const TDesC& Text(TInt aIndex, TInt aVariant=0) const;

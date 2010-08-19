@@ -875,7 +875,7 @@ TBool CFindUtilChinese::MatchRefineL( const TDesC& aItemString, const TDesC &aSe
         haschineseword = ETrue;
         ret = IncludeString(aItemString, tempBuf);
         
-        if (ret || ChineseWord( tempBuf ))
+        if (ret)
             {
             return ret;
             }
@@ -905,45 +905,50 @@ TBool CFindUtilChinese::MatchRefineL( const TDesC& aItemString, const TDesC &aSe
     if (haschineseword)
         {
         TInt ii=0;
-        TBuf<KMaxWordLength> tmpBuf;
-        tmpBuf.Zero();
-        
-        ////translate the whole searchstring to spelllist
+        TBool leftDifferentChinese = EFalse; 
+		//this is used for fixing for the issue of search string including Chinese characters
         while (ii< tempBuf.Length())
             {
-            
-            //if it is a valid chinese character
             if ((TInt)tempBuf[ii]>= KMinUnicodeHz && (!InputMethodStroke
                     ||(InputMethodStroke && !IsStrokeSymbol(tempBuf[ii]))))
                 {
-                
-                RPointerArray<HBufC> spellList;
-                
-                //translate the chinese charater to spellList( pinyin or stroke )
-                if( DoTranslationL(TInt16(tempBuf[ii]), spellList)
-                    && ( tmpBuf.Length() + spellList[0]->Length() < KMaxWordLength)  )
-                	{
-                    tmpBuf.Append( spellList[0]->Des() );
+                TInt Findcursor = itemString.Locate(tempBuf[ii]);
+                if (Findcursor != KErrNotFound)
+                    {
+                    if ((Findcursor == itemString.Length()-1)&& (ii
+                            ==tempBuf.Length()-1))
+                        {
+                        
+                        if ( leftDifferentChinese || IsChineseWord(
+                            itemString.Left( Findcursor ) ) )
+                            {
+                            //if the different Chinese character at the left or middle, return false.
+                            return EFalse;
+                            }
+                        
+                        return ETrue;
+                        }
+                    itemString.Delete(0, Findcursor+1);
+                    tempBuf.Delete(0, ii+1);
+                    ii=0;
                     }
+                else
+                    {
                     
-                spellList.ResetAndDestroy();
-                spellList.Close();
-                ii++;
+                    if ( IsChineseWord( tempBuf.Left( ii + 1 ) ) )
+                        {
+                        //flag the different Chinese character at the left.
+                        leftDifferentChinese = ETrue;
+                        }
+                    
+                    ii++;
+                    }
                 }
-            //if not, just append it     
             else
                 {
-                if( tmpBuf.Length() + 1 < KMaxWordLength )
-                	{
-                    tmpBuf.Append( tempBuf[ii] );
-                    }
-                    
                 ii++;
                 }
             }
-            
-            tempBuf.Zero();
-            tempBuf.Copy(tmpBuf);
         }
 
     // Array for item string
@@ -1481,32 +1486,6 @@ TBool CFindUtilChinese::IsChineseWord(const TDesC& aWord)
 
     return IsChineseSearchStr;
     }
-
-// --------------------------------------------------------
-// Find pane text is just Chinese word
-// --------------------------------------------------------
-//
-TBool CFindUtilChinese::ChineseWord(const TDesC& aWord)
-	{
-	TBool isChineseWord = ETrue;
-	const TInt len = aWord.Length();
-	
-    TBool InputMethodStroke = EFalse;
-    if(iLanguage == ELangHongKongChinese && iCurInputMode == 0x0020)
-        {
-        InputMethodStroke = ETrue;
-        }
-	
-	for( TInt i = 0; i < len; i++ )
-		{
-		if( ( ( TInt )aWord[i] < KMinUnicodeHz ) || ( InputMethodStroke && IsStrokeSymbol(aWord[i]) ) )
-			{
-			isChineseWord = EFalse;
-			break;
-			}
-		}
-	return isChineseWord;
-	}
     
 // ---------------------------------------------------------
 // Find pane text is including stroke symbol  

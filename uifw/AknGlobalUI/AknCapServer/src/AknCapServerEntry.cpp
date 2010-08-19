@@ -1131,7 +1131,9 @@ TBool CAknCapAppServerAppUi::IsCharacterCategoryNumber(TUint aChar) const
     TBool isNumber = EFalse;
     numCategory = (TChar(aChar)).GetBdCategory();
     isNumber = ((numCategory == TChar::EEuropeanNumber) || (numCategory == TChar::EArabicNumber) ||
-               (numCategory == TChar::EEuropeanNumberTerminator) || (aChar == 0x2E) || 
+               (numCategory == TChar::EEuropeanNumberTerminator) || 
+               ( numCategory == TChar::EEuropeanNumberSeparator ) ||
+               (aChar == 0x2E) || 
                (aChar == 0x2A) || (aChar == 0x3D) || (aChar == 0x2F));
     return isNumber;
 }

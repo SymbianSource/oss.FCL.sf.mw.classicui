@@ -21,6 +21,7 @@
 
 #include <avkon.hrh>
 #include <aknenv.h>
+#include <aknsgcc.h>
 #include "AknOpenFileServiceImpl.h"
 #include "AknNullServiceImpl.h"
 #include "AknLaunchAppServiceImpl.h"
@@ -38,6 +39,7 @@ EXPORT_C void RAknAppServiceBase::ConnectChainedAppL(TUid aAppUid)
 #endif
 	CEikonEnv* eikEnv = CEikonEnv::Static();
 	RWindowGroup& wg = eikEnv->RootWin();
+	CAknSgcClient::UseForegroundPriorityDuringRelinquish( ETrue );
     ConnectNewChildAppL(aAppUid, wg);
     }
 
@@ -50,6 +52,7 @@ EXPORT_C void RAknAppServiceBase::Close()
 #ifdef AVKON_RDEBUG_INFO
     RDebug::Print(_L("RAknAppServiceBase::Close"));
 #endif
+    CAknSgcClient::UseForegroundPriorityDuringRelinquish( EFalse );
     REikAppServiceBase::Close();
     }
 

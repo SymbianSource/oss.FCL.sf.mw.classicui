@@ -34,8 +34,9 @@ DEFFILE         testsdksearchfield.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-    MW_LAYER_SYSTEMINCLUDE
-
+MW_LAYER_SYSTEMINCLUDE
+    
+SOURCEPATH      ../src
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
 
@@ -51,10 +52,10 @@ SOURCE          testsdksfview.cpp
 SOURCE          testsdksfastobserver.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         cone.lib
 LIBRARY         ws32.lib
 LIBRARY         eikcore.lib

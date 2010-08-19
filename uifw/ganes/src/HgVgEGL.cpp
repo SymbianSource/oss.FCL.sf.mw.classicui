@@ -272,7 +272,8 @@ void CHgVgEGL::DestroyEGL()
     eglMakeCurrent(iDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
     eglDestroySurface(iDisplay,iSurface);
     eglDestroyContext( iDisplay, iContextVg );
-    eglTerminate(iDisplay);    
+    eglTerminate(iDisplay);
+    eglReleaseThread();
     }
 
 

@@ -31,6 +31,7 @@
 #include "AiwEcomMonitor.h"
 #include "AiwTlsData.h"
 #include "data_caging_path_literals.hrh"
+#include "../../../uifw/inc/akntrace.h"
 
 // CONSTANTS
 // Max number of empty menu resource slots.
@@ -66,10 +67,14 @@ void FilteredCleanup(TAny* aAny);
 
 CAiwServiceHandlerImpl* CAiwServiceHandlerImpl::NewL()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CAiwServiceHandlerImpl* handler = new (ELeave) CAiwServiceHandlerImpl();
     CleanupStack::PushL( handler );
     handler->ConstructL();
     CleanupStack::Pop(); // handler
+    
+    _AKNTRACE_FUNC_EXIT;
     return handler;
     }
 
@@ -119,6 +124,8 @@ void CAiwServiceHandlerImpl::ConstructL()
 
 CAiwServiceHandlerImpl::~CAiwServiceHandlerImpl()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if (iResourceOffset && iCoeEnv)
         {
         iCoeEnv->DeleteResourceFile(iResourceOffset);
@@ -133,12 +140,18 @@ CAiwServiceHandlerImpl::~CAiwServiceHandlerImpl()
         data->RemoveMenuLaunchObserver( this );
         CAiwTlsData::Close();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::Reset()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
+    RProcess pro;
+    AknTracePrint(_L("process name:%S"),&(pro.FileName()));
+    
     iInterestList.ResetAndDestroy();
     iMenuBindings.ResetAndDestroy();
     iBaseBindings.ResetAndDestroy();
@@ -152,6 +165,8 @@ void CAiwServiceHandlerImpl::Reset()
     iInParams = NULL;
     delete iOutParams;
     iOutParams = NULL;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -159,6 +174,8 @@ void CAiwServiceHandlerImpl::Reset()
 void CAiwServiceHandlerImpl::ListProvidersForCriteriaL(RArray<TInt>& aResult, 
     CAiwCriteriaItem& aItem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i;
 
     for (i = 0; i < iProviders.Count(); i++)
@@ -168,12 +185,16 @@ void CAiwServiceHandlerImpl::ListProvidersForCriteriaL(RArray<TInt>& aResult,
             User::LeaveIfError(aResult.Append(iProviders[i]->ImplementationUid().iUid));
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 TInt CAiwServiceHandlerImpl::NbrOfProviders(const CAiwCriteriaItem* aCriteria)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if(!aCriteria)
         {
         return 0;
@@ -203,6 +224,7 @@ TInt CAiwServiceHandlerImpl::NbrOfProviders(const CAiwCriteriaItem* aCriteria)
             }       
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return 0;
     }
 
@@ -210,6 +232,8 @@ TInt CAiwServiceHandlerImpl::NbrOfProviders(const CAiwCriteriaItem* aCriteria)
 
 void CAiwServiceHandlerImpl::AttachL(TInt aInterestResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aInterestResourceId:%x",aInterestResourceId);
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -234,12 +258,16 @@ void CAiwServiceHandlerImpl::AttachL(TInt aInterestResourceId)
 
     CleanupStack::Pop(); // filtered
     CleanupStack::Pop(); // interest
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+        
     RCriteriaArray interest, filtered;
     
     CleanupStack::PushL( TCleanupItem( InterestCleanup, &interest ) );
@@ -257,6 +285,12 @@ void CAiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest)
         item->SetDefaultProvider( (aInterest[i]->DefaultProvider()).iUid );
         item->SetMaxProviders(     aInterest[i]->MaxProviders()          );       
         
+        _AKNTRACE("aInterest[i]->Id():%x",aInterest[i]->Id());
+        _AKNTRACE("aInterest[i]->ServiceCmd():%x",aInterest[i]->ServiceCmd());
+        _AKNTRACE("aInterest[i]->ServiceClass():%x",aInterest[i]->ServiceClass());
+        _AKNTRACE("(aInterest[i]->DefaultProvider()).iUid:%x",(aInterest[i]->DefaultProvider()).iUid);
+        _AKNTRACE("aInterest[i]->MaxProviders():%x",aInterest[i]->MaxProviders());
+        
         User::LeaveIfError(interest.Append(item));
         CleanupStack::Pop(item); 
         }
@@ -269,12 +303,18 @@ void CAiwServiceHandlerImpl::AttachL(const RCriteriaArray& aInterest)
 
     CleanupStack::Pop(); // filtered
     CleanupStack::Pop(); // interest
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::DoAttachL(const RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
+    RProcess pro;
+    AknTracePrint(_L("process name:%S"),&(pro.FileName()));
     CAiwBinding* bind;
     for (TInt i = 0; i < aInterest.Count(); i++)
         {
@@ -305,11 +345,15 @@ void CAiwServiceHandlerImpl::DoAttachL(const RCriteriaArray& aInterest)
             CleanupStack::PopAndDestroy(); // bind
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::GetInterest(RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     for (TInt i = 0; i < iInterestList.Count(); i++)
         {
         if (aInterest.Append(iInterestList[i]) != KErrNone)
@@ -317,12 +361,16 @@ void CAiwServiceHandlerImpl::GetInterest(RCriteriaArray& aInterest)
             return;
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
     
     
 
 void CAiwServiceHandlerImpl::DetachL(const RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     // First, remove relevant criteria items from relevat base bindings.
     for (TInt i = 0; i < aInterest.Count(); i++)
         {
@@ -351,13 +399,18 @@ void CAiwServiceHandlerImpl::DetachL(const RCriteriaArray& aInterest)
     RemoveObsoleteCriteriaItems();
     
     // Finally check if there were left obselete providers and remove them.
-    RemoveObsoleteProviders();        
+    RemoveObsoleteProviders();      
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::DetachL(TInt aInterestResourceId)
     { 
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aInterestResourceId:%x",aInterestResourceId);
+    
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -377,11 +430,14 @@ void CAiwServiceHandlerImpl::DetachL(TInt aInterestResourceId)
 
     interest.ResetAndDestroy();
     CleanupStack::Pop(); // interest
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 const CAiwCriteriaItem* CAiwServiceHandlerImpl::GetCriteria(TInt aId)
     {
+    _AKNTRACE_FUNC_ENTER;
     for (TInt i = 0; i < iInterestList.Count(); i++)
         {
         if (iInterestList[i]->Id() == aId)
@@ -389,12 +445,15 @@ const CAiwCriteriaItem* CAiwServiceHandlerImpl::GetCriteria(TInt aId)
             return iInterestList[i];
             }
         }
-
+    
+    _AKNTRACE_FUNC_EXIT;
     return NULL;  
     }
     
 TInt CAiwServiceHandlerImpl::NumAlreadyInitializedPaneIdsL() const
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt ret = 0;
     TInt paneIds[KMaxPaneIds] = {0};
     TBool found = EFalse;
@@ -426,6 +485,8 @@ TInt CAiwServiceHandlerImpl::NumAlreadyInitializedPaneIdsL() const
             ret++;
             }                       
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     return ret;         
     }    
 
@@ -435,8 +496,12 @@ void CAiwServiceHandlerImpl::InitializeMenuPaneL(
     TInt aBaseMenuCmdId,
     const CAiwGenericParamList& aInParamList)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     InitializeMenuPaneL(aMenuPane, aMenuResourceId, aBaseMenuCmdId, 
         aInParamList, EFalse, EFalse);    
+    
+    _AKNTRACE_FUNC_EXIT;
     }        
         
 void CAiwServiceHandlerImpl::InitializeMenuPaneL(
@@ -446,7 +511,11 @@ void CAiwServiceHandlerImpl::InitializeMenuPaneL(
     const CAiwGenericParamList& aInParamList,
     TBool aUseSubmenuTextsIfAvailable)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     InitializeMenuPaneL(aMenuPane, aMenuResourceId, aBaseMenuCmdId, aInParamList, aUseSubmenuTextsIfAvailable, EFalse);
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -458,6 +527,20 @@ void CAiwServiceHandlerImpl::InitializeMenuPaneL(
     TBool aUseSubmenuTextsIfAvailable,
     TBool aSetAsItemSpecific)
     {        
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuPane:%x",&aMenuPane);
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+    _AKNTRACE("aBaseMenuCmdId:%x",aBaseMenuCmdId);
+    _AKNTRACE("aUseSubmenuTextsIfAvailable:%x",aUseSubmenuTextsIfAvailable);
+    _AKNTRACE("aSetAsItemSpecific:%x",aSetAsItemSpecific);
+    
+    TInt count = aInParamList.Count();
+    for(TInt i=0;i<count;i++)
+        {
+        _AKNTRACE("i:%d, InParamList[i].SemanticId():%x",i,aInParamList[i].SemanticId());
+        AknTracePrint(_L("i:%d, InParamList[i].Value():%S"),i,&(aInParamList[i].Value().AsDes()));
+        
+        }
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -592,11 +675,16 @@ void CAiwServiceHandlerImpl::InitializeMenuPaneL(
                 }
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TInt CAiwServiceHandlerImpl::ServiceCmdByMenuCmd(TInt aMenuCmdId) const
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuCmdId:%x",aMenuCmdId);
+    
     for (TInt i = 0; i < iMenuBindings.Count(); i++)
         {
         if ((IsInLastInitialized(iMenuBindings[i]->MenuPane())) &&
@@ -606,6 +694,8 @@ TInt CAiwServiceHandlerImpl::ServiceCmdByMenuCmd(TInt aMenuCmdId) const
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
+    
     return 0;   
     }
 
@@ -618,6 +708,27 @@ void CAiwServiceHandlerImpl::ExecuteMenuCmdL(
     TUint aCmdOptions,
     MAiwNotifyCallback* aCallback)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuCmdId:%x",aMenuCmdId);
+     
+    RProcess pro;
+    AknTracePrint(_L("process name:%S"),&(pro.FileName()));
+    
+    TInt count = aInParamList.Count();
+    for (TInt i = 0; i < count; i++)
+        {
+        _AKNTRACE("i:%d, InParamList[i].SemanticId():%x",i,aInParamList[i].SemanticId());
+        AknTracePrint(_L("i:%d, InParamList[i].Value():%S"),i,&(aInParamList[i].Value().AsDes()));
+
+        }
+        
+    count = iProviders.Count();
+    for (TInt i = 0; i < count; i++)
+        {
+        AknTracePrint(_L("i:%d, iProviders[i]->ImplementationUid():%x"),i,iProviders[i]->ImplementationUid().iUid);
+        AknTracePrint(_L("i:%d, iProviders[i]:%x"),i,iProviders[i]);
+        }
+    
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -653,12 +764,17 @@ void CAiwServiceHandlerImpl::ExecuteMenuCmdL(
                 }
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, TInt aInterestResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+    _AKNTRACE("aInterestResourceId:%x",aInterestResourceId);
+    
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -681,12 +797,17 @@ void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, TInt aInterestRes
     CleanupStack::PopAndDestroy(); // reader
     CleanupStack::Pop(); // filtered
     CleanupStack::Pop(); // interest
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, TResourceReader& aReader)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+        
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -707,11 +828,16 @@ void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, TResourceReader& 
     CleanupStack::PopAndDestroy(); // reader
     CleanupStack::Pop(); // filtered
     CleanupStack::Pop(); // interest
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, const RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+        
     // CCoeEnv/CEikonEnv needs to be accessible.
     if(!iCoeEnv)
         {
@@ -736,6 +862,12 @@ void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, const RCriteriaAr
         item->SetDefaultProvider( (aInterest[i]->DefaultProvider()).iUid );
         item->SetMaxProviders(     aInterest[i]->MaxProviders()          );       
         
+        _AKNTRACE("aInterest[i]->Id():%x",aInterest[i]->Id());
+        _AKNTRACE("aInterest[i]->ServiceCmd():%x",aInterest[i]->ServiceCmd());
+        _AKNTRACE("aInterest[i]->ServiceClass():%x",aInterest[i]->ServiceClass());
+        _AKNTRACE("(aInterest[i]->DefaultProvider()).iUid:%x",(aInterest[i]->DefaultProvider()).iUid);
+        _AKNTRACE("aInterest[i]->MaxProviders():%x",aInterest[i]->MaxProviders());
+        
         User::LeaveIfError(interest.Append(item));
         CleanupStack::Pop(item); 
         }
@@ -748,12 +880,19 @@ void CAiwServiceHandlerImpl::AttachMenuL(TInt aMenuResourceId, const RCriteriaAr
     CleanupStack::PopAndDestroy(); // reader
     CleanupStack::Pop(); // filtered
     CleanupStack::Pop(); // interest    
+    
+    _AKNTRACE_FUNC_EXIT;
     }   
 
 
 void CAiwServiceHandlerImpl::DoAttachMenuL(TResourceReader& aReader, TInt aMenuId, 
     RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
+    RProcess pro;
+    AknTracePrint(_L("process name:%S"),&(pro.FileName()));
+        
     TInt menuCmd;
     TInt count = aReader.ReadInt16();
     TBool bound;
@@ -833,6 +972,8 @@ void CAiwServiceHandlerImpl::DoAttachMenuL(TResourceReader& aReader, TInt aMenuI
             }
         SkipMenuFields(aReader);  // Jump to next menu item
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -849,6 +990,10 @@ void CAiwServiceHandlerImpl::ReadInterestL(RCriteriaArray& aInterest, TInt aInte
 
 void CAiwServiceHandlerImpl::DetachMenu(TInt aMenuResourceId, TInt aInterestResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+    _AKNTRACE("aInterestResourceId:%x",aInterestResourceId);
+        
     // If interest resource id is null, then detach all items in the given menu.
     if (!aInterestResourceId)
         {
@@ -874,11 +1019,16 @@ void CAiwServiceHandlerImpl::DetachMenu(TInt aMenuResourceId, TInt aInterestReso
         
         interest.ResetAndDestroy();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
         
 
 void CAiwServiceHandlerImpl::DoDetachMenu(TInt aMenuResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+        
     // First, delete the relevant menu bindings.
     for (TInt i = 0; i < iMenuBindings.Count(); i++)
         {
@@ -895,11 +1045,16 @@ void CAiwServiceHandlerImpl::DoDetachMenu(TInt aMenuResourceId)
     
     // Finally check if there were left obselete providers and remove them.
     RemoveObsoleteProviders();  
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
     
 void CAiwServiceHandlerImpl::DoDetachMenu(TInt aMenuResourceId, RCriteriaArray& aInterest)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aMenuResourceId:%x",aMenuResourceId);
+    
     // First, remove relevant criteria items from relevant menu bindings.
     for (TInt i = 0; i < iMenuBindings.Count(); i++)
         {
@@ -931,12 +1086,16 @@ void CAiwServiceHandlerImpl::DoDetachMenu(TInt aMenuResourceId, RCriteriaArray& 
     RemoveObsoleteCriteriaItems();
     
     // Finally check if there were left obselete providers and remove them.
-    RemoveObsoleteProviders();        
+    RemoveObsoleteProviders();      
+    
+    _AKNTRACE_FUNC_EXIT;
     }    
     
     
 void CAiwServiceHandlerImpl::RemoveObsoleteCriteriaItems()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     for (TInt i = 0; i < iInterestList.Count(); i++)
         {
         CAiwCriteriaItem* criteria = iInterestList[i];
@@ -973,11 +1132,15 @@ void CAiwServiceHandlerImpl::RemoveObsoleteCriteriaItems()
             i--;
             }
         }    
+    
+    _AKNTRACE_FUNC_EXIT;
     }
     
     
 void CAiwServiceHandlerImpl::RemoveObsoleteProviders()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     for (TInt i = 0; i < iProviders.Count(); i++)
         {
         CAiwServiceIfBase* provider = iProviders[i];
@@ -1014,24 +1177,33 @@ void CAiwServiceHandlerImpl::RemoveObsoleteProviders()
             i--;
             }
         }    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TBool CAiwServiceHandlerImpl::IsSubMenuEmpty(TInt aSubMenuId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aSubMenuId:%d",aSubMenuId);
+  
     for (TInt i = 0; i < iMenuBindings.Count(); i++)
         {
         if (iMenuBindings[i]->MenuId() == aSubMenuId)
             {
             if (iMenuBindings[i]->NumberOfProviders() > 0)
                 {
+                _AKNTRACE("return false");
+                _AKNTRACE_FUNC_EXIT;
                 return EFalse;
                 }
 
+            _AKNTRACE("return true");
+            _AKNTRACE_FUNC_EXIT;
             return ETrue;
             }
         }
-
+    
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -1041,16 +1213,21 @@ TBool CAiwServiceHandlerImpl::IsSubMenuEmpty(TInt aSubMenuId)
 CAiwMenuBinding* CAiwServiceHandlerImpl::AlreadyBound(TInt aMenuId, TInt aMenuCmd, 
     TInt aMenuItemIndex) const
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     for (TInt i = 0; i < iMenuBindings.Count(); i++)
         {
         if ((iMenuBindings[i]->MenuId() == aMenuId) &&
             (iMenuBindings[i]->MenuCmd() == aMenuCmd) &&
             (iMenuBindings[i]->MenuItemIndex() == aMenuItemIndex))
             {
+            _AKNTRACE("iMenuBindings[i]:%x",iMenuBindings[i]);
+            _AKNTRACE_FUNC_EXIT;
             return iMenuBindings[i];
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
@@ -1062,6 +1239,21 @@ void CAiwServiceHandlerImpl::ExecuteServiceCmdL(
     TUint aCmdOptions,
     MAiwNotifyCallback* aCallback)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aCmdId:%x",aCmdId);
+    _AKNTRACE("aCmdOptions:%x",aCmdOptions);
+    
+    RProcess pro;
+    AknTracePrint(_L("process name:%S"),&(pro.FileName()));
+
+    TInt count = aInParamList.Count();
+    for (TInt i = 0; i < count; i++)
+        {
+        _AKNTRACE("i:%d, InParamList[i].SemanticId():%x",i,aInParamList[i].SemanticId());
+        AknTracePrint(_L("i:%d, InParamList[i].Value():%S"),i,&(aInParamList[i].Value().AsDes()));
+
+        }
+        
     for (TInt i = 0; i < iBaseBindings.Count(); i++)
         {
         if(iBaseBindings[i]->HasServiceCmd(aCmdId))
@@ -1077,6 +1269,8 @@ void CAiwServiceHandlerImpl::ExecuteServiceCmdL(
                 }
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1084,6 +1278,8 @@ void CAiwServiceHandlerImpl::ExecuteServiceCmdL(
 void CAiwServiceHandlerImpl::ReadInterestListL(TResourceReader& aReader, 
     RPointerArray<CAiwCriteriaItem>& aResult)  
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     const TInt count = aReader.ReadInt16();
     for (TInt ii = 0; ii < count; ++ii)
         {
@@ -1092,11 +1288,15 @@ void CAiwServiceHandlerImpl::ReadInterestListL(TResourceReader& aReader,
         User::LeaveIfError(aResult.Append(item));
         CleanupStack::Pop(); // item
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TInt CAiwServiceHandlerImpl::ResolveProvidersL(CAiwBinding* aBinding, CAiwCriteriaItem* aItem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RImplInfoPtrArray infoArray;
     TInt result = 0;
 
@@ -1157,6 +1357,8 @@ TInt CAiwServiceHandlerImpl::ResolveProvidersL(CAiwBinding* aBinding, CAiwCriter
 
     CleanupStack::PopAndDestroy(); // infoArray     
 
+    _AKNTRACE_FUNC_EXIT;
+    
     return result;
     }
 
@@ -1164,6 +1366,8 @@ TInt CAiwServiceHandlerImpl::ResolveProvidersL(CAiwBinding* aBinding, CAiwCriter
 
 void CAiwServiceHandlerImpl::FilterInfoArray(RImplInfoPtrArray& aArray, CAiwCriteriaItem* aItem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if (aItem->MaxProviders() <= 0)
         {
         aArray.ResetAndDestroy();
@@ -1185,6 +1389,8 @@ void CAiwServiceHandlerImpl::FilterInfoArray(RImplInfoPtrArray& aArray, CAiwCrit
                 }
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1221,6 +1427,7 @@ CAiwGenericParamList& CAiwServiceHandlerImpl::OutParamListL()
 
 TBool CAiwServiceHandlerImpl::IsInLastInitialized(CAiwMenuPane* aiwPane) const
     {
+    _AKNTRACE_FUNC_ENTER;
     if (aiwPane)
         {
         if (iSubmenu == aiwPane)
@@ -1237,6 +1444,7 @@ TBool CAiwServiceHandlerImpl::IsInLastInitialized(CAiwMenuPane* aiwPane) const
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -1269,6 +1477,8 @@ class CAiwMenuResource : public CEikMenuPane
 CAiwMenuPane* CAiwServiceHandlerImpl::CreateEmptyAiwMenuPaneL(TInt aBaseMenuCmdId, 
     TInt aResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CAiwMenuPane* result = NULL;
     TResourceReader reader; 
     
@@ -1301,12 +1511,16 @@ CAiwMenuPane* CAiwServiceHandlerImpl::CreateEmptyAiwMenuPaneL(TInt aBaseMenuCmdI
     
     result->SetResourceSlotId( id );
     
+    _AKNTRACE_FUNC_EXIT;
+    
     return result;
     }
 
 
 void CAiwServiceHandlerImpl::DeleteAiwMenuPane(CAiwMenuPane* aAiwPane)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     delete aAiwPane->iMenuPane;
     aAiwPane->iMenuPane = NULL;
 
@@ -1339,6 +1553,8 @@ void CAiwServiceHandlerImpl::DeleteAiwMenuPane(CAiwMenuPane* aAiwPane)
     
     delete aAiwPane;
     aAiwPane = NULL;    
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 const TInt resourceSlotIds[KMaxMenuResources] =
@@ -1364,11 +1580,14 @@ const TInt resourceSlotIds[KMaxMenuResources] =
 
 TInt CAiwServiceHandlerImpl::ResourceIdForNextFreeSlot()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if (iNextFreeSlot < KMaxMenuResources)
         {
         return resourceSlotIds[iNextFreeSlot++];
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return -1;
     }
 
@@ -1385,42 +1604,60 @@ void CAiwServiceHandlerImpl::ProcessCommandL(TInt /*aCommandId*/)
 
 void Cleanup( TAny* aAny )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RImplInfoPtrArray* implArray = 
         reinterpret_cast< RImplInfoPtrArray*> ( aAny );
     implArray->ResetAndDestroy();
     implArray->Close();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void InterestCleanup( TAny* aAny )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RPointerArray<CAiwCriteriaItem>* interestArray = 
         reinterpret_cast<RPointerArray<CAiwCriteriaItem>*> ( aAny );
 
-    interestArray->ResetAndDestroy();   
+    interestArray->ResetAndDestroy();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 void FilteredCleanup( TAny* aAny )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RPointerArray<CAiwCriteriaItem>* filteredArray = 
         reinterpret_cast<RPointerArray<CAiwCriteriaItem>*> ( aAny );
 
-    filteredArray->Reset();   
+    filteredArray->Reset();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void IntArrayCleanup(TAny* aAny)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RArray<TInt>* intArray = 
         reinterpret_cast<RArray<TInt>*> ( aAny );
 
     intArray->Close();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::CopyMenuItemsL(CAiwMenuPane* aSource, CEikMenuPane& aDest, 
     TInt aStartIndex, TBool aIsSubmenu, TBool aSetAsItemSpecific)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt cmdId;
     TInt inPos = aStartIndex;
 
@@ -1451,12 +1688,16 @@ void CAiwServiceHandlerImpl::CopyMenuItemsL(CAiwMenuPane* aSource, CEikMenuPane&
             aDest.InsertMenuItemL(itemData, inPos++);
             }   
         }   
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 TInt CAiwServiceHandlerImpl::SlotItemCmd(CEikMenuPane& aPane)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt index;
 
     for (TInt i = 0; i < KMaxMenuResources; i++)
@@ -1467,6 +1708,7 @@ TInt CAiwServiceHandlerImpl::SlotItemCmd(CEikMenuPane& aPane)
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return -1;
     }
 
@@ -1474,6 +1716,8 @@ TInt CAiwServiceHandlerImpl::SlotItemCmd(CEikMenuPane& aPane)
 
 CAiwMenuPane* CAiwServiceHandlerImpl::MenuPaneForSlotCmd(TInt aCmdId)
     {
+    _AKNTRACE_FUNC_ENTER;    
+
     TInt index = aCmdId - EAiwMenuSlotBase; 
 
     if (index < KMaxMenuResources)
@@ -1488,6 +1732,8 @@ CAiwMenuPane* CAiwServiceHandlerImpl::MenuPaneForSlotCmd(TInt aCmdId)
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
+
     return NULL;
     }
 
@@ -1496,8 +1742,11 @@ CAiwMenuPane* CAiwServiceHandlerImpl::MenuPaneForSlotCmd(TInt aCmdId)
 CAiwServiceHandlerImpl::TAiwPlaceholderType CAiwServiceHandlerImpl::PlaceholderType(
     CEikMenuPane& aPane, TInt aCmd, TBool& aTitleLocked)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CEikMenuPaneItem::SData& itemData = aPane.ItemData(aCmd);
-
+    _AKNTRACE("itemData.iCascadeId:%x",itemData.iCascadeId);
+    
     aTitleLocked = EFalse;
 
     if ((itemData.iCascadeId & AIW_CASCADE_ID) == AIW_CASCADE_ID)
@@ -1517,6 +1766,7 @@ CAiwServiceHandlerImpl::TAiwPlaceholderType CAiwServiceHandlerImpl::PlaceholderT
         return EAiwPlaceholderIntelligentCascade;
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return EAiwPlaceholderNormal;
     }
 
@@ -1524,6 +1774,8 @@ CAiwServiceHandlerImpl::TAiwPlaceholderType CAiwServiceHandlerImpl::PlaceholderT
 void CAiwServiceHandlerImpl::ConvertPlaceholderL(CEikMenuPane& aPane, TInt aCmd, 
     CAiwMenuPane& aAiwPane, const TDesC& aTitle, TBool aSetAsItemSpecific)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CEikMenuPaneItem::SData itemData = aPane.ItemData(aCmd);
     TInt index;
 
@@ -1551,12 +1803,16 @@ void CAiwServiceHandlerImpl::ConvertPlaceholderL(CEikMenuPane& aPane, TInt aCmd,
 
     // Insert cascade item.
     aPane.InsertMenuItemL(itemData, index);
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::UnCascadeL(CEikMenuPane& aPane, TInt aCmd,
     CAiwMenuPane& aAiwPane, TBool aSetAsItemSpecific)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CEikMenuPaneItem::SData itemData = aAiwPane.MenuPane().ItemData(aAiwPane.FindCmdId(0));
     TInt index;
 
@@ -1576,12 +1832,16 @@ void CAiwServiceHandlerImpl::UnCascadeL(CEikMenuPane& aPane, TInt aCmd,
 
     // Insert cascade item.
     aPane.InsertMenuItemL(itemData, index);     
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::SkipMenuFields(TResourceReader& aReader)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     aReader.ReadInt32(); // Skip cascade id
     aReader.ReadInt32(); // Skip flags
     aReader.ReadTPtrC(); // Skip text
@@ -1590,11 +1850,15 @@ void CAiwServiceHandlerImpl::SkipMenuFields(TResourceReader& aReader)
     aReader.ReadInt16(); // Skip bmpid.
     aReader.ReadInt16(); // Skip bmpmask. 
     aReader.ReadInt32(); // Skip extension.   
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TBool CAiwServiceHandlerImpl::IsAiwMenu(TInt aMenuResourceId)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i;
 
     // First check if this is aiw submenu id
@@ -1615,6 +1879,8 @@ TBool CAiwServiceHandlerImpl::IsAiwMenu(TInt aMenuResourceId)
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
+    
     return EFalse;
     }
 
@@ -1622,6 +1888,7 @@ TBool CAiwServiceHandlerImpl::IsAiwMenu(TInt aMenuResourceId)
 
 TBool CAiwServiceHandlerImpl::HandleSubmenuL(CEikMenuPane& aPane)
     {
+    _AKNTRACE_FUNC_ENTER;
     TInt slotcmd = SlotItemCmd(aPane);
     if (slotcmd >= 0)
         {
@@ -1637,6 +1904,7 @@ TBool CAiwServiceHandlerImpl::HandleSubmenuL(CEikMenuPane& aPane)
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -1644,6 +1912,8 @@ TBool CAiwServiceHandlerImpl::HandleSubmenuL(CEikMenuPane& aPane)
 
 TBool CAiwServiceHandlerImpl::GetSubmenuTitle(CEikMenuPane& aPane, TDes& aResult)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt index;
     
     aResult.Zero();
@@ -1657,7 +1927,8 @@ TBool CAiwServiceHandlerImpl::GetSubmenuTitle(CEikMenuPane& aPane, TDes& aResult
         aPane.DeleteMenuItem(AIW_SUBMENU_TITLE);
         return ETrue;
         }
-
+  
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -1687,6 +1958,8 @@ CAiwCriteriaItem* CAiwServiceHandlerImpl::ConvertCriteriaItemPointerL(CAiwCriter
 void CAiwServiceHandlerImpl::FilterInterestListL(RPointerArray<CAiwCriteriaItem>& aOriginal,
     RPointerArray<CAiwCriteriaItem>& aFiltered)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CAiwCriteriaItem* item;
 
     while (aOriginal.Count() > 0)
@@ -1697,12 +1970,16 @@ void CAiwServiceHandlerImpl::FilterInterestListL(RPointerArray<CAiwCriteriaItem>
         User::LeaveIfError(aFiltered.Append(item));
         }
     aOriginal.Reset();
+   
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 void CAiwServiceHandlerImpl::RemoveProvider(TInt aImplUid)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i;
 
     // First go through bindings and remove all the 
@@ -1727,11 +2004,16 @@ void CAiwServiceHandlerImpl::RemoveProvider(TInt aImplUid)
             i--;
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::AddProviderL(TUid aImplUid, CAiwCriteriaItem* aItem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aImplUid:%x",aImplUid.iUid);
+    
     TInt i;
     CAiwServiceIfBase* iface = iEcomMonitor->CreateImplementationL(aImplUid);
     
@@ -1760,14 +2042,22 @@ void CAiwServiceHandlerImpl::AddProviderL(TUid aImplUid, CAiwCriteriaItem* aItem
                 }               
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 
 TInt CAiwServiceHandlerImpl::SynchronizeCallBack(TAny* aImpl)
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aImpl:%x",aImpl);
+    
     CAiwServiceHandlerImpl* impl = reinterpret_cast<CAiwServiceHandlerImpl*>(aImpl);
     TRAPD(err, impl->SynchronizeDbL());
+    
+    _AKNTRACE_FUNC_EXIT;
+    
     return err;
     }
 
@@ -1775,6 +2065,8 @@ TInt CAiwServiceHandlerImpl::SynchronizeCallBack(TAny* aImpl)
 
 void CAiwServiceHandlerImpl::SynchronizeDbL()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i;
     RArray<TInt> providers;
     RImplInfoPtrArray infoArray;
@@ -1798,12 +2090,16 @@ void CAiwServiceHandlerImpl::SynchronizeDbL()
         }
 
     CleanupStack::PopAndDestroy(2); // providers, infoArray
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::HandleRemovedProviders(RArray<TInt>& aInMemory, 
     RImplInfoPtrArray& aInSystem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i, j;
 
     for (i = 0; i < aInMemory.Count(); i++)
@@ -1820,12 +2116,16 @@ void CAiwServiceHandlerImpl::HandleRemovedProviders(RArray<TInt>& aInMemory,
             RemoveProvider(aInMemory[i]);
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CAiwServiceHandlerImpl::HandleNewProvidersL(RArray<TInt>& aInMemory, 
     RImplInfoPtrArray& aInSystem, CAiwCriteriaItem* aItem)
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt i;
 
     for (i = 0; i < aInSystem.Count(); i++)
@@ -1835,10 +2135,14 @@ void CAiwServiceHandlerImpl::HandleNewProvidersL(RArray<TInt>& aInMemory,
             AddProviderL(aInSystem[i]->ImplementationUid(), aItem);
             }       
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
     
 void CAiwServiceHandlerImpl::MenuLaunched()
     {  
+    _AKNTRACE_FUNC_ENTER;
+    
     ClearMenuPaneArray();
     iNextFreeSlot = 0;
     iLastInitialized.Reset();
@@ -1848,6 +2152,8 @@ void CAiwServiceHandlerImpl::MenuLaunched()
         {
         iMenuBindings[i]->SetMenuPane(NULL);
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // End of file

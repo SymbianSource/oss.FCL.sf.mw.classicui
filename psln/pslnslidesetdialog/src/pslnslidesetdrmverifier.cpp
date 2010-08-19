@@ -121,21 +121,23 @@ TBool CPslnSlideSetDRMVerifier::VerifySelectionL( const MDesCArray* aSelectedFil
                 res = iDRMHelper->CanSetAutomated(
                     aSelectedFiles->MdcaPoint( index ),
                     canBeAutomated );
-                if ( !res && !canBeAutomated )
+                if ( res == KErrNone && !canBeAutomated )
                     {
                     ShowErrorNoteL( R_PSLN_SLIDE_SET_DRM_ERROR );
+                    return EFalse;
                     }
-                else if( res == KErrUnderflow )
+                else if ( res != KErrNone )
                     {
-                    ShowErrorNoteL( R_PSLN_SLIDE_SET_IMAGE_CORRUPTED );
-                    }
-                else if ( ( res != KErrNone ) || !canBeAutomated )
-                    {
-                    if ( iDRMHelper )
+                    if ( res == KErrUnderflow )
                         {
-                        iDRMHelper->HandleErrorL(
-                            res, 
+                        // Do not show error note for corrupted image and let it pass.
+                        canBeAutomated = ETrue;
+                        }
+                    else
+                        {
+                        iDRMHelper->HandleErrorL( res,
                             aSelectedFiles->MdcaPoint( index ) );
+                        return EFalse;
                         }
                     }
                 else

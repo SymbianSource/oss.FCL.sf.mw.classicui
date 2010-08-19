@@ -63,8 +63,8 @@ USERINCLUDE     ../../../bctestutil/inc
 
 APP_LAYER_SYSTEMINCLUDE
 
-LIBRARY	    	AknIcon.lib
-LIBRARY         AknSkins.lib
+LIBRARY	    	aknicon.lib
+LIBRARY         aknskins.lib
 LIBRARY         avkon.lib
 LIBRARY         apparc.lib
 LIBRARY         aknnotify.lib

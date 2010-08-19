@@ -69,10 +69,10 @@ LIBRARY         efsrv.lib
 LIBRARY         bafl.lib
 LIBRARY         egul.lib
 LIBRARY         aknskins.lib
-LIBRARY         cdlengine.lib
+LIBRARY         CdlEngine.lib
 LIBRARY         touchfeedback.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         ecom.lib
 LIBRARY         centralrepository.lib
-LIBRARY         AknLayout2.lib
+LIBRARY         aknlayout2.lib
 

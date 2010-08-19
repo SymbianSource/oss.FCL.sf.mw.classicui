@@ -63,7 +63,7 @@ SOURCE          testdomextanimationblocksanimview.cpp
 SOURCE          testdomextanimationcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         cone.lib

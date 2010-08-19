@@ -77,7 +77,7 @@ SOURCE          testdompslnfwbc.cpp
 SOURCE          testdompslnfwbv.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         pslnframework.lib
 LIBRARY         cone.lib
@@ -87,7 +87,7 @@ LIBRARY         eikcoctl.lib
 LIBRARY         eiksrv.lib
 LIBRARY         avkon.lib
 LIBRARY         egul.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         ecom.lib
 
 LANG            SC

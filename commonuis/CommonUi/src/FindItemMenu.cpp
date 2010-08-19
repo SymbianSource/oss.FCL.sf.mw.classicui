@@ -623,19 +623,17 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                     tempBuf);
                 index = EFindItemCmdGoToUrl;
 
-                if ( !iIsContextMenu )
-                    {
-                    // Add bookmark
-                    iCoeEnv->ReadResourceL(
-                        tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemCmdAddToBookmark,
-                        index,
-                        0,
-                        tempBuf );
-                    index = EFindItemCmdAddToBookmark;
-                    }
+                // Add bookmark
+                iCoeEnv->ReadResourceL(
+                    tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
+                AddMenuItemL(
+                    *iMenuPane,
+                    EFindItemCmdAddToBookmark,
+                    index,
+                    0,
+                    tempBuf );
+                index = EFindItemCmdAddToBookmark;
+                   
                 }
             else
                 {
@@ -647,18 +645,16 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                     tempBuf );
                 index = EFindItemCmdGoToRstp;
 
-                if ( !iIsContextMenu )
-                    {
-                    iCoeEnv->ReadResourceL(
-                        tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
-                    AddMenuItemL(
-                        *iMenuPane,
-                        EFindItemCmdAddToGallery,
-                        index,
-                        0,
-                        tempBuf );
-                    index = EFindItemCmdAddToGallery;
-                    }
+                iCoeEnv->ReadResourceL(
+                    tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
+                AddMenuItemL(
+                    *iMenuPane,
+                    EFindItemCmdAddToGallery,
+                    index,
+                    0,
+                    tempBuf );
+                index = EFindItemCmdAddToGallery;
+                  
                 }
             break;
             }
@@ -842,8 +838,6 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
 
      // Add to contacts
      if ( ( itemType != CItemFinder::EUriScheme ) &&
-        !( itemType == CItemFinder::EUrlAddress &&
-        iIsContextMenu ) &&
         ( ( ( ( !iIsSenderKnown &&
         iSenderDescriptor->Length() ) ||
         iCallbackNumber ) &&
@@ -893,7 +887,8 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
     if ( ( !iHideCallMenu ||
         ( iFindItemVoIPExtension->IsVoIPSupported() &&
         iFindItemVoIPExtension->VoIPProfilesExistL() ) ) &&
-        iMenuPane->MenuItemExists( EFindItemCmdCall, dummy ) )
+        iMenuPane->MenuItemExists( EFindItemCmdCall, dummy ) &&
+        !iHideCallSubMenu )
         {
         iMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
         iMenuPane->AddMenuItemsL(
@@ -901,6 +896,18 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
             EFindItemCmdCall );
         }
     }
+
+
+// -----------------------------------------------------------------------------
+// CFindItemMenu::SetCallSubMenuVisibility
+// Sets AIW submenu visibility
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void CFindItemMenu::SetCallSubMenuVisibility( TBool aVisible )
+    {
+    iHideCallSubMenu = !aVisible;
+    }
+
 
 EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
     {

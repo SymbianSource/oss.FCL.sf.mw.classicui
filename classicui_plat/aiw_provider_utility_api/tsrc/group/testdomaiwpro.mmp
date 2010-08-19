@@ -65,7 +65,7 @@ SOURCE          testdomaiwproblocks.cpp
 LIBRARY         euser.lib
 LIBRARY         cone.lib
 LIBRARY         avkon.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         servicehandler.lib
 LIBRARY         eikcoctl.lib

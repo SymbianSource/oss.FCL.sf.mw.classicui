@@ -2542,12 +2542,13 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             }
             
         TRgb color;
-
+        CListBoxView* view = static_cast<CEikListBox*>( Control() )->View();
+        TBool useOverrideColor = view->ItemDrawer()->Flags() & CListItemDrawer::EUseOverrideSkinTextColor; 
         if (aHighlight)
             {
             color = subcellColors->iHighlightedText;
             aGc.SetBrushColor(subcellColors->iHighlightedBack); 
-            if ( AknsUtils::AvkonSkinEnabled() )
+            if ( AknsUtils::AvkonSkinEnabled() && !useOverrideColor )
                 {
                 if ( iExtension->iHighlightedTextColor != NULL )
                     {
@@ -2559,7 +2560,7 @@ CFormattedCellListBoxData::DrawFormattedSimple( TListItemProperties& aProperties
             {
             color = subcellColors->iText;
             aGc.SetBrushColor(subcellColors->iBack);
-            if ( AknsUtils::AvkonSkinEnabled() )
+            if ( AknsUtils::AvkonSkinEnabled() && !useOverrideColor )
                 {
                 if ( iExtension->iTextColor != NULL )
                     {
@@ -2861,12 +2862,8 @@ void CFormattedCellListBoxData::DrawMarkingModeIcons(
             & CListItemDrawer::EMarkingModeEnabled 
             && !aProperties.IsSelectionHidden()            
             && iExtension->iMarkingIconArray
-#ifdef RD_TOUCH2_MARKING
             &&  iExtension->iMarkingIconArray->Count() 
-                == KMarkingModeIconArraySize )         
-#else            
-            &&  iExtension->iMarkingIconArray->Count() == 2 )
-#endif // RD_TOUCH2_MARKING        
+                == KMarkingModeIconArraySize )       
         {
         if ( AknLayoutUtils::LayoutMirrored() )
             {
@@ -4455,12 +4452,13 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             {
             subcellColors = &aColors;
             }
-
+        CListBoxView* view = listbox->View();
+        TBool useOverrideColor = view->ItemDrawer()->Flags() & CListItemDrawer::EUseOverrideSkinTextColor; 
         if (aHighlight)
             {
             aGc.SetPenColor(subcellColors->iHighlightedText);
             aGc.SetBrushColor(subcellColors->iHighlightedBack); 
-            if ( skinEnabled )
+            if ( skinEnabled && !useOverrideColor )
                 {
                 if ( iExtension->iHighlightedTextColor != NULL )
                     {
@@ -4473,7 +4471,7 @@ CFormattedCellListBoxData::DrawFormattedOld( TListItemProperties& aProperties,
             aGc.SetPenColor(subcellColors->iText);
             aGc.SetBrushColor(subcellColors->iBack);
             
-            if ( skinEnabled )
+            if ( skinEnabled && !useOverrideColor )
                 {
                 if ( iExtension->iTextColor != NULL )
                     {

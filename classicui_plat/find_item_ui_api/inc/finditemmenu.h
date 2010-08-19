@@ -309,6 +309,15 @@ NONSHARABLE_CLASS(CFindItemMenu) :public CBase
         IMPORT_C void SetMenuItemVisibility( 
             CFindItemMenu::TMenuItem aItem,
             TBool aVisible );                           
+
+		/**
+        * Sets AIW submenu item visibility 
+        * Must be called before displaying the menu
+        * 
+        * @since S60 5.2
+        * @param aVisible AIW submenu item visibility
+        */
+        IMPORT_C void SetCallSubMenuVisibility( TBool aVisible );
                   
     private:
 
@@ -479,6 +488,9 @@ NONSHARABLE_CLASS(CFindItemMenu) :public CBase
         */
         TInt iMenuItemFlags;
         MPBAiwNotify iCallback;
+
+		// Hide AIW submenu
+        TBool iHideCallSubMenu;
    };
 
 #endif      // FINDITEMMENU_H

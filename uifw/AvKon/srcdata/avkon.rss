@@ -5120,7 +5120,12 @@ RESOURCE AVKON_SKEY_LIST r_avkon_default_skey_list
         // Left down
         AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick;},
         AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeLong;},
-        AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;}
+        AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;},
+        
+        //Default keysound for @ key
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick;},
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;}
 
         };
     }
@@ -9844,6 +9849,8 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EPenInputCmdHwrTraining; txt=qtn_tin_option_menu_training;},
 		MENU_ITEM { command=EPenInputCmdVITUT; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_itu_t; },
 		MENU_ITEM { command=EPeninputCmdFSQ; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_fs_qwerty; },
+        MENU_ITEM { command=EPeninputCmdPortraitEditor; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_portrait_editor; },
+        MENU_ITEM { command=EPeninputCmdLandscapeEditor; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_landscape_editor; },        
         MENU_ITEM { command=EPeninputCmdHwr; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_hwr; },
         MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
@@ -10300,5 +10307,71 @@ RESOURCE DIALOG r_avkon_special_character_table_dialog_for_lockcode_symbol_input
 	};
     }
 
+RESOURCE DIALOG r_avkon_special_character_table_dialog_korean
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    buttons = r_avkon_softkeys_select_cancel__select;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknSCTQueryHeadingId;
+            control = AVKON_HEADING
+                {
+                label = qtn_pop_up_select_character;
+                headinglayout = r_avkon_sct_list_heading_pane;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtSpecialCharacterMap;
+            id = EAknSCTQueryContentId;
+            control = SPECIAL_CHAR_TABLE
+                {
+                contents =
+                    {
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTUpperCase;
+                        chars = qtn_sct_kor_special_characters;
+                        },
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTLowerCase;
+                        chars = qtn_sct_kor_special_characters;
+                        },
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTQwerty;
+                        chars = qtn_sct_kor_special_characters;
+                        }
+                    };
+                };
+            }
+        };
+    }
+
+RESOURCE SPECIAL_CHAR_TABLE r_avkon_menu_sct_row_default_contents_korean
+    {
+    contents =
+        {
+        SCT_CHAR_SET
+            {
+            id = EAknSCTUpperCase;
+            chars = qtn_sct_kor_special_characters;
+            },
+        SCT_CHAR_SET
+            {
+            id = EAknSCTLowerCase;
+            chars = qtn_sct_kor_special_characters;
+            },
+        SCT_CHAR_SET
+            {
+            id = EAknSCTQwerty;
+            chars = qtn_sct_kor_special_characters;
+            }
+        };
+    }
 // End of File
 

@@ -35,8 +35,9 @@ DEFFILE         testsdkhierarchicallists.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-    MW_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
+SOURCEPATH      ../src
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
 
@@ -54,7 +55,7 @@ SOURCE          testsdkhierarchicallistsblockstl.cpp
 SOURCE          testsdkhierarchicallistsordering.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         apparc.lib
 LIBRARY         cone.lib
@@ -62,13 +63,13 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         AknSkins.lib
+LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         efsrv.lib
 LIBRARY         aknhlist.lib
 LIBRARY         aknicon.lib
-LIBRARY         aknskins.lib 
-LIBRARY         aknskinsrv.lib 
+LIBRARY         aknskins.lib
+LIBRARY         aknskinsrv.lib
 LIBRARY         aknswallpaperutils.lib
 
 LANG            SC

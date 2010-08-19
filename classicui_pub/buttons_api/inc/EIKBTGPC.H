@@ -102,7 +102,8 @@ public:
         EDelayActivation = 0x02, ///< If set, the container is not activated during construction.
         EUseMaxSize      = 0x04,  ///< Not used.
         EIsEmbedded      = 0x08, ///< Embedded in a dialog or popup.
-        EParentIsControl = 0x10  ///< Parent window group is treated as CCoeControl.
+        EParentIsControl = 0x10, ///< Parent window group is treated as CCoeControl.
+        EAlwaysShown     = 0x20  ///< Left softkey is not automatically hidden 
         };
         
     /**

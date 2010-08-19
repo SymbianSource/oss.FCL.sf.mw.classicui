@@ -5300,8 +5300,21 @@ void DrawEmptyListImpl_real( const TRect &aClientRect,
         CleanupStack::PopAndDestroy(); // wrapWidthArray
         } ); // TRAP end
 
-    // there is no layout for empty popuplist
-    if ( error != KErrNone || popupList )
+    if ( error == KErrNone )
+        {
+        n = 0;
+        for ( i = 0; i < buffer.Length(); i++ )
+            {
+            if ( buffer[i] == '\n' )
+                {
+                n++;
+                }
+            }        
+        }
+    
+    // There is no layout for empty popuplist
+    // The second layout that 2 lines with big font is used for two lines text.
+    if ( n < 3 || error != KErrNone || popupList )
         {
         DrawEmptyListImpl_real_DrawUpToTwoLines( aGc, aText, line1, line2,
                                                  line1length, line2length,

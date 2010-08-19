@@ -434,10 +434,12 @@ EXPORT_C TBool CAknCharMapDialog::OkToExitL(TInt aButtonId)
     // to select multiple characters before.
     if (aButtonId == EAknSoftkeyOk || aButtonId == EAknSoftkeySelect || aButtonId == EAknSoftkeyExit)
         {
-        // In Japanese UI, SCT isn't closed by pressing "Select" softkey,
+        // In Korean UI, SCT isn't closed by pressing "Select" softkey,
         // but SCT is closed by pressing "Back"(button id is EAknSoftkeyClose).
+        // Japanese feature for SCT will not be supported since TB9.2 PS2,
+        // so remove the code for Japanese SCT.
         MAknSctFocusHandler* handler = charmapControl->FocusHandler();
-        if (charmapControl->IsJapaneseSctUi() &&
+        if ( charmapControl->IsKoreanSctUi() &&
             aButtonId != EAknSoftkeyExit &&
             handler->FocusedControl() == charmapControl)
             {

@@ -231,6 +231,9 @@ EXPORT_C void CCoeEnv::RunL()
 	case KErrServerTerminated:
 		return;
 	default:
+#ifdef _DEBUG
+	    RDebug::Print( _L("CCoeEnv's iStatus = %d"), iStatus.Int() );
+#endif
 		Panic(ECoePanicWservBlindCommandFailed);
 		}
 	TWsEvent event;

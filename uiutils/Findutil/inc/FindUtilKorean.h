@@ -24,6 +24,11 @@
 
 #include "FindUtilBase.h"
 
+#ifdef _DEBUG
+#include <f32file.h>
+class CCnvCharacterSetConverter;
+#endif
+
 /**
  *  CFindUtilKorean utils class
  *
@@ -57,6 +62,13 @@ NONSHARABLE_CLASS(CFindUtilKorean)
  
     private:
     
+		enum TMatchFlag
+            {
+            EMatchFlagNone = 0x0000,
+            EMatchFlagAsterikInLast = 0x0001,
+            EMatchFlagAsterikInStart = 0x0002
+            };
+			
         CFindUtilKorean();
 
         void ConstructL();
@@ -69,9 +81,10 @@ NONSHARABLE_CLASS(CFindUtilKorean)
          * @param aSearchText for text to be used in searching
          * @return ETrue if match found, EFalse otherwise
          */    
-        TBool IsFindMatchL( 
+        TInt IsFindMatch( 
             const TDesC& aItemString, 
-            const TDesC& aSearchText );
+            const TDesC& aSearchText,
+            const TMatchFlag aFlag = EMatchFlagNone);
         
         /**
          * Decomposes given string to plain jamos.
@@ -84,6 +97,8 @@ NONSHARABLE_CLASS(CFindUtilKorean)
             const TDesC& aString,
             HBufC* aDecomposedString );
         
+        void DecomposeChar( TChar aChar, TDes& aDecomposedString );
+    
         /**
          * Decomposes hangul syllables to single jamos.
          *
@@ -166,6 +181,27 @@ NONSHARABLE_CLASS(CFindUtilKorean)
         							const TDesC& aSearchText, 
         							HBufC*& aNextChars);
 
+    private:
+        
+        void TakeIntoNextCharsL(HBufC*& aNextChars, TChar aChar);
+        
+        void InsertNextCharsL(
+                HBufC*& aNextChars, 
+                TBool& aReAlloced,
+                const TChar& aChar, 
+                const TInt aIndex = KErrNotFound);
+        
+        inline TBool MatchConsonentBased(const TChar& aA, const TChar& aB);
+
+    private:
+        
+        TUid iCurrentProcessUid3;
+        
+#ifdef _DEBUG
+        RFs iFs;
+        CCnvCharacterSetConverter* iConv;
+#endif
+        
     };
 
 #endif // __FINDUTILKOREAN__

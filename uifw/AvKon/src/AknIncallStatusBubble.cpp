@@ -938,7 +938,9 @@ void CIncallStatusBubble::SizeChanged()
         AknLayoutScalable_Apps::call_type_pane( isLandscape ) );
     TRect callTypeIndicationRect( callTypeIndicationLayoutRect.Rect() );
     
-    TBool hideTypeIndication = isLandscape && !AknStatuspaneUtils::HDLayoutActive();
+    TBool hideTypeIndication = isLandscape 
+            && !AknStatuspaneUtils::HDLayoutActive() 
+            && !AknStatuspaneUtils::FlatLayoutActive();
     	
     if ( iFlags & ESBVideo )
         {

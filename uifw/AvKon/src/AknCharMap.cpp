@@ -396,7 +396,9 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         void SwitchEmotionVisibilityL();
         TBool NeedEmotionSwitchIcon() const;
         HBufC* ReadEmotionHBufCL();
-        void LoadEmotionTumbnails(const TDesC& aChars);
+        void LoadEmotionTumbnails(const TDesC& aText);
+        void PlayAnimationL(const TDesC& aText);
+        void StopAnimation(const TDesC& aText);
         void SetEmotionSize(const TSize& aSize);
         TBool IsEmotionChar(TChar aChar);
         TChar SwitchToSctChar();
@@ -437,6 +439,9 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         TBool iKineticScrolling;
         // Indicates whether menu sct is highlighted or not.
         TBool iMenuSctHighlighted;
+        
+        // flag for focus status of char map dialog
+        TBool iCharMapFocusGained;
         
     public: // for Emotion
         HBufC* iCharsSmiley;
@@ -1071,8 +1076,8 @@ void CAknSctPageNavi::SizeChanged()
         // start complex dynamic logic to locate title rect when emotion is unable
         TInt orientation = mirrored ? -1 : 1;
         TInt newLeft = titleRect.iTl.iX + orientation*rect.Width()/2;
-        TPoint titleTL( newLeft, titleRect.iTl.iY );
-        titleRect.SetRect( titleTL, titleRect.Size() );
+        TPoint titlePoint( newLeft, titleRect.iTl.iY );
+        titleRect.SetRect( titlePoint, titleRect.Size() );
         }
     AknLayoutUtils::LayoutLabel(iTitle, titleRect, textlayout.LayoutLine());
 
@@ -1496,11 +1501,24 @@ HBufC* CAknCharMapExtension::ReadEmotionHBufCL()
     return charsSmiley;
     }
 
-void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aChars)
+void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aText)
     {
     //If emotion tumbbails can't be load, 
     // no emotion tumbnail will be dispalyed.
-    TRAP_IGNORE( iSmileyModel->LoadStillImagesL(aChars) );
+    TRAP_IGNORE( iSmileyModel->LoadStillImagesL(aText) );
+    }
+
+const TInt KAnimationRepeat = 30;
+const TInt KAnimationDelay = 150*1000;
+
+void CAknCharMapExtension::PlayAnimationL(const TDesC& aText)
+    {
+    iSmileyModel->PlayAnimationL(aText, KAnimationRepeat, KAnimationDelay);
+    }
+
+void CAknCharMapExtension::StopAnimation(const TDesC& aText)
+    {
+    iSmileyModel->StopAnimation(aText);
     }
 
 void CAknCharMapExtension::SetEmotionSize(const TSize& aSize)
@@ -2100,10 +2118,6 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         iShowCasesRef = &iSpecialCharCases;
         iShowPagesRef = &iSpecialCharPages;
         
-        // default
-        iSpecialCharCase = EAknSCTLowerCase;
-        iChars = iCharsBufferLower;
-        
         if(iExtension->iCharsSmiley && iExtension->IsShowingEmotion())
             {
             iChars = iExtension->iCharsSmiley;
@@ -2127,6 +2141,11 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         else if (iExtension->iCharsQwerty && iSpecialCharCase==EAknSCTQwerty)
             {
             iChars = iExtension->iCharsQwerty;
+            }
+        else
+            {
+            iSpecialCharCase = EAknSCTLowerCase;
+            iChars = iCharsBufferLower;
             }
         }
 
@@ -2173,9 +2192,7 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         UpdateScrollIndicatorL();
         }
     
-    iExtension->LoadEmotionTumbnails(*iChars);
-    
-    SetSmileyAnimationActivityInCurrentPageL(ETrue);
+    Extension()->LoadEmotionTumbnails(*iChars);
     
     }
 
@@ -2364,7 +2381,14 @@ EXPORT_C TKeyResponse CAknCharMap::OfferKeyEventL(const TKeyEvent& aKeyEvent, TE
             {
             iExtension->iKeyBrdEvent = ETrue;
             iExtension->iHighlightVisible = ETrue;
-            iCursorPos = TPoint( 0, 0 );
+            if ( LengthOfRecentChar() == 0 && CurrentPage() == 1 )
+            	{
+                iCursorPos = TPoint( 0, 1 );
+            	}
+            else
+            	{
+                iCursorPos = TPoint( 0, 0 );
+            	}
             DrawCursor();
             return EKeyWasConsumed;
             }
@@ -2764,8 +2788,6 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
         // Sets the character case because the buffer content may have changed.
         SetCharacterCaseL(iSpecialCharCase);
         
-        SetSmileyAnimationActivityInCurrentPageL(ETrue);
-        
         TInt cursorIndexAfterSwitch;
         if ( !iExtension->iKeyBrdEvent )
             {
@@ -2789,6 +2811,8 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
         // the new first row is the top row on the page where the new focus is.
         TInt pageVolume = iMaxColumns * iExtension->iMaxVisibleRows;
         iFirstVisibleRow = (cursorIndexAfterSwitch / pageVolume * pageVolume) / iMaxColumns;
+        
+        SetSmileyAnimationActivityInCurrentPageL(ETrue);
 
         // the cursor positions are relative to current page
         TInt cursorIndexAfterSwitchInPage = cursorIndexAfterSwitch - (iMaxColumns * iFirstVisibleRow);
@@ -2863,11 +2887,13 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
 
     else if(aType == KEikMessageFadeAllWindows) // focus gained // KEikMessageWindowsFadeChange
         {
+        Extension()->iCharMapFocusGained = ETrue;
         SetSmileyAnimationActivityInCurrentPageL(ETrue);
         }
     
     else if(aType == KAknMessageFocusLost) // focus lost
         {
+        Extension()->iCharMapFocusGained = EFalse;
         SetSmileyAnimationActivityInCurrentPageL(EFalse);
         
         if ( iExtension->iHighlightVisible )
@@ -3444,14 +3470,16 @@ void CAknCharMap::DrawRecentCharFrame( CWindowGc& aGc) const
 
     TPoint pos = iGridTopLeft;
     TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
-    if(iIsMirrored)
-        {
-        pos.iX += iGridItemWidth - size.iWidth;
-        }
+    
     // eliminate the overlap area between menu sct and the first menu item.
     if ( Extension()->iMenuSct )
         {
-        size.iHeight--;
+        // provide a dirty fix for Menu SCT, since Layout data is not suitable for this
+        size = TSize( Rect().Width()- 1, iGridItemHeight - 1 );
+        }
+    if(iIsMirrored)
+        {
+        pos.iX += iGridItemWidth - size.iWidth;
         }
 
     AknsDrawUtils::Background(skin, cc, this, aGc, TRect(pos,size));
@@ -4851,28 +4879,10 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
         firstCellLayRect.LayoutRect(gridRect,
             AknLayoutScalable_Avkon::cell_graphic_popup_pane_cp2(0,0,0));
 
-        TRect firstCellRect;
-        if ( Extension()->iMenuSct )
-            {
-            firstCellRect = TRect( TPoint(0, 0),
-                 TSize( firstCellLayRect.Rect().Width(), Rect().Height() ) );
-            }
-        else
-            {
-            firstCellRect = firstCellLayRect.Rect();
-            }
-
         TAknLayoutRect rightCellLayRect;
         rightCellLayRect.LayoutRect(gridRect,
             AknLayoutScalable_Avkon::cell_graphic_popup_pane_cp2(0,1,0));
-
-        TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
-        // Max columns.
-        iMaxColumns = gridRect.Width() / firstCellRect.Width();
-        iFirstVisibleRow = firstVisibleIndex / iMaxColumns;
-
-        // Max visible rows.
-        iExtension->iMaxVisibleRows = gridRect.Height() / firstCellRect.Height();
+        TRect firstCellRect;
 
         // Cell width.
         iGridItemWidth =
@@ -4881,6 +4891,25 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
             {
             iGridItemWidth = -iGridItemWidth;
             }
+        
+        if ( Extension()->iMenuSct )
+            {
+            firstCellRect = TRect( TPoint(0, 0),
+                 TSize( iGridItemWidth, Rect().Height() ) );
+            }
+        else
+            {
+            firstCellRect = firstCellLayRect.Rect();
+            }
+
+
+        TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
+        // Max columns.
+        iMaxColumns = gridRect.Width() / firstCellRect.Width();
+        iFirstVisibleRow = firstVisibleIndex / iMaxColumns;
+
+        // Max visible rows.
+        iExtension->iMaxVisibleRows = gridRect.Height() / firstCellRect.Height();
 
         // Cell height.
         if ( Extension()->iMenuSct )
@@ -5653,6 +5682,11 @@ EXPORT_C void CAknCharMap::ConstructMenuSctRowL()
         {
         resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_CHINESE;
         }
+    else if (FeatureManager::FeatureSupported(KFeatureIdKorean))
+        {
+        // Added korea character support
+        resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_KOREAN;
+        }
 
     CCoeEnv::Static()->CreateResourceReaderLC( reader, resourceId );
     ConstructFromResourceL( reader );
@@ -5853,7 +5887,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
             }
         
         CAknCharMapHistory::THistoryFilter historyFilter;
-        if(iExtension->IsEmotionEnabled())
+        if(Extension()->IsEmotionEnabled())
             {
             historyFilter = CAknCharMapHistory::EHistoryFilterMixed;
             }
@@ -5886,21 +5920,32 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
                 {
                 iShowCasesRef = &iSpecialCharCases;
                 iShowPagesRef = &iSpecialCharPages;
-                iChars = iCharsBufferLower;
-                if (iCharsBufferUpper && iSpecialCharCase==EAknSCTUpperCase)
-                    iChars = iCharsBufferUpper;
-                else if (iCharsBufferNumeric && iSpecialCharCase==EAknSCTNumeric)
-                    iChars = iCharsBufferNumeric;
-                else if (iCharsBufferFull && iSpecialCharCase==EAknSCTFullCase)
-                    iChars = iCharsBufferFull;
-                else if (iCharsBufferHalf && iSpecialCharCase==EAknSCTHalfCase)
-                    iChars = iCharsBufferHalf;
-                else if (iExtension->iCharsQwerty && iSpecialCharCase==EAknSCTQwerty)
-                    iChars = iExtension->iCharsQwerty;
 
-                if(iChars == iCharsBufferLower)
+                if (iCharsBufferUpper && iSpecialCharCase==EAknSCTUpperCase)
                     {
+                    iChars = iCharsBufferUpper;
+                    }
+                else if (iCharsBufferNumeric && iSpecialCharCase==EAknSCTNumeric)
+                    {
+                    iChars = iCharsBufferNumeric;
+                    }
+                else if (iCharsBufferFull && iSpecialCharCase==EAknSCTFullCase)
+                    {
+                    iChars = iCharsBufferFull;
+                    }
+                else if (iCharsBufferHalf && iSpecialCharCase==EAknSCTHalfCase)
+                    {
+                    iChars = iCharsBufferHalf;
+                    }
+                else if (iExtension->iCharsQwerty && iSpecialCharCase==EAknSCTQwerty)
+                    {
+                    iChars = iExtension->iCharsQwerty;
+                    }
+                else
+                    {
+                    // default
                     iSpecialCharCase = EAknSCTLowerCase;
+                    iChars = iCharsBufferLower;
                     }
                 }
             // mark that iChars doesn't point to HBufC
@@ -5957,7 +6002,10 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
         iExtension->iFlags |= EAknCharMapCharsAllocated; // mark that iChars points to HBufC
         }
     
-    iExtension->LoadEmotionTumbnails(*iChars);
+    Extension()->LoadEmotionTumbnails(*iChars);
+    
+    // control will never get focus event while it is in EditMenu mode
+    Extension()->iCharMapFocusGained = ETrue;
 
     // The "PlayAnimationL" in "SetSmileyAnimationActivityInCurrentPageL"
     // will leave. If we ignore it, just no animation is played.
@@ -6214,9 +6262,15 @@ TBool CAknCharMap::IsSupportCategoryButtonUi() const
 
 TBool CAknCharMap::IsJapaneseSctUi() const
     {
+    //Japanese feature for SCT will not be supported since TB9.2 PS2,
+    //so it always return EFalse.
     return EFalse;
     }
 
+TBool CAknCharMap::IsKoreanSctUi() const
+    {
+    return FeatureManager::FeatureSupported( KFeatureIdKorean );
+    }
 // -----------------------------------------------------------------------------
 // CAknCharMap::TitleWithSelectingSpecialChar()
 // Return the title string with the selecting special characters
@@ -6708,37 +6762,22 @@ void CAknCharMap::SmileyAnimationChanged(TChar aChar)
         }
     }
 
-const TInt KAnimationRepeat = 30;
-const TInt KAnimationDelay = 1000*1000;
-
 void CAknCharMap::SetSmileyAnimationActivityInCurrentPageL(TBool aIsActive)
     {
-    TInt begin = iFirstVisibleRow * iMaxColumns;
-    TInt end = iExtension->iMaxVisibleRows * iMaxColumns + begin;
-    if( end > iChars->Length() ) 
+    TInt pos = iFirstVisibleRow * iMaxColumns;
+    TInt maxLength = iChars->Length() - pos;
+    TInt length = iExtension->iMaxVisibleRows * iMaxColumns;
+    if(length > maxLength) length = maxLength;
+
+    const TPtrC textInCurrentPage = iChars->Mid(pos, length);
+    
+    if(Extension()->iCharMapFocusGained && aIsActive)
         {
-        end = iChars->Length();
+        Extension()->PlayAnimationL(textInCurrentPage);
         }
-
-    for( TInt i(begin); i<end; i++ )
+    else
         {
-        TChar code = (*iChars)[i];
-        CAknSmileyIcon* icon = iExtension->EmotionIcon(code);
-        if( !icon ) 
-            {
-            continue;
-            }
-
-        if( ( aIsActive ) && 
-           ( Extension()->IsShowingEmotion() || Extension()->iMenuSctHighlighted) 
-           )
-            {
-            icon->PlayAnimationL( KAnimationRepeat, KAnimationDelay );
-            }
-        else
-            {
-            icon->StopAnimation();
-            }
+        Extension()->StopAnimation(textInCurrentPage);
         }
     }
 

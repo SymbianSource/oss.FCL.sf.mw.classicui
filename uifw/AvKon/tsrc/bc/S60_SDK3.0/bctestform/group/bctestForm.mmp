@@ -59,11 +59,11 @@ LIBRARY         eikdlg.lib
 LIBRARY         aknnotify.lib
 LIBRARY		    bafl.lib
 LIBRARY         bctestutil.lib
-LIBRARY         commonengine.lib
-LIBRARY         AknSkins.lib
+LIBRARY         CommonEngine.lib
+LIBRARY         aknskins.lib
 LIBRARY         egul.lib
-LIBRARY         AknIcon.lib
-LIBRARY         CentralRepository.lib
+LIBRARY         aknicon.lib
+LIBRARY         centralrepository.lib
 
 // Changes for Scalable UI:
 // New registration resource defined.

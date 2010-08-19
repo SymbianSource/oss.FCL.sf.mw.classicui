@@ -66,7 +66,7 @@ SOURCE          testdomfinditemblocksmenu.cpp
 SOURCE          testdomfinditemcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib
 LIBRARY         commonui.lib

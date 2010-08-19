@@ -669,12 +669,27 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
 // -----------------------------------------------------------------------------
 //
 TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& /*aKeyEvent*/,
-                                               TEventCode /*aType*/ )
+                                               TEventCode aType )
     {
+    TKeyResponse ret ( EKeyWasNotConsumed );
+
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {
-        iCloseMenu = ETrue; 
-        iController.HidePopUp();
+        if ( !( iFlags & CAknPreviewPopUpController::EConsumeKeys ) )
+            {
+            iCloseMenu = ETrue;
+            iController.HidePopUp();
+            }
+        else
+            {
+            if ( aType == EEventKey || aType == EEventKeyUp )
+                {
+                iCloseMenu = ETrue;
+                iController.HidePopUp();
+
+                ret = EKeyWasConsumed;
+                }
+            }
         }
 
     if ( CapturesPointer() )
@@ -682,7 +697,7 @@ TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& /*aKeyEvent*/,
         SetPointerCapture( EFalse );
         }
 
-    return EKeyWasNotConsumed;
+    return ret;
     }
     
 // -----------------------------------------------------------------------------
@@ -852,9 +867,9 @@ void CAknPreviewPopUp::DrawBackground( CWindowGc& aGc, const TRect& aRect ) cons
 // CAknPreviewPopUp::CleanLocalRef
 // -----------------------------------------------------------------------------
 //
-void CAknPreviewPopUp::CleanLocalRef( TAny* any )
+void CAknPreviewPopUp::CleanLocalRef( TAny* aParam )
     {
-    static_cast<CAknPreviewPopUp*>( any )->iIsDeleted = NULL;
+    static_cast<CAknPreviewPopUp*>( aParam )->iIsDeleted = NULL;
     }
 
 //  End of File  

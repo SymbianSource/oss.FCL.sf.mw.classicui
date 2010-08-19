@@ -6384,6 +6384,10 @@ EXPORT_C void CEikMenuPane::ConstructMenuSctRowL( TDes& aSpecialChars )
         {
         resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_CHINESE;
         }
+    if (FeatureManager::FeatureSupported(KFeatureIdKorean))
+        {
+        resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_KOREAN;
+        }
     iExtension->ConstructMenuSctRowL( aSpecialChars, resourceId );
     }
 
@@ -6783,9 +6787,9 @@ void CEikMenuPane::HideMarkAndUnmark( TBool aHide )
 // CEikMenuPane::CleanLocalRef
 // -----------------------------------------------------------------------------
 //
-void CEikMenuPane::CleanLocalRef( TAny* any )
+void CEikMenuPane::CleanLocalRef( TAny* aParam )
     {
-    static_cast<CEikMenuPane*>( any )->iIsDeleted = NULL;
+    static_cast<CEikMenuPane*>( aParam )->iIsDeleted = NULL;
     }
 
 

@@ -1500,6 +1500,48 @@ void CListBoxView::ClearSelection( TBool aDrawItems )
     }
 
 
+// ---------------------------------------------------------------------------
+// Sets all items selected.
+// ---------------------------------------------------------------------------
+//
+void CListBoxView::SelectAllL( TBool aDrawItems )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    __ASSERT_DEBUG( iSelectionIndexes, 
+                    Panic( EEikPanicListBoxNoSelIndexArray ) );
+    __ASSERT_DEBUG( iModel, Panic( EEikPanicListBoxNoModel ) );
+    
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
+#endif // RD_UI_TRANSITION_EFFECTS_LIST    
+    
+    ClearSelection();
+    TInt numItems = iModel->NumberOfItems();
+    
+    for ( TInt i = 0; i < numItems; i++ )
+        {
+        if ( !iItemDrawer->Properties( i ).IsSelectionHidden() ) 
+            { 
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+            if ( transApi )
+                {
+                transApi->Invalidate( MAknListBoxTfxInternal::EListItem, i );
+                }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+            
+            iSelectionIndexes->AppendL( i );
+            
+            if ( aDrawItems )
+                {
+                DrawItem( i );
+                }
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
 // class CSnakingListBoxView
 
 EXPORT_C CSnakingListBoxView::CSnakingListBoxView()

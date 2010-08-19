@@ -3151,11 +3151,15 @@ EXPORT_C void CEikEdwin::FocusChanged(TDrawNow /*aDrawNow*/)
                 {
                 TRAP_IGNORE( edwinState->ReportAknEdStateEventL( 
                     MAknEdStateObserver::EAknSyncEdwinState ) );
-                if ( edwinState->Flags() & EAknEditorFlagHideTextView )
+                // if text view is already hidden and editor loses focus, display text view.
+				if ( ( edwinState->Flags() & EAknEditorFlagHideTextView ) &&
+                     ( iEdwinExtension && iEdwinExtension->iTextViewHidden ) )
                     {
                     iTextView->MakeVisible( ETrue );
                     edwinState->SetFlags( edwinState->Flags() & 
                         ~EAknEditorFlagHideTextView );
+                    iEdwinExtension->iTextViewHidden = EFalse;                    
+                    DrawDeferred();
                     }
                 }
             else
@@ -8516,18 +8520,42 @@ void CEikEdwin::OnEditorStateFlagChange( TInt aOldFlags, TInt aNewFlags )
         TRAP_IGNORE( ReportChinesePopupEventL( chinesePopup == 0 ) );
         }
     
-    if ( iTextView )
+    // To reduce power consumption, text view should be hidden when full screen Touch
+    // Input is open and editor is covered by it, for user can not see editor in this 
+    // case. When full screen Touch Input is open, FEP will set flag EAknEditorFlagHideTextView 
+    // to notify editor the text view should be hidden. But we have to check if the feature 
+    // of partial screen input is enabled at the same time, for full screen Touch Input window 
+    // will only occupy part of the screen if the feature is eanbled and editor is still visible 
+    // to user. So editor can only be hidden in such situation: full screen Touch Input is open 
+    // and partial screen feature is disabled.
+    // In the contrary situations (full screen touch input is closed or partial screen 
+    // feature is enabled), text view has to be shown so editor can work as normal.
+    if ( iTextView && iEdwinExtension )
         {
-        if ( ( aNewFlags & EAknEditorFlagHideTextView )
-                && !( aOldFlags & EAknEditorFlagHideTextView ) )
+        TBool textViewHideEnabled( ( aNewFlags & EAknEditorFlagHideTextView ) &&
+            !( aOldFlags & EAknEditorFlagHideTextView ) );
+
+        TBool textViewHideDisabled( !( aNewFlags & EAknEditorFlagHideTextView ) && 
+            ( aOldFlags & EAknEditorFlagHideTextView ) );
+
+        TBool partialScreenEnabled( ( aNewFlags & EAknEditorFlagEnablePartialScreen ) &&
+            !( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
+
+        TBool partialScreenDisabled( !( aNewFlags & EAknEditorFlagEnablePartialScreen ) && 
+            ( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
+         
+        if ( ( textViewHideEnabled && 
+                !( aNewFlags & EAknEditorFlagEnablePartialScreen ) ) ||
+             ( partialScreenDisabled && ( aNewFlags & EAknEditorFlagHideTextView ) ) )
             {
             iTextView->MakeVisible( EFalse );
+            iEdwinExtension->iTextViewHidden = ETrue;
             }
-        else if ( ( aOldFlags & EAknEditorFlagTouchInputModeOpened )
-                && !( aNewFlags & EAknEditorFlagTouchInputModeOpened ) )
+        else if ( iEdwinExtension->iTextViewHidden && ( textViewHideDisabled || partialScreenEnabled ) )
             {
             iTextView->MakeVisible( ETrue );
             DrawNow();
+            iEdwinExtension->iTextViewHidden = EFalse;            
             }
         }
     }

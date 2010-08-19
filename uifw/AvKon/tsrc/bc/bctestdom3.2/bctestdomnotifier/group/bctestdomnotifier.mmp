@@ -71,13 +71,13 @@ LIBRARY         servicehandler.lib
 LIBRARY         aknnotifierwrapper.lib 
 LIBRARY         akncapserverclient.lib
 LIBRARY         aknlistloadertfx.lib
-LIBRARY         AknJapaneseReading.lib
+LIBRARY         aknjapanesereading.lib
 
-LIBRARY         AknMemoryCardUi.lib
+LIBRARY         aknmemorycardui.lib
 LIBRARY         aknlayout2.lib
-LIBRARY         aknlayout2adaptation.lib
+LIBRARY         AknLayout2Adaptation.lib
 LIBRARY         aknLayout2hierarchy.lib
-LIBRARY         aknlayout2scalable.lib
+LIBRARY         AknLayout2Scalable.lib
 LIBRARY         pslnengine.lib
 
 START RESOURCE ../group/bctestdomnotifier_reg.rss

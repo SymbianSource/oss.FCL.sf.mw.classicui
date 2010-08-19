@@ -155,18 +155,18 @@ LIBRARY         uiklaf.lib
 LIBRARY         avkon.lib
 LIBRARY         tagma.lib
 LIBRARY         aknpictograph.lib
-LIBRARY         cdlengine.lib
+LIBRARY         CdlEngine.lib
 LIBRARY         aknskins.lib
 LIBRARY         bitgdi.lib
 LIBRARY         featmgr.lib
 LIBRARY         aknicon.lib
 LIBRARY         jplangutil.lib
-LIBRARY         NumberGrouping.lib
+LIBRARY         numbergrouping.lib
 LIBRARY         CommonEngine.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         FontProvider.lib
 LIBRARY         EikCoCtlLaf.lib
-LIBRARY         AknCapServerClient.lib
+LIBRARY         akncapserverclient.lib
 LIBRARY         servicehandler.lib
 LIBRARY         hlplch.lib
 LIBRARY         centralrepository.lib
@@ -182,14 +182,14 @@ LIBRARY         touchfeedback.lib
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY         aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
-LIBRARY         AknLayout2.lib
+LIBRARY         aknlayout2.lib
 LIBRARY         eikdlg.lib
 LIBRARY         akntransitionutils.lib
 DEFFILE EIKCOCTL.DEF
-LIBRARY         fontutils.lib 
+LIBRARY         fontutils.lib
 LIBRARY         aknphysics.lib
 
-LIBRARY         AknNotify.lib
+LIBRARY         aknnotify.lib
 START WINS
 BASEADDRESS     0x40B00000
 END

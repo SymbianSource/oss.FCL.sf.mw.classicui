@@ -495,6 +495,11 @@ private:
 		 * Record enableSmiley is supported.
 		 */
 		TBool iEnableSmileySupported;
+		
+		/**
+		 * Record if text view has been actually hidden.
+		 */
+		TBool iTextViewHidden;
         };
 
 public:

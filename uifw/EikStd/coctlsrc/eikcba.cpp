@@ -216,7 +216,8 @@ enum TCbaChangeRecordedFlags
     ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
     ECbaItemSoftkeyDisabledByClient, // client has disabled item specific softkey
     ECbaMultipleMarkingActive, // multiple marking has changed RSK
-    ECbaCombinePaneUncovered // The combine pane in status pane is invisible.
+    ECbaCombinePaneUncovered, // The combine pane in status pane is invisible.
+    ECbaKeepItemSoftkeyVisible // No auto hide for item specific commands
     };
 
 enum TCbaLayers
@@ -1072,7 +1073,12 @@ CEikCba::CEikCba(const CEikCba* aPrevious,
         // CBA is embedded in another component (eg. dialog/popup/setting page
         iFlags.Set(ECbaEmbedded);
         }
-
+    
+    if ( aFlags & CEikButtonGroupContainer::EAlwaysShown )
+        {
+        iFlags.Set( ECbaKeepItemSoftkeyVisible  );
+        }
+    
     if ( aFlags & CEikButtonGroupContainer::EParentIsControl )
         {
         iFlags.Set( ECbaParentAsControl );
@@ -2252,6 +2258,30 @@ void CEikCba::AddCommandToStackWithoutSizeChangedL(TInt aPosition,
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
         CAknButton* button = static_cast<CAknButton*>( groupCtrl.iControl );
+
+        if ( aCommandId == EAknSoftkeyEmergencyCall )
+            {
+            // Change the button to use "call button" (green) frame graphics
+            // in case of ECS call command to highlight the possibility
+            // of making an emergency call from the query.
+            button->SetBackgroundIds( KAknsIIDQsnFrButtonNormalAnswer,
+                                      KAknsIIDNone,
+                                      KAknsIIDNone,
+                                      KAknsIIDQsnFrButtonPressedAnswer,
+                                      KAknsIIDNone );
+            }
+        else
+            {
+            // Revert the frame graphics back to normal in case that a
+            // new command is added to the stack on top of the emergency
+            // call command (shouldn't happen though).
+            button->SetBackgroundIds( KAknsIIDQsnFrFunctionButtonNormal,
+                                      KAknsIIDQsnFrFunctionButtonPressed,
+                                      KAknsIIDQsnFrFunctionButtonInactive,
+                                      KAknsIIDQsnFrFunctionButtonPressed,
+                                      KAknsIIDQsnFrFunctionButtonInactive );
+            }
+
         button->AddStateL( NULL, NULL, NULL, NULL, *aText, KNullDesC, 0, aCommandId );
             
         if ( aText->Length() == 0 || !aText->Compare( _L(" ") ) )
@@ -2435,6 +2465,16 @@ void CEikCba::RemoveCommandFromStack( TInt aPosition, TInt aCommandId )
                 
             groupCtrl.iId     = buttonState->CommandId();
             groupCtrl.iLongId = 0;
+                
+            if ( aCommandId == EAknSoftkeyEmergencyCall )
+                {
+                // Revert the button's frame graphics to the normal ones.
+                button->SetBackgroundIds( KAknsIIDQsnFrFunctionButtonNormal,
+                                          KAknsIIDQsnFrFunctionButtonPressed,
+                                          KAknsIIDQsnFrFunctionButtonInactive,
+                                          KAknsIIDQsnFrFunctionButtonPressed,
+                                          KAknsIIDQsnFrFunctionButtonInactive );
+                }
                 
             if ( buttonState->Text().Length() == 0 ||
                  !buttonState->Text().Compare( _L(" ") ) )
@@ -2700,25 +2740,15 @@ TRect CEikCba::ButtonRectByPosition( TInt aPosition, TBool aRelativeToScreen )
 
         if ( iFlags.IsSet( ECbaEmbedded ) )
             {
-            TRect rect ( Rect() );
-            TAknLayoutRect layoutRect;
-            layoutRect.LayoutRect(
-                    rect, 
-                    AknLayoutScalable_Avkon::popup_sk_window_g1( 0 ) );
-            
-            // Button widths are calculated based on cba area width
-            // margin width is taken from layout
-            TInt margin = layoutRect.Rect().iTl.iX - rect.iTl.iX;
-            TInt buttonWidth = ( rect.Width() - margin * 2 ) / 2;
-            TSize buttonSize ( buttonWidth, layoutRect.Rect().Height() );
+            // The touch area for the softkeys will be larger than the actual
+            // softkey area (whole CBA area is used).
+            TInt buttonWidth = containerRect.Width() / 2;
+            TSize buttonSize( buttonWidth, containerRect.Height() );
                     
-            button1Rect = TRect(
-                    TPoint( rect.iTl.iX + margin, layoutRect.Rect().iTl.iY ),
-                    buttonSize );
-            button2Rect = TRect( 
-                    TPoint( button1Rect.iBr.iX, layoutRect.Rect().iTl.iY ), 
-                    TPoint( rect.iBr.iX - margin, 
-                            layoutRect.Rect().iBr.iY ) );
+            button1Rect.SetRect( containerRect.iTl, buttonSize );
+            button2Rect.SetRect( TPoint( button1Rect.iBr.iX,
+                                         containerRect.iTl.iY ), 
+                                 containerRect.iBr );
             }
         else if ( AknLayoutFlags() & EAknLayoutCbaInRightPane )
             {
@@ -7801,6 +7831,11 @@ void CEikCba::UpdateItemSpecificSoftkey( TBool aVisibleCollection )
 void CEikCba::UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable )
     {
     _AKNTRACE_FUNC_ENTER;
+    if ( iFlags.IsSet( ECbaKeepItemSoftkeyVisible  ))
+        {
+        _AKNTRACE_FUNC_EXIT;
+        return;
+        }    
     TBool skEnabled( aControl.IsVisible() && !aControl.IsDimmed() );
     TBool changeState( EFalse );
     if ( !aEnable )

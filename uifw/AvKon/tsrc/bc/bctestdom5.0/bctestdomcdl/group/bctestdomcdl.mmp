@@ -58,8 +58,8 @@ LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY         efsrv.lib
-LIBRARY         cdlengine.lib
-LIBRARY         commonengine.lib
+LIBRARY         CdlEngine.lib
+LIBRARY         CommonEngine.lib
 
 START RESOURCE ../group/bctestdomcdl_reg.rss
 DEPENDS bctestdomcdl.rsg

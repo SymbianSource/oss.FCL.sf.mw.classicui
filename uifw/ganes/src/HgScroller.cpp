@@ -241,9 +241,9 @@ EXPORT_C void CHgScroller::Mark( TInt aIndex )
             if( iMarkingObserver )
                 {
                 TRAP_IGNORE( iMarkingObserver->HandleMarkingL( aIndex, ETrue ) );
-                }            
+                }
             }
-        }    
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -592,7 +592,8 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
 
             if( iDetector 
                     && iSelectedIndex != KErrNotFound 
-                    && !HasHighlight() 
+                    && !HasHighlight()
+                    && !(iFlags & EHgScrollerSelectionMode)
                     && iActionMenu->InitMenuL() )
                 {
                 iDetector->PointerEventL( aEvent );
@@ -1195,7 +1196,7 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
                 }
             else if( iItemCount )
                 {
-                iSelectedIndex = iCurrentRow;
+                iSelectedIndex = CurrentIndex();
                 FitSelectionToView();
                 iShowHighlight = ETrue;
                 iDrawUtils->EnableMarquee(HasHighlight());
@@ -1732,6 +1733,9 @@ void CHgScroller::HandleResourceChange( TInt aType )
             iScrollbar = CHgScrollbar::NewL(*this);
             InitScrollbarL();
             InitGraphicsL();
+            
+            HandleSizeChanged();
+            DrawDeferred();
             }
         )
     }
@@ -1743,7 +1747,7 @@ void CHgScroller::HandleResourceChange( TInt aType )
 void CHgScroller::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
                         const TPoint& aPenEventScreenLocation)
     {
-    if( iActionMenu )
+    if( iActionMenu && !(iFlags & EHgScrollerSelectionMode) )
         {
         iOldWinPos = DrawableWindow()->OrdinalPosition();
         iActionMenu->ShowMenuL(aPenEventScreenLocation);

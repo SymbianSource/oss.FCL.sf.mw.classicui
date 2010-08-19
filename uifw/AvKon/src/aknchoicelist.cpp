@@ -295,9 +295,6 @@ public:
             {
             TRAP_IGNORE( iList->ScrollBarFrame()->SetScrollBarVisibilityL(
                 CEikScrollBarFrame::EOff, CEikScrollBarFrame::EOff) );
-                
-            // Enable scrolling
-            iList->DisableScrolling( EFalse );   
             }
             
         layoutRect.LayoutRect( rectParent, 
@@ -531,13 +528,6 @@ private:
         
         if ( AknLayoutUtils::PenEnabled() )
             {
-            
-            // Make sure that scrolling is enabled for choicelist
-            if ( iList->ScrollingDisabled() )
-                {
-                iList->DisableScrolling( EFalse );
-                }
-                    
             TRect ctrlArea = iList->Rect();
             
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )

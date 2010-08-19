@@ -40,7 +40,7 @@ SOURCE          testsdkdocumenthandlerblocks.cpp
 SOURCE          testsdkdocumenthandlerobserver.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         commonui.lib
 LIBRARY         eikcore.lib
@@ -48,8 +48,8 @@ LIBRARY         cone.lib
 LIBRARY         efsrv.lib
 LIBRARY         apmime.lib
 LIBRARY         avkon.lib
-LIBRARY         APPARC.LIB
-LIBRARY         PlatformEnv.lib
+LIBRARY         apparc.lib
+LIBRARY         platformenv.lib
 
 LANG            SC
 

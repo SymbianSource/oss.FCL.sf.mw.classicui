@@ -132,15 +132,10 @@ void CHgVgPopup::SetTextL(const TDesC& aText)
         iDrawBuffer->Clear(iRect.Size(), KRgbBlack);
         
         TAknLayoutText layout;
-        layout.LayoutText(iParentRect, iTextLayout);
+        layout.LayoutText( TRect(TPoint(0,0), iRect.Size()), iTextLayout);
         layout.DrawText(iDrawBuffer->Gc(), aText, ETrue, KRgbWhite);
         
-/*        TInt width = iFont->TextWidthInPixels(aText);
-        TInt height = iFont->HeightInPixels();
-        TPoint pos(iRect.Width() / 2 - width / 2, 
-                iRect.Height() / 2 + height / 2);
-        iDrawBuffer->DrawText(aText, iFont, KRgbWhite, pos);*/
-        iDrawBuffer->GetDrawBufferToVgImage(iRect.Size(), TPoint(0,0), iLetterImage, VG_A_8);
+        iDrawBuffer->GetDrawBufferToVgImage(TRect(TPoint(0,0), iRect.Size()), TPoint(0,0), iLetterImage, VG_A_8);
         }
     }
 
@@ -216,6 +211,7 @@ void CHgVgPopup::SetLayouts(const TAknWindowComponentLayout& aPopupLayout,
     {
     iPopupLayout = aPopupLayout;
     iTextLayout = aTextLayout;
+    iTextLayout.Setr(0);
     iTextLayout.Setl(0);
     iTextLayout.Sett(0);
     iParentRect = aParentRect;

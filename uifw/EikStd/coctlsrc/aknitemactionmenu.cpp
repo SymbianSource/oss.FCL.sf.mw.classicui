@@ -186,7 +186,8 @@ EXPORT_C void CAknItemActionMenu::ShowMenuL(
         {
         if ( !iPopupMenu )
             {
-            iPopupMenu = CAknStylusPopUpMenu::NewL( this, TPoint() );
+            iPopupMenu = CAknStylusPopUpMenu::NewL( this, TPoint(), NULL,
+                    CAknStylusPopUpMenu::EConsumeKeyEvents );
             }
         iPopupMenu->Clear();
         iMenuData->AddMenuItemsToStylusPopupMenuL( iPopupMenu );
@@ -413,6 +414,21 @@ TBool CAknItemActionMenu::CollectionHasMarkedItems()
     _AKNTRACE_FUNC_EXIT;
     return markedItems;
     }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::HideMenu
+// ---------------------------------------------------------------------------
+//
+void CAknItemActionMenu::HideMenu()
+    {
+    if ( iPopupMenu && !iProcessingCommand )
+        {
+        iPopupMenu->HideMenu();
+        }
+    }
+
+
 // ---------------------------------------------------------------------------
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------

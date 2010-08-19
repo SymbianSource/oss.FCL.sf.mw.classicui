@@ -64,18 +64,24 @@ smiley.mif		/epoc32/release/armv5/urel/z/resource/apps/smiley.mif
 ../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/data/z/resource/avkonsystemsounds/battery_low.wav
 ../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/data/z/resource/avkonsystemsounds/default_beep.wav
 ../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/data/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/data/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/data/z/resource/avkonsystemsounds/warning.wav
 
 ../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/volume_min.wav
 ../srcdata/AvkonSystemSounds/volume_max.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/volume_max.wav
 ../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/battery_low.wav
 ../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/default_beep.wav
 ../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/warning.wav
 
 ../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/volume_min.wav
 ../srcdata/AvkonSystemSounds/volume_max.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/volume_max.wav
 ../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/battery_low.wav
 ../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/default_beep.wav
 ../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/warning.wav
 
 
 PRJ_MMPFILES

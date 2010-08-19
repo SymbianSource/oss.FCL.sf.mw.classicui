@@ -79,7 +79,7 @@
 
 #include "akntrace.h"
 const TInt KPinCodeTacticonInterval = 30000000; // 30s
-const TInt KPinCodeMaxTacticons = 10;
+const TInt KPinCodeMaxTacticons = 5;
 /*******
  * CAknQueryControlExtension
  */
@@ -3072,8 +3072,11 @@ void CAknQueryControl::PictographCallBack()
             DeactivateGc();
 
             // Draw the label after the background.
-            iPrompt->Line( i )->ActivateL(); // Never leaves
-            iPrompt->Line( i )->DrawNow();
+            TRAPD(err, iPrompt->Line( i )->ActivateL()); // Never leaves
+            if (err == KErrNone)
+                {
+                iPrompt->Line( i )->DrawNow();
+                }
             iPrompt->SetLineModified( i, EFalse );
             }
         }
@@ -3385,7 +3388,8 @@ void CAknQueryControl::LayoutPromptForFullScreen()
 
 EXPORT_C void CAknQueryControl::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-    if ( iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
+    if ( iHasEditor && iEditorFrame.Valid() 
+        && iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
     	{
 		/*For the events happening inside editor frame's rect, query control will forward
 		the events to editors to handle.This is added to fix bug ESLM-85YFCH:Text editor is hard 
@@ -3788,7 +3792,8 @@ void CAknExtQueryControl::LayoutEditor(const TLayoutMethod& aLayoutM)
 
 EXPORT_C void CAknExtQueryControl::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-	if ( iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
+	if ( iHasEditor && iEditorFrame.Valid() 
+	    && iEditorFrame.Rect().Contains( aPointerEvent.iPosition ) )
 		{
 		/*For the events happening inside editor frame's rect, query control will forward
 		the events to editors to handle.This is added to fix bug ESLM-85YFCH:Text editor is hard 
@@ -4074,8 +4079,11 @@ void CAknExtQueryControl::PictographCallBack()
             DeactivateGc();
 
             // Draw the label after the background.
-            iPrompt->Line( i )->ActivateL(); // Never leaves
-            iPrompt->Line( i )->DrawNow();
+            TRAPD(err, iPrompt->Line( i )->ActivateL()); // Never leaves
+            if (err == KErrNone)
+                {
+                iPrompt->Line( i )->DrawNow();
+                }
             iPrompt->SetLineModified( i, EFalse );
             }
         }

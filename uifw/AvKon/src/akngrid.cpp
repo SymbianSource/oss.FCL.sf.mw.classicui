@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -109,11 +109,12 @@ NONSHARABLE_CLASS(CAknGridExtension) : public CBase
 
     public: // data 
         TInt iFlags;
-        // EMMA-7A8B9F.Ugly hack. Prevent MopSupplyObject being invoked 
-        // from CEikListBox::MopGetObject()
+
+        // This is used to prevent MopSupplyObject being invoked 
+        // from CEikListBox::MopGetObject().
         TBool iIsFromBaseClass;
+
         TPoint iLastPoint;
-        TBool iKineticScrolling;
         TBool iSingleClickEnabled;
     };
 
@@ -122,7 +123,6 @@ CAknGridExtension::CAknGridExtension()
     iFlags(0), 
     iIsFromBaseClass( EFalse ),
     iLastPoint( 0, 0 ), 
-    iKineticScrolling( CAknPhysics::FeatureEnabled() ),
     iSingleClickEnabled( iAvkonAppUi->IsSingleClickCompatible() )
     {
     }
@@ -1507,8 +1507,12 @@ EXPORT_C void CAknGrid::AdjustTopItemIndex() const
         
         // and calculate new top item index
         TInt topItemIndex = newTopRow * iNumOfColsInView ;
-        iView->SetItemOffsetInPixels(0);
-        SetTopItemIndex(topItemIndex);
+        if ( topItemIndex > KErrNotFound 
+             && topItemIndex < iModel->NumberOfItems() )
+            {
+            iView->SetItemOffsetInPixels( 0 );
+            SetTopItemIndex( topItemIndex );
+            }
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1869,7 +1873,6 @@ EXPORT_C void CAknGrid::UpdateScrollBarsL()
         // EHXA-7AQ8N4. Only set it to 0 can make scrollbar empty.
         vSbarModel.iScrollSpan = GridModel()->NumberOfItems() >0 ? 
             gridSize.iHeight : 0;
-        vSbarModel.iThumbSpan = gridView->NumberOfRowsInView();
         vSbarModel.iScrollSpan = GridModel()->NumberOfItems() >0 ? 
             gridSize.iHeight*iView->ItemHeight() : 0;
         vSbarModel.iThumbSpan = rect.Height();

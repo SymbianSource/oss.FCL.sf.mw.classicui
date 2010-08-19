@@ -258,6 +258,10 @@ void CAknAnimKeySound::ConstructL( TAny* /*aArgs*/, TBool /*aHasFocus*/ )
         iPendingEvent = CAknPendingKeyEvent::NewL(iFunctions, iNoPowerKeyScanCode);
         }
 
+    
+    iSupportQuertyKey = 
+               FeatureManager::FeatureSupported( KFeatureIdQwertyInput );
+    
     FeatureManager::UnInitializeLib();
     
     // Get extension for querying and manipulating the window and screen attributes.
@@ -287,8 +291,12 @@ void CAknAnimKeySound::FocusChanged( TBool /*aState*/ )
 // CAknAnimKeySound::IsBlockedKeyCode
 // -----------------------------------------------------------------------------
 //
-TBool CAknAnimKeySound::IsBlockedKeyCode( TInt aScanCode )
+TBool CAknAnimKeySound::IsBlockedKeyCode( TBool aSupportQuerty , TInt aScanCode )  
     {
+    if( aSupportQuerty )
+        {
+        return EFalse;
+        }
     for ( TInt ii=0; ii < KBlockedKeyCodeTableSize; ii++ )
         {
         if ( aScanCode == KBlockedKeyCodes[ii] )
@@ -738,7 +746,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) 
-                && iKeyPressed && iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                && iKeyPressed && iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 blockEvent = ETrue;
                 }
@@ -764,7 +772,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) && iKeyPressed != scan && 
-                 iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                 iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 // If down event is not passed forward, then 
                 // repeat events are not passed either.
@@ -777,7 +785,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) && iKeyPressed != scan && 
-                 iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                 iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 // Do not need to block key-up events - there's not a problem 
                 // if there's an unexpected key-up events delivery to an app

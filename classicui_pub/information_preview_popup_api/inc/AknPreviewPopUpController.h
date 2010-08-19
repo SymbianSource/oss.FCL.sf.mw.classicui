@@ -61,7 +61,8 @@ NONSHARABLE_CLASS( CAknPreviewPopUpController ) : public CTimer
             EFixedMode     = 0x0008, // fixed position and size are used
             EExcludeFrames = 0x0010, // frames and heading area are excluded in fixed mode
             EAutoMirror    = 0x0020, // opening direction is automatically mirrored in left-to-right layouts
-            EDontClose     = 0x0040  // popup not closed when pointer up received outside popup 
+            EDontClose     = 0x0040, // popup not closed when pointer up received outside popup
+            EConsumeKeys   = 0x0080  // popup consumes key events
     };
             
         enum TAknPreviewPopUpContentSize

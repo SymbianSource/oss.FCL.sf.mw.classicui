@@ -23,6 +23,8 @@
 #define KBatteryLowSoundFile "z:\\resource\\avkonsystemsounds\\battery_low.wav"
 #define KDefaultBeepSoundFile "z:\\resource\\avkonsystemsounds\\default_beep.wav"
 #define KBatteryRechargeSoundFile "z:\\resource\\avkonsystemsounds\\battery_dead.wav"
+#define KConfirmationSoundFile "z:\\resource\\avkonsystemsounds\\confirmation.wav"
+#define KWarningSoundFile "z:\\resource\\avkonsystemsounds\\warning.wav"
 
 
 RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
@@ -59,7 +61,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x11 = 17 = tone_tick = 170ms
 			// 0x0B = 11 = OPCODE_END 
-			file = KDefaultBeepSoundFile;
+			file = KConfirmationSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -75,7 +77,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
 			// 0x19 = 25 = tone_tick = 250ms
 			// 0x0B = 11 = OPCODE_END 
-			file = KDefaultBeepSoundFile;
+			file = KWarningSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -91,7 +93,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
 			// 0x19 = 25 = tone_tick = 250ms
 			// 0x0B = 11 = OPCODE_END 
-			file = KDefaultBeepSoundFile;
+			file = KWarningSoundFile;
 			volume = 5;
 			},
 

@@ -55,7 +55,7 @@ SOURCE          testsdkstatuspanepmod.cpp
 SOURCE          testsdkstatuspanevisitor.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         cone.lib

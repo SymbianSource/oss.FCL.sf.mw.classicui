@@ -409,7 +409,7 @@ TInt IndexFrom(const char* const aPtr, TInt aLength, TInt aChar)
 
 TBool HavePairedSymbol(const TDesC& aText, TInt aSmileyLength)
     {
-    char stack[5];
+    char stack[CSmileyManager::KMaxLength];
     TInt pos = 0;
     
     TInt i = aText.Length() - 1;

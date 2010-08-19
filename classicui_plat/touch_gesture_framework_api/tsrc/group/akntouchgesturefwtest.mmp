@@ -40,7 +40,7 @@ SOURCE          akntouchgesturefwtestobserver.cpp
 SOURCE          akntouchgesturefwtestsubscribercontrol.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         akntouchgesturefw.lib
 LIBRARY         cone.lib

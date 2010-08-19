@@ -64,7 +64,7 @@ SOURCE          testsdkstyluspopupmenublocks.cpp
 SOURCE          testsdkmenuobserver.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib

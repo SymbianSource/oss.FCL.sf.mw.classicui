@@ -29,6 +29,9 @@ const TInt KLeftSoftkeyIndex = 0;
 const TInt KRightSoftkeyIndex = 2;
 const TInt KNullCommandId = -1;
 
+// declare the function IsCbaEmbeddedInDialog
+TBool IsCbaEmbeddedInDialog( const TInt& aFlags );
+
 /**
 * Internal extension class for CAknCcpuSupport.
 *
@@ -150,7 +153,7 @@ EXPORT_C TKeyResponse CAknCcpuSupport::OfferKeyEventL( const TKeyEvent& aKeyEven
 			if( eikAppUi && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
 				{
 				CEikDialog* dlg = eikAppUi->TopFocusedControl()->MopGetObject( dlg );
-				if ( dlg )
+				if ( dlg && IsCbaEmbeddedInDialog( dlg->DialogFlags() ) )
 					{
 					CEikButtonGroupContainer* currentCba = dlg->MopGetObject( currentCba );
 					
@@ -336,3 +339,19 @@ void CAknCcpuSupport::DeleteCBAL()
             }
 		}
 	}
+
+/**
+ * To detect if CBA is embedded in the diaplog.
+ * @param aFlags it should be CEikDialog::DialogFlags()
+ * @return if an CBA is embedded in the dialog return ETrue 
+ *         else return EFalse
+ */
+TBool IsCbaEmbeddedInDialog( const TInt& aFlags )
+    {
+    return !( aFlags & EEikDialogFlagFillAppClientRect ) &&
+        !( aFlags & EEikDialogFlagFillScreen ) &&
+        !( aFlags & EEikDialogFlagVirtualInput ) &&
+        !( aFlags & EEikDialogFlagNoEmbeddedSoftkeys );
+    }
+
+

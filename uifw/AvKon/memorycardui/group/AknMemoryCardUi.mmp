@@ -48,7 +48,7 @@ LIBRARY         apparc.lib
 
 LIBRARY         centralrepository.lib
 LIBRARY         aknnotify.lib
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         platformenv.lib // PathInfo
 LIBRARY         efsrv.lib // TDriveUnit
 

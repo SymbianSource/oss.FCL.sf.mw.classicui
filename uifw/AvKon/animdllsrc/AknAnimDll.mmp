@@ -45,7 +45,7 @@ APP_LAYER_SYSTEMINCLUDE
 LIBRARY         euser.lib
 LIBRARY         centralrepository.lib
 LIBRARY         featmgr.lib
-LIBRARY         HWRMLightClient.lib 
+LIBRARY         hwrmlightclient.lib
 LIBRARY         tactileclickplugin.lib
 
 EXPORTUNFROZEN

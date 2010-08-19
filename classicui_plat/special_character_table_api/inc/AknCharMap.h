@@ -412,6 +412,7 @@ public:
     TInt Category();
     TBool IsSupportCategoryButtonUi() const;
     TBool IsJapaneseSctUi() const;
+    TBool IsKoreanSctUi() const;
     const TDesC* TitleWithSelectingSpecialChar();
 
 private:

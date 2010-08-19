@@ -49,7 +49,7 @@ SOURCE          testdommediashareddoc.cpp
 SOURCE          testdommediashareddocblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcore.lib 
 LIBRARY         apparc.lib
@@ -57,7 +57,7 @@ LIBRARY         cone.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         AknSkins.lib
+LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         efsrv.lib
 

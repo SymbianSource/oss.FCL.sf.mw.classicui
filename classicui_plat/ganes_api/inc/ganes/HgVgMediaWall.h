@@ -808,6 +808,8 @@ protected:
     TBool iObserverNotified;
 
     TRect iOpenedItemRect;
+    
+    TBool iRotatedDraw;
     };
 
        

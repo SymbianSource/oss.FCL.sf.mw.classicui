@@ -71,14 +71,14 @@ LIBRARY	        efsrv.lib
 LIBRARY         bafl.lib
 LIBRARY         fbscli.lib 
 LIBRARY         aknnotify.lib
-LIBRARY         eikalert.lib
+LIBRARY         Eikalert.lib
 LIBRARY         aknnotifyplugin.lib
 LIBRARY         akntransitionutils.lib
 LIBRARY         eikdlg.lib
 LIBRARY         eiksrvui.lib
 LIBRARY         commonui.lib
-LIBRARY         findutil.lib
-LIBRARY         aknicon.lib 
+LIBRARY         FindUtil.lib
+LIBRARY         aknicon.lib
 LIBRARY         eikctl.lib
 LIBRARY         form.lib
 LIBRARY         uiklaf.lib 
@@ -88,12 +88,12 @@ LIBRARY         jplangutil.lib
 LIBRARY         numbergrouping.lib
 LIBRARY         pslnframework.lib
 LIBRARY         estor.lib 
-LIBRARY         commonengine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         xnodt.lib
 LIBRARY         ecom.lib 
 LIBRARY         eiksrvc.lib
 LIBRARY         servicehandler.lib
-LIBRARY         sortutil.lib
+LIBRARY         SortUtil.lib
 
 START RESOURCE ../group/bctestdomavkonpsln_reg.rss
 DEPENDS bctestdomavkonpsln.rsg

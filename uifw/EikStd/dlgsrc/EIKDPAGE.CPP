@@ -1384,6 +1384,38 @@ void CEikDialogPage::ExposeLine(TInt aLine, TBool aForceResize, TBool aShowWhole
             }
         }
 
+    // If control height is greater then screen. Make sure that edwin's cursor is visible
+    if (controlType == EEikCtEdwin && controlHeight > Rect().Height())
+        {
+        CEikEdwin* edwin = dynamic_cast<CEikEdwin*>(capCtrl->iControl); 
+        if (edwin)
+            {
+            TInt pos = edwin->CursorPos();
+            TRect linerect;
+            TRAP_IGNORE( linerect = edwin->TextLayout()->GetLineRectL(pos, pos) );
+            
+            TPoint capctrlpos = capCtrl->Position();
+            TPoint edwinpos = edwin->Position();
+            if (edwinpos.iY - capctrlpos.iY + (linerect.iTl.iY + linerect.iBr.iY)/2 > Rect().Height()/2) // cursor not fully visible
+                {
+                TInt offset = edwinpos.iY - capctrlpos.iY + (linerect.iTl.iY + linerect.iBr.iY)/2 - Rect().Height()/2;
+                if (topYPosOfControlWhichMustBeViewable + offset + Rect().Height() <= bottomYPosOfControlWhichMustBeViewable)
+                    {
+                    topYPosOfControlWhichMustBeViewable += offset;
+                    bottomYPosOfControlWhichMustBeViewable = topYPosOfControlWhichMustBeViewable + Rect().Height();
+                    }
+                else
+                    {
+                    topYPosOfControlWhichMustBeViewable = bottomYPosOfControlWhichMustBeViewable - Rect().Height();
+                    }
+                }
+            else
+                {
+                bottomYPosOfControlWhichMustBeViewable = topYPosOfControlWhichMustBeViewable + Rect().Height();
+                }
+            }
+        }
+ 
     SetDataPosition( topYPosOfControlWhichMustBeViewable, bottomYPosOfControlWhichMustBeViewable, aForceResize ); 
   
     if ( aLine != iLastExposedLine )
@@ -1937,9 +1969,10 @@ void CEikDialogPage::UpdateScrollBarL()
             AknLayoutScalable_Avkon::listscroll_form_pane(),  
             AknLayoutScalable_Avkon::scroll_pane_cp8());
             
-        TRect scrollBarParent( MainPane().Size() );
-    
-        AknLayoutUtils::LayoutVerticalScrollBar(iPageContainer->ScrollBar(), scrollBarParent, layout.LayoutLine());
+		//Using Rect() instead of main pane rect for supporting partial input mode.
+        //TRect scrollBarParent( MainPane().Size() );   
+        AknLayoutUtils::LayoutVerticalScrollBar(iPageContainer->ScrollBar(), Rect(), layout.LayoutLine());
+        
         if(!ScbState() &&  iCurrentLine!=-1 && iCurrentLine < iLines->Count() )
         	{
     		CEikCaptionedControl *ctrl = (*iLines)[iCurrentLine];
@@ -4409,32 +4442,15 @@ void CEikDialogPageContainer::SetPageSelector(const CEikDialogPageSelector* aPag
     iPageSelector = aPageSelector;
     }
 
-void CEikDialogPageContainer::SetPageFormSized()
+void CEikDialogPageContainer::SetPageFormSized(const TRect& aRect)
     {
     iForm = ETrue;
 
     //
     // Form layout
-    //
+    //    
     
-    /** Dialog page container and page have the same size */
-    TRect mainPaneRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane, mainPaneRect );
-    mainPaneRect = TRect( mainPaneRect.Size() );    // Moving to point (0, 0)
-    TAknLayoutRect formPaneLt;
-    formPaneLt.LayoutRect( mainPaneRect, AknLayoutScalable_Avkon::listscroll_form_pane().LayoutLine() );
-    formPaneLt.LayoutRect( formPaneLt.Rect(), AknLayoutScalable_Avkon::list_form_gen_pane().LayoutLine() );
-    
-    //
-    // End of form layout
-    //
-
-    if ( formPaneLt.Rect() != Rect() )
-        {
-        // TODO: use static method to do variation between traditional scrolling and panning when available
-        //SetRect( formPaneLt.Rect() );
-        SetRect( mainPaneRect );
-        }
+    SetRect(aRect);
 
     /** Only forms have line highlight animations. Animation creation is delayed
       * here.

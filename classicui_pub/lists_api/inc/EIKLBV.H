@@ -858,6 +858,20 @@ public:
      *                                          this class. 
      */
     void ClearSelection( TBool aDrawItems );
+    
+    /**
+     * Sets all items selected.
+     *
+     * @param  aDrawItems  Whether or not to draw the items which are
+     *                     selected.
+     *
+     * @panic EEikPanicListBoxNoSelIndexArray Panics if selection indexes have 
+     *        not been defined for this class. 
+     *        
+     * @panic EEikPanicListBoxNoModel Panics if listbox model not existing.
+     * 
+     */
+    void SelectAllL( TBool aDrawItems );
 
 protected:
 

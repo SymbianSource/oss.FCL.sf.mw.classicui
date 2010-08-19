@@ -68,7 +68,7 @@ SOURCE          testdomlistscontainer.cpp
 SOURCE          testdomlistsext.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         cone.lib

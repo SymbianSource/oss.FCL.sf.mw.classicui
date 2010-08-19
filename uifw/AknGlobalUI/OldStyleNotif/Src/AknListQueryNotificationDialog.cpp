@@ -19,6 +19,7 @@
 #include "AknListQueryNotificationDialog.h"
 #include "AknNotifyPlugin.hrh"
 #include "avkon.hrh"
+#include "AknSystemListPopup.h"
 
 CAknListQueryNotificationDialog::CAknListQueryNotificationDialog( 
     TInt* aIndex,
@@ -121,7 +122,16 @@ TBool CAknListQueryNotificationDialog::OkToExitL(TInt aButtonId)
     if (iPointerUpEaten && AknLayoutUtils::PenEnabled() && aButtonId == EAknSoftkeyOk)
         {
         iPointerUpEaten = EFalse;
-        return EFalse;
+        //Fix the problem where the pointer up event is handled to active the power menu item
+        //when lock screen happans before releasing the tap on power menu item
+        if(((CAknGlobalListQuerySubject*)iCallBack)->IsKeyLockEnable())
+            {
+            aButtonId = EAknSoftkeyCancel;
+            }
+        else
+            {
+            return EFalse;
+            }
         }
     
     TInt ret = -1;
@@ -140,7 +150,8 @@ TBool CAknListQueryNotificationDialog::OkToExitL(TInt aButtonId)
 void CAknListQueryNotificationDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
     iPointerUpEaten = EFalse;
-    if (aPointerEvent.iType == TPointerEvent::EButton1Up && !IsFocused())
+    
+    if (aPointerEvent.iType == TPointerEvent::EButton1Up && (!IsFocused() || ((CAknGlobalListQuerySubject*)iCallBack)->IsKeyLockEnable()))
         {
         iPointerUpEaten = ETrue;
         }

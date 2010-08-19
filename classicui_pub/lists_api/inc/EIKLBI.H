@@ -350,7 +350,13 @@ public:
          * This flag is used during scrolling to indicate that background has
          * been already drawn.
          */
-        EBackgroundDrawn = 0x1000
+        EBackgroundDrawn = 0x1000,
+
+        /**
+         * Override text color from skin 
+         */
+        EUseOverrideSkinTextColor = 0x2000
+
         };
 
 public:

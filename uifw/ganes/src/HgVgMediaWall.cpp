@@ -159,11 +159,15 @@ EXPORT_C void CHgVgMediaWall::InitScreenL( const TRect& aRect )
     // Set the windows size       
     SetRect ( aRect );
 
-#ifdef MEDIAWALL_ORIENTATION_FIX    
+#ifdef MEDIAWALL_ORIENTATION_FIX
     TSize screenSize = iCoeEnv->ScreenDevice()->SizeInPixels();
     if (aRect == TRect(TPoint(0,0), screenSize) 
             && iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen)
         {
+        TPixelsAndRotation sizeAndRotation;
+        iCoeEnv->ScreenDevice()->GetDefaultScreenSizeAndRotation(sizeAndRotation);
+        iRotatedDraw = sizeAndRotation.iRotation != CFbsBitGc::EGraphicsOrientationNormal;
+        
         Window().FixNativeOrientation();
         }
 #endif
@@ -865,10 +869,11 @@ TKeyResponse CHgVgMediaWall::HandleKeyEvent(const TKeyEvent& aKeyEvent)
             handled = ETrue;
             } break;
         case EKeyEnter:
+        case EKeyOK:
             {
             if( iSelectedIndex != KErrNotFound && iSelectionObserver )
                 {
-                TRAP_IGNORE( DoStartOpeningAnimationL( ); )                
+                TRAP_IGNORE( DoStartOpeningAnimationL( ); )
                 return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;
@@ -1107,8 +1112,9 @@ CFbsBitmap* CHgVgMediaWall::DrawToBitmap()
         return NULL;
     
 #ifdef MEDIAWALL_ORIENTATION_FIX    
-    return iEGL->GetSurfaceToBitmap(iRect, 
-            iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen);        
+    return iEGL->GetSurfaceToBitmap(
+            iRect, 
+            iRotatedDraw && (iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen) );        
 #else
     return iEGL->GetSurfaceToBitmap(iRect, EFalse);            
 #endif
@@ -1590,7 +1596,8 @@ void CHgVgMediaWall::InitScrollBarL(TBool /*aResize*/)
     
 #ifdef MEDIAWALL_ORIENTATION_FIX
     iScrollBar->EnableLandscapeRendering( 
-            iMediaWallStyle == CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen );
+            iRotatedDraw 
+            && (iMediaWallStyle == CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen) );
 #endif
     
     }
@@ -2439,15 +2446,15 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     
     InitScrollBarL(EFalse);
 
-#ifdef MEDIAWALL_ORIENTATION_FIX    
-    iRenderer->EnableLandscapeMode(ETrue);
-    iAlbumLabel->EnableLandscapeRendering(ETrue);
-    iArtistLabel->EnableLandscapeRendering(ETrue);
-    iEmptyLabel->EnableLandscapeRendering(ETrue);
-    iSkinRenderer->EnableLanscapeRendering(ETrue);
-    iScrollBar->EnableLandscapeRendering(ETrue);
-    iHideSKButton->EnableLandscapeRendering(ETrue);
-    iLetterPopup->EnableLandscapeRendering(ETrue);
+#ifdef MEDIAWALL_ORIENTATION_FIX
+    iRenderer->EnableLandscapeMode(iRotatedDraw);
+    iAlbumLabel->EnableLandscapeRendering(iRotatedDraw);
+    iArtistLabel->EnableLandscapeRendering(iRotatedDraw);
+    iEmptyLabel->EnableLandscapeRendering(iRotatedDraw);
+    iSkinRenderer->EnableLanscapeRendering(iRotatedDraw);
+    iScrollBar->EnableLandscapeRendering(iRotatedDraw);
+    iHideSKButton->EnableLandscapeRendering(iRotatedDraw);
+    iLetterPopup->EnableLandscapeRendering(iRotatedDraw);
 #endif
     
     }

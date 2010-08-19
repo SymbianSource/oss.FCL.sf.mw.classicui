@@ -991,10 +991,42 @@ EXPORT_C void CFindItemDialog::ProcessCommandL( TInt aCommandId )
             }
         // Phone number cmds
         case EFindItemCmdCall:
-            { // bit awkward but correct functionality provided.
-            TKeyEvent keyEvent;
-            keyEvent.iCode = EKeyPhoneSend;
-            OfferKeyEventL( keyEvent, EEventKey );
+            {
+            if ( !iHideCallSubMenu )
+                { // bit awkward but correct functionality provided.
+                TKeyEvent keyEvent;
+                keyEvent.iCode = EKeyPhoneSend;
+                OfferKeyEventL( keyEvent, EEventKey );
+                }
+            else
+                {
+                if ( !iDialData )
+                    {
+                    break;
+                    }
+                FormatDialDataL( aCommandId );
+
+                CAiwGenericParamList& paramList =
+                    iServiceHandler->InParamListL();
+
+                if ( iFindItemVoIPExtension->VoIPProfilesExistL() &&
+                    ( iSearchCase ==
+                    CFindItemEngine::EFindItemSearchMailAddressBin ||
+                    iSearchCase == KSearchTelInternetNumber ) )
+                    {
+                    //voip
+                    iDialData->SetCallType( CAiwDialData::EAIWVoiP );
+                    }
+
+                iDialData->FillInParamListL( paramList );
+
+                iServiceHandler->ExecuteServiceCmdL(
+                    KAiwCmdCall,
+                    paramList,
+                    iServiceHandler->OutParamListL(),
+                    0, // No options used.
+                    NULL ); // Dial results are not wanted.
+                }
             break;
             }
         // fix for FAMZ-7JVQ4Y
@@ -1277,7 +1309,7 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
             }
         else if (
             iSearchCase & CFindItemEngine::EFindItemSearchPhoneNumberBin &&
-            !iHideCallMenu )
+            !iHideCallMenu && !iHideCallSubMenu )
             {
             aMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
             aMenuPane->AddMenuItemsL(
@@ -1340,6 +1372,18 @@ EXPORT_C void CFindItemDialog::DynInitMenuPaneL(
 #endif // !RD_VIRTUAL_PHONEBOOK
         }
     }
+
+
+// -----------------------------------------------------------------------------
+// CFindItemDialog::SetCallSubMenuVisibility
+// Sets AIW submenu visibility
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void CFindItemDialog::SetCallSubMenuVisibility( TBool aVisible )
+    {
+    iHideCallSubMenu = !aVisible;
+    }
+
 
 // -----------------------------------------------------------------------------
 // CFindItemDialog::OfferKeyEventL

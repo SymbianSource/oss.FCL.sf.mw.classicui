@@ -40,17 +40,17 @@ const TInt KListQueryItemLength = 64;
 const TInt KCharsInTInt = 4; // TInt32 takes 4 chars.
 const TInt KArrayGranularity = 3;
 
-CAknGlobalListQuerySubject* CAknGlobalListQuerySubject::NewL()
+CAknGlobalListQuerySubject* CAknGlobalListQuerySubject::NewL(MAknKeyLockController* aKeyLockController)
     {
-    CAknGlobalListQuerySubject* self = new (ELeave) CAknGlobalListQuerySubject(); 
+    CAknGlobalListQuerySubject* self = new (ELeave) CAknGlobalListQuerySubject(aKeyLockController); 
     CleanupStack::PushL(self);
     self->ConstructL(); 
     CleanupStack::Pop(self);
     return self;
     }
 
-CAknGlobalListQuerySubject::CAknGlobalListQuerySubject()
-: iPending(EFalse)
+CAknGlobalListQuerySubject::CAknGlobalListQuerySubject(MAknKeyLockController* aKeyLockController)
+:iPending(EFalse),iKeyLockController(aKeyLockController)
     {
     iStoredEikonEnv = CEikonEnv::Static();
     }

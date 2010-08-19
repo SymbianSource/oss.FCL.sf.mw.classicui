@@ -261,11 +261,18 @@ EXPORT_C CAknViewAppUi::~CAknViewAppUi()
 	if (iExtension && iExtension->iNavigator )
 	    RemoveFromStack( iExtension->iNavigator );
 #endif // RD_SPLIT_VIEW
-	
-	delete iClearer;
-	delete iShutter;
-	delete iActivationTick;
-	
+
+    // Hide application toolbar to prevent it from showing 
+    // after views are deleted
+    if ( CAknAppUi::CurrentFixedToolbar() )
+        {
+        CAknAppUi::CurrentFixedToolbar()->SetToolbarVisibility( EFalse );
+        }
+
+    delete iClearer;
+    delete iShutter;
+    delete iActivationTick;
+
 	if ( iActivationQueue )
 		{
 		iActivationQueue->ResetAndDestroy();

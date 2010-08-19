@@ -59,7 +59,7 @@ SOURCE          testsdkscreenclearerblocksaknclear.cpp
 SOURCE          testsdkscscreenclearerbase.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikctl.lib
 LIBRARY         eikcoctl.lib

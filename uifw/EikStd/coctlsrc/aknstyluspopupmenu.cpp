@@ -46,11 +46,13 @@ enum TStylusPopUpFlags
 //
 CAknStylusPopUpMenu::CAknStylusPopUpMenu( MEikMenuObserver* aObserver, 
     const TPoint& aPoint,
-    CAknPreviewPopUpController* aPopup ) 
+    CAknPreviewPopUpController* aPopup,
+    const TInt aFlags )
     : iPosition ( aPoint ),
      iMenuObserver( aObserver ),
      iPreviewPopup( aPopup ),
-     iPositionType( EPositionTypeLeftTop )
+     iPositionType( EPositionTypeLeftTop ),
+     iModeFlags ( aFlags )
     {
     }
 
@@ -83,6 +85,24 @@ EXPORT_C CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewL(
     return self;
     }
 
+// ---------------------------------------------------------------------------
+// CAknStylusPopUpMenu::NewL
+// ---------------------------------------------------------------------------
+//
+CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewL( MEikMenuObserver* aObserver,
+        const TPoint& aPoint,
+        CAknPreviewPopUpController* aPopup,
+        const TInt aFlags )
+    {
+    CAknStylusPopUpMenu* self = new ( ELeave ) CAknStylusPopUpMenu( aObserver,
+                                                                    aPoint,
+                                                                    aPopup,
+                                                                    aFlags );
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    return self;
+    }
 
 // ---------------------------------------------------------------------------
 // CAknStylusPopUpMenu::NewL
@@ -181,11 +201,25 @@ EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
     // if contoller exists, re-use it .
     if ( !iController )
         {
-        TRAPD( err, 
-               iController = CAknPreviewPopUpController::NewL( *iContent,
-                       CAknPreviewPopUpController::ELayoutSubMenu | 
-                       CAknPreviewPopUpController::EAutoMirror |
-                       CAknPreviewPopUpController::EDontClose ) );
+        TInt err ( KErrNone );
+
+        if ( iModeFlags & EConsumeKeyEvents )
+            {
+            TRAP( err, iController = CAknPreviewPopUpController::NewL(
+                    *iContent,
+                    CAknPreviewPopUpController::ELayoutSubMenu |
+                    CAknPreviewPopUpController::EAutoMirror |
+                    CAknPreviewPopUpController::EDontClose |
+                    CAknPreviewPopUpController::EConsumeKeys ) );
+            }
+        else
+            {
+            TRAP( err, iController = CAknPreviewPopUpController::NewL(
+                    *iContent,
+                    CAknPreviewPopUpController::ELayoutSubMenu |
+                    CAknPreviewPopUpController::EAutoMirror |
+                    CAknPreviewPopUpController::EDontClose ) );
+            }
         if ( err )
             {
             return;
@@ -485,6 +519,20 @@ void CAknStylusPopUpMenu::Clear()
         }
     }
 
+
+// ---------------------------------------------------------------------------
+// CAknStylusPopUpMenu::HideMenu
+// ---------------------------------------------------------------------------
+//
+void CAknStylusPopUpMenu::HideMenu()
+    {
+    if ( iController )
+        {
+        iController->HidePopUp();
+        }
+    }
+
+
 // -----------------------------------------------------------------------------
 // CAknStylusPopUpMenu::StartControllerIdleL
 // -----------------------------------------------------------------------------
@@ -535,7 +583,7 @@ void CAknStylusPopUpMenu::RemoveController()
 // CAknStylusPopUpMenu::CleanLocalRef
 // -----------------------------------------------------------------------------
 //
-void CAknStylusPopUpMenu::CleanLocalRef( TAny* any )
+void CAknStylusPopUpMenu::CleanLocalRef( TAny* aParam )
     {
-    static_cast<CAknStylusPopUpMenu*>( any )->iIsDeleted = NULL;
+    static_cast<CAknStylusPopUpMenu*>( aParam )->iIsDeleted = NULL;
     }

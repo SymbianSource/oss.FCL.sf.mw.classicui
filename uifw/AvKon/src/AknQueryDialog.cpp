@@ -428,6 +428,9 @@ EXPORT_C TInt CAknQueryDialog::RunLD()
 
     CAknsFrameBackgroundControlContext* cc = (CAknsFrameBackgroundControlContext*)AknsDrawUtils::ControlContext( this );
     cc->SetCenter(KAknsIIDQsnFrPopupCenterQuery);
+    
+    // Check Query is wait of not.
+    TBool isWaitDialog( ( DialogFlags() & EEikDialogFlagWait ) != 0 );
 
     SetGloballyCapturing(ETrue); 
     TInt ret = CAknDialog::RunLD();
@@ -436,7 +439,12 @@ EXPORT_C TInt CAknQueryDialog::RunLD()
         {
         soundSystem->PopContext();
         }
-    SetGloballyCapturing(EFalse); 
+    // If wait QueryDialog, instance will be deleted right after RunLD via CBA
+    if ( !isWaitDialog )
+        {
+        SetGloballyCapturing(EFalse); 
+        }
+
     _AKNTRACE_FUNC_EXIT;
     return ret;
     }

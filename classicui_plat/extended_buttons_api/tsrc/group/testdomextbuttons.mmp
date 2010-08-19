@@ -52,7 +52,7 @@ SOURCE          testdomextbuttonsblocksposttrans.cpp
 SOURCE          testaknview.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         aknicon.lib

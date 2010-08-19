@@ -66,11 +66,11 @@ SOURCE          testdomcfdfilterfactory.cpp
 SOURCE          testdomcfdfilterfactoryblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         bafl.lib
 LIBRARY         cone.lib 
-LIBRARY         CommonDialogs.lib
+LIBRARY         commondialogs.lib
 
 LANG            SC
 

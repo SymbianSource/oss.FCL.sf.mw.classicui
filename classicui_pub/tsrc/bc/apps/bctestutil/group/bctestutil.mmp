@@ -49,9 +49,9 @@ LIBRARY    euser.lib
 LIBRARY    cone.lib
 LIBRARY    eikcore.lib
 LIBRARY    aknnotify.lib
-LIBRARY    commonengine.lib
+LIBRARY    CommonEngine.lib
 LIBRARY    avkon.lib
-LIBRARY    CentralRepository.lib
+LIBRARY    centralrepository.lib
 LIBRARY    sysutil.lib
 LIBRARY		 estor.lib
 

@@ -858,6 +858,34 @@ EXPORT_C void CAknSignalPane::ShowHsdpaIcon( TInt aHsdpaIconState )
         }
     }
 
+// ---------------------------------------------------------------------------
+// CAknSignalPane::ShowUmaIcon
+// Displays an Uma state icon.
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void CAknSignalPane::ShowUmaIconL(TInt aUmaIconState)
+    {
+    // State is not changed if illegal value was given.
+    if (( aUmaIconState >= EAknSignalUmaIndicatorOff ) && 
+        ( aUmaIconState <= EAknSignalUmaIndicatorMultipdp ))
+        {        
+        LoadSignalIconL( aUmaIconState, iSignalIconControl->ColorIndex() );
+        
+        iSignalIconControl->SetDrawBlank( EFalse );
+        
+        if ( aUmaIconState != EAknSignalUmaIndicatorEstablishingContext )
+            {
+            StopTicker();
+            }
+        else if ( aUmaIconState == EAknSignalUmaIndicatorEstablishingContext )
+            {
+            StartTickerL( KAknIndicatorAnimationDelay,
+                                                   KAknIndicatorAnimationInterval );       
+            }
+        }
+
+
+    }
 
 // ---------------------------------------------------------------------------
 // CAknSignalPane::ShowCdmaIcon

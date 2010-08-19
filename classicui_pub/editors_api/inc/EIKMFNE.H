@@ -62,6 +62,11 @@ class MAknsControlContext;
 // Extension object within CEikMfne
 class CEikMfneExtension;
 
+// Extension object within CEikTimeAndDateEditor
+class CEikTimeAndDateEditorExtension;
+
+// Extension object within CEikTimeEditorExtension
+class CEikTimeEditorExtension;
 //
 /**
  * Abstract base class for fields within a multi-field numeric editor.
@@ -816,7 +821,9 @@ public: // AVKON addition
         
         ELaunchPenInputAutomatic,
 
-        EPartialScreenInput
+        EPartialScreenInput,
+        /* Support the feature change AM and PM with pressing on touch input*/
+        EChangeAmPm
         };
     /** Parameter for finger support feature: 
       * 0 means disable the suppor; 
@@ -1247,6 +1254,9 @@ private:
 	const CFont* iFont;
     TInt iAlignment;
     TBitFlags iFlags;
+private:
+friend class CEikTimeEditor;
+friend class CEikTimeAndDateEditor; 
 	};
 
 inline TInt CEikMfne::CurrentField() const
@@ -1749,11 +1759,16 @@ private:
     * From CAknControl
     */
     IMPORT_C void* ExtensionInterface( TUid aInterface );
+    void ChangeAmPm();
+   
 private:
 	CTimeEditor* iTimeEditor;
 	TTime iMinimumTime;
 	TTime iMaximumTime;
-	TInt iSpare;
+	CEikTimeEditorExtension* iTimeExtension;
+	
+private:
+    friend class CEikTimeEditorExtension; 
 	};
 
 
@@ -2161,12 +2176,16 @@ private:
     * From CAknControl
     */
     IMPORT_C void* ExtensionInterface( TUid aInterface );
+    void ChangeAmPm();
+    
 private:
 	CTimeEditor* iTimeEditor;
 	CDateEditor* iDateEditor;
 	TTime iMinimumTimeAndDate;
 	TTime iMaximumTimeAndDate;
-	TInt iSpare;
+    CEikTimeAndDateEditorExtension* iTimeDateExtension;
+private:    
+    friend class CEikTimeAndDateEditorExtension; 
 	};
 
 

@@ -270,11 +270,13 @@ void CAknCompaKb::DisaTransEffects(bool aDisable)
     // disabled whenever screen mode changes to compa-mode by AknCapServer.
     if (iFlags.iInAknCapSrv && iFlags.iEffectsDisa != aDisable)
         {
+        TInt err = KErrNone;
         if (iCompaSrvSession.Handle() == KNullHandle)
             {
-	        User::LeaveIfError( iCompaSrvSession.Connect() );
+	        err = iCompaSrvSession.Connect();
             }
-        if (iCompaSrvSession.Handle() != KNullHandle)
+        
+        if (err == KErrNone && iCompaSrvSession.Handle() != KNullHandle)
             {
             if (aDisable)
                 {

@@ -1839,6 +1839,7 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
             {
             iScreenSaverInfo = CPslnScreenSaverInfo::NewL();
             }
+        iScreenSaverInfo->iFileName->Des().Zero();
         
         //backup current screensaver settings
         error = iScreenSaverRepository->Get(
@@ -1908,7 +1909,7 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
             previewSsType );
 
         //restore the screen saver settings.
-        if ( previewSsType == KPslnSsObject )
+        if ( iScreenSaverInfo->iFileName->Des().Compare( KNullDesC ) )
             {
             error = iScreenSaverRepository->Set(
                 KScreenSaverPluginName,

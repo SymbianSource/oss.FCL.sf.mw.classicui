@@ -671,7 +671,7 @@ void CAknNoteControl::ImageNoteLabelLayout()
 
             AknLayoutUtils::LayoutLabel(TextControl()->Line(i),LayoutRect(),
                 AKN_LAYOUT_TEXT_Note_with_an_image_pop_up_window_texts_Line_1(
-                lafIndex.NWIPWindowTextsLine1L(i),lafIndex.NWIPWindowTextsLine1R(i),
+                lafIndex.NWIPWindowTextsLine1Left(i),lafIndex.NWIPWindowTextsLine1Right(i),
                 lafIndex.NWIPWindowTextsLine1B(i),lafIndex.NWIPWindowTextsLine1W(i)));
 
             if (!error)
@@ -916,7 +916,7 @@ void CAknNoteControl::SetLineWidthsL()
             for (TInt i=0; i < KINMaxNumLines; i++)
                 {
                 TAknTextLineLayout lay = AKN_LAYOUT_TEXT_Note_with_an_image_pop_up_window_texts_Line_1(
-                    lafIndex.NWIPWindowTextsLine1L(i),lafIndex.NWIPWindowTextsLine1R(i),
+                    lafIndex.NWIPWindowTextsLine1Left(i),lafIndex.NWIPWindowTextsLine1Right(i),
                     lafIndex.NWIPWindowTextsLine1B(i),lafIndex.NWIPWindowTextsLine1W(i));
                 text.LayoutText(LayoutRect(), lay);
                 TInt width = text.TextRect().Width();
@@ -1161,7 +1161,7 @@ EXPORT_C TInt CAknNoteControl::CancelAnimation()
 EXPORT_C void CAknNoteControl::ResetText()
     {
     // This can not Leave so no need to use TRAP 
-    Attributes()->SetTextL(KNullDesC);
+    TRAP_IGNORE(Attributes()->SetTextL(KNullDesC));
     Layout();
     }
 
@@ -1479,16 +1479,16 @@ TInt CAknNoteControl::TIndex::WNPWindowTextsLine1(TInt aLineNum) const
  * number type indication (NTI). See table in *.lay and
  * LAF specs for working out indexes.
  */
-TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1L(TInt aLineNum) const
+TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1Left(TInt aLineNum) const
     {
     SelfTest();
-    static const TInt  KNWIPWindowTextsLine1IndexL[2][3] = 
+    static const TInt  KNWIPWindowTextsLine1IndexLeft[2][3] = 
     {   
         {0, 0, 0}, //NO NTI
         {0, 0, 2}  //NTI
     }; 
     
-    return KNWIPWindowTextsLine1IndexL[HasNtiIndex()][aLineNum];
+    return KNWIPWindowTextsLine1IndexLeft[HasNtiIndex()][aLineNum];
     }
 
 /**
@@ -1501,18 +1501,18 @@ TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1L(TInt aLineNum) const
  * - Dimension 2 is the image width  
  * - Dimension 3 is the image height 
  */
-TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1R(TInt aLineNum) const
+TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1Right(TInt aLineNum) const
     {
     SelfTest();
 
-    static const TInt  KNWIPWindowTextsLine1IndexR[3][5][5] = 
+    static const TInt  KNWIPWindowTextsLine1IndexRight[3][5][5] = 
     {   
         {{0, 0, 0, 0, 0}, {0, 3, 3, 3, 3}, {0, 5, 5, 5, 5}, {0, 7, 7, 7, 7}, {0, 9, 9, 9, 9} }, //FIRST LINE
         {{0, 0, 0, 0, 0}, {0, 3, 3, 3, 3}, {0, 5, 5, 5, 5}, {0, 7, 7, 7, 7}, {0, 9, 9, 9, 9} }, //SECOND LINE
         {{0, 0, 0, 0, 0}, {0, 0, 0, 3, 3}, {0, 0, 0, 5, 5}, {0, 0, 0, 7, 7}, {0, 0, 0, 9, 9} }  //THIRD LINE
     }; 
     
-    return KNWIPWindowTextsLine1IndexR[aLineNum][ImageWidthIndex()][ImageHeightIndex()];
+    return KNWIPWindowTextsLine1IndexRight[aLineNum][ImageWidthIndex()][ImageHeightIndex()];
 
     }
 

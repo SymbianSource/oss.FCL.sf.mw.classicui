@@ -92,9 +92,10 @@ public: // Data
 
 CAknRadioButtonSettingPageExtension::CAknRadioButtonSettingPageExtension(
     CCoeControl& aOwner ) :
-    iOldFocusedItemIndex(-1), iIsDragged( EFalse ), 
-    iIsValidSelection( ETrue ),
-    iPenDownOnItem ( KErrNotFound )
+    iOldFocusedItemIndex( -1 ),
+    iIsDragged( EFalse ),
+    iPenDownOnItem ( KErrNotFound ),
+    iIsValidSelection( ETrue )
     {
     if ( static_cast<CAknAppUi*>(
             aOwner.ControlEnv()->AppUi() )->IsSingleClickCompatible() )
@@ -524,10 +525,16 @@ EXPORT_C void CAknRadioButtonSettingPage::Reserved_2()
 EXPORT_C void CAknRadioButtonSettingPage::HandleResourceChange(TInt aType)
 	{
     if( aType == KAknsMessageSkinChange )
-    	{
-    	TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
-    	}
-	
+        {
+        TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
+        }
+    else if( aType == KEikMessageFadeAllWindows )
+        {
+        if ( iExtension )
+            {
+            iExtension->iIsValidSelection = EFalse;
+            }
+        }
 	CAknListBoxSettingPage::HandleResourceChange(aType);
 	}
 
