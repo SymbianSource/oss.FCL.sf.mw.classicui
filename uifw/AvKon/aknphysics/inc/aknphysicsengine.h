@@ -24,7 +24,6 @@
 #include <ode/ode.h>
 
 class CAknPhysics;
-class RAlfDirectClient;
 
 /**
  *  Physics engine
@@ -285,12 +284,6 @@ private: // data
      * View position.
      */
     TPoint iViewPosition;
-
-    /**
-     * Client to Alf, used for FPS logging.
-     * Own.
-     */
-    RAlfDirectClient* iAlfClient;
     
     /**
      * Using application's UID. Used for FPS logging.

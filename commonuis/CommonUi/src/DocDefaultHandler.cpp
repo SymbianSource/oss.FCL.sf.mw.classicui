@@ -50,6 +50,7 @@
 
 #ifdef ENABLE_DRM
 #include <caf/caf.h>
+#include <caf/cafplatform.h>
 #include <Oma2Agent.h>
 #include <DcfEntry.h>               // CDcfEntry 
 #include <DcfRep.h>                 // CDcfRep

@@ -68,70 +68,74 @@ EXPORT_C void CAknNotifierServerAppService::HandleMessageL(const RMessage2& aMes
         return;
         }
             
-    switch ( aMessage.Function() )
-        {
-        case EStartNotifier:
-             {
-             ResolveBuffersL(aMessage);
-             TPtr8 ptr = iReplyBuf->Des();
-             iOwner.StartNotifierL(TUid::Uid(aMessage.Int0()),*iInputBuf, ptr);
-             WriteReplyL(aMessage);
-             break;   
-             }
-        case EUpdateNotifier:
-             {
-             ResolveBuffersL(aMessage);
-             TPtr8 ptr2 = iReplyBuf->Des();
-             iOwner.UpdateNotifierL(TUid::Uid(aMessage.Int0()),*iInputBuf, ptr2);
-             WriteReplyL(aMessage);
-             break;
-             }
-        case ECancelNotifier:
-             {
-             iOwner.CancelNotifier(TUid::Uid(aMessage.Int0()));                 
-             aMessage.Complete(KErrNone);
-             break;
-             }
-        case EStartNotifierAndGetResponse:
-             {
-             if (appUi && appUi->EikSrvBlocked())
-                 {
-                 CleanupStack::PopAndDestroy(); // Free eikon server 
-                 }
+    /* Disable showing notifiers. CR #541 */
+
+    /* switch ( aMessage.Function() ) */
+    /*     { */
+    /*     case EStartNotifier: */
+    /*          { */
+    /*          ResolveBuffersL(aMessage); */
+    /*          TPtr8 ptr = iReplyBuf->Des(); */
+    /*          iOwner.StartNotifierL(TUid::Uid(aMessage.Int0()),*iInputBuf, ptr); */
+    /*          WriteReplyL(aMessage); */
+    /*          break;    */
+    /*          } */
+    /*     case EUpdateNotifier: */
+    /*          { */
+    /*          ResolveBuffersL(aMessage); */
+    /*          TPtr8 ptr2 = iReplyBuf->Des(); */
+    /*          iOwner.UpdateNotifierL(TUid::Uid(aMessage.Int0()),*iInputBuf, ptr2); */
+    /*          WriteReplyL(aMessage); */
+    /*          break; */
+    /*          } */
+    /*     case ECancelNotifier: */
+    /*          { */
+    /*          iOwner.CancelNotifier(TUid::Uid(aMessage.Int0()));                  */
+    /*          aMessage.Complete(KErrNone); */
+    /*          break; */
+    /*          } */
+    /*     case EStartNotifierAndGetResponse: */
+    /*          { */
+    /*          if (appUi && appUi->EikSrvBlocked()) */
+    /*              { */
+    /*              CleanupStack::PopAndDestroy(); // Free eikon server  */
+    /*              } */
                     
-             ResolveBuffersL(aMessage);
+    /*          ResolveBuffersL(aMessage); */
              
-             iOwner.StartNotifierAndGetResponseL(
-                 TUid::Uid(aMessage.Int0()), 
-                 *iInputBuf, 
-                 aMessage, 
-                 KREPLYSLOT); 
+    /*          iOwner.StartNotifierAndGetResponseL( */
+    /*              TUid::Uid(aMessage.Int0()),  */
+    /*              *iInputBuf,  */
+    /*              aMessage,  */
+    /*              KREPLYSLOT);  */
                 
-             break;
-             }
-        case EUpdateNotifierAndGetResponse:
-             {
-             if (appUi && appUi->EikSrvBlocked())
-                 {
-                 CleanupStack::PopAndDestroy(); // Free eikon server 
-                 }
+    /*          break; */
+    /*          } */
+    /*     case EUpdateNotifierAndGetResponse: */
+    /*          { */
+    /*          if (appUi && appUi->EikSrvBlocked()) */
+    /*              { */
+    /*              CleanupStack::PopAndDestroy(); // Free eikon server  */
+    /*              } */
                     
-             ResolveBuffersL(aMessage);
+    /*          ResolveBuffersL(aMessage); */
              
-             iOwner.UpdateNotifierAndGetResponseL(
-                TUid::Uid(aMessage.Int0()), 
-                *iInputBuf, 
-                aMessage, 
-                KREPLYSLOT); 
+    /*          iOwner.UpdateNotifierAndGetResponseL( */
+    /*             TUid::Uid(aMessage.Int0()),  */
+    /*             *iInputBuf,  */
+    /*             aMessage,  */
+    /*             KREPLYSLOT);  */
                 
-             break;
-             }
-        default:
-            {
-            CAknAppServiceBase::ServiceL(aMessage);           
-            }
-        }        
+    /*          break; */
+    /*          } */
+    /*     default: */
+    /*         { */
+    /*         CAknAppServiceBase::ServiceL(aMessage);            */
+    /*         } */
+    /*     } */        
     
+    aMessage.Complete(KErrNone);    
+
     if (appUi && appUi->EikSrvBlocked())
         {
         CleanupStack::PopAndDestroy(); // Free eikon server 

@@ -20,7 +20,6 @@
 #include <eikenv.h>
 #include <eikappui.h>
 #include <eikapp.h>
-#include <alf/alfdirectclient.h>
 
 #include "aknphysicsconstants.h"
 #include "aknphysicsengine.h"
@@ -60,7 +59,6 @@ CAknPhysicsEngine* CAknPhysicsEngine::NewLC( CAknPhysics* aPhysics )
 CAknPhysicsEngine::~CAknPhysicsEngine()
     {
     DeletePhysics();
-    delete iAlfClient;
     }
 
 
@@ -338,30 +336,7 @@ void CAknPhysicsEngine::ResetFriction()
 //
 void CAknPhysicsEngine::StartFpsLogging()
     {
-    if ( !iAlfClient )
-        {
-        TRAP_IGNORE( iAlfClient = new ( ELeave ) RAlfDirectClient );
-        }
-        
-    if ( iAlfClient )
-        {
-        if ( iLogUid == KNullUid )
-            {
-            CEikonEnv* env = CEikonEnv::Static();
-            
-            if ( env )
-                {
-                CEikAppUi* appUi = static_cast<CEikAppUi*>( env->AppUi() );
-                
-                if ( appUi && appUi->Application() )
-                    {
-                    iLogUid = appUi->Application()->AppDllUid();
-                    }
-                }
-            }
-            
-        iAlfClient->MeasureFPS( iLogUid.iUid, ETrue );
-        }
+    //TODO: add fps logging
     }
 
 
@@ -371,10 +346,7 @@ void CAknPhysicsEngine::StartFpsLogging()
 //
 void CAknPhysicsEngine::StopFpsLogging()
     {
-    if ( iAlfClient )
-        {
-        iAlfClient->MeasureFPS( iLogUid.iUid, EFalse );
-        }
+    //TODO: stop fps logging
     }
 
 

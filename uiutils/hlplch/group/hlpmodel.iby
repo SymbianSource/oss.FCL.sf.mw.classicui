@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,22 +11,16 @@
 *
 * Contributors:
 *
-* Description:        
-*       Bldmake component description file. 
+* Description: help launcher iby 
 *
 */
 
+#ifndef __HLPMODEL_IBY__
+#define __HLPMODEL_IBY__
 
+REM Help Launcher
 
+file=ABI_DIR\BUILD_DIR\hlplch.dll     System\Libs\hlplch.dll
+data=ZRESOURCE\Apps\lch.rsc           Resource\Apps\lch.rsc
 
-
-PRJ_PLATFORMS
-DEFAULT
-
-PRJ_EXPORTS
-../group/hlpmodel.iby CORE_MW_LAYER_IBY_EXPORT_PATH(hlpmodel.iby)
-
-PRJ_MMPFILES
-#ifndef TOOLS
-hlplch.mmp
 #endif

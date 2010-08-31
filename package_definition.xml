@@ -1,150 +1,773 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SystemDefinition schema="3.0.0">
-  <package id="classicui" name="Classic UI" levels="base support server generic specific">
-    <collection id="psln" name="Personalization" level="specific">
-      <component id="pslnengine" filter="s60" name="Personalization Engine">
-        <!-- <unit bldFile="psln/pslnengine/group"/> -->
-      </component>
-      <component id="pslnframework" filter="s60" name="Personalization Framework">
-        <!-- <unit bldFile="psln/pslnframework"/> -->
-      </component>
-      <component id="pslnlibraryloaders" filter="s60" name="Personalization Library Loaders">
-          <!-- no bld.inf, need to create one or remove component -->
-      </component>
-      <component id="pslnslidesetdialog" filter="s60" name="Personalization Slideset Dialog" class="plugin">
-        <!-- <unit bldFile="psln/pslnslidesetdialog/group"/> -->
-      </component>
-      <component id="pslngsplugin" filter="s60" name="Personalization GS Plugin" class="plugin">
-        <unit bldFile="psln/pslngsplugin/group"/>
-      </component>
-      <component id="psln_help" filter="s60" name="Personalization Help">
-        <unit bldFile="psln/help/group"/>
-      </component>
-      <component id="psln_build" filter="s60" name="Personalization Build">
-             <!-- the Psln group bld.inf should be distributed into the individual components, or they should be collapsed in a single component -->
-        <unit bldFile="psln/group"/>
-      </component>
-    </collection>
-    <collection id="applicationinterworkingfw" name="Application Interworking Framework" level="generic">
-      <component id="aifwservicehandler" filter="s60" name="Application Interworking Service Handle">
-        <unit bldFile="applicationinterworkingfw/servicehandler/group"/>
-      </component>
-    </collection>
-    <collection id="commonuis" name="Common UIs" level="specific">
-      <component id="commonui" filter="s60" name="Common UI">
-        <unit bldFile="commonuis/commonui/group"/>
-      </component>
-      <component id="commondialogs" filter="s60" name="Common Dialogs">
-        <unit bldFile="commonuis/commondialogs/group"/>
-        <!-- <unit bldFile="commonuis/commondialogs/group_test"/> -->
-      </component>
-    </collection>
-    <collection id="uifw" name="UI Framework" level="server">
-      <component id="uiklaf" filter="s60" name="Uikon Look-and-Feel">
-        <unit bldFile="uifw/uiklaf/group"/>
-      </component>
-      <component id="eikctl" filter="s60" name="Eikon Controls">
-        <unit bldFile="uifw/eikctl/group"/>
-      </component>
-      <component id="avkon" filter="s60" name="Avkon">
-        <unit bldFile="uifw/avkon/aknphysics/group"/>
-        <unit bldFile="uifw/avkon/group"/>
-        <unit bldFile="uifw/avkon/odeconf/group"/>
-        <!-- <unit bldFile="uifw/avkon/aknhlist/group"/> -->
-        <!-- <unit bldFile="uifw/avkon/aknkeyrotator/group"/> -->
-        <!-- <unit bldFile="uifw/avkon/prebuilder"/> -->
-        <!-- <unit bldFile="uifw/avkon/tsrc/bc/s60_sdkmcl/bctestmixmcl/group"/> -->
-      </component>
-      <component id="eikstd" filter="s60" name="Eikon Standard">
-        <unit bldFile="uifw/eikstd/group"/>
-      </component>
-      <component id="aknglobalui" filter="s60" name="Avkon Global UI">
-        <unit bldFile="uifw/aknglobalui/group"/>
-      </component>
-      <component id="ganes" filter="s60" name="Ganes">
-        <unit bldFile="uifw/ganes/group"/>
-      </component>
-      <component id="uifw_test" filter="s60" name="UI Framework Test" purpose="development">
-        <!-- <unit bldFile="uifw/tsrc/group"/> -->
-      </component>
-    </collection>
-    <collection id="commonadapter" name="Common Adapter" level="support">
-      <component id="commonadapter_build" filter="s60" name="Common Adapter Build">
-        <unit bldFile="commonadapter/group"/>
-      </component>
-    </collection>
-    <collection id="ode" name="Open Dynamics Engine" level="support">
-      <component id="ode_build" filter="s60" name="ODE">
-        <unit bldFile="ode/group"/>
-      </component>
-    </collection>
-    <collection id="commonuisupport" name="Common UI Support" level="support">
+ <package id="classicui" name="Classic UI" levels="base support server generic specific">
+  <collection id="classicui_plat" name="Classic UI Platform Interfaces" level="specific">
+   <component id="signal_pane_api" name="Signal Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/signal_pane_api/signal_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/signal_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/signal_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="global_popup_priority_controller_api" name="Global Popup Priority Controller API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/global_popup_priority_controller_api/global_popup_priority_controller_api.metaxml"/>
+    <unit bldFile="classicui_plat/global_popup_priority_controller_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/global_popup_priority_controller_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="item_finder_api" name="Item Finder API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/item_finder_api/item_finder_api.metaxml"/>
+    <unit bldFile="classicui_plat/item_finder_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/item_finder_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_fonts_api" name="Avkon Fonts API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_fonts_api/avkon_fonts_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_fonts_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/avkon_fonts_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_utilities_api" name="Extended Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_utilities_api/extended_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_utilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_utilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_aiw_criteria_api" name="Extended AIW Criteria API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_aiw_criteria_api/extended_aiw_criteria_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_aiw_criteria_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_aiw_criteria_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="volume_popup_api" name="Volume Popup API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/volume_popup_api/volume_popup_api.metaxml"/>
+    <unit bldFile="classicui_plat/volume_popup_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/volume_popup_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_secondary_display_support_api" name="AVKON Secondary Display Support API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_secondary_display_support_api/avkon_secondary_display_support_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_secondary_display_support_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/avkon_secondary_display_support_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_setting_pages_api" name="Extended Setting Pages API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_setting_pages_api/extended_setting_pages_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_setting_pages_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_setting_pages_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_lists_api" name="Extended Lists API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_lists_api/extended_lists_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_lists_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_lists_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="input_block_api" name="Input Block API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/input_block_api/input_block_api.metaxml"/>
+    <unit bldFile="classicui_plat/input_block_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/input_block_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_ui_server_api" name="AVKON UI Server API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_ui_server_api/avkon_ui_server_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_ui_server_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/avkon_ui_server_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_status_pane_api" name="Extended Status Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_status_pane_api/extended_status_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_status_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_status_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_notifiers_api" name="Extended Notifiers API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_notifiers_api/extended_notifiers_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_notifiers_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_notifiers_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="task_list_api" name="Task List API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/task_list_api/task_list_api.metaxml"/>
+    <unit bldFile="classicui_plat/task_list_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/task_list_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="key_event_utilities_api" name="Key Event Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/key_event_utilities_api/key_event_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/key_event_utilities_api/group"/>
+   </component>
+   <component id="emergency_call_support_api" name="Emergency Call Support API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/emergency_call_support_api/emergency_call_support_api.metaxml"/>
+    <unit bldFile="classicui_plat/emergency_call_support_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/emergency_call_support_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_dialogs_api" name="Extended Dialogs API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_dialogs_api/extended_dialogs_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_dialogs_api/group"/>
+   </component>
+   <component id="legacy_ui_framework_headers_api" name="Legacy UI Framework Headers API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/legacy_ui_framework_headers_api/legacy_ui_framework_headers_api.metaxml"/>
+    <unit bldFile="classicui_plat/legacy_ui_framework_headers_api/group"/>
+   </component>
+   <component id="extended_editors_api" name="Extended Editors API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_editors_api/extended_editors_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_editors_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_editors_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="alarm_api" name="Alarm API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/alarm_api/alarm_api.metaxml"/>
+    <unit bldFile="classicui_plat/alarm_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/alarm_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="aiw_service_interface_base_api" name="AIW Service Interface Base API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_service_interface_base_api/aiw_service_interface_base_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_service_interface_base_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_service_interface_base_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="list_effects_api" name="List Effects API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/list_effects_api/list_effects_api.metaxml"/>
+    <unit bldFile="classicui_plat/list_effects_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/list_effects_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="find_item_ui_api" name="Find Item UI API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/find_item_ui_api/find_item_ui_api.metaxml"/>
+    <unit bldFile="classicui_plat/find_item_ui_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/find_item_ui_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="server_application_services_api" name="Server Application Services API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/server_application_services_api/server_application_services_api.metaxml"/>
+    <unit bldFile="classicui_plat/server_application_services_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/server_application_services_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="common_ui_settings_api" name="Common UI Settings API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/common_ui_settings_api/common_ui_settings_api.metaxml"/>
+    <unit bldFile="classicui_plat/common_ui_settings_api/group"/>
+   </component>
+   <component id="aiw_service_interface_menu_api" name="AIW Service Interface Menu API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_service_interface_menu_api/aiw_service_interface_menu_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_service_interface_menu_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_service_interface_menu_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="eikon_server_extension_client_api" name="EIKON Server Extension Client API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/eikon_server_extension_client_api/eikon_server_extension_client_api.metaxml"/>
+    <unit bldFile="classicui_plat/eikon_server_extension_client_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/eikon_server_extension_client_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="skinnable_clock_api" name="Skinnable Clock API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/skinnable_clock_api/skinnable_clock_api.metaxml"/>
+    <unit bldFile="classicui_plat/skinnable_clock_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/skinnable_clock_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="battery_pane_api" name="Battery Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/battery_pane_api/battery_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/battery_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/battery_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="fep_document_navigation_api" name="FEP Document Navigation API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/fep_document_navigation_api/fep_document_navigation_api.metaxml"/>
+    <unit bldFile="classicui_plat/fep_document_navigation_api/group"/>
+   </component>
+   <component id="memory_card_ui_api" name="Memory Card UI API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/memory_card_ui_api/memory_card_ui_api.metaxml"/>
+    <unit bldFile="classicui_plat/memory_card_ui_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/memory_card_ui_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_status_api" name="AVKON Status API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_status_api/avkon_status_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_status_api/group"/>
+   </component>
+   <component id="application_switching_api" name="Application Switching API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/application_switching_api/application_switching_api.metaxml"/>
+    <unit bldFile="classicui_plat/application_switching_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/application_switching_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_localised_texts_api" name="AVKON Localised Texts API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_localised_texts_api/avkon_localised_texts_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_localised_texts_api/group"/>
+   </component>
+   <component id="avkon_secondary_display_api" name="AVKON Secondary Display API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_secondary_display_api/avkon_secondary_display_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_secondary_display_api/group"/>
+   </component>
+   <component id="extended_animation_api" name="Extended Animation API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_animation_api/extended_animation_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_animation_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_animation_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_notes_api" name="Extended Notes API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_notes_api/extended_notes_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_notes_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_notes_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="text_scroller_api" name="Text Scroller API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/text_scroller_api/text_scroller_api.metaxml"/>
+    <unit bldFile="classicui_plat/text_scroller_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/text_scroller_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="custom_cursors_api" name="Custom Cursors API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/custom_cursors_api/custom_cursors_api.metaxml"/>
+    <unit bldFile="classicui_plat/custom_cursors_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/custom_cursors_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="global_window_priorities_api" name="Global Window Priorities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/global_window_priorities_api/global_window_priorities_api.metaxml"/>
+    <unit bldFile="classicui_plat/global_window_priorities_api/group"/>
+   </component>
+   <component id="extended_indicators_api" name="Extended Indicators API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_indicators_api/extended_indicators_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_indicators_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_indicators_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="special_character_table_api" name="Special Character Table API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/special_character_table_api/special_character_table_api.metaxml"/>
+    <unit bldFile="classicui_plat/special_character_table_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/special_character_table_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_settings_api" name="AVKON Settings API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_settings_api/avkon_settings_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_settings_api/group"/>
+   </component>
+   <component id="extended_sounds_api" name="Extended Sounds API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_sounds_api/extended_sounds_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_sounds_api/group"/>
+   </component>
+   <component id="themes_settings_api" name="Themes Settings API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/themes_settings_api/themes_settings_api.metaxml"/>
+    <unit bldFile="classicui_plat/themes_settings_api/group"/>
+   </component>
+   <component id="media_shared_document_api" name="Media Shared Document API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/media_shared_document_api/media_shared_document_api.metaxml"/>
+    <unit bldFile="classicui_plat/media_shared_document_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/media_shared_document_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_queries_api" name="Extended Queries API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_queries_api/extended_queries_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_queries_api/group"/>
+   </component>
+   <component id="phone_number_text_utilities_api" name="Phone Number Text Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/phone_number_text_utilities_api/phone_number_text_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/phone_number_text_utilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/phone_number_text_utilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_scroller_api" name="Extended Scroller API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_scroller_api/extended_scroller_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_scroller_api/group"/>
+   </component>
+   <component id="key_rotator_api" name="Key Rotator API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/key_rotator_api/key_rotator_api.metaxml"/>
+    <unit bldFile="classicui_plat/key_rotator_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/key_rotator_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_grids_api" name="Extended Grids API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_grids_api/extended_grids_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_grids_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_grids_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="generic_parameter_api" name="Generic Parameter API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/generic_parameter_api/generic_parameter_api.metaxml"/>
+    <unit bldFile="classicui_plat/generic_parameter_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/generic_parameter_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="indicator_touch_observer_api" name="Indicator Touch Observer API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/indicator_touch_observer_api/indicator_touch_observer_api.metaxml"/>
+    <unit bldFile="classicui_plat/indicator_touch_observer_api/group"/>
+   </component>
+   <component id="popup_form_api" name="Popup Form API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/popup_form_api/popup_form_api.metaxml"/>
+    <unit bldFile="classicui_plat/popup_form_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/popup_form_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="stylus_activated_popup_api" name="Stylus Activated Pop-up API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/stylus_activated_popup_api/stylus_activated_popup_api.metaxml"/>
+    <unit bldFile="classicui_plat/stylus_activated_popup_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/stylus_activated_popup_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="indicator_plugin_api" name="Indicator Plugin API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/indicator_plugin_api/indicator_plugin_api.metaxml"/>
+    <unit bldFile="classicui_plat/indicator_plugin_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/indicator_plugin_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="layout_configuration_api" name="Layout Configuration API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/layout_configuration_api/layout_configuration_api.metaxml"/>
+    <unit bldFile="classicui_plat/layout_configuration_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/layout_configuration_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="common_file_dialogs_filter_factory_api" name="Common File Dialogs Filter Factory API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/common_file_dialogs_filter_factory_api/common_file_dialogs_filter_factory_api.metaxml"/>
+    <unit bldFile="classicui_plat/common_file_dialogs_filter_factory_api/group"/>
+   </component>
+   <component id="avkon_anim_dll_api" name="AVKON Anim DLL API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_anim_dll_api/avkon_anim_dll_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_anim_dll_api/group"/>
+   </component>
+   <component id="extended_initialization_api" name="Extended Initialization API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_initialization_api/extended_initialization_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_initialization_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_initialization_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="long_tap_animation_api" name="Long Tap Animation API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/long_tap_animation_api/long_tap_animation_api.metaxml"/>
+    <unit bldFile="classicui_plat/long_tap_animation_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/long_tap_animation_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_ui_framework_definitions_api" name="Extended UI Framework Definitions API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_ui_framework_definitions_api/extended_ui_framework_definitions_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_ui_framework_definitions_api/group"/>
+   </component>
+   <component id="extended_buttons_api" name="Extended Buttons API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_buttons_api/extended_buttons_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_buttons_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_buttons_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="aiw_provider_utility_api" name="AIW Provider Utility API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_provider_utility_api/aiw_provider_utility_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_provider_utility_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_provider_utility_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="transition_effect_parameters_api" name="Transition Effect Parameters API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/transition_effect_parameters_api/transition_effect_parameters_api.metaxml"/>
+    <unit bldFile="classicui_plat/transition_effect_parameters_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/transition_effect_parameters_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="extended_input_capabilities_api" name="Extended Input Capabilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_input_capabilities_api/extended_input_capabilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_input_capabilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_input_capabilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="uikon_status_api" name="UIKON Status API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/uikon_status_api/uikon_status_api.metaxml"/>
+    <unit bldFile="classicui_plat/uikon_status_api/group"/>
+   </component>
+   <component id="transition_effect_utilities_api" name="Transition Effect Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/transition_effect_utilities_api/transition_effect_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/transition_effect_utilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/transition_effect_utilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="pointer_event_modifier_api" name="Pointer Event Modifier API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/pointer_event_modifier_api/pointer_event_modifier_api.metaxml"/>
+    <unit bldFile="classicui_plat/pointer_event_modifier_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/pointer_event_modifier_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="avkon_testability_api" name="AVKON Testability API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/avkon_testability_api/avkon_testability_api.metaxml"/>
+    <unit bldFile="classicui_plat/avkon_testability_api/group"/>
+   </component>
+   <component id="ode_api" name="Ode API" class="api" filter="s60">
+    <unit bldFile="classicui_plat/ode_api/group"/>
+   </component>
+   <component id="physics_api" name="Physics API" class="api" filter="s60">
+    <unit bldFile="classicui_plat/physics_api/group"/>
+   </component>
+   <component id="touch_pane_api" name="Touch Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/touch_pane_api/touch_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/touch_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/touch_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="touch_pane_observer_api" name="Touch Pane Observer API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/touch_pane_observer_api/touch_pane_observer_api.metaxml"/>
+    <unit bldFile="classicui_plat/touch_pane_observer_api/group"/>
+   </component>
+   <component id="alternate_fs_api" name="Alternate FS API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/alternate_fs_api/alternate_fs_api.metaxml"/>
+    <unit bldFile="classicui_plat/alternate_fs_api/group"/>
+   </component>
+   <component id="discreet_popup_api" name="Discreet Popup API" class="api" filter="s60">
+    <unit bldFile="classicui_plat/discreet_popup_api/group"/>
+   </component>
+   <component id="extended_options_menu_api" name="Extended Options Menu API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/extended_options_menu_api/extended_options_menu_api.metaxml"/>
+    <unit bldFile="classicui_plat/extended_options_menu_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/extended_options_menu_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="directory_localizer_api" class="api" name="Directory Localizer API" filter="s60">
+      <meta rel="Api" href="classicui_plat/directory_localizer_api/directory_localizer_api.metaxml"/>
+      <unit bldFile="classicui_plat/directory_localizer_api/group"/>
+   </component>
+   <component id="findutil_api" class="api" name="Find Util API" filter="s60">
+      <meta rel="Api" href="classicui_plat/findutil_api/findutil_api.metaxml"/>
+      <unit bldFile="classicui_plat/findutil_api/group"/>
+   </component>
+   <component id="input_frame_api" name="Input Frame API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/input_frame_api/input_frame_api.metaxml"/>
+    <unit bldFile="classicui_plat/input_frame_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/input_frame_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="window_server_event_observer_api" name="Window Server Event Observer API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/window_server_event_observer_api/window_server_event_observer_api.metaxml"/>
+    <unit bldFile="classicui_plat/window_server_event_observer_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/window_server_event_observer_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="application_framework_api" name="Application Framework API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/application_framework_api/application_framework_api.metaxml"/>
+    <unit bldFile="classicui_plat/application_framework_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/application_framework_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="scroller_api" name="Scroller API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/scroller_api/scroller_api.metaxml"/>
+    <unit bldFile="classicui_plat/scroller_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/scroller_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="ui_framework_utilities_api" name="UI Framework Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/ui_framework_utilities_api/ui_framework_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/ui_framework_utilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/ui_framework_utilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="ui_framework_definitions_api" name="UI Framework Definitions API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/ui_framework_definitions_api/ui_framework_definitions_api.metaxml"/>
+    <unit bldFile="classicui_plat/ui_framework_definitions_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/ui_framework_definitions_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="buttons_api" name="Buttons API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/buttons_api/buttons_api.metaxml"/>
+    <unit bldFile="classicui_plat/buttons_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/buttons_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="queries_api" name="Queries API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/queries_api/queries_api.metaxml"/>
+    <unit bldFile="classicui_plat/queries_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/queries_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="aiw_generic_parameter_api" name="AIW Generic Parameter API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_generic_parameter_api/aiw_generic_parameter_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_generic_parameter_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_generic_parameter_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="editors_api" name="Editors API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/editors_api/editors_api.metaxml"/>
+    <unit bldFile="classicui_plat/editors_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/editors_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="common_file_dialogs_api" name="Common File Dialogs API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/common_file_dialogs_api/common_file_dialogs_api.metaxml"/>
+    <unit bldFile="classicui_plat/common_file_dialogs_api/group"/>
+   </component>
+   <component id="dialog_shutter_api" name="Dialog Shutter API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/dialog_shutter_api/dialog_shutter_api.metaxml"/>
+    <unit bldFile="classicui_plat/dialog_shutter_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/dialog_shutter_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="fonts_api" name="Fonts API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/fonts_api/fonts_api.metaxml"/>
+    <unit bldFile="classicui_plat/fonts_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/fonts_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="screen_clearer_api" name="Screen Clearer API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/screen_clearer_api/screen_clearer_api.metaxml"/>
+    <unit bldFile="classicui_plat/screen_clearer_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/screen_clearer_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="notifiers_api" name="Notifiers API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/notifiers_api/notifiers_api.metaxml"/>
+    <unit bldFile="classicui_plat/notifiers_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/notifiers_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="notes_api" name="Notes API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/notes_api/notes_api.metaxml"/>
+    <unit bldFile="classicui_plat/notes_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/notes_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="status_pane_api" name="Status Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/status_pane_api/status_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/status_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/status_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="base_controls_api" name="Base Controls API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/base_controls_api/base_controls_api.metaxml"/>
+    <unit bldFile="classicui_plat/base_controls_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/base_controls_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="grids_api" name="Grids API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/grids_api/grids_api.metaxml"/>
+    <unit bldFile="classicui_plat/grids_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/grids_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="context_pane_api" name="Context Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/context_pane_api/context_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/context_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/context_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="lists_api" name="Lists API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/lists_api/lists_api.metaxml"/>
+    <unit bldFile="classicui_plat/lists_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/lists_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="popups_api" name="Popups API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/popups_api/popups_api.metaxml"/>
+    <unit bldFile="classicui_plat/popups_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/popups_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="misc_controls_api" name="Misc Controls API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/misc_controls_api/misc_controls_api.metaxml"/>
+    <unit bldFile="classicui_plat/misc_controls_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/misc_controls_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="keylock_api" name="Keylock API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/keylock_api/keylock_api.metaxml"/>
+    <unit bldFile="classicui_plat/keylock_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/keylock_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="options_menu_api" name="Options Menu API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/options_menu_api/options_menu_api.metaxml"/>
+    <unit bldFile="classicui_plat/options_menu_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/options_menu_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="hierarchical_lists_api" name="Hierarchical Lists API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/hierarchical_lists_api/hierarchical_lists_api.metaxml"/>
+    <unit bldFile="classicui_plat/hierarchical_lists_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/hierarchical_lists_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="navigation_pane_api" name="Navigation Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/navigation_pane_api/navigation_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/navigation_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/navigation_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="tabs_api" name="Tabs API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/tabs_api/tabs_api.metaxml"/>
+    <unit bldFile="classicui_plat/tabs_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/tabs_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="title_pane_touch_observer_api" name="Title Pane Touch Observer API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/title_pane_touch_observer_api/title_pane_touch_observer_api.metaxml"/>
+    <unit bldFile="classicui_plat/title_pane_touch_observer_api/group"/>
+   </component>
+   <component id="choice_list_api" name="Choice List API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/choice_list_api/choice_list_api.metaxml"/>
+    <unit bldFile="classicui_plat/choice_list_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/choice_list_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="info_popup_note_api" name="Info Popup Note API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/info_popup_note_api/info_popup_note_api.metaxml"/>
+    <unit bldFile="classicui_plat/info_popup_note_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/info_popup_note_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="setting_pages_api" name="Setting Pages API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/setting_pages_api/setting_pages_api.metaxml"/>
+    <unit bldFile="classicui_plat/setting_pages_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/setting_pages_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="screen_mode_api" name="Screen Mode API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/screen_mode_api/screen_mode_api.metaxml"/>
+    <unit bldFile="classicui_plat/screen_mode_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/screen_mode_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="indicators_api" name="Indicators API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/indicators_api/indicators_api.metaxml"/>
+    <unit bldFile="classicui_plat/indicators_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/indicators_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="error_ui_api" name="Error UI API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/error_ui_api/error_ui_api.metaxml"/>
+    <unit bldFile="classicui_plat/error_ui_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/error_ui_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="animation_api" name="Animation API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/animation_api/animation_api.metaxml"/>
+    <unit bldFile="classicui_plat/animation_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/animation_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="searchfield_api" name="Searchfield API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/searchfield_api/searchfield_api.metaxml"/>
+    <unit bldFile="classicui_plat/searchfield_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/searchfield_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="labels_api" name="Labels API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/labels_api/labels_api.metaxml"/>
+    <unit bldFile="classicui_plat/labels_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/labels_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="hotkeys_api" name="Hotkeys API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/hotkeys_api/hotkeys_api.metaxml"/>
+    <unit bldFile="classicui_plat/hotkeys_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/hotkeys_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="initialization_api" name="Initialization API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/initialization_api/initialization_api.metaxml"/>
+    <unit bldFile="classicui_plat/initialization_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/initialization_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="volume_control_api" name="Volume Control API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/volume_control_api/volume_control_api.metaxml"/>
+    <unit bldFile="classicui_plat/volume_control_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/volume_control_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="title_pane_api" name="Title Pane API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/title_pane_api/title_pane_api.metaxml"/>
+    <unit bldFile="classicui_plat/title_pane_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/title_pane_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="sounds_api" name="Sounds API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/sounds_api/sounds_api.metaxml"/>
+    <unit bldFile="classicui_plat/sounds_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/sounds_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="aiw_service_handler_api" name="AIW Service Handler API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_service_handler_api/aiw_service_handler_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_service_handler_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_service_handler_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="aiw_criteria_api" name="AIW Criteria API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/aiw_criteria_api/aiw_criteria_api.metaxml"/>
+    <unit bldFile="classicui_plat/aiw_criteria_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/aiw_criteria_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="touch_ui_utilities_api" name="Touch UI Utilities API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/touch_ui_utilities_api/touch_ui_utilities_api.metaxml"/>
+    <unit bldFile="classicui_plat/touch_ui_utilities_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/touch_ui_utilities_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="generic_button_api" name="Generic Button API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/generic_button_api/generic_button_api.metaxml"/>
+    <unit bldFile="classicui_plat/generic_button_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/generic_button_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="form_api" name="Form API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/form_api/form_api.metaxml"/>
+    <unit bldFile="classicui_plat/form_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/form_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="uikon_core_controls" name="Uikon Core Controls" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/uikon_core_controls/uikon_core_controls.metaxml"/>
+    <unit bldFile="classicui_plat/uikon_core_controls/group" filter="!test"/>
+    <unit bldFile="classicui_plat/uikon_core_controls/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="calendar_api" name="Calendar API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/calendar_api/calendar_api.metaxml"/>
+    <unit bldFile="classicui_plat/calendar_api/group"/>
+   </component>
+   <component id="toolbar_api" name="Toolbar API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/toolbar_api/toolbar_api.metaxml"/>
+    <unit bldFile="classicui_plat/toolbar_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/toolbar_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="server_application_api" name="Server Application API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/server_application_api/server_application_api.metaxml"/>
+    <unit bldFile="classicui_plat/server_application_api/group"/>
+   </component>
+   <component id="slider_api" name="Slider API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/slider_api/slider_api.metaxml"/>
+    <unit bldFile="classicui_plat/slider_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/slider_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="private_ui_framework_api" name="Private UI Framework API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/private_ui_framework_api/private_ui_framework_api.metaxml"/>
+    <unit bldFile="classicui_plat/private_ui_framework_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/private_ui_framework_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="dialogs_api" name="Dialogs API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/dialogs_api/dialogs_api.metaxml"/>
+    <unit bldFile="classicui_plat/dialogs_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/dialogs_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="document_handler_api" name="Document handler API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/document_handler_api/document_handler_api.metaxml"/>
+    <unit bldFile="classicui_plat/document_handler_api/group"/>
+   </component>
+   <component id="images_api" name="Images API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/images_api/images_api.metaxml"/>
+    <unit bldFile="classicui_plat/images_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/images_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="stylus_popup_menu_api" name="Stylus Pop-up Menu API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/stylus_popup_menu_api/stylus_popup_menu_api.metaxml"/>
+    <unit bldFile="classicui_plat/stylus_popup_menu_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/stylus_popup_menu_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="information_preview_popup_api" name="Information Preview Popup API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/information_preview_popup_api/information_preview_popup_api.metaxml"/>
+    <unit bldFile="classicui_plat/information_preview_popup_api/group" filter="!test"/>
+    <unit bldFile="classicui_plat/information_preview_popup_api/tsrc/group" filter="test,api_test"/>
+   </component>
+   <component id="intermediate_state_api" name="Intermediate State API" class="api" filter="s60">
+    <meta rel="Api" href="classicui_plat/intermediate_state_api/intermediate_state_api.metaxml"/>
+    <unit bldFile="classicui_plat/intermediate_state_api/group"/>
+   </component>
+   <component id="help_launcher_api" name="Help Launcher API" class="api" filter="s60">
+    <unit bldFile="classicui_plat/help_launcher_api/group"/>
+   </component>
+  </collection>
+  <collection id="classicui_pub" name="Classic UI Public Interfaces" level="specific">
+	<!-- empty -->
+  </collection>
+  <collection id="ode" name="Open Dynamics Engine" level="support">
+   <!-- the collection is really a component. Move down a directory.-->
+   <component id="ode_build" filter="s60" name="ODE">
+    <unit bldFile="ode/group"/>
+   </component>
+  </collection>
+  <collection id="uifw" name="UI Framework" level="server">
+   <component id="uiklaf" filter="s60" name="Uikon Look-and-Feel">
+    <unit bldFile="uifw/uiklaf/group"/>
+   </component>
+   <component id="eikctl" filter="s60" name="Eikon Controls">
+    <unit bldFile="uifw/eikctl/group"/>
+   </component>
+   <component id="avkon" filter="s60" name="Avkon">
+    <!-- can only have one unit. Split into 3 components, or #include all from same bld.inf -->
+    <unit bldFile="uifw/avkon/aknphysics/group"/>
+    <unit bldFile="uifw/avkon/group"/>
+    <unit bldFile="uifw/avkon/aknconf/group"/>
+   </component>
+   <component id="eikstd" filter="s60" name="Eikon Standard">
+    <unit bldFile="uifw/eikstd/group"/>
+   </component>
+   <component id="aknglobalui" filter="s60" name="Avkon Global UI">
+    <unit bldFile="uifw/aknglobalui/group"/>
+   </component>
+  </collection>
+  <collection id="commonuis" name="Common UIs" level="specific">
+   <component id="commonui" filter="s60" name="Common UI">
+    <unit bldFile="commonuis/commonui/group"/>
+   </component>
+   <component id="commondialogs" filter="s60" name="Common Dialogs">
+    <unit bldFile="commonuis/commondialogs/group"/>
+   </component>
+  </collection>
+  <collection id="applicationinterworkingfw" name="Application Interworking Framework" level="generic">
+   <component id="aifwservicehandler" filter="s60" name="Application Interworking Service Handler">
+    <unit bldFile="applicationinterworkingfw/servicehandler/group"/>
+   </component>
+  </collection>
+  <collection id="uiutils" name="UI Utils" level="specific">
+   <component id="localizer" filter="s60" name="Directory Localizer">
+    <unit bldFile="uiutils/localizer/group"/>
+   </component>
+   <component id="findutil" filter="s60" name="Find Utility">
+    <unit bldFile="uiutils/findutil/group"/>
+   </component>
+   <component id="hlplch" name="Help Launcher" filter="s60,bldfirst">
+      <unit bldFile="uiutils/hlplch/group"/>
+   </component>
+  </collection>
+  <collection id="commonuisupport" name="Common UI Support" level="support">
       <component id="uikon" name="Uikon" introduced="6.0" purpose="mandatory" filter="s60">
-        <unit bldFile="commonuisupport/uikon/group" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
-      </component>
-      <component id="uikon_ncp" name="Uikon" introduced="6.0" purpose="mandatory">
+    <unit bldFile="commonuisupport/uikon/group" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
+   </component>
+      <component id="uikon_ncp" name="Uikon for NCP" introduced="6.0" purpose="mandatory"> 
+		<!-- is this actually contributed? -->
         <unit bldFile="commonuisupport/uikon/group_ncp" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
       </component>
       <component id="errorresolverdata" name="Error Resolver Data" purpose="mandatory" filter="s60">
-        <unit bldFile="commonuisupport/errorresolverdata/group" mrp="commonuisupport/errorresolverdata/group/app-framework_errorresgt.mrp"/>
-      </component>
-      <component id="uilaf" name="UI Look and Feel" introduced="6.0" purpose="mandatory">
-        <unit bldFile="commonuisupport/uilaf/GROUP" mrp="commonuisupport/uilaf/GROUP/app-framework_uiklafgt.mrp"/>
-      </component>
+    <unit bldFile="commonuisupport/errorresolverdata/group" mrp="commonuisupport/errorresolverdata/group/app-framework_errorresgt.mrp"/>
+   </component>
+   <component id="uilaf" name="UI Look and Feel" introduced="6.0" purpose="mandatory">
+    <unit bldFile="commonuisupport/uilaf/GROUP" mrp="commonuisupport/uilaf/GROUP/app-framework_uiklafgt.mrp"/>
+   </component>
       <component id="grid" name="Grid" purpose="optional" filter="s60">
-        <unit bldFile="commonuisupport/grid/group" mrp="commonuisupport/grid/group/app-framework_grid.mrp"/>
-      </component>
+    <unit bldFile="commonuisupport/grid/group" mrp="commonuisupport/grid/group/app-framework_grid.mrp"/>
+   </component>
       <component id="uifwsdocs" name="UI Frameworks Documentation" purpose="development" class="doc" filter="s60">
-        <unit mrp="commonuisupport/uifwsdocs/app-framework_documentation.mrp"/>
-      </component>
-    </collection>
-    <collection id="lafagnosticuifoundation" name="Look-and-Feel Agnostic UI Foundation" level="base">
-      <component id="cone" name="Control Environment" purpose="mandatory">
-        <unit bldFile="lafagnosticuifoundation/cone/group" mrp="lafagnosticuifoundation/cone/group/app-framework_cone.mrp"/>
-      </component>
+    <unit mrp="commonuisupport/uifwsdocs/app-framework_documentation.mrp"/>
+   </component>
+  </collection>
+  <collection id="lafagnosticuifoundation" name="Look-and-Feel Agnostic UI Foundation" level="base">
+   <component id="cone" name="Control Environment" purpose="mandatory">
+    <unit bldFile="lafagnosticuifoundation/cone/group" mrp="lafagnosticuifoundation/cone/group/app-framework_cone.mrp"/>
+   </component>
       <component id="graphicseffects" name="Graphics Effects" introduced="9.2" purpose="optional" filter="s60">
-        <unit bldFile="lafagnosticuifoundation/graphicseffects/group" mrp="lafagnosticuifoundation/graphicseffects/group/app-framework_gfxtranseffect.mrp"/>
-      </component>
-      <component id="uigraphicsutils" name="UI Graphics Utilities" purpose="mandatory">
-        <unit bldFile="lafagnosticuifoundation/uigraphicsutils/group" mrp="lafagnosticuifoundation/uigraphicsutils/group/app-framework_egul.mrp"/>
-      </component>
-      <component id="clockanim" name="Clock" purpose="optional" class="plugin">
-        <unit bldFile="lafagnosticuifoundation/clockanim/group" mrp="lafagnosticuifoundation/clockanim/group/app-framework_clock.mrp"/>
-      </component>
+    <unit bldFile="lafagnosticuifoundation/graphicseffects/group" mrp="lafagnosticuifoundation/graphicseffects/group/app-framework_gfxtranseffect.mrp"/>
+   </component>
+   <component id="uigraphicsutils" name="UI Graphics Utilities" purpose="mandatory">
+    <unit bldFile="lafagnosticuifoundation/uigraphicsutils/group" mrp="lafagnosticuifoundation/uigraphicsutils/group/app-framework_egul.mrp"/>
+   </component>
+   <component id="clockanim" name="Clock" purpose="optional" class="plugin">
+    <unit bldFile="lafagnosticuifoundation/clockanim/group" mrp="lafagnosticuifoundation/clockanim/group/app-framework_clock.mrp"/>
+   </component>
       <component id="bmpanimation" name="BMP Animation" introduced="6.0" purpose="optional" filter="s60">
-        <unit bldFile="lafagnosticuifoundation/bmpanimation/group" mrp="lafagnosticuifoundation/bmpanimation/group/app-framework_bmpanim.mrp"/>
-      </component>
+    <unit bldFile="lafagnosticuifoundation/bmpanimation/group" mrp="lafagnosticuifoundation/bmpanimation/group/app-framework_bmpanim.mrp"/>
+   </component>
       <component id="animation" name="Animation" introduced="9.1" purpose="optional" filter="s60">
-        <unit bldFile="lafagnosticuifoundation/animation/group" mrp="lafagnosticuifoundation/animation/group/app-framework_animation.mrp"/>
-      </component>
-    </collection>
-    <collection id="classicui_info" name="Classic UI Info" level="specific">
-       <!-- the multiple units in the API components need to be resolved -->
-      <component id="classicui_pub" filter="s60" name="Classic UI Public Interfaces" class="api">
-        <unit bldFile="classicui_pub/group"/>
-      </component>
-      <component id="classicui_plat" filter="s60" name="Classic UI Platform Interfaces" class="api">
-        <unit bldFile="classicui_plat/group"/>
-      </component>
-      <component id="classicui_test" filter="s60" name="Classic UI Tests" purpose="development">
-        <unit bldFile="classicui_plat/tsrc/group"/>
-        <unit bldFile="classicui_pub/document_handler_api/tsrc/group"/>
-        <unit bldFile="classicui_pub/server_application_api/tsrc/group"/>
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/bctesttemplate/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.0/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.1/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk3.2/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk5.0/bctestpane/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/apps/s60_sdk5.0/group"/> -->
-        <!-- <unit bldFile="classicui_pub/tsrc/bc/group"/> -->
-        <!-- <unit bldFile="classicui_plat/avkon_testability_api/tsrc/group"/> -->
-        <!-- <unit bldFile="classicui_plat/extended_sounds_api/tsrc/group"/> -->
-        <unit bldFile="classicui_plat/ganes_api/tsrc/group"/>
-        <unit bldFile="classicui_plat/physics_api/tsrc/group"/>
-      </component>
+    <unit bldFile="lafagnosticuifoundation/animation/group" mrp="lafagnosticuifoundation/animation/group/app-framework_animation.mrp"/>
+   </component>
+  </collection>
+  <collection id="classicui_info" name="Classic UI Info" level="specific">
       <component id="classicui_metadata" name="Classic UI Metadata" class="config" introduced="^2" purpose="development" target="desktop" filter="s60">
-        <unit mrp="classicui_info/classicui_metadata/classicui_metadata.mrp"/>
-      </component>
-    </collection>
-  </package>
+    <unit mrp="classicui_info/classicui_metadata/classicui_metadata.mrp"/>
+   </component>
+  </collection>
+ </package>
 </SystemDefinition>

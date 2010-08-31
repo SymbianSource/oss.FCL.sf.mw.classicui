@@ -51,6 +51,5 @@ LIBRARY      ode.lib
 LIBRARY      centralrepository.lib
 LIBRARY      cone.lib
 LIBRARY      avkon.lib
-LIBRARY      alfclient.lib
 LIBRARY      eikcore.lib
 LIBRARY      touchfeedback.lib
