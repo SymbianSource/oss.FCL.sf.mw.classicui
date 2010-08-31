@@ -36,7 +36,10 @@ USERINCLUDE     ../../AknCapServer/inc
 USERINCLUDE     ../../CommonInc 
 USERINCLUDE     ../../notpiinc
 USERINCLUDE         ../../../../inc
-USERINCLUDE     ../../../inc
+
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
 
 SOURCEPATH      ../Src
 
@@ -69,19 +72,19 @@ LIBRARY         eikdlg.lib
 LIBRARY         eikcore.lib
 LIBRARY         eiksrv.lib
 LIBRARY         avkon.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         apgrfx.lib
 LIBRARY         eiksrvui.lib
 LIBRARY         eikctl.lib
-LIBRARY         CdlEngine.lib
+LIBRARY         cdlengine.lib
 LIBRARY         featmgr.lib
 LIBRARY         aknskins.lib
 LIBRARY         aknnotifyplugin.lib
 LIBRARY         aknnotifierwrapper.lib
 LIBRARY         gdi.lib
 LIBRARY         aknlayout2.lib       
-LIBRARY         AknLayout2Scalable.lib
-LIBRARY         aknnotify.lib
+LIBRARY         aknlayout2scalable.lib
+LIBRARY         aknnotify.lib 
 LIBRARY         mediatorclient.lib
 LIBRARY         apparc.lib
 LIBRARY         centralrepository.lib
@@ -89,7 +92,7 @@ LIBRARY         imageconversion.lib
 LIBRARY         fbscli.lib
 LIBRARY         aknicon.lib
 LIBRARY         svgengine.lib
-LIBRARY         AknDynamicSoftNoteEventManager.lib
+LIBRARY         akndynamicsoftnoteeventmanager.lib
 
 LIBRARY         gfxtrans.lib
 LIBRARY         akntransitionutils.lib

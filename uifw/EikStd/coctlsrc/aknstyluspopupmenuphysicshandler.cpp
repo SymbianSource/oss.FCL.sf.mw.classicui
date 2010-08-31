@@ -110,7 +110,7 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
             if ( feedback )
                 {
                 feedback->InstantFeedback( NULL,
-                                           ETouchFeedbackList,
+                                           ETouchFeedbackBasicItem,
                                            aPointerEvent );
                 }
             }
@@ -146,6 +146,17 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
         iPressedDown = EFalse;              
         TPoint adjustedPosition( aPointerEvent.iPosition + TPoint(0, Offset() ) );
         TInt item = iPopUpMenuContent->ContainingItem( adjustedPosition );
+        if ( item != KNoItemSelected )
+            {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+                feedback->InstantFeedback( NULL,
+                                           ETouchFeedbackBasicItem,
+                                           ETouchFeedbackVibra,
+                                           aPointerEvent );
+                }
+            }
  
         TPoint distance( 0, iStartPosition.iY - aPointerEvent.iPosition.iY );
         if ( iPhysics->StartPhysics( distance, iStartTime ) )
@@ -159,16 +170,7 @@ void CAknStylusPopUpMenuPhysicsHandler::HandlePointerEventL( const TPointerEvent
             {
             if ( iViewRect.Contains( aPointerEvent.iPosition ) )
                 {
-                if( AknLayoutUtils::PenEnabled() )
-                    {
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if( feedback )
-                        {
-                        feedback->InstantFeedback( NULL, ETouchFeedbackList,
-                                            ETouchFeedbackVibra, aPointerEvent );
-                        }
-                    }
-                iPopUpMenuContent->SelectItemL( 
+                iPopUpMenuContent->SelectItem( 
                         iPopUpMenuContent->CurrentItem() );
                 }
             else 
@@ -242,10 +244,7 @@ void CAknStylusPopUpMenuPhysicsHandler::InitPhysicsL()
     TSize viewSize( iViewRect.Width(), iViewRect.Height() );
     
     iPhysics->InitPhysicsL( worldSize, viewSize, EFalse );
-    if ( iPopUpMenuContent->IsVisible() )
-    	{
-    	iPhysics->UpdateViewWindowControl( iPopUpMenuContent );
-    	}
+    iPhysics->UpdateViewWindowControl( iPopUpMenuContent );
     }
     
 
@@ -282,10 +281,6 @@ void CAknStylusPopUpMenuPhysicsHandler::ViewPositionChanged(
     TBool aDrawNow,
     TUint /*aFlags*/ )
     {
-    if ( !iPopUpMenuContent->IsVisible() )
-    	{
-    	return;
-    	}    
     iScrollIndex = aNewPosition.iY - iViewRect.Height() / 2;
     
     ScrollView( aDrawNow );
@@ -383,24 +378,29 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
         iPrevTopmostItem = topmostItem;    
         
         //when appear or dispear a tiem,a feedback was given.
-        if ( abs( iPrevOffset ) < iViewRect.Height() + iItemHeight
+        if ( abs( iPrevOffset ) <= iViewRect.Height()
               && ( iPrevOffset/iItemHeight ) != iOffsetItemCount )
             {
             if ( iPhysics )
                 {
-                switch(iPhysics->OngoingPhysicsAction())
+                TTouchFeedbackType feedbackType = ETouchFeedbackVibra;
+                switch( iPhysics->OngoingPhysicsAction() )
                     {
-                    case CAknPhysics::EAknPhysicsActionBouncing:
                     case CAknPhysics::EAknPhysicsActionDragging:
+                        {
+                        feedbackType = static_cast<TTouchFeedbackType>
+                                  ( ETouchFeedbackVibra | ETouchFeedbackAudio );
+                        }
                     case CAknPhysics::EAknPhysicsActionFlicking:
+                    case CAknPhysics::EAknPhysicsActionBouncing:
                         {
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
                             feedback->InstantFeedback( iPopUpMenuContent,
-                                                ETouchFeedbackSensitiveList,
-                                                ETouchFeedbackVibra,
-                                                TPointerEvent() );
+                                                    ETouchFeedbackSensitiveItem,
+                                                    feedbackType,
+                                                    TPointerEvent() );
                             }
                         break;
                         }
@@ -408,8 +408,8 @@ void CAknStylusPopUpMenuPhysicsHandler::ScrollView( TBool aDrawNow )
                         break;
                     }
                 }
-            iOffsetItemCount = iPrevOffset/iItemHeight;
             }
+        iOffsetItemCount = iPrevOffset/iItemHeight;
         }
     }
 

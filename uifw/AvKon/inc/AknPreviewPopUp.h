@@ -113,7 +113,14 @@ NONSHARABLE_CLASS( CAknPreviewPopUp ) : public CAknControl,
       	*/
       	void Draw( CWindowGc& aGc, const CCoeControl& aControl,
       	           const TRect& aRect ) const;
-
+  
+        /**
+        * From CCoeControl. Sets this control as visible or invisible.
+        * @param aVisible ETrue to make the control visible, EFalse to make it
+        *        invisible.
+        */
+        void MakeVisible( TBool aVisible );
+        
         /**
         * From CCoeControl. Gets the number of component controls contained by 
         * this control.
@@ -207,13 +214,6 @@ NONSHARABLE_CLASS( CAknPreviewPopUp ) : public CAknControl,
         * @param aRect Rect to draw.
         */
         void DrawBackground( CWindowGc& aGc, const TRect& aRect ) const;
-             
-        /**
-         * Cleans the internal pointer which is used 
-         * to track object deletion.
-         * @param aParam Pointer to preview popup object.
-         */
-        static void CleanLocalRef( TAny* aParam );
         
     private: // Data
     
@@ -249,10 +249,6 @@ NONSHARABLE_CLASS( CAknPreviewPopUp ) : public CAknControl,
         
         // It is true when user clicks the popup, transfer pointer up event to its child control
         TBool iAllowUpEvent;
-        
-        // Stores the local variable address, which is used
-        // to mark whether this object has been deleted
-        TBool* iIsDeleted;
 
     };
 

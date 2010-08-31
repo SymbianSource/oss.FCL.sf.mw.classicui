@@ -41,7 +41,7 @@
 #include <aknlayout.lag>
 #include <aknutils.h>
 #include <eikcba.h>
-#include <AknsConstants.h>
+#include <aknsconstants.h>
 #include <aknnotecontrol.h>
 #include <AknLayoutScalable_Avkon.cdl.h>
 

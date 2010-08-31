@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -481,8 +481,7 @@ EXPORT_C void CEikColumnListBox::FocusChanged( TDrawNow aDrawNow )
 #ifdef RD_LIST_STRETCH
 EXPORT_C void CEikColumnListBox::EnableStretching( const TBool aEnabled )
     {
-    if ( ItemDrawer() && 
-         ( ItemDrawer()->ColumnData()->StretchingEnabled() != aEnabled ) )
+    if ( ItemDrawer()->ColumnData()->StretchingEnabled() != aEnabled )
         {
         ItemDrawer()->ColumnData()->EnableStretching( aEnabled );
         SizeChanged();
@@ -594,6 +593,17 @@ EXPORT_C void CColumnListBoxItemDrawer::SetItemCellSize(
     data->SetItemCellSize( iItemCellSize );
     }
 
+void CColumnListBoxItemDrawer::DrawCurrentItemRect(const TRect& aRect) const
+//
+//    Draw the item background
+//
+    {
+    iGc->SetClippingRect(iViewRect);
+    iGc->SetBrushStyle(CGraphicsContext::ENullBrush);
+    iGc->SetPenColor(iHighlightedBackColor);    // KDefaultLbxHighlightRectColor
+    iGc->DrawRect(aRect);
+    iGc->CancelClippingRect();
+    }
 
 /**
 * Returns a pointer to the column data. Does not imply transfer of ownership.
@@ -645,12 +655,6 @@ void CColumnListBoxItemDrawer::DrawItemText( TInt aItemIndex,
     TInt pos = -1;
 
     TBool removeicon = (!aItemIsSelected && !ItemMarkReverse()) || (aItemIsSelected && ItemMarkReverse());
-    
-    if ( Flags() & CListItemDrawer::EMarkingModeEnabled )
-        {
-        removeicon = EFalse;
-        }
-
     if ( Flags() & EDrawMarkSelection && ItemMarkPosition() != -1 && removeicon)
         {
         repl.Set( ItemMarkReplacement() );
@@ -805,45 +809,55 @@ EXPORT_C void* CEikColumnListBoxEditor::ExtensionInterface( TUid /*aInterface*/ 
 #define ITEM_EXISTS_ONCE(x) (((x) > -1) && ((x) < iModel->NumberOfItems()))
 
 EXPORT_C void
-CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
+CColumnListBoxView::Draw( const TRect* aRect ) const
     {
-    // If we get here background is drawn via avkon implementation -> raise the
-    // corresponding flag in item drawer.
-    if ( iItemDrawer )
-        {
-        iItemDrawer->SetFlags( CListItemDrawer::ENativeImplementation );
-        }
 
-    if ( RedrawDisabled() || !IsVisible() )
+    if (RedrawDisabled() || !IsVisible())
         {
         return;
         }
 
-    TInt i = 0;
+    TInt i=0;
 
-    CColumnListBoxItemDrawer* lbi =
-        static_cast<CColumnListBoxItemDrawer*>( ItemDrawer() );
-    CEikListBox* listbox =
-        static_cast<CEikListBox*>( lbi->ColumnData()->Control() );
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    MAknsControlContext* cc = AknsDrawUtils::ControlContext( listbox );
+    CColumnListBoxItemDrawer* lbi = (CColumnListBoxItemDrawer*)ItemDrawer();
+    CEikListBox* listbox = static_cast<CEikListBox*>( lbi->ColumnData()->Control() );
+    MAknsSkinInstance *skin = AknsUtils::SkinInstance();
+    MAknsControlContext *cc = AknsDrawUtils::ControlContext( listbox );
 
     if ( !cc )
         {
         cc = lbi->ColumnData()->SkinBackgroundContext();
         }
 
-    if ( !listbox )
+    // draw the whole background at once, this is faster than drawing it in separate items
+    if ( listbox && listbox->BackgroundDrawingSuppressed() )
+        {
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+            MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
+            if ( transApi )
+                {
+                transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
+                }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+        AknsDrawUtils::Background( skin, cc, listbox, *iGc, *aRect );
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+        if ( transApi )
+            {
+            transApi->StopDrawing();
+            }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+        }
+    else if ( !listbox )
         {
         iGc->Clear();
         }
 
     TInt firstPotentialItemIndex = iTopItemIndex;
-    TInt lastPotentialItemIndex =
-        iTopItemIndex + NumberOfItemsThatFitInRect( iViewRect ) - 1;
-    TBool backgroundDrawingSuppressed = ( listbox && listbox->BackgroundDrawingSuppressed() );
+    TInt lastPotentialItemIndex = iTopItemIndex + NumberOfItemsThatFitInRect(iViewRect) - 1;
 
-    if ( iModel->NumberOfItems() == 0 )
+    if (iModel->NumberOfItems() == 0)
         {
         // Empty
         }
@@ -851,37 +865,26 @@ CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
         {
         if ( lastPotentialItemIndex > iBottomItemIndex )
             {
+            // Fix for EAAA-797CKC
             lastPotentialItemIndex = iBottomItemIndex;
             }
-
-        if ( backgroundDrawingSuppressed )
-            {
-            iGc->SetClippingRect( iViewRect );
-            }
-
         ITEM_EXISTS_BEGIN;
-        for ( i = firstPotentialItemIndex; i <= lastPotentialItemIndex; i++ )
+        for (i = firstPotentialItemIndex; i <= lastPotentialItemIndex; i++)
             {
-            if ( ITEM_EXISTS( i ) )
+            if (ITEM_EXISTS(i))
                 {
-                DrawItem( i );
+                DrawItem(i);
                 }
             else
                 {
                 break;
                 }
             }
-
-        if ( backgroundDrawingSuppressed )
-            {
-            iGc->CancelClippingRect();
-            }
         }
 
-    if ( !backgroundDrawingSuppressed )
+    if ( listbox && !listbox->BackgroundDrawingSuppressed() )
         {
-        // Clear the unused portion of the viewing area
-        // (this handles drawing the vertical line too :)
+        // clear the unused portion of the viewing area (this handles drawing the vertical line too :)
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
 
@@ -891,16 +894,32 @@ CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-        TRect usedPortionOfViewRect(
-            iViewRect.iTl + TSize( 0, iVerticalOffset ),
-            TSize( iViewRect.Width(), ( i - iTopItemIndex ) * iItemHeight ) );
+        TRect usedPortionOfViewRect( iViewRect.iTl + TSize( 0, iVerticalOffset ), TSize( iViewRect.Width(), ( i - iTopItemIndex ) * iItemHeight ) );
 
-        // Also draw the area behind scroll bar.
-        TRect sbbg( iViewRect ); // whole area behind scroll bar
+        // also clear area behind scroll bar.
+        // this is a terrible hack, which is unfortunately needed since layouts
+        // leave 2 pixel (in double res) wide margins to both sides of the
+        // scroll bar, and there is no other way to do this. This hack is
+        // only really valid for main pane lists, but it does not seem to
+        // break popup lists, popup field lists or setting page radiobutton
+        // lists.
+        TRect sbbg( iViewRect );   // whole area behind scroll bar
+        TRect margin( iViewRect ); // it gets even worse in mirrored layouts
 
         if ( AknLayoutUtils::LayoutMirrored() )
             {
             sbbg.iBr.iX = iViewRect.iBr.iX - lbi->LafItemSize().iWidth;
+
+            // in mirrored layouts we also need to draw a margin slice in right
+            TRect mainPane;
+            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
+                                               mainPane );
+            TAknLayoutRect listscrollAppPane;
+            listscrollAppPane.LayoutRect( mainPane,
+                                          AknLayoutScalable_Avkon::listscroll_app_pane( 0 ) );
+
+            TInt rMargin = mainPane.iBr.iX - listscrollAppPane.Rect().iBr.iX;
+            margin.iTl.iX = margin.iBr.iX - rMargin;
             }
         else
             {
@@ -917,19 +936,22 @@ CColumnListBoxView::Draw( const TRect* /*aRect*/ ) const
                                                    iViewRect,
                                                    usedPortionOfViewRect );
 
-            if ( !sbbg.IsEmpty() )
+            AknsDrawUtils::Background( skin, cc, listbox, *iGc, sbbg );
+
+            if ( AknLayoutUtils::LayoutMirrored() )
                 {
-                AknsDrawUtils::Background( skin, cc, listbox, *iGc, sbbg );
+                AknsDrawUtils::Background( skin, cc, listbox, *iGc, margin );
                 }
             }
         else
             {
             iGc->SetBrushColor( BackColor() );
             DrawUtils::ClearBetweenRects( *iGc, iViewRect, usedPortionOfViewRect );
-            
-            if ( !sbbg.IsEmpty() )
+            iGc->Clear( sbbg );
+
+            if ( AknLayoutUtils::LayoutMirrored() )
                 {
-                iGc->Clear( sbbg );
+                iGc->Clear( margin );
                 }
             }
 

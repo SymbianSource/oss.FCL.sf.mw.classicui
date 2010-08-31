@@ -87,7 +87,7 @@ EXPORT_C void CAknDialog::ConstructL(TInt aMenuTitleResourceId)
  */
 EXPORT_C CAknDialog::~CAknDialog() 
 	{
-    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
+    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
 
     if ( iCoeEnv->AppUi() && iAttributes )
 		if (iAttributes->iAknDialogFlags&EAknDialogFlagDefaultSounds) // return original sound stack
@@ -243,10 +243,7 @@ EXPORT_C TBool CAknDialog::OkToExitL(TInt aButtonId)
  */
 EXPORT_C void CAknDialog::DisplayMenuL() 
 	{
-    if (iMenuBar)
-        {
-        iMenuBar->TryDisplayMenuBarL();
-        }
+	iMenuBar->TryDisplayMenuBarL();
 	}
 
 /**

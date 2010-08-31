@@ -45,20 +45,8 @@
 //For MCoeCaptionRetrieverForFep
 #include <fepbase.h>
 #include <AknPopupFader.h>
-#include <gfxtranseffect/gfxtranseffect.h>
-#include <akntransitionutils.h>
-#include <touchfeedback.h>
-#include <akntranseffect.h>
 #include "aknitemactionmenuregister.h"
 #include "aknqueryeditorindicator.h"
-
-
-
-//
-// the function's definition is in the AknNoteDialog.cpp
-//
-TBool IsFocusedWindowGroup( const CCoeControl* aControl );
-
 
 // This determines the maximum number of digits in the optional number displayed on the
 // top left of the setting page
@@ -580,19 +568,9 @@ EXPORT_C void CAknSettingPage::ResetFlags()
 EXPORT_C CAknSettingPage::~CAknSettingPage()
 	{
 	AKNTASHOOK_REMOVE();
-
-    StopActiveScheduler();
-
-    // If navi pane context is not poped out yet, pop it now.
-	PopNaviDecoratorIfRequired();
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        GfxTransEffect::Deregister( this );
-        }
-
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 
-    TRAP_IGNORE(AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL ));
+    AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
     
 	if (iMenuBar)
 		{
@@ -607,9 +585,12 @@ EXPORT_C CAknSettingPage::~CAknSettingPage()
 	delete iHintText;
 	delete iCba;
 	delete iExtension;
-    iExtension = NULL;
 
+    // If navi pane context is not poped out yet, pop it now.
+	PopNaviDecoratorIfRequired();
 	delete iNaviDecorator;
+
+	StopActiveScheduler();
 	}
 
 void CAknSettingPage::StopActiveScheduler()
@@ -789,6 +770,9 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	{
 	CreateWindowL();
 
+	SetGloballyCapturing( ETrue );
+    SetPointerCapture(ETrue);
+
     if( NULL == iExtension )
         {
         iExtension = CAknSettingPageExtension::NewL( this );
@@ -902,12 +886,6 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	        }
 	    }
 	
-	if(iExtension->iEmbeddedSoftkeys)
-		{
-		SetGloballyCapturing( ETrue );
-    	SetPointerCapture(ETrue);	
-		}
-
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( this );
 
 	if ( !iExtension->iEmbeddedSoftkeys )
@@ -921,16 +899,15 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
         iCba = CEikButtonGroupContainer::NewL( CEikButtonGroupContainer::ECba,
             CEikButtonGroupContainer::EHorizontal, 
             this, resourceId, *this, CEikButtonGroupContainer::EIsEmbedded | 
-            CEikButtonGroupContainer::EAddToStack | 
-            CEikButtonGroupContainer::EAlwaysShown );
+            CEikButtonGroupContainer::EAddToStack );
 	    }
 	
 	iExtension->CreateBackgroundContextL();
 
-    if ( iExtension->iEmbeddedSoftkeys )
+    if ( iExtension->iEmbeddedSoftkeys && 
+            CAknEnv::Static()->TransparencyEnabled() )
         {
         EnableWindowTransparency();
-        GfxTransEffect::Register( this, KGfxPopupDefaultControlUid );
         }
 
 	// Make the menu bar
@@ -938,6 +915,7 @@ EXPORT_C void CAknSettingPage::ConstructFromResourceL(TResourceReader &aRes)
 	iMenuBar->ConstructL( this, NULL, iMenuBarId ) ;
 	iEikonEnv->EikAppUi()->AddToStackL(iMenuBar,ECoeStackPriorityMenu,ECoeStackFlagRefusesFocus);
 	
+
 	iTextLabel = new(ELeave) CEikLabel( );
     iTextLabel->UseLogicalToVisualConversion(ETrue);
 	iTextLabel->SetContainerWindowL(*this);
@@ -1400,26 +1378,8 @@ EXPORT_C TBool CAknSettingPage::OkToExitL(TBool /*aAccept*/ )
  */
 EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 	{
-    if ( AknLayoutUtils::PenEnabled() )
-        {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-            if ( CAknTransitionUtils::TransitionsEnabled(
-                    AknTransEffect::EComponentTransitionsOff ) )
-                {
-                fbLogicalType = ETouchFeedbackDecreasingPopUp;
-                }
-            feedback->InstantFeedback(
-                                   this,
-                                   fbLogicalType,
-                                   ETouchFeedbackVibra,
-                                   TPointerEvent() );
-            }
-        }
-    
     AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
+    MakeVisible( EFalse );
 
 	if ( aAccept )
 		{
@@ -1433,17 +1393,6 @@ EXPORT_C void CAknSettingPage::DismissL(TBool aAccept)
 		if ( iSettingPageObserver )
 			iSettingPageObserver->HandleSettingPageEventL(this, MAknSettingPageObserver::EEventSettingCancelled);
 		}
-	
-	if ( GfxTransEffect::IsRegistered( this ) && IsFocusedWindowGroup( this ) && IsVisible() )
-	    {
-        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
-        MakeVisible( EFalse );
-        GfxTransEffect::End( this );
-	    }
-	else
-	    {
-        MakeVisible( EFalse );
-	    }
 
 	iEikonEnv->RemoveFromStack(iCba);
 	delete iCba;
@@ -1684,30 +1633,6 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 // Ensure we have a menu bar by this point
 	__ASSERT_DEBUG( iMenuBar, Panic( EAknPanicSettingPageNoMenuBar ) ) ;
 
-    if ( AknLayoutUtils::PenEnabled() )
-        {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-            if ( CAknTransitionUtils::TransitionsEnabled(
-                    AknTransEffect::EComponentTransitionsOff ) )
-                {
-                fbLogicalType = ETouchFeedbackIncreasingPopUp;
-                }
-            feedback->InstantFeedback(
-                                   this,
-                                   fbLogicalType,
-                                   ETouchFeedbackVibra,
-                                   TPointerEvent() );
-            }
-        }
-    
-	//
-  	// Set editor control to be invisible
-  	//
-	iEditorControl->MakeVisible( EFalse );
-
 	DynamicInitL();
 	ActivateL();
 
@@ -1715,25 +1640,10 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 	    {
 	    iExtension->iFader.FadeBehindPopup( iExtension, this, ETrue );
 	    }
-
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        GfxTransEffect::Begin( this, KGfxControlAppearAction );
-
-        TRect demarcation;
-        CAknTransitionUtils::GetDemarcation( CAknTransitionUtils::EPopup, 
-                demarcation );
-        GfxTransEffect::SetDemarcation( this, demarcation );
-
-		iEditorControl->MakeVisible( ETrue );
-        MakeVisible( ETrue );
-        GfxTransEffect::End( this );
-        }
-    else
-        {
-        iEditorControl->MakeVisible( ETrue );
-        MakeVisible( ETrue );
-        }
+	
+	// Catch up with editor's brute draw (in editor setting page)
+	DrawNow();   //  EECO-7QYCR4 and TSAA-7Q3D2J is conflict , so make an extra draw operation here
+    DrawDeferred();
 
 	iEditorControl->SetObserver( this );
 	iEikonEnv->EikAppUi()->AddToStackL(this,ECoeStackPriorityDialog);
@@ -1793,9 +1703,7 @@ EXPORT_C TBool CAknSettingPage::ExecuteLD( TAknSettingPageUpdateMode aMode )
 		StartActiveScheduler();
 		}
 	else
-		{
-        AttemptExitL(EFalse);	
-        }
+		AttemptExitL(EFalse);
 	
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 	CleanupStack::Pop(); // this
@@ -2150,10 +2058,6 @@ EXPORT_C TTypeUid::Ptr CAknSettingPage::MopSupplyObject(TTypeUid aId)
         {
         return SupplyMopObject( aId, iExtension->iEditIndicator );
         }
-    else if( aId.iUid == MAknsControlContext::ETypeId)
-        {
-        return MAknsControlContext::SupplyMopObject(aId, iExtension->iSettingPageBgContext);
-        } 
 
     return SupplyMopObject( aId, iCba, iMenuBar );
 	}
@@ -2217,7 +2121,7 @@ TRect CAknSettingPage::SettingItemContentRect( TBool aScrollBarUsed )
 
 void CAknSettingPage::PopNaviDecoratorIfRequired()
     {
-    if ( iNaviPane && iExtension && !iExtension->iEmbeddedSoftkeys )
+    if ( iNaviPane && !iExtension->iEmbeddedSoftkeys )
         {
         iNaviPane->Pop( iNaviDecorator ); // iNaviDecorator is not to be detroyed yet
 

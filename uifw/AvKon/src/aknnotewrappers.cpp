@@ -134,17 +134,14 @@ EXPORT_C void CAknNoteWrapper::HandlePointerEventL(const TPointerEvent& aPointer
     {
     if ( AknLayoutUtils::PenEnabled() )
         {
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+        if (aPointerEvent.iType == TPointerEvent::EButton1Up)
             {
             MTouchFeedback* feedback = MTouchFeedback::Instance();
             if ( feedback )
                 {
                 feedback->InstantFeedback( ETouchFeedbackPopUp );
                 }
-            }
-        if (aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            StaticDeleteL(this);
+            StaticDeleteL(this);     
             }
         }
     }

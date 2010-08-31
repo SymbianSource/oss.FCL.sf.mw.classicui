@@ -206,6 +206,11 @@ void CSmileyDrawer::RemoveAnimChecker( MSmileyAnimChecker* aAnimChecker )
 void CSmileyDrawer::DrawImageByIconL( CBitmapContext& aGc, 
     CSmileyIcon* aIcon )
     {
+    if ( aIcon->DocPos() < iVisibleStart && aIcon->DocPos() >= 
+        iVisibleStart + iVisibleLength )
+        {
+        return;
+        }
     CSmileyImageData* image( aIcon->ImageData() );
     CFbsBitmap* bmp( image->Bitmap() );
     CFbsBitmap* mask( image->Mask() );

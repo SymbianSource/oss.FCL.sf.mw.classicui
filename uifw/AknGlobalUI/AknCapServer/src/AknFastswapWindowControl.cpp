@@ -39,8 +39,6 @@
 #include <akntransitionutils.h>
 #include <akntranseffect.h>
 #include <gfxtranseffect/gfxtranseffect.h>
-#include <widgetregistryconstants.h>
-#include <widgetregistrydata.h>
 #include <featmgr.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include <centralrepository.h>
@@ -156,150 +154,6 @@ TInt CAknFastSwapData::AknTransitionCallback(TInt aEvent, TInt /*aState*/,
     _AKNTRACE_FUNC_EXIT; 
     return KErrNone;
     }
-
-NONSHARABLE_CLASS(CAknWidgetList) : public CBase
-    {
-    public:
-        static CAknWidgetList* NewL( CAknFastSwapWindowControl& aParent );
-        /** Destructor */
-        ~CAknWidgetList();
-
-        /**
-         * Initializes the list that stores widgets.
-         * @return   -
-         */        
-        void InitializeWidgetListL();
-
-        /**
-         * Check if a uid is the uid of the widget application.
-         * @param    aAppUid The application uid to be checked.
-         * @return   ETrue application uid belongs to widget application - EFalse otherwise.
-         */
-        TBool IsWidgetAppUI( TUid aAppUid );
-
-        /**
-         * Check if the window group id value refers to widget.
-         * @param aWgId window group id.
-         * @return ETrue if window group id has value that refers to widget.
-         */
-        TBool IsWidget( TInt aWgId );
-
-        /**
-         * Map tasklist application index to application Uid.
-         *  
-         * @param    aIndex index of tasklist item array.
-         * @param    aAlwaysShownCount number of applications that are always shown on
-                     the active applications list.
-         * @return   application Uid
-         */
-        TUid IndexToAppUid( TInt aIndex, TInt aAlwaysShownCount );
-        
-    private:
-        /** Constructor */
-        CAknWidgetList( CAknFastSwapWindowControl& aParent );
-        void ConstructL();
-        void ResetArrayOfWidgetInfo( RWidgetInfoArray& aWidgetInfoArr );
-        
-        static void CleanupConnect( TAny* aThis );
-
-    public:
-        /** Contains list of widgets that are currently running */
-        RWidgetInfoArray iRunningWidgets;
-    private:
-        CAknFastSwapWindowControl& iParent;
-        RWidgetRegistryClientSession iWidgetRegistryClientSession;
-    };
-
-
-CAknWidgetList* CAknWidgetList::NewL( CAknFastSwapWindowControl& aParent )
-    {
-    _AKNTRACE_FUNC_ENTER;
-    CAknWidgetList* self = new (ELeave) CAknWidgetList( aParent );
-    CleanupStack::PushL(self);
-    self->ConstructL();
-    CleanupStack::Pop(); //self
-    _AKNTRACE_FUNC_EXIT;
-    return self;
-    }
-    
-CAknWidgetList::CAknWidgetList( CAknFastSwapWindowControl& aParent ): iParent( aParent )
-    {
-    }
-
-CAknWidgetList::~CAknWidgetList()
-    {
-    _AKNTRACE_FUNC_ENTER;    
-    ResetArrayOfWidgetInfo( iRunningWidgets );        
-    iRunningWidgets.Reset();
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-void CAknWidgetList::ConstructL()
-    {
-    }
-    
-void CAknWidgetList::CleanupConnect( TAny* aThis )
-    {
-    _AKNTRACE_FUNC_ENTER;
-     (( CAknWidgetList*)aThis)->iWidgetRegistryClientSession.Disconnect();   
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-void CAknWidgetList::InitializeWidgetListL()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    ResetArrayOfWidgetInfo( iRunningWidgets );
-    iRunningWidgets.Reset();
-    User::LeaveIfError( iWidgetRegistryClientSession.Connect() );
-    CleanupStack::PushL( TCleanupItem( CleanupConnect, this) );
-    iWidgetRegistryClientSession.RunningWidgetsL(iRunningWidgets);
-    for ( TInt i = iRunningWidgets.Count() - 1; i > -1; i-- )
-        {
-        if ( !iWidgetRegistryClientSession.IsWidgetInFullView(iRunningWidgets[i]->iUid) )
-            {
-            delete iRunningWidgets[i];
-            iRunningWidgets.Remove(i);
-            }
-        }
-    CleanupStack::Pop(); // clean WidgetRegistryClientSession item
-    iWidgetRegistryClientSession.Disconnect();
-    _AKNTRACE_FUNC_EXIT;
-    }
-    
-TBool CAknWidgetList::IsWidgetAppUI( TUid aAppUid )
-    {
-    _AKNTRACE( "[%s] aAppUid = %d", 
-	           __FUNCTION__, aAppUid.iUid );
-    return (aAppUid == KWidgetAppUid);
-    }
-
-TBool CAknWidgetList::IsWidget( TInt aWgId )
-    {
-    _AKNTRACE( "[%s] aWgId = %d", 
-	           __FUNCTION__, aWgId );
-    return (aWgId == KWidgetWithoutWG);
-    }
-
-TUid CAknWidgetList::IndexToAppUid( TInt aIndex, TInt aAlwaysShownCount )
-    {
-    _AKNTRACE( "[%s] aIndex = %d aAlwaysShownCount = %d",
-    		   __FUNCTION__, aIndex, aAlwaysShownCount );
-    return iRunningWidgets[aIndex + iRunningWidgets.Count() + 
-        aAlwaysShownCount - iParent.iNumberOfWGs]->iUid;
-    }
-
-void CAknWidgetList::ResetArrayOfWidgetInfo( 
-    RWidgetInfoArray& aWidgetInfoArr )
-    {
-    _AKNTRACE_FUNC_ENTER;
-    for ( TInt i = 0; i < aWidgetInfoArr.Count(); i++ )
-        {
-        CWidgetInfo *item = aWidgetInfoArr[i];
-        delete item ; 
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
 
 NONSHARABLE_CLASS(CAknAlwaysShownAppList) : public CBase
     {
@@ -528,9 +382,8 @@ _LIT(KTab,"\t");
 // might leave.
 //
 CAknFastSwapWindowControl::CAknFastSwapWindowControl(CAknCapAppServerAppUi& aAppUi)
-: iAppUi( aAppUi ),iLowMemory( EFalse ), iLowMemIcons( EFalse ), iAppArcSessionInitiated( EFalse ),
-  iWidgetAppUiWgId(-1), iWidgetsSupported( EFalse ),
-  iTooltipModeTouch( EFalse ),iTransparencyEnabled( CAknEnv::Static()->TransparencyEnabled() ), 
+: iAppUi( aAppUi ), iLowMemory( EFalse ), iLowMemIcons( EFalse ), iAppArcSessionInitiated( EFalse ),
+  iTooltipModeTouch( EFalse ), iTransparencyEnabled( CAknEnv::Static()->TransparencyEnabled() ), 
   iIsStylusPopupShow(EFalse), iState( EWaiting )
     { 
     AKNTASHOOK_ADD( this, "CAknFastSwapWindowControl" );
@@ -559,10 +412,6 @@ void CAknFastSwapWindowControl::ConstructL()
             }
         }
 
-    if (FeatureManager::FeatureSupported(KFeatureIdWebWidgets))
-        {   
-        iWidgetsSupported = ETrue;     
-        }
     CreateCbaL();
     CreateGridL();
     CreateItemArraysL();
@@ -587,10 +436,6 @@ void CAknFastSwapWindowControl::ConstructL()
     // the list for always shown applications in the fast swap
     iAlwaysShownList = CAknAlwaysShownAppList::NewL( *this );
 
-    if (iWidgetsSupported)
-        {        
-        iWidgetList = CAknWidgetList::NewL( *this );
-        }
     MakeVisible( EFalse );
     _AKNTRACE_FUNC_EXIT; 
     }
@@ -610,7 +455,7 @@ CAknFastSwapWindowControl::~CAknFastSwapWindowControl()
         AknsUtils::DeregisterControlPosition( iGrid );
         }
     delete iAlwaysShownList;
-    delete iWidgetList;
+    
     FadeBackground( EFalse );
     delete iFrameContext;
     delete iGrid; // destroys also iIconArray and scrollbar frame
@@ -669,7 +514,7 @@ void CAknFastSwapWindowControl::RunFastSwapL()
         MTouchFeedback* feedback = MTouchFeedback::Instance();
         if ( feedback )
             {
-            feedback->InstantFeedback( ETouchFeedbackIncreasingPopUp );
+            feedback->InstantFeedback( ETouchFeedbackPopupOpen );
             }
         }
     
@@ -886,10 +731,7 @@ TBool CAknFastSwapWindowControl::InitializeWindowGroupListL( TInt aWaitForWGRemo
     iAppArcSession.GetAllApps();
     // create list for always shown applications    
     iAlwaysShownList->InitializeAlwaysShownListL();         
-    if (iWidgetsSupported)
-        {        
-        iWidgetList->InitializeWidgetListL();
-        }
+    
     //Initializes CAknFastSwapWindowControl private data ( iWgIds, iNumberOfWGs )
     RWsSession& wsSession=iEikonEnv->WsSession();
     TInt count=wsSession.NumWindowGroups( 0 );
@@ -940,10 +782,7 @@ TBool CAknFastSwapWindowControl::InitializeWindowGroupListL( TInt aWaitForWGRemo
                 {
                 iAlwaysShownList->AddWgGroupToAlwaysShownList( applicationUid, wgId );
                 }
-            else if (iWidgetsSupported && iWidgetList->IsWidgetAppUI(applicationUid))
-                {
-                iWidgetAppUiWgId = wgId;
-                }
+            
             // could't use windowName->IsAppReady(), because then java and console application
             // wouldn't be seen in FSW. Now it is possible that some system apps are seen at the
             // beginning of their start for a while in FSW (even they should be hidden all the time)
@@ -956,15 +795,6 @@ TBool CAknFastSwapWindowControl::InitializeWindowGroupListL( TInt aWaitForWGRemo
                 shownWgIds->AppendL(wgInfo);
                 }
             CleanupStack::PopAndDestroy();  //windowName
-            }
-        }
-
-    if (iWidgetsSupported)
-        {        
-        for ( TInt index = 0; index < iWidgetList->iRunningWidgets.Count(); index++)
-            {
-            SWindowGroupInfo wgInfo = { KWidgetWithoutWG, EFalse };
-            shownWgIds->AppendL( wgInfo );
             }
         }
 
@@ -1640,7 +1470,6 @@ void CAknFastSwapWindowControl::HandleListBoxEventL( CEikListBox* /*aListBox*/,
             break;
 
         case MEikListBoxObserver::EEventItemClicked:
-        case MEikListBoxObserver::EEventItemSingleClicked:
             if ( !iItemDraggingActioned && !iIsStylusPopupShow )
                 {
                 TTime now;
@@ -2044,21 +1873,6 @@ void CAknFastSwapWindowControl::UpdateItemArraysL()
             name.Append( KTab );
             name.Append( caption );
             }
-        else if (iWidgetsSupported && iWidgetList->IsWidget( wgId ))
-            {
-            appUid = iWidgetList->IndexToAppUid( index, iAlwaysShownList->iAppList->Count() );
-            iAppArcSession.GetAppInfo( info, appUid );
-
-            // retrieve the app name
-            TPtrC caption = info.iShortCaption;
-            name.Zero();
-            
-            // conversion from TInt to TReal, might be a problem in the future
-            name.AppendNum( index ); 
-            
-            name.Append( KTab );
-            name.Append( caption );            
-            }            
         //
         // Running Applications
         //
@@ -2232,10 +2046,6 @@ void CAknFastSwapWindowControl::SwitchToApplicationL( TInt aIndex )
         {
         LaunchAppL( iAlwaysShownList->IndexToAppUid( aIndex ) );
         }
-    else if ( iWidgetsSupported && wgId == KWidgetWithoutWG )
-        {
-        LaunchAppL( iWidgetList->IndexToAppUid( aIndex, iAlwaysShownList->iAppList->Count() ) );
-        }
     // brings existing application to foreground and closes fastswap    
     else 
         {
@@ -2329,7 +2139,7 @@ void CAknFastSwapWindowControl::CloseFastSwap()
             MTouchFeedback* feedback = MTouchFeedback::Instance();
             if ( feedback )
                 {
-                feedback->InstantFeedback( ETouchFeedbackDecreasingPopUp );
+                feedback->InstantFeedback( ETouchFeedbackPopupClose );
                 }
             }
         // calculate already here since PositionRelativeToScreen
@@ -2924,13 +2734,8 @@ TInt CAknFastSwapWindowControl::NumberOfVisibleRows()
 TPtrC CAknFastSwapWindowControl::CurrentAppName()
     {
     _AKNTRACE_FUNC_ENTER;
-    TInt textindex = iGrid->CurrentDataIndex();
-    TPtrC name;
-    if ( textindex > 0 )
-        {
-        name.Set( iGrid->Model()->ItemText( textindex ) );
-        name.Set( name.Mid( name.Find(KTab)+1 ) );
-        }
+    TPtrC name = iGrid->Model()->ItemText( iGrid->CurrentDataIndex() );
+    name.Set( name.Mid( name.Find(KTab)+1) );
     _AKNTRACE_FUNC_EXIT;
     return name;
     }        
@@ -3039,25 +2844,7 @@ void CAknFastSwapWindowControl::TryCloseApplicationL( TInt aIndex, TBool aIsShif
 
     iIsClosing = ETrue;
     
-    if (iWidgetsSupported && iWidgetList->IsWidget( iConfirmCloseWgId ))
-        {
-        TWsEvent event;
-        event.SetType(EEventUser);
-            
-        TUid widgetUid = iWidgetList->IndexToAppUid(aIndex, iAlwaysShownList->iAppList->Count());
-
-        TInt32 widgetAppUiUidInt = KWidgetAppUid.iUid;
-        TInt32 widgetUidInt = widgetUid.iUid;
-        TUint8* eventData = event.EventData();
-        // Fill bits 0-31 with widget application Uid.
-        (TUint32&)*eventData = widgetAppUiUidInt;
-        eventData+=sizeof(TUint32);
-        // Fill bits 32-63 with uid of the widget that should be closed.
-        (TUint32&)*eventData = widgetUidInt;
-        // Send the event to Widget AppUi.
-        iEikonEnv->WsSession().SendEventToWindowGroup(iWidgetAppUiWgId, event);
-        }
-    else if ( aIsShift )
+    if ( aIsShift )
         {
         TApaTask task( iEikonEnv->WsSession() );
         task.SetWgId( iConfirmCloseWgId );

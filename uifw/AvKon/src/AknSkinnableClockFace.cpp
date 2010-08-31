@@ -90,6 +90,11 @@ inline TBool IsNonLatinDigitsUsed()
     locale.Refresh();
     TDigitType digitType( locale.DigitType() );
 
+    if ( uiLanguage == ELangUrdu )
+        {
+        return EFalse;
+        }
+
     return ( AknTextUtils::DigitModeQuery() &&
              digitType != EDigitTypeDevanagari );
     }

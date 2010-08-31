@@ -218,27 +218,6 @@ void CAknTreeNode::Sort()
     iChild.Sort( order );
     }
 
-// ---------------------------------------------------------------------------
-// AllChildrenMarked
-// ---------------------------------------------------------------------------
-//
-TBool CAknTreeNode::AllChildrenMarked()
-    {
-    TInt count = iChild.Count();
-    TInt marked ( 0 );
-    for ( TInt ii = count - 1; ii >= 0; --ii )
-        {
-        if ( iChild[ii]->IsMarked() )
-            {
-            marked++;
-            }
-        }
-    if ( count == marked )
-        {
-        return ETrue;
-        }
-    return EFalse;
-    }
 
 // ---------------------------------------------------------------------------
 // From class CAknTreeItem.

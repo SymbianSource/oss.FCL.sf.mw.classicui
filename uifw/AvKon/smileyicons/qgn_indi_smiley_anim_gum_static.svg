@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.998 -8.046)">
+<g transform="translate(-5.49 -14.355) scale(5.381)">
+<g transform="translate(-5.52208 -7.48666) translate(0.0437268 0) translate(-0.0109317 -0.0109317) translate(0.0327951 -0.0109317) translate(0.0109317 0) translate(-0.0327951 0.0109317)">
+<path style="fill:rgb(237,30,121);fill-rule:evenodd" d="M9.266 11.655 C9.266 12.373 8.683 12.955 7.965 12.955 C7.246 12.955 6.664 12.373 6.664 11.655 C6.664 10.936 7.246 10.354 7.965 10.354 C8.683 10.354 9.266 10.936 9.266 11.655 z" transform="translate(0 0.001)"/>
+</g>
+</g>
+<g>
+<path style="fill:rgb(255,255,255);fill-rule:evenodd" d="M7.69 6.626 C7.69 7.731 6.795 8.626 5.688 8.626 C4.584 8.626 3.69 7.731 3.69 6.626 C3.69 5.521 4.585 4.626 5.688 4.626 C6.796 4.626 7.69 5.521 7.69 6.626 z" transform="translate(0 0.001)"/>
+<path style="fill:rgb(0,0,0);fill-rule:evenodd" d="M6.69 6.626 C6.69 7.179 6.242 7.626 5.69 7.626 C5.137 7.626 4.69 7.179 4.69 6.626 C4.69 6.074 5.137 5.626 5.69 5.626 C6.242 5.626 6.69 6.074 6.69 6.626 z" transform="translate(0 0.001)"/>
+</g>
+<g>
+<path style="fill:rgb(255,255,255);fill-rule:evenodd" d="M12.31 6.626 C12.31 7.731 11.414 8.626 10.31 8.626 C9.205 8.626 8.31 7.731 8.31 6.626 C8.31 5.522 9.205 4.626 10.31 4.626 C11.414 4.626 12.31 5.522 12.31 6.626 z" transform="translate(0 0.001)"/>
+<path style="fill:rgb(0,0,0);fill-rule:evenodd" d="M11.31 6.626 C11.31 7.179 10.862 7.626 10.31 7.626 C9.757 7.626 9.31 7.179 9.31 6.626 C9.31 6.074 9.757 5.626 10.31 5.626 C10.862 5.626 11.31 6.074 11.31 6.626 z" transform="translate(0 0.001)"/>
+</g>
+</g>
+</g>
+</svg>

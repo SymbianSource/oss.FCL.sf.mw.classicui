@@ -1,0 +1,116 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test EIKINFO.H EIKPROGI.H AknNoteDialog.h aknnotewrappers.h 
+*                     AknProgressDialog.h aknprogresstimer.h AknStaticNoteDialog.h 
+*                     aknwaitdialog.h AknWaitNoteWrapper.h aknnotecontrol.h
+*
+*/
+
+
+#include <data_caging_paths.hrh> 
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+TARGET          testsdknotes.dll
+TARGETTYPE      dll
+UID 0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdknotes.def
+
+#ifdef SBSV2
+    SOURCEPATH     ../data
+    START RESOURCE  testsdknotes.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#else // SBSV2 not defined
+SOURCEPATH     ../data
+    START RESOURCE  testsdknotes.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    END
+#endif // SBSV2
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc 
+
+    MW_LAYER_SYSTEMINCLUDE
+
+    SOURCEPATH      ../src
+#else // SBSV2 not defined
+USERINCLUDE     ../inc 
+        
+MW_LAYER_SYSTEMINCLUDE
+        
+SOURCEPATH      ../src
+#endif // SBSV2
+
+
+SOURCE          testsdknotes.cpp
+SOURCE          testsdknotesblocks.cpp 
+SOURCE          testsdknotesnotecontrol.cpp 
+SOURCE          testsdknotesblocksand.cpp 
+SOURCE          testsdknotesblockseikinfo.cpp 
+SOURCE          testsdknotesblockseikprogi.cpp 
+SOURCE          testsdknotesblocksnw.cpp 
+SOURCE          testsdknotesblockspd.cpp 
+SOURCE          testsdknotesblockssdn.cpp 
+SOURCE          testsdknotesblockswd.cpp 
+SOURCE          testsdknotesblockswnw.cpp 
+SOURCE          testsdknotesblocksnc.cpp
+SOURCE          testsdknotesprogressinfo.cpp 
+SOURCE          testsdknotesnotedialog.cpp
+SOURCE          testsdknotesprogressdialog.cpp
+SOURCE          testsdknotesstaticnotedialog.cpp
+SOURCE          testsdknotesbackgroundprocess.cpp
+SOURCE          testsdknotescontrol.cpp
+
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         eikctl.lib
+LIBRARY         bafl.lib
+LIBRARY         cone.lib
+LIBRARY         egul.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         estor.lib
+LIBRARY         eikdlg.lib
+LIBRARY         ws32.lib
+LIBRARY         form.lib
+LIBRARY         uiklaf.lib
+LIBRARY         eikcore.lib
+LIBRARY         Lbs.lib
+LIBRARY         insock.lib
+LIBRARY         fepbase.lib
+LIBRARY         etext.lib
+LIBRARY         field.lib
+LIBRARY         efsrv.lib
+LIBRARY         gdi.lib
+LIBRARY         aknskins.lib 
+LIBRARY         aknskinsrv.lib 
+LIBRARY         aknswallpaperutils.lib
+LIBRARY         fbscli.lib
+LIBRARY         print.lib
+
+LANG            SC
+
+// End of File

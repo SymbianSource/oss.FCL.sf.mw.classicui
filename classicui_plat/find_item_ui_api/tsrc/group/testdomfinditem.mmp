@@ -37,7 +37,7 @@ DEFFILE         testdomfinditem.def
     MW_LAYER_SYSTEMINCLUDE
 
     SOURCEPATH     ../data
-    START RESOURCE  testdomfinditem.rss
+    START RESOURCE  testdomfineitem.rss
     HEADER
     TARGETPATH RESOURCE_FILES_DIR
     LANGUAGE_IDS
@@ -66,7 +66,7 @@ SOURCE          testdomfinditemblocksmenu.cpp
 SOURCE          testdomfinditemcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib
 LIBRARY         commonui.lib

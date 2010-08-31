@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -26,8 +26,6 @@
 #include <eiksoftkeypostingtransparency.h>
 #include <eikbtgpc.h>
 #include <aknappui.h>
-#include <eikappui.h>
-#include <eikapp.h>
 #include <AknUtils.h> // LayoutUtils
 #include <aknlayoutscalable_apps.cdl.h>
 #include <AknsBasicBackgroundControlContext.h>
@@ -56,8 +54,7 @@
 #include <aknitemactionmenu.h>
 #include "akncollectionobserver.h"
 #include "aknitemactionmenuregister.h"
-#include "aknmarkingmode.h"
-#include "akntrace.h"
+
 /**
  * Color value for transparent pixel (ARGB format).
  */
@@ -77,16 +74,12 @@ const TUint32 KOutlineFontMask = 0x00000040;
 inline TAknWindowComponentLayout DoCompose(TAknWindowComponentLayout aLine1, 
     TAknWindowComponentLayout aLine2) 
     { 
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return TAknWindowComponentLayout::Compose(aLine1, aLine2); 
     }
 
 inline TAknTextComponentLayout DoComposeText(TAknWindowComponentLayout aLine1, 
     TAknTextComponentLayout aLine2) 
     { 
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return TAknWindowComponentLayout::ComposeText(aLine1, aLine2); 
     }
     
@@ -96,8 +89,6 @@ inline TAknTextComponentLayout DoComposeText(TAknWindowComponentLayout aLine1,
 */
 static TBool IsAreaSideRightPaneActive()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -107,7 +98,6 @@ static TBool IsAreaSideRightPaneActive()
 */
 static TBool IsMskEnabledLayoutActive()
     {
-    _AKNTRACE_FUNC_ENTER;
     TBool result( EFalse );
     
     if ( Layout_Meta_Data::IsMSKEnabled() )
@@ -133,7 +123,6 @@ static TBool IsMskEnabledLayoutActive()
             }
         }
     
-    _AKNTRACE_FUNC_EXIT;
     return result;
     }
 
@@ -144,8 +133,6 @@ static TBool IsMskEnabledLayoutActive()
  */
 static TBool IsBitmapUpdateNeeded( CFbsBitmap* aOldBitmap, const TSize& aSize )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return !aOldBitmap || ( aOldBitmap->SizeInPixels() != aSize );
     }
 
@@ -214,10 +201,7 @@ enum TCbaChangeRecordedFlags
     ECbaSingleClickEnabled, // single click enabled in appUi
     ECbaItemSoftkeyDisabled, // item specific softkey disabled
     ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
-    ECbaItemSoftkeyDisabledByClient, // client has disabled item specific softkey
-    ECbaMultipleMarkingActive, // multiple marking has changed RSK
-    ECbaCombinePaneUncovered, // The combine pane in status pane is invisible.
-    ECbaKeepItemSoftkeyVisible // No auto hide for item specific commands
+    ECbaItemSoftkeyDisabledByClient // client has disabled item specific softkey
     };
 
 enum TCbaLayers
@@ -254,24 +238,19 @@ public:
                                           iRightFrameMask( NULL ),
                                           iItemActionMenu( NULL )
         {
-        _AKNTRACE_FUNC_ENTER;
-        _AKNTRACE_FUNC_EXIT;
         };
     
     static CEikCbaExtension* NewL( CEikCba& aOwner )
         {
-        _AKNTRACE_FUNC_ENTER;
         CEikCbaExtension* self = new (ELeave) CEikCbaExtension( aOwner );
         CleanupStack::PushL( self );
         self->ConstructL();
         CleanupStack::Pop( self );
-        _AKNTRACE_FUNC_EXIT;
         return self;
         }
     
     void ConstructL() 
         {
-        _AKNTRACE_FUNC_ENTER;
         // Wallpaper is not drawn by embedded CBA.
         if ( !iOwner.Flags().IsSet( ECbaEmbedded ) )
             {
@@ -289,18 +268,17 @@ public:
         iCbaRect = TRect( 0,0,0,0 );
         iIfSkinChanged = EFalse;
         iIfMskIconSet = EFalse;
+        iSemiBgID = KAknsIIDNone;
 
         if ( iOwner.Flags().IsSet( ECbaSingleClickEnabled ) )
             {
             AknItemActionMenuRegister::RegisterCollectionObserverL(
                     *this );
             }
-        _AKNTRACE_FUNC_EXIT;
         }
     
     ~CEikCbaExtension() 
         {
-        _AKNTRACE_FUNC_ENTER;
         if ( iOwner.Flags().IsSet( ECbaSingleClickEnabled ) )
             {
             AknItemActionMenuRegister::UnregisterCollectionObserver( *this );
@@ -318,24 +296,19 @@ public:
         delete iLskPostingOverlayBitmap;
         delete iRskPostingOverlayBitmap;
         delete iBmpFile;
-        _AKNTRACE_FUNC_EXIT;
         }
     
     /** From base class MCenRepNotifyHandlerCallback */
     void HandleNotifyInt( TUint32 /*aId*/, TInt aNewValue )
         {
-        _AKNTRACE_FUNC_ENTER;
         iWallpaperInUse = aNewValue;
         iOwner.SetSkinBackgroundId( KAknsIIDNone );
-        _AKNTRACE_FUNC_EXIT;
         }
         
     void UpdateSoftkeyFrameL( TBool aForcedUpdate )
         {
-        _AKNTRACE_FUNC_ENTER;
         if ( !AknLayoutUtils::PenEnabled() )
             {
-            _AKNTRACE_FUNC_EXIT;
             return;
             }
         TAknLayoutRect cbarect;
@@ -465,7 +438,6 @@ public:
         iUpdateFrameInnerRect = innerRect;
         iUpdateMSKFrameOuterRect = mskOuterRect;
         iUpdateMskFrameInnerRect = mskInnerRect;
-        _AKNTRACE_FUNC_EXIT;
         }
 
 
@@ -480,7 +452,6 @@ public:
      */
     static void MergeMaskInto16MA( CFbsBitmap* aMask, CFbsBitmap* aDestBitmap )
         {
-        _AKNTRACE_FUNC_ENTER;
         // aMask display mode must be EGray256.
         // aMask must not be compressed in RAM.
         // aDestBitmap display mode must be EColor16MA.
@@ -518,7 +489,6 @@ public:
             }
         aDestBitmap->UnlockHeap();
         aMask->UnlockHeap();
-        _AKNTRACE_FUNC_EXIT;
         }
 
     /**
@@ -535,7 +505,6 @@ public:
             const TRect& aRect,
             CEikCbaButton* aButton )
         {
-        _AKNTRACE_FUNC_ENTER;
         delete aBitmap;
         aBitmap = NULL;
 
@@ -589,7 +558,6 @@ public:
         CleanupStack::PopAndDestroy( 2, bitmapDevice );
         CleanupStack::Pop( bitmap );
         aBitmap = bitmap;
-        _AKNTRACE_FUNC_EXIT;
         }
     
     /**
@@ -604,7 +572,6 @@ public:
             CEikCbaButton* aRightButton,
             TInt aAknLayoutFlags )
         {
-        _AKNTRACE_FUNC_ENTER;
         TRect rightSoftKeyButtonRect;
         TRect leftSoftKeyButtonRect;
         if( aAknLayoutFlags & EAknLayoutCbaInRightPane )
@@ -717,29 +684,6 @@ public:
                 iRskPostingOverlayBitmap,
                 rightSoftKeyButtonRect,
                 aRightButton );
-        _AKNTRACE_FUNC_EXIT;
-        }
-
-    /**
-     * Returns ETrue if the command cancels multiple marking and should not
-     * be forwarded to actual command observer.
-     * 
-     * @return ETrue if multiple marking was cancelled.
-     */
-    TBool CancelMultipleMarking( TInt aCommandId )
-        {
-        _AKNTRACE_FUNC_ENTER;
-        TBool cancelled( EFalse );
-        if ( aCommandId == EAknSoftkeyCancel
-                && iItemActionMenu
-                && iOwner.Flags().IsSet( ECbaMultipleMarkingActive ) )
-            {
-            iItemActionMenu->MarkingMode().SetCollectionMultipleMarkingState(
-                    EFalse );
-            cancelled = ETrue;
-            }
-        _AKNTRACE_FUNC_EXIT;
-        return cancelled;
         }
 
     /**
@@ -750,9 +694,7 @@ public:
      */
     void SetItemActionMenu( CAknItemActionMenu* aItemActionMenu )
         {
-        _AKNTRACE_FUNC_ENTER;
         iItemActionMenu = aItemActionMenu;
-        _AKNTRACE_FUNC_EXIT;
         }
 
     /**
@@ -764,16 +706,12 @@ public:
      */
     void CollectionChanged( TBool aCollectionVisible )
         {
-        _AKNTRACE_FUNC_ENTER;
         // Do not update state if invisible collection tries to enable sk
         if ( aCollectionVisible
                 || iOwner.Flags().IsClear( ECbaItemSoftkeyDisabled ) )
             {
             iOwner.UpdateItemSpecificSoftkey();
             }
-
-        iOwner.UpdateMultipleMarkingSoftkey();
-        _AKNTRACE_FUNC_EXIT;
         }
 
     /**
@@ -784,86 +722,25 @@ public:
      */
     TBool Active() const
         {
-        _AKNTRACE_FUNC_ENTER;
-        _AKNTRACE_FUNC_EXIT;
         return iOwner.IsVisible() && !iOwner.IsEmpty();
         }
     
     /*
      * Using the special theme Id draw background
      */
-    void DrawSemiTransparency( CWindowGc& aGc )
-        {
-        _AKNTRACE_FUNC_ENTER;
-        
-        TAknsItemID SemiButtonID              = KAknsIIDQgnFrSctrlSkButton;
-        TAknsItemID SemiButtonCenterID        = KAknsIIDQgnFrSctrlSkButtonCenter;
-        TAknsItemID SemiButtonPressedID       = KAknsIIDQgnFrSctrlSkButtonPressed;
-        TAknsItemID SemiButtonPressedCenterID = KAknsIIDQgnFrSctrlSkButtonCenterPressed;
-        
-        CEikCbaButton* button1 = static_cast<CEikCbaButton*>
-            (iOwner.Control(KControlArrayCBAButton1Posn));
-        CEikCbaButton* button2 = static_cast<CEikCbaButton*>
-            (iOwner.Control(KControlArrayCBAButton2Posn));
+    void DrawSemiTransparencyL(CWindowGc& aGc, 
+            const TRect& aRect)
+    	{
+    	//Temporary inner rectangal value
+    	TRect innerRect = aRect;
+    	innerRect.Shrink( 5, 5 );
+    	if ( iSemiBgID != KAknsIIDNone )
+	        {
+	        AknsDrawUtils::DrawFrame( AknsUtils::SkinInstance(), 
+	            aGc, aRect, innerRect, iSemiBgID, iSemiBgCenterID );
+	        }
+    	}
 
-        if (IsMskEnabledLayoutActive())
-            {
-            CEikCbaButton* buttonMSK = static_cast<CEikCbaButton*>
-                (iOwner.Control(KControlArrayCBAButtonMSKPosn));
-
-            if (buttonMSK && buttonMSK->PressedDown())
-                {
-                AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                        iMiddleFrameOuterRect,
-                        iMiddleFrameInnerRect,
-                        SemiButtonPressedID,
-                        SemiButtonPressedCenterID);
-                }
-            else
-                {
-                AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                        iMiddleFrameOuterRect,
-                        iMiddleFrameInnerRect,
-                        SemiButtonID,
-                        SemiButtonCenterID);
-                }
-            }
-
-        if (button1 && button1->PressedDown())
-            {
-            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                    iLeftFrameOuterRect,
-                    iLeftFrameInnerRect,
-                    SemiButtonPressedID,
-                    SemiButtonPressedCenterID);
-            }
-        else
-            {
-            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                    iLeftFrameOuterRect,
-                    iLeftFrameInnerRect,
-                    SemiButtonID,
-                    SemiButtonCenterID);
-            }
-
-        if (button2 && button2->PressedDown())
-            {
-            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                    iRightFrameOuterRect,
-                    iRightFrameInnerRect,
-                    SemiButtonPressedID,
-                    SemiButtonPressedCenterID);
-            }
-        else
-            {
-            AknsDrawUtils::DrawFrame(AknsUtils::SkinInstance(), aGc,
-                    iRightFrameOuterRect,
-                    iRightFrameInnerRect,
-                    SemiButtonID,
-                    SemiButtonCenterID);
-            }                    
-        _AKNTRACE_FUNC_EXIT;
-        }
 public:
     
     CEikCba&               iOwner;
@@ -919,6 +796,11 @@ public:
      */
     TRect iUpdateFrameOuterRect;
     
+    /*
+     * Frame and center theme ID, using for semi-transparent  
+     */
+    TAknsItemID            iSemiBgID;
+    TAknsItemID	           iSemiBgCenterID;
     /**
      * Inner rect used in UpdateSoftkeyFrameL method.
      */
@@ -944,28 +826,22 @@ public:
 CEikCba* CEikCba::NewL(const CEikCba* aPrevious, MEikCommandObserver* aCommandObserver, 
     RWindowGroup* aParentWg)
     { 
-    _AKNTRACE_FUNC_ENTER; 
     CEikCba* self = CEikCba::NewLC(aPrevious, aCommandObserver, aParentWg); // static
     CleanupStack::Pop( self );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
 CEikCba* CEikCba::NewL(TInt aResourceId, const CEikCba* aPrevious, 
     MEikCommandObserver* aCommandObserver, RWindowGroup* aParentWg)
     { 
-    _AKNTRACE_FUNC_ENTER; 
     CEikCba* self = CEikCba::NewLC(aResourceId, aPrevious, aCommandObserver, aParentWg); // static
     CleanupStack::Pop( self );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
 CEikCba* CEikCba::NewLC(const CEikCba* aPrevious, MEikCommandObserver* aCommandObserver, 
     RWindowGroup* aParentWg)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return CEikCba::NewLC(KNoResource, aPrevious, aCommandObserver, aParentWg); // static
     }
 
@@ -973,8 +849,6 @@ CEikCba* CEikCba::NewLC(const CEikCba* aPrevious,
     MEikCommandObserver* aCommandObserver, RWindowGroup* aParentWg,
     TUint aFlags)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return CEikCba::NewLC(KNoResource, aPrevious, aCommandObserver,
         aParentWg, aFlags);
     }
@@ -982,12 +856,10 @@ CEikCba* CEikCba::NewLC(const CEikCba* aPrevious,
 CEikCba* CEikCba::NewLC(TInt aResourceId, const CEikCba* aPrevious,
     MEikCommandObserver* aCommandObserver, RWindowGroup* aParentWg)
     { 
-    _AKNTRACE_FUNC_ENTER; 
     CEikCba* self = new(ELeave) CEikCba(aPrevious, aCommandObserver, aParentWg); // static
     CleanupStack::PushL(self);
     self->ConstructL(aResourceId);
     AKNTASHOOK_ADDL( self, "CEikCba" );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -995,13 +867,11 @@ CEikCba* CEikCba::NewLC(TInt aResourceId, const CEikCba* aPrevious,
     MEikCommandObserver* aCommandObserver, RWindowGroup* aParentWg,
     TUint aFlags)
     {
-    _AKNTRACE_FUNC_ENTER;
     CEikCba* self = new(ELeave) CEikCba(aPrevious, aCommandObserver,
         aParentWg, aFlags);
     CleanupStack::PushL(self);
     self->ConstructL(aResourceId);
     AKNTASHOOK_ADDL( self, "CEikCba" );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -1011,7 +881,6 @@ CEikCba* CEikCba::NewLC(TInt aResourceId, const CEikCba* aPrevious,
 */
 CEikCba::~CEikCba()
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     // Revert the clock and indicator pane area of status pane
     // to use the previous skin background.
@@ -1056,7 +925,6 @@ CEikCba::~CEikCba()
 #endif // RD_ENHANCED_CBA
 
     delete iExtension;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1067,24 +935,18 @@ CEikCba::CEikCba(const CEikCba* aPrevious,
     TUint aFlags)
     : iLink(aPrevious), iCommandObserver(aCommandObserver), iParentWg(aParentWg)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aFlags & CEikButtonGroupContainer::EIsEmbedded)
         {
         // CBA is embedded in another component (eg. dialog/popup/setting page
         iFlags.Set(ECbaEmbedded);
         }
-    
-    if ( aFlags & CEikButtonGroupContainer::EAlwaysShown )
-        {
-        iFlags.Set( ECbaKeepItemSoftkeyVisible  );
-        }
-    
+
     if ( aFlags & CEikButtonGroupContainer::EParentIsControl )
         {
         iFlags.Set( ECbaParentAsControl );
         }
     
-    if ( aFlags & CEikButtonGroupContainer::EDelayActivation )
+	if ( aFlags & CEikButtonGroupContainer::EDelayActivation )
         {
         iFlags.Set( ECbaActivationDelayed );
         }    
@@ -1097,13 +959,11 @@ CEikCba::CEikCba(const CEikCba* aPrevious,
         }
 
     SetNonFocusing();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::SetContainerWindowL( const CCoeControl& aContainer )
     {
-    _AKNTRACE_FUNC_ENTER;
     // CCoeControl::SetContainerWindowL closes the previously own window and
     // deactivates control. Therefore store the activation status and re-set
     // it after the container window has been set.
@@ -1287,19 +1147,15 @@ void CEikCba::SetContainerWindowL( const CCoeControl& aContainer )
         {
         CCoeControl::SetContainerWindowL( aContainer );            
         }        
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::ActivateL()
     {
-    _AKNTRACE_FUNC_ENTER;
     CCoeControl::ActivateL();
-    _AKNTRACE_FUNC_EXIT;
     }
     
 void CEikCba::BaseConstructL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iFlags.IsSet( ECbaEmbedded ) && iFlags.IsSet( ECbaParentAsControl ) )
         {
         __ASSERT_DEBUG( iParentWg, User::Invariant() );
@@ -1339,10 +1195,19 @@ void CEikCba::BaseConstructL()
         }
 
     iExtension = CEikCbaExtension::NewL( *this );
+    //create bitmap for semi-transparent background
+    if ( iCbaFlags & EEikCbaFlagSemiTransparent && iExtension )
+        {
+        iExtension->iSemiBgID = KAknsIIDQsnHomeBgWidget;
+        iExtension->iSemiBgCenterID = KAknsIIDQsnHomeBgWidgetCenter;
+        }
 
     // Skin background is not drawn by embedded CBA.
     if ( !iFlags.IsSet( ECbaEmbedded ) )
         {
+        TRect screen;
+        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
+
         // Construct background control context, SizeChanged will update
         // the layout rectangle.
         iBgIID = AknStatuspaneUtils::IdleLayoutActive() ?
@@ -1356,10 +1221,50 @@ void CEikCba::BaseConstructL()
             2 );
 
         // Other context for staconpane
-        if ( AknStatuspaneUtils::StaconPaneActive() )
+
+        // There is a need for two layers in each context: one for wallpaper, 
+        // the other for skin graphics.
+        iStaconBgContextTop = CAknsMaskedLayerBackgroundControlContext::NewL(
+            KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
+        iStaconBgContextBottom = CAknsMaskedLayerBackgroundControlContext::NewL(
+            KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
+            
+        for ( TInt i = 0; i < ECbaLayerN; i++ )
             {
-            CheckAndCreateStaconContextsL();
+            iStaconBgContextBottom->SetLayerImage( i, KAknsIIDNone );
             }
+        
+        TAknWindowLineLayout layout( AknLayoutScalable_Avkon::area_top_pane(2).LayoutLine() );
+        TAknLayoutRect layoutRect;
+        layoutRect.LayoutRect( screen, layout );
+        TRect staconTop( layoutRect.Rect() );
+    
+        layout = AknLayoutScalable_Avkon::area_bottom_pane(2).LayoutLine();
+        layoutRect.LayoutRect( screen, layout );        
+        TRect staconBottom( layoutRect.Rect() );
+    
+        // Set layers to stacon contexts.
+        // Set bottom as parent to top, so that top is re-drawn, if bottom is drawn.
+        iStaconBgContextTop->SetLayerImage( ECbaLayerWallpaper, KAknsIIDWallpaper );
+        iStaconBgContextTop->SetLayerRect( ECbaLayerWallpaper, screen );
+        iStaconBgContextTop->SetLayerImage( ECbaLayerBackground, KAknsIIDQsnBgAreaStaconRt );
+        iStaconBgContextTop->SetLayerRect( ECbaLayerBackground, staconTop );
+    
+        iStaconBgContextBottom->SetLayerImage( ECbaLayerWallpaper, KAknsIIDWallpaper );
+        iStaconBgContextBottom->SetLayerRect( ECbaLayerWallpaper, screen );
+        iStaconBgContextBottom->SetLayerImage( ECbaLayerBackground, KAknsIIDQsnBgAreaStaconRb );
+        iStaconBgContextBottom->SetLayerRect( ECbaLayerBackground, staconBottom );
+        iStaconBgContextBottom->SetParentPos( TPoint( 0, 0 ) );
+    
+        iStaconBgContextTop->SetParentContext( iStaconBgContextBottom );
+    
+        TBool idle = AknLayoutFlags() & EAknLayoutCbaInStaconPaneIdle;
+        if ( idle )
+            {
+            iStaconBgContextTop->SetLayerMaskAndSizeL( KAknsIIDQgnGrafBgLscTopMaskIcon, staconTop );
+            iStaconBgContextBottom->SetLayerMaskAndSizeL( KAknsIIDQgnGrafBgLscBottomMaskIcon, staconBottom );
+            }
+
         }
 
     iExtension->UpdateSoftkeyFrameL( EFalse );
@@ -1419,18 +1324,16 @@ void CEikCba::BaseConstructL()
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::ConstructL(TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aResourceId != KNoResource)
         {
         TResourceReader reader;
         iCoeEnv->CreateResourceReaderLC(reader, aResourceId);
         iCbaFlags = reader.ReadInt32();        // flags resource
-            
+    
         // If using enhanced cba.
         if ( (iCbaFlags & EEikEnhancedButtonGroup) == EEikEnhancedButtonGroup ) 
             { 
@@ -1584,13 +1487,13 @@ void CEikCba::ConstructL(TInt aResourceId)
             }
         }
 
-    _AKNTRACE_FUNC_EXIT;
+    // Set CBA faded in case the softkeys are empty.
+    SetFadeState();
     }
 
 
 void CEikCba::ConstructFromResourceL(TResourceReader& aReader)
     {
-    _AKNTRACE_FUNC_ENTER;
     BaseConstructL();
     CreateScrollBarFrameL();
     TGulAlignmentValue anAlignment[3] = {EHLeftVCenter, EHRightVCenter, EHCenterVCenter};
@@ -1679,21 +1582,18 @@ void CEikCba::ConstructFromResourceL(TResourceReader& aReader)
             }
         }
 
-    _AKNTRACE_FUNC_EXIT;
+    // Set CBA faded in case the softkeys are empty.
+    SetFadeState();
     }
 
 
 TInt CEikCba::MaxCommands() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return KMaxSeries60Softkeys;
     }
 
 TInt CEikCba::MSKEnabledInPlatform() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return iMSKEnabledInPlatform;
     }
 
@@ -1704,38 +1604,32 @@ TInt CEikCba::MSKEnabledInPlatform() const
 //
 void CEikCba::SetMSKIconL()
     {
-    _AKNTRACE_FUNC_ENTER;
     // MSK is not supported by dialog-embedded CBAs.
     if ( iFlags.IsSet( ECbaInsideDialog ) || iFlags.IsSet( ECbaEmbedded ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
         
     if ( !MskAllowed() )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;         
         }
         
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     if ( !skin )
         { 
-        _AKNTRACE_FUNC_EXIT;        
         return;
         }
     if( iExtension->iIfMskIconSet )
         {
-    //    UpdateIconL();
-        _AKNTRACE_FUNC_EXIT;
-        return;
+    //	UpdateIconL();
+    	return;
         }
     TEikGroupControl &gCtrl = iControlArray->At( KControlArrayCBAButtonMSKPosn );
 
     CEikCbaButton *button = static_cast<CEikCbaButton*>( gCtrl.iControl );
     if ( !button )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
    
@@ -1744,14 +1638,9 @@ void CEikCba::SetMSKIconL()
       
     TAknLayoutRect qgn_graf_sk_msk;
     TRect rect;
-    TInt graphicMSKVariety = 1;
-    if ( iCbaFlags & EEikCbaFlagAppMskIcon )
-    	{
-        graphicMSKVariety = 0 ;
-    	}
     qgn_graf_sk_msk.LayoutRect(
         rect,
-        AknLayoutScalable_Avkon::control_pane_g4( graphicMSKVariety ).LayoutLine() );
+        AknLayoutScalable_Avkon::control_pane_g4( 0 ).LayoutLine() );
 
     TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                     qgn_graf_sk_msk.Rect().Height() );
@@ -1877,7 +1766,6 @@ void CEikCba::SetMSKIconL()
         }
     
     button->SetContainerWindowL( *this );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TBool CEikCba::UpdateMSKIconL( const TAknsItemID& aId,
@@ -1886,15 +1774,13 @@ EXPORT_C TBool CEikCba::UpdateMSKIconL( const TAknsItemID& aId,
     const TInt32 aBmpM,
     TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
     iExtension->iIfMskIconSet = EFalse;
 
     // MSK is not supported by dialog-embedded CBAs.
     if (!aEnable)
         {
-        SetMSKIconL();
-        _AKNTRACE_FUNC_EXIT;
-        return ETrue;
+    	SetMSKIconL();
+    	return ETrue;
         }
 
     delete iExtension->iBmpFile;
@@ -1907,7 +1793,6 @@ EXPORT_C TBool CEikCba::UpdateMSKIconL( const TAknsItemID& aId,
     iExtension->iBmp = aBmp;
     iExtension->iBmpM = aBmpM;
     
-    _AKNTRACE_FUNC_EXIT;
     return UpdateIconL();
     }
 
@@ -1918,7 +1803,6 @@ EXPORT_C TBool CEikCba::UpdateMSKIconL( const TAknsItemID& aId,
 //
 EXPORT_C void CEikCba::EnableItemSpecificSoftkey( TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iFlags.IsSet( ECbaSingleClickEnabled ) )
         {
         iFlags.Assign( ECbaItemSpecificSoftkeyInUse, aEnable );
@@ -1943,26 +1827,21 @@ EXPORT_C void CEikCba::EnableItemSpecificSoftkey( TBool aEnable )
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::SetMSKCommandObserver(MEikCommandObserver* aCommandObserver)
     {
-    _AKNTRACE_FUNC_ENTER;
     // aCommandObserver set to NULL when removing observer.
     iMSKCommandObserver = aCommandObserver;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::UpdateCbaLabels(TBool aScrollerOn)
     {
-    _AKNTRACE_FUNC_ENTER;
     // This method is called only from scrollbar that has nothing to do with
     // dialog-embedded CBAs -> ignore the call.
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
         
@@ -1979,48 +1858,37 @@ void CEikCba::UpdateCbaLabels(TBool aScrollerOn)
     // Change of text may affect layout.
     SizeChanged();
     DrawDeferred() ;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::SetSBFrameObserver(MEikScrollBarObserver* aObserver)
     {
-    _AKNTRACE_FUNC_ENTER;
     if(iSBFrame)
         {
         iSBFrame->SetScrollBarFrameObserver(aObserver);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::SetScrollBarModelL(TEikScrollBarModel* aModel)
     {
-    _AKNTRACE_FUNC_ENTER;
     if(iSBFrame)
         {
         VScrollBarAsControl()->SetModelL(aModel);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 const CEikCbaScrollBarFrame* CEikCba::ScrollBarFrame() const
     { 
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;    
     return STATIC_CAST(const CEikCbaScrollBarFrame*, iSBFrame); 
     }
 
 CAknScrollBar* CEikCba::VScrollBarAsControl()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return STATIC_CAST(CAknScrollBar*, VScrollBarAsGroupControl().iControl);
     }
 
 void CEikCba::InsertControlL(TEikGroupControl& aGroupControl,TInt aIndex)
     {
-    _AKNTRACE_FUNC_ENTER;
     iControlArray->InsertL(aIndex,aGroupControl); // Takes ownership at this point.
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2030,8 +1898,11 @@ void CEikCba::SetCommandL( TInt aPosition,
                            const CFbsBitmap* /*aBitmap*/,
                            const CFbsBitmap* /*aMask*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
-
+    // We need to check if this call changes the softkeys from being
+    // empty to having a command or vice versa to be able to maintain
+    // correct fade state.
+    TBool isEmptyBefore( IsEmpty() );
+    
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
     groupCtrl.iId = aCommandId;
     groupCtrl.iLongId = 0;
@@ -2060,15 +1931,20 @@ void CEikCba::SetCommandL( TInt aPosition,
         buttonState->SetTextL( *aText );
         buttonState->SetCommand( aCommandId );
         }
+    
+    TBool isEmptyAfter( IsEmpty() );
+    
+    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
+        {
+        SetFadeState();
+        }
 
     ReportContentChangedEvent();      
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::SetCommandL(TInt aPosition,TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TResourceReader reader;
     iCoeEnv->CreateResourceReaderLC(reader,aResourceId);
     TInt version = reader.ReadInt8(); // version
@@ -2107,7 +1983,6 @@ void CEikCba::SetCommandL(TInt aPosition,TInt aResourceId)
     CleanupStack::PopAndDestroy(); // reader
     
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
     
 /**
@@ -2117,7 +1992,6 @@ void CEikCba::SetCommandL(TInt aPosition,TInt aResourceId)
 */
 void CEikCba::SetCommandSetL(TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TResourceReader reader;
     iCoeEnv->CreateResourceReaderLC(reader, aResourceId);
 
@@ -2127,7 +2001,6 @@ void CEikCba::SetCommandSetL(TInt aResourceId)
         { 
         CleanupStack::PopAndDestroy(); // reader
         OfferCommandListL( aResourceId );
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     
@@ -2229,15 +2102,12 @@ void CEikCba::SetCommandSetL(TInt aResourceId)
     // Force labels to be re-formatted...
     SizeChanged();
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::AddCommandL(TInt /*aPosition*/, TInt /*aCommandId*/, const TDesC* /*aText*/, 
     const CFbsBitmap* /*aBitmap*/, const CFbsBitmap* /*aMask*/)
     {
-    _AKNTRACE_FUNC_ENTER;
     User::Leave(KErrNotSupported);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2245,43 +2115,16 @@ void CEikCba::AddCommandToStackWithoutSizeChangedL(TInt aPosition,
                                                TInt aCommandId,
                                                const TDesC* aText)
     {
-    _AKNTRACE_FUNC_ENTER;
-    
-    if ( !CommandChangeAllowed() )
-        {
-        _AKNTRACE_FUNC_EXIT;
-        return;
-        }
+    // We need to check if this call changes the softkeys from being
+    // empty to having a command or vice versa to be able to maintain
+    // correct fade state.
+    TBool isEmptyBefore( IsEmpty() );
     
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
     
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
         CAknButton* button = static_cast<CAknButton*>( groupCtrl.iControl );
-
-        if ( aCommandId == EAknSoftkeyEmergencyCall )
-            {
-            // Change the button to use "call button" (green) frame graphics
-            // in case of ECS call command to highlight the possibility
-            // of making an emergency call from the query.
-            button->SetBackgroundIds( KAknsIIDQsnFrButtonNormalAnswer,
-                                      KAknsIIDNone,
-                                      KAknsIIDNone,
-                                      KAknsIIDQsnFrButtonPressedAnswer,
-                                      KAknsIIDNone );
-            }
-        else
-            {
-            // Revert the frame graphics back to normal in case that a
-            // new command is added to the stack on top of the emergency
-            // call command (shouldn't happen though).
-            button->SetBackgroundIds( KAknsIIDQsnFrFunctionButtonNormal,
-                                      KAknsIIDQsnFrFunctionButtonPressed,
-                                      KAknsIIDQsnFrFunctionButtonInactive,
-                                      KAknsIIDQsnFrFunctionButtonPressed,
-                                      KAknsIIDQsnFrFunctionButtonInactive );
-            }
-
         button->AddStateL( NULL, NULL, NULL, NULL, *aText, KNullDesC, 0, aCommandId );
             
         if ( aText->Length() == 0 || !aText->Compare( _L(" ") ) )
@@ -2311,8 +2154,14 @@ void CEikCba::AddCommandToStackWithoutSizeChangedL(TInt aPosition,
         }
     SetMSKIconL(); // If MSK id was changed, this sets MSK icon accordingly.
 
+    TBool isEmptyAfter( IsEmpty() );
+
+    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
+        {
+        SetFadeState();
+        }
+
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::AddCommandToStackL( TInt aPosition,
@@ -2321,18 +2170,15 @@ void CEikCba::AddCommandToStackL( TInt aPosition,
                                   const CFbsBitmap* /*aBitmap*/,
                                   const CFbsBitmap* /*aMask*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
 
     AddCommandToStackWithoutSizeChangedL( aPosition, aCommandId, aText);
     // Force labels to be re-formatted...
     SizeChanged();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::AddCommandToStackL(TInt aPosition, TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TResourceReader reader;
     iCoeEnv->CreateResourceReaderLC(reader,aResourceId);
     TUint8 version = (TUint8)reader.ReadInt8();
@@ -2351,12 +2197,10 @@ void CEikCba::AddCommandToStackL(TInt aPosition, TInt aResourceId)
     CleanupStack::PopAndDestroy(); // reader
       
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::AddCommandSetToStackL(TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TResourceReader reader;
     iCoeEnv->CreateResourceReaderLC(reader,aResourceId);
 
@@ -2426,26 +2270,20 @@ void CEikCba::AddCommandSetToStackL(TInt aResourceId)
     // Force labels to be re-formatted...
     SizeChanged();
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::SetDefaultCommand(TInt /*aCommandId*/)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TSize CEikCba::CalcMinimumSizeL(TInt /*aResourceId*/)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return MinimumSize();
     }
 
 
 void CEikCba::RemoveCommandFromStack( TInt aPosition, TInt aCommandId )
     {
-    _AKNTRACE_FUNC_ENTER;
     // We need to check if this call changes the softkeys from being
     // empty to having a command or vice versa to be able to maintain
     // correct fade state.
@@ -2465,16 +2303,6 @@ void CEikCba::RemoveCommandFromStack( TInt aPosition, TInt aCommandId )
                 
             groupCtrl.iId     = buttonState->CommandId();
             groupCtrl.iLongId = 0;
-                
-            if ( aCommandId == EAknSoftkeyEmergencyCall )
-                {
-                // Revert the button's frame graphics to the normal ones.
-                button->SetBackgroundIds( KAknsIIDQsnFrFunctionButtonNormal,
-                                          KAknsIIDQsnFrFunctionButtonPressed,
-                                          KAknsIIDQsnFrFunctionButtonInactive,
-                                          KAknsIIDQsnFrFunctionButtonPressed,
-                                          KAknsIIDQsnFrFunctionButtonInactive );
-                }
                 
             if ( buttonState->Text().Length() == 0 ||
                  !buttonState->Text().Compare( _L(" ") ) )
@@ -2500,23 +2328,24 @@ void CEikCba::RemoveCommandFromStack( TInt aPosition, TInt aCommandId )
     SizeChanged();
     
     TBool isEmptyAfter( IsEmpty() );
+    
+    if ( !COMPARE_BOOLS( isEmptyBefore, isEmptyAfter ) )
+        {
+        SetFadeState();
+        }
 
     DrawDeferred();
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::RemovePreviousCommandWithoutSizeChanged(TInt aPosition)
     {
-    _AKNTRACE_FUNC_ENTER;
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
     STATIC_CAST(CEikCbaButton*, groupCtrl.iControl)->RemovePreviousCommand();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::RemovePreviousCommand(TInt aPosition)
     {
-    _AKNTRACE_FUNC_ENTER;
     RemovePreviousCommandWithoutSizeChanged( aPosition );
     // If MSK or left CBA was changed, this sets MSK icon accordingly.
     TRAP_IGNORE( SetMSKIconL() ); 
@@ -2524,20 +2353,16 @@ void CEikCba::RemovePreviousCommand(TInt aPosition)
     // Force labels to be re-formatted...
     SizeChanged();
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TInt CEikCba::CommandPos(TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return IndexById(aCommandId);
     }
 
 void CEikCba::DimCommand(TInt aCommandId,TBool aDimmed)
     {
-    _AKNTRACE_FUNC_ENTER;
     CCoeControl* control( ButtonById( aCommandId ) );
     if ( control )
         {
@@ -2546,24 +2371,19 @@ void CEikCba::DimCommand(TInt aCommandId,TBool aDimmed)
             control->SetDimmed( aDimmed );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCba::IsCommandDimmed(TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if( ButtonById(aCommandId) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return ButtonById(aCommandId)->IsDimmed();
         }
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
 void CEikCba::MakeCommandVisible(TInt aCommandId, TBool aVisible)
     {
-    _AKNTRACE_FUNC_ENTER;
     CCoeControl* control( ButtonById( aCommandId ) );
     if ( control )
         {
@@ -2572,25 +2392,19 @@ void CEikCba::MakeCommandVisible(TInt aCommandId, TBool aVisible)
             control->MakeVisible( aVisible );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCba::IsCommandVisible(TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if( ButtonById(aCommandId) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return ButtonById(aCommandId)->IsVisible();
         }
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;        
     }
 
 void CEikCba::AnimateCommand(TInt /*aCommandId*/)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2600,10 +2414,8 @@ void CEikCba::AnimateCommand(TInt /*aCommandId*/)
 //
 void CEikCba::DimCommandByPosition( TInt aPosition, TBool aDimmed )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( aPosition >= iControlArray->Count() )
         { 
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -2612,7 +2424,6 @@ void CEikCba::DimCommandByPosition( TInt aPosition, TBool aDimmed )
         TEikGroupControl& groupCtrl = ( *iControlArray )[ aPosition ];
         groupCtrl.iControl->SetDimmed( aDimmed );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2622,15 +2433,12 @@ void CEikCba::DimCommandByPosition( TInt aPosition, TBool aDimmed )
 //
 TBool CEikCba::IsCommandDimmedByPosition( TInt aPosition ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( aPosition >= iControlArray->Count() ) 
         {
-        _AKNTRACE_FUNC_EXIT;
         return EFalse;    
         }
 
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
-    _AKNTRACE_FUNC_EXIT;
     return groupCtrl.iControl->IsDimmed();
     }
 
@@ -2641,10 +2449,8 @@ TBool CEikCba::IsCommandDimmedByPosition( TInt aPosition ) const
 //
 void CEikCba::MakeCommandVisibleByPosition( TInt aPosition, TBool aVisible )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( aPosition >= iControlArray->Count() )
         { 
-        _AKNTRACE_FUNC_EXIT;
         return;    
         }
 
@@ -2663,34 +2469,27 @@ void CEikCba::MakeCommandVisibleByPosition( TInt aPosition, TBool aVisible )
             groupCtrl.iControl->DrawDeferred();
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TBool CEikCba::IsCommandVisibleByPosition(TInt aPosition) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aPosition >= iControlArray->Count()) 
         {
-        _AKNTRACE_FUNC_EXIT;
         return EFalse;    
         }
     TEikGroupControl& groupCtrl = (*iControlArray)[aPosition];
 
     if ( !iFlags.IsSet( ECbaInsideDialog ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return STATIC_CAST(CEikCbaButton*, groupCtrl.iControl)->IsVisible();
         }
         
-    _AKNTRACE_FUNC_EXIT;    
     return !groupCtrl.iControl->IsDimmed();
     }
 
 void CEikCba::AnimateCommandByPosition(TInt /*aPosition*/)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
     
 /*CCoeControl* CEikCba::GroupControlByPosition(TInt aPosition) const
@@ -2711,12 +2510,10 @@ void CEikCba::AnimateCommandByPosition(TInt /*aPosition*/)
 //
 TRect CEikCba::ButtonRectByPosition( TInt aPosition, TBool aRelativeToScreen )
     {
-    _AKNTRACE_FUNC_ENTER;
     TRect rect( 0, 0, 0, 0 );
     
     if ( aPosition >= iControlArray->Count() || aPosition < 0 )
         {
-        _AKNTRACE_FUNC_EXIT;
         return rect;
         }
 
@@ -2740,15 +2537,25 @@ TRect CEikCba::ButtonRectByPosition( TInt aPosition, TBool aRelativeToScreen )
 
         if ( iFlags.IsSet( ECbaEmbedded ) )
             {
-            // The touch area for the softkeys will be larger than the actual
-            // softkey area (whole CBA area is used).
-            TInt buttonWidth = containerRect.Width() / 2;
-            TSize buttonSize( buttonWidth, containerRect.Height() );
+            TRect rect ( Rect() );
+            TAknLayoutRect layoutRect;
+            layoutRect.LayoutRect(
+                    rect, 
+                    AknLayoutScalable_Avkon::popup_sk_window_g1( 0 ) );
+            
+            // Button widths are calculated based on cba area width
+            // margin width is taken from layout
+            TInt margin = layoutRect.Rect().iTl.iX - rect.iTl.iX;
+            TInt buttonWidth = ( rect.Width() - margin * 2 ) / 2;
+            TSize buttonSize ( buttonWidth, layoutRect.Rect().Height() );
                     
-            button1Rect.SetRect( containerRect.iTl, buttonSize );
-            button2Rect.SetRect( TPoint( button1Rect.iBr.iX,
-                                         containerRect.iTl.iY ), 
-                                 containerRect.iBr );
+            button1Rect = TRect(
+                    TPoint( rect.iTl.iX + margin, layoutRect.Rect().iTl.iY ),
+                    buttonSize );
+            button2Rect = TRect( 
+                    TPoint( button1Rect.iBr.iX, layoutRect.Rect().iTl.iY ), 
+                    TPoint( rect.iBr.iX - margin, 
+                            layoutRect.Rect().iBr.iY ) );
             }
         else if ( AknLayoutFlags() & EAknLayoutCbaInRightPane )
             {
@@ -2876,32 +2683,25 @@ TRect CEikCba::ButtonRectByPosition( TInt aPosition, TBool aRelativeToScreen )
             }
         }
         
-    _AKNTRACE_FUNC_EXIT;
     return rect;
     }
 
 
 CCoeControl* CEikCba::AsControl()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return this;
     }
 
 const CCoeControl* CEikCba::AsControl() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return this;
     }
 
 
 void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iFlags.IsSet( ECbaEmbedded ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -2918,7 +2718,6 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
     // query control. 
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -2945,27 +2744,12 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
             }
         
         // We must check for landscape mode bottom sks 
-        TBool isLandscapeOrient = Layout_Meta_Data::IsLandscapeOrientation();
         TInt bottomPaneVariety = 1;
-        if ( isLandscapeOrient )
+        if ( Layout_Meta_Data::IsLandscapeOrientation() )
             {
             bottomPaneVariety = 6;
             }
             
-        // SetBoundingRect is always called by status pane when it is changing visibility.
-        // If the status pane is invisible in landscape, softkey need to draw frame to cover
-        // the area of combine pane.
-        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-        if (statusPane && !statusPane->IsVisible() && isLandscapeOrient &&
-            statusPane->PaneCapabilities(TUid::Uid(EEikStatusPaneUidCombined)).IsInCurrentLayout())
-            {
-            iFlags.Set( ECbaCombinePaneUncovered );
-            }
-        else
-            {
-            iFlags.Clear( ECbaCombinePaneUncovered );
-            }
-        
         TAknWindowLineLayout controlPane( DoCompose(
             AknLayoutScalable_Avkon::application_window( 0 ),
             DoCompose( AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
@@ -2979,6 +2763,8 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         // Set correct window region incase we have been in stacon mode.
         RRegion region;
         region.AddRect( Rect() );
+            
+        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
         
         // If status indicators and clock are shown in control pane area,
         // then remove those areas from cba window region.
@@ -2987,8 +2773,16 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         //
         if ( statusPane &&
              statusPane->IsVisible() &&
-             AknStatuspaneUtils::ExtendedFlatLayoutActive() )
-            { 
+             AknStatuspaneUtils::ExtendedFlatLayoutActive() && 
+             ( iBgIID == KAknsIIDQsnBgAreaControl || 
+               iBgIID == KAknsIIDQsnBgAreaControlIdle ||
+               iBgIID == KAknsIIDQsnBgAreaControlMp ||
+               ( iBgIID == KAknsIIDWallpaper &&
+                 AknStatuspaneUtils::IdleLayoutActive() ) ) ) 
+            {
+            TRect digitalClockRect( 0,0,0,0 );
+            TRect indicatorRect( 0,0,0,0 );
+ 
             if ( iBgIID == KAknsIIDQsnBgAreaControlMp )
                 {
                 if ( !iIsClockIndicBgIIDSet )
@@ -3009,65 +2803,35 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
                     }
                 }
 
-            if ( statusPane->PaneCapabilities(
-                     TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() )
+            TRAPD( err1,
+                   indicatorRect = statusPane->PaneRectL( TUid::Uid( 
+                        EEikStatusPaneUidIndic ) ) );
+                                   
+            TRAPD( err2,
+                   digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
+                        EEikStatusPaneUidDigitalClock ) ) );
+
+            if ( !err1 && !err2 )
                 {
-                TRect combinedPaneRect( 0, 0, 0, 0 );
-                TRAPD( err,
-                       combinedPaneRect =
-                           statusPane->PaneRectL( TUid::Uid( 
-                               EEikStatusPaneUidCombined ) ) );
-                
-                if ( !err )
+                TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
+                TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
+
+                if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
                     {
-                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
-                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
-                    
-                    if ( cbaRectRelativeToScreen.Intersects( combinedPaneRect ) )
-                        {
-                        combinedPaneRect.Move(
-                            -cbaPositionRelativeToScreen.iX,
-                            -cbaPositionRelativeToScreen.iY );
-                            
-                        region.SubRect( combinedPaneRect );                              
-                        }
+                    indicatorRect.Move(
+                        -cbaPositionRelativeToScreen.iX,
+                        -cbaPositionRelativeToScreen.iY );
+                        
+                    region.SubRect( indicatorRect );                              
                     }
-                }
-            else
-                {
-                TRect digitalClockRect( 0, 0, 0, 0 );
-                TRect indicatorRect( 0, 0, 0, 0 );
-
-                TRAPD( err1,
-                       indicatorRect = statusPane->PaneRectL( TUid::Uid( 
-                           EEikStatusPaneUidIndic ) ) );
-                                               
-                TRAPD( err2,
-                       digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
-                           EEikStatusPaneUidDigitalClock ) ) );
                 
-                if ( !err1 && !err2 )
+                if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
                     {
-                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
-                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
-
-                    if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
-                        {
-                        indicatorRect.Move(
-                            -cbaPositionRelativeToScreen.iX,
-                            -cbaPositionRelativeToScreen.iY );
-                            
-                        region.SubRect( indicatorRect );                              
-                        }
-                    
-                    if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
-                        {
-                        digitalClockRect.Move(
-                            -cbaPositionRelativeToScreen.iX,
-                            -cbaPositionRelativeToScreen.iY );
-                            
-                        region.SubRect( digitalClockRect );       
-                        }
+                    digitalClockRect.Move(
+                        -cbaPositionRelativeToScreen.iX,
+                        -cbaPositionRelativeToScreen.iY );
+                        
+                    region.SubRect( digitalClockRect );       
                     }
                 }
             }
@@ -3206,7 +2970,6 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         
         DrawDeferred();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -3217,17 +2980,14 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
 //
 void CEikCba::ReduceRect( TRect& aBoundingRect ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     // CBA inside Popup/Query Input does not reduce bounding rect
     if ( iFlags.IsSet( ECbaEmbedded ) || iFlags.IsSet( ECbaInsideDialog ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     
     if ( !IsVisible() )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -3349,70 +3109,49 @@ void CEikCba::ReduceRect( TRect& aBoundingRect ) const
                 }
             }   
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 CCoeControl* CEikCba::GroupControlById(TInt aCommandId)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return ButtonById(aCommandId);
     }
 
 
 CCoeControl* CEikCba::GroupControlById(TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return ButtonById(aCommandId);
     }
 
 TInt CEikCba::CommandId(TInt aCommandPos) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return (*iControlArray)[aCommandPos].iId;
     }
 
 TInt CEikCba::ButtonCount() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return (iControlArray->Count()-1); // -1 for scroll bar;
     }
 
 CEikCommandButton* CEikCba::GroupControlAsButton(TInt /*aCommandId*/) const 
     {
-    _AKNTRACE_FUNC_ENTER;
     // It is not possible to convert a CBA button to a CEikCommandButton.
     // Please use an interface that does not use a CEikCommandButton conversion,
     // e.g. CEikButtonGroupContainer::SetCommandL().
 #if defined(_DEBUG)
     Panic(EEikPanicCBACannotConvertToCEikCommandButton);
 #endif
-    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
 TUint CEikCba::ButtonGroupFlags() const 
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return iCbaFlags ;
     }
 
 EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
     {
-    _AKNTRACE_FUNC_ENTER;
     iCbaFlags = aFlags;
-    
-    //has not supported semi-transparent, ignore the flag at this moment.
-    //TODO: if the tranparent style CBA is approved and the new icon was delivered, open it again.
-    
-    //steven yao
-    //iCbaFlags &= ~EEikCbaFlagSemiTransparent;
-    
     if (( iCbaFlags & EEikCbaFlagTransparent || iCbaFlags & EEikCbaFlagSemiTransparent ) && 
             CAknEnv::Static()->TransparencyEnabled() )
         {
@@ -3423,13 +3162,13 @@ EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
             Window().SetBackgroundColor( ~0 );
             if ( iExtension && iExtension->iEnablePostingTransparency )
                 {
-                   iExtension->iEnablePostingTransparency = EFalse;            
-                   delete iExtension->iLskPostingOverlayBitmap;
-                   iExtension->iLskPostingOverlayBitmap = NULL;
-                   delete iExtension->iRskPostingOverlayBitmap;
-                   iExtension->iRskPostingOverlayBitmap = NULL;
-                   BroadcastPostingTransparency( EFalse );
-                   }           
+               	iExtension->iEnablePostingTransparency = EFalse;        	
+               	delete iExtension->iLskPostingOverlayBitmap;
+               	iExtension->iLskPostingOverlayBitmap = NULL;
+               	delete iExtension->iRskPostingOverlayBitmap;
+               	iExtension->iRskPostingOverlayBitmap = NULL;
+               	BroadcastPostingTransparency( EFalse );
+               	}           
             }
         else
             {
@@ -3440,9 +3179,24 @@ EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
         {
         iCbaFlags &= ~EEikCbaFlagTransparent;
         }
+    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
+        {
+        if ( iExtension )
+            {
+            iExtension->iSemiBgID = KAknsIIDQsnHomeBgWidget;
+            iExtension->iSemiBgCenterID = KAknsIIDQsnHomeBgWidgetCenter;
+            }
+        }
+    else
+        {
+        if ( iExtension )
+            {
+            iExtension->iSemiBgID = KAknsIIDNone;
+            iExtension->iSemiBgCenterID = KAknsIIDNone;
+            }
+        }
     
     UpdateFonts();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -3452,17 +3206,10 @@ EXPORT_C void CEikCba::SetButtonGroupFlags(TInt aFlags)
 //
 EXPORT_C void CEikCba::SetSkinBackgroundId( const TAknsItemID& aIID )
     {
-    _AKNTRACE_FUNC_ENTER;
     // Skin background is not drawn by embedded CBA.
     if ( iFlags.IsSet( ECbaEmbedded ) )
         {
-    	iPopupVisible = ETrue;
-    	_AKNTRACE_FUNC_EXIT;
         return;
-        }
-    else
-        {
-        iPopupVisible = EFalse;
         }
 
     if ( iBgIID != KAknsIIDNone )
@@ -3514,22 +3261,18 @@ EXPORT_C void CEikCba::SetSkinBackgroundId( const TAknsItemID& aIID )
             iBgIID,
             CEikStatusPaneBase::EDrawDeferred );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aType != EEventKey)
         {
-        _AKNTRACE_FUNC_EXIT;
         return EKeyWasNotConsumed;
         }
 
     // Return immediately if the control is invisible.
     if (!IsVisible() && !(iCbaFlags&EAknCBAFlagRespondWhenInvisible))
         {
-        _AKNTRACE_FUNC_EXIT;
         return EKeyWasNotConsumed;
         }
 
@@ -3542,36 +3285,17 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
 
     TKeyResponse response(EKeyWasNotConsumed);
 
-    CEikCbaButton* button1 =
-        static_cast<CEikCbaButton*>(
-            (*iControlArray)[KControlArrayCBAButton1Posn].iControl );
-    CEikCbaButton* button2 =
-        static_cast<CEikCbaButton*>(
-            (*iControlArray)[KControlArrayCBAButton2Posn].iControl );
-    CEikCbaButton* buttonMSK = NULL;
-    if ( iMSKset && AknLayoutUtils::MSKEnabled() )
-        {
-        buttonMSK =
-            static_cast<CEikCbaButton*>(
-                (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl );
-        }
-    
     // AknLaf - changed to use keys defined in AknKeys.h.
     // Left soft key will be returned also when MSK is enabled but not defined.
     if (aKeyEvent.iCode == EKeyCBA1)
         {
         if (KControlArrayCBAButton1Posn < iControlArray->Count())
             {
-            if( button1->IsDimmed() )
-                {
-                return EKeyWasConsumed;
-                }
             // Return immediately if the button is invisible                        
             if ( (*iControlArray)[KControlArrayCBAButton1Posn].iControl &&
                  !(*iControlArray)[KControlArrayCBAButton1Posn].iControl->IsVisible() && 
                  !(iCbaFlags & EAknCBAFlagRespondWhenInvisible) )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
             TInt shortCommand = (*iControlArray)[KControlArrayCBAButton1Posn].iId;
@@ -3580,7 +3304,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             // This will pass key event to application - no softkey command is processed.
             if (shortCommand == EAknSoftkeyForwardKeyEvent)
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasNotConsumed;
                 }
 
@@ -3599,16 +3322,11 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
         {
         if (KControlArrayCBAButton2Posn < iControlArray->Count())
             {
-            if( button2->IsDimmed() )
-                {
-                return EKeyWasConsumed;
-                }
             // Return immediately if the button is invisible.
             if ( (*iControlArray)[KControlArrayCBAButton2Posn].iControl &&
                  !(*iControlArray)[KControlArrayCBAButton2Posn].iControl->IsVisible() && 
                  !(iCbaFlags&EAknCBAFlagRespondWhenInvisible) )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
             TInt shortCommand = (*iControlArray)[KControlArrayCBAButton2Posn].iId;
@@ -3623,19 +3341,12 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             // This will pass key event to application - no softkey command is processed.
             if (shortCommand == EAknSoftkeyForwardKeyEvent)
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasNotConsumed;
                 }
 
             if (aKeyEvent.iRepeats == 0 && shortCommand)
                 {
-                // Notify command observer only if multiple marking
-                // was not cancelled
-                if ( !iExtension || !iExtension->CancelMultipleMarking(
-                        shortCommand ) )
-                    {
-                    iCommandObserver->ProcessCommandL( ( TInt ) shortCommand );
-                    }
+                iCommandObserver->ProcessCommandL((TInt)shortCommand);
                 }
             else if (longCommand)
                 {
@@ -3654,10 +3365,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
                 && aKeyEvent.iCode == EKeyOK
                 && !Window().IsFaded() )
         {
-        if( buttonMSK->IsDimmed() )
-            {
-            return EKeyWasConsumed;
-            }
         if (KControlArrayCBAButtonMSKPosn < iControlArray->Count())
             {
             // Return immediately if the button is invisible.
@@ -3665,7 +3372,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
                  !(*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl->IsVisible() && 
                  !(iCbaFlags&EAknCBAFlagRespondWhenInvisible) )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
 
@@ -3675,7 +3381,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             // This will pass key event to application - no softkey command is processed.
             if (shortCommand == EAknSoftkeyForwardKeyEvent)
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasNotConsumed;
                 }
 
@@ -3723,7 +3428,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
                 !(*iControlArray)[KControlArrayCBAButton1Posn].iControl->IsVisible() && 
                 !(iCbaFlags&EAknCBAFlagRespondWhenInvisible) )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
 
@@ -3733,7 +3437,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             // This will pass key event to application - no softkey command is processed.
             if (shortCommand == EAknSoftkeyForwardKeyEvent)
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasNotConsumed;
                 }
 
@@ -3765,14 +3468,11 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             }
         }
         
-    _AKNTRACE_FUNC_EXIT;
     return response;
     }
 
 EXPORT_C void* CEikCba::ExtensionInterface( TUid /*aInterface*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
@@ -3785,16 +3485,13 @@ EXPORT_C void* CEikCba::ExtensionInterface( TUid /*aInterface*/ )
 //
 void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !AknLayoutUtils::PenEnabled() )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     else if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
         CCoeControl::HandlePointerEventL( aPointerEvent );
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -3880,11 +3577,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     // If hits the left softkey.
     if ( button1Rect.Contains( aPointerEvent.iPosition ) && !button1Empty )
         {
-        if( button1->IsDimmed() )
-            {
-            CCoeControl::HandlePointerEventL( aPointerEvent );
-            return;
-            }
         if ( button1->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -3944,11 +3636,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         }
     else if ( button2Rect.Contains( aPointerEvent.iPosition ) && !button2Empty )
         {              
-        if( button2->IsDimmed() )
-            {
-            CCoeControl::HandlePointerEventL( aPointerEvent );
-            return;
-            }             
         if ( button2->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -4010,11 +3697,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
               !buttonMSKEmpty &&
               buttonMSKRect.Contains( aPointerEvent.iPosition ) )
         {
-        if( buttonMSK->IsDimmed() )
-            {
-            CCoeControl::HandlePointerEventL( aPointerEvent );
-            return;
-            }
         if  ( buttonMSK->IsVisible() )
             {
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -4164,10 +3846,8 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 if ( (*iControlArray)[i].iControl == grabber )
                     {
                     if ( !IsVisible() )
-                        {
-                        _AKNTRACE_FUNC_EXIT;
                         return;
-                        }
+                    
                     // Send the button command to command observer.
                     TInt shortCommand = (*iControlArray)[i].iId;
                     if ( shortCommand &&
@@ -4179,13 +3859,7 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
 
                     if( shortCommand )
                         {
-                        // Notify command observer only if multiple marking
-                        // was not cancelled
-                        if ( !iExtension || !iExtension->CancelMultipleMarking(
-                                shortCommand ) )
-                            {
-                            iCommandObserver->ProcessCommandL( shortCommand );
-                            }
+                        iCommandObserver->ProcessCommandL( shortCommand );
                         }
 
                     break;
@@ -4193,13 +3867,11 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TSize CEikCba::MinimumSize()
     {
-    _AKNTRACE_FUNC_ENTER;
     TSize size = CEikControlGroup::MinimumSize();
     size.iWidth = iAvkonAppUi->ApplicationRect().Width();
     const TInt count = iControlArray->Count();
@@ -4211,7 +3883,6 @@ TSize CEikCba::MinimumSize()
         {
         size.iHeight = Max(size.iHeight, iLink->Size().iHeight);
         }
-    _AKNTRACE_FUNC_EXIT;
     // Add a standard margin from the laf.
     return size;
     }
@@ -4224,7 +3895,6 @@ TSize CEikCba::MinimumSize()
 */
 void CEikCba::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseList) const
     {
-    _AKNTRACE_FUNC_ENTER;
     CEikControlGroup::GetColorUseListL(aColorUseList);
         
     TInt commonAttributes = TCoeColorUse::ESurrounds|TCoeColorUse::EActive|TCoeColorUse::ENormal|
@@ -4239,7 +3909,6 @@ void CEikCba::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseList) const
     colorUse.SetLogicalColor(EColorToolbarBackground);
     colorUse.SetUse(TCoeColorUse::EBack|commonAttributes);
     aColorUseList.AppendL(colorUse);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -4250,7 +3919,6 @@ void CEikCba::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseList) const
 //
 void CEikCba::HandleResourceChange( TInt aType )
     {
-    _AKNTRACE_FUNC_ENTER;
     CEikControlGroup::HandleResourceChange( aType );
     
     switch ( aType )
@@ -4291,11 +3959,6 @@ void CEikCba::HandleResourceChange( TInt aType )
                 {
                 DoLayoutChange();
                 SetBoundingRect( TRect() );
-                if( iExtension->iIfMskIconSet 
-                	    && ( iCbaFlags & EEikCbaFlagAppMskIcon ) )
-                    {
-                    TRAP_IGNORE( UpdateIconL() );
-                    }
                 if ( iFlags.IsSet( ECbaInsideDialog )
                         || iFlags.IsSet( ECbaEmbedded ) )
                     {
@@ -4317,7 +3980,6 @@ void CEikCba::HandleResourceChange( TInt aType )
             {
             if ( iFlags.IsSet( ECbaInsideDialog ) )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return;
                 }
 
@@ -4376,6 +4038,7 @@ void CEikCba::HandleResourceChange( TInt aType )
         case KEikMessageUnfadeWindows:
             {
             DoLayoutChange();
+            SetFadeState();
             
             if ( iFlags.IsSet( ECbaInsideDialog ) )
                 {
@@ -4403,7 +4066,8 @@ void CEikCba::HandleResourceChange( TInt aType )
                  AknStatuspaneUtils::IdleLayoutActive() )
                 {
                 SetMSKVisibility( MskAllowed() );
-                }
+                }                
+            SetFadeState();
             break;
             }
 
@@ -4412,13 +4076,11 @@ void CEikCba::HandleResourceChange( TInt aType )
             break;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::DoSkinChange()
     {
-    _AKNTRACE_FUNC_ENTER;
     iExtension->iIfSkinChanged = ETrue;
     DoSetLayers( KAknsIIDNone );
     iExtension->iIfSkinChanged = EFalse;
@@ -4435,12 +4097,10 @@ void CEikCba::DoSkinChange()
     //Skin change uses DrawNow to flus draw cache before layoutchange.
     DrawNow();
     iFlags.Clear(ECbaChangeRecordedSkin);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::DoColorChange()
     {
-    _AKNTRACE_FUNC_ENTER;
     iBrushAndPenContext->SetBrushColor(iEikonEnv->ControlColor(EColorToolbarBackground, *this));
     iBrushAndPenContext->SetPenColor(iEikonEnv->ControlColor(EColorToolbarText, *this));
     Window().SetBackgroundColor(iEikonEnv->ControlColor(EColorToolbarBackground, *this));
@@ -4449,13 +4109,11 @@ void CEikCba::DoColorChange()
     TRAP_IGNORE( SetMSKIconL() );
     SizeChanged();
     iFlags.Clear(ECbaChangeRecordedColor);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::DoLayoutChange()
     {
-    _AKNTRACE_FUNC_ENTER;
     SetBoundingRect( TRect() );
 
     UpdateFonts();
@@ -4499,26 +4157,21 @@ void CEikCba::DoLayoutChange()
         }
         
     iFlags.Clear( ECbaChangeRecordedLayout );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::HandleScrollEventL(CEikScrollBar* /*aScrollBar*/, TEikScrollEvent /*aEventType*/)
     {
-    _AKNTRACE_FUNC_ENTER;
     User::Leave(KErrNotSupported);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TTypeUid::Ptr CEikCba::MopSupplyObject(TTypeUid aId)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aId.iUid == MAknsControlContext::ETypeId)
         {
         if ( AknLayoutFlags() & EAknLayoutCbaInControlPane ||
              AknLayoutFlags() & EAknLayoutCbaInRightPane )
             {
-            _AKNTRACE_FUNC_EXIT;
             return MAknsControlContext::SupplyMopObject( aId, iMLBgContext );
             }
         else
@@ -4526,39 +4179,24 @@ TTypeUid::Ptr CEikCba::MopSupplyObject(TTypeUid aId)
             // Always provide top object to mop-chain.
             // Bottom is parent of Top, so bottom is re-drawn
             // automatically when top is drawn.
-            // Ensure that the context exists.
-            TRAP_IGNORE( CheckAndCreateStaconContextsL() );
-
-            _AKNTRACE_FUNC_EXIT;
             return MAknsControlContext::SupplyMopObject( aId, iStaconBgContextTop );
             }
         }
         
     if ( aId.iUid == CEikCba::ETypeId )
         {
-        _AKNTRACE_FUNC_EXIT;
         return aId.MakePtr( this );
         }
         
-    _AKNTRACE_FUNC_EXIT;
     return CEikControlGroup::MopSupplyObject(aId);
     }
 
 
 void CEikCba::Draw( const TRect& aRect ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     // Embedded CBA doesn't draw anything
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
-        return;
-        }
-    
-    if ( iCbaFlags & EEikCbaFlagSemiTransparent )
-        {
-        CWindowGc &gc = SystemGc();
-
-        iExtension->DrawSemiTransparency( gc );
         return;
         }
 
@@ -4566,6 +4204,13 @@ void CEikCba::Draw( const TRect& aRect ) const
     
     const TRect rect( Rect() );
     CWindowGc& gc = SystemGc();
+
+    TRgb rgb( TRgb::Color16MA( 0 ) );
+    gc.SetDrawMode( CGraphicsContext::EDrawModeWriteAlpha );
+    gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+    gc.SetBrushColor( rgb );        
+    gc.Clear();
+  
     MAknsControlContext* cc = iMLBgContext;
     
     if ( iFlags.IsSet( ECbaEmbedded ) )
@@ -4619,7 +4264,7 @@ void CEikCba::Draw( const TRect& aRect ) const
                 gc.BitBlt( leftSKRect.iTl, iExtension->iLskPostingOverlayBitmap, 
                     TRect( leftSKSize ) );
                 }
-            else if ( !( iCbaFlags & EEikCbaFlagTransparent ) )
+            else if ( !( ( iCbaFlags & EEikCbaFlagTransparent) || ( iCbaFlags & EEikCbaFlagSemiTransparent))  )
                 {// Old way to render
                 if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
                     {
@@ -4636,18 +4281,14 @@ void CEikCba::Draw( const TRect& aRect ) const
                     CEikCbaButton* button2 = static_cast<CEikCbaButton*>(
                         (*iControlArray)[KControlArrayCBAButton2Posn].iControl );
                     
-                    if ( IsMskEnabledLayoutActive() || iFlags.IsSet( ECbaCombinePaneUncovered ) )
+    		        if ( IsMskEnabledLayoutActive() )
                         {
                         CEikCbaButton* buttonMSK = static_cast<CEikCbaButton*>(
                             (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl );
                         
                         CFbsBitmap* middleMask =
                             AknsUtils::GetCachedBitmap( skin, KAknsIIDQgnIndiSctrlSkMaskMiddlePrt );
-                        if ( middleMask )
-                            {
-                            AknIconUtils::SetSize( middleMask, 
-                                    middleSKSize, EAspectRatioNotPreserved );
-                            }                        
+                        AknIconUtils::SetSize( middleMask, middleSKSize, EAspectRatioNotPreserved );
 
                         if( buttonMSK && buttonMSK->PressedDown() )
                             {
@@ -4743,7 +4384,7 @@ void CEikCba::Draw( const TRect& aRect ) const
             gc.BitBlt( bottomSKRect.iTl, iExtension->iLskPostingOverlayBitmap, 
                 TRect( bottomSKRect.Size() ) );
             }
-        else if ( !( iCbaFlags & EEikCbaFlagTransparent) )
+        else if ( !( ( iCbaFlags & EEikCbaFlagTransparent) || ( iCbaFlags & EEikCbaFlagSemiTransparent))  )
             {
             // Old way to render
             if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
@@ -4800,6 +4441,13 @@ void CEikCba::Draw( const TRect& aRect ) const
                                               KAknsIIDQgnFrSctrlSkButton,
                                               KAknsIIDQgnFrSctrlSkButtonCenter );
                     }
+                }
+            }
+        else if ( ( iCbaFlags & EEikCbaFlagSemiTransparent) && iExtension )
+            {
+            if ( iExtension->iSemiBgID != KAknsIIDNone )
+                {
+                iExtension->DrawSemiTransparencyL( gc, rect );
                 }
             }
         else
@@ -4965,7 +4613,6 @@ void CEikCba::Draw( const TRect& aRect ) const
             }
         }
     gc.SetOpaque( EFalse );        
-    _AKNTRACE_FUNC_EXIT;    
     }
 
 
@@ -4975,8 +4622,6 @@ void CEikCba::Draw( const TRect& aRect ) const
 //
 CCoeControl* CEikCba::ButtonById( TInt aCommandId ) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return ControlById( aCommandId );
     }
 
@@ -4987,33 +4632,27 @@ CCoeControl* CEikCba::ButtonById( TInt aCommandId ) const
 //
 void CEikCba::CreateScrollBarFrameL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !iSBFrame )
         {
         iSBFrame = new (ELeave) CEikCbaScrollBarFrame( this, this, ETrue );
         }
     iSBFrame->ConstructL();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 TEikGroupControl CEikCba::VScrollBarAsGroupControl()
     {
-    _AKNTRACE_FUNC_ENTER;
     // Extracts vertical scroll bar from the scroll bar frame.       
     TEikGroupControl groupCtrl(iSBFrame->VerticalScrollBar(), 0, 
         KCbaScrollBarButtonWidth,TEikGroupControl::ESetLength);
-    _AKNTRACE_FUNC_EXIT;
     return groupCtrl;
     }
 
 void CEikCba::InsertScrollBarL()
     {
-    _AKNTRACE_FUNC_ENTER;
     TEikGroupControl SBGroupCtrl = VScrollBarAsGroupControl();
     // Insert vertical scroll bar into cba control group.
     InsertControlL(SBGroupCtrl, KControlArrayScrollBarPosn);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -5023,7 +4662,6 @@ void CEikCba::InsertScrollBarL()
 //
 void CEikCba::CreateArrowHeadScrollBarL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iSBFrame )
         {
         iSBFrame->SwitchToArrowHeadScrollBarL();
@@ -5034,25 +4672,21 @@ void CEikCba::CreateArrowHeadScrollBarL()
             }
         InsertScrollBarL();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::SizeChanged()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
         Window().SetNonFading( EFalse );
         SizeChangedInsideDialog();
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     else if ( iFlags.IsSet( ECbaEmbedded ) )
         {
         Window().SetNonFading( EFalse );
         SizeChangedInPopup();
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
         
@@ -5117,7 +4751,6 @@ void CEikCba::SizeChanged()
         // Broadcast current state to CEikCbaButtons
         BroadcastPostingTransparency( enabled );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -5127,7 +4760,6 @@ void CEikCba::SizeChanged()
 //
 void CEikCba::CheckSkinAndUpdateContext()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (AknsUtils::SkinInstance())
         {
         // Use ENullBrush if there is skin background available.
@@ -5137,24 +4769,18 @@ void CEikCba::CheckSkinAndUpdateContext()
         {
         iBrushAndPenContext->SetBrushStyle(CGraphicsContext::ESolidBrush);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::Reserved_MtsmPosition()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::Reserved_MtsmObject()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CEikCba::AknLayoutFlags() const
     {
-    _AKNTRACE_FUNC_ENTER;
     TInt flags = 0;
 
     TBool controlPane = ETrue;
@@ -5223,7 +4849,6 @@ TInt CEikCba::AknLayoutFlags() const
         flags |= EAknLayoutCbaInRightPane;
         }
 
-    _AKNTRACE_FUNC_EXIT;
     return flags;
     }
 
@@ -5234,34 +4859,22 @@ TInt CEikCba::AknLayoutFlags() const
 //
 void CEikCba::SizeChangedInControlPane()
     {
-    _AKNTRACE_FUNC_ENTER;
     TRect screen;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
     
     TBool isLandscape( Layout_Meta_Data::IsLandscapeOrientation() );
-    TInt spLayout( AknStatuspaneUtils::CurrentStatusPaneLayoutResId() );
-    
-    // Treat the empty status pane layout the same way as the flat layout
-    // in landscape orientation, as the CBA layout is the same in both.
-    TBool flatLscLayout(
-        isLandscape &&
-        ( spLayout == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT || 
-          spLayout == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT ||
-          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ||
-          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ||
-          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS ||
-          spLayout == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS ||
-          spLayout == R_AVKON_STATUS_PANE_LAYOUT_EMPTY ) );
+    TBool flatLscLayout( isLandscape &&
+                         AknStatuspaneUtils::FlatLayoutActive() );
     
     // We must check for landscape mode bottom softkeys.
     TInt bottomPaneVariety = isLandscape ? ( flatLscLayout ? 2 : 6 ) : 1;
-    
-    // Skip application_window between screen and area_bottom_pane since
-    // screen and application_window are always the same.
+        
     TAknWindowComponentLayout controlPane(
         DoCompose(
-            AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
-            AknLayoutScalable_Avkon::control_pane() ) );
+            AknLayoutScalable_Avkon::application_window( 0 ),
+            DoCompose(
+                AknLayoutScalable_Avkon::area_bottom_pane( bottomPaneVariety ),
+                AknLayoutScalable_Avkon::control_pane() ) ) );
     
     TAknLayoutRect cbarect;
     cbarect.LayoutRect( screen, controlPane.LayoutLine() );
@@ -5276,7 +4889,7 @@ void CEikCba::SizeChangedInControlPane()
     
     // Set the softkey frame rectangles in touch layouts.
     if ( iExtension && AknLayoutUtils::PenEnabled() )
-        {
+        {        
         TAknLayoutRect layoutRect;
         TBool frameSizeChanged( EFalse );
 
@@ -5302,7 +4915,7 @@ void CEikCba::SizeChangedInControlPane()
                         .LayoutLine() );
             iExtension->iRightFrameInnerRect = layoutRect.Rect();
 
-            if ( mskEnabledInPlatform || ( isLandscape && iFlags.IsSet( ECbaCombinePaneUncovered ) ) )
+            if ( mskEnabledInPlatform )
                 {
                 layoutRect.LayoutRect(
                     rect,
@@ -5327,7 +4940,7 @@ void CEikCba::SizeChangedInControlPane()
                     rect,
                     AknLayoutScalable_Avkon::bg_sctrl_sk_pane_cp1().LayoutLine() );
                 frameSizeChanged = layoutRect.Rect() != iExtension->iRightFrameOuterRect;
-                iExtension->iRightFrameOuterRect = layoutRect.Rect();
+				iExtension->iRightFrameOuterRect = layoutRect.Rect();
                 layoutRect.LayoutRect( iExtension->iRightFrameOuterRect,
                          AknLayoutScalable_Avkon::bg_sctrl_sk_pane_g1()
                             .LayoutLine() );
@@ -5408,7 +5021,7 @@ void CEikCba::SizeChangedInControlPane()
         }
         
     if ( iExtension->iEnablePostingTransparency ||
-         ( iCbaFlags & EEikCbaFlagTransparent ) )
+         ( iCbaFlags & EEikCbaFlagTransparent ) || ( iCbaFlags & EEikCbaFlagSemiTransparent ) )
         {
         textVariety = 6; // Outline font used
         }
@@ -5500,12 +5113,8 @@ void CEikCba::SizeChangedInControlPane()
             }
 
         TInt textMSKVariety = 3;
-        TInt graphicMSKVariety = 1;
+        TInt graphicMSKVariety = 0;
 
-        if ( iCbaFlags & EEikCbaFlagAppMskIcon )
-        	{
-            graphicMSKVariety = 0 ;
-        	}
         if ( mskEnabledInApplication && mskEnabledInPlatform )
             {
             MSKSoftkey = (*iControlArray)[KControlArrayCBAButtonMSKPosn].iControl;
@@ -5554,7 +5163,9 @@ void CEikCba::SizeChangedInControlPane()
 
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
         const TBool transparentSoftkeys = 
-            iExtension->iEnablePostingTransparency || ( iCbaFlags & EEikCbaFlagTransparent );
+            iExtension->iEnablePostingTransparency || 
+            ( iCbaFlags & EEikCbaFlagTransparent ) || 
+            ( iCbaFlags & EEikCbaFlagSemiTransparent );
         TRgb leftColor;
         TRgb rightColor;
         TRgb MSKColor;
@@ -5726,18 +5337,14 @@ void CEikCba::SizeChangedInControlPane()
         }
 
     AknsUtils::RegisterControlPosition( this, posInScreen.iTl );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::SizeChangedInStaconPane()
     {  
-    _AKNTRACE_FUNC_ENTER;  
     TRect screen( iAvkonAppUi->ApplicationRect() );
     TBool softKeysUpAndDownMirrored = EFalse;
 
-    TRAP_IGNORE( CheckAndCreateStaconContextsL() );
-    
     TInt variety = 0;
     if (AknLayoutFlags() & EAknLayoutCbaInStaconPaneLeft)
         {
@@ -6083,7 +5690,6 @@ void CEikCba::SizeChangedInStaconPane()
         }
 
     AknsUtils::RegisterControlPosition( this, TPoint(0,0) );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -6093,7 +5699,6 @@ void CEikCba::SizeChangedInStaconPane()
 //
 void CEikCba::SizeChangedInRightPane()
     {
-    _AKNTRACE_FUNC_ENTER;
     TRect screen;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
            
@@ -6358,14 +5963,12 @@ void CEikCba::SizeChangedInRightPane()
         }
 
     AknsUtils::RegisterControlPosition( this, TPoint( 0, 0 ) );   
-    _AKNTRACE_FUNC_EXIT;
     }
     
     
     
 void CEikCba::SizeChangedInsideDialog()
     {
-    _AKNTRACE_FUNC_ENTER;
     // Give both LSK and RSK buttons half of the available space.
     //
     if ( iControlArray )
@@ -6388,13 +5991,11 @@ void CEikCba::SizeChangedInsideDialog()
             (*iControlArray)[KControlArrayCBAButton2Posn].iControl->SetRect( buttonRect2 );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
     
     
 void CEikCba::SizeChangedInPopup()
     {
-    _AKNTRACE_FUNC_ENTER;
     TRAP_IGNORE( iExtension->UpdateSoftkeyFrameL( EFalse ) );
     
     TAknLayoutRect layoutRect;
@@ -6422,6 +6023,7 @@ void CEikCba::SizeChangedInPopup()
                  AknLayoutScalable_Avkon::bg_sctrl_sk_pane_g1()
                      .LayoutLine() );
     iExtension->iLeftFrameInnerRect = layoutRect.Rect();
+    UpdateLabels( ETrue );
     
     layoutRect.LayoutRect( iExtension->iRightFrameOuterRect,
                  AknLayoutScalable_Avkon::bg_sctrl_sk_pane_g1()
@@ -6439,13 +6041,11 @@ void CEikCba::SizeChangedInPopup()
             msk->SetRect( TRect() );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
     
 
 void CEikCba::UpdateFonts()
     {
-    _AKNTRACE_FUNC_ENTER;
     // Control pane:
     // Use the layout dll to get the right font for the CBA.
     TAknTextLineLayout layout(
@@ -6475,8 +6075,8 @@ void CEikCba::UpdateFonts()
     // Right pane:    
     TInt rightPaneTextVariety = 0;
     
-    if ( ( iExtension && iExtension->iEnablePostingTransparency ) ||
-         ( iCbaFlags & EEikCbaFlagTransparent ) )
+    if ( iExtension->iEnablePostingTransparency ||
+         ( iCbaFlags & EEikCbaFlagTransparent ) || ( iCbaFlags & EEikCbaFlagSemiTransparent ) )
         {
         rightPaneTextVariety = 1; // Outline font used
         }
@@ -6494,7 +6094,6 @@ void CEikCba::UpdateFonts()
     iRightPaneLabelFont = 
         AknLayoutUtils::FontFromId( 
             rightPaneTextLayout.FontId(), rightPaneCustomFont );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // Enhanced CBA
@@ -6507,7 +6106,6 @@ void CEikCba::UpdateFonts()
 #ifdef RD_ENHANCED_CBA
 EXPORT_C void CEikCba::OfferCommandListL(const RArray<TInt>& aCommandList)
     {   
-    _AKNTRACE_FUNC_ENTER;   
     if( !iCommandTable )
         {        
         iCommandTable = CEikCommandTable::NewL();  
@@ -6644,14 +6242,11 @@ EXPORT_C void CEikCba::OfferCommandListL(const RArray<TInt>& aCommandList)
         }
         
     CleanupStack::PopAndDestroy(); // previousIds    
-    _AKNTRACE_FUNC_EXIT;
     }
 #else // !RD_ENHANCED_CBA
 EXPORT_C void CEikCba::OfferCommandListL(const RArray<TInt>& /*aCommandList*/)
     {
-    _AKNTRACE_FUNC_ENTER;
     User::Leave( KErrNotSupported );
-    _AKNTRACE_FUNC_EXIT;
     }
 #endif // RD_ENHANCED_CBA
 
@@ -6663,7 +6258,6 @@ EXPORT_C void CEikCba::OfferCommandListL(const RArray<TInt>& /*aCommandList*/)
 #ifdef RD_ENHANCED_CBA
 EXPORT_C void CEikCba::OfferCommandListL(const TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !iCommandTable ) // This is needed if cba was not constructed with enhanced cba.
         {
         iCommandTable = CEikCommandTable::NewL();
@@ -6809,14 +6403,11 @@ EXPORT_C void CEikCba::OfferCommandListL(const TInt aResourceId)
         }
     
     CleanupStack::PopAndDestroy(); // previousIds 
-    _AKNTRACE_FUNC_EXIT;
     }
 #else // !RD_ENHANCED_CBA   
 EXPORT_C void CEikCba::OfferCommandListL(const TInt /*aResourceId*/)
     {
-    _AKNTRACE_FUNC_ENTER;
     User::Leave( KErrNotSupported );
-    _AKNTRACE_FUNC_EXIT;
     }
 #endif // RD_ENHANCED_CBA
     
@@ -6828,15 +6419,11 @@ EXPORT_C void CEikCba::OfferCommandListL(const TInt /*aResourceId*/)
 #ifdef RD_ENHANCED_CBA  
 EXPORT_C TBool CEikCba::IsCommandInGroup(const TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return ButtonById(aCommandId) ? ETrue : EFalse; // check the iControlArray
     }
 #else // !RD_ENHANCED_CBA
 EXPORT_C TBool CEikCba::IsCommandInGroup(const TInt /*aCommandId*/) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 #endif // RD_ENHANCED_CBA
@@ -6850,26 +6437,20 @@ EXPORT_C TBool CEikCba::IsCommandInGroup(const TInt /*aCommandId*/) const
 #ifdef RD_ENHANCED_CBA  
 EXPORT_C void CEikCba::ReplaceCommand(const TInt aReplaceCommandId, const TInt aResourceId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TInt index = IndexById( aReplaceCommandId );
     TRAPD(err, SetCommandL( index, aResourceId ) );     
-    _AKNTRACE_FUNC_EXIT;
     }
 #else
 EXPORT_C void CEikCba::ReplaceCommand(const TInt /*aReplaceCommandId*/, const TInt /*aResourceId*/)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 #endif // RD_ENHANCED_CBA
 
 void CEikCba::HandleControlEventL( CCoeControl* aControl, TCoeEvent aEventType )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !iFlags.IsSet( ECbaInsideDialog ) )
         {
         //User::Panic( _L( "CBA inside dialog" ), KErrNotSupported );
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
         
@@ -6904,13 +6485,11 @@ void CEikCba::HandleControlEventL( CCoeControl* aControl, TCoeEvent aEventType )
             iCommandObserver->ProcessCommandL( command );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::MakeVisible( TBool aVisible )
     {    
-    _AKNTRACE_FUNC_ENTER;    
     if ( aVisible )
         {
         TBool redrawNeeded( EFalse );
@@ -6992,7 +6571,6 @@ void CEikCba::MakeVisible( TBool aVisible )
         }
 
     ReportContentChangedEvent();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -7002,11 +6580,9 @@ void CEikCba::MakeVisible( TBool aVisible )
 // -----------------------------------------------------------------------------
 void CEikCba::DoSetLayers( const TAknsItemID& aIID )
     {
-    _AKNTRACE_FUNC_ENTER;
     // Skin background is not drawn by embedded CBA.
     if ( iFlags.IsSet( ECbaEmbedded ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -7225,13 +6801,11 @@ void CEikCba::DoSetLayers( const TAknsItemID& aIID )
         }
         
     DrawDeferred();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCba::LayoutControl( CCoeControl* aControl, const TRect& aRect )
     {   
-    _AKNTRACE_FUNC_ENTER;   
     if ( !iFlags.IsSet( ECbaInsideDialog ) )
         {
         TRect rect( aRect );        
@@ -7246,12 +6820,10 @@ void CEikCba::LayoutControl( CCoeControl* aControl, const TRect& aRect )
         aControl->SetRect( rect );
         aControl->ComponentControl( 0 )->SetRect( rect );            
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCba::BroadcastPostingTransparency( TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
     // Communicate change to CBA buttons.
     for ( TInt i = 0; i < iControlArray->Count(); i++ ) 
         {
@@ -7265,7 +6837,26 @@ void CEikCba::BroadcastPostingTransparency( TBool aEnable )
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CEikCba::SetFadeState
+// Sets the CBA faded if it's contents are empty.
+// ---------------------------------------------------------------------------
+//
+void CEikCba::SetFadeState()
+    {
+    TBool canBeFaded =
+        IsEmpty() && !( ( iCbaFlags & EEikCbaFlagTransparent )
+        || ( iExtension && iExtension->iEnablePostingTransparency ) );
+
+    // No unfading when system is faded
+    if ( !( !canBeFaded
+            && static_cast<CAknAppUi*>( iCoeEnv->AppUi() )->IsFaded() ) )
+        {
+        Window().SetFaded( canBeFaded, RWindowTreeNode::EFadeIncludeChildren );
+        }
     }
 
 
@@ -7276,7 +6867,6 @@ void CEikCba::BroadcastPostingTransparency( TBool aEnable )
 //
 void CEikCba::UpdateLabels( TBool aDrawDeferred )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iControlArray->Count() != 0)
         {
         CCoeControl *leftSoftkey = ( *iControlArray )
@@ -7399,7 +6989,6 @@ void CEikCba::UpdateLabels( TBool aDrawDeferred )
             DrawDeferred();
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
     
 
@@ -7411,7 +7000,6 @@ EXPORT_C TInt EikSoftkeyPostingTransparency::MakeTransparent(
     CEikButtonGroupContainer& aButtonGroupContainer,
     TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
     CEikCba* cba = dynamic_cast<CEikCba*>( aButtonGroupContainer.ButtonGroup() );
     TInt ret = KErrNone;
     if ( cba )
@@ -7427,7 +7015,6 @@ EXPORT_C TInt EikSoftkeyPostingTransparency::MakeTransparent(
             cba->EnablePostingTransparency( aEnable );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     return ret;
     }
 
@@ -7438,7 +7025,6 @@ EXPORT_C TInt EikSoftkeyPostingTransparency::MakeTransparent(
 //
 void CEikCba::EnablePostingTransparency( TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iExtension )
         {
         if ( iExtension->iEnablePostingTransparency != aEnable )
@@ -7471,7 +7057,6 @@ void CEikCba::EnablePostingTransparency( TBool aEnable )
             DrawDeferred();
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -7482,7 +7067,6 @@ void CEikCba::EnablePostingTransparency( TBool aEnable )
 //
 EXPORT_C TBool CEikCba::IsEmpty() const
     {
-    _AKNTRACE_FUNC_ENTER;
     TBool isEmpty( ETrue );
 
     if ( iFlags.IsSet( ECbaInsideDialog ) )
@@ -7517,7 +7101,6 @@ EXPORT_C TBool CEikCba::IsEmpty() const
             }
         }
 
-    _AKNTRACE_FUNC_EXIT;
     return isEmpty;
     }
     
@@ -7529,8 +7112,6 @@ EXPORT_C TBool CEikCba::IsEmpty() const
 //
 TBitFlags CEikCba::Flags() 
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return iFlags;
     }
 
@@ -7542,12 +7123,10 @@ TBitFlags CEikCba::Flags()
 //
 void CEikCba::SetContentObserver( TCallBack aCallBack )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iExtension )
         {
         iExtension->iContentObserver = aCallBack;
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -7559,7 +7138,6 @@ void CEikCba::SetContentObserver( TCallBack aCallBack )
 //     
 void CEikCba::ReportContentChangedEvent()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( ItemSpecificSoftkey() )
         {
         UpdateItemSpecificSoftkey(
@@ -7568,7 +7146,6 @@ void CEikCba::ReportContentChangedEvent()
 
     if ( !iFlags.IsSet( ECbaEmbedded ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -7596,7 +7173,6 @@ void CEikCba::ReportContentChangedEvent()
             iExtension->iContentObserver.CallBack(); // return value ignored
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // ---------------------------------------------------------------------------
@@ -7609,7 +7185,6 @@ void CEikCba::DrawEmbeddedSoftkey( TEikGroupControl& aGroupControl,
                                    CWindowGc& aGc,
                                    CFbsBitmap* /*aMask*/ ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     CEikCbaButton* button = 
         static_cast<CEikCbaButton*>( aGroupControl.iControl );
     
@@ -7639,29 +7214,24 @@ void CEikCba::DrawEmbeddedSoftkey( TEikGroupControl& aGroupControl,
                                   KAknsIIDQgnFrSctrlSkButton,
                                   KAknsIIDQgnFrSctrlSkButtonCenter);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCba::UpdateIconL()
         {
-        _AKNTRACE_FUNC_ENTER;
         if ( iFlags.IsSet( ECbaInsideDialog ) )
             {
-            _AKNTRACE_FUNC_EXIT;
             return EFalse;
             }
         
         if ( !iExtension->iIfMskIconSet ||
              !MskAllowed() )
             {
-            _AKNTRACE_FUNC_EXIT;
             return EFalse;         
             }
         
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
         if ( !skin )
             { 
-            _AKNTRACE_FUNC_EXIT;
             return EFalse;
             }
     
@@ -7670,23 +7240,17 @@ TBool CEikCba::UpdateIconL()
         CEikCbaButton *button = static_cast<CEikCbaButton*>( gCtrl.iControl );
         if ( !button )
             {
-            _AKNTRACE_FUNC_EXIT;
             return EFalse;
             }
    
         CFbsBitmap *bitmap = NULL;
         CFbsBitmap *mask = NULL;
       
-        TInt graphicMSKVariety = 1;
-        if ( iCbaFlags & EEikCbaFlagAppMskIcon )
-        	{
-            graphicMSKVariety = 0 ;
-        	}
         TAknLayoutRect qgn_graf_sk_msk;
         TRect rect;
         qgn_graf_sk_msk.LayoutRect(
             rect,
-            AknLayoutScalable_Avkon::control_pane_g4( graphicMSKVariety ).LayoutLine() );
+            AknLayoutScalable_Avkon::control_pane_g4( 0 ).LayoutLine() );
 
         TSize iconSize( qgn_graf_sk_msk.Rect().Width(),
                         qgn_graf_sk_msk.Rect().Height() );
@@ -7722,9 +7286,8 @@ TBool CEikCba::UpdateIconL()
     
         button->SetContainerWindowL( *this );
     
-        _AKNTRACE_FUNC_EXIT;
         return ETrue;
-        
+    	
         }
 
 
@@ -7736,8 +7299,6 @@ TBool CEikCba::UpdateIconL()
 //     
 TBool CEikCba::MskAllowed() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return ( iMSKEnabledInPlatform &&
              AknLayoutUtils::MSKEnabled() &&
              IsMskEnabledLayoutActive() );
@@ -7752,7 +7313,6 @@ TBool CEikCba::MskAllowed() const
 TBool CEikCba::SoftkeyStatusChangeAllowed(
         TInt aSoftkeyPosition, TBool aDisabled )
     {
-    _AKNTRACE_FUNC_ENTER;
     TBool allowChange( ETrue );
     if ( aSoftkeyPosition == KControlArrayCBAButton1Posn )
         {
@@ -7763,14 +7323,12 @@ TBool CEikCba::SoftkeyStatusChangeAllowed(
         else
             {
             iFlags.Clear( ECbaItemSoftkeyDisabledByClient );
-            if ( iFlags.IsSet( ECbaItemSoftkeyDisabled ) &&
-                     iFlags.IsSet( ECbaItemSpecificSoftkeyInUse ) )
+            if ( iFlags.IsSet( ECbaItemSoftkeyDisabled ) )
                 {
                 allowChange = EFalse;
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     return allowChange;
     }
 
@@ -7782,7 +7340,6 @@ TBool CEikCba::SoftkeyStatusChangeAllowed(
 //
 TEikGroupControl* CEikCba::ItemSpecificSoftkey() const
     {
-    _AKNTRACE_FUNC_ENTER;
     TEikGroupControl* lsk( NULL );
     if ( iFlags.IsSet( ECbaItemSpecificSoftkeyInUse ) )
         {
@@ -7794,7 +7351,6 @@ TEikGroupControl* CEikCba::ItemSpecificSoftkey() const
             lsk = &leftSoftkey;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     return lsk;
     }
 
@@ -7806,7 +7362,6 @@ TEikGroupControl* CEikCba::ItemSpecificSoftkey() const
 //     
 void CEikCba::UpdateItemSpecificSoftkey( TBool aVisibleCollection )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iFlags.IsSet( ECbaSingleClickEnabled )
             && iExtension && iExtension->iItemActionMenu )
         {
@@ -7819,7 +7374,6 @@ void CEikCba::UpdateItemSpecificSoftkey( TBool aVisibleCollection )
             UpdateItemSpecificSoftkey( *leftSk->iControl, enableSk );
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -7830,12 +7384,6 @@ void CEikCba::UpdateItemSpecificSoftkey( TBool aVisibleCollection )
 //
 void CEikCba::UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable )
     {
-    _AKNTRACE_FUNC_ENTER;
-    if ( iFlags.IsSet( ECbaKeepItemSoftkeyVisible  ))
-        {
-        _AKNTRACE_FUNC_EXIT;
-        return;
-        }    
     TBool skEnabled( aControl.IsVisible() && !aControl.IsDimmed() );
     TBool changeState( EFalse );
     if ( !aEnable )
@@ -7867,131 +7415,7 @@ void CEikCba::UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable )
             aControl.DrawDeferred();
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
-
-
-// ---------------------------------------------------------------------------
-// CEikCba::UpdateMultipleMarkingSoftkey
-// Updates RSK when multiple marking is activated or deactivated.
-// ---------------------------------------------------------------------------
-//     
-void CEikCba::UpdateMultipleMarkingSoftkey()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    if ( iFlags.IsSet( ECbaSingleClickEnabled )
-            && iExtension && iExtension->iItemActionMenu )
-        {
-        TBool markingActive(
-                iExtension->iItemActionMenu->MarkingMode(
-                        ).MultipleMarkingActive() );
-        TBool markingActivated( iFlags.IsSet( ECbaMultipleMarkingActive ) );
-        if ( markingActive && !markingActivated )
-            {
-            TRAPD( error, 
-                AddCommandSetToStackL( R_AVKON_SOFTKEYS_OPTIONS_CANCEL ) );
-                
-            if ( error == KErrNone )
-                {
-                iFlags.Set( ECbaMultipleMarkingActive );
-                }
-            }
-        else if ( !markingActive && markingActivated )
-            {
-            RemoveCommandFromStack(
-                    KControlArrayCBAButton1Posn, EAknSoftkeyOptions );
-            RemoveCommandFromStack(
-                    KControlArrayCBAButton2Posn, EAknSoftkeyCancel );
-            iFlags.Clear( ECbaMultipleMarkingActive );
-            }
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikCba::CommandChangeAllowed
-// ---------------------------------------------------------------------------
-//     
-TBool CEikCba::CommandChangeAllowed() const
-    {
-    return ( !( iFlags.IsSet( ECbaSingleClickEnabled ) 
-            && iFlags.IsSet( ECbaMultipleMarkingActive ) ) );
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikCba::CheckAndCreateStaconContextsL
-// Creates the skin background contexts used in StaCon layout.
-// ---------------------------------------------------------------------------
-//
-void CEikCba::CheckAndCreateStaconContextsL()
-    {
-    if ( !iStaconBgContextTop && !iStaconBgContextBottom )
-        {
-        TRect screen;
-        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screen );
-        
-        // There is a need for two layers in each context: one for wallpaper, 
-        // the other for skin graphics.
-        if ( !iStaconBgContextTop )
-            {
-            iStaconBgContextTop =
-                CAknsMaskedLayerBackgroundControlContext::NewL(
-                    KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
-            }
-        
-        if ( !iStaconBgContextBottom )
-            {
-            iStaconBgContextBottom =
-                CAknsMaskedLayerBackgroundControlContext::NewL(
-                    KAknsIIDWallpaper, TRect( 0, 0, 1, 1 ), ETrue, ECbaLayerN );
-            }
-            
-        for ( TInt i = 0; i < ECbaLayerN; i++ )
-            {
-            iStaconBgContextBottom->SetLayerImage( i, KAknsIIDNone );
-            }
-    
-        TAknLayoutRect layoutRect;
-        layoutRect.LayoutRect( screen,
-                               AknLayoutScalable_Avkon::area_top_pane( 2 ) );
-        TRect staconTop( layoutRect.Rect() );
-    
-        layoutRect.LayoutRect( screen,
-                               AknLayoutScalable_Avkon::area_bottom_pane( 2 ) );        
-        TRect staconBottom( layoutRect.Rect() );
-    
-        // Set layers to stacon contexts.
-        // Set bottom as parent to top, so that top is re-drawn, if bottom is drawn.
-        iStaconBgContextTop->SetLayerImage( ECbaLayerWallpaper,
-                                            KAknsIIDWallpaper );
-        iStaconBgContextTop->SetLayerRect( ECbaLayerWallpaper, screen );
-        iStaconBgContextTop->SetLayerImage( ECbaLayerBackground,
-                                            KAknsIIDQsnBgAreaStaconRt );
-        iStaconBgContextTop->SetLayerRect( ECbaLayerBackground, staconTop );
-    
-        iStaconBgContextBottom->SetLayerImage( ECbaLayerWallpaper,
-                                               KAknsIIDWallpaper );
-        iStaconBgContextBottom->SetLayerRect( ECbaLayerWallpaper, screen );
-        iStaconBgContextBottom->SetLayerImage( ECbaLayerBackground,
-                                               KAknsIIDQsnBgAreaStaconRb );
-        iStaconBgContextBottom->SetLayerRect( ECbaLayerBackground, staconBottom );
-        iStaconBgContextBottom->SetParentPos( TPoint( 0, 0 ) );
-    
-        iStaconBgContextTop->SetParentContext( iStaconBgContextBottom );
-    
-        TBool idle = AknLayoutFlags() & EAknLayoutCbaInStaconPaneIdle;
-        if ( idle )
-            {
-            iStaconBgContextTop->SetLayerMaskAndSizeL(
-                KAknsIIDQgnGrafBgLscTopMaskIcon, staconTop );
-            iStaconBgContextBottom->SetLayerMaskAndSizeL(
-                KAknsIIDQgnGrafBgLscBottomMaskIcon, staconBottom );
-            }
-        }
-    }
-
 
 
 //
@@ -8000,7 +7424,6 @@ void CEikCba::CheckAndCreateStaconContextsL()
 
 CEikCbaButton::~CEikCbaButton()
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     delete iLabel;
     if ( iImage )
@@ -8012,12 +7435,10 @@ CEikCbaButton::~CEikCbaButton()
     delete iButtonOptions;
     delete iText;
 
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::ConstructL(TGulAlignmentValue aAlignment)
     {
-    _AKNTRACE_FUNC_ENTER;
     iLabel = new(ELeave) CEikLabel;    
     iPressedDown = EFalse;    
     iLabel->SetBufferReserveLengthL(KMaxCbaLabelLength);
@@ -8032,14 +7453,11 @@ void CEikCbaButton::ConstructL(TGulAlignmentValue aAlignment)
         iLabel->MakeVisible( EFalse );
         }
     AKNTASHOOK_ADDL( this, "CEikCbaButton" );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::AddCommandL(const TDesC& aText)
     {
-    _AKNTRACE_FUNC_ENTER;
     UpdateLabelText(aText);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 struct STempCleanup
@@ -8050,7 +7468,6 @@ struct STempCleanup
 
 LOCAL_C void CleanupTemp(TAny* aPtr)
     {
-    _AKNTRACE_FUNC_ENTER;
     STempCleanup& temp = *(STempCleanup*)aPtr;
     const TInt count = temp.iText->Count();
     if (temp.iButtonOptions->Count() == count)
@@ -8058,12 +7475,10 @@ LOCAL_C void CleanupTemp(TAny* aPtr)
         temp.iButtonOptions->Delete(count - 1);
         }
     temp.iText->Delete(count - 1);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::PushCommandL(TInt aCommandId,const TDesC& aText)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (!iButtonOptions)
         {
         iButtonOptions = new(ELeave) CArrayFixFlat<SButtonOptions>(1);
@@ -8086,15 +7501,12 @@ void CEikCbaButton::PushCommandL(TInt aCommandId,const TDesC& aText)
     iButtonOptions->AppendL(options);
     UpdateLabelText(aText);
     CleanupStack::Pop(); // temp
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CEikCbaButton::PopCommand()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (!iButtonOptions)
         {
-        _AKNTRACE_FUNC_EXIT;
         return -1; 
         }
 
@@ -8103,7 +7515,6 @@ TInt CEikCbaButton::PopCommand()
         
     if (count < 0)
         {
-        _AKNTRACE_FUNC_EXIT;
         return -1;
         }
 
@@ -8128,16 +7539,13 @@ TInt CEikCbaButton::PopCommand()
         {
         iImage->DrawNow();
         }
-    _AKNTRACE_FUNC_EXIT;
     return buttonOptions.iCommandId;
     }
 
 void CEikCbaButton::RemoveCommand(TInt aCommandId)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (!iButtonOptions)
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     TInt index = IndexFromCommandId(aCommandId);
@@ -8153,15 +7561,12 @@ void CEikCbaButton::RemoveCommand(TInt aCommandId)
             iText = NULL;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::RemovePreviousCommand()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (!iButtonOptions)
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     TInt index = iButtonOptions->Count() - 2;
@@ -8170,31 +7575,26 @@ void CEikCbaButton::RemovePreviousCommand()
         iButtonOptions->Delete(index);
         iText->Delete(index);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CEikCbaButton::IndexFromCommandId(TInt aCommandId)
     {
-    _AKNTRACE_FUNC_ENTER;
     TInt index;
     TKeyArrayFix key(0, ECmpTInt);
     SButtonOptions options;
     options.iCommandId = aCommandId;
     if (iButtonOptions->Find(options, key, index) == KErrNone)
         {
-        _AKNTRACE_FUNC_EXIT;
         return index;
         }
     else
         {
-        _AKNTRACE_FUNC_EXIT;
         return KErrNotFound;
-        }    
+        }
     }
 
 void CEikCbaButton::SetContainerWindowL(const CCoeControl& aContainer)
     {
-    _AKNTRACE_FUNC_ENTER;
     CCoeControl::SetContainerWindowL(aContainer);
     if (!iDoImage)
         {
@@ -8204,50 +7604,40 @@ void CEikCbaButton::SetContainerWindowL(const CCoeControl& aContainer)
         {
         iImage->SetContainerWindowL(aContainer);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::ConstructFromResourceL(TResourceReader& aReader, TGulAlignmentValue anAlignment)
     {
-    _AKNTRACE_FUNC_ENTER;
     ConstructL(anAlignment);
     UpdateLabelText(aReader.ReadTPtrC());
     aReader.ReadTPtrC(); // bmp filename
     aReader.ReadInt16(); // bmp id
     aReader.ReadInt16(); // bmp mask id
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TSize CEikCbaButton::MinimumSize()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (!iDoImage)
         {
-        _AKNTRACE_FUNC_EXIT;
         return iLabel->MinimumSize();
         }
     else
         {
-        _AKNTRACE_FUNC_EXIT;
         return iImage->MinimumSize();
         }
     }
 
 TInt CEikCbaButton::CountComponentControls() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return 1;
     }
 
 CCoeControl* CEikCbaButton::ComponentControl(TInt aIndex) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aIndex==0)
         {
         if (!iDoImage)
             {
-            _AKNTRACE_FUNC_EXIT;
             return iLabel;
             }
         else
@@ -8267,7 +7657,6 @@ CCoeControl* CEikCbaButton::ComponentControl(TInt aIndex) const
             return iImage;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     return 0;
     }
 
@@ -8278,31 +7667,25 @@ CCoeControl* CEikCbaButton::ComponentControl(TInt aIndex) const
 //
 void CEikCbaButton::SizeChanged()
     {
-    _AKNTRACE_FUNC_ENTER;
     // Resizing is done at CEikCba::SizeChanged().
     // We cannot resize here because this control has wrong
     // coordinate system available.
-    _AKNTRACE_FUNC_EXIT;
+
     }
 
 
 EXPORT_C void CEikCbaButton::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
-    _AKNTRACE_FUNC_ENTER; 
     CCoeControl::HandlePointerEventL(aPointerEvent); 
-    _AKNTRACE_FUNC_EXIT;
     }    
 
 EXPORT_C void* CEikCbaButton::ExtensionInterface( TUid /*aInterface*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 
 void CEikCbaButton::SetDimmed(TBool aDimmed)
     {
-    _AKNTRACE_FUNC_ENTER;
     CCoeControl::SetDimmed(aDimmed);
     if (!iDoImage)
         {
@@ -8313,7 +7696,6 @@ void CEikCbaButton::SetDimmed(TBool aDimmed)
         // Drawing dimmed CEikImages don't work (problem in uiklaf).
         //iImage->SetDimmed(aDimmed);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -8323,7 +7705,6 @@ void CEikCbaButton::SetDimmed(TBool aDimmed)
 //
 void CEikCbaButton::UpdateLabelText( TPtrC aLabelText )
     {
-    _AKNTRACE_FUNC_ENTER;
     // Updates the label text with the given label, using tab delimited
     // label text to identify normal / alternative labels.
     if ( aLabelText.Length() > KMaxCbaLabelLength )
@@ -8356,24 +7737,20 @@ void CEikCbaButton::UpdateLabelText( TPtrC aLabelText )
         {
         TruncateLabelText();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
 void CEikCbaButton::SetTextBitmapMode( TBool aEnableBitmap )
     {
-    _AKNTRACE_FUNC_ENTER;
     iUseTextBitmap = aEnableBitmap;
     if ( iLabel )
         {
         iLabel->MakeVisible( !aEnableBitmap );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::DrawToContext( CBitmapContext& aContext, CBitmapContext& aMaskContext, const TPoint& aOffset ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iLabel )
         {
         // Draw text into EColor16MA bitmap
@@ -8386,12 +7763,10 @@ void CEikCbaButton::DrawToContext( CBitmapContext& aContext, CBitmapContext& aMa
         aMaskContext.SetOrigin( -aOffset );
         iLabel->DrawToContext( aMaskContext, &maskColor );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::SwitchToShortTextL(TBool aShortText)
     {
-    _AKNTRACE_FUNC_ENTER;
     if (aShortText)
         {
         iLabel->SetTextL(iShortLabelText);
@@ -8414,31 +7789,24 @@ void CEikCbaButton::SwitchToShortTextL(TBool aShortText)
         {
         iImage->DrawDeferred();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::SetLabelFont(const CFont* aLabelFont)
     {    
-    _AKNTRACE_FUNC_ENTER;    
     iLabel->SetFont(aLabelFont);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CEikCbaButton::TruncateLabelText()
     {
-    _AKNTRACE_FUNC_ENTER;
     // Truncation removed from here, as it was not bidi-text compatible.
     // Let CEikLabel handle truncation instead.
     iLabel->CropText();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCbaButton::IsEmptyText() const
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iDoImage )
         {
-        _AKNTRACE_FUNC_EXIT;
         return EFalse;
         }
         
@@ -8454,32 +7822,25 @@ TBool CEikCbaButton::IsEmptyText() const
             }
         }
         
-    _AKNTRACE_FUNC_EXIT;
     return allSpaces;
     }
 
 void CEikCbaButton::ConstructEmptyButtonL()
     {
-    _AKNTRACE_FUNC_ENTER;
     ConstructL( EHRightVCenter ); // creates label
     _LIT(KEmptyText, "");
     TPtrC16 ptr(KEmptyText);
     UpdateLabelText( ptr );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TBool CEikCbaButton::PressedDown() const
     {    
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return iPressedDown;
     }
     
 void CEikCbaButton::SetPressedDown( const TBool aPressedDown )
     {
-    _AKNTRACE_FUNC_ENTER;
     iPressedDown = aPressedDown;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8492,7 +7853,6 @@ EXPORT_C void EikSoftkeyImage::SetImage(
     CEikImage& aImage, 
     TBool aLeft)
     { // static
-    _AKNTRACE_FUNC_ENTER;
     TInt commandPos = aLeft ? 0 : 2;
     TInt commandId = aButtonGroupContainer->ButtonGroup()->CommandId(commandPos);
     CEikCbaButton* cbaButton = (CEikCbaButton*) aButtonGroupContainer->ControlOrNull(commandId);
@@ -8507,7 +7867,6 @@ EXPORT_C void EikSoftkeyImage::SetImage(
         cbaButton->DrawNow();
         aButtonGroupContainer->DrawNow();       
         }    
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8519,7 +7878,6 @@ EXPORT_C void EikSoftkeyImage::SetLabel(
     CEikButtonGroupContainer* aButtonGroupContainer, 
     TBool aLeft)
     { // static
-    _AKNTRACE_FUNC_ENTER; 
     TInt commandPos = aLeft ? 0 : 2;
     TInt commandId = aButtonGroupContainer->ButtonGroup()->CommandId(commandPos);
     CEikCbaButton* cbaButton = (CEikCbaButton*) aButtonGroupContainer->ControlOrNull(commandId);
@@ -8535,7 +7893,6 @@ EXPORT_C void EikSoftkeyImage::SetLabel(
         cbaButton->DrawNow();
         aButtonGroupContainer->DrawNow();      
         }    
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8545,7 +7902,6 @@ EXPORT_C void EikSoftkeyImage::SetLabel(
 //
 void CEikCbaButton::SetImage(CEikImage &aImage)
     {
-    _AKNTRACE_FUNC_ENTER;
     iDoImage = ETrue;
    
     if ( iImage )
@@ -8564,7 +7920,6 @@ void CEikCbaButton::SetImage(CEikImage &aImage)
         {
         ReplaceImageByLabel();          
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8575,7 +7930,6 @@ void CEikCbaButton::SetImage(CEikImage &aImage)
 //
 void CEikCbaButton::PrepareImageL()
     {
-    _AKNTRACE_FUNC_ENTER;
     // 50% transparent pressed down image is made with a alternative mask
     // which is created when a image is set to CEikCbaButton. 
     // Original mask is copied and each of its pixels color components is 
@@ -8586,7 +7940,6 @@ void CEikCbaButton::PrepareImageL()
     
     if ( !iMask )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -8622,7 +7975,6 @@ void CEikCbaButton::PrepareImageL()
     CleanupStack::PopAndDestroy( device ); // device        
     
     delete gc;      
-    _AKNTRACE_FUNC_EXIT;
     }
 // -----------------------------------------------------------------------------
 // CEikCbaButton::ReplaceImageByLabel
@@ -8631,7 +7983,6 @@ void CEikCbaButton::PrepareImageL()
 //
 void CEikCbaButton::ReplaceImageByLabel()
     {
-    _AKNTRACE_FUNC_ENTER;
     iDoImage = EFalse;
     if ( iImage )
         {
@@ -8642,7 +7993,6 @@ void CEikCbaButton::ReplaceImageByLabel()
         delete iSfeMask;
         iSfeMask = NULL;
         }    
-    _AKNTRACE_FUNC_EXIT;
     }
 
 //
@@ -8654,8 +8004,6 @@ void CEikCbaButton::ReplaceImageByLabel()
 // -----------------------------------------------------------------------------
 CEikEnhancedCbaButton::CEikEnhancedCbaButton()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8663,8 +8011,6 @@ CEikEnhancedCbaButton::CEikEnhancedCbaButton()
 // -----------------------------------------------------------------------------
 CEikEnhancedCbaButton::~CEikEnhancedCbaButton()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // -----------------------------------------------------------------------------
@@ -8674,15 +8020,11 @@ CEikEnhancedCbaButton::~CEikEnhancedCbaButton()
 #ifdef RD_ENHANCED_CBA
 void CEikEnhancedCbaButton::SetCommandType( const TInt aCommandType )
     {
-    _AKNTRACE_FUNC_ENTER;
     iCommandType = aCommandType; 
-    _AKNTRACE_FUNC_EXIT;
     }
 #else    
 void CEikEnhancedCbaButton::SetCommandType( const TInt /*aCommandType*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     }
 #endif // RD_ENHANCED_CBA
 // -----------------------------------------------------------------------------
@@ -8692,8 +8034,6 @@ void CEikEnhancedCbaButton::SetCommandType( const TInt /*aCommandType*/ )
 
 TInt CEikEnhancedCbaButton::CommandType() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     return iCommandType;
 #else
@@ -8707,8 +8047,6 @@ TInt CEikEnhancedCbaButton::CommandType() const
 // -----------------------------------------------------------------------------
 TInt CEikEnhancedCbaButton::CommandId() const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     return iCommandId;
 #else
@@ -8723,7 +8061,6 @@ TInt CEikEnhancedCbaButton::CommandId() const
 #ifdef RD_ENHANCED_CBA
 void CEikEnhancedCbaButton::ConstructFromResourceL(TResourceReader& aReader)
     {   
-    _AKNTRACE_FUNC_ENTER   
     // Alignment set to right.
     ConstructL( EHRightVCenter ); // creates label
     iCommandType = aReader.ReadUint8();
@@ -8734,13 +8071,10 @@ void CEikEnhancedCbaButton::ConstructFromResourceL(TResourceReader& aReader)
     aReader.ReadTPtrC(); // bmp filename
     aReader.ReadInt16(); // bmp id
     aReader.ReadInt16(); // bmp mask id
-    _AKNTRACE_FUNC_EXIT;
     }
 #else    
 void CEikEnhancedCbaButton::ConstructFromResourceL(TResourceReader&)
     {   
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;    
     }
 #endif // RD_ENHANCED_CBA    
     
@@ -8749,8 +8083,6 @@ void CEikEnhancedCbaButton::ConstructFromResourceL(TResourceReader&)
 // -----------------------------------------------------------------------------
 void CEikEnhancedCbaButton::ConstructEmptyButtonL()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     ConstructL( EHRightVCenter ); // creates label
     iCommandType = EEikCommandTypeAnyCommand;
@@ -8767,8 +8099,6 @@ void CEikEnhancedCbaButton::ConstructEmptyButtonL()
 // -----------------------------------------------------------------------------    
 TPtrC* CEikEnhancedCbaButton::LabelText()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     return &iLongLabelText; 
 #else
@@ -8782,8 +8112,6 @@ TPtrC* CEikEnhancedCbaButton::LabelText()
 
 CEikCommandTable* CEikCommandTable::NewL()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     CEikCommandTable* self = CEikCommandTable::NewLC();
     CleanupStack::Pop( self );
@@ -8795,8 +8123,6 @@ CEikCommandTable* CEikCommandTable::NewL()
     
 CEikCommandTable* CEikCommandTable::NewLC()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA    
     CEikCommandTable* self = new (ELeave) CEikCommandTable;
     CleanupStack::PushL( self );
@@ -8813,7 +8139,6 @@ CEikCommandTable* CEikCommandTable::NewLC()
 // -----------------------------------------------------------------------------
 void CEikCommandTable::ConstructL()
     {
-    _AKNTRACE_FUNC_ENTER;
 #ifdef RD_ENHANCED_CBA    
     // Get the cba priority configuration
     TResourceReader reader;
@@ -8829,19 +8154,16 @@ void CEikCommandTable::ConstructL()
         {       
         TInt priorities( reader.ReadInt16() ); // Amount of priorities for current button.
         RArray<TInt> arr;
-        CleanupClosePushL( arr );
         for ( TInt ii = 0; ii < priorities; ii++ )
             {
             TInt8 commandType( reader.ReadInt8() );
-            arr.AppendL( commandType );
+            arr.Append( commandType );
             }
-        iPriorities.AppendL( arr );
-        CleanupStack::Pop(); //arr
+        iPriorities.Append( arr );
         }
     
     CleanupStack::PopAndDestroy(); // reader
 #endif    
-    _AKNTRACE_FUNC_EXIT;
     }
     
 #ifdef RD_ENHANCED_CBA
@@ -8855,7 +8177,6 @@ CEikCommandTable::CEikCommandTable()
     
 CEikCommandTable::~CEikCommandTable()
     {
-    _AKNTRACE_FUNC_ENTER;
 #ifdef RD_ENHANCED_CBA    
     iCommandButtons.Reset(); // Reset array
     for(TInt i = 0; i < iPriorities.Count(); i++)
@@ -8864,7 +8185,6 @@ CEikCommandTable::~CEikCommandTable()
         }
     iPriorities.Reset();
 #endif    
-    _AKNTRACE_FUNC_EXIT;
     }
     
 // -----------------------------------------------------------------------------
@@ -8874,14 +8194,11 @@ CEikCommandTable::~CEikCommandTable()
 #ifndef RD_ENHANCED_CBA    
 TInt CEikCommandTable::AddCommandL(CEikEnhancedCbaButton* /*aButton*/) 
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 #else     
 TInt CEikCommandTable::AddCommandL(CEikEnhancedCbaButton* aButton) 
     {
-    _AKNTRACE_FUNC_ENTER;
     // CommandType tells in which button this command should be placed
     TInt commandType( aButton->CommandType() );
     TInt index( KErrNotFound );
@@ -8922,7 +8239,6 @@ TInt CEikCommandTable::AddCommandL(CEikEnhancedCbaButton* aButton)
         delete aButton;
         aButton = NULL;
         }       
-    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 #endif // RD_ENHANCED_CBA    
@@ -8934,11 +8250,9 @@ TInt CEikCommandTable::AddCommandL(CEikEnhancedCbaButton* aButton)
 #ifndef RD_ENHANCED_CBA
 TBool CEikCommandTable::IsCommandPlaced(const TInt /*aCommandId*/) const
     {
-    _AKNTRACE_FUNC_ENTER;
 #else // !RD_ENHANCED_CBA  
 TBool CEikCommandTable::IsCommandPlaced(const TInt aCommandId) const
     {
-    _AKNTRACE_FUNC_ENTER;
     TInt count( iCommandButtons.Count() );
     
     for ( TInt i = 0; i < count; i++ )
@@ -8947,13 +8261,11 @@ TBool CEikCommandTable::IsCommandPlaced(const TInt aCommandId) const
             {
             if ( iCommandButtons[i]->CommandId() == aCommandId )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return ETrue;
                 }              
             }
         }
 #endif // RD_ENHANCED_CBA
-    _AKNTRACE_FUNC_EXIT;
     return EFalse; // if no match for command id
     }
     
@@ -8965,15 +8277,12 @@ TBool CEikCommandTable::IsCommandPlaced(const TInt aCommandId) const
 #ifndef RD_ENHANCED_CBA    
 void CEikCommandTable::ReplaceCommandL( const TInt /*aCommandId*/, const TInt /*aResourceId*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
 #else // !RD_ENHANCED_CBA    
 void CEikCommandTable::ReplaceCommandL( const TInt aCommandId, const TInt aResourceId )
     {
-    _AKNTRACE_FUNC_ENTER;
     // If the command is not in the command table, return.
     if( !IsCommandPlaced( aCommandId ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }   
     
@@ -9012,7 +8321,6 @@ void CEikCommandTable::ReplaceCommandL( const TInt aCommandId, const TInt aResou
     // Delete old button.
     delete oldButton;
 #endif // !RD_ENHANCED_CBA    
-    _AKNTRACE_FUNC_EXIT;
     }
     
 // -----------------------------------------------------------------------------
@@ -9023,15 +8331,11 @@ void CEikCommandTable::ReplaceCommandL( const TInt aCommandId, const TInt aResou
 #ifdef RD_ENHANCED_CBA
 CEikEnhancedCbaButton* CEikCommandTable::Command( const TInt aCommandIndex )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return iCommandButtons[aCommandIndex]; 
     }
 #else // RD_ENHANCED_CBA
 CEikEnhancedCbaButton* CEikCommandTable::Command( const TInt /*aCommandIndex*/ )
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
     return NULL;
     }
 #endif // RD_ENHANCED_CBA
@@ -9041,8 +8345,6 @@ CEikEnhancedCbaButton* CEikCommandTable::Command( const TInt /*aCommandIndex*/ )
 // -----------------------------------------------------------------------------    
 void CEikCommandTable::Reset()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
 #ifdef RD_ENHANCED_CBA 
     iCommandButtons.Reset();
 #endif // RD_ENHANCED_CBA
@@ -9055,12 +8357,10 @@ EXPORT_C void AknCbaContentObserver::SetContentObserver(
         CEikCba* aCba, 
         TCallBack aCallBack )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( aCba )
         {
         aCba->SetContentObserver( aCallBack );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 // End of file

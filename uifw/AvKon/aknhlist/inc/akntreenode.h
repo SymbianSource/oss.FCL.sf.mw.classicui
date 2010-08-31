@@ -181,13 +181,6 @@ public:
      */
     void Sort();
 
-    /**
-     * Are all children marked
-     * 
-     * @return @c ETrue if all children are marked
-     */
-    TBool AllChildrenMarked();    
-    
 // from base class CAknTreeItem
 
     /**

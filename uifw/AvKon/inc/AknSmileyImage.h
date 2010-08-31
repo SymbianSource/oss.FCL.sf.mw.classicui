@@ -50,8 +50,6 @@ public:
 
 ////////////////////////////////////////////////////////////////////
 
-// CSmileyImage can be a still or animated svg image
-
 class CSmileyImage : public CBase, public MAknIconObserver
     {
 public:
@@ -73,44 +71,45 @@ public:
     const CFbsBitmap* Image() const;
     const CFbsBitmap* Mask() const;
 
-private:
-    void BitmapChanged(CFbsBitmap* aBitmap); // from MAknIconObserver
-    void MonitorAnimationEndedL();
+private: // from MAknIconObserver
+    void BitmapChanged(CFbsBitmap* aBitmap);
 
 private:
     void DoLoadL();
     void DoRelease();
-    void DoHandleEndedL();
+    void StopAnyAsynchronousTask();
+
+    void MonitorAnimationEndedL();
+    void HandleAnimationEndedL();
 
 private:
-    inline void StopAsynchronousTaskTimer();
- 
-    void StartLoadAsynchronousL(TInt aDelayMicroSeconds=0);
+    void StartLoadAsynchronousL(TInt aRepeat, TInt aDelayMicroSeconds=0);
     static TInt StartLoadAsynchronousCallBackL(TAny* aPtr);
-
+    
+private:
     void StopAnimationAsynchronousL(TInt aDelayMicroSeconds=0);
     static TInt StopAnimationAsynchronousCallBackL(TAny* aPtr);
 
 private:
-    TAknsItemID             iImageSkinItemId;
-    const TInt              iImageMifPkgItemId;
+    TAknsItemID             iImageSkinItem;
+    TInt                    iImagePkgItem;
     const TBool             iIsAnimation;
-
-private:
+    TSize                   iSize;
     MSmileyImageObserver*   iImageObserver;
     CPeriodic*              iAsynchronousTaskTimer;
 
 private:
-    TSize                   iSize;
     CFbsBitmap*             iFrame;
     CFbsBitmap*             iFrameMask;
-    TBool                   iReadyToDraw;
-
-private: // for animation
-    TInt                    iRepeatCount;
+    
+private:
     CFbsBitmap*             iFrameSnap;
     TInt                    iFrameCounter;
     TInt                    iSameFrameCounter;
+
+private:
+    TBool                   iReadyToDraw;
+    TInt                    iRepeatCount;
 
     };
 

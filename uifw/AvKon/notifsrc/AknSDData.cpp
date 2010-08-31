@@ -15,7 +15,8 @@
 *
 */
 
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <AknNotifyStd.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <s32mem.h>
 #include "aknSDData.h"
 

@@ -54,12 +54,9 @@ class CPbkDataSaveAppUi;
 #endif // !RD_VIRTUAL_PHONEBOOK
 class TCoeHelpContext;
 class CFindItemVoIPExtension;
-class CSchemeHandler;
 class CAknsBasicBackgroundControlContext;
 class CRichTextEditorContainer;
-class CSendUi;
 class CItemFinderExtension;
-class MTouchFeedback;
 
 // CLASS DECLARATION
 
@@ -168,14 +165,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         * @return CAknDialog::ExecuteLD()
         */
         IMPORT_C TInt ExecuteLD();
-        
-        /**
-         * Enable single click
-         * @since S60 5.2
-         * @param aEnable     Enables single click.
-         *                    Disabled by default.
-         */
-        IMPORT_C void EnableSingleClick ( TBool aEnable );
 
     public: // Functions from base classes
         /**
@@ -188,22 +177,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         IMPORT_C TKeyResponse OfferKeyEventL(
             const TKeyEvent& aKeyEvent,
             TEventCode aType );
-        
-        /**
-         * From CCoeControl
-         * Handle pointer events.
-         * @param aPointerEvent information about the pointerevent
-         */
-        void HandlePointerEventL ( const TPointerEvent& aPointerEvent );
-
-		/**
-        * Sets AIW submenu item visibility 
-        * Must be called before displaying the dialog
-        * 
-        * @since S60 5.2
-        * @param aVisible AIW submenu item visibility
-        */
-        IMPORT_C void SetCallSubMenuVisibility( TBool aVisible );
 
     protected:  // Functions from base classes
 
@@ -449,14 +422,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         */
         void CreateInternetCallL();
 
-        /**
-         * Handles pointer events in single click mode.
-         *
-         * @param aPointerEvent information about the pointerevent
-         */
-        void DoHandlePointerEventL ( const TPointerEvent& aPointerEvent );
-
-
     private: //data
         // Pointer to controller which controls engine and dialog
         CFindItemController* iController;
@@ -482,9 +447,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         // Array to enable the scrollbar to know current position.
         CArrayFixFlat<TInt>* iItemArrayForScrollBar;
 
-        // SendUi
-        CSendUi* iSendUi;
-
 #ifndef RD_VIRTUAL_PHONEBOOK
         CPbkContactEngine* iPbkEngine;
         CPbkDataSaveAppUi* iPbkDataSave;
@@ -507,8 +469,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
         TBool iHideCallMenu;
         // Contains information of the VoIP profiles.
         CFindItemVoIPExtension* iFindItemVoIPExtension;
-
-        CSchemeHandler* iSchemeHandler;
 
         CAknsBasicBackgroundControlContext* iBgContext;
 
@@ -540,20 +500,8 @@ NONSHARABLE_CLASS(CFindItemDialog)
         // Rows used in viewer.
         TInt iRows;
         
-        CItemFinderExtension* iExtension;
-        
-        // Last tapped item
-        TPoint iLastTappedItem;
+        CItemFinderExtension*	iExtension;
 
-        // Is single click enabled
-        TBool iSingleClick;
-
-        // Tactile Feedback interface
-        MTouchFeedback* iFeedback;        		
-
-		// Hide AIW submenu
-        TBool iHideCallSubMenu;
-		
     public: // new methods
         void DeleteMeL();
         static TInt DeleteMe(TAny* aThis);
@@ -561,6 +509,7 @@ NONSHARABLE_CLASS(CFindItemDialog)
     private: // new methods
         void FormatDialDataL( TInt aCommandId );
         TBool IsSendKeyCallVoIP() const;
+
 };
 
 #endif  // FINDITEMDIALOG_H

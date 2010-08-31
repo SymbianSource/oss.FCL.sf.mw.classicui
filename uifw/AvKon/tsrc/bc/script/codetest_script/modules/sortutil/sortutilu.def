@@ -1,3 +1,0 @@
-EXPORTS
-	?NewL@CSortUtil@@SAPAV1@XZ @ 1 NONAME ; public: static class CSortUtil * __cdecl CSortUtil::NewL(void)
-

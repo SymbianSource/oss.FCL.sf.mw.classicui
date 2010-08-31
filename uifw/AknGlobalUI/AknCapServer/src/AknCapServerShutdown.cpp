@@ -112,14 +112,14 @@ void CAknCapServerShutdown::ShutdownAppsL(
       // This UID comes from the app, not the mmp!
       TUid uid = doomed->AppUid(); 
       iWs.GetWindowGroupClientThreadId(wgIds->At(ii), threadId);
-      TInt error = thd.Open(threadId);  
+      thd.Open(threadId);  
 	  CleanupClosePushL( thd );
 
       // Is this app OK to kill? We don't kill the this app, EikSrv backdrop or the app that 
       // instigated the shutdown.
       if ((uid != aRequesterUID) && ( uid != KCapServerUid ) && ( uid != KFepSwitchWGId ) && 
              ( doomed->Caption() != EIKON_SERVER_BACKDROP_WINDOW_GROUP_NAME ) &&
-			  !IsSystemCriticalThread( thd ) && (!doomed->IsSystem()) && (uid.iUid != 0))
+			  !IsSystemCriticalThread( thd ) )  
          {
          TApaTask* harbingerOfDoom = new (ELeave) TApaTask(iWs);
          CleanupDeletePushL(harbingerOfDoom);
@@ -251,16 +251,12 @@ void CAknCapServerShutdown::AppExitNotifierL(
         {
 #ifdef _DEBUG
         RDebug::Print(_L("SHUTDOWN: App with ThreadId %d has exited"), TUint(aNotifier->ThreadId()));
-#else
-        aNotifier->ThreadId(); // just for fixing warning
 #endif
         }
     else if (aHowClosed == CAppExitNotifier::EAppExitForced)
         {
 #ifdef _DEBUG
         RDebug::Print(_L("SHUTDOWN: App with ThreadId %d was killed"), TUint(aNotifier->ThreadId()));
-#else
-        aNotifier->ThreadId(); // just for fixing warning
 #endif
         }
     iTotalAppExitNotifiers--;

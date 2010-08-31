@@ -34,22 +34,11 @@ file=ABI_DIR\BUILD_DIR\aknhlist.dll              SHARED_LIB_DIR\aknhlist.dll
 
 SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,avkon2)
 SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,callstatus)
-SCALABLE_IMAGE(BITMAP_DIR,BITMAP_DIR,smiley)
 
 // Avkon2.mif CDL header
 ECOM_PLUGIN(102827CF.dll,102827CF.rsc)
 data=DATAZ_\resource\cdl\102827CF_cdl_detail.rsc Resource\Cdl\102827CF_cdl_detail.rsc
 data=ZRESOURCE\aknpriv.rsc                       RESOURCE_FILES_DIR\aknpriv.rsc
-data=ZRESOURCE\smiley.rsc                        RESOURCE_FILES_DIR\smiley.rsc
-
-data=ZRESOURCE\avkonsystemsounds\volume_min.wav   RESOURCE_FILES_DIR\avkonsystemsounds\volume_min.wav
-data=ZRESOURCE\avkonsystemsounds\volume_max.wav   RESOURCE_FILES_DIR\avkonsystemsounds\volume_max.wav
-data=ZRESOURCE\avkonsystemsounds\default_beep.wav RESOURCE_FILES_DIR\avkonsystemsounds\default_beep.wav
-data=ZRESOURCE\avkonsystemsounds\battery_dead.wav RESOURCE_FILES_DIR\avkonsystemsounds\battery_dead.wav
-data=ZRESOURCE\avkonsystemsounds\battery_low.wav  RESOURCE_FILES_DIR\avkonsystemsounds\battery_low.wav
-data=ZRESOURCE\avkonsystemsounds\confirmation.wav  RESOURCE_FILES_DIR\avkonsystemsounds\confirmation.wav
-data=ZRESOURCE\avkonsystemsounds\warning.wav  RESOURCE_FILES_DIR\avkonsystemsounds\warning.wav
-
 
 #include "aknglobalui.iby"
 

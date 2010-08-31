@@ -23,7 +23,6 @@
 #include "akntree.h"
 #include "aknsinglecolumnstylecoredatarow.h"
 #include "akntreelistinternalconstants.h"
-#include "akntrace.h"
 
 using AknTreeListIconID::KDefault;
 using AknTreeListIconID::KNone;
@@ -458,7 +457,6 @@ TSize CAknSingleColumnStyleCoreDataRow::MinimumSize() const
 void CAknSingleColumnStyleCoreDataRow::Draw( CWindowGc& aGc,
     const TRect& aItemRect, const TRect& /*aRect*/, TBool aFocused ) const
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknTree* root = Root();
     __ASSERT_DEBUG( root, User::Invariant() );
 
@@ -495,18 +493,9 @@ void CAknSingleColumnStyleCoreDataRow::Draw( CWindowGc& aGc,
             
         if ( iFirstColumn )
             {
-            if ( Flags() & EFirstColumnSmiley )
-                {
-                root->DrawSmiley( aGc, aItemRect, AknLayoutScalable_Avkon::
-                                  list_single_2heading_msg_pane_t2( textVariety), 
-                                  *iFirstColumn, NULL, aFocused );
-                }
-            else
-                {
             root->DrawText( aGc, aItemRect, AknLayoutScalable_Avkon::
                 list_single_2heading_msg_pane_t2( textVariety ),
-                                *iFirstColumn, NULL, this, aFocused, ETrue );
-                }
+                *iFirstColumn, NULL, this, aFocused, EFalse );
             }        
         }
 
@@ -518,20 +507,9 @@ void CAknSingleColumnStyleCoreDataRow::Draw( CWindowGc& aGc,
             list_single_2heading_msg_pane_t3( textVariety ).LayoutLine() );
         if ( iSecondColumn )
             {
-            if ( Flags() & ESecondColumnSmiley )
-                {
-                _AKNTRACE("Draw Smiley");
-                root->DrawSmiley( aGc, aItemRect, AknLayoutScalable_Avkon::
-                                  list_single_2heading_msg_pane_t3(textVariety),
-                                  *iSecondColumn, NULL, aFocused );
-                }
-            else
-                {
-                _AKNTRACE("Draw Text ");
             root->DrawText( aGc, aItemRect, AknLayoutScalable_Avkon::
                 list_single_2heading_msg_pane_t3( textVariety ),
-                                *iSecondColumn, NULL, this, aFocused, ETrue );
-                }
+                *iSecondColumn, NULL, this, aFocused, EFalse );
             }        
         }
 
@@ -568,7 +546,6 @@ void CAknSingleColumnStyleCoreDataRow::Draw( CWindowGc& aGc,
         root->DrawIcon( optIconId2, optIconRect2.Size(), aGc,
             optIconRect2.iTl, optIconRect2.Size() );
         }    
-    _AKNTRACE_FUNC_EXIT;
     }
 
 

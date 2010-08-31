@@ -1,0 +1,100 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the bctestpopups
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctestpopups.exe
+TARGETTYPE      exe
+UID             0x0 0x200045CA
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData  \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctestpopups.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            sc
+
+SOURCEPATH      ../src
+SOURCE          bctestpopupsapp.cpp
+SOURCE          bctestpopupsdocument.cpp
+SOURCE          bctestpopupsappui.cpp
+SOURCE          bctestpopupsview.cpp
+SOURCE          bctestpopupscontainer.cpp
+SOURCE          bctestpopupfieldtextcase.cpp
+SOURCE          bctestsubpopupfieldtext.cpp
+SOURCE          bctestpopupcase.cpp
+SOURCE          bctestpopupsettingpage.cpp
+SOURCE          bctestpopupsettingpagecase.cpp
+SOURCE          bctestsubpopup.cpp
+SOURCE          bctestheadingpanecase.cpp
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY	    	AknIcon.lib
+LIBRARY         AknSkins.lib
+LIBRARY         avkon.lib
+LIBRARY         apparc.lib
+LIBRARY         aknnotify.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bafl.lib 
+LIBRARY         bctestutil.lib 
+LIBRARY         cone.lib
+LIBRARY         egul.lib
+LIBRARY         euser.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         estor.lib
+
+// Creates Mbm file.
+START BITMAP    bctestpopups.mbm
+HEADER
+TARGETPATH      /resource/apps
+SOURCEPATH      ../DataSrc
+SOURCE          C8 30x40.bmp
+SOURCE          C8 30x40M.bmp
+SOURCE          C8 tel.bmp
+SOURCE          C8 telM.bmp
+END
+
+START RESOURCE ../group/bctestpopups_reg.rss
+DEPENDS bctestpopups.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+

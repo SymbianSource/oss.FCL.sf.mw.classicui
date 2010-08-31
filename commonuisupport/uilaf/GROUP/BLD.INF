@@ -27,7 +27,7 @@ PRJ_EXPORTS
 // to the same name in \epoc32\include
 
 ../bwins/uiklaf_unbranchedu.def	/epoc32/include/uiklaf/private/bwins/uiklafu.def
-../EABI/uiklaf_unbranchedu.def	/epoc32/include/uiklaf/private/eabi/uiklafu.def
+../eabi/uiklaf_unbranchedu.def	/epoc32/include/uiklaf/private/eabi/uiklafu.def
 
 // from \uiklaf\inc
 ../inc/uikon.hrh	/epoc32/include/uikon.hrh

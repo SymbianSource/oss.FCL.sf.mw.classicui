@@ -1,0 +1,101 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the bctestmisccontrol
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctestmisccontrol.exe
+TARGETTYPE      exe
+UID             0x0 0x20004759
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData  \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctestmisccontrol.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            sc
+
+SOURCEPATH      ../src
+SOURCE          bctestmisccontrolapp.cpp
+SOURCE          bctestmisccontroldocument.cpp
+SOURCE          bctestmisccontrolappui.cpp
+SOURCE          bctestmisccontrolview.cpp
+SOURCE          bctestmisccontrolcontainer.cpp
+SOURCE          bctesteikcaptionedcontrolcase.cpp
+SOURCE          bctestsubeikcaptionedcontrol.cpp
+SOURCE          bctesteikconsolecontrolcase.cpp
+SOURCE          bctestsubeikconsolecontrol.cpp
+SOURCE          bctesteikcontrolgroupcase.cpp
+SOURCE          bctestsubeikcontrolgroup.cpp
+SOURCE          bctestsubeikmover.cpp
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY	    	AknIcon.lib
+LIBRARY         AknSkins.lib
+LIBRARY         avkon.lib
+LIBRARY         apparc.lib
+LIBRARY         aknnotify.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bafl.lib 
+LIBRARY         bctestutil.lib 
+LIBRARY         cone.lib
+LIBRARY         egul.lib
+LIBRARY         euser.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         estor.lib
+LIBRARY         fbscli.lib
+LIBRARY         gdi.lib
+
+// Creates Mbm file.
+START BITMAP    bctestmisccontrol.mbm
+HEADER
+TARGETPATH      /resource/apps
+SOURCEPATH      ../DataSrc
+SOURCE          C8 30x40.bmp
+SOURCE          C8 30x40M.bmp
+SOURCE          C8 indicato.bmp
+SOURCE          C8 indicatom.bmp
+END
+
+START RESOURCE ../group/bctestmisccontrol_reg.rss
+DEPENDS bctestmisccontrol.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END

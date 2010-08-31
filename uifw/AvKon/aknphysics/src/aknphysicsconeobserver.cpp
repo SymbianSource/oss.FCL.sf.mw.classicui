@@ -289,7 +289,7 @@ TInt CAknPhysicsConeObserver::EventTargetedToView(
                         {
                         if ( child->Rect().Contains( aEvent->iPosition ) )
                             {
-                            target = ETargetChildControl;
+                            target = ETargetOtherControl;
                             }
                         }
                     }
@@ -319,8 +319,7 @@ TBool CAknPhysicsConeObserver::MonitorPointerEvent(
         }
 
     if ( aEvent->iType == TPointerEvent::EButton1Up && 
-         iPhysics->IsPanningDrawOmitted() && 
-         eventTarget == ETargetViewControl )
+         iPhysics->IsPanningDrawOmitted() )
         {
         // Ensure that the last panning position gets drawn if the last
         // view redraw was omitted due to too high CPU use.
@@ -347,9 +346,8 @@ TBool CAknPhysicsConeObserver::MonitorPointerEvent(
     if ( ongoingAction == CAknPhysics::EAknPhysicsActionFlicking )
         {
         // Event not targeted to view - stop flick
-        if (aTargetControl && (eventTarget == ETargetOtherControl 
-                || (eventTarget == ETargetChildControl && aTargetControl
-                != iWindowControl)))
+        if ( ( eventTarget == ETargetOtherControl || 
+                eventTarget == ETargetChildControl ) && aTargetControl )
             {
             stopPhysics = ETrue;
             aTargetControl->IgnoreEventsUntilNextPointerUp();

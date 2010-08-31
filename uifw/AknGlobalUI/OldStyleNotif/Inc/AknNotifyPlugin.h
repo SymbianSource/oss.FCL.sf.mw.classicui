@@ -28,7 +28,8 @@
 #include <AknPanic.h>
 #include <MediatorEventProvider.h>
 #include <MediatorDomainUIDs.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <AknNotifyStd.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 
 class CAknIndicatorData;
 

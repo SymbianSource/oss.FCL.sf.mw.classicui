@@ -30,8 +30,6 @@
 #include "aknnoteattributes.h"
 #include <akninputblock.h>
 
-#include "akntrace.h"
-
 
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 #include <gfxtranseffect/gfxtranseffect.h>
@@ -77,7 +75,7 @@ void CAknProgressDialog::CCancelWhileHidden::AknInputBlockCancel()
 	key.iCode=EKeyEscape;
 	key.iModifiers=0;
 	key.iScanCode = EStdKeyNull;
-	TRAP_IGNORE(iAknProgressDialog->OfferKeyEventL(key, EEventKey));
+	iAknProgressDialog->OfferKeyEventL(key, EEventKey);
 	}
 	
 CAknProgressDialog::CCancelWhileHidden::CCancelWhileHidden(CAknProgressDialog* aAknProgressDialog)
@@ -103,8 +101,6 @@ EXPORT_C CAknProgressDialog::CAknProgressDialog(TInt aFinalValue,TInt anIncremen
          TInt anInterval,CEikDialog** aSelfPtr) :
          CAknNoteDialog(aSelfPtr),iInternalTimerControl(ETrue)
 	{
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE("aFinalValue = %d anIncrement = %d anInterval = %d", aFinalValue, anIncrement, anInterval); 
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 	GfxTransEffect::Register( this, KGfxWaitNoteControlUid );
 #endif
@@ -113,18 +109,15 @@ EXPORT_C CAknProgressDialog::CAknProgressDialog(TInt aFinalValue,TInt anIncremen
 	iModel.iIncrement = anIncrement;
 	iModel.iRunning = EFalse;
 	AKNTASHOOK_ADD( this, "CAknProgressDialog" );
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 EXPORT_C CAknProgressDialog::CAknProgressDialog(CEikDialog** aSelfPtr) :
 	CAknNoteDialog(aSelfPtr),iInternalTimerControl(EFalse)
 	{
-	_AKNTRACE_FUNC_ENTER;
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 	GfxTransEffect::Register( this, KGfxWaitNoteControlUid );
 #endif
 	AKNTASHOOK_ADD( this, "CAknProgressDialog" );
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 EXPORT_C CAknProgressDialog::CAknProgressDialog(CEikDialog** aSelfPtr,
@@ -133,18 +126,14 @@ EXPORT_C CAknProgressDialog::CAknProgressDialog(CEikDialog** aSelfPtr,
 	iVisibilityDelayOff( aVisibilityDelayOff ),
 	iInternalTimerControl(EFalse)
 	{
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE("iVisibilityDelayOff = %d ", aVisibilityDelayOff); 
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 	GfxTransEffect::Register( this, KGfxWaitNoteControlUid );
 #endif
 	AKNTASHOOK_ADD( this, "CAknProgressDialog" );
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 EXPORT_C CAknProgressDialog::~CAknProgressDialog()
 	{
-	_AKNTRACE_FUNC_ENTER;
 	AKNTASHOOK_REMOVE();
     if ( iInternalTimerControl )
         {
@@ -154,7 +143,6 @@ EXPORT_C CAknProgressDialog::~CAknProgressDialog()
     delete iCancelWhileHidden;
     delete iProgressTimer;
 	delete iProgressDialogTimer;
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 EXPORT_C void CAknProgressDialog::PreLayoutDynInitL()
@@ -187,8 +175,6 @@ TInt CAknProgressDialog::DialogTimerCallback(TAny* aPtr)
 
 TInt CAknProgressDialog::DialogTimerEvent()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("CAknProgressDialog::DialogTimerEvent iState = %d", iState);
     switch ( iState )
         {
         case EProcessOnDisplayOff:
@@ -226,7 +212,7 @@ TInt CAknProgressDialog::DialogTimerEvent()
             MakeVisible(ETrue);
    			CCoeControl* cba = ButtonGroupContainer().ButtonGroup()->AsControl();
 			iEikonEnv->RemoveFromStack(cba);
-			TRAP_IGNORE(iEikonEnv->EikAppUi()->AddToStackL(cba, ECoeStackPriorityCba, ECoeStackFlagRefusesFocus));	// Won't fail since we just removed it (and array will not reallocate)
+			__ASSERT_DEBUG_NO_LEAVE(iEikonEnv->EikAppUi()->AddToStackL(cba, ECoeStackPriorityCba, ECoeStackFlagRefusesFocus));	// Won't fail since we just removed it (and array will not reallocate)
 			cba->DrawableWindow()->SetOrdinalPosition(0);
             cba->MakeVisible(ETrue);
             ReportUserActivity();
@@ -273,14 +259,11 @@ TInt CAknProgressDialog::DialogTimerEvent()
             delete iProgressDialogTimer;
             iProgressDialogTimer = NULL;
         }
-    _AKNTRACE_FUNC_EXIT;
     return KErrNone;
     }
 
 EXPORT_C void CAknProgressDialog::ProcessFinishedL()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("CAknProgressDialog::ProcessFinishedL iState = %d", iState);
+    {        
         switch ( iState )
         {
         case EProcessOnDisplayOff:
@@ -298,13 +281,10 @@ EXPORT_C void CAknProgressDialog::ProcessFinishedL()
 		default:
 			break;
         }
-	_AKNTRACE_FUNC_EXIT;   
     }
 
 EXPORT_C TInt CAknProgressDialog::RunLD()
 	{
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE("RunLD iInternalTimerControl = %d iVisibilityDelayOff = %d", iInternalTimerControl, iVisibilityDelayOff);
     CAknNoteControl* note = NoteControl();
 	note->CreateProgressBarL();
 
@@ -358,7 +338,7 @@ EXPORT_C TInt CAknProgressDialog::RunLD()
         
         iEikonEnv->EikAppUi()->AddToStackL(this,ECoeStackPriorityDialog,ECoeStackFlagRefusesAllKeys);
         }
-    _AKNTRACE_FUNC_EXIT;
+
     return CAknNoteDialog::RunLD();
     }
 
@@ -408,24 +388,20 @@ EXPORT_C TKeyResponse CAknProgressDialog::OfferKeyEventL(const TKeyEvent& aKeyEv
 
 EXPORT_C TBool CAknProgressDialog::OkToExitL(TInt aButtonId)
     {
-    _AKNTRACE_FUNC_ENTER;    
     // if dialog is invisible and app isn't exiting, eg during view switch,
     // don't stop the progress dialog - it's most likely part of some
     // asynchronous operation.
     if ((iState == EProcessOnDisplayOff && !CAknEnv::AppWithShutterRunning()) || 
     	aButtonId == EAknSoftkeyEmpty )
         {
-        _AKNTRACE("CAknProgressDialog::OkToExitL return for EProcessOnDisplayOff");
 		delete iCancelWhileHidden;
 		iCancelWhileHidden = NULL;
         return EFalse;
         }
     if ( iCallback )
         {
-        _AKNTRACE("CAknProgressDialog::OkToExitL succeed to execut DialogDismissedL");   
         iCallback->DialogDismissedL(aButtonId);
         }
-    _AKNTRACE_FUNC_EXIT;
     return ETrue;
     }
         

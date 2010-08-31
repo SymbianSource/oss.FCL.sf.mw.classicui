@@ -810,7 +810,6 @@ RESOURCE AVKON_NOTE r_unplug_charger_control
     layout         = EGeneralLayout;
     singular_label = qtn_battc_unplug;
     plural_label   = "";
-    animation = R_QGN_NOTE_INFO_ANIM;
     }
     
 // ---------------------------------------------------------------------------

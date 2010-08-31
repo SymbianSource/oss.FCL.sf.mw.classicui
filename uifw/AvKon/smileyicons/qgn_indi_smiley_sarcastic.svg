@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg baseProfile="tiny" height="16" version="1.1" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g>
+<rect fill="none" height="16" width="16"/>
+<g>
+<circle cx="8" cy="8" r="7"/>
+<radialGradient cx="7.8779" cy="5.0117" gradientUnits="userSpaceOnUse" id="XMLID_2_" r="8.363">
+<stop offset="0" style="stop-color:#FFF000"/>
+<stop offset="1" style="stop-color:#FFBF00"/>
+</radialGradient>
+<circle cx="8" cy="8" fill="url(#XMLID_2_)" r="6.5"/>
+<g>
+<g>
+<circle cx="5.25" cy="7.362" fill="#FFFFFF" r="2"/>
+<circle cx="6" cy="6.779" r="1"/>
+</g>
+<g>
+<circle cx="10.75" cy="7.362" fill="#FFFFFF" r="2"/>
+<circle cx="11.25" cy="6.612" r="1"/>
+</g>
+</g>
+<polygon points="4.775,3.642 5.221,2.747 7.221,3.747 6.773,4.642 4.775,3.642   "/>
+<polygon points="8.607,3.747 10.607,2.747 11.055,3.642 9.055,4.642 8.607,3.747   "/>
+<g>
+<path d="M5.6,11.374c1.88,1.31,4.469,0.846,5.777-1.034l0.697,0.486c-1.576,2.265-4.695,2.822-6.96,1.245     C5.273,11.84,5.454,11.584,5.6,11.374z"/>
+</g>
+</g>
+</g>
+</svg>

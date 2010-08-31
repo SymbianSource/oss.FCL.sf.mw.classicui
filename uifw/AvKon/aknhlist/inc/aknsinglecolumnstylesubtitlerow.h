@@ -59,14 +59,6 @@ public:
         EHighlightedOptIcon,
         };
 
-      /** Single style subtitle row flags. */
-    enum TItemFlags
-        {
-        /** Enable smiley icon */
-        ESmiley  = 0x00010000
-        };
-
-
     /**
      * Two phased constructor. Creates an instance of single column style
      * subtitle row and leaves the newly created object in the cleanup

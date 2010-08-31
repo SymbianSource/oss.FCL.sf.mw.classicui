@@ -134,14 +134,11 @@ CBitmapFrameData* CAnimateFramesCtl::ReadFrameDataFromResourceL(TResourceReader&
 	const TInt maskId = aFramesReader.ReadInt16();
 	if (bmpId >= 0)
 		{
-        // Create a bitmap with no error dialog - the 3rd argument of CEikonEnv::CreateBitmapL is to decide whether
-        // or not to show a error dialog on failure. With this option, it leaves with KErrExtendedWkithText if the creation of 
-        // bitmap fails. For this test we do not need this error dialog and we expect the raw error code (i.e. KErrNoMemory).
-		CFbsBitmap* bitmap = iEikonEnv->CreateBitmapL(aFileName, bmpId, EFalse);
+		CFbsBitmap* bitmap = iEikonEnv->CreateBitmapL(aFileName, bmpId);
 		frameData->SetBitmap(bitmap);
 		if (maskId >= 0)
 			{
-			CFbsBitmap* mask = iEikonEnv->CreateBitmapL(aFileName, maskId, EFalse);
+			CFbsBitmap* mask = iEikonEnv->CreateBitmapL(aFileName, maskId);
 			frameData->SetMask(mask);
 			}
 		}

@@ -24,6 +24,8 @@
 
 #include <AknTasHook.h> // for testability hooks
 #include <touchfeedback.h>
+const TInt KStartIntensity = 1;
+const TInt KEndIntensity = 100;
 #include "aknlongtapanimation.h"
 
 enum TInternalFlags
@@ -39,9 +41,6 @@ const TInt KAknLongTapWindowPosition = 11; // window group's priority
 
 /** Window`s Position when hiding the animation which  does not own Window Group */
 const TInt KAknAnimationNotOwnWindowGroupWindowPosition = -10; // never at front  
-
-/** animation's position offset */
-const TInt KVerticalOffset = -75;
 
 /**  window group's name */
 _LIT( KAknLongTapWgName, "LongTapAnim" ); // window groups name
@@ -166,11 +165,9 @@ EXPORT_C void CAknLongTapAnimation::ShowAnimationL( const TInt aX,
     
     SetRect( TRect( TPoint(aX, aY), layoutRect.Rect().Size() ));
     
-    // position window
+    // Position window so that it will be directly on top of
+    // the location that was clicked.
     TPoint point( aX - Rect().Width() / 2, aY - Rect().Height() / 2 );
-    point.iY += KVerticalOffset;
-    point.iY = Max( 0, point.iY );
-    
     Window().SetPosition( point );
 
     iAnim->SetSize( layoutRect.Rect().Size() );
@@ -193,9 +190,15 @@ EXPORT_C void CAknLongTapAnimation::ShowAnimationL( const TInt aX,
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
         {
-        feedback->InstantFeedback( 
-                this, ETouchFeedbackLongTap,
-                ETouchFeedbackVibra, TPointerEvent() );
+        CBitmapAnimClientData* animData = iAnim->BitmapAnimData();	
+		TInt interval = animData->FrameIntervalInMilliSeconds()
+		             * KConversionFromMillisecondsToMicroseconds;
+        TInt frameCount = animData->FrameArray().Count();
+
+        // timeout should be greater than normal animation time 
+        // so that timeout does not interfere into normal operation
+        TInt timeout = interval * (frameCount+1); 
+        feedback->StartFeedback( this, ETouchContinuousSmooth, NULL, KStartIntensity, timeout );
         }
 	StartAnimation();
     }
@@ -390,6 +393,14 @@ void CAknLongTapAnimation::NextFrame()
 	{
 		iExtension->iIndex = frameCount - 1;
 	}
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        // intensity should go from 0 to 100
+        TInt intensity = KEndIntensity
+                       * (iExtension->iIndex+1) / frameCount;
+        feedback->ModifyFeedback( this, intensity );
+        }
 	DrawNow();
 	}
 

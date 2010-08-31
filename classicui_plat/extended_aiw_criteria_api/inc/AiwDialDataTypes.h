@@ -23,7 +23,7 @@
 #define AIWDIALDATATYPES_H  
 
 #include <cntdef.h>  // For KNullContactId
-#include <TPbkContactItemField.h> // For contact item field
+#include <tpbkcontactitemfield.h> // For contact item field
 
 // CONSTANTS
 
@@ -531,7 +531,7 @@ typedef TPckgC< TAiwDialDataV1 >  TAiwDialDataV1Pckg;
 
 
 // Inline methods
-#include    <AiwDialDataTypes.inl>
+#include    <aiwdialdatatypes.inl>
 
 
 #endif // AIWDIALDATATYPES_H

@@ -21,7 +21,6 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 
 #include "testdomaiwpro.h"
@@ -86,8 +85,6 @@ void CTestDOMAIWPro::ConstructL()
     iOffset = CCoeEnv::Static()->AddResourceFileL( KResourcePath );
 
     SendTestClassVersion();
-
-    TurnOffScreenSaver();
     }
 
 // -----------------------------------------------------------------------------
@@ -117,9 +114,6 @@ CTestDOMAIWPro::~CTestDOMAIWPro()
     // Delete logger
     delete iLog;
     CCoeEnv::Static()->DeleteResourceFile( iOffset );
-
-    RestoreScreenSaver();
-
     }
 
 //-----------------------------------------------------------------------------
@@ -157,30 +151,4 @@ EXPORT_C CScriptBase* LibEntryL(
     return ( CScriptBase* ) CTestDOMAIWPro::NewL( aTestModuleIf );
 
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDOMAIWPro::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDOMAIWPro::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
 //  End of File

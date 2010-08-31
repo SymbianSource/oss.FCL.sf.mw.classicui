@@ -44,9 +44,7 @@
 CAknEmptyControl::CAknEmptyControl()
 	{
 	AKNTASHOOK_ADD( this, "CAknEmptyControl" );
-//  iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
-// Use interface of statuspane transparency instead of check if it is active idle
-  iStatusPane = CEikStatusPaneBase::Current();	
+    iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
     }
 
 
@@ -108,8 +106,8 @@ void CAknEmptyControl::SizeChanged()
 // ---------------------------------------------------------------------------
 //
 void CAknEmptyControl::Draw( const TRect& /*aRect*/ ) const
-    {      
-    if ( iStatusPane && iStatusPane->IsTransparent() )
+    {
+    if ( iIsActiveIdle )
         {
         return;
         }

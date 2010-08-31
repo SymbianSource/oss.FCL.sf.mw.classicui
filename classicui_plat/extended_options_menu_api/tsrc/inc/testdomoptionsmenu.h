@@ -155,16 +155,7 @@ NONSHARABLE_CLASS(CTestDomOptionsMenu) : public CScriptBase
          * @return Symbian OS error code.
         */
         virtual TInt TestIMCollectionChangedL( CStifItemParser& aItem );
-
-        /**
-         * TestIMRegisterCollection2L test function of class CAknItemActionMenu for in aknitemactionmenu.h
-         * @since S60 5.2
-         * @param aItem never used
-         * @return Symbian OS error code.
-        */
-        virtual TInt TestIMRegisterCollection2L( CStifItemParser& aItem );
-
-        
+	
     public:     // Data
 
     protected:  // Data      

@@ -53,7 +53,7 @@ SOURCE          testdomutilitiesobserver.cpp
 SOURCE          testdomutilitiescontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         apparc.lib
 LIBRARY         cone.lib
@@ -64,8 +64,8 @@ LIBRARY         akntransitionutils.lib
 LIBRARY         eikdlg.lib
 LIBRARY         eiksrvui.lib
 LIBRARY         commonui.lib
-LIBRARY         CommonEngine.lib
-LIBRARY         SortUtil.lib
+LIBRARY         commonengine.lib
+LIBRARY         sortutil.lib
 
 LANG            SC
 

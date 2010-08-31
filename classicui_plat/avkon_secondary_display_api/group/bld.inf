@@ -24,4 +24,4 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../inc/SecondaryDisplay/AknSecondaryDisplayDefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(secondarydisplay/AknSecondaryDisplayDefs.h)
+../inc/SecondaryDisplay/AknSecondaryDisplayDefs.h     MW_LAYER_PLATFORM_EXPORT_PATH(SecondaryDisplay/AknSecondaryDisplayDefs.h)

@@ -2005,16 +2005,4 @@ EXPORTS
 	_ZN25AknItemActionMenuRegister26SetOverridingMenuBarOwnerLEP15MObjectProviderj @ 2004 NONAME
 	_ZN11CEikListBox11MakeVisibleEi @ 2005 NONAME
 	_ZN7CEikCba25EnableItemSpecificSoftkeyEi @ 2006 NONAME
-	_ZNK11CEikListBox17ItemsInSingleLineEv @ 2007 NONAME
-	_ZN18CEikStatusPaneBase17EnableTransparentEi @ 2008 NONAME
-	_ZNK18CEikStatusPaneBase13IsTransparentEv @ 2009 NONAME
-	_ZN9CEikEdwin23EnableKineticScrollingLEP11CAknPhysics @ 2010 NONAME
-	_ZN18CAknItemActionMenu19RegisterCollectionLER14MAknCollectionP15MObjectProvider @ 2011 NONAME
-	_ZN25AknItemActionMenuRegister30RemoveConstructingMenuBarOwnerEP15MObjectProvider @ 2012 NONAME
-	_ZN11CEikListBox18IsHighlightEnabledEv @ 2013 NONAME
-	_ZN11CEikListBox14SetMarkingModeEi @ 2014 NONAME
-	_ZN11CEikListBox22SetMarkingModeObserverEP23MAknMarkingModeObserver @ 2015 NONAME
-	_ZN10CAknButton14EnableFeedbackEi @ 2016 NONAME
-	_ZN22CAknLocalScreenClearer4NewLEii @ 2017 NONAME
-	_ZN22CAknLocalScreenClearer5NewLCEii @ 2018 NONAME
 

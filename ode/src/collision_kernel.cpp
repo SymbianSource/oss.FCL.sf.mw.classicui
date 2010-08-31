@@ -978,8 +978,6 @@ extern void opcode_collider_cleanup();
 EXPORT_C void dInitODE()
 {
 #ifndef __WINSCW__
-    // clean up cached object if there is any.
-    dClearPosrCache();
     Mem::FillZ( GetGlobalData(), sizeof( TOdeStaticData ) );
     GetGlobalData()->autoEnableDepth = 2;
 #endif // !__WINSCW__

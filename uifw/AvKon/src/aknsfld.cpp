@@ -841,12 +841,7 @@ void CAknSearchField::SizeChanged()
         {
         iIndicator->SetRect( Rect() );
         }   
-    
-    if ( iAdaptiveSearch )
-        {
-        iAdaptiveSearch->SaveFindPaneRect( Rect() );
-        }
-    
+   
     TRAP_IGNORE( SetupSkinContextL() );
     }
 
@@ -1180,7 +1175,7 @@ EXPORT_C void CAknSearchField::SetAdaptiveGridChars( const TDesC& aGridChars ) c
 
 // -----------------------------------------------------------------------------
 // CAknSearchField::SetListColumnFilterFlags
-// Set flag of columns.
+// Set flag of columns for adaptive search grid.
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CAknSearchField::SetListColumnFilterFlags( const TBitFlags32 aFlag )

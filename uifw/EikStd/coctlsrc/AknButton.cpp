@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -264,10 +264,7 @@ private:
 
     // Sets bitmaps to resource provider (if one exists)
     void SetProviderPressedBmpsL();
-    
-    //Verify new rectagle size equals to the original
-    TBool TextRectSizeChanged( TRect aNewRect );
-   
+
 private: // Data
 
     CAknButton& iButton;
@@ -287,16 +284,6 @@ private: // Data
     CFbsBitmap* iPressedDownBmp;
     CFbsBitmap* iPressedDownBmpMask;
     CAknResourceProvider* iResourceProvider;
-    
-    //Previous touch down or drag position, valid only with pressed state. 
-    TPoint iPrePointerPos;
-    CAknsFrameBackgroundControlContext* iHighlightContext;  
-    // buffer for visually ordered text
-    TBuf<255 + KAknBidiExtraSpacePerLine> iVisualText; 
-    TBool iFeedbackEnabled;
-    TAknsItemID iBackgroundSkinIID;
-    TRect iBgFrameRect;
-    TRect iTextRect;
     };
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -316,8 +303,7 @@ CAknButtonExtension::CAknButtonExtension( CAknButton& aButton )
       iVerticalIconAlignment( CAknButton::ECenter ),
       iHorizontalIconAlignment( CAknButton::ECenter ),
       iTextAndIconAlignment( CAknButton::EIconBeforeText ),
-      iResourceProvider( 0 ),
-      iFeedbackEnabled( ETrue )
+      iResourceProvider( 0 )
     {
     // default margins, these are applied to both text and icon
     iMargins.SetAllValuesTo( 
@@ -331,7 +317,6 @@ CAknButtonExtension::CAknButtonExtension( CAknButton& aButton )
     iIconSize = layoutRect.Rect().Size();
     iFlags.Set( EUseDefaultIconSize );
     iFlags.Set( EUseDefaultMargins );
-    iTextRect = TRect::EUninitialized;
     }
 
 // -----------------------------------------------------------------------------
@@ -345,7 +330,6 @@ CAknButtonExtension::~CAknButtonExtension()
     iPictographInterface = NULL; // not owned
     iFrameAndCenterIds.Close();
     DeletePressedBmps();
-    delete iHighlightContext; 
     }
 
 // -----------------------------------------------------------------------------
@@ -384,13 +368,6 @@ void CAknButtonExtension::ConstructL()
     // Latched dimmed frame and center
     iFrameAndCenterIds.AppendL( KAknsIIDQsnFrButtonInactive );
     iFrameAndCenterIds.AppendL( KAknsIIDQsnFrButtonCenterInactive );
-    if ( !iHighlightContext )
-        {
-        iHighlightContext = CAknsFrameBackgroundControlContext::NewL(
-            KAknsIIDNone, TRect(), TRect(), EFalse );
-        iHighlightContext->SetFrame( KAknsIIDQsnFrButtonHighlight ); 
-        iHighlightContext->SetCenter( KAknsIIDQsnFrButtonHighlightCenter ); 
-        }
     }
 
 // -----------------------------------------------------------------------------
@@ -522,20 +499,6 @@ void CAknButtonExtension::SetProviderPressedBmpsL()
         }
     }
     
-//Verify new rectangle size equals to the original
-TBool CAknButtonExtension::TextRectSizeChanged( TRect aNewRect )
-    {
-    TBool result( ETrue );
-    if ( !iTextRect.IsEmpty() && !aNewRect.IsEmpty() )
-        {
-        if ( iTextRect.Width() == aNewRect.Width() 
-                && iTextRect.Height() == aNewRect.Height() )
-            {
-            result = EFalse;
-            }
-        }
-    return result;
-    }
     
 
 //
@@ -551,10 +514,6 @@ TBool CAknButtonExtension::HitRegionContains( const TPoint &aPoint,
 
 void CAknButtonExtension::HandleFeedbackAreaChange()
     {
-    if ( !iFeedbackEnabled )
-        {
-        return; 
-        }
     // it is possible that feedback does not exist, eg. while booting.
     // try getting one, and give up if that fails.
     if ( !iFeedback )
@@ -620,8 +579,6 @@ private: // Data
     TAknsItemID iPressedId;
     TAknsItemID iHoverId;
     TScaleMode iScaleMode;
-    TBool iFlagsChanged; 
-    TBool iTextChanged; 
     };
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -1034,7 +991,6 @@ EXPORT_C void CAknButtonState::SetTextL( const TDesC& aText )
     iText = NULL;
 
     iText = aText.AllocL();
-    iExtension->iTextChanged = ETrue; 
     }
 
 // -----------------------------------------------------------------------------
@@ -1057,11 +1013,6 @@ EXPORT_C void CAknButtonState::SetHelpTextL( const TDesC& aHelpText )
 //
 EXPORT_C void CAknButtonState::SetFlags( const TInt aFlags )
     {
-    if ( ( iFlags & KAknButtonStateHasLatchedFrame ) != 
-        ( aFlags & KAknButtonStateHasLatchedFrame ) )
-        {
-        iExtension->iFlagsChanged = ETrue; 
-        }
     iFlags = aFlags;
     }
 
@@ -1119,21 +1070,7 @@ void CAknButtonState::UpdateIconL( const TDesC& aFilePath,
     LoadButtonIcon( iPressedIcon );
     LoadButtonIcon( iHoverIcon );
     }
-// -----------------------------------------------------------------------------
-// CAknButtonState::UpdateExtensionInfoL
-// Updates extension information. 
-// -----------------------------------------------------------------------------
-void CAknButtonState::UpdateExtensionInfoL( TInt aResource )
-	{
-	if ( iExtension )
-		{
-		iExtension->ConfigureExtensionFromResourceL( aResource );
-		LoadButtonIcon( iIcon );
-	    LoadButtonIcon( iDimmedIcon );
-	    LoadButtonIcon( iPressedIcon );
-	    LoadButtonIcon( iHoverIcon );
-		}
-	}
+
 // -----------------------------------------------------------------------------
 // CAknButtonState::SizeChanged
 // Scales function graphics to the given size
@@ -1384,44 +1321,6 @@ void CAknButtonState::SetGeneratedDimmedIcon( TBool aDimmedIconCreatedByButton )
     {
     iExtension->iGeneratedDimmedIcon = aDimmedIconCreatedByButton;
     }
-// -----------------------------------------------------------------------------
-// CAknButtonState::FlagsChanged
-// Returns ETrue if button state flags are changed so that 
-// KAknStateHasLatchedDownFrame is setted or cleared
-// -----------------------------------------------------------------------------    
-TBool CAknButtonState::FlagsChanged()
-    {
-    return iExtension->iFlagsChanged;
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButtonState::ResetFlagsChanged
-// Frame has been updated so boolean iFlagsChanged can be set to EFalse
-// -----------------------------------------------------------------------------
-void CAknButtonState::ResetFlagsChanged()
-    {
-    iExtension->iFlagsChanged = EFalse;
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButtonState::TextChanged
-// Returns ETrue if text is changed and button's visual text has 
-// not been updated. 
-// -----------------------------------------------------------------------------    
-TBool CAknButtonState::TextChanged()
-    {
-    return iExtension->iTextChanged;
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButtonState::ResetTextChanged
-// Visual text has been updated so boolean iTextChanged can be set to EFalse
-// -----------------------------------------------------------------------------
-void CAknButtonState::ResetTextChanged()
-    {
-    iExtension->iTextChanged = EFalse;
-    }
-
 
 // -----------------------------------------------------------------------------
 // CAknButtonState::Extension
@@ -1663,12 +1562,7 @@ EXPORT_C void CAknButton::ConstructL()
         {
         OverrideColorL( EColorButtonText, textColor );
         }
-    
-    if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-            iTextColorTableId, EAknsCIQsnTextColorsCG84 ) == KErrNone )
-        {
-        OverrideColorL( EColorButtonTextPressed, textColor );
-        }
+
     if ( !iStates )
         {
         iStates = new ( ELeave ) CArrayPtrFlat<CAknButtonState>( 2 );
@@ -1700,7 +1594,6 @@ EXPORT_C void CAknButton::ConstructL()
         iHorizontalAlignment = CGraphicsContext::ELeft;
         }
     iExtension->HandleFeedbackAreaChange();
-    SetFrameIDs(); 
     }
 
 // -----------------------------------------------------------------------------
@@ -1903,11 +1796,6 @@ EXPORT_C void CAknButton::HandleResourceChange( TInt aType )
             TRAP_IGNORE( OverrideColorL( EColorButtonText, textColor ) );
             }
     
-        if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                    iTextColorTableId, EAknsCIQsnTextColorsCG84 ) == KErrNone )
-            {
-            TRAP_IGNORE( OverrideColorL( EColorButtonTextPressed, textColor ) );
-            }
         // generated pressed frame has to be regenerated
         if ( iFlags & KAknButtonNoFrame && iFlags & KAknButtonPressedDownFrame )
             {
@@ -2001,6 +1889,7 @@ EXPORT_C void CAknButton::SetDimmed( TBool aDimmed )
         HideHelp();
         iButtonPressed = EFalse;
         }
+    
     if ( aDimmed )
         {
         iExtension->iFlags.Set( CAknButtonExtension::EDimmed );
@@ -2009,7 +1898,7 @@ EXPORT_C void CAknButton::SetDimmed( TBool aDimmed )
         {
         iExtension->iFlags.Clear( CAknButtonExtension::EDimmed );
         }
-    if ( iExtension->iFeedbackEnabled && iExtension->iFeedback )
+    if ( iExtension->iFeedback )
         {
         if ( aDimmed )
             {
@@ -2044,7 +1933,6 @@ EXPORT_C void CAknButton::SetDimmed( TBool aDimmed )
         {
         CCoeControl::SetDimmed( aDimmed );
         }
-    SetFrameIDs(); 
     }
 
 // -----------------------------------------------------------------------------
@@ -2074,9 +1962,6 @@ EXPORT_C TKeyResponse CAknButton::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                 {
                 // show press changes
                 iButtonPressed = ETrue;
-                iExtension->iPrePointerPos.SetXY( -1, -1 );
-                
-                SetFrameIDs(); 
                 if ( NeedsRedrawWhenPressed() )
                     {
                     DrawNow();
@@ -2111,7 +1996,6 @@ EXPORT_C TKeyResponse CAknButton::OfferKeyEventL( const TKeyEvent& aKeyEvent,
             if ( iButtonPressed )
                 {
                 iButtonPressed = EFalse;
-                SetFrameIDs(); 
 
                 if ( NeedsRedrawWhenPressed() )
                     {
@@ -2148,14 +2032,14 @@ EXPORT_C TKeyResponse CAknButton::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                 iExtension->iFlags.Clear( CAknButtonExtension::ELongPressReported );
                 iExtension->iFlags.Clear( CAknButtonExtension::EKeyRepeatEventReported );
                 }
-            
-            TInt reported = iKeyDownReported;
-            iKeyDownReported = EFalse;            
-            if ( reported && RequestExit() && Observer() )
+
+            if ( iKeyDownReported && RequestExit() && Observer() )
                 {
                 Observer()->HandleControlEventL( this,
                     MCoeControlObserver::EEventRequestExit );
-                }            
+                }
+
+            iKeyDownReported = EFalse;
             }
         // we don't want aKeyEvent to go somewhere else :)
         return EKeyWasConsumed;
@@ -2174,7 +2058,7 @@ EXPORT_C void CAknButton::MakeVisible( TBool aVisible )
     if ( aVisible != IsVisible() )
         {
         CAknControl::MakeVisible( aVisible );
-        if ( iExtension->iFeedbackEnabled && iExtension->iFeedback )
+        if ( iExtension->iFeedback )
             {
             if ( aVisible )
                 {
@@ -2187,11 +2071,7 @@ EXPORT_C void CAknButton::MakeVisible( TBool aVisible )
             }
 
         CAknButtonState* state = State();
-        if ( !aVisible && iButtonPressed )
-            {
-            ResetState();
-            }
-        else if ( !aVisible && state && state->HasHelp() )
+        if ( !aVisible && state && state->HasHelp() )
             {
             HideHelp();
             }
@@ -2240,11 +2120,6 @@ EXPORT_C void CAknButton::PrepareForFocusGainL()
 //
 EXPORT_C void CAknButton::SizeChanged()
     {
-    //Reset state if observer modified the rectangel.
-    if ( iButtonPressed && !Rect().Contains( iExtension->iPrePointerPos ) )
-        {
-        ResetState();               
-        }
     // If default icon size from LAF is used re-request that, otherwise trust
     // that size will be updated by the utilising application.
     if ( iExtension->iFlags.IsSet( CAknButtonExtension::EUseDefaultIconSize ) )
@@ -2274,7 +2149,6 @@ EXPORT_C void CAknButton::SizeChanged()
        {
         TRAP_IGNORE( CreatePressedDownFrameL() );
         }
-    SetFrameRects(); 
 
     iExtension->HandleFeedbackAreaChange();
     }
@@ -2296,10 +2170,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                 ResetState();               
                 }
             return;
-            }
-        if ( iExtension )
-            {
-            iExtension->iPrePointerPos = aPointerEvent.iPosition;
             }
         TBool buttonEvent( TouchArea().Contains( aPointerEvent.iPosition ) );
         CAknButtonState* state = State();
@@ -2328,7 +2198,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                     if ( !iButtonPressed )
                         {
                         iButtonPressed = ETrue;
-                        SetFrameIDs(); 
                         // feedback/basic on down event, if hit test is
                         // used. Area registry is used for rectangular
                         // buttons
@@ -2358,8 +2227,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         {
                         // State is changed on button down event
                         ChangeState( EFalse );
-                        redrawNeeded = EFalse;
-                        DrawNow();  //Redraw before noticing the observer for observer might open dialog                        
+                        redrawNeeded = ETrue;
                         if ( Observer() )
                             {
                             Observer()->HandleControlEventL( this,
@@ -2396,10 +2264,10 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         // Redraw button, if needed
                         if ( NeedsRedrawWhenPressed() )
                             {
+                            iButtonPressed = EFalse;
                             redrawNeeded = ETrue;
                             }
                         iButtonPressed = EFalse;
-                        SetFrameIDs(); 
 
                         StopKeyRepeatTimer();
                         StopLongPressTimer();
@@ -2421,7 +2289,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                     else if ( buttonEvent && !iButtonPressed && !IsDimmed() )
                         {
                         iButtonPressed = ETrue;
-                        SetFrameIDs(); 
 
                         // Redraw button, if needed
                         if ( NeedsRedrawWhenPressed() )
@@ -2448,10 +2315,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
 
             case TPointerEvent::EButton1Up:
                 {
-                if ( iExtension )
-                    {
-                    iExtension->iPrePointerPos.SetXY( -1, -1 );
-                    }
                 iNumberOfDragEvents = 0;
                 HideHelp();
 
@@ -2470,10 +2333,8 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                             }
                         }
                     iButtonPressed = EFalse;
-                    SetFrameIDs(); 
                     }
 
-                TBool hasDrawn( EFalse );
                 if ( buttonEvent && !IsDimmed() )
                     {
                         // feedback/BasicButton on up event, if hit test is
@@ -2496,12 +2357,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                          !( iExtension->iFlags.IsSet( CAknButtonExtension::EKeyRepeatEventReported ) ) )
                         {
                         ChangeState( EFalse );
-                        if ( !hasDrawn )
-                        	{
-	                        DrawNow();
-	                        hasDrawn = ETrue;
-                        	}
-                        
+                        redrawNeeded = ETrue;
                         if ( Observer() )
                             {
                             Observer()->HandleControlEventL( this,
@@ -2512,11 +2368,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         {
                         if ( iExtension->iFlags.IsSet( CAknButtonExtension::ELongPressReported ) && Observer() )
                             {
-                            if ( redrawNeeded && !hasDrawn )
-                            	{
-                            	DrawNow();
-                            	hasDrawn = ETrue;
-                            	}
                             Observer()->HandleControlEventL( this, 
                                 static_cast<MCoeControlObserver::TCoeEvent>( 
                                 CAknButton::ELongPressEndedEvent ) );
@@ -2527,11 +2378,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
 
                     if ( RequestExit() && Observer() )
                         {
-                        if ( redrawNeeded && !hasDrawn )
-                        	{
-                        	DrawNow();
-                        	hasDrawn = ETrue;
-                        	}
                         Observer()->HandleControlEventL( this,
                             MCoeControlObserver::EEventRequestExit );
                         }
@@ -2539,11 +2385,6 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         
                 if ( !buttonEvent && !IsDimmed() && Observer() )
                    {
-                   if ( redrawNeeded && !hasDrawn )
-                	   {
-                	   DrawNow();
-                	   hasDrawn = ETrue;
-                	   }
                    Observer()->HandleControlEventL( this,
                         MCoeControlObserver::EEventRequestCancel );
                         
@@ -2556,10 +2397,7 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
                         iExtension->iFlags.Clear( CAknButtonExtension::EKeyRepeatEventReported );
                         }                        
                    }
-                if ( hasDrawn )
-                	{
-                	redrawNeeded = EFalse;
-                	}
+
                 break;
                 }
 
@@ -2582,13 +2420,6 @@ EXPORT_C void CAknButton::PositionChanged()
     {
     if ( iExtension ) iExtension->HandleFeedbackAreaChange();
     CAknControl::PositionChanged();
-    
-    //Reset state if observer moved button position.
-    if ( iButtonPressed && iExtension && !Rect().Contains( iExtension->iPrePointerPos ) )
-    	{
-    	ResetState();
-    	}
-    SetFrameRects(); 
     }
     
 // -----------------------------------------------------------------------------
@@ -2601,7 +2432,6 @@ EXPORT_C void CAknButton::FocusChanged( TDrawNow aDrawNow )
     if ( !IsFocused() && iButtonPressed )
         {
         iButtonPressed = EFalse; 
-        SetFrameIDs(); 
         iKeyDownReported = EFalse; 
         }
     if ( IsVisible() )
@@ -2646,14 +2476,49 @@ EXPORT_C void* CAknButton::ExtensionInterface( TUid /*aInterface*/ )
 EXPORT_C void CAknButton::Draw( const TRect& /*aRect*/ ) const
     {
     TRect rect( Rect() );
+    TAknLayoutRect centerLayout;
+    centerLayout.LayoutRect( rect,
+        AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
+    TRect innerRect( centerLayout.Rect() );
     TRect highlightRect( HighlightRect() );
     CWindowGc& gc = SystemGc();
     CAknButtonState* state = State();
 
-    if ( !( iFlags & KAknButtonNoFrame ) && !iButtonPressed && state && 
-            state->FlagsChanged() )
+    // Skin ids are determined here (a bit too early than necessary) so that 
+    // we can avoid doing the same thing in DrawMaskedL.
+    if ( !( iFlags & KAknButtonNoFrame ) )
         {
-        SetFrameIDs(); 
+        TInt frameIdIndex = KFrameId;
+
+        if ( iButtonPressed )
+            {
+            frameIdIndex = KPressedFrameId;
+            }
+        else if ( state && state->Flags() & KAknButtonStateHasLatchedFrame )
+            {
+            if ( IsDimmed() )
+                {
+                // dimmed latched frame
+                frameIdIndex = KLatchedDimmedFrameId;
+                }
+            else
+                {
+                // latched down
+                frameIdIndex = KLatchedFrameId;
+                }
+            }
+        else if ( IsDimmed())
+            {
+            // dimmed frame
+            frameIdIndex = KDimmedFrameId;
+            }
+
+        if ( SkinIID( frameIdIndex ) != KAknsIIDNone )
+            {
+            iBgContext->SetFrame( SkinIID( frameIdIndex ) );
+            iBgContext->SetCenter( SkinIID( ++frameIdIndex ) );
+            iBgContext->SetFrameRects( rect, innerRect );
+            }
         }
 
     if ( !iExtension->iFlags.IsSet( CAknButtonExtension::EUseAdditionalMask ) )
@@ -2675,10 +2540,13 @@ EXPORT_C void CAknButton::Draw( const TRect& /*aRect*/ ) const
 
             if ( IsFocused() && !highlightRect.IsEmpty() )
                 {
+                iBgContext->SetFrame( KAknsIIDQsnFrButtonHighlight ); 
+                iBgContext->SetCenter( KAknsIIDQsnFrButtonHighlightCenter ); 
+                iBgContext->SetFrameRects( rect, innerRect );
+
                 // frame graphics
-                if ( !AknsDrawUtils::Background( skin, 
-                      iExtension->iHighlightContext, NULL, gc, rect, 
-                      KAknsDrawParamNoClearUnderImage ) )
+                if ( !AknsDrawUtils::Background( skin, iBgContext, NULL, gc,
+                      rect, KAknsDrawParamNoClearUnderImage ) )
                     {
                     gc.SetBrushColor( KRgbRed );
                     gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
@@ -2756,7 +2624,6 @@ EXPORT_C void CAknButton::SetCurrentState( const TInt aStateIndex,
         }
 
     TRAP_IGNORE( SetStateIndexL( newIndex ) );
-    SetFrameIDs(); 
     if ( aDrawNow )
         {
         DrawNow();
@@ -2846,13 +2713,10 @@ void CAknButton::AddStateL( CGulIcon* aIcon,
 // -----------------------------------------------------------------------------
 //
 EXPORT_C void CAknButton::SetButtonFlags( const TInt aFlags )
-    {    
-    if ( !( iFlags & KAknButtonNoFrame ) )
+    {
+    if ( !(iFlags & KAknButtonNoFrame ) && aFlags & KAknButtonNoFrame )
         {
-        if ( aFlags & KAknButtonNoFrame ) 
-            {
-            iExtension->iMargins.SetAllValuesTo( 0 );         
-            }
+        iExtension->iMargins.SetAllValuesTo( 0 );
         }
     if ( aFlags & KAknButtonHitTest )
         {
@@ -2927,7 +2791,6 @@ EXPORT_C void CAknButton::SetFrameAndCenterIds(
         {
         skinIds[KLatchedDimmedCenterId] = aLatchedDimmedCenterId;
         }
-    SetFrameIDs(); 
     }
 
 // -----------------------------------------------------------------------------
@@ -2959,7 +2822,6 @@ EXPORT_C void CAknButton::SetBackgroundIds(
 EXPORT_C void CAknButton::SetTextFont( const CFont* aFont )
     {
     iFont = aFont;
-    ConvertTextToVisualAndClip( iExtension->iTextRect ); 
     }
 
 // -----------------------------------------------------------------------------
@@ -3254,8 +3116,6 @@ EXPORT_C TInt CAknButton::ChangeState( TBool aDrawNow )
         }
     
     TRAP_IGNORE( SetStateIndexL( newIndex ) );
-    // Updating background context might be needed if states flags differ
-    SetFrameIDs(); 
     
     if ( aDrawNow )
         {
@@ -3434,7 +3294,6 @@ EXPORT_C void CAknButton::ResetState( )
     StopKeyRepeatTimer();
     StopLongPressTimer();
     iButtonPressed = EFalse;
-    SetFrameIDs(); 
     HideHelp();
     if ( iExtension )
         {
@@ -3524,27 +3383,23 @@ TInt CAknButton::ScaleIcons()
 //
 void CAknButton::DrawTextButton( CWindowGc& aGc ) const
     {
-    TRect textRect;
-    
-    TRect iconRect; //this is no use
-    GetCurrentStateTextAndIconRect( iconRect, textRect );
-      
     CAknButtonState* state = State();
-    if ( state->TextChanged() || iExtension->TextRectSizeChanged( textRect ) )
-        {
-        ConvertTextToVisualAndClip( textRect ); 
-        }
-    DrawText( aGc, textRect ); 
-    }
+    if ( !state || !state->HasText() )
+        return;
 
-// -----------------------------------------------------------------------------
-// CAknButton::DrawText
-// Continues drawing of the button which has text
-// -----------------------------------------------------------------------------
-//
-void CAknButton::DrawText( CWindowGc& aGc, TRect& aTextRect ) const
-    {
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+
+    TRect textRect = iExtension->iMargins.InnerRect( Rect() );
+
+    if ( !( iFlags & KAknButtonNoFrame ) && 
+         ( iFlags & KAknButtonTextInsideFrame ) )
+        {
+        TAknLayoutRect center;
+        center.LayoutRect( Rect(), 
+            AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
+
+        textRect = center.Rect();
+        }
 
     aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
 
@@ -3563,6 +3418,17 @@ void CAknButton::DrawText( CWindowGc& aGc, TRect& aTextRect ) const
 
     aGc.SetUnderlineStyle( iExtension->iUnderlineStyle );
 
+    // buffer for visually ordered text
+    TBuf<255 + KAknBidiExtraSpacePerLine> visualText; 
+    TInt clipWidth = textRect.Width();
+
+    // bidi processing - using AknBidiTextUtils.
+    AknBidiTextUtils::ConvertToVisualAndClip(
+        state->Text(),
+        visualText,
+        *font,
+        clipWidth,
+        clipWidth );
 
     TInt baselineOffset = 0;
     switch ( iVerticalAlignment )
@@ -3572,24 +3438,22 @@ void CAknButton::DrawText( CWindowGc& aGc, TRect& aTextRect ) const
             break;
 
         case EBottom:
-            baselineOffset = aTextRect.Height();
+            baselineOffset = textRect.Height();
             break;
 
         default:  // centered
             baselineOffset = font->AscentInPixels() +
-                           ( aTextRect.Height() - font->AscentInPixels() ) / 2;
+                           ( textRect.Height() - font->AscentInPixels() ) / 2;
         }
 
     CGraphicsContext::TTextAlign horAlignment = iHorizontalAlignment;
 
-    aGc.DrawText( iExtension->iVisualText, aTextRect, baselineOffset, 
-            horAlignment );
+    aGc.DrawText( visualText, textRect, baselineOffset, horAlignment );
     if ( iExtension->iPictographInterface )
         {
         // For Japanese variant only
         iExtension->iPictographInterface->Interface()->DrawPictographsInText(
-            aGc, *font, iExtension->iVisualText, aTextRect, baselineOffset, 
-            horAlignment );
+            aGc, *font, visualText, textRect, baselineOffset, horAlignment );
         }
     }
 
@@ -3600,13 +3464,13 @@ void CAknButton::DrawText( CWindowGc& aGc, TRect& aTextRect ) const
 //
 void CAknButton::DrawIconButton( CWindowGc& aGc ) const
     {
-    TRect iconRect;
-    TRect textRect; 
-    GetCurrentStateTextAndIconRect( iconRect, textRect );
+    TRect iconRect( iExtension->iMargins.InnerRect( Rect() ) );
     
     aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
 
     const CGulIcon* icon = GetCurrentIcon();
+    if ( !icon )
+        return;
 
     CFbsBitmap* buttonBmp = icon->Bitmap();
     CFbsBitmap* buttonMask = icon->Mask();
@@ -3688,24 +3552,98 @@ void CAknButton::DrawTextAndIconButton( CWindowGc& aGc ) const
     if ( !state  || !state->HasText() )
         {
         return;
-        }   
+        }
     
     const CGulIcon* icon = GetCurrentIcon();
+    if ( !icon )
+        {
+        return;
+        }
 
-   
+    TRect rect = iExtension->iMargins.InnerRect( Rect() );
     TRect iconRect;
     TRect textRect;
-    GetCurrentStateTextAndIconRect( iconRect, textRect );
     
+    if ( !( iFlags & KAknButtonNoFrame ) &&
+          ( iFlags & KAknButtonTextInsideFrame ))
+        {
+        TAknLayoutRect centerLayout;
+        centerLayout.LayoutRect( rect,
+        AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
+        rect = centerLayout.Rect();
+        }
+
     CFbsBitmap* buttonBmp = icon->Bitmap();
     CFbsBitmap* buttonMask = icon->Mask();
     TSize iconSize ( buttonBmp->SizeInPixels());
     
-   
-    if ( state->TextChanged() || iExtension->TextRectSizeChanged( textRect ) )
+    // Set rects for icon and text according to their positioning
+    // First icon rect according to icon size - rest is for text
+    
+    switch ( iExtension->iTextAndIconAlignment )        
         {
-        ConvertTextToVisualAndClip( textRect ); 
+        case EIconBeforeText:
+            if ( AknLayoutUtils::LayoutMirrored() ) 
+                {
+                textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+                rect.iBr.iX - iconSize.iWidth, rect.iBr.iY);
+                iconRect.SetRect( rect.iTl.iX + 
+                    rect.Width() -iconSize.iWidth,
+                rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
+                }
+            else
+                {
+                iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+                rect.iTl.iX + iconSize.iWidth, rect.iBr.iY);
+                textRect.SetRect( rect.iTl.iX + iconSize.iWidth,
+                rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
+                }
+            
+            break;
+            
+        case EIconAfterText:
+            if ( AknLayoutUtils::LayoutMirrored() ) 
+                {
+                iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+                rect.iTl.iX + iconSize.iWidth, rect.iBr.iY);
+                textRect.SetRect( rect.iTl.iX + iconSize.iWidth,
+                rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
+                }
+            else
+                {
+                textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+                rect.iBr.iX - iconSize.iWidth, rect.iBr.iY);
+                iconRect.SetRect( rect.iTl.iX + 
+                    rect.Width() -iconSize.iWidth,
+                rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );
+                }
+            break;
+        
+        case EIconOverText:
+            iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+            rect.iBr.iX, rect.iTl.iY + iconSize.iHeight );
+            textRect.SetRect( rect.iTl.iX, rect.iTl.iY + iconSize.iHeight,
+            rect.iBr.iX, rect.iBr.iY );
+            break;
+            
+        case EIconUnderText:
+            textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
+            rect.iBr.iX, rect.iBr.iY - iconSize.iHeight );
+            iconRect.SetRect( rect.iTl.iX, rect.iBr.iY - iconSize.iHeight,
+            rect.iBr.iX, rect.iBr.iY );
+            break;
+
+        case EOverlay:
+            {
+            textRect = rect;
+            iconRect = rect;
+            }
+            break;
+            
+        default:
+            return;
         }
+
     // Draw icon
     TPoint iconPoint;
     switch ( iExtension->iHorizontalIconAlignment )
@@ -3770,7 +3708,57 @@ void CAknButton::DrawTextAndIconButton( CWindowGc& aGc ) const
         aGc.BitBlt( iconPoint, buttonBmp, iconRect.Size() );
         }
 
-    DrawText( aGc, textRect ); 
+    const CFont* font = iFont;
+    if ( !font )
+        {
+        font = iCoeEnv->NormalFont();
+        }
+    aGc.UseFont( font );
+        
+    TRgb penColor;
+    TRgb brushColor;
+    GetTextColors( penColor, brushColor ); 
+    aGc.SetPenColor( penColor ); 
+    aGc.SetBrushColor( brushColor ); 
+
+    aGc.SetUnderlineStyle( iExtension->iUnderlineStyle );
+
+    TBuf<255 + KAknBidiExtraSpacePerLine> visualText; // buffer for visually ordered text
+    TInt clipWidth = textRect.Width();
+
+    // bidi processing - using AknBidiTextUtils.
+    AknBidiTextUtils::ConvertToVisualAndClip(
+        state->Text(),
+        visualText,
+        *font,
+        clipWidth,
+        clipWidth );
+
+    TInt baselineOffset = 0;
+    switch ( iVerticalAlignment )
+        {
+        case ETop:
+            baselineOffset = font->AscentInPixels();
+            break;
+
+        case EBottom:
+            baselineOffset = textRect.Height();
+            break;
+
+        default:  // centered
+            baselineOffset = font->AscentInPixels() +
+                           ( textRect.Height() - font->AscentInPixels() ) / 2;
+        }
+
+    CGraphicsContext::TTextAlign horAlignment = iHorizontalAlignment;
+
+    aGc.DrawText( visualText, textRect, baselineOffset, horAlignment );
+    if ( iExtension->iPictographInterface )
+        {
+        // For Japanese variant only
+        iExtension->iPictographInterface->Interface()->DrawPictographsInText(
+            aGc, *font, visualText, textRect, baselineOffset, horAlignment );
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -4357,7 +4345,6 @@ void CAknButton::RemoveCurrentState()
         iStates->Delete( iStateIndex );
         
         iStateIndex <= 0 ? iStateIndex = 0 : iStateIndex--;
-        SetFrameIDs(); 
         DrawNow();
         }
     }
@@ -4455,270 +4442,9 @@ void CAknButton::SetStateIndexL( TInt aNewIndex )
         iHelpNote->SetTimeDelayBeforeShow( iHelpNoteWaitInterval );
         iHelpNote->SetTimePopupInView( iHelpNoteInViewInterval );
         iHelpNote->SetTooltipModeL( ETrue );
-        
-        //When state changed, empty rect to enable recalculate the 
-        //visual text if text exists in current state.
-        if ( !(iExtension->iTextRect.IsEmpty()) )
-            {
-            iExtension->iTextRect = TRect::EUninitialized;
-            }
         }
     }
 
-// -----------------------------------------------------------------------------
-// CAknButton::SetFrameIDs
-// Sets frame ids for background context
-// -----------------------------------------------------------------------------
-//
-void CAknButton::SetFrameIDs() const
-    {
-    // Skin ids are determined here (a bit too early than necessary) so that 
-    // we can avoid doing the same thing in DrawMaskedL.
-    CAknButtonState* state = State();
-    if ( !( iFlags & KAknButtonNoFrame ) )
-        {
-        TInt frameIdIndex = KFrameId;
-
-        if ( iButtonPressed )
-            {
-            frameIdIndex = KPressedFrameId;
-            }
-        else if ( state && state->Flags() & KAknButtonStateHasLatchedFrame )
-            {
-            if ( IsDimmed() )
-                {
-                // dimmed latched frame
-                frameIdIndex = KLatchedDimmedFrameId;
-                }
-            else
-                {
-                // latched down
-                frameIdIndex = KLatchedFrameId;
-                }
-            }
-        else if ( IsDimmed() )
-            {
-            // dimmed frame
-            frameIdIndex = KDimmedFrameId;
-            }
-
-        TAknsItemID skinIID( SkinIID( frameIdIndex ) );
-
-        // Only change the background frame graphics if necessary.
-        if ( skinIID != KAknsIIDNone &&
-             skinIID != iExtension->iBackgroundSkinIID )
-            {
-            iBgContext->SetFrame( skinIID );
-            iBgContext->SetCenter( SkinIID( ++frameIdIndex) );
-            iExtension->iBackgroundSkinIID = skinIID;
-            }
-        }
-    if ( state )
-        {
-        state->ResetFlagsChanged(); 
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButton::SetFrameRects
-// -----------------------------------------------------------------------------
-//
-void CAknButton::SetFrameRects()
-    {
-    TRect rect( Rect() );
-
-    // Only change the frame rects is the button rectangle is valid and the
-    // button size has changed.
-    if ( !rect.IsEmpty() && iExtension->iBgFrameRect != rect )
-        {
-        TAknLayoutRect centerLayout;
-        centerLayout.LayoutRect( rect,
-            AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
-        TRect innerRect( centerLayout.Rect() );
-
-        iBgContext->SetFrameRects( rect, innerRect );
-        iExtension->iHighlightContext->SetFrameRects( rect, innerRect );
-        iExtension->iBgFrameRect = rect;
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButton::ConvertTextToVisualAndClip
-// -----------------------------------------------------------------------------
-//
-void CAknButton::ConvertTextToVisualAndClip( const TRect& aRect ) const
-    {
-    CAknButtonState* state = State();
-    if ( !state || !state->HasText() )
-        {
-        if ( state ) 
-            {
-            state->ResetTextChanged();
-            } 
-        return;
-        }
-
-    TRect textRect( aRect );
-    //Using given rect to calculate the visual text if it's not empty.
-    if ( !textRect.IsEmpty() )
-        {
-        iExtension->iTextRect = textRect;
-        }
-    //Calculate text area.
-    //This branch means that it's the first calling after the state changed
-    //or client using new font before this is shown. 
-    else 
-        {
-        TRect iconRect;
-        GetCurrentStateTextAndIconRect( iconRect, textRect );
-        iExtension->iTextRect = textRect;
-        }
-   
-    TInt clipWidth = textRect.Width();
-
-    const CFont* font = iFont;
-    if ( !font )
-        {
-        font = iCoeEnv->NormalFont();
-        }
-
-    // bidi processing - using AknBidiTextUtils.
-    AknBidiTextUtils::ConvertToVisualAndClip(
-        state->Text(),
-        iExtension->iVisualText,
-        *font,
-        clipWidth,
-        clipWidth );
-    }
-      
-// -----------------------------------------------------------------------------
-// CAknButton::GetCurrentStateTextAndIconRect()
-// Get rect for icon and text of the current button state .
-// -----------------------------------------------------------------------------
-//
-void CAknButton::GetCurrentStateTextAndIconRect( TRect& aIconRect, 
-        TRect& aTextRect ) const
-    {
-    TRect iconRect( TRect::EUninitialized ) ;
-    TRect textRect( TRect::EUninitialized );
-    
-    CAknButtonState* state = State();
-    
-    //Return directly if no state
-    if ( !state )
-        {
-        aIconRect = iconRect;
-        aTextRect = textRect;
-        return;
-        }
-    
-    TBool hasText( state->HasText() );
-    TBool hasIcon( EFalse );  
-
-    const CGulIcon* icon = GetCurrentIcon();
-    if ( icon )
-        {
-        hasIcon = ETrue;
-        }  
-    
-    TRect rect = iExtension->iMargins.InnerRect( Rect() );    
-    
-    //Icon area is not effected by the frame flags.
-    if ( hasIcon )
-        {
-        iconRect = rect;
-        }
-    
-    if ( !( iFlags & KAknButtonNoFrame ) &&
-          ( iFlags & KAknButtonTextInsideFrame ))
-        {
-        TAknLayoutRect centerLayout;
-        centerLayout.LayoutRect( rect,
-        AknLayoutScalable_Avkon::toolbar_button_pane_g1().LayoutLine() );
-        rect = centerLayout.Rect();
-        }
-    
-    if ( hasText )
-        {
-        textRect = rect;
-        }
- 
-
-    if ( hasText && hasIcon )
-        {
-        CFbsBitmap* buttonBmp = icon->Bitmap();
-        CFbsBitmap* buttonMask = icon->Mask();
-        TSize iconSize ( buttonBmp->SizeInPixels());
-            
-            // Set rects for icon and text according to their positioning
-            // First icon rect according to icon size - rest is for text
-            
-        switch ( iExtension->iTextAndIconAlignment )        
-            {
-            case CAknButton::EIconBeforeText:
-                if ( AknLayoutUtils::LayoutMirrored() ) 
-                    {
-                    textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                    rect.iBr.iX - iconSize.iWidth, rect.iBr.iY);
-                    iconRect.SetRect( rect.iTl.iX + 
-                        rect.Width() -iconSize.iWidth,
-                    rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
-                    }
-                else
-                    {
-                    iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                    rect.iTl.iX + iconSize.iWidth, rect.iBr.iY);
-                    textRect.SetRect( rect.iTl.iX + iconSize.iWidth,
-                    rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
-                    }
-                
-                break;
-                
-            case CAknButton::EIconAfterText:
-                if ( AknLayoutUtils::LayoutMirrored() ) 
-                    {
-                    iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                    rect.iTl.iX + iconSize.iWidth, rect.iBr.iY);
-                    textRect.SetRect( rect.iTl.iX + iconSize.iWidth,
-                    rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );    
-                    }
-                else
-                    {
-                    textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                    rect.iBr.iX - iconSize.iWidth, rect.iBr.iY);
-                    iconRect.SetRect( rect.iTl.iX + 
-                        rect.Width() -iconSize.iWidth,
-                    rect.iTl.iY, rect.iBr.iX, rect.iBr.iY );
-                    }
-                break;
-            
-            case CAknButton::EIconOverText:
-                iconRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                rect.iBr.iX, rect.iTl.iY + iconSize.iHeight );
-                textRect.SetRect( rect.iTl.iX, rect.iTl.iY + iconSize.iHeight,
-                rect.iBr.iX, rect.iBr.iY );
-                break;
-                
-            case CAknButton::EIconUnderText:
-                textRect.SetRect( rect.iTl.iX, rect.iTl.iY,
-                rect.iBr.iX, rect.iBr.iY - iconSize.iHeight );
-                iconRect.SetRect( rect.iTl.iX, rect.iBr.iY - iconSize.iHeight,
-                rect.iBr.iX, rect.iBr.iY );
-                break;
-
-            case CAknButton::EOverlay:
-                {
-                textRect = rect;
-                iconRect = rect;
-                }
-                break;
-            default:
-                break; //Do nothing.
-            }            
-        }
-    aTextRect = textRect;
-    aIconRect = iconRect;
-    }
 // -----------------------------------------------------------------------------
 // CAknButton::TouchArea
 // Returns the button touchable area.
@@ -4736,50 +4462,5 @@ TRect CAknButton::TouchArea() const
         touchRect = layoutRect.Rect();
         }
     return touchRect;
-    }
-
-// -----------------------------------------------------------------------------
-// CAknButton::EnableFeedback
-// Enables or disables tactile feedback
-// -----------------------------------------------------------------------------
-//
-EXPORT_C void CAknButton::EnableFeedback( TBool aEnable )
-    {
-    if ( iExtension->iFeedbackEnabled == aEnable )
-        {
-        return; 
-        }
-    iExtension->iFeedbackEnabled = aEnable; 
-    if ( aEnable )
-        {
-        if ( !iExtension->iFeedback )
-            {
-            iExtension->iFeedback = MTouchFeedback::Instance();
-            }
-        if ( !iExtension->iFeedback )
-            {
-            return;
-            }
-        if ( IsVisible() )
-            {
-            iExtension->iFeedback->MoveFeedbackAreaToFirstPriority( this, 
-                                                                        0 );
-            iExtension->iFeedback->EnableFeedbackForControl( 
-                    this, 
-                   !IsDimmed() );
-            }
-        iExtension->HandleFeedbackAreaChange(); 
-        }
-    else 
-        {
-        // MTouchFeedback instance lives in AknAppUi. If there is no
-        // MTouchFeedback instance there is no need to remove any areas
-        // either.
-        MTouchFeedback* fb = MTouchFeedback::Instance();
-        if ( fb )
-            {
-            fb->RemoveFeedbackForControl( this );
-            }
-        }
     }
 // end of file

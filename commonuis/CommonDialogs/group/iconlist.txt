@@ -18,5 +18,3 @@
 /c8,1   qgn_prop_am_sis.bmp
 /c8,1 	qgn_prop_folder_empty.bmp
 /c8,1   qgn_prop_file_swf_small.bmp
-/c8,1   qgn_prop_usb_memc.svg
-/c8,1   qgn_prop_usb_memc_sub.svg

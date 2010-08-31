@@ -289,18 +289,10 @@ void CAknSingleColumnStyleSubtitleRow::Draw( CWindowGc& aGc,
     layoutText.LayoutText( aItemRect, AknLayoutScalable_Avkon::
         list_single_2heading_msg_pane_t1( textVariety ).LayoutLine() );
 
-    if ( Flags() & ESmiley )
-        {
-        root->DrawSmiley( aGc, aItemRect, AknLayoutScalable_Avkon::
-                          list_single_2heading_msg_pane_t1( textVariety), 
-                          *iText, NULL, aFocused );
-        }
-    else
-        {
-        root->DrawText( aGc, aItemRect, AknLayoutScalable_Avkon::
-                        list_single_2heading_msg_pane_t1( textVariety ),
-                        *iText, NULL, this, aFocused, ETrue );
-        }
+    root->DrawText( aGc, aItemRect, AknLayoutScalable_Avkon::
+        list_single_2heading_msg_pane_t1( textVariety ), *iText, NULL,
+        this, aFocused, ETrue );    
+
     // Optional indication icon.
     TInt optIconVariety = 1; // Sorting group. Marked.
     TRect optIconRect = RectFromLayout( aItemRect, AknLayoutScalable_Avkon::

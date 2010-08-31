@@ -115,33 +115,18 @@ TBool CSmileyManager::ConvertTextToCodesL( TDes& aText, TInt aStart )
             {
             TInt smileyLength( iModel->SmileyStringLength( index ) );
             TInt docPos( aStart + i );
-            
-            if( iModel->IsSmileyBySemanticAnalysis( aText.Left( docPos + smileyLength ), 
-				smileyLength ) )
+            CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( docPos ) );
+            if ( !icon || ( icon && !icon->IsDisabled() ) )
                 {
-                TText smileyCode( iModel->SmileyCode( index ) );
-                CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( docPos ) );
-                // If icon is existed but smiley codes are different, it means smiely 
-				// string has been changed and editor doesn't know it, so delete old icon 
-				// and create a new one. Otherwise, nothing needs to do since the icon is 
-				// already existed.
-                if ( icon && icon->Code() != smileyCode )
+                if ( !icon )
                     {
-                    iIconRecord->DeleteIconAtPos( docPos );
-                    icon = NULL;
+                    TText smileyCode( iModel->SmileyCode( index ) );
+                    AddSmileyToRecordL( aText.Mid( i, smileyLength ), docPos, 
+                        smileyCode );
                     }
-                if ( !icon || ( icon && !icon->IsDisabled() ) )
-                    {
-                    if ( !icon )
-                        {                    
-                        AddSmileyToRecordL( aText.Mid( i, smileyLength ), docPos, 
-                            smileyCode );
-                        }
-                    iModel->ReplaceTextWithCodes( aText, i, index );
-                    ret = ETrue;
-                    }
+                iModel->ReplaceTextWithCodes( aText, i, index );
+                ret = ETrue;
                 }
-
             i += smileyLength;
             }
         else
@@ -194,14 +179,11 @@ void CSmileyManager::DrawIconL( CBitmapContext& aGc, const TRect& aRect,
         if ( image && aRect.Size() != image->BitmapSize() )
             {
             image->SetBitmapSize( aRect.Size() );
-            for ( TInt i( 0 ); i < image->RefArrayCount(); i++ )
+            if ( icon->IsPlayFinished() )
                 {
-                if ( image->RefIcon( i )->IsPlayFinished() )
-                    {
-                    image->RefIcon( i )->PlayOneTime();
-                    }
+                icon->PlayOneTime();
+                iDrawer->CreateImageL( image );
                 }
-            iDrawer->CreateImageL( image );            
             }
         else if ( !image )
             {
@@ -280,11 +262,20 @@ void CSmileyManager::HandleSelection( TInt aStart, TInt aLength )
 TText CSmileyManager::SmileyCodeByPos( TInt aDocPos )
     {
     CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( aDocPos ) );
-    if ( icon && !icon->IsDisabled() )
+    if ( icon )
         {
         return icon->Code();
         }
     return 0;
+    }
+
+// ---------------------------------------------------------------------------
+// CSmileyManager::SetVisibleRange
+// ---------------------------------------------------------------------------
+//
+void CSmileyManager::SetVisibleRange( TInt aDocPos, TInt aLength )
+    {
+    iDrawer->SetVisibleRange( aDocPos, aLength );
     }
 
 // ---------------------------------------------------------------------------
@@ -294,7 +285,7 @@ TText CSmileyManager::SmileyCodeByPos( TInt aDocPos )
 TInt CSmileyManager::SmileyLength( TInt aDocPos )
     {
     CSmileyIcon* icon( iIconRecord->SmileyIconAtPos( aDocPos ) );
-    if ( icon && !icon->IsDisabled() )
+    if ( icon )
         {
         return icon->SmileyLength();
         }

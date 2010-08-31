@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the bctesteikfrm.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctesteikfrm.exe
+TARGETTYPE      exe
+UID             0x0 0x200045CD
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctesteikfrm.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctesteikfrmapp.cpp
+SOURCE          bctesteikfrmdocument.cpp
+SOURCE          bctesteikfrmappui.cpp
+SOURCE          bctesteikfrmview.cpp
+SOURCE          bctesteikfrmcontainer.cpp
+SOURCE          bctesteikfrmcase.cpp
+SOURCE          bctesteikdoc.cpp
+SOURCE          bctesteikproc.cpp
+SOURCE          bctestapplist.cpp
+
+USERINCLUDE     . ../Inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY	        efsrv.lib
+LIBRARY         estor.lib
+
+START RESOURCE ../group/bctesteikfrm_reg.rss
+DEPENDS bctesteikfrm.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+
+// End of File

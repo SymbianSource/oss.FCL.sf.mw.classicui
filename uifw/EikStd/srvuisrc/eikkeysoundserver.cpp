@@ -36,7 +36,7 @@ _LIT(KKeySoundServerThreadName,"KeySoundServerThread");
 _LIT(KKeySoundServerSemaphoreName,"KeySoundServerSemaphore");
 _LIT(KKeySoundServerDll,"AtSoundServerClient.dll");
 
-const TInt KKeySoundServerStackSize     = 1024*8; // 8K
+const TInt KKeySoundServerStackSize     = 1024*4; // 4K
 const TInt KAknSoundInfoMapGranularity  = 16;
 const TInt KKeyClickPreference          = 0x00140001;
 const TInt KKeySoundServerBufExpandSize = 1024*1; // 1K
@@ -282,7 +282,7 @@ void CEikKeySoundServer::InitL(const RMessage2& aMessage)
 void CEikKeySoundServer::Complete(TInt aError, TAudioThemeEvent aEvent)
 	{
 	if( aError != KErrNone && aError != ESilencedError 
-	    && aError != EEventCurrentlyPlaying && aError != KErrUnderflow)
+	    && aError != EEventCurrentlyPlaying )
 		{
 		PlaySid(aEvent, ETrue);
 		}
@@ -313,11 +313,6 @@ void CEikKeySoundServer::PlaySid(TInt aSid, TBool aPlaySelf)
         {
         aPlaySelf = ETrue;
         }
-
-	if(!iATSoundServerAPI)
-        {
-    	aPlaySelf = ETrue;
-    	}
 
     if(!aPlaySelf && iATSoundServerAPI)
         {
@@ -430,10 +425,7 @@ CEikKeySoundSession::~CEikKeySoundSession()
     RemoveSids(iClientUid);
     if (iHasLockedContext)
         {
-        if( iServer )
-            {
-            iServer->SetContextLocked(EFalse);
-            }
+        iServer->SetContextLocked(EFalse);
         }
     if (iOwnsDefaultSounds)
         {
@@ -1128,15 +1120,55 @@ CAknFileSoundInfo::CAknFileSoundInfo(TInt aPriority, TInt aPreference)
 CAknFileSoundInfo::~CAknFileSoundInfo()
     {
     delete iAudioPlayer;
+    delete iAudioData;
     }
 
 void CAknFileSoundInfo::InitL(const TDesC& aFileName, CMdaServer* aMdaServer)
     {
     LOGTEXT(_L("CAknFileSoundInfo::InitL() - Filename:"));
     LOGTEXT(aFileName);
-    iFileName = aFileName;
+
+    iMdaServer = aMdaServer;
+
+    delete iAudioData;
+    iAudioData = NULL;
+
+    RFs fsSession;
+    User::LeaveIfError( fsSession.Connect() );
+    CleanupClosePushL(fsSession);
+
+    TEntry entry;
+    User::LeaveIfError(fsSession.Entry(aFileName, entry));
+    TInt fileSize = entry.iSize;
+
+    LOGTEXT1(_L(" CAknFileSoundInfo::InitL() - File size:%d"), fileSize);
+
+    iAudioData = HBufC8::NewMaxL(fileSize);
+
+    TPtr8 dataPtr = iAudioData->Des();
+    LoadAudioDataL(fsSession, aFileName, dataPtr);
+
+    CleanupStack::PopAndDestroy();   // fsSession
+
     LOGTEXT(_L(" CAknFileSoundInfo::InitL() - Exit"));
     }
+
+
+void CAknFileSoundInfo::LoadAudioDataL(RFs& aFs, const TDesC& aFileName, TDes8& aDes)
+    {
+    RDebug::Print(_L("CAknFileSoundInfo::LoadAudioDataL()."));
+
+    RFile file;
+    User::LeaveIfError( file.Open(aFs, aFileName,EFileRead|EFileShareAny) );
+    CleanupClosePushL(file);
+    TInt error = file.Read(aDes, aDes.Length());
+    file.Close();
+    CleanupStack::Pop();    //file
+    User::LeaveIfError(error);
+
+    LOGTEXT(_L(" CAknFileSoundInfo::LoadAudioDataL() - Exit"));
+    }
+
 
 void CAknFileSoundInfo::PlayL()
     {
@@ -1147,7 +1179,9 @@ void CAknFileSoundInfo::PlayL()
     Stop();
 
     // Create audio player. DoPlay() will be called in all circumstances.
-    iAudioPlayer = CMdaAudioPlayerUtility::NewFilePlayerL(iFileName, *this, iPriority,(TMdaPriorityPreference)iPreference );
+    iAudioPlayer = CMdaAudioPlayerUtility::NewDesPlayerReadOnlyL(
+        *iAudioData, *this, iPriority, (TMdaPriorityPreference)iPreference, iMdaServer);
+
     LOGTEXT(_L(" CAknFileSoundInfo::PlayL() - Exit"));
     }
 
@@ -1229,8 +1263,7 @@ void CAknFileSoundInfo::DoSetVolume(CMdaAudioPlayerUtility* aAudioPlayer)
 
     if ( Preference() != KKeyClickPreference ) // Other sounds than key click
         {
-		//change (TInt)ESoundVolume9 to ((TInt)ESoundVolume9 + 1)) to keep consistent with audiotheme
-        aAudioPlayer->SetVolume( ((TInt)iVolume * max )/((TInt)ESoundVolume9 + 1));
+        aAudioPlayer->SetVolume( ((TInt)iVolume * max )/(TInt)ESoundVolume9);
         return;
         }
 

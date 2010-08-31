@@ -65,7 +65,6 @@ public: // Constructors and destructor
      */
     virtual void NotifyDrivesChangedL(const MDesCArray* aItemArray);
 
-    void HandleFileSystemChangedL(const MDesCArray* aItemArray);
     /**
      * From CCoeControl. To handle the Pointer events.
      * @param aPointerEvent The Pointer event details.

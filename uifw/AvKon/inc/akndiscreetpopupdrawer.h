@@ -123,12 +123,24 @@ public:
     TRect LayoutPopup();
 
     /**
-     * Draws popup to given graphics context.
-     * 
-     * @param aGc Graphics context.
-     * @param aRect Rectangle where popup is drawn to.
+     * Provides popup bitmap.
+     * Does not transfer ownership.
+     *
+     * @param aSize Requested popup bitmap size.
+     * @return Popup bitmap.
      */
-    void Draw( CWindowGc& aGc, const TRect& aRect ) const;
+    CFbsBitmap* PopupBitmap( const TSize& aSize );
+
+    /**
+     * Provides transparent mask for a bitmap.
+     * Does not transfer ownership.
+     *
+     * @param aSize Bitmap size.
+     * @param aAlpha Alpha factor.
+     * @return Transparent mask.
+     */
+    CFbsBitmap* TransparentMask( const TSize& aSize, 
+                                 const TInt& aAlpha );
 
 private:
 
@@ -150,11 +162,25 @@ private:
                      const TInt& aMaskId );
 
     /**
+     * Creates popup bitmap.
+     *
+     * @param aRect Popup rect.
+     */
+    void CreatePopupBitmapL( const TRect& aRect );
+    
+    /**
+     * Creates transparent mask for popup bitmap.
+     *
+     * @param aRect Popup rect.
+     */
+    void CreateTransparentMaskL( const TRect& aRect );
+
+    /**
      * Draws the texts.
      *
-     * @param aGc Graphics context.
+     * @param aGc Bitmap graphics context.
      */
-    void DrawTexts( CWindowGc* aGc ) const;
+    void DrawTexts( CFbsBitGc* aGc );
 
     /**
      * Resolves popup layout type.
@@ -166,7 +192,7 @@ private:
      *
      * @return Control eikon env.
      */
-    CEikonEnv* EikonEnv() const;
+    CEikonEnv* EikonEnv();
 
     /**
      * Returns ETrue if title text needs wrapping.
@@ -184,14 +210,14 @@ private:
     /**
      * Draws aText to aGc (in bidi enabled text rect location).
      *
-     * @param aGc Graphics context.
+     * @param aGc Bitmap graphics context.
      * @param aTextData Text data.
      * @param aText Text to be drawn.
      */
-    void DrawBidiEnabledText(
-            CWindowGc* aGc,
-            const TAknDiscreetPopupTextData& aTextData,
-            const TDesC& aText ) const;
+    static void DrawBidiEnabledText(
+            CFbsBitGc* aGc,
+            TAknDiscreetPopupTextData& aTextData,
+            const TDesC& aText );
 
     /**
      * Creates icon of given parameters.
@@ -289,6 +315,18 @@ private: // data
      * Own.
      */
     CGulIcon* iIcon;
+
+    /**
+     * Popup bitmap.
+     * Own.
+     */
+    mutable CFbsBitmap* iPopupBitmap;
+
+    /**
+     * Transparent mask for popup bitmap.
+     * Own.
+     */
+    mutable CFbsBitmap* iTransparentMask;
 
     /**
      * Popup layout type.

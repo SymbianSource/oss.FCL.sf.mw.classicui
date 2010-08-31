@@ -22,10 +22,6 @@
 #include <aknconsts.h>
 #include <akntoolbar.h>
 
-#include <touchfeedback.h>
-#include <akntranseffect.h>
-#include <akntransitionutils.h>
-
 #include "akntoolbarextensionview.h"
 
 
@@ -205,23 +201,7 @@ void CAknToolbarExtension::ConstructFromResourceL( TResourceReader& aReader )
     // construct view from resource, items are standard TBAR_CTRL structures
     iView = CAknToolbarExtensionView::NewL( aReader, this );
 
-    // Update the extension with given resource.
-    TInt extensionLink = aReader.ReadInt32();    // extension
-    if ( extensionLink != 0 )
-    	{
-    	CAknButtonState* state = State( 0 );
-    	if ( state )
-    		{
-    		state->UpdateExtensionInfoL( extensionLink );    		
-    		}
-    	state = State( 1 );
-    	if ( state )
-    		{
-    		state->UpdateExtensionInfoL( extensionLink );
-    		}
-    
-    	}
-    
+    aReader.ReadInt32();    // extension
     }
     
 // ---------------------------------------------------------------------------
@@ -313,28 +293,6 @@ void CAknToolbarExtension::HandleControlEventL( CCoeControl* aControl,
                     iView->SetFocusing( !nonFocusing ); 
                     if ( IsVisible() )
                         {
-
-                        //
-                        // the pop up feedback for droping out toolbar extention view
-                        //
-                        if ( AknLayoutUtils::PenEnabled() )
-                            {
-                            MTouchFeedback* feedback = MTouchFeedback::Instance();
-                            if ( feedback )
-                                {
-                                TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
-                                if ( CAknTransitionUtils::TransitionsEnabled(
-                                        AknTransEffect::EComponentTransitionsOff ) )
-                                    {
-                                    fbLogicalType = ETouchFeedbackIncreasingPopUp;
-                                    }
-
-                                feedback->InstantFeedback( this,
-                                                           fbLogicalType,
-                                                           ETouchFeedbackVibra, TPointerEvent() );
-                                }
-                            }
-
                         iToolbar->DynInitExtensionL( this );
                         iView->MakeVisible( ETrue ); // show view
                         }

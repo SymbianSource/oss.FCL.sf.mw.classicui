@@ -166,5 +166,4 @@ EXPORTS
 	_ZN40CAknMemorySelectionSettingItemMultiDriveD2Ev @ 165 NONAME
 	_ZTI40CAknMemorySelectionSettingItemMultiDrive @ 166 NONAME ; #<TI>#
 	_ZTV40CAknMemorySelectionSettingItemMultiDrive @ 167 NONAME ; #<VT>#
-	_ZN40CAknMemorySelectionSettingItemMultiDrive18SetIncludedMediasLEi @ 168 NONAME
 

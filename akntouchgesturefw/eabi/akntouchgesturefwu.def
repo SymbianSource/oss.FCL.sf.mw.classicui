@@ -1,6 +1,0 @@
-EXPORTS
-	_ZN17AknTouchGestureFw18CAknTouchGestureFw19SetGestureInterestLEjj @ 1 NONAME
-	_ZN17AknTouchGestureFw18CAknTouchGestureFw4NewLERNS_26MAknTouchGestureFwObserverER11CCoeControl @ 2 NONAME
-	_ZN17AknTouchGestureFw18CAknTouchGestureFw20SetFeedbackForTypesLENS_23TAknTouchGestureFwGroupEjj @ 3 NONAME
-	_ZN17AknTouchGestureFw18CAknTouchGestureFw21SetFeedbackForGroupsLEj @ 4 NONAME
-

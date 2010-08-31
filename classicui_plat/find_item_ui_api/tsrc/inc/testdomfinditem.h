@@ -80,20 +80,6 @@ private:
      */
     void SendTestClassVersion();
 
-        /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
-
 private: // test functions in finditemdialog.h
 
     /**
@@ -127,14 +113,6 @@ private: // test functions in finditemdialog.h
     * @return Symbian OS error code.
     */
     virtual TInt TestDialogOfferKeyEventL( CStifItemParser& aItem );
-
-    /**
-    * test EnableSingleClick method.
-    * @since S60 5.2
-    * @param aItem never used.
-    * @return Symbian OS error code.
-    */
-    virtual TInt TestDialogEnableSingleClickL( CStifItemParser& aItem );
 
 private: // test functions in finditemmenu.h
 

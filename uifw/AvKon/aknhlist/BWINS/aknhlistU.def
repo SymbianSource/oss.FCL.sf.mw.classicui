@@ -73,5 +73,4 @@ EXPORTS
 	?Sort@CAknTreeList@@QAEXPAVMAknCustomTreeOrdering@@W4TFocusBehaviour@1@H@Z @ 72 NONAME ; void CAknTreeList::Sort(class MAknCustomTreeOrdering *, enum CAknTreeList::TFocusBehaviour, int)
 	?SetEmptyTextL@CAknTreeList@@QAEXABVTDesC16@@@Z @ 73 NONAME ; void CAknTreeList::SetEmptyTextL(class TDesC16 const &)
 	?VisibleItemIndex@CAknTreeList@@QBEHH@Z @ 74 NONAME ; int CAknTreeList::VisibleItemIndex(int) const
-	?SetMarkingModeObserver@CAknTreeList@@QAEXPAVMAknMarkingModeObserver@@@Z @ 75 NONAME ; void CAknTreeList::SetMarkingModeObserver(class MAknMarkingModeObserver *)
 

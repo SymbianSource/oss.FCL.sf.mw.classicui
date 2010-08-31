@@ -25,7 +25,7 @@
  *  CTestOptionsMenu test class for STIF Test Framework TestScripter.
  *  @since S60 5.0
  */
-class TTestCollection : public MAknCollection, public MObjectProvider
+class TTestCollection : public MAknCollection
 {
 // Constructors and destructor
 public:
@@ -71,17 +71,6 @@ public:// Functions inherit from MAknCollection classes
     	{
     	return 0;
     	}
-
-public:// Functions inherit from MObjectProvider classes
-
-    /**
-     * Object provider
-     */
-    TTypeUid::Ptr MopSupplyObject( TTypeUid aId )
-        {
-        return TTypeUid::Null();
-        }
-
 };
 
 #endif /*T_TESDOMMENU_H*/

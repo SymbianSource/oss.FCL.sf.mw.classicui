@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -225,21 +225,6 @@ private:
 private: // From CCoeControl
     IMPORT_C virtual void Draw(const TRect& aRect) const;
 
-public:
-    /** 
-     * Set UMA state. Available UMA states are (avkon.hrh): 
-     * EAknSignalUmaIndicatorOff = 0x600,
-     * EAknSignalUmaIndicatorAvailable,
-     * EAknSignalUmaIndicatorAttached,
-     * EAknSignalUmaIndicatorEstablishingContext,
-     * EAknSignalUmaIndicatorContext,
-     * EAknSignalUmaIndicatorSuspended,
-     * EAknSignalUmaIndicatorMultipdp
-     * 
-     * @param aUmaIconState UMA state.
-     */
-    IMPORT_C void ShowUmaIconL(TInt aUmaIconState);
-    
 private:
    	static TInt TickerCallback(TAny* aThis);
     TInt DoTick();
@@ -251,9 +236,6 @@ private:
     CFbsBitmap* SignalIconBitmapMask() const;
     void SetContainerWindowNonFading(TBool aNonFading);    
 	void LoadSignalIconL(TInt aIconState, TInt aColorIndex);
-	void StartTickerL( TTimeIntervalMicroSeconds32 aDelay,
-	                   TTimeIntervalMicroSeconds32 aInterval );
-	void StopTicker();
 
 private:
     // Private flags for internal statemachines, iSpare taken into use

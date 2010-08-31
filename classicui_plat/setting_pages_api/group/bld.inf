@@ -1,0 +1,36 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Setting Pages API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/AknPasswordSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknpasswordsettingpage.h)
+../inc/AknVolumeSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknvolumesettingpage.h)
+../inc/AknTextSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(akntextsettingpage.h)
+../inc/AknMfneSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknmfnesettingpage.h)
+../inc/AknCheckBoxSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(akncheckboxsettingpage.h)
+../inc/AknDesCArrayDecorator.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknDesCArrayDecorator.h)
+../inc/AknSliderSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknslidersettingpage.h)
+../inc/AknSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknsettingpage.h)
+../inc/AknSettingItemList.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknsettingitemlist.h)
+../inc/AknRadioButtonSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknradiobuttonsettingpage.h)

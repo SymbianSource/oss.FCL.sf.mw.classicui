@@ -115,7 +115,6 @@ EXPORT_C RWsPointerCursor* LafServAppUiBase::ConstructPointerCursorL(TInt aCurso
 	{//static
 
 	__ASSERT_DEBUG(aCursorNumber<KLafSrvNumPointerCursors,Panic(ELafPanicPointerCursorIndexOutOfRange));
-	aCursorNumber = aCursorNumber; // just for fixing warning
 	RWsPointerCursor* cursor=NULL;
 	return cursor;
 	}

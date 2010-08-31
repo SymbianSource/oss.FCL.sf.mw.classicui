@@ -32,7 +32,7 @@
 
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
  
 #include "AknAppsKeyCleanup.inl"
 
@@ -40,17 +40,17 @@ const TInt KListQueryItemLength = 64;
 const TInt KCharsInTInt = 4; // TInt32 takes 4 chars.
 const TInt KArrayGranularity = 3;
 
-CAknGlobalListQuerySubject* CAknGlobalListQuerySubject::NewL(MAknKeyLockController* aKeyLockController)
+CAknGlobalListQuerySubject* CAknGlobalListQuerySubject::NewL()
     {
-    CAknGlobalListQuerySubject* self = new (ELeave) CAknGlobalListQuerySubject(aKeyLockController); 
+    CAknGlobalListQuerySubject* self = new (ELeave) CAknGlobalListQuerySubject(); 
     CleanupStack::PushL(self);
     self->ConstructL(); 
     CleanupStack::Pop(self);
     return self;
     }
 
-CAknGlobalListQuerySubject::CAknGlobalListQuerySubject(MAknKeyLockController* aKeyLockController)
-:iPending(EFalse),iKeyLockController(aKeyLockController)
+CAknGlobalListQuerySubject::CAknGlobalListQuerySubject()
+: iPending(EFalse)
     {
     iStoredEikonEnv = CEikonEnv::Static();
     }

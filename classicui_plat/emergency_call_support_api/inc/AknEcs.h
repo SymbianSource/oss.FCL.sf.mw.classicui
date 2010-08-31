@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -38,14 +38,11 @@ class CPhCltEmergencyCallObserver;
 // Maximum length of an emergency number
 const TInt KAknEcsMaxMatchingLength = 6;
 
-// Minimum length of service call number
-const TInt KAknServiceCallMinLength = 3;
-
 // Separator character for the emergency number string
 _LIT( KAknEcsSeparator, " ");
 
 // Maximum time in Microseconds between keys in a valid emergency call entry:
-const TInt KEcsInterKeyTimeout = 10000000;
+const TInt KEcsInterKeyTimeout = 4000000;
 
 // Deprecated
 const TInt KAknMaxEmergencyNumberString = 200;
@@ -83,8 +80,7 @@ public:
         EPartialMatch, // Not in use.
         ECompleteMatch,
         ECompleteMatchThenSendKey,
-        ECallAttempted,
-        EServiceNumMatch
+        ECallAttempted
         };
 
 public:
@@ -253,11 +249,6 @@ private:
     */
     void AttemptEmergencyCall();
 
-    /**
-    * Wraps up the code that actually initiates the service call
-    */
-    void MakeServiceCallL();
-
 public:
     /**
     * This callback is called by a CIdle object to state that the call has been
@@ -303,8 +294,7 @@ private:
     /** Pointer to emergency call observer object */
     CPhCltEmergencyCallObserver* iEmergencyCallObserver;
     
-    /** Boolean to check if service call is enabled during device or key lock */
-    TBool iServiceCallEnabled;
+    TInt iSpare_2;
     };
 
 //

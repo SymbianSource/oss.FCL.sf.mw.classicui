@@ -34,9 +34,7 @@ DEFFILE         testdomserviceib.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-MW_LAYER_SYSTEMINCLUDE
-
-SOURCEPATH      ../src
+     MW_LAYER_SYSTEMINCLUDE
 
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
@@ -52,9 +50,9 @@ SOURCE          testserviceifbaseprotected.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         servicehandler.lib
+LIBRARY         ServiceHandler.lib
 
 
 LANG            SC

@@ -29,9 +29,6 @@
 #include "FindUtilKorean.h"
 #include <avkon.rsg>
 #include <StringLoader.h>
-#include <featmgr.h>
-#include <bldvariant.hrh>
-
 const TInt KLitTab('\t');
 const TInt KLitSpace(' ');
 const TInt KLitHyphen('-');
@@ -312,18 +309,10 @@ TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
         }
     else
     	{
-        TInt numChar = 1;
+    TInt numChar = 1;
     	if (!aContactsField.Length())
         	{
-                _LIT( KNone, "*" );
-    	        if( aWord.CompareC(KNone()) == 0 )
-                    {
-    	            return ETrue;
-                    }
-                else
-                    {
-        	    return EFalse;
-                    }
+        	return EFalse;
         	}        
     	if((aWord.Length() > 1) && aWord[aWord.Length()-2] == 0x200B)
     		{
@@ -345,24 +334,22 @@ TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
 //
 TBool CFindUtilWestern::MatchRefineL( const TDesC& aItemString, const TDesC& aSearchText )
     {
-    if ( FeatureManager::FeatureSupported( KFeatureIdKorean ) || 
-         iFindUtilKorean->IsKoreanLanguage( aItemString ) || 
-         iFindUtilKorean->IsKoreanLanguage( aSearchText ) )
+    if ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || iFindUtilKorean->IsKoreanLanguage( aSearchText ) )
         {
         return iFindUtilKorean->MatchRefineL( aItemString, aSearchText );	
         }
     else
+    {
+    if ( aItemString.Length() == 0 )
         {
-        if ( aItemString.Length() == 0 )
-            {
-            return EFalse;
-            }
-    
-        if ( aSearchText.Length() == 0 )
-            {
-            return ETrue;
-            }
-        return IsFindMatch( aItemString, aSearchText, iInputLanguage );
+        return EFalse;
+        }
+
+    if ( aSearchText.Length() == 0 )
+        {
+        return ETrue;
+        }
+    return IsFindMatch( aItemString, aSearchText, iInputLanguage );
     	}
     }
 
@@ -1315,12 +1302,6 @@ TBool CFindUtilWestern::MatchAdaptiveRefineL( const TDesC& aItemString,
         {
         return EFalse;
         }
-		
-    if ( iFindUtilKorean )
-        {
-        return iFindUtilKorean->MatchAdaptiveRefineL(aItemString,aSearchText,aNextChars);   
-        }
-		
     if ( aSearchText.Length() == 0 )
         {        
         UpdateNextCharsFromString( aNextChars, aItemString );
@@ -1332,12 +1313,6 @@ TBool CFindUtilWestern::MatchAdaptiveRefineL( const TDesC& aItemString,
         iDigraphChars = StringLoader::LoadL( R_QTN_ADS_DIGRAPH );
         TPtr digraph = iDigraphChars->Des();
         digraph.UpperCase();
-
-        _LIT( KMissing,"#MISSING" );
-        if( digraph.CompareC(KMissing()) == 0 )
-            {
-            digraph = KNullDesC;
-            }
         }
         
     TBuf<KAknStringBufferSize> itemString(aItemString);

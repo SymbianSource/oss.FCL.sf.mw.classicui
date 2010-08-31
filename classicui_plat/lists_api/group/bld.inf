@@ -1,0 +1,45 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Lists API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/AknListBoxSettingPage.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknListBoxSettingPage.h)
+../inc/EIKLBED.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbed.h)
+../inc/EIKLBI.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbi.h)
+../inc/AknListBoxLayoutDecorator.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknListBoxLayoutDecorator.h)
+../inc/EIKCLBD.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikclbd.h)
+../inc/eikfrlb.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikfrlb.h)
+../inc/eikfrlbd.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikfrlbd.h)
+../inc/EIKTXLBM.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiktxlbm.h)
+../inc/EIKLBV.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbv.h)
+../inc/EIKTXLBX.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiktxlbx.h)
+../inc/aknlists.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknlists.h)
+../inc/EIKLBX.PAN     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbx.pan)
+../inc/EIKCLB.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikclb.h)
+../inc/EIKLBM.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbm.h)
+../inc/EIKLBX.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbx.h)
+../inc/eikslb.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikslb.h)
+../inc/EIKLBD.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbd.h)
+../inc/AknSelectionList.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknselectionlist.h)
+../inc/EIKLBO.H     MW_LAYER_PLATFORM_EXPORT_PATH(eiklbo.h)

@@ -104,9 +104,6 @@ public:
 
     /** Indicates whether or not the tab is shown in long tab group layout. */
     TBool iLongTab;
-    
-    /** Indicates the hilight status of the tab*/
-    TBool iHighlight;
     };
 
 CAknTabExtension* CAknTabExtension::NewL()
@@ -298,8 +295,6 @@ void CAknTab::ConstructL( const TDesC& aTabText )
     if ( !iExtension )
         {
         iExtension = CAknTabExtension::NewL();
-        //set the default highlight status of the tab
-        iExtension->iHighlight = EFalse;
         }
 
     iLabel = new (ELeave) CEikLabel;
@@ -812,14 +807,7 @@ void CAknTab::SizeChangedInNarrowLayout()
 
     }
 
-// ---------------------------------------------------------------------------
-// sets the highlight status of a tab
-// ---------------------------------------------------------------------------
-//
-void CAknTab::SetHighlight(TBool aHighlight)
-    {
-    iExtension->iHighlight = aHighlight;
-    }
+
 // ---------------------------------------------------------------------------
 // Handles size change events in flat status pane layouts.
 // ---------------------------------------------------------------------------
@@ -1045,7 +1033,7 @@ void CAknTab::Draw( const TRect& /*aRect*/ ) const
             }
         else
             {
-            if (iActive || iExtension->iHighlight)
+            if ( iActive )
                 {
                 TInt error = AknsUtils::GetCachedColor( skin, color,
                     KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG3 );
@@ -1083,7 +1071,7 @@ void CAknTab::Draw( const TRect& /*aRect*/ ) const
                 iColorBitmaps->At(KTabColorBitmapActiveColorIndex) &&
                 iColorBitmaps->At(KTabColorBitmapPassiveColorIndex) )
                 {
-                if (iActive || iExtension->iHighlight)
+                if( iActive )
                     {
                     colorBitmap = iColorBitmaps->At(KTabColorBitmapActiveColorIndex);
                     }
@@ -1271,11 +1259,7 @@ void CAknTab::HandleResourceChange( TInt aType )
 void CAknTab::SetTotalAmountOfTabs( TInt aAmount )
     {
     iExtension->iNumberOfTabsInTabGroup = aAmount;
-    
-    if ( !iColorBitmaps )
-    	{
-        TRAP_IGNORE(LoadColorBitmapL());
-    	}
+    LoadColorBitmapL();
     }
 
 void CAknTab::SetNarrowTabLayout( TBool aNarrow )
@@ -1411,9 +1395,6 @@ public: // Member data.
 
     /** This is the tab width that is set by the application. */
     TInt   iRequestedTabWidth;
-    
-    /** Indicates whether highlight tab is being drawn or not*/ 
-    TBool iHighlight;
     };
 
 
@@ -1421,8 +1402,6 @@ CAknTabGroupExtension::CAknTabGroupExtension()
     {
     iPointerDownTab       = -1;
     iPointerDownXPosition = -1;
-    //Highlight is disabled by default.
-    iHighlight = EFalse;
     }
 
 
@@ -1888,7 +1867,7 @@ EXPORT_C void CAknTabGroup::SetTabFixedWidthL( TInt aWidth )
         {
         iExtension->iTabBackgroundLayout.iUse = EFalse;
 
-        iExtension->iTabSvgGraphics->DrawTabGroupBackground(
+        iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
             CAknTabGroupGraphics::ENoDraw,
             iLongTabs,
             iNumberOfTabsShown,
@@ -2634,13 +2613,15 @@ EXPORT_C void CAknTabGroup::Draw( const TRect& /*aRect*/ ) const
 
         if (iExtension->iNarrowTabLayout)
             {
-            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackground(
-                CAknTabGroupGraphics::ENormal,
-                iLongTabs,
-                iNumberOfTabsShown, 
-                positionActive + 1, 
-                &gc,
-                iExtension->iTabBackgroundLayout);
+            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackgroundL(
+                    CAknTabGroupGraphics::ENormal, iLongTabs,
+                    iNumberOfTabsShown, positionActive + 1, &gc,
+                    iExtension->iTabBackgroundLayout);
+
+            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackgroundL(
+                    CAknTabGroupGraphics::EMaskOnly, iLongTabs,
+                    iNumberOfTabsShown, positionActive + 1, &gc,
+                    iExtension->iTabBackgroundLayout);
             }
         else
             {
@@ -2650,36 +2631,27 @@ EXPORT_C void CAknTabGroup::Draw( const TRect& /*aRect*/ ) const
             
             if ( animationOngoing )
                 {
-                animation = iExtension->iTabCycleAnimationDirection == ELeft ?
-					CAknTabGroupGraphics::ECycleToLeft : CAknTabGroupGraphics::ECycleToRight;
+                animation
+                        = iExtension->iTabCycleAnimationDirection == ELeft
+                                                                           ? CAknTabGroupGraphics::ECycleToLeft
+                                                                              : CAknTabGroupGraphics::ECycleToRight;
                 }
+            iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
+                    CAknTabGroupGraphics::ENormal, iLongTabs,
+                    iNumberOfTabsShown, positionActive + 1, &gc,
+                    animationOngoing ? iExtension->iNextTabBackgroundLayout
+                                       : iExtension->iTabBackgroundLayout,
+                    iExtension->iTabsHidden, animation);
 
-            if (!iExtension->iHighlight)
-                { 
-                // if highlight is not active
-                iExtension->iTabSvgGraphics->DrawTabGroupBackground(
-                    CAknTabGroupGraphics::ENormal,
+            iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
+                    CAknTabGroupGraphics::EMaskOnly,
                     iLongTabs,
                     iNumberOfTabsShown,
                     positionActive + 1,
                     &gc,
-                    animationOngoing ? iExtension->iNextTabBackgroundLayout : iExtension->iTabBackgroundLayout,
-                    iExtension->iTabsHidden, 
-					animation);
-                }
-            else
-                {
-                // Highlight is active
-                TInt highlightTab = iExtension->iPointerDownTab - iFirstShownTab + 1; //pointer down tab index w.r.t shown tabs
-                iExtension->iTabSvgGraphics->DrawTabGroupBackground(
-                    CAknTabGroupGraphics::ENormal,
-                    iLongTabs,
-                    iNumberOfTabsShown,
-                    positionActive + 1,
-                    &gc,
-                    animationOngoing ? iExtension->iNextTabBackgroundLayout : iExtension->iTabBackgroundLayout,
-                    iExtension->iTabsHidden, animation, highlightTab );
-                }
+                    animationOngoing ? iExtension->iNextTabBackgroundLayout
+                                       : iExtension->iTabBackgroundLayout,
+                    iExtension->iTabsHidden, animation);
             }
         }
     else
@@ -2905,7 +2877,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 if ( feedback && !isActiveTab )
                     {
                     feedback->InstantFeedback( this,
-                        ETouchFeedbackTab, 
+                        ETouchFeedbackBasic, 
                         type,
                         aPointerEvent );
                     }
@@ -2918,25 +2890,11 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 }
             iExtension->iPointerDownTab       = newTab;
             iExtension->iPointerDownXPosition = aPointerEvent.iPosition.iX;
-            
-            //Activates highlight drawing for pressed tab.
-            if (!iExtension->iHighlight)
-                {
-                iExtension->iHighlight = ETrue;
-                
-                // Set the pressed tab to highlight
-                if ( iExtension->iPointerDownTab >= 0 )
-                    {
-                    iTabArray->At( iExtension->iPointerDownTab )->SetHighlight( ETrue );
-                    }
-                DrawDeferred();
-                }
-            
             return;
             }
         else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
-            if( newTab > -1 && newTab == iExtension->iPointerDownTab )
+            if( newTab> -1 )
                 {
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
 
@@ -2946,7 +2904,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 if ( feedback && !isActiveTab )
                     {
                     feedback->InstantFeedback( this,
-                        ETouchFeedbackTab, 
+                        ETouchFeedbackBasic, 
                         ETouchFeedbackVibra,
                         aPointerEvent );
                     }
@@ -2959,17 +2917,11 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 }
 
             // if the button up event occurs ouside tabgroup, ignore it.
-            if ( !Rect().Contains( aPointerEvent.iPosition ) || iExtension->iPointerDownTab != newTab )
+            if ( !Rect().Contains( aPointerEvent.iPosition ) )
                 {
-                iExtension->iPointerDownTab = -1;
+                iExtension->iPointerDownTab       = -1;
                 iExtension->iPointerDownXPosition = -1;
-                if (iExtension->iHighlight)
-                    {
-                    iExtension->iHighlight = EFalse;
-                    ResetHighlightStatus();
-                    DrawDeferred();
-                    }
-                return;
+                return ;
                 }
 
             if ( newTab != iActiveTab &&
@@ -3077,12 +3029,6 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
 
             iExtension->iPointerDownTab       = -1;
             iExtension->iPointerDownXPosition = -1;
-            if( iExtension->iHighlight )
-                {
-                iExtension->iHighlight = EFalse;
-                ResetHighlightStatus();
-                DrawDeferred();
-                }
             }
         }
     }
@@ -3451,14 +3397,14 @@ void CAknTabGroup::HandleResourceChange( TInt aType )
                     ParentRect( iExtension->iNaviArrowsUsed ) );
 
                 iExtension->iTabBackgroundLayout.iUse = EFalse;
-                iExtension->iTabSvgGraphics->DrawTabGroupBackground(
+                TRAP_IGNORE( iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
                                 CAknTabGroupGraphics::ENoDraw,
                                 iLongTabs,
                                 iNumberOfTabsShown,
                                 1,
                                 NULL,
                                 iExtension->iTabBackgroundLayout,
-                                CAknTabGroupGraphics::ENone );
+                                CAknTabGroupGraphics::ENone ) );
                 iExtension->iTabBackgroundLayout.iUse = ETrue;
                 SetDecoratorLayout( EFalse );
                 }
@@ -3466,11 +3412,6 @@ void CAknTabGroup::HandleResourceChange( TInt aType )
         if ( iExtension )
             {
             iExtension->iNarrowTabLayout = EFalse;
-            if( iExtension->iHighlight )
-                {
-                iExtension->iHighlight = EFalse;
-                ResetHighlightStatus();
-                }
             }
 
         if ( !COMPARE_BOOLS( iMirrored, AknLayoutUtils::LayoutMirrored() ) )
@@ -4111,7 +4052,7 @@ void CAknTabGroup::SetNarrowTabLayoutL( TBool aNarrow, TBool aUseAnimation )
     if ( aNarrow )
         {
         iExtension->iNextTabBackgroundLayout.iUse = EFalse;
-        iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackground(
+        iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackgroundL(
             CAknTabGroupGraphics::ENoDraw,
             iLongTabs,
             iNumberOfTabsShown,
@@ -4123,7 +4064,7 @@ void CAknTabGroup::SetNarrowTabLayoutL( TBool aNarrow, TBool aUseAnimation )
         if ( !aUseAnimation )
             {
             iExtension->iTabBackgroundLayout.iUse = EFalse;
-            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackground(
+            iExtension->iTabSvgGraphics->DrawTabGroupNarrowBackgroundL(
                 CAknTabGroupGraphics::ENoDraw,
                 iLongTabs,
                 iNumberOfTabsShown,
@@ -4136,7 +4077,7 @@ void CAknTabGroup::SetNarrowTabLayoutL( TBool aNarrow, TBool aUseAnimation )
     else
         {
         iExtension->iNextTabBackgroundLayout.iUse = EFalse;
-        iExtension->iTabSvgGraphics->DrawTabGroupBackground(
+        iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
             CAknTabGroupGraphics::ENoDraw,
             iLongTabs,
             iNumberOfTabsShown,
@@ -4147,7 +4088,7 @@ void CAknTabGroup::SetNarrowTabLayoutL( TBool aNarrow, TBool aUseAnimation )
         iExtension->iNextTabBackgroundLayout.iUse = ETrue;
 
         iExtension->iTabBackgroundLayout.iUse = EFalse;
-        iExtension->iTabSvgGraphics->DrawTabGroupBackground(
+        iExtension->iTabSvgGraphics->DrawTabGroupBackgroundL(
             CAknTabGroupGraphics::ENoDraw,
             iLongTabs,
             iNumberOfTabsShown,
@@ -4512,12 +4453,4 @@ void CAknTabGroup::SwitchTabLayoutL()
     CancelTabAnimationEventTimer();
     }
 
-void CAknTabGroup::ResetHighlightStatus()
-    {
-    // Resets highlight status to EFalse
-    for( TInt i = 0; i < iTabArray->Count(); i++ )
-        {
-        iTabArray->At(i)->SetHighlight( EFalse );
-        }
-    }
  //  End of File

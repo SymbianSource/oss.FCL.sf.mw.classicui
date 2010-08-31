@@ -379,16 +379,6 @@ void CAknCommonDialogsPopupList::NotifyDrivesChangedL(
     UpdateItemsAndRedrawPopupL( focus, topIndex );
     }
 
-void CAknCommonDialogsPopupList::HandleFileSystemChangedL( const MDesCArray* aItemArray )
-    {
-    TInt focus = iListBox->CurrentItemIndex();
-    TInt topIndex = iListBox->View()->TopItemIndex();
-    if ( focus < 0 )
-        {
-        focus = aItemArray->MdcaCount() - 1;
-        }
-    UpdateItemsAndRedrawPopupL( focus, topIndex );
-    }
 // -----------------------------------------------------------------------------
 // CAknCommonDialogsPopupList::HandleListBoxHighlightChangedL
 //

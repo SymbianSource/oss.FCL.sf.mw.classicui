@@ -1,0 +1,33 @@
+/*
+* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                Notifiers API
+*
+*/
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+../inc/AknPopupNotify.h                 MW_LAYER_PLATFORM_EXPORT_PATH(AknPopupNotify.h)
+../inc/aknglobalconfirmationquery.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalConfirmationQuery.h)
+../inc/AknNotifyStd.h                   MW_LAYER_PLATFORM_EXPORT_PATH(AknNotifyStd.h)
+../inc/aknglobalprogressdialog.h        MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalProgressDialog.h)
+../inc/AknNotify.h                      MW_LAYER_PLATFORM_EXPORT_PATH(AknNotify.h)
+../inc/AknGlobalListQuery.h             MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalListQuery.h)
+../inc/aknglobalmsgquery.h              MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalMsgQuery.h)
+../inc/AknGlobalNote.h                  MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalNote.h)
+../inc/AknGlobalListMsgQuery.h          MW_LAYER_PLATFORM_EXPORT_PATH(AknGlobalListMsgQuery.h)

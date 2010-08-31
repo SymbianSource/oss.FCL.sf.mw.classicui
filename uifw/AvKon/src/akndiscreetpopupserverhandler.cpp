@@ -20,7 +20,7 @@
 #include <avkon.hrh>
 #include "akndiscreetpopupserverhandler.h"
 #include "akndiscreetpopupdata.h"
-#include "akntrace.h"
+
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -57,10 +57,8 @@ CAknDiscreetPopupServerHandler* CAknDiscreetPopupServerHandler::NewLC()
 //
 CAknDiscreetPopupServerHandler::~CAknDiscreetPopupServerHandler()
     {
-    _AKNTRACE_FUNC_ENTER;
     iLaunchers.ResetAndDestroy();
     iUiServer.Close();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -89,7 +87,6 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
                                                     aPopupId,
                                                     aAppUid,
                                                     aViewUid );
-    CleanupStack::PushL( launcher );
     launcher->SetData(
         aTitle,
         aText,
@@ -99,7 +96,6 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
         aMaskId,
         aFlags );
     iLaunchers.AppendL( launcher );
-    CleanupStack::Pop( launcher );
     launcher->LaunchDiscreetPopup();
     }
 
@@ -124,12 +120,10 @@ void CAknDiscreetPopupServerHandler::LaunchGlobalPopupL(
                                                        aPopupId,
                                                        aAppUid,
                                                        aViewUid );
-    CleanupStack::PushL( launcher );
     launcher->SetData( 
             aResourceId,
             aResourceFile );
     iLaunchers.AppendL( launcher );
-    CleanupStack::Pop( launcher );
     launcher->LaunchDiscreetPopup();
     }
 
@@ -193,9 +187,7 @@ CAknDiscreetPopupServerHandler::CAknDiscreetPopupServerHandler()
 //
 void CAknDiscreetPopupServerHandler::ConstructL()
     {
-    _AKNTRACE_FUNC_ENTER;
     User::LeaveIfError( iUiServer.Connect() );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -225,7 +217,6 @@ TBool CAknDiscreetPopupServerHandler::PopupIdInUse( const TInt& aPopupId )
 //
 CAknDiscreetPopupGlobalLauncher::~CAknDiscreetPopupGlobalLauncher()
     {
-    _AKNTRACE( "[%s][%s] Enter ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
     if ( IsActive() && iHandler )
         {
         // Cancel request using status handle
@@ -234,7 +225,6 @@ CAknDiscreetPopupGlobalLauncher::~CAknDiscreetPopupGlobalLauncher()
         iHandler->UiServer()->DoDiscreetPopupAction( &cancelData );
         }
     Cancel();
-    _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
     }
 
 
@@ -244,14 +234,11 @@ CAknDiscreetPopupGlobalLauncher::~CAknDiscreetPopupGlobalLauncher()
 //
 void CAknDiscreetPopupGlobalLauncher::LaunchDiscreetPopup()
     {
-    _AKNTRACE( "[%s][%s] Enter ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
     if ( IsActive() )
         {
-        _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
         return;
         }
     RenewRequest();
-    _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
     }
 
 
@@ -261,8 +248,6 @@ void CAknDiscreetPopupGlobalLauncher::LaunchDiscreetPopup()
 //
 void CAknDiscreetPopupGlobalLauncher::RunL()
     {
-    _AKNTRACE( "[%s][%s] Enter,  iStatus : %d", 
-    		"CAknDiscreetPopupGlobalLauncher", __FUNCTION__, iStatus.Int() );
     if ( iStatus.Int() != KRequestPending )
         {
         if( iCommandObserver )
@@ -282,7 +267,6 @@ void CAknDiscreetPopupGlobalLauncher::RunL()
         {
         RenewRequest();
         }
-    _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalLauncher", __FUNCTION__ );
     }
 
 
@@ -330,7 +314,6 @@ void CAknDiscreetPopupGlobalLauncher::RenewRequest()
     {
     if ( iHandler )
         {
-        _AKNTRACE( "CAknDiscreetPopupGlobalLauncher::RenewRequest, issue request." );
         iHandler->UiServer()->DoDiscreetPopupAction( PopupData(), &iStatus );
         }
     SetActive();
@@ -358,14 +341,12 @@ CAknDiscreetPopupGlobalParamLauncher* CAknDiscreetPopupGlobalParamLauncher::NewL
         const TUid& aAppUid,
         const TUid& aViewUid )
     {
-    _AKNTRACE( "[%s][%s] Enter ", "CAknDiscreetPopupGlobalParamLauncher", __FUNCTION__ );
     CAknDiscreetPopupGlobalParamLauncher* self = 
         new ( ELeave ) CAknDiscreetPopupGlobalParamLauncher(
                 aHandler, aObserver, aCommandId, aPopupId, aAppUid, aViewUid );
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
-    _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalParamLauncher", __FUNCTION__ );
     return self;
     }
 
@@ -453,14 +434,12 @@ CAknDiscreetPopupGlobalResourceLauncher* CAknDiscreetPopupGlobalResourceLauncher
         const TUid& aAppUid,
         const TUid& aViewUid )
     {
-    _AKNTRACE( "[%s][%s] Enter ", "CAknDiscreetPopupGlobalResourceLauncher", __FUNCTION__ );
     CAknDiscreetPopupGlobalResourceLauncher* self = 
         new ( ELeave ) CAknDiscreetPopupGlobalResourceLauncher(
                 aHandler, aObserver, aCommandId, aPopupId, aAppUid, aViewUid );
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
-    _AKNTRACE( "[%s][%s] Exit ", "CAknDiscreetPopupGlobalResourceLauncher", __FUNCTION__ );
     return self;
     }
 

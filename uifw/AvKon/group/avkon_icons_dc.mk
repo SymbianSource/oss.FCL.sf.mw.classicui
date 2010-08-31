@@ -136,7 +136,7 @@ RESOURCE: $(TARGETS_AVKON) \
           $(OLDURELZDIR)\resource\apps\aknmemorycardui.mif \
           $(OLDUDEBZDIR)\resource\apps\aknmemorycardui.mbm \
           $(OLDURELZDIR)\resource\apps\aknmemorycardui.mbm \
-	  ..\Avkon2Mifheader\avkon2mifheader_inst.cpp
+	  ..\avkon2mifheader\avkon2mifheader_inst.cpp
 
 FREEZE : ;
 

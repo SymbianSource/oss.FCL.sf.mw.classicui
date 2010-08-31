@@ -20,7 +20,6 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
-#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 
 #include "testdomtransitioneffectutilities.h"
@@ -108,8 +107,7 @@ void CTestDomTransitionEffectUtilities::ConstructL()
                           EFalse );
     
     SendTestClassVersion();
-    
-    TurnOffScreenSaver();
+
     TRect rect = CEikonEnv::Static()->AppUiFactory()->ClientRect();
     iContainer = CTestDomUtilitiesContainer::NewL( rect );
     CCoeEnv::Static()->AppUi()->AddToStackL( iContainer );
@@ -164,31 +162,4 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) CTestDomTransitionEffectUtilities::NewL( aTestModuleIf );
     }
-
-// -----------------------------------------------------------------------------
-// Turn off ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDomTransitionEffectUtilities::TurnOffScreenSaver()
-    {
-    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        KScreenSaverAllowScreenSaver );    
-    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
-        iOldScreenSaverProperty, err1, err2 );
-    }
-
-// -----------------------------------------------------------------------------
-// Restore ScreenSaver
-// -----------------------------------------------------------------------------
-//
-void CTestDomTransitionEffectUtilities::RestoreScreenSaver()
-    {
-    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
-        iOldScreenSaverProperty );
-    User::ResetInactivityTime();
-    }
-
-
 //  End of File

@@ -130,14 +130,7 @@ TKeyResponse CAknCommonDialogsRadioButtonSettingPage::OfferKeyEventL(
                 }
 
             case EKeyOK:
-            case EKeyEnter:
                 {
-                if ( ListBoxControl()->ItemDrawer()->Flags() 
-                         & CListItemDrawer::ESingleClickDisabledHighlight )
-                    {
-                    return CAknSettingPage::OfferKeyEventL( aKeyEvent, aType );
-                    }
-              
                 TInt focus( lb->CurrentItemIndex() );
                 TInt topIndex( lb->TopItemIndex() );
 
@@ -201,8 +194,36 @@ void CAknCommonDialogsRadioButtonSettingPage::UpdateAndRedrawItemL()
 // -----------------------------------------------------------------------------
 //  
 void CAknCommonDialogsRadioButtonSettingPage::ProcessCommandL(TInt aCommandId)
-    {  
-    CAknRadioButtonSettingPage::ProcessCommandL( aCommandId );
+    {
+    if(!IsEditable() && !(aCommandId == EAknSoftkeyBack || aCommandId == EAknSoftkeyCancel))
+        {
+        return;
+        }
+    
+    HideMenu();
+    
+    // Respond to softkey events
+    switch (aCommandId)
+        {
+        case EAknSoftkeyOk:
+        case EAknSoftkeySelect:  
+        case EAknSoftkeyDone:            
+            {
+            SelectCurrentItemL(); // has non-trivial implemenations in listbox type 
+            // controls to put the selection on the current item
+            AttemptExitL(ETrue);
+            break;  
+            }
+        case EAknSoftkeyBack:
+        case EAknSoftkeyCancel:
+            AttemptExitL(EFalse);
+            break;
+        case EAknSoftkeyOptions:
+            DisplayMenuL();
+            break;
+        default:
+            break;
+        }
     }
 // -----------------------------------------------------------------------------
 // CAknCommonDialogsRadioButtonSettingPage::NotifyDrivesChangedL

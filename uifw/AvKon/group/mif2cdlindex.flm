@@ -6,7 +6,7 @@
 # The file destinations  relative to EPOCROOT
 
 ## Parameters that are expected:
-# TARGETFILE avkon2mifheader_inst.cpp
+# TARGETFILE Avkon2mifheader_inst.cpp
 # GENPATH 
 # MIFFILE avkon2.mif
 # DLLNAME Avkon2MifHeader

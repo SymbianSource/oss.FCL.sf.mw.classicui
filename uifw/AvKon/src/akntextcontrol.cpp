@@ -379,7 +379,7 @@ void CAknTextControl::ParseTextL(const CFont* aFont, CArrayFixFlat<TInt>* aLineW
 void CAknTextControl::SetWrappedTextIntoLabelsL(const CArrayFix<TPtrC>& aWrappedArray, TInt aNumLines, const CFont* aFont)
 	{
 	__ASSERT_DEBUG(aNumLines == iNumberOfLines, Panic(EAknPanicSelfCheckFailure));
-	aNumLines = aNumLines ; // just for fixing warning
+
 	for (TInt i=0; i < iNumberOfLines; i++)
 		{
 		

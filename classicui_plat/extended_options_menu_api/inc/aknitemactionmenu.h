@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -20,14 +20,12 @@
 
 #include <e32base.h>
 #include <eikmobs.h>
-#include <coemop.h>
 
 class MAknCollection;
 class MAknCollectionObserver;
 class CAknStylusPopUpMenu;
 class CEikMenuBar;
 class CAknItemActionMenuData;
-class CAknMarkingMode;
 
 /**
  * Item action menu.
@@ -68,27 +66,21 @@ NONSHARABLE_CLASS( CAknItemActionMenu ) : public CBase,
 
 public:
 
-    DECLARE_TYPE_ID( 0x2002C344 )
+    /**
+     * Two-phased constructor.
+     * 
+     * @internal
+     * @param aCollection Collection.
+     */
+    static CAknItemActionMenu* NewL( MAknCollection& aCollection );
 
     /**
      * Two-phased constructor.
      * 
      * @internal
      * @param aCollection Collection.
-     * @param aOwner Menu's owner.
      */
-    static CAknItemActionMenu* NewL( MAknCollection& aCollection,
-            MObjectProvider* aOwner );
-
-    /**
-     * Two-phased constructor.
-     * 
-     * @internal
-     * @param aCollection Collection.
-     * @param aOwner Menu's owner.
-     */
-    static CAknItemActionMenu* NewLC( MAknCollection& aCollection,
-            MObjectProvider* aOwner );
+    static CAknItemActionMenu* NewLC( MAknCollection& aCollection );
 
     /**
      * Destructor.
@@ -104,18 +96,6 @@ public:
      */
     IMPORT_C static CAknItemActionMenu* RegisterCollectionL(
             MAknCollection& aCollection );
-
-    /**
-     * Adds collection to the item action menu of this view / dialog / appUi.
-     * 
-     * @param aCollection Collection implementing MAknCollection interface.
-     * @param aMenuBarOwner Owner of the menubar that collection will be
-     *        registered with.
-     * @return Pointer to the item action menu instance.
-     * Ownership does not transfer to caller.
-     */
-    IMPORT_C static CAknItemActionMenu* RegisterCollectionL(
-            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
 
     /**
      * Removes collection of this item action menu.
@@ -215,45 +195,13 @@ public:
      * @return Collection count.
      */
     TInt CollectionCount() const;
-    
-    /**
-     * Returns pointer to item action menu's owner.
-     *
-     * @return Menu's owner
-     */
-    MObjectProvider* Owner() const;
-
-    /**
-     * Provides marking mode handler.
-     *
-     * @internal
-     * @return Marking mode handler.
-     */
-    CAknMarkingMode& MarkingMode();
-    
-    /**
-     * Returns ETrue if collection has marked items.
-     * 
-     * @internal
-     * @return ETrue if collection has marked items.
-     */
-    TBool CollectionHasMarkedItems();
-    
-    /**
-     * Hides this item action menu.
-     * 
-     * @internal
-     */
-    void HideMenu();
 
 private:
 
     /**
      * C++ constructor.
-     *
-     * @param aOwner Menu's owner.
-     */     
-    CAknItemActionMenu( MObjectProvider* aOwner );
+     */
+    CAknItemActionMenu();
 
     /**
      * Symbian second-phase constructor.
@@ -346,18 +294,6 @@ private: // data
      * Own.
      */
     CAknItemActionMenuData* iMenuData;
-    
-    /**
-     * Pointer to menu's owner. 
-     * Not own
-     */
-    MObjectProvider* iOwner;
-
-    /**
-     * Multiple marking handler.
-     * Own.
-     */
-    CAknMarkingMode* iMarking;
     };
 
 #endif // C_AKNITEMACTIONMENU_H

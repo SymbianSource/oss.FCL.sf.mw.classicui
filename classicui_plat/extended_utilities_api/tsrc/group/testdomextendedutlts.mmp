@@ -49,7 +49,7 @@ SOURCE          testdomextendedutlts.cpp
 SOURCE          testdomextendedutltsblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib 
 LIBRARY         eikcoctl.lib 

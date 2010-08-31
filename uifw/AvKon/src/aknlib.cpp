@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -55,7 +55,6 @@
 
 #include <aknbutton.h>
 
-#include "akncombinedpane.h"
 
 _LIT(KResFileName,         "z:\\resource\\avkon.rsc");
 _LIT(KAknPrivResourceFile, "z:\\resource\\aknpriv.rsc");
@@ -275,9 +274,6 @@ SEikControlInfo CAknLibrary::CreateByTypeL(TInt aControlType)
             break;
         case EAknCtBatteryIndicatorContainerPane:
             controlInfo.iControl = new(ELeave) CAknBatteryIndicatorContainer;
-            break;
-        case EAknCtCombinedPane:
-            controlInfo.iControl = CAknCombinedPane::NewL();
             break;
             
         case EAknCtNote:

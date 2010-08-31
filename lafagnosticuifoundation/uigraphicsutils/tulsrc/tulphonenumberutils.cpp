@@ -28,7 +28,7 @@ _LIT(KContactCardValidChars, "+1234567890()-pw#* ./");
 _LIT(KContactCardCharsToParse, " ./");
 _LIT(KPhoneClientValidChars, "+1234567890()-pw#* ./");
 _LIT(KPhoneClientCharsToParse, "()- ./");
-_LIT(KSMSNumberValidChars, "+1234567890()- ./*#");
+_LIT(KSMSNumberValidChars, "+1234567890()- ./*");
 
 // DEFINES
 const TInt KPhoneNoUtilsMinNumbers  = 1;

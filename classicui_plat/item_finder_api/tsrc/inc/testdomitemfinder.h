@@ -94,20 +94,6 @@ private:
      * Method used to log version of test class
      */
     void SendTestClassVersion();
-    
-        /**
-     * Turn off ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void TurnOffScreenSaver();
-
-    /**
-     * Restore ScreenSaver
-     * @since S60 5.0
-     * @return Symbian OS error code.
-     */
-    void RestoreScreenSaver();
 
 private: // [TestMethods]
 
@@ -265,14 +251,6 @@ private: // [TestMethods]
     * @return Symbian OS error code.
     */
     virtual TInt TestIFCurrentSelection( CStifItemParser& aItem );
-
-    /**
-    * TestIFSetItemFinderObserverL test method.
-    * @since S60 5.0
-    * @param aItem Script line containing parameters.
-    * @return Symbian OS error code.
-    */
-    virtual TInt TestIFSetItemFinderObserverL( CStifItemParser& aItem );
 
 private:    // Data
 

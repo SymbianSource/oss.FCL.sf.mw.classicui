@@ -22,7 +22,6 @@
 
 #include "akndiscreetpopupcontrol.h"
 #include "akndiscreetpopupserverhandler.h"
-#include "akntrace.h"
 
 const TUid KDiscreetPopupSingleton = { 537001156 };
 const TInt KInitialPopupId( 1 );
@@ -35,7 +34,6 @@ const TInt KInitialPopupId( 1 );
 //
 CAknDiscreetPopup::~CAknDiscreetPopup()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iUseCoeEnv )
         {
         AKNTASHOOK_REMOVE();
@@ -49,7 +47,6 @@ CAknDiscreetPopup::~CAknDiscreetPopup()
         }
     iLocalPopups.Close();
     delete iServerHandler;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -69,7 +66,6 @@ EXPORT_C TInt CAknDiscreetPopup::ShowLocalPopupL(
     const TInt aCommand,
     MEikCommandObserver* aCommandObserver )
     {
-    _AKNTRACE( "CAknDiscreetPopup::ShowLocalPopupL, Created by given parameters" );
     __ASSERT_ALWAYS( CCoeEnv::Static(), Panic( EAknPanicNotSupported ) );
     TInt popupId = 0;
     CAknDiscreetPopup* instance = InstanceL();
@@ -99,7 +95,6 @@ EXPORT_C TInt CAknDiscreetPopup::ShowLocalPopupL(
     const TInt aCommand,
     MEikCommandObserver* aCommandObserver )
     {
-    _AKNTRACE( "CAknDiscreetPopup::ShowLocalPopupL, Created by given resource" );
     __ASSERT_ALWAYS( CCoeEnv::Static(), Panic( EAknPanicNotSupported ) );
     TInt popupId = 0;
     CAknDiscreetPopup* instance = InstanceL();
@@ -128,7 +123,6 @@ EXPORT_C TInt CAknDiscreetPopup::ShowGlobalPopupL(
     const TUid& aAppUid,
     const TUid& aViewUid )
     {
-    _AKNTRACE( "CAknDiscreetPopup::ShowGlobalPopupL, Created by given parameters" );
     TInt popupId = 0;
     CAknDiscreetPopup* instance = InstanceL();
     if ( instance )
@@ -153,7 +147,6 @@ EXPORT_C TInt CAknDiscreetPopup::ShowGlobalPopupL(
     const TUid& aAppUid,
     const TUid& aViewUid )
     {
-    _AKNTRACE( "CAknDiscreetPopup::ShowGlobalPopupL, Created by given resource" );
     TInt popupId = 0;
     CAknDiscreetPopup* instance = InstanceL();
     if( instance )
@@ -175,7 +168,6 @@ EXPORT_C TInt CAknDiscreetPopup::ShowGlobalPopupL(
 //
 EXPORT_C void CAknDiscreetPopup::InitL()
     {
-    _AKNTRACE_FUNC_ENTER;
     __ASSERT_ALWAYS( !CCoeEnv::Static(), Panic( EAknPanicNotSupported ) );
 
     // Create popup instance and store it to TLS
@@ -187,7 +179,6 @@ EXPORT_C void CAknDiscreetPopup::InitL()
         User::LeaveIfError( Dll::SetTls( instance ) );
         CleanupStack::Pop( instance );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -197,7 +188,6 @@ EXPORT_C void CAknDiscreetPopup::InitL()
 //
 EXPORT_C void CAknDiscreetPopup::Release()
     {
-    _AKNTRACE_FUNC_ENTER;
     __ASSERT_ALWAYS( !CCoeEnv::Static(), Panic( EAknPanicNotSupported ) );
 
     // Delete popup instance from TLS
@@ -209,7 +199,6 @@ EXPORT_C void CAknDiscreetPopup::Release()
         instance = NULL;
         Dll::SetTls( NULL );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -403,10 +392,8 @@ TInt CAknDiscreetPopup::DoShowGlobalL(
 //
 void CAknDiscreetPopup::ShowPopupL( CAknDiscreetPopupControl* aControl )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !aControl )
         {
-        _AKNTRACE( "CAknDiscreetPopup::ShowPopupL, return (aControl is NULL)" );
         return;
         }
         
@@ -421,7 +408,6 @@ void CAknDiscreetPopup::ShowPopupL( CAknDiscreetPopupControl* aControl )
     aControl->HandleDiscreetPopupActionL( 
         CAknDiscreetPopupControl::EAknDiscreetPopupShow );
     iLocalPopups.AppendL( aControl );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -431,10 +417,8 @@ void CAknDiscreetPopup::ShowPopupL( CAknDiscreetPopupControl* aControl )
 //
 void CAknDiscreetPopup::DeletePopup( CAknDiscreetPopupControl* aControl )
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( !aControl )
         {
-        _AKNTRACE( "CAknDiscreetPopup::DeletePopup, return (aControl is NULL)" );
         return;
         }
 
@@ -442,7 +426,6 @@ void CAknDiscreetPopup::DeletePopup( CAknDiscreetPopupControl* aControl )
     iLocalPopups.Remove( index );
     delete aControl;
     aControl = NULL;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -489,7 +472,6 @@ TBool CAknDiscreetPopup::PopupIdInUse( const TInt& aPopupId )
 void CAknDiscreetPopup::HandleControlEventL( 
         CCoeControl* aControl, TCoeEvent aEventType )
     {
-    _AKNTRACE( "CAknDiscreetPopup::HandleControlEventL, aEventType : %d", aEventType );
     if ( aEventType == EEventRequestExit || aEventType == EEventRequestCancel )
         {
         DeletePopup( static_cast<CAknDiscreetPopupControl*>( aControl ) );

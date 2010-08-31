@@ -16,6 +16,7 @@
 */
 
 
+
 #include <AknUtils.h>
 #include <AknsUtils.h>
 #include <AknIconUtils.h>
@@ -23,9 +24,9 @@
 
 #include "AknSmileyImage.h"
 
-const TInt KFrameMaxInterval = 3*1000*1000; // 3s
+const TInt KFrameMaxInterval = 3*1000*1000; // 30s
 const TInt KFrameMonitorStep = 5;           // monitor once per 5 call, for increase performence 
-const TInt KMaxSameFrameRepeat = 6;         // 5 * 6, animation whose frame keep the same for 6 times call back, it will be stopped
+const TInt KMaxSameFrameRepeat = 6;         // 5 * 6, animation frame keep same for 6 times will be stopped
 
 #define DELZ(ptr) {delete (ptr); (ptr)=NULL;}
 
@@ -63,7 +64,7 @@ void BmpUtils::CopyBitmpL(CFbsBitmap* aDesBmp, const CFbsBitmap* aSrcBmp)
 
 TBool BmpUtils::BitmpIsSame(const CFbsBitmap* aDesBmp, const CFbsBitmap* aSrcBmp)
     {
-    if(!aDesBmp || !aSrcBmp) return EFalse;
+    if(!aDesBmp || !aSrcBmp) return FALSE;
     
     if(aDesBmp->SizeInPixels() == aSrcBmp->SizeInPixels())
         {
@@ -74,13 +75,13 @@ TBool BmpUtils::BitmpIsSame(const CFbsBitmap* aDesBmp, const CFbsBitmap* aSrcBmp
         aDesBmp->BeginDataAccess();
         aSrcBmp->BeginDataAccess();
         TInt result = Mem::Compare((TUint8*)aDesBmp->DataAddress(), length, (TUint8*)aSrcBmp->DataAddress(), length);
-        aSrcBmp->EndDataAccess(ETrue);
-        aDesBmp->EndDataAccess(ETrue);
+        aSrcBmp->EndDataAccess(TRUE);
+        aDesBmp->EndDataAccess(TRUE);
         
-        if(result == KErrNone) return ETrue;
+        if(result == KErrNone) return TRUE;
         }
     
-    return EFalse;
+    return FALSE;
     }
 
 
@@ -120,11 +121,11 @@ void CSmileyImage::ConstructL()
     }
 
 CSmileyImage::CSmileyImage(const TAknsItemID& aSkinImage, TInt aPkgImage, TBool aIsAnimation, MSmileyImageObserver* aObserver) : 
-iImageMifPkgItemId(aPkgImage), 
+iImagePkgItem(aPkgImage), 
 iIsAnimation(aIsAnimation), 
 iImageObserver(aObserver)
     {
-    iImageSkinItemId.Set(aSkinImage);
+    iImageSkinItem.Set(aSkinImage);
     }
 
 CSmileyImage::~CSmileyImage()
@@ -136,16 +137,7 @@ CSmileyImage::~CSmileyImage()
 
 void CSmileyImage::LoadL(TInt aRepeat, TInt aDelay)
     {
-    iRepeatCount = aRepeat;
-    
-    if(aDelay > 0)
-        {
-        StartLoadAsynchronousL(aDelay);
-        }
-    else
-        {
-        DoLoadL();
-        }
+    StartLoadAsynchronousL(aRepeat, aDelay);
     }
 
 void CSmileyImage::Release()
@@ -187,11 +179,67 @@ const CFbsBitmap* CSmileyImage::Mask() const
 
 void CSmileyImage::BitmapChanged(CFbsBitmap* aBitmap)
     {
-    iReadyToDraw = ETrue; // animation is ready
+    iReadyToDraw = TRUE; // animation is ready
 
     if(iImageObserver) iImageObserver->BitmapChanged(this, aBitmap);
 
     TRAP_IGNORE(MonitorAnimationEndedL());
+    }
+
+void CSmileyImage::DoLoadL()
+    {
+    StopAnyAsynchronousTask();
+    
+    if(iFrame) return;
+
+    TFileName smileyMifName;
+    SmileyUtils::GetCustomizableResPath(smileyMifName, KSmileyMif);
+    if(iImageSkinItem.iMinor > 0)
+        {
+        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+        TRAPD(err, AknsUtils::CreateColorIconL(skin, iImageSkinItem, 
+                                               KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19, 
+                                               iFrame, iFrameMask, 
+                                               smileyMifName, iImagePkgItem, iImagePkgItem, 
+                                               AKN_LAF_COLOR(215)));
+        }
+    else
+        {
+        TRAPD(err, AknIconUtils::CreateIconL(iFrame, iFrameMask, smileyMifName, iImagePkgItem, iImagePkgItem));
+        }
+    
+    if(iIsAnimation) // the first frame of animation svg is blank without correct content
+        {
+        iReadyToDraw = FALSE;
+        AknIconUtils::SetObserver(iFrame, this);
+        
+        StopAnimationAsynchronousL(KFrameMaxInterval);
+        }
+    else // the first frame of static svg has correct content
+        {
+        iReadyToDraw = TRUE;
+        if(iImageObserver) iImageObserver->BitmapChanged(this, iFrame);
+        }
+
+    AknIconUtils::SetSize(iFrame, iSize);
+    }
+
+void CSmileyImage::DoRelease()
+    {
+    StopAnyAsynchronousTask();
+    
+    if(!iFrame) return;
+
+    DELZ(iFrame);
+    DELZ(iFrameMask);
+    iFrameSnap->Reset();
+    
+    iReadyToDraw = FALSE;
+    }
+
+void CSmileyImage::StopAnyAsynchronousTask()
+    {
+    iAsynchronousTaskTimer->Cancel();
     }
 
 void CSmileyImage::MonitorAnimationEndedL()
@@ -203,16 +251,13 @@ void CSmileyImage::MonitorAnimationEndedL()
     iFrameCounter++;
     if(iFrameCounter % KFrameMonitorStep) return;
     
-    // for not call back any more
-    StopAnimationAsynchronousL(KFrameMaxInterval);
-    
     // monitor the end of animation clip, replay or stop animation if ended
     if(BmpUtils::BitmpIsSame(iFrameSnap, iFrame))
         {
         iSameFrameCounter++;
         if(iSameFrameCounter > KMaxSameFrameRepeat)
             {
-            StopAnimationAsynchronousL(); // can not stop animation synchronously
+            StopAnimationAsynchronousL();
             }
         }
     else
@@ -222,58 +267,7 @@ void CSmileyImage::MonitorAnimationEndedL()
         }
     }
 
-void CSmileyImage::DoLoadL()
-    {
-    StopAsynchronousTaskTimer();
-
-    if(iFrame) return;
-
-    TFileName smileyMifName;
-    SmileyUtils::GetCustomizableResPath(smileyMifName, KSmileyMif);
-
-    if(iImageSkinItemId.iMinor > 0)
-        {
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        TRAP_IGNORE(AknsUtils::CreateColorIconL(skin, iImageSkinItemId, 
-                                                KAknsIIDQsnTextColors,EAknsCIQsnTextColorsCG19, 
-                                                iFrame,iFrameMask, 
-                                                smileyMifName, iImageMifPkgItemId,iImageMifPkgItemId, 
-                                                AKN_LAF_COLOR(215)));
-        }
-    else
-        {
-        TRAP_IGNORE(AknIconUtils::CreateIconL(iFrame,iFrameMask,smileyMifName,iImageMifPkgItemId,iImageMifPkgItemId));
-        }
-    
-    if(iIsAnimation) // the first frame of animation svg is blank without correct content
-        {
-        iReadyToDraw = EFalse;
-        AknIconUtils::SetObserver(iFrame, this);
-        StopAnimationAsynchronousL(KFrameMaxInterval); // monitor for no callback
-        }
-    else // the first frame of static svg has correct content
-        {
-        iReadyToDraw = ETrue;
-        if(iImageObserver) iImageObserver->BitmapChanged(this, iFrame);
-        }
-
-    AknIconUtils::SetSize(iFrame, iSize);
-    }
-
-void CSmileyImage::DoRelease()
-    {
-    StopAsynchronousTaskTimer();
-
-    if(!iFrame) return;
-
-    DELZ(iFrame);
-    DELZ(iFrameMask);
-    iFrameSnap->Reset();
-    
-    iReadyToDraw = EFalse;
-    }
-
-void CSmileyImage::DoHandleEndedL()
+void CSmileyImage::HandleAnimationEndedL()
     {
     DoRelease();
     
@@ -284,36 +278,33 @@ void CSmileyImage::DoHandleEndedL()
         }
     }
 
-void CSmileyImage::StopAsynchronousTaskTimer()
+void CSmileyImage::StartLoadAsynchronousL(TInt aRepeat, TInt aDelayMicroSeconds)
     {
-    iAsynchronousTaskTimer->Cancel();
-    }
+    iRepeatCount = aRepeat;
 
-void CSmileyImage::StartLoadAsynchronousL(TInt aDelayMicroSeconds)
-    {
-    StopAsynchronousTaskTimer();
+    iAsynchronousTaskTimer->Cancel();
     iAsynchronousTaskTimer->Start(aDelayMicroSeconds, 1, TCallBack(StartLoadAsynchronousCallBackL,this));
     }
 
 TInt CSmileyImage::StartLoadAsynchronousCallBackL(TAny* aPtr)
     {
     CSmileyImage* self = (CSmileyImage*)aPtr;
-    self->StopAsynchronousTaskTimer();
+    self->StopAnyAsynchronousTask();
     self->DoLoadL();
     return KErrNone;
     }
 
 void CSmileyImage::StopAnimationAsynchronousL(TInt aDelayMicroSeconds)
     {
-    StopAsynchronousTaskTimer();
+    iAsynchronousTaskTimer->Cancel();
     iAsynchronousTaskTimer->Start(aDelayMicroSeconds, 1, TCallBack(StopAnimationAsynchronousCallBackL,this));
     }
 
 TInt CSmileyImage::StopAnimationAsynchronousCallBackL(TAny* aPtr)
     {
     CSmileyImage* self = (CSmileyImage*)aPtr;
-    self->StopAsynchronousTaskTimer();
-    self->DoHandleEndedL();
+    self->StopAnyAsynchronousTask();
+    self->HandleAnimationEndedL();
     return KErrNone;
     }
 

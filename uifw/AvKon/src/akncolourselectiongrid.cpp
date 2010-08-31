@@ -192,196 +192,7 @@ void DrawGrayLines(
 #endif
     aGc.DrawRect( gridRect );
 };
-
-// CLASS DECLARATION
-
-/**
-* CMainTextArray
-*
-* 
-*
-*  @lib avkon
-*  @since 2.0
-*/
-
-NONSHARABLE_CLASS(CMainTextArray) : public MDesCArray, public CBase
-    {
-    public:
-
-        /**
-        * C++ default constructor.
-        */
-        CMainTextArray(TBool &aNoneExist);
-        /**
-        * Destructor.
-        */
-        ~CMainTextArray();
-    
-        /**
-        * MdcaCount
-        * @since 2.0
-        * @return 
-        */
-        virtual TInt MdcaCount() const;
-        
-        /**
-        * MdcaPoint
-        * @since 2.0
-        * @param aIndex 
-        * @return 
-        */
-        virtual TPtrC MdcaPoint(TInt aIndex) const;
-        
-        /**
-        * ConstructL
-        * @since 2.0
-        * @param aColours Array of colours to be in grid
-        */
-        void ConstructL(CArrayFixFlat<TRgb>* aColours);
-        
-        /**
-        * ReSizeIcons
-        * @since 5.2
-        * @param aWidth the width of icon
-        * @param aheight the height of icon
-        */
-        void ReSizeIcons( TInt aWidth, TInt aHeight );
-
-    public: // Data
-        CGulIcon* iIcon[16];
-
-    private:    // Data
-        mutable TInt iIndex;
-        TInt iColourNmbr;
-        TBool iNoneExist;
-        CArrayFixFlat<TRgb>* iColours;
-        CFbsBitmap* iBitmap[16];
-        CFbsBitmapDevice* iBmpDevice[16];
-        HBufC *iString;
-
-    };
-
-// ---------------------------------------------------------
-// CMainTextArray::CMainTextArray()
-//
-// ---------------------------------------------------------
-//
-CMainTextArray::CMainTextArray(TBool &aNoneExist)
-        : iNoneExist(aNoneExist)
-    {
-    }
-// ---------------------------------------------------------
-// CMainTextArray::~CMainTextArray()
-//
-// ---------------------------------------------------------
-//
-CMainTextArray::~CMainTextArray()
-    {
-    for (TInt i = 0;i<iColourNmbr;i++)
-        {
-        delete iBitmap[i];
-        delete iBmpDevice[i];
-        }
-    delete iString;
-    }
-
-// ---------------------------------------------------------
-// CMainTextArray::ConstructL()
-// 
-// ---------------------------------------------------------
-//
-void CMainTextArray::ConstructL(CArrayFixFlat<TRgb>* aColours)
-    {
-
-    this->iColours = aColours;
-    iColourNmbr = aColours->Count();
-    if (iColourNmbr > 16)
-        {
-        iColourNmbr = 16;
-        }
-    TAknLayoutRect r;
-    TAknLayoutRect rectPane;
-    rectPane.LayoutRect( TRect( 0, 0, 0, 0 ), 
-                       AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane(
-                                                                                     iNoneExist, 
-                                                                                     0, 
-                                                                                     0).LayoutLine());
-    r.LayoutRect( rectPane.Rect(), 
-                  AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane_g1().LayoutLine());
-    TSize bmpsize( r.Rect().Width(), r.Rect().Height() );
-    for ( TInt i = 0; i < iColourNmbr; i++ )
-         {
-         iBitmap[i] = new (ELeave) CFbsBitmap();
-         iBitmap[i]->Create(bmpsize,EColor4K);
-         iIcon[i] = CGulIcon::NewL(iBitmap[i]);
-         iIcon[i]->SetBitmapsOwnedExternally(ETrue);
-         iBmpDevice[i] = CFbsBitmapDevice::NewL(iBitmap[i]);
-         iBmpDevice[i]->Resize(iBitmap[i]->SizeInPixels());
-         }
-    iString = HBufC::NewL(10);
-    }
-
-// ---------------------------------------------------------
-// CMainTextArray::ReSizeIcons()
-//
-// ---------------------------------------------------------
-//
-void CMainTextArray::ReSizeIcons( TInt aWidth, TInt aHeight )
-	{
-	TSize bmpsize( aWidth, aHeight );
-	for ( TInt i = 0; i < iColourNmbr; i++ )
-		 {
-	     if ( iBitmap[i] )
-	    	 {
-	         iBitmap[i]->Resize( bmpsize );
-	    	 }
-	     if ( iBmpDevice[i] )
-	    	 {
-	         iBmpDevice[i]->Resize( iBitmap[i]->SizeInPixels() ); 	
-	    	 }
-		 }
-	}
-
-// ---------------------------------------------------------
-// CMainTextArray::MdcaCount()
-//
-// ---------------------------------------------------------
-//
-TInt CMainTextArray::MdcaCount() const
-    {
-    return(iColourNmbr);
-    }
-
-// ---------------------------------------------------------
-// CMainTextArray::MdcaPoint()
-//
-// ---------------------------------------------------------
-//
-TPtrC CMainTextArray::MdcaPoint(TInt aIndex) const
-    {
-    TRAP_IGNORE(
-        {
-
-        CFbsBitGc* fbsBitGc = CFbsBitGc::NewL();
-        CleanupStack::PushL( fbsBitGc );
-        
-        fbsBitGc->Activate(iBmpDevice[aIndex]);
-
-        fbsBitGc->SetBrushStyle(CGraphicsContext::ESolidBrush);
-        if (aIndex < iColourNmbr)
-            {
-            fbsBitGc->SetBrushColor(iColours->At(aIndex));
-            }
-        fbsBitGc->Clear();
-
-        CleanupStack::PopAndDestroy(); // fbsBitGc
-        });
-    //fix for TSW error AJUA-7MTAXE
-    iString->Des().Num(aIndex); 
-    
-    return *iString;
-    }
-
+ 
 // CLASS DECLARATION
 
 /**
@@ -583,18 +394,6 @@ void CColorGrid::SizeChanged()
 
     TInt cellWidth = colourCellSize.Rect().Width() - 1;
     TInt cellHeight = colourCellSize.Rect().Height() - 1;
-    
-    TAknLayoutRect r;
-    TAknLayoutRect rectPane;
-    rectPane.LayoutRect( gridRect, 
-                       AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane( 
-                    		                                                          iNoneExist, 
-                    		                                                          0, 
-                    		                                                          0 ).LayoutLine() );
-    r.LayoutRect( rectPane.Rect(), 
-    		      AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane_g1().LayoutLine() );
-    MDesCArray* iconArray = Model()->ItemTextArray();
-    static_cast<CMainTextArray*>(iconArray)->ReSizeIcons( r.Rect().Width(), r.Rect().Height() );
     
     // Define the overall size of the cell
     AknListBoxLayouts::SetupGridPos(*this, 0, 0, 0, 0, cellWidth, cellHeight);
@@ -938,11 +737,11 @@ void CNoneField::ConstructFromResourceL(TResourceReader& aReader)
             {
             // on down event list basic feedback + audio
             fbSpec->AddFeedback( ETouchEventStylusDown,
-                                 ETouchFeedbackList );
+                                 ETouchFeedbackBasicItem );
             
             // on up event list basic feedback, no audio
             fbSpec->AddFeedback( ETouchEventStylusUp,
-                                 ETouchFeedbackList,
+                                 ETouchFeedbackBasicItem,
                                  ETouchFeedbackVibra );
 
             feedback->SetFeedbackArea( this,
@@ -1539,7 +1338,168 @@ void CAknColorSelectionGridControl::HandlePointerEventL(
     }
     
 
+// CLASS DECLARATION
 
+/**
+* CMainTextArray
+*
+* 
+*
+*  @lib avkon
+*  @since 2.0
+*/
+
+NONSHARABLE_CLASS(CMainTextArray) : public MDesCArray, public CBase
+    {
+    public:
+
+        /**
+        * C++ default constructor.
+        */
+        CMainTextArray(TBool &aNoneExist);
+        /**
+        * Destructor.
+        */
+        ~CMainTextArray();
+    
+        /**
+        * MdcaCount
+        * @since 2.0
+        * @return 
+        */
+        virtual TInt MdcaCount() const;
+        
+        /**
+        * MdcaPoint
+        * @since 2.0
+        * @param aIndex 
+        * @return 
+        */
+        virtual TPtrC MdcaPoint(TInt aIndex) const;
+        
+        /**
+        * ConstructL
+        * @since 2.0
+        * @param aColours Array of colours to be in grid
+        */
+        void ConstructL(CArrayFixFlat<TRgb>* aColours);
+
+    public: // Data
+        CGulIcon* iIcon[16];
+
+    private:    // Data
+        mutable TInt iIndex;
+        TInt iColourNmbr;
+        TBool iNoneExist;
+        CArrayFixFlat<TRgb>* iColours;
+        CFbsBitmap* iBitmap[16];
+        CFbsBitmapDevice* iBmpDevice[16];
+        HBufC *iString;
+
+    };
+
+// ---------------------------------------------------------
+// CMainTextArray::CMainTextArray()
+//
+// ---------------------------------------------------------
+//
+CMainTextArray::CMainTextArray(TBool &aNoneExist)
+        : iNoneExist(aNoneExist)
+    {
+    }
+// ---------------------------------------------------------
+// CMainTextArray::~CMainTextArray()
+//
+// ---------------------------------------------------------
+//
+CMainTextArray::~CMainTextArray()
+    {
+    for (TInt i = 0;i<iColourNmbr;i++)
+        {
+        delete iBitmap[i];
+        delete iBmpDevice[i];
+        }
+    delete iString;
+    }
+
+// ---------------------------------------------------------
+// CMainTextArray::ConstructL()
+// 
+// ---------------------------------------------------------
+//
+void CMainTextArray::ConstructL(CArrayFixFlat<TRgb>* aColours)
+    {
+
+    this->iColours = aColours;
+    iColourNmbr = aColours->Count();
+    if (iColourNmbr > 16)
+        {
+        iColourNmbr = 16;
+        }
+
+    TAknLayoutRect r;
+    TAknLayoutRect r_pane;
+    TInt w, h;
+        r_pane.LayoutRect(TRect(0,0,0,0), AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane(iNoneExist, 0, 0).LayoutLine());
+        r.LayoutRect(r_pane.Rect(), AknLayoutScalable_Avkon::cell_large_graphic_colour_popup_pane_g1().LayoutLine());
+        w = r.Rect().Width();
+        h = r.Rect().Height();
+    TSize bmpsize(w,h);
+
+    for (TInt i = 0;i<iColourNmbr;i++)
+        {
+        iBitmap[i] = new (ELeave) CFbsBitmap();
+        iBitmap[i]->Create(bmpsize,EColor4K);
+        iIcon[i] = CGulIcon::NewL(iBitmap[i]);
+        iIcon[i]->SetBitmapsOwnedExternally(ETrue);
+        iBmpDevice[i] = CFbsBitmapDevice::NewL(iBitmap[i]);
+        iBmpDevice[i]->Resize(iBitmap[i]->SizeInPixels());
+        }
+
+    iString = HBufC::NewL(10);
+    }
+
+
+// ---------------------------------------------------------
+// CMainTextArray::MdcaCount()
+//
+// ---------------------------------------------------------
+//
+TInt CMainTextArray::MdcaCount() const
+    {
+    return(iColourNmbr);
+    }
+
+// ---------------------------------------------------------
+// CMainTextArray::MdcaPoint()
+//
+// ---------------------------------------------------------
+//
+TPtrC CMainTextArray::MdcaPoint(TInt aIndex) const
+    {
+    TRAP_IGNORE(
+        {
+
+        CFbsBitGc* fbsBitGc = CFbsBitGc::NewL();
+        CleanupStack::PushL( fbsBitGc );
+
+        fbsBitGc->Activate(iBmpDevice[aIndex]);
+
+        fbsBitGc->SetBrushStyle(CGraphicsContext::ESolidBrush);
+        if (aIndex < iColourNmbr)
+            {
+            fbsBitGc->SetBrushColor(iColours->At(aIndex));
+            }
+
+        fbsBitGc->Clear();
+
+        CleanupStack::PopAndDestroy(); // fbsBitGc
+        });
+    //fix for TSW error AJUA-7MTAXE
+    iString->Des().Num(aIndex); 
+    
+    return *iString;
+    }
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -1723,27 +1683,22 @@ TBool CAknColourSelectionGrid::OkToExitL(TInt aButton)
     // close the color grid: 
     // if the NGA effects are off, use “pop-up”.
     // If NGA effects are on, use “pop-up closed”.
-    if( AknLayoutUtils::PenEnabled() )
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
         {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
+        if( AknLayoutUtils::PenEnabled() )
             {
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                feedback->InstantFeedback( this,
-                                            ETouchFeedbackIncreasingPopUp,
-                                            ETouchFeedbackVibra,
-                                            TPointerEvent() );
+                feedback->InstantFeedback( ETouchFeedbackPopupClose );
                 }
             else
                 {
-                feedback->InstantFeedback( this,
-                                            ETouchFeedbackPopUp,
-                                            ETouchFeedbackVibra,
-                                            TPointerEvent() );
+                feedback->InstantFeedback( ETouchFeedbackPopUp );
                 }
             }
         }
+
     switch (aButton)
         {
         case EAknSoftkeyInsert:
@@ -1764,7 +1719,6 @@ TBool CAknColourSelectionGrid::OkToExitL(TInt aButton)
             }
         default:
             {
-
             break;
             }
         }
@@ -1829,24 +1783,18 @@ SEikControlInfo CAknColourSelectionGrid::CreateCustomControlL(
     // open the color grid: 
     // if the NGA effects are off, use “pop-up”.
     // If NGA effects are on, use “increasing long touch”.
-    if( AknLayoutUtils::PenEnabled() )
-        {
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
+        {
+        if( AknLayoutUtils::PenEnabled() )
             {
             if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
                 {
-                feedback->InstantFeedback( this,
-                                            ETouchFeedbackIncreasingPopUp,
-                                            ETouchFeedbackVibra,
-                                            TPointerEvent() );
+                feedback->InstantFeedback( ETouchFeedbackPopupOpen );
                 }
             else
                 {
-                feedback->InstantFeedback( this,
-                                            ETouchFeedbackPopUp,
-                                            ETouchFeedbackVibra,
-                                            TPointerEvent() );
+                feedback->InstantFeedback( ETouchFeedbackPopUp );
                 }
             }
         }
@@ -2029,6 +1977,13 @@ EXPORT_C void CAknColourSelectionGrid::HandlePointerEventL(
 
     if ( !Rect().Contains( aPointerEvent.iPosition ) )
         {
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+            {
+            TryExitL( EAknSoftkeyCancel );
+            _AKNTRACE_FUNC_EXIT;
+            return;
+            }
+
         if ( aPointerEvent.iType == TPointerEvent::EDrag )
             {
             iExtension->iIsDragged = ETrue;

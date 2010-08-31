@@ -257,6 +257,7 @@ void CAknAdaptiveSearch::ProcessCommandL( TInt aCommand )
 			TBuf<KAknStringBufferSize> criteria;
             if ( iSearchField->Editor().SelectionLength() > 0 )
                 {
+                iAdaptiveSearchGrid->SetSearchTextToFindPane( criteria );
                 iSearchField->SetSearchTextL( criteria );
                 iSearchField->HandleControlEventL( iSearchField, EEventStateChanged );
                 }
@@ -287,8 +288,13 @@ void CAknAdaptiveSearch::ProcessCommandL( TInt aCommand )
 					{
 					criteria = criteria.Mid( 0, (length-1) );		
 					}					
+				// Update the AS search field first to be ready for redraw
+				iAdaptiveSearchGrid->SetSearchTextToFindPane( criteria );				
                 iSearchField->SetSearchTextL( criteria );   
                 iSearchField->HandleControlEventL( iSearchField, EEventStateChanged );      
+				iSearchField->SetFocus( EFalse );		        			
+				iSearchField->MakeVisible ( EFalse );
+				iAdaptiveSearchGrid->SetSearchTextToFindPane( criteria );	
 				iSearchField->DrawNow();
 				if( iAdaptiveSearchTextObserver )
 					{
@@ -350,8 +356,12 @@ void CAknAdaptiveSearch::ProcessCommandL( TInt aCommand )
     	if ( IsIndicIndependentChar( criteria[length-1] ) )
         	criteria.Append( KLitHyphen );
         	
+      	// Update the AS search field first to be ready for redraw
+        iAdaptiveSearchGrid->SetSearchTextToFindPane( criteria );       
         iSearchField->SetSearchTextL( criteria );   
         iSearchField->HandleControlEventL( iSearchField, EEventStateChanged );      
+    	iSearchField->SetFocus( EFalse );    	
+    	iSearchField->MakeVisible ( EFalse );
         iSearchField->DrawNow();
         if( iAdaptiveSearchTextObserver )
         	{
@@ -440,7 +450,47 @@ void CAknAdaptiveSearch::HideAdaptiveSearchGridL()
 void CAknAdaptiveSearch::InvertAdaptiveSearchGridVisibilityL( TBool aSelectAll )
 	{
 	 _AKNTRACE_FUNC_ENTER;
-	    TBool shown ( !iAdaptiveSearchGrid->IsShown() );
+	// update the search text here if showing
+	TInt textLength = 0;
+	if( !iAdaptiveSearchGrid->IsShown() && &(iSearchField->Editor()) )
+	    {
+	    textLength = iSearchField->Editor().TextLength();
+	    HBufC* searchText = NULL;
+	    TPtrC finalText( KNullDesC );
+	    if( textLength > 0 )
+	        {
+	        TRAP_IGNORE( searchText = iSearchField->Editor().GetTextInHBufL() );
+    	    if( searchText )
+    	        {
+    	        finalText.Set( *searchText ); // set the value
+    	           _AKNDEBUG(
+    	                    _LIT( KClassName, "CAknAdaptiveSearch" );
+    	                    _LIT( KFunctionName, "InvertAdaptiveSearchGridVisibilityL" );
+    	                    _LIT( KFormat, "[%S][%S] Final text is: %S");
+    	                    _AKNTRACE( KFormat, 
+    	                    &KClassName, &KFunctionName, &finalText );
+    	                    );
+    	        }
+	        }	    
+    	iAdaptiveSearchGrid->SetSearchTextToFindPane( finalText );    
+    	if( searchText )
+    	    {
+    	    delete searchText;
+    	    searchText = NULL;
+    	    }
+	    }
+	TBool shown( !(iAdaptiveSearchGrid->IsShown()) );
+	if ( shown )
+	    {
+	    iSearchField->SetFocus( EFalse );	 
+	    iSearchField->MakeVisible( EFalse );   
+	    }
+	else
+	    {
+	    iSearchField->Editor().RemoveFlagFromUserFlags( CEikEdwin::EAvkonDisableVKB );
+	    iSearchField->MakeVisible( ETrue );      
+	    iSearchField->SetFocus( ETrue );	         
+	    }
     iAdaptiveSearchGrid->SetVisibilityL( shown, aSelectAll );
     _AKNTRACE_FUNC_EXIT;
 	}
@@ -487,18 +537,5 @@ void CAknAdaptiveSearch::UpdateGridSkinL()
 		iAdaptiveSearchGrid->HandleResourceChange(KAknsMessageSkinChange);
 		}
 	}
-
-
-// -----------------------------------------------------------------------------
-// CCAknAdaptiveSearch::SaveFindPaneRect()
-// When the rect of find pane is set, this functions will be notified
-// to record the size of it.
-// -----------------------------------------------------------------------------
-//
-void CAknAdaptiveSearch::SaveFindPaneRect( const TRect &aRect )
-    {
-    iAdaptiveSearchGrid->SaveFindPaneRect( aRect );
-    }
-
 // End of File
 

@@ -382,7 +382,6 @@ void CAknVolumePopup::ConstructL( CCoeControl* aParent,
         {
         TInt feedbackStyle = (TAknFeedbackStyle)reader.ReadInt16();
         iFlags = reader.ReadInt16();
-        reader.Rewind( 4 ); // Rewind to the beginning, then construct slider.
         }
     else
         {
@@ -522,7 +521,7 @@ void CAknVolumePopup::ConstructL( CCoeControl* aParent,
         iExt->TryLoadDefaultSliderVolumeBitmap();
         iExt->iSliderControl->ReportMarkerDragEvent( ETrue );
         iExt->iSliderControl->SuppressDrawing( ETrue );
-        }
+       }           
     else
         {
         iExt->iSliderControl = new( ELeave )CAknSlider;
@@ -1449,7 +1448,7 @@ void CAknVolumePopup::DoSetValue(TInt aValue)
    
     if ( iVisible )
         {
-        TRAP_IGNORE(SetVisibilityL( ETrue ));
+        SetVisibilityL( ETrue );
         DrawDeferred();
         }
     }
@@ -1719,7 +1718,7 @@ TKeyResponse CAknVolumePopup::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 EXPORT_C void CAknVolumePopup::UseMutedIcon( TBool aFlag )
     {
     iExt->iUseMutedIcon = aFlag;
-    TRAP_IGNORE(CreateSpeakerL());
+    CreateSpeakerL();
     }
 
 // ---------------------------------------------------------------------------

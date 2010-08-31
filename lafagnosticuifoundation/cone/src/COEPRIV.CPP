@@ -66,8 +66,6 @@ void CCoeRedrawer::Queue()
 
 void CCoeRedrawer::RunL()
 	{
-    User::LeaveIfError( iStatus.Int() );
-
 	TWsRedrawEvent redraw;
 	iWsSession.GetRedraw(redraw);
 	const TUint handle = redraw.Handle();
@@ -106,21 +104,3 @@ void CCoeRedrawer::DoCancel()
 	{
 	iWsSession.RedrawReadyCancel();
 	}
-
-/**
-  Log the error (debug builds) before panicking.
-  The panic code is consistent with that in CCoeEnv::RunL().
- */
-TInt CCoeRedrawer::RunError( TInt aError )
-    {
-#ifdef _DEBUG
-    RDebug::Print( _L("CCoeRedrawer's iStatus = %d"), iStatus.Int() );
-#endif
-
-    Panic( ECoePanicWservBlindCommandFailed );
-    aError = KErrNone;
-
-    return aError;
-    }
-
-

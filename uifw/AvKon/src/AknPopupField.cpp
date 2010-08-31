@@ -208,7 +208,10 @@ void CAknPopupField::ConstructSelectionListL()
 
 void CAknPopupField::SetUpScrollBarL()
     {
-    __ASSERT_DEBUG( iCba, Panic( EAknPanicPopupFieldCBADoesntExist ) );
+    if ( !iExtension || !iExtension->iSingleClickEnabled )
+        {
+        __ASSERT_DEBUG( iCba, Panic( EAknPanicPopupFieldCBADoesntExist ) );
+        }
     __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
     iSelectionList->SetMopParent(this); // to get remote scb
     iSelectionList->CreateScrollBarFrameL(ETrue, ETrue);
@@ -219,15 +222,15 @@ void CAknPopupField::SetUpScrollBarL()
 void CAknPopupField::SetScrollBarSelectionL()
     {
     TInt selection = iValue->CurrentValueIndex();
-    //iOldItemIndex should be saved as original value.
-    if ( iExtension )
-        {
-        iExtension->iOldItemIndex = selection;
-        }
     if (IsInvalid()) selection = 0;
     __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
     iSelectionList->SetCurrentItemIndex(selection);
     iSelectionList->View()->SelectItemL(selection);
+
+    if ( iExtension )
+        {
+        iExtension->iOldItemIndex = iSelectionList->CurrentItemIndex();
+        }
     }
 
 
@@ -440,13 +443,7 @@ void CAknPopupField::DoSizeChangedL()
     case EAknPopupFieldSelectionListMode:
             {
             __ASSERT_DEBUG(iSelectionList != NULL, Panic(EAknPanicPopupFieldSelectionListDoesntExist));
-            // When Form loses focus, If its child control listbox's size or position is not changed, 
-            // do not invoke "iSelectionList->SetRect(rect);". 
-            if ((iSelectionList->Position() != rect.iTl) || (iSelectionList->Size() != rect.Size()))
-                {
-                iSelectionList->SetRect(rect);
-                SetScrollBarSelectionL();
-                }
+            iSelectionList->SetRect(rect);
             AknsUtils::RegisterControlPosition(this);
             AknsUtils::RegisterControlPosition(iSelectionList);
             TRect listBoxRect = iExtension->iFormFieldRect; //iSelectionList->Rect();
@@ -656,30 +653,15 @@ EXPORT_C void CAknPopupField::HandleListBoxEventL(CEikListBox* aListBox, TListBo
             case MEikListBoxObserver::EEventItemSingleClicked:
                 {
                 CListBoxView* view = iSelectionList->View();
-                TInt selection = view->CurrentItemIndex(); 
-                if ( selection != iExtension->iOldItemIndex )
+                
+                if ( view->CurrentItemIndex() != iExtension->iOldItemIndex )
                     {
                     view->DeselectItem( iExtension->iOldItemIndex );
-                    iExtension->iOldItemIndex = selection;
-                    view->SelectItemL( selection );
-
-                    TInt decoratedIndex;
-                    TBool decorated = iDecorator.DecoratedIndex( decoratedIndex );
-                    if ( decorated && ( selection  == decoratedIndex ) )
-                        {
-                        TBool accepted = iValue->CreateEditorL();
-                        if ( !accepted )
-                            {
-                            break; 
-                            }
-                        }
-                    else
-                        {
-                        iValue->SetCurrentValueIndex( selection );
-                        }
+                    iExtension->iOldItemIndex = view->CurrentItemIndex();
+                    view->SelectItemL( iExtension->iOldItemIndex );
                     }
                 }
-            // fall through
+
             case MEikListBoxObserver::EEventItemDoubleClicked:
             case MEikListBoxObserver::EEventEnterKeyPressed:
                 {
@@ -845,7 +827,10 @@ TKeyResponse CAknPopupField::HandleHorizontalKeyEventL(TUint aKeyEventCode)
 
 void CAknPopupField::CreatePopoutL()
     {
-    CreateCbaL();
+    if ( !iExtension || !iExtension->iSingleClickEnabled )
+        {
+        CreateCbaL();
+        }
     ConstructSelectionListL();
     ChangeMode(EAknPopupFieldSelectionListMode);
     SetUpScrollBarL();
@@ -932,7 +917,7 @@ EXPORT_C void CAknPopupField::HandleResourceChange(TInt aType)
                 && iExtension && iExtension->iSingleClickEnabled )
             {
             // Edit mode to view while popup is open -> first cancel popup
-            TRAP_IGNORE(AttemptExitL( EFalse ));
+            AttemptExitL( EFalse );
             }
         else
             {
@@ -1175,14 +1160,6 @@ EXPORT_C void CAknPopupField::SetInvalidTextL(const TDesC& aInvalidText)
         }
     }
 
-EXPORT_C void CAknPopupField::CloseSelectionListL()
-    {
-    if (  iSelectionMode == EAknPopupFieldSelectionListMode 
-          && iSelectionList )
-        {
-        AttemptExitL( EFalse );
-        }
-    }
 
 void CAknPopupField::ConfigureDecorator()
     {
@@ -1221,27 +1198,23 @@ void CAknPopupField::AttemptExitL(TBool aAccept)
 
     if (aAccept)
         {
-        if ( iSelectionList->IsHighlightEnabled() )
+        // get current selection
+        const TInt selection=iSelectionList->CurrentItemIndex();
+        TInt decoratedIndex;
+        TBool decorated = iDecorator.DecoratedIndex(decoratedIndex);
+        if (decorated && (selection == decoratedIndex))
             {
-            // get current selection
-            const TInt selection=iSelectionList->CurrentItemIndex();
-            TInt decoratedIndex;
-            TBool decorated = iDecorator.DecoratedIndex(decoratedIndex);
-            if (decorated && (selection == decoratedIndex))
+            TBool accepted = iValue->CreateEditorL();
+            if (!accepted)
                 {
-                TBool accepted = iValue->CreateEditorL();
-                if (!accepted)
-                    {
-                    // dialog was cancelled, so popup list must remain
-                    finished = EFalse;
-                    }
-                }
-            else
-                {
-                iValue->SetCurrentValueIndex(selection);
+                // dialog was cancelled, so popup list must remain
+                finished = EFalse;
                 }
             }
+        else
+            iValue->SetCurrentValueIndex(selection);
         }
+
     if (finished)
         {
         delete iCba;

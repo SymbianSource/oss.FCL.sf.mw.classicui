@@ -25,7 +25,7 @@
 #define __CMEDIASHAREDDOCUMENT_H__
 
 // INCLUDES
-#include <AknDoc.h>
+#include <akndoc.h>
 #include <eikapp.h>
 
 // CLASS DEFINITION

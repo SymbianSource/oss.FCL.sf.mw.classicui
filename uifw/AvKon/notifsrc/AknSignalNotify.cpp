@@ -215,17 +215,4 @@ void CAknSignalNotify::SetStateL( TInt aState )
     StartOrUpdateL( pckg, resp );
     }
 
-// ---------------------------------------------------------------------------
-// CAknSignalNotify::SetUmaStateL
-// Sets an UMA icon to the signal pane.
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CAknSignalNotify::SetUmaStateL(TInt aUmaState)
-    {
-    if (( aUmaState >= EAknSignalUmaIndicatorOff ) && 
-        ( aUmaState <= EAknSignalUmaIndicatorMultipdp ))
-        {
-        SetStateL( aUmaState );
-        }
-    }
 // End of File

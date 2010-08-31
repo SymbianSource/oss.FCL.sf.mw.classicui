@@ -276,12 +276,11 @@ void CAknInputFrame::SizeChanged()
     TRect rect( Rect() );         // rect of the whole shebang
     TAknLayoutRect r;            // common temporary layout rect
 
-    TBool apac( AknLayoutUtils::Variant() == EApacVariant && ( iFlags & EShowIndicators ) );
-    
-    TAknWindowComponentLayout outline = AknLayoutScalable_Avkon::input_find_pane();
-    TAknWindowLineLayout iconPos = AknLayoutScalable_Avkon::find_popup_pane_g1().LayoutLine();
-    TAknTextComponentLayout   editor = AknLayoutScalable_Avkon::input_popup_find_pane_t1( apac ? 2 : 0 );
+    TAknWindowComponentLayout outline(0);
+    TAknWindowLineLayout      iconPos(0);
+    TAknTextComponentLayout   editor(0);
 
+    TBool apac( AknLayoutUtils::Variant() == EApacVariant && ( iFlags & EShowIndicators ) );
 
     if ( iFlags & EPopupLayout ) // popup find box 
         {
@@ -353,18 +352,11 @@ void CAknInputFrame::SizeChanged()
         // we need to provide own context if one does not exist
         // because old style drawing did kind of work even
         // without calling SetInputContext( ... )
-        TRAP_IGNORE
-            ( 
-            iInputContext = CAknsFrameBackgroundControlContext::NewL(
-                    KAknsIIDQsnFrInput, TRect(0,0,0,0), TRect(0,0,0,0), EFalse);
-        
-            if (iInputContext)
-                {
-                iFlags = iFlags | EOwnsInputContext;
-                // also need to provide skin for the editor in this case
-                static_cast<CEikEdwin*>( iField )->SetSkinBackgroundControlContextL( iInputContext );  
-                }
-            );
+        iInputContext = CAknsFrameBackgroundControlContext::NewL(
+            KAknsIIDQsnFrInput, TRect(0,0,0,0), TRect(0,0,0,0), EFalse );
+        iFlags = iFlags | EOwnsInputContext;
+        // also need to provide skin for the editor in this case
+        static_cast<CEikEdwin*>( iField )->SetSkinBackgroundControlContextL( iInputContext );
         }
 
     if ( iInputContext )
@@ -516,7 +508,7 @@ void CAknInputFrame::HandleResourceChange( TInt aType )
         {
         case KAknsMessageSkinChange:
         case KEikDynamicLayoutVariantSwitch:
-            TRAP_IGNORE(CreateIconL());
+            CreateIconL();
             break;
             
         default:

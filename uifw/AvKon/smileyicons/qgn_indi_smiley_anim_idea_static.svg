@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape6grad" r="8.363">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<radialGradient cx="3.975" cy="4.574" gradientUnits="userSpaceOnUse" id="shape21grad" r="3.688">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-3.975,-5.759) scale(1.057)">
+<path d="M4.950,11.52L4.81,11.52L3.231,11.52L3.09,11.52L2.965,11.457L2.364,11.16L2.03,10.997L2.03,10.624L2.03,8.525C1.83,8.245,1.691,7.899,1.551,7.561C1.433,7.273,1.287,6.915,1.162,6.79C-0.387,5.242,-0.387,2.719,1.162,1.166C1.913,0.415,2.912,0,3.975,0C5.039,0,6.037,0.415,6.789,1.167C8.339,2.719,8.339,5.241,6.789,6.79C6.672,6.906,6.542,7.283,6.448,7.555C6.329,7.902,6.204,8.256,6.01,8.539L6.01,10.623L6.01,10.996L5.676,11.16L5.075,11.457L4.950,11.52L4.950,11.52z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M6.362,6.367C5.862,6.867,5.791,8.369,5.145,8.49C4.745,8.565,3.336,8.566,2.937,8.497C2.277,8.382,2.098,6.877,1.588,6.367C0.269,5.047,0.269,2.91,1.588,1.591C2.908,0.272,5.046,0.272,6.363,1.591C7.683,2.909,7.684,5.047,6.362,6.367z" fill="url(#shape21grad)" fill-rule="evenodd" transform="translate(0.001,0)"/>
+<polygon fill="#B2B2B2" fill-rule="evenodd" points="5.411,8.358 5.411,8.358 2.631,8.358 2.631,10.624 3.233,10.919 4.81,10.919 5.411,10.624" transform="translate(0.001,0)"/>
+</g>
+</g>
+</svg>

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -409,10 +409,12 @@ TAknDialogMediatorObserverCommand AknSoftNoteSDObserver::MediatorCommandL( TUid,
 // might leave.
 //
 CAknSoftNotificationSubject::CAknSoftNotificationSubject(
-    CAknGlobalNoteSubject* aGlobalNoteController )
-    : iGlobalNoteController( aGlobalNoteController ), 
-      iNotificationsSaved( ETrue ), // We'll have to assume there are saved notifications on startup
-      iUniqueIdCounter( KMinimumUniqueId )
+    MAknKeyLockController* aKeyLockController,
+    CAknGlobalNoteSubject* aGlobalNoteController)
+:iKeyLockController(aKeyLockController), 
+    iGlobalNoteController(aGlobalNoteController), 
+    iNotificationsSaved(ETrue), // We'll have to assume there are saved notifications on startup
+    iUniqueIdCounter(KMinimumUniqueId)
     {
     iMessagingRepository = NULL;
     iDynamicSoftNoteManager = CAknDynamicSoftNoteEventManager::UniqueInstance();
@@ -422,6 +424,8 @@ CAknSoftNotificationSubject::CAknSoftNotificationSubject(
 // EPOC default constructor can leave.
 void CAknSoftNotificationSubject::ConstructL()
     {
+    iKeyLockController->AddObserverL(this);
+
     iSoftNoteEntryList = new(ELeave)CArrayFixFlat<TSoftNoteEntry>(KSoftNoteGranularity);
     iGlobalNoteController->SetSoftNoteObserver(this);
     // Set initial state to 'non-idle'
@@ -467,6 +471,11 @@ CAknSoftNotificationSubject::~CAknSoftNotificationSubject()
 
     delete iIdle;
     delete iCoverClient;
+    
+    if(iKeyLockController)
+        {
+        iKeyLockController->RemoveObserver(this);
+        }    
 
     if ( iMessagingRepository )
         {
@@ -477,17 +486,52 @@ CAknSoftNotificationSubject::~CAknSoftNotificationSubject()
 
 // Two-phased constructor.
 CAknSoftNotificationSubject* CAknSoftNotificationSubject::NewL(
+    MAknKeyLockController* aKeyLockController,
     CAknGlobalNoteSubject* aGlobalNoteController )
     {
     CAknSoftNotificationSubject* self = new (ELeave) CAknSoftNotificationSubject(
-        aGlobalNoteController );
+        aKeyLockController, 
+        aGlobalNoteController);
         
     CleanupStack::PushL( self );
     self->ConstructL();
-    CleanupStack::Pop( self );
+    CleanupStack::Pop( self);
     return self;
     }
-  
+
+// ---------------------------------------------------------
+// CAknSoftNotificationSubject::KeyLockStatusChange
+// ---------------------------------------------------------
+//
+void CAknSoftNotificationSubject::KeyLockStatusChange(TKeyLockStatus aStatus)
+    {
+    if ( aStatus == EKeyLockEnabled )
+        {
+        iKeysLocked = ETrue;
+        }
+    else if ( aStatus == EKeyLockDisabled )
+        {
+        iKeysLocked = EFalse;
+        }
+        
+    if ( iGroupedNote && iGroupedNote->ListBox())
+        {
+        if ( aStatus == EKeyLockEnabled )
+            {
+            iGroupedNote->ListBox()->View()->ItemDrawer()->SetFlags(
+                CListItemDrawer::EDisableHighlight);
+                
+            iGroupedNote->DrawDeferred();
+            }
+        else if ( aStatus == EKeyLockDisabled )
+            {
+            iGroupedNote->ListBox()->View()->ItemDrawer()->ClearFlags(
+                CListItemDrawer::EDisableHighlight);
+                
+            iGroupedNote->DrawDeferred();
+            }
+        }
+    }    
 
 // ---------------------------------------------------------
 // CAknSoftNotificationSubject::Release()
@@ -1607,6 +1651,11 @@ void CAknSoftNotificationSubject::ShowGroupedNotificationL()
 
     delete iGroupedNote;
     iGroupedNote = note;
+    if ( iKeysLocked && note )
+        {
+        iGroupedNote->ListBox()->View()->ItemDrawer()->SetFlags(
+            CListItemDrawer::EDisableHighlight );
+        }
     }
 
 // ---------------------------------------------------------
@@ -2273,6 +2322,11 @@ TBool CAknSoftNotificationSubject::CheckIfAlreadyExists(TAknSoftNotificationType
     return EFalse;
     }
 
+
+TBool CAknSoftNotificationSubject::AutoLockEnabled()
+    {
+    return EFalse;
+    }
 
 void CAknSoftNotificationSubject::AddNewCustomNoteL(
     RReadStream& readStream, TInt aCount, TBool aNewNote )

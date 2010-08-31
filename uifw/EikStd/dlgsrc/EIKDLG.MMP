@@ -45,6 +45,9 @@ USERINCLUDE   ../inc
 USERINCLUDE   ../../../inc
 USERINCLUDE   ../../inc
 
+/* notifier removal workaround */
+USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
+USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
 
 SOURCE          EIKDLIB.CPP
 SOURCE          EIKCAPC.CPP
@@ -73,7 +76,7 @@ LIBRARY         egul.lib
 LIBRARY         avkon.lib
 LIBRARY         form.lib
 LIBRARY         fepbase.lib
-LIBRARY         CdlEngine.lib
+LIBRARY         cdlengine.lib
 LIBRARY         gdi.lib
 LIBRARY         aknskins.lib
 LIBRARY         fbscli.lib
@@ -93,8 +96,6 @@ LIBRARY         akntransitionutils.lib
 LIBRARY         touchfeedback.lib
 
 LIBRARY         aknphysics.lib
-
-LIBRARY         aknnotify.lib
 
 DEFFILE         EIKDLG.DEF
 

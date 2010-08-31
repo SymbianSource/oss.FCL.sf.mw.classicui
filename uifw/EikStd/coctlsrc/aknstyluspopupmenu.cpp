@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -24,9 +24,7 @@
 #include <eikapp.h>
 #include <aknappui.h>
 #include <AknDef.h>
-#include <touchfeedback.h>
-#include <akntranseffect.h>
-#include <akntransitionutils.h>
+
 #include "aknstyluspopupmenu.h"
 #include "aknstyluspopupmenucontent.h"
 
@@ -46,13 +44,11 @@ enum TStylusPopUpFlags
 //
 CAknStylusPopUpMenu::CAknStylusPopUpMenu( MEikMenuObserver* aObserver, 
     const TPoint& aPoint,
-    CAknPreviewPopUpController* aPopup,
-    const TInt aFlags )
+    CAknPreviewPopUpController* aPopup ) 
     : iPosition ( aPoint ),
      iMenuObserver( aObserver ),
      iPreviewPopup( aPopup ),
-     iPositionType( EPositionTypeLeftTop ),
-     iModeFlags ( aFlags )
+     iPositionType( EPositionTypeLeftTop )
     {
     }
 
@@ -85,24 +81,6 @@ EXPORT_C CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewL(
     return self;
     }
 
-// ---------------------------------------------------------------------------
-// CAknStylusPopUpMenu::NewL
-// ---------------------------------------------------------------------------
-//
-CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewL( MEikMenuObserver* aObserver,
-        const TPoint& aPoint,
-        CAknPreviewPopUpController* aPopup,
-        const TInt aFlags )
-    {
-    CAknStylusPopUpMenu* self = new ( ELeave ) CAknStylusPopUpMenu( aObserver,
-                                                                    aPoint,
-                                                                    aPopup,
-                                                                    aFlags );
-    CleanupStack::PushL( self );
-    self->ConstructL();
-    CleanupStack::Pop( self );
-    return self;
-    }
 
 // ---------------------------------------------------------------------------
 // CAknStylusPopUpMenu::NewL
@@ -141,10 +119,6 @@ EXPORT_C CAknStylusPopUpMenu* CAknStylusPopUpMenu::NewLC(
 //
 CAknStylusPopUpMenu::~CAknStylusPopUpMenu()
     {
-    if ( iContent )
-        {
-        iContent->SetObserver(NULL);
-        }
     if ( iIsDeleted )
         {
         *iIsDeleted = ETrue;
@@ -198,56 +172,23 @@ EXPORT_C void CAknStylusPopUpMenu::SetItemDimmed( const TInt aCommandId, const T
 //
 EXPORT_C void CAknStylusPopUpMenu::ShowMenu()
     {
-    // if contoller exists, re-use it .
-    if ( !iController )
+    TRAPD( err, 
+           iController = CAknPreviewPopUpController::NewL( *iContent,
+                   CAknPreviewPopUpController::ELayoutSubMenu | 
+                   CAknPreviewPopUpController::EAutoMirror |
+                   CAknPreviewPopUpController::EDontClose ) );
+    if ( err )
         {
-        TInt err ( KErrNone );
-
-        if ( iModeFlags & EConsumeKeyEvents )
-            {
-            TRAP( err, iController = CAknPreviewPopUpController::NewL(
-                    *iContent,
-                    CAknPreviewPopUpController::ELayoutSubMenu |
-                    CAknPreviewPopUpController::EAutoMirror |
-                    CAknPreviewPopUpController::EDontClose |
-                    CAknPreviewPopUpController::EConsumeKeys ) );
-            }
-        else
-            {
-            TRAP( err, iController = CAknPreviewPopUpController::NewL(
-                    *iContent,
-                    CAknPreviewPopUpController::ELayoutSubMenu |
-                    CAknPreviewPopUpController::EAutoMirror |
-                    CAknPreviewPopUpController::EDontClose ) );
-            }
-        if ( err )
-            {
-            return;
-            }
-            
-        iController->SetPopUpShowDelay( KDefaultPopUpShowDelay );
-        iController->SetPopUpHideDelay( KDefaultPopUpHideDelay );
+        return;
         }
+            
+    iController->SetPopUpShowDelay( KDefaultPopUpShowDelay );
+    iController->SetPopUpHideDelay( KDefaultPopUpHideDelay );
+    iContent->Parent()->DrawableWindow()->SetNonFading(ETrue);
     
     TSize size(iController->Size());
     iController->ShowPopUp();
-    if ( AknLayoutUtils::PenEnabled() )
-        {
-        MTouchFeedback* feedback = MTouchFeedback::Instance();
-        if ( feedback )
-            {
-            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
-            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                {
-                feedbackType = ETouchFeedbackOptionsMenuOpened;
-                }
-            feedback->InstantFeedback(
-                    iContent,
-                    feedbackType,
-                    ETouchFeedbackVibra,
-                    TPointerEvent() );
-            }
-        }
+
     if ( size.iWidth == 0 && size.iHeight == 0 )
         {
         if ( iPositionType != KErrNotFound )
@@ -282,8 +223,7 @@ EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint )
 // CAknStylusPopUpMenu::SetPosition 
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint,
-                                                TPositionType aPosType )
+EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint, TPositionType aPosType )
     {
     TPoint adjustedPoint( aPoint );
     if ( !iController )
@@ -292,106 +232,41 @@ EXPORT_C void CAknStylusPopUpMenu::SetPosition( const TPoint& aPoint,
         iPositionType = aPosType;
         return;
         }
-
     iController->UpdateContentSize(); 
     TSize menuSize = iController->Size();
-
-	// Calculate the position to right-top corner by aPosType and
-    // popup menu size. Add also a margin between the screen borders and the
-    // popup if the popup is too close to screen border.
-    TBool layoutMirrored( AknLayoutUtils::LayoutMirrored() );
-    TRect screenRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen,
-                                       screenRect );
-    
-    // Margin is read from the popup window's layout data
-    // (left parameter used).
-    TAknWindowLineLayout popupWindowLayout(
-        AknLayoutScalable_Avkon::popup_touch_menu_window( 0 ).LayoutLine() );
-    TInt windowMargin = layoutMirrored ? popupWindowLayout.ir :
-                                         popupWindowLayout.il;
-
+	// calculate to right-top corner by aPosType and popup menu size
     switch ( aPosType )	
         {
-        case EPositionTypeRightTop:
-            {
+        case EPositionTypeRightTop: 
             break;
-            }
-
         case EPositionTypeLeftTop:
-            {
-            if ( !layoutMirrored ) 
+            if( AknLayoutUtils::LayoutMirrored() ) 
+                {
+                adjustedPoint.iX -= menuSize.iWidth;
+                }
+            else
                 {
                 adjustedPoint.iX += menuSize.iWidth;
                 }
-
-            break;
-            }
-
+            break;   
         case EPositionTypeRightBottom:
-            {
             adjustedPoint.iY -= menuSize.iHeight;
-
             break;
-            }
-
-        case EPositionTypeLeftBottom:
-            {
-            if ( !layoutMirrored ) 
+        case EPositionTypeLeftBottom: 
+            if( AknLayoutUtils::LayoutMirrored() ) 
+                {
+                adjustedPoint.iX -= menuSize.iWidth;
+                }
+            else
                 {
                 adjustedPoint.iX += menuSize.iWidth;
                 }
-
             adjustedPoint.iY -= menuSize.iHeight;
-
-            break;
-            }
-
+            break;    
         default:
-            {
-            break;
-            }
-        }
-
-    // Check if margins need to be added.
-    TInt xLeftPos( layoutMirrored ? adjustedPoint.iX :
-                                    adjustedPoint.iX - menuSize.iWidth );
-    TInt xRightPos( layoutMirrored ? adjustedPoint.iX + menuSize.iWidth :
-                                     adjustedPoint.iX );
-    TInt xPosRightMargin( screenRect.iBr.iX - windowMargin );
-    TInt xPosBottomMargin( screenRect.iBr.iY - windowMargin );
-
-    if ( xLeftPos < windowMargin )
-        {
-        // Too close to the left side of the screen.
-        adjustedPoint.iX = windowMargin + menuSize.iWidth;
-        }
-    else if ( xRightPos > xPosRightMargin )
-        {
-        // Too close to the right side of the screen.
-        if ( layoutMirrored )
-            {
-            // In mirrored layout a left-top position must be provided
-            // for the preview popup controller.
-            adjustedPoint.iX = xPosRightMargin - menuSize.iWidth;
-            }
-        else
-            {
-            adjustedPoint.iX = xPosRightMargin;
-            }
-        }
-
-    if ( adjustedPoint.iY < windowMargin )
-        {
-        // Too close to the top border of the screen.
-        adjustedPoint.iY = windowMargin;
-        }
-    else if ( adjustedPoint.iY + menuSize.iHeight > xPosBottomMargin )
-        {
-        // Too close to the bottom border of the screen.
-        adjustedPoint.iY = xPosBottomMargin - menuSize.iHeight;
-        }
+            break;  
     
+        }
     iPosition = adjustedPoint;           
     iController->SetPosition( adjustedPoint ); 
     }
@@ -437,26 +312,19 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
 
         if ( iMenuObserver )
             {
-            TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
-
             iFlags.Set( EIdleDisabled );
             TBool isDeleted = EFalse;
             iIsDeleted = &isDeleted;
 
-            CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
             iMenuObserver->ProcessCommandL( iContent->CurrentCommandId() );
-            CleanupStack::Pop();
-            
+
             if ( isDeleted )
                 {
                 return;
                 }
 
             iIsDeleted = NULL;
-            if( !isAlreadySet )
-                {
-                iFlags.Clear( EIdleDisabled );
-                }
+            iFlags.Clear( EIdleDisabled );
             }
 
         StartControllerIdleL();
@@ -467,7 +335,6 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
             {
             iPreviewPopup->HidePopUp();
             }
-
         if ( iController )
             {
             iController->HidePopUp();
@@ -479,16 +346,9 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
         {
         if ( iMenuObserver )
             {
-            TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
-
             iFlags.Set( EIdleDisabled );
             iMenuObserver->ProcessCommandL( KErrCancel );
-
-            if( !isAlreadySet )
-                {
-                iFlags.Clear( EIdleDisabled );
-                }
-
+            iFlags.Clear( EIdleDisabled );
             }
 
         StartControllerIdleL();
@@ -518,20 +378,6 @@ void CAknStylusPopUpMenu::Clear()
         iController->UpdateContentSize();
         }
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknStylusPopUpMenu::HideMenu
-// ---------------------------------------------------------------------------
-//
-void CAknStylusPopUpMenu::HideMenu()
-    {
-    if ( iController )
-        {
-        iController->HidePopUp();
-        }
-    }
-
 
 // -----------------------------------------------------------------------------
 // CAknStylusPopUpMenu::StartControllerIdleL
@@ -577,13 +423,4 @@ void CAknStylusPopUpMenu::RemoveController()
         delete iController;
         iController = NULL;
         }
-    }
-
-// -----------------------------------------------------------------------------
-// CAknStylusPopUpMenu::CleanLocalRef
-// -----------------------------------------------------------------------------
-//
-void CAknStylusPopUpMenu::CleanLocalRef( TAny* aParam )
-    {
-    static_cast<CAknStylusPopUpMenu*>( aParam )->iIsDeleted = NULL;
     }

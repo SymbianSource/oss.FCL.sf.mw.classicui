@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -74,7 +74,6 @@
 #include <aknitemactionmenu.h>
 #include <aknlongtapdetector.h>
 #include <AknPriv.hrh>
-#include <aknmarkingmodeobserver.h>
 #include "akntrace.h"
 
 // timeout for long keypress used in markable lists
@@ -86,8 +85,7 @@ const TInt KDefaultMaxSpeed = 30;
 const TInt KDefaultStepSpeed = 5;
 const TInt KEikListBoxInvalidIndex=-1;
 //interval time for disable second point event
-const TInt KTwoPointerUpEventInterval = 120;    //  120 millisecond ( = 0.12 second )
-const TInt KPointerDownAndUpThreshold = 5;
+const TInt KTwoPointerUpEventInterval = 120;    //  120 millisecond ( = 0.12 second ) 
 // -----------------------------------------------------------------------------
 // If a parent to the supplied control has its Gc set, this function will find 
 // it and return it.
@@ -379,7 +377,6 @@ NONSHARABLE_CLASS(CListBoxExt) : public CBase, public MListVisibilityObserver,
     public MCenRepNotifyHandlerCallback,
     public MAknPhysicsObserver,
     public MAknCollection,
-    public MAknMarkingCollection,
     public MAknLongTapDetectorCallBack
     {
 public:
@@ -451,51 +448,6 @@ public: // MAknPhysicsObserver
      */    
     TInt CollectionExtension( TUint aExtensionId, TAny*& a0, TAny* a1 );
 
-// From MAknMarkingCollection
-    /**
-     * Sets multiple marking state.
-     *
-     * @param aActive ETrue if multiple marking should be active.
-     */
-    void SetMultipleMarkingState( TBool aActive );
-    
-    /**
-     * Returns whether the observer accepts ending of marking mode
-     * 
-     * @return ETrue if observer accepts exiting marking mode
-     */
-    TBool ExitMarkingMode();
-    
-    /**
-     * Returns the collection marking state. The state is combination of
-     * flags defined in @c TStateFlag. 
-     *
-     * @return  Collection state.
-     */
-    TUint MarkingState() const;
-
-    /**
-     * Marks the currently selected item.
-     */
-    void MarkCurrentItemL();
-     
-    /**
-     * Marks all items in the collection.
-     */
-    void MarkAllL(); 
-
-    /**
-     * Unmarks all items in the collection.
-     */
-    void UnmarkAll();
-    
-    /*
-     * Can current item be marked
-     * 
-     * @return ETrue if item can be marked
-     */
-    TBool CurrentItemMarkable();
-    
 // From MAknLongTapDetectorCallBack
     /**
      * Long tap detector callback 
@@ -525,11 +477,6 @@ public: // MAknPhysicsObserver
      */
     void DisableSingleClick();
 
-    /**
-     * Enables single click
-     */
-    void EnableSingleClickL();    
-    
     /**
      * Disables item specific menu.
      */
@@ -565,13 +512,6 @@ public: // MAknPhysicsObserver
      * @return ETrue if list has marked items.
      */
     TBool MarkedItems() const;
-    
-    /**
-     * Ignores pointer events until next up event. 
-     * 
-     * @return ETrue if the pointer event ignore was enabled.
-     */
-    TBool IgnorePointerEventsUntilUp();
 
 public:
     void InitPhysicsL();
@@ -678,6 +618,7 @@ public:
     CAknPhysics *iPhysics;
     TPoint iDragStartPosition;
     TPoint iLastPointerPos;
+    TBool iBackgroundDrawingSuppressed;
     TBool iClickEventsAllowed;
     TBool iScrolling;
     TSize iViewSize;
@@ -741,33 +682,11 @@ public:
     * Item that opened the item action menu
     */
     TInt iLongTappedItem;
-
-    /**
-     * Marking mode on / off.
-     */
-    TBool iMarkingModeInUse;
-    
-    /**
-     * Marking mode observer.
-     */
-    MAknMarkingModeObserver* iMarkingModeObserver;
-    
     /**
      * Pointer event to be forwarded to the long tap detector upon
      * highlight timer completion.
      */
     TPointerEvent iDelayedPointerDownEvent;
-    
-    /**
-     * Ordinal position of listbox window, before stylus menu is opened.
-     */
-    TInt iOldWinPos;
-
-    /**
-     * If double click modifier is set on PointerEvent, the event may be ignored
-     * in some situation(To prevent extra dialog launched by AO).
-     */
-    TBool iDoubleClickEventIgnored;
     
 private:
     CMatchBuffer* iBuffer;
@@ -801,7 +720,7 @@ private:
     /**
      * Height of the list in pixels.
      */    
-    TInt iListBottomLimit;    
+    TInt iListBottomLimit;
     };
     
 // CEikListBoxExt    
@@ -832,8 +751,7 @@ CListBoxExt::CListBoxExt(CEikListBox& aListBox)
       iLongTapDetector( NULL ),
       iSingleClickEnabled( iAvkonAppUi->IsSingleClickCompatible() ),
       iLongTappedItem( KErrNotFound ),
-      iOldWinPos( KErrNotFound ),
-      iListBox(aListBox)
+      iListBox(aListBox)      
     {
     }
 
@@ -934,7 +852,7 @@ void CListBoxExt::ConstructL()
     iItemsInSingleLine = 1;
     iFeedback = MTouchFeedback::Instance();
 
-    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this, &iListBox );
+    iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( *this );
 
     if ( !( iListBox.iListBoxFlags & CEikListBox::EDisableItemSpecificMenu )
             && iItemActionMenu )
@@ -1011,10 +929,6 @@ TUint CListBoxExt::CollectionState() const
         {
         state |= MAknCollection::EStateMultipleSelection;
         }
-    if ( MarkedItems() )
-        {
-        state |= MAknCollection::EStateMarkedItems; 
-        }
     _AKNTRACE_FUNC_EXIT;
     return state;
     }
@@ -1031,7 +945,6 @@ void CListBoxExt::ItemActionMenuClosed()
         EnableHighlight( EFalse );
         iListBox.iView->DrawItem( iLongTappedItem );
         iLongTappedItem = KErrNotFound;
-        iOldWinPos = KErrNotFound;
         }
     }
 
@@ -1041,137 +954,9 @@ void CListBoxExt::ItemActionMenuClosed()
 // -----------------------------------------------------------------------------
 //
 TInt CListBoxExt::CollectionExtension(
-        TUint aExtensionId, TAny*& a0, TAny* /*a1*/ )
+        TUint /*aExtensionId*/, TAny*& /*a0*/, TAny* /*a1*/ )
     {
-    if ( aExtensionId == MAknMarkingCollection::TYPE )
-        {
-        a0 = static_cast<MAknMarkingCollection*>( this );
-        return KErrNone;
-        }
-
-    return KErrNotFound;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::SetMultipleMarkingState
-// -----------------------------------------------------------------------------
-//
-void CListBoxExt::SetMultipleMarkingState( TBool aActive )
-    {
-    _AKNTRACE_FUNC_ENTER;
-    iListBox.SetMarkingMode( aActive );
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::ExitMarkingMode
-// -----------------------------------------------------------------------------
-//
-TBool CListBoxExt::ExitMarkingMode()
-    {
-    if ( iListBox.MarkingModeObserver() )
-        {
-        return iListBox.MarkingModeObserver()->ExitMarkingMode();
-        }
-    return ETrue;
-    }
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::MarkingState
-// -----------------------------------------------------------------------------
-//
-TUint CListBoxExt::MarkingState() const
-    {
-    _AKNTRACE_FUNC_ENTER;
-    TUint state( 0 );
-    if ( iListBox.MarkingMode() )
-        {
-        state |= MAknMarkingCollection::EStateMarkingMode;
-        if ( MarkedItems() )
-            {
-            state |= MAknMarkingCollection::EStateMarkedItems;
-            }
-        if ( iListBox.Model()->NumberOfItems() == 0 )
-            {
-            state |= MAknMarkingCollection::EStateCollectionEmpty;
-            }        
-        }
-    _AKNTRACE_FUNC_EXIT;
-    return state;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::MarkCurrentItemL
-// -----------------------------------------------------------------------------
-//
-void CListBoxExt::MarkCurrentItemL()
-    {
-    _AKNTRACE_FUNC_ENTER;
-
-    if ( iListBox.MarkingMode() )
-        {
-        TInt index = iListBox.CurrentItemIndex();
-        if ( index >= 0 && 
-                !iListBox.iItemDrawer->Properties( index ).IsSelectionHidden() )
-            {
-            iListBox.View()->SelectItemL( index );
-            }
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::MarkAllL
-// -----------------------------------------------------------------------------
-//
-void CListBoxExt::MarkAllL()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    
-    if ( iListBox.MarkingMode() && 
-            iListBox.Model()->NumberOfItems() > 0 )
-        {               
-        iListBox.View()->SelectAllL( ETrue );   
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::UnmarkAll
-// -----------------------------------------------------------------------------
-//
-void CListBoxExt::UnmarkAll()
-    {
-    _AKNTRACE_FUNC_ENTER;
-
-    if ( iListBox.MarkingMode() )
-        {
-        iListBox.View()->ClearSelection();
-        }
-
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::CurrentItemMarkable
-// -----------------------------------------------------------------------------
-//
-TBool CListBoxExt::CurrentItemMarkable()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    TBool itemCanBeMarked = ETrue;
-     TInt index = iListBox.CurrentItemIndex();
-     if ( index >= 0 && 
-             iListBox.iItemDrawer->Properties( index ).IsSelectionHidden() )
-         {
-         itemCanBeMarked = EFalse;
-         }
-    _AKNTRACE_FUNC_EXIT;
-    return itemCanBeMarked;
+    return KErrNone;
     }
 
 
@@ -1186,7 +971,6 @@ void CListBoxExt::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
     iLongTappedItem = iLastDownTappedItem;
     iLastDownTappedItem = KErrNotFound;
     iItemActionMenu->ShowMenuL( aPenEventScreenLocation, 0 );
-    iOldWinPos = iListBox.DrawableWindow()->OrdinalPosition();
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1251,18 +1035,12 @@ void CListBoxExt::DisableSingleClick()
 	
     if ( iListBox.iView->ViewRect() != TRect() )
         {
-        // Set current item index highlighted if it is visible, otherwise
-        // the first visible index
-        TInt index = iListBox.iView->CurrentItemIndex(); 
-        if ( !iListBox.iView->ItemIsVisible( index ) )
+        TInt topItemIndex = iListBox.iView->TopItemIndex();
+        if ( iListBox.iView->ItemIsPartiallyVisible( topItemIndex) )
             {
-            index = iListBox.iView->TopItemIndex();
-            if ( iListBox.iView->ItemIsPartiallyVisible( index ) )
-                {
-                index++; 
-                }    
-            }
-        TRAP_IGNORE( iListBox.UpdateHighlightL( index ) );
+            topItemIndex++; 
+            }    
+        TRAP_IGNORE( iListBox.UpdateHighlightL( topItemIndex ) );
         }
     
     DisableItemSpecificMenu();
@@ -1276,28 +1054,6 @@ void CListBoxExt::DisableSingleClick()
     _AKNTRACE_FUNC_EXIT;
     }
 
-// -----------------------------------------------------------------------------
-// CListBoxExt::EnableSingleClickL
-// -----------------------------------------------------------------------------
-//
-void CListBoxExt::EnableSingleClickL()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    if ( !iLongTapDetector )
-        {
-        iLongTapDetector = CAknLongTapDetector::NewL( this );
-        }
-    if ( !iItemActionMenu )
-        {
-        iItemActionMenu = CAknItemActionMenu::RegisterCollectionL( 
-            *this, &iListBox );
-        iListBox.iListBoxFlags &= ( ~CEikListBox::EDisableItemSpecificMenu );
-        }    
-    iSingleClickEnabled = ETrue;
-    EnableHighlight( EFalse );
-    // iListBox.UpdateHighlightL( iListBox.iView->CurrentItemIndex() );
-    _AKNTRACE_FUNC_EXIT;
-    }
 
 // -----------------------------------------------------------------------------
 // CListBoxExt::DisableItemSpecificMenu
@@ -1315,7 +1071,6 @@ void CListBoxExt::DisableItemSpecificMenu()
     _AKNTRACE_FUNC_EXIT;
     }
 
-
 // -----------------------------------------------------------------------------
 // CListBoxExt::LongTapPointerEventL
 // -----------------------------------------------------------------------------
@@ -1324,14 +1079,10 @@ void CListBoxExt::LongTapPointerEventL( const TPointerEvent& aPointerEvent )
     {
     if ( iSingleClickEnabled && iLongTapDetector && iItemActionMenu  )
         {
-        // Send event on down only if item specific items were found. 
-        // Long tap is also disabled if current item is not marked while
-        // there are some marked items or marking mode is active.
-        if ( ( !( ( iListBox.MarkingMode() || MarkedItems() )
-            && !iListBox.View()->ItemIsSelected( iListBox.CurrentItemIndex() ) )
-            || ( iListBox.iListBoxFlags & CEikListBox::EItemSpecificMenuAlwaysShown ) )
-            && ( aPointerEvent.iType != TPointerEvent::EButton1Down
-            || iItemActionMenu->InitMenuL() ) ) 
+        // Send event on down only if no marked items and item specific items
+        // were found
+        if ( aPointerEvent.iType != TPointerEvent::EButton1Down
+                || ( !MarkedItems() && iItemActionMenu->InitMenuL() ) )
             {
             iLongTapDetector->PointerEventL ( aPointerEvent );
             }
@@ -1432,33 +1183,7 @@ TBool CListBoxExt::MarkedItems() const
     {
     return ( iListBox.iListBoxFlags & CEikListBox::ES60StyleMarkable
             || iListBox.iListBoxFlags & CEikListBox::EMultipleSelection )
-            && iListBox.iView && iListBox.SelectionIndexes()->Count() > 0;
-    }
-
-
-// -----------------------------------------------------------------------------
-// CListBoxExt::IgnorePointerEventsUntilUp
-// -----------------------------------------------------------------------------
-//
-TBool CListBoxExt::IgnorePointerEventsUntilUp()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    
-    // Pointer event ignore must be done for the window-owning
-    // control or it doesn't have any effect!
-    CCoeControl* windowOwningControl = &iListBox;
-        
-    while ( windowOwningControl && !windowOwningControl->OwnsWindow() )
-        {
-        windowOwningControl = windowOwningControl->Parent();
-        }
-
-    if ( windowOwningControl )
-        {
-        windowOwningControl->IgnoreEventsUntilNextPointerUp();   
-        }
-    _AKNTRACE_FUNC_EXIT;
-    return ( windowOwningControl != NULL );
+            && iListBox.SelectionIndexes()->Count() > 0;
     }
 
 
@@ -1834,13 +1559,6 @@ void CListBoxExt::PhysicEmulationEnded()
     _AKNTRACE_FUNC_ENTER;    
     if ( iScrolling )
         {
-        // currently, this is the only way to fix ou1cimx1#375869
-        // iViewPosision is changed but we can't provent that
-        if ( iListBox.iView->TopItemIndex() == 0 
-             && iListBox.iView->ItemOffsetInPixels() > 0 )
-            {
-            iListBox.ScrollView( -iListBox.iView->ItemOffsetInPixels(), ETrue );
-            }        
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         iListBox.SuspendEffects( EFalse );
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
@@ -1867,8 +1585,7 @@ void CListBoxExt::InitPhysicsL()
         TInt topItemIndex = iListBox.iView->TopItemIndex();
         TInt itemHeight = iListBox.iView->ItemHeight();
         TInt numberOfItems = iListBox.iModel->NumberOfItems();
-        TInt emptySpaceOffset ( 0 );
-        
+
         TSize viewSize( iListBox.iView->ViewRect().Size() );
         TSize worldSize( viewSize.iWidth, itemHeight * numberOfItems );
         
@@ -1883,15 +1600,6 @@ void CListBoxExt::InitPhysicsL()
                 {
                 worldSize.iHeight += itemHeight;
                 }
-            
-            // Check empty space below the grid
-            if ( topItemIndex != 0 )
-                {
-                TInt lastItemBottomY = 
-                        iListBox.iView->ItemPos( 
-                                numberOfItems - 1 ).iY + itemHeight +1;
-                emptySpaceOffset = Min( 0, lastItemBottomY - viewSize.iHeight );
-                }
             }
             
         // Reset offset if view's size has changed - this is needed if e.g.
@@ -1902,7 +1610,6 @@ void CListBoxExt::InitPhysicsL()
             }
 
         TPoint viewCenter( viewSize.iWidth / 2, ( topItemIndex / iItemsInSingleLine ) * itemHeight - iListBox.iView->ItemOffsetInPixels() + ( viewSize.iHeight / 2 ) );
-        viewCenter.iY += emptySpaceOffset;
 
         // Make sure that world's size is always at least view size.
         worldSize.iHeight = Max( worldSize.iHeight, viewSize.iHeight );
@@ -2008,29 +1715,18 @@ void CListBoxExt::ImmediateFeedback( TTouchLogicalFeedback aFeedback,
     }
 
 // ---------------------------------------------------------------------------
-// Checks whether or not tactile feedback should be given on a pointer
-// up event.
+// CListBoxExt::FeedbackEnabledOnUpEvent
 // ---------------------------------------------------------------------------
 //
 TBool CListBoxExt::FeedbackEnabledOnUpEvent()
     {
     _AKNTRACE_FUNC_ENTER;
     TBool enabled( EFalse );
-    
-    // As there's no pressed down highlight in single click enabled lists,
-    // the iLastDownTappedItem is used to track whether or not the pointer
-    // up event happened inside the same list item as the pointer down event.
-    // Feedback should not be given if the pointer up is received outside of
-    // the item that received the pointer down event, or in cases when the
-    // list has been dragged or flicked between the pointer down and pointer
-    // up events.
-    if ( ( iListBox.iItemDrawer->Flags() & CListItemDrawer::EPressedDownState
-        || ( iSingleClickEnabled && iLastDownTappedItem != KErrNotFound ) ) &&
-        !iFlickStopped )
+    if ( ( iListBox.iItemDrawer->Flags() & CListItemDrawer::EPressedDownState ) &&
+         !iFlickStopped )
         {
         enabled = ETrue;
         }
-
     _AKNTRACE_FUNC_EXIT;
     return enabled;
     }
@@ -2114,22 +1810,6 @@ EXPORT_C void CEikListBox::SetItemsInSingleLine( TInt aItems )
         }
     }
 
-
-// -----------------------------------------------------------------------------
-// CEikListBox::ItemsInSingleLine
-// -----------------------------------------------------------------------------
-//
-EXPORT_C TInt CEikListBox::ItemsInSingleLine() const
-    {
-    if ( iListBoxExt )
-        {
-        return iListBoxExt->iItemsInSingleLine;
-        }
-    
-    return 1;
-    }
-
-    
 EXPORT_C void CEikListBox::UpdateViewColors()
     {
     _AKNTRACE_FUNC_ENTER;
@@ -2391,8 +2071,7 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
     iView->CalcBottomItemIndex();
     iView->CalcDataWidth();
     TInt currentItemIndex = iView->CurrentItemIndex();
-    TInt totalItems = iModel->NumberOfItems();
-    
+
     if ( ItemExists(currentItemIndex) )
         {
         TInt topItemIndex( iView->TopItemIndex() );
@@ -2404,48 +2083,25 @@ EXPORT_C void CEikListBox::HandleViewRectSizeChangeL()
         	|| iListBoxExt && iListBoxExt->iPhysics 
         	&& currentItemIndex == ( topItemIndex + numberOfItems - 1 ) )
             {
-            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
-                {
-                TInt offset = (iListBoxExt->iWorldSize.iHeight / 2)
-                        - iListBoxExt->iViewPosition.iY;
-                TInt itemsInRect =
-                        iView->NumberOfItemsThatFitInRect( iView->ViewRect() );
-
-                if ( ( iListBoxExt->CollectionState()
-                        & MAknCollection::EStateHighlightVisible )
-                      || ( ItemsInSingleLine()
-                              && ( totalItems <= itemsInRect )
-                              && ( offset != 0 ) ) )
-                    {
-                    newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
-                    }
-                else
-                    {
-                    newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( topItemIndex );
-                    }
-                }
-            else
-                {
-                newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
-                }
+            newTopItemIndex = iView->CalcNewTopItemIndexSoItemIsVisible( currentItemIndex );
             }
         else
             {
-            // recalculates top index of list when mode be changed            
+            // recalculates top index of list when mode be changed
+            TInt totalItems = iModel->NumberOfItems();
             if ( (totalItems - topItemIndex) < numberOfItems )
                 {
                 newTopItemIndex = Max( 0, totalItems - numberOfItems );
                 }
             }
 
-        if ( newTopItemIndex > KEikListBoxInvalidIndex 
-             && newTopItemIndex < totalItems )
+        if ( newTopItemIndex != KEikListBoxInvalidIndex )
         	{
         	iView->SetTopItemIndex( newTopItemIndex );
-            }
-        if ( iListBoxExt && iListBoxExt->iPhysics )
-            {
-            iListBoxExt->InitPhysicsL();
+        	if ( iListBoxExt && iListBoxExt->iPhysics )
+        		{
+        		iListBoxExt->InitPhysicsL();
+        		}
             }
         }
     UpdateScrollBarsL();
@@ -2717,9 +2373,8 @@ EXPORT_C void CEikListBox::SetCurrentItemIndex(TInt aItemIndex) const
     UpdateCurrentItem(aItemIndex);
     iView->SetDisableRedraw(redrawDisabled);
     
-    if ( iListBoxExt && iListBoxExt->iPhysics && aItemIndex == 0 
-             && !iListBoxExt->iScrolling )
-        {    
+    if ( iListBoxExt && iListBoxExt->iPhysics && aItemIndex == 0 )
+        {
         iView->SetItemOffsetInPixels( 0 );        
         }
     _AKNTRACE_FUNC_EXIT;
@@ -2772,8 +2427,6 @@ EXPORT_C void CEikListBox::ConstructL(const CCoeControl* aParent,TInt aFlags)
     if(iItemDrawer && (iItemDrawer->MinimumCellSize().iHeight != 0))
         iItemHeight = iItemDrawer->MinimumCellSize().iHeight;
 
-    CheckCreateExtensionL();
-    
     if ( iListBoxExt->iLongTapDetector
             && iListBoxFlags & EDisableItemSpecificMenu )
         {
@@ -3201,7 +2854,7 @@ EXPORT_C void CEikListBox::UpdateScrollBarsL()
         TEikScrollBarFrameLayout layout;
         CreateScrollBarFrameLayout(layout);
         TBool sizeChanged=iSBFrame->TileL(&hSbarModel, &vSbarModel, clientRect, inclusiveRect, layout);
-        if ( iListBoxExt && iListBoxExt->UpdateScrollBarsColors() )
+        if (iListBoxExt->UpdateScrollBarsColors())
             UpdateScrollBarsColors();
         if (!sizeChanged)
             return;
@@ -3328,7 +2981,11 @@ void CEikListBox::ChangeSelectionMode( TBool aEnable )
         _AKNTRACE_FUNC_EXIT;
         return;
         }
-    
+    if( !iListBoxExt )
+        {
+        _AKNTRACE_FUNC_EXIT;
+        return;
+        }
     CEikButtonGroupContainer *bgc;
     CCoeControl* MSK( NULL );
     CEikCba* cba( NULL );
@@ -3366,22 +3023,16 @@ void CEikListBox::ChangeSelectionMode( TBool aEnable )
         // marking still works even MSK isn't changed
         if ( err )
             {
-            if ( iListBoxExt )
-                {
-                iListBoxExt->iSelectionModeEnabled = EFalse;
-                }
+            iListBoxExt->iSelectionModeEnabled = EFalse;
             _AKNTRACE_FUNC_EXIT;
             return;
             }
         cba->DrawNow();
-        if ( iListBoxExt )
-            {
-            iListBoxExt->iSelectionModeEnabled = ETrue;
-            }
+        iListBoxExt->iSelectionModeEnabled = ETrue;
         }
 
     // remove stacked MSK
-    if( !aEnable && iListBoxExt && iListBoxExt->iSelectionModeEnabled )
+    if( !aEnable && iListBoxExt->iSelectionModeEnabled )
         {
         if( ( MSK && cba->ControlId( MSK ) == EAknSoftkeyMark ) ||
             ( MSK && cba->ControlId( MSK ) == EAknSoftkeyUnmark ) )
@@ -3390,13 +3041,11 @@ void CEikListBox::ChangeSelectionMode( TBool aEnable )
             }
         iListBoxExt->iSelectionModeEnabled = EFalse; // just in case
         }
-    if ( iListBoxExt )
+        
+    TInt count = iListBoxExt->iSelectionObservers.Count();
+    for ( int i=0; i < count; i++ )
         {
-        TInt count = iListBoxExt->iSelectionObservers.Count();
-        for ( int i=0; i < count; i++ )
-            {
-            iListBoxExt->iSelectionObservers[i]->SelectionModeChanged( this, aEnable );
-            }
+        iListBoxExt->iSelectionObservers[i]->SelectionModeChanged( this, aEnable );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -3414,16 +3063,6 @@ void CEikListBox::HandleItemRemovalWithoutSelectionsL()
     UpdateScrollBarsL();
     UpdateScrollBarThumbs();
     iView->ClearFlags(CListBoxView::EItemCountModified);
-
-
-    if ( iListBoxExt->iItemActionMenu &&
-         iListBoxExt->iLongTappedItem != KErrNotFound )
-        {
-        // Item action menu is being shown and it needs to be closed when
-        // items are added or removed to the list array, otherwise the
-        // item specific commands may be targeted to the wrong item. 
-        iListBoxExt->iItemActionMenu->HideMenu();
-        }
 
     FireItemChange();
     
@@ -3506,8 +3145,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL(CArrayFix<TInt> &aArrayOfNewIndex
 EXPORT_C void CEikListBox::HandleItemAdditionL()
     {
     _AKNTRACE_FUNC_ENTER;
-    __ASSERT_DEBUG( iView, Panic( EEikPanicListBoxNoView ) );
-
+     //fix the bug EGGO-7SQA4S and EVSG-7TD9WZ 
     TInt curItemIndex = iView->CurrentItemIndex();
     if(curItemIndex >= 0 && curItemIndex < iModel->NumberOfItems() )
       {
@@ -3515,7 +3153,8 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
       iView->SetTopItemIndex( newTopItemIndex );
       }
     iView->SetFlags(CListBoxView::EItemCountModified);
-
+    // following breaks lists in square layout, not needed in SERIES60?
+    //iView->CalcDataWidth();
     iView->CalcBottomItemIndex();
     UpdateScrollBarsL();
     UpdateScrollBarThumbs();
@@ -3525,7 +3164,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
     FireItemChange();
     
     if ( iListBoxExt )
-        {
+        {    
         iListBoxExt->CheckScrollBarVisibility();
         // Physics engine world size needs to be updated here, otherwise aknphysics 
         // cone observer may block pointer events on new items. this can happen 
@@ -3534,17 +3173,7 @@ EXPORT_C void CEikListBox::HandleItemAdditionL()
             {
             iListBoxExt->InitPhysicsL();
             }
-        
-        if ( iListBoxExt->iItemActionMenu &&
-             iListBoxExt->iLongTappedItem != KErrNotFound )
-            {
-            // Item action menu is being shown and it needs to be closed when
-            // items are added or removed to the list array, otherwise the
-            // item specific commands may be targeted to the wrong item. 
-            iListBoxExt->iItemActionMenu->HideMenu();
-            }
-        }
-
+        }     
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -3725,8 +3354,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
             {
             selectionMode = CListBoxView::ENoSelection;
             UpdateMarkUnmarkMSKL();
-            if ( iListBoxExt 
-                 && IsSelectionMarkKeys( code, aKeyEvent.iScanCode, iListBoxExt->iWesternVariant ) ) 
+            if (IsSelectionMarkKeys(code, aKeyEvent.iScanCode, iListBoxExt->iWesternVariant)) 
                 {
                 __KeyDebug(ETrue, "SelectionMarkKey")
                 View()->ClearSelectionAnchorAndActiveIndex();
@@ -3737,7 +3365,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
 
     // CAknGrid marking is implemeted in avkon.dll. But we still need to disable short
     // hash mark in here.
-    if ( iListBoxExt && iListBoxFlags & EMultipleSelection && 
+    if ( iListBoxFlags & EMultipleSelection && 
          iListBoxFlags & EShiftEnterMarks && aType == EEventKeyUp )
         {
         if ( aKeyEvent.iScanCode == EStdKeyLeftArrow ||
@@ -3949,8 +3577,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
                     }
                 }
 		
-            if ( ScrollingDisabled() 
-                || ( iListBoxExt && !iListBoxExt->MovePhysicsCursorL( moveto, selectionMode ) ) )
+            if ( ScrollingDisabled() || ( !iListBoxExt->MovePhysicsCursorL( moveto, selectionMode ) ) )
                 {
                 iView->MoveCursorL(moveto, selectionMode);
                 }
@@ -3999,8 +3626,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
                     }
                 }
 
-            if ( ScrollingDisabled() 
-                || ( iListBoxExt && !iListBoxExt->MovePhysicsCursorL( moveto, selectionMode ) ) )
+            if ( ScrollingDisabled() || ( !iListBoxExt->MovePhysicsCursorL( moveto, selectionMode ) ) )
                 {
                 iView->MoveCursorL(moveto, selectionMode);
                 }
@@ -4042,7 +3668,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
                 if (!shiftKeyPressed && iListBoxFlags & EShiftEnterMarks)
                     { 
                     // enter key pressed on markable list without shift
-                    if ( SelectionIndexes()->Count() > 0 && !MarkingMode() )
+                    if (SelectionIndexes()->Count() > 0)
                         { 
                         // when there's marked items, should open options menu.
                         __KeyDebug(ETrue, "ok without shift => ok options menu");
@@ -4085,7 +3711,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
     //
     if(switchMSK)
         {
-        if( iListBoxExt && selectionMode == CListBoxView::EDisjointMarkSelection )
+        if( selectionMode == CListBoxView::EDisjointMarkSelection )
             {
              // if hash and either up or down pressed -> no short marking
             iListBoxExt->iShortHashMark = EFalse;
@@ -4144,7 +3770,7 @@ TKeyResponse CEikListBox::DoOfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode
     // only if a markable list is active, otherwise the simulated event might open 
     // the selected item, which we don't want.    
     if((iListBoxFlags & EMultipleSelection) && (iListBoxFlags & EShiftEnterMarks) &&
-        iListBoxExt && iListBoxExt->iWesternVariant &&
+        iListBoxExt->iWesternVariant &&
         iListBoxExt->iAknFepHashKeySelection && 
         iListBoxExt->iQwertyMode == EFalse && 
         aType == EEventKeyUp && aKeyEvent.iScanCode == EStdKeyHash &&
@@ -4245,46 +3871,27 @@ EXPORT_C void CEikListBox::ReportListBoxEventL(MEikListBoxObserver::TListBoxEven
         case MEikListBoxObserver::EEventFlickStarted:
         case MEikListBoxObserver::EEventPanningStarted:
             {
-            if ( iListBoxExt && ( iListBoxExt->iWorldSize.iHeight 
-                    <= iListBoxExt->iViewSize.iHeight ) )
-                {
-                return; 
-                }
             iItemDrawer->SetFlags( CListItemDrawer::EDisableMarquee );
-            if ( iListBoxExt )
-                { 
-                if ( aEvent == MEikListBoxObserver::EEventFlickStarted )
-                    {
-                    iListBoxExt->SetFlickOngoing( ETrue );
-                    }
-                else 
-                    {
-                    iListBoxExt->SetPanningOngoing( ETrue );
-                    }
-                }
+            if ( aEvent == MEikListBoxObserver::EEventFlickStarted )
+                iListBoxExt->SetFlickOngoing( ETrue );
+            else            
+                iListBoxExt->SetPanningOngoing( ETrue );
             break;
             }
             
         case MEikListBoxObserver::EEventFlickStopped:
         case MEikListBoxObserver::EEventPanningStopped:
             {
-            if ( iListBoxExt && ( iListBoxExt->iWorldSize.iHeight 
-                    <= iListBoxExt->iViewSize.iHeight ) )
-                {
-                return; 
-                }
             iItemDrawer->ClearFlags( CListItemDrawer::EDisableMarquee );
-            if ( iListBoxExt )
-                { 
-                if ( aEvent == MEikListBoxObserver::EEventFlickStopped )
-                    {   
-                    iListBoxExt->SetFlickOngoing( EFalse );                    
-                    }
-                else 
-                    {
-                    iListBoxExt->SetPanningOngoing( EFalse );
-                    }
-                }            
+            if ( aEvent == MEikListBoxObserver::EEventFlickStopped )
+                {
+                iListBoxExt->SetFlickOngoing( EFalse );
+                }
+            else 
+                {
+                iListBoxExt->SetPanningOngoing( EFalse );
+                }
+            
             break;
             }
         }
@@ -4294,33 +3901,9 @@ EXPORT_C void CEikListBox::ReportListBoxEventL(MEikListBoxObserver::TListBoxEven
         TBool allowed = ETrue;
 
         if ( iListBoxExt && iListBoxExt->iPhysics
-             && aEvent != MEikListBoxObserver::EEventFlickStopped 
-             && aEvent != MEikListBoxObserver::EEventFlickStarted )
+             && aEvent != MEikListBoxObserver::EEventFlickStopped )
             {
             allowed = iListBoxExt->iClickEventsAllowed;
-            }
-
-        if ( MarkingMode() && allowed )
-            {
-            switch ( aEvent )
-                {
-                case MEikListBoxObserver::EEventItemSingleClicked:
-                case MEikListBoxObserver::EEventEnterKeyPressed:
-                    {                   
-                    TInt index = CurrentItemIndex();
-                    if ( index >= 0 && 
-                         !iItemDrawer->Properties(index).IsSelectionHidden() )
-                        {
-                        iView->ToggleItemL( iView->CurrentItemIndex() );
-                        }
-                    
-                    allowed = EFalse;
-                    }
-                    break;
-                    
-                default:
-                    break;
-                }
             }
         
         if ( allowed )
@@ -4357,7 +3940,7 @@ EXPORT_C void CEikListBox::SetScrollBarFrame(CEikScrollBarFrame* aScrollBarFrame
 EXPORT_C void CEikListBox::HandlePhysicsScrollEventL( TInt aDeltaPixels )
     {    
     _AKNTRACE_FUNC_ENTER;
-    if ( iListBoxExt && iListBoxExt->iPhysics )
+    if ( iListBoxExt->iPhysics )
         {
         iListBoxExt->InitPhysicsL();
         
@@ -4372,7 +3955,7 @@ EXPORT_C void CEikListBox::HandlePhysicsScrollEventL( TInt aDeltaPixels )
 EXPORT_C void CEikListBox::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScrollEvent aEventType)
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
+    if ( iListBoxExt->iSingleClickEnabled )
         {
         iListBoxExt->EnableHighlight( EFalse );
         iView->DrawItem( iView->CurrentItemIndex() );
@@ -4515,17 +4098,17 @@ EXPORT_C void CEikListBox::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScro
                 }
 #endif
             
-        if ( iListBoxExt && iListBoxExt->iPhysics )
+        if ( iListBoxExt->iPhysics )
             {
             iListBoxExt->InitPhysicsL();
             TInt deltaPixels = newThumbPos;
     
 #ifdef _DEBUG
-                RDebug::Print( _L( "CListBox::HandleScrollEventL, deltaPixels = %d" ), deltaPixels );
+            RDebug::Print( _L( "CListBox::HandleScrollEventL, deltaPixels = %d" ), deltaPixels );
 #endif // _DEBUG
             
             TPoint newPosition( iListBoxExt->iViewPosition.iX, deltaPixels + iView->ViewRect().Height() / 2 );
-            iListBoxExt->ViewPositionChanged( newPosition );            
+            iListBoxExt->ViewPositionChanged( newPosition );
             }
         else
             {
@@ -4547,9 +4130,7 @@ EXPORT_C void CEikListBox::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScro
         // If the event has changed thumb position, then update scroll bar
         // unless physics is used. In that case thumb is updated via 
         // CEikListBox::ScrollView.
-        if ( AknLayoutUtils::PenEnabled() 
-             && newThumbPos != newThumbPosBeforeCorrecting 
-             && iListBoxExt && !iListBoxExt->iPhysics )
+        if ( AknLayoutUtils::PenEnabled() && newThumbPos != newThumbPosBeforeCorrecting && !iListBoxExt->iPhysics )
             {
             UpdateScrollBarThumbs();
             }
@@ -4568,6 +4149,7 @@ EXPORT_C void CEikListBox::HandleDragEventL(TPoint aPointerPos)
         return;
         }
     
+    CheckCreateExtensionL();
     if (!(iListBoxFlags & ELeftDownInViewRect))
         {
         _AKNTRACE_FUNC_EXIT;
@@ -5029,7 +4611,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
     
     // Handle empty list area events
     if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-            !iListBoxExt->iScrolling && !iListBoxExt->iIsDownOnItem )
+            !iListBoxExt->iScrolling )
         {
         if ( listEmpty )
             {
@@ -5053,6 +4635,11 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
         return;
         }
 
+    
+    // When in marking mode, pointer events should not be forwarded to 
+    // long tap detector, this boolean indicates if marking mode is active
+    TBool markingMode( iListBoxExt->MarkedItems() );
+    
     if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
         {
         if ( iListBoxExt->iSingleClickEnabled && 
@@ -5062,19 +4649,25 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             iView->DrawItem( iView->CurrentItemIndex() );
             }
 
-        iListBoxExt->iFeedbackType = ETouchFeedbackList;
-        iListBoxExt->iDoubleClickEventIgnored = EFalse;
-        
-        if ( !iListBoxExt->iSingleClickEnabled &&
-            itemIndex != iView->CurrentItemIndex() )
+        iListBoxExt->iFeedbackType = ETouchFeedbackBasicItem;
+
+        if ( itemIndex != iView->CurrentItemIndex() ||
+             iListBoxFlags & ES60StyleMultiselection )
             {
-            iListBoxExt->iFeedbackType = ETouchFeedbackSensitiveList;
+            iListBoxExt->iFeedbackType = ETouchFeedbackSensitiveItem;
             }
 
         if ( iListBoxExt->iPhysics &&
              iListBoxExt->iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionFlicking )
             {
-            iListBoxExt->iFeedbackType = ETouchFeedbackList;
+            iListBoxExt->iFeedbackType = ETouchFeedbackBasicItem;
+            }
+        
+        if ( !iListBoxExt->iPhysics || itemIndex == iView->CurrentItemIndex() )
+            {
+            iListBoxExt->ImmediateFeedback( iListBoxExt->iFeedbackType,
+                                            TTouchFeedbackType(ETouchFeedbackVibra | ETouchFeedbackAudio),
+                                            aPointerEvent );
             }
         }
     iListBoxExt->iEventModifiers = aPointerEvent.iModifiers;
@@ -5133,7 +4726,6 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
     if(Buffer()->iPressedIndex == itemIndex)
         {
         Buffer()->iPressedIndex = KEikListBoxInvalidIndex;
-        iListBoxExt->iDoubleClickEventIgnored = ETrue;
         _AKNTRACE_FUNC_EXIT;
         return;
         }
@@ -5165,12 +4757,10 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             _AKNTRACE("TPointerEvent::EButton1Down");
             // For drag outside listbox
             iListBoxExt->iIsDownOnItem = pointerIsOverAnItem;
-            iListBoxExt->iLastPoint = pointerPos;            
-			iListBoxExt->iLongTappedItem = KErrNotFound;
+            iListBoxExt->iLastPoint = pointerPos;
 
             // update index of the last down tapped item
             iListBoxExt->iLastDownTappedItem = itemIndex;
-            iListBoxExt->iMarkableListShiftKeyPressed = EFalse; 
 
             if ((! (Rect().Contains(aPointerEvent.iPosition))) && (iListBoxFlags & EPopout)) 
                 {
@@ -5213,17 +4803,14 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                             UpdateHighlightL( itemIndex );
                             CCoeEnv::Static()->WsSession().Finish();
                             }
-
-                        if ( !( ( iListBoxFlags & EViewerFlag ) && 
-                                ( iListBoxFlags & EDisableItemSpecificMenu ) ) )
+                        if ( itemIndex != oldCurrentItemIndex )
                             {
-                            iListBoxExt->ImmediateFeedback( 
+                        	iListBoxExt->ImmediateFeedback( 
                                 iListBoxExt->iFeedbackType,
                                 TTouchFeedbackType( ETouchFeedbackVibra | 
                                 ETouchFeedbackAudio ),
                                 aPointerEvent );
-                            }
-
+                        	}
                         if ( !wasFlicking )
                             {
                             ReportListBoxEventL( 
@@ -5233,18 +4820,6 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                         }
                     else
                         {
-                        if( itemIndex == oldCurrentItemIndex )
-                            {
-                            if( !( ( iListBoxFlags & EViewerFlag ) && 
-                                    ( iListBoxFlags & EDisableItemSpecificMenu ) ) )
-                                {
-                                iListBoxExt->ImmediateFeedback( 
-							                                   iListBoxExt->iFeedbackType,
-														       TTouchFeedbackType( ETouchFeedbackVibra | 
-														       ETouchFeedbackAudio ),
-														       aPointerEvent );
-                               }
-							}
                         ReportListBoxEventL( 
                                 MEikListBoxObserver::EEventPenDownOnItem );    
                         }
@@ -5266,8 +4841,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                             }
                         }
 #endif
-                if ( !( iListBoxFlags & EMultipleSelection ) 
-                        || MarkingMode() )
+                if (!(iListBoxFlags & EMultipleSelection))      // i.e. this is a single selection listbox
                     {
                     if (itemIndex == oldCurrentItemIndex)
                         {
@@ -5334,7 +4908,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                             }
                         }
 
-                    if ( itemIndex == oldCurrentItemIndex && !iListBoxExt->iSingleClickEnabled )
+                    if ( itemIndex == oldCurrentItemIndex )
                         {
                         if ( shiftKeyPressed )
                             {
@@ -5413,17 +4987,10 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             
         case TPointerEvent::EButton1Up:
             _AKNTRACE("TPointerEvent::EButton1Up");
-            if ( iListBoxExt->FeedbackEnabledOnUpEvent() && 
-			     iListBoxExt->iClickEventsAllowed && 
-				 ( !( ( iListBoxFlags & EViewerFlag ) && 
-				 ( iListBoxFlags & EDisableItemSpecificMenu ) ) )&& 
-				 ( iListBoxExt->iLastDownTappedItem == itemIndex ) && 
-				 ( !iListBoxExt->iDoubleClickEventIgnored ) && 
-				 itemIndex == iView->CurrentItemIndex() )
+            if ( iListBoxExt->FeedbackEnabledOnUpEvent() && iListBoxExt->iClickEventsAllowed )
                 {
-                TTouchLogicalFeedback fbType = ETouchFeedbackList;
-                if ( iListBoxFlags & ES60StyleMultiselection 
-                      || iListBoxFlags & EMultipleSelection )
+                TTouchLogicalFeedback fbType = ETouchFeedbackBasicItem;
+                if ( iListBoxFlags & ES60StyleMultiselection )
                     {
                     fbType = ETouchFeedbackCheckbox;
                     }
@@ -5479,8 +5046,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                     }
                 if ( !s60StyleMultiselection )
                     {
-                    if ( !iListBoxExt->iSingleClickEnabled &&
-                         itemIndex == iListBoxExt->iLastDownTappedItem )
+                    if ( !iListBoxExt->iSingleClickEnabled )
                         {
                         ReportListBoxEventL(MEikListBoxObserver::EEventItemClicked);
                         }
@@ -5495,15 +5061,9 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
                         return;
                         }
                     }
-                // Due to the feature of capactior panel, the pointer position
-                // may change between pointer down and up during user click 
-                // action. When the click position is between two items 
-                // and flick or drag event is not performed, the item index may
-                // change unwanted, so we make a threshold for this situation.
-                else if ( s60StyleMultiselection && !Buffer()->iDragToAnotherItem
-                         && ( iListBoxExt->iLastDownTappedItem == itemIndex
-                         || ( iListBoxExt->iLastDownTappedItem != KErrNotFound 
-                         && Abs( iListBoxExt->iLastPointerPos.iY - aPointerEvent.iPosition.iY ) < KPointerDownAndUpThreshold ) ) )
+                else if ( s60StyleMultiselection && 
+                          iListBoxExt->iLastDownTappedItem == itemIndex &&
+                          !Buffer()->iDragToAnotherItem )
                     {
                     iListBoxFlags |= EStateChanged;
                     Buffer()->iPressedIndex = itemIndex;
@@ -5771,7 +5331,7 @@ EXPORT_C void CEikListBox::FocusChanged(TDrawNow aDrawNow)
         // switch off selection (marking) mode when we lose focus
         // this also corrects situation, where FEP-menu is launched
         // and thus listbox doesn't receive shift up event
-        if ( iListBoxExt )
+        if (NULL != iListBoxExt)
             {
             if ((iListBoxFlags & EMultipleSelection) && (iListBoxFlags & EShiftEnterMarks))
                 {
@@ -5791,9 +5351,9 @@ EXPORT_C void CEikListBox::FocusChanged(TDrawNow aDrawNow)
         iView->SetEmphasized(EFalse);
         iView->HideMatcherCursor();
         
-        if ( iItemEditor && 
-            ( iListBoxFlags & EPaintedSelection ) && 
-            ( iListBoxExt && iListBoxExt->ReasonForFocusLost() == EFocusLostToExternalControl ) )
+        if (iItemEditor && 
+            (iListBoxFlags & EPaintedSelection) && 
+            (NULL != iListBoxExt && iListBoxExt->ReasonForFocusLost() == EFocusLostToExternalControl))
             {
             iView->DeselectItem(CurrentItemIndex());
             }
@@ -5861,12 +5421,9 @@ EXPORT_C TRect CEikListBox::HighlightRect() const
 
 EXPORT_C TBool CEikListBox::BackgroundDrawingSuppressed() const
     {
-    if ( iItemDrawer )
+    if ( iListBoxExt )
         {
-        TInt flags = iItemDrawer->Flags();
-        
-        return ( flags & CListItemDrawer::EDrawWholeBackground ) 
-                && ( flags & CListItemDrawer::EBackgroundDrawn );
+        return iListBoxExt->iBackgroundDrawingSuppressed;
         }
         
     return EFalse;
@@ -6148,7 +5705,7 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
         
         if ( iView )
             {
-            iView->SetItemOffsetInPixels( 0 );            
+            iView->SetItemOffsetInPixels( 0 );
             }
         
         // make sure that highlight is removed and long tap is canceled 
@@ -6186,22 +5743,8 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
                                     EColorControlDimmedBackground : EColorControlBackground,*this);
         UpdateViewColors();
         UpdateItemDrawerColors();
-
-        // store the value of virtical offset as it will be 0 in SizeChange,
-        // that will affect view position in skin changed, which is a bug.
-        TInt oldOffset = 0; 
-        if ( iView )
-            {
-            oldOffset = iView->ItemOffsetInPixels();
-            }
-        // TODO: check if this call is real need here. 
+        
         SizeChanged();
-        if ( oldOffset !=0 && iView )
-            {
-            iView->SetItemOffsetInPixels( oldOffset );
-            UpdateScrollBarThumbs();
-            }
-        // this methord is empty.
         UpdateScrollBarsColors();
         
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
@@ -6231,12 +5774,10 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
             // Some client does not let list get button1up, so we do it there...
             iItemDrawer->ClearFlags( CListItemDrawer::EPressedDownState );
             TInt index = View()->CurrentItemIndex();
-            TBool enabled( !( iItemDrawer->Flags()
-                & CListItemDrawer::ESingleClickDisabledHighlight ) );
-            if ( index != KErrNotFound && enabled )
+            if ( index != KErrNotFound )
             	{
                 Window().Invalidate( TRect( View()->ItemPos(index), 
-                                    iItemDrawer->ItemCellSize() ) );
+            		                 View()->ItemSize() ) );
             	}
             break;
             }
@@ -6248,12 +5789,7 @@ EXPORT_C void CEikListBox::HandleResourceChange(TInt aType)
 
         case KAknMessageFocusLost:
             {
-            // Do not remove highlight if window ordinal position has changed
-            // during the time when stylus menu is open
-            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled &&
-                 ( iListBoxExt->iOldWinPos == KErrNotFound ||
-                   iListBoxExt->iOldWinPos == 
-                   DrawableWindow()->OrdinalPosition() ) )
+            if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
                 {
                 TBool enabled( iItemDrawer && !( iItemDrawer->Flags()
                     & CListItemDrawer::ESingleClickDisabledHighlight ) );
@@ -6416,15 +5952,9 @@ EXPORT_C void CEikListBox::EditItemL(TInt aMaxLength)
             {
             rect.iTl.iX += iItemDrawer->MarkColumn() + iItemDrawer->MarkGutter();
             }
-        if ( iListBoxExt )
-            {
-            iListBoxExt->SetReasonForFocusLost(EFocusLostToInternalEditor);
-            }
+        iListBoxExt->SetReasonForFocusLost(EFocusLostToInternalEditor);
         itemEditor->StartEditingL(*this,rect,index,aMaxLength);
-        if ( iListBoxExt )
-            {
-            iListBoxExt->SetReasonForFocusLost(EFocusLostToExternalControl);
-            }
+        iListBoxExt->SetReasonForFocusLost(EFocusLostToExternalControl);
         ReportListBoxEventL( MEikListBoxObserver::EEventEditingStarted );
         }
     _AKNTRACE_FUNC_EXIT;
@@ -6552,21 +6082,18 @@ void CEikListBox::DoShiftMSKMarkingL()
 EXPORT_C void CEikListBox::DisableScrolling( TBool aDisabled )
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( iListBoxExt )
+    iListBoxExt->iScrollingDisabled = aDisabled;
+    iView->iExtension->iScrollingDisabled = aDisabled;
+    
+    if ( aDisabled && iListBoxExt->iPhysics )
         {
-        iListBoxExt->iScrollingDisabled = aDisabled;
-        iView->iExtension->iScrollingDisabled = aDisabled;
-        
-        if ( aDisabled && iListBoxExt->iPhysics )
-            {
-            delete iListBoxExt->iPhysics;
-            iListBoxExt->iPhysics = NULL;
-            iView->SetItemOffsetInPixels( 0 );
-            }
-        else if ( !aDisabled && !iListBoxExt->iPhysics && CAknPhysics::FeatureEnabled() )
-            {
-            iListBoxExt->iPhysics = CAknPhysics::NewL( *iListBoxExt, this);      
-            }
+        delete iListBoxExt->iPhysics;
+        iListBoxExt->iPhysics = NULL;
+        iView->SetItemOffsetInPixels( 0 );
+        }
+    else if ( !aDisabled && !iListBoxExt->iPhysics && CAknPhysics::FeatureEnabled() )
+        {
+        iListBoxExt->iPhysics = CAknPhysics::NewL( *iListBoxExt, this);      
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -6578,29 +6105,19 @@ EXPORT_C void CEikListBox::DisableScrolling( TBool aDisabled )
 //
 EXPORT_C TBool CEikListBox::ScrollingDisabled()
     {
-    if ( iListBoxExt )
-        {
-        return !iListBoxExt->iPhysics || iListBoxExt->iScrollingDisabled;
-        }
-    else
-        {
-        return ETrue;
-        }
+    return !iListBoxExt->iPhysics || iListBoxExt->iScrollingDisabled;
     }
 
 
 EXPORT_C void CEikListBox::SetPointerEventFilterDisabledL( const CArrayFix<TInt>& aItemIndexes )
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( iListBoxExt )
+    iListBoxExt->iMutiTappingItems.Reset();
+
+    for(TInt i=0; i<aItemIndexes.Count(); i++ )
         {
-        iListBoxExt->iMutiTappingItems.Reset();
-    
-        for(TInt i=0; i<aItemIndexes.Count(); i++ )
-            {
-            iListBoxExt->iMutiTappingItems.InsertInOrderL( aItemIndexes.At(i) ); 
-            } 
-        }
+        iListBoxExt->iMutiTappingItems.InsertInOrderL( aItemIndexes.At(i) ); 
+        }   
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -6656,22 +6173,10 @@ EXPORT_C void CEikListBox::SuspendEffects( TBool aSuspend )
 //
 EXPORT_C void CEikListBox::DisableSingleClick( TBool aDisabled )
     {
-    _AKNTRACE_FUNC_ENTER;    
-    if ( aDisabled && 
-         iListBoxExt && 
-    	 iListBoxExt->iSingleClickEnabled && 
-    	 iItemDrawer )
+    _AKNTRACE_FUNC_ENTER;
+    if ( aDisabled && iListBoxExt->iSingleClickEnabled )
         {
         iListBoxExt->DisableSingleClick(); 
-        iItemDrawer->ClearFlags( CListItemDrawer::ESingleClickEnabled);
-        }
-    else if ( !aDisabled &&
-              iListBoxExt &&
-              !iListBoxExt->iSingleClickEnabled &&
-              iItemDrawer )
-        {
-        TRAP_IGNORE( iListBoxExt->EnableSingleClickL() );
-        iItemDrawer->SetFlags( CListItemDrawer::ESingleClickEnabled );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -6683,88 +6188,9 @@ EXPORT_C void CEikListBox::DisableSingleClick( TBool aDisabled )
 //
 EXPORT_C void CEikListBox::DisableItemSpecificMenu()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iListBoxExt )
         {
         iListBoxExt->DisableItemSpecificMenu();
-        }
-    _AKNTRACE_FUNC_EXIT;
-    }
-
-// ---------------------------------------------------------------------------
-// CEikListBox::IsHighlightEnabled
-// ---------------------------------------------------------------------------
-//
-EXPORT_C TBool CEikListBox::IsHighlightEnabled()
-    {
-    _AKNTRACE_FUNC_ENTER;	
-    TBool enabled( EFalse ); 
-    if ( !( iItemDrawer->Flags() & CListItemDrawer::EDisableHighlight ) )
-        {
-        if ( iListBoxExt && iListBoxExt->iSingleClickEnabled )
-            {
-            enabled = !( iItemDrawer->Flags()
-                & CListItemDrawer::ESingleClickDisabledHighlight ); 
-            }
-        else 
-            {
-            enabled = ETrue;
-            }
-        }
-    _AKNTRACE_FUNC_EXIT;
-    return enabled; 
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikListBox::SetMarkingMode
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CEikListBox::SetMarkingMode( TBool aEnable )
-    {
-    if ( iListBoxExt && iListBoxExt->iSingleClickEnabled && 
-            ( iListBoxFlags & CEikListBox::ES60StyleMarkable ) )
-        {
-        if ( iListBoxExt->iMarkingModeInUse != aEnable ) 
-            {
-            if ( aEnable )
-                {
-                iView->ItemDrawer()->SetFlags( 
-                        CListItemDrawer::EMarkingModeEnabled );
-                }
-            else
-                {
-                iView->ItemDrawer()->ClearFlags( 
-                        CListItemDrawer::EMarkingModeEnabled );
-            
-                if ( iView->SelectionIndexes()->Count() > 0 )
-                    {
-                    iView->ClearSelection( EFalse );
-                    }
-                }
-
-            iListBoxExt->iMarkingModeInUse = aEnable;
-            DrawDeferred();
-            }
-
-        if ( MarkingModeObserver() )
-            {
-            MarkingModeObserver()->MarkingModeStatusChanged( aEnable );
-            }
-        }
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikListBox::SetMarkingModeObserver
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CEikListBox::SetMarkingModeObserver( 
-        MAknMarkingModeObserver* aObserver )
-    {
-    if ( iListBoxExt )
-        {
-        iListBoxExt->iMarkingModeObserver = aObserver;
         }
     }
 
@@ -6774,9 +6200,9 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
 	_AKNTRACE_FUNC_ENTER;
 #ifdef _DEBUG
 	RDebug::Print( _L( "CEikListBox::ScrollView, aOffset = %d, aDrawNow = %d" ), aOffset, aDrawNow );
-#endif // _DEBUG	
-	
-	if ( iListBoxExt && aOffset != 0 )
+#endif // _DEBUG
+
+	if ( aOffset != 0 )
 	    {
         TInt itemHeight = iView->ItemHeight();
         TInt viewHeight = iView->ViewRect().Size().iHeight;
@@ -6807,18 +6233,18 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
                     ( newListBottomPos >= iListBoxExt->ListBottomLimit() ) ||
                     ( newListTopPos <= 0 && newListTopPos + viewHeight >= 0 && newListLastItemPos > viewHeight ) )
                     {
-                    switch(iListBoxExt->iPhysics->OngoingPhysicsAction())
+                    if ( CAknPhysics::EAknPhysicsActionFlicking == iListBoxExt->iPhysics->OngoingPhysicsAction() || 
+                         CAknPhysics::EAknPhysicsActionBouncing == iListBoxExt->iPhysics->OngoingPhysicsAction() )
                         {
-                        case CAknPhysics::EAknPhysicsActionBouncing:
-                        case CAknPhysics::EAknPhysicsActionDragging:
-                        case CAknPhysics::EAknPhysicsActionFlicking:
-                            iListBoxExt->ImmediateFeedback( 
-                                    ETouchFeedbackSensitiveList,
-                                    TTouchFeedbackType( ETouchFeedbackVibra ),
-                                    TPointerEvent() );
-                            break;
-                        default:
-                            break;
+                        iListBoxExt->ImmediateFeedback( ETouchFeedbackSensitiveItem,
+                                                        TTouchFeedbackType( ETouchFeedbackVibra ),
+                                                        TPointerEvent() );
+                        }
+                    else if ( CAknPhysics::EAknPhysicsActionDragging == iListBoxExt->iPhysics->OngoingPhysicsAction() )
+                        {
+                        iListBoxExt->ImmediateFeedback( iListBoxExt->iFeedbackType,
+                                                        TTouchFeedbackType( ETouchFeedbackVibra | ETouchFeedbackAudio ),
+                                                        TPointerEvent() );
                         }
                     }
                 }
@@ -6845,20 +6271,14 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
 #endif // _DEBUG
         iView->SetTopItemIndex( newTopItemIndex );
         }
-
     if ( aDrawNow )
         {
         TRect rect(Rect());
         
         // list position changed
-        if ( iListBoxExt && iListBoxExt->FlickOrPanningOngoing() )
-            {
-            iItemDrawer->SetFlags( CListItemDrawer::EDrawWholeBackground );
-            }
-
+        iListBoxExt->iBackgroundDrawingSuppressed = ETrue;
         UpdateScrollBarThumbs();
         DrawNow();
-
         if (iSBFrame && iSBFrame->VerticalScrollBar() && !iSBFrame->VerticalScrollBar()->OwnsWindow())
             {
             TRect srect( iSBFrame->VerticalScrollBar()->Rect() );
@@ -6867,12 +6287,7 @@ void CEikListBox::ScrollView( const TInt aOffset, TBool aDrawNow )
                 iSBFrame->DrawScrollBarsNow();                
                 }
             }
-
-        if ( iListBoxExt )
-            {
-            iItemDrawer->ClearFlags( CListItemDrawer::EDrawWholeBackground 
-                    | CListItemDrawer::EBackgroundDrawn );
-            }
+        iListBoxExt->iBackgroundDrawingSuppressed = EFalse;
         }        
     _AKNTRACE_FUNC_EXIT;
 	}
@@ -6887,10 +6302,20 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE( "aPointerEvent.iType = %d", aPointerEvent.iType );
     if ( iListBoxExt->iPhysics->OngoingPhysicsAction() == CAknPhysics::EAknPhysicsActionBouncing )
-        {  
-        // Block scrolling events outside listbox area.
-        if ( iListBoxExt->IgnorePointerEventsUntilUp() )
+        { 
+        // Block scrolling events outside listbox area. Note that pointer
+        // event ignore must be done for the window-owning control or it
+        // doesn't have any effect!
+        CCoeControl* windowOwningControl = this;
+        
+        while ( windowOwningControl && !windowOwningControl->OwnsWindow() )
             {
+            windowOwningControl = windowOwningControl->Parent();
+            }
+
+        if ( windowOwningControl )
+            {
+            windowOwningControl->IgnoreEventsUntilNextPointerUp();
             _AKNTRACE_FUNC_EXIT;
             return ETrue;
             }
@@ -6898,12 +6323,8 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
 
     TBool blockEvent = EFalse;
     
-    // If tap down in listbox area, kinetic scrolling is enabled and style popup menu is not shown,
-    // drag event is sent to listbox.
-    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) 
-            && !iListBoxExt->iScrollingDisabled 
-            && ( iListBoxExt->iSingleClickEnabled 
-                    && iListBoxExt->iLongTappedItem == KErrNotFound ) );
+    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) && iSBFrame && !iListBoxExt->iScrollingDisabled );
+
     
     switch ( aPointerEvent.iType )
         {
@@ -6933,13 +6354,7 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
                         {
                         iListBoxExt->iLastDownTappedItem = tappedItemIndex;
                         iListBoxExt->iMarkingDisabled = ETrue;
-                        iListBoxFlags|=ELeftDownInViewRect;                        
                         blockEvent = ETrue;
-                        iListBoxExt->ImmediateFeedback( 
-                            ETouchFeedbackList,
-                            TTouchFeedbackType( ETouchFeedbackVibra | 
-                            ETouchFeedbackAudio ),
-                            aPointerEvent );
                         }
                     }
                 }
@@ -7143,8 +6558,7 @@ void CEikListBox::UpdateHighlightL( TInt aItemIndex )
     _AKNTRACE_FUNC_ENTER;
     TInt oldCurrentItemIndex = iView->CurrentItemIndex();
 
-    if ( iListBoxExt && iListBoxExt->iReportDelayedPenDown 
-        && !iListBoxExt->iScrolling )
+    if ( iListBoxExt->iReportDelayedPenDown && !iListBoxExt->iScrolling )
         {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         if ( aItemIndex != oldCurrentItemIndex )
@@ -7167,24 +6581,16 @@ void CEikListBox::UpdateHighlightL( TInt aItemIndex )
             iListBoxExt->iDelayedPointerDownEvent );
         }
 
-    if ( iListBoxExt && iListBoxExt->iDelayedMultiselection )
+    if ( iListBoxExt->iDelayedMultiselection )
         {
         iItemDrawer->SetFlags( CListItemDrawer::EPressedDownState );
         }
     
     iView->SetItemIndex( aItemIndex );
 
-    if ( iListBoxExt && iListBoxExt->iMarkableListMarking )
+    if ( iListBoxExt->iMarkableListMarking )
         {
-        if ( iListBoxExt->iSingleClickEnabled )
-            {
-            if ( iListBoxExt->iMarkableListShiftKeyPressed )
-                {
-                iView->ToggleItemL( iView->CurrentItemIndex() );
-                iListBoxExt->iClickEventsAllowed = EFalse;
-                }
-            }
-        else if ( iListBoxExt->iMarkableListShiftKeyPressed )
+        if ( iListBoxExt->iMarkableListShiftKeyPressed )
            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
            iListBoxExt->iAnchor = oldCurrentItemIndex;
@@ -7212,7 +6618,7 @@ void CEikListBox::UpdateHighlightL( TInt aItemIndex )
     iView->DrawItem( oldCurrentItemIndex );
     iView->DrawItem( aItemIndex );
     
-    if ( iListBoxExt && iListBoxExt->iDelayedMultiselection )
+    if ( iListBoxExt->iDelayedMultiselection )
         {
         iListBoxFlags |= EStateChanged;
         Buffer()->iPressedIndex = aItemIndex;
@@ -7220,40 +6626,6 @@ void CEikListBox::UpdateHighlightL( TInt aItemIndex )
 
     ReportEventL( MCoeControlObserver::EEventStateChanged );
     _AKNTRACE_FUNC_EXIT;
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikListBox::MarkingMode
-// ---------------------------------------------------------------------------
-//
-TBool CEikListBox::MarkingMode() const
-    {
-    TBool markingModeInUse = EFalse;
-    
-    if ( iListBoxExt )
-        {
-        markingModeInUse = iListBoxExt->iMarkingModeInUse;
-        }
-    
-    return markingModeInUse;
-    }
-
-
-// ---------------------------------------------------------------------------
-// CEikListBox::MarkingModeObserver
-// ---------------------------------------------------------------------------
-//
-MAknMarkingModeObserver* CEikListBox::MarkingModeObserver()
-    {
-    MAknMarkingModeObserver* observer = NULL;
-    
-    if ( iListBoxExt )
-        {
-        observer = iListBoxExt->iMarkingModeObserver;
-        }
-    
-    return observer;
     }
 
 

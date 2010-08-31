@@ -80,11 +80,6 @@ EXPORT_C void CAknTreeList::SetFlags( TUint32 aFlags )
         View().EnableMarking( aFlags & KAknTreeListMarkable );
         }
 
-    if ( diff & KAknTreeListSmiley && !AknLayoutUtils::LayoutMirrored() )
-        {
-        Tree().InitSmiley();
-        }
-
     iFlags = aFlags;
     }
 
@@ -396,34 +391,6 @@ EXPORT_C void CAknTreeList::SetMarked( TAknTreeItemID aItem,
         {
         Window().Invalidate( View().Rect() );
         }
-    
-    // Update the marking of upper level node
-    CAknTreeItem* item = Tree().Item( aItem );
-    if ( item && item->Parent() && item->Parent()->IsNode() )
-        {
-        CAknTreeNode* node = item->Parent()->Node();
-        if (node)
-            {
-            TBool wasMarked = node->IsMarked();
-            
-            if (node->IsMarkable())
-                {
-                if (node->AllChildrenMarked())
-                    {
-                    node->SetMarked(ETrue);
-                    }            
-                else
-                    {
-                    node->SetMarked(EFalse);
-                    }
-                }
-            
-            if (wasMarked != node->IsMarked())
-                {
-                Window().Invalidate(View().Rect());
-                }
-            }
-        }
     }
 
 
@@ -661,17 +628,6 @@ EXPORT_C void CAknTreeList::SetEmptyTextL(const TDesC& aText)
 	{
 	View().SetEmptyTextL( aText );
 	}
-
-
-// ---------------------------------------------------------------------------
-// CAknTreeList::SetMarkingModeObserver
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CAknTreeList::SetMarkingModeObserver( 
-        MAknMarkingModeObserver* aObserver )
-    {
-    iMarkingModeObserver = aObserver;
-    }
 
 
 // ---------------------------------------------------------------------------
@@ -931,16 +887,6 @@ void CAknTreeList::PositionChanged()
 TTypeUid::Ptr CAknTreeList::MopSupplyObject( TTypeUid aId )
     {
     return CAknControl::MopSupplyObject( aId );
-    }
-
-
-// ---------------------------------------------------------------------------
-// Marking mode observer
-// ---------------------------------------------------------------------------
-//
-MAknMarkingModeObserver* CAknTreeList::MarkingModeObserver()
-    {
-    return iMarkingModeObserver;
     }
 
 

@@ -25,7 +25,6 @@
 #include "aknQueryControl.h"
 
 #include <AknTasHook.h> // for testability hooks
-#include "akntrace.h"
 //
 // CAknQueryEditIndicator
 //  Handles editor indicator for queries
@@ -52,7 +51,6 @@ CAknQueryEditIndicator::CAknQueryEditIndicator()
 
 void CAknQueryEditIndicator::ConstructL(CCoeControl* aControl)
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( CAknEnv::Static()->TransparencyEnabled() )
         {
         // In transparency everything broke when this had its own
@@ -72,22 +70,18 @@ void CAknQueryEditIndicator::ConstructL(CCoeControl* aControl)
     // Set to zero size - derived queries must set extent in PreDynInitLayout
     SetExtent(TPoint(0,0), TSize(0,0));
     ActivateL();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknQueryEditIndicator::SetState(TAknEditingState aState)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE( "[%s][%s] aState: %d", "CAknQueryEditIndicator", __FUNCTION__,aState);
     iState = aState;
     if (Observer())
     	{
-    	TRAP_IGNORE(Observer()->HandleControlEventL( this, MCoeControlObserver::EEventStateChanged ));
+    	Observer()->HandleControlEventL( this, MCoeControlObserver::EEventStateChanged );
     	}
     
     if ( iFlags.IsSet(CAknQueryControl::EEditorIndicatorOff) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -376,7 +370,6 @@ SetIndicator(EAknNaviPaneEditorIndicatorDevanagariPhoneticUpperCase,
         {
         DrawDeferred();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 CAknIndicatorContainer* CAknQueryEditIndicator::IndicatorContainer()

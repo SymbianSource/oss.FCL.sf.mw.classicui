@@ -24,9 +24,6 @@
 #include <avkon.mbg>
 
 #include <AknTasHook.h>
-#include <AvkonInternalCRKeys.h>
-#include <centralrepository.h> 
-
 #include "AknSignalIcon.h"
 #include "aknconsts.h"
 #include "AknUtils.h"
@@ -165,93 +162,6 @@ TInt CAknSignalIcon::ColorIndex()
 	return iColorIndex;	
 	}
 
-void CAknSignalIcon::LoadATTIconL(TInt aIconState, 
-                                  TInt aIconColorIndex )
-    {
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    CFbsBitmap* bitmap      = NULL;
-    CFbsBitmap* mask        = NULL;
-    
-    switch ( aIconState )
-        {
-        case EAknSignalHsdpaIndicatorAvailable:
-            AknsUtils::CreateColorIconL( skin,
-                                         KAknsIIDQgnIndiSignalWcdmaIcon,
-                                         KAknsIIDQsnIconColors,
-                                         aIconColorIndex,
-                                         bitmap,
-                                         mask,
-                                         AknIconUtils::AvkonIconFileName(), 
-                                         EMbmAvkonQgn_indi_signal_wcdma_icon,
-                                         EMbmAvkonQgn_indi_signal_wcdma_icon_mask,
-                                         KRgbGray );
-            break;
-        case EAknSignalHsdpaIndicatorAttached:
-        case EAknSignalHsdpaIndicatorEstablishingContext: 
-            AknsUtils::CreateColorIconL( skin,
-                                         KAknsIIDQgnIndiSignalWcdmaAttach,
-                                         KAknsIIDQsnIconColors,
-                                         aIconColorIndex,
-                                         bitmap,
-                                         mask, 
-                                         AknIconUtils::AvkonIconFileName(), 
-                                         EMbmAvkonQgn_indi_signal_wcdma_attach,
-                                         EMbmAvkonQgn_indi_signal_wcdma_attach_mask,
-                                         KRgbGray );
-            break;
-        case EAknSignalHsdpaIndicatorContext:
-            AknsUtils::CreateColorIconL( skin,
-                                         KAknsIIDQgnIndiSignalWcdmaContext,
-                                         KAknsIIDQsnIconColors,
-                                         aIconColorIndex,
-                                         bitmap,
-                                         mask, 
-                                         AknIconUtils::AvkonIconFileName(), 
-                                         EMbmAvkonQgn_indi_signal_wcdma_context,
-                                         EMbmAvkonQgn_indi_signal_wcdma_context_mask,
-                                         KRgbGray );
-            break;
-        case EAknSignalHsdpaIndicatorMultipdp:
-            AknsUtils::CreateColorIconL( skin,
-                                         KAknsIIDQgnIndiSignalWcdmaMultipdp,
-                                         KAknsIIDQsnIconColors,
-                                         aIconColorIndex,
-                                         bitmap,
-                                         mask,
-                                         AknIconUtils::AvkonIconFileName(), 
-                                         EMbmAvkonQgn_indi_signal_wcdma_multipdp,
-                                         EMbmAvkonQgn_indi_signal_wcdma_multipdp_mask,
-                                         KRgbGray );
-            break;
-        case EAknSignalHsdpaIndicatorSuspended:
-            AknsUtils::CreateColorIconL( skin,
-                                         KAknsIIDQgnIndiSignalWcdmaSuspended,
-                                         KAknsIIDQsnIconColors,
-                                         aIconColorIndex,
-                                         bitmap,
-                                         mask, 
-                                         AknIconUtils::AvkonIconFileName(), 
-                                         EMbmAvkonQgn_indi_signal_wcdma_suspended,
-                                         EMbmAvkonQgn_indi_signal_wcdma_suspended_mask,
-                                         KRgbGray ); 
-            break;
-        }
-    if ( bitmap )
-        {
-        delete iSignalIcon;
-        iSignalIcon = bitmap;
-        AknIconUtils::SetSize( iSignalIcon, Size() );
-        }
-
-    if ( mask )
-        {
-        delete iSignalIconMask;
-        iSignalIconMask = mask;
-        }
-
-    iIconState  = aIconState;
-    iColorIndex = aIconColorIndex;
-    }
 // ---------------------------------------------------------------------------
 // CAknSignalIcon::LoadIconL
 // ---------------------------------------------------------------------------
@@ -272,8 +182,6 @@ void CAknSignalIcon::LoadIconL( TInt aIconState,
     CFbsBitmap* bitmap      = NULL;
     CFbsBitmap* mask        = NULL;
 
-    TBool isHsdpa = ( aIconState >= EAknSignalHsdpaIndicatorAvailable
-                    && aIconState <= EAknSignalHsdpaIndicatorMultipdp );
     if ( iOffLine )
         {
         // Offline mode is not an actual signal state in the signal icon
@@ -292,11 +200,6 @@ void CAknSignalIcon::LoadIconL( TInt aIconState,
         }
     else
         {
-        if( iATTEnable && isHsdpa)
-            {
-            LoadATTIconL( aIconState, aIconColorIndex );
-            return;
-            }
         switch( aIconState )
             {
             // Old legacy GPRS icons.
@@ -652,62 +555,6 @@ void CAknSignalIcon::LoadIconL( TInt aIconState,
                                              KRgbGray );          
                 break;        
     
-            case EAknSignalUmaIndicatorOff:
-                // default icon
-                AknsUtils::CreateColorIconL(skin, KAknsIIDQgnPropSignalIcon,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_prop_signal_icon,
-                        EMbmAvkonQgn_prop_signal_icon_mask, KRgbGray );
-                break;
-
-            case EAknSignalUmaIndicatorAvailable:
-                AknsUtils::CreateColorIconL( skin,
-                        KAknsIIDQgnIndiSignalUmaIcon,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_indi_signal_uma_icon,
-                        EMbmAvkonQgn_indi_signal_uma_icon_mask,
-                        KRgbGray );                         
-                break;
-                
-            case EAknSignalUmaIndicatorAttached:
-            case EAknSignalUmaIndicatorEstablishingContext:
-                AknsUtils::CreateColorIconL(skin,
-                        KAknsIIDQgnIndiSignalUmaAttach,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_indi_signal_uma_attach,
-                        EMbmAvkonQgn_indi_signal_uma_attach_mask, KRgbGray );                  
-                break;
-                
-            case EAknSignalUmaIndicatorContext:
-                AknsUtils::CreateColorIconL(skin,
-                        KAknsIIDQgnIndiSignalUmaContext,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_indi_signal_uma_context,
-                        EMbmAvkonQgn_indi_signal_uma_context_mask, KRgbGray );                   
-                break;
-                
-            case EAknSignalUmaIndicatorSuspended:
-                AknsUtils::CreateColorIconL(skin,
-                        KAknsIIDQgnIndiSignalUmaSuspended,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_indi_signal_uma_suspended,
-                        EMbmAvkonQgn_indi_signal_uma_suspended_mask, KRgbGray );                                   
-                break;
-                
-            case EAknSignalUmaIndicatorMultipdp:
-                AknsUtils::CreateColorIconL(skin,
-                        KAknsIIDQgnIndiSignalUmaMultipdp,
-                        KAknsIIDQsnIconColors, aIconColorIndex, bitmap, mask,
-                        AknIconUtils::AvkonIconFileName(),
-                        EMbmAvkonQgn_indi_signal_uma_multipdp,
-                        EMbmAvkonQgn_indi_signal_uma_multipdp_mask, KRgbGray );                      
-                        break;
-                        
             // Default in all situations
             default:
                 AknsUtils::CreateColorIconL( skin,
@@ -831,17 +678,6 @@ CAknSignalIcon::CAknSignalIcon()
 //
 void CAknSignalIcon::ConstructL()
 	{
-	CRepository* repo = CRepository::NewL( KCRUidAvkon );
-
-    TInt aTTEnabled = EFalse;
-    iATTEnable = EFalse;
-    TInt crErr = repo->Get( KAknATTSignalIconEnable, aTTEnabled );
-    if ( crErr == KErrNone )
-        {
-        iATTEnable = aTTEnabled;
-        }
-    delete repo;
-    repo = NULL;
 	}
 
 //  End of File  

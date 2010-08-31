@@ -49,7 +49,7 @@
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
 
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <AknsUtils.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include "GlobalWindowPriorities.h"
@@ -766,13 +766,12 @@ void CAknGlobalNoteDialog::CAknStaticNoteDialog_Reserved()
 
 void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
-    if (aPointerEvent.iType == TPointerEvent::EButton1Down)
+    if(aPointerEvent.iType == TPointerEvent::EButton1Down)
         {
         iCaptured = ETrue;
         }
-    
     if (Rect().Contains(aPointerEvent.iPosition) && (aPointerEvent.iType == TPointerEvent::EButton1Up)
-        && iIsAlarm && iCaptured)
+        && iIsAlarm)
         {
         if (!iIsAlarmWakeup)
             {
@@ -789,10 +788,12 @@ void CAknGlobalNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEven
         {
         CAknStaticNoteDialog::HandlePointerEventL(aPointerEvent);
         }
-    if (aPointerEvent.iType == TPointerEvent::EButton1Up)
+    
+    if(aPointerEvent.iType == TPointerEvent::EButton1Up)
         {
         iCaptured = EFalse;
         }
+    
     }
 
 // class CAknGlobalNoteSubject
@@ -1454,7 +1455,7 @@ TInt CAknGlobalNoteSubject::AddSoftNotificationL(
 
 void CAknGlobalNoteSubject::TryDisplayNextNoteL(TBool aShowAsynch)
     {
-    if ( !iGlobalNoteList || iGlobalNoteList->Count() == 0 )
+    if ( iGlobalNoteList && iGlobalNoteList->Count() == 0 )
         {
         return;
         }

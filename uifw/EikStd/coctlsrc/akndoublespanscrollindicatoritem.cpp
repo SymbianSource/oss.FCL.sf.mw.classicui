@@ -78,8 +78,38 @@ void CAknDoubleSpanScrollIndicatorItem::ConstructL(TBool /*aRotated*/,
         TInt        /*aBottomItemBitmapId*/,
         TInt        /*aBottomItemMaskId*/)
     {
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     iTopId = aTopItem;
     iMidId = aMiddleItem;
     iBottomId = aBottomItem;
     }
 
+void CAknDoubleSpanScrollIndicatorItem::CreateSkinnedBitmapAndMaskL(MAknsSkinInstance* aInstance,
+    const TAknsItemID& aID,
+    CFbsBitmap*& aBitmap,
+    CFbsBitmap*& aMask,
+    TBool /*aRotated*/)
+    {
+    CFbsBitmap* skinnedBitmap = NULL;
+    CFbsBitmap* skinnedMask = NULL;
+
+    // note, real fallback icons are not (yet) available in avkon icon file.
+    TRAP_IGNORE(AknsUtils::CreateIconL( aInstance, aID, skinnedBitmap, skinnedMask, KNullDesC, -1, -1 ));
+
+    if(!skinnedBitmap)
+        {
+        AknsUtils::CreateIconL( aInstance, aID, skinnedBitmap, KNullDesC, -1 );
+        }
+
+    aBitmap = skinnedBitmap;
+    aMask = skinnedMask;
+
+    }
+
+CFbsBitmap* CAknDoubleSpanScrollIndicatorItem::CreateBitmapL(CFbsBitmap* /*aSourceBitmap*/, TBool /*aRotated*/)
+    {
+   
+
+    return NULL;
+    }
+	

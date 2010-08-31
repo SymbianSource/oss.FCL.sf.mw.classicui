@@ -1,0 +1,82 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the BCTestServiceHandler.
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          BCTestServiceHandler.exe
+TARGETTYPE      exe
+UID             0x0 0x20007628
+
+VENDORID        0x101FB657
+
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE   0x10000
+EPOCHEAPSIZE    0x10000 0x1000000
+
+START RESOURCE  BCTestServiceHandler.rss
+HEADER
+TARGETPATH      resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctestservicehandlerapp.cpp
+SOURCE          bctestservicehandlerdocument.cpp
+SOURCE          bctestservicehandlerappui.cpp
+SOURCE          bctestservicehandlerview.cpp
+SOURCE          bctestservicehandlercontainer.cpp
+SOURCE          bctestservicehandlercase.cpp
+
+USERINCLUDE     .
+USERINCLUDE     ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         AknSkins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY	        efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         servicehandler.lib
+LIBRARY         bafl.lib
+
+START RESOURCE  ../group/bctestservicehandler_reg.rss
+DEPENDS bctestservicehandler.rsg
+HEADER
+TARGETPATH      /private/10003a3f/apps
+END
+
+// End of File

@@ -119,7 +119,7 @@ public: // Functions from base classes
         if ( AknsUtils::AvkonSkinEnabled() )
             {
             AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
-                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19 );
+                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
             }
 
         ItemDrawer()->SetTextColor( color );
@@ -128,7 +128,7 @@ public: // Functions from base classes
         if ( AknsUtils::AvkonSkinEnabled() )
             {
             AknsUtils::GetCachedColor( AknsUtils::SkinInstance(),
-                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG19 );
+                                   color, KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
             }
 
         ItemDrawer()->SetHighlightedTextColor( color );
@@ -165,8 +165,7 @@ private:
 */
 NONSHARABLE_CLASS( CAknChoiceListPopup ) : public CCoeControl,
                   public MEikListBoxObserver,                  
-                  MEikCommandObserver,
-                  public MCoeForegroundObserver
+                  MEikCommandObserver
     {
 public:      
     CAknChoiceListPopup() : iIndex( -1 ), iCancelled( EFalse )
@@ -246,8 +245,6 @@ public:
             iAvkonAppUi->RemoveFromStack( this );
             iEikonEnv->BringForwards( EFalse );
             AknGlobalPopupPriorityController::ShowPopup(*this, EFalse);
-            DrawableWindow()->SetNonFading( EFalse );
-            iCoeEnv->RemoveForegroundObserver( *this );
             
             if ( AknLayoutUtils::PenEnabled() )
                 {
@@ -295,6 +292,9 @@ public:
             {
             TRAP_IGNORE( iList->ScrollBarFrame()->SetScrollBarVisibilityL(
                 CEikScrollBarFrame::EOff, CEikScrollBarFrame::EOff) );
+                
+            // Enable scrolling
+            iList->DisableScrolling( EFalse );   
             }
             
         layoutRect.LayoutRect( rectParent, 
@@ -391,9 +391,7 @@ public:
         iEikonEnv->BringForwards( ETrue );
         DrawableWindow()->SetOrdinalPosition( 0 );    
         AknGlobalPopupPriorityController::ShowPopup(*this, ETrue);
-        DrawableWindow()->SetNonFading( ETrue );
-        iCoeEnv->AddForegroundObserverL( *this );
-       
+        
         // this will fix possibly corrupted index        
         if ( iIndex < iList->Model()->ItemTextArray()->MdcaCount() && iIndex >= 0 )
             {
@@ -471,8 +469,7 @@ public:
             if ( aKeyEvent.iScanCode == EStdKeyUpArrow || 
                  aKeyEvent.iScanCode == EStdKeyDownArrow || 
                  aKeyEvent.iScanCode == EStdKeyEnter ||
-                 aKeyEvent.iScanCode == EStdKeyDevice3 ||
-                 aKeyEvent.iScanCode == EStdKeyNkpEnter )
+                 aKeyEvent.iScanCode == EStdKeyDevice3 )
                 {            
                 return iList->OfferKeyEventL(aKeyEvent, aType);    
                 }
@@ -483,15 +480,6 @@ public:
                 }            
             }
         return EKeyWasNotConsumed;          
-        }
-    
-    void HandleGainingForeground()
-        {
-        }
-
-    void HandleLosingForeground()
-        {
-        CloseChoiceList();   
         }
 
 private:
@@ -528,6 +516,13 @@ private:
         
         if ( AknLayoutUtils::PenEnabled() )
             {
+            
+            // Make sure that scrolling is enabled for choicelist
+            if ( iList->ScrollingDisabled() )
+                {
+                iList->DisableScrolling( EFalse );
+                }
+                    
             TRect ctrlArea = iList->Rect();
             
             if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
@@ -788,7 +783,7 @@ void CAknChoiceList::SizeChanged()
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
                 {
                 TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                     *iLabel, EColorLabelText, textColor) );
@@ -1070,7 +1065,7 @@ EXPORT_C void CAknChoiceList::HandleResourceChange( TInt aType )
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
                 {
                 TRAP_IGNORE( 
                     AknLayoutUtils::OverrideControlColorL( 
@@ -1133,7 +1128,7 @@ void CAknChoiceList::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 {
                 feedback->InstantFeedback(
                     this,
-                    ETouchFeedbackList,
+                    ETouchFeedbackBasicItem,
                     aPointerEvent );
                 }     
             if ( Rect().Contains( aPointerEvent.iPosition ))
@@ -1161,7 +1156,7 @@ void CAknChoiceList::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     {
                     feedback->InstantFeedback(
                         this,
-                        ETouchFeedbackIncreasingPopUp,
+                        ETouchFeedbackPopupOpen,
                     	aPointerEvent );
                     }
                 else
@@ -1505,7 +1500,7 @@ void CAknChoiceList::UpdateLabelL()
            TRgb textColor;
 
             if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor, 
-                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG6) == KErrNone )
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8) == KErrNone )
                 {
                 TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                     *iLabel, EColorLabelText, textColor) );

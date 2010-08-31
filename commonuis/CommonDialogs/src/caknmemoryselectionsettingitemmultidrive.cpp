@@ -26,45 +26,26 @@
 #include "MAknCFDFileSystemObserver.h"
 
 
-NONSHARABLE_CLASS(CAknMemorySelectionSettingItemExtension)
-    : public CBase,
-      public MAknCFDFileSystemObserver
+NONSHARABLE_CLASS(CAknMemorySelectionSettingItemExtension) : public CBase,
+                                                             public MAknCFDFileSystemObserver
     {
 
 public:
-    CAknMemorySelectionSettingItemExtension(
-        CAknMemorySelectionSettingItemMultiDrive* aSettingItem );
+    CAknMemorySelectionSettingItemExtension(CAknMemorySelectionSettingItemMultiDrive* aSettingItem);
     ~CAknMemorySelectionSettingItemExtension();
 
-    /**
-     * second phase construct
-     *
-     * @param aIncludedMedias bit flag definition of which medias are
-     *        included in the dialog. See AknCommonDialogsDynMem::TMemoryTypes.
-     */
-    void ConstructL( TInt aIncludedMedias );
+    // second phase construct
+    void ConstructL();
     
     /**
      * Static constructor.
      *
      * @since S60 5.0
      * @param aSettingItem defines a pointer to the setting item. 
-     * @param aIncludedMedias bit flag definition of which medias are
-     *        included in the dialog. See AknCommonDialogsDynMem::TMemoryTypes.
-     *        if not set, use dialog default value.
      * @return Returns a pointer to an instance of itself.
      */
-    static CAknMemorySelectionSettingItemExtension* NewL(
-        CAknMemorySelectionSettingItemMultiDrive* aSettingItem,
-        TInt aIncludedMedias = -1 );
+    static CAknMemorySelectionSettingItemExtension* NewL(CAknMemorySelectionSettingItemMultiDrive* aSettingItem);
     
-    /**
-     * Construct memory selection dialog
-     *
-     * @param aIncludedMedias bit flag definition of which medias are
-     *        included in the dialog. See AknCommonDialogsDynMem::TMemoryTypes.
-     */
-    void ConstructDialogL( TInt aIncludedMedias );
     
     // Functions from base interface MAknCFDFileSystemObserver
     /**
@@ -80,9 +61,6 @@ public:
     
     // Own: The extension of setting item
     CAknCFDFileSystemEvent* iFSEvent;
-    
-    // Own: Indicate which media types of drives could be visible.
-    TInt iIncludedMedias;
     };
 
 // ======== MEMBER FUNCTIONS ========
@@ -116,10 +94,7 @@ EXPORT_C CAknMemorySelectionSettingItemMultiDrive::
 //
 EXPORT_C void CAknMemorySelectionSettingItemMultiDrive::CompleteConstructionL()
     {
-    if ( !iExtension )
-        {
-        iExtension = CAknMemorySelectionSettingItemExtension::NewL( this );
-        }
+    iExtension = CAknMemorySelectionSettingItemExtension::NewL(this);
     }
 
 
@@ -144,30 +119,28 @@ EXPORT_C void CAknMemorySelectionSettingItemMultiDrive::EditItemL(
     else
         {
         // Changed with selection key
-        if( ( iExtension->iDialog->NumberOfItems() == 2 ) )
+        if( ( iExtension->iDialog->NumberOfItems() == 2 ) &&
+                ( !iExtension->iDialog->HasUnavailbleMMC() ) )
             {
             // Two items in list, function as binary pop-up setting page
             TInt selectedIndex =
-                iExtension->iDialog->FindIndexByDrive( iInternalData );
+                iExtension->iDialog->FindIndexByDrive(
+                    iInternalData );
 	          if ( selectedIndex == KErrNotFound )
 	              {
 	              selectedIndex = 0;
 	              }
 	          else
 	              {
-                  TDriveNumber driveNum =
-                      iExtension->iDialog->FindDriveByIndex( 1 - selectedIndex );
-                  if ( AknCFDUtility::DriveStatusL( driveNum ) == EDriveOK )
-                      {
-                      selectedIndex = 1 - selectedIndex; // switch to another one.
-                      }
+	              selectedIndex = 1 - selectedIndex; // switch to another one.
 	              }
             iInternalData =
                 iExtension->iDialog->FindDriveByIndex( selectedIndex );
             }
         else
             {
-            iExtension->iDialog->ExecuteL( iInternalData, NULL, NULL );
+            iExtension->iDialog->ExecuteL(
+                iInternalData, NULL, NULL );
             }
         }
 
@@ -209,46 +182,25 @@ EXPORT_C const TDesC& CAknMemorySelectionSettingItemMultiDrive::SettingTextL()
         CompleteConstructionL();
         }
 
-    TInt memoryIndex = iExtension->iDialog->FindIndexByDrive( iInternalData );
-    if ( AknCFDUtility::DriveStatusL( iInternalData ) != EDriveOK )
+    TInt memoryIndex = iExtension->iDialog->FindIndexByDrive(
+                            iInternalData );
+    if ( AknCFDUtility::DriveStatusL( iInternalData )
+         != EDriveOK )
         {
-        // Find the first proper drive in the dialog list.
-        memoryIndex = 0;
-        while ( memoryIndex < iExtension->iDialog->NumberOfItems() )
-            {
-            iInternalData = iExtension->iDialog->FindDriveByIndex( memoryIndex );
-            if ( AknCFDUtility::DriveStatusL( iInternalData ) == EDriveOK )
-                {
-                break;
-                }
-            memoryIndex++;
-            }
-        // Not find the proper drive.
-        if ( memoryIndex == iExtension->iDialog->NumberOfItems() )
-            {
-            iInternalData = EDriveC;
-            memoryIndex = KErrNotFound;
-            }
+        TInt drive;
+        User::LeaveIfError( DriveInfo::GetDefaultDrive(
+            DriveInfo::EDefaultSystem, drive ) );
+        memoryIndex = iExtension->iDialog->FindIndexByDrive(
+                            TDriveNumber( drive ) );
         }
-
-    if ( memoryIndex == KErrNotFound )
-        {
-        return KNullDesC;
-        }
-
     if( !iSettingText )
         iSettingText = HBufC::NewL( KMaxName );
     TPtr ptrSettingText( iSettingText->Des() );
     iExtension->iDialog->GetItem( memoryIndex, ptrSettingText );
-
     return *iSettingText;
     }
 
 
-// ---------------------------------------------------------------------------
-// CAknMemorySelectionSettingItemMultiDrive::UpdateSettingItemContentL
-// ---------------------------------------------------------------------------
-//
 void CAknMemorySelectionSettingItemMultiDrive::UpdateSettingItemContentL()
     {
     if ( iExtension->iDialog != NULL )
@@ -258,34 +210,19 @@ void CAknMemorySelectionSettingItemMultiDrive::UpdateSettingItemContentL()
 
         // Update setting item value.
         TInt selectedIndex = iExtension->iDialog->
-            FindIndexByDrive( iInternalData );
+            FindIndexByDrive(iInternalData);
 
-        if ( selectedIndex == KErrNotFound )
+        if (selectedIndex == KErrNotFound)
             {
-            // If the selected index is not found, set it to the first one
-            selectedIndex = 0;
+            iInternalData = EDriveC;
             }
-        iInternalData = iExtension->iDialog->FindDriveByIndex( selectedIndex );
+        else
+            {
+            iInternalData = iExtension->iDialog->
+                FindDriveByIndex(selectedIndex);
+            }
 
         UpdateListBoxTextL();
-        }
-    }
-
-// ---------------------------------------------------------------------------
-// CAknMemorySelectionSettingItemMultiDrive::SetIncludedMediasL
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CAknMemorySelectionSettingItemMultiDrive::SetIncludedMediasL(
-    TInt aIncludedMedias )
-    {
-    if ( !iExtension )
-        {
-        iExtension = CAknMemorySelectionSettingItemExtension::NewL(
-            this, aIncludedMedias );
-        }
-    else if ( iExtension->iIncludedMedias != aIncludedMedias )
-        {
-        iExtension->ConstructDialogL( aIncludedMedias );
         }
     }
 
@@ -296,8 +233,7 @@ EXPORT_C void CAknMemorySelectionSettingItemMultiDrive::SetIncludedMediasL(
 // ---------------------------------------------------------------------------
 //
 CAknMemorySelectionSettingItemExtension::
-    CAknMemorySelectionSettingItemExtension(
-        CAknMemorySelectionSettingItemMultiDrive* aSettingItem )
+        CAknMemorySelectionSettingItemExtension(CAknMemorySelectionSettingItemMultiDrive* aSettingItem)
         : iSettingItem( aSettingItem )
     {
     }
@@ -340,43 +276,16 @@ void CAknMemorySelectionSettingItemExtension::NotifyFileSystemChangedL()
 
 // ---------------------------------------------------------------------------
 // CAknMemorySelectionSettingItemExtension
-// ConstructDialogL
-// ---------------------------------------------------------------------------
-//
-void CAknMemorySelectionSettingItemExtension::ConstructDialogL(
-    TInt aIncludedMedias )
-    {
-    if ( iDialog )
-        {
-        delete iDialog;
-        iDialog = NULL;
-        }
-    
-    iIncludedMedias = aIncludedMedias;
-    
-    if ( aIncludedMedias == -1 )
-        {
-        iDialog = CAknMemorySelectionDialogMultiDrive::NewL(
-            ECFDDialogTypeNormal, ETrue );
-        }
-    else
-        {
-        iDialog = CAknMemorySelectionDialogMultiDrive::NewL( 
-            ECFDDialogTypeNormal, 0, ETrue, aIncludedMedias );
-        }
-    }
-
-// ---------------------------------------------------------------------------
-// CAknMemorySelectionSettingItemExtension
 // ConstructL
 // ---------------------------------------------------------------------------
 //
-void CAknMemorySelectionSettingItemExtension::ConstructL( TInt aIncludedMedias )
+void CAknMemorySelectionSettingItemExtension::ConstructL()
     {
-    ConstructDialogL( aIncludedMedias );
     
-    iFSEvent = CAknCFDFileSystemEvent::NewL(
-        CCoeEnv::Static()->FsSession(), *this, ENotifyDisk );
+    iDialog = CAknMemorySelectionDialogMultiDrive::NewL(
+            ECFDDialogTypeNormal, ETrue);
+    
+    iFSEvent = CAknCFDFileSystemEvent::NewL(CCoeEnv::Static()->FsSession(), *this, ENotifyDisk);
     }
 
 // ---------------------------------------------------------------------------
@@ -384,16 +293,13 @@ void CAknMemorySelectionSettingItemExtension::ConstructL( TInt aIncludedMedias )
 // NewL
 // ---------------------------------------------------------------------------
 //
-CAknMemorySelectionSettingItemExtension*
-    CAknMemorySelectionSettingItemExtension::NewL(
-        CAknMemorySelectionSettingItemMultiDrive* aSettingItem,
-        TInt aIncludedMedias )
+CAknMemorySelectionSettingItemExtension*  CAknMemorySelectionSettingItemExtension::NewL(CAknMemorySelectionSettingItemMultiDrive* aSettingItem)
     {
     CAknMemorySelectionSettingItemExtension* self =
-        new( ELeave ) CAknMemorySelectionSettingItemExtension( aSettingItem );
+        new( ELeave ) CAknMemorySelectionSettingItemExtension(aSettingItem);
 
     CleanupStack::PushL( self );
-    self->ConstructL( aIncludedMedias );
+    self->ConstructL();
     CleanupStack::Pop( self );
 
     return self;

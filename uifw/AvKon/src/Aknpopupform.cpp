@@ -596,17 +596,6 @@ EXPORT_C void CAknPopupForm::SetTextL( const TDesC* aText )
                 {
                 ClearArea( Rect() );
                 UpdateScrollIndicatorL();
-                // if iNoOfEditorLines becomes small, firstly calculate the New PopupForm layout.
-				// Because position of PopupForm is related to last PoppupForm layout.
-				if ( iNoOfEditorLines < oldNoOfLines )
-					{
-					TSize size;
-				    if ( !AknLayoutUtils::LayoutMetricsSize( AknLayoutUtils::EScreen, size ) )
-				    	{
-						size = iCoeEnv->ScreenDevice()->SizeInPixels() ;
-				    	}
-					SetSizeAndPosition( PreferredSize( size ) );
-					}
                 LayoutAndDraw();
                 }
             else if ( IsActivated() )
@@ -2347,15 +2336,6 @@ EXPORT_C void CAknPopupForm::InsertControlL( const TInt aIndex, const TInt aReso
     UpdateFlags( ctrlType, ETrue );
 
     CalculateNumberOfScreens();
-    // because of insert a control, iNoOfEditorLines of editor become small, 
-    // but position is calculated by previous size of editor,
-    // So firstly calculate editor layout.
-    TSize size;
-    if ( !AknLayoutUtils::LayoutMetricsSize( AknLayoutUtils::EScreen, size ) )
-    	{
-		size = iCoeEnv->ScreenDevice()->SizeInPixels() ;
-    	}
-	SetSizeAndPosition( PreferredSize( size ) );
     LayoutAndDraw();
     UpdateScrollIndicatorL();
 

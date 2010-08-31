@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         This is project specification file for the AknAtList
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          BCTestQuery.exe
+TARGETTYPE      exe
+UID             0x0 0x200045C9
+EPOCSTACKSIZE   0x10000
+EPOCHEAPSIZE    0x10000 0x1000000
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent UserEnvironment
+
+TARGETPATH      /sys/bin
+
+START RESOURCE bctestquery.rss
+HEADER
+TARGETPATH /resource/apps
+END  // RESOURCE
+
+//LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctestqueryapp.cpp 
+SOURCE          bctestqueryappUi.cpp
+SOURCE          bctestquerydocument.cpp
+SOURCE          bctestquerycontainer.cpp
+SOURCE          bctestqueryview.cpp
+SOURCE          bctestlistquery.cpp
+SOURCE          bctestquerydialog.cpp
+SOURCE          bctestqueryvalue.cpp
+
+USERINCLUDE     . ../Inc
+// for autotest
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         cone.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         avkon.lib
+LIBRARY         eikctl.lib 
+LIBRARY         bafl.lib
+LIBRARY         eikdlg.lib                                                  
+LIBRARY         AknSkins.lib
+LIBRARY         AknIcon.lib
+LIBRARY         egul.lib
+LIBRARY         gdi.lib
+LIBRARY         efsrv.lib
+LIBRARY         estor.lib
+LIBRARY         insock.lib
+LIBRARY         bctestutil.lib
+
+// Changes for Scalable UI:
+// New registration resource defined.
+// else Normal AIF will work.
+
+START RESOURCE ../group/bctestquery_reg.rss
+DEPENDS bctestquery.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+   
+// End of File

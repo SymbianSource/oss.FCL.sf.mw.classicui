@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -75,27 +75,13 @@ public: // Data
      * Extension flags.
      */
     TBitFlags iFlags;
-
-    /**
-     * Item that received pen down event
-     */
-    TInt iPenDownOnItem;
-    
-    /**
-     * Is selection valid
-     */
-    TBool iIsValidSelection;
-    
     };
 // end of CAknRadioButtonSettingPageExtension class definition
 
 
 CAknRadioButtonSettingPageExtension::CAknRadioButtonSettingPageExtension(
     CCoeControl& aOwner ) :
-    iOldFocusedItemIndex( -1 ),
-    iIsDragged( EFalse ),
-    iPenDownOnItem ( KErrNotFound ),
-    iIsValidSelection( ETrue )
+    iOldFocusedItemIndex(-1), iIsDragged( EFalse )
     {
     if ( static_cast<CAknAppUi*>(
             aOwner.ControlEnv()->AppUi() )->IsSingleClickCompatible() )
@@ -243,14 +229,6 @@ EXPORT_C void CAknRadioButtonSettingPage::HandleListBoxEventL(CEikListBox* /*aLi
 		
     switch ( aEventType )
         {
-        case MEikListBoxObserver::EEventPenDownOnItem:
-            {
-            if ( iExtension )
-                {
-                iExtension->iPenDownOnItem = ListBoxControl()->CurrentItemIndex();
-                }
-            break;
-            }
         case MEikListBoxObserver::EEventItemSingleClicked:
         case MEikListBoxObserver::EEventItemDoubleClicked:
             {
@@ -269,9 +247,7 @@ EXPORT_C void CAknRadioButtonSettingPage::HandleListBoxEventL(CEikListBox* /*aLi
             // Only in single click enabled applications.
             if ( iExtension &&
                  iExtension->iFlags.IsSet(
-                     CAknRadioButtonSettingPageExtension::ESingleClickEnabled ) &&
-                 iCurrentSelectionIndex >= 0 &&
-                 iCurrentSelectionIndex < ListBoxControl()->Model()->NumberOfItems() )
+                     CAknRadioButtonSettingPageExtension::ESingleClickEnabled ) )
                 {
                 ListBoxControl()->View()->SetCurrentItemIndex(
                     iCurrentSelectionIndex );
@@ -309,17 +285,8 @@ void CAknRadioButtonSettingPage::SetRadioButtonSelectionL( TInt aPushed )
 	} 
 
 EXPORT_C void CAknRadioButtonSettingPage::SelectCurrentItemL()
-	{   
-    if ( ListBoxControl()->IsHighlightEnabled() || 
-            ( iExtension && iExtension->iIsValidSelection ) )
-        {
-        iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
-        }
-    else
-        {
-        ListBoxControl()->SetCurrentItemIndex ( iCurrentSelectionIndex );
-        }
-
+	{
+    iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
     SetRadioButtonSelectionL( iCurrentSelectionIndex );
 	UpdateSettingL();
 	if( iSettingPageObserver )
@@ -487,22 +454,7 @@ EXPORT_C void CAknRadioButtonSettingPage::HandlePointerEventL(const TPointerEven
     TPointerEvent& event = const_cast<TPointerEvent&>( aPointerEvent );
     event.iModifiers &= ~EModifierShift;
     event.iModifiers &= ~EModifierCtrl;
-    
-    if ( iExtension )
-        {
-        TInt index ( KErrNotFound );
-        ListBoxControl()->View()->XYPosToItemIndex( 
-            aPointerEvent.iPosition, index );
-        if ( index == iExtension->iPenDownOnItem 
-                && iExtension->iPenDownOnItem != KErrNotFound )
-            {
-            iExtension->iIsValidSelection = ETrue;
-            }
-        else
-            {
-            iExtension->iIsValidSelection = EFalse;
-            }
-        }
+
     CAknListBoxSettingPage::HandlePointerEventL( aPointerEvent );
     }
 
@@ -525,16 +477,10 @@ EXPORT_C void CAknRadioButtonSettingPage::Reserved_2()
 EXPORT_C void CAknRadioButtonSettingPage::HandleResourceChange(TInt aType)
 	{
     if( aType == KAknsMessageSkinChange )
-        {
-        TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
-        }
-    else if( aType == KEikMessageFadeAllWindows )
-        {
-        if ( iExtension )
-            {
-            iExtension->iIsValidSelection = EFalse;
-            }
-        }
+    	{
+    	TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
+    	}
+	
 	CAknListBoxSettingPage::HandleResourceChange(aType);
 	}
 
@@ -551,19 +497,5 @@ EXPORT_C void CAknRadioButtonSettingPage::CAknSettingPage_Reserved_2()
 EXPORT_C void CAknRadioButtonSettingPage::CAknListBoxSettingPage_Reserved_1()
 	{
 	}
-
-//---------------------------------------------------------------------------------------
-// CAknRadioButtonSettingPage::ProcessCommandL()
-// Processes events from the softkeys. (Or translated from key events)
-//---------------------------------------------------------------------------------------
-//
-EXPORT_C void CAknRadioButtonSettingPage::ProcessCommandL( TInt aCommandId )
-    {
-    if ( !EnableSingleClickHighlight( aCommandId ) )
-        {
-        // no single click mode was enabled, just call the base class method
-        CAknSettingPage::ProcessCommandL( aCommandId );
-        }
-    }
 
 // End of File

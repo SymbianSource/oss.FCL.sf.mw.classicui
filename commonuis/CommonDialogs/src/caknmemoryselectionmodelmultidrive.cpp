@@ -22,7 +22,6 @@
 #include <coemain.h>
 #include <StringLoader.h>
 #include <commondialogs.rsg>
-#include <rsfwmountman.h>
 #include <pathinfo.h> //PathInfo
 #include <barsread.h>   // TResourceReader
 #include <driveinfo.h> //DriveInfo
@@ -303,18 +302,6 @@ TInt CAknMemorySelectionModelMultiDrive::ResourceIDForLayoutPopupMenuItem(
             resource = R_CFD_QTN_MEMC_REMOTE_DRIVE;
             break;
             }
-        case ETextUSBDefaultName:
-            {
-            // qtn.memc.usb.available.single.list
-            resource = R_CFD_QTN_MEMC_USB_AVAILABLE_SINGLE_LIST;
-            break;
-            }
-        case ETextUSBUnavailable:
-            {
-            // qtn.memc.usb.unavailable.single.list
-            resource = R_CFD_QTN_MEMC_USB_UNAVAILABLE_SINGLE_LIST;
-            break;
-            }
         }
     return resource;
     }
@@ -365,13 +352,6 @@ TInt CAknMemorySelectionModelMultiDrive::ResourceIDForLayoutSettingPageItem(
             resource = R_CFD_QTN_MEMC_REMOTE_DRIVE;
             break;
             }
-        case ETextUSBDefaultName:
-        case ETextUSBUnavailable:
-            {
-            // qtn.memc.usb.available.single.list
-            resource = R_CFD_QTN_MEMC_USB_AVAILABLE_SINGLE_LIST;
-            break;
-            }
         }
     return resource;
     }
@@ -399,6 +379,13 @@ TInt CAknMemorySelectionModelMultiDrive::ResourceIDForLayoutDoublePopupItem(
             resource = R_CFD_QTN_MEM_MASS_STORAGE_DOUBLE_LIST;
             break;
             }
+        case ETextInternalMassStorageUnavailable:
+            {
+            // Unavailable:qtn.memc.mmc.unavailable.double
+            // Only for second row
+            resource = R_CFD_QTN_MEMC_MMC_UNAVAILABLE_DOUBLE;
+            break;
+            }
         case ETextMMCNamed:
             {
             // If MMC's name is given.
@@ -419,25 +406,16 @@ TInt CAknMemorySelectionModelMultiDrive::ResourceIDForLayoutDoublePopupItem(
             resource = R_CFD_QTN_MEMC_MMC_LOCKED_DOUBLE;
             break;
             }
+        case ETextMMCUnavailable:
+            {
+            // qtn.memc.mmc.unavailable.double
+            resource = R_CFD_QTN_MEMC_MMC_UNAVAILABLE_DOUBLE;
+            break;
+            }
         case ETextRemoteDrive:
             {
             // TODO: To be checked because of missing data in UI spec.
             resource = R_CFD_QTN_MEMC_REMOTE_DRIVE_DOUBLE_LIST;
-            break;
-            }
-        case ETextUSBDefaultName:
-            {
-            // qtn.memc.usb.available.double
-            resource = R_CFD_QTN_MEMC_USB_AVAILABLE_DOUBLE;
-            break;
-            }
-        case ETextMMCUnavailable:
-        case ETextUSBUnavailable:
-        case ETextInternalMassStorageUnavailable:
-            {
-            // Unavailable:qtn.memc.mmc.unavailable.double
-            // Only for second row
-            resource = R_CFD_QTN_MEMC_MMC_UNAVAILABLE_DOUBLE;
             break;
             }
         }
@@ -471,15 +449,9 @@ void CAknMemorySelectionModelMultiDrive::AddItemToLbxL(
     else if( aDriveInfo.iStatus & DriveInfo::EDriveRemovable  )
         {
         // External mass storage drive, like external MMC
-        if( aDriveInfo.iStatus & DriveInfo::EDriveUsbMemory )
-        	{
-        	AddUSBItemToLbxL( aDriveInfo );
-        	}
-        else
-        	{
-        	AddMMCItemToLbxL( aDriveInfo );
-        	iHasMMCUnavailable = ( aDriveInfo.iDriveStatus == EDriveNotReady );
-        	}
+        AddMMCItemToLbxL( aDriveInfo );
+
+        iHasMMCUnavailable = ( aDriveInfo.iDriveStatus == EDriveNotReady );
         }
     else if ( ( aDriveInfo.iStatus & DriveInfo::EDriveRemote )
         && ( aDriveInfo.iMediaType == EMediaRemote ) )
@@ -935,171 +907,6 @@ void CAknMemorySelectionModelMultiDrive::AddMMCItemToLbxL(
     _LOG1( "itemString length=%d", itemString.Length() );
     }
 
-// ---------------------------------------------------------------------------
-// CAknMemorySelectionModelMultiDrive::AddUSBItemToLbxL
-// ---------------------------------------------------------------------------
-//
-void CAknMemorySelectionModelMultiDrive::AddUSBItemToLbxL(
-    const TCFDDriveInfo& aDriveInfo )
-    {
-    HBufC* lbxItemBuf = HBufC::NewLC( KListBoxEntryMaxLength );
-    TPtr itemString( lbxItemBuf->Des() );
-    HBufC* textItemBuf = HBufC::NewLC( KListBoxEntryMaxLength );
-    TPtr textString( textItemBuf->Des() );
-    HBufC* textItemBuf2 = HBufC::NewLC( KListBoxEntryMaxLength );
-    TPtr textString2( textItemBuf2->Des() );
-    TDriveUnit driveUnit( aDriveInfo.iDriveNumber );
-
-    // Item text is affected by layout
-    switch( iLayout )
-        {
-        case ELayoutPopupMenu:
-            {
-            itemString.Format( KImageHeader, EIconExternalUSBDrive );
-            itemString.Append( KTabChar );
-
-            // 1st row text:
-            if( aDriveInfo.iDriveStatus == EDriveOK )
-                {
-                if( aDriveInfo.iVolumeLabel.Length() > 0 )
-                    {
-                    StringLoader::Format(
-                        textString2,
-                        *iLocStringArray[ ETextMMCNamed ],
-                        KIndexFirst,
-                        driveUnit.Name()
-                        );
-                    StringLoader::Format(
-                        textString,
-                        textString2,
-                        KIndexSecond,
-                        aDriveInfo.iVolumeLabel
-                        );
-                    }
-                else
-                    {
-                    StringLoader::Format(
-                        textString,
-                        *iLocStringArray[ ETextUSBDefaultName ],
-                        KNoIndex,
-                        driveUnit.Name()
-                        );
-                    }
-                }
-            else
-                {
-                StringLoader::Format(
-                    textString,
-                    *iLocStringArray[ ETextUSBUnavailable ],
-                    KNoIndex,
-                    driveUnit.Name()
-                    );
-                }
-            itemString.Append( textString );
-
-            break;
-            }
-        case ELayoutSettingPage:
-            {
-            // 1st row text:
-            if( aDriveInfo.iVolumeLabel.Length() > 0 )
-                {
-                // Append drive name if it has one
-                StringLoader::Format(
-                    textString,
-                    *iLocStringArray[ ETextMMCNamed ],
-                    KIndexFirst,
-                    driveUnit.Name()
-                    );
-                StringLoader::Format(
-                    itemString,
-                    textString,
-                    KIndexSecond,
-                    aDriveInfo.iVolumeLabel
-                    );
-                }
-            else
-                {
-                StringLoader::Format(
-                    itemString,
-                    *iLocStringArray[ ETextUSBDefaultName ],
-                    KNoIndex,
-                    driveUnit.Name()
-                    );
-                }
-            break;
-            }
-        case ELayoutDoublePopup:
-            {
-            itemString.Format( KImageHeader, EIconExternalUSBDrive );
-            itemString.Append( KTabChar );
-
-            // 1st row text:
-            if( aDriveInfo.iVolumeLabel.Length() > 0 )
-                {
-                StringLoader::Format(
-                    textString2,
-                    *iLocStringArray[ ETextMMCNamed ],
-                    KIndexFirst,
-                    driveUnit.Name()
-                    );
-                StringLoader::Format(
-                    textString,
-                    textString2,
-                    KIndexSecond,
-                    aDriveInfo.iVolumeLabel
-                    );
-                }
-            else
-                {
-                // Use default drive description
-                StringLoader::Format(
-                    textString,
-                    *iLocStringArray[ ETextUSBDefaultName ],
-                    KNoIndex,
-                    driveUnit.Name()
-                    );
-                }
-            itemString.Append( textString );
-            itemString.Append( KTabChar );
-
-            // 2nd row text:
-            if ( aDriveInfo.iDriveStatus == EDriveOK )
-                {
-                HBufC* buffer;
-                TInt64 freeSpace = aDriveInfo.iDiskSpace;
-                if ( freeSpace >= 0 )
-                    {
-                    buffer = HBufC::NewLC( KListBoxEntryMaxLength );  
-                    TPtr unitStr( buffer->Des() );
-                    AknCFDUtility::SetSecondRowTextL( freeSpace, unitStr );
-                    }
-                else
-                    {
-                    // Disk space is unavailable
-                    buffer = StringLoader::LoadLC(
-                                R_CFD_QTN_MEMC_SPACE_NOT_AVAILABLE,
-                                iCoeEnv);
-                    }
-                itemString.Append( *buffer );//Free mem text
-                CleanupStack::PopAndDestroy( buffer );
-                }
-            else
-                {
-                itemString.Append(
-                    *iLocStringArray[ ETextUSBUnavailable ] );
-                }
-            break;
-            }
-        }
-
-    // Finally!: append the formatted string to listbox
-    User::LeaveIfError( iListBoxArray.Append( lbxItemBuf ) );
-    CleanupStack::PopAndDestroy( 2 ); // textItemBuf2, textItemBuf
-    CleanupStack::Pop( lbxItemBuf );
-    _LOG1( "[CAknMemorySelectionModelMultiDrive] Item string added to lbx array: %S", &itemString );
-    _LOG1( "itemString length=%d", itemString.Length() );
-    }
 
 // ---------------------------------------------------------------------------
 // CAknMemorySelectionModelMultiDrive::AddRemoteItemToLbxL
@@ -1175,18 +982,18 @@ void CAknMemorySelectionModelMultiDrive::AddRemoteItemToLbxL( const TCFDDriveInf
                 _LIT( KEmptySpace, " ");
                 itemString.Append( KEmptySpace ); 
 
-                if( aDriveInfo.iConnectionState == KMountStronglyConnected )
-                    {
+                //if( aDriveInfo.iConnectionState == KMountStronglyConnected )
+                //    {
+                // D-column icon: Show active icon if drive has no error
+                //    itemString.Append( KTabChar );
+                //    itemString.AppendFormat(
+                //      KImageHeader, EIconRemoteDriveActive );
+                //    }
+                //else // KMountNotConnected
+                //    {
                     // D-column icon: Show active icon if drive has no error
-                    itemString.Append( KTabChar );
-                    itemString.AppendFormat(
-                        KImageHeader, EIconRemoteDriveActive );
-                    }
-                else // KMountNotConnected
-                    {
-                    // D-column icon: Show active icon if drive has no error
-                    itemString.Append( KTabChar );
-                    }
+                itemString.Append( KTabChar );
+                //    }
                 }
             else
                 {
@@ -1341,21 +1148,6 @@ void CAknMemorySelectionModelMultiDrive::UpdateDataArraysL()
                 driveNumber = TDriveNumber( i );
                 rootPath.Zero();
                 memoryType = AknCFDUtility::DriveMemoryTypeL( driveNumber );
-                if ( memoryType == AknCommonDialogsDynMem::EMemoryTypeMMCExternal &&
-                        ( iIncludedMedias & AknCommonDialogsDynMem::EMemoryTypeMMCExternalInDevice ) )
-                    {
-                    // Hide usb memory
-                    TCFDDriveInfo info;
-                    AknCFDUtility::DriveInfoL( driveNumber, info );
-                    if ( info.iStatus & DriveInfo::EDriveUsbMemory )
-                        {
-                        continue;
-                        }
-                    else
-                        {
-                        memoryType = AknCommonDialogsDynMem::EMemoryTypeMMCExternalInDevice;
-                        }
-                    }
                 if( memoryType & iIncludedMedias )
                     {
                     User::LeaveIfError(
@@ -1403,21 +1195,6 @@ void CAknMemorySelectionModelMultiDrive::UpdateDataArraysL()
             if (drive)
                 {
                 memoryType = AknCFDUtility::DriveMemoryTypeL( driveNumber );
-                if ( memoryType == AknCommonDialogsDynMem::EMemoryTypeMMCExternal &&
-                        ( iIncludedMedias & AknCommonDialogsDynMem::EMemoryTypeMMCExternalInDevice ) )
-                    {
-                    // Hide usb memory
-                    TCFDDriveInfo info;
-                    AknCFDUtility::DriveInfoL( driveNumber, info );
-                    if ( info.iStatus & DriveInfo::EDriveUsbMemory )
-                        {
-                        continue;
-                        }
-                    else
-                        {
-                        memoryType = AknCommonDialogsDynMem::EMemoryTypeMMCExternalInDevice;
-                        }
-                    }
                 if( memoryType & iIncludedMedias )
                     {
                     User::LeaveIfError(

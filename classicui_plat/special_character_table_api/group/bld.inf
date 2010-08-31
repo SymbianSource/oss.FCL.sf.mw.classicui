@@ -25,5 +25,4 @@ DEFAULT
 PRJ_EXPORTS
 
 ../inc/AknSctDialog.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknSctDialog.h)
-../inc/AknCharMap.h       MW_LAYER_PLATFORM_EXPORT_PATH(aknCharMap.h)
-../inc/AknSmileyUtils.h   MW_LAYER_PLATFORM_EXPORT_PATH(AknSmileyUtils.h)
+../inc/AknCharMap.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknCharMap.h)

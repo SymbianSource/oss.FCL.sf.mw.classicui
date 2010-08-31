@@ -331,6 +331,11 @@ private: // data
     RWindowGroup iWindowGroup;
 
     /**
+     * Transparency factor. Between KAlphaMin and KAlphaMax.
+     */
+    TInt iAlpha;
+
+    /**
      * Timer
      * Own.
      */
@@ -373,6 +378,11 @@ private: // data
      * Not own.
      */
     MTouchFeedback* iFeedBack;
+    
+    /**
+     * Time stamp for tracking popup fade in / fade out.
+     */
+    TTime iFadeTime;
     
     };
 

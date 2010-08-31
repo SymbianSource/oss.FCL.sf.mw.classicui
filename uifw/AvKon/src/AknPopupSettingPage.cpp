@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -44,7 +44,7 @@ _LIT(KPopupSettingListLeadingLayoutText, "1\t");
 #include <aknlistboxtfxinternal.h>
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-#include <AknPriv.hrh>
+
 
 // ----------------------------------------------------------------------------
 // Extension class definition
@@ -317,8 +317,7 @@ EXPORT_C void CAknPopupSettingList::HandleListBoxEventL(CEikListBox* /*aListBox*
             // ensures that correct item gets selected if setting page is
             // accepted by clicking the left softkey.
             if ( iExtension && iExtension->iFlags.IsSet( 
-                     CAknPopupSettingListExtension::ESingleClickEnabled ) &&
-                 ItemExists( iCurrentSelection ) )
+                    CAknPopupSettingListExtension::ESingleClickEnabled ) )
                 {
                 View()->SetCurrentItemIndex( iCurrentSelection );
                 }
@@ -677,14 +676,7 @@ EXPORT_C void CAknPopupSettingPage::ConstructL()
     SetEditedItemFrameIID( KAknsIIDQsnFrSetOpt, KAknsIIDQsnFrSetOptCenter );
 
 	iQueryValue.SetQueryMode( MAknQueryValue::ESettingPageMode );
-	//
-	// SetQueryValue make the view item drawn by default, SetDisableRedraw can remove flick
-	//
-	TBool bRedrawDisabled = PopupSettingListBox()->View()->RedrawDisabled();
-	PopupSettingListBox()->View()->SetDisableRedraw( ETrue );
 	PopupSettingListBox()->SetQueryValueL( &iQueryValue );
-	PopupSettingListBox()->View()->SetDisableRedraw( bRedrawDisabled);
-
 	CheckAndSetDataValidity();
 	UpdateCbaL();
 
@@ -743,6 +735,7 @@ EXPORT_C MAknQueryValue* CAknPopupSettingPage::QueryValue() const
 
 EXPORT_C void CAknPopupSettingPage::SelectCurrentItemL()
 	{
+#ifdef RD_TOUCH2
     CAknPopupSettingList* list = PopupSettingListBox();
     
     if ( ( list->ItemDrawer()->Flags() & 
@@ -751,6 +744,7 @@ EXPORT_C void CAknPopupSettingPage::SelectCurrentItemL()
         {
         list->View()->SetCurrentItemIndex( list->CurrentSelection() );
         }
+#endif // RD_TOUCH2
     
     PopupSettingListBox()->SelectCurrentItemL();
 	} 
@@ -789,14 +783,6 @@ EXPORT_C void CAknPopupSettingPage::WriteInternalStateL(RWriteStream& aWriteStre
 EXPORT_C void CAknPopupSettingPage::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
     CAknListBoxSettingPage::HandlePointerEventL(aPointerEvent); 
-    if ( TPointerEvent::EDrag == aPointerEvent.iType )
-        {
-        if ( !( Rect().Contains( aPointerEvent.iPosition ) ) )
-            {
-            // Clear focus if dragged outside popup
-            PopupSettingListBox()->HandleResourceChange( KAknMessageFocusLost );
-            }
-        }
     }
 
 EXPORT_C void* CAknPopupSettingPage::ExtensionInterface( TUid /*aInterface*/ ) 
@@ -826,19 +812,5 @@ EXPORT_C void CAknPopupSettingPage::CAknSettingPage_Reserved_2()
 EXPORT_C void CAknPopupSettingPage::CAknListBoxSettingPage_Reserved_1()
 	{
 	}
-
-//---------------------------------------------------------------------------------------
-// CAknPopupSettingPage::ProcessCommandL()
-// Processes events from the softkeys. (Or translated from key events)
-//---------------------------------------------------------------------------------------
-//
-EXPORT_C void CAknPopupSettingPage::ProcessCommandL( TInt aCommandId )
-    {
-    if ( !EnableSingleClickHighlight( aCommandId ) )
-        {
-        // no single click mode was enabled, just call the base class method
-        CAknSettingPage::ProcessCommandL( aCommandId );
-        }
-    }
 
 // End of File

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 15 16" width="15">
+<defs>
+<radialGradient cx="7.881" cy="5.012" gradientUnits="userSpaceOnUse" id="shape4grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.504,8C14.504,11.59,11.593,14.5,8.004,14.5C4.414,14.5,1.504,11.59,1.504,8C1.504,4.411,4.414,1.5,8.004,1.5C11.593,1.5,14.504,4.411,14.504,8z" fill="url(#shape4grad)" fill-rule="evenodd" transform="translate(0)"/>
+<g>
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.334;0.5;0.667;0.834;1" type="translate" values="5.728,7.157;4.728,7.157;5.728,7.157;6.728,7.157;5.728,7.157;4.728,7.157;5.728,7.157"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-5.727,-7.156;-5.727,-7.156"/>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(5.729,7.139)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="0.889" ry="0.935" transform="translate(5.75,8.228)"/>
+</g>
+<g>
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.334;0.5;0.667;0.834;1" type="translate" values="10.145,7.139;9.145,7.139;10.145,7.139;11.145,7.139;10.145,7.139;9.145,7.139;10.145,7.139"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-10.144,-7.138;-10.144,-7.138"/>
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(10.146,7.139)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="0.889" ry="0.934" transform="translate(9.99,8.190)"/>
+</g>
+<g transform="translate(0)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.334;0.5;0.667;0.834;1" type="translate" values="7.894,12.239;6.894,12.239;7.894,12.239;8.894,12.239;7.894,12.239;6.894,12.239;7.894,12.239"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-7.893,-12.238;-7.893,-12.238"/>
+<g transform="translate(0)">
+<g transform="translate(0)">
+<path d="M6.354,13.124C7.25,12.228,8.25,11.853,9.440,13.06L10.042,12.457C8.604,11.04,7.271,10.895,5.747,12.558C5.942,12.756,6.173,12.943,6.354,13.124z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+</g>
+</g>
+<path d="M12.827,7.323C12.461,7.875,11.997,6.722,10.996,6.056C9.993,5.391,8.831,5.466,9.197,4.913C9.565,4.359,10.675,4.449,11.676,5.114C12.681,5.782,13.195,6.769,12.827,7.323z" fill="black" fill-rule="evenodd" transform="translate(0,0)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.334;0.5;0.667;0.834;1" type="translate" values="11.036,6.006;10.036,6.006;11.036,6.006;12.036,6.006;11.036,6.006;10.036,6.006;11.036,6.006"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-11.035,-6.005;-11.035,-6.005"/>
+</path>
+<path d="M6.975,4.981C7.282,5.571,6.047,5.415,4.981,5.968C3.912,6.521,3.415,7.575,3.109,6.986C2.803,6.395,3.421,5.469,4.488,4.915C5.558,4.362,6.671,4.393,6.975,4.981z" fill="black" fill-rule="evenodd" transform="translate(0)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.06s" fill="freeze" keyTimes="0;0.167;0.334;0.5;0.667;0.834;1" type="translate" values="5.029,5.837;4.029,5.837;5.029,5.837;6.029,5.837;5.029,5.837;4.029,5.837;5.029,5.837"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-5.028,-5.836;-5.028,-5.836"/>
+</path>
+</g>
+</svg>

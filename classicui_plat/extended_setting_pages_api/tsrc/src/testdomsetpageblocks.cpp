@@ -777,11 +777,8 @@ TInt CTestDOMSetPage::TestDrawL( CStifItemParser& /*aItem*/ )
             CAknTransparentCameraSettingPageExt( R_SETTING_PAGE, index, array );
     CleanupStack::PushL( setPageExt );
     setPageExt->ConstructL();
-  
-    CWindowGc& gc = setPageExt->SystemGc();              
-    gc.Activate( *setPageExt->DrawableWindow() );  
+
     setPageExt->DoDraw( TRect() );
-    gc.Deactivate();
 
     CleanupStack::PopAndDestroy( setPageExt );
     CleanupStack::PopAndDestroy( array );

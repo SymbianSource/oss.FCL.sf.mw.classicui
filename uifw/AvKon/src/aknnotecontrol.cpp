@@ -49,8 +49,6 @@ using namespace SkinLayout;
 #include <touchfeedback.h>
 
 #include <AknTasHook.h> // for testability hooks
-
-#include "akntrace.h"
 const TInt KRate = 95;    // 95% similar rate
 const TInt KFullColor = 255;
 
@@ -75,7 +73,6 @@ EXPORT_C CAknNoteControl::CAknNoteControl()
  */
 EXPORT_C CAknNoteControl::~CAknNoteControl()
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
@@ -85,7 +82,6 @@ EXPORT_C CAknNoteControl::~CAknNoteControl()
 
     delete iAttributes;
     delete iLineWidths;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknNoteControl::ConstructFromResourceL(TResourceReader &aRes)
@@ -132,8 +128,7 @@ void CAknNoteControl::Reset()
 //  CCOECONTROL METHODS
 // -----------------------------------------
 void CAknNoteControl::Draw(const TRect& /*aRect*/) const
-    {
-    _AKNTRACE_FUNC_ENTER;
+    {   
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
 
     MAknsControlContext* cc = iAttributes->iBgContext;
@@ -192,7 +187,6 @@ void CAknNoteControl::Draw(const TRect& /*aRect*/) const
         {
         iShadowRect.DrawRect( gc );
         }   
-    _AKNTRACE_FUNC_EXIT;
     }
     
 EXPORT_C void CAknNoteControl::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
@@ -283,10 +277,8 @@ TSize CAknNoteControl::MinimumSize()
  * Call Layout instead.
  */
 void CAknNoteControl::SizeChanged()
-    {
-    _AKNTRACE_FUNC_ENTER;
+    {  
     DoLayout();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /** 
@@ -295,8 +287,6 @@ void CAknNoteControl::SizeChanged()
  */
 void CAknNoteControl::DoLayout()
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("iNoteLayout = %d", iNoteLayout);
     TextControl()->SetRect(LayoutRect());
     switch(iNoteLayout)
         {
@@ -343,7 +333,6 @@ void CAknNoteControl::DoLayout()
             delete spec;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -353,8 +342,6 @@ void CAknNoteControl::DoLayout()
  */
 void CAknNoteControl::WindowLayout( TAknWindowLineLayout& aLayout ) const
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("iNoteLayout = %d", iNoteLayout);
     TIndex laf(NumberOfLines());
     AknLayoutUtils::TAknCbaLocation cbaLocation( AknLayoutUtils::CbaLocation() );
     TInt variety( 0 );
@@ -449,7 +436,6 @@ void CAknNoteControl::WindowLayout( TAknWindowLineLayout& aLayout ) const
                 laf.PopupNoteWindow() );
             break;
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -671,7 +657,7 @@ void CAknNoteControl::ImageNoteLabelLayout()
 
             AknLayoutUtils::LayoutLabel(TextControl()->Line(i),LayoutRect(),
                 AKN_LAYOUT_TEXT_Note_with_an_image_pop_up_window_texts_Line_1(
-                lafIndex.NWIPWindowTextsLine1Left(i),lafIndex.NWIPWindowTextsLine1Right(i),
+                lafIndex.NWIPWindowTextsLine1L(i),lafIndex.NWIPWindowTextsLine1R(i),
                 lafIndex.NWIPWindowTextsLine1B(i),lafIndex.NWIPWindowTextsLine1W(i)));
 
             if (!error)
@@ -916,7 +902,7 @@ void CAknNoteControl::SetLineWidthsL()
             for (TInt i=0; i < KINMaxNumLines; i++)
                 {
                 TAknTextLineLayout lay = AKN_LAYOUT_TEXT_Note_with_an_image_pop_up_window_texts_Line_1(
-                    lafIndex.NWIPWindowTextsLine1Left(i),lafIndex.NWIPWindowTextsLine1Right(i),
+                    lafIndex.NWIPWindowTextsLine1L(i),lafIndex.NWIPWindowTextsLine1R(i),
                     lafIndex.NWIPWindowTextsLine1B(i),lafIndex.NWIPWindowTextsLine1W(i));
                 text.LayoutText(LayoutRect(), lay);
                 TInt width = text.TextRect().Width();
@@ -1161,7 +1147,7 @@ EXPORT_C TInt CAknNoteControl::CancelAnimation()
 EXPORT_C void CAknNoteControl::ResetText()
     {
     // This can not Leave so no need to use TRAP 
-    TRAP_IGNORE(Attributes()->SetTextL(KNullDesC));
+    Attributes()->SetTextL(KNullDesC);
     Layout();
     }
 
@@ -1196,9 +1182,8 @@ EXPORT_C void CAknNoteControl::SetTextL(const TDesC& aText)
  */
 EXPORT_C void CAknNoteControl::SetTextL(const TDesC& aText, TInt aLineNum)
     {
-    _AKNTRACE_FUNC_ENTER;
     TAknLayoutText textRect;
-    _AKNTRACE(_L("SetTextL = %S"), &aText);
+    
     if ( iNoteLayout == ENotificationWithGraphicsLayout || iNoteLayout == ETextualNotificationLayout )
         {
         textRect.LayoutText(LayoutRect(), AKN_LAYOUT_TEXT_Notification_pop_up_window_texts__text__Line_1(1));
@@ -1212,7 +1197,6 @@ EXPORT_C void CAknNoteControl::SetTextL(const TDesC& aText, TInt aLineNum)
 
     Attributes()->SetTextL(aText, aLineNum, font, iLineWidths);
     Layout();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1479,16 +1463,16 @@ TInt CAknNoteControl::TIndex::WNPWindowTextsLine1(TInt aLineNum) const
  * number type indication (NTI). See table in *.lay and
  * LAF specs for working out indexes.
  */
-TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1Left(TInt aLineNum) const
+TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1L(TInt aLineNum) const
     {
     SelfTest();
-    static const TInt  KNWIPWindowTextsLine1IndexLeft[2][3] = 
+    static const TInt  KNWIPWindowTextsLine1IndexL[2][3] = 
     {   
         {0, 0, 0}, //NO NTI
         {0, 0, 2}  //NTI
     }; 
     
-    return KNWIPWindowTextsLine1IndexLeft[HasNtiIndex()][aLineNum];
+    return KNWIPWindowTextsLine1IndexL[HasNtiIndex()][aLineNum];
     }
 
 /**
@@ -1501,18 +1485,18 @@ TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1Left(TInt aLineNum) const
  * - Dimension 2 is the image width  
  * - Dimension 3 is the image height 
  */
-TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1Right(TInt aLineNum) const
+TInt CAknNoteControl::TIndex::NWIPWindowTextsLine1R(TInt aLineNum) const
     {
     SelfTest();
 
-    static const TInt  KNWIPWindowTextsLine1IndexRight[3][5][5] = 
+    static const TInt  KNWIPWindowTextsLine1IndexR[3][5][5] = 
     {   
         {{0, 0, 0, 0, 0}, {0, 3, 3, 3, 3}, {0, 5, 5, 5, 5}, {0, 7, 7, 7, 7}, {0, 9, 9, 9, 9} }, //FIRST LINE
         {{0, 0, 0, 0, 0}, {0, 3, 3, 3, 3}, {0, 5, 5, 5, 5}, {0, 7, 7, 7, 7}, {0, 9, 9, 9, 9} }, //SECOND LINE
         {{0, 0, 0, 0, 0}, {0, 0, 0, 3, 3}, {0, 0, 0, 5, 5}, {0, 0, 0, 7, 7}, {0, 0, 0, 9, 9} }  //THIRD LINE
     }; 
     
-    return KNWIPWindowTextsLine1IndexRight[aLineNum][ImageWidthIndex()][ImageHeightIndex()];
+    return KNWIPWindowTextsLine1IndexR[aLineNum][ImageWidthIndex()][ImageHeightIndex()];
 
     }
 

@@ -1,0 +1,1040 @@
+/*
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource structure definitions for Avkon.
+*
+*/
+
+
+#ifndef __AVKON_HRH__
+#include <avkon.hrh>
+#endif
+
+#if !defined(__BADEF_RH__)
+#include <badef.rh>
+#endif
+
+#if !defined(__UIKON_HRH__)
+#include <uikon.hrh>
+#endif
+
+STRUCT AVKON_SYSTEM_FONT
+    {
+    LONG fontuid; // a value from fontids.hrh
+    STRUCT named_font; // this must be a NAMED_FONT structure type
+    }
+
+STRUCT NAVI_DECORATOR
+    {
+    WORD type=ENaviDecoratorControlNone;
+    STRUCT control;
+    }
+
+STRUCT TITLE_PANE
+    {
+    LTEXT txt="";
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    }
+
+STRUCT CONTEXT_PANE
+    {
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    }
+
+STRUCT TAB_GROUP
+    {
+    WORD tab_width = EAknTabWidthWithTwoTabs;  // two tabs
+    WORD active = 0; // index of the first active tab
+    STRUCT tabs[];
+    }
+
+STRUCT TAB
+    {
+    WORD id=0;
+    LTEXT txt="";
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    }
+
+STRUCT NAVI_LABEL
+    {
+    LTEXT txt="";
+    }
+
+STRUCT NAVI_IMAGE
+    {
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    }
+
+STRUCT SIGNAL_PANE
+    {
+    WORD level = 0;
+    }
+
+STRUCT BATTERY_PANE
+    {
+    WORD level = 0;
+    }
+
+STRUCT INDICATOR_PANE
+    {
+    STRUCT indicators[];
+    }
+
+STRUCT INDICATOR
+    {
+    WORD uid;
+    WORD npriority=0xffff;
+    WORD wpriority=0xffff;
+    LTEXT bmpfile="";
+    STRUCT states[];
+    }
+
+STRUCT INDICATOR_STATE
+    {
+    WORD id;
+    STRUCT icons[];
+    }
+
+STRUCT INDICATOR_ICON
+    {
+    WORD narrowbmpid=0xffff;
+    WORD narrowbmpmask=0xffff;
+    WORD widebmpid=0xffff;
+    WORD widebmpmask=0xffff;
+    }
+
+STRUCT AVKON_VIEW
+    {
+    BYTE version=0; // resource struct version, do not change.
+    LLINK hotkeys=0;
+    LLINK menubar=0;
+    LLINK cba=0;
+    LLINK toolbar=0;
+    LLINK extension=0; // reserved for future extensions
+    }
+
+STRUCT AVKON_NOTE
+    {
+    WORD layout;
+    LTEXT singular_label;
+    LTEXT plural_label="";
+    LTEXT imagefile="";
+    WORD imageid=0xffff;
+    WORD imagemask=0xffff;
+    LTEXT iconfile="";
+    WORD iconid=0xffff;
+    WORD iconmask=0xffff;
+    LLINK animation=0;
+    WORD flags=0; //TNoteFlags (defined in aknnoteattributes.h)
+    }
+
+STRUCT NOTE_COMPONENT
+    {
+    WORD component_type;
+    WORD x;
+    WORD y;
+    WORD width;
+    WORD height;
+    }
+
+STRUCT NOTE
+    {
+    STRUCT components[];
+    }
+
+STRUCT AVKON_CONFIRMATION_QUERY
+    {
+    WORD layout;
+    LTEXT label;
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    LLINK animation=0; 
+    }
+
+STRUCT AVKON_DATA_QUERY
+    {
+    WORD layout;
+    LTEXT label;
+    STRUCT control;
+    }
+
+STRUCT AVKON_MESSAGE_QUERY
+    {
+    LTEXT message = "";
+    }
+
+STRUCT AVKON_MULTI_LINE_DATA_QUERY
+    {
+    WORD layout;   
+    LTEXT firstlabel;
+    LLINK firstcontrol;
+    LTEXT secondlabel;
+    LLINK secondcontrol;
+    }
+
+
+// use this with CAknQueryDialog.
+// This is for one dialog DLG line with EAknCtListQueryControl
+//
+// The list query window type is determined from EAknCtSinglePopupMenuListBox - if you want to
+// have your own borders, derive from CAknListQueryDialog and override some methods.
+
+STRUCT AVKON_LIST_QUERY_CONTROL
+    {
+    WORD listtype; // type of the list, for example EAknCtSinglePopupMenuListBox (window type is determined from this)
+    STRUCT listbox; // LISTBOX resource, use AVKON_LIST_QUERY_LIST or AVKON_MULTISELECTION_LIST_QUERY_LIST
+    LTEXT heading = "";
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    LLINK animation=0;
+    }
+
+STRUCT AVKON_HEADING
+    {
+    LTEXT label = "";  // default is no heading
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    LLINK animation=0;
+    LLINK headinglayout = R_AVKON_LIST_HEADING_PANE;
+    }
+
+// CAknPopupField
+STRUCT POPUP_FIELD
+    {
+    WORD flags=0; // permitted flags: EAknPopupFieldFlagAllowsUserDefinedEntry
+    WORD width=0; // in characters
+    LTEXT other=""; // if non-empty, replaces 
+    LLINK emptynote = 0; // note to be displayed if popupfield is empty
+    LTEXT empty=""; // text to display if popupfield is empty
+    LTEXT invalid = ""; // text to display if popupfield is invalid
+    }
+
+STRUCT POPUP_FIELD_TEXT
+    {
+    STRUCT popupfield; // only use POPUP_FIELD here
+    LLINK textarray = 0; // resource ID of an array of text
+    WORD active = 0; // zero based, item in textarray to be initially selected
+    }
+
+STRUCT POPUP_FIELD_SELECTION_BMP
+    {
+    LTEXT bmpfile="";
+    WORD bmpidon=0xffff;
+    WORD bmpmaskon=0xffff;
+    WORD bmpidoff=0xffff;
+    WORD bmpmaskoff=0xffff;
+    }
+
+STRUCT SLIDER
+    {
+    WORD layout;
+    WORD minvalue;
+    WORD maxvalue;
+    WORD step;
+    WORD valuetype=EAknSliderValueBareFigure;
+    WORD decimalplaces=0;
+    LTEXT singular_valuelabel = "";
+    LTEXT minlabel="";
+    LTEXT maxlabel="";
+    LTEXT valuelabel="";
+    LLINK graphical_image=0;
+    }
+
+STRUCT SLIDER_WITH_FEEDBACK_STYLE
+    {
+    WORD slidertype=EAknSliderWithFeedbackStyle;
+    WORD feedbackstyle=EAknSliderFbStable;
+    WORD layout;
+    WORD minvalue;
+    WORD maxvalue;
+    WORD step;
+    WORD valuetype=EAknSliderValueBareFigure;
+    WORD decimalplaces=0;
+    LTEXT singular_valuelabel = "";
+    LTEXT minlabel="";
+    LTEXT maxlabel="";
+    LTEXT valuelabel="";
+    LLINK graphical_image=0;
+    }
+
+/** used with CAknVolumeControl
+ * see avkon.hrh for the flag definitions
+ * This struct uses default values for volume range:
+ *  ESettingsVolumeControl, EDynRangeSettingsVolumeControl: 1-10
+ *  ENaviPaneVolumeControl, EPopupVolumeControl, EDynRangeNaviPaneVolumeControl, 
+ *  EDynRangePopupVolumeControl, ESmallPopupVolumeControl, 
+ *  ESmallPopupVolumeControlWithPercent: 0-10   
+ */ 
+STRUCT VOLUME
+    {
+    WORD flags;
+    WORD value;
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    }
+
+/** used with CAknVolumeControl
+ *  This struct is used with flags defined in
+ *  TAknVolumeControlDynamicLayouts
+ *  see avkon.hrh for the flag definitions
+ *  @since 3.2 
+ */ 
+STRUCT DYNAMIC_VOLUME
+    {
+    WORD identifier = 0xffff;  // Do not change
+    WORD flags;
+    WORD value;
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;
+    WORD bmpmask=0xffff;
+    WORD minvalue = 0;
+    WORD maxvalue = 10;
+    }
+
+STRUCT NUMSECRETED
+    {
+    WORD num_code_chars=8;
+    }
+
+STRUCT GRID_STYLE
+    {
+    WORD layoutflags = 0;
+    WORD primaryscroll = 0;
+    WORD secondaryscroll = 0;
+    WORD itemsinprimaryorient = 0;
+    WORD itemsinsecondaryorient = 0;
+    WORD height = 0;
+    WORD width = 0;
+    WORD gapwidth = 0;
+    WORD gapheight = 0;
+    }
+
+STRUCT GRID
+    {
+    BYTE version = 0;
+    LONG flags = 0;
+    WORD height = 5;        // in items
+    WORD width = 10;        // in chars
+    LLINK array_id = 0;
+    LTEXT emptytext = "";
+    LLINK style = 0; 
+    }
+
+STRUCT AVKON_SETTING_PAGE
+    {
+    WORD number = EAknSettingPageNoOrdinalDisplayed;
+    LTEXT label;
+    LTEXT hint_text;
+    LLINK softkey_resource = 0;
+    LLINK menubar= 0;
+    WORD type=0xffff;
+    LLINK editor_resource_id = 0;
+    LLINK invalid_contents_softkey_resource = 0;
+    LLINK extension = 0;
+    }
+
+// --------------------------------------------------------------------------
+// AVKON_SETTING_PAGE_EXTENSION
+// Resource structure extension for setting page.
+// @since 5.2
+// --------------------------------------------------------------------------
+//
+STRUCT AVKON_SETTING_PAGE_EXTENSION
+    {
+    WORD flags = 0;         // construction flags
+    LLINK extension = 0;    // link to extension
+    }
+
+STRUCT AVKON_SETTING_ITEM_LIST
+    {
+    WORD flags = 0; // Allowed values: EAknSettingItemListNumberedStyle 
+    LTEXT title = "";
+    WORD initial_number = 1;
+    STRUCT items[];
+    }
+
+STRUCT AVKON_SETTING_ITEM
+    {
+    WORD identifier = 0;
+    LTEXT name ="";
+    LLINK setting_page_resource = 0;
+    WORD type=0xffff;  
+    LLINK setting_editor_resource = 0;
+    LLINK associated_resource = 0;
+    LTEXT empty_item_text = "";
+    LTEXT compulsory_ind_string = "";
+    LLINK reserved = 0;  // Added for extensions
+    }
+
+STRUCT AVKON_PASSWORD_CONFIRMATION
+    {
+    LLINK password_query_resource = 0;
+    LLINK success_note_resource = 0;
+    LLINK failure_note_resource = 0;
+    }
+
+STRUCT AVKON_ENUMERATED_TEXT
+    {
+    WORD value = 0 ;
+    LTEXT text;
+    }
+
+STRUCT AVKON_POPUP_SETTING_TEXTS
+    {
+    WORD flags = 0;
+    LLINK setting_texts_resource = 0;
+    LLINK popped_up_texts_resource = 0;
+    LLINK reserved = 0;
+    }
+
+STRUCT AVKON_SEARCH_FIELD
+    {
+    }
+
+STRUCT AVKON_LISTBOX_LINES
+    {
+    STRUCT vline1;
+    STRUCT vline2;
+    STRUCT hline;
+    }
+
+// Bitmap Animation
+STRUCT BMPANIM_DATA
+    {
+    BYTE identifier = 0; // Do not change, used to identify the used resource struct.
+    WORD frameinterval  = -1;
+    WORD playmode       = 0;
+    BYTE flash      = 0;
+    LTEXT bmpfile       = "";
+    LLINK frames        = 0;
+    LLINK backgroundframe   = 0;
+    }
+
+STRUCT BMPANIM_FRAME
+    {
+    WORD time       = -1;
+    WORD posx       = 0;
+    WORD posy       = 0;
+    WORD bmpid      = -1;
+    WORD maskid     = -1;
+    }
+
+// Resource-based layout resources (Deprecated)
+// These does not define absolute coordinates => resizing these layouts is possible!
+//
+// (those which does not mention column or form in their name could be used later by
+// other controls for their layout - there will be generic resource reader for these)
+
+// this is used with listboxes
+STRUCT AVKON_LB_LAYOUT_POS
+    {
+    WORD l=ELayoutEmpty; 
+    WORD t=ELayoutEmpty; 
+    WORD r=ELayoutEmpty; 
+    WORD b=ELayoutEmpty; 
+    WORD W=ELayoutEmpty; 
+    WORD H=ELayoutEmpty;
+    }
+
+// this is used with listboxes too
+STRUCT AVKON_LB_LAYOUT_GFX
+    {
+    WORD id;
+    WORD C=ELayoutEmpty;
+    WORD l=ELayoutEmpty;
+    WORD t=ELayoutEmpty;
+    WORD r=ELayoutEmpty;
+    WORD b=ELayoutEmpty;
+    WORD W=ELayoutEmpty;
+    WORD H=ELayoutEmpty;
+    }
+
+// This is used with listboxes
+STRUCT AVKON_LB_LAYOUT_TEXT
+    {
+    WORD id;
+    WORD font; WORD C; WORD lm; WORD rm;  WORD B; WORD W; WORD align;
+    }
+
+// This is used with CAknLayoutUtils::LayoutControl()
+STRUCT AVKON_LAYOUT_CONTROL
+    {
+    WORD C=ELayoutEmpty;
+    WORD l=ELayoutEmpty;
+    WORD t=ELayoutEmpty;
+    WORD r=ELayoutEmpty;
+    WORD b=ELayoutEmpty;
+    WORD W=ELayoutEmpty;
+    WORD H=ELayoutEmpty;
+    }
+
+// This is used with TAknLayoutRect
+STRUCT AVKON_LAYOUT_RECT
+    {
+    WORD C=ELayoutEmpty;
+    WORD l=ELayoutEmpty;
+    WORD t=ELayoutEmpty;
+    WORD r=ELayoutEmpty;
+    WORD b=ELayoutEmpty;
+    WORD W=ELayoutEmpty;
+    WORD H=ELayoutEmpty;
+    }
+
+// this is used with AknListBoxLayouts::LayoutImage
+#define AVKON_LAYOUT_IMAGE AVKON_LAYOUT_RECT
+
+STRUCT AVKON_LAYOUT_TEXT
+    {
+    WORD font;
+    WORD C;
+    WORD l;
+    WORD r;
+    WORD B;
+    WORD W;
+    WORD J;
+    }
+
+// This should be used with CAknLayoutUtils::LayoutEdwin
+STRUCT AVKON_LAYOUT_EDWIN
+    {
+    WORD font;
+    WORD C;
+    WORD l;
+    WORD r;
+    WORD B;
+    WORD W;
+    WORD J;
+    WORD lines=1;   // Number of lines shown
+    WORD nextB=0;   // Second row's baseline position
+    }
+
+// This can be used with CAknLayoutUtils::LayoutLabel to layout CEikLabel's.
+STRUCT AVKON_LAYOUT_LABEL
+    {
+    WORD font;
+    WORD C;
+    WORD l;
+    WORD r;
+    WORD B;
+    WORD W;
+    WORD J;
+    WORD nextB=0;
+    }
+
+// This is used with CAknLayoutUtils::LayoutPopupField()
+STRUCT AVKON_LAYOUT_FORM_FIELD_POPUP_PANE
+    {
+    WORD font;
+    WORD C = ELayoutEmpty;
+    WORD l = ELayoutEmpty;
+    WORD t = ELayoutEmpty;
+    WORD r = ELayoutEmpty;
+    WORD b = ELayoutEmpty;
+    WORD W = ELayoutEmpty;
+    WORD H1 = ELayoutEmpty;
+    WORD H2 = ELayoutEmpty;
+    WORD H3 = ELayoutEmpty;
+    WORD H4 = ELayoutEmpty;
+    WORD H5 = ELayoutEmpty;
+    WORD H6 = ELayoutEmpty;
+    WORD lines = 1;   // Number of lines shown
+    }
+
+STRUCT AVKON_LB_LAYOUT_AREA
+    {
+    WORD id;
+    WORD x1; WORD y1;
+    WORD x2; WORD y2;
+    }
+
+STRUCT AVKON_LB_LAYOUT_COMMAND
+    {
+    WORD id;
+    WORD cmd;
+    WORD data=0;    
+    }
+
+// This is only for listboxes, use 
+// AknLayoutUtils/TAknLayoutText/TAknLayoutRect for getting correct layouts.
+STRUCT AVKON_LAYOUT_MANAGER
+    {
+    STRUCT gfx[];  // AVKON_LAYOUT_GFX
+    STRUCT text[]; // AVKON_LAYOUT_TEXT
+    STRUCT cmds[]; // AVKON_LAYOUT_COMMAND
+    STRUCT area[]; // AVKON_LAYOUT_AREA
+    STRUCT pos;    // AVKON_LAYOUT_POS
+    }
+
+// This should be used with AknEditUtils::ConstructEditingL
+STRUCT AVKON_CONFIG_EDWIN
+    {
+    WORD editingSpace;    // Max number of character in a editor field
+    WORD editingWindow;   // Maximum number of lines in a editor field
+    WORD characterCase;   // EAknEditorCharactersUpperCase, EAknEditorCharactersLowerCase, EAknEditorCharactersTextCase
+    WORD justification;   // EAknEditorAlignNone, EAknEditorAlignCenter, EAknEditorAlignLeft, EAknEditorAlignRight
+    WORD allowedToMoveInsertionPoint; 
+    WORD cursorYesNo;
+    WORD overflowYesNo;
+    }
+
+STRUCT AVKON_CBA_BUTTON
+    {
+    BYTE version=KAknCbaVersion;
+    WORD id=0;
+    WORD longpressid=0;
+    LTEXT txt="";
+    LTEXT bmpfile="";
+    WORD bmpid=0xffff;      // -1
+    WORD bmpmask=0xffff;    // -1
+    }
+
+// Special Character Table
+
+STRUCT SPECIAL_CHAR_TABLE
+    {
+    STRUCT contents[]; // SCT_CHAR_SET
+    }
+
+STRUCT SCT_CHAR_SET
+    {
+    WORD id;
+    LTEXT chars = "";
+    }
+
+// ---------------------------------------------------------
+// Resource structure for CAknIconArray class.
+// ---------------------------------------------------------
+//
+STRUCT AKN_ICON_ARRAY
+    {
+    WORD type = EAknIconArraySimple;
+    // Bitmap file name
+    LTEXT bmpfile;
+    // Array of AKN_ICON structures.
+    STRUCT icons[];
+    }
+
+STRUCT AKN_ICON_ARRAY_ARRAY
+    {
+    WORD type = EAknIconArrayComplex;
+    STRUCT iconarrays[]; // AKN_ICON_ARRAY
+    }
+
+// ---------------------------------------------------------
+// One icon in AKN_ICON_ARRAY
+// ---------------------------------------------------------
+//
+STRUCT AKN_ICON
+    {
+    // Id of the icon bitmap
+    LONG iconId;
+    // Id of the mask bitmap
+    LONG maskId;
+    }
+
+// Avkon KeySounds
+
+STRUCT AVKON_SOUND_INFO
+    {
+    WORD signature1 = 0x1234;
+    WORD signature2 = 0x5678;
+    WORD sid;
+    WORD priority = EAvkonKeyClickPriority;
+    LONG preference = EAvkonKeyClickPreference;
+    LTEXT file="";
+    WORD frequency=0;
+    LONG ms=0;
+    WORD sequencelength=0;
+    BYTE sequence[];
+    BYTE volume=9; // default to loudest value
+    }
+
+STRUCT AVKON_SOUND_INFO_LIST 
+    {
+    STRUCT list[];
+    }
+
+STRUCT AVKON_SKEY_INFO
+    {
+    WORD sid = EAvkonSIDDefaultSound;
+    WORD key;
+    BYTE type = ESKeyTypeShort;
+    }
+
+STRUCT AVKON_SKEY_LIST
+    {
+    STRUCT list[];
+    }
+
+STRUCT PHONE_NUMBER_EDITOR
+    {
+    WORD maxChars=30;
+    WORD maxLines;
+    LTEXT truncation="";
+    STRUCT formats[];
+    }
+
+STRUCT PHONE_NUMBER_EDITOR_FORMAT
+    {
+    WORD top;
+    WORD left;
+    WORD bottom;
+    WORD right;
+    LONG border=0;
+    WORD lines;
+    WORD bottomBaselineOffset;
+    WORD baselineSeparation;
+    WORD font;
+    }
+
+// CAknPopupSettingList
+STRUCT POPUP_SETTING_LIST
+    {
+    WORD flags; // permitted flags: EAknPopupSettingListFlagAllowsUserDefinedEntry
+    WORD width; // in characters.
+    LTEXT other="Other ...";
+    LTEXT empty_text="No options";
+    LLINK new_item_setting_page_resource = 0; // These 3 to allow setting page launch from list pane
+    WORD type=0xffff;               
+    LLINK new_item_setting_editor_resource = 0;
+    }
+
+// This comes from DIALOG resource and must be updates accordingly when
+// DIALOG resource is changed. see eikon.rh
+STRUCT AVKON_LIST_QUERY
+    {
+    LONG flags = EGeneralQueryFlags;
+    LTEXT xxxx1 = "";
+    LLINK xxxx2 = 0;
+    LLINK softkeys = R_AVKON_SOFTKEYS_OK_CANCEL__OK; // CBA
+    STRUCT items[]; // AVKON_LIST_QUERY_DLG_LINE
+    LLINK xxxx3 = 0;
+    }
+
+STRUCT AVKON_MULTISELECTION_LIST_QUERY
+    {
+    LONG flags = EGeneralQueryFlags;
+    LTEXT xxxx1 = "";
+    LLINK xxxx2 = 0;
+    LLINK softkeys = R_AVKON_SOFTKEYS_OK_CANCEL__MARK; // CBA
+    STRUCT items[]; // AVKON_MULTISELECTION_LIST_QUERY_DLG_LINE
+    LLINK xxxx3 = 0;
+    }
+
+STRUCT AVKON_LIST_QUERY_DLG_LINE
+    {
+    WORD type = EAknCtListQueryControl;
+    LTEXT prompt = "";
+    WORD id = EListQueryControl;
+    LONG itemflags = 0;
+    STRUCT control; // AVKON_LIST_QUERY_CONTROL
+    LTEXT trailer = "";
+    LTEXT bmpfile = "";
+    WORD bmpid = 0xffff;
+    WORD bmpmask = 0xffff;
+    LTEXT tooltip = "";
+    }
+
+STRUCT AVKON_MULTISELECTION_LIST_QUERY_DLG_LINE
+    {
+    WORD type = EAknCtListQueryControl;
+    LTEXT prompt = "";
+    WORD id = EListQueryControl;
+    LONG itemflags = 0;
+    STRUCT control; // AVKON_LIST_QUERY_CONTROL
+    LTEXT trailer = "";
+    LTEXT bmpfile = "";
+    WORD bmpid = 0xffff;
+    WORD bmpmask = 0xffff;
+    LTEXT tooltip = "";
+    }
+
+STRUCT AVKON_LIST_QUERY_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxMenuList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;
+    }
+
+STRUCT AVKON_MULTISELECTION_LIST_QUERY_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxStylusMultiselectionList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;    
+    }
+ 
+// LISTBOX resources:
+STRUCT AVKON_SELECTION_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxSelectionList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;
+    }
+STRUCT AVKON_MARKABLE_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxMarkableList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;
+    }
+
+STRUCT AVKON_MULTISELECTION_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxMultiselectionList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;
+    }
+
+STRUCT AVKON_MENU_LIST
+    {
+    BYTE version = 0;
+    LONG flags = EAknListBoxMenuList;
+    WORD height = 5;
+    WORD width = 10;
+    LLINK array_id = 0;
+    }
+
+STRUCT AVKON_INTEGER_EDWIN
+    {
+    WORD  maxlength   = 0;
+    LONG  min         = -99999999;
+    LONG  max         = 99999999;
+    LONG  unset_value = -100000000;
+    LLINK extension1  = 0;
+    LLINK extension2  = 0;
+    }
+ 
+// Avkon note wrappers
+
+STRUCT AKN_NOTE_WRAPPER
+    {
+    // Id of the dialog resource for this note
+    LLINK resId;
+    // see TAknNoteDialogTimeout
+    LONG timeout;
+    // see TAknNoteDialogTone
+    WORD  tone = -1;
+    // Prompt text
+    LTEXT text = "";
+    }
+
+STRUCT AVKON_GROUPED_NOTE_TEXTS
+    {
+    LLINK singular_label; // must point to resource of type TBUF 
+    LLINK plural_label;   // must point to resource of type TBUF 
+    WORD flags = 0;       // for future proofing
+    }
+
+// DEPRECATED.
+STRUCT AKN_SELECTION_LIST
+    {
+    WORD  flags          = 0;                   // see avkon.hrh / EAknFlagFind etc..
+    WORD  listbox        = EAknCtSingleListBox; // listbox layout 
+    LLINK menubar        = 0;                   // MENUBAR resource 
+    LLINK dialogresource = R_AKN_SELECTION_LIST_DIALOG;
+    }
+
+STRUCT AVKON_UNUSED
+    {
+    }
+
+STRUCT AVKON_COLOUR_SELECTION_GRID
+    {
+    LTEXT nonetext = "";
+    STRUCT gridcontrol;  // GRID
+    }
+        
+STRUCT AVKON_LIST_QUERY_CONTROL_WITH_MSGBOX
+    {
+    WORD   listtype  = EAknListQueryWithMsgBox;
+    WORD   actuallisttype;    
+    STRUCT listbox;
+    LTEXT  message   = "";
+    LTEXT  heading   = "";
+    LTEXT  bmpfile   = "";
+    WORD   bmpid     = 0xffff;
+    WORD   bmpmask   = 0xffff;
+    LLINK  animation = 0;  
+    }    
+
+// resource structures for CAknStylusActivatedPopUpContent
+STRUCT AVKON_STYLUSACTIVATEDPOPUP_CONTENT
+    {
+    LTEXT  titletext = "";
+    LTEXT  infotext  = "";
+
+    STRUCT cmdlinks[];    // AVKON_STYLUSACTIVATEDPOPUP_LINK
+    LLINK  extension = 0; // for future extensions
+    }
+
+STRUCT AVKON_STYLUSACTIVATEDPOPUP_LINK
+    {
+    BYTE  linkid; // use TAknStylusPopupCmdLinkIds, see avkon.hrh
+    LTEXT linktext = "";
+    LLINK extension = 0; // for future extensions
+    }
+
+// Skinned bitmap Animation
+// Always use BMPANIM_FRAME_SKINNED with BMPANIM_DATA_SKINNED
+STRUCT BMPANIM_DATA_SKINNED
+    {
+    BYTE  identifier      = KAknBMPAnimVersion; // Do not change, used to identify the used resource struct.
+    LLINK skinanimationid = -1; // First try to create animation by using this id
+    WORD  frameinterval   = -1;
+    WORD  playmode        = 0;
+    BYTE  flash           = 0;
+    LTEXT bmpfile         = "";
+    LLINK frames          = 0;
+    LLINK backgroundframe = 0;
+    }
+
+STRUCT BMPANIM_FRAME_SKINNED
+    {
+    WORD  time        = -1;
+    WORD  posx        = 0;
+    WORD  posy        = 0;
+    WORD  bmpid       = -1;
+    WORD  maskid      = -1;
+    LLINK majorskinid = -1;
+    LLINK minorskinid = -1;
+    }
+
+// ---------------------------------------------------------------------------
+// SCT CATEGORY BUTTONS resources:
+// define the category button(s)
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_SCT_CATEGORY_BUTTONS
+    {
+    STRUCT category_buttons[]; // AVKON_SCT_CATEGORY_BUTTON
+    }
+
+// ---------------------------------------------------------------------------
+// SCT CATEGORY BUTTON resources
+// define a category button
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_SCT_CATEGORY_BUTTON
+    {
+    WORD categorybuttonid;      // TAknSCTCategoryButtons (defined on avkon.hrh)
+    WORD id;                    // SCT enumerations (e.g. EAknSCTHalfCase) (defined on avkon.hrh)
+    LLINK button;               // AVKON_BUTTON
+    }
+
+// ---------------------------------------------------------------------------
+// AVKON_NOTE_SKINNED
+// Struct for defining a skinnable Avkon note, otherwise similar as AVKON_NOTE.
+// @since S60 5.0
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_NOTE_SKINNED
+    {
+    WORD  layout;                     // Layout. 
+    LTEXT singular_label;             // Singular label.    
+    LTEXT plural_label      = "";     // Plural label.
+    LTEXT imagefile         = "";     // Image file name (including path).
+    WORD  imageid           = 0xffff; // Image id.
+    WORD  imagemask         = 0xffff; // Image mask.
+    LTEXT iconfile          = "";     // Icon file name (including path).
+    WORD  iconid            = 0xffff; // Icon id.
+    WORD  iconmask          = 0xffff; // Icon mask.
+    LLINK animation         = 0;      // Animation.
+    
+    // EAknNoteFlagWithSkinnableGraphics is used to distinguish AVKON_NOTE_SKINNED
+    // from AVKON_NOTE. Therefore it must always be set when using AVKON_NOTE_SKINNED.
+    // Other flags may also be set, and they have the same behaviour as AVKON_NOTE.
+    WORD  flags             = EAknNoteFlagWithSkinnableGraphics;
+    
+    LLINK image_majorskinid = -1;     // Major skin id for image, see AknsConstants.h.
+    LLINK image_minorskinid = -1;     // Minor skin id for image, see AknsConstants.h.
+    }
+
+// ---------------------------------------------------------------------------
+// AVKON_INDICATOR_POPUP_ITEM
+// Resource structure for universal indicator pane items.
+// @since 5.0
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_INDICATOR_POPUP_ITEM
+    {
+    // UID of the status indicator.
+    WORD indicator_uid;
+
+    // Default text to be displayed for the indicator in the
+    // universal indicator popup.
+    LTEXT text;
+    
+    // Reserved for future extensions.
+    LLINK extension = 0;
+    }
+
+// ---------------------------------------------------------------------------
+// Sct navi BUTTONS resources:
+// define the category button(s)
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_SCT_NAVI_BUTTONS
+    {
+    STRUCT navi_buttons[];
+    }
+
+// ---------------------------------------------------------------------------
+// Sct navi BUTTON resources
+// define a category button
+// ---------------------------------------------------------------------------
+//
+STRUCT AVKON_SCT_NAVI_BUTTON
+    {
+    WORD id;
+    LLINK button;
+    }
+
+// --------------------------------------------------------------------------
+// AVKON_DISCREET_POPUP
+// Resource structure for discreet popup (CAknDiscreetPopup).
+// @since 5.2
+// --------------------------------------------------------------------------
+//
+STRUCT AVKON_DISCREET_POPUP
+    {
+    WORD flags = 0; // popup flags
+    LTEXT titleTxt = ""; // first text line
+    LTEXT bodyTxt = ""; // second text line
+    LTEXT bmpFile = ""; // icon bitmap file
+    WORD bmpId = 0xffff; // icon bitmap id
+    WORD bmpMask = 0xffff; // icon bitmap mask id
+    LLINK majorSkinId = -1; // icon major skin id
+    LLINK minorSkinId = -1; // icon minor skin id
+    LLINK extension = 0; // reserved for future extension
+    }

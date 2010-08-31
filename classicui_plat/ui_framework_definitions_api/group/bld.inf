@@ -1,0 +1,44 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  File that exports the files belonging to 
+:                UI Framework Definitions API
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+
+../inc/EikCoCtlPanic.h     MW_LAYER_PLATFORM_EXPORT_PATH(eikcoctlpanic.h)
+../inc/Eikform.pan     MW_LAYER_PLATFORM_EXPORT_PATH(eikform.pan)
+../inc/EIKON.RH     MW_LAYER_PLATFORM_EXPORT_PATH(eikon.rh)
+../inc/avkon.rh     MW_LAYER_PLATFORM_EXPORT_PATH(avkon.rh)
+../inc/avkon.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(avkon.hrh)
+../inc/LAFPANIC.H     MW_LAYER_PLATFORM_EXPORT_PATH(lafpanic.h)
+../inc/eikon.rsg     MW_LAYER_PLATFORM_EXPORT_PATH(eikon.rsg)
+../inc/EIKON.HRH     MW_LAYER_PLATFORM_EXPORT_PATH(eikon.hrh)
+../inc/akndef.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(AknDef.hrh)
+../inc/aknconsts.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknconsts.h)
+../inc/lafpublc.h     MW_LAYER_PLATFORM_EXPORT_PATH(lafpublc.h)
+../inc/aknPanic.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknPanic.h)
+../inc/avkonIcons.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(AvkonIcons.hrh)
+../inc/AknBorders.h     MW_LAYER_PLATFORM_EXPORT_PATH(aknborders.h)
+../inc/lafpublc.hrh     MW_LAYER_PLATFORM_EXPORT_PATH(lafpublc.hrh)
+../inc/EIKKEYS.H     MW_LAYER_PLATFORM_EXPORT_PATH(eikkeys.h)
+../inc/Eikdialg.pan     MW_LAYER_PLATFORM_EXPORT_PATH(eikdialg.pan)
+../inc/akndef.h     MW_LAYER_PLATFORM_EXPORT_PATH(AknDef.h)

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -57,8 +57,6 @@
 #include "AknDebug.h"
 
 const TInt KAknNaviPaneStackGranularity = 2;
-
-#define Min( x , y ) ((( x ) < ( y )) ? ( x ) : ( y ))
 /**
 * Extension class for CAknNavigationControlContainer.
 */
@@ -69,11 +67,12 @@ public:
     ~CAknNavigationControlContainerExtension(){};
 
 public:
+    TInt                        iCurrentColorScheme;
     CAknNaviForegroundObserver* iForegroundObserver;
     TBool                       iDestructionOngoing;
     CFbsBitmap*                 iNaviColorBitmap;
     TInt                        iPreferredNaviDecoratorLayoutStyle;
-    CEikStatusPaneBase*         iStatusPane;
+    TBool                       iIsActiveIdle;
     };
 
 
@@ -143,9 +142,10 @@ EXPORT_C void CAknNavigationControlContainer::ConstructL()
         {
         iExtension =
             new (ELeave) CAknNavigationControlContainerExtension();
+        iExtension->iCurrentColorScheme = ColorScheme();
         iExtension->iForegroundObserver =
             CAknNaviForegroundObserver::NewL( this );
-        iExtension->iStatusPane = CEikStatusPaneBase::Current();
+        iExtension->iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
         }
 
     if ( !iNaviPaneControls )
@@ -1396,7 +1396,7 @@ EXPORT_C void CAknNavigationControlContainer::SizeChanged()
             // Volume popup's position must be set here.
             iNaviPaneControls->At( last )->iDecoratedControl->SetRect(
                 VolumePopupRect() );
-            if( last - 1 >= 0 && iNaviPaneControls->At( last - 1 ) )
+            if( last - 1 >= 0 )
             	{
             		iNaviPaneControls->At( last - 1 )->SetRect( rect );
             	}
@@ -1454,12 +1454,17 @@ EXPORT_C void CAknNavigationControlContainer::HandleResourceChange( TInt aType )
         CCoeControl::HandleResourceChange( aType ) ;
         }
 
-    if ( aType == KEikDynamicLayoutVariantSwitch ||
+    if ( aType == KEikColorResourceChange ||
+         aType == KEikDynamicLayoutVariantSwitch ||
          aType == KAknsMessageSkinChange )
         {
-        if ( aType == KEikDynamicLayoutVariantSwitch ||
+        TInt colorScheme = ColorScheme();
+        if ( colorScheme != iExtension->iCurrentColorScheme ||
+             aType == KEikDynamicLayoutVariantSwitch ||
              aType == KAknsMessageSkinChange )
             {
+            iExtension->iCurrentColorScheme = colorScheme;
+
             // updating color bitmap
             TRAP_IGNORE( LoadNaviColorBitmapL() );
             }
@@ -1572,27 +1577,11 @@ EXPORT_C void CAknNavigationControlContainer::HandleControlEventL(
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void CAknNavigationControlContainer::Draw(
-    const TRect& aRect ) const
+    const TRect& /*aRect*/ ) const
     {
-    if ( iExtension->iStatusPane && 
-         iExtension->iStatusPane->IsTransparent() )
+    if ( iExtension->iIsActiveIdle )
         {
-        CWindowGc& gc = SystemGc();
-        TRgb rgb(TRgb::Color16MA(0));
-        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
-        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
-        gc.SetBrushColor(rgb);
-        gc.Clear(aRect);
         return;
-        }
-
-    // Don't allow normal background drawing if
-    // background is already drawn with a background drawer.
-    TBool drawBackground( ETrue );
-    const MCoeControlBackground* backgroundDrawer = FindBackground();
-    if ( backgroundDrawer )
-        {
-        drawBackground = EFalse;
         }
 
     CWindowGc& gc = SystemGc();
@@ -1618,8 +1607,7 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         // - Navi wipe is never used
         // - No offset in right, left or top
         //
-        if ( drawBackground &&
-             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.SetPenStyle( CGraphicsContext::ENullPen );
             gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
@@ -1645,8 +1633,7 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         gc.SetBrushColor(
             AKN_LAF_COLOR( KStatusPaneBackgroundGraphicsColorUsual ) );
 
-        if ( drawBackground &&
-             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.DrawRect( rect );
             }
@@ -1661,8 +1648,7 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
         // - Navi wipe is never used
         // - No offset in right, left or top
         //
-        if ( drawBackground &&
-             !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
             {
             gc.SetPenStyle( CGraphicsContext::ENullPen );
             gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
@@ -1762,43 +1748,40 @@ EXPORT_C void CAknNavigationControlContainer::Draw(
     //
     else
         {
-        if ( drawBackground )
+        TBool naviWipeUsed = NaviWipeUsed();
+
+        TBool skinnedNaviWipeDrawn  = EFalse;
+        TBool skinnedNaviSolidDrawn = EFalse;
+        TBool defaultNaviWipeDrawn  = EFalse;
+        TBool defaultNaviSolidDrawn = EFalse;
+
+        // If naviwipe is to be used, try first skinned draw...
+        if ( naviWipeUsed )
             {
-            TBool naviWipeUsed = NaviWipeUsed();
+            skinnedNaviWipeDrawn = DrawSkinnedNaviWipe( gc, rect, skin, cc );
+            }
 
-            TBool skinnedNaviWipeDrawn  = EFalse;
-            TBool skinnedNaviSolidDrawn = EFalse;
-            TBool defaultNaviWipeDrawn  = EFalse;
-            TBool defaultNaviSolidDrawn = EFalse;
+        // If naviwipe is to be used and skinned draw failed,
+        // draw default wipe draw...
+        if ( naviWipeUsed && !skinnedNaviWipeDrawn )
+            {
+            defaultNaviWipeDrawn = DrawDefaultNaviWipe( gc, rect );
+            }
 
-            // If naviwipe is to be used, try first skinned draw...
-            if ( naviWipeUsed )
-                {
-                skinnedNaviWipeDrawn = DrawSkinnedNaviWipe( gc, rect, skin, cc );
-                }
+        // If naviwipe is not to be drawn or the nawiwipe draws has failed for
+        // some reason then draw solid. Try skinned solid draw first...
+        if ( !skinnedNaviWipeDrawn && !defaultNaviWipeDrawn )
+            {
+            skinnedNaviSolidDrawn = DrawSkinnedNaviSolid( gc, rect, skin, cc );
+            }
 
-            // If naviwipe is to be used and skinned draw failed,
-            // draw default wipe draw...
-            if ( naviWipeUsed && !skinnedNaviWipeDrawn )
-                {
-                defaultNaviWipeDrawn = DrawDefaultNaviWipe( gc, rect );
-                }
-
-            // If naviwipe is not to be drawn or the nawiwipe draws has failed for
-            // some reason then draw solid. Try skinned solid draw first...
-            if ( !skinnedNaviWipeDrawn && !defaultNaviWipeDrawn )
-                {
-                skinnedNaviSolidDrawn = DrawSkinnedNaviSolid( gc, rect, skin, cc );
-                }
-
-            // If not any above is the case, then draw the default solid here.
-            if ( !skinnedNaviWipeDrawn &&
-                 !defaultNaviWipeDrawn &&
-                 !skinnedNaviSolidDrawn &&
-                 !defaultNaviSolidDrawn )
-                {
-                defaultNaviSolidDrawn = DrawDefaultNaviSolid( gc, rect );
-                }
+        // If not any above is the case, then draw the default solid here.
+        if ( !skinnedNaviWipeDrawn &&
+             !defaultNaviWipeDrawn &&
+             !skinnedNaviSolidDrawn &&
+             !defaultNaviSolidDrawn )
+            {
+            defaultNaviSolidDrawn = DrawDefaultNaviSolid( gc, rect );
             }
         }
     }
@@ -1865,7 +1848,7 @@ EXPORT_C TInt CAknNavigationControlContainer::ColorScheme()
 //
 void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
     {
-    if ( !iExtension || iExtension->iDestructionOngoing )
+    if ( iExtension && iExtension->iDestructionOngoing )
         {
         return;
         }
@@ -1926,24 +1909,6 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
                 }
             }
 
-       TInt minOrd = -1;
-       
-       if ( titlewindow )
-           {
-           minOrd = titlewindow->OrdinalPosition();
-           }
-       
-        if( naviwindow )
-           {
-           minOrd = Min( minOrd, naviwindow->OrdinalPosition() );
-           }
-
-       if ( emptywindow )
-           {
-           minOrd = Min( minOrd, emptywindow->OrdinalPosition() );
-           }
-
-     
         const TInt last = iNaviPaneControls->Count() - 1;
         if ( ( last < 0 || !( iNaviPaneControls->At( last ) ) ) ||
              ( last >= 0 &&
@@ -1955,20 +1920,36 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
             // Minus ordinal ordinal position number always means set
             // the window to be the last one of the windows with the same
             // ordinal priority
-            
+            if ( iExtension->iIsActiveIdle )//Added for active idle's transparent
+            	{
             if ( titlewindow )
                 {
-                titlewindow->SetOrdinalPosition( minOrd );
+                titlewindow->SetOrdinalPosition( 4 );
                 }
             if ( naviwindow )
                 {
-                naviwindow->SetOrdinalPosition( minOrd + 1  );
+                naviwindow->SetOrdinalPosition( 5 );
                 }
             if ( emptywindow )
                 {
-                emptywindow->SetOrdinalPosition( minOrd + 2 );
+                emptywindow->SetOrdinalPosition( 6 );
                 }
-             
+              }
+           else
+             {
+             if ( titlewindow )
+                {
+                titlewindow->SetOrdinalPosition( -1 );
+                }
+            if ( naviwindow )
+                {
+                naviwindow->SetOrdinalPosition( -1 );
+                }
+            if ( emptywindow )
+                {
+                emptywindow->SetOrdinalPosition( -1 );
+                }
+             }
             }
         else
             {
@@ -1976,19 +1957,36 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
             // Minus ordinal ordinal position number always means set
             // the window to be the last one of the windows with the same
             // ordinal priority
-           
+            if ( iExtension->iIsActiveIdle )//Added for active idle's transparent
+            	{
             if ( naviwindow )
                 {
-                naviwindow->SetOrdinalPosition( minOrd );
+                naviwindow->SetOrdinalPosition( 4 );
                 }
             if ( titlewindow )
                 {
-                titlewindow->SetOrdinalPosition( minOrd + 1 );
+                titlewindow->SetOrdinalPosition( 5 );
                 }
             if ( emptywindow )
                 {
-                emptywindow->SetOrdinalPosition( minOrd + 2 );
-                }              	
+                emptywindow->SetOrdinalPosition( 6 );
+                }
+              }
+              else
+              	{
+             if ( naviwindow )
+                {
+                naviwindow->SetOrdinalPosition( -1 );
+                }
+            if ( titlewindow )
+                {
+                titlewindow->SetOrdinalPosition( -1 );
+                }
+            if ( emptywindow )
+                {
+                emptywindow->SetOrdinalPosition( -1 );
+                }
+              	}
             }
 
         // Finally request titlepane to refresh itself.
@@ -2345,9 +2343,16 @@ void CAknNavigationControlContainer::LoadNaviColorBitmapL()
     TRect screenRect;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
 
-    // statuspane, skip application window because it's the same as screen.
+    // app window
+    TAknLayoutRect applicationWindowLayoutRect;
+    applicationWindowLayoutRect.LayoutRect(
+        screenRect,
+        AknLayoutScalable_Avkon::application_window( 0 ) );
+    TRect applicationWindowRect( applicationWindowLayoutRect.Rect() );
+
+    // statuspane
     TAknLayoutRect statusPaneLayoutRect;
-    statusPaneLayoutRect.LayoutRect( screenRect,
+    statusPaneLayoutRect.LayoutRect( applicationWindowRect,
                                      AknLayoutScalable_Avkon::status_pane( 0 ) );
     TRect statusPaneRect( statusPaneLayoutRect.Rect() );
 

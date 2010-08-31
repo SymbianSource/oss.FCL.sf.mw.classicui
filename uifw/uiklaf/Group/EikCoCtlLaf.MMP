@@ -87,12 +87,12 @@ LIBRARY         form.lib
 LIBRARY         avkon.lib
 LIBRARY         apgrfx.lib
 LIBRARY         aknnotify.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         eikcore.lib
 LIBRARY         aknskins.lib
-LIBRARY         CdlEngine.lib
-LIBRARY		    estor.lib
-LIBRARY         uiklaf.lib
+LIBRARY         cdlengine.lib
+LIBRARY		    ESTOR.LIB 
+LIBRARY         Uiklaf.lib
 
 deffile EIKCOCTLLAF.DEF
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape6grad" r="8.363">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<radialGradient cx="3.975" cy="4.574" gradientUnits="userSpaceOnUse" id="shape21grad" r="3.688">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-8,-8)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" fill="freeze" type="translate" values="0,0;0,0"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="1.41s" fill="freeze" keyTimes="0;0.859;1" type="scale" values="1,1;1,1;0.361,0.361"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-8,-8;-8,-8"/>
+<g>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape6grad)" fill-rule="evenodd"/>
+<g display="none" transform="translate(0,0.001)">
+<g transform="translate(0,0.001)">
+<path d="M5.355,7.193C5.994,7.562,6.809,7.343,7.175,6.707C6.639,6.396,5.37,5.664,4.869,5.374C4.501,6.012,4.719,6.828,5.355,7.193M11.132,5.374C10.594,5.685,9.402,6.374,8.823,6.707C9.190,7.345,10.005,7.562,10.642,7.195C11.282,6.827,11.499,6.012,11.132,5.374" fill="white" fill-rule="evenodd" transform="translate(0.001)"/>
+</g>
+</g>
+</g>
+<path d="M4,4.5C4,5.605,3.105,6.5,2,6.5C0.896,6.5,0,5.605,0,4.5C0,3.396,0.896,2.5,2,2.5C3.105,2.5,4,3.396,4,4.5z" fill="white" fill-rule="evenodd" transform="translate(3.188,2.5)"/>
+<path d="M9.5,4.5C9.5,5.605,8.605,6.5,7.5,6.5C6.396,6.5,5.5,5.605,5.5,4.5C5.5,3.396,6.396,2.5,7.5,2.5C8.605,2.5,9.5,3.396,9.5,4.5z" fill="white" fill-rule="evenodd" transform="translate(3.188,2.5)"/>
+<g>
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.61s" fill="freeze" keyTimes="0;0.673;1" type="translate" values="8.584,6.501;8.584,6.501;7.897,6.876"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-8.583,-6.5;-8.583,-6.5"/>
+<path d="M3.771,4.085C3.771,4.637,3.324,5.085,2.771,5.085C2.219,5.085,1.771,4.637,1.771,4.085C1.771,3.532,2.219,3.085,2.771,3.085C3.324,3.085,3.771,3.532,3.771,4.085z" fill="black" fill-rule="evenodd" transform="translate(3.188,2.501)"/>
+<path d="M9.023,3.918C9.023,4.470,8.575,4.917,8.023,4.917C7.47,4.917,7.023,4.470,7.023,3.918C7.023,3.365,7.47,2.918,8.023,2.918C8.575,2.918,9.023,3.365,9.023,3.918z" fill="black" fill-rule="evenodd" transform="translate(3.188,2.5)"/>
+</g>
+<rect fill="black" fill-rule="evenodd" height="0.999" transform="translate(3.188,2.5)" width="3.875" x="2.833" y="8.622"/>
+<path d="M0.565,1.93C1.479,1.681,2.796,1.632,4.3,2.503C3.449,0.777,1.918,0.535,0.565,1.93z" fill="black" fill-rule="evenodd" transform="translate(3.188,2.501)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.61s" fill="freeze" keyTimes="0;0.673;1" type="translate" values="5.62,4.273;5.62,4.273;5.245,3.585"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-2.432,-1.772;-2.432,-1.772"/>
+</path>
+<path d="M11.068,0.831C9.792,0.709,8.023,0.942,6.211,2.445C6.959,-0.049,8.947,-0.722,11.068,0.831z" fill="black" fill-rule="evenodd" transform="translate(3.188,2.501)">
+<animateTransform additive="replace" attributeName="transform" begin="0s" dur="0.61s" fill="freeze" keyTimes="0;0.673;1" type="translate" values="11.827,3.723;11.827,3.723;10.827,3.598"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="0.61s" fill="freeze" keyTimes="0;0.673;1" type="rotate" values="0;0;9.294"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" dur="0.61s" fill="freeze" keyTimes="0;0.673;1" type="scale" values="1,1;1,1;0.799,0.799"/>
+<animateTransform additive="sum" attributeName="transform" begin="0s" fill="freeze" type="translate" values="-8.638,-1.222;-8.638,-1.222"/>
+</path>
+</g>
+<rect fill="none" fill-rule="evenodd" height="16.375" transform="scale(0.978)" width="16.375" x="-8.187" y="-8.187"/>
+<g display="none" transform="translate(-0.439,-0.314) scale(0.089)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.21s" fill="freeze" keyTimes="0;1" values="none;inline"/>
+<animateTransform additive="replace" attributeName="transform" begin="1.21s" fill="freeze" type="translate" values="-0.086,0.198;-0.086,0.198"/>
+<animateTransform additive="sum" attributeName="transform" begin="1.21s" dur="0.59s" fill="freeze" keyTimes="0;0.339;1" type="scale" values="0.089,0.089;1.057,1.057;1.057,1.057"/>
+<animateTransform additive="sum" attributeName="transform" begin="1.21s" fill="freeze" type="translate" values="-3.975,-5.759;-3.975,-5.759"/>
+<path d="M4.950,11.52L4.81,11.52L3.231,11.52L3.09,11.52L2.965,11.457L2.364,11.16L2.03,10.997L2.03,10.624L2.03,8.525C1.83,8.245,1.691,7.899,1.551,7.561C1.433,7.273,1.287,6.915,1.162,6.79C-0.387,5.242,-0.387,2.719,1.162,1.166C1.913,0.415,2.912,0,3.975,0C5.039,0,6.037,0.415,6.789,1.167C8.339,2.719,8.339,5.241,6.789,6.79C6.672,6.906,6.542,7.283,6.448,7.555C6.329,7.902,6.204,8.256,6.01,8.539L6.01,10.623L6.01,10.996L5.676,11.16L5.075,11.457L4.950,11.52L4.950,11.52z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M6.362,6.367C5.862,6.867,5.791,8.369,5.145,8.49C4.745,8.565,3.336,8.566,2.937,8.497C2.277,8.382,2.098,6.877,1.588,6.367C0.269,5.047,0.269,2.91,1.588,1.591C2.908,0.272,5.046,0.272,6.363,1.591C7.683,2.909,7.684,5.047,6.362,6.367z" fill="url(#shape21grad)" fill-rule="evenodd" transform="translate(0.001,0)"/>
+<polygon fill="#B2B2B2" fill-rule="evenodd" points="5.411,8.358 5.411,8.358 2.631,8.358 2.631,10.624 3.233,10.919 4.81,10.919 5.411,10.624" transform="translate(0.001,0)"/>
+</g>
+</g>
+</svg>

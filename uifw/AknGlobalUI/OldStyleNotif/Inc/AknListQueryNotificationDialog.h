@@ -47,8 +47,6 @@ public:
 protected:
     TBool OkToExitL(TInt aButtonId);
     
-    void HandlePointerEventL(const TPointerEvent& aPointerEvent);
-    
 private: 
     virtual void CEikDialog_Reserved_1();
     virtual void CEikDialog_Reserved_2();   
@@ -58,7 +56,6 @@ private:
     CAknListQueryNotificationDialog** iSelfPtr;
     TBool iPanning;
     TBool iFlick;
-    TBool iPointerUpEaten;
     };
 
 #endif // __AKNLISTQUERYNOTIFICATIONDIALOG__

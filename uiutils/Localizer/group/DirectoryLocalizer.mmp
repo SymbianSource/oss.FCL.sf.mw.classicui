@@ -48,7 +48,7 @@ LIBRARY		    bafl.lib
 LIBRARY		    cone.lib
 LIBRARY         efsrv.lib
 #ifdef RD_MULTIPLE_DRIVE
-LIBRARY         platformenv.lib
+LIBRARY         PlatformEnv.lib
 #endif //RD_MULTIPLE_DRIVE
 
 // End of file.

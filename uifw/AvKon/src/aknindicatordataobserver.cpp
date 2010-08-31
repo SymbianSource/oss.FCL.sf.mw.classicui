@@ -65,6 +65,7 @@ CAknIndicatorDataObserver::~CAknIndicatorDataObserver()
 		{
 		iDataSubscriber->RemoveObserver( this );
 		}
+
     }
 
 
@@ -76,7 +77,7 @@ CAknIndicatorDataObserver::~CAknIndicatorDataObserver()
 void CAknIndicatorDataObserver::HandleUpdateL(
     const TAknStatusPaneStateData& aData )
 	{
-	if ( !iDataSubscriber || !iIndicatorPane->IsVisible() )
+	if ( !iDataSubscriber )
 	    {
 		return;
 	    }

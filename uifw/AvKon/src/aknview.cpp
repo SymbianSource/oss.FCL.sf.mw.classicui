@@ -44,7 +44,6 @@
 #endif // RD_SCALABLE_UI_V2
 
 #include <AknUtils.h>
-#include <layoutmetadata.cdl.h>
 #include "aknitemactionmenuregister.h"
 
 // MODULE DATA STRUCTURES
@@ -55,8 +54,6 @@ enum TAknViewFlags
 
 
 // CLASS DECLARATION
-static const TUid KUidGlxApp = { 0x200009ee }; // App uid of photo
-static const TUid KUidVideoApp = { 0x200159b2 }; // App uid of video
 
 /**
 * Extension class.
@@ -85,6 +82,7 @@ NONSHARABLE_CLASS(CAknViewExtension) : public CBase
     public:
         TBool iToolbarVisible; 
         TBool iToolbarFocusing; 
+        TBool iViewActivated;
     private: // data
         CAknToolbar* iToolbar;
         CAknToolbar* iFixedToolbar;
@@ -229,10 +227,11 @@ void CAknViewExtension::PrepareToolbar()
         {
         
         if ( newFixedToolbar && newFixedToolbar->ToolbarFlags() & KAknToolbarDefault )
-            {
-            return;
-            }
-
+        	{
+        	oldFixedToolbar->HandleResourceChange( KAknToolbarSetHiddenAndDrawBackground );
+        	return;
+        	}
+        
         oldFixedToolbar->HandleResourceChange( KAknToolbarSetHidden );         
         }
 #endif 
@@ -429,8 +428,6 @@ EXPORT_C CAknView::~CAknView()
 
 	delete iCba;
 	delete iExtension;
-
-    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
 	}
 
 // -----------------------------------------------------------------------------
@@ -462,7 +459,10 @@ EXPORT_C void CAknView::BaseConstructL( TInt aResId )
         
     Extension()->CreateToolbarL( iViewInfo.iToolbar );
 
-    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
+    if ( iViewInfo.iMenu )
+        {
+        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -532,11 +532,6 @@ EXPORT_C CEikButtonGroupContainer* CAknView::Cba() const
 //
 EXPORT_C void CAknView::HandleStatusPaneSizeChange()
 	{
-	 if ( Cba() )
-	     {
-	     TRect cbaRect( 0,0,0,0 );
-	     Cba()->SetBoundingRect( cbaRect );
-	     }
 	}
 
 // -----------------------------------------------------------------------------
@@ -580,13 +575,24 @@ EXPORT_C void CAknView::ViewDeactivated()
 //
 EXPORT_C void CAknView::AknViewActivatedL( const TVwsViewId& aPrevViewId, TUid aCustomMessageId, const TDesC8& aCustomMessage )
 	{
-    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
 	ConstructMenuAndCbaL( ETrue );
-
-    
+    if ( !Extension()->iViewActivated )
+        {
+        // Reset menu bar owner when view first activated
+        AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
+        Extension()->iViewActivated = ETrue;
+        }
+	
 	Extension()->PrepareToolbar();
 
 	DoActivateL( aPrevViewId, aCustomMessageId, aCustomMessage );
+
+#ifdef RD_SCALABLE_UI_V2
+    if ( iAvkonAppUi->TouchPane() )
+        {
+        iAvkonAppUi->TouchPane()->RefreshL();
+        }
+#endif // RD_SCALABLE_UI_V2
 
 	ProcessForegroundEventL( ETrue );
 	}
@@ -859,20 +865,11 @@ void CAknView::ConstructMenuAndCbaL( TBool aVisible )
 			}
 		}
 
-	if (iCba)
-        {
-        if (aVisible)
-            {
-            //Added for fixing EAMI-856GRV and ESLM-85ZHQH:           
-            //As video app and photo app spend a long time at deactiveview,during this time only cba shows up,and this is ugly in landscape mode
-            //so the solution is to don't call SetOrdinalPosition in video app and photo app while in landscape mode
-            TUid appid = iAppUi->Application()->AppDllUid();
-            if (!(( appid == KUidVideoApp || appid == KUidGlxApp )
-                    && Layout_Meta_Data::IsLandscapeOrientation()))
-                {
-                iCba->DrawableWindow()->SetOrdinalPosition( 0 );
-                }
-
+	if ( iCba )
+		{
+		if ( aVisible )
+			{
+			iCba->DrawableWindow()->SetOrdinalPosition( 0 );
 			iCba->MakeVisible( ETrue );
 			iCba->DrawNow(); // This is needed because problems if TRANSPARENCY is set, see MTVN-6HXCN4
 			}

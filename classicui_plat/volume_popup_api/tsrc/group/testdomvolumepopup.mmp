@@ -50,7 +50,7 @@ SOURCE          testdomvolumepopupblocks.cpp
 SOURCE          testdomvolumepopupcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         cone.lib 

@@ -26,7 +26,6 @@ class CEikImage;
 class CAknBatteryIcon;
 class CAknBatteryStrength;
 class CAknBatteryDataObserver;
-class CEikStatusPaneBase;
 
 /**
 * A default control in the status pane's battery pane. 
@@ -154,7 +153,6 @@ private:
     CAknBatteryDataObserver* iDataObserver;
     CPeriodic* 			     iTicker;
     TBool                    iIsActiveIdle;
-    CEikStatusPaneBase*      iStatusPane;
     };
 
 #endif // AKNBATTERY_H

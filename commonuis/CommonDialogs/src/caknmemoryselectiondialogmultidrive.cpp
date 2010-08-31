@@ -115,11 +115,11 @@ void CAknMemorySelectionDialogMultiDrive::ConstructFromResourceL(
         layout = MAknMemorySelectionModel::ELayoutDoublePopup;
         }
 
-    // Create model of listbox listing the drives in iRootPathArray:
     iModel = CAknMemorySelectionModelMultiDrive::NewL(
         iCoeEnv, &iRootPathArray, &iDefaultFolderArray,
         iIncludedMedias, aShowUnavailableDrives, layout );
 
+    // Create model of listbox listing the drives in iRootPathArray:
     GetSystemDrivesL( userDefinedId );
 
     iEventHandler = CAknMemorySelectionEventHandler::NewL(
@@ -571,11 +571,6 @@ void CAknMemorySelectionDialogMultiDrive::LoadIconsL(
             EMbmCommondialogsQgn_prop_fmgr_ms_mask );
         //For unavailable Internal Mass Storage
         aIconArray->AppendL( NULL );// Uses string insterad.
-        //For external USB driver
-        AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *aIconArray,
-            skin, KAknsIIDQgnPropFmgrUsbMemcSub, KCommonDialogsBitmapFile,
-            EMbmCommondialogsQgn_prop_usb_memc_sub,
-            EMbmCommondialogsQgn_prop_usb_memc_sub_mask );
         }
     else
         {
@@ -617,11 +612,6 @@ void CAknMemorySelectionDialogMultiDrive::LoadIconsL(
             skin, KAknsIIDQgnPropMmcNon, KMemoryCardUiBitmapFile,
             EMbmAknmemorycarduiQgn_prop_mmc_non,
             EMbmAknmemorycarduiQgn_prop_mmc_non_mask );
-        //For external USB Driver
-        AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *aIconArray,
-            skin, KAknsIIDQgnPropUsbMemc, KCommonDialogsBitmapFile,
-            EMbmCommondialogsQgn_prop_usb_memc,
-            EMbmCommondialogsQgn_prop_usb_memc_mask );
         }
     _LOG1( "[CAknMemorySelectionDialog] aIconArray count=%d",
            aIconArray->Count() );

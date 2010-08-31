@@ -195,7 +195,7 @@ public:
      *
      * @aParam aItem Item to be selected
      */ 
-    void SelectItemL( TInt aItem );
+    void SelectItem( TInt aItem );
     
 private:
 	
@@ -346,11 +346,6 @@ private: // data
      * First visible item on the list
      */
     TInt iFirstItem;
-
-    /**
-     * Index of the last visible item.
-     */
-    TInt iLastVisibleItem;
     
     CAknStylusPopUpMenu& iPopUpMenu;
     

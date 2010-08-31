@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -74,7 +74,8 @@ CArrayPtr<MEikSrvNotifierBase2>* DoCreateNotifierArrayL()
     // Soft note notifier.
     // ----------------------------
     CAknSoftNotificationSubject* softNotificationSubject = CAknSoftNotificationSubject::NewL(
-        globalNoteSubject );
+        keyLockNotifier, 
+        globalNoteSubject);
         
     CleanupStack::PushL(softNotificationSubject);
     subjects->AppendL(softNotificationSubject);
@@ -146,7 +147,7 @@ CArrayPtr<MEikSrvNotifierBase2>* DoCreateNotifierArrayL()
     // ----------------------------
     // Global list query.
     // ----------------------------
-    CAknGlobalListQuerySubject* listQuerySubject = CAknGlobalListQuerySubject::NewL(keyLockNotifier);
+    CAknGlobalListQuerySubject* listQuerySubject = CAknGlobalListQuerySubject::NewL();
     
     CleanupStack::PushL(listQuerySubject);
     subjects->AppendL(listQuerySubject);

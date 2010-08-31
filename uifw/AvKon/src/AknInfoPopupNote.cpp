@@ -449,8 +449,7 @@ void CAknInfoPopupNote::HandleResourceChange( TInt aType )
         }
     else if( aType == KEikMessageFadeAllWindows )
         {
-        // Infopopu will be canceled when be faded no matter visible or not.
-        if ( iHideWhenAppFaded )
+        if ( IsVisible() && iHideWhenAppFaded )
             {
             iController.HideInfoPopupNote();
             }
@@ -472,8 +471,7 @@ void CAknInfoPopupNote::HandlePointerEventL( const TPointerEvent& aPointerEvent 
              || aPointerEvent.iType == TPointerEvent::EButton1Up
              || aPointerEvent.iType == TPointerEvent::EDrag )
             {
-            Hide();
-            if ( aPointerEvent.iType == TPointerEvent::EButton1Down && !IsVisible() )
+            if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
                 {
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
                 if ( feedback )
@@ -482,6 +480,7 @@ void CAknInfoPopupNote::HandlePointerEventL( const TPointerEvent& aPointerEvent 
                     }
                 }
 
+            Hide();
             SetPointerCapture( EFalse ); 
             }
         }

@@ -35,7 +35,7 @@
 
 #include <AknMediatorFacade.h>
 #include <aknSDData.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 
 const TInt KCharsInTInt = 4; // TInt32 takes 4 chars.
 

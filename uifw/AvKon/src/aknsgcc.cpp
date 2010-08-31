@@ -46,8 +46,7 @@ enum TSgcClientFlags
 	EHandlingChange,
 	EInAknSrv,
 	ESystemFaded,
-	ENeverRelinquish,
-	EUseForegroundPriority
+	ENeverRelinquish
 	};
 
 
@@ -619,11 +618,11 @@ void CAknSgcClient::DoRelinquishPriorityToForegroundAppLC(TBool aIsForeground)
 	RThread myThread;
 	TProcessPriority priority = myThread.ProcessPriority();
 
-	if ( IsSystemFaded() || iFlags[EUseForegroundPriority] )
+	if( IsSystemFaded() )
 		{
+		// Solution for EKKG-7RQ9U8:
 		// If the system is faded we have a popup on screen.
-		// Get the process behind the foreground process, the
-	    // EUseForegroundPriority should also affect only that process. 
+		// Get the process behind the foreground process. 
 		TApaTask task = TApaTaskList(iEikonEnv->WsSession()).FindByPos(1);
 
 		// Check if this application is next behind the foreground app.
@@ -657,23 +656,6 @@ void CAknSgcClient::DoRelinquishPriorityToForegroundAppLC(TBool aIsForeground)
         CleanupStack::PushL(TCleanupItem(RestorePriority, NULL));
 	    }
 	}
-
-void CAknSgcClient::UseForegroundPriorityDuringRelinquish(
-    TBool aUseForeground )
-    {
-    CAknSgcClient* self = Static();
-    if ( self )
-        {
-        if ( aUseForeground )
-            {
-            self->iFlags.Set( EUseForegroundPriority );
-            }
-        else
-            {
-            self->iFlags.Clear( EUseForegroundPriority );
-            }
-        }
-    }
 
 EXPORT_C CAknLayoutConfig& CAknSgcClient::LayoutConfig()
 	{

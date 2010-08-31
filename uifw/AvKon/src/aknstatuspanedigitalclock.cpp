@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -218,18 +218,11 @@ CCoeControl* CAknStatuspaneDigitalClock::ComponentControl(
 //
 void CAknStatuspaneDigitalClock::Draw( const TRect& /*aRect*/ ) const
     {
-    // Don't allow normal background drawing if
-    // background is already drawn with a background drawer.
-    const MCoeControlBackground* backgroundDrawer = FindBackground();
-    if ( !backgroundDrawer &&
-         AknStatuspaneUtils::ExtendedFlatLayoutActive() )
-        {
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
 
-        CWindowGc& gc = SystemGc();
-        MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
-        AknsDrawUtils::Background( skin, cc, this, gc, Rect() );
-        }
+    CWindowGc& gc = SystemGc();
+    MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
+    AknsDrawUtils::Background( skin, cc, this, gc, Rect() );
     }
 
 

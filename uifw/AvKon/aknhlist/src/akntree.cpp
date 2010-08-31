@@ -33,9 +33,6 @@
 #include "akntreelistinternalconstants.h"
 
 const TInt KObserverArrayGranularity = 1;
-const TInt KMaxLength = 80;
-// smiley text place holder
-_LIT( KPlaceHolder, "\xFFF0i" );
 
 // Tree flag definitions
 enum TAknTreeFlags
@@ -66,8 +63,6 @@ CAknTree* CAknTree::NewL( CAknTreeList& aList, CAknTreeOrdering* aOrdering )
 //
 CAknTree::~CAknTree()
     {
-    delete iSmileyMan;
-    iSmileyMan = NULL;
     delete iOrdering; iOrdering = NULL;
     iCustomOrdering = NULL;
     iObservers.Close();
@@ -780,7 +775,6 @@ void CAknTree::EnableMarking( TAknTreeItemID aItem, TBool aEnable )
 void CAknTree::GetMarkedItemsL( TAknTreeItemID aNode,
     RArray<TAknTreeItemID>& aMarkedItems ) const
     {
-    ::CleanupClosePushL(aMarkedItems);
     aMarkedItems.Reset();
     if ( aNode == KAknTreeIIDRoot )
         {
@@ -812,7 +806,6 @@ void CAknTree::GetMarkedItemsL( TAknTreeItemID aNode,
                 }
             }
         }
-	CleanupStack::Pop(&aMarkedItems);
     }
 
 
@@ -1250,74 +1243,6 @@ void CAknTree::Collapse()
         }
     }
 
-// ---------------------------------------------------------------------------
-// CAknTreeItem::InitSmiley().
-// Create smiley manager instance if there is not.
-// ---------------------------------------------------------------------------
-//
-void CAknTree::InitSmiley()
-    {
-    if ( !iSmileyMan )
-        {
-        TRAPD(err, iSmileyMan = CAknSmileyManager::NewL( this ));
-        if ( err != KErrNone )
-            {
-            delete iSmileyMan;
-            iSmileyMan = NULL;
-            }
-        }
-    }
-
-// ---------------------------------------------------------------------------
-// CAknTreeItem::DrawSmiley
-// Draw smiley icon, if it is just plain text, just draw like DrawText.
-// ---------------------------------------------------------------------------
-//
-void CAknTree::DrawSmiley(CWindowGc& aGc, const TRect& aRect, 
-                          const TAknTextComponentLayout& aTextLayout, 
-                          const TDesC& aText, const CFont* aFont, 
-                          TBool aFocused )
-    {
-    TBuf<KMaxLength*2> buf = aText.Left(KMaxLength*2);
-    // it is possiable that this been called after ~CAknTree()...
-    if ( iSmileyMan && ConvertTextToSmiley(buf) > KErrNone )
-        {
-        TRgb textColor;
-        TAknsQsnTextColorsIndex index = 
-            aFocused ? EAknsCIQsnTextColorsCG10 : EAknsCIQsnTextColorsCG6;
-        AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), textColor,
-                                   KAknsIIDQsnTextColors, index );
-        aGc.SetPenColor( textColor );
-        
-        TAknLayoutText layoutText;
-        layoutText.LayoutText( aRect, aTextLayout.LayoutLine(), aFont );
-        TInt l = Min( layoutText.Font()->TextWidthInPixels( KPlaceHolder ),
-                      layoutText.Font()->FontMaxHeight());
-        TSize s( l, l);
-        if ( iSmileySize != s )
-            {
-            iSmileyMan->SetSize( s);
-            iSmileySize = s;
-            }
-        iSmileyMan->DrawText( aGc, buf, layoutText, ETrue );
-        }
-    else
-    // no smiley existing...
-        {
-        DrawText( aGc, aRect, aTextLayout, aText, aFont, NULL, aFocused, EFalse);
-        }
-    }
-
-// ---------------------------------------------------------------------------
-// CAknTreeItem::ConvertTextToSmiley
-// ---------------------------------------------------------------------------
-//
-TInt CAknTree::ConvertTextToSmiley( TDes& aText )
-    {
-    TInt count = 0;
-    TRAPD( err, count = iSmileyMan->ConvertTextToCodesL( aText ));
-    return err == KErrNone ? count : err;
-    }    
 
 // ---------------------------------------------------------------------------
 // C++ constructor.
@@ -1536,21 +1461,3 @@ void CAknTree::Draw( CWindowGc& /*aGc*/, const TRect& /*aItemRect*/,
     __ASSERT_DEBUG( EFalse, User::Invariant() );
     }
 
-// ---------------------------------------------------------------------------
-// From class MAknSmileyObserver.
-// Redraw whole control when smiley image ready
-// ---------------------------------------------------------------------------
-//
-void CAknTree::SmileyStillImageLoaded( CAknSmileyIcon*  /*aSmileyIcon*/ )
-    {
-    iList.DrawDeferred();
-    }
-
-// ---------------------------------------------------------------------------
-// From class MAknSmileyObserver.
-// Empty implementation.
-// ---------------------------------------------------------------------------
-//
-void CAknTree::SmileyAnimationChanged( CAknSmileyIcon* /*aSmileyIcon*/ )
-    {
-    }

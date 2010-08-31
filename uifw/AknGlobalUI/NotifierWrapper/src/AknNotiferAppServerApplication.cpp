@@ -24,9 +24,6 @@
 #include <aknnotewrappers.h>
 #include <AknCapServerDefs.h>
 
-#include <gfxtranseffect/gfxtranseffect.h>
-#include "akntranseffect.h" // for Transition effect enumerations
-
 #include <avkondomainpskeys.h>
 #include <e32property.h>
 
@@ -36,7 +33,8 @@
 #include "AknNotiferAppServerApplicationInterface.h"
 
 #include <AknMediatorFacade.h>
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <AknNotifyStd.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <aknglobalpopupprioritycontroller.h>
 
 //---- Awkward, but declaring base classes otherwise in Akncapserver entry would break app fw.
@@ -351,7 +349,6 @@ EXPORT_C void CAknNotifierAppServerAppUi::HandleSystemEventL(const TWsEvent& aEv
         {
     case EApaSystemEventBroughtToForeground:
         { // ignore this event as it causes undesired effects on applications underneath
-        GfxTransEffect::EndFullScreen();
         break;
         }
     default:

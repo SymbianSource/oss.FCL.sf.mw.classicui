@@ -800,6 +800,20 @@ EXPORT_C void CAknNavigationDecorator::HandlePointerEventL(
                 {
                 CCoeControl::HandlePointerEventL( aPointerEvent );
                 }
+            
+            // feedback is also given on up event from arrows
+            if ( rightArrowTapped || leftArrowTapped )
+                {
+                MTouchFeedback* feedback = MTouchFeedback::Instance();
+                if ( feedback &&
+                     ( iDecoratedControl && !iDecoratedControl->IsDimmed() ) )
+                    {
+                    feedback->InstantFeedback( this, 
+                                               ETouchFeedbackBasicButton,
+                                               ETouchFeedbackVibra,
+                                               aPointerEvent );
+                    }
+                }
             }
         else
             {

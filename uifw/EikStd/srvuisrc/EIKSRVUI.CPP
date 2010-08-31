@@ -124,6 +124,9 @@
 #include <AknCustomCursorSupport.h>
 #include "AknEikSrv.pan"
 
+#include <hb/hbcore/hbsymbianvariant.h>
+#include <hb/hbcore/hbdevicedialogsymbian.h>
+
 #if defined(__WINS__)
 const TInt KEikServSideBarWidth = 35;
 const TInt KEikServAppbarHeight = 50;
@@ -584,6 +587,7 @@ EXPORT_C void CEikServAppUiBase::InitializeL(TEikServCtrlFactories& aCtrlFactori
     iVwsSession->SetClientRequestTimeOut( TTimeIntervalMicroSeconds32(clientRequestTimeOutDuration) );
 
     iVwsSession->EnableServerBlankScreen(EFalse);
+    iVwsSession->EnableServerEventTimeOut(EFalse);
     
     // Start Comms
     TInt err = StartC32();
@@ -624,12 +628,13 @@ EXPORT_C void CEikServAppUiBase::InitializeL(TEikServCtrlFactories& aCtrlFactori
 
 EXPORT_C void CEikServAppUiBase::HandleThreadExitL(RThread& aThread)
     {
+    _LIT(KAppArcServerThread, "AppArcServerThread");
     if (aThread.Name() == ASCliDefinitions::ServerAndThreadName()) // alarm server died
         {
         aThread.Close(); // need to Close() before restarting with same name
         iServerToRestart |= EAlwlSvr; // restarted under active object
         }
-    else if (aThread.Name()==NameApaServServerThread()) // AppArc server died
+    else if (aThread.Name() == KAppArcServerThread) // AppArc server died
         {
         aThread.Close();
         iServerToRestart|=EApaSvr;
@@ -1059,6 +1064,31 @@ void CEikServAppUi::RestartKeySoundThreadL()
     KeySounds()->BringToForeground();
     }
 
+LOCAL_C void ShowNotificationDialog(const TDesC& aNoteText)
+    {
+    _LIT(KNotificationDialogPlugin, "com.nokia.hb.devicenotificationdialog/1.0");
+    _LIT(KTimeout, "timeout");
+    _LIT(KTitle,   "title");
+
+    //@TODO replace the hardcoded parameter after enum EASyncServerStartup
+    // is defined(after MCL wk26).
+    //CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(
+    //                    CHbDeviceDialogSymbian::EASyncServerStartup);
+    CHbDeviceDialogSymbian* dlg = CHbDeviceDialogSymbian::NewL(2);
+    CleanupStack::PushL(dlg);
+
+    TInt  timeout = 0;
+        
+    CHbSymbianVariantMap* map = CHbSymbianVariantMap::NewL();
+    CleanupStack::PushL(map);
+    
+    map->Add(KTimeout, CHbSymbianVariant::NewL(&timeout,    CHbSymbianVariant::EInt));
+    map->Add(KTitle,   CHbSymbianVariant::NewL(&aNoteText,  CHbSymbianVariant::EDes));
+    
+    dlg->Show(KNotificationDialogPlugin, *map);
+
+    CleanupStack::PopAndDestroy(2);
+    }
 
 void CEikServAppUi::HandleThreadExitL(RThread& aThread)
     {
@@ -1094,7 +1124,10 @@ void CEikServAppUi::HandleThreadExitL(RThread& aThread)
         // Construct text for a panic note.
         HBufC* panicText = ConstructPanicTextLC( aThread, rdSupport );
         
-        iAknCapServerClient.ShowGlobalNoteL(panicText->Des(), EAknGlobalErrorNote);
+        /* iAknCapServerClient.ShowGlobalNoteL(panicText->Des(), EAknGlobalErrorNote); */
+
+        ShowNotificationDialog( panicText->Des() );
+
         CleanupStack::PopAndDestroy(); // panicText
         }
         
@@ -1163,7 +1196,7 @@ void CEikServAppUi::HandleErrorMessageEvent(const TWsErrorMessage& aErrorMessage
 void CEikServAppUi::HandleResourceChangeL(TInt aType)
     {
     CEikServAppUiBase::HandleResourceChangeL(aType);
-    if ( aType == KEikDynamicLayoutVariantSwitch || aType == KAknsMessageSkinChange )
+    if ( aType == KEikDynamicLayoutVariantSwitch )
         {
         UpdateCursorsL();
         }
@@ -1433,16 +1466,6 @@ void CEikServAppUi::LoadBitmapCursorsL()
             {
             spriteMember.iBitmap = AknIconUtils::CreateIconL( *bmpFile, bmpId );
             CleanupStack::PushL( spriteMember.iBitmap );
-            
-            // set color for the cursor
-            MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-            if ( skin )
-                {
-                TRgb color = KRgbBlack;
-                AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnIconColors, EAknsCIQsnIconColorsCG10 );
-                AknIconUtils::SetIconColor( spriteMember.iBitmap, color );
-                }
-
             }
          
         TAknWindowLineLayout l;

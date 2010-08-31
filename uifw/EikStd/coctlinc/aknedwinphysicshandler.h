@@ -46,17 +46,6 @@ public:
      * Two-phased constructor.
      */
     static CAknEdwinPhysicsHandler* NewLC( CEikEdwin& aEdwin );
-
-    /**
-     * Two-phased constructor.
-     */
-    static CAknEdwinPhysicsHandler* NewL( CEikEdwin& aEdwin, CAknPhysics* aPhysics );
-
-    /**
-     * Two-phased constructor.
-     */
-    static CAknEdwinPhysicsHandler* NewLC( CEikEdwin& aEdwin, CAknPhysics* aPhysics );
-
     /**
      * Destructor.
      */
@@ -137,12 +126,6 @@ public:
      */
     TBool DragThresholdExceeded( const TPoint& aCurrentPosition ) const;
     
-    /**
-     * Disables dragging until next pointer up.
-     *
-     */
-    void DisableDragging();
-    
     
 public: // From base class MAknPhysicsObserver.
 
@@ -175,7 +158,7 @@ private:
     /**
      * C++ constructor.
      */
-    CAknEdwinPhysicsHandler( CEikEdwin& aEdwin, CAknPhysics* aPhysics  = NULL );
+    CAknEdwinPhysicsHandler( CEikEdwin& aEdwin );
 
     /**
      * Symbian second-phase constructor.
@@ -365,11 +348,6 @@ private: // data
      * Start position of drag.
      */
     TPoint iStartPosition;
-
-    /**
-     * ETrue if this class owns CAknPhysics instance.
-     */
-    TBool iOwnsPhysics;
     };
 
 #endif // C_AKNEDWINPHYSICSHANDLER_H

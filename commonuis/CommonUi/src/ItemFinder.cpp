@@ -21,27 +21,22 @@
 // INCLUDES
 #include <eikrted.h>
 #include <txtrich.h> // for CRichText
-#include <ItemFinder.h>
-#include <itemfinderobserver.h>
-#include <aknphysicscrkeys.h>
+#include "ItemFinder.h"
 #include <finditemengine.h>
 #include <commonphoneparser.h>
 #include <txtfrmat.h>
 #include <AknUtils.h> // for AknUtils
 #include <AknsUtils.h>
-#include <touchfeedback.h>
 
 // scheme recog
 #include <ecom/ecom.h>
 #include <ecom/implementationinformation.h>
-#include <coemain.h>
 
 #include <centralrepository.h>
 #include <CommonUiInternalCRKeys.h>
 
 // CONSTANTS
 const TInt KMINTAGLENGTH(5);
-const TInt KDragTresholdDefault(20);
 _LIT( KHTTPPREFIX, "http://");
 _LIT( RTSP, "rtsp");
 _LIT( KTELPREFIX, "tel:");
@@ -201,14 +196,9 @@ CItemFinder::~CItemFinder()
         {
         delete iSchemeResolver;
         }    
-    if ( iItemFinderObserver && iCoeEnv ) // if still listening to events
-        {
-        iCoeEnv->RemoveMessageMonitorObserver( *this );
-        }
     }
 
-CItemFinder::CItemFinder( TInt aFindFlags ): iFlags( aFindFlags ),
-    iCoeEnv( CCoeEnv::Static() )
+CItemFinder::CItemFinder( TInt aFindFlags ): iFlags( aFindFlags )
     {}
 
 void CItemFinder::ConstructL()
@@ -218,7 +208,6 @@ void CItemFinder::ConstructL()
     CRichText::ActivateParserL(this);
     iSchemeResolver = CSchemeResolver::NewL();
     iMinDigitsToFind = GetMinDigitsToFindL(); // variated.
-    iFeedback = MTouchFeedback::Instance();
     }
 
 TInt CItemFinder::GetMinDigitsToFindL()
@@ -251,12 +240,6 @@ EXPORT_C TBool CItemFinder::NextItemOrScrollL( TFindDirection aDirection )
         {
         return EFalse;
         }
-    // if a key was not pressed, do not move highlight to next item. 
-    if ( iItemFinderObserver && !iAllowHighlight )
-        {
-        return EFalse;
-        }
-    
     if ( aDirection == EInit || aDirection == EInitUp || aDirection == EInitDown )
         {
         if ( aDirection == EInitUp )
@@ -482,7 +465,6 @@ EXPORT_C void CItemFinder::SetFindModeL( TInt aFindFlags )
 EXPORT_C void CItemFinder::SetEditor( CEikRichTextEditor** aEditor )
     {
     iEditor=aEditor;
-    SetWindowControl( *aEditor ); 
     if ( aEditor && *aEditor && (*aEditor)->TextLength() )
         {
         TRAP_IGNORE( (*aEditor)->SetHighlightStyleL( EEikEdwinHighlightLink ) );
@@ -924,11 +906,6 @@ EXPORT_C TBool CItemFinder::ItemWasTappedL( const TPoint aTappedPoint )
         {
         return EFalse;
         }
-    if ( iItemFinderObserver && !iAllowHighlight )
-        {
-        // if observer is given, return EFalse here 
-        return EFalse; 
-        }
     TInt pos = 0;
     TInt len = (*iEditor)->TextLayout()->PosRangeInBand( pos );
     TRect rect;
@@ -946,10 +923,6 @@ EXPORT_C TBool CItemFinder::ItemWasTappedL( const TPoint aTappedPoint )
             {
             break; // Item not visible.
             }
-        if( end >= ( pos + len ) )
-        	{
-			end = pos + len - 1;
-        	}
         TInt lastLine = (*iEditor)->TextLayout()->GetLineNumber( end );
         TInt nextLine = 0;
         TInt lastPos = start;
@@ -1134,84 +1107,6 @@ EXPORT_C TPtrC CItemFinder::CurrentSelection()
         }
     }
 
-// -----------------------------------------------------------------------------
-// CItemFinder::SetItemFinderObserverL()
-// -----------------------------------------------------------------------------
-//
-EXPORT_C void CItemFinder::SetItemFinderObserverL(
-        MAknItemFinderObserver* aObserver )
-    {
-    if ( !iItemFinderObserver && aObserver ) // client registers
-        {
-        if ( iCoeEnv )
-            {
-            iCoeEnv->AddMessageMonitorObserverL( *this );
-            }
-        }
-    else if ( iItemFinderObserver && !aObserver ) // client unregisters
-        {
-        if ( iCoeEnv )
-            {
-            iCoeEnv->RemoveMessageMonitorObserver( *this );
-            }
-        }
-    
-    iItemFinderObserver = aObserver;
-    }
-
-// -----------------------------------------------------------------------------
-// CItemFinder::MonitorWsMessage
-// -----------------------------------------------------------------------------
-//
-void CItemFinder::MonitorWsMessage( const TWsEvent& aEvent )
-    {
-    if ( !iItemFinderObserver )
-        {
-        // if no observer given, nothing is done here.
-        return; 
-        }
-    if ( !iEditor )
-        {
-        return;
-        }
-    if ( EEventPointer == aEvent.Type() )
-        {
-        CCoeControl* targetControl = 
-            reinterpret_cast<CCoeControl*>( aEvent.Handle() );
-        if ( targetControl )
-            {
-            TRAP_IGNORE ( MonitorPointerEventL( 
-                *aEvent.Pointer(), targetControl ) );
-            }
-        }
-    else if ( aEvent.Type() == EEventKeyDown )
-        {
-        iAllowHighlight = ETrue; 
-        
-        // if an item is selected and select was pressed, send key event
-        TKeyEvent* keyEvent = aEvent.Key();
-        
-        if ( keyEvent && ( EStdKeyDevice3 == keyEvent->iScanCode
-                || EStdKeyEnter == keyEvent->iScanCode
-                || EStdKeyNkpEnter == keyEvent->iScanCode )
-                && iItemFinderObserver
-                && ( KNullDesC().Compare ( CurrentSelection() ) ) )
-            {
-            // calling observer
-            TRAP_IGNORE( iItemFinderObserver->HandleFindItemEventL(
-                    *iCurrentItemExt, MAknItemFinderObserver::EKeyEvent ) );
-            }
-        }
-    else if ( aEvent.Type() == EEventKeyUp )
-        {
-        iAllowHighlight = EFalse; 
-        }
-    }
-
-// -----------------------------------------------------------------------------
-// CItemFinder::RefreshEditor
-// -----------------------------------------------------------------------------
-//
 TInt CItemFinder::RefreshEditor()
     {
     TInt error = KErrNone;
@@ -1240,167 +1135,6 @@ TInt CItemFinder::RefreshEditor()
             }
         } ); // TRAP
     return error;
-    }
-
-// ---------------------------------------------------------------------------
-// CItemFinder::SetWindowControl
-// ---------------------------------------------------------------------------
-//
-void CItemFinder::SetWindowControl( CCoeControl* aControl )
-    {
-    if ( aControl )
-        {
-        CCoeControl* windowControl( aControl );
-        while ( windowControl && !windowControl->OwnsWindow() )
-            {
-            if ( windowControl == windowControl->Parent() ) 
-                {
-                return; 
-                }
-            windowControl = windowControl->Parent();
-            }
-        if ( windowControl ) 
-            {
-            iWindowControl = windowControl;
-            }
-        }
-    }
-
-// --------------------------------------------------------------------------
-// CItemFinder::MonitorPointerEventL
-// --------------------------------------------------------------------------
-//
-void CItemFinder::MonitorPointerEventL( TPointerEvent &aPointerEvent, 
-        CCoeControl* aTargetControl )
-    {
-    if ( !iWindowControl )
-        {
-        SetWindowControl( *iEditor ); 
-        }
-    if ( aTargetControl == iWindowControl )
-        {
-        TPoint tapPoint ( aPointerEvent.iPosition );
-        ModifyPointerEvent( tapPoint );
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
-            {
-            iAllowHighlight = ETrue; 
-            TBool tapped ( EFalse );
-            // Trapping because iAllowHighlight needs to be set to value EFalse
-            // also if ItemWasTappedL leaves
-            TRAP_IGNORE( tapped = ItemWasTappedL( tapPoint ) );
-            iAllowHighlight = EFalse;
-            // if no item was tapped remove selection
-            if ( tapped )
-                {
-                if ( iFeedback )
-                    {
-                    iFeedback->InstantFeedback( ETouchFeedbackBasicButton );       
-                    }
-                iTapPoint = tapPoint;
-                }
-            else
-                {
-                (*iEditor)->ClearSelectionL();
-                ResetCurrentItem();
-                }
-            }
-        else if ( aPointerEvent.iType == TPointerEvent::EDrag )
-            {
-            if ( iCurrentItemExt->iItemType != ENoneSelected )
-                { 
-                if ( Abs( iTapPoint.iX - tapPoint.iX ) > DragThresholdL() ||
-                    Abs( iTapPoint.iY - tapPoint.iY ) > DragThresholdL() )
-                    {
-                    (*iEditor)->ClearSelectionL();
-                    ResetCurrentItem();
-                    }
-                }
-            }
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {
-            if ( iCurrentItemExt->iItemType != ENoneSelected )
-                { 
-                if ( iItemFinderObserver )
-                    {
-                    // calling observer
-                    iItemFinderObserver->HandleFindItemEventL(
-                            *iCurrentItemExt,
-                            MAknItemFinderObserver::EPointerEvent );
-                    }
-                // remove selection with button up event
-                (*iEditor)->ClearSelectionL();
-                if ( !(*iEditor)->IsFocused() )
-                    {
-                    // ClearSelectionL() does not draw itself if focus was lost
-
-                    TRect rect = (*iEditor)->TextLayout()->GetLineRectL( 
-                            iCurrentItemExt->iStart, iCurrentItemExt->iEnd );
-                    rect.Move( (*iEditor)->Position() );
-                    rect.iTl.iX = 0;
-                    rect.iBr.iX = (*iEditor)->Rect().iBr.iX;
-
-                    TPoint begin ( 0, 0 );
-                    TPoint end ( 0, 0 );
-                    (*iEditor)->TextLayout()->DocPosToXyPosL(
-                            iCurrentItemExt->iStart, begin );
-                    (*iEditor)->TextLayout()->DocPosToXyPosL(
-                            iCurrentItemExt->iEnd, end );
-                    
-                    if ( begin.iY != end.iY )
-                        {
-                        // item spawns two lines
-                        // make rectangle cover both lines
-                        rect.iBr.iY += ( end.iY - begin.iY );
-                        }
-                    // draw clearable area
-                    (*iEditor)->DrawNow( rect );
-                    }
-                }
-            }
-        }
-    }
-
-// --------------------------------------------------------------------------
-// CItemFinder::ModifyPointerEvent
-// --------------------------------------------------------------------------
-//
-void CItemFinder::ModifyPointerEvent( TPoint &aTapPoint )
-    {
-    aTapPoint -= (*iEditor)->Position(); 
-    }
-
-// --------------------------------------------------------------------------
-// CItemFinder::DragThresholdL
-// --------------------------------------------------------------------------
-//
-TInt CItemFinder::DragThresholdL()
-    {
-    if ( 0 == iDragThreshold )
-        {
-        CRepository* cenrep ( NULL );
-        TRAPD( err, cenrep = CRepository::NewL( KCRUidAknPhysicsSettings ) );
-        if ( KErrNone == err && cenrep )
-            {
-            CleanupStack::PushL( cenrep );
-            cenrep->Get( KDragTreshold, iDragThreshold );
-            CleanupStack::PopAndDestroy( cenrep );
-            }
-        }
-    if ( 0 == iDragThreshold )
-        {
-        // cenrep failed, use fallback value
-        iDragThreshold = KDragTresholdDefault;
-        }
-    return iDragThreshold; 
-    }
-
-// --------------------------------------------------------------------------
-// CItemFinder::HasSelection
-// --------------------------------------------------------------------------
-//
-TBool CItemFinder::HasSelection() const
-    {
-    return static_cast<TBool>( (*iEditor)->SelectionLength() );
     }
 
 // End of File

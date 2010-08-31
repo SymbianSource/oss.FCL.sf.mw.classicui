@@ -41,7 +41,6 @@
 #include <eikdpage.h>
 #include <eikmop.h>
 #include <aknenv.h>
-#include <touchfeedback.h>
 //<SKIN>
 #include "eikdialogext.h"
 #include <AknsListBoxBackgroundControlContext.h>
@@ -70,11 +69,8 @@
 #endif
 #include <AknQueryDialog.h>
 #include <aknQueryControl.h>
-#include <aknitemactionmenuregister.h>
-#include <layoutmetadata.cdl.h>
 
 #include "akncbacontentobserver.h"
-#include "akntrace.h"
 
 TBool IsBlankScreenDisplayed();
 
@@ -86,10 +82,10 @@ TBool IsBlankScreenDisplayed();
 //
 TBool CbaEmbeddedInDialog( const TInt& aFlags )
     {
-    return !( aFlags & EEikDialogFlagFillAppClientRect ) &&
+    return AknLayoutUtils::PenEnabled() && 
+        !( aFlags & EEikDialogFlagFillAppClientRect ) &&
         !( aFlags & EEikDialogFlagFillScreen ) &&
-        !( aFlags & EEikDialogFlagVirtualInput ) &&
-        !( aFlags & EEikDialogFlagNoEmbeddedSoftkeys );
+        !( aFlags & EEikDialogFlagVirtualInput );
     }
 
 
@@ -124,7 +120,6 @@ void InvalidateWindows( CCoeControl* aControl )
 //
 TBool IsFocusedWindowGroup( CEikDialog* aThis )
     {
-	_AKNTRACE_FUNC_ENTER;
     RWindowTreeNode* node = aThis->DrawableWindow();
     // this code finds out if this control belongs to window group
     // that is in focus, there are some rare cases when the latest opened
@@ -157,13 +152,9 @@ TBool IsFocusedWindowGroup( CEikDialog* aThis )
 
         if ( focusedWindowGroupId == wgId )
             {
-            _AKNTRACE( "return ETrue;");
-            _AKNTRACE_FUNC_EXIT;
             return ETrue;
             }
         }
-    _AKNTRACE( "return EFalse;");
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -218,7 +209,6 @@ void IssueMediatorCommand(CEikDialog*){}
 
 EXPORT_C CEikDialog::CEikDialog()
     {
-	_AKNTRACE_FUNC_ENTER;
 //	__DECLARE_NAME(_S("CEikDialog"));
 //	No border in Avkon
 	iBorder=TGulBorder(TGulBorder::ENone);
@@ -231,15 +221,11 @@ EXPORT_C CEikDialog::CEikDialog()
     GfxTransEffect::Register(this,KGfxPopupDefaultControlUid);
 #endif
     AKNTASHOOK_ADD( this, "CEikDialog" );
-	_AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CEikDialog::~CEikDialog()
     {
-	_AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
-
-    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
 
     EnableContentObserver( EFalse );
 
@@ -267,12 +253,10 @@ EXPORT_C CEikDialog::~CEikDialog()
 	delete iExtension ;
 	iExtension = NULL;
 	StopWaitingAsRequired();
-	_AKNTRACE_FUNC_EXIT;
     }
 
 void CEikDialog::DynamicConstructL()
 	{
-	_AKNTRACE_FUNC_ENTER;
     PreLayoutDynInitL();
 
     if ( iPageSelector && iPageSelector->IsForm() && Extension() )
@@ -282,42 +266,8 @@ void CEikDialog::DynamicConstructL()
 
     EnableContentObserver( ETrue );
 
-    // Extension member variable iDeleteEmbeddedCba is used to track whether
-    // dialog's implementation of CCoeControl::SizeChanged gets called. If it
-    // isn't then embedded softkeys won't work.
-    CEikDialogExtension* extension = Extension();
-    TBool checkCba = extension && iButtonGroupContainer 
-            && CbaEmbeddedInDialog( iDialogFlags );
-        
-    if ( checkCba )
-        {
-        extension->iDeleteEmbeddedCba = ETrue;
-        }
-
     Layout();
-
-    // At this point CBA's rect should be correctly set. If it isn't, then
-    // assume that dialog didn't properly call CEikDialog::SizeChanged thus 
-    // embedded softkeys won't work.
-    // In that case softkeys are deleted and re-created as a window-owning
-    // component in "legacy" way.
-    if (checkCba && extension->iButtonGroupResourceId != 0 &&
-        (extension->iDeleteEmbeddedCba || Size().iWidth <= 0))
-        {
-        delete iButtonGroupContainer;
-        iButtonGroupContainer = NULL;
-        iButtonGroupContainer = CEikButtonGroupContainer::NewL(
-                CEikButtonGroupContainer::ECba,
-                CEikButtonGroupContainer::EHorizontal,
-                iButtonCommandObserver,
-                extension->iButtonGroupResourceId,
-                0 );
-
-        iDialogFlags |= EEikDialogFlagNoEmbeddedSoftkeys; 
-        }
-
     PostLayoutDynInitL();
-    _AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -329,7 +279,6 @@ void CEikDialog::DynamicConstructL()
  */
 EXPORT_C void CEikDialog::PrepareLC(TInt aResourceId)
     {
-	_AKNTRACE_FUNC_ENTER;
     CleanupStack::PushL(this);
 	BaseConstructL();
     StaticConstructL(aResourceId);
@@ -338,7 +287,6 @@ EXPORT_C void CEikDialog::PrepareLC(TInt aResourceId)
 		{
 		AknGlobalPopupPriorityController::AddPopupToControlStackL(*this,ECoeStackPriorityDialog,ECoeStackFlagRefusesAllKeys);
 		}
-	_AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -362,15 +310,12 @@ EXPORT_C void CEikDialog::ReadResourceLC(TInt aResourceId)
  */
 EXPORT_C TInt CEikDialog::ExecuteLD(TInt aResourceId)
     {
-	_AKNTRACE_FUNC_ENTER;
 	PrepareLC(aResourceId);
-	_AKNTRACE_FUNC_EXIT;
 	return(RunLD());
     }
 
 void CEikDialog::BaseConstructL()
 	{
-	_AKNTRACE_FUNC_ENTER;
     CreateWindowL();
 	Window().SetBackgroundColor(iEikonEnv->ControlColor(EColorDialogBackground,*this));
 	EnableDragEvents();
@@ -383,14 +328,10 @@ void CEikDialog::BaseConstructL()
         {
 	    iExtension = CEikDialogExtension::NewL( *this ) ;        
         }
-    _AKNTRACE_FUNC_EXIT;
 	}
 
 void CEikDialog::StaticConstructL(TInt aResourceId)
     {
-	_AKNTRACE_FUNC_ENTER;
-    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
-
     TResourceReader reader;
     iCoeEnv->CreateResourceReaderLC(reader,aResourceId);
     ConstructFromResourceL(reader);
@@ -410,7 +351,6 @@ void CEikDialog::StaticConstructL(TInt aResourceId)
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -439,7 +379,6 @@ void CEikDialog::CommonConstructSleepingDialogL(TInt aResourceId)
 	// code common to both ConstructSleepingDialogL & ConstructSleepingAlertDialogL
 	//
 	{
-	_AKNTRACE_FUNC_ENTER;
 	iDialogFlags|=EEikDialogFlagSleeping;
 	BaseConstructL();
 	StaticConstructL(aResourceId);
@@ -449,12 +388,10 @@ void CEikDialog::CommonConstructSleepingDialogL(TInt aResourceId)
 		// non visible CBA's do not recieve keys
 		iButtonGroupContainer->MakeVisible(EFalse);
 		}
-    _AKNTRACE_FUNC_EXIT;
 	}
 
 TInt CEikDialog::WaitAsRequired()
     {
-	_AKNTRACE_FUNC_ENTER;
     TInt exitConfirmed=0;
 #if defined (__DEBUG__)
 	RDebug::ProfileEnd(PROFILE_POINT_EIKON_DIALOG_LOAD);
@@ -471,7 +408,7 @@ TInt CEikDialog::WaitAsRequired()
 		iExitConfirmed=(&exitConfirmed);
         iWait.Start();
         }
-    _AKNTRACE_FUNC_EXIT;
+
 	return(exitConfirmed);
     }
 
@@ -486,7 +423,6 @@ void CEikDialog::StopWaitingAsRequired()
  */
 EXPORT_C TInt CEikDialog::RouseSleepingDialog()
 	{ // none of following ...L calls to Leave
-	_AKNTRACE_FUNC_ENTER;
 	if (IsVisible())
 		ExitSleepingDialog(); // eg for rousing an already roused Alert dialog
 
@@ -605,7 +541,7 @@ EXPORT_C TInt CEikDialog::RouseSleepingDialog()
 			cba->DrawNow();
 			}
 		}
-	_AKNTRACE_FUNC_EXIT;
+
     return(WaitAsRequired());
 	}
 
@@ -614,7 +550,6 @@ EXPORT_C TInt CEikDialog::RouseSleepingDialog()
  */
 EXPORT_C void CEikDialog::ExitSleepingDialog()
 	{
-	_AKNTRACE_FUNC_ENTER;
 	FadeBehindPopup(EFalse);
 
     EnableContentObserver( EFalse );
@@ -680,7 +615,6 @@ EXPORT_C void CEikDialog::ExitSleepingDialog()
 	    }
 #endif
     CancelMediatorCommand(this);	
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -704,7 +638,6 @@ EXPORT_C void CEikDialog::ResetLineMinimumSizes()
  */
 EXPORT_C void CEikDialog::ConstructFromResourceL(TResourceReader& aReader)
     {
-	_AKNTRACE_FUNC_ENTER;
     iDialogFlags |=aReader.ReadInt32();
             
 #ifdef RD_SCALABLE_UI_V2            
@@ -734,7 +667,6 @@ EXPORT_C void CEikDialog::ConstructFromResourceL(TResourceReader& aReader)
 		ASSERT(aReader.ReadInt16()==0);
 	
 	SetBorderStyle();  // Moved to the end of construction to allow access to individual lines.
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 void CEikDialog::SetBorderStyle()
@@ -754,16 +686,13 @@ void CEikDialog::SetBorderStyle()
 
 void CEikDialog::CreatePageSelectorL()
 	{
-	_AKNTRACE_FUNC_ENTER;
 	iPageSelector=CEikDialogPageSelector::NewL(*this,this);
 	iPageSelector->SetObserver(this);
 	RegisterDialgWithPageSelector(); // Added JIn
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 void CEikDialog::CreatePageSelectorL(TInt aResourceId)
 	{
-	_AKNTRACE_FUNC_ENTER;
 	if (aResourceId)
 		{
 		TResourceReader reader;
@@ -775,7 +704,6 @@ void CEikDialog::CreatePageSelectorL(TInt aResourceId)
 			iPageSelector->SetAllPagesDensePacked(ETrue);
 		RegisterDialgWithPageSelector(); // Added JIn
 		}
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 void CEikDialog::CreateButtonGroupContainerL(TInt aResourceId)
@@ -786,7 +714,7 @@ void CEikDialog::CreateButtonGroupContainerL(TInt aResourceId)
 	// don't activate them in case of sleeping dialog 
     // yet so extra drawings are suppressed until dialog is really
 	// roused to screen
-	_AKNTRACE_FUNC_ENTER;
+    
     TUint flags = ( iDialogFlags & EEikDialogFlagSleeping ) ?
                     ( CEikButtonGroupContainer::EAddToStack |
                     CEikButtonGroupContainer::EDelayActivation ) :
@@ -808,15 +736,9 @@ void CEikDialog::CreateButtonGroupContainerL(TInt aResourceId)
             iButtonCommandObserver, aResourceId, *this, flags );
 
     EnableContentObserver( ETrue );
-    
-    if ( Extension() )
-        {
-        Extension()->iButtonGroupResourceId = aResourceId;
-        }
 	
 	AknGlobalPopupPriorityController::AddSubPopupL(*this, *iButtonGroupContainer->ButtonGroup()->AsControl());
 	AknGlobalPopupPriorityController::AddPopupToControlStackL(*iButtonGroupContainer->ButtonGroup()->AsControl(), ECoeStackPriorityCba, ECoeStackFlagRefusesFocus);
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 void CEikDialog::CreateTitleBarL()
@@ -848,41 +770,38 @@ EXPORT_C void CEikDialog::PostLayoutDynInitL()
  */
 EXPORT_C void CEikDialog::SetSizeAndPosition(const TSize& aSize)
     {
-	_AKNTRACE_FUNC_ENTER;
 	if (iDialogFlags&EEikDialogFlagFillAppClientRect)
 	    {
-        TRect destRect = iEikonEnv->EikAppUi()->ClientRect();       
         // if this is a view app then ask client rect from the currently active view
         TVwsViewId uid;    
         if ( iAvkonAppUi->GetActiveViewId( uid ) == KErrNone )
             {
             if ( uid.iAppUid != uid.iViewUid )
                 {
-                CAknView* view = iAvkonViewAppUi->View( uid.iViewUid );
-                if ( view )
+                CAknView* view = iAvkonViewAppUi->View(uid.iViewUid);
+                if (view)
                     {
-                    destRect = view->ClientRect();
+                    SetRect(view->ClientRect());
+                    }
+                else
+                    {
+                    SetRect(iEikonEnv->EikAppUi()->ClientRect());
                     }
                 }
-            }
-
-        if ( !Layout_Meta_Data::IsLandscapeOrientation() && iButtonGroupContainer != NULL )
-            {
-            TRect controlPane;
-            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EControlPane, controlPane );
-
-            if ( destRect.iBr.iY > controlPane.iTl.iY )
+            else
                 {
-                destRect.iBr.iY = controlPane.iTl.iY;
+                SetRect(iEikonEnv->EikAppUi()->ClientRect());
                 }
-            }        
-        SetRect( destRect );
-        }
+            }
+         else
+            {
+            SetRect( iEikonEnv->EikAppUi()->ClientRect() );
+            }
+	    }
 	else
         {
         SetRect( TRect( AknPopupUtils::Position( aSize, this ), aSize ) );
         }
-	_AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -902,7 +821,6 @@ EXPORT_C TInt CEikDialog::BorderStyle()
  */
 EXPORT_C TSize CEikDialog::MinimumSize()
     {
-	_AKNTRACE_FUNC_ENTER;
 	if (iDialogFlags&EEikDialogFlagFillScreen)
         {
         TAknWindowLineLayout windowLineLayoutScreen = AknLayoutScalable_Avkon::Screen().LayoutLine();
@@ -943,7 +861,7 @@ EXPORT_C TSize CEikDialog::MinimumSize()
         }
 
 	TSize pageSelectorSize(iPageSelector->MinimumSize());
-	_AKNTRACE_FUNC_EXIT;
+
 	return pageSelectorSize;
     }
 
@@ -954,7 +872,6 @@ EXPORT_C TSize CEikDialog::MinimumSize()
  */
 EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
 	{
-    _AKNTRACE_FUNC_ENTER;
 	if (iDialogFlags&EEikDialogFlagFillScreen)
 		return iEikonEnv->ScreenDevice()->SizeInPixels();
 	else if (iDialogFlags&EEikDialogFlagFillAppClientRect)
@@ -969,24 +886,20 @@ EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
                 CAknView* view = iAvkonViewAppUi->View(uid.iViewUid);
                 if (view)
                     {
-                    _AKNTRACE_FUNC_EXIT;
                     return view->ClientRect().Size();
                     }
                 else
                     {
-                    _AKNTRACE_FUNC_EXIT;
                     return iEikonEnv->EikAppUi()->ClientRect().Size();
                     }
                 }
             else
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return iEikonEnv->EikAppUi()->ClientRect().Size();
                 }
             }
         else
             {
-            _AKNTRACE_FUNC_EXIT;
             return iEikonEnv->EikAppUi()->ClientRect().Size();
             }
 	    }
@@ -1037,7 +950,6 @@ EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
             }
         }
         
-    _AKNTRACE_FUNC_EXIT;
 	return preferredSize;
 	}
 
@@ -1049,7 +961,6 @@ EXPORT_C TSize CEikDialog::PreferredSize(const TSize& aMaxSize) const
  */
 EXPORT_C void CEikDialog::SizeChanged()
     {
-	_AKNTRACE_FUNC_ENTER;
 	__ASSERT_DEBUG( iButtonGroupContainer->Location() == CEikButtonGroupContainer::EExternal, 
 		Panic( EEikDialogPanicIllegalOption ) );
 
@@ -1106,12 +1017,7 @@ EXPORT_C void CEikDialog::SizeChanged()
                 cba->SetRect( TRect(0, 0, 0, 0 ) );
                 }
             }
-
-        if ( Extension() )
-            {
-            Extension()->iDeleteEmbeddedCba = EFalse;
-            }
-        }
+		}
 	if (iTitleBar)
 		{
 		TRect nullRect(0,0,0,0);
@@ -1141,7 +1047,6 @@ EXPORT_C void CEikDialog::SizeChanged()
 	// <SKIN>
 	iExtension->iBgContext->SetParentPos( PositionRelativeToScreen() ) ;
 	iExtension->iBgContext->SetRect( Rect() ) ;
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -1194,14 +1099,12 @@ EXPORT_C void CEikDialog::SetLineNonFocusing(TInt aControlId)
  */
 EXPORT_C void CEikDialog::MakeLineVisible(TInt aControlId,TBool aVisible)
     {
-	_AKNTRACE_FUNC_ENTER;
     CEikCaptionedControl* line=Line(aControlId);
 	CCoeControl* control=line->iControl;
 	if (control->IsVisible()==aVisible)
 		return;
     control->MakeVisible(aVisible);
     line->CheckDimmedDisplayState();
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1210,7 +1113,6 @@ EXPORT_C void CEikDialog::MakeLineVisible(TInt aControlId,TBool aVisible)
  */
 EXPORT_C void CEikDialog::MakeWholeLineVisible(TInt aControlId,TBool aVisible)
     {
-	_AKNTRACE_FUNC_ENTER;
     CEikCaptionedControl* line=Line(aControlId);
 	if (line->IsVisible()==aVisible)
 		return;
@@ -1221,7 +1123,6 @@ EXPORT_C void CEikDialog::MakeWholeLineVisible(TInt aControlId,TBool aVisible)
 		line->iTrailer->MakeVisible(aVisible);
     control->MakeVisible(aVisible);
 	line->MakeVisible(aVisible);
-	_AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1236,7 +1137,6 @@ EXPORT_C void CEikDialog::MakeWholeLineVisible(TInt aControlId,TBool aVisible)
  */
 EXPORT_C void CEikDialog::Layout()
 	{
-    _AKNTRACE_FUNC_ENTER;
     TAknWindowLineLayout windowLineLayoutScreen = AknLayoutScalable_Avkon::Screen().LayoutLine();
     TRect rectZero = TRect(0,0,0,0);
     TAknLayoutRect layoutRect;
@@ -1245,10 +1145,7 @@ EXPORT_C void CEikDialog::Layout()
 
 	TSize maxSize = rectScreen.Size();
 
-    _AKNTRACE( "size = %d x %d", iSize.iWidth, iSize.iHeight );
 	SetSizeAndPosition(PreferredSize( maxSize ));
-    _AKNTRACE( "size = %d x %d", iSize.iWidth, iSize.iHeight );
-    _AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -1364,7 +1261,7 @@ EXPORT_C void CEikDialog::SetControlCaptionL(TInt aControlId,const TDesC& aText)
 	if (line)
 		{
 		line->SetCaptionL(aText);
-		line->DrawDeferred();
+		line->DrawNow();
 		}
 	}
 
@@ -1482,8 +1379,6 @@ EXPORT_C void CEikDialog::ActivateFirstPageL() const
  */
 EXPORT_C void CEikDialog::SetEditableL( TBool aEditable ) 
     {
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE( "CEikDialog::SetEditableL()  aEditable: [%d]", aEditable );
     if ( !iExtension->iFlags[CEikDialogExtension::EEditableStateInitialised] ||
          iIsEditable != aEditable )
         {
@@ -1493,7 +1388,6 @@ EXPORT_C void CEikDialog::SetEditableL( TBool aEditable )
         iPageSelector->SetEditableL( aEditable );
         DrawNow();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1503,7 +1397,6 @@ EXPORT_C void CEikDialog::SetEditableL( TBool aEditable )
  */	
 EXPORT_C TBool CEikDialog::IsEditable() const 
 	{
-	_AKNTRACE( "CEikDialog::IsEditable(): [%d]", iIsEditable );;
 	return ( iIsEditable ) ;
 	}
 
@@ -1559,7 +1452,6 @@ EXPORT_C TInt CEikDialog::ActivePageIndex() const
  */
 EXPORT_C TInt CEikDialog::RunLD()
 	{
-	_AKNTRACE_FUNC_ENTER;
     // Moved BringForwards in the beginning to enable 1-frame animations.
 	iEikonEnv->BringForwards(ETrue); // before call to EnableBackup()
 	AknGlobalPopupPriorityController::ShowPopup(*this, ETrue);
@@ -1655,24 +1547,6 @@ EXPORT_C TInt CEikDialog::RunLD()
 		GfxTransEffect::NotifyExternalState(EInternalHandleSequence, (const TDesC8*)this);
 #endif
 		GfxTransEffect::Begin(this, KGfxControlAppearAction);
-        MTouchFeedback* feedback = NULL;
-        if( AknLayoutUtils::PenEnabled() )
-            {
-            feedback = static_cast<MTouchFeedback*>( ExtensionInterface( KExIfTactileFeedbackUid ) );
-            }
-        if( feedback )
-            {
-            if( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
-                {
-                feedback->InstantFeedback( this, ETouchFeedbackIncreasingPopUp,
-                                            ETouchFeedbackVibra, TPointerEvent() );
-                }
-            else
-                {
-                feedback->InstantFeedback( this, ETouchFeedbackPopUp,
-                                            ETouchFeedbackVibra, TPointerEvent() );
-                }
-            }
 		GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
 		
 		TRect demarcation;
@@ -1699,14 +1573,13 @@ EXPORT_C TInt CEikDialog::RunLD()
 	// Claim pointer grab and send the pointer up event to the
 	// control that otherwise would be receiving the drag events.
 	Window().ClaimPointerGrab(ETrue);
-	_AKNTRACE_FUNC_EXIT;
+	
     return(WaitAsRequired());
 	}
 
 
 EXPORT_C void CEikDialog::Draw(const TRect& /*aRect*/) const
     {
-	_AKNTRACE_FUNC_ENTER;
     TRect rect=Rect();
     CWindowGc& gc=SystemGc(); //No reason to demote the gc, CWindowGc is more usable.
 
@@ -1794,7 +1667,6 @@ EXPORT_C void CEikDialog::Draw(const TRect& /*aRect*/) const
                 KAknsIIDQsnFrPopup,KAknsIIDQsnFrPopupCenter);
             }    
         }
-    _AKNTRACE_FUNC_EXIT;
     }
     
 EXPORT_C void CEikDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
@@ -1809,7 +1681,6 @@ EXPORT_C void* CEikDialog::ExtensionInterface( TUid /*aInterface*/ )
 
 TKeyResponse CEikDialog::TryAnimateButtonAndExitL(TInt aKeycode)
 	{
-	_AKNTRACE_FUNC_ENTER;
 	TInt buttonId=EEikBidCancel;
 	switch (aKeycode)
 		{
@@ -1833,26 +1704,17 @@ TKeyResponse CEikDialog::TryAnimateButtonAndExitL(TInt aKeycode)
 
 	if (button)
 		{
-        TBool animateCommand = ( !button->IsDimmed() && button->IsVisible() );
-     
-        if ( !animateCommand && buttonId != EEikBidCancel )
-            {
-			_AKNTRACE_FUNC_EXIT;
-            return EKeyWasNotConsumed;
-            }
-        else if ( animateCommand )
-            {
-            buttonGroupContainer.AnimateCommand( buttonId );
-            }
+		if (button->IsDimmed() || !button->IsVisible())
+			return EKeyWasNotConsumed;
+		buttonGroupContainer.AnimateCommand(buttonId);
 		}
 
 	if (button || buttonId==EEikBidCancel || buttonId==EEikBidOk)
 		{
 		TryExitL(buttonId);
-		_AKNTRACE_FUNC_EXIT;
 		return EKeyWasConsumed;
 		}
-	_AKNTRACE_FUNC_EXIT;
+
 	return EKeyWasNotConsumed;
 	}
 
@@ -1873,7 +1735,7 @@ EXPORT_C void CEikDialog::PrepareForFocusTransitionL()
  */
 EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
     {
-	_AKNTRACE_FUNC_ENTER;
+
 
 	// Hide the tool tip (if there is one!)
 	if ( ( iPageSelector->NumPages() == 1 ) && ( CurrentLine() ) && ( CurrentLine()->ToolTipText( ) ) )
@@ -1888,10 +1750,7 @@ EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEve
     if (!(iDialogFlags&EEikDialogFlagDontEatUpDownEvents) && aKeyEvent.iScanCode != EStdKeyYes)
 	{
 	if (aType!=EEventKey)
-		{
-		_AKNTRACE_FUNC_EXIT;
-	    return(EKeyWasConsumed);	
-		}
+	    return(EKeyWasConsumed);
 	}
 
 	TInt code=aKeyEvent.iCode;
@@ -1904,10 +1763,7 @@ EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEve
 		{
 		response = iButtonGroupContainer->OfferKeyEventL(aKeyEvent,aType);
 		if(response==EKeyWasConsumed)
-			{
-			_AKNTRACE_FUNC_EXIT;
-			return EKeyWasConsumed;		
-			}
+			return EKeyWasConsumed;
 		}
 
 	//
@@ -1930,10 +1786,7 @@ EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEve
 			iPageSelector->OfferKeyEventL(aKeyEvent, aType);
 // Add to remove repeated keypress return event of OK key
 		if (aKeyEvent.iRepeats&&EKeyOK==code)
-			{
-			_AKNTRACE_FUNC_EXIT;
-			return EKeyWasConsumed;		
-			}
+			return EKeyWasConsumed;
 		if ((!(modifiers&EModifierCtrl) || modifiers&EModifierPureKeycode) &&
 			!(iDialogFlags&EEikDialogFlagModeless))
 			TryAnimateButtonAndExitL(code);
@@ -1955,12 +1808,10 @@ EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEve
 		break;
 	KeyToFocus:
 		if(iPageSelector->OfferHotKeysKeyEventL(aKeyEvent,aType)==EKeyWasConsumed)
-			{
-		    _AKNTRACE_FUNC_EXIT;
-			return EKeyWasConsumed;		
-			}
+			return EKeyWasConsumed;
+
 		}
-    _AKNTRACE_FUNC_EXIT;
+
 	return (aKeyEvent.iScanCode == EStdKeyYes ? EKeyWasNotConsumed:EKeyWasConsumed);
     }
 
@@ -1969,7 +1820,6 @@ EXPORT_C TKeyResponse CEikDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEve
 */
 EXPORT_C void CEikDialog::FocusChanged(TDrawNow aDrawNow)
     {
-	_AKNTRACE_FUNC_ENTER;
     CEikBorderedControl::FocusChanged( aDrawNow );
 
     TInt controlID = IdOfFocusControl();
@@ -1977,7 +1827,6 @@ EXPORT_C void CEikDialog::FocusChanged(TDrawNow aDrawNow)
         {
         Line(controlID)->SetFocus(IsFocused(), aDrawNow);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -1991,177 +1840,102 @@ EXPORT_C void CEikDialog::FocusChanged(TDrawNow aDrawNow)
  */
 EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
     {
-    _AKNTRACE("CEikDialog::TryExitL iDialogFlags = %d, buttonId = %d", iDialogFlags, aButtonId);
-    if (iDialogFlags & EEikDialogFlagNoUserExit)
+    if ( iDialogFlags & EEikDialogFlagNoUserExit )
         {
-        return;
+		return;
         }
         
     // use delayed exit if pointer event handling is in progress
-    if (Extension()->iPublicFlags.IsSet(CEikDialogExtension::EDelayedExit))
+    if ( Extension()->iPublicFlags.IsSet( CEikDialogExtension::EDelayedExit ) )
         {
         Extension()->iButtonId = aButtonId;
         Extension()->StartDelayedExit();
-        
-        _AKNTRACE("CEikDialog::TryExitL return with delayedExit");
         return;
         }
-
+        
+    TBool effectTriggered = EFalse;
     TBool effectButton = aButtonId == EEikBidCancel
                       || aButtonId == EAknSoftkeyExit
                       || aButtonId == EAknSoftkeyBack
                       || aButtonId == EAknSoftkeyNo;
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
     effectButton =    effectButton
-                      || aButtonId == EAknSoftkeyClose
-                      || aButtonId == EAknSoftkeyDone
-                      || aButtonId == EAknSoftkeyOk;
+					  || aButtonId == EAknSoftkeyClose
+                      || aButtonId == EAknSoftkeyDone;
 #endif
-
-    TBool effectTriggered = EFalse;
-    CAknAppUi* aknAppUi = static_cast<CAknAppUi*>(iEikonEnv->EikAppUi());
-
-    MTouchFeedback* feedback = NULL;
-    if(AknLayoutUtils::PenEnabled())
-        {
-        feedback = static_cast<MTouchFeedback*>(ExtensionInterface(KExIfTactileFeedbackUid));
-        }
-
-    if (!(iDialogFlags & EEikDialogFlagDelayEffects)
-        && IsFocusedWindowGroup( this )
-        && GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
+    CAknAppUi* aknAppUi = static_cast<CAknAppUi*>( iEikonEnv->EikAppUi() );
+    if ( GfxTransEffect::IsRegistered( this ) && IsVisible() && effectButton
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS        
-        && !(iDialogFlags & EEikDialogFlagSleeping)
+        && !(iDialogFlags&EEikDialogFlagSleeping)
 #endif
-        && (!aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground())
+        && ( !aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground() )
         && !IsBlankScreenDisplayed()
-        )
+         )
         {
         CAknTransitionUtils::SetAllParents(this);
         GfxTransEffect::Begin(this, KGfxControlDisappearAction);
-
-        if(feedback)
-            {
-            if(CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff))
-                {
-                feedback->InstantFeedback(this, ETouchFeedbackDecreasingPopUp,
-                                        ETouchFeedbackVibra, TPointerEvent());
-                }
-            else
-                {
-                feedback->InstantFeedback(this, ETouchFeedbackPopUp,
-                                        ETouchFeedbackVibra, TPointerEvent());
-                }
-            }
-
         GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
+
         TRect demarcation;
-        CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
+        CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup,
+                                            demarcation);
         GfxTransEffect::SetDemarcation(this, demarcation);
         effectTriggered = ETrue;
         }
 
-    if (aButtonId != EEikBidCancel)
-        {
+    if (aButtonId!=EEikBidCancel)
         PrepareForFocusTransitionL();
-        }
-    else if (!(iDialogFlags & EEikDialogFlagNotifyEsc))
-        {
-        goto finished;
-        }
-    
-    if (!OkToExitL(aButtonId))
-        {
-        if (effectTriggered)
+    else if (!(iDialogFlags&EEikDialogFlagNotifyEsc))
+		goto finished;
+	if (!OkToExitL(aButtonId))
             {
-            GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
-            GfxTransEffect::Abort(this);
+        if ( effectTriggered )
+            {
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsAbort,
+                                                 ( const TDesC8* ) this );
+            GfxTransEffect::Abort( this );
             }
-            
-        // Draw again in cast any content change in OkToExitL
-        DrawDeferred();
-        
-        _AKNTRACE("CEikDialog::TryExitL return with OkToExitL false");
-        return;
-        }
-        
-    if (aButtonId != EEikBidCancel)
-        {
-        GetAutoValues();
-        }
+   			return;
+            }
 
+	if (aButtonId!=EEikBidCancel)
+		GetAutoValues();
 finished:
-
     if (iExitConfirmed)
-        {
-        *iExitConfirmed = MappedCommandId(aButtonId) == EEikBidCancel ? 0 : aButtonId;
-        }
+		*iExitConfirmed=((MappedCommandId( aButtonId ) ==EEikBidCancel)? 0: aButtonId);
 
     // Remove content observer in order to prevent unnecessary layout 
     // calculations in dialog shutdown.
-    EnableContentObserver(EFalse);
+    EnableContentObserver( EFalse );
 
-    if (iDialogFlags & EEikDialogFlagSleeping)
-        {
-        ExitSleepingDialog();
-        }
-    else
-        {
+	if (iDialogFlags&EEikDialogFlagSleeping)
+		ExitSleepingDialog();
+	else
+		{
         // Remove content observer in order to prevent unnecessary layout 
         // calculations in dialog shutdown.
-        EnableContentObserver(EFalse);
-        
-        // The dialog is asked to postpone the effect after OkToExitL.
-        if ((iDialogFlags & EEikDialogFlagDelayEffects) && !effectTriggered)
-            {
-            if (GfxTransEffect::IsRegistered(this) && IsVisible() && effectButton
-                && (!aknAppUi->IsFullScreenApp() || aknAppUi->IsForeground())
-                && !IsBlankScreenDisplayed()
-                )
-                {
-                TRect demarcation;
-                CAknTransitionUtils::SetAllParents(this);
-                GfxTransEffect::Begin(this, KGfxControlDisappearAction);
+        EnableContentObserver( EFalse );
 
-                if(feedback)
-                    {
-                    if(CAknTransitionUtils::TransitionsEnabled(AknTransEffect::EComponentTransitionsOff))
-                        {
-                        feedback->InstantFeedback(this, ETouchFeedbackDecreasingPopUp,
-                                                ETouchFeedbackVibra, TPointerEvent());
-                        }
-                    else
-                        {
-                        feedback->InstantFeedback(this, ETouchFeedbackPopUp,
-                                                ETouchFeedbackVibra , TPointerEvent());
-                        }
-                    }
+        if ( effectTriggered )
+						{
+        		MakeVisible(EFalse);
+                CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                        CAknTransitionUtils::EForceInvisible );
 
-                GfxTransEffect::NotifyExternalState(ECaptureComponentsBegin, (const TDesC8*)this);
-                CAknTransitionUtils::GetDemarcation(CAknTransitionUtils::EPopup, demarcation);
-                GfxTransEffect::SetDemarcation(this, demarcation);
-                effectTriggered = ETrue;
-                }
-            }
-
-        if (effectTriggered)
-            {
-            MakeVisible(EFalse);
-            CAknTransitionUtils::MakeVisibleSubComponents(this, CAknTransitionUtils::EForceInvisible);
-            GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
-            GfxTransEffect::End(this);
-            }
-        else
-            {
-            // Why we need abort the effect here ??
-            MakeVisible(EFalse);
-            CAknTransitionUtils::MakeVisibleSubComponents(this, CAknTransitionUtils::EForceInvisible);
-            GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
-            GfxTransEffect::Abort(this);
-            }
-        delete(this);
-        }
-    _AKNTRACE_FUNC_EXIT;
+        		GfxTransEffect::NotifyExternalState(ECaptureComponentsEnd, (const TDesC8*)this);
+        		GfxTransEffect::End(this);
+        		}
+        	else
+			    {
+        		MakeVisible(EFalse);
+                CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                        CAknTransitionUtils::EForceInvisible );
+        		GfxTransEffect::NotifyExternalState( ECaptureComponentsAbort,
+                                                 ( const TDesC8* ) this );
+		    	GfxTransEffect::Abort(this);
+			}
+	    delete(this);
+		}
     }
 
 /**
@@ -2289,7 +2063,6 @@ EXPORT_C void CEikDialog::HandleControlEventL(CCoeControl* aControl,TCoeEvent aE
  */
 EXPORT_C void CEikDialog::SetInitialCurrentLine()
     {
-	_AKNTRACE_FUNC_ENTER;
 	if ( !iExtension->iInitialMade )
 	    {
 	    TRAP_IGNORE(iPageSelector->ActivateFirstPageL());
@@ -2298,7 +2071,6 @@ EXPORT_C void CEikDialog::SetInitialCurrentLine()
 	    {
 	    iPageSelector->SetInitialFocus();
 	    }
-	_AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -2427,7 +2199,7 @@ EXPORT_C void CEikDialog::GetColorUseListL(CArrayFix<TCoeColorUse>& aColorUseLis
  */
 EXPORT_C void CEikDialog::HandleResourceChange(TInt aType)
     {
-	_AKNTRACE_FUNC_ENTER;    
+        
     if(aType==KEikDynamicLayoutVariantSwitch)
         {
         if (IsVisible())
@@ -2435,14 +2207,7 @@ EXPORT_C void CEikDialog::HandleResourceChange(TInt aType)
         else if (iExtension)
         	iExtension->iFlags.Set(CEikDialogExtension::ELayoutChangeWhileInvisible);
 
-        TBool isForm = ( iPageSelector && iPageSelector->IsForm() );
-
-        if ( !isForm )
-            {
-            CCoeControl::HandleResourceChange( aType );
-            }
-
-        _AKNTRACE_FUNC_EXIT;
+        CCoeControl::HandleResourceChange(aType);
         return;
         }
     else
@@ -2450,39 +2215,32 @@ EXPORT_C void CEikDialog::HandleResourceChange(TInt aType)
     	CCoeControl::HandleResourceChange(aType);
         }
     
-    _AKNTRACE_FUNC_EXIT;
+    if( !CAknEnv::Static()->TransparencyEnabled() && aType==KEikColorResourceChange)
+        {
+        Window().SetBackgroundColor(iEikonEnv->ControlColor(EColorDialogBackground,*this));
+        }
     }
 
 void CEikDialog::DoResourceChangeLayout()
 	{
     // Layout must be forced through - bypass optimisations
     // Must work through all pages
-	_AKNTRACE_FUNC_ENTER;
+    
     Layout();
+    SizeChanged();
     
-    TBool isForm = ( iPageSelector && iPageSelector->IsForm() );
-    
-    if ( !isForm )
+    TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
+    TInt pageIndex = 0;
+    CEikDialogPage* page;
+
+    while ( pageIndex++ <= lastPage )
         {
-        SizeChanged();
-		}
-	
-    if( iPageSelector )
-    	{		
-		TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
-		TInt pageIndex = 0;
-		CEikDialogPage* page( NULL );
-	
-		while ( pageIndex++ <= lastPage )
-			{
-			page = iPageSelector->PageContainer()->Page( pageIndex );
-			page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
-			}   
+        page = iPageSelector->PageContainer()->Page( pageIndex );
+        page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
         }
 
    	if (iExtension)
    		iExtension->iFlags.Clear(CEikDialogExtension::ELayoutChangeWhileInvisible);
-   	_AKNTRACE_FUNC_EXIT;
 	}
 
 /**
@@ -2526,8 +2284,6 @@ EXPORT_C void CEikDialog::CEikDialog_Reserved_2()
 
 EXPORT_C void CEikDialog::MakeVisible(TBool aVisible)
 	{
-	_AKNTRACE_FUNC_ENTER;
-	_AKNTRACE( "CEikDialog::MakeVisible(): [%d]", aVisible );
    	if (iExtension && iExtension->iFlags[CEikDialogExtension::ELayoutChangeWhileInvisible])
    		DoResourceChangeLayout();
 
@@ -2545,7 +2301,7 @@ EXPORT_C void CEikDialog::MakeVisible(TBool aVisible)
         }
     
 	CEikBorderedControl::MakeVisible(aVisible);
-	_AKNTRACE_FUNC_EXIT;
+
 	}
 
 void CEikDialog::FadeBehindPopup(TBool aFade)
@@ -2672,14 +2428,9 @@ EXPORT_C void CEikDialog::ControlsOnPage(RArray<CEikCaptionedControl*>& aControl
 		{
 		control = dlgPage->LineOnPageOrNull(i++);
 		if (control)
-			{
-			if ( KErrNone != aControls.Append(control) )
-				{
-				return;
-				}
-			}
+			aControls.Append(control);
 		}
-	while (control != NULL);
+		while (control != NULL);
 	}
 
 EXPORT_C TInt CEikDialog::DialogFlags()
@@ -2753,7 +2504,6 @@ EXPORT_C CCoeControl* CEikDialog::FadedComponent(TInt aIndex)
 
 EXPORT_C void CEikDialog::UpdatePageL(TBool aRedraw)
 	{
-	_AKNTRACE_FUNC_ENTER;
 	if (Rect().Height())
 		{
 		if (iPageSelector)
@@ -2767,13 +2517,11 @@ EXPORT_C void CEikDialog::UpdatePageL(TBool aRedraw)
 						DrawDeferred();
 					}
 		}
-	_AKNTRACE_FUNC_EXIT;
 	}
 
 
 EXPORT_C TInt CEikDialog::GetNumberOfLinesOnPage(TInt aPageIndex) const
 	{
-	_AKNTRACE_FUNC_ENTER;
 	if (iPageSelector)
 		{
 		CEikDialogPageContainer* pageContainer = iPageSelector->PageContainer();
@@ -2781,33 +2529,20 @@ EXPORT_C TInt CEikDialog::GetNumberOfLinesOnPage(TInt aPageIndex) const
 			{
 			CEikDialogPage* page = pageContainer->Page(aPageIndex);
 			if (page)
-				{
-				_AKNTRACE( "CEikDialog::GetNumberOfLinesOnPage(): [%d]", page->NumberOfLines() );
-				_AKNTRACE_FUNC_EXIT;
-				return page->NumberOfLines();			
-				}
+				return page->NumberOfLines();
 			}
 		}
-	_AKNTRACE( "CEikDialog::GetNumberOfLinesOnPage(): 0");
-	_AKNTRACE_FUNC_EXIT;
 	return 0;
 	}
 
 EXPORT_C TInt CEikDialog::GetNumberOfPages() const
 	{
-	_AKNTRACE_FUNC_ENTER;
 	if (iPageSelector)
 		{
 		CEikDialogPageContainer* pageContainer = iPageSelector->PageContainer();
 		if (pageContainer)
-			{
-		    _AKNTRACE( "CEikDialog::GetNumberOfPages(): [%d]", pageContainer->NumPages() );
-		    _AKNTRACE_FUNC_EXIT;
-		    return pageContainer->NumPages();
-			}
+			return pageContainer->NumPages();
 		}
-	_AKNTRACE( "CEikDialog::GetNumberOfPages(): return 0;" );
-	_AKNTRACE_FUNC_EXIT;
 	return 0;
     }
     
@@ -3314,8 +3049,7 @@ void CEikDialog::HandleEmbeddedSofkeyStateChange()
     // softkeys
     if ( iExtension && CbaEmbeddedInDialog( iDialogFlags ) )
         {
-        TRect oldDialogRect( Rect() );
-        TSize dialogSize( oldDialogRect.Size() );
+        TSize dialogSize( Rect().Size() );
         CEikCba* cba = static_cast<CEikCba*>(
                 iButtonGroupContainer->ButtonGroup() );
         TBool cbaVisible( cba->IsVisible() && !cba->IsEmpty() );
@@ -3340,14 +3074,8 @@ void CEikDialog::HandleEmbeddedSofkeyStateChange()
             dialogSize.iHeight -= cbaRect.Rect().Height();
             }
 
-        TRect newDialogRect( AknPopupUtils::Position( dialogSize, cbaVisible ),
-                             dialogSize );
-        SetRect( newDialogRect );
-        
-        if ( oldDialogRect != newDialogRect )
-            {
-            DrawDeferred();
-            }
+        SetRect( TRect(
+            AknPopupUtils::Position( dialogSize, this ), dialogSize ) );
         }
     }
 
@@ -3395,7 +3123,6 @@ void CEikDialog::EnableContentObserver( TBool aEnabled )
 const TInt KWgPriorityOfBlankScreen = 10000; // copied from akncapserverentry.cpp
 TBool IsBlankScreenDisplayed()
     {
-	_AKNTRACE_FUNC_ENTER;
     TBool isBlankScreenDisplayed(EFalse);
     RWsSession& wsSession = CEikonEnv::Static()->WsSession();
     
@@ -3405,7 +3132,7 @@ TBool IsBlankScreenDisplayed()
         if (KErrNone == wsSession.WindowGroupList(wgIds) && wgIds->Count() > 0)
             {
             TInt priority = wsSession.GetWindowGroupOrdinalPriority(wgIds->At(0));
-            _AKNTRACE( "IsBlankScreenDisplayed():priority: [%d]", priority );
+            RDebug::Printf("IsBlankScreenDisplayed():priority:%d",priority);
             if (priority == KWgPriorityOfBlankScreen)
                 {
                 isBlankScreenDisplayed = ETrue;
@@ -3413,8 +3140,7 @@ TBool IsBlankScreenDisplayed()
             }
         }
     delete wgIds;
-    _AKNTRACE( "IsBlankScreenDisplayed():isBlankScreenDisplayed: [%d]", isBlankScreenDisplayed );
-    _AKNTRACE_FUNC_EXIT;
+    RDebug::Printf("IsBlankScreenDisplayed():isBlankScreenDisplayed:%d",isBlankScreenDisplayed);
     return isBlankScreenDisplayed;
     }
     

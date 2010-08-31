@@ -46,29 +46,21 @@
 #endif
 
 #include <AknTasHook.h> // for testability hooks
-#include "akntrace.h"
 const TInt EEikDialogFlagSleeping   =0x20000;
-
-
 
 // -----------------------------------------------------------------------------
 // Finds out if this control belongs to the window group that is in focus.
-// This information can be used to skip effects when the window group is not visible.
+// This information can be used to skip effects when the window group is
+// not visible.
 //
-// @param aControl The control in question.
+// @param aThis The control in question.
 //
 // @return ETrue if the window group is in focus, otherwise EFalse
 // -----------------------------------------------------------------------------
 //
-TBool IsFocusedWindowGroup( const CCoeControl* aControl )
+TBool IsFocusedWindowGroup( CAknNoteDialog* aThis )
     {
-    if( !aControl )
-    	{
-    	return EFalse;	
-    	}
-
-    RWindowTreeNode* node = aControl->DrawableWindow();
-
+    RWindowTreeNode* node = aThis->DrawableWindow();
     // this code finds out if this control belongs to window group
     // that is in focus, there are some rare cases when the latest opened
     // popup goes behind another one (e.g. system lock query -> power key menu)
@@ -79,13 +71,12 @@ TBool IsFocusedWindowGroup( const CCoeControl* aControl )
         {
         return EFalse;
         }
-        
     TInt nodeWindowGroupId = node->WindowGroupId();
     TInt focusedWindowGroupId = wsSession.GetFocusWindowGroup();
     
     if ( nodeWindowGroupId == focusedWindowGroupId )
         {
-        return aControl->IsFocused();
+        return ETrue;
         }
 
     TInt count = wsSession.NumWindowGroups( 0 );
@@ -109,8 +100,7 @@ TBool IsFocusedWindowGroup( const CCoeControl* aControl )
             }
         }
     return EFalse;
-    }  
-    
+    }
 
 //////////////////////////////////////////////////////////////////////
 // CAknNoteDialogExtension
@@ -191,32 +181,23 @@ TInt CAknNoteDialogExtension::AknTransitionCallback(TInt /*aEvent*/,
 EXPORT_C CAknNoteDialog::CAknNoteDialog() : CEikDialog(),
     iTimeoutInMicroseconds(ENoTimeout), iTone(ENoTone)
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_ADD( this, "CAknNoteDialog" );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknNoteDialog::CAknNoteDialog(const TTone& aTone, const TTimeout& aTimeout) :
     CEikDialog(), iTimeoutInMicroseconds(aTimeout), iTone(aTone)
     {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE("iTimeoutInMicroseconds = %d", aTimeout);
     AKNTASHOOK_ADD( this, "CAknNoteDialog" );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C CAknNoteDialog::CAknNoteDialog(CEikDialog** aSelfPtr,const TTone& aTone, const TTimeout& aTimeout) :
     CEikDialog(), iTimeoutInMicroseconds(aTimeout), iSelfPtr(aSelfPtr), iTone(aTone)
      {
-     _AKNTRACE_FUNC_ENTER;
-     _AKNTRACE("iTimeoutInMicroseconds = %d", aTimeout);
      AKNTASHOOK_ADD( this, "CAknNoteDialog" );
-     _AKNTRACE_FUNC_EXIT;
      }
 
 EXPORT_C CAknNoteDialog::~CAknNoteDialog()
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
 // FIXME: Experimental heuristics for determining popup type
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
@@ -244,7 +225,6 @@ EXPORT_C CAknNoteDialog::~CAknNoteDialog()
 
     delete iControlAttributes;
     delete iNoteExtension;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknNoteDialog::SetTimeout(const TTimeout& aTimeout)
@@ -402,7 +382,6 @@ EXPORT_C TKeyResponse CAknNoteDialog::OfferKeyEventL(const TKeyEvent& aKeyEvent,
 
 EXPORT_C void CAknNoteDialog::LayoutAndDraw()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (IsActivated())
         {
         TRect screenRect = iAvkonAppUi->ApplicationRect();
@@ -414,16 +393,14 @@ EXPORT_C void CAknNoteDialog::LayoutAndDraw()
         CAknNoteAttributes* attr = ControlAttributes();
         if ( attr )
             {
-            _AKNTRACE( "[%s][%s] allowing opt. draw,0x%x", "CAknNoteDialog", "LayoutAndDraw", this );
+            RDebug::Print(_L("CAknNoteDialog allowing opt. draw, %d"), (TUint)this );            
             attr->AllowOptimizedDrawing();
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TInt CAknNoteDialog::RunLD()
     {
-    _AKNTRACE_FUNC_ENTER;
     PlayTone();
     ReportUserActivity();
 
@@ -437,19 +414,17 @@ EXPORT_C TInt CAknNoteDialog::RunLD()
         CAknTransitionUtils::RemoveData( ( TInt )NoteControl() );
         }
 #endif
-
-    _AKNTRACE_FUNC_EXIT;    
+        
     return CEikDialog::RunLD();
     }
 
 EXPORT_C TInt CAknNoteDialog::StaticDeleteL(TAny *aThis)
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknNoteDialog* self = REINTERPRET_CAST(CAknNoteDialog*,aThis);
         
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS           
     if ( self->IsVisible() && GfxTransEffect::IsRegistered( self ) &&
-         IsFocusedWindowGroup( self ) )
+        IsFocusedWindowGroup( self ) )
 		{
         TBool rsWasEnabled( EFalse );
         if( !CAknEnv::Static()->TransparencyEnabled() && self->DrawableWindow() && self->Window().IsRedrawStoreEnabled() )
@@ -503,14 +478,12 @@ EXPORT_C TInt CAknNoteDialog::StaticDeleteL(TAny *aThis)
         self->ExitSleepingDialog();
         self->NoteControl()->Reset();
         }
-    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
 
 EXPORT_C void CAknNoteDialog::SetSizeAndPosition( const TSize& aSize )
     {
-    _AKNTRACE_FUNC_ENTER;
     SetBorder( TGulBorder::ENone );
     CAknNoteControl* note = NoteControl();
     if (note)
@@ -536,7 +509,6 @@ EXPORT_C void CAknNoteDialog::SetSizeAndPosition( const TSize& aSize )
    
         ControlAttributes()->SetLayoutDone();                
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C void CAknNoteDialog::PreLayoutDynInitL()
@@ -689,7 +661,6 @@ void CAknNoteDialog::DbgCheckSelfPtr(CEikDialog** /*aSelfPtr*/)
 
 EXPORT_C void CAknNoteDialog::HandleResourceChange(TInt aType)
     {
-    _AKNTRACE_FUNC_ENTER;
     if(aType==KEikDynamicLayoutVariantSwitch)
         {
         if (!IsVisible())
@@ -726,7 +697,6 @@ EXPORT_C void CAknNoteDialog::HandleResourceChange(TInt aType)
         }
 
     CEikDialog::HandleResourceChange(aType);
-    _AKNTRACE_FUNC_EXIT;
     }
 
 /**
@@ -861,30 +831,16 @@ TInt CAknNoteDialog::CallbackStartAnimationL(TAny* aThis)
 
 EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( AknLayoutUtils::PenEnabled() )
         {
         CCoeControl* ctrl = GrabbingComponent();
         CCoeControl::HandlePointerEventL(aPointerEvent);
-        // Add tactile feedbacup when tap can close note.
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
+        
+        if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
             {
-            if ( DialogFlags() & EEikDialogFlagCloseDialogWhenTapped )
+            if ( DialogFlags()&EEikDialogFlagCloseDialogWhenTapped )
                 {
-                if( Rect().Contains( aPointerEvent.iPosition ) )
-                    {
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if ( feedback )
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackPopUp );
-                        }
-                    }
-                }
-            }
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {
-            if ( DialogFlags() & EEikDialogFlagCloseDialogWhenTapped )
-                {
+                //Touch release gives pop-up effect if note can be dismissed.
                 if ( ctrl )
                     {
                     // if grabbingComponent and dialog has 'close dialog when 
@@ -894,11 +850,15 @@ EXPORT_C void CAknNoteDialog::HandlePointerEventL(const TPointerEvent& aPointerE
                         StaticDeleteL( this );
                         }
                     
+                    MTouchFeedback* feedback = MTouchFeedback::Instance();
+                    if ( feedback )
+                        {
+                        feedback->InstantFeedback( ETouchFeedbackPopUp );
+                        }
                     }
                 }
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 

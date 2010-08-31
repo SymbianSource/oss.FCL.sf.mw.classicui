@@ -270,7 +270,7 @@ EXPORT_C void CEikLabel::CropText()
 	
 TInt CEikLabel::HeightInPixels() const
     {
-    return(iMargin.iTop+iMargin.iBottom + iGapBetweenLines*(iNumberOfLines-1) + iNumberOfLines*iFont->FontMaxHeight());
+    return(iMargin.iTop+iMargin.iBottom + iGapBetweenLines*(iNumberOfLines-1) + iNumberOfLines*iFont->HeightInPixels());
     }
 
 TInt CEikLabel::WidthInPixels(TPtrC& aText) const
@@ -403,7 +403,7 @@ void CEikLabel::DrawToContext( CBitmapContext& aContext,
     
     const TRect rect = Rect();
 
-    const TInt deltaHeight=rect.Height() - HeightInPixels();
+    const TInt deltaHeight=rect.Height()-HeightInPixels();
     TInt preHeight=iMargin.iTop; // used on first line
     TInt postHeight=iMargin.iBottom; // used on last line
     if (deltaHeight>0)
@@ -437,14 +437,14 @@ void CEikLabel::DrawToContext( CBitmapContext& aContext,
         }
     else
         {
-        textPaneTopToBaseline = iFont->FontMaxAscent();
-        textPaneHeight = iFont->FontMaxHeight();
+        textPaneTopToBaseline = iFont->AscentInPixels();
+        textPaneHeight = iFont->HeightInPixels();
         }
     
     // iGapBetweenLines is defined as baseline separation - CFont::HeightInPixels
     // Since we are using the better metrics above, we have to actually use something which is 
     // derived from iGapBetweenLines, but is e.g. reduced if textpaneheight > heightInPixels
-    TInt gapBetweenTextPanes( iGapBetweenLines - (textPaneHeight - iFont->FontMaxHeight() ) );
+    TInt gapBetweenTextPanes( iGapBetweenLines - (textPaneHeight - iFont->HeightInPixels()) );
 
     FOREVER
         {

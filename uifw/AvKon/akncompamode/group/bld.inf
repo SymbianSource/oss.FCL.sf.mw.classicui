@@ -28,4 +28,3 @@ PRJ_MMPFILES
 akncompamode.mmp
 
 #include "../srv/group/bld.inf"
-#include "../gs/group/bld.inf"

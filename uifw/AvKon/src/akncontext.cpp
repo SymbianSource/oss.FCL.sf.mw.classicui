@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -11,8 +11,7 @@
 *
 * Contributors:
 *
-* Description: Context pane control used to display the application icon
-*              in status pane.
+* Description:
 *
 */
 
@@ -59,6 +58,7 @@ public:
 public:
     CEikImage*  iContextImage;
     CEikImage*  iDefaultContextImage;
+    TInt        iCurrentColorScheme;
     };
 
 CAknContextPaneExtension::CAknContextPaneExtension()
@@ -91,20 +91,7 @@ EXPORT_C CAknContextPane::~CAknContextPane()
 EXPORT_C void CAknContextPane::ConstructL()
     {
     CommonConstructL();
-
-    // Perf optimization: We don't set the default picture if the context
-    // pane is not in current status pane layout. The picture will be created
-    // in SizeChanged() if a valid size is set for context pane, but at
-    // the moment context pane isn't used in any of the supported Avkon
-    // status pane layouts.
-    CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-    if ( statusPane &&
-         statusPane->PaneCapabilities(
-             TUid::Uid( EEikStatusPaneUidContext ) ).IsInCurrentLayout() )
-        {
-        // Trapped because of Java midlet issues.
-        TRAP_IGNORE( SetPictureToDefaultL() );
-        }
+    TRAP_IGNORE(SetPictureToDefaultL()); // Trapped because of Java midlet issues
     }
 
 
@@ -319,14 +306,8 @@ EXPORT_C CEikImage* CAknContextPane::SwapPicture(CEikImage* aNewImage)
 
 EXPORT_C void CAknContextPane::SizeChanged()
     {
-    if ( !Rect().IsEmpty() ) // Fix for Parent getting parent relative data. 
+    if (Rect() != TRect(0,0,0,0)) // Fix for Parent getting parent relative data. 
         {
-        if ( !iExtension->iContextImage )
-            {
-            // Create the default picture if it doesn't exist yet. 
-            TRAP_IGNORE( SetPictureToDefaultL() );
-            }
-
         if (iExtension->iContextImage && iExtension->iContextImage->Bitmap()) 
             {
             TAknLayoutRect layoutRect;
@@ -381,9 +362,8 @@ EXPORT_C void CAknContextPane::SizeChanged()
 
 EXPORT_C void CAknContextPane::HandleResourceChange( TInt aType ) 
     {
-    if ( aType==KEikDynamicLayoutVariantSwitch )
+    if ( aType == KEikColorResourceChange || aType==KEikDynamicLayoutVariantSwitch )
         {
-        SizeChanged();
         DrawDeferred();
         }
     else if( aType == KAknsMessageSkinChange )
@@ -429,63 +409,76 @@ EXPORT_C void CAknContextPane::Draw(const TRect& /*aRect*/) const
     {
     CWindowGc& gc=SystemGc();
 
-    TRect rect( Rect() );
+    // screen
+    TRect screenRect = iAvkonAppUi->ApplicationRect();
+    
+    //TAknWindowLineLayout screenLayout = AknLayout::screen();
+    //TRect screenRect = screenLayout.Rect();
+
+
+    // app window
+    TAknWindowLineLayout applicationWindowLayout =
+        AknLayout::application_window(screenRect);
+    
+    TAknLayoutRect applicationWindowLayoutRect;
+    applicationWindowLayoutRect.LayoutRect(screenRect, applicationWindowLayout);
+    TRect applicationWindowRect = applicationWindowLayoutRect.Rect(); 
+
+    // statuspane
+    TAknWindowLineLayout statusPaneLayout = 
+        AknLayout::status_pane(applicationWindowRect, 0);
+
+    TAknLayoutRect statusPaneLayoutRect;
+    statusPaneLayoutRect.LayoutRect(applicationWindowRect, statusPaneLayout);
+    TRect statusPaneRect = statusPaneLayoutRect.Rect(); 
+
+    // context pane
+    TAknWindowLineLayout contextPaneLayout = 
+        AknLayout::context_pane(statusPaneRect, 0);
+    
+    TAknLayoutRect contextPaneLayoutRect;
+    contextPaneLayoutRect.LayoutRect(statusPaneRect, contextPaneLayout);
+    TRect contextPaneRect = contextPaneLayoutRect.Rect(); 
+
+    TAknWindowLineLayout naviPaneGraphicsLayout = 
+        AknLayout::Status_pane_elements_Line_1();
+
+    TAknWindowLineLayout naviWipeGraphicsLayout = 
+        AknLayout::Status_pane_elements_Line_2();
+
+    TAknLayoutRect naviPaneGraphicsLayoutRect;
+    naviPaneGraphicsLayoutRect.LayoutRect(statusPaneRect, naviPaneGraphicsLayout);
+    TRect naviPaneGraphicsRect = naviPaneGraphicsLayoutRect.Rect(); 
+
+    TAknLayoutRect naviWipeGraphicsLayoutRect;
+    naviWipeGraphicsLayoutRect.LayoutRect(statusPaneRect, naviWipeGraphicsLayout);
+    TRect naviWipeGraphicsRect = naviWipeGraphicsLayoutRect.Rect(); 
+
+    TRect rect(Rect());
+
+    TRect barRect = contextPaneRect;
+    if (barRect.Intersects(naviPaneGraphicsRect))
+        {
+        barRect.Intersection(naviPaneGraphicsRect);
+        
+        // calculate new origo, relative to context pane.
+        barRect.iTl.iX -= contextPaneRect.iTl.iX;
+        barRect.iTl.iY -= contextPaneRect.iTl.iY;
+        barRect.iBr.iX -= contextPaneRect.iTl.iX;
+        barRect.iBr.iY -= contextPaneRect.iTl.iY;
+        }
+    else
+        {
+        barRect = TRect(0,0,0,0);
+        }
+    
+
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext(this);
 
-    // Solid or wipe comes from background
-    if ( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
+        // Solid or wipe comes from background
+    if( !AknsDrawUtils::Background( skin, cc, this, gc, rect ) )
         {
-        // screen
-        TRect screenRect = iAvkonAppUi->ApplicationRect();
-    
-        // app window
-        TAknWindowLineLayout applicationWindowLayout =
-            AknLayout::application_window(screenRect);
-        
-        TAknLayoutRect applicationWindowLayoutRect;
-        applicationWindowLayoutRect.LayoutRect(screenRect, applicationWindowLayout);
-        TRect applicationWindowRect = applicationWindowLayoutRect.Rect(); 
-    
-        // statuspane
-        TAknWindowLineLayout statusPaneLayout = 
-            AknLayout::status_pane(applicationWindowRect, 0);
-    
-        TAknLayoutRect statusPaneLayoutRect;
-        statusPaneLayoutRect.LayoutRect(applicationWindowRect, statusPaneLayout);
-        TRect statusPaneRect = statusPaneLayoutRect.Rect(); 
-    
-        // context pane
-        TAknWindowLineLayout contextPaneLayout = 
-            AknLayout::context_pane(statusPaneRect, 0);
-        
-        TAknLayoutRect contextPaneLayoutRect;
-        contextPaneLayoutRect.LayoutRect(statusPaneRect, contextPaneLayout);
-        TRect contextPaneRect = contextPaneLayoutRect.Rect(); 
-    
-        TAknWindowLineLayout naviPaneGraphicsLayout = 
-            AknLayout::Status_pane_elements_Line_1();
-    
-        TAknLayoutRect naviPaneGraphicsLayoutRect;
-        naviPaneGraphicsLayoutRect.LayoutRect(statusPaneRect, naviPaneGraphicsLayout);
-        TRect naviPaneGraphicsRect = naviPaneGraphicsLayoutRect.Rect();
-
-        TRect barRect( contextPaneRect );
-        if ( barRect.Intersects( naviPaneGraphicsRect ) )
-            {
-            barRect.Intersection( naviPaneGraphicsRect );
-            
-            // calculate new origo, relative to context pane.
-            barRect.iTl.iX -= contextPaneRect.iTl.iX;
-            barRect.iTl.iY -= contextPaneRect.iTl.iY;
-            barRect.iBr.iX -= contextPaneRect.iTl.iX;
-            barRect.iBr.iY -= contextPaneRect.iTl.iY;
-            }
-        else
-            {
-            barRect = TRect(0,0,0,0);
-            }
-
         // Default drawing if skinning is not available
         gc.Clear(rect); 
         gc.SetPenStyle(CGraphicsContext::ENullPen);
@@ -540,19 +533,7 @@ void CAknContextPane::ReadFromResourceFileL(TResourceReader& aReader)
         }
     else
         {
-        // Perf optimization: We don't set the default picture if the context
-        // pane is not in current status pane layout. The picture will be
-        // created in SizeChanged() if a valid size is set for context pane,
-        // but at the moment context pane isn't used in any of the supported
-        // Avkon status pane layouts.
-        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-        if ( statusPane &&
-             statusPane->PaneCapabilities(
-                 TUid::Uid( EEikStatusPaneUidContext ) ).IsInCurrentLayout() )
-            {
-            // Trapped because of Java midlet issues.
-            TRAP_IGNORE( SetPictureToDefaultL() );
-            }
+        TRAP_IGNORE(SetPictureToDefaultL()); // Trapped because of Java midlet issues
         }
     }
 

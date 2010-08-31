@@ -30,7 +30,7 @@
 
 // CONSTANTS
 const TInt KTimeDelayBeforeAnimation = 150000;  // 0,15 seconds
-const TInt KLongTapDelay = 500000;              // 0,6 seconds
+const TInt KLongTapDelay = 800000;              // 0,8 seconds
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -254,7 +254,6 @@ void CAknLongTapDetector::DoCancel()
         {
         StopAnimation();
         }
-    iState = EWaiting;
     }
 
 
@@ -322,6 +321,7 @@ void CAknLongTapDetector::MonitorWsMessage(const TWsEvent& aEvent)
             && aEvent.Pointer()->iType == TPointerEvent::EButton1Up ) )
 		{
         Cancel();
+        iState = EWaiting;		
 	    }
     }
 

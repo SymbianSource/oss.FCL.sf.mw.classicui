@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -109,12 +109,11 @@ NONSHARABLE_CLASS(CAknGridExtension) : public CBase
 
     public: // data 
         TInt iFlags;
-
-        // This is used to prevent MopSupplyObject being invoked 
-        // from CEikListBox::MopGetObject().
+        // EMMA-7A8B9F.Ugly hack. Prevent MopSupplyObject being invoked 
+        // from CEikListBox::MopGetObject()
         TBool iIsFromBaseClass;
-
         TPoint iLastPoint;
+        TBool iKineticScrolling;
         TBool iSingleClickEnabled;
     };
 
@@ -123,6 +122,7 @@ CAknGridExtension::CAknGridExtension()
     iFlags(0), 
     iIsFromBaseClass( EFalse ),
     iLastPoint( 0, 0 ), 
+    iKineticScrolling( CAknPhysics::FeatureEnabled() ),
     iSingleClickEnabled( iAvkonAppUi->IsSingleClickCompatible() )
     {
     }
@@ -660,7 +660,6 @@ EXPORT_C void CAknGrid::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             iSBFrame->VerticalScrollBar()->Size()).Contains ( aPointerEvent.iPosition ))
             {
             if ( !ScrollingDisabled()
-                && iExtension 
                 && iExtension->iFlags & EAknGridStateButton1DownInGrid )
                 {
                 if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
@@ -688,25 +687,17 @@ EXPORT_C void CAknGrid::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             switch (aPointerEvent.iType)
                 {
                 case TPointerEvent::EButton1Down:
-                	{
-                    if( iExtension )
-                      {
-                      iExtension->iLastPoint = aPointerEvent.iPosition;
-                      if ( visibleItemsRect.Contains(aPointerEvent.iPosition) )
-                          {
-                          iExtension->iFlags |= EAknGridStateButton1DownInGrid;
-                          }
-                      }
+                    iExtension->iLastPoint = aPointerEvent.iPosition;
+                    if ( visibleItemsRect.Contains(aPointerEvent.iPosition) )
+                        {
+                        iExtension->iFlags |= EAknGridStateButton1DownInGrid;                
+                        }
                     _AKNTRACE( "TPointerEvent::EButton1Down" );
                     break;
-                	}
-                	
+
                 case TPointerEvent::EButton1Up:
                     {
-                    if ( iExtension )
-                        {
-                        iExtension->iFlags &= ~EAknGridStateButton1DownInGrid;
-                        }
+                    iExtension->iFlags &= ~EAknGridStateButton1DownInGrid;
                     _AKNTRACE( "TPointerEvent::EButton1Up" );
                     break;
                     }
@@ -1096,8 +1087,7 @@ EXPORT_C TKeyResponse CAknGrid::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEvent
         }
         
     // With single click first key event enables highlight
-    if ( iExtension 
-            && iExtension->iSingleClickEnabled
+    if ( iExtension->iSingleClickEnabled
             && ItemDrawer()->Flags()
             &  CListItemDrawer::ESingleClickDisabledHighlight )
         {
@@ -1346,16 +1336,8 @@ EXPORT_C void CAknGrid::SetTopItemIndex(TInt aItemIndex) const
 EXPORT_C void CAknGrid::HandleResourceChange(TInt aType)
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( aType != KEikMessageWindowsFadeChange && 
-    	 aType != KEikMessageUnfadeWindows && 
-    	 aType != KEikMessageFadeAllWindows && 
-    	 aType != KEikMessageColorSchemeChange && 
-    	 aType != KAknsMessageSkinChange )
-    	{
-        // Need to do this to set up the scroll bar model
-        TRAP_IGNORE( UpdateScrollBarsL() );
-    	}
-    
+    // Need to do this to set up the scroll bar model
+    TRAP_IGNORE( UpdateScrollBarsL() );
     
     if (aType==KEikDynamicLayoutVariantSwitch)
         {
@@ -1409,17 +1391,9 @@ EXPORT_C void CAknGrid::HandleResourceChange(TInt aType)
     TRAP_IGNORE( ItemDrawer()->FormattedCellData()->SetupSkinContextL());
     // Data extension has animations which will change when skin changes.
     ItemDrawer()->FormattedCellData()->HandleResourceChange( aType );
-    
-    if ( aType != KEikMessageWindowsFadeChange && 
-    	 aType != KEikMessageUnfadeWindows && 
-    	 aType != KEikMessageFadeAllWindows && 
-    	 aType != KEikMessageColorSchemeChange && 
-    	 aType != KAknsMessageSkinChange )
-        {
-        // Need to do this to set up the scroll bar model
-        TRAP_IGNORE( UpdateScrollBarsL() );
-        }
-    
+
+    // Need to do this to set up the scroll bar model
+    TRAP_IGNORE( UpdateScrollBarsL() );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1507,12 +1481,8 @@ EXPORT_C void CAknGrid::AdjustTopItemIndex() const
         
         // and calculate new top item index
         TInt topItemIndex = newTopRow * iNumOfColsInView ;
-        if ( topItemIndex > KErrNotFound 
-             && topItemIndex < iModel->NumberOfItems() )
-            {
-            iView->SetItemOffsetInPixels( 0 );
-            SetTopItemIndex( topItemIndex );
-            }
+        iView->SetItemOffsetInPixels(0);
+        SetTopItemIndex(topItemIndex);
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -1529,7 +1499,7 @@ EXPORT_C void CAknGrid::HandleDragEventL(TPoint aPointerPos)
     
     if ( AknLayoutUtils::PenEnabled() )
         {
-        if ( !( iExtension && iExtension->iFlags & EAknGridStateButton1DownInGrid) )
+        if ( !(iExtension->iFlags & EAknGridStateButton1DownInGrid) )
             {
             _AKNTRACE_FUNC_EXIT;
             return;
@@ -1545,8 +1515,8 @@ EXPORT_C void CAknGrid::HandleDragEventL(TPoint aPointerPos)
         CListBoxView::TSelectionMode selectionMode = CListBoxView::ENoSelection;
         //        CListBoxView::TSelectionMode selectionMode = (iListBoxFlags & EMultipleSelection) ? CListBoxView::EContiguousSelection : CListBoxView::ESingleSelection;
         // END OF SERIES60 LAF
-        TInt speed = iExtension ? iExtension->GetScrollingSpeed( pointerIsOverAnItem, itemIndex, 
-                                                    *gridView, aPointerPos ):0;
+        TInt speed = iExtension->GetScrollingSpeed( pointerIsOverAnItem, itemIndex, 
+                                                    *gridView, aPointerPos );
         
         TInt oldCurrentItemIndex = CurrentItemIndex();
         TRect currentItemRect(gridView->ItemPos(oldCurrentItemIndex), gridView->ItemSize(oldCurrentItemIndex));       
@@ -1873,6 +1843,7 @@ EXPORT_C void CAknGrid::UpdateScrollBarsL()
         // EHXA-7AQ8N4. Only set it to 0 can make scrollbar empty.
         vSbarModel.iScrollSpan = GridModel()->NumberOfItems() >0 ? 
             gridSize.iHeight : 0;
+        vSbarModel.iThumbSpan = gridView->NumberOfRowsInView();
         vSbarModel.iScrollSpan = GridModel()->NumberOfItems() >0 ? 
             gridSize.iHeight*iView->ItemHeight() : 0;
         vSbarModel.iThumbSpan = rect.Height();
@@ -1889,12 +1860,7 @@ EXPORT_C void CAknGrid::UpdateScrollBarsL()
         if (vSbarModel.iScrollSpan-vSbarModel.iThumbPosition<vSbarModel.iThumbSpan)
             {
             vSbarModel.iThumbPosition=Max(0,vSbarModel.iScrollSpan-vSbarModel.iThumbSpan);
-            if ( iExtension && !iExtension->iSingleClickEnabled )
-                {
-                // force a scroll if neccessary
-                gridView->MoveToItemIndexL( currentIndex, 
-                    CListBoxView::ENoSelection );
-                }
+            gridView->MoveToItemIndexL(currentIndex,CListBoxView::ENoSelection); // force a scroll if neccessary
             }
         }
     if (iSBFrame->ScrollBarVisibility(CEikScrollBar::EHorizontal)!=CEikScrollBarFrame::EOff)

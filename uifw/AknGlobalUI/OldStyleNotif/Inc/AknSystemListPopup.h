@@ -24,7 +24,6 @@
 #include <eikcmobs.h>
 #include <AknNotifyStd.h>
 #include "AknListQueryNotificationDialog.h"
-#include "AknNotifierControllerPlugin.h"
 
 NONSHARABLE_CLASS(CAknGlobalListQuerySubject): 
     public CBase, 
@@ -32,7 +31,7 @@ NONSHARABLE_CLASS(CAknGlobalListQuerySubject):
     public MAknListQueryNotificationCallback
     {
 public:
-    static CAknGlobalListQuerySubject* NewL(MAknKeyLockController* aKeyLockController);
+    static CAknGlobalListQuerySubject* NewL();
     virtual ~CAknGlobalListQuerySubject();
     
     // From MEikSrvNotifierBase.
@@ -46,14 +45,9 @@ public:
     
     // From MAknListQueryNotificationCallback.
     void QueryDismissedL(TInt aResult);
-    
-    TBool IsKeyLockEnable()
-        {
-        return iKeyLockController->IsKeyLockEnabled();
-        }
 
 private:
-    CAknGlobalListQuerySubject(MAknKeyLockController* aKeyLockController);
+    CAknGlobalListQuerySubject();
     void ConstructL();
 
 private:
@@ -72,9 +66,6 @@ private:
     TBool iAppsKeySuppressed;
     
     CEikonEnv* iStoredEikonEnv;
-    
-    MAknKeyLockController* iKeyLockController;
-    
     };
 
 #endif // __AKNSYSTEMLISTPOPUP_H__

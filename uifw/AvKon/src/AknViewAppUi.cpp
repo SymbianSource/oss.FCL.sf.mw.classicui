@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2005 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -27,10 +27,6 @@
 #include <aknclearer.h>
 #include <AknUtils.h>
 #include <akntoolbar.h>
-#include <akntranseffect.h>
-#include <centralrepository.h>
-
-
 #include "aknview.h"
 #include "aknshut.h"
 #include "aknenv.h"
@@ -47,8 +43,6 @@
 // CONSTANTS
 const TInt KAknAppUiViewsGranularity = 1;
 const TInt KAknViewAsyncPriority = EActivePriorityRedrawEvents + 10;
-
-
 #ifdef RD_SPLIT_VIEW
 const TInt KAknSplitViewSize = 2;
 
@@ -234,20 +228,12 @@ EXPORT_C void CAknViewAppUi::BaseConstructL( TInt aAppUiFlags )
 	iExtension->iNavigator = new ( ELeave ) CAknViewNavigator( this );
 	AddToStackL( iExtension->iNavigator, ECoeStackPriorityDefault - 1, ECoeStackFlagRefusesFocus );
 #endif // RD_SPLIT_VIEW
-
-	// Only clear the window for foreground apps.
-	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 &&
+	
+	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 && // only clear the window for foreground apps
 	     iExtension->iUseDefaultScreenClearer )
-        {
-	    if ( !iEikonEnv->StartedAsServerApp() )
-            {
-            iClearer = CAknLocalScreenClearer::NewL( ETrue );
-            }
-        else
-            {
-            iClearer = CAknLocalScreenClearer::NewL( ETrue, ETrue );
-            }
-        }
+		{
+		iClearer = CAknLocalScreenClearer::NewL( ETrue );
+		}
 	}
 
 // -----------------------------------------------------------------------------
@@ -261,18 +247,18 @@ EXPORT_C CAknViewAppUi::~CAknViewAppUi()
 	if (iExtension && iExtension->iNavigator )
 	    RemoveFromStack( iExtension->iNavigator );
 #endif // RD_SPLIT_VIEW
-
+	
     // Hide application toolbar to prevent it from showing 
     // after views are deleted
     if ( CAknAppUi::CurrentFixedToolbar() )
         {
-        CAknAppUi::CurrentFixedToolbar()->SetToolbarVisibility( EFalse );
+        CAknAppUi::CurrentFixedToolbar()->SetToolbarVisibility( EFalse );   
         }
 
-    delete iClearer;
-    delete iShutter;
-    delete iActivationTick;
-
+	delete iClearer;
+	delete iShutter;
+	delete iActivationTick;
+	
 	if ( iActivationQueue )
 		{
 		iActivationQueue->ResetAndDestroy();
@@ -326,23 +312,15 @@ EXPORT_C void CAknViewAppUi::RemoveView( TUid aViewId )
 	
 	for ( TInt i = 0; i < count; ++i )
 		{
-        CAknView* view( iViews->At( i ) );
-        if ( view->Id() == aViewId )
-            {
-            // remove the deleted view from iExtensione's list. Or the pointer 
-            // is invalid 
-            TInt index = iExtension->iActiveViews.Find(view);
-            if ( index >= 0 && index < iExtension->iActiveViews.Count() )
-                {
-                iExtension->iActiveViews.Remove(index);
-                view->AknViewDeactivated();
-                } 
-                
-                iViews->Delete( i );
-                CCoeAppUi::DeregisterView( *view );
-                delete view;
-                return;
-            }
+		CAknView* view( iViews->At( i ) );
+		
+		if ( view->Id() == aViewId )
+			{
+			iViews->Delete( i );
+			CCoeAppUi::DeregisterView( *view );
+			delete view;
+			return;
+			}
 		}
 	}
 
@@ -633,15 +611,12 @@ void CAknViewAppUi::ActivationTick()
             // (default granularity is 8) -> no memory allocation failures.
             if ( splitView )
                 {
-                error = iExtension->iActiveViews.Append( View( splitView->iViewIds[0] ) );
-                if (KErrNone == error)
-                    {
-                    error = iExtension->iActiveViews.Append( View( splitView->iViewIds[1] ) );
-                    }
+                iExtension->iActiveViews.Append( View( splitView->iViewIds[0] ) );
+                iExtension->iActiveViews.Append( View( splitView->iViewIds[1] ) );
                 }
             else
                 {
-                error = iExtension->iActiveViews.Append( item->iNewView );
+                iExtension->iActiveViews.Append( item->iNewView );
                 }
 
             iView = item->iNewView;

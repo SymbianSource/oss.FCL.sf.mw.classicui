@@ -84,8 +84,7 @@ void CSmileyIconRecord::InsertIconL( CSmileyIcon* aIcon )
         return;
         }
     TInt index( 0 );
-    TInt count( iIconArray.Count() );
-    for ( ; index < count; index++ )
+    for ( ; index < iIconArray.Count(); index++ )
         {
         if ( iIconArray[index]->DocPos() >= aIcon->DocPos() )
             {
@@ -103,8 +102,7 @@ void CSmileyIconRecord::HandleTextDelete( TInt aStart, TInt aLength )
     {
     DeleteIconsIn( aStart, aLength );
     TInt index( FirstIndexAfter( aStart ) );
-    TInt count( iIconArray.Count() );
-    for ( ; index != KErrNotFound && index < count; index++ )
+    for ( ; index != KErrNotFound && index < iIconArray.Count(); index++ )
         {
         TInt newPos( iIconArray[index]->DocPos() - aLength );
         iIconArray[index]->SetDocPos( newPos );
@@ -118,8 +116,7 @@ void CSmileyIconRecord::HandleTextDelete( TInt aStart, TInt aLength )
 void CSmileyIconRecord::HandleTextInsert( TInt aStart, TInt aLength )
     {
     TInt index( FirstIndexAfter( aStart ) );
-    TInt count( iIconArray.Count() );
-    for ( ; index != KErrNotFound && index < count; index++ )
+    for ( ; index != KErrNotFound && index < iIconArray.Count(); index++ )
         {
         TInt newPos( iIconArray[index]->DocPos() + aLength );
         iIconArray[index]->SetDocPos( newPos );
@@ -133,11 +130,11 @@ void CSmileyIconRecord::HandleTextInsert( TInt aStart, TInt aLength )
 CSmileyIcon* CSmileyIconRecord::SmileyIconAtPos( TInt aDocPos )
     {
     TInt count( iIconArray.Count() );
-    for ( TInt i( 0 ); i < count; i++ )
+    for ( TInt i( 0 ); i < iIconArray.Count(); i++ )
         {
         CSmileyIcon* icon( iIconArray[i] );
-        if ( icon->DocPos() <= aDocPos && 
-             icon->DocPos() + icon->SmileyLength() > aDocPos )
+        if ( iIconArray[i]->DocPos() <= aDocPos && 
+            iIconArray[i]->DocPos() + iIconArray[i]->SmileyLength() > aDocPos )
             {
             return iIconArray[i];
             }
@@ -146,33 +143,12 @@ CSmileyIcon* CSmileyIconRecord::SmileyIconAtPos( TInt aDocPos )
     }
 
 // ---------------------------------------------------------------------------
-// CSmileyIconRecord::DeleteIconAtPos
-// ---------------------------------------------------------------------------
-//
-void CSmileyIconRecord::DeleteIconAtPos( TInt aDocPos )
-    {
-    TInt count( iIconArray.Count() );
-    for ( TInt i( 0 ); i < count; i++ )
-        {
-        CSmileyIcon* icon( iIconArray[i] );
-        if ( icon->DocPos() <= aDocPos && 
-             icon->DocPos() + icon->SmileyLength() > aDocPos )
-            {
-            iIconArray.Remove( i );
-            delete icon;            
-            break;
-            }
-        }
-    }
-
-// ---------------------------------------------------------------------------
 // CSmileyIconRecord::SmileyRange
 // ---------------------------------------------------------------------------
 //
 void CSmileyIconRecord::CancelSelection()
     {
-    TInt count( iIconArray.Count() );
-    for ( TInt i( 0 ); i < count; i++ )
+    for ( TInt i( 0 ); i < iIconArray.Count(); i++ )
         {
         iIconArray[i]->EnableHighlight( EFalse );
         }
@@ -244,8 +220,7 @@ TInt CSmileyIconRecord::FirstIndexAfter( TInt aDocPos, TInt aSearchStart )
     {
     TInt i = ( aSearchStart < 0 || aSearchStart >= iIconArray.Count() ? 0 : 
         aSearchStart );
-    TInt count( iIconArray.Count() );
-    for ( ; i < count; i++ )
+    for ( ; i < iIconArray.Count(); i++ )
         {
         if ( iIconArray[i]->DocPos() >= aDocPos )
             {
@@ -261,8 +236,7 @@ TInt CSmileyIconRecord::FirstIndexAfter( TInt aDocPos, TInt aSearchStart )
 //
 TInt CSmileyIconRecord::FirstIndexIn( TInt aStart, TInt aLength )
     {
-    TInt count( iIconArray.Count() );
-    for ( TInt i( 0 ); i < count; i++ )
+    for ( TInt i( 0 ); i < iIconArray.Count(); i++ )
         {
         if ( iIconArray[i]->DocPos() < aStart + aLength && 
             iIconArray[i]->EndPos() > aStart )

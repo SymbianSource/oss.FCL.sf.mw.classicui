@@ -1,4 +1,0 @@
-EXPORTS
-	?CreateCAnimDllL@@YAPAVCAnimDll@@XZ @ 1 NONAME ; class CAnimDll * CreateCAnimDllL(void)
-	_E32Dll=__E32Dll	; Entry point for emulation
-

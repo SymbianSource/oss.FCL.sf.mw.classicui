@@ -592,7 +592,7 @@ void CEikDialogPageSelector::SizeChanged()
 
     if ( iIsForm )
         {
-        iPageContainer->SetPageFormSized(Rect());
+        iPageContainer->SetPageFormSized();
         }
     else
         {

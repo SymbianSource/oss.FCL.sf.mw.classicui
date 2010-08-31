@@ -148,11 +148,7 @@ public:
             /** Signals observer (FEP) to open a stylus menu with ccpu
                 options.
                 Parameter not used. */
-            EOpenStylusMenuCcpu,
-            /** Close pen input (VKB or HWR), parameter not used */
-            EClosePenInputRequest,
-            /**Signals observer (MFNE) to change AM to PM*/
-            EChangeAmPm
+            EOpenStylusMenuCcpu
             };
             
         /**
@@ -200,9 +196,7 @@ public:
         EInputEditorDisableVKB = 0x00000100,
         EInputEditorRevealSecretText = 0x00000200,
         EInputEditorQwertyInputActive = 0x00000400,
-        EInputEditorPartialScreen = 0x00000800,
-        //support to fep to change AM to PM in MFNE
-        EInputEditorAmPm = 0x00001000
+        EInputEditorPartialScreen = 0x00000800
         };
     static const TInt KAknEditorAlignMask = 0x000000f0;
        

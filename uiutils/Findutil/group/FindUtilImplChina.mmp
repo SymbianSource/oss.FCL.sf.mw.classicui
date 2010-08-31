@@ -49,11 +49,11 @@ SOURCE          FindUtilChinese.cpp
 SOURCE          ChineseFindUtils.cpp
 
 LIBRARY         euser.lib
-LIBRARY         FindUtil.lib
+LIBRARY         findutil.lib
 LIBRARY         ptiengine.lib
-LIBRARY         CommonEngine.lib
-LIBRARY         centralrepository.lib
-LIBRARY         cenrepnotifhandler.lib
+LIBRARY         commonengine.lib
+LIBRARY         CentralRepository.lib
+LIBRARY         CenRepNotifHandler.lib
 LIBRARY         cone.lib
 LIBRARY         fepbase.lib 
 LIBRARY         avkon.lib eikcoctl.lib eikctl.lib form.lib uiklaf.lib 

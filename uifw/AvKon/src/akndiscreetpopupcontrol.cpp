@@ -26,20 +26,26 @@
 #include <bautils.h>
 #include <barsread.h>
 #include <gulicon.h>
-#include <gfxtranseffect/gfxtranseffect.h>
-#include <akntransitionutils.h>
 #include <avkon.hrh>
 #include "akndiscreetpopupcontrol.h"
 #include "akndiscreetpopupdrawer.h"
-#include "akntrace.h"
 
 _LIT( KDiscreetPopupWindowGroupName, "Discreet pop-up" );
 
+const TInt KOpacityChangeSpeed( 18 );
+const TInt KAlphaMax( 255 );
+const TInt KAlphaMin( 0 );
 const TInt KShortTimeout( 1500000 );
 const TInt KLongTimeout( 3000000 );
+const TInt KShowDelay( 300000 );
+const TInt KShowInterval( 50000 );
+const TInt KHideDelay( 50000 );
+const TInt KHideInterval( 50000 );
 const TInt KGlobalShowOrdinalPriority( ECoeWinPriorityAlwaysAtFront * 4 );
 const TInt KLocalShowOrdinalPriority( ECoeWinPriorityNormal + 1 );
 const TInt KLocalHideOrdinalPosition( -10 );
+const TInt KOpacityDismissFactor( 3 );
+const TInt KMaxFadeTime( 1000000 );
 
 /**
  * Internal discreet popup control flags.
@@ -49,8 +55,8 @@ enum TAknDiscreetPopupControlFlags
     EPressedDown,     // Pointer down is received in popup area
     EDismissed,       // Popup is dismissed (pointer up is received in popup area)
     EGlobal,          // Popup is global
-    EDragged,         // Pointer is dragged while popup open
-    EStartTimerAgain  // Start timer again when timer is out and keep pressing  
+    EFading,          // Popup is closing (fading)
+    EDragged          // Pointer is dragged while popup open
     };
 
 
@@ -74,7 +80,6 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
     const TInt& aPopupId,
     MEikCommandObserver* aCommandObserver )
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknDiscreetPopupControl* self = 
         CAknDiscreetPopupControl::NewLC( aGlobal,
                                          aTitle,
@@ -89,7 +94,6 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
                                          aPopupId,
                                          aCommandObserver );
     CleanupStack::Pop( self );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -106,7 +110,6 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
     const TInt& aPopupId,
     MEikCommandObserver* aCommandObserver )
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknDiscreetPopupControl* self = 
         CAknDiscreetPopupControl::NewLC( aGlobal, 
                                          aCommand, 
@@ -115,7 +118,6 @@ EXPORT_C CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewL(
                                          
     self->ConstructFromResourceL( aResourceId, aResourceFile );
     CleanupStack::Pop( self );
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -181,25 +183,17 @@ CAknDiscreetPopupControl* CAknDiscreetPopupControl::NewLC(
 //
 CAknDiscreetPopupControl::~CAknDiscreetPopupControl()
     {
-    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     if ( IsVisible() )
         {
         HidePopup();
         }
-
-    GfxTransEffect::Deregister( this );
-
-    delete iTimer;	
-    delete iDrawer;
-
     if ( iInternalFlags.IsSet( EGlobal ) )
         {
-        CloseWindow();
         iWindowGroup.Close();
         }
-
-    _AKNTRACE_FUNC_EXIT;
+    delete iTimer;	
+    delete iDrawer;
     }
 
 
@@ -261,6 +255,11 @@ TInt CAknDiscreetPopupControl::TimeOut( TAny* aObject )
 //
 void CAknDiscreetPopupControl::MakeVisible( TBool aVisible )
     {
+    if ( iTimer )
+        {
+        iTimer->Cancel();
+        }
+    
     CCoeControl::MakeVisible( aVisible );
  
     if( iInternalFlags.IsSet( EGlobal ) )
@@ -271,7 +270,21 @@ void CAknDiscreetPopupControl::MakeVisible( TBool aVisible )
         {
         Window().SetOrdinalPosition( 0, KLocalShowOrdinalPriority );
         }    
-
+        
+    if ( aVisible && iTimer )
+        {
+        iAlpha = 0;
+        iInternalFlags.Clear( EFading );
+        iInternalFlags.Clear( EDismissed );
+        
+        iTimer->Start( KShowDelay, 
+                       KShowInterval, 
+                       TCallBack( TimeOut, this ) );
+                             
+        iFadeTime.HomeTime(); 
+        TTimeIntervalMicroSeconds32 timeout( KShowDelay );
+        iFadeTime += timeout;
+        }
     UpdateNonFadingStatus();
     }
 
@@ -300,13 +313,14 @@ CAknDiscreetPopupControl::CAknDiscreetPopupControl(
         {
         iInternalFlags.Set( EGlobal );
         }
-
     iInternalFlags.Set( EDismissed );
-    iCommand = aCommand;
-    iCommandObserver = aCommandObserver;
 
-    GfxTransEffect::Register( this, KGfxDiscreetPopupControlUid );
-    
+    // Action allowed only when touch enabled
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        iCommand = aCommand;
+        iCommandObserver = aCommandObserver;
+        }
     AKNTASHOOK_ADD( this, "CAknDiscreetPopupControl" );
     }
 
@@ -345,7 +359,15 @@ void CAknDiscreetPopupControl::ConstructL()
         
     iTimer = CPeriodic::NewL( 0 );
     
-    EnableWindowTransparency();
+    // try to enable window transparency
+    if( CAknEnv::Static()->TransparencyEnabled() )
+        {
+        Window().SetRequiredDisplayMode( EColor16MA );
+        if ( Window().SetTransparencyAlphaChannel() == KErrNone )
+            {
+            Window().SetBackgroundColor( ~0 );
+            }
+        }
 
     Window().SetPointerGrab( ETrue );
     EnableDragEvents();
@@ -412,22 +434,75 @@ void CAknDiscreetPopupControl::ConstructFromResourceL(
 //
 void CAknDiscreetPopupControl::DoTimeOut()
     {
-	_AKNTRACE_FUNC_ENTER;
-    if ( !iInternalFlags.IsSet( EPressedDown ) || 
-    	 iInternalFlags.IsSet( EStartTimerAgain ) )
+    if ( iInternalFlags.IsSet( EFading ) && iAlpha <= KAlphaMin )
         {
+        // popup has faded completely, exit
         TRAP_IGNORE( RequestExitL() );
         }
     else
         {
-        iTimer->Cancel();
-        // if time is out and keep pressing, start short timer again.
-        iInternalFlags.Set( EStartTimerAgain );
-        iTimer->Start( KShortTimeout, 
-                       0, 
-                       TCallBack( TimeOut, this ) );
+        TInt opacityChange = 
+            iInternalFlags.IsSet( EFading ) ? -KOpacityChangeSpeed : KOpacityChangeSpeed;
+        
+        if ( iInternalFlags.IsSet( EPressedDown ) 
+             && iInternalFlags.IsSet( EFading ) )
+            {
+            iAlpha = KAlphaMax;
+            opacityChange = 0;
+            }
+        
+        if ( iInternalFlags.IsSet( EDismissed ) )
+            {
+            opacityChange *= KOpacityDismissFactor;
+            }
+        iAlpha += opacityChange;
+        
+        TTime now;     
+        now.HomeTime();
+        TInt fadeTime( now.MicroSecondsFrom( iFadeTime ).Int64() );
+            
+        if ( fadeTime > KMaxFadeTime )
+            {          
+            if ( !iInternalFlags.IsSet( EFading ) )
+                {
+                // fade in animation is taking too long, 
+                // make popup fully visible
+                iAlpha = KAlphaMax;
+                }
+            else
+                {
+                // fade out animation is taking too long, 
+                // make popup invisible
+                iAlpha = KAlphaMin;    
+                }   
+            }         
+        
+        if ( iAlpha >= KAlphaMax )
+            {
+            // popup is completely visible. set the EFading flag and set timeout
+            iAlpha = KAlphaMax;
+            iInternalFlags.Set( EFading );
+            iTimer->Cancel();
+            //fade out after timeout
+            TTimeIntervalMicroSeconds32 timeout( KShortTimeout );
+            if ( iFlags & KAknDiscreetPopupDurationLong )
+                {
+                timeout = KLongTimeout;
+                }
+            iTimer->Start( timeout, 
+                           KHideInterval, 
+                           TCallBack( TimeOut, this ) );
+                           
+            iFadeTime.HomeTime();
+            iFadeTime += timeout;            
+            }
+        else if ( iAlpha < KAlphaMin )
+            {
+            iAlpha = KAlphaMin;
+            }
+
+        DrawNow();
         }
-	_AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -438,16 +513,13 @@ void CAknDiscreetPopupControl::DoTimeOut()
 //
 void CAknDiscreetPopupControl::RequestExitL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if( iCommandObserver && !iInternalFlags.IsSet( EGlobal ) )
         {
         iCommandObserver->ProcessCommandL( EAknDiscreetPopupCmdClose );
         }
     HidePopup();
     ReportEventL( MCoeControlObserver::EEventRequestExit );
-    iInternalFlags.Clear( EStartTimerAgain );
     iInternalFlags.Clear( EPressedDown );
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -457,22 +529,12 @@ void CAknDiscreetPopupControl::RequestExitL()
 //
 void CAknDiscreetPopupControl::NotifyObserverL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if ( iCommand != 0 && iCommandObserver )
         {
-        _AKNTRACE( "CAknDiscreetPopupControl::NotifyObserverL(), tap event will be disposed." );
         // Play feedback if there is command associated with the popup
-        if ( iFeedBack )
-            {
-            iFeedBack->InstantFeedback( this,
-                                        ETouchFeedbackSensitive,
-                                        ETouchFeedbackVibra,
-                                        TPointerEvent()
-                                      );
-            }
+        ImmediateFeedback( ETouchFeedbackSensitive );
         iCommandObserver->ProcessCommandL( iCommand );
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -562,7 +624,6 @@ void CAknDiscreetPopupControl::SetPressedDownState( const TBool& aPressedDown )
 //
 void CAknDiscreetPopupControl::ShowPopupL()
     {
-    _AKNTRACE_FUNC_ENTER;
     AppUi()->AddToStackL( 
             this, 
             ECoeStackPriorityDefault,
@@ -572,32 +633,7 @@ void CAknDiscreetPopupControl::ShowPopupL()
     User::ResetInactivityTime();
 
     PlayTone();
-    
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        iInternalFlags.Clear( EDismissed );
-        GfxTransEffect::Begin( this, KGfxControlAppearAction );
-        MakeVisible( ETrue );
-        GfxTransEffect::SetDemarcation( this, iPosition );
-        GfxTransEffect::End( this );
-        }
-    else
-        {
-        MakeVisible( ETrue );
-        }
-
-    TTimeIntervalMicroSeconds32 timeout( KShortTimeout );
-    
-    if ( iFlags & KAknDiscreetPopupDurationLong )
-        {
-        timeout = KLongTimeout;
-        }
-    
-    iTimer->Start( timeout, 
-                   0, 
-                   TCallBack( TimeOut, this ) );
-				   
-	_AKNTRACE_FUNC_EXIT;
+    MakeVisible( ETrue );
     }
 
 
@@ -607,17 +643,7 @@ void CAknDiscreetPopupControl::ShowPopupL()
 //
 void CAknDiscreetPopupControl::HidePopup()
     {
-    if ( GfxTransEffect::IsRegistered( this ) )
-        {
-        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
-        MakeVisible( EFalse );
-        GfxTransEffect::End( this );
-        }
-    else
-        {
-        MakeVisible( EFalse );
-        }
-
+    MakeVisible( EFalse );
     AppUi()->RemoveFromStack( this );
     }
 
@@ -674,7 +700,26 @@ void CAknDiscreetPopupControl::Draw( const TRect& /*aRect*/ ) const
         return;
         }
 
-    iDrawer->Draw( SystemGc(), Rect() );
+    CFbsBitmap* popupBitmap( iDrawer->PopupBitmap( Size() ) );
+    
+    // create a transparent mask for the popup
+    CFbsBitmap* transParentBitmap = 
+        iDrawer->TransparentMask( popupBitmap->SizeInPixels(), iAlpha );
+    
+    // blit the bitmap to screen with the transparent mask
+    CWindowGc& gc = SystemGc();
+    if( transParentBitmap )
+        {
+        gc.BitBltMasked( Rect().iTl, 
+                         popupBitmap, 
+                         popupBitmap->SizeInPixels(), 
+                         transParentBitmap, 
+                         EFalse );	
+        }
+    else
+        {
+        gc.BitBlt( Rect().iTl, popupBitmap );
+        }
     }
 
 
@@ -730,7 +775,6 @@ void CAknDiscreetPopupControl::ConstructFromResourceL(
 //
 void CAknDiscreetPopupControl::HandleResourceChange( TInt aType )
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknControl::HandleResourceChange( aType );
     switch ( aType )
         {
@@ -756,7 +800,6 @@ void CAknDiscreetPopupControl::HandleResourceChange( TInt aType )
             break;
             }
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -770,22 +813,24 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
     const TPointerEvent& aPointerEvent )
     {
     TBool eventInRect( Rect().Contains( aPointerEvent.iPosition ) );
-    
+
     // Pointer down - set pressed-down state (popup completely visible while
     // pressed-down)
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Down 
+    if ( aPointerEvent.iType == TPointerEvent::EButton1Down
          && eventInRect
          && iInternalFlags.IsClear( EDismissed ) )
         {
-        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Down" );
         SetPressedDownState( ETrue );
-        ImmediateFeedback( ETouchFeedbackSensitive );
+        // Play feedback only when popup is completely visible (or fading away)
+        if ( iInternalFlags.IsSet( EFading ) )
+            {
+            ImmediateFeedback( ETouchFeedbackSensitive );
+            }
         }
 
     // Pointer drag - reset pressed-down state if pointer out of popup area
     else if ( aPointerEvent.iType == TPointerEvent::EDrag )
         {
-        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EDrag" );
         iInternalFlags.Set( EDragged );
         if ( !eventInRect && iInternalFlags.IsSet( EPressedDown ) )
             {
@@ -799,18 +844,23 @@ void CAknDiscreetPopupControl::HandlePointerEventL(
 
     // Pointer up - reset pressed-down state 
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
-        {        
-        _AKNTRACE( "CAknDiscreetPopupControl::HandlePointerEventL, TPointerEvent::EButton1Up" );
-        if ( eventInRect )
+        {
+        if ( iInternalFlags.IsSet( EFading )
+             && iInternalFlags.IsSet( EPressedDown )
+             && eventInRect )
             {
+            // Notify popup tap
             NotifyObserverL();
-            }        
-        // Start fading away
-        if ( iInternalFlags.IsClear( EDismissed ) )
-            {
-            iInternalFlags.Set( EDismissed );
-            RequestExitL();
+            // Start fading away
+            if ( iInternalFlags.IsClear( EDismissed ) )
+                {
+                iTimer->Cancel();
+                iInternalFlags.Set( EFading );
+                iInternalFlags.Set( EDismissed );
+                iTimer->Start( KHideDelay, KHideInterval, TCallBack( TimeOut, this ) );
+                }
             }
         SetPressedDownState( EFalse );
         }
     }
+

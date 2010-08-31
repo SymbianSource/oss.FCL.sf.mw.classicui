@@ -836,12 +836,3 @@
 /1,8 qgn_stat_servtab_uni.svg
 
 /1,8 qgn_stat_hdmi_connect.svg
-
-/1,8 qgn_stat_joint_im_uni.svg
-
-/c8,8 qgn_indi_signal_uma_attach.svg
-/c8,8 qgn_indi_signal_uma_context.svg
-/c8,8 qgn_indi_signal_uma_icon.svg
-/c8,8 qgn_indi_signal_uma_multipdp.svg
-/c8,8 qgn_indi_signal_uma_noservice.svg
-/c8,8 qgn_indi_signal_uma_suspended.svg

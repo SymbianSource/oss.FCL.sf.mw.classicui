@@ -35,13 +35,8 @@
 #include <AiwGenericParam.h>        // Generic parameters
 
 #ifdef RD_MULTIPLE_DRIVE
-#include <CAknMemorySelectionDialogMultiDrive.h>
 #include <driveinfo.h>      //DriveInfo
-#include <AknCommonDialogsDynMem.h>
 #include <coemain.h>
-#include <rsfwmountman.h>
-#else
-#include "CAknMemorySelectionDialog.h" // CAknMemorySelectionDialog
 #endif
 
 #include "pathinfo.h"               // PathInfo
@@ -106,8 +101,7 @@ CDocDefaultHandler::CDocDefaultHandler(
         iStatus( KErrNone ),
         iUid( aUid ),
         iOpenService( NULL ),
-        iMMCSaveAllowed ( ETrue ),
-        iFileHandleSet( EFalse )
+        iMMCSaveAllowed ( ETrue )
     {
     }
     
@@ -550,13 +544,6 @@ TInt CDocDefaultHandler::SetSrcFileName( const TDesC& aFileName )
     iSourceFile = aFileName;
     return SetAndReturnStatus( KErrNone );
     }
-
-TInt CDocDefaultHandler::SetSrcFile( const RFile& aFile )
-	{
-	TInt err = iFile.Duplicate( aFile );
-	iFileHandleSet = ( err == KErrNone ) ? ETrue : EFalse;
-	return SetAndReturnStatus( KErrNone );
-	}
 
 // ---------------------------------------------------------
 // CDocDefaultHandler::SetDestName()
@@ -1136,50 +1123,6 @@ TInt CDocDefaultHandler::GetDataDirL(
                 }
             path.Copy( iRootPath );
             }
-#ifdef RD_MULTIPLE_DRIVE 
-        else if( (!CanOnlyBeSavedToPhoneMemoryL())&&(1 < GetAvailableDrivesCountL()) )
-        	{
-        	TFileName defaultFolder;
-            CAknMemorySelectionDialogMultiDrive* dlg =NULL;
-			// Remote drives are not shown in the list of available drives.. FIX for error ANAE-76S7KX
-	        dlg = CAknMemorySelectionDialogMultiDrive::NewL(ECFDDialogTypeBrowse,0,EFalse, 
-	        			AknCommonDialogsDynMem::EMemoryTypePhone | AknCommonDialogsDynMem::EMemoryTypeInternalMassStorage | AknCommonDialogsDynMem::EMemoryTypeMMCExternal);
-		    CleanupStack::PushL( dlg );
-			TDriveNumber driveNumber;
-		    TBool result(dlg->ExecuteL(driveNumber,&path,&defaultFolder));// driveNumber );
-			CleanupStack::PopAndDestroy( dlg );
-			if (!result)
-				{
-		        SetAndReturnStatus( KErrCancel );
-		        return KErrCancel;
-		        }
-           }
-#else  
-        else if ( CanBeSavedToMmcL() )
-            {
-            CAknMemorySelectionDialog::TMemory mem( CAknMemorySelectionDialog::EPhoneMemory);
-            AddResourcesL();
-            TFileName defaultFolder;
-            CAknMemorySelectionDialog* memoryDialog = CAknMemorySelectionDialog::NewL(
-                                                            ECFDDialogTypeSave,
-                                                            R_DOCHANDLER_MEMORY_SELECTION_DIALOG,
-                                                            EFalse );
-            CleanupStack::PushL( memoryDialog );    
-            
-            TBool result( memoryDialog->ExecuteL( mem, &path, &defaultFolder ) );
-            if (!result)
-                {
-                RemoveResources();
-                CleanupStack::PopAndDestroy();  // memoryDialog
-                SetAndReturnStatus( KErrCancel );
-                return KErrCancel;
-                }
-
-            CleanupStack::PopAndDestroy();  // memoryDialog
-
-            RemoveResources();
-            }
-        #endif
         else 
             {
             path.Copy( PathInfo::PhoneMemoryRootPath() );
@@ -1665,49 +1608,43 @@ void CDocDefaultHandler::CheckFileNameExtensionL(
         TBuf<6> ext;
 
 		CContent* content = NULL;
-		if( iFileHandleSet )
-			{
-		    content = CContent::NewL( iFile );
-		    iFile.Close();
-		    iFileHandleSet = EFalse;
-			}
-		else
-			{
-		    content = CContent::NewL( iSourceFile );
-			}
-		
-		CleanupStack::PushL(content);
-		content->GetAttribute( ContentAccess::EIsProtected, ret  );
-		if ( ret )
-			{
-			content->GetAttribute( EFileType, ret );
-            
-			#ifdef _DEBUG             
-			RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
-			#endif 
-    
-			if ( ret == EOma1Dcf )
+        TRAPD(err,content = CContent::NewL( iSourceFile ));
+
+		if(err == KErrNone)
+			{	
+			CleanupStack::PushL(content);
+			content->GetAttribute( ContentAccess::EIsProtected, ret  );
+			if ( ret )
 				{
-				// change extension to .dcf
-				ext.Copy( KOma1DcfExtension );         
-				ReplaceExtension( aFileName, ext );            
-				CleanupStack::PopAndDestroy();  // content
-				return;            
-				}
-			else if ( ret == EOma2Dcf )
-	            {
-		        // change extension to .odf if not already .o4a, .o4v or .odf
-			    ext.Copy( KOma2DcfExtension );
-				if ( NeedsToReplaceDcf2Extension( aFileName ) )
+				content->GetAttribute( EFileType, ret );
+            
+				#ifdef _DEBUG             
+				RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
+				#endif 
+    
+				if ( ret == EOma1Dcf )
 					{
-				    ReplaceExtension( aFileName, ext );
-	                }
-		        CleanupStack::PopAndDestroy();  // content
-			    return;            
+					// change extension to .dcf
+					ext.Copy( KOma1DcfExtension );         
+					ReplaceExtension( aFileName, ext );            
+					CleanupStack::PopAndDestroy();  // content
+					return;            
+					}
+				else if ( ret == EOma2Dcf )
+	                {
+		            // change extension to .odf if not already .o4a, .o4v or .odf
+			        ext.Copy( KOma2DcfExtension );
+				    if ( NeedsToReplaceDcf2Extension( aFileName ) )
+					    {
+						ReplaceExtension( aFileName, ext );
+	                    }
+		            CleanupStack::PopAndDestroy();  // content
+			        return;            
+				    }
 				}
+			CleanupStack::PopAndDestroy();  // content
 			}
-		CleanupStack::PopAndDestroy();  // content
-		}
+        }
 
     //if mime type=oma 2 dcf check extension separately
     if ( aDataType.Des8().FindF( KOma2DcfContentType ) != KErrNotFound )

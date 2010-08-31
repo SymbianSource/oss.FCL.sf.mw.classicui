@@ -23,7 +23,7 @@
 #include <e32base.h>
 #include <e32test.h>
 #include <apadef.h>
-#include "coedatastorage.h"
+#include "CoeDataStorage.h"
 #include <eikenv.h>
 void PopulateColorListL()
 	{

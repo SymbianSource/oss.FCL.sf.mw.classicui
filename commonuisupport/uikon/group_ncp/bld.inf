@@ -1,0 +1,104 @@
+// Copyright (c) 1999-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+// UI Framework (LAF policy-free)
+// 
+//
+
+/**
+ @file
+*/
+
+PRJ_EXPORTS
+// specify the source file followed by its destination here
+// copy will be used to copy the source file to its destination
+// If there's no destination then the source file will be copied
+// to the same name in \epoc32\include
+
+// from ..\coreinc\coreincc.prj
+../coreinc/eikamnt.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikamnt.h)
+../coreinc/eikautomenutitlearray.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikautomenutitlearray.h)
+../coreinc/EIKAPP.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikapp.h)
+../coreinc/EIKCMOBS.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikcmobs.h)
+../coreinc/EIKDEBUG.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikdebug.h)
+../coreinc/EIKDEF.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikdef.h)
+../coreinc/EIKDLL.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikdll.h)
+../coreinc/EIKDOC.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikdoc.h)
+../coreinc/EIKEMBAL.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikembal.h)
+../coreinc/EIKFCTRY.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikfctry.h)
+../coreinc/EIKFUTIL.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikfutil.h)
+../coreinc/EIKIRFTY.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikirfty.h)
+../coreinc/EIKMOBS.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikmobs.h)
+../coreinc/EIKMSG.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikmsg.h)
+../coreinc/EIKPANIC.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikpanic.h)
+../coreinc/EIKPROC.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikproc.h)
+../coreinc/EIKRUTIL.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikrutil.h)
+../coreinc/EIKSVDEF.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksvdef.h)
+../coreinc/eikvcurs.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikvcurs.h)
+../coreinc/eikbhelp.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikbhelp.h)
+../coreinc/EIKSTART.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikstart.h)
+../coreinc/EikServerApp.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikserverapp.h)
+../coreinc/EIKENV.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikenv.h)
+../coreinc/eikenvinterface.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikenvinterface.h)
+../coreinc/EIKAPPUI.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikappui.h)
+../coreinc/EIKAUFTY.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikaufty.h)
+../coreinc/eikpicturefactory.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikpicturefactory.h)
+../coreinc/eikmischelp.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikmischelp.h)
+../coreinc/eikdefaulticondefs.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikdefaulticondefs.h)
+../coreinc/eikctrlstatus.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikctrlstatus.h)
+../coreinc/eikdefconst.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikdefconst.h)
+../coreinc/eikdefmacros.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikdefmacros.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../coreinc/eikdefconstinternal.h /epoc32/include/uikon/eikdefconstinternal.h
+#endif
+../coreinc/EIKDGFTY.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikdgfty.h)
+../coreinc/EIKLIBRY.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiklibry.h)
+../coreinc/EikInfoMsgWin.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikinfomsgwin.h)
+../coreinc/EikBusyMsgWin.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikbusymsgwin.h)
+../coreinc/eikenv.inl SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikenv.inl)
+../coreinc/eikenvinterface.inl SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikenvinterface.inl)
+
+../srvinc/eiksrv.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksrv.h)
+../srvinc/eikcycledef.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eikcycledef.h)
+../srvinc/EIKSRVC.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksrvc.h)
+../srvinc/EIKSRVS.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksrvs.h)
+../srvinc/EIKUNDER.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eikunder.h)
+../srvinc/EIKALSRV.H SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(uikon/eikalsrv.h)
+../srvinc/EIKALSUP.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikalsup.h)
+../srvinc/EIKNFYSV.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eiknfysv.h)
+../srvinc/EIKSVFTY.H SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eiksvfty.h)
+../srvinc/EIKSRV.PAN SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(eiksrv.pan)
+../srvinc/eiknotapi.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(eiknotapi.h)
+../srvinc/patchdata.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/patchdata.h)
+../srvinc/eikscchange.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eikscchange.h)
+../srvinc/eiknotifyalert.h SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(uikon/eiknotifyalert.h)
+
+../group/uikon.iby      /epoc32/rom/include/uikon.iby
+
+../bwins/EIKINITU.DEF            /epoc32/release/wins/eikinitu.def
+../eabi/EIKINITU.DEF             /epoc32/include/def/eabi/eikinitu.def
+
+// from ..\docs
+//../docs/extended_notifier_design_spec.doc /epoc32/engdoc/application_framework/uikon/proposed/extended_notifier_design_spec.doc
+//../docs/status_pane_design.doc /epoc32/engdoc/application_framework/uikon/status_pane_design.doc
+//../docs/uikon_1.2_menu_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_menu_extensions.doc
+//../docs/uikon_1.2_border_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_extensions.doc
+//../docs/uikon_1.2_border_colours_utilities_extensions.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_border_colours_utilities_extensions.doc
+//../docs/Uikon_1.2_Caps_Lock_Extension.doc /epoc32/engdoc/application_framework/uikon/uikon_1.2_caps_lock_extension.doc
+
+
+PRJ_MMPFILES
+
+../group/EIKSRVC.MMP
+../group/EIKCORE.MMP
+

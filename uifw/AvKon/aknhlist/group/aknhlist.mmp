@@ -71,8 +71,8 @@ LIBRARY                 euser.lib
 LIBRARY                 avkon.lib
 LIBRARY                 eikcoctl.lib
 LIBRARY                 cone.lib
-LIBRARY                 AknLayout2Scalable.lib
-LIBRARY                 CdlEngine.lib
+LIBRARY                 aknlayout2scalable.lib
+LIBRARY                 cdlengine.lib
 LIBRARY                 aknskins.lib
 LIBRARY                 ws32.lib 
 LIBRARY                 egul.lib
@@ -83,9 +83,8 @@ LIBRARY                 eikcore.lib
 
 LIBRARY                 aknphysics.lib    
 library                 touchfeedback.lib
-LIBRARY                 aknnotify.lib // akntrace
+LIBRARY                 AknNotify.lib // akntrace
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY         aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 DEFFILE                 aknhlist.def
-LIBRARY                 fbscli.lib

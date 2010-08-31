@@ -18,17 +18,11 @@
 #include <e32property.h>
 #include <e32std.h> // needed because activeidle2domainpskeys.h doesn't include this
 #include "AknCapServerEntry.h"
-#include <activeidle2domainpskeys.h> // yet another nasty dep
 
 #define KPhoneAppUid TUid::Uid(0x100058B3)
 
 TBool AknPhoneKeyForwarder::ForwardKeyToPhoneApp(TAny* aKeyEvent)
     {
-    RProperty::Set(
-        KPSUidAiInformation, 
-        KActiveIdleState,
-        EPSAiNumberEntry );
-
     RWsSession& ws = CCoeEnv::Static()->WsSession();
     TApaTaskList list(ws);
     TApaTask phone = list.FindApp(KPhoneAppUid);

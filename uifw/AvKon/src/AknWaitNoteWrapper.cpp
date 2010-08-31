@@ -17,11 +17,9 @@
 
 
 // INCLUDE FILES
-
-#include <AknWaitDialog.h>
+#include    "AknWaitNoteWrapper.h"  // This class's declaration
+#include    <AknWaitDialog.h>
 #include <aknenv.h>
-#include "AknWaitNoteWrapper.h"  // This class's declaration
-#include "akntrace.h"
 
 
 // MODULE DATA STRUCTURES
@@ -45,30 +43,24 @@ inline CAknWaitNoteWrapper::CAknWaitNoteWrapper() :
 
 EXPORT_C CAknWaitNoteWrapper* CAknWaitNoteWrapper::NewL()
     {
-    _AKNTRACE_FUNC_ENTER;
     CAknWaitNoteWrapper* self = new(ELeave) CAknWaitNoteWrapper;
-    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
 EXPORT_C CAknWaitNoteWrapper::~CAknWaitNoteWrapper()
     {
-    _AKNTRACE_FUNC_ENTER;
     Cancel();
 	iTimer.Close();
     delete iWaitDialog;
-    _AKNTRACE_FUNC_EXIT;
     }
 
 EXPORT_C TBool CAknWaitNoteWrapper::ExecuteL
  (TInt aResId,MAknBackgroundProcess& aBackgroundProcess, 
     TBool aVisibilityDelayOff, const CAknNoteDialog::TTone& aTone)
     {
-    _AKNTRACE_FUNC_ENTER;
     iBackgroundProcess = &aBackgroundProcess;
     CreateDialogL(aVisibilityDelayOff,aTone);
     iWaitDialog->ExecuteLD(aResId);
-    _AKNTRACE_FUNC_EXIT;
     return NextCycleAndReturnL();
     }
 
@@ -76,30 +68,25 @@ EXPORT_C TBool CAknWaitNoteWrapper::ExecuteL
  (TInt aResId,MAknBackgroundProcess& aBackgroundProcess, 
     const TDesC& aPrompt, TBool aVisibilityDelayOff, const CAknNoteDialog::TTone& aTone)
     {
-    _AKNTRACE_FUNC_ENTER;
     iBackgroundProcess = &aBackgroundProcess;
 	CreateDialogL(aVisibilityDelayOff,aTone);
     iWaitDialog->PrepareLC(aResId);
 	iWaitDialog->SetTextL(aPrompt);
     iWaitDialog->RunLD();
-    _AKNTRACE_FUNC_EXIT;
     return NextCycleAndReturnL();
     }
 
 void CAknWaitNoteWrapper::DoCancel()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (IsActive())
         {
 		iTimer.Cancel();
         CAknEnv::StopSchedulerWaitWithBusyMessage(iWait);
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 void CAknWaitNoteWrapper::RunL()
     {
-    _AKNTRACE_FUNC_ENTER;
     if (iBackgroundProcess->IsProcessDone() || !iWaitDialog)
         {
         iBackgroundProcess->ProcessFinished();
@@ -117,7 +104,6 @@ void CAknWaitNoteWrapper::RunL()
         // Request next cycle
         NextCycle();
         }
-    _AKNTRACE_FUNC_EXIT;
     }
 
 TInt CAknWaitNoteWrapper::RunError(TInt aError)
@@ -148,7 +134,6 @@ void CAknWaitNoteWrapper::NextCycle()
 
 TBool CAknWaitNoteWrapper::NextCycleAndReturnL()
 	{
-	_AKNTRACE_FUNC_ENTER;
     User::LeaveIfError(iTimer.CreateLocal());
 	iIsDialogCanceled = ETrue;
 
@@ -157,8 +142,6 @@ TBool CAknWaitNoteWrapper::NextCycleAndReturnL()
 	iTimer.Close();
 
     User::LeaveIfError(iRunError);
-    _AKNTRACE_FUNC_EXIT;
-
     return !iIsDialogCanceled;
 	}
 

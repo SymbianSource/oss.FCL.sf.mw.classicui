@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<linearGradient gradientUnits="userSpaceOnUse" id="shape16grad" x1="11.986" x2="16.488" y1="0.083" y2="4.585">
+<stop offset="0" stop-color="#4285D2"/>
+<stop offset="0.506" stop-color="#73F80F"/>
+<stop offset="0.565" stop-color="#6AF11D"/>
+<stop offset="0.676" stop-color="#54E041"/>
+<stop offset="0.827" stop-color="#2FC47B"/>
+<stop offset="1" stop-color="#00A0C6"/>
+</linearGradient>
+</defs>
+<g>
+<g transform="translate(-7.999 -7.958)">
+<g transform="translate(0.001)">
+<circle cx="8" cy="8" r="7" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+<path d="M14.5 8 C14.5 11.59 11.59 14.5 8 14.5 C4.411 14.5 1.5 11.59 1.5 8 C1.5 4.411 4.411 1.5 8 1.5 C11.59 1.5 14.5 4.411 14.5 8 z" style="fill:url(#shape7grad);fill-rule:evenodd"/>
+</g>
+<g transform="translate(0.001 0)">
+<ellipse cx="0" cy="0" rx="1.89" ry="1.986" transform="translate(5.69 6.542)" style="fill:rgb(255,255,255);fill-rule:evenodd"/>
+<ellipse cx="0" cy="0" rx="1.098" ry="1.152" transform="translate(5.69 6.542)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+<g transform="translate(0 0)">
+<path d="M12.2 6.542 C12.2 7.639 11.355 8.527 10.308 8.527 C9.264 8.527 8.42 7.638 8.42 6.542 C8.42 5.446 9.265 4.557 10.308 4.557 C11.355 4.558 12.2 5.446 12.2 6.542 z" transform="translate(0.001 0.001)" style="fill:rgb(255,255,255);fill-rule:evenodd"/>
+<ellipse cx="0" cy="0" rx="1.098" ry="1.152" transform="translate(10.31 6.542)"	style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+</g>
+</g>
+<g>
+<path d="M14.801 6.901 L14.301 6.776 C14.241 6.76 12.773 6.379 11.143 4.749 C9.408 3.016 9.236 1.709 9.229 1.654 L9.174 1.204 L9.623 1.134 L15.215 0.266 L15.85 0.168 L15.752 0.803 L14.883 6.392 L14.801 6.901 z" transform="translate(0 0)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+<path d="M14.417 6.319 C14.417 6.319 13.03 5.971 11.474 4.415 C9.836 2.777 9.695 1.598 9.695 1.598 L15.285 0.73 z" transform="translate(0.001 0.001)" style="fill:url(#shape16grad);fill-rule:evenodd"/>
+<g transform="translate(4.366 0.586) scale(0.677 0.707)">
+<ellipse cx="0" cy="0" rx="1" ry="0.811" transform="matrix(0.78 0.98 -1.287 1.025 11.043 3.591)" style="fill:rgb(46,105,176);fill-rule:evenodd"/>
+<ellipse cx="0" cy="0" rx="0.86" ry="0.774" transform="matrix(0.947 0.947 -1.088 1.09 13.817 4.095)" style="fill:rgb(0,255,255);fill-rule:evenodd"/>
+<ellipse cx="0" cy="0" rx="0.564" ry="0.525" transform="matrix(0.76 1.351 -1.664 0.937 13.594 1.634)" style="fill:rgb(41,171,226);fill-rule:evenodd"/>
+</g>
+</g>
+<g transform="translate(0.001 0)">
+<path d="M9.735 11.796 C7.655 12.779 5.162 11.898 4.171 9.827 L3.401 10.193 C4.596 12.686 7.599 13.747 10.105 12.561 C9.983 12.31 9.846 12.027 9.735 11.796 z" transform="translate(0.001 0.001)" style="fill:rgb(0,0,0);fill-rule:evenodd"/>
+</g>
+</g>
+<g transform="translate(-8.041 -7.916)">
+</g>
+</g>
+</svg>

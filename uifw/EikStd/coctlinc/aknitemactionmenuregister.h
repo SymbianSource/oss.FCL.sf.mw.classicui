@@ -25,7 +25,6 @@ class MAknCollectionObserver;
 class CAknItemActionMenuRegisterArray;
 class CAknItemActionMenu;
 class MObjectProvider;
-class CAknView;
 
 /**
  * Item action menu register.
@@ -68,26 +67,14 @@ public:
             MObjectProvider* aMenuBarOwner, TUint aFlags = 0 );
 
     /**
-     * Sets the current constructing menubar owner to NULL if it matches to
-     * aMenuBarOwner. Otherwise constructing menubar owner is not modified.
-     * 
-     * @internal
-     * @param aMenuBarOwner Pointer to constructing menubar owner. 
-     */
-    IMPORT_C static void RemoveConstructingMenuBarOwner( 
-            MObjectProvider* aMenuBarOwner );
-    
-    /**
      * Registers a collection.
      * 
      * @internal
      * @param aCollection Collection to be registered.
-     * @param aMenuBarOwner Owner of the menubar that collection will be
-     *        registered with.
      * @return Item action menu the collection was registered to.
      */
     static CAknItemActionMenu* RegisterCollectionL(
-            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
+            MAknCollection& aCollection );
 
     /**
      * Registers item action menu to aMenuBar.
@@ -175,12 +162,10 @@ private:
      * Registers collection.
      * 
      * @param aCollection State to be registered.
-     * @param aMenuBarOwner Owner of the menubar that collection will be
-     *        registered with.
      * @return Item action menu the collection was registered to.
      */
     CAknItemActionMenu* DoRegisterCollectionL(
-            MAknCollection& aCollection, MObjectProvider* aMenuBarOwner );
+            MAknCollection& aCollection );
 
     /**
      * Registers item action menu to aMenuBar.
@@ -254,31 +239,6 @@ private:
      * @return Overriding object menu bar.
      */
     CEikMenuBar* OverridingObjectMenuBar();
-    
-    /**
-     * Returns pointer to component that owns the current view. This is either
-     * application UI, active view or a dialog. This component is the one that
-     * owns the possible menubar.
-     * 
-     * @return Current view owner.
-     */
-    MObjectProvider* Owner() const;
-    
-    /**
-     * Returns pointer to currently active view.
-     * 
-     * @param aAppUi Application UI.
-     * @return Active view or NULL.
-     */
-    CAknView* View( CAknAppUi* aAppUi ) const;
-    
-    /**
-     * Returns pointer to current application UI.
-     * 
-     * @return Application UI or NULL.
-     */
-    static CAknAppUi* AppUI();
-    
 
     /**
      * Registers collection to item action menu.
@@ -300,7 +260,7 @@ private:
      * @internal
      * @return Pointer to menu bar.
      */
-    CEikMenuBar* FindCurrentMenuBar();
+     CEikMenuBar* FindCurrentMenuBarL();
 
     /**
      * Adds register entry.
@@ -312,11 +272,13 @@ private:
             CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu );
 
     /**
-     * Adds observers that have the same owner and aItemAction to the menu.
+     * Adds observers with aMenuBar to item action menu.
      * 
+     * @param aMenuBar Menu bar.
      * @param aItemActionMenu Item action menu.
      */
-    void AddObserversToItemActionMenuL( CAknItemActionMenu& aItemActionMenu );
+    void AddObserversToItemActionMenuL(
+            CEikMenuBar* aMenuBar, CAknItemActionMenu& aItemActionMenu );
 
     /**
      * Creates register instance. 
@@ -324,17 +286,6 @@ private:
      * @return Item action menu register instance.
      */
     static AknItemActionMenuRegister* CreateInstanceL();
-
-    /**
-     * Sets the current constructing menubar owner to NULL if it matches to
-     * aMenuBarOwner. Otherwise constructing menubar owner is not modified.
-     * 
-     * @internal
-     * @param aMenuBarOwner Pointer to constructing menubar owner. 
-     */
-    void DoRemoveConstructingMenuBarOwner( 
-            MObjectProvider* aMenuBarOwner );
-
 private: // data
 
     /**
@@ -369,8 +320,7 @@ private: // data
          */
         TAknUnregisteredObserverData(
                 CEikMenuBar* aMenuBar,
-                MAknCollectionObserver& aObserver,
-                MObjectProvider* aOwner );
+                MAknCollectionObserver& aObserver );
 
     public:
         /**
@@ -382,11 +332,6 @@ private: // data
          * Observer.
          */
         MAknCollectionObserver& iObserver;
-        
-        /**
-         * Current menubar owner.
-         */
-        MObjectProvider* iOwner;
         };
 
     /**

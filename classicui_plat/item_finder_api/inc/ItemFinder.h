@@ -24,7 +24,6 @@
 
 // INCLUDES
 #include <mparser.h>                       // for MParser
-#include <coemain.h>                       // for MCoeMessageMonitorObserver
 
 // CONSTANTS
 
@@ -34,10 +33,6 @@ class CFindItemEngine;
 class CItemFinderAsyncParser;
 class CSchemeResolver;
 class CFindItemEngine;
-class MAknItemFinderObserver;
-class CCoeEnv;
-class CCoeControl;
-class MTouchFeedback;
 
 // CLASS DECLARATION
 class MItemFinderObserver
@@ -51,8 +46,7 @@ class MItemFinderObserver
 */
 NONSHARABLE_CLASS(CItemFinder) :
     public CBase,
-    public MParser,
-    public MCoeMessageMonitorObserver
+    public MParser
     {
     public:  // Constructors and destructor
 
@@ -227,12 +221,8 @@ NONSHARABLE_CLASS(CItemFinder) :
         * Tells whether the point tapped inside the editor text body was hit some find item.
         * Also updates the current item selection and cursor position when necessary.
         *
-        * @param    aTappedPoint Tapped point relative to the upper left point
-        *           of the editor text body control.
-        * @return   ETrue if some find item inside editor text body was tapped. 
-        *           Otherwise EFalse. If observer is given, then this returns
-        *           always EFalse, since the information is given via observer
-        *           interface
+        * @param    aTappedPoint Tapped point relative to the upper left point of the editor text body control.
+        * @return   ETrue if some find item inside editor text body was tapped. Otherwise EFalse.
         */
         IMPORT_C TBool ItemWasTappedL( const TPoint aTappedPoint );
 
@@ -264,30 +254,6 @@ NONSHARABLE_CLASS(CItemFinder) :
         * @return   current selection of the text buffer on the screen.
         */
         IMPORT_C TPtrC CurrentSelection();
-        
-        /**
-        * Sets external observer (Must implement MAknItemFinderObserver) to
-        * which notify item activations.
-        *
-        * @param   aObserver Observer which will be notified about item activations
-        * @since   S60 5.2
-        */
-        IMPORT_C void SetItemFinderObserverL( MAknItemFinderObserver*
-                aObserver );
-
-        /**
-         * From @c MCoeMessageMonitorObserver, this method is called
-         * when a window server event is received.
-         *
-         * @param  aEvent  received event.
-         */
-        void MonitorWsMessage( const TWsEvent& aEvent );
-
-        /**
-         *  Returns text highlight status.
-         *  @return ETrue if there is highlighted text, otherwise EFalse
-         */
-        TBool HasSelection () const;
 
     private:
 
@@ -316,31 +282,6 @@ NONSHARABLE_CLASS(CItemFinder) :
 
         TInt RefreshEditor();
 
-        /**
-         *  Sets window conrol, that is used when monitoring pointer events
-         *  @param aControl pointer to editor control
-         */
-        void SetWindowControl( CCoeControl* aControl ); 
-
-        /**
-         *  Monitors pointer events and calls observer when item is tapped. 
-         *  @param aEvent pointer event
-         *  @param aTargetControl control that the pointer event is targeted to
-         */
-        void MonitorPointerEventL( TPointerEvent& aEvent, CCoeControl* aTargetControl );
-
-        /**
-         *  Modifies pointer event so that it is relative to editor control
-         *  @param aTapPoint tapped point
-         */
-        void ModifyPointerEvent( TPoint& aTapPoint );
-
-        /**
-         *  Returns drag threshold.
-         *  @return drag threshold
-         */
-        TInt DragThresholdL();
-
     private:    // Data
 
         CEikRichTextEditor** iEditor; // Not owned
@@ -366,42 +307,6 @@ NONSHARABLE_CLASS(CItemFinder) :
         friend class CItemFinderAsyncParser;
 
         TInt iMinDigitsToFind;
-
-        /** 
-         * Pointer to item activation observer
-         */
-        MAknItemFinderObserver* iItemFinderObserver; // not owned
-        /**
-         * Control environment.
-         * Not own.
-         */
-        CCoeEnv* iCoeEnv;
-        
-        /**
-         * Tells if focus move is allowed. 
-         */
-        TBool iAllowHighlight;
-
-        /**
-         * CCoeControl that owns the window and receives pointer events. 
-         */
-        CCoeControl* iWindowControl;
-
-        /**
-         * Tap point. 
-         */
-        TPoint iTapPoint;
-        
-        /**
-         * Drag threshold
-         */
-        TInt iDragThreshold;
-
-        /**
-         * Tactile Feedback interface
-         */		
-        MTouchFeedback* iFeedback;
-        
     };
 
 #endif      // ITEMFINDER_H

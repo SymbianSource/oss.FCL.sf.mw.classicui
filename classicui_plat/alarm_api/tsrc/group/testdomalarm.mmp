@@ -49,10 +49,10 @@ SOURCE          testdomalarm.cpp
 SOURCE          testdomalarmblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY			eiksrv.lib
-LIBRARY			Eikalert.lib
+LIBRARY			eikalert.lib
 
 LANG            SC
 

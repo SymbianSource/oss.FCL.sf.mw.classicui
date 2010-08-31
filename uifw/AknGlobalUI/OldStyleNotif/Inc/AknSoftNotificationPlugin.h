@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -27,10 +27,11 @@
 #include <aknstaticnotedialog.h>
 #include <AknNotifyStd.h>
 #include <AknMediatorFacade.h> // Not the best for the purpose but will do just fine.
-#include <secondarydisplay/AknSecondaryDisplayDefs.h>
+#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
 #include <AknNotify.h>
 #include "AknSystemPopup.h"
 #include "AknGroupedNotifierNote.h"
+#include "AknNotifierControllerPlugin.h"
 #include "aknprivatesoftnotificationparameters.h"
 #include "aknmessagereaderlongpressdetector.h" // MAknGroupedNoteObserver    
 
@@ -68,15 +69,24 @@ private:
 NONSHARABLE_CLASS(CAknSoftNotificationSubject) : 
     public CBase, 
     public MEikSrvNotifierBase2, 
-    public MAknGroupedNotifierNoteObserver,
+    public MAknGroupedNotifierNoteObserver, 
+    public MAknKeyLockObserver,
     public MSoftNotificationObserver,
     public MAknMessageNotifierObserver
     {
 public:  // Constructors and destructor
     static CAknSoftNotificationSubject* NewL(
-        CAknGlobalNoteSubject* aGlobalNoteController );
+        MAknKeyLockController* aKeyLockObserver,
+        CAknGlobalNoteSubject* aGlobalNoteController);
         
 public: // Functions from base classes        
+    /**
+     * From MAknKeyLockController 
+     * Called when the status of keylock changes.
+     *
+     * @param aStatus the new status of the keylock.
+     */
+    virtual void KeyLockStatusChange(TKeyLockStatus aStatus);
     
     /**
      * From MEikSrvNotifierBase.
@@ -212,7 +222,8 @@ private:
      * The constructor is private. 
      */
     CAknSoftNotificationSubject(
-        CAknGlobalNoteSubject* aGlobalNoteController );
+        MAknKeyLockController* aKeyLockObserver,
+        CAknGlobalNoteSubject* aGlobalNoteController);
 
     void HandleNotifierMessageL(const TDesC8& aBuffer, TInt& aNoteId );
 
@@ -273,6 +284,8 @@ private:
 
     TBool CheckIfAlreadyExists(TAknSoftNotificationType aType);
 
+    TBool AutoLockEnabled();
+
     void SetNcnFlag(TBool aValue);
     static TInt HandleNcnFlagStateChange(TAny *aPtr);
 
@@ -288,7 +301,7 @@ private:
     
 private: // Data
     TNotifierInfo iInfo;
-
+    MAknKeyLockController* iKeyLockController;
     CAknGlobalNoteSubject* iGlobalNoteController;
     
     // The array keeps track of unselected soft notifications in priority order.
@@ -338,6 +351,7 @@ private: // New member data.
     TBool iNotificationsSaved;
     CIdle* iIdle;
     static TInt SetIdleStateFalse(TAny* aThis);
+    TBool iKeysLocked;
     
 public: // To allow static method above access this.
     TBool iIdleStateActive;

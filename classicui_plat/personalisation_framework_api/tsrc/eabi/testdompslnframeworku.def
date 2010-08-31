@@ -1,9 +1,0 @@
-EXPORTS
-	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
-	_ZTI19CTestDOMPslnFWAppUi @ 2 NONAME ; #<TI>#
-	_ZTI19CTestPslnFWBaseView @ 3 NONAME ; #<TI>#
-	_ZTI24CTestPslnFWBaseContainer @ 4 NONAME ; #<TI>#
-	_ZTV19CTestDOMPslnFWAppUi @ 5 NONAME ; #<VT>#
-	_ZTV19CTestPslnFWBaseView @ 6 NONAME ; #<VT>#
-	_ZTV24CTestPslnFWBaseContainer @ 7 NONAME ; #<VT>#
-

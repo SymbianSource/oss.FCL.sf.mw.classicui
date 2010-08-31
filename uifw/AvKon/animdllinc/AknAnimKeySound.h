@@ -131,7 +131,7 @@ public:
     * @param key code to be checked.
     * @return ETrue if blocked.
     */
-    static TBool IsBlockedKeyCode( TBool aSupportQuerty , TInt aScanCode );
+    static TBool IsBlockedKeyCode( TInt aScanCode );
 
     /**
     * Checks if key code is non-blocked.
@@ -200,9 +200,6 @@ private:
     
     // Extension for window group information.
     MAnimGeneralFunctionsWindowExtension* iExt;      
-    
-	//support querty keypad
-    TBool iSupportQuertyKey; 
     
     // Pointer event handling ongoing, block key events
     TBool iBlockKeyEvents;

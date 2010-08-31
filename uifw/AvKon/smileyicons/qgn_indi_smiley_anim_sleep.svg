@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape6grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+</defs>
+<g>
+<g transform="translate(-7.999,-8)">
+<rect fill="none" fill-rule="evenodd" height="16" transform="translate(0.001)" width="15.999" x="0" y="0"/>
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape6grad)" fill-rule="evenodd"/>
+<g transform="translate(0.001,0.001)">
+<path d="M3.267,5.685C3.505,6.673,4.395,7.408,5.455,7.408C6.331,7.408,7.091,6.908,7.461,6.177L6.794,5.834C6.547,6.323,6.04,6.658,5.454,6.658C4.756,6.658,4.169,6.178,4.001,5.533L3.267,5.685z" fill="black" fill-rule="evenodd" transform="translate(0.001,0)"/>
+<path d="M12.733,5.685C12.495,6.673,11.606,7.408,10.545,7.408C9.669,7.408,8.91,6.908,8.539,6.177L9.205,5.835C9.452,6.323,9.959,6.658,10.544,6.658C11.244,6.658,11.83,6.178,11.997,5.533L12.733,5.685z" fill="black" fill-rule="evenodd" transform="translate(0.001,0)"/>
+</g>
+<g transform="translate(0.001)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.41s" fill="freeze" keyTimes="0;0.426;1" values="inline;none;inline"/>
+<path d="M11.365,11.084C11.365,12.636,9.858,13.643,8,13.643C6.142,13.643,4.635,12.636,4.635,11.084C4.635,9.533,6.142,8.023,8,8.023C9.858,8.023,11.365,9.532,11.365,11.084z" fill="black" fill-rule="evenodd" transform="translate(0)"/>
+<path d="M8,13.042C6.626,13.042,5.235,12.37,5.235,11.084C5.235,9.922,6.418,8.624,8,8.624C9.584,8.624,10.764,9.922,10.764,11.084C10.766,12.37,9.374,13.042,8,13.042L8,13.042z" fill="#FF2E00" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+<g display="none">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.41s" fill="freeze" keyTimes="0;0.426;1" values="none;inline;none"/>
+<path d="M8,13.006C6.842,13.006,5.901,12.065,5.901,10.907C5.901,9.748,6.842,8.806,8,8.806C9.158,8.806,10.101,9.749,10.101,10.907C10.101,12.066,9.157,13.006,8,13.006L8,13.006z" fill="black" fill-rule="evenodd" transform="translate(0,0.001)"/>
+<path d="M9.5,10.907C9.5,11.736,8.828,12.407,8,12.407C7.171,12.407,6.5,11.736,6.5,10.907C6.5,10.079,7.171,9.407,8,9.407C8.828,9.407,9.5,10.079,9.5,10.907z" fill="#FF2E00" fill-rule="evenodd" transform="translate(0,0.001)"/>
+</g>
+</g>
+<g display="none" transform="translate(-5.035,-2.933) scale(0.5)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.41s" fill="freeze" keyTimes="0;0.497;1" values="none;inline;none"/>
+<animateTransform additive="replace" attributeName="transform" begin="0.70s" dur="0.70s" fill="freeze" keyTimes="0;1" type="translate" values="0.596,1.3;1.679,-5.45"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.70s" dur="0.70s" fill="freeze" keyTimes="0;1" type="scale" values="0.5,0.5;1,1"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.70s" fill="freeze" type="translate" values="-11.261,-8.466;-11.261,-8.466"/>
+<polygon fill="white" fill-rule="evenodd" points="13.263,10.745 13.263,10.745 9.261,10.745 9.261,9.547 10.582,7.906 9.393,7.906 9.393,6.189 13.219,6.189 13.219,7.409 11.928,9.028 13.263,9.028" transform="translate(0,0)"/>
+<polygon fill="black" fill-rule="evenodd" points="9.763,9.726 11.624,7.405 9.895,7.405 9.895,6.689 12.719,6.689 12.719,7.236 10.887,9.528 12.763,9.528 12.763,10.243 9.763,10.243 9.763,9.726" transform="translate(0,0)"/>
+</g>
+<g display="none" transform="translate(-3.603,-3.048) scale(0.5)">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="1.20s" fill="freeze" keyTimes="0;0.5;1" values="none;inline;none"/>
+<animateTransform additive="replace" attributeName="transform" begin="0.60s" dur="0.60s" fill="freeze" keyTimes="0;1" type="translate" values="1.793,0.904;4.793,-5.221"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.60s" dur="0.60s" fill="freeze" keyTimes="0;1" type="scale" values="0.5,0.5;1,1"/>
+<animateTransform additive="sum" attributeName="transform" begin="0.60s" fill="freeze" type="translate" values="-10.792,-7.903;-10.792,-7.903"/>
+<polygon fill="white" fill-rule="evenodd" points="12.794,10.183 12.794,10.183 8.792,10.183 8.792,8.985 10.113,7.343 8.924,7.343 8.924,5.625 12.749,5.625 12.749,6.847 11.459,8.464 12.794,8.464" transform="translate(0,0.001)"/>
+<polygon fill="black" fill-rule="evenodd" points="9.294,9.164 11.155,6.843 9.426,6.843 9.426,6.125 12.25,6.125 12.25,6.672 10.418,8.964 12.294,8.964 12.294,9.681 9.294,9.681 9.294,9.164" transform="translate(0,0)"/>
+</g>
+</g>
+</svg>

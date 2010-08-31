@@ -35,14 +35,11 @@ class CCoeRedrawer : public CActive
 public:
 	CCoeRedrawer(RWsSession& aWsSession);
 	~CCoeRedrawer();
-
 private:
 	void Queue();
 	// from CActive
 	virtual void RunL();
 	virtual void DoCancel();
-	virtual TInt RunError( TInt aError );
-
 private:
 	RWsSession& iWsSession;
 	TBool iFirstRunL;

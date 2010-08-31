@@ -168,35 +168,6 @@ TBool CAknListBoxSettingPage::FocusToFirstItem()
 	return EFalse; 
 	}
 
-//---------------------------------------------------------------------------------------
-// CAknListBoxSettingPage::EnableSingleClickHighlightL()
-// Enables highlight to listbox control in single click mode if needed
-//---------------------------------------------------------------------------------------
-//
-TBool CAknListBoxSettingPage::EnableSingleClickHighlight( TInt aCommandId )
-    {
-    TBool highLightEnabled = EFalse;
-   
-    if ( aCommandId == EAknSoftkeySelect &&
-            ListBoxControl()->ItemDrawer()->Flags() 
-                & CListItemDrawer::ESingleClickDisabledHighlight )
-        {   
-        TKeyEvent event;
-        event.iCode = EKeyOK;      
-        
-        // restore highlight with simulated key event
-        TRAP_IGNORE
-		    (
-            TKeyResponse response = ListBoxControl()->OfferKeyEventL( event, EEventKey );
-            if ( response == EKeyWasConsumed )
-                {
-                highLightEnabled = ETrue;
-                }
-            );
-        }
-    return highLightEnabled;
-    }
-
 void CAknListBoxSettingPage::CreateIconAndAddToArrayL(
     CArrayPtr<CGulIcon>*& aIconArray,
     const TAknsItemID& aId,

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -277,39 +277,6 @@ const TUint32 KAknAdaptiveSearchLastChinese = 0x00000014;
  *
  */
 const TUint32 KAknEmotionResourceFileName = 0x00000015;
-
-/**
- * they store the type of keyboard in slide close/slide open modes
- * according to the following enumeration:
- * 0 = no keyboard
- * 1 = 12 keys keyboard
- * 2 = 4x12 qwerty keyboard
- * 3 = 4x10 qwerty keyboard
- * 4 = 3x11 qwerty keyboard
- * 5 = half qwerty keyboard
- * 6 = custom qwerty keyboard
- * 7 = max layout keyboard
- */
-const TUint32 KAknKeyboardSlideClose = 0x00000016;
-
-const TUint32 KAknKeyboardSlideOpen = 0x00000017;
-
-/**
-* The operator's service call phone number. Could vary by operator.
-*/
-const TUint32 KAknServiceCallNumber = 0x00000018;
-
-/**
- * Value indicates the feature replacing 3.5G icon with 3G icon, 
- * required by ATT, is enabled.
- *
- * Possible values are:
- *
- * 0: 3.5G signal icon is replaced by 3G signal icon while in hsdpa network.
- * 1: 3.5G signal icon is used in hsdpa network.
- *
- */
-const TUint32 KAknATTSignalIconEnable = 0x00000019;
 
 const TUid KCRUidLeaveAppsInMemory = { 0x102858F2 };
 

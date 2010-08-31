@@ -159,7 +159,7 @@ RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
             {
             code = EAknSmileyIconIrritated;
             smileyIconId = EMbmSmileyQgn_indi_smiley_irritated;
-            strings = ":X :x :-X :-x";
+            strings = ":X :-X";
             },
         SMILEY_ICON_ITEM
             {
@@ -217,7 +217,7 @@ RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
             code = EAknSmileyAnimCoffee;
             smileyIconId = EMbmSmileyQgn_indi_smiley_anim_coffee;
             smileyStaticIconId = EMbmSmileyQgn_indi_smiley_coffee;
-            strings = "c[_] C[_]";
+            strings = "c[_]";
             },
         SMILEY_ICON_ITEM
             {
@@ -305,7 +305,7 @@ RESOURCE SMILEY_ICON_INFO r_smiley_icons_info
             code = EAknSmileyAnimSilly;
             smileyIconId = EMbmSmileyQgn_indi_smiley_anim_silly;
             smileyStaticIconId = EMbmSmileyQgn_indi_smiley_silly;
-            strings = "8-P 8-p";
+            strings = "8P 8p 8-P 8-p";
             },
         SMILEY_ICON_ITEM
             {

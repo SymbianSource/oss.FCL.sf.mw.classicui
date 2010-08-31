@@ -83,6 +83,12 @@ public:
     
     void SetPlayTimes( TInt aPlayTimes ){ iPlayTimes = aPlayTimes; };
     
+    void SetVisibleRange( TInt aDocPos, TInt aLength )
+        {
+        iVisibleStart = aDocPos;
+        iVisibleLength = aLength;
+        };
+    
     void StartAnimTimerL();
     static TInt AnimTimerCallbackL( TAny* aPtr );
     void CheckAnimStatusL();
@@ -104,6 +110,8 @@ private: // data
     
     TRgb iHighlightColor;
     TInt iPlayTimes;
+    TInt iVisibleStart;
+    TInt iVisibleLength;
     // own
     CSmileyAsyncDraw* iAsyncDraw;
     // own

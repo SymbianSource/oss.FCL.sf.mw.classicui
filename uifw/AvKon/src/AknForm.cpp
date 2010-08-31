@@ -231,18 +231,9 @@ EXPORT_C  TBool CAknForm::OkToExitL(TInt aButtonId)
 			else
 				{
 				if ( mayExitEditMode )
-                    {
-                    SetEditableL( EFalse ); // go out of edit mode of Form
-                    CEikCaptionedControl* line = Line( IdOfFocusControl() );
-                    if ( line )
-                        {
-                        line->SetEditableL( EFalse );
-                        line->SetCurrent( EFalse );
-                        line->DrawDeferred(); // otherwise will be partly redrawn
-                        }
-                    }
+					SetEditableL(EFalse); // go out of edit mode of Form 
 				return EFalse; // remain in form ( but in view mode if save was OK).
-                }
+			}
 
 			} // end of if (IsEditable())
 

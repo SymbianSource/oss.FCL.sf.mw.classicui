@@ -31,7 +31,6 @@
 #include <UikonInternalPSKeys.h>
 #include <e32property.h>
 #include <AknSgcc.h>
-#include <w32std.h>
 
 LOCAL_C TBool IsInHiddenList(const TUid& aUid)
 	{
@@ -65,40 +64,15 @@ EXPORT_C void CAknApplication::PreDocConstructL()
 		CApaWindowGroupName* wgName = CApaWindowGroupName::NewLC(ws, myWg);
 		wgName->SetAppUid(uid);
 		wgName->SetWindowGroupName(env->RootWin());
-	      
-        // Use a CAknTaskList to check for root instances of apps
-        CAknTaskList* taskList = CAknTaskList::NewLC(ws);
-        TBool foundInstance = EFalse;
-	    
+
+		// Use a CAknTaskList to check for root instances of apps
+		CAknTaskList* taskList = CAknTaskList::NewLC(ws);
+		TBool foundInstance = EFalse;
+		
 		// Look for another instance of this app
 		while (wgId>=0)
 			{
-		    TBool rootTask = taskList->IsRootWindowGroup(wgId);
-		    TBool rootWg = EFalse;
-		    TInt wndPriority = -1;
-		    if ( wgId != myWg && wgId > 0  && !rootTask )
-		        {
-                wndPriority = ws.GetWindowGroupOrdinalPriority( wgId );
-                RArray<RWsSession::TWindowGroupChainInfo> wgs;
-                // it seems effecient to call WindowGroupList here, this codes will seldom executed.
-                ws.WindowGroupList( wndPriority,  &wgs );
-                   
-                TInt count = wgs.Count();
-                for ( TInt ii=0; ii<count; ii++ )
-                    {
-                    const RWsSession::TWindowGroupChainInfo& info = wgs[ii];
-                    // find the window group id and check that it has no parent
-                    if ( info.iId == wgId )
-                        {
-                        rootWg = (info.iParentId <= 0);
-                        break;
-                        }
-                    }
-                
-                wgs.Close();
-		        }
-		    
-			if (wgId && wgId != myWg  &&  ( rootWg || rootTask ) )
+			if (wgId && wgId != myWg && taskList->IsRootWindowGroup(wgId))
 				{	// found another app, switch to it & die
 				/*
 				TApaTask other(ws);

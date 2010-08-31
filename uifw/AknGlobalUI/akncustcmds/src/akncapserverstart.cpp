@@ -86,10 +86,7 @@ void CAknCapServerStart::Execute(
 
     TRAP_IGNORE( SetColorPaletteL() );
     TRAPD( err, RAknUiServer::StartAknCapserverL() );
-    
-#ifdef _DEBUG
     RDebug::Print( _L( "RAknUiServer::StartAknCapserverL leave code %d" ), err );
-#endif
 
     TRequestStatus* request = &aRequest;
     User::RequestComplete( request, err );

@@ -1,0 +1,128 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:         project specification file for the bctestnote
+*
+*/
+
+
+
+
+
+
+
+
+
+TARGET          bctestnote.exe
+TARGETTYPE      exe
+UID             0x0 0x20004749
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData  \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctestnote.rss
+
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+//LANG            sc
+
+SOURCEPATH      ../src
+SOURCE          bctestnoteapp.cpp
+SOURCE          bctestnotedocument.cpp
+SOURCE          bctestnoteappui.cpp
+SOURCE          bctestnoteview.cpp
+SOURCE          bctestnotecontainer.cpp
+SOURCE          bctestnotewrappercase.cpp
+SOURCE          bctestwaitdialogcase.cpp
+SOURCE          bctestsubstaticnote.cpp
+SOURCE          bcteststaticnotecase.cpp
+SOURCE          bctesteikinfodialogcase.cpp
+SOURCE          bctestsubeikprogressinfo.cpp
+SOURCE          bctesteikprogressinfocase.cpp
+SOURCE          bctestsubwaitnotewrapper.cpp
+SOURCE          bctestwaitnotewrappercase.cpp
+SOURCE          bctestsubnotedialog.cpp
+SOURCE          bctestnotedialogcase.cpp
+SOURCE          bctestnotecontrolcase.cpp
+
+USERINCLUDE     . ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+SYSTEMINCLUDE   . /epoc32/include
+
+LIBRARY	    	AknIcon.lib
+LIBRARY         AknSkins.lib
+LIBRARY         avkon.lib
+LIBRARY         apparc.lib
+LIBRARY         aknnotify.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bafl.lib 
+LIBRARY         bctestutil.lib 
+LIBRARY         cone.lib
+LIBRARY         egul.lib
+LIBRARY         euser.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY         eikctl.lib
+LIBRARY         eikdlg.lib
+LIBRARY         eikcdlg.lib
+LIBRARY         estor.lib
+
+// Creates Mbm file.
+START BITMAP    bctestnote.mbm
+HEADER
+TARGETPATH      /resource/apps 
+SOURCEPATH ../datasrc
+SOURCE c12 bctestnoteerroricon.bmp
+SOURCE c12 bctestnoteerroriconm.bmp
+SOURCE c12 bctestnotewarningicon.bmp
+SOURCE c12 bctestnotewarningiconm.bmp
+SOURCE c12 bctestnoteinformationicon.bmp
+SOURCE c12 bctestnoteinformationiconm.bmp
+SOURCE c12 bctestnoteconfirmationicon.bmp
+SOURCE c12 bctestnoteconfirmationiconm.bmp
+SOURCE c12 bctestnotewaiticon.bmp
+SOURCE c12 bctestnotewaiticonm.bmp
+SOURCE c12 bctestnotepermanenticon.bmp
+SOURCE c12 bctestnotepermanenticonm.bmp
+SOURCE c12 bctestnoteprogressicon.bmp
+SOURCE c12 bctestnoteprogressiconm.bmp
+source c8  indicato.bmp
+source c8  indicatom.bmp
+source c8  testimage1.bmp
+source c8  testimage1mask.bmp
+source c8  qgn_indi_attach_audio.bmp
+source c8  qgn_indi_attach_audio_mask.bmp
+source c8  lshellicon.bmp
+source c8  lshelliconm.bmp
+source c8  photo.bmp
+source c8  photom.bmp
+source c8  30x40.bmp
+source c8  30x40m.bmp
+END
+
+START RESOURCE ../group/bctestnote_reg.rss
+DEPENDS bctestnote.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+

@@ -69,7 +69,6 @@ class CAknPictographInterface;
 class CAknCharMapHistory;
 class CAknCharMapExtension;
 class MAknSctFocusHandler;
-
 /**
  * Special character table control for AVKON
  *
@@ -412,7 +411,6 @@ public:
     TInt Category();
     TBool IsSupportCategoryButtonUi() const;
     TBool IsJapaneseSctUi() const;
-    TBool IsKoreanSctUi() const;
     const TDesC* TitleWithSelectingSpecialChar();
 
 private:
@@ -450,10 +448,8 @@ public:
     TPoint CursorPos();
 
 private:
+    void HandleFocusStatusChanged(TBool aIsFocused=ETrue);
     TBool EmotionsAreAllReadyToDraw(TInt aIndex, TInt aCount) const;
-    void SmileyStillImageLoaded(TChar aSmileyCode);
-    void SmileyAnimationChanged(TChar aSmileyCode);
-    void SetSmileyAnimationActivityInCurrentPageL(TBool aIsActive);
     void GetFocusSctName(TChar& aChar, TDes& aName) const;
     TBool HaveBufferToAppendFocusSct() const;
     TBool AppendFocusSctToDestinationBufferL();

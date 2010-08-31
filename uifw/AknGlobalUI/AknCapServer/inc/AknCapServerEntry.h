@@ -29,7 +29,6 @@
 #include <centralrepository.h>
 #include <PtiDefs.h>
 #endif
-#include <alf/alfdirectclient.h>
 
 #include "AknEikSgcs.h"
 #include "AknNotiferAppServerApplicationInterface.h"
@@ -188,24 +187,16 @@ public: // new methods
         {
         return iShortTimeGlobalNoteDisplaying;
         }
-
-    CAknCapAppServerAlternateFs* AlternateFS()
-        {
-        return iAlternateFS;
-        }
     
 private:
     void PublishHiddenList();
     void PublishInstalledLanguagesL();
     static TInt GlobalNotesAllowedCallBack(TAny* aPtr);
-    static TInt TelephonyIdleUidCallBack(TAny* aPtr);
     void HandlePropertyChange(const TInt aProperty);
     void ProcessInitFlipStatus();
     void InitiateOFNStatus();
     void LoadAlternateFsPlugin();
     void ShowOrDismissAlternateFs();
-    static TInt RemoveBlankCallBack( TAny* aThis );
-    void DoRemoveBlank();
 
 public: 
     /**
@@ -272,11 +263,7 @@ private:
     RProperty iGlobalNotesAllowedProperty;
     CPropertySubscriber* iGlobalNotesAllowedSubscriber;
     
-    RProperty iTelephonyIdleUidProperty;
-    CPropertySubscriber* iTelephonyIdleUidSubscriber;
     TBool iIdleActive;
-    RAlfDirectClient iAlfClient;
-    CPeriodic* iRemoveBlankCallBack;   
     };
 
 #endif // __AKNCAPSERVERENTRY__

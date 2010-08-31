@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -302,10 +302,7 @@ EXPORT_C void CAknStatusPaneDataPublisher::SetIncallBubbleAllowedInUsual( TBool 
         {
         if( iStatusPaneStateData->iProcessList.Find( aClientId ) == KErrNotFound )
             {
-            if ( KErrNone != iStatusPaneStateData->iProcessList.Append( aClientId ) )
-            	{
-				return;
-            	}
+            iStatusPaneStateData->iProcessList.Append( aClientId );
             }
         }
     else
@@ -717,8 +714,8 @@ EXPORT_C void CAknStatusPaneDataPublisher::SetIndicatorPopupPosition()
     TInt statusPaneLayoutId = AknStatuspaneUtils::CurrentStatusPaneLayoutResId();
     TAknLayoutRect layoutRect;
     if ( isLandscape &&
-         ( statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ||
-           statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ) )
+         ( statusPaneLayoutId == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT ||
+           statusPaneLayoutId == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT ) )
         {
         layoutRect.LayoutRect(
             applicationWindow,
@@ -732,7 +729,9 @@ EXPORT_C void CAknStatusPaneDataPublisher::SetIndicatorPopupPosition()
                 applicationWindow,
                 AknLayoutScalable_Avkon::popup_uni_indicator_window( 6 ) );
         }
-    else if ( statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS ||
+    else if ( statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ||
+              statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ||
+              statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS ||
               statusPaneLayoutId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS )
         {
         layoutRect.LayoutRect(
@@ -1036,11 +1035,6 @@ void CAknStatusPaneDataPublisher::LoadIndicatorPlugin(
             case EAknIndicatorUSBMemConnected:
                 {
                 pluginUid.iUid = KImplUIDUSBMEMIndicatorsPlugin;
-                break;
-                }
-            case EAknIndicatorIntegratedIM:
-                {
-                pluginUid.iUid = KImplUIDIIMIndicatorPlugin;
                 break;
                 }
              // currently uncategorized:

@@ -57,7 +57,7 @@ class CAknNfySrv: public CAknNotifierAppServer, public MNotifLibraryOwningServer
     
         RPointerArray<CAknNotifierEntry> iNotifierArray;
         RPointerArray<CAknNotifLibraryEntry> iLibraryArray;
-        CPeriodic* iLibraryRemover;
+        CIdle* iLibraryRemover;
     
     private: // from MNotifLibraryOwningServer
         void UnbalanceReferenceCount(TUid aUid, TBool aAddCount);

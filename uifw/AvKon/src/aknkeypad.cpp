@@ -121,11 +121,7 @@ void CAknKeypad::ConstructL( CCoeControl& aParent, TInt aQueryType )
      
      	// Hack
         
-        if ( i == 0 ) //Display '.,?' in button 
-            {
-            button->SetUpperAndLowerTextL(_L(".,?"), _L(".,?"));
-            }
-        else if ( i == 1 )
+        if ( i == 1)
         	{
         	button->SetUpperAndLowerTextL(_L("ABC"), _L("abc"));
        		}

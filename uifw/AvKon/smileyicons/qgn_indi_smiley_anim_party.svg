@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="16" preserveAspectRatio="xMidYMid meet" viewBox="-8 -8 16 16" width="16">
+<defs>
+<radialGradient cx="7.878" cy="5.012" gradientUnits="userSpaceOnUse" id="shape7grad" r="8.364">
+<stop offset="0" stop-color="#FFF000"/>
+<stop offset="1" stop-color="#FFBF00"/>
+</radialGradient>
+<linearGradient gradientUnits="userSpaceOnUse" id="shape16grad" x1="11.986" x2="16.488" y1="0.083" y2="4.585">
+<stop offset="0" stop-color="#4285D2"/>
+<stop offset="0.506" stop-color="#73F80F"/>
+<stop offset="0.565" stop-color="#6AF11D"/>
+<stop offset="0.676" stop-color="#54E041"/>
+<stop offset="0.827" stop-color="#2FC47B"/>
+<stop offset="1" stop-color="#00A0C6"/>
+</linearGradient>
+</defs>
+<g>
+<rect fill="none" fill-rule="evenodd" height="16.375" transform="scale(0.978)" width="16.375" x="-8.187" y="-8.187"/>
+<g transform="translate(-7.999,-7.958)">
+<g transform="translate(0.001)">
+<circle cx="8" cy="8" fill="black" fill-rule="evenodd" r="7"/>
+<path d="M14.5,8C14.5,11.59,11.59,14.5,8,14.5C4.411,14.5,1.5,11.59,1.5,8C1.5,4.411,4.411,1.5,8,1.5C11.59,1.5,14.5,4.411,14.5,8z" fill="url(#shape7grad)" fill-rule="evenodd"/>
+</g>
+<g transform="translate(0.001,0)">
+<ellipse cx="0" cy="0" fill="white" fill-rule="evenodd" rx="1.89" ry="1.986" transform="translate(5.69,6.542)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(5.69,6.542)"/>
+<g transform="translate(0,0)">
+<path d="M12.2,6.542C12.2,7.639,11.355,8.527,10.308,8.527C9.264,8.527,8.42,7.638,8.42,6.542C8.42,5.446,9.265,4.557,10.308,4.557C11.355,4.558,12.2,5.446,12.2,6.542z" fill="white" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<ellipse cx="0" cy="0" fill="black" fill-rule="evenodd" rx="1.098" ry="1.152" transform="translate(10.31,6.542)"/>
+</g>
+</g>
+<g>
+<path d="M14.801,6.901L14.301,6.776C14.241,6.76,12.773,6.379,11.143,4.749C9.408,3.016,9.236,1.709,9.229,1.654L9.174,1.204L9.623,1.134L15.215,0.266L15.85,0.168L15.752,0.803L14.883,6.392L14.801,6.901L14.801,6.901z" fill="black" fill-rule="evenodd" transform="translate(0,0)"/>
+<path d="M14.417,6.319C14.417,6.319,13.03,5.971,11.474,4.415C9.836,2.777,9.695,1.598,9.695,1.598L15.285,0.73L14.417,6.319z" fill="url(#shape16grad)" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+<g transform="translate(4.366,0.586) scale(0.677,0.707)">
+<ellipse cx="0" cy="0" fill="#2E69B0" fill-rule="evenodd" rx="1" ry="0.811" transform="matrix(0.78 0.98 -1.287 1.025 11.043 3.591)"/>
+<ellipse cx="0" cy="0" fill="#00FFFF" fill-rule="evenodd" rx="0.86" ry="0.774" transform="matrix(0.947 0.947 -1.088 1.09 13.817 4.095)"/>
+<ellipse cx="0" cy="0" fill="#29ABE2" fill-rule="evenodd" rx="0.564" ry="0.525" transform="matrix(0.76 1.351 -1.664 0.937 13.594 1.634)"/>
+</g>
+</g>
+<g transform="translate(0.001,0)">
+<path d="M9.735,11.796C7.655,12.779,5.162,11.898,4.171,9.827L3.401,10.193C4.596,12.686,7.599,13.747,10.105,12.561C9.983,12.31,9.846,12.027,9.735,11.796z" fill="black" fill-rule="evenodd" transform="translate(0.001,0.001)"/>
+</g>
+</g>
+<g transform="translate(-8.041,-7.916)">
+<rect display="none" fill="#FF0000" fill-rule="evenodd" height="1.933" transform="matrix(0.708 -0.706 0.707 0.708 -9.579 5.42)" width="1.208" x="1.155" y="13.316">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="0.69s" fill="freeze" keyTimes="0;0.609;1" values="none;inline;none"/>
+</rect>
+<rect display="none" fill="white" fill-rule="evenodd" height="1.933" transform="matrix(0.707 -0.707 0.708 0.707 -8.734 5.787)" width="1.21" x="2.008" y="12.462">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="0.76s" fill="freeze" keyTimes="0;0.487;1" values="none;inline;none"/>
+</rect>
+<rect display="none" fill="#FF0000" fill-rule="evenodd" height="1.933" transform="matrix(0.708 -0.706 0.707 0.708 -7.874 6.131)" width="1.207" x="2.863" y="11.608">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="0.83s" fill="freeze" keyTimes="0;0.386;1" values="none;inline;none"/>
+</rect>
+<rect display="none" fill="white" fill-rule="evenodd" height="1.933" transform="matrix(0.707 -0.707 0.708 0.707 -7.024 6.495)" width="1.21" x="3.717" y="10.754">
+<animate attributeName="display" begin="0s" calcMode="discrete" dur="0.90s" fill="freeze" keyTimes="0;0.301;1" values="none;inline;none"/>
+</rect>
+</g>
+</g>
+</svg>

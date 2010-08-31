@@ -42,7 +42,7 @@ NONSHARABLE_CLASS( CSmileyManager ) : public CBase
     {
 public:
     static const TText KPlaceHolder = 0xfff0;
-    static const TInt KMaxLength = 100;
+    static const TInt KMaxLength = 5;
     static const TInt KMinLength = 2;
     static const TText KZeroCode = 0;
     static const TText KCompensateChar = 'i'; 
@@ -66,6 +66,7 @@ public:
 //new functions    
     TBool ConvertTextForSmileyL( TInt aStart, TDes& aText, 
         TBool aStringToCodes = ETrue );
+    void SetVisibleRange( TInt aDocPos, TInt aLength );
     
     void DrawIconL( CBitmapContext& aGc, const TRect& aRect, 
         TInt aDocPos );

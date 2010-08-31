@@ -1,0 +1,479 @@
+50.9.6
+[what's new]
+1.Moved the existing BC test cases from \s60\mw\classicui\uifw\AvKon\internal\tsrc to \s60\mw\classicui\uifw\AvKon\tsrc 
+  and changed the distribution policy ID to 950
+2.Changed bcextendedfontapi's UID from 0x101F84FF to 0xA00040AF and added bcextendedfontapi.pkg for this bc appllication.
+3.Added some .pkg and .cmd files in folder "sis" to generate big sis file that include some bc applications¡¯ sis files, 
+  such as bctestdom32.pkg, bctestdom50.pkg and generate_dom32_sis.cmd, generate_dom50_sis.cmd.
+
+2008-01-15, BC test release v1.98
+[what's new]
+1. Added two applications named bctestdommix50 and bctestmix50 to test some new created functions in SDK5.0.
+
+2007-11-26, BC test release v1.97
+[what's new]
+1. Added 8 applications to test SDK3.2 domain APIS. There are putted in folder bctestdom3.2.
+2. Added bld32dom_script.cmd as BCTest framework.
+
+2007-11-15, BC test release v1.96
+[what's new]
+1. Added 9 applications to test SDK5.0 domain APIs. There are putted in folder bctestdom5.0.
+2. Added bld50dom_script.cmd and modified other .cmd files to adapt BCTest framework.
+3. Modified coding convension of bctestutil and bctestlauncher as "S60_Code_Templates_Code_Conventions_4.2a".
+
+2007-05-10, BC test release v1.95
+[what's new]
+1. Add a new aplication of bcmultidriver for testing multidriver API on SDK 5.0.
+
+====================================================================================================
+2007-04-06, BC test release v1.94
+[what's new]
+1. Fixed the problem that some test case of bctestvolume will fail on 3.2.
+2. Fixed the problem that bctestlabelinfoindicators will panic on 3.2.
+
+====================================================================================================
+2007-04-03, BC test release v1.93
+[what's new]
+Added a new application of bctestlist32 that is to test some new List APIs since 3.2.
+	CFormattedCellListBoxData::CurrentItemTextWasClipped()
+	CColumnListBoxData::CurrentItemTextWasClipped()
+
+====================================================================================================
+2007-03-27, BC test release v1.92
+[what's new]
+1. Fixed a script problem of bctestquery that will hang up automatic testing in QWERTY mode.
+2. Fixed a crash problem of bctestserverapp on 3.1 device.
+3. Fixed a problem of bctestnotifier that will hang up automatic testing.
+4. Fixed a compiling problem of bctestprivatefrm on S60 SDK 3.1.
+
+====================================================================================================
+2007-03-13, BC test realease v1.91
+[what's new]
+1. Fixed a panic problem of BCTestServerApp on SDK 3.1.
+2. Fixed a log file error of BCTestCmdDlg.
+
+====================================================================================================
+2007-02-12, BC test release v1.9
+[what's new]
+1. Added three BC test applications for touch component API.
+    +bctestbutton, BC test application for aknbutton.h
+    +bctestchoicelist, BC test application for aknchoicelist.h, aknlongtapdetector.h, aknstyluspopupmenu.h
+    +bctesttoolbar, BC test application for akntoolbar.h
+2. Added a new bld.inf under S60_SDK3.2ED\group, user can use this file to compile all BC test applications for 3.2ed at one clip.
+3. Modified bctestlauncher for 3.2ed specified BC test applications.
+4. Fixed a running problem that caused a panic of bctesttouchpane on SDK 3.2ed.
+
+====================================================================================================
+2006-12-25, BC test release v1.8
+[what's new]
+S60_SDK3.2ED subdirectory is added, it contains BC test applications for ScaleII API.
+bctesttreelist:	aknsinglestyletreelist.h and eikscrlb.h.
+
+====================================================================================================
+2006-12-21, BC test release v1.7
+[what's new]
+1. Fix a automatic test problem of BCTestNote on prototype with SDK 3.1.
+2. Fix a panic problem of BCTestFontInput on prototype with SDK 3.1.
+3. Modify the key sequence of automatic test of BCTestKeyLock to handle the enter-security-code dialog on prototype with SDK 3.1.
+4. Modify BctestOCR to detect whether a prototype supports OCR or not.
+5. Fix compiling problem of BCTestLocation on public SDK 3.1. A header file has been removed from public SDK 3.1 and it was used by BCTestLocation, so the problem happened.
+
+====================================================================================================
+2006-12-15, BC test release v1.62
+[what's new]
+Fix the problem that BCTestNote panics on emulator of SDK 3.1.
+
+====================================================================================================
+2006-12-04, BC test release v1.61
+[what's new]
+Fix the compiling problem of bctestptieng on SDK 3.1.
+Note: Function "CAknAppUiBase::SetLocalUiZoomL" in SDK 3.0 was changed to "cAknAppUiBase::SetLocalUiZoom" in SDK 3.1, and the function is tested in bctestappfrm. So if you want to compile bctesteikfrm on SDK 3.1, you have to change the related codes of bctestappfrm manually.
+
+====================================================================================================
+2006-11-20, BC test release v1.6
+[what's new]
+1. Fixed the problem that BCTestMisc cannot be compiled on SDK 3.1
+2. Coreected some errors in resource file of BCTestOCR and BCTestKeyLock
+3. Fixed a panic problem in CBCTestEditor
+4. Modified source codes of BCTestList, making it more simple
+5. Modified source codes of BCTestLauncher and BCTestUtil to adapt some change of SDK 3.2
+
+====================================================================================================
+2006-10-24, BC test release v1.5
+[what's new]
+1. Fixed a problem in BCTestAppFrm which caused the application not to exit automatically 
+after finishing test.
+
+2. Fixed a panic in BCTestNote when it is running on SDK 3.1.
+
+====================================================================================================
+2006-10-16, BC test release v1.4
+[what's new]
+1. Fixed a bug of memory leak in BCTestFontInput.
+
+2. Added a test for CEikMenuBar::SetMenuType into BCTestMisc. It can only work on SDK 3.1 and later.
+
+====================================================================================================
+2006-09-27, BC test release v1.3
+[What's new]
+This release fix a problem in BCTestEikFrm. it can handle the different cases in both emulator
+and prototype. Whether the program is installed in Phone or Memory card will not affect the test
+result any longer.
+
+====================================================================================================
+2006-09-18, BC test release v1.2
+
+[What's new]
+This release contains the following changes and new features.
+
+1. Fixed the BCTestScrollerBar launching problem.
+
+2. Mid-Key test in BCTestMisc is available in this release.
+
+3. BCTestPane can test layout switch in this release.
+
+4. Fixed the failed test cases in BCTestEH, BCTestEikFrm, and BCTestDocAndInit.
+
+====================================================================================================
+2006-09-08, BC test release v1.1
+
+[Patches]
+This release contains some patches to solve the known issue. Also there are some changes.
+
+1. New build scripts are provided in this release. they are:
+   + bld30_script.cmd: Script used to build all SDK3.0 test applications.
+   + bld31_script.cmd: Script used to build all SDK3.1 test applications, Note that this script
+         must be run with SDK 3.1.
+   + bld32_script.cmd: script used to build all SDK3.2 test applications, Note that this script
+         must be run with SDK 3.2.
+
+2. All BC test applications are hidden. It means that All applications are invisible in Shell.
+   The only visible application, BCTestLauncher is used to manage all other applications.
+
+3. BCTestLocation, the new application to test Location API is added.
+
+4. Removed bugs which caused BCTestEditor fail to pass ARMV5 compile.
+
+5. Fixed the bug which caused BCTestPane fail to pass compile.
+
+====================================================================================================
+2006-08-29, BC test release v1.0
+
+[Introduction]
+This release contains all S60 API BC testing applications as well as a test 
+framework and a automatic launcher tool.
+
+[Special tips]
+//////////////////////////////////////////////////////////////////////////
+Some parts in this release are only available in S60 3.1 and 3.2. They can *NOT*
+be built with S60 3.0 SDK. However, the source code for these parts are also 
+available in this release for reference. Please refer to the last section for how
+to build and test them.
+
+This part includes the following applications:
++ bctestocr		OCR API test application. 	
++ bctestmisc		Screen mode API test application.
++ bctesttouchpane	Touchpan test application. 	(Only available for SDK 3.2)
+//////////////////////////////////////////////////////////////////////////
+
+[Packages]
+Framework and aotumatic tester tools are:
++ BCTestUtil:		BC Test frameworks.
++ BCTestLaucher:	Automatic tester, a tool used for managing all applications.
+
+The concrete BC test applications are:
++ bctestbuttons         Button API test application
++ bctesteditor          Editor API test application
++ bctesteikbctrl	Base Control API test application
++ bctestform		Form API test application
++ bctestlist		Lists API test application
++ bctestnote		Note API test application
++ bctestscreenclearer	Screen clearer API test application
++ bctestsearchfield	Search field API test application
++ bctestutilities	Utilities API test applicatoin
++ bctestaknsound	Sounds API test application
++ bctestquery		Query API test application
++ bctestpopups		PopupS API test application
++ bctestsettingpage	Setting page API test application
++ bctestappfrm		Application Framework API test application 1, Akn parts
++ bctesteikfrm		Application Framework API test application 2, Eik parts
++ bctestskins		Skins API test application
++ bctestptieng		PtiEngine API test application
++ bctestgrids		Grids API test application
++ bctestimage		Image API test application
++ bctestprivateuifrm	Private UI framework test application
++ bctestmisccontrol	Misc Control API test application
++ bctestpane		context Pane, Title Pane, Status Pane, Tabs, Navigation Pane, 
+			Dialog Shutter and PictoGraph API test application
++ bctestlabelinfoindicators
+			Labels, Infor pupup note, and Indicators API test 
+			application
++ bctestsliderandicons	Slider and Scalable Icons API test application.
++ bctestcmdlg		Common File dialogs API test application
++ bctestserverapp	Server Application, Window server event observer and 
+			Animation API test application
++ bctestnotifier	Notifier API test application
++ bctestmenu		Menu API test application
++ bctesteh		Error UI and Hotkey API test application
++ bctestdocandinit	Document and initialization API test application
++ bctestocr		OCR API test application, only for SDK 3.1 or later ver.
++ bctestkeylock		Key lock API test application
++ bctestmisc		Screen mode API test application, Only for SDK 3.1 or later ver.
++ bctestfontinput	Fonts, Input frame and Input language info API Test application.
++ bctestscroller	Scroller API test application
++ bctestvolume		Volume API test application
++ bctesttouchpane	Touchpan test application. (Only available for SDK 3.2)
+
+[Documents]
+Manuals and documents are also provided in doc folder. They are:
++ S60_API_Binary_Compatibility_Tesing_Developer_Guide.doc
++ S60_API_Binary_Compatibility_Tesing_Design_Document.doc
++ S60_API_Binary_Compatibility_Tesing_Build_Manager_Guide.doc
+
+[Note: How to build the OCR, MISC and TouchPane test applications.]
+bctestorc and bctestmisc can be built in S60 3.1 and S60 3.2, bctesttouchpane can
+be built only in S60 3.2.
+
+[Known issues]
+bctestsearchfield has some problem in device, but it is OK in emulator.
+
+[Appendix:]
+Why the coverage of bctestvolume is low:
+BCTestVolume covers all APIs with 100% coverage, except for the following 3:
++SetValue()			8 blocks covered in total 10 blocks
++HandleResourceChange() 	8 blocks covered in total 16 blocks
++CreateSetStyleListBoxIconL()	1 blocks covered in total 22 blocks
+
+For SetValue(), the uncovered 2 blocks only raise panic for error handling, It 
+has reached the highest coverage.
+
+For HandleResourceChange(), There are half of total blocks deal with the case
+of PenEnabled(), Since pen is disabled in S60 3.0, They will never be covered.
+So it has also reached the highest coverage.
+
+For CreateSetStyleListBoxIconL(), The function seems like the following.
+CGulIcon* CAknVolumeControl::CreateSetStyleListBoxIconL( TInt aValue )
+    {
+    //... snip ...
+    if ( !CVolumeExtension::CreateSvgSettingsIconL( rect, aValue, icon ) )
+        {
+        // many blocks here
+        }
+    CleanupStack::Pop( icon );
+
+    return icon;
+    }
+
+But CVolumeExtension::CreateSvgSettingsIconL only returns ETrue. so the left
+21 blocks can not be covered. It has also reached the highest coverage.
+
+====================================================================================================
+2006-08-18, BC test release v0.4
+
+The release contains all S60 API BC testing applications as well as a test 
+framework and a automatic launcher tool.
+
+//////////////////////////////////////////////////////////////////////////
+Some parts in this release are only available in S60 3.1 and 3.2. They can *NOT*
+build in S60 3.0 directly. However, the resource for these parts are also 
+cotained in this release for reference. Please refer to the final notes for how
+to build and test them.
+
+These parts include the following applications:
++ bctestocr		OCR API test application
++ bctestmisc		Screen mode API test app
++ bctesttouchpane	Touchpan test application. (Only available for SDK 3.2)
+//////////////////////////////////////////////////////////////////////////
+
+Framework and aotumatic tester tools are:
++ BCTestUtil:		Test frameworks.
++ BCTestLaucher:	Automatic tester, a management application.
+
+The concrete BC test applications are:
++ bctestbuttons         Button API test application
++ bctesteditor          Editor API test application
++ bctesteikbctrl	Base Control API test application
++ bctestform		Form API test application
++ bctestlist		Lists API test application
++ bctestnote		Note API test application
++ bctestscreenclearer	Screen clearer API test application
++ bctestsearchfield	Search field API test application
++ bctestutilities	Utilities API test applicatoin
++ bctestaknsound	Sounds API test application
++ bctestquery		Query API test application
++ bctestpopups		PopupS API test application
++ bctestsettingpage	Setting page API test application
++ bctestappfrm		Application Framework API test application 1, Akn parts
++ bctesteikfrm		Application Framework API test application 2, Eik parts
++ bctestskins		Skins API test application
++ bctestptieng		PtiEngine API test application
++ bctestgrids		Grids API test application
++ bctestimage		Image API test application
++ bctestprivateuifrm	Private UI framework test application
++ bctestmisccontrol	Misc Control API test application
++ bctestpane		context Pane, Title Pane, Status Pane, Tabs, Navigation Pane, 
+			Dialog Shutter and PictoGraph API test application
++ bctestlabelinfoindicators
+			Labels, Infor pupup note, and Indicators API test 
+			application
++ bctestsliderandicons	Slider and Scalable Icons API test application.
++ bctestcmdlg		Common File dialogs API test application
++ bctestserverapp	Server Application, Window server event observer and 
+			Animation API test application
++ bctestnotifier	Notifier API test application
++ bctestmenu		Menu API test application
++ bctesteh		Error UI and Hotkey API test application
++ bctestdocandinit	Document and initialization API test application
++ bctestocr		OCR API test application
++ bctestkeylock		Key lock API test application
++ bctestmisc		Screen mode API test application, Only for SDK 3.1.
++ bctestfontinput	Fonts, Input frame and Input language info API Test application
++ bctestscroller	Scroller API test application
++ bctestvolume		Volume API test application
++ bctesttouchpane	Touchpan test application. (Only available for SDK 3.2)
+
+
+Manuals and documents are also provided in doc folder. They are:
++ S60_API_Binary_Compatibility_Tesing_Developer_Guide.doc
++ S60_API_Binary_Compatibility_Tesing_Design_Document.doc
++ S60_API_Binary_Compatibility_Tesing_Build_Manager_Guide.doc
+
+Note: How to build the OCR, MISC and TouchPane test applications.
+bctestorc and bctestmisc can be built in S60 3.1 and S60 3.2, bctesttouchpane can
+be built only in S60 3.2.
+
+Appendix:
+Why the coverage of bctestvolume is low:
+BCTestVolume covers all APIs with 100% coverage, except for the following 3:
++SetValue()			8 blocks covered in total 10 blocks
++HandleResourceChange() 	8 blocks covered in total 16 blocks
++CreateSetStyleListBoxIconL()	1 blocks covered in total 22 blocks
+
+For SetValue(), the uncovered 2 blocks only raise panic for error handling, It 
+has reached the highest coverage.
+
+For HandleResourceChange(), There are half of total blocks deal with the case
+of PenEnabled(), Since pen is disabled in S60 3.0, They will never be covered.
+So it has also reached the highest coverage.
+
+For CreateSetStyleListBoxIconL(), The function seems like the following.
+CGulIcon* CAknVolumeControl::CreateSetStyleListBoxIconL( TInt aValue )
+    {
+    //... snip ...
+    if ( !CVolumeExtension::CreateSvgSettingsIconL( rect, aValue, icon ) )
+        {
+        // many blocks here
+        }
+    CleanupStack::Pop( icon );
+
+    return icon;
+    }
+
+But CVolumeExtension::CreateSvgSettingsIconL only returns ETrue. so the left
+21 blocks can not be covered. It has also reached the highest coverage.
+
+====================================================================================================
+
+2006-07-31, BC test release v0.3
+
+This release contains all S60 API BC testing applications. including:
++ BCTestAknSound: 	AknSound test application
++ BCTestAppFrm: 	Framework API test application
++ BCTestButtons:	Button API test application
++ BCTestCmDlg:		Common dialogs API test application
++ BCTestDocAndInit:	Document and initialization API test application
++ BCTestEditor:		Editor API test application
++ BCtestEH:		Error UI and Hotkey API test application
++ BCTestEikbCtrl:	Eik Base Control API test application
++ BCTestEikFrm:		EikForm API test application
++ BCTestFontInput:	Font Input API Test application
++ BCTestForm:		Form API test application
++ BCTestGrids:		Grids API test application
++ BCTestImage:		Image API test application
++ BCTestKeyLock:	Key lock API test application
++ BCTestLabelInfoIndicators:	Labels, Infor pupup note, and Indicators API test application
++ BCTestList:		List API test application
++ BCTestMenu:		Menu API test application
++ BCTestMisc:		Only for 3.1&3.2 including, touch pane, and screen mode API test application.
++ BCTestMiscControl:	Misc Control API test application
++ BCTestNote:		Note API test application
++ BCTestOCR:		OCR API test application
++ PCTestPane:		Pane related API test application
++ BCTestPopups:		Pupup API test application
++ BCTestPrivateUIFrm:	Private UI framework test application
++ BCTestPtiEng:		Pti Engine API test application
++ BCTestQuery:		Query API test application
++ BCTestScreenClearer:	Screen clearer API test application
++ BCTestSearchField:	Search field API test application
++ BCTestServerApp:	Server Application API test application
++ BCTestSettingPage:	Setting page API test application
++ BCTestSkins:		Skins API test application
++ BCTestSlikerAndIcons:	Slider and Icon API test application.
++ BCTestUtility:	Utility API test applicatoin
+
+Also there are several helper tools:
+
++ BCTestLaucher:	Automatic tester, a management application.
++ BCTestUtil:		Test frameworks.
+
+Manuals and documents are also provided as:
++ S60_API_Binary_Compatibility_Tesing_Developer_Guide.doc
++ S60_API_Binary_Compatibility_Tesing_Design_Document.doc
++ S60_API_Binary_Compatibility_Tesing_Build_Manager_Guide.doc
+
+Note:
+The building tuturials is as same as the prevoius release (V0.2 2006-06-30). Except for the BCTestMisc.
+BCTestMisc Contains some tests whihch are only available in 3.1 or 3.2 version, to build it, please 
+using 3.1 SDK and enable the MARCO RD_SCALABLE_UI_V2. This marco is defined in bldvariant.hrh in 
+epoc\include\oem folder.
+
+====================================================================================================
+
+2006-06-30, BC Test release v0.2
+
+This release contains all top priority S60 API BC testing. including:
++ AknSound test application
++ Framework API test application
++ Button API test application
++ Editor API test application
++ Base Control API test application
++ EikForm API test application
++ Form API test application
++ List API test application
++ Note API test application
++ Pupup API test application
++ Query API test application
++ Screen clearer API test application
++ Search field API test application
++ Setting page API test application
++ Utility API test applicatoin
+
+Also there is an auto test tools, BCTestLauncher.
+
+As well as the application and facilities, related documents are also provided, includeing:
++ S60_API_Binary_Compatibility_Tesing_Developer_Guide.doc
++ S60_API_Binary_Compatibility_Tesing_Design_Document.doc
++ S60_API_Binary_Compatibility_Tesing_Build_Manager_Guide.doc
+
+For building either entire BC testing package or a part, please refer to build manager guide first.
+
+After building process finished, bctestutil.sisx must be installed first, because all other things
+depend on it.
+
+User can either execute individual application or run all by bctestlauncher. the test result will
+be generaged in devices (or emulator logic dirve) at: c:\BCTestLog folder.
+
+Please refer to the build manager guide for how to reading the log result.
+
+====================================================================================================
+2006-05-31, BCTest framework release v0.1
+
+BCTest is a project to develop automatic test tool for verifying BC of core UI of S60 public SDK. BC means Binary Compatibility.
+
+This release includes BCTest framework (BCTestUtil) with an example application (BCTestVolume).
+
+BCTestUtil is an framework for developing BC test applications. It provides assert, log functions and a base class of test case, CBCTestCase. Users can develop their own test case class by deriving from the class.
+
+BCTestVolume demonstrates how to write BC test application using the framework. It is used to test BC of volume API.
+
+This release is based on S60 public SDK 3.0.

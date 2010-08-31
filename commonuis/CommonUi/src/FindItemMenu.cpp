@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description: 
+* Description:  
 *
 */
 
@@ -28,16 +28,7 @@
 
 #include <ItemFinder.h>
 
-#include <sendui.h> // for CSendAppUi
-#include <CMessageData.h> // for CMessageData
-
 #include <commonphoneparser.h> // Phonenumber parser
-#include <SendUiConsts.h> // Mtm uids
-
-#include <favouriteslimits.h> // KFavouritesMaxUrl
-#include <favouritesitem.h> // for CBookmarkItem
-
-#include <favouritesdb.h>
 
 #include <apgcli.h> // RApaLsSession for WMLBrowser launch
 #include <apgtask.h>
@@ -53,11 +44,8 @@
 #endif // !RD_VIRTUAL_PHONEBOOK
 
 #include "finditem.hrh"
-#include <finditemui.rsg>
+#include <FindItemui.rsg>
 #include <aknnotewrappers.h>
-
-// add to gallery related
-#include <AknCommonDialogs.h>
 
 #include <featmgr.h>
 
@@ -65,7 +53,6 @@
 #include <CommonUiInternalCRKeys.h>
 
 #include <AiwCommon.hrh>
-#include <schemehandler.h>
 
 // Callback query
 #include <aknlists.h>
@@ -218,7 +205,7 @@ CFindItemMenu::~CFindItemMenu()
         }
     delete iRPbkResourceFile;
 #endif // !RD_VIRTUAL_PHONEBOOK
-    delete iSendUi;
+    
     delete iSenderDescriptor;
 
     delete iServiceHandler;
@@ -228,7 +215,6 @@ CFindItemMenu::~CFindItemMenu()
 
 
     delete iCallbackNumber;
-    delete iSchemeHandler;
 
     delete iDialData;
 
@@ -623,17 +609,19 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                     tempBuf);
                 index = EFindItemCmdGoToUrl;
 
-                // Add bookmark
-                iCoeEnv->ReadResourceL(
-                    tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
-                AddMenuItemL(
-                    *iMenuPane,
-                    EFindItemCmdAddToBookmark,
-                    index,
-                    0,
-                    tempBuf );
-                index = EFindItemCmdAddToBookmark;
-                   
+                if ( !iIsContextMenu )
+                    {
+                    // Add bookmark
+                    iCoeEnv->ReadResourceL(
+                        tempBuf, R_FINDITEMMENU_ADD_BOOKMARK );
+                    AddMenuItemL(
+                        *iMenuPane,
+                        EFindItemCmdAddToBookmark,
+                        index,
+                        0,
+                        tempBuf );
+                    index = EFindItemCmdAddToBookmark;
+                    }
                 }
             else
                 {
@@ -645,16 +633,18 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
                     tempBuf );
                 index = EFindItemCmdGoToRstp;
 
-                iCoeEnv->ReadResourceL(
-                    tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
-                AddMenuItemL(
-                    *iMenuPane,
-                    EFindItemCmdAddToGallery,
-                    index,
-                    0,
-                    tempBuf );
-                index = EFindItemCmdAddToGallery;
-                  
+                if ( !iIsContextMenu )
+                    {
+                    iCoeEnv->ReadResourceL(
+                        tempBuf, R_FINDITEMMENU_ADD_TO_GALLERY );
+                    AddMenuItemL(
+                        *iMenuPane,
+                        EFindItemCmdAddToGallery,
+                        index,
+                        0,
+                        tempBuf );
+                    index = EFindItemCmdAddToGallery;
+                    }
                 }
             break;
             }
@@ -838,6 +828,8 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
 
      // Add to contacts
      if ( ( itemType != CItemFinder::EUriScheme ) &&
+        !( itemType == CItemFinder::EUrlAddress &&
+        iIsContextMenu ) &&
         ( ( ( ( !iIsSenderKnown &&
         iSenderDescriptor->Length() ) ||
         iCallbackNumber ) &&
@@ -887,8 +879,7 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
     if ( ( !iHideCallMenu ||
         ( iFindItemVoIPExtension->IsVoIPSupported() &&
         iFindItemVoIPExtension->VoIPProfilesExistL() ) ) &&
-        iMenuPane->MenuItemExists( EFindItemCmdCall, dummy ) &&
-        !iHideCallSubMenu )
+        iMenuPane->MenuItemExists( EFindItemCmdCall, dummy ) )
         {
         iMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
         iMenuPane->AddMenuItemsL(
@@ -896,18 +887,6 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
             EFindItemCmdCall );
         }
     }
-
-
-// -----------------------------------------------------------------------------
-// CFindItemMenu::SetCallSubMenuVisibility
-// Sets AIW submenu visibility
-// -----------------------------------------------------------------------------
-//
-EXPORT_C void CFindItemMenu::SetCallSubMenuVisibility( TBool aVisible )
-    {
-    iHideCallSubMenu = !aVisible;
-    }
-
 
 EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
     {
@@ -920,60 +899,17 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
             }
         case EFindItemSubMenuSend:
            {
-           TSendingCapabilities sendingCapabilities;
-           sendingCapabilities.iFlags = TSendingCapabilities::ESupportsEditor;
-           CArrayFixFlat<TUid>* mtmFilter = new(ELeave) CArrayFixFlat<TUid>( 1 );
-           CleanupStack::PushL(mtmFilter);
-           CItemFinder::TItemType itemType = iAutomaticFind ? iAutomaticFind->CurrentItemExt().iItemType : CItemFinder::ENoneSelected;
-           
-           mtmFilter->AppendL(KSenduiMtmPostcardUid);// dim postcard
-           // Hide SMS if not supported
-           
-           #ifndef RD_UNIFIED_EDITOR
-           if ( !iEmailOverSmsFeatureSupported )
-               {
-           	   mtmFilter->AppendL(KSenduiMtmSmsUid);
-               }
-           // Hide MMS if not supported
-           if (!iMMSFeatureSupported)
-               {
-               mtmFilter->AppendL(KSenduiMtmMmsUid);
-               }
-           #endif
-           
-           // Hide E-Mail if nosupported or phonenumber 
-           if ( !iEmailUiFeatureSupported || itemType == CItemFinder::EPhoneNumber )
-               {
-       	       mtmFilter->AppendL(KSenduiMtmSmtpUid);
-               mtmFilter->AppendL(KSenduiMtmImap4Uid);
-               mtmFilter->AppendL(KSenduiMtmPop3Uid);
-               mtmFilter->AppendL(KSenduiMtmSyncMLEmailUid);
-               }
-           // Hide Audio if not supported or E-mail address
-           if( !iAudioMessagingFeatureSupported || itemType == CItemFinder::EEmailAddress)
-               {
-           	   mtmFilter->AppendL(KSenduiMtmAudioMessageUid);
-               }
-           TUid uid = iSendUi->ShowTypedQueryL( CSendUi::EWriteMenu, NULL, sendingCapabilities, mtmFilter );
-           
-           CleanupStack::PopAndDestroy();
-           if ( uid == KNullUid )
-              {
-              break;
-              }
-           SendMessageL(uid);  
-      
            break;
            }
 
         case EFindItemCmdGoToUrl:
             {
-            LaunchGenericUriL();
+            
             break;
             }
         case EFindItemCmdGoToRstp:
             {
-            LaunchGenericUriL();
+            
             break;
             }
 
@@ -1025,7 +961,6 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
 
         case EFindItemCmdUse:
             {
-            LaunchGenericUriL();
             break;
             }
 
@@ -1152,29 +1087,7 @@ void CFindItemMenu::VoIPCallL()
 
 void CFindItemMenu::SendMessageL( const TUid aMtmUid )
     {
-    HBufC* parsedAddress = 0;
-    TBool isNumber = EFalse;            
-    if ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemType == CItemFinder::EEmailAddress )
-        {
-        parsedAddress = iAutomaticFind->CurrentItemExt().iItemDescriptor;
-        }
-    else
-        {
-        // if sender descriptor is something else than phone number it will
-        // still go through this brach..
-        TBool numberSelected = ( iAutomaticFind && iAutomaticFind->CurrentItemExt().iItemType == CItemFinder::EPhoneNumber );        
-        parsedAddress = ( numberSelected ? iAutomaticFind->CurrentItemExt().iItemDescriptor : iSenderDescriptor)->AllocLC();
-        TPtr numberPtr = parsedAddress->Des();
-        CommonPhoneParser::ParsePhoneNumber( numberPtr, CommonPhoneParser::EPlainPhoneNumber );
-        AknTextUtils::ConvertDigitsTo( numberPtr, EDigitTypeWestern );            
-        isNumber = ETrue;
-        }
-
-    CMessageData* messageData = CMessageData::NewL();
-    CleanupStack::PushL( messageData );
-    messageData->AppendToAddressL( parsedAddress->Des() );
-    iSendUi->CreateAndSendMessageL( aMtmUid,messageData );
-    CleanupStack::PopAndDestroy( isNumber ? 2 : 1 ); // messageData, number
+	
     }
 
 void CFindItemMenu::GoToUrlL( TUid /*aHandlerAppUid*/ )
@@ -1184,10 +1097,6 @@ void CFindItemMenu::GoToUrlL( TUid /*aHandlerAppUid*/ )
 
 void CFindItemMenu::AddToBookmarkL()
     {
-    // Create an item
-    CFavouritesItem* item = CFavouritesItem::NewLC();
-    item->SetParentFolder( KFavouritesRootUid );
-    item->SetType( CFavouritesItem::EItem );
     // Read default name from resources
     RConeResourceLoader ldr( *iCoeEnv );
 
@@ -1209,31 +1118,15 @@ void CFindItemMenu::AddToBookmarkL()
     if ( !dlg->ExecuteLD( R_FINDITEM_BOOKMARK_QUERY_DIALOG ) )
         {
         // User press cancel - do not add bookmark
-        CleanupStack::PopAndDestroy( 3 ); // item, defaultName, resourceLoader
+        CleanupStack::PopAndDestroy( 2 ); // defaultName, resourceLoader
         return;
         }
-
-    item->SetNameL( retName );            
-    item->SetUrlL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-
-    RFavouritesSession sess;
-    RFavouritesDb db;
-
-    User::LeaveIfError( sess.Connect() );
-    CleanupClosePushL<RFavouritesSession>( sess );
-    User::LeaveIfError( db.Open( sess, KBrowserBookmarks ) );
-    CleanupClosePushL<RFavouritesDb>( db );
-
-    // add item
-    db.Add( *item, ETrue );
-    // Close the database.
-    db.Close();
 
     HBufC* msgBuffer = iCoeEnv->AllocReadResourceLC( R_FINDITEM_BOOKMARK_SAVED );
     CAknConfirmationNote* note = new (ELeave)CAknConfirmationNote( ETrue );
     note->ExecuteLD( *msgBuffer );
 
-    CleanupStack::PopAndDestroy( 6 ); // item, db, sess, resourceLoader,
+    CleanupStack::PopAndDestroy( 3 ); // resourceLoader,
                                       // defaultName, msgBuffer
     }
 
@@ -1372,35 +1265,7 @@ void CFindItemMenu::CreateContactCardL( TInt aCommandId )
 
 void CFindItemMenu::AddToGalleryL()
     {
-    _LIT( KRamFileExtension,".ram" );
-    TFileName fileName;
-    iCoeEnv->ReadResourceL( fileName, R_FINDITEMMENU_DEFAULT_GALL_NAME );
-    fileName.Append( KRamFileExtension );
-    if ( AknCommonDialogs::RunSaveDlgLD(
-        fileName, R_MEMORY_SELECTION_LOCATIONS ) )
-        {
-        CDesCArrayFlat* array = new (ELeave)CDesCArrayFlat( 1 );
-        CleanupStack::PushL( array );
-        array->AppendL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-        TInt err = KErrNone;
-        if( !iMPEngineDllLoaded )
-            {
-            LoadMPEngineApiL();
-            }
-        err = iMPEngineApi->CreateNewLinkFileL( fileName, array, ETrue );
-        CleanupStack::PopAndDestroy( 1 );
-
-        if ( err == KErrNone )
-            {
-            // Show note
-            HBufC* msgBuffer =
-                iCoeEnv->AllocReadResourceLC( R_FINDITEMMENU_LINK_SAVED );
-            CAknConfirmationNote* note =
-                new (ELeave) CAknConfirmationNote( ETrue );
-            note->ExecuteLD( *msgBuffer );
-            CleanupStack::PopAndDestroy(); // msgBuffer
-            }
-        }
+    //no need to do anything ,due to the remove of AknCommonDialogs
     }
 
 EXPORT_C void CFindItemMenu::SetSenderDescriptorType(
@@ -1421,7 +1286,6 @@ EXPORT_C void CFindItemMenu::AttachItemFinderMenuL( TInt /*aResource*/ )
     iPbkEngine = CPbkContactEngine::NewL();
     iPbkDataSave = CPbkDataSaveAppUi::NewL( *iPbkEngine );
 #endif // !RD_VIRTUAL_PHONEBOOK
-    iSendUi = CSendUi::NewL();
 
     TRAPD( ret, iCommonUiRepository = CRepository::NewL( KCRUidCommonUi ) );
     if ( ret == KErrNone )
@@ -1571,20 +1435,7 @@ TBool CFindItemMenu::FormatDialDataL( TBool aFormatVoIPDialData )
 
 void CFindItemMenu::LaunchGenericUriL()
     {
-    if ( iSchemeHandler )
-        {
-        delete iSchemeHandler;
-        iSchemeHandler = 0;
-        }    
-    iSchemeHandler = CSchemeHandler::NewL( iAutomaticFind->CurrentItemExt().iItemDescriptor->Des() );
-    if ( iAutomaticFind->CurrentItemExt().iItemDescriptor->FindF( KRtspUrlAddress ) != KErrNotFound )
-        {
-        iSchemeHandler->HandleUrlEmbeddedL();
-        }
-    else
-        {
-        iSchemeHandler->HandleUrlStandaloneL();
-        }
+	
     }
 
 EXPORT_C void CFindItemMenu::SetCallbackNumber( const TDesC& aPhoneNumber )
@@ -1842,7 +1693,7 @@ EXPORT_C TInt MPBAiwNotify::HandleNotifyL(TInt /*aCmdId*/, TInt aEventId,
             User::Leave(err);                
             }
         }
-    return ETrue;
+    return KErrNone;
     }    
 
 //  End of File

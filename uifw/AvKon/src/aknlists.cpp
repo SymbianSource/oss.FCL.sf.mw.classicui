@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -616,8 +616,28 @@ EXPORT_C void AknListBoxLayouts::SetupStandardFormListbox(CFormattedCellListBoxI
     aItemDrawer->SetHighlightedBackColor(AKN_LAF_COLOR_STATIC(
         AKN_LAYOUT_WINDOW_List_pane_highlight_graphics__various__Line_2(TRect(0,0,0,0)).iC));
     }
-
-
+    
+TInt AknListBoxLayouts::AdjustPopupLayoutData( const TRect& aScreenRect )
+    {
+    _AKNTRACE( "[%s][%s][%d].", "AknListBoxLayouts", __FUNCTION__, __LINE__ );
+    TInt width = aScreenRect.Width();
+    TInt height = aScreenRect.Height();
+    
+    if (  width ==640 &&  height ==360 ) //QHD
+        {
+        return 32;
+        }
+    else if(( width ==320 && height ==240 ) //QVGA, QVGA2
+            ||( width ==640 && height ==480 )) //VGA, VAG3
+        {
+        return 0;
+        }
+    else
+        {
+        Panic( EAknPopupLayoutUnknownResolution );
+        return 0;
+        }
+    }
 // -----------------------------------------------------------------------------
 // IdFromTextAlign
 // -----------------------------------------------------------------------------
@@ -1149,31 +1169,43 @@ EXPORT_C void AknListBoxLayouts::SetupFormAntiFlickerTextCell(CEikListBox& aList
     SetupFormTextCell( aListBox, aItemDrawer, index, font, C, lm, rm, B, W, aAlign, p1, p2 );
     }
 
-// ----------------------------------------------------------------------------
-// This is common popup list setup code.
-// ----------------------------------------------------------------------------
-//
-static TSize PopupListItemSize( const TAknWindowLineLayout &aL )
+// this is common popuplist setup code
+static TSize PopupListItemSize(const TAknWindowLineLayout &aL)
     {
     _AKNTRACE( "[%s][%d]", __FUNCTION__, __LINE__ );
-    TAknLayoutRect temp;
-    TAknLayoutRect layout;
+    TAknLayoutRect temp, layout;
     TRect mainPane;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EPopupParent, mainPane );
 
-    temp.LayoutRect( mainPane,
-                     AknLayoutScalable_Avkon::popup_menu_window(
-                         Layout_Meta_Data::IsLandscapeOrientation() ? 43 : 13 ) );
+    temp.LayoutRect( mainPane, AknLayoutScalable_Avkon::popup_menu_window(13));
     
     TRect screenRect;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect ); 
-
-    layout.LayoutRect( temp.Rect(),
-                       AknLayoutScalable_Avkon::listscroll_menu_pane( 0 ) );
+    TAknWindowLineLayout lineLayout = AknLayoutScalable_Avkon::listscroll_menu_pane(0).LayoutLine();
+    
+    // Layout data of listscroll_menu_pane are changed for CR 417-35260.
+    // The change is just for QHD landscape model.
+    // The CR makes listscroll_menu_pane's ir or il bigger than normal,
+    // so that width of list item is smaller than needs. Then, first cell 
+    // of list item can not be drawn on proper position.
+    // Adjustment of layout is a solution for this problem. This is not a perfect idea, but
+    // creating a new layout for popuplist is too complex to do that. Adjustment is a must.
+    if(Layout_Meta_Data::IsLandscapeOrientation())       
+        {
+        TInt offset  = AknListBoxLayouts::AdjustPopupLayoutData( screenRect );
+        if (!AknLayoutUtils::LayoutMirrored())
+            {
+            lineLayout.ir -= offset;
+            }
+        else
+            {
+            lineLayout.il -= offset;
+            }
+        }
+    layout.LayoutRect( temp.Rect(), lineLayout);
    
-    temp.LayoutRect( layout.Rect(),
-                     AknLayoutScalable_Avkon::list_menu_pane( 0 ) );
-    layout.LayoutRect( temp.Rect(), aL );
+    temp.LayoutRect( layout.Rect(), AknLayoutScalable_Avkon::list_menu_pane(0));
+    layout.LayoutRect( temp.Rect(), aL);
 
     return layout.Rect().Size();
     }
@@ -1392,16 +1424,6 @@ static void SetupListL( CEikColumnListBox* aListBox,
     }
 
 // -----------------------------------------------------------------------------
-// SetupListL
-// -----------------------------------------------------------------------------
-//
-static void SetupListL( CEikFormattedCellListBox* aListBox,
-                        const TAknWindowComponentLayout& aNormalLayout )
-    {
-    SetupStretchableListL( aListBox, aNormalLayout, aNormalLayout );
-    }
-
-// -----------------------------------------------------------------------------
 // ShowAllRows
 // -----------------------------------------------------------------------------
 //
@@ -1612,12 +1634,6 @@ CWordWrappedFormattedCellItemDrawer::DrawItemText( TInt aItemIndex,
     TInt pos = -1;
 
     TBool removeicon = (!aItemIsSelected && !ItemMarkReverse()) || (aItemIsSelected && ItemMarkReverse());
-    
-    if ( Flags() & CListItemDrawer::EMarkingModeEnabled )
-        {
-        removeicon = EFalse;
-        }
-
     if ( Flags() & EDrawMarkSelection && ItemMarkPosition() != -1 && removeicon)
         {
         repl.Set( ItemMarkReplacement() );
@@ -1710,8 +1726,7 @@ CWordWrappedFormattedCellItemDrawer::DrawItemText( TInt aItemIndex,
     // Set again because ReplaceColumn in WordWrapListItem does not update the length to 'des2' !
     des2.Set( buffer2->Des() );
 
-    DrawBackgroundAndSeparatorLines( aItemTextRect, 
-            aItemIndex != FormattedCellData()->ListBox()->BottomItemIndex() );
+    DrawBackgroundAndSeparatorLines( aItemTextRect );
 
     if( aItemIsCurrent )
         {
@@ -3103,23 +3118,8 @@ EXPORT_C void AknListBoxLinesTemplate<T>::Draw(const TRect& aRect) const
                 transApi->StartDrawing( MAknListBoxTfxInternal::EListView );
                 }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
-
-            if ( this->iItemDrawer->Flags() 
-                    & CListItemDrawer::EDrawWholeBackground )
-                {
-                AknsDrawUtils::Background( 
-                    AknsUtils::SkinInstance(), cc, this, *gc, clientRect );
-                
-                this->iItemDrawer->SetFlags( CListItemDrawer::EBackgroundDrawn );
-                }
-            else
-                {
-                gc->SetBrushColor(this->BackColor());
-                AknsDrawUtils::BackgroundBetweenRects( 
-                        AknsUtils::SkinInstance(), cc, this, *gc, clientRect, 
-                        this->iView->ViewRect() );
-                }
-
+            gc->SetBrushColor(this->BackColor());
+            AknsDrawUtils::BackgroundBetweenRects( AknsUtils::SkinInstance(), cc, this, *gc, clientRect, this->iView->ViewRect() );
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
             if ( transApi )
                 {
@@ -3392,12 +3392,12 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         formattedCellData->SetStretchableTextSubCellL(
             1,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 0 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t1( 3 ) );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t1( 0 ) );
 
         formattedCellData->SetStretchableTextSubCellL(
             2,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t2( 0 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 3 ) );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 0 ) );
             
         formattedCellData->SetStretchableGraphicSubCellL(
             3,
@@ -3410,11 +3410,9 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
             AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g2( 1 ) );
 
         // New icon below g1. 
-        formattedCellData->SetStretchableGraphicSubCellL(
+        formattedCellData->SetGraphicSubCellL(
             5,
-            AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) ,
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_g4( 0 ) );
-            
+            AknLayoutScalable_Avkon::list_double_graphic_pane_g4( 0 ) );
 
         // On default new cell is always drawn but this cell should NOT be drawn!
         formattedCellData->SetNotAlwaysDrawnSubCellL( 5, ETrue );
@@ -3423,12 +3421,12 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         formattedCellData->SetStretchableConditionalSubCellL(
             4,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 2 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 4 ), 1, 2 );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 2 ), 1, 2 );
 
         formattedCellData->SetStretchableConditionalSubCellL(
             3,
             AknLayoutScalable_Avkon::list_double_graphic_pane_t1( 1 ),
-            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 5 ), 1, 2 );
+            AknLayoutScalable_Avkon::list_double_graphic_pane_vc_t2( 1 ), 1, 2 );
         }
     else
         {
@@ -3454,15 +3452,6 @@ void CAknDoubleGraphicStyleListBox::SizeChangedL()
         {
         itemDrawer->SetItemMarkPosition( 3 );
         itemDrawer->SetItemMarkReplacement( KFirstMovingCSIconReplacement );
-        }
-
-    // Mirrored layout does not have smiley.
-    if ( !AknLayoutUtils::LayoutMirrored() && 
-         itemDrawer->Flags() & CListItemDrawer::EDrawSmileyIcon )
-        {
-        formattedCellData->InitSmileyL();
-        // only second lable can have smiley icon now. 
-        formattedCellData->SetSmileySubCellL(2);
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -3492,11 +3481,15 @@ void CAknDoubleStyleListBox::SizeChangedL()
     CFormattedCellListBoxData* formattedCellData( itemDrawer->FormattedCellData() );
     if ( !formattedCellData->SecondRowHidden() )
         {
-        SetupListL( this, AknLayoutScalable_Avkon::list_double_pane( 0 ) );
+        SetupStretchableListL( this,
+                              AknLayoutScalable_Avkon::list_double_pane( 0 ),
+                              AknLayoutScalable_Avkon::list_double_pane_vc( 0 ) );
         }
     else
         {
-        SetupListL( this, AknLayoutScalable_Avkon::list_single_pane( 0 ) );
+        SetupStretchableListL( this,
+                              AknLayoutScalable_Avkon::list_single_pane( 0 ),
+                              AknLayoutScalable_Avkon::list_double_pane_vc( 0 ) );
         }
 
     SetSeparatorLinePosition( this, EAColumn );
@@ -3505,37 +3498,46 @@ void CAknDoubleStyleListBox::SizeChangedL()
         {
         // Assertion fails in CFormattedCellListBoxData::DrawFormattedSimple if 
         // this cell does not exist.
-        formattedCellData->SetTextSubCellL( 0,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ) );
+        formattedCellData->SetStretchableTextSubCellL( 0,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
 
-        formattedCellData->SetTextSubCellL( 1,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ) );
+        formattedCellData->SetStretchableTextSubCellL( 1,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
 
-        formattedCellData->SetTextSubCellL( 2,
-            AknLayoutScalable_Avkon::list_double_pane_t2( 0 ) );
+        formattedCellData->SetStretchableTextSubCellL( 2,
+            AknLayoutScalable_Avkon::list_double_pane_t2( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 0 ) );
             
-        formattedCellData->SetGraphicSubCellL( 3,
-            AknLayoutScalable_Avkon::list_double_pane_g1( 0 ) );
+        formattedCellData->SetStretchableGraphicSubCellL( 3,
+            AknLayoutScalable_Avkon::list_double_pane_g1( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_g1( 0 ) );
 
-        formattedCellData->SetGraphicSubCellL( 4,
-            AknLayoutScalable_Avkon::list_double_pane_g2( 0 ) );
+        formattedCellData->SetStretchableGraphicSubCellL( 4,
+            AknLayoutScalable_Avkon::list_double_pane_g2( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_g2( 0 ) );
 
         // Conditional subcells must be added in priority order!
-        formattedCellData->SetConditionalSubCellL( 4,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 2 ), 1 );
+        formattedCellData->SetStretchableConditionalSubCellL( 4,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 2 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 2 ), 1, 2 );
 
-        formattedCellData->SetConditionalSubCellL( 3,
-            AknLayoutScalable_Avkon::list_double_pane_t1( 1 ), 1 );
+        formattedCellData->SetStretchableConditionalSubCellL( 3,
+            AknLayoutScalable_Avkon::list_double_pane_t1( 1 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t2( 1 ), 1, 2 );
         }
     else
         {
         // Assertion fails in CFormattedCellListBoxData::DrawFormattedSimple if 
         // this cell does not exist.
-        formattedCellData->SetTextSubCellL( 0,
-            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ) );
+        formattedCellData->SetStretchableTextSubCellL( 0,
+            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
 
-        formattedCellData->SetTextSubCellL( 1,
-            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ) );
+        formattedCellData->SetStretchableTextSubCellL( 1,
+            AknLayoutScalable_Avkon::list_single_pane_t1( 0 ),
+            AknLayoutScalable_Avkon::list_double_pane_vc_t1( 0 ) );
         }        
 
     itemDrawer->SetItemMarkReverse( ETrue );
@@ -3674,7 +3676,7 @@ void CAknDoubleTimeStyleListBox::SizeChangedL()
         
     d->SetStretchableTextSubCellL( 3,
         AknLayoutScalable_Avkon::list_double_time_pane_t2( 0 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 3 ) );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 0 ) );
 
     d->SetStretchableGraphicSubCellL( 4,
         AknLayoutScalable_Avkon::list_double_time_pane_g1( 0 ),
@@ -3687,11 +3689,11 @@ void CAknDoubleTimeStyleListBox::SizeChangedL()
     // Conditional subcells must be added in priority order!
     d->SetStretchableConditionalSubCellL( 5,
         AknLayoutScalable_Avkon::list_double_time_pane_t1( 2 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 5 ), 2, 3 );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 2 ), 2, 3 );
 
     d->SetStretchableConditionalSubCellL( 4,
         AknLayoutScalable_Avkon::list_double_time_pane_t1( 1 ),
-        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 4 ), 2, 3 );
+        AknLayoutScalable_Avkon::list_double_time_pane_vc_t2( 1 ), 2, 3 );
     _AKNTRACE_FUNC_EXIT;
     }
     
@@ -3787,16 +3789,6 @@ void CAknDoubleLargeStyleListBox::SizeChangedL()
     itemDrawer->SetItemMarkReverse( ETrue );
     itemDrawer->SetItemMarkPosition( 3 );
     itemDrawer->SetItemMarkReplacement( KFirstMovingCSIconReplacement );
-
-    // Mirrored layout does not have smiley.
-    // for conversation
-    if ( !AknLayoutUtils::LayoutMirrored() && 
-         itemDrawer->Flags() & CListItemDrawer::EDrawSmileyIcon )
-        {
-        formattedCellData->InitSmileyL();
-        // only second lable can have smiley icon now. 
-        formattedCellData->SetSmileySubCellL(2);
-        }
     _AKNTRACE_FUNC_EXIT;
     }
     
@@ -4208,7 +4200,7 @@ void CAknSettingStyleListBox::SizeChangedL()
     SetupStretchableListL( this,
                           AknLayoutScalable_Avkon::list_setting_pane( 0 ),
                           AknLayoutScalable_Avkon::list_setting_pane_vc( 0 ),
-                          ETrue );
+                          EFalse );
 
     SetSeparatorLinePosition( this, EAColumn );
     
@@ -4311,7 +4303,7 @@ void CAknSettingNumberStyleListBox::SizeChangedL()
     SetupStretchableListL( this,
                           AknLayoutScalable_Avkon::list_setting_number_pane( 0 ),
                           AknLayoutScalable_Avkon::list_setting_number_pane_vc( 0 ),
-                          ETrue );
+                          EFalse );
 
     SetSeparatorLinePosition( this, EABColumn );
     

@@ -124,5 +124,3 @@ EXPORTS
 	?ShowListMsgQueryL@CAknGlobalListMsgQuery@@QAEXPBVMDesC16Array@@AAVTRequestStatus@@ABVTDesC16@@2HHHH2HHW4TTone@CAknQueryDialog@@@Z @ 123 NONAME ; void CAknGlobalListMsgQuery::ShowListMsgQueryL(class MDesC16Array const *, class TRequestStatus &, class TDesC16 const &, class TDesC16 const &, int, int, int, int, class TDesC16 const &, int, int, enum CAknQueryDialog::TTone)
 	?AknTracePrint@@YAXPBDZZ @ 124 NONAME ; void AknTracePrint(const char* aFmt, ...)
 	?AknTracePrint@@YAXV?$TRefByValue@$$CBVTDesC16@@@@ZZ @ 125 NONAME ; void AknTracePrint(TRefByValue<const TDesC16> aFmt, ...)
-	?SetUmaStateL@CAknSignalNotify@@QAEXH@Z @ 126 NONAME ; void CAknSignalNotify::SetUmaStateL(int)
-

@@ -59,7 +59,6 @@ TInt CTestDomOptionsMenu::RunMethodL(
         ENTRY( "TestIMShowMenuL", CTestDomOptionsMenu::TestIMShowMenuL ),
         ENTRY( "TestIMInitMenuL", CTestDomOptionsMenu::TestIMInitMenuL ),
         ENTRY( "TestIMCollectionChangedL", CTestDomOptionsMenu::TestIMCollectionChangedL ),
-        ENTRY( "TestIMRegisterCollection2L", CTestDomOptionsMenu::TestIMRegisterCollection2L )
         };
 
     const TInt count = sizeof( KFunctions ) / 
@@ -204,31 +203,5 @@ TInt CTestDomOptionsMenu::TestIMCollectionChangedL( CStifItemParser& /*aItem*/ )
     
     return KErrNone;
     }
-
-// -----------------------------------------------------------------------------
-// CTestSDKOptionsMenu::TestIMRegisterCollection2L
-// -----------------------------------------------------------------------------
-//
-TInt CTestDomOptionsMenu::TestIMRegisterCollection2L( CStifItemParser& /*aItem*/ )
-    {
-    // Print to UI
-    _LIT( KTestSDKDomMenu, "TestSDKDomMenu" );
-    _LIT( KTestIMRegisterCollectionL, "In TestIMRegisterCollection2L" );
-    TestModuleIf().Printf( 0, KTestSDKDomMenu, KTestIMRegisterCollectionL );
-    // Print to log file
-    iLog->Log( KTestIMRegisterCollectionL );
-
-    if( !iCollection )
-        {
-        iCollection = new(ELeave) TTestCollection;
-        }
-    
-    //since STIF does not enable single click now, can't get instance of CAknItemActionMenu. 
-    //Hence following method will not be invoked.
-    CAknItemActionMenu::RegisterCollectionL( *iCollection, iCollection );
-    return KErrNone;
-
-    }
-
 
 //  [End of File] - Do not remove

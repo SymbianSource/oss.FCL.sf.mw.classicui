@@ -1,0 +1,87 @@
+/*TYPE TESTCLASS*//*
+* Copyright (c) 2002 - 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Test application_framework_api
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#ifdef SBSV2
+    #include <platform_paths.hrh>
+#else // SBSV2 not defined
+    #include <platform_paths.hrh>
+#endif // SBSV2
+
+TARGET          testsdkappfw.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x2001CB80
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         testsdkappfw.def
+
+#ifdef SBSV2
+    USERINCLUDE     ../inc 
+    MW_LAYER_SYSTEMINCLUDE
+
+    SOURCEPATH     ../data
+    START RESOURCE  testsdkappfw.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    LANGUAGE_IDS
+    END
+
+    SOURCEPATH      ../src
+
+#else // SBSV2 not defined
+    USERINCLUDE     ../inc 
+    MW_LAYER_SYSTEMINCLUDE
+
+    SOURCEPATH     ../data
+    START RESOURCE  testsdkappfw.rss
+    HEADER
+    TARGETPATH RESOURCE_FILES_DIR
+    LANGUAGE_IDS
+    END
+
+    SOURCEPATH      ../src
+#endif // SBSV2
+
+SOURCE          testsdkappfw.cpp
+SOURCE          testsdkappfwblocks.cpp
+SOURCE          testsdkappfwblocksaknapp.cpp
+SOURCE          testsdkappfwblocksaknappui.cpp
+SOURCE          testsdkappfwblocksakndoc.cpp
+SOURCE          testsdkappfwblocksaknview.cpp
+SOURCE          testsdkappfwblocksaknviewappui.cpp
+SOURCE          testsdkappfwappui.cpp
+SOURCE          testsdkappfwdoc.cpp
+SOURCE          testsdkappfwview.cpp
+SOURCE          testsdkappfwviewappui.cpp
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY         avkon.lib
+LIBRARY         eikcore.lib
+LIBRARY         eiksrv.lib
+LIBRARY         cone.lib
+LIBRARY         apparc.lib
+LIBRARY         commonui.lib
+LIBRARY         apmime.lib 
+
+
+LANG            SC
+
+// End of File
