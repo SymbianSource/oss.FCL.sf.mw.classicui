@@ -18,7 +18,7 @@
 #include "coepanic.h"
 #include <fepplugin.h>
 #include "COEFEP.H"
-#include "CoeDataStorage.h"
+#include "coedatastorage.h"
 
 
 #include <ecom/ecom.h>

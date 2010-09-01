@@ -87,18 +87,18 @@ LIBRARY         eikcoctl.lib
 LIBRARY         eikcore.lib
 LIBRARY         eikdlg.lib
 LIBRARY         avkon.lib
-LIBRARY         commonengine.lib // StringLoader
+LIBRARY         CommonEngine.lib // StringLoader
 LIBRARY         apparc.lib
 LIBRARY         directorylocalizer.lib // Build this first!
 LIBRARY         featmgr.lib // Feature manager
-LIBRARY         AknSkins.lib // Skins
+LIBRARY         aknskins.lib // Skins
 LIBRARY         egul.lib // CGulIcon
 LIBRARY         apgrfx.lib // CApaMaskedBitmap,RApaLsSession
 LIBRARY         apmime.lib // TDataType
 LIBRARY         fbscli.lib // CFbsBitmap
 LIBRARY         aknmemorycardui.lib
 LIBRARY         platformenv.lib // PathInfo
-LIBRARY         AknIcon.lib
+LIBRARY         aknicon.lib
 
 //#include "CommonDialogsMbm.inc"
 

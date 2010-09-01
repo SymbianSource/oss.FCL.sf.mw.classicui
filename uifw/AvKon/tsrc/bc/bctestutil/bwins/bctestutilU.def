@@ -1,0 +1,18 @@
+EXPORTS
+	??0CBCTestAssert@@QAE@XZ @ 1 NONAME ; CBCTestAssert::CBCTestAssert(void)
+	??0CBCTestCase@@QAE@XZ @ 2 NONAME ; CBCTestCase::CBCTestCase(void)
+	??1CBCTestAssert@@UAE@XZ @ 3 NONAME ; CBCTestAssert::~CBCTestAssert(void)
+	??1CBCTestCase@@UAE@XZ @ 4 NONAME ; CBCTestCase::~CBCTestCase(void)
+	??1CBCTestUtil@@UAE@XZ @ 5 NONAME ; CBCTestUtil::~CBCTestUtil(void)
+	?AddTestCaseL@CBCTestUtil@@QAEXPAVCBCTestCase@@ABVTDesC16@@@Z @ 6 NONAME ; void CBCTestUtil::AddTestCaseL(class CBCTestCase *, class TDesC16 const &)
+	?AddTestL@CBCTestCase@@QAAXHZZ @ 7 NONAME ; void CBCTestCase::AddTestL(int, ...)
+	?AddTestScriptL@CBCTestCase@@QAEXPBHH@Z @ 8 NONAME ; void CBCTestCase::AddTestScriptL(int const *, int)
+	?AssertIntL@CBCTestAssert@@QAEXHHABVTDesC16@@@Z @ 9 NONAME ; void CBCTestAssert::AssertIntL(int, int, class TDesC16 const &)
+	?AssertNotNullL@CBCTestAssert@@QAEXPAXABVTDesC16@@@Z @ 10 NONAME ; void CBCTestAssert::AssertNotNullL(void *, class TDesC16 const &)
+	?AssertTrueL@CBCTestAssert@@QAEXHABVTDesC16@@@Z @ 11 NONAME ; void CBCTestAssert::AssertTrueL(int, class TDesC16 const &)
+	?NewL@CBCTestUtil@@SAPAV1@XZ @ 12 NONAME ; class CBCTestUtil * CBCTestUtil::NewL(void)
+	?RunL@CBCTestCase@@UAEXH@Z @ 13 NONAME ; void CBCTestCase::RunL(int)
+	?RunL@CBCTestUtil@@QAEXH@Z @ 14 NONAME ; void CBCTestUtil::RunL(int)
+	?RunL@CBCTestUtil@@QAEXXZ @ 15 NONAME ; void CBCTestUtil::RunL(void)
+	?WriteLogL@CBCTestAssert@@QAEXABVTDesC16@@@Z @ 16 NONAME ; void CBCTestAssert::WriteLogL(class TDesC16 const &)
+

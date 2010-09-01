@@ -133,7 +133,13 @@ void CAknSignalDataObserver::HandleUpdateL(const TAknStatusPaneStateData& aData)
 			{
 			// HSPDA
 		    iSignalPane->ShowHsdpaIcon(state.iIconState);
-			}    			
+			}
+        else if (state.iIconState >= EAknSignalUmaIndicatorOff
+                && state.iIconState <= EAknSignalUmaIndicatorMultipdp)
+            {
+            // UMA
+            iSignalPane->ShowUmaIconL(state.iIconState);
+            }    
 		}
 
 	if (!updateAnimation)

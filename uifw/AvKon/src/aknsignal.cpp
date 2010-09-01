@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -82,7 +82,7 @@ public:
     CFbsBitmap* iCdmaStaticIcons[5];    // non-animated icons
     CFbsBitmap* iCdmaStaticMasks[5];    // non-animated masks (needed because of AknIconUtils)
 
-    TBool       iIsActiveIdle;
+    CEikStatusPaneBase*      iStatusPane;
     };
 
 
@@ -289,7 +289,8 @@ EXPORT_C void CAknSignalPane::ConstructL()
     // off by default
     iExtension->iCdmaSignalState    = EAknSignalCdmaIndicatorOff;
     iExtension->iCdmaAnimationIndex = 0;
-    iExtension->iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+
+		iExtension->iStatusPane = CEikStatusPaneBase::Current();
 
     iSignalIconControl = CAknSignalIcon::NewL();
     iSignalIconControl->SetDrawBlank( EFalse );
@@ -301,8 +302,6 @@ EXPORT_C void CAknSignalPane::ConstructL()
 
     iSignalIconControl->SetContainerWindowL( *this );
     iSignalStrengthControl->SetContainerWindowL( *this );
-
-    iTicker = CPeriodic::NewL( CActive::EPriorityLow );
 
     // Set flags to default values
     iPrivateFlags = 0;
@@ -380,10 +379,7 @@ TInt CAknSignalPane::SignalState()
 //
 void CAknSignalPane::DisableAnimation()
     {
-    if ( iTicker && iTicker->IsActive() )
-        {
-        iTicker->Cancel();
-        }
+    StopTicker();
     }
 
 
@@ -403,19 +399,14 @@ EXPORT_C void CAknSignalPane::ShowGprsIcon( TInt aGprsIconState )
 
         iSignalIconControl->SetDrawBlank( EFalse );
 
-        if ( aGprsIconState != EAknSignalGprsIndicatorEstablishingContext &&
-             iTicker )
+        if ( aGprsIconState != EAknSignalGprsIndicatorEstablishingContext )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
         else if ( aGprsIconState == EAknSignalGprsIndicatorEstablishingContext )
             {
-            if ( iTicker && !iTicker->IsActive() )
-                {
-                iTicker->Start( KAknIndicatorAnimationDelay,
-                                KAknIndicatorAnimationInterval,
-                                TCallBack( TickerCallback, this ) );
-                }
+            TRAP_IGNORE( StartTickerL( KAknIndicatorAnimationDelay,
+                                       KAknIndicatorAnimationInterval ) );
             }
         }
     }
@@ -530,32 +521,45 @@ EXPORT_C void CAknSignalPane::PositionChanged()
 // Draws the signal pane.
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknSignalPane::Draw( const TRect& /*aRect*/ ) const
-    {
-    if ( iExtension->iIsActiveIdle )
+EXPORT_C void CAknSignalPane::Draw( const TRect& aRect ) const
+    {     
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
 
-    if ( AknStatuspaneUtils::StaconPaneActive() )
+    // Don't allow normal background drawing if
+    // background is already drawn with a background drawer.
+    const MCoeControlBackground* backgroundDrawer = FindBackground();
+    if ( !backgroundDrawer )
         {
-        //  Signal pane in STACON PANE layout
-        DrawInStaconPane( Rect() );
-        }
-    else if ( AknStatuspaneUtils::FlatLayoutActive() )
-        {
-        //  Signal pane in FLAT STATUSPANE layout
-        DrawInFlatStatusPane( Rect() );
-        }
-    else if ( AknStatuspaneUtils::SmallLayoutActive() )
-        {
-        //  Signal pane in SMALL STATUSPANE layout
-        DrawInSmallStatusPane( Rect() );
-        }
-    else
-        {
-        // Signal pane in NORMAL STATUSPANE layout
-        DrawInNormalStatusPane( Rect() );
+        if ( AknStatuspaneUtils::StaconPaneActive() )
+            {
+            //  Signal pane in STACON PANE layout
+            DrawInStaconPane( Rect() );
+            }
+        else if ( AknStatuspaneUtils::FlatLayoutActive() )
+            {
+            //  Signal pane in FLAT STATUSPANE layout
+            DrawInFlatStatusPane( Rect() );
+            }
+        else if ( AknStatuspaneUtils::SmallLayoutActive() )
+            {
+            //  Signal pane in SMALL STATUSPANE layout
+            DrawInSmallStatusPane( Rect() );
+            }
+        else
+            {
+            // Signal pane in NORMAL STATUSPANE layout
+            DrawInNormalStatusPane( Rect() );
+            }
         }
     }
 
@@ -755,19 +759,14 @@ EXPORT_C void CAknSignalPane::ShowCommonPacketDataIcon(
 
         iSignalIconControl->SetDrawBlank( EFalse );
 
-        if ( aCommonPacketDataIconState != EAknSignalCommonPacketDataIndicatorEstablishingContext &&
-             iTicker )
+        if ( aCommonPacketDataIconState != EAknSignalCommonPacketDataIndicatorEstablishingContext )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
         else if ( aCommonPacketDataIconState == EAknSignalCommonPacketDataIndicatorEstablishingContext )
             {
-            if ( iTicker && !iTicker->IsActive() )
-                {
-                iTicker->Start( KAknIndicatorAnimationDelay,
-                                KAknIndicatorAnimationInterval,
-                                TCallBack( TickerCallback, this ) );
-                }
+            TRAP_IGNORE( StartTickerL( KAknIndicatorAnimationDelay,
+                                       KAknIndicatorAnimationInterval ) );
             }
         }
     }
@@ -789,19 +788,14 @@ EXPORT_C void CAknSignalPane::ShowEdgeIcon( TInt aEdgeIconState )
 
         iSignalIconControl->SetDrawBlank( EFalse );
 
-        if ( aEdgeIconState != EAknSignalEdgeIndicatorEstablishingContext &&
-             iTicker )
+        if ( aEdgeIconState != EAknSignalEdgeIndicatorEstablishingContext )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
         else if ( aEdgeIconState == EAknSignalEdgeIndicatorEstablishingContext )
             {
-            if ( iTicker && !iTicker->IsActive() )
-                {
-                iTicker->Start( KAknIndicatorAnimationDelay,
-                                KAknIndicatorAnimationInterval,
-                                TCallBack( TickerCallback, this ) );
-                }
+            TRAP_IGNORE( StartTickerL( KAknIndicatorAnimationDelay,
+                                       KAknIndicatorAnimationInterval ) );
             }
         }
     }
@@ -823,19 +817,14 @@ EXPORT_C void CAknSignalPane::ShowWcdmaIcon( TInt aWcdmaIconState )
 
         iSignalIconControl->SetDrawBlank( EFalse );
 
-        if ( aWcdmaIconState != EAknSignalWcdmaIndicatorEstablishingContext &&
-             iTicker )
+        if ( aWcdmaIconState != EAknSignalWcdmaIndicatorEstablishingContext )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
         else if ( aWcdmaIconState == EAknSignalWcdmaIndicatorEstablishingContext )
             {
-            if ( iTicker && !iTicker->IsActive() )
-                {
-                iTicker->Start( KAknIndicatorAnimationDelay,
-                                KAknIndicatorAnimationInterval,
-                                TCallBack( TickerCallback, this ) );
-                }
+            TRAP_IGNORE( StartTickerL( KAknIndicatorAnimationDelay,
+                                       KAknIndicatorAnimationInterval ) );
             }
         }
     }
@@ -857,23 +846,46 @@ EXPORT_C void CAknSignalPane::ShowHsdpaIcon( TInt aHsdpaIconState )
 
         iSignalIconControl->SetDrawBlank( EFalse );
 
-        if ( aHsdpaIconState != EAknSignalHsdpaIndicatorEstablishingContext &&
-             iTicker )
+        if ( aHsdpaIconState != EAknSignalHsdpaIndicatorEstablishingContext )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
         else if ( aHsdpaIconState == EAknSignalHsdpaIndicatorEstablishingContext )
             {
-            if ( iTicker && !iTicker->IsActive() )
-                {
-                iTicker->Start( KAknIndicatorAnimationDelay,
-                                KAknIndicatorAnimationInterval,
-                                TCallBack( TickerCallback, this ) );
-                }
+            TRAP_IGNORE( StartTickerL( KAknIndicatorAnimationDelay,
+                                       KAknIndicatorAnimationInterval ) );
             }
         }
     }
 
+// ---------------------------------------------------------------------------
+// CAknSignalPane::ShowUmaIcon
+// Displays an Uma state icon.
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void CAknSignalPane::ShowUmaIconL(TInt aUmaIconState)
+    {
+    // State is not changed if illegal value was given.
+    if (( aUmaIconState >= EAknSignalUmaIndicatorOff ) && 
+        ( aUmaIconState <= EAknSignalUmaIndicatorMultipdp ))
+        {        
+        LoadSignalIconL( aUmaIconState, iSignalIconControl->ColorIndex() );
+        
+        iSignalIconControl->SetDrawBlank( EFalse );
+        
+        if ( aUmaIconState != EAknSignalUmaIndicatorEstablishingContext )
+            {
+            StopTicker();
+            }
+        else if ( aUmaIconState == EAknSignalUmaIndicatorEstablishingContext )
+            {
+            StartTickerL( KAknIndicatorAnimationDelay,
+                                                   KAknIndicatorAnimationInterval );       
+            }
+        }
+
+
+    }
 
 // ---------------------------------------------------------------------------
 // CAknSignalPane::ShowCdmaIcon
@@ -895,25 +907,26 @@ EXPORT_C void CAknSignalPane::ShowCdmaIcon( TInt aCdmaIconState )
 
         // Tick timer is only used when animating.
         if ( aCdmaIconState != EAknSignalCdmaIndicatorSending &&
-             aCdmaIconState != EAknSignalCdmaIndicatorReceiving &&
-             iTicker )
+             aCdmaIconState != EAknSignalCdmaIndicatorReceiving )
             {
-            iTicker->Cancel();
+            StopTicker();
             }
 
         switch ( aCdmaIconState )
             {
             case EAknSignalCdmaIndicatorSending:
             case EAknSignalCdmaIndicatorReceiving:
+                {
                 if ( iTicker && !iTicker->IsActive() )
                     {
                     // restart animation
                     iExtension->iCdmaAnimationIndex = 0;
-                    iTicker->Start( KAknIndicatorShortAnimationInterval,
-                                    KAknIndicatorShortAnimationInterval,
-                                    TCallBack( TickerCallback, this ) );
+                    TRAP_IGNORE(
+                        StartTickerL( KAknIndicatorShortAnimationInterval,
+                                      KAknIndicatorShortAnimationInterval ) );
                     }
                 break;
+                }
             default:
                 break;
             }
@@ -1068,6 +1081,44 @@ void CAknSignalPane::LoadSignalIconL( TInt aIconState, TInt aIconColorIndex )
         }
 
     iSignalState = aIconState;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknSignalPane::StartTickerL
+// Starts the animation timer.
+// ---------------------------------------------------------------------------
+//
+void CAknSignalPane::StartTickerL( TTimeIntervalMicroSeconds32 aDelay,
+                                   TTimeIntervalMicroSeconds32 aInterval )
+    {
+    if ( !iTicker )
+        {
+        iTicker = CPeriodic::NewL( CActive::EPriorityLow );
+        }
+
+    if ( iTicker && !iTicker->IsActive() )
+        {
+        iTicker->Start( aDelay,
+                        aInterval,
+                        TCallBack( TickerCallback, this ) );
+        }
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknSignalPane::StopTicker
+// Stops the animation timer.
+// ---------------------------------------------------------------------------
+//
+void CAknSignalPane::StopTicker()
+    {
+    if ( iTicker )
+        {
+        iTicker->Cancel();
+        delete iTicker;
+        iTicker = NULL;
+        }
     }
 
 //  End of File

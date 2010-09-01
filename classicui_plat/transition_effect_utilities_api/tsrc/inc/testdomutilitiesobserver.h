@@ -21,6 +21,7 @@
 
 #include <akntransitionutils.h>
 #include <akntransparentcamerasettingpage.h>
+#include <pslnfwbasecontainer.h>
 
 /**
  *  CTestDomUtilitiesObserver class create just for test CAknTransitionUtils

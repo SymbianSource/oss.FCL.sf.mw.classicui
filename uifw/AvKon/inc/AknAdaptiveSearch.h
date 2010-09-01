@@ -150,6 +150,14 @@ class CAknAdaptiveSearch : public CBase,
     	 */
     	void UpdateGridSkinL();
     	
+   public:
+    	
+    	/**
+         * When the rect of find pane is set, this functions will be notified
+         * to record the size of it.
+    	 */
+    	void SaveFindPaneRect( const TRect &aRect );
+    	
    private: // Constructors
 
          /**

@@ -1,0 +1,5 @@
+EXPORTS
+	_Z12GateFunctionv @ 1 NONAME
+	_ZTI19CPslnXNClientLoader @ 2 NONAME ; #<TI>#
+	_ZTV19CPslnXNClientLoader @ 3 NONAME ; #<VT>#
+

@@ -1,0 +1,6 @@
+EXPORTS
+	??1CFindUtil@@UAE@XZ @ 1 NONAME ; public: virtual __thiscall CFindUtil::~CFindUtil(void)
+	?NewL@CFindUtil@@SAPAV1@XZ @ 2 NONAME ; public: static class CFindUtil * __cdecl CFindUtil::NewL(void)
+	?Close@CFindUtilBase@@UAEXXZ @ 3 NONAME ; public: virtual void __thiscall CFindUtilBase::Close(void)
+	?OpenL@CFindUtilBase@@UAEXXZ @ 4 NONAME ; public: virtual void __thiscall CFindUtilBase::OpenL(void)
+

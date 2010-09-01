@@ -50,12 +50,12 @@ SOURCE          testdomtextscrollerblocks.cpp
 SOURCE          testdomtextscrollercontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcore.lib
 LIBRARY         cone.lib
-LIBRARY         AKNLAYOUT2SCALABLE.LIB
+LIBRARY         AknLayout2Scalable.lib
 
 
 LANG            SC

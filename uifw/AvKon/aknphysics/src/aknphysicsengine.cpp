@@ -60,7 +60,11 @@ CAknPhysicsEngine* CAknPhysicsEngine::NewLC( CAknPhysics* aPhysics )
 CAknPhysicsEngine::~CAknPhysicsEngine()
     {
     DeletePhysics();
-    delete iAlfClient;
+    if ( iAlfClient )
+        {
+        iAlfClient->Close();
+        delete iAlfClient;
+        }       
     }
 
 
@@ -267,7 +271,7 @@ void CAknPhysicsEngine::TakePhysicsStep()
     dSpaceCollide ( iSpace, this , &CAknPhysicsEngine::CallbackFunc );
 
     // Take a simulation step 
-    dWorldQuickStep( iWorldId, REAL( 0.1 ) ); 
+    dWorldQuickStep( iWorldId, REAL( 0.06 ) ); 
 
     // Remove all joints in the contact
     dJointGroupEmpty( iContactGroup );

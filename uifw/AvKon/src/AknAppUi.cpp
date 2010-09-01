@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 - 2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -69,8 +69,7 @@
 #include <gfxtranseffect/gfxtranseffect.h>
 
 #include <aknSDData.h>
-#include <AknNotifyStd.h>
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <startupdomainpskeys.h>
 
 #include "transitionmanager.h"
@@ -78,6 +77,7 @@
 #include <PtiKeyMappings.h> 
 
 #include <akntoolbar.h>
+#include <akntoolbarextension.h>
 #include <eikdialg.h>
 
 #ifdef RD_SCALABLE_UI_V2
@@ -89,6 +89,7 @@
 #include <touchfeedback.h>
 
 #include <aknpointereventmodifier.h>
+#include <aknitemactionmenuregister.h>
 
 // UIDS for dialler view
 const TUid KPhoneAppUid = { 0x100058B3 };
@@ -556,6 +557,8 @@ CAknAppUiBaseExtension::CAknAppUiBaseExtension()
 
 EXPORT_C CAknAppUiBase::~CAknAppUiBase()
     {
+    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
+
     if (iAppUiBaseExtension)
         {
         MTouchFeedback::DestroyInstance();
@@ -661,6 +664,7 @@ EXPORT_C void CAknAppUiBase::BaseConstructL( TInt aAppUiFlags )
         delete defaultOrientationCr;
         defaultOrientationCr = NULL;
         }
+
     iAknFlags.Assign(EOrientationSpecified, orientationFlags&EAppOrientationSpecifiedFlag);
     iAknFlags.Assign(EOrientationLandscape, orientationFlags&EAppOrientationLandscapeFlag);
     iAknFlags.Assign(EOrientationAutomatic, orientationFlags&EAppOrientationAutomaticFlag);
@@ -672,17 +676,29 @@ EXPORT_C void CAknAppUiBase::BaseConstructL( TInt aAppUiFlags )
         {
         iAknFlags.Set( ETouchCompatible );
         }
+    else if ( aAppUiFlags & EAknSingleClickCompatibleFlag )
+        {
+        // If application is single click compatible then it needs to
+        // be also touch compatible, so set that flag also if application
+        // has forgotten.
+        iAknFlags.Set( ETouchCompatible );
+        }
     else
         {
+        // Set the touch compatible flag for all applications that
+        // reside on the ROM, since all platform applications should
+        // be touch compatible. 
         RProcess process;
         TFileName fileName = process.FileName();
-        _LIT(KRomDrive,"z:");
+        _LIT( KRomDrive, "z:" );
         
         if ( fileName.FindF( KRomDrive ) == 0 )
             {
             iAknFlags.Set( ETouchCompatible );
             }
         }
+
+    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( this );
 
 #ifdef AVKON_RDEBUG_INFO
     RDebug::Print(_L("Entering CEikAppUi::BaseConstructL()"));    
@@ -1395,6 +1411,12 @@ EXPORT_C void CAknAppUi::BaseConstructL(TInt aAppUiFlags)
         {
         AknsUtils::SetAvkonHighlightAnimationEnabledL( EFalse );
         }
+    
+    if (( aAppUiFlags & EAknDisableAnimationBackground ) != 0)
+        {
+        AknsUtils::SetAnimationBackgroundDisabledL( ETrue );
+        
+        }
 
 #ifdef RD_SCALABLE_UI_V2
     if ( CAknTouchPane* tp = TouchPane() )
@@ -1548,20 +1570,20 @@ EXPORT_C void CAknAppUi::HandleErrorL(TInt aError, HBufC** aErrorDesc, TBool aSh
         User::LeaveIfError( apparcSession.Connect() );
         CleanupClosePushL( apparcSession );
         TApaAppInfo appInfo;
-        TInt err = apparcSession.GetAppInfo( appInfo, this->Application()->AppDllUid() );
-        
-        // +2 for colon and line end
-        HBufC* captionBuffer = 
-            HBufC::NewLC( KApaMaxAppCaption + KAknBidiExtraSpacePerLine + 2 ); 
 
-//        CleanupStack::PushL( captionBuffer );
+        // +2 for colon and line end
+        HBufC* captionBuffer = HBufC::NewLC(KApaMaxAppCaption + KAknBidiExtraSpacePerLine + 2);
         TPtr caption = captionBuffer->Des();
 
-        if ( err == KErrNone )
+        CEikApplication *application = this->Application();
+        if (NULL != application)
             {
-            caption = appInfo.iCaption;
+            if (KErrNone == apparcSession.GetAppInfo(appInfo, application->AppDllUid()))
+                {
+                caption = appInfo.iCaption;
+                }
             }
-
+        
         // Lets remove trailing spaces
         caption.TrimRight();
         
@@ -1794,6 +1816,18 @@ EXPORT_C void CAknAppUi::HandleViewDeactivation(const TVwsViewId& /*aViewIdToBeD
 
 EXPORT_C void CAknAppUi::PrepareToExit()
     {
+    //
+    // Hide application toolbar extension view (by toolbar extension)
+    //
+    if ( CurrentFixedToolbar() )
+        {
+        CAknToolbarExtension* toolbarExt = CurrentFixedToolbar()->ToolbarExtension();
+        if ( toolbarExt && toolbarExt->IsShown() )
+            {
+            toolbarExt->SetShown( EFalse );
+            }
+        }
+
     if( IsForeground() && Document() )
         {
         //only if focused, otherwise next app HandleForeground may never come.
@@ -1853,7 +1887,7 @@ EXPORT_C void CAknAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDes
 
     // This method call practically adds a shift modifier to hash key + joystick events.
     // This is because of marking in lists and editors when edit there is no edit key in device.
-    if (SimulateHashKeyMarkingEvent(aEvent))
+    if (SimulateHashKeyMarkingEventL(aEvent))
         {
         return;
         }
@@ -2084,7 +2118,7 @@ EXPORT_C void CAknAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDes
 // and ok key events, if hash key is simultaneously down. This is done because of making the 
 // edit key optional in the device. Therefore, hash key with joystick (or single hash press, 
 // see eiklbx.cpp) can be used for marking in lists and editors.    
-TBool CAknAppUi::SimulateHashKeyMarkingEvent(const TWsEvent& aEvent)
+TBool CAknAppUi::SimulateHashKeyMarkingEventL(const TWsEvent& aEvent)
     {
     TInt eventType = aEvent.Type();        
         

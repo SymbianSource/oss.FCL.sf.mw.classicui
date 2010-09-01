@@ -1,0 +1,4 @@
+EXPORTS
+	?CreateAknKeyRotatorL@AknKeyRotatorFactory@@SAPAVCAknKeyRotator@@XZ @ 1 NONAME ; class CAknKeyRotator * AknKeyRotatorFactory::CreateAknKeyRotatorL(void)
+	_E32Dll=__E32Dll	; Entry point for emulation
+

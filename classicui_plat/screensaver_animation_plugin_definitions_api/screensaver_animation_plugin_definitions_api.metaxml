@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="d3e7bbb79b9db014b9e7e2a1d44f34a9" dataversion="1.0">
+  <name>Screensaver Animation Plugin Definitions API</name>
+  <description>Screensaver Animation Plugin definitions.</description>
+  <type>c++</type>
+  <subsystem>screensaver</subsystem>
+  <libs>
+  </libs>
+  <release category="domain"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

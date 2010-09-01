@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -112,7 +112,8 @@ public:
     TInt                        iFlags;
     TBool                       iIncallBubbleDisabled;
     TBool                       iIsForeground;
-    TBool                       iIsActiveIdle;
+    CEikStatusPaneBase*         iStatusPane;
+    MTouchFeedback*             iFeedback;
     };
 
 
@@ -140,6 +141,29 @@ void CAknIndicatorContainerExtension::ConstructL()
         }
 
     TRAP_IGNORE( CCoeEnv::Static()->AddMessageMonitorObserverL( *this ) );
+    
+    iFeedback = MTouchFeedback::Instance();
+    if ( iFeedback &&
+         iIndicatorContainer->iIndicatorContext ==
+                 CAknIndicatorContainer::EUniversalIndicators )
+        {
+        // Tactile feedback is only used for universal indicator pane.
+        CFeedbackSpec* fbSpec = CFeedbackSpec::New();
+        if ( fbSpec )
+            {
+            fbSpec->AddFeedback( ETouchEventStylusDown,
+                                 ETouchFeedbackSensitiveButton );
+            fbSpec->AddFeedback( ETouchEventStylusUp,
+                                 ETouchFeedbackSensitiveButton,
+                                 ETouchFeedbackVibra );
+
+            iFeedback->SetFeedbackArea( iIndicatorContainer,
+                                        0,
+                                        iIndicatorContainer->Rect(),
+                                        fbSpec );
+            delete fbSpec; 
+            }  
+        }
     }
 
 
@@ -150,7 +174,7 @@ CAknIndicatorContainerExtension::CAknIndicatorContainerExtension(
     iSmallStatusPaneLayout      = AknStatuspaneUtils::SmallLayoutActive();
     iIncallBubbleAllowedInUsual = ETrue;
     iIsForeground = static_cast<CAknAppUi*>( CEikonEnv::Static()->EikAppUi() )->IsForeground();
-    iIsActiveIdle = AknStatuspaneUtils::IsActiveIdle();
+    iStatusPane = CEikStatusPaneBase::Current();
     }
 
 
@@ -160,6 +184,12 @@ CAknIndicatorContainerExtension::~CAknIndicatorContainerExtension()
     delete iDataObserver;
 
     CCoeEnv::Static()->RemoveMessageMonitorObserver( *this );
+    
+    MTouchFeedback* feedback = MTouchFeedback::Instance();
+    if ( feedback )
+        {
+        feedback->RemoveFeedbackForControl( iIndicatorContainer );
+        }
     }
 
 
@@ -277,9 +307,6 @@ EXPORT_C void CAknIndicatorContainer::ConstructL()
         iIndicators =
             new (ELeave) CAknIndicatorQueue( KAknIndicatorQueueGranularity );
         }
-
-
-    iTicker = CPeriodic::NewL( CActive::EPriorityLow );
     }
 
 
@@ -609,6 +636,13 @@ EXPORT_C void CAknIndicatorContainer::SizeChanged()
             AknStatuspaneUtils::ExtendedStaconPaneActive() ||
             ( AknStatuspaneUtils::StaconPaneActive() &&
               !AknStatuspaneUtils::IdleLayoutActive() ) );
+        
+        if ( iExtension && iExtension->iFeedback )
+            {
+            iExtension->iFeedback->ChangeFeedbackArea( this,
+                                                       0,
+                                                       Rect() );
+            }
         }
 
     AknsUtils::RegisterControlPosition( this );
@@ -798,26 +832,29 @@ EXPORT_C void CAknIndicatorContainer::PositionChanged()
 
 EXPORT_C TInt CAknIndicatorContainer::CountComponentControls() const
     {
-    return (iIndicatorsShown);
+    return  iIndicators->Count();
+    }
+
+TInt CAknIndicatorContainer::CountShownIndicator() const
+    {
+    TInt count = iIndicators->Count();
+    TInt indicatorShown = 0;
+    for ( TInt i = 0; i< count; i++ )
+        {
+        if( iIndicators->At(i)->IndicatorState() && iIndicators->At( i )->Priority() != KIndicatorNotShown )
+            {
+            indicatorShown++;
+            }
+        }
+    return indicatorShown;
     }
 
 
 EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) const
     {
-    TInt count = iIndicators->Count();
-
-    TInt ii = 0;
-    for (ii = 0; (ii < count) && (aIndex >= 0); ii++)
+    if ( aIndex >= 0 && aIndex < iIndicators->Count() )
         {
-        if ( iIndicators->At(ii)->IndicatorState() && (iIndicators->At(ii)->Priority() != KIndicatorNotShown))
-            {
-            aIndex--;
-            }
-        }
-
-    if ( ii > 0 )
-        {
-        return iIndicators->At(--ii);
+        return iIndicators->At( aIndex );
         }
     else
         {
@@ -826,10 +863,18 @@ EXPORT_C CCoeControl* CAknIndicatorContainer::ComponentControl(TInt aIndex) cons
     }
 
 
-EXPORT_C void CAknIndicatorContainer::Draw( const TRect& /*aRect*/ ) const
+EXPORT_C void CAknIndicatorContainer::Draw( const TRect& aRect ) const
     {
-    if ( iExtension->iIsActiveIdle )
+    if ( iExtension->iStatusPane && 
+         iExtension->iStatusPane->IsTransparent() &&
+         ( iIndicatorContext != EQueryEditorIndicators ) )
         {
+        CWindowGc& gc = SystemGc();
+        TRgb rgb(TRgb::Color16MA(0));
+        gc.SetDrawMode(CGraphicsContext::EDrawModeWriteAlpha);
+        gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
+        gc.SetBrushColor(rgb);
+        gc.Clear(aRect);
         return;
         }
 
@@ -1035,7 +1080,8 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
     {
     CAknControl::HandlePointerEventL( aPointerEvent );
 
-    if ( AknLayoutUtils::PenEnabled() && iExtension )
+    // Pointer events are only handled in the universal indicator container.
+    if ( iExtension && iIndicatorContext == EUniversalIndicators )
         {
         TRect rect( Rect() );
 
@@ -1051,32 +1097,23 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
                     // set flag that down was inside indicator
                     iExtension->iFlags |=
                         EAknIndicatorsButton1DownInIndicatorPaneRect;
-
-                    if ( iIndicatorContext == EUniversalIndicators &&
-                         iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect
-                          )
-                        {
-                        MTouchFeedback* feedback = MTouchFeedback::Instance();
-
-                        if ( feedback )
-                            {
-                            feedback->InstantFeedback( this, ETouchFeedbackSensitiveButton );
-                            }
-                        }
                     }
                 break;
                 }
 
             case TPointerEvent::EButton1Up:
                 {
-                // Currently the small digital clock pane and universal
-                // indicator pane are regarded as one touch responsive area from
-                // which the universal indicator popup should open on tap,
-                // so upon pointer up event it must be checked here if
-                // the down event happened inside this control, but the up event
-                // inside digital clock pane area.
+                // Currently the small digital clock pane, universal
+                // indicator pane and battery pane (in status pane layouts
+                // where it's adjacent to universal indicator or digital
+                // clock pane) are regarded as one touch responsive
+                // area from which the universal indicator popup should
+                // open on tap, so upon pointer up event it must be checked
+                // here if the down event happened inside this control,
+                // but the up event inside digital clock or battery pane area.
                 CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
-                TRect clockRect( 0, 0, 0, 0 );
+                TBool pointerUpInClockArea( EFalse );
+                TBool pointerUpInBatteryArea( EFalse );
 
                 if ( sp )
                     {
@@ -1084,29 +1121,60 @@ EXPORT_C void CAknIndicatorContainer::HandlePointerEventL(
                         TUid::Uid( EEikStatusPaneUidDigitalClock ) );
                     if ( clockPane )
                         {
-                        clockRect = TRect( clockPane->PositionRelativeToScreen(),
-                                           clockPane->Size() );
+                        TRect clockRect( clockPane->PositionRelativeToScreen(),
+                                         clockPane->Size() );
+                        pointerUpInClockArea =
+                            clockRect.Contains( aPointerEvent.iParentPosition );
+                        }
+                    
+                    if ( !AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+                        {
+                        CCoeControl* batteryPane = sp->ContainerControlL(
+                            TUid::Uid( EEikStatusPaneUidBattery ) );
+                        if ( batteryPane )
+                            {
+                            TRect batteryRect(
+                                batteryPane->PositionRelativeToScreen(),
+                                batteryPane->Size() );
+                            pointerUpInBatteryArea =
+                                batteryRect.Contains( aPointerEvent.iParentPosition );
+                            }
                         }
                     }
 
                 // if indicator's rect contains pointer up position
-                if ( iIndicatorContext == EUniversalIndicators &&
-                     ( ( iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect &&
+                if ( ( iExtension->iFlags & EAknIndicatorsButton1DownInIndicatorPaneRect &&
                          rect.Contains( aPointerEvent.iPosition ) ) ||
-                       clockRect.Contains( aPointerEvent.iParentPosition ) ) )
+                       pointerUpInClockArea ||
+                       pointerUpInBatteryArea )
                     {
+                    if ( iExtension->iFeedback &&
+                         ( pointerUpInClockArea || pointerUpInBatteryArea ) )
+                        {
+                        // The pointer down was received in another control,
+                        // so the tactile feedback must be given directly.
+                        iExtension->iFeedback->InstantFeedback(
+                            this,
+                            ETouchFeedbackSensitiveButton,
+                            ETouchFeedbackVibra,
+                            aPointerEvent );
+                        }
+
+                    CAknSmallIndicator* indicatorNotifier = CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
+                    indicatorNotifier->HandleIndicatorTapL();
+                    //for indicator popup event
                     MTouchFeedback* feedback = MTouchFeedback::Instance();
                     if ( feedback )
                         {
-                        feedback->InstantFeedback( this,
-                                                   ETouchFeedbackSensitiveButton,
-                                                   ETouchFeedbackVibra,
-                                                   aPointerEvent );
+                        feedback->InstantFeedback(
+                                           this,
+                                           ETouchFeedbackPopUp,
+                                           ETouchFeedbackVibra,
+                                           aPointerEvent );
                         }
-                    CAknSmallIndicator* indicatorNotifier = CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
-                    indicatorNotifier->HandleIndicatorTapL();
                     CleanupStack::PopAndDestroy( indicatorNotifier );
                     }
+
                 // Up happened, reset button down flag
                 iExtension->iFlags &=
                     ( ~EAknIndicatorsButton1DownInIndicatorPaneRect );
@@ -1140,30 +1208,29 @@ void CAknIndicatorContainer::PrioritizeIndicatorsL()
         return;
         }
 
-    CAknIndicator* temp;
-    for(TInt ii = 1; ii < count; ii++)
+    // Bubble sorted
+    for (TInt i = 0; i < ( count - 1 ); i++)
         {
-        temp = iIndicators->At(ii);
-        TInt tempPriority = temp->Priority();
-        if (tempPriority >= 0)
+        TBool swaped = EFalse;
+        for (TInt j = count - 1; j > i; j--)
             {
-            for(TInt jj = 0; jj <= ii; jj++)
+            if ( iIndicators->At( j )->Priority()
+                    < iIndicators->At( j - 1 )->Priority() )
                 {
-                if (tempPriority < iIndicators->At(jj)->Priority())
-                    {
-                    iIndicators->Delete( ii );
-                    CleanupStack::PushL( temp );
-                    iIndicators->InsertL( jj, temp );
-                    CleanupStack::Pop( temp );
-                    break;
-                    }
-                else if ( jj == (ii-1) )
-                    {
-                    break;
-                    }
+                CAknIndicator* temp = iIndicators->At( j );
+                iIndicators->Delete( j );
+                CleanupStack::PushL( temp );
+                iIndicators->InsertL( j - 1, temp );                
+                CleanupStack::Pop( temp );
+                swaped = ETrue;
                 }
             }
+        if( !swaped )
+            {
+            break;
+            }
         }
+
     }
 
 
@@ -1909,15 +1976,16 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
         TInt uid = indicator->Uid().iUid;
 
-        if ( uid == EAknNaviPaneEditorIndicatorSecuredConnection ||
-             uid == EAknNaviPaneEditorIndicatorProgressBar       ||
-             uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe      ||
-             uid == EAknNaviPaneEditorIndicatorGprs              ||
-             uid == EAknNaviPaneEditorIndicatorFileSize          ||
-             uid == EAknNaviPaneEditorIndicatorWaitBar           ||
-             uid == EAknNaviPaneEditorIndicatorWlanAvailable     ||
-             uid == EAknNaviPaneEditorIndicatorWlanActive        ||
-             uid == EAknNaviPaneEditorIndicatorWlanActiveSecure )
+        if ( uid == EAknNaviPaneEditorIndicatorGprs || 
+             uid == EAknNaviPaneEditorIndicatorWlanAvailable ||
+             uid == EAknNaviPaneEditorIndicatorWlanActive || 
+             uid == EAknNaviPaneEditorIndicatorWlanActiveSecure || 
+             (!isLandscape && 
+                     (uid  == EAknNaviPaneEditorIndicatorProgressBar ||
+                      uid  == EAknNaviPaneEditorIndicatorFileSize || 
+                      uid  == EAknNaviPaneEditorIndicatorWaitBar || 
+                      uid  == EAknNaviPaneEditorIndicatorSecuredConnection || 
+                      uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe)))
             {
             // These indicators are not shown in this statuspane layout.
             indicator->SetExtent( TPoint( 0, 0 ), TSize( 0, 0 ) );
@@ -1928,6 +1996,16 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
         if ( iLayoutOrientation == EVertical )
             {
+            if (uid == EAknNaviPaneEditorIndicatorProgressBar || uid
+                    == EAknNaviPaneEditorIndicatorFileSize || uid
+                    == EAknNaviPaneEditorIndicatorWaitBar || uid
+                    == EAknNaviPaneEditorIndicatorSecuredConnection || uid
+                    == EAknNaviPaneEditorIndicatorWmlWaitGlobe)
+                {
+                indicator->SetExtent(TPoint(0, 0), TSize(0, 0));
+                iIndicatorsShown++;
+                continue;
+                }
             // Highest priority indicator is put topmost.
             if ( height < indicator->IconSize().iHeight )
                 {
@@ -1969,6 +2047,112 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
 
             TInt textIndicatorLeftOffset = KMinSpaceBetweenIconsInPixels;
 
+            ////////////////////////////////////////////////////////////////////////////
+            //small status pane
+            TRect smallStatusPaneRect;
+            AknLayoutUtils::LayoutMetricsRect(AknLayoutUtils::EStatusPane,
+                    smallStatusPaneRect);
+
+            // small statuspane, secure state indicator
+            TAknWindowLineLayout
+                    smallStatusSecureStateLayout =
+                            AknLayout::Small_status_pane_descendants_and_elements_Line_5();
+            TAknLayoutRect smallStatusSecureStateLayoutRect;
+            smallStatusSecureStateLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusSecureStateLayout);
+            TRect smallStatusSecureStateRect(
+                    smallStatusSecureStateLayoutRect.Rect());
+
+            // small statuspane, wait pane
+            TAknWindowComponentLayout smallStatusWaitPaneLayout =
+                    AknLayoutScalable_Avkon::status_small_wait_pane(3);
+            TAknLayoutRect smallStatusWaitPaneLayoutRect;
+            smallStatusWaitPaneLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusWaitPaneLayout);
+            TRect smallStatusWaitPaneRect(
+                    smallStatusWaitPaneLayoutRect.Rect());
+
+            // small statuspane, globe
+            TAknWindowComponentLayout smallStatusWmlGlobeLayout =
+                    AknLayoutScalable_Avkon::status_small_pane_g4(0);
+            TAknLayoutRect smallStatusWmlGlobeLayoutRect;
+            smallStatusWmlGlobeLayoutRect.LayoutRect(smallStatusPaneRect,
+                    smallStatusWmlGlobeLayout);
+            TRect smallStatusWmlGlobeRect(
+                    smallStatusWmlGlobeLayoutRect.Rect());
+
+            TInt waitBarIndicatorLeftOffset = smallStatusWaitPaneRect.iTl.iX;
+            TInt progressBarIndicatorLeftOffset = 0;
+            TInt wmlWaitGlobeLeftOffset = smallStatusWmlGlobeRect.iTl.iX;
+
+            TRect rectForMiddleIndicators(wmlWaitGlobeLeftOffset,
+                    containerRect.iTl.iY, wmlWaitGlobeLeftOffset,
+                    containerRect.iBr.iY);
+
+            if (AknLayoutUtils::LayoutMirrored())
+                {
+                wmlWaitGlobeLeftOffset = smallStatusPaneRect.iBr.iX
+                        - smallStatusWmlGlobeRect.iBr.iX;
+                waitBarIndicatorLeftOffset = smallStatusPaneRect.iBr.iX
+                        - smallStatusWaitPaneRect.iBr.iX;
+                }
+
+            if (uid == EAknNaviPaneEditorIndicatorProgressBar)
+                {
+                indicatorWidth = smallStatusWaitPaneRect.Width();
+                indicatorHeight = smallStatusWaitPaneRect.Height();                
+                verticalOffset = (containerRect.Height() - indicatorHeight)/ 2;
+                leftOffset = progressBarIndicatorLeftOffset;
+
+                textIndicatorOffsetNeeded = ETrue;
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorFileSize)
+                {
+                verticalOffset = verticalOffsetForTextIndicator;
+
+                // need left offset in western, right offset in A&H layout.
+                if (AknLayoutUtils::LayoutMirrored())
+                    {
+                    rightOffset = textIndicatorLeftOffset;
+                    }
+                else
+                    {
+                    leftOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorWmlWaitGlobe)
+                {
+                verticalOffset = (containerRect.Height()
+                        - indicator->IconSize().iHeight) / 2;
+                indicatorWidth = smallStatusWmlGlobeRect.Width();
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorWaitBar)
+                {
+                indicatorWidth = smallStatusWaitPaneRect.Width();
+                indicatorHeight = smallStatusWaitPaneRect.Height();
+                verticalOffset = (containerRect.Height() - indicatorHeight)/ 2;
+                leftOffset = waitBarIndicatorLeftOffset;
+                textIndicatorOffsetNeeded = ETrue;
+                }
+            else if (uid == EAknNaviPaneEditorIndicatorSecuredConnection)
+                {
+                verticalOffset = (containerRect.Height()
+                        - smallStatusSecureStateRect.Height()) / 2;
+
+                // because icon bitmap does not contain enough space, increase offset as
+                // the layout spec states.
+                if (AknLayoutUtils::LayoutMirrored())
+                    {
+                    leftOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                else
+                    {
+                    rightOffset = KMinSpaceBetweenIconsInPixels;
+                    }
+                textIndicatorOffsetNeeded = EFalse;
+                progressBarIndicatorLeftOffset = 0;
+                }
+            ////////////////////////////////////////////////////////////////////////
             if ( uid == EAknNaviPaneEditorIndicatorMessageInfo    ||
                  uid == EAknNaviPaneEditorIndicatorWmlWindowsText ||
                  uid == EAknNaviPaneEditorIndicatorMessageLength )
@@ -2137,9 +2321,30 @@ void CAknIndicatorContainer::SizeChangedInNormalStatusPane()
             // Place indicators to the middle if any.
             if ( indicatorPosition == EMiddle )
                 {
-                // Not supported for now, always set size to zero.
-                indicator->SetExtent( TPoint( 0, 0 ), TSize( 0, 0 ) );
-                iIndicatorsShown++;
+                TRect requiredRect( rectForMiddleIndicators.iTl.iX,
+                        rectForMiddleIndicators.iTl.iY,
+                        rectForMiddleIndicators.iTl.iX + leftOffset
+                                + indicatorWidth + rightOffset,
+                        rectForMiddleIndicators.iBr.iY );
+
+                // check if indicator fits
+                if (( requiredRect.Intersects( rectForRightSideIndicators )
+                        || requiredRect.Intersects(rectForLeftSideIndicators ))
+                        || ( rectForMiddleIndicators.Width() != 0 ))
+                    {
+                    indicator->SetExtent(TPoint(0, 0), TSize(0, 0));
+                    iIndicatorsShown++;
+                    continue;
+                    }
+                else
+                    {
+                    indicator->SetExtent( TPoint(
+                            rectForMiddleIndicators.iTl.iX + leftOffset,
+                            verticalOffset ), TSize( indicatorWidth,
+                            indicatorHeight ));
+                    rectForMiddleIndicators.iTl.iX += rightOffset;
+                    rectForMiddleIndicators.iTl.iX += indicatorWidth;
+                    }
                 }
             }
 
@@ -2873,67 +3078,87 @@ void CAknIndicatorContainer::SizeChangedInFlatStatusPane()
             iIndicatorsShown++;
 
             TBool showIndicator( ETrue );
+
             switch ( iIndicatorsShown )
                 {
                 case 1:
                     {
-                    indicatorLayout =
-                        AknLayoutScalable_Avkon::uni_indicator_pane_g1( 1 );
+                    if ( extendedFlatLayout )
+                        {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g1( 0 );
+                        }
+                    else
+                        {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g1( 1 );
+                        }
                     break;
                     }
                 case 2:
                     {
-                    indicatorLayout =
-                        AknLayoutScalable_Avkon::uni_indicator_pane_g2( 1 );
+                    if ( extendedFlatLayout )
+                        {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g2( 0 );
+                        }
+                    else
+                        {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g2( 1 );
+                        }
                     break;
                     }
                 case 3:
                     {
-                    indicatorLayout =
-                        AknLayoutScalable_Avkon::uni_indicator_pane_g3( 1 );
-                    break;
-                    }
-                    
-                // TODO: Add support (remove the extendedFlatLayout checks
-                // below) for six indicators also in the extended flat layout
-                // once the layout data is fixed.
-                    
-                case 4:
-                    {
-                    if ( !extendedFlatLayout )
+                    if ( extendedFlatLayout )
                         {
                         indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g4( 1 );
+                            AknLayoutScalable_Avkon::indicator_nsta_pane_cp_g3( 0 );
                         }
                     else
                         {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g3( 1 );
+                        }
+                    break;
+                    }
+                case 4:
+                    {
+                    if ( extendedFlatLayout )
+                        {
                         showIndicator = EFalse;
+                        }
+                    else
+                        {
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g4( 1 );
                         }
                     break;
                     }
                 case 5:
                     {
-                    if ( !extendedFlatLayout )
+                    if ( extendedFlatLayout )
                         {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g5( 1 );
+                        showIndicator = EFalse;
                         }
                     else
                         {
-                        showIndicator = EFalse;
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g5( 1 );
                         }
                     break;
                     }
                 case 6:
                     {
-                    if ( !extendedFlatLayout )
+                    if ( extendedFlatLayout )
                         {
-                        indicatorLayout =
-                            AknLayoutScalable_Avkon::uni_indicator_pane_g6( 1 );
+                        showIndicator = EFalse;
                         }
                     else
                         {
-                        showIndicator = EFalse;
+                        indicatorLayout =
+                            AknLayoutScalable_Avkon::uni_indicator_pane_g6( 1 );
                         }
                     break;
                     }
@@ -3847,8 +4072,8 @@ EXPORT_C void CAknIndicatorContainer::ReplaceIndicatorIconL(
             }
         }
 
-    if ( indicator &&
-        ( indicator->IndicatorState() || indicator->Priority() != KIndicatorNotShown ) )
+    if (indicator && (indicator->IndicatorState() || 
+            indicator->Priority()!= KIndicatorNotShown))
         {
         SizeChanged();
         DrawDeferred();
@@ -4060,24 +4285,37 @@ void CAknIndicatorContainer::ResetAnimTicker( TBool bForeground )
     if ( !iExtension->iIsForeground ||
             R_AVKON_STATUS_PANE_LAYOUT_EMPTY == curId )
         {
-        if ( iTicker->IsActive() )
+        if ( iTicker )
             {
             iTicker->Cancel();
+            delete iTicker;
+            iTicker = NULL;
             }
+
         return;
         }
 
-    if ( !iTicker->IsActive() && iAnimatedIndicatorsShown > 0 )
+    if ( iAnimatedIndicatorsShown > 0 )
         {
-        iTicker->Start( KAknIndicatorAnimationShortDelay,
-                        KAknIndicatorAnimationInterval,
-                        TCallBack( TickerCallback, this ) );
+        if ( !iTicker )
+            {
+            TRAP_IGNORE( iTicker = CPeriodic::NewL( CActive::EPriorityLow ) );
+            }
+
+        if ( iTicker && !iTicker->IsActive() )
+            {
+            iTicker->Start( KAknIndicatorAnimationShortDelay,
+                            KAknIndicatorAnimationInterval,
+                            TCallBack( TickerCallback, this ) );
+            }
         }
-    else if ( iTicker->IsActive() && iAnimatedIndicatorsShown == 0 )
+    else if ( iTicker && iAnimatedIndicatorsShown == 0 )
         {
         // Cancel animation timer if animated indicators
         // are not visible anymore.
         iTicker->Cancel();
+        delete iTicker;
+        iTicker = NULL;
         iSynchronizingValue = 0;
         }
     }

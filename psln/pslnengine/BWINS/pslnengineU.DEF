@@ -1,0 +1,56 @@
+EXPORTS
+	??1CPslnModel@@UAE@XZ @ 1 NONAME ; CPslnModel::~CPslnModel(void)
+	?ActivateScreenSaver@CPslnModel@@QAEHHW4TPslnScreenSaverActivation@@@Z @ 2 NONAME ; int CPslnModel::ActivateScreenSaver(int, enum TPslnScreenSaverActivation)
+	?ActivateSkinL@CPslnModel@@QAEHABVTDesC8@@H@Z @ 3 NONAME ; int CPslnModel::ActivateSkinL(class TDesC8 const &, int)
+	?ActiveSkinIndex@CPslnModel@@QBEHXZ @ 4 NONAME ; int CPslnModel::ActiveSkinIndex(void) const	
+	?CurrentPropertyIndex@CPslnModel@@QAEHH@Z @ 5 NONAME ; int CPslnModel::CurrentPropertyIndex(int)
+	?CurrentSelectedSkinIndex@CPslnModel@@QBEHXZ @ 6 NONAME ; int CPslnModel::CurrentSelectedSkinIndex(void) const
+	?DownloadSkinL@CPslnModel@@QAEXXZ @ 7 NONAME ; void CPslnModel::DownloadSkinL(void)
+	?FullName@CPslnSkinEntry@@QBEAAVTDesC16@@XZ @ 8 NONAME ; class TDesC16 & CPslnSkinEntry::FullName(void) const
+	?GetSkinNameByIndex@CPslnModel@@QBEXHAAVTDes16@@W4TPslnSkinNameType@@@Z @ 9 NONAME ; void CPslnModel::GetSkinNameByIndex(int, class TDes16 &, enum TPslnSkinNameType) const
+	?GetSkinPath@CPslnSkinEntry@@QBEXAAVTDes16@@@Z @ 10 NONAME ; void CPslnSkinEntry::GetSkinPath(class TDes16 &) const
+	?GuardActivationLC@CPslnModel@@QAEXXZ @ 11 NONAME ; void CPslnModel::GuardActivationLC(void)
+	?InvokeSSPluginFunctionL@CPslnModel@@QAEXHW4TScPluginCaps@@@Z @ 12 NONAME ; void CPslnModel::InvokeSSPluginFunctionL(int, enum TScPluginCaps)
+	?IsActiveSkinSelected@CPslnModel@@QBEHH@Z @ 13 NONAME ; int CPslnModel::IsActiveSkinSelected(int) const
+	?IsCorrupted@CPslnSkinEntry@@QBEHXZ @ 14 NONAME ; int CPslnSkinEntry::IsCorrupted(void) const
+	?IsEnhancedEmbeddedLinksSupported@PslnFeatures@@SAHXZ @ 15 NONAME ; int PslnFeatures::IsEnhancedEmbeddedLinksSupported(void)
+	?IsHelpSupported@PslnFeatures@@SAHXZ @ 16 NONAME ; int PslnFeatures::IsHelpSupported(void)
+	?IsSoundsInSkinsSupported@PslnFeatures@@SAHXZ @ 17 NONAME ; int PslnFeatures::IsSoundsInSkinsSupported(void)
+	?IsValidForActivation@CPslnModel@@QAEHH@Z @ 18 NONAME ; int CPslnModel::IsValidForActivation(int)
+	?IsValidForPreview@CPslnModel@@QAEHH@Z @ 19 NONAME ; int CPslnModel::IsValidForPreview(int)
+	?LoadScreensaverArrayL@CPslnModel@@QAEXXZ @ 20 NONAME ; void CPslnModel::LoadScreensaverArrayL(void)
+	?LocationOfSkin@CPslnModel@@QAE?AW4TAknSkinSrvSkinPackageLocation@@H@Z @ 21 NONAME ; enum TAknSkinSrvSkinPackageLocation CPslnModel::LocationOfSkin(int)
+	?NewL@CPslnModel@@SAPAV1@PAVMAknsSkinChangeObserver@@@Z @ 22 NONAME ; class CPslnModel * CPslnModel::NewL(class MAknsSkinChangeObserver *)
+	?NumberOfSkins@CPslnModel@@QBEHXZ @ 23 NONAME ; int CPslnModel::NumberOfSkins(void) const
+	?PerformCompleteUpdateL@CPslnModel@@QAEXXZ @ 24 NONAME ; void CPslnModel::PerformCompleteUpdateL(void)
+	?Protection@CPslnSkinEntry@@QBE?AW4TAknsSkinSrvSkinProtectionType@@XZ @ 25 NONAME ; enum TAknsSkinSrvSkinProtectionType CPslnSkinEntry::Protection(void) const
+	?ProtectionOfSkin@CPslnModel@@QAE?AW4TAknsSkinSrvSkinProtectionType@@H@Z @ 26 NONAME ; enum TAknsSkinSrvSkinProtectionType CPslnModel::ProtectionOfSkin(int)
+	?ScreensaverHasCapability@CPslnModel@@QBEHHW4TScPluginCaps@@@Z @ 27 NONAME ; int CPslnModel::ScreensaverHasCapability(int, enum TScPluginCaps) const
+	?ScreensaverNames@CPslnModel@@QBEABVMDesC16Array@@XZ @ 28 NONAME ; class MDesC16Array const & CPslnModel::ScreensaverNames(void) const
+	?SetBackgroundImagePath@CPslnModel@@QAEHABVTDesC16@@@Z @ 29 NONAME ; int CPslnModel::SetBackgroundImagePath(class TDesC16 const &)
+	?SetCurrentPropertyType@CPslnModel@@QAEHHH@Z @ 30 NONAME ; int CPslnModel::SetCurrentPropertyType(int, int)
+	?SetCurrentSelectedSkinIndex@CPslnModel@@QAEXH@Z @ 31 NONAME ; void CPslnModel::SetCurrentSelectedSkinIndex(int)
+	?VisibleSkin@CPslnModel@@QAEPAVCPslnSkinEntry@@H@Z @ 32 NONAME ; class CPslnSkinEntry * CPslnModel::VisibleSkin(int)	
+	?EnableScreenSaverNotifications@CPslnModel@@QAEXABHAAVMPslnScreenSaverECOMObserver@@@Z @ 33 NONAME ; void CPslnModel::EnableScreenSaverNotifications(int const &, class MPslnScreenSaverECOMObserver &)
+	?NewL@CPslnEcomListener@@SAPAV1@AAVCPslnModel@@AAVMPslnScreenSaverECOMObserver@@@Z @ 34 NONAME ; class CPslnEcomListener * CPslnEcomListener::NewL(class CPslnModel &, class MPslnScreenSaverECOMObserver &)
+	?ActivateSkinL@CPslnModel@@QAEHABVTDesC8@@HABH@Z @ 35 NONAME ; int CPslnModel::ActivateSkinL(class TDesC8 const &, int, int const &)
+	?CurrentPropertyIndexL@CPslnModel@@QAEHH@Z @ 36 NONAME ; int CPslnModel::CurrentPropertyIndexL(int)
+	?GetTransitionEffectStateL@CPslnModel@@QAEHXZ @ 37 NONAME ; int CPslnModel::GetTransitionEffectStateL(void)
+	?SetTransitionEffectsL@CPslnModel@@QAEHH@Z @ 38 NONAME ; int CPslnModel::SetTransitionEffectsL(int)
+	?NewL@CPslnModel@@SAPAV1@XZ @ 39 NONAME ; class CPslnModel * CPslnModel::NewL(void)
+	?IsScreenSaverOnMemoryCard@CPslnModel@@QBEHH@Z @ 40 NONAME ; int CPslnModel::IsScreenSaverOnMemoryCard(int) const
+	?SetCurrentPropertyTypeL@CPslnModel@@QAEXHH@Z @ 41 NONAME ; void CPslnModel::SetCurrentPropertyTypeL(int, int)
+	?IsOnMassDrive@CPslnSkinEntry@@QBEHXZ @ 42 NONAME ; int CPslnSkinEntry::IsOnMassDrive(void) const
+	?IsOnMemoryCard@CPslnSkinEntry@@QBEHXZ @ 43 NONAME ; int CPslnSkinEntry::IsOnMemoryCard(void) const
+	?IsThemeOnMassDrive@CPslnModel@@QAEHABH@Z @ 44 NONAME ; int CPslnModel::IsThemeOnMassDrive(int const &)
+	?IsThemeOnMemoryCard@CPslnModel@@QAEHABH@Z @ 45 NONAME ; int CPslnModel::IsThemeOnMemoryCard(int const &)
+	?IsScreenSaverOnMassDrive@CPslnModel@@QBEHABH@Z @ 46 NONAME ; int CPslnModel::IsScreenSaverOnMassDrive(int const &) const
+	?IsSupported@PslnFeatures@@SAHH@Z @ 47 NONAME ; int PslnFeatures::IsSupported(int)
+	?SkinSrvSession@CPslnModel@@QBE?AVRAknsSrvSession@@XZ @ 48 NONAME ; class RAknsSrvSession CPslnModel::SkinSrvSession(void) const
+	?TransEffect@CPslnModel@@QBEXH@Z @ 49 NONAME ; void CPslnModel::TransEffect(int) const
+	?ActivateSkinL@CPslnModel@@QAEHH@Z @ 50 NONAME ; int CPslnModel::ActivateSkinL(int)
+	?SetScreenSaverToDefault@CPslnModel@@QAEXXZ @ 51  NONAME ; void CPslnModel::SetScreenSaverToDefault(void)
+	?IsSupportAnimBg@CPslnSkinEntry@@QBEHXZ @ 52  NONAME ; int CPslnSkinEntry::IsSupportAnimBg(void) const
+	?SetAnimBackground@CPslnModel@@QAEHH@Z @ 53  NONAME ; int CPslnModel::SetAnimBackgroundL(int)
+	?AnimBackgroundState@CPslnModel@@QBEHXZ @ 54  NONAME ; int CPslnModel::AnimBackgroundState(void) const
+	?IsSupportAnimBg@CPslnModel@@QAEHH@Z @ 55  NONAME ; int CPslnModel::IsSupportAnimBg(int)

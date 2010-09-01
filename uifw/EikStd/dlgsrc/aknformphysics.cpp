@@ -23,7 +23,7 @@
 #include <coecntrl.h>
 #include <coemain.h>
 #include <eikdpage.h>
-
+#include "akntrace.h"
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -55,11 +55,13 @@ void CAknFormPhysics::ConstructL()
 CAknFormPhysics* CAknFormPhysics::NewL( CEikDialogPage& aParent, 
     CAknRecordingGc& aRecordingGc )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknFormPhysics* self = new ( ELeave ) CAknFormPhysics( aParent, 
         aRecordingGc );
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;    
     return self;
     }
 
@@ -70,7 +72,9 @@ CAknFormPhysics* CAknFormPhysics::NewL( CEikDialogPage& aParent,
 //
 CAknFormPhysics::~CAknFormPhysics()
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iPhysics;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -81,10 +85,12 @@ CAknFormPhysics::~CAknFormPhysics()
 void CAknFormPhysics::InitPhysicsL( const TSize& aWorldSize, 
     const TSize& aViewSize, const TPoint& aViewCenter )
     {
+    _AKNTRACE_FUNC_ENTER;
     iPhysics->InitPhysicsL( aWorldSize, aViewSize, EFalse );
     iViewCenter = aViewCenter;
     iWorldSize = aWorldSize;
     iViewSize = aViewSize;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -94,8 +100,10 @@ void CAknFormPhysics::InitPhysicsL( const TSize& aWorldSize,
 //
 void CAknFormPhysics::Stop()
     {
+    _AKNTRACE_FUNC_ENTER;
     iPhysics->StopPhysics();
     iPhysics->ResetFriction();
+    _AKNTRACE_FUNC_EXIT;
     }
     
 
@@ -106,19 +114,16 @@ void CAknFormPhysics::Stop()
 TBool CAknFormPhysics::StartFlick( const TPoint& aLength, 
                                    const TTime& aStartTime )
     {
-    if (  PhysicsAllowed() )
+    _AKNTRACE_FUNC_ENTER;
+    TPoint drag( aLength );
+
+    if ( iPhysics->StartPhysics( drag, aStartTime ) )
         {
-        TPoint drag( aLength );
-        if ( iPhysics->StartPhysics( drag, aStartTime ) )
-            {
-            // reset benchmark variables
-            iStartTime.HomeTime();
-            iFrameCount = 0;
-            return ETrue;
-            }
+        return ETrue;
         }
 
     PhysicEmulationEnded();
+    _AKNTRACE_FUNC_EXIT;
     return EFalse;
     }
 
@@ -159,10 +164,12 @@ TSize CAknFormPhysics::ViewSize() const
 //
 void CAknFormPhysics::SetPanningPosition( const TPoint& aDelta )
     {
-    if (  PhysicsAllowed() && iPhysics )
+    _AKNTRACE_FUNC_ENTER;
+    if ( iPhysics )
         {
         iPhysics->RegisterPanningPosition( aDelta );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -174,32 +181,13 @@ void CAknFormPhysics::ViewPositionChanged( const TPoint& aNewPosition,
                                            TBool aDrawNow,
                                            TUint /*aFlags*/ )
     {
-    if ( !PhysicsAllowed() )
-        {
-        return;
-        }
-    TInt fps = 0;
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "The Position of aNewPosition are: ( %d, %d ) ", 
+    		aNewPosition.iX, aNewPosition.iY );
+
     iViewCenter = aNewPosition;
-
-    // benchmark / debug part
-    if ( iFrameCount != -1 )
-        {
-        ++iFrameCount;
-        TTime now;
-        now.HomeTime();
-        
-        TInt64 duration = now.MicroSecondsFrom( iStartTime ).Int64();
-        
-        if ( duration > 0 )
-            {
-            fps = iFrameCount * 1000000 / duration;
-            }
-        }
-
-    TBuf<128> msg;
-    msg.Format( _L( "%dfps" ), fps );
-
-    iParent.ScrollCacheByPixels( iViewCenter.iY, msg, aDrawNow );
+    iParent.ScrollCacheByPixels( iViewCenter.iY, aDrawNow );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -209,8 +197,9 @@ void CAknFormPhysics::ViewPositionChanged( const TPoint& aNewPosition,
 //
 void CAknFormPhysics::PhysicEmulationEnded()
     {
+    _AKNTRACE_FUNC_ENTER;
     iParent.Synchronize();
-    iFrameCount = -1;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -282,13 +271,4 @@ TPoint CAknFormPhysics::ViewCenter() const
     {
     return iViewCenter;
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknFormPhysics::PhysicsAllowed
-// ---------------------------------------------------------------------------
-//
-TBool CAknFormPhysics::PhysicsAllowed() const
-    {
-    return ETrue;
-    }
+	

@@ -1,0 +1,15 @@
+EXPORTS
+	?AknsRlDummyExport@@YAXXZ @ 1 NONAME ; void AknsRlDummyExport(void)
+	?GetItemLayout@CAknsRlMasterLayout@@QAEHABVTAknsItemID@@ABVTRect@@AAV3@@Z @ 2 NONAME ; int CAknsRlMasterLayout::GetItemLayout(class TAknsItemID const &, class TRect const &, class TRect &)
+	?GetParent@CAknsRlMasterLayout@@QAE?AVTAknsItemID@@ABV2@@Z @ 3 NONAME ; class TAknsItemID CAknsRlMasterLayout::GetParent(class TAknsItemID const &)
+	?NewL@CAknsRlDefaultRenderer@@SAPAV1@PAVRAknsSrvSession@@@Z @ 4 NONAME ; class CAknsRlDefaultRenderer * CAknsRlDefaultRenderer::NewL(class RAknsSrvSession *)
+	?NewL@CAknsRlMasterLayout@@SAPAV1@XZ @ 5 NONAME ; class CAknsRlMasterLayout * CAknsRlMasterLayout::NewL(void)
+	?CleanupOperation@MAknsRlCommandIterator@@SAXPAX@Z @ 6 NONAME ; void MAknsRlCommandIterator::CleanupOperation(void *)
+	?CurrentLayoutType@CAknsRlMasterLayout@@QAE?AW4TAknsLayoutType@@XZ @ 7 NONAME ; enum TAknsLayoutType CAknsRlMasterLayout::CurrentLayoutType(void)
+	?CreateAnimationValueL@AknsAlAnimationFactory@@SAPAVMAknsAlAnimationValue@@VTUid@@@Z @ 8 NONAME ; class MAknsAlAnimationValue * AknsAlAnimationFactory::CreateAnimationValueL(class TUid)
+	?CreateEffectPluginL@AknsAlAnimationFactory@@SAPAVCAknsRlEffectPlugin@@VTUid@@@Z @ 9 NONAME ; class CAknsRlEffectPlugin * AknsAlAnimationFactory::CreateEffectPluginL(class TUid)
+	?CreateTimingModelL@AknsAlAnimationFactory@@SAPAVMAknsAlTimingModel@@VTUid@@@Z @ 10 NONAME ; class MAknsAlTimingModel * AknsAlAnimationFactory::CreateTimingModelL(class TUid)
+	?GetPopupFrameDimensions@AknsRlUtils@@SAXAAVTSize@@0@Z @ 11 NONAME ; void AknsRlUtils::GetPopupFrameDimensions(class TSize &, class TSize &)
+	?IsPopupCenter@AknsRlUtils@@SAHABVTAknsItemID@@@Z @ 12 NONAME ; int AknsRlUtils::IsPopupCenter(class TAknsItemID const &)
+	?CurrentLayoutSize@CAknsRlMasterLayout@@QAE?AVTSize@@XZ @ 13 NONAME ; class TSize CAknsRlMasterLayout::CurrentLayoutSize(void)
+

@@ -1616,4 +1616,15 @@ EXPORTS
 	?SetOverridingMenuBarOwnerL@AknItemActionMenuRegister@@SAXPAVMObjectProvider@@I@Z @ 1615 NONAME ; void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(class MObjectProvider *, unsigned int)
 	?MakeVisible@CEikListBox@@UAEXH@Z @ 1616 NONAME ; void CEikListBox::MakeVisible(int)
 	?EnableItemSpecificSoftkey@CEikCba@@QAEXH@Z @ 1617 NONAME ; void CEikCba::EnableItemSpecificSoftkey(int)
-
+	?ItemsInSingleLine@CEikListBox@@QBEHXZ @ 1618 NONAME ; int CEikListBox::ItemsInSingleLine(void) const
+	?EnableTransparent@CEikStatusPaneBase@@QAEXH@Z @ 1619 NONAME ; void CEikStatusPaneBase::EnableTransparent(int)
+	?IsTransparent@CEikStatusPaneBase@@QBEHXZ @ 1620 NONAME ; int CEikStatusPaneBase::IsTransparent(void) const
+	?EnableKineticScrollingL@CEikEdwin@@QAEXPAVCAknPhysics@@@Z @ 1621 NONAME ; void CEikEdwin::EnableKineticScrollingL(class CAknPhysics *)
+	?RemoveConstructingMenuBarOwner@AknItemActionMenuRegister@@SAXPAVMObjectProvider@@@Z @ 1622 NONAME ; void AknItemActionMenuRegister::RemoveConstructingMenuBarOwner(class MObjectProvider *)
+	?RegisterCollectionL@CAknItemActionMenu@@SAPAV1@AAVMAknCollection@@PAVMObjectProvider@@@Z @ 1623 NONAME ; class CAknItemActionMenu * CAknItemActionMenu::RegisterCollectionL(class MAknCollection &, class MObjectProvider *)
+	?IsHighlightEnabled@CEikListBox@@QAEHXZ @ 1624 NONAME ; int CEikListBox::IsHighlightEnabled(void)
+	?SetMarkingModeObserver@CEikListBox@@QAEXPAVMAknMarkingModeObserver@@@Z @ 1625 NONAME ; void CEikListBox::SetMarkingModeObserver(class MAknMarkingModeObserver *)
+	?SetMarkingMode@CEikListBox@@QAEXH@Z @ 1626 NONAME ; void CEikListBox::SetMarkingMode(int)
+	?EnableFeedback@CAknButton@@QAEXH@Z @ 1627 NONAME ; void CAknButton::EnableFeedback(int)
+	?NewLC@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1628 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewLC(int, int)
+	?NewL@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1629 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewL(int, int)

@@ -15,7 +15,7 @@
 *
 */
 
-#include <e32notif.h>
+
 #include <eikalert.h>
 #include <eikon.hrh>
 #include <eikcdlg.rsg>

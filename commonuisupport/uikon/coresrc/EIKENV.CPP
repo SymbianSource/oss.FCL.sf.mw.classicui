@@ -48,7 +48,7 @@
 #include <coecntrl.h>
 #include <coeerror.h>
 #include <coesndpy.h>
-#include "CoeDataStorage.h"
+#include "coedatastorage.h"
 #include <eikenv.h>
 #include <eikappui.h>
 #include <eikdoc.h>
@@ -70,7 +70,7 @@
 #include <uiklaf/private/lafshut.h>
 #include <ecom/ecom.h>
 #include <eikserverapp.h>
-#include "EIKSRVC.H"
+#include "eiksrvc.h"
 
 #include "eikdebugprefs.h"
 #include "eikprivate.h"
@@ -80,8 +80,8 @@
 #include <graphics/cone/coeerrorconsts.h>
 #include "eikdefconst.h"
 #include "eikdefconstinternal.h"
-#include "EIKLIBRY.H"
-#include "EIKDGFTY.H"
+#include "eiklibry.h"
+#include "eikdgfty.h"
 
 GLDEF_C void Panic(TEikPanic aPanic)
 	{

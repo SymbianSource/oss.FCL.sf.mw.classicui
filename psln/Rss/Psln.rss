@@ -1,0 +1,1020 @@
+/*
+* Copyright (c) 2002-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project psln
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+NAME    PSLN // 4 letter ID
+
+//  INCLUDES
+
+// Resource types
+#include <eikon.rh>
+#include <avkon.rh>
+#include <appinfo.rh>
+
+// Compiled resources
+#include <avkon.rsg>
+#include <eikcore.rsg>
+#include <eikon.rsg>
+#include <pslncommon.rsg>
+
+// Graphics
+#include <avkon.mbg>
+
+// Commands etc.
+#include <AvkonIcons.hrh>
+#include <CommonDialogs.rh>
+#include <CommonDialogs.hrh>
+#include <data_caging_paths_strings.hrh>
+
+// Localized texts.
+#include <avkon.loc>
+#include <drmcommon.loc>
+
+#include "psln.hrh"
+#include <psln.loc>
+
+//  RESOURCE DEFINITIONS
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF { buf=""; }
+
+// -----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    status_pane = r_psln_status_pane;
+    }
+
+RESOURCE LOCALISABLE_APP_INFO r_psln_localisable_app_info
+    {
+    short_caption = qtn_apps_skins_grid;
+    caption_and_icon =
+        CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_skins_list;
+        number_of_icons = 1;
+        icon_file = APP_BITMAP_DIR"\\psln_aif.mif";
+        };
+    }
+
+// **COMMON RESOURCES
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_skins_loading_image
+//    Wait note text when loading image.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_skins_loading_image
+    {
+    buf = qtn_skins_loading_image;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_general_wait_note
+//    General wait note
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_psln_general_wait_note
+    {
+    flags = EAknWaitNoteFlags;
+    buttons = R_AVKON_SOFTKEYS_EMPTY;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtNote;
+            id = EPslnGeneralWaitNote;
+            control= AVKON_NOTE
+                {
+                layout = EWaitLayout;
+                imagefile = AVKON_ICON_FILE;
+                imageid = EMbmAvkonQgn_note_progress;
+                imagemask = EMbmAvkonQgn_note_progress_mask;
+                animation = R_QGN_GRAF_WAIT_BAR_ANIM;
+                };
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_image_corrupted
+//    Image corrupted information note.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_image_corrupted
+    {
+    buf = qtn_skins_image_format_wrong;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_confirm_active_skin_string
+// Text in a note when activating a theme.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_confirm_active_skin_string
+    {
+    buf = qtn_skins_theme_act_note;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_screen_saver_default_text
+//    Name of text screensaver.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_screen_saver_default_text
+    {
+    buf = qtn_sanim_text_default;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_confirm_query
+// General confirmation query.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_psln_confirm_query
+    {
+    flags = EGeneralQueryFlags;
+
+    buttons = R_AVKON_SOFTKEYS_YES_NO;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control= AVKON_CONFIRMATION_QUERY
+                {
+                layout = EConfirmationLayout;
+                };
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_screen_saver_text_query_dialog
+// Screen saver text query dialog.
+// Note that for APAC variant, the dialog maxlength is set dynamically.
+// -----------------------------------------------------------------------------
+//
+RESOURCE DIALOG r_psln_screen_saver_text_query_dialog
+    {
+    flags = EAknDialogGenericQueryFlags | EEikDialogFlagNoShadow;
+    buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtQuery;
+            id = EGeneralQuery;
+            control = AVKON_DATA_QUERY
+                {
+                layout = EDataLayout;
+                label = qtn_sanim_object_text_promt;
+                control = EDWIN
+                    {
+                    flags = EEikEdwinAutoSelection | EEikEdwinNoLineOrParaBreaks;
+                    width = 5;
+                    lines = 1;
+                    maxlength = 15;
+                    avkon_flags = EAknEditorFlagEnablePictographInput;
+                    default_input_mode = EAknEditorTextInputMode;
+                    };
+                };
+            }
+        };
+    }
+
+// **General theme VIEW
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_skin_list_view_title
+//    Skin list view's title.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TITLE_PANE r_psln_skin_list_view_title
+    {
+    txt = qtn_skins_title;
+    }
+
+// **SCREEN SAVER SETTING PAGE
+
+// -----------------------------------------------------------------------------
+//
+//    r_screen_saver_setting_page_lbx
+//  Screen saver setting page's listbox.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_screen_saver_setting_page_lbx
+    {
+    items =
+        {
+        LBUF { txt = qtn_sanim_object_none; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_drm_prev_rights_set
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_drm_prev_rights_set
+    {
+    buf = qtn_drm_prev_rights_set;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_memlo_ram_out_of_mem
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_memlo_ram_out_of_mem
+    {
+    buf = qtn_memlo_ram_out_of_mem;
+    }
+
+// **EMBEDDED LINKS
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_download_skins
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_download_skins
+    {
+    buf = qtn_skins_download_skins;
+    }
+
+// **OPENING NOTE
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_gen_note_opening
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_gen_note_opening
+    {
+    buf = qtn_gen_note_opening;
+    }
+
+// **SKIN CORRUPTED NOTE
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_error_corrupted
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_error_corrupted
+    {
+    buf = qtn_skins_error_corrupted;
+    }
+
+// **SOUNDS IN SKINS
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_query_activate_tone
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_query_activate_tone
+    {
+    buf = qtn_skins_query_activate_tone;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_query_activate_tones
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_query_activate_tones
+    {
+    buf = qtn_skins_query_activate_tones;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_note_tone_activated
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_note_tone_activated
+    {
+    buf = qtn_skins_note_tone_activated;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_skins_note_tones_activated
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_skins_note_tones_activated
+    {
+    buf = qtn_skins_note_tones_activated;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_profiles_info_tone_no_drm
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_profiles_info_tone_no_drm
+    {
+    buf = qtn_profiles_info_tone_no_drm;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_file_format_error
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_file_format_error
+    {
+    buf = text_not_done;
+    }
+
+//*** APPLICATION SPECIFIC SKINS ***
+// -----------------------------------------------------------------------------
+//
+//    r_psln_main_view
+//    Main view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_psln_main_view
+    {
+    menubar = r_psln_main_view_menubar;
+#ifdef RD_CONTROL_PANEL
+    cba = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+#else
+    cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+#endif //RD_CONTROL_PANEL
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_wallpaper_view
+//    Wallpaper editing view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_psln_wallpaper_view
+    {
+    menubar = r_psln_wallpaper_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_screensaver_view
+//    Screen saver editing view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_psln_screensaver_view
+    {
+    menubar = r_psln_ss_view_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_general_view
+//    General theme view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_psln_general_view
+    {
+    menubar = r_psln_gen_view_menubar;
+    cba = R_AVKON_SOFTKEYS_OPTIONS_BACK;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_gen_view_menubar
+// Options menu with 'Download', 'Activate', 'Help' and 'Exit' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_gen_view_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_psln_basic_menupane; },
+        MENU_TITLE { menu_pane = r_psln_transition_effects_menu_pane; },
+        MENU_TITLE { menu_pane = r_psln_anim_background_menu_pane; },
+        MENU_TITLE { menu_pane = R_PSLN_GEN_VIEW_MENUPANE; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_ss_view_menubar
+// Options menu with
+// 'Apply', 'Change', 'Settings', 'Help' and 'Exit' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_ss_view_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_psln_basic_menupane; },
+        MENU_TITLE { menu_pane = r_psln_ss_view_menupane; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_main_view_menubar
+// Options menu with 'Open', 'Help' and 'Exit' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_main_view_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_psln_basic_menupane; },
+        MENU_TITLE { menu_pane = r_psln_main_view_menupane; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_main_view_menupane
+//    Menu pane for main view. Contains 'Open' item.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_main_view_menupane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAppOpen;
+            txt = qtn_options_open;
+            flags = EEikMenuItemAction;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_ss_view_menupane
+//    Menu pane for screen saver editing view.
+//    Contains 'Apply', 'Change', 'Preview' and 'Settings' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_ss_view_menupane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAppSetScreenSaver;
+            txt = qtn_skins_option_set;
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdAppChangeScreenSaver;
+            txt = qtn_options_change;
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdPreviewScreenSaver;
+            txt = qtn_skins_option_preview;
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdAppSettings;
+            txt = qtn_skins_options_ss_settings;
+            flags = EEikMenuItemSpecific;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_basic_menupane
+//    Menu pane for main view.
+//    Contains 'Help' and 'Exit' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_basic_menupane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAppHelp;
+            txt = qtn_options_help;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_options_exit;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_prop_view_lbx
+//    General attribute view's listbox.
+//  "0\tTextLabel\t1\t2"
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_psln_main_view_lbx
+    {
+    items =
+        {
+        LBUF { txt = "0\t"qtn_skins_title_general"\t\t";     },
+        LBUF { txt = "1\t"qtn_skins_title_wallpaper"\t\t";   },
+        LBUF { txt = "2\t"qtn_skins_title_screensaver"\t\t"; }
+        };
+    }
+
+//----------------------------------------------------
+//
+//  The status pane for Psln application
+//
+//----------------------------------------------------
+//
+RESOURCE STATUS_PANE_APP_MODEL r_psln_status_pane
+    {
+    panes =
+        {
+#ifndef RD_CONTROL_PANEL
+        SPANE_PANE
+            {
+            id       = EEikStatusPaneUidNavi;
+            type     = EAknCtNaviPane;
+            resource = r_psln_navi_decorator;
+            }
+            ,
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidTitle;
+            type = EAknCtTitlePane;
+            resource = r_psln_default_title_pane;
+            }
+#endif // RD_CONTROL_PANEL
+        };
+    }
+
+//----------------------------------------------------
+//
+//  The navi decorator for Psln application
+//  Defines application views tabs - by default has only
+//  one tab item. Others are added dynamically.
+//
+//----------------------------------------------------
+//
+RESOURCE NAVI_DECORATOR r_psln_navi_decorator
+    {
+    type    = ENaviDecoratorControlTabGroup;
+    control = TAB_GROUP
+        {
+        tab_width = EAknTabWidthWithThreeLongTabs;
+        tabs =
+            {
+            TAB
+                {
+                id  = 0;
+                txt = qtn_skins_tabs_general;
+                }
+            };
+        };
+    }
+
+//----------------------------------------------------
+//
+//  Wallpaper view's tab item.
+//
+//----------------------------------------------------
+//
+RESOURCE TAB r_psln_wallpaper_tab
+    {
+    id = 3;
+    txt = qtn_skins_tabs_wallpaper;
+    }
+
+//----------------------------------------------------
+//
+//  Screensaver view's tab item.
+//
+//----------------------------------------------------
+//
+RESOURCE TAB r_psln_screensaver_tab
+    {
+    id = 4;
+    txt = qtn_skins_tabs_screensaver;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_wp_view_lbx
+//  General attribute view's listbox.
+//  "0\tTextLabel\t1\t2"
+//  Note that icons need to be added in source code.
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_psln_wp_view_lbx
+    {
+    items =
+        {
+        LBUF { txt = qtn_skins_settings_default"\t\t";     },
+        LBUF { txt = qtn_skins_settings_wp_image"\t\t"; }
+#ifdef RD_SLIDESHOW_WALLPAPER
+        ,
+        LBUF { txt = qtn_skins_wp_slide_set"\t\t";      }
+#endif // RD_SLIDESHOW_WALLPAPER
+
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_plugin_default_view_lbx
+//  Note that icons need to be added in source code.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_psln_plugin_default_view_lbx
+    {
+    items =
+        {
+        LBUF { txt = "0\t"qtn_skins_download_skins"\t\t"; },
+        LBUF { txt = qtn_skins_list_general_theme"\t\t";  }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_image_too_large
+//    Image corrupted information note.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_image_too_large
+    {
+    buf = qtn_skins_image_too_large;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_msk_open
+//    Middle softkey label: open.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_open
+    {
+    buf = qtn_msk_open;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_msk_activate
+//    Middle softkey label: activate.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_activate
+    {
+    buf = qtn_msk_activate;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_msk_select
+//    Middle softkey label: select.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_select
+    {
+    buf = qtn_msk_select;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_wallpaper_menubar
+// Options menu with 'Apply', 'Change', 'Help' and 'Exit' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_wallpaper_menubar
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane = r_psln_basic_menupane; },
+        MENU_TITLE { menu_pane = r_psln_wallpaper_menupane; }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_wallpaper_menupane
+// Menu pane with 'Apply' and 'Change' items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_wallpaper_menupane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAppSetWallpaper;
+            txt = qtn_skins_option_activate;
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdAppChangeWallpaper;
+            txt = qtn_options_change;
+            flags = EEikMenuItemAction;
+            }
+#ifdef RD_SLIDESHOW_WALLPAPER
+      ,
+        MENU_ITEM
+            {
+            command = EPslnCmdWallpaperConfigure;
+            txt = qtn_skins_option_wp_settings;
+            flags = EEikMenuItemSpecific;
+            }
+#endif // RD_SLIDESET_WALLPAPER
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_msk_change
+//    Middle softkey label: change.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_change
+    {
+    buf = qtn_msk_change;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_msk_dummy
+//    Middle softkey label: empty.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_dummy
+    {
+    buf = "";
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_transition_effects_menu_pane
+//    Transition effects Options menu item.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_transition_effects_menu_pane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdTransitionEffectsSubMenuOpen;
+            txt = qtn_skins_option_effects;
+            cascade = r_psln_transition_effects_cascade_menu;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_transition_effects_cascade_menu
+//    Transition effects Options cascade menu items.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_transition_effects_cascade_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdTransitionEffectsActivate;
+            txt = qtn_skins_option_effects_on;
+            flags = EEikMenuItemRadioStart  | EEikMenuItemSymbolOn;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdTransitionEffectsDeactivate;
+            txt = qtn_skins_option_effects_off;
+            flags = EEikMenuItemRadioEnd;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_wp_image_changed_note
+//    Text for note when wallpaper image has been changed.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_wp_image_changed_note
+    {
+    buf = qtn_skins_note_image_changed;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_not_enough_memory
+//    Text for error note when there is not enough memory to perform the operation.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_not_enough_memory
+    {
+    buf = qtn_memlo_ram_out_of_mem;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_title_pane_general
+//    Text for title pane text in general theme view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_title_pane_general
+    {
+    buf = qtn_skins_title_pane_general;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_title_pane_wallpaper
+//    Text for title pane text in wallpaper view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_title_pane_wallpaper
+    {
+    buf = qtn_skins_title_pane_wallpaper;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_title_pane_screensaver
+//    Text for title pane text in screensaver view.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_title_pane_screensaver
+    {
+    buf = qtn_skins_title_pane_screensaver;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_default_title_pane
+//    Default title for personalisation
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TITLE_PANE r_psln_default_title_pane
+    {
+    txt = qtn_skins_title;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_psm_infonote
+//    Text for power saving mode protected settings.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_psm_infonote
+    {
+    buf = qtn_power_saving_protected_settings_infonote;
+    }
+
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_anim_background_menu_pane
+//    Animated Background Options menu item.
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_anim_background_menu_pane
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAnimBackgroundSubMenuOpen;
+            txt = qtn_skins_option_anim_bg;
+            cascade = r_psln_anim_background_cascade_menu;
+            }
+        };
+    }
+
+RESOURCE MENU_PANE r_psln_anim_background_cascade_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnCmdAnimBackgroundActivate;
+            txt = qtn_skins_option_anim_bg_on;
+            flags = EEikMenuItemRadioStart  | EEikMenuItemSymbolOn;
+            },
+        MENU_ITEM
+            {
+            command = EPslnCmdAnimBackgroundDeactivate;
+            txt = qtn_skins_option_anim_bg_off;
+            flags = EEikMenuItemRadioEnd;
+            }
+        };
+    }
+
+// **PROCESSING NOTE
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_qtn_gen_note_processing
+//
+//
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_qtn_gen_note_processing
+    {
+    buf = qtn_gen_note_processing;
+    }
+// End of File

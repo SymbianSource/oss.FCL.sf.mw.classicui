@@ -1,0 +1,342 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project bctestdomfntlay
+*
+*/
+
+
+NAME BCDO
+
+//INCLUDES
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkonicons.hrh>
+#include <appinfo.rh>
+
+#include "bctestdomfntlay.hrh"
+#include "bctestdomfntlay.loc"
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = qtn_apps_name;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestdomfntlay_menubar_main;
+    cba = r_bctestdomfntlay_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestdomfntlay_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdomFntlay_view
+//    AVKON_VIEW for CBCTestDomFntlayView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestdomfntlay_view
+    {
+    menubar = r_bctestdomfntlay_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdomFntlay_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestdomfntlay_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestdomfntlay_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestdomfntlay_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdomFntlay_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+
+RESOURCE MENU_PANE r_bctestdomfntlay_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            cascade = r_bctestdomfntlay_font_menu;
+            txt = qtn_bctestdomfntlay_font_menu;
+            },
+        MENU_ITEM
+            {
+            cascade = r_bctestdomfntlay_skin_menu;
+            txt = qtn_bctestdomfntlay_skin_menu;
+            }, 
+         MENU_ITEM
+            {
+            cascade = r_bctestdomfntlay_layoutdata_menu;
+            txt = qtn_bctestdomfntlay_layoutdata_menu;
+            },  
+        MENU_ITEM
+            {
+            cascade = r_bctestdomfntlay_layoutsystem_menu;
+            txt = qtn_bctestdomfntlay_layoutsystem_menu;
+            }  
+        };
+    }
+
+    
+RESOURCE MENU_PANE r_bctestdomfntlay_font_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline01;
+            txt = qtn_bctestdomfntlay_outline01;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline02;
+            txt = qtn_bctestdomfntlay_outline02;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline03;
+            txt = qtn_bctestdomfntlay_outline03;
+            }    
+    	};
+    }
+	
+ 
+ RESOURCE MENU_PANE r_bctestdomfntlay_skin_menu
+    {
+    items =
+    	{
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline04;
+            txt = qtn_bctestdomfntlay_outline04 ;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline05;
+            txt = qtn_bctestdomfntlay_outline05;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline06;
+            txt = qtn_bctestdomfntlay_outline06;
+            },  
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline07;
+            txt = qtn_bctestdomfntlay_outline07;
+            }, 
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline08;
+            txt = qtn_bctestdomfntlay_outline08;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline09;
+            txt = qtn_bctestdomfntlay_outline09;
+            },     
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline10;
+            txt = qtn_bctestdomfntlay_outline10;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline11;
+            txt = qtn_bctestdomfntlay_outline11;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline12;
+            txt = qtn_bctestdomfntlay_outline12;
+            }
+    	}; 
+    }
+    
+RESOURCE MENU_PANE r_bctestdomfntlay_layoutdata_menu
+    {
+    items =
+    	{
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline13;
+            txt = qtn_bctestdomfntlay_outline13;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline14;
+            txt = qtn_bctestdomfntlay_outline14;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline15;
+            txt = qtn_bctestdomfntlay_outline15;
+            }  
+        
+    	} ;
+    }	
+    
+    
+RESOURCE MENU_PANE r_bctestdomfntlay_layoutsystem_menu
+    {
+    items =
+    	{
+    	MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline16;
+            txt = qtn_bctestdomfntlay_outline16;
+            }, 
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline17;
+            txt = qtn_bctestdomfntlay_outline17;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline18;
+            txt = qtn_bctestdomfntlay_outline18;
+            },     
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline19;
+            txt = qtn_bctestdomfntlay_outline19;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline20;
+            txt = qtn_bctestdomfntlay_outline20;
+            },
+        MENU_ITEM
+            {
+            command = EBCTestDomCmdOutline21;
+            txt = qtn_bctestdomfntlay_outline21;
+            } 
+        
+    	};
+    }
+ 
+//-----------------------------------------------------------------------------
+//
+//    r_bctestdomFntlay_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestdomfntlay_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestdomfntlay_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestdomfntlay_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestdomFntlay_cba_options_next
+//    ?description
+//
+// ----------------------------------------------------------------------------
+//
+
+RESOURCE CBA r_bctestdomfntlay_cba_options_next
+    {
+    buttons =
+        {
+	CBA_BUTTON 
+	    {
+	    id=EAknSoftkeyOptions; 
+	    txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTestDomFntlayCbaCmdNext;
+            txt = qtn_bctestdomfntlay_cba_next;
+            }
+        };
+    }

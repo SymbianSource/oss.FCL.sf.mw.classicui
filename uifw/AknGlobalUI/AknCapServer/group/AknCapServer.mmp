@@ -39,10 +39,6 @@ USERINCLUDE     ../../CommonInc
 USERINCLUDE     ../../../inc
 USERINCLUDE     ../../../../inc
 
-/* notifier removal workaround */
-USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
-USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
-
 // This is a SYSTEMINCLUDE macro containing the middleware
 // and applications layer specific include directories
 APP_LAYER_SYSTEMINCLUDE
@@ -62,6 +58,7 @@ SOURCE          aknKeyFilter.cpp
 SOURCE          AknCapServerShutdown.cpp
 SOURCE          aknphonekeyforwarder.cpp
 SOURCE          akncapserverdiscreetpopuphandler.cpp
+SOURCE          aknslidestatusnotifier.cpp
 
 START RESOURCE  AknMemoryCardUi.rss
 HEADER
@@ -79,20 +76,20 @@ LIBRARY         cone.lib
 LIBRARY         eikcore.lib 
 LIBRARY         eikcoctl.lib 
 LIBRARY         ws32.lib 
-LIBRARY         aknskins.lib 
+LIBRARY         aknskins.lib
 LIBRARY         apfile.lib 
 LIBRARY         apgrfx.lib
 LIBRARY         avkon.lib 
 LIBRARY         aknnotifierwrapper.lib 
-LIBRARY         commonengine.lib 
-LIBRARY         aknicon.lib 
+LIBRARY         CommonEngine.lib
+LIBRARY         aknicon.lib
 LIBRARY         egul.lib 
 LIBRARY         fbscli.lib
 LIBRARY         eiksrvc.lib
 LIBRARY         efsrv.lib
 LIBRARY         bafl.lib
-LIBRARY         cdlengine.lib
-LIBRARY         aknlayout2scalable.lib
+LIBRARY         CdlEngine.lib
+LIBRARY         AknLayout2Scalable.lib
 LIBRARY         eikdlg.lib
 LIBRARY         eiksrv.lib
 LIBRARY         ecom.lib
@@ -105,14 +102,19 @@ LIBRARY         gfxtrans.lib
 LIBRARY         syslangutil.lib
 LIBRARY         centralrepository.lib
 LIBRARY         akntransitionutils.lib
-LIBRARY         akndynamicsoftnoteeventmanager.lib
-LIBRARY         ecompluginnotifier.lib
+LIBRARY         WidgetRegistryClient.lib
+LIBRARY         AknDynamicSoftNoteEventManager.lib
+LIBRARY         EComPluginNotifier.lib
 LIBRARY         touchfeedback.lib
-LIBRARY         AknNotify.lib
+LIBRARY         aknnotify.lib
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY         aknlistloadertfx.lib
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+#ifdef SYMBIAN_BUILD_GCE
+LIBRARY         alfclient.lib
+#endif // SYMBIAN_BUILD_GCE
 
 // #define WCPLOG WCPLOG
 #ifdef WCPLOG

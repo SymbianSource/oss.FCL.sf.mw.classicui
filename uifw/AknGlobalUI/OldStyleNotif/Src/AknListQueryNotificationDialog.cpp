@@ -19,12 +19,16 @@
 #include "AknListQueryNotificationDialog.h"
 #include "AknNotifyPlugin.hrh"
 #include "avkon.hrh"
+#include "AknSystemListPopup.h"
 
 CAknListQueryNotificationDialog::CAknListQueryNotificationDialog( 
     TInt* aIndex,
     MAknListQueryNotificationCallback* aCallBack,
     CAknListQueryNotificationDialog** aSelfPtr)
-    : CAknListQueryDialog(aIndex), iCallBack(aCallBack), iSelfPtr(aSelfPtr)
+    : CAknListQueryDialog(aIndex)
+    , iCallBack(aCallBack)
+    , iSelfPtr(aSelfPtr)
+    , iPointerUpEaten(EFalse)
     {
     }
 
@@ -54,6 +58,8 @@ TKeyResponse CAknListQueryNotificationDialog::OfferKeyEventL(
         {
         return EKeyWasNotConsumed;
         }
+    
+    iPointerUpEaten = EFalse;
     
     TInt code = aKeyEvent.iCode;
     
@@ -111,6 +117,23 @@ void CAknListQueryNotificationDialog::HandleListBoxEventL(
 
 TBool CAknListQueryNotificationDialog::OkToExitL(TInt aButtonId)
     {
+    // Fix the problem where the pointer up event is handled to close the power menu key,
+    // when the popup shows on the top of power menu before releasing the tap.
+    if (iPointerUpEaten && AknLayoutUtils::PenEnabled() && aButtonId == EAknSoftkeyOk)
+        {
+        iPointerUpEaten = EFalse;
+        //Fix the problem where the pointer up event is handled to active the power menu item
+        //when lock screen happans before releasing the tap on power menu item
+        if(((CAknGlobalListQuerySubject*)iCallBack)->IsKeyLockEnable())
+            {
+            aButtonId = EAknSoftkeyCancel;
+            }
+        else
+            {
+            return EFalse;
+            }
+        }
+    
     TInt ret = -1;
     if (aButtonId != EAknSoftkeyCancel)
         {
@@ -122,6 +145,18 @@ TBool CAknListQueryNotificationDialog::OkToExitL(TInt aButtonId)
         return ETrue;
         }
     return EFalse;
+    }
+
+void CAknListQueryNotificationDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
+    {
+    iPointerUpEaten = EFalse;
+    
+    if (aPointerEvent.iType == TPointerEvent::EButton1Up && (!IsFocused() || ((CAknGlobalListQuerySubject*)iCallBack)->IsKeyLockEnable()))
+        {
+        iPointerUpEaten = ETrue;
+        }
+    
+    CAknListQueryDialog::HandlePointerEventL(aPointerEvent);
     }
 
 void CAknListQueryNotificationDialog::CEikDialog_Reserved_1()

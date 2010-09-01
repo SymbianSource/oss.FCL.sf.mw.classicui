@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -251,31 +251,26 @@ void CAknToolbar::ConstructFromResourceL( TResourceReader& aReader )
     aReader.ReadInt8();  //lines, not used currently
     iFlags = aReader.ReadInt32();
 
-    TBool enableTransparency = CAknEnv::Static()->TransparencyEnabled() && 
+    TBool enableTransparency = 
         ( ( !( iFlags & KAknToolbarFixed ) && 
                 !( iFlags & KAknToolbarFloatingUnTransparent ) ) || 
         ( iFlags & KAknToolbarTransparent && iFlags & KAknToolbarFixed ) ); 
 
-
-    if( enableTransparency ) 
+    if ( enableTransparency ) 
         {
         Window().SetRequiredDisplayMode( EColor16MA ); // Without this, ACT does not work in all cases in HW
-        TInt err = Window().SetTransparencyAlphaChannel();
-
-        if ( err == KErrNone ) // it should all ways be true in NGA
-            {
-            // Set the window initially completely transparent. This needs to be called only once.
-            Window().SetBackgroundColor(~0);
-            }
+        EnableWindowTransparency();
         }
 
-
-
-    iFrameContext = CAknsFrameBackgroundControlContext::NewL( KAknsIIDQsnFrPopupSub, 
-            TRect(), TRect(), ( iFlags & KAknToolbarFixed )? ETrue : EFalse );  
+    TRect dummyRect( 0, 0, 0, 0 );
+    iFrameContext = CAknsFrameBackgroundControlContext::NewL(
+        KAknsIIDQsnFrPopupSub, 
+        dummyRect,
+        dummyRect,
+        ( iFlags & KAknToolbarFixed ) ? ETrue : EFalse );  
 
     iBgContext = CAknsBasicBackgroundControlContext::NewL(
-        KAknsIIDQsnBgScreen, TRect(), ETrue );
+        KAknsIIDQsnBgScreen, dummyRect, ETrue );
 
     SetWithSliding( ETrue ); 
 
@@ -314,15 +309,20 @@ void CAknToolbar::ConstructFromResourceL( TResourceReader& aReader )
     // the rects correctly. 
     if ( iFlags & KAknToolbarFixed )
         {
-        if ( iFlags & KAknToolbarDefault )
+        SetFocusing( EFalse );
+        
+        // Don't set the size and position for default toolbar (never shown).
+        if ( !( iFlags & KAknToolbarDefault ) )
             {
-            SetDimmed( ETrue ); 
+            SetRect( CalculateSizeAndPosition() );
             }
-        SetFocusing( EFalse ); 
-        SetRect( CalculateSizeAndPosition() ); 
         }
 
-    AdjustAllButtons();
+    // Unnecessary for default toolbar (never shown).
+    if ( !( iFlags & KAknToolbarDefault ) )
+        {
+        AdjustAllButtons();
+        }
     }
 
 // -----------------------------------------------------------------------------
@@ -413,8 +413,9 @@ EXPORT_C void CAknToolbar::SetToolbarVisibility( const TBool aVisible,
             iInternalFlags.Clear( EFixedShown );
             }
 
-        if ( visible && ( !AknLayoutUtils::PenEnabled() || 
-            ( !Layout_Meta_Data::IsLandscapeOrientation() && iFlags & KAknToolbarDefault ) ) )
+        if ( visible &&
+             !Layout_Meta_Data::IsLandscapeOrientation() &&
+             iFlags & KAknToolbarDefault )
             {
             return; 
             }
@@ -547,9 +548,7 @@ static CTouchToolbarData* CheckRegistration( CCoeControl* aControl )
 //
 void CAknToolbar::ShowToolbarL()
     {
-    if ( iFlags & KAknToolbarFixed &&
-         ( !AknLayoutUtils::PenEnabled() ||
-           iFlags & KAknToolbarDefault ) )
+    if ( iFlags & KAknToolbarFixed && iFlags & KAknToolbarDefault )
         {
         if ( IsVisible() )
             {
@@ -592,12 +591,6 @@ void CAknToolbar::ShowToolbarL()
         SetExtent( startPos, rect.Size() );
         UpdateControlPositions(); 
 
-        TBool redrawStoreEnabled(EFalse);
-        if( !CAknEnv::Static()->TransparencyEnabled() )
-            {
-            redrawStoreEnabled = Window().IsRedrawStoreEnabled();
-            }
-
         CTouchToolbarData* data = CheckRegistration( this );      
         if ( data && !(iFlags & KAknToolbarFixed) && iAvkonAppUi->IsForeground() )
             {
@@ -635,11 +628,6 @@ void CAknToolbar::ShowToolbarL()
                 CAknTransitionUtils::RemoveData( reinterpret_cast<TInt>( this ) );
                 delete data;
                 GfxTransEffect::Deregister( this );
-                }
-
-            if ( !CAknEnv::Static()->TransparencyEnabled() && redrawStoreEnabled )
-                {
-                Window().EnableRedrawStore( ETrue );
                 }
             }
 
@@ -745,11 +733,6 @@ void CAknToolbar::HideToolbarL()
     {
     if ( !iInternalFlags.IsSet( EShown ) ) // nothing to hide
         {
-        if ( iFlags & KAknToolbarDefault && !AknLayoutUtils::PenEnabled()
-              && IsVisible() )
-            {
-            MakeVisible( EFalse );
-            }
         return;
         }
 
@@ -906,6 +889,8 @@ EXPORT_C void CAknToolbar::SetItemDimmed( const TInt aCommandId,
                                           const TBool aDimmed, 
                                           const TBool aDrawNow ) 
     {
+    if( IsDimmed() )
+    	return;
     CAknToolbarItem* item = ToolbarItemById( aCommandId );
     if ( item && item->Control() ) 
         {
@@ -1134,7 +1119,10 @@ EXPORT_C void CAknToolbar::HandlePointerEventL(
                             MTouchFeedback* feedback = MTouchFeedback::Instance();
                             if ( feedback )
                                 {
-                                feedback->InstantFeedback( ETouchFeedbackBasicButton );
+                                feedback->InstantFeedback( button,
+                                                           ETouchFeedbackBasicButton,
+                                                           ETouchFeedbackVibra,
+                                                           aPointerEvent );
                                 }
                             }
                 
@@ -1195,13 +1183,8 @@ EXPORT_C void CAknToolbar::HandleResourceChange( TInt aType )
             return;
             }
         }
-        
-    if ( aType == KAknToolbarSetVisible && iFlags & KAknToolbarDefault 
-            && !AknLayoutUtils::PenEnabled() )
-        {
-        return; 
-        }
-    else if ( aType == KAknToolbarSetVisible && !IsShown() )
+
+    if ( aType == KAknToolbarSetVisible && !IsShown() )
         {
         iInternalFlags.Set( ECalledFromFW );
         iInternalFlags.Clear( EDrawBackground ); 
@@ -1227,17 +1210,17 @@ EXPORT_C void CAknToolbar::HandleResourceChange( TInt aType )
         for(TInt i = 0; i < iVisibleItems.Count(); i++)
             {
             CAknToolbarItem* item = iVisibleItems[ i ];
-            CAknButton* button = static_cast<CAknButton*>( item->Control() ); 
-            button->ResetState();
+            if( item->ControlType() == EAknCtButton 
+                || item->ControlType() == EAknCtToolbarExtension )
+                {
+                CAknButton* button = static_cast<CAknButton*>( item->Control() ); 
+                button->ResetState();
+                }
             }
-        if ( iFlags & KAknToolbarDefault && !AknLayoutUtils::PenEnabled() && IsVisible() )
+
+        if ( iFlags & KAknToolbarFixed )
             {
-            TRAP_IGNORE( HideToolbarL() ); 
-            return; 
-            }
-        else if ( iFlags & KAknToolbarFixed )
-            {
-            if ( Layout_Meta_Data::IsLandscapeOrientation() && AknLayoutUtils::PenEnabled() )
+            if ( Layout_Meta_Data::IsLandscapeOrientation() )
                 {
                 iOrientation = EAknOrientationVertical; 
                 if ( ( iInternalFlags.IsSet( EFixedShown ) 
@@ -1257,7 +1240,7 @@ EXPORT_C void CAknToolbar::HandleResourceChange( TInt aType )
                         }
                     }
                 }
-            else if ( !( iFlags & KAknToolbarDefault ) && AknLayoutUtils::PenEnabled() )
+            else if ( !( iFlags & KAknToolbarDefault ) )
                 {
                 iOrientation = EAknOrientationHorizontal; 
                 if ( iInternalFlags.IsSet( EFixedShown ) && !iInternalFlags.IsSet( EShown ) )
@@ -1275,7 +1258,7 @@ EXPORT_C void CAknToolbar::HandleResourceChange( TInt aType )
                         }
                     }
                 }
-            else if ( ( !AknLayoutUtils::PenEnabled() || iFlags & KAknToolbarDefault ) && iInternalFlags.IsSet( EShown ) )
+            else if ( iFlags & KAknToolbarDefault && iInternalFlags.IsSet( EShown ) )
                 {
                 TRAP_IGNORE( HideToolbarL() ); 
                 return; 
@@ -2042,8 +2025,11 @@ EXPORT_C void CAknToolbar::Draw( const TRect& aRect ) const
 
     CWindowGc& gc = SystemGc();
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    // Draw background         
-    if ( iFlags & KAknToolbarFixed && 
+    
+    //
+    // Draw background
+    //
+    if ( iFlags & KAknToolbarFixed && !( iFlags & KAknToolbarNoBackground ) &&
          iBgRect.Height() > 0 &&
          iBgRect.Width() > 0 )
         {
@@ -2375,27 +2361,31 @@ EXPORT_C void CAknToolbar::SetOrientation( const TAknOrientation aOrientation )
             }
         } 
 
-    TRect rect = CalculateSizeAndPosition();
-    // Set focused item again to avoid panic in a case when toolbar has more 
-    // items in previous orientation and some of the items that do not 
-    // fit to toolbar in this orientation was focused. 
-    if ( IsFocused() )
+    // Don't set the size and position for default toolbar (never shown).
+    if ( !( iFlags & KAknToolbarDefault ) )
         {
-        TRAP_IGNORE( MoveHighlightL( iFocusedItem, EFalse ) ); 
-        }
-
-    if ( iInternalFlags.IsSet( EShown ) )
-        {
-        if ( !( iFlags & KAknToolbarFlexiblePosition ) )
+        TRect rect = CalculateSizeAndPosition();
+        // Set focused item again to avoid panic in a case when toolbar has
+        // more items in previous orientation and some of the items that do
+        // not  fit to toolbar in this orientation was focused. 
+        if ( IsFocused() )
             {
-            SetPosition( rect.iTl );
+            TRAP_IGNORE( MoveHighlightL( iFocusedItem, EFalse ) ); 
             }
-        else 
+    
+        if ( iInternalFlags.IsSet( EShown ) )
             {
-            UpdateControlPositions(); 
+            if ( !( iFlags & KAknToolbarFlexiblePosition ) )
+                {
+                SetPosition( rect.iTl );
+                }
+            else 
+                {
+                UpdateControlPositions(); 
+                }
+            SetSize( rect.Size() );
+            DrawDeferred();
             }
-        SetSize( rect.Size() );
-        DrawDeferred();
         }
     }
 
@@ -2631,14 +2621,10 @@ void CAknToolbar::ReduceRect( TRect& aBoundingRect ) const
     {
     TBool toolbarNotVisible( !IsShown() && !( iFlags & KAknToolbarDefault ) );
     TBool fixedToolbar( iFlags & KAknToolbarFixed );
-    TBool landscapeOrientation( Layout_Meta_Data::IsLandscapeOrientation() );
-    TBool touchEnabled( AknLayoutUtils::PenEnabled() );
     TBool defaultContent( iFlags & KAknToolbarDefault );
 
     if ( toolbarNotVisible || 
          !fixedToolbar ||
-         ( defaultContent && !landscapeOrientation ) ||
-         !touchEnabled ||
          ( fixedToolbar && defaultContent ) )
         {
         return;
@@ -3114,11 +3100,11 @@ void CAknToolbar::CalculateRects( TRect& aMainPaneRect, TRect& aToolbarRect,
                 AknLayoutScalable_Avkon::cell_sctrl_middle_pane( 0, 0, 0 ) );
             }
         }
-    else    
+    else
         {
         if ( iOrientation == EAknOrientationHorizontal )
-            {        
-            variety = 4;    
+            {
+            variety = 4;
             aToolbarRect = RectFromLayout( aMainPaneRect,
                 AknLayoutScalable_Avkon::popup_toolbar_window( variety ) );
 

@@ -34,8 +34,9 @@ DEFFILE         testdomserviceim.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-        MW_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
+SOURCEPATH      ../src
 
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
@@ -50,8 +51,8 @@ SOURCE          testdomserviceimblocks.cpp
 SOURCE          testserviceifmenuprotected.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         ServiceHandler.lib
+LIBRARY         servicehandler.lib
 
 LANG            SC

@@ -37,8 +37,6 @@
 #include <e32property.h>
 #include "aknkeylock.h"
 #include "AknNotifierController.h"
-#include <keyguardaccessapi.h>
-#include <devicelockaccessapi.h>
 
 // RAknKeyLock
 
@@ -62,7 +60,6 @@ EXPORT_C void RAknKeyLock::OfferKeyLock()
 EXPORT_C TBool RAknKeyLock::IsKeyLockEnabled()
 	{
 	TInt value;
-	/*
 	TInt err = RProperty::Get(KPSUidAvkonDomain, KAknKeyguardStatus, value);
 	if ( err != KErrNone ) 
 	    return EFalse;
@@ -75,22 +72,6 @@ EXPORT_C TBool RAknKeyLock::IsKeyLockEnabled()
 	    default:
 	        return EFalse;
 	    }
-	*/
-
-	TInt valueKeyguard;
-	CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-	valueKeyguard = iKeyguardAccess->IsKeyguardEnabled( );
-	delete iKeyguardAccess;
-
-	TInt valueDevicelock;
-	CDevicelockAccessApi* iDevicelockAccess = CDevicelockAccessApi::NewL( );
-	valueDevicelock = iDevicelockAccess->IsDevicelockEnabled( );
-	delete iDevicelockAccess;
-
-	value = EFalse;
-	if( valueKeyguard || valueDevicelock )
-		value = ETrue;
-	return value;
 	}
 
 EXPORT_C void RAknKeyLock::EnableSoftNotifications(TBool aEnable)
@@ -122,66 +103,12 @@ EXPORT_C void RAknKeyLock::EnableWithoutNote()
 
 void RAknKeyLock::SendMessage(TKeyLockNotifierReason aMessage)
 	{
-
-		switch(aMessage)
-		{
-			case ELockEnabled:
-				{
-				CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-				iKeyguardAccess->EnableKeyguard( ETrue );
-				delete iKeyguardAccess;
-				}
-				break;
-			case EEnableWithoutNote:
-				{
-				CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-				iKeyguardAccess->EnableKeyguard( EFalse );
-				delete iKeyguardAccess;
-				}
-				break;
-			case ELockDisabled:
-				{
-				CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-				iKeyguardAccess->DisableKeyguard( ETrue );
-				delete iKeyguardAccess;
-				}
-				break;
-			case EDisableWithoutNote:
-				{
-				CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-				iKeyguardAccess->DisableKeyguard( EFalse );
-				delete iKeyguardAccess;
-				}
-				break;
-			case EOfferKeylock:
-				{
-				CKeyguardAccessApi* iKeyguardAccess = CKeyguardAccessApi::NewL( );
-				iKeyguardAccess->OfferKeyguard( );
-				delete iKeyguardAccess;
-				}
-				break;
-			case EEnableAutoLockEmulation:
-				{
-				CDevicelockAccessApi* iDevicelockAccess = CDevicelockAccessApi::NewL( );
-				iDevicelockAccess->OfferDevicelock( );	// TODO maybe EnableDevicelock ?
-				delete iDevicelockAccess;
-				}
-				break;
-			default:
-				{
-				}
-				break;
-		}
-	/*
-	This is the old method. Not used anymore because now KeyguardAccessApi and DeviceLockAccessApi send the requests to Autolock
-	
 	TPckgBuf<SAknNotifierPackage<SAknKeyLockNotifierParams> > data;
 	TRequestStatus status;
 	data().iParamData.iReason = aMessage;
 	StartNotifierAndGetResponse(status,KAknKeyLockNotifierUid, data, data);
 	User::WaitForRequest(status);
 	CancelNotifier(KAknKeyLockNotifierUid);
-	*/
 	}
 
 // RAknKeyLock2

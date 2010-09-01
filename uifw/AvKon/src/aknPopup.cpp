@@ -30,6 +30,7 @@
 #include <skinlayout.cdl.h>
 #include <aknglobalpopupprioritycontroller.h>
 #include <touchfeedback.h>
+#include <akntranseffect.h>
 
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
 #include <gfxtranseffect/gfxtranseffect.h>
@@ -37,7 +38,6 @@
 #endif
 
 #include <AknTasHook.h>
-
 #include "aknPopup.h"
 #include "akntrace.h"
 #include "aknitemactionmenuregister.h"
@@ -239,7 +239,7 @@ EXPORT_C CAknPopupList::~CAknPopupList()
     // last member ste before the actiave scheduler is started.
 
     // Reset action menu register
-    AknItemActionMenuRegister::SetConstructingMenuBarOwnerL( NULL );
+    AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( this );
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -303,8 +303,7 @@ EXPORT_C void CAknPopupList::ConstructL(CEikListBox* aListBox, TInt aCbaResource
     iListBox->SetBorder(TGulBorder::ENone);
 
     // Create extension class
-    if (!iPopupListExtension)
-        iPopupListExtension = new (ELeave) CAknPopupListExtension(); 
+    iPopupListExtension = new (ELeave) CAknPopupListExtension(); 
 
     CAknAppUi* appUi = static_cast<CAknAppUi*>( iEikonEnv->EikAppUi() );
     if ( appUi && appUi->IsSingleClickCompatible() )
@@ -384,6 +383,25 @@ EXPORT_C TBool CAknPopupList::ExecuteLD()
     {
     _AKNTRACE_FUNC_ENTER;
     __ASSERT_DEBUG(iListBox,Panic(EAknPanicListboxUndefined));
+    if ( AknLayoutUtils::PenEnabled() )
+        {
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
+            {
+            TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+            if ( CAknTransitionUtils::TransitionsEnabled(
+                    AknTransEffect::EComponentTransitionsOff ) )
+                {
+                fbLogicalType = ETouchFeedbackIncreasingPopUp;
+                }
+            feedback->InstantFeedback(
+                                   this,
+                                   fbLogicalType,
+                                   ETouchFeedbackVibra,
+                                   TPointerEvent() );
+            }
+        }
+    
     iPopoutCba->SetBoundingRect(TRect(iAvkonAppUi->ApplicationRect().Size()));
     
     // Disable item specific menu just before the popup is about to be shown.
@@ -401,6 +419,7 @@ EXPORT_C TBool CAknPopupList::ExecuteLD()
         STATIC_CAST(CAknFilteredTextListBoxModel*,
                     ListBox()->Model())->Filter()->SetSearchField( NULL );
         FindBox()->Editor().SetFocus( EFalse );                    
+        __ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
         delete iPopupListExtension->iSearchControl;
         iPopupListExtension->iSearchControl = NULL;
         }
@@ -650,6 +669,7 @@ EXPORT_C void CAknPopupList::ProcessCommandL(TInt aCommandId)
     {
     _AKNTRACE_FUNC_ENTER;
     _AKNTRACE("ProcessCommandL: aCommandId=%d", aCommandId);
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
     // Respond to softkey events
     switch (aCommandId)
         {
@@ -709,6 +729,7 @@ EXPORT_C void CAknPopupList::ProcessCommandL(TInt aCommandId)
 EXPORT_C void CAknPopupList::HandleListBoxEventL(CEikListBox* aListBox, TListBoxEvent aEventType)
     {
     _AKNTRACE_FUNC_ENTER;
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
     // Respond to events from listbox
     if (aListBox == iListBox)
         {
@@ -798,6 +819,7 @@ EXPORT_C void CAknPopupList::HandleControlEventL(CCoeControl* aControl,TCoeEvent
 EXPORT_C void CAknPopupList::AttemptExitL(TBool aAccept)
     {
     _AKNTRACE_FUNC_ENTER;
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
     //EFTG-7HWDP6.
     if( FindBox()
         && !( FindBox()->Editor().AknEdwinFlags() & EAknEditorFlagTouchInputModeOpened )
@@ -822,6 +844,24 @@ EXPORT_C void CAknPopupList::AttemptExitL(TBool aAccept)
         }
     else if( !(iPopupListExtension->iFlags & EPopupFepStartEvent) )
         {  
+        if ( AknLayoutUtils::PenEnabled() )
+            {
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if ( feedback )
+                {
+                TTouchLogicalFeedback fbLogicalType = ETouchFeedbackPopUp;
+                if ( CAknTransitionUtils::TransitionsEnabled(
+                        AknTransEffect::EComponentTransitionsOff ) )
+                    {
+                    fbLogicalType = ETouchFeedbackDecreasingPopUp;
+                    }
+                feedback->InstantFeedback(
+                                       this,
+                                       fbLogicalType,
+                                       ETouchFeedbackVibra,
+                                       TPointerEvent() );
+                }
+            }
 #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
         // no transition if accepted
         if( IsVisible() && GfxTransEffect::IsRegistered(this) && !aAccept )
@@ -911,6 +951,7 @@ EXPORT_C void CAknPopupList::SetupWindowLayout(AknPopupLayouts::TAknPopupLayouts
     
     TInt softkeyHeight( KSoftkeyHeightUndefined );
 
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) ); 
     if (!iPopupListExtension->iBgContext)
         {
         TRAP_IGNORE( iPopupListExtension->iBgContext = CAknsFrameBackgroundControlContext::NewL(
@@ -1077,7 +1118,8 @@ EXPORT_C TTypeUid::Ptr CAknPopupList::MopSupplyObject(TTypeUid aId)
         }
     if (aId.iUid == MAknsControlContext::ETypeId)
         {
-        if (iPopupListExtension && iPopupListExtension->iBgContext)
+    	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
+        if (iPopupListExtension->iBgContext)
             {
             return MAknsControlContext::SupplyMopObject(aId, iPopupListExtension->iBgContext);
             }
@@ -1131,6 +1173,7 @@ EXPORT_C void CAknPopupList::HandlePointerEventL(const TPointerEvent& aPointerEv
     
     if ( AknLayoutUtils::PenEnabled() )
         {
+    	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
         iPopupListExtension->iFlags |= EPopupHandlingPointerEvent;
 
         TInt index;
@@ -1162,10 +1205,6 @@ EXPORT_C void CAknPopupList::HandlePointerEventL(const TPointerEvent& aPointerEv
                         {
                         AttemptExitL( ETrue );
                         }
-                    else
-                        {
-                        AttemptExitL( EFalse );
-                        }
                     }
 
                 //EFTG-7HWDP6. 
@@ -1179,24 +1218,11 @@ EXPORT_C void CAknPopupList::HandlePointerEventL(const TPointerEvent& aPointerEv
                 break;
             case TPointerEvent::EButton1Down:
                 _AKNTRACE("CAknPopupList::HandlePointerEventL: TPointerEvent::EButton1Down");
-                // as in comments close popup if pointer goes outside of the popup list
-                if ( !Rect().Contains( aPointerEvent.iPosition ) )
+                if ( FindBox() 
+                    && ( FindBox()->Editor().Rect().Contains( aPointerEvent.iPosition ) ) 
+                    && !( iPopupListExtension->iFlags & EPopupLayoutSwitchEvent ) )
                     {
-                    MTouchFeedback* feedback = MTouchFeedback::Instance();
-                    if ( feedback )
-                        {
-                        feedback->InstantFeedback( ETouchFeedbackPopUp );
-                        }
-                    AttemptExitL( EFalse );                	
-                    }
-                else 
-                    {
-                    if( FindBox() 
-                        && ( FindBox()->Editor().Rect().Contains( aPointerEvent.iPosition ) ) 
-                        && !( iPopupListExtension->iFlags & EPopupLayoutSwitchEvent ) )
-                        {
-                        iPopupListExtension->iFlags |= EPopupFepStartEvent;
-                        }
+                    iPopupListExtension->iFlags |= EPopupFepStartEvent;
                     }
                 break;
             case TPointerEvent::EDrag:
@@ -1220,8 +1246,7 @@ EXPORT_C void* CAknPopupList::ExtensionInterface( TUid /*aInterface*/ )
     
 EXPORT_C TBool CAknPopupList::EnableFind(TBool /*aEnable*/)
     {
-    if (!iPopupListExtension)
-        return EFalse; // no extension class, failed
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );    
     if (!iPopupListExtension->iSearchControl)
         {
         CAknSearchField::TSearchFieldStyle flags = CAknSearchField::EPopupWindow;
@@ -1253,8 +1278,7 @@ EXPORT_C TBool CAknPopupList::EnableFind(TBool /*aEnable*/)
     
 EXPORT_C TBool CAknPopupList::EnableAdaptiveFind(TBool /*aEnable*/)
     {
-    if (!iPopupListExtension)
-        return EFalse; // no extension class, failed
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );    
     if (!iPopupListExtension->iSearchControl)
         {
         CAknSearchField::TSearchFieldStyle flags = CAknSearchField::EPopupAdaptiveSearchWindow;
@@ -1287,9 +1311,8 @@ EXPORT_C TBool CAknPopupList::EnableAdaptiveFind(TBool /*aEnable*/)
 
 EXPORT_C CAknSearchField* CAknPopupList::FindBox() const
     {
-    if (iPopupListExtension)
-        return iPopupListExtension->iSearchControl;
-    return NULL;
+	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );    
+    return iPopupListExtension->iSearchControl;
     }
 
 void CAknPopupList::RemoveFindFiltering()
@@ -1310,7 +1333,7 @@ EXPORT_C void CAknPopupList::HandleResourceChange(TInt aType)
     _AKNTRACE_FUNC_ENTER;
     if( aType == KEikDynamicLayoutVariantSwitch )
         {
-        
+    	__ASSERT_DEBUG( iPopupListExtension, Panic( EAknPanicNullPointer ) );
         //EFTG-7HWDP6. 
         //Tapping Edit'area can arouse the CAknPopupList::HandleResourceChange()
         //when portrait is initial model, and 'Full screen QWERTY keyboard' is default input method.

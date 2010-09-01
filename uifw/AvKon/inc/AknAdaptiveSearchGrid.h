@@ -100,15 +100,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          */
          void HandleResourceChange( TInt aType );
                 
-        /**
-         * From CCoeControl.
-         * Retrieves an object of the same type as that encapsulated in aId.
-         *
-         * @param aId An encapsulated object type ID.
-         * @return Encapsulated pointer to the object provided. 
-         *      Note that the encapsulated pointer may be NULL.
-         */
-         TTypeUid::Ptr MopSupplyObject( TTypeUid aId );
                  
         /**
          * From MCoeControlObserver.
@@ -200,12 +191,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          */
 	 	 void SetButtonGridChars( const TDesC& aGridChars );
 		
-		/**
-		 * Sets text into search field.
-		 * 		 
-		 * @param const aSearchTxt Reference to the text buffer.
-         */            
-	     void SetSearchTextToFindPane( const TDesC& aSearchTxt );
 		
 		/**
          * Initiates buttons for adaptive search grid        
@@ -234,6 +219,14 @@ class CAknAdaptiveSearchGrid : public CAknControl,
          
          static const TInt EDeleteLastCharPressed = -1;
 		 static const TInt ECloseGridPressed = -2;  
+		 
+    public:
+		 
+		/**
+		 * When the rect of find pane is set, this functions will be notified
+         * to record the size of it.
+		 */
+		void SaveFindPaneRect( const TRect &aRect );
   
     protected: // From base class
   
@@ -355,9 +348,6 @@ class CAknAdaptiveSearchGrid : public CAknControl,
         CEikEdwin* iEditor;         
         TInt iTextLimit;     
 	    
-	    // skin context for find pane
-   	    CAknsListBoxBackgroundControlContext* iSkinContextOfFindPane;   	
-   	    CAknsFrameBackgroundControlContext* iBgContextOfFindPane; 
    	    	    	       	    
    	    // contex for control pane   
    	    CAknsBasicBackgroundControlContext* iBgContextOfControlPane;    	     
@@ -416,6 +406,10 @@ class CAknAdaptiveSearchGrid : public CAknControl,
         TBool iPopupFindpane;
         // The length of overlap section 
         TInt iOverlapLength;
+        
+        TRect iFindpaneRect;
+        
+        TBool iFindPaneSizeChanged;
 
     };
 

@@ -50,7 +50,6 @@ class CEikScrollBarFrame;
 class CEikScrollBar;
 class MEikScrollBarObserver;
 class CAknInfoPopupNoteController;
-class CAknTouchAreaControl;
 
 class CEikScrollBarExtensionImpl : public CBase
     {
@@ -67,7 +66,6 @@ public:
 	virtual void SetIncreaseButtonsDimmed(TBool aDimmed)=0;
 	virtual void SetAllButtonsDimmed(TBool aDimmed)=0;
 	virtual void SetContainingCba(CEikCba* aCba)=0;
-	virtual void CreateButtonL(CAknScrollButton*& aButton,CAknScrollButton::TType aType)=0;
 	virtual void DoSetModel(const TEikScrollBarModel* aModel)=0;
 	virtual CEikCba* Cba() const=0;
 	virtual void AddExternalFrameL(CEikScrollBarFrame* aFrame)=0;
@@ -107,7 +105,6 @@ public:
 	virtual void SetIncreaseButtonsDimmed(TBool aDimmed);
 	virtual void SetAllButtonsDimmed(TBool aDimmed);
 	virtual void SetContainingCba(CEikCba* aCba);
-	virtual void CreateButtonL(CAknScrollButton*& aButton,CAknScrollButton::TType aType);
 	virtual void DoSetModel(const TEikScrollBarModel* aModel);
 	virtual CEikCba* Cba() const;
 	virtual void AddExternalFrameL(CEikScrollBarFrame* aFrame);
@@ -158,7 +155,6 @@ public:
     virtual void SetIncreaseButtonsDimmed(TBool aDimmed);
     virtual void SetAllButtonsDimmed(TBool aDimmed);
     virtual void SetContainingCba(CEikCba* aCba);
-    virtual void CreateButtonL(CAknScrollButton*& aButton,CAknScrollButton::TType aType);
     virtual void DoSetModel(const TEikScrollBarModel* aModel);
     virtual CEikCba* Cba() const;
     virtual void AddExternalFrameL(CEikScrollBarFrame* aFrame);
@@ -189,7 +185,6 @@ public:
     CAknInfoPopupNoteController* iPopupController;
     TBool iShowPopup;
     MEikScrollBarObserver* iOwningScrollBarObserver;
-    CAknTouchAreaControl* iTouchAreaControl;
     TInt iScrollBarFlags;
     /** extension area type. */
     TInt iExtensionType;

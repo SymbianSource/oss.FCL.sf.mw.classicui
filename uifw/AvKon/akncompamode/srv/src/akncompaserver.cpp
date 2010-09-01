@@ -304,7 +304,7 @@ void CAknCompaSrvSession::CreateL()
     // This avoid possibility of memory allocation error when key is
     // added to key state array due to key press while application is
     // executing.
-    iKeyState.Reserve(EKeyStateGranularity);
+    iKeyState.ReserveL(EKeyStateGranularity);
     
     Server().AddSession();
     }

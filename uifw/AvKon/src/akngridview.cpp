@@ -77,6 +77,8 @@ EXPORT_C CAknGridView::CAknGridView()
     iScrollingType = EScrollFollowsItemsAndLoops;
     iScrollInSecondaryDimension = EScrollFollowsItemsAndLoops;
     iGridDetails.iGridDimensions = TSize(1,1);
+    iGridDetails.iColsInView = 1;
+    iGridDetails.iRowsInView = 1;
     }
 
 /**
@@ -1925,22 +1927,30 @@ EXPORT_C void CAknGridView::ClearUnusedItemSpace(TInt aStartItemIndex, TInt aEnd
 		{
 		blankRect.SetRect(ItemPos(i), ItemSize());
 		blankRect.Intersection(iViewRect);
-
-		MAknsSkinInstance *skin = AknsUtils::SkinInstance();
-		CFormattedCellListBoxItemDrawer *id = (CFormattedCellListBoxItemDrawer*)ItemDrawer();
-		if (id->FormattedCellData()->Control())
-			{
-			MAknsControlContext *cc = AknsDrawUtils::ControlContext( id->FormattedCellData()->Control() );
-			if ( !cc )
-			    {
-			    cc = id->FormattedCellData()->SkinBackgroundContext();
-			    }
-			AknsDrawUtils::Background( skin, cc, id->FormattedCellData()->Control(), *iGc, blankRect );
-			}
-		else
-			{
-			iGc->Clear(blankRect);
-			}
+		if ( blankRect.Width() > 0 && blankRect.Height() > 0 )
+		    {
+		    MAknsSkinInstance *skin = AknsUtils::SkinInstance();
+		    CFormattedCellListBoxItemDrawer *id = 
+                (CFormattedCellListBoxItemDrawer*)ItemDrawer();
+		    if ( id->FormattedCellData()->Control())
+		    	{
+		        MAknsControlContext *cc = 
+                    AknsDrawUtils::ControlContext( id->FormattedCellData()->Control() );
+		        if ( !cc )
+		        	{
+		            cc = id->FormattedCellData()->SkinBackgroundContext();
+		        	}
+		        AknsDrawUtils::Background( skin, 
+                                           cc, 
+                                           id->FormattedCellData()->Control(), 
+                                           *iGc, 
+                                           blankRect );
+		    	}
+		    else
+		    	{
+		        iGc->Clear(blankRect);
+		    	}
+		   	}
 		}
 	_AKNTRACE_FUNC_EXIT;
 	}

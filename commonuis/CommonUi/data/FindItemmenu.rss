@@ -29,6 +29,8 @@ NAME    FIME // 4 letter ID
 #include <AiwCommon.hrh>
 #include <AiwCommon.rh>
 
+#include <CommonDialogs.hrh> 
+#include <CommonDialogs.rh>
 #include <pathconfiguration.hrh>
 
 //  CONSTANTS  
@@ -135,6 +137,23 @@ RESOURCE TBUF r_finditemmenu_link_saved
     buf=qtn_find_rtsp_saved_note; 
     }
 
+RESOURCE MEMORYSELECTIONDIALOG r_memory_selection_locations
+    {
+    //title=qtn_memc_select_memory;
+    softkey_1=text_softkey_ok;
+    softkey_2=text_softkey_cancel;
+    locations=
+        {
+        LOCATION
+            { 
+            root_path=text_phone_memory_root_path; 
+            },
+        LOCATION 
+            {
+            root_path=text_memory_card_root_path;
+            }
+        };
+    }
 
 RESOURCE TBUF40 r_qtn_find_activate_option
     {

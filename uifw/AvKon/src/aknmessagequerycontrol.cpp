@@ -102,10 +102,6 @@ CAknMessageQueryControl::~CAknMessageQueryControl()
     AKNTASHOOK_REMOVE();
     AknsUtils::DeregisterControlPosition( iEdwin );
     delete iEdwin;
-    if ( !AknLayoutUtils::PenEnabled() )
-        {
-        delete iSBFrame;
-        } 
     iLinkTextLocationArray.Close();
     iLinkTextArray.Close();
     delete iFullMessage;
@@ -114,14 +110,12 @@ CAknMessageQueryControl::~CAknMessageQueryControl()
 
 EXPORT_C void CAknMessageQueryControl::ConstructFromResourceL( TResourceReader& aReader )
     {
-    if( CAknEnv::Static()->TransparencyEnabled() )
+    CEikDialog* dlg;
+    MopGetObject( dlg );
+
+    if ( dlg )
         {
-        CEikDialog* dlg;
-        MopGetObject( dlg );
-        if ( dlg )
-            {
-            dlg->Extension()->iPublicFlags.Set( CEikDialogExtension::EClipChildControlRect );
-            }
+        dlg->Extension()->iPublicFlags.Set( CEikDialogExtension::EClipChildControlRect );
         }
     
     TPtrC messageLabel = aReader.ReadTPtrC();
@@ -141,7 +135,7 @@ EXPORT_C void CAknMessageQueryControl::SetMessageTextL( TDesC* aMessage )
     TPtr message( msgBuf->Des() );
     if( iListQLayout )
         {
-        TruncateTextForListQLayout( message );
+        TruncateTextForListQLayoutL( message );
         iEdwin->SetTextL( &message );
         LayoutEditorL(); 
         }
@@ -171,11 +165,7 @@ void CAknMessageQueryControl::CreateEditorL()
     {
     delete iEdwin;
     iEdwin = NULL;
-    if ( !AknLayoutUtils::PenEnabled() )
-        {
-        delete iSBFrame;
-        iSBFrame = NULL;
-        } 
+    iSBFrame = NULL;
     
     iEdwin = new ( ELeave ) CEikRichTextEditor( TGulBorder::ENone );
     iEdwin->SetContainerWindowL( *this );
@@ -189,6 +179,7 @@ void CAknMessageQueryControl::CreateEditorL()
     iEdwin->SetAvkonWrap( ETrue );                                  
     iEdwin->SetFocus( EFalse );
     iEdwin->SetNonFocusing();
+    iEdwin->EnableKineticScrollingL(ETrue);
     }    
     
 void CAknMessageQueryControl::LayoutEditorL()
@@ -428,112 +419,26 @@ void CAknMessageQueryControl::ActivateL()
     }
 
 void CAknMessageQueryControl::UpdateScrollIndicatorL()
-    {   
+    {
     if ( iNumberOfLines <= iLinesPerPage )
         {
         return;
         }
+    
     if ( !iSBFrame )
         {
-        if ( AknLayoutUtils::PenEnabled())
-            {   
-            // Edwin will make scrollbar and also observe it
-            iSBFrame= iEdwin->CreateScrollBarFrameL();
-            }
-        else
-            {
-            iSBFrame=new( ELeave ) CEikScrollBarFrame( this, NULL, ETrue );
-            }           
+        // edwin will make scrollbar and also observe it
+        iSBFrame = iEdwin->CreateScrollBarFrameL();
 
         // Check which type of scrollbar is to be shown
-        CAknAppUiBase* appUi = iAvkonAppUi;
-        if ( AknLayoutUtils::DefaultScrollBarType( appUi ) == CEikScrollBarFrame::EDoubleSpan )
-            {
-            iSBFrame->CreateDoubleSpanScrollBarsL(EFalse, EFalse, ETrue, EFalse ); // non-window owning scrollbar
-            iSBFrame->SetTypeOfVScrollBar( CEikScrollBarFrame::EDoubleSpan );
-            if( CAknEnv::Static()->TransparencyEnabled() )
-                {
-                iSBFrame->DrawBackground( EFalse, EFalse );
-                }
-            }
-        else
-            {
-            // For EArrowHead type scrollbar
-            iSBFrame->SetTypeOfVScrollBar( CEikScrollBarFrame::EArrowHead );
-            }
-        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff,CEikScrollBarFrame::EAuto );
+        iSBFrame->CreateDoubleSpanScrollBarsL(EFalse, EFalse, ETrue, EFalse );
+        iSBFrame->SetTypeOfVScrollBar( CEikScrollBarFrame::EDoubleSpan );
+        iSBFrame->DrawBackground( EFalse, EFalse );
+        iSBFrame->SetScrollBarVisibilityL( CEikScrollBarFrame::EOff,
+                CEikScrollBarFrame::EAuto );
         }
-    if ( !iSBFrame )
-        {
-        return;
-        }
-        
-    if ( !AknLayoutUtils::PenEnabled() )
-        {
-        TEikScrollBarModel hSbarModel;
-        TEikScrollBarModel vSbarModel;
-        vSbarModel.iThumbPosition = iTopLine;
-        vSbarModel.iScrollSpan = iNumberOfLines;
-        vSbarModel.iThumbSpan = iLinesPerPage;
-        
-        TEikScrollBarFrameLayout layout;
-        TRect rect( Rect() );
-        
-        if ( iSBFrame->TypeOfVScrollBar() == CEikScrollBarFrame::EDoubleSpan )
-            {
-            // For EDoubleSpan type scrollbar
-            TAknDoubleSpanScrollBarModel hDsSbarModel( hSbarModel );
-            TAknDoubleSpanScrollBarModel vDsSbarModel( vSbarModel );
-            layout.iTilingMode = TEikScrollBarFrameLayout::EInclusiveRectConstant;
-                 
-            TAknLayoutRect listScrollPopupInfoPane;
-            listScrollPopupInfoPane.LayoutRect( LayoutRect(), AknLayoutScalable_Avkon::listscroll_popup_info_pane() );
-            TRect listScrollPopupInfoPaneRect( listScrollPopupInfoPane.Rect() );
-            CAknPopupHeadingPane* heading = NULL;
-            if( iListQLayout )
-            	{
-            	CAknListQueryDialog* dlg;
-            	MopGetObject( dlg );
-            	if( dlg )
-            		{
-            		heading = dlg->QueryHeading();
-            		}            	
-            	}
-            else
-            	{
-            	CEikDialog* dlg;
-                MopGetObject( dlg );
-                if( dlg )
-                	{
-                	heading = (CAknPopupHeadingPane*)dlg->ControlOrNull(EAknMessageQueryHeaderId); 
-                	}                
-            	}
-            
-            if( heading && heading->PromptText() == KNullDesC )
-                {
-                TAknLayoutRect headingPaneLayout;
-                headingPaneLayout.LayoutRect( LayoutRect(), AknLayoutScalable_Avkon::heading_pane_cp5() );
-                listScrollPopupInfoPaneRect.Move( 0, -1 * headingPaneLayout.Rect().Height() );
-                }
-            AknLayoutUtils::LayoutVerticalScrollBar( iSBFrame, listScrollPopupInfoPaneRect, AknLayoutScalable_Avkon::scroll_pane_cp7().LayoutLine() );
-        
-            TRect inclusiveRect( Rect() );
-            TRect clientRect( Rect() );
-            
-            iSBFrame->TileL( &hDsSbarModel,&vDsSbarModel,clientRect,inclusiveRect,layout );        
-            iSBFrame->SetVFocusPosToThumbPos( vDsSbarModel.FocusPosition() );
-            }
-        else
-            {
-            // For EArrowHead type scrollbar
-            iSBFrame->TileL( &hSbarModel,&vSbarModel,rect,rect,layout );        
-            iSBFrame->SetVFocusPosToThumbPos( vSbarModel.iThumbPosition );
-            }
-        }
-    else
-        {
-        iEdwin->UpdateScrollBarsL();    
-        }
+    
+    iEdwin->UpdateScrollBarsL();    
     }
 
 EXPORT_C void CAknMessageQueryControl::Draw( const TRect& /*aRect*/ ) const
@@ -545,28 +450,24 @@ EXPORT_C void CAknMessageQueryControl::Draw( const TRect& /*aRect*/ ) const
 
     CWindowGc& gc=SystemGc(); 
     TRect messageQueryControlRect( Rect() );
-    TRect popupRect = TRect(LayoutRect());
+    TRect popupRect(LayoutRect());
 
-    TRect backgroundRect = TRect(messageQueryControlRect.iTl, popupRect.iBr);    
+    TRect backgroundRect(messageQueryControlRect.iTl, popupRect.iBr);    
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
 
-    if( CAknEnv::Static()->TransparencyEnabled() )
+    TRegionFix<4> clipReg;
+    clipReg.AddRect( backgroundRect );
+    
+    if ( iEdwin )
         {
-        TRegionFix<4> clipReg;
-        clipReg.AddRect(backgroundRect);
-        if (iEdwin)
-            {
-            clipReg.SubRect(iEdwin->Rect());
-            }
-        gc.SetClippingRegion(clipReg);
-        AknsDrawUtils::Background( skin, cc, this, gc, backgroundRect, KAknsDrawParamNoClearUnderImage );
-        gc.CancelClippingRegion();
+        clipReg.SubRect( iEdwin->Rect() );
         }
-    else
-        {
-        AknsDrawUtils::Background( skin, cc, this, gc, backgroundRect );
-        }
+    
+    gc.SetClippingRegion( clipReg );
+    AknsDrawUtils::Background( skin, cc, this, gc, backgroundRect, 
+            KAknsDrawParamNoClearUnderImage );
+    gc.CancelClippingRegion();
     }
 
 TInt CAknMessageQueryControl::CurrentLink() const
@@ -781,7 +682,7 @@ void CAknMessageQueryControl::SetMessageTextWithFormattingL( TDesC* aMessage, RA
 /**
  * CAknMessageQueryControl::HandlePointerEventL()
  *
- * Transfers pointerevent to editor control and updates it's scroll bar. 
+ * Transfers pointerevent to editor control.
  * Checks for the object destruction after the pointer event handling.
  */
 void CAknMessageQueryControl::HandlePointerEventL( const TPointerEvent& aPointerEvent )
@@ -791,21 +692,21 @@ void CAknMessageQueryControl::HandlePointerEventL( const TPointerEvent& aPointer
     * The local @c destroyed variable keeps track of the object destroyed state.
     */
     TBool destroyed = EFalse;
-    if (AknLayoutUtils::PenEnabled() )
+    
+    iExtension->iDestroyedPtr = &destroyed;
+
+    // Call default implementation of HandlePointerEventL to transfer event to correct control.
+    CAknControl::HandlePointerEventL( aPointerEvent );
+
+    if ( !destroyed )
         {
-        iExtension->iDestroyedPtr = &destroyed;
-        // Call default implementation of HandlePointerEventL to transfer event to correct control.
-        CAknControl::HandlePointerEventL( aPointerEvent );
-        if ( !destroyed )
-            {
-            iExtension->iDestroyedPtr = NULL;
-            iEdwin->UpdateScrollBarsL();
-            }
-        else
-            {
-            return;
-            }
+        iExtension->iDestroyedPtr = NULL;
         }
+    else
+        {
+        return;
+        }
+    
     TBool highlightAfter = LinkHighLighted();
     if( aPointerEvent.iType == TPointerEvent::EButton1Down && 
         highlightBefore == highlightAfter && highlightAfter )
@@ -897,7 +798,7 @@ TBool CAknMessageQueryControl::ScrollBarGrabbing()
     return grabbing;
     }
 
-void CAknMessageQueryControl::TruncateTextForListQLayout( TDes& aMessage )
+void CAknMessageQueryControl::TruncateTextForListQLayoutL( TDes& aMessage )
     {
     if( !iListQLayout )
         return;
@@ -928,7 +829,7 @@ void CAknMessageQueryControl::DoSizeChangedL()
         TPtr message( msgBuf->Des() );
         iEdwin->SetTextL( &message );
         LayoutEditorL(); 
-        TruncateTextForListQLayout( message );
+        TruncateTextForListQLayoutL( message );
         iEdwin->SetTextL( &message );
         CleanupStack::PopAndDestroy( msgBuf );  // After all usages of message        
         iNumberOfLines = iEdwin->TextLayout()->NumFormattedLines();
@@ -997,7 +898,8 @@ void CAknMessageQueryControl::DoSizeChangedL()
     TAknMultiLineTextLayout multilineLayout = TAknTextComponentLayout::Multiline(textComponentLayoutArray);
     AknLayoutUtils::LayoutEdwin( iEdwin, listPopupInfoPane.Rect(),
         multilineLayout, EAknsCIQsnTextColorsCG19 );
-    //iEdwin->SetRect( listPopupInfoPane.Rect() );
+    // Use list_popup_info_pane as editor's rect
+    iEdwin->SetRect( listPopupInfoPane.Rect() );
     textComponentLayoutArray.Close();
     
     iEdwin->SetBorder( TGulBorder::ENone );

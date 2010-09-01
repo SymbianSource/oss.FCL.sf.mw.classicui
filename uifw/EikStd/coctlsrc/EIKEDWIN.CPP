@@ -102,6 +102,10 @@
 #include "smileycustomwrap.h"
 #include <touchfeedback.h>
 
+// declare function
+void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId );
+void ReadSCTHeadPane( TResourceReader& aReader );
+
 GLDEF_C void Panic(TEikEdwinPanic aPanic)
     {
     _LIT(KPanicCat,"EIKON-EDWIN");
@@ -139,13 +143,20 @@ const TInt KDownwardsArrowWithTipRightwards = 0x21B3;
 const TInt KEuroSign = 0x20AC;
 const TInt KSegmSize = 1024;
 
-const TInt KMicroSecondsDelay = 500000;
+
 
 const TInt KNormalAnimPlayTimes = 2;
 const TInt KInfiniteAnimPlayTimes = 0x7ffff;
 const TInt KAdditionalPixels = 0x400;
 
 const TInt KFullFormatLengthForSmiley = 5000;
+
+const TInt KContentThreshold = 8;
+
+const TInt KNmericSCTLimit( 256 );
+const TInt KTInt16Length( sizeof( TInt16 ) );
+const TInt KTInt32Length( sizeof( TInt32 ) );
+const TInt KTUint32Length( sizeof( TUint32 ) );
 
 //
 // class CEikEdwin::CUndoBuffer
@@ -217,6 +228,11 @@ NONSHARABLE_CLASS(CEikEdwinFepSupport) : public CBase, public MCoeFepAwareTextEd
     {
     friend class CEikEdwin;
 public:
+    // The length of text window
+    const static TInt KMaxSegmentLength = 10000;
+    // The threshold for text window position change
+    const static TInt KSegmentUpdateTrigger = 100;
+    
     static CEikEdwinFepSupport* New(CEikEdwin& aEdwin);
     virtual ~CEikEdwinFepSupport();
     TBool IsHandledByFepL(TPointerEvent::TType aType, TUint aModifiers, TInt aDocumentPosition);
@@ -232,7 +248,21 @@ public:
     // from MCoeFepAwareTextEditor_Extension1
     void SetStateTransferingOwnershipL(CState* aState, TUid aTypeSafetyUid);
     CState* State(TUid aTypeSafetyUid); // this function does *not* transfer ownership
+    
+    // New functions for Touch Input sync performance improvement. A sliding window method is used 
+    // here to show only part of text of editor to Touch Input, so the text sync between Touch input and 
+    // editor can be faster.
+    /**
+     * To update start position of text window according to cursor position. The cursor position has to
+     * be in the visible text window.
+     */
+    void UpdateDocPosOffsetL( TInt aCursorPos );
 
+    /**
+     * To check if FEP wants to get information of whole text, not the text window.
+     */
+    TBool FepRequireWholeTextData() const;
+    
 private:
     enum TPointerState
         {
@@ -292,6 +322,8 @@ public:
     MTouchFeedback* iFeedback;
     TBool iSelectionIsCancel;
     TInt iMoveThumbFeedbackNeeded;
+    // record start position of text window
+	TInt iDocPosOffset;
 private:    
     MFepPointerEventHandlerDuringInlineEdit* iPointerEventHandlerDuringInlineEdit; // does not own anything
     SPointerEventInInlineText iLastPointerEventInInlineText;
@@ -520,6 +552,9 @@ void CEikEdwinFepSupport::StartFepInlineEditL(
     TBool paragraphContainingStartPositionOfInlineTextHasChangedFormat=EFalse;
     TInt numberOfCharactersSuccessfullyDeleted=0;
     TInt numberOfCharactersSuccessfullyInserted=0;
+    
+    iEdwin.ConvertSmileyForDeleteL( selection );
+    
     // handle extended highlights
 
 /* 
@@ -572,13 +607,10 @@ void CEikEdwinFepSupport::UpdateFepInlineTextL(const TDesC& aNewInlineText,TInt 
     TRAPD(error,iEdwin.iText->UpdateFepInlineTextL(paragraphContainingStartPositionOfInlineTextHasChangedFormat,numberOfCharactersSuccessfullyDeleted,numberOfCharactersSuccessfullyInserted,iPositionOfInsertionPointInDocument,iPositionOfInlineTextInDocument+aPositionOfInsertionPointInInlineText,aNewInlineText));
     iLengthOfInlineText=numberOfCharactersSuccessfullyInserted;
     UpdateTextViewAfterChangeInInlineTextL(paragraphContainingStartPositionOfInlineTextHasChangedFormat,numberOfCharactersSuccessfullyDeleted,numberOfCharactersSuccessfullyInserted,error);
-    iEdwin.ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
     }
 
 void CEikEdwinFepSupport::SetInlineEditingCursorVisibilityL(TBool aCursorVisibility)
     {
-    __ASSERT_ALWAYS(iPositionOfInlineTextInDocument>=0,Panic(EEikPanicBadInlineEditingState7)); // assert that we're currently inline editing
-    __ASSERT_DEBUG((iOriginalSelection.iCursorPos>=0) && (iOriginalSelection.iAnchorPos>=0) && (iPositionOfInsertionPointInDocument>=0) && (iPositionOfInlineTextInDocument>=0) && (iLengthOfInlineText>=0) && (iPointerEventHandlerDuringInlineEdit!=NULL),Panic(EEikPanicBadInlineEditingState8));
     iEdwin.SetCursorVisibilityL(aCursorVisibility);
     iShowCursor = aCursorVisibility;
     }
@@ -624,18 +656,58 @@ void CEikEdwinFepSupport::CancelFepInlineEdit()
 
 TInt CEikEdwinFepSupport::DocumentLengthForFep() const
     {
+    // If the length between text window start position and text end is shorter
+    // than length of text window, return the short length, otherwise return
+    // text window length.
+    if ( !FepRequireWholeTextData() && iEdwin.TextLength() > KMaxSegmentLength )
+        {
+        TInt lengthToEnd( iEdwin.TextLength() - iDocPosOffset );
+        if ( lengthToEnd < KMaxSegmentLength )
+            {
+            return lengthToEnd;
+            }
+        return KMaxSegmentLength;
+        }
     return iEdwin.TextLength();
     }
 
 TInt CEikEdwinFepSupport::DocumentMaximumLengthForFep() const
     {
+    // return the length between textlimit and text window start position
+    if ( !FepRequireWholeTextData() && KMaxSegmentLength < iEdwin.iTextLimit )
+        {
+        return iEdwin.iTextLimit - iDocPosOffset;
+        }
     return iEdwin.iTextLimit;
     }
 
 void CEikEdwinFepSupport::SetCursorSelectionForFepL(const TCursorSelection& aCursorSelection)
     {
+    // if text window is enabled, the pos of parameter selection are relative to
+    // text window start position, so convert them back to actual doc pos.
     TInt cursorPos( aCursorSelection.iCursorPos );
     TInt anchorPos( aCursorSelection.iAnchorPos );
+    TInt textLength( iEdwin.TextLength() );
+    if ( !FepRequireWholeTextData() )
+        {
+        cursorPos += iDocPosOffset;
+        anchorPos += iDocPosOffset;
+        cursorPos = cursorPos > textLength ? textLength : cursorPos;
+        anchorPos = anchorPos > textLength ? textLength : anchorPos;
+        if ( cursorPos != anchorPos )
+            {
+            TCursorSelection select( iEdwin.Selection() );
+            if ( ( anchorPos == iDocPosOffset || anchorPos == iDocPosOffset + 
+                KMaxSegmentLength ) && anchorPos >= select.LowerPos() && 
+                anchorPos <= select.HigherPos() )
+                {
+                anchorPos = cursorPos > anchorPos ? select.LowerPos() : 
+                    select.HigherPos();
+                }
+            }
+        }
+    // Selection position can not be in smiley code string, so check if
+    // the position needs to be changed.
     if ( iEdwin.IsSmileyEnabled() )
         {  
         CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
@@ -650,22 +722,66 @@ void CEikEdwinFepSupport::SetCursorSelectionForFepL(const TCursorSelection& aCur
             smiley->HandleSetCursor( cursorPos, anchorPos );
             }
         }
-	iEdwin.SetSelectionL( cursorPos, anchorPos );
+    iEdwin.SetSelectionL( cursorPos, anchorPos );
+    // Cursor pos is changed, so update text window position.
+	UpdateDocPosOffsetL( cursorPos );
     iEdwin.ReportEdwinEventL(MEikEdwinObserver::EEventNavigation);
     }
 
 void CEikEdwinFepSupport::GetCursorSelectionForFep(TCursorSelection& aCursorSelection) const
     {
     aCursorSelection=iEdwin.Selection();
+    // To use text window, FEP can not access text view of editor directly but 
+    // FEP needs to know some information which can not be provided by current 
+    // interface. So use below method to transfer the information to FEP.
+    CAknEdwinState* state( iEdwin.EditorState() );
+    if ( state )
+        {
+        TInt flag( state->Flags() );
+        TTmDocPos docPos;
+        iEdwin.TextView()->GetCursorPos( docPos );
+        if ( docPos.iLeadingEdge )
+            {
+            flag |= EAknEditorFlagCursorLedingEdge;
+            }
+        else
+            {
+            flag &= ~EAknEditorFlagCursorLedingEdge;
+            }
+        state->SetFlags( flag );
+        }
+    // If text window is enabled, convert the actual doc pos to relative doc pos.
+    if ( !FepRequireWholeTextData() )
+        {
+        if ( aCursorSelection.iAnchorPos < iDocPosOffset )
+            {
+            aCursorSelection.iAnchorPos = iDocPosOffset;
+            }
+        else if ( aCursorSelection.iAnchorPos > iDocPosOffset + KMaxSegmentLength )
+            {
+            aCursorSelection.iAnchorPos = iDocPosOffset + KMaxSegmentLength;
+            }
+        aCursorSelection.iCursorPos -= iDocPosOffset;
+        aCursorSelection.iAnchorPos -= iDocPosOffset;
+        }
     }
 
 void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocumentPosition,TInt aLengthToRetrieve) const
     {
-    TInt length( Min( aLengthToRetrieve, iEdwin.TextLength() - aDocumentPosition ) );
-    iEdwin.iText->Extract( aEditorContent, aDocumentPosition, length );
-    if ( iEdwin.IsSmileyEnabled() )
+    // If text window is enabled, convert relative doc pos to actual doc pos.
+    if ( !FepRequireWholeTextData() )
         {
-        CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
+        aDocumentPosition += iDocPosOffset;
+        }
+    TInt length( Min( aLengthToRetrieve, iEdwin.TextLength() - aDocumentPosition ) );
+    if ( !FepRequireWholeTextData() )
+        {
+        length = Min( length, KMaxSegmentLength );
+        }    
+    iEdwin.iText->Extract( aEditorContent, aDocumentPosition, length );
+    CSmileyManager* smiley( iEdwin.iEdwinExtension->iSmiley );
+    if ( smiley && smiley->HasSmileyIconsInText() )
+        {        
         CAknEdwinState* state( iEdwin.EditorState() );
         if ( state )
             {
@@ -673,28 +789,29 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
             if ( aDocumentPosition >= inlineText.LowerPos() && 
                 aDocumentPosition + length <= inlineText.HigherPos() )
                 {
-                iEdwin.iEdwinExtension->iSmiley->ConvertTextForSmileyL(
-                    aDocumentPosition, aEditorContent, EFalse );
+                TRAP_IGNORE( smiley->ConvertTextForSmileyL( aDocumentPosition, aEditorContent, 
+                    EFalse ); )
                 }
             }
-        TBool prevIsCode( EFalse );
+        // Replace all 'i' following smiley code to invisbile placeholder for
+        // Touch Input can not recognize it as part of smiley code string.
+        TInt smileyEndPos( 0 );
         for ( TInt i( 0 ); i < length; i++ )
             {
             if ( aEditorContent[i] == CSmileyManager::KCompensateChar )
                 {
-                if ( i == 0 )
-                    {
-                    prevIsCode = ( CSmileyManager::IsSmileyCode( 
-                        smiley->SmileyCodeByPos( aDocumentPosition ) ) );
-                    }
-                if ( prevIsCode )
+                // when 'i' is the first character, it is unkonwn whether it is
+                // part of a smiley code string or not, so we have to use another 
+                // function to decide.
+                if ( ( i > 0 && i < smileyEndPos ) ||
+                     ( i == 0 && smiley->SmileyCodeByPos( aDocumentPosition ) > 0 ) )
                     {
                     aEditorContent[i] = CSmileyManager::KPlaceHolder;
                     }
                 }
-            else
+            else if ( smiley->IsSmileyCode( aEditorContent[i] ) )
                 {
-                prevIsCode = CSmileyManager::IsSmileyCode( aEditorContent[i] );
+                smileyEndPos = i + smiley->SmileyLength( aDocumentPosition + i );
                 }
             }
         }
@@ -708,6 +825,8 @@ void CEikEdwinFepSupport::GetFormatForFep(TCharFormat& aFormat,TInt aDocumentPos
 
 void CEikEdwinFepSupport::GetScreenCoordinatesForFepL(TPoint& aLeftSideOfBaseLine,TInt& aHeight,TInt& aAscent,TInt aDocumentPosition) const
     {
+    // If text window is enabled, convert relative doc pos to actual doc pos.
+    aDocumentPosition += iDocPosOffset;
     aDocumentPosition %= ( iEdwin.iText->DocumentLength() + 1 );    
     iEdwin.iTextView->DocPosToXyPosL(aDocumentPosition,aLeftSideOfBaseLine);
     aLeftSideOfBaseLine+=iEdwin.DrawableWindow()->InquireOffset(iEdwin.iCoeEnv->RootWin()); // make position "absolute" (i.e. not relative to the window that iEdwin is using) - note that *any* group window can be passed into InquireOffset to return the desired result, it doesn't have to be an ancestor of the window being used by iEdwin (i.e. this line of code does *not* make the assumption that iEdwin is (even indirectly) attached to iCoeEnv->RootWin())
@@ -724,7 +843,6 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
     {
     __ASSERT_ALWAYS(iPositionOfInlineTextInDocument>=0,Panic(EEikPanicBadInlineEditingState9)); // assert that we're currently inline editing
     __ASSERT_DEBUG((iOriginalSelection.iCursorPos>=0) && (iOriginalSelection.iAnchorPos>=0) && (iPositionOfInsertionPointInDocument>=0) && (iPositionOfInlineTextInDocument>=0) && (iLengthOfInlineText>=0) && (iPointerEventHandlerDuringInlineEdit!=NULL),Panic(EEikPanicBadInlineEditingState10));
-    iEdwin.iEdwinExtension->iInlineEditing = EFalse;
     iCharsInserted = 0;
     iCharsDeleted = 0;
     TBool paragraphContainingStartPositionOfInlineTextHasChangedFormat=EFalse;
@@ -738,6 +856,9 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
         {
         iEdwin.iUndoStore->SetNewText( select );
         }    
+
+    iEdwin.iEdwinExtension->iInlineEditing = EFalse;
+
     if ( iEdwin.IsSmileyEnabled() )
         {
         CAknEdwinState* state( iEdwin.EditorState() );
@@ -758,7 +879,14 @@ void CEikEdwinFepSupport::DoCommitFepInlineEditL()
                     }
                 }
             iEdwin.SetAmountToFormatL( EFalse, ETrue );
-            iEdwin.DrawDeferred();
+
+            CAknEdwinState* edwinState = 
+                    static_cast<CAknEdwinState*>( iEdwin.iEdwinFepSupport->State( KNullUid ) );
+            
+            if ( !( edwinState->Flags() & EAknEditorFlagHideTextView ) )
+                {
+                iEdwin.DrawDeferred();
+                }
             }
         }
     iOriginalSelection.SetSelection(-1,-1);
@@ -867,6 +995,50 @@ void CEikEdwinFepSupport::MCoeFepSpecificExtensions_Reserved_2()
     {
     }
 
+// Update start position of text window, when cursor pos is out of current 
+// text window or it is in trigger range, the text window position needs to 
+// be changed and notify FEP the text change.
+void CEikEdwinFepSupport::UpdateDocPosOffsetL( TInt aCursorPos )
+    {
+    if ( FepRequireWholeTextData() )
+        {
+        return;
+        }
+    if ( iEdwin.TextLength() > KMaxSegmentLength )
+        {
+        TInt halfSegment( KMaxSegmentLength / 2 );
+        TBool validDocPosOffset( iDocPosOffset >= 0 && aCursorPos > iDocPosOffset &&
+            aCursorPos - iDocPosOffset < KMaxSegmentLength );
+        TBool cursorInHead( validDocPosOffset && 
+            aCursorPos - iDocPosOffset < KSegmentUpdateTrigger );
+        TBool cursorInTail( validDocPosOffset && 
+            iDocPosOffset + KMaxSegmentLength - aCursorPos < KSegmentUpdateTrigger &&
+            iDocPosOffset + KMaxSegmentLength < iEdwin.TextLength() );
+        if  ( !validDocPosOffset || cursorInHead || cursorInTail )
+            {
+            if ( iEdwin.TextLength() - aCursorPos < halfSegment )
+                {
+                iDocPosOffset = iEdwin.TextLength() - KMaxSegmentLength;
+                }
+            else
+                {
+                iDocPosOffset = aCursorPos - halfSegment;
+                iDocPosOffset = iDocPosOffset >= 0 ? iDocPosOffset : 0;
+                }            
+            static_cast<CAknEdwinState*>( State( KNullUid ) )->ReportAknEdStateEventL( 
+                MAknEdStateObserver::EAknCursorPositionChanged );
+            }
+        }
+    }
+
+// Check if FEP set the flag to indicate it wants to get information of whole
+// text, not the text window.
+TBool CEikEdwinFepSupport::FepRequireWholeTextData() const
+    {
+    CAknEdwinState* state( static_cast<CAknEdwinState*>( 
+        const_cast<CEikEdwinFepSupport*>( this )->State(KNullUid) ) );
+    return ( state->Flags() & EAknEditorFlagNeedWholeTextData );
+    }
 
 //
 //  CEikEdwinExtension
@@ -1042,6 +1214,7 @@ void CEikEdwin::CEikEdwinExtension::ConstructL(CEikEdwin* aEdwin)
         iCenRep->Get(KAknFepClearDirection, iClearDirection);
         }
     iSmileyWrap = new ( ELeave ) CSmileyCustomWrap;
+    iSkinInstance = AknsUtils::SkinInstance();
     }
 
 void CEikEdwin::CEikEdwinExtension::CreateFormExtendedInterfaceProviderIfNeededL()
@@ -1134,23 +1307,23 @@ void CEikEdwin::CEikEdwinExtension::HandleNotifyInt(TUint32 aId, TInt aNewValue)
 // ---------------------------------------------------------------------------
 // CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL
 // ---------------------------------------------------------------------------
-//   
-void CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL()
+//
+void CEikEdwin::CEikEdwinExtension::EnableKineticScrollingL( CAknPhysics* aPhysics )
     {
     iFlags.Set( EKineticScrollingEnabled );
-    EnablePhysicsL();
+    EnablePhysicsL( aPhysics );
     }
 
 // ---------------------------------------------------------------------------
 // CEikEdwin::CEikEdwinExtension::EnablePhysicsL
 // ---------------------------------------------------------------------------
 //   
-void CEikEdwin::CEikEdwinExtension::EnablePhysicsL()
+void CEikEdwin::CEikEdwinExtension::EnablePhysicsL( CAknPhysics* aPhysics )
     {
     if ( iFlags.IsSet( EKineticScrollingEnabled )
         && !iPhysicsHandler && iEdwin->DrawableWindow() )
         {
-        iPhysicsHandler = CAknEdwinPhysicsHandler::NewL( *iEdwin );
+        iPhysicsHandler = CAknEdwinPhysicsHandler::NewL( *iEdwin, aPhysics );
         
         InitPhysicsL();   
         if ( iEdwin->iLayout )
@@ -1587,7 +1760,7 @@ EXPORT_C void CEikEdwin::CreateTextAndLayoutL(CParaFormatLayer* aParaFormatLayer
     CreateLayoutL(globalText);
     SetHeightForNumOfLinesL();
     DoCreateCustomDrawL();
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         TextLayout()->SetCustomWrap( iEdwinExtension->iSmileyWrap );
         }
@@ -1828,7 +2001,7 @@ is a selection operation
         }
     if (iEdwinUserFlags&EDisplayOnly)
         return EKeyWasConsumed;
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
         {
         PerformRecordedOperationL();
         }
@@ -2113,6 +2286,7 @@ is a selection operation
             const TCursorSelection sel(lower,lower);
             iTextView->SetPendingSelection(sel);
             iTextView->HandleInsertDeleteL(sel,toDelete.Length(),formatHasChanged);
+            cursorPos = lower;
             reportChange=ETrue;
             }
         else if ( replaceSelection ) // All neutral protection cases 
@@ -2175,7 +2349,7 @@ is a selection operation
                 formatChange=formatHasChanged;
                 }
             }
-        if ( reportChange && iEdwinExtension->iSmiley )
+        if ( reportChange && iEdwinExtension && iEdwinExtension->iSmiley )
             {
             ConvertTextForSmileyL( TCursorSelection( cursorPos, cursorPos ), 
                 ETrue );          
@@ -2229,11 +2403,11 @@ TestMagnify:
             }
 InChar: CheckNotReadOnlyL();
         TChar character(code);
-        if ( selectionLength && IsValidNumericCharL(character) )
+        if ( selectionLength )
             {
             TInt pos=DeleteHighlightL(formatHasChanged);
             TRAPD(err,iText->InsertL(pos,character));
-            if ( iEdwinExtension->iSmiley )
+            if ( iEdwinExtension && iEdwinExtension->iSmiley )
                 {
                 iEdwinExtension->iSmiley->HandleInsertL( pos, 1 );
                 ConvertTextForSmileyL( TCursorSelection( pos, pos ), ETrue );
@@ -2253,11 +2427,11 @@ InChar: CheckNotReadOnlyL();
             formatChange=formatHasChanged;
             break;
             }
-        if ( (!iTextLimit || TextLength()<iTextLimit) && IsValidNumericCharL(character) )
+        if ( !iTextLimit || TextLength()<iTextLimit )
             {
             iText->InsertL(CursorPos(),character);
             ClearUndo();
-            if ( iEdwinExtension->iSmiley )
+            if ( iEdwinExtension && iEdwinExtension->iSmiley )
                 {
                 TInt cursorPos( CursorPos() );
                 iEdwinExtension->iSmiley->HandleInsertL( cursorPos, 1 );
@@ -2278,7 +2452,7 @@ InChar: CheckNotReadOnlyL();
         {
         ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
         DoReportEventL( MCoeControlObserver::EEventStateChanged );
-        if ( iEdwinExtension->iSmiley )
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
             {            
             TInt docPos( CursorPos() );
             iEdwinExtension->iSmiley->HandleSetCursor( docPos, 
@@ -2289,7 +2463,7 @@ InChar: CheckNotReadOnlyL();
                 }
             }
         }
-    if (navigation)
+    if ( navigation && iEdwinExtension )
         { 
         iEdwinExtension->iThumbPos = KErrNotFound;
         ReportEdwinEventL(MEikEdwinObserver::EEventNavigation);
@@ -2393,7 +2567,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
              }
          }
     
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
         {
         PerformRecordedOperationL();
         }
@@ -2483,8 +2657,11 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             }
         
         TBool shouldReturn( EFalse );
-        iEdwinExtension->iPhysicsHandler->HandleKineticScrolling(
-            aPointerEvent, shouldReturn );
+        if ( iEdwinExtension )
+        	{
+			iEdwinExtension->iPhysicsHandler->HandleKineticScrolling(
+                aPointerEvent, shouldReturn );
+        	}
         
         if ( shouldReturn )
             {
@@ -2499,6 +2676,17 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     if ( iEdwinUserFlags & EDisplayOnly )
         {
         return;
+        }
+    
+    // If text selection is not visible, don't allow user to select any text
+    // or scroll during selection ( if kinetic scrolling enabled ).
+    if ( kineticScrollingEnabled && iEdwinFepSupport )
+        {
+        CAknEdwinState* edwinState( EditorState() );
+        if ( edwinState && !( edwinState->Flags() & EAknEditorFlagSelectionVisible ) )
+            {
+            return;
+            }
         }
     
     const TCursorSelection selection( iTextView->Selection() );
@@ -2533,7 +2721,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             } 
         } // Kinetic scrolling not enabled  
     
-    if ( iEdwinExtension->iPtSuppressor->SuppressPointerEvent( aPointerEvent ) )
+    if ( iEdwinExtension && iEdwinExtension->iPtSuppressor->SuppressPointerEvent( aPointerEvent ) )
         {
         return;
         }
@@ -2676,7 +2864,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             iEdwinInternalFlags&=(~ELeftDownInViewRect);
 
             // We can't open cut-copy-paste menu if dragging started
-            if ( IsReadOnly() && IsSelectionVisible() && !( kineticScrollingEnabled
+            if ( IsReadOnly() && IsSelectionVisible() && IsFocused() && !( kineticScrollingEnabled
                 && iEdwinExtension->iPhysicsHandler->DraggingStarted() ) )
                 {
                 iEdwinFepSupport->iFeedback->InstantFeedback(
@@ -2705,7 +2893,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         )
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback( this,
-                            ETouchFeedbackEditor, ETouchFeedbackVibra,
+                            ETouchFeedbackEdit, ETouchFeedbackVibra,
                             aPointerEvent );
                         }
                     }
@@ -2720,7 +2908,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback(
                             this,
-                            ETouchFeedbackEditor,
+                            ETouchFeedbackEdit,
                             ETouchFeedbackVibra,
                             aPointerEvent );
                         iEdwinFepSupport->iSelectionIsCancel = EFalse;
@@ -2772,7 +2960,10 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                 }
             Window().RequestPointerRepeatEvent(KPointerRepeatRate,rect);
             navigation = ETrue;
-            iEdwinExtension->iThumbPos = KErrNotFound;
+            if ( iLayout && !iLayout->IsFormattingBand() )
+                {
+                iEdwinExtension->iThumbPos = KErrNotFound;
+                }
             }
         else if (iEdwinInternalFlags&EDragDouble)
             {
@@ -2866,33 +3057,31 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                     // on down event feedback is given if cursor/selection changes
                     if ( paintingPossible && !readOnly || editorWillGetFocus )
                         {
-                        iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackBasic );
+                        iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackEdit );
                         }
                     }
                 else  if ( selectionChanged && 
-                       ( ( aPointerEvent.iType == TPointerEvent::EDrag ) ||
+                         ( selectionAfter.iAnchorPos != selectionAfter.iCursorPos ) &&
+                         ( ( aPointerEvent.iType == TPointerEvent::EDrag ) ||
                          ( aPointerEvent.iType == TPointerEvent::EButtonRepeat ) ) )
                     {
-                    
-                    // selectionAfter.iCursorPos-1 below is because we need to select the previous char
-                    TBool ltr = ( selectionAfter.iCursorPos >= selectionBefore.iCursorPos );
                     TInt readPos = selectionAfter.iCursorPos;
-                    if (ltr && readPos > 0)
+                    if ( selectionAfter.iCursorPos > selectionAfter.iAnchorPos )
                         {
-                        readPos -= 1; // read previous char
+                        readPos -= 1;//drag backword
                         }
-                    TChar currentSelectedChar = Text()->Read( readPos, 1 )[0]; 
+                    TChar currentSelectedChar = Text()->Read( readPos, 1 )[0];
                     TBool isSpace = currentSelectedChar.IsSpace();
-                    TBool isText = currentSelectedChar.IsAlpha() 
-                                || currentSelectedChar.IsDigit();
+                    TBool isSmiley = CSmileyManager::IsSmileyCode(currentSelectedChar);
+                    TBool isText = currentSelectedChar.IsGraph();
                     
                     // case line
                     TInt prevLineNr = TextLayout()->GetLineNumber(selectionBefore.iCursorPos);
                     TInt lineNr = TextLayout()->GetLineNumber(selectionAfter.iCursorPos);
-                    if ( prevLineNr != lineNr && ( selection.Length() != 0 ) )
+                    if ( prevLineNr != lineNr )
                         {
-                        TInt group = ( currentSelectedChar.GetCategory() & 0xF0 );
-                        TBool isEmptyLine = ( group == TChar::ESeparatorGroup );
+                        TInt group = currentSelectedChar.GetCategory();
+                        TBool isEmptyLine = ( group == TChar::EZpCategory );
                         TTouchLogicalFeedback fType = ( isEmptyLine ? 
                             ETouchFeedbackEmptyLineSelection : ETouchFeedbackLineSelection );
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, fType );
@@ -2903,7 +3092,7 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackBlankSelection );
                         }
                     // case text
-                    else if (isText)    
+                    else if ( isText || isSmiley )    
                         {
                         iEdwinFepSupport->iFeedback->InstantFeedback( this, ETouchFeedbackTextSelection );
                         }
@@ -2962,6 +3151,16 @@ EXPORT_C void CEikEdwin::FocusChanged(TDrawNow /*aDrawNow*/)
                 {
                 TRAP_IGNORE( edwinState->ReportAknEdStateEventL( 
                     MAknEdStateObserver::EAknSyncEdwinState ) );
+                // if text view is already hidden and editor loses focus, display text view.
+				if ( ( edwinState->Flags() & EAknEditorFlagHideTextView ) &&
+                     ( iEdwinExtension && iEdwinExtension->iTextViewHidden ) )
+                    {
+                    iTextView->MakeVisible( ETrue );
+                    edwinState->SetFlags( edwinState->Flags() & 
+                        ~EAknEditorFlagHideTextView );
+                    iEdwinExtension->iTextViewHidden = EFalse;                    
+                    DrawDeferred();
+                    }
                 }
             else
                 {
@@ -3061,7 +3260,7 @@ EXPORT_C void CEikEdwin::ActivateL()
     DoCreateCustomDrawL(); //  Done after TextView is created so that optimized drawer is constructed
 
     // Create the required formatters according to the editor set-up
-    if ( IsPurePhoneNumberEditor() )
+    if ( IsPurePhoneNumberEditor() && iEdwinExtension )
         {
         if ( phoneNumberGroupingSupported )
             {            
@@ -3070,14 +3269,14 @@ EXPORT_C void CEikEdwin::ActivateL()
             iEdwinExtension->CreatePurePhoneNumberFormatterL( *iLayout, *iText );
             }
         }
-    else // Make approximation that all other editors have no matches indicator functionality
+    else if ( iEdwinExtension )// Make approximation that all other editors have no matches indicator functionality
         {
         iEdwinExtension->CreateNoMatchesIndicatorFormatterL( *iLayout );
         }
 
     // Rich text editors that have been configured for phone number grouping
     if (iEdwinInternalFlags&ERichText && iEdwinInternalFlags&EPhoneNumberGrouping &&
-        phoneNumberGroupingSupported )
+        phoneNumberGroupingSupported && iEdwinExtension )
         {        
         CAknEdwinState* edwinState = STATIC_CAST( CAknEdwinState*, iEdwinFepSupport->State(KNullUid) );            
         edwinState->SetFlags( edwinState->Flags() | EAknEditorFlagNumberGrouping );                
@@ -3085,7 +3284,7 @@ EXPORT_C void CEikEdwin::ActivateL()
         }
 
     // Install the custom formatter system if needed
-    if ( iEdwinExtension->FormExtendedInferfaceProvider() )
+    if ( iEdwinExtension && iEdwinExtension->FormExtendedInferfaceProvider() )
         TextLayout()->SetInterfaceProvider( iEdwinExtension->FormExtendedInferfaceProvider() );
 
     UpdateScrollBarsL();
@@ -3223,7 +3422,10 @@ EXPORT_C void CEikEdwin::HandleSizeChangedL()
         SetCursorVisibilityL( ETrue );
         }
     // View size changed, Initialize physics here
-    iEdwinExtension->InitPhysicsL();        
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->InitPhysicsL();   
+    	}
     }
 
 EXPORT_C TInt CEikEdwin::CountComponentControls() const
@@ -3248,7 +3450,7 @@ EXPORT_C void CEikEdwin::SetAmountToFormatL(TBool aIsNewDoc)
     if (!iTextView)
         return;
     const TInt chars=iText->DocumentLength();
-    if ( iEdwinExtension->iSmiley && !iEdwinExtension->iDisableConvertInFormat )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley && !iEdwinExtension->iDisableConvertInFormat )
         {        
         if ( chars > KFullFormatLengthForSmiley )
             {
@@ -3305,7 +3507,7 @@ EXPORT_C void CEikEdwin::SetAmountToFormatL( TBool aIsNewDoc, TBool aReFormat )
     if (!iTextView)
         return;
     const TInt chars=iText->DocumentLength();
-    if ( iEdwinExtension->iSmiley && !iEdwinExtension->iDisableConvertInFormat )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley && !iEdwinExtension->iDisableConvertInFormat )
         {        
         if ( chars > KFullFormatLengthForSmiley )
             {
@@ -3379,13 +3581,7 @@ EXPORT_C void CEikEdwin::ReportEdwinEventL(MEikEdwinObserver::TEdwinEvent aEvent
         for (TInt ii=0;ii<count;ii++)
             (*iObserverArray)[ii]->HandleEdwinEventL(this,aEventType);
         }
-    if ( aEventType == MEikEdwinObserver::EEventScroll || 
-        aEventType == MEikEdwinObserver::EEventNavigation 
-        )
-        {
-        HandleScrollForSmileyL();        
-        }
-    if ( aEventType == MEikEdwinObserver::EEventTextUpdate )
+    if ( aEventType == MEikEdwinObserver::EEventTextUpdate && iEdwinExtension )
         {
         iEdwinExtension->iExtendedInputCapabilities->ReportEventL( 
                 CAknExtendedInputCapabilities::
@@ -3441,7 +3637,7 @@ EXPORT_C void CEikEdwin::SetCursorPosL(TInt aDocPos,TBool aSelect)
     // CTextView::SetDocPosL will cause textview to be drawn. This could happen 
     // before the drawing of editor. So adding following codes to postpone the action to
     // first drawing of editor.
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
         {
         iEdwinExtension->iTempCursorPos = aDocPos;
         iEdwinExtension->iTempSelect = aSelect;
@@ -3461,7 +3657,7 @@ EXPORT_C void CEikEdwin::SetCursorPosL(TInt aDocPos,TBool aSelect)
         CreateTextViewL();
     TInt oldPos( CursorPos() );
     TInt docPos( aDocPos );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         iEdwinExtension->iSmiley->HandleSetCursor( oldPos, docPos );
         }
@@ -3478,13 +3674,16 @@ EXPORT_C void CEikEdwin::SetCursorPosL(TInt aDocPos,TBool aSelect)
     if ( iEdwinFepSupport && 
         ( aDocPos != oldPos || ( select.Length() > 0 && !aSelect ) ) )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( docPos );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( iEdwinFepSupport->State(KNullUid) );
         if ( edwinState )
             {
             TRAP_IGNORE( edwinState->ReportAknEdStateEventL( MAknEdStateObserver::EAknCursorPositionChanged ) );
             }
         }
-        
+	// scrollbar:thumb is displayed on the top when editor set cursor position.
+    iEdwinExtension->iThumbPos = KErrNotFound;    
     UpdateVertScrollBarThumbL();
     UpdateHorizScrollBarThumb();
     }
@@ -3505,7 +3704,7 @@ EXPORT_C void CEikEdwin::SetSelectionL(TInt aCursorPos,TInt aAnchorPos)
         }
     if (!iTextView)
         CreateTextViewL();
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
         {        
         iEdwinExtension->iTempCursorPos = aCursorPos;
         iEdwinExtension->iTempAnchorPos = aAnchorPos;
@@ -3519,10 +3718,15 @@ EXPORT_C void CEikEdwin::SetSelectionL(TInt aCursorPos,TInt aAnchorPos)
     TCursorSelection select( aCursorPos, aAnchorPos );    
     HandleSelectionForSmiley( select );
     iTextView->SetSelectionL( select );
-    iEdwinExtension->iThumbPos =  KErrNotFound;
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iThumbPos =  KErrNotFound;
+    	}
 
     if ( iEdwinFepSupport )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( aCursorPos );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( iEdwinFepSupport->State(KNullUid) );
         if ( edwinState )
             {
@@ -3627,7 +3831,10 @@ EXPORT_C void CEikEdwin::SetContainerWindowL(const CCoeControl& aParent)
     else
         CCoeControl::SetContainerWindowL(aParent);
 
-    iEdwinExtension->EnablePhysicsL();
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->EnablePhysicsL();
+    	}
     }
 
 EXPORT_C void CEikEdwin::SetContainerWindowL()
@@ -3636,7 +3843,10 @@ EXPORT_C void CEikEdwin::SetContainerWindowL()
     if (!OwnsWindow())
         CreateWindowL();
 
-    iEdwinExtension->EnablePhysicsL();   
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->EnablePhysicsL();
+    	}   
     }
 
 EXPORT_C TCoeInputCapabilities CEikEdwin::InputCapabilities() const
@@ -3697,7 +3907,7 @@ EXPORT_C void CEikEdwin::CreateLayoutL(MLayDoc* aLayDoc)
     {
     __ASSERT_DEBUG(aLayDoc,Panic(EEikPanicEdwinNoText));
 
-    if ((iEdwinUserFlags&EAvkonEditor))
+    if ( iEdwinUserFlags&EAvkonEditor && iEdwinExtension )
         {
         iLayout=CTextLayout::NewL(aLayDoc,KMaxTInt); // supply real wrapping width later
         iLayout->SetCustomWrap(&(iEdwinExtension->TextWrapper()));
@@ -3872,7 +4082,7 @@ void CEikEdwin::DrawFirstLineTextL() const
 
 EXPORT_C void CEikEdwin::TrappedDraw(const TRect& aViewRect) const
     {
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
         {
         CEikEdwin* edwin( const_cast<CEikEdwin*>( this ) );
         edwin->iEdwinExtension->iDrawInvoked = CEikEdwinExtension::EDrawing;
@@ -3993,7 +4203,7 @@ EXPORT_C void CEikEdwin::MoveCursorL(TCursorPosition::TMovementType aMovement,TB
         }
     TInt oldCursor( CursorPos() );
     TPoint movePoint=iTextView->MoveCursorL( aMovement, aSelect );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         TCursorSelection select( 0, 0 );
         if ( AdjustCursorForSmileyL( oldCursor, select ) )
@@ -4013,6 +4223,8 @@ EXPORT_C void CEikEdwin::MoveCursorL(TCursorPosition::TMovementType aMovement,TB
 
     if ( iEdwinFepSupport )
         {
+        // Update text window position for cursor change.
+        iEdwinFepSupport->UpdateDocPosOffsetL( CursorPos() );
         CAknEdwinState* edwinState = static_cast<CAknEdwinState*>( 
             iEdwinFepSupport->State( KNullUid ) );
         if ( edwinState )
@@ -4030,7 +4242,7 @@ EXPORT_C void CEikEdwin::MoveDisplayL(TCursorPosition::TMovementType aMovement)
     // Before scrolling into blank space was allowed, but this eventually
     // causes a panic at CTextView::ScrollDisplayL().
     const TInt move=iTextView->ScrollDisplayL(aMovement,CTextLayout::EFDisallowScrollingBlankSpace);
-    if (move)
+    if ( move && iEdwinExtension )
         {
         iEdwinExtension->iThumbPos = KErrNotFound;
         switch (aMovement)
@@ -4085,7 +4297,7 @@ EXPORT_C void CEikEdwin::MoveCursorToChunkStartL(TBool aSelect,TChunkSize aChunk
 EXPORT_C TInt CEikEdwin::CursorPos() const
     {
     __ASSERT_DEBUG(iTextView,Panic(EEikPanicEdwinNoView));
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
         iEdwinExtension->iTempCursorPos != KErrNotFound )
         {
         return iEdwinExtension->iTempCursorPos;
@@ -4101,7 +4313,7 @@ EXPORT_C TInt CEikEdwin::SelectionLength() const
     {
     __ASSERT_DEBUG(iTextView,Panic(EEikPanicEdwinNoView));
     TCursorSelection selection( 0, 0 );
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
         iEdwinExtension->iTempCursorPos != KErrNotFound && 
         iEdwinExtension->iTempAnchorPos != KErrNotFound )
         {
@@ -4161,7 +4373,7 @@ EXPORT_C void CEikEdwin::DeleteL(TBool& aChanged,const TCursorSelection& aSelect
             STATIC_CAST(CRichText*,iText)->CancelInsertCharFormat();
         aChanged=iText->DeleteL(aSelection.LowerPos(),length);
         }
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         { 
         iEdwinExtension->iSmiley->HandleDeleteL( aSelection.LowerPos(), length );
         }
@@ -4193,7 +4405,7 @@ void CEikEdwin::SetCursorVisibilityL(TBool aEmphasis)
     	{
         SetAknEditorFlags( edwinState->Flags() | EAknEditorFlagTextCursorVisible );
     	}
-    else
+    else if ( iEdwinExtension )
     	{
     	SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagTextCursorVisible );
     	
@@ -4414,7 +4626,7 @@ EXPORT_C void CEikEdwin::GetText(TDes& aDes) const
         select.iCursorPos = iTextLimit;
         }
     TBool hasSmiley( EFalse );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         hasSmiley = iEdwinExtension->iSmiley->HasSmileyIconsInText();
         }
@@ -4500,7 +4712,7 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
         AknTextUtils::ReplaceCharacters(segmBufPtr, KLineBreakCharacter,
                       TChar(CEditableText::EParagraphDelimiter));
 	    iText->InsertL(oldLength+segmStart,*segmBuf);
-	    if ( iEdwinExtension->iSmiley )
+	    if ( iEdwinExtension && iEdwinExtension->iSmiley )
 	        {
 	        iEdwinExtension->iSmiley->HandleInsertL( oldLength+segmStart, 
 	            insertLength );	        
@@ -4514,7 +4726,7 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
 	    
 	    CleanupStack::PopAndDestroy(segmBuf);
         TRAP(err,iText->DeleteL(0,oldLength));
-        if ( iEdwinExtension->iSmiley )
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
             {
             iEdwinExtension->iSmiley->HandleDeleteL( 0, oldLength );
             ConvertTextForSmileyL( TCursorSelection( 0, 
@@ -4524,7 +4736,7 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
     else
         {
         iText->Reset(); // Duplicates previous behaviour where null pointer argument reset text object
-        if ( iEdwinExtension->iSmiley )
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
             {
             iEdwinExtension->iSmiley->HandleDeleteL( 0, 
                 iText->DocumentLength() );
@@ -4533,9 +4745,15 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
 
     CheckRemovePictures(0,iText->DocumentLength());
     CheckValidityOfChars(0,iText->DocumentLength());
-    iEdwinExtension->iDisableConvertInFormat = ETrue;
-    SetAmountToFormatL(ETrue); // performs formatting
-    iEdwinExtension->iDisableConvertInFormat = EFalse;
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iDisableConvertInFormat = ETrue;
+		}
+	SetAmountToFormatL(ETrue); // performs formatting
+	if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iDisableConvertInFormat = EFalse;
+    	}
 	// Update cursor position as CursorWidth() needs that.
     if (IsReadyToDraw())
         {        
@@ -4565,6 +4783,10 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
             iCcpuSupport->HandleSelectionChangeL();
             }
         }
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iThumbPos = KErrNotFound;
+    	}
     if (IsReadyToDraw())
         {
         UpdateScrollBarsL();
@@ -4575,7 +4797,7 @@ EXPORT_C void CEikEdwin::SetTextL(const TDesC* aDes)
 
 EXPORT_C TCursorSelection CEikEdwin::Selection()    const
     {
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw && 
         iEdwinExtension->iTempCursorPos != KErrNotFound && 
         iEdwinExtension->iTempAnchorPos != KErrNotFound )
         {        
@@ -4630,7 +4852,7 @@ EXPORT_C void CEikEdwin::UndoL()
         TRAPD(err,undoneLength=iText->PasteFromStoreL(iUndoStore->Store(),iUndoStore->Dictionary(),lower))
         const TInt cursorPos=iUndoStore->OldCursorPos();
         iTextView->SetPendingSelection(TCursorSelection(cursorPos,cursorPos));
-        if ( iEdwinExtension->iSmiley )
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
             {
             iEdwinExtension->iSmiley->HandleInsertL( lower, undoneLength );
             ConvertTextForSmileyL( TCursorSelection( lower, undoneLength ), ETrue );
@@ -4708,7 +4930,7 @@ EXPORT_C void CEikEdwin::InsertFromTextFileL(const TFileName& aFileName,const CP
     iText->ImportTextFileL(cursorPos,aFileName,aTextOrganisation);
     TInt insertLength( iText->DocumentLength() - oldLength );
     CheckValidityOfChars( oldLength, insertLength );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         iEdwinExtension->iSmiley->HandleInsertL( cursorPos, insertLength );
         ConvertTextForSmileyL( TCursorSelection( cursorPos, 
@@ -4826,15 +5048,16 @@ EXPORT_C void CEikEdwin::ClipboardL(TClipboardFunc aClipboardFunc)
         // If we have deleted some text and previous position (before delete) is
         // out of current editor content, we must move back to inside content.
         TInt formattedHeight( iLayout->FormattedHeightInPixels() );
-        if ( prevEndPosition > formattedHeight )
+        if ( prevEndPosition > formattedHeight && iEdwinExtension )
            {
            TInt movement( prevEndPosition - formattedHeight );   
            iEdwinExtension->iPhysicsHandler->MoveScrollIndex( movement );
            }
         }
     
-    if (reportChange)
+    if ( reportChange && iEdwinExtension )
         {
+        iEdwinExtension->iThumbPos = KErrNotFound;
         ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
         DoReportEventL( MCoeControlObserver::EEventStateChanged );
         NotifyEditorStateObserverOfStateChangeL();
@@ -4883,7 +5106,7 @@ EXPORT_C void CEikEdwin::CopyToStoreL(CStreamStore& aStore,CStreamDictionary& aD
     CPlainText* text( iText );
     TInt start( selection.LowerPos() );
     HBufC* buf( NULL );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         buf = ExtractTextLC( selection );
         text = CPlainText::NewL();
@@ -4895,7 +5118,7 @@ EXPORT_C void CEikEdwin::CopyToStoreL(CStreamStore& aStore,CStreamDictionary& aD
         text->InsertL( start, *buf );                
         }
     text->CopyToStoreL(aStore, aDict, start, selection.Length() );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         CleanupStack::PopAndDestroy( text );    
         CleanupStack::PopAndDestroy( buf );
@@ -4934,7 +5157,7 @@ EXPORT_C void CEikEdwin::PasteFromStoreL(CStreamStore& aStore,CStreamDictionary&
     iTextView->SetPendingSelection(TCursorSelection(higher,higher));
     selection.iAnchorPos=selection.LowerPos();
     selection.iCursorPos=selection.iAnchorPos+pastedLength;
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         iEdwinExtension->iSmiley->HandleInsertL( selection.LowerPos(), 
             selection.Length() );
@@ -5628,7 +5851,13 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
     
     TRect viewRect( AdjustedViewRect() );
     const TInt formattedLines = Max(1, iLayout->NumFormattedLines());
-    const TInt formattedHeight = iLayout->FormattedHeightInPixels();    
+    const TInt formattedHeight = iLayout->FormattedHeightInPixels(); 
+	const TBool formattedHeightchanged( iEdwinExtension && 
+		( formattedHeight != iEdwinExtension->iRecordFormattedHeight ) );
+    if ( iEdwinExtension )
+    	{
+        iEdwinExtension->iRecordFormattedHeight = formattedHeight;
+    	}
     const TInt viewRectHeight = viewRect.Height();
     const TInt totalChars = iText->DocumentLength();    
     const TInt formattedLength = Min( totalChars, iLayout->FormattedLength() );
@@ -5644,9 +5873,12 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
         if ( !iLayout->IsFormattingBand() )
             {                        
             aVertModel.iThumbSpan = viewRectHeight;
-            aVertModel.iScrollSpan = formattedHeight;            
-            aVertModel.iThumbPosition = iEdwinExtension->iThumbPos;   
-            if ( aVertModel.iThumbPosition == KErrNotFound )
+            aVertModel.iScrollSpan = formattedHeight; 
+            if ( iEdwinExtension )
+            	{
+				aVertModel.iThumbPosition = iEdwinExtension->iThumbPos;  
+            	} 
+            if ( aVertModel.iThumbPosition == KErrNotFound || formattedHeightchanged )
                 {
                 if ( bottomPos == totalChars )
                     {
@@ -5678,6 +5910,10 @@ void CEikEdwin::SetVertScrollBarModelByCharactersL(TEikScrollBarModel& aVertMode
             aVertModel.iThumbSpan = bottomPos - topPos;
             aVertModel.iScrollSpan = totalChars;        
             aVertModel.iThumbPosition = topPos;
+            if ( iEdwinExtension )
+            	{
+				iEdwinExtension->iThumbPos = topPos;
+            	}
             }
         return;
         }
@@ -5835,7 +6071,7 @@ void CEikEdwin::SetKineticScrollingScrollBarModel(
         static_cast< const TAknDoubleSpanScrollBarModel* >
             ( iSBFrame->CEikScrollBarFrame::VerticalScrollBar()->Model() );
 
-    if ( !iEdwinExtension->iUseRateScroll )
+    if ( iEdwinExtension && ( !iEdwinExtension->iUseRateScroll ) )
         {
         aVertModel.iScrollSpan = heightBeforeFormat + formattedHeight
             + heightAfterFormat;
@@ -5844,7 +6080,7 @@ void CEikEdwin::SetKineticScrollingScrollBarModel(
 
     // Rate scrolling
 
-    if ( iEdwinExtension->iUseRateScroll )
+    if ( iEdwinExtension && iEdwinExtension->iUseRateScroll )
         {
         TInt heightAboveView = formattedHeightAboveView + heightBeforeFormat;
         TInt heightBelowView = formattedHeightBelowView + heightAfterFormat;
@@ -5897,7 +6133,7 @@ void CEikEdwin::SetKineticScrollingScrollBarModel(
             }
         }
     
-    if ( iEdwinExtension->iUseRateScroll )
+    if ( iEdwinExtension && iEdwinExtension->iUseRateScroll )
         {
         aVertModel.iThumbPosition = anchorThumbPos;
         }
@@ -5905,7 +6141,10 @@ void CEikEdwin::SetKineticScrollingScrollBarModel(
         {
         aVertModel.iThumbPosition = approxTopVisibleLine * avgLineHeight;
         }
-    iEdwinExtension->iScrollbarPosition = aVertModel.iThumbPosition; 
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iScrollbarPosition = aVertModel.iThumbPosition; 
+    	}
     }
 
 // ---------------------------------------------------------------------------
@@ -5925,7 +6164,11 @@ void CEikEdwin::HandleScrollEventWithPhysics( CEikScrollBar* aScrollBar )
     TInt thumbSpaceAbove = aScrollBar->ThumbPosition();
     TInt thumbSpaceBelow = curScrollSpan - curThumbSpan - thumbSpaceAbove;
 
-    TInt moveOffset = thumbSpaceAbove - iEdwinExtension->iScrollbarPosition;
+    TInt moveOffset = 0;
+    if ( iEdwinExtension )
+    	{
+		moveOffset = thumbSpaceAbove - iEdwinExtension->iScrollbarPosition;
+    	}
 
     const TInt formattedLines = Max( 1, iLayout->NumFormattedLines() );
     const TInt formattedHeight = iLayout->FormattedHeightInPixels();
@@ -5963,7 +6206,6 @@ void CEikEdwin::HandleScrollEventWithPhysics( CEikScrollBar* aScrollBar )
         {
         return;
         }
-    iEdwinExtension->iScrollbarPosition = thumbSpaceAbove;
 
     // If scrollbar thumb is moved to the beginning or end of scrollbar,
     // ensure that also editor content is moved also exactly to the beginning
@@ -5979,12 +6221,18 @@ void CEikEdwin::HandleScrollEventWithPhysics( CEikScrollBar* aScrollBar )
         textMovePixels -= KAdditionalPixels;
         }
     
-    iEdwinExtension->iScrolledByScrollBar = ETrue;
-    
-    // Actual scrolling is done by calling MoveScrollIndex
-    iEdwinExtension->iPhysicsHandler->MoveScrollIndex( -textMovePixels );
-    
-    iEdwinExtension->iScrolledByScrollBar = EFalse;
+    if ( iEdwinExtension )
+    	{
+        iEdwinExtension->iScrollbarPosition = thumbSpaceAbove;
+        iEdwinExtension->iScrolledByScrollBar = ETrue;
+        
+        // Actual scrolling is done by calling MoveScrollIndex
+        iEdwinExtension->iPhysicsHandler->MoveScrollIndex( -textMovePixels );
+        iEdwinExtension->iEndBorderExceeded = EFalse; 
+        iEdwinExtension->iStartBorderExceeded = EFalse; 
+        
+        iEdwinExtension->iScrolledByScrollBar = EFalse;
+    	}
     }
 
 EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScrollEvent aEventType)
@@ -6069,6 +6317,14 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
             UpdateHorizScrollBarThumb();// can also change horizontally
             }
             break;
+        case EEikScrollThumbReleaseVert:
+            {
+            if ( KineticScrollingEnabled() )
+                {
+                RestoreCursorState();
+                }
+            }
+            break;
         case EEikScrollUp:
         case EEikScrollDown:            
         case EEikScrollPageUp:
@@ -6077,6 +6333,7 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
             {
             if ( KineticScrollingEnabled() )
                 {
+                StoreCursorState();
                 HandleScrollEventWithPhysics( aScrollBar );
                 break;
                 }
@@ -6097,7 +6354,7 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
                 TInt bottomPos( iTextView->XyPosToDocPosL( viewRect.iBr ) );
                 TInt visibleRange( bottomPos - topPos );
                 
-                if ( thumbPosition != thumbSpan )                
+                if ( thumbPosition != thumbSpan && iEdwinExtension )                
                     {   
                     TInt scrollRange( totalChars - visibleRange );
                     docPos = ( TInt )( ( TInt64 )( thumbPosition ) * scrollRange
@@ -6123,7 +6380,10 @@ EXPORT_C void CEikEdwin::HandleScrollEventL(CEikScrollBar* aScrollBar,TEikScroll
                 docPos = totalChars;
                 yPos = viewRect.iBr.iY;
                 }
-            iEdwinExtension->iThumbPos = thumbPosition;
+            if ( iEdwinExtension )
+            	{
+				iEdwinExtension->iThumbPos = thumbPosition;
+            	}
             TViewYPosQualifier yPosQ;
             yPosQ.SetMakeLineFullyVisible();            
             iTextView->SetViewL( docPos, yPos, yPosQ,
@@ -6494,7 +6754,7 @@ EXPORT_C void CEikEdwin::CheckValidityOfChars(TInt aStartPos,TInt aLength)
                 {
                 TRAP_IGNORE( iText->DeleteL(aStartPos,1));
                 }
-            if ( iEdwinExtension->iSmiley )
+            if ( iEdwinExtension && iEdwinExtension->iSmiley )
                 {
                 iEdwinExtension->iSmiley->HandleDeleteL( aStartPos, 1 );
                 }
@@ -6645,10 +6905,20 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
         {
     case KEikDynamicLayoutVariantSwitch:
         {
-        iEdwinExtension->iThumbPos = KErrNotFound;
+        if ( KineticScrollingEnabled() && iEdwinExtension )
+            {
+            iEdwinExtension->iPhysicsHandler->DisableDragging();
+            }
+        if ( iEdwinExtension )
+        	{
+			iEdwinExtension->iThumbPos = KErrNotFound;
+	        iEdwinExtension->iEndBorderExceeded = EFalse; 
+	        iEdwinExtension->iStartBorderExceeded = EFalse; 
+        	}
         SizeChanged();
         if ( !IsReadOnly() && !IsNonFocusing() 
-                && !( iEdwinUserFlags & EDisplayOnly ) )
+                && !( iEdwinUserFlags & EDisplayOnly )
+                && !KineticScrollingEnabled() )
             {
             TInt docPos = CursorPos();
             TRect viewRect( AdjustedViewRect() );
@@ -6684,6 +6954,18 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
     case KEikInputLanguageChange:
         {
         UpdateCache(KEikInputLanguageChange);
+        TLanguage language = CAknEnv::Static()->SettingCache().InputLanguage(); 
+		if ( language == ELangArabic || language == ELangFarsi || 
+			language == ELangUrdu || language == ELangHebrew )
+			{
+			iEdwinUserFlags &= ~EAvkonEnableSmileySupport;
+			EnableSmileySupportL( EFalse );
+			}
+		else if ( iEdwinExtension->iEnableSmileySupported )
+			{
+			iEdwinUserFlags |= EAvkonEnableSmileySupport;
+			EnableSmileySupportL( ETrue );
+			}
         DoAlignment();
         }
         break;
@@ -6887,13 +7169,13 @@ EXPORT_C void CEikEdwin::InsertDeleteCharsL(TInt aInsertPos,const TDesC& aText,c
     else
         {
         formatChanged=iText->DeleteL(lowerPos,length);
-        if ( iEdwinExtension->iSmiley )
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
             {
             iEdwinExtension->iSmiley->HandleDeleteL( lowerPos, length );
             }
         }
     iText->InsertL(aInsertPos,aText);
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         iEdwinExtension->iSmiley->HandleInsertL( aInsertPos, aText.Length() );
         ConvertTextForSmileyL( TCursorSelection( aInsertPos, 
@@ -7356,7 +7638,29 @@ HBufC* CEikEdwin::GetAllowedCharsLC() const
                 break;
             }
 
-        return iEikonEnv->AllocReadResourceLC(resId);
+	    // get special character table resource ID
+        TInt sctResourceId = state->SpecialCharacterTableResourceId();
+		if ( sctResourceId && ( state->Flags() & EAknEditorFlagUseSCTNumericCharmap ) )
+			{
+		    // numericSCTBuf containing number and special characters
+			HBufC* numericSCTBuf = HBufC::NewLC( KNmericSCTLimit );
+			TPtr numericSCTPtr( numericSCTBuf->Des() );
+			
+			// read number characters and add them to numericSCTBuf
+			HBufC* numberResource = iEikonEnv->AllocReadResourceLC( resId );
+			TPtr numberResPtr( numberResource->Des() );
+			numericSCTPtr.Append( numberResPtr );
+			CleanupStack::PopAndDestroy( numberResource ); // numberResource
+			
+		    // read special characters from SCT by dialog ID
+		    ReadSpecialCharFromSCTL( numericSCTPtr, sctResourceId );
+		    
+		    return numericSCTBuf;
+			}
+		else
+			{
+		    return iEikonEnv->AllocReadResourceLC( resId );
+			}
         }
     else
         {
@@ -7376,7 +7680,11 @@ TInt CEikEdwin::CheckAllowedCharsL(const TDesC& aChars, CClipboard& aClipboard, 
         edwinState = STATIC_CAST(CAknEdwinState*, iEdwinFepSupport->State(KNullUid));
         }
 
-    CAknPictographInterface* pictographInterface = iEdwinExtension->PictographInterface();
+    CAknPictographInterface* pictographInterface = NULL;
+    if ( iEdwinExtension )
+    	{
+		pictographInterface = iEdwinExtension->PictographInterface();
+    	}
     if (edwinState)
         {
         if (FeatureManager::FeatureSupported(KFeatureIdJapanese))
@@ -7557,6 +7865,7 @@ EXPORT_C void CEikEdwin::AddFlagToUserFlags(TUint32 aFlag)
     SetVKBStatus(); 
     if ( aFlag & EAvkonEnableSmileySupport )
         {
+        iEdwinExtension->iEnableSmileySupported = ETrue;
         EnableSmileySupportL( ETrue );
         }
     }
@@ -7567,6 +7876,7 @@ EXPORT_C void CEikEdwin::RemoveFlagFromUserFlags(TUint32 aFlag)
     SetVKBStatus(); 
     if ( aFlag & EAvkonEnableSmileySupport )
         {    
+        iEdwinExtension->iEnableSmileySupported = EFalse;
         EnableSmileySupportL( EFalse );
         }
     }
@@ -7952,7 +8262,10 @@ TBool CEikEdwin::GetExposedDirectionOfText( TInt aPos, TBool aForward, TBool& aI
 
 EXPORT_C void CEikEdwin::SetPictographAnimationCallBack( TCallBack& aCallBack )
     {
-    iEdwinExtension->SetPictoCallBack( aCallBack );
+	if ( iEdwinExtension )
+		{
+		iEdwinExtension->SetPictoCallBack( aCallBack );
+		}
     }
 
 const TCallBack& CEikEdwin::PictographAnimationCallBack() const
@@ -8036,7 +8349,15 @@ EXPORT_C void CEikEdwin::EnableKineticScrollingL( TBool aEnable )
     {
     if ( iEdwinExtension && aEnable )
         {
-        iEdwinExtension->EnableKineticScrollingL();
+        iEdwinExtension->EnableKineticScrollingL( NULL );
+        }
+    }
+
+EXPORT_C void CEikEdwin::EnableKineticScrollingL( CAknPhysics* aPhysics )
+    {
+    if ( iEdwinExtension )
+        {
+        iEdwinExtension->EnableKineticScrollingL( aPhysics );
         }
     }
 
@@ -8076,7 +8397,11 @@ TRect CEikEdwin::AdjustedViewRect() const
     
 void CEikEdwin::SetVKBStatus()
     {
-    TUint cap = iEdwinExtension->iExtendedInputCapabilities->Capabilities();
+	TUint cap = 0;
+    if ( iEdwinExtension )
+		{
+		cap = iEdwinExtension->iExtendedInputCapabilities->Capabilities();
+		}
     if ( iEdwinUserFlags & EAvkonDisableVKB )
         {
         cap |= CAknExtendedInputCapabilities::EInputEditorDisableVKB;    
@@ -8084,8 +8409,11 @@ void CEikEdwin::SetVKBStatus()
     else
         {
         cap &= ~CAknExtendedInputCapabilities::EInputEditorDisableVKB;
-        }   
-    iEdwinExtension->iExtendedInputCapabilities->SetCapabilities( cap );
+        } 
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iExtendedInputCapabilities->SetCapabilities( cap );
+    	}
     }
     
 void CEikEdwin::ScrollViewToCursorLineL()
@@ -8117,7 +8445,7 @@ EXPORT_C void CEikEdwin::SetCursorVisible(TBool aVisible)
 
 void CEikEdwin::PerformRecordedOperationL()
     {
-    if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw ||
+    if ( iEdwinExtension && iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw ||
         iEdwinExtension->iDrawInvoked == CEikEdwinExtension::EDrawing )
         {        
         if ( iEdwinExtension->iDrawInvoked == CEikEdwinExtension::ENotDraw )
@@ -8176,8 +8504,8 @@ void CEikEdwin::ScrollIfAtTopOrBottomL()
         UpdateScrollBarsL();
         scroll = ETrue ;
         }
-    if ( scroll && iEdwinExtension->iDrawInvoked != 
-        CEikEdwinExtension::EDrawing )
+    if ( scroll && iEdwinExtension && 
+    		iEdwinExtension->iDrawInvoked != CEikEdwinExtension::EDrawing )
         {
         ReportEdwinEventL( MEikEdwinObserver::EEventNavigation );
         }
@@ -8190,7 +8518,46 @@ void CEikEdwin::OnEditorStateFlagChange( TInt aOldFlags, TInt aNewFlags )
     if ( chinesePopup != ( aNewFlags & EAknEditorFlagChinesePopup ) )
         {
         TRAP_IGNORE( ReportChinesePopupEventL( chinesePopup == 0 ) );
-        }    
+        }
+    
+    // To reduce power consumption, text view should be hidden when full screen Touch
+    // Input is open and editor is covered by it, for user can not see editor in this 
+    // case. When full screen Touch Input is open, FEP will set flag EAknEditorFlagHideTextView 
+    // to notify editor the text view should be hidden. But we have to check if the feature 
+    // of partial screen input is enabled at the same time, for full screen Touch Input window 
+    // will only occupy part of the screen if the feature is eanbled and editor is still visible 
+    // to user. So editor can only be hidden in such situation: full screen Touch Input is open 
+    // and partial screen feature is disabled.
+    // In the contrary situations (full screen touch input is closed or partial screen 
+    // feature is enabled), text view has to be shown so editor can work as normal.
+    if ( iTextView && iEdwinExtension )
+        {
+        TBool textViewHideEnabled( ( aNewFlags & EAknEditorFlagHideTextView ) &&
+            !( aOldFlags & EAknEditorFlagHideTextView ) );
+
+        TBool textViewHideDisabled( !( aNewFlags & EAknEditorFlagHideTextView ) && 
+            ( aOldFlags & EAknEditorFlagHideTextView ) );
+
+        TBool partialScreenEnabled( ( aNewFlags & EAknEditorFlagEnablePartialScreen ) &&
+            !( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
+
+        TBool partialScreenDisabled( !( aNewFlags & EAknEditorFlagEnablePartialScreen ) && 
+            ( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
+         
+        if ( ( textViewHideEnabled && 
+                !( aNewFlags & EAknEditorFlagEnablePartialScreen ) ) ||
+             ( partialScreenDisabled && ( aNewFlags & EAknEditorFlagHideTextView ) ) )
+            {
+            iTextView->MakeVisible( EFalse );
+            iEdwinExtension->iTextViewHidden = ETrue;
+            }
+        else if ( iEdwinExtension->iTextViewHidden && ( textViewHideDisabled || partialScreenEnabled ) )
+            {
+            iTextView->MakeVisible( ETrue );
+            DrawNow();
+            iEdwinExtension->iTextViewHidden = EFalse;            
+            }
+        }
     }
 
 void CEikEdwin::ReportChinesePopupEventL( TBool aChinesePopupOpen )
@@ -8208,24 +8575,29 @@ void CEikEdwin::ReportChinesePopupEventL( TBool aChinesePopupOpen )
 // for smiley support
 void CEikEdwin::EnableSmileySupportL( TBool aEnableSmiley )
     {
-    if ( aEnableSmiley && !AknLayoutUtils::LayoutMirrored() )
+    if ( aEnableSmiley && !AknLayoutUtils::LayoutMirrored() && iEdwinExtension )
         {
-        if ( !iEdwinExtension->iSmiley )
-            {
-            iEdwinExtension->iSmiley = CSmileyManager::NewL( *this );
-            iEdwinExtension->iSmiley->SetAnimationPlayTimes( KNormalAnimPlayTimes );
-            if ( IsReadOnly() || iEdwinUserFlags & EDisplayOnly )
-                {
-                iEdwinExtension->iSmiley->SetAnimationPlayTimes( 
-                    KInfiniteAnimPlayTimes );
-                }
-            }        
-        if ( TextLayout() )
-            {
-            TextLayout()->SetCustomWrap( iEdwinExtension->iSmileyWrap );
-            }
+        TLanguage language = CAknEnv::Static()->SettingCache().InputLanguage();
+		if ( language != ELangArabic && language != ELangFarsi && 
+			language != ELangUrdu && language != ELangHebrew )
+			{
+			if ( !iEdwinExtension->iSmiley )
+				{
+				iEdwinExtension->iSmiley = CSmileyManager::NewL( *this );
+				iEdwinExtension->iSmiley->SetAnimationPlayTimes( KNormalAnimPlayTimes );
+				if ( IsReadOnly() || iEdwinUserFlags & EDisplayOnly )
+					{
+					iEdwinExtension->iSmiley->SetAnimationPlayTimes( 
+						KInfiniteAnimPlayTimes );
+					}
+				}        
+			if ( TextLayout() )
+				{
+				TextLayout()->SetCustomWrap( iEdwinExtension->iSmileyWrap );
+				}
+			}
         }    
-    else
+    else if ( iEdwinExtension )
         {
         delete iEdwinExtension->iSmiley;
         iEdwinExtension->iSmiley = NULL;
@@ -8238,11 +8610,16 @@ void CEikEdwin::EnableSmileySupportL( TBool aEnableSmiley )
 
 TBool CEikEdwin::IsSmileyEnabled() const
     {
-    return ( iEdwinExtension->iSmiley != NULL );
+    TBool ret = EFalse; 
+    if ( iEdwinExtension )
+        {
+        ret = ( iEdwinExtension->iSmiley != NULL );
+        }
+    return ret;
     }
 
-void CEikEdwin::DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont, 
-        const TDesC& aText, const TPoint& aPt )
+void CEikEdwin::DrawSmileyInTextL( RRegion& rgn, const TRect& aDrawRect, 
+    CBitmapContext& aGc, CFont& aFont, const TDesC& aText, const TPoint& aPt )
     {    
     TRect viewRect( AdjustedViewRect() );
     TInt topY( aPt.iY - aFont.AscentInPixels() );
@@ -8269,11 +8646,14 @@ void CEikEdwin::DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont,
         TInt smileyWidth( aFont.TextWidthInPixels( KSmileyString ) );
         for ( TInt i( 0 ); i < text.Length(); i++ )
             {
-            if ( CSmileyManager::IsSmileyCode( text[i] ) )
+            if ( iEdwinExtension && CSmileyManager::IsSmileyCode( text[i] ) )
                 {
                 TInt x( pt.iX + aFont.TextWidthInPixels( text.Left( i ) ) );
-                TRect rect( x, topY, x + smileyWidth, bottomY );
-                iEdwinExtension->iSmiley->DrawIconL( aGc, rect, i + pos );
+                TRect clipRect( x, aDrawRect.iTl.iY, x + smileyWidth, 
+                    aDrawRect.iBr.iY ); 
+                rgn.SubRect( clipRect, NULL );
+                TRect iconRect( x, topY, x + smileyWidth, bottomY );
+                iEdwinExtension->iSmiley->DrawIconL( aGc, iconRect, i + pos );
                 }
             }
         }
@@ -8282,7 +8662,7 @@ void CEikEdwin::DrawSmileyInTextL( CBitmapContext& aGc, CFont& aFont,
 
 void CEikEdwin::ConvertVisibleTextForSmileyL( TBool aTextToCode )
     {
-    if ( !iEdwinExtension->iSmiley && !iTextView )
+    if ( iEdwinExtension && !iEdwinExtension->iSmiley && !iTextView )
         {
         return;
         }
@@ -8293,7 +8673,7 @@ void CEikEdwin::ConvertVisibleTextForSmileyL( TBool aTextToCode )
 void CEikEdwin::ConvertTextForSmileyL( TCursorSelection aSelect, 
     TBool aTextToCode, TBool aRedraw )
     {    
-    if ( iEdwinExtension->iSmiley && !iEdwinExtension->iInlineEditing )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley && !iEdwinExtension->iInlineEditing )
         {
         if ( aTextToCode )
             {
@@ -8313,7 +8693,13 @@ void CEikEdwin::ConvertTextForSmileyL( TCursorSelection aSelect,
         CleanupStack::PopAndDestroy( buf );
         if ( aRedraw )
             {
-            DrawDeferred();
+            CAknEdwinState* edwinState = 
+                static_cast<CAknEdwinState*>( iEdwinFepSupport->State( KNullUid ) );
+
+            if ( !( edwinState->Flags() & EAknEditorFlagHideTextView ) )
+                {
+                DrawDeferred();
+                }
             }
         }
     }
@@ -8365,7 +8751,7 @@ HBufC* CEikEdwin::ExtractTextLC( TCursorSelection aSelect )
 
 void CEikEdwin::ConvertSmileyIconToTextL( TInt aStartPos, TDes& aText )
     {
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         iEdwinExtension->iSmiley->ConvertTextForSmileyL( aStartPos,
             aText, EFalse );
@@ -8374,7 +8760,7 @@ void CEikEdwin::ConvertSmileyIconToTextL( TInt aStartPos, TDes& aText )
 
 void CEikEdwin::ExtendedRangeForSmiley( TCursorSelection& aSelect )
     { 
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         TInt textLength( TextLength() );
         TInt start = aSelect.LowerPos() - CSmileyManager::KMaxLength;
@@ -8394,7 +8780,7 @@ void CEikEdwin::ExtendedRangeForSmiley( TCursorSelection& aSelect )
 
 TBool CEikEdwin::ConvertSmileyForDeleteL( TInt aDocPos, TBool aBackSpace )
     {
-    if ( !iEdwinExtension->iSmiley || ( aDocPos == 0 && aBackSpace ) || 
+    if ( iEdwinExtension && !iEdwinExtension->iSmiley || ( aDocPos == 0 && aBackSpace ) || 
         ( aDocPos == TextLength() && !aBackSpace ) )
         {
         return EFalse;
@@ -8405,9 +8791,7 @@ TBool CEikEdwin::ConvertSmileyForDeleteL( TInt aDocPos, TBool aBackSpace )
         checkPos--;
         checkPos = checkPos >= 0 ? checkPos : 0;
         }
-    if ( CSmileyManager::IsSmileyCode( iEdwinExtension->iSmiley->
-        SmileyCodeByPos( checkPos ) ) && 
-        !iEdwinExtension->iSmiley->IsDisabledSmileyIcon( checkPos ) )
+    if ( iEdwinExtension->iSmiley->SmileyCodeByPos( checkPos ) > 0 )
         {
         TInt codeLength( iEdwinExtension->iSmiley->SmileyLength( checkPos ) );
         iEdwinExtension->iSmiley->DisableSmileyIcon( checkPos );
@@ -8432,7 +8816,7 @@ TBool CEikEdwin::ConvertSmileyForDeleteL( TInt aDocPos, TBool aBackSpace )
 
 void CEikEdwin::ConvertSmileyForDeleteL( const TCursorSelection &aSelect )
     {
-    if ( !iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && !iEdwinExtension->iSmiley )
         {
         return;
         }
@@ -8458,29 +8842,15 @@ void CEikEdwin::ConvertSmileyForDeleteL( const TCursorSelection &aSelect )
     CleanupStack::PopAndDestroy( buf );
     }
 
-void CEikEdwin::HandleScrollForSmileyL()
-    {
-    if ( !iEdwinExtension->iSmiley )
-        {
-        return;
-        }
-    TCursorSelection select( GetVisibleTextRangeL() );
-    if ( select.LowerPos() != iEdwinExtension->iVisibleRange.LowerPos() ||
-        select.HigherPos() != iEdwinExtension->iVisibleRange.HigherPos() )
-        {
-        iEdwinExtension->iVisibleRange.iCursorPos = select.iCursorPos;
-        iEdwinExtension->iVisibleRange.iAnchorPos = select.iAnchorPos;
-        }
-    iEdwinExtension->iSmiley->SetVisibleRange( select.LowerPos(), 
-        select.Length() );
-    }
-
 TBool CEikEdwin::AdjustCursorForSmileyL( TInt aOldCursor, TCursorSelection& aSelect )
     {
     TBool ret( EFalse );
     TCursorSelection select( Selection() );
     TInt cursor( select.iCursorPos );
-    iEdwinExtension->iSmiley->HandleSetCursor( aOldCursor, cursor );
+    if ( iEdwinExtension )
+    	{
+		iEdwinExtension->iSmiley->HandleSetCursor( aOldCursor, cursor );
+    	}
     if ( cursor != select.iCursorPos )
         {
         if ( select.iAnchorPos == select.iCursorPos )
@@ -8500,28 +8870,11 @@ TRect CEikEdwin::AdjustDrawRectForSmiley( const TRect& aRect ) const
     return TRect( viewRect.iTl.iX, aRect.iTl.iY, viewRect.iBr.iX, aRect.iBr.iY );
     }
 
-void CEikEdwin::GetClipRegionForSmiley( RRegion& rgn, CFont& aFont, 
-    const TDesC& aText, const TPoint& aPt, const TRect& aDrawRect ) const
-    {
-    TInt smileyWidth( aFont.TextWidthInPixels( KSmileyString ) );
-    TInt topY( aDrawRect.iTl.iY );
-    TInt bottomY( aDrawRect.iBr.iY );
-    for ( TInt i( 0 ); i < aText.Length(); i++ )
-        {
-        if ( CSmileyManager::IsSmileyCode( aText[i] ) )
-            {
-            TInt x( aPt.iX + aFont.TextWidthInPixels( aText.Left( i ) ) );
-            TRect rect( x, topY, x + smileyWidth, bottomY );
-            rgn.SubRect( rect, NULL );
-            }
-        }
-    }
-
 TBool CEikEdwin::AdjustCursorPosByMovementL( TCursorPosition::TMovementType aMovement, 
     TBool aSelect )
     {
     TBool ret( EFalse );
-    if ( iEdwinExtension->iSmiley )
+    if ( iEdwinExtension && iEdwinExtension->iSmiley )
         {
         TInt oldPos( CursorPos() );
         TInt curPos( oldPos );
@@ -8543,20 +8896,34 @@ TBool CEikEdwin::AdjustCursorPosByMovementL( TCursorPosition::TMovementType aMov
     return ret;
     }
 
-void CEikEdwin::SetSelectionVisibilityL( TBool isVisable )
+void CEikEdwin::SetSelectionVisibilityL( TBool aIsVisable )
     {
-    iTextView->SetSelectionVisibilityL(isVisable);
+    if ( iEdwinExtension && iEdwinExtension->iSmiley && !aIsVisable )
+        {
+        iTextView->SetSelectionVisibilityL( aIsVisable );
+        HandleSelectionForSmiley( TCursorSelection( 0, 0 ) );
+        }
+    else 
+        {
+        if ( iEdwinExtension && iEdwinExtension->iSmiley )
+            {
+            HandleSelectionForSmiley( Selection() );
+            }
+        iTextView->SetSelectionVisibilityL( aIsVisable );
+        }
+   
     CAknEdwinState*edwinState = EditorState();
-    if( !edwinState )
-    	return;
-    if(isVisable)
-    	{
-        SetAknEditorFlags( edwinState->Flags() | EAknEditorFlagSelectionVisible );
-    	}
-    else
-    	{
-    	SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagSelectionVisible );
-    	}
+    if ( edwinState )
+        {
+        if ( aIsVisable )
+            {
+            SetAknEditorFlags( edwinState->Flags() | EAknEditorFlagSelectionVisible );
+            }
+        else
+            {
+            SetAknEditorFlags( edwinState->Flags() & ~EAknEditorFlagSelectionVisible );
+            }
+        }
     return;
     }
 TBool CEikEdwin::IsSelectionVisible()
@@ -8574,8 +8941,8 @@ TBool CEikEdwin::IsSelectionVisible()
 		
 		TChar::TCategory category = character.GetCategory();
 		
-		if ( !((category&TChar::ESeparatorGroup == TChar::ESeparatorGroup) ||
-			   (text[i]>=0x200B && text[i]<=0xFFFC)) )
+		if ( !( ( ( category & TChar::ESeparatorGroup ) == TChar::ESeparatorGroup ) ||
+			   ( text[i] >= 0x200B && text[i] <= 0xFFFC ) ) )
 			{
 			ret = ETrue;
 			break;
@@ -8604,7 +8971,7 @@ TInt CEikEdwin::ScrollView( TInt aPixelsToScroll, TBool& aBorderExceeded, TInt& 
         {
         // We can't move enough, we have exceeded the border
         // (at the beginning or end of the document)
-        if ( aPixelsToScroll != 0 )
+        if ( aPixelsToScroll != 0 && iEdwinExtension )
             {
             if ( aPixelsToScroll < 0 )
                 {
@@ -8628,7 +8995,7 @@ TInt CEikEdwin::ScrollView( TInt aPixelsToScroll, TBool& aBorderExceeded, TInt& 
             }
         }
        
-    if ( scrolledPixels != 0 )
+    if ( scrolledPixels != 0 && iEdwinExtension )
         {
         iEdwinExtension->iScrolledDelta = scrolledPixels;
         TRAP_IGNORE( UpdateVertScrollBarThumbL() );
@@ -8656,21 +9023,24 @@ TInt CEikEdwin::ScrollViewWithBounce( TInt aPixelsToScroll,
     // After that we have to move to mode where we use ScrollDisplayPixelsL
     // to detect if we exceed border again.
     TBool adjustScrolling( EFalse );
-    if ( aPixelsToScroll > 0  && iEdwinExtension->iEndBorderExceeded )
-        {
-        if ( aPixelsToScroll > - iEdwinExtension->iPixelsOutOfBorder )
-            {
-            adjustScrolling = ETrue;
-            }
-        }
-    else if ( aPixelsToScroll < 0 &&  iEdwinExtension->iStartBorderExceeded )
-        {
-        if ( aPixelsToScroll < - iEdwinExtension->iPixelsOutOfBorder )
-            {            
-            adjustScrolling = ETrue;
-            }
-        }
-    
+    if ( iEdwinExtension )
+    	{
+		if ( aPixelsToScroll > 0  && iEdwinExtension->iEndBorderExceeded )
+			{
+			if ( aPixelsToScroll > - iEdwinExtension->iPixelsOutOfBorder )
+				{
+				adjustScrolling = ETrue;
+				}
+			}
+		else if ( aPixelsToScroll < 0 &&  iEdwinExtension->iStartBorderExceeded )
+			{
+			if ( aPixelsToScroll < - iEdwinExtension->iPixelsOutOfBorder )
+				{            
+				adjustScrolling = ETrue;
+				}
+			}
+    	}
+
     if ( adjustScrolling )
         {
         // we are scrolling over the border, calculate how many
@@ -8683,23 +9053,26 @@ TInt CEikEdwin::ScrollViewWithBounce( TInt aPixelsToScroll,
     // We are out of borders. Call scrolling function that supports bounce-effect
     TRAP_IGNORE( iTextView->ScrollDisplayPixelsNoLimitBorderL( aPixelsToScroll ) );
 
-    // Update variable that tells how near the border we are.
-    iEdwinExtension->iPixelsOutOfBorder += aPixelsToScroll;
-               
-    if ( iEdwinExtension->iStartBorderExceeded
-        && iEdwinExtension->iPixelsOutOfBorder <= 0 )
-        {
-        // We are inside borders, reset flag and tell to caller
-        iEdwinExtension->iStartBorderExceeded = EFalse;
-        aEndOfBounce = ETrue;
-        }
-    else if ( iEdwinExtension->iEndBorderExceeded
-        && iEdwinExtension->iPixelsOutOfBorder >= 0 )
-        {
-        // we are inside borders, reset flag and tell to caller
-        iEdwinExtension->iEndBorderExceeded = EFalse;
-        aEndOfBounce = ETrue;
-        }
+    if ( iEdwinExtension )
+    	{
+		// Update variable that tells how near the border we are.
+		iEdwinExtension->iPixelsOutOfBorder += aPixelsToScroll;
+				   
+		if ( iEdwinExtension->iStartBorderExceeded
+			&& iEdwinExtension->iPixelsOutOfBorder <= 0 )
+			{
+			// We are inside borders, reset flag and tell to caller
+			iEdwinExtension->iStartBorderExceeded = EFalse;
+			aEndOfBounce = ETrue;
+			}
+		else if ( iEdwinExtension->iEndBorderExceeded
+			&& iEdwinExtension->iPixelsOutOfBorder >= 0 )
+			{
+			// we are inside borders, reset flag and tell to caller
+			iEdwinExtension->iEndBorderExceeded = EFalse;
+			aEndOfBounce = ETrue;
+			}
+    	}
           
     if ( aPixelsToScroll != 0 )
         {
@@ -8717,7 +9090,12 @@ TInt CEikEdwin::ScrollViewWithBounce( TInt aPixelsToScroll,
 //
 TInt CEikEdwin::PixelsOutOfBorder() const
     {
-    return iEdwinExtension->iPixelsOutOfBorder;
+    TInt ret = 0;
+    if ( iEdwinExtension )
+        {
+        ret = iEdwinExtension->iPixelsOutOfBorder;
+        }
+    return ret;
     }
 
 // ---------------------------------------------------------------------------
@@ -8734,7 +9112,10 @@ void CEikEdwin::EnableRateScrolling( TBool aEnable )
     // If aEnable is EFalse, Position scrolling mode is in use.
     // If aEnable is ETrue, Rate scrolling mode is in use.
     
-    iEdwinExtension->iUseRateScroll = aEnable;
+	if ( iEdwinExtension )
+		{
+		iEdwinExtension->iUseRateScroll = aEnable;
+		}
     }
 
 // ---------------------------------------------------------------------------
@@ -8744,7 +9125,7 @@ void CEikEdwin::EnableRateScrolling( TBool aEnable )
 void CEikEdwin::StoreCursorState()
     {
     CAknEdwinState* state( EditorState() );
-    if ( state && state->Flags() & EAknEditorFlagTextCursorVisible )
+    if ( iEdwinExtension && state && state->Flags() & EAknEditorFlagTextCursorVisible )
         {
         TRAP_IGNORE( SetCursorVisibilityL( EFalse ) );
         iEdwinExtension->iCursorWasVisible = ETrue;
@@ -8757,7 +9138,7 @@ void CEikEdwin::StoreCursorState()
 //
 void CEikEdwin::RestoreCursorState()
     {
-    if ( iEdwinExtension->iCursorWasVisible )
+    if ( iEdwinExtension && iEdwinExtension->iCursorWasVisible )
         {
         TRAP_IGNORE( SetCursorVisibilityL( ETrue ) );
         iEdwinExtension->iCursorWasVisible = EFalse;
@@ -8774,20 +9155,68 @@ TBool CEikEdwin::KineticScrollingEnabled() const
     }
 
 
+// ---------------------------------------------------------------------------
+// CEikEdwin::DrawViewBackground
+// ---------------------------------------------------------------------------
+//
+void CEikEdwin::DrawViewBackground( TBool aStart ) const
+    {
+    CWindowGc& gc = SystemGc();
+    RWindow& window = Window();
+
+    if ( aStart )
+        {
+        TRect viewRect( iTextView->ViewRect() );
+        window.Invalidate( viewRect );
+        window.BeginRedraw( viewRect );
+        gc.Activate( window );
+    
+        if ( iEdwinExtension && 
+        		!AknsDrawUtils::DrawBackground( 
+                iEdwinExtension->iSkinInstance, 
+                SkinBackgroundControlContext(),
+                this,
+                gc,
+                viewRect.iTl,
+                viewRect,
+                KAknsDrawParamNoClearUnderImage ) )
+            {
+            gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
+            gc.SetPenStyle( CGraphicsContext::ESolidPen );
+    
+            TRgb dummyColor;
+            TRgb backgroundColor = EditorBackgroundColor( dummyColor ); 
+    
+            gc.SetBrushColor( backgroundColor );
+            gc.SetPenColor( backgroundColor );
+            gc.DrawRect( iTextView->ViewRect() );
+            }
+        }
+    else
+        {
+        gc.Deactivate();
+        window.EndRedraw();
+        }
+    }
+
+
 void CEikEdwin::HandleSelectionForSmiley( TCursorSelection aSelect )
     {
-    if ( !iEdwinExtension->iSmiley )
-        {
-        return;
-        }
-    if ( iCustomDrawer )
-        {
-        iEdwinExtension->iSmiley->SetHighlightColor( 
-            iCustomDrawer->SystemColor( TLogicalRgb::ESystemSelectionBackgroundIndex, 
-                KRgbWhite ) );
-        }
-    iEdwinExtension->iSmiley->HandleSelection( aSelect.LowerPos(), 
-        aSelect.Length() );
+	if ( iEdwinExtension )
+		{
+		if ( !iEdwinExtension->iSmiley )
+	        {
+	        return;
+	        }
+	    if ( iCustomDrawer )
+	        {
+	        iEdwinExtension->iSmiley->SetHighlightColor( 
+	            iCustomDrawer->SystemColor( TLogicalRgb::ESystemSelectionBackgroundIndex, 
+	                KRgbWhite ) );
+	        }
+	    iEdwinExtension->iSmiley->HandleSelection( aSelect.LowerPos(), 
+	        aSelect.Length() );
+		}
     }
 
 // ---------------------------------------------------------------------------
@@ -8799,21 +9228,95 @@ TBool CEikEdwin::SkipBackgroundDrawer() const
     return iEdwinInternalFlags & ESkipBackgroundDrawer;
     }
 
-TBool CEikEdwin::IsValidNumericCharL( TChar aChar )
-    { 
-    TBool ret(ETrue);
-    CAknEdwinState* state = static_cast<CAknEdwinState*>( iEdwinFepSupport->State( KNullUid ) );    
-    if (state && state->CurrentInputMode() == EAknEditorNumericInputMode )
-    	{
-        HBufC* allowedChars = GetAllowedCharsLC();
-        if ( (*allowedChars).Length() > 0 && (*allowedChars).Locate( aChar ) == KErrNotFound )
+
+// ---------------------------------------------------------------------------
+// CEikEdwin::ContentFitsToViewRect
+// ---------------------------------------------------------------------------
+//
+TBool CEikEdwin::ContentFitsToViewRect() const
+    {
+    if ( iLayout && !iLayout->IsFormattingBand() )
+        {
+        if ( iLayout->FormattedHeightInPixels()
+            <= AdjustedViewRect().Height() + KContentThreshold )
             {
-            ret = EFalse;
+            return ETrue;
             }
-        CleanupStack::PopAndDestroy(1);//allowedChars
         }
-    return ret;
+
+    return EFalse;
     }
+
+
+// ---------------------------------------------------------------------------
+// ReadSpecialCharFromSCTL
+// ---------------------------------------------------------------------------
+//
+void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId )
+	{
+	TResourceReader aReader;
+	CCoeEnv::Static()->CreateResourceReaderLC( aReader, sctResourceId );
+	aReader.Advance( KTInt32Length ); // Diaog Flag
+	HBufC* titleBar = aReader.ReadHBufCL(); // title bar
+	// for titleBar useless, release it.
+	delete titleBar;
+	titleBar = NULL;
+	// Page Selector Resource Id, Button Group Container Resource Id
+	aReader.Advance( KTInt32Length + KTInt32Length );
+	TInt lineCount = aReader.ReadInt16(); // line Count
+	for ( TInt ii = 0; ii < lineCount; ii++ )
+		{
+        TInt controlType = aReader.ReadInt16(); // control Type
+	    if ( controlType == EAknCtPopupHeadingPane )
+	    	{
+	        // read HeadPane
+	    	ReadSCTHeadPane( aReader );
+	    	}
+	    else if ( controlType == EAknCtSpecialCharacterMap )
+	    	{
+	        aReader.ReadTPtrC(); // caption text
+			aReader.Advance( KTInt16Length + KTInt32Length ); // captioned control ID, item flags
+			
+			TInt component_count = aReader.ReadInt16();
+			for ( TInt jj = 0; jj < component_count; jj++ )
+				{
+				TInt component_id = aReader.ReadInt16();
+				if ( component_id == EAknSCTLowerCase || component_id == EAknSCTUpperCase ||
+					component_id == EAknSCTNumeric )
+					{
+					HBufC* specialChar = aReader.ReadHBufCL();
+					ptr.Append( specialChar->Des() );
+					delete specialChar;
+					}
+				}
+	    	}
+	    else
+	    	{
+	        break;
+	    	}
+		}
+	CleanupStack::PopAndDestroy(); // aReader
+	}
+
+// ---------------------------------------------------------------------------
+// ReadSCTHeadPane
+// ---------------------------------------------------------------------------
+//
+void ReadSCTHeadPane( TResourceReader& aReader )
+	{
+	aReader.ReadTPtrC(); // caption text
+	// captioned control ID, item flags
+	aReader.Advance( KTInt16Length + KTInt32Length );
+	aReader.ReadTPtrC(); // text of head pane
+	aReader.ReadTPtrC(); // bitmap File Name of head pane
+	// bitmap Id, bitmap Mask Id,animation Id, layout of head pane
+	aReader.Advance( KTInt16Length + KTInt16Length + KTUint32Length + KTUint32Length );
+	aReader.ReadTPtrC(); // trailer
+	aReader.ReadTPtrC(); // bitmap File Name of captioned control
+	// bitmap Id, bitmap Mask Id of captioned control
+	aReader.Advance( KTInt16Length + KTInt16Length );
+	aReader.ReadTPtrC(); // Process ToolTip
+	}
 
 // End of File
 

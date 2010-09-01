@@ -1,0 +1,219 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resources for bctestsingleclick.
+*
+*/
+
+//  RESOURCE IDENTIFIER
+NAME SCLK
+
+//  INCLUDES
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.hrh>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <AvkonIcons.hrh>
+#include <aknsconstants.hrh>
+
+#include <appinfo.rh>
+
+#include "bctestsingleclick.hrh"
+#include "bctestsingleclick.loc"
+
+//  CONSTANTS
+#define APP_BITMAP_DIR "\\resource\\apps"
+#define AVKON_BMP_FILENAME AVKON_ICON_FILE
+#define BCTESTSINGLECLICK_BMP_FNAME APP_BITMAP_DIR"\\bctestsingleclick.mbm"
+
+//  MACROS
+
+
+
+//  RESOURCE DEFINITIONS
+//-----------------------------------------------------------------------------
+//
+//    RSS_SIGNATURE
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE RSS_SIGNATURE
+    {
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    TBUF16
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE TBUF16
+    {
+    buf = "bctestsingleclic";
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    EIK_APP_INFO
+//
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    menubar = r_bctestsingleclick_menubar_main;
+    cba = r_bctestsingleclick_cba_options_next;
+    }
+
+// ---------------------------------------------------------
+//    Provide Caption and Icon Info for Scalable UI
+//
+// ---------------------------------------------------------
+//
+RESOURCE LOCALISABLE_APP_INFO r_bctestsingleclick_localisable_app_info
+    {
+    short_caption = qtn_apps_tavl_grid; 
+
+    caption_and_icon = 
+    CAPTION_AND_ICON_INFO
+        {
+        caption = qtn_apps_tavl_list; 
+        };
+    }
+    
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_view
+//    AVKON_VIEW for BCTESTSingleClickView
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_bctestsingleclick_view
+    {
+    menubar = r_bctestsingleclick_menubar_main;
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_menubar
+//    MenuBar
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_bctestsingleclick_menubar_main
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_bctestsingleclick_menu;            
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_bctestsingleclick_case_menu;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_case_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestsingleclick_case_menu
+    {
+    items = 
+        {
+        MENU_ITEM
+            {
+            command = EBCTestCmdOutline1;
+            txt = qtn_bctestsingleclick_outline1;
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_add_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestsingleclick_add_menu
+    {
+    items =
+        {
+        MENU_ITEM 
+            { 
+            command = EBCTestCmdOutline2;                   
+            txt = qtn_bctestsingleclick_outline2; 
+            }
+        };
+    }
+
+//-----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_menu
+//    Menu pane
+//
+//-----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_bctestsingleclick_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EProgCmdAutoTest;
+            txt = qtn_bctestsingleclick_autotest;
+            },
+        MENU_ITEM // Menu "Exit"
+            {
+            command = EAknCmdExit;
+            txt = qtn_bctestsingleclick_menu_exit;
+            }
+        };
+    }
+
+// ----------------------------------------------------------------------------
+//
+//    r_bctestsingleclick_cba_options_next
+//    
+//
+// ----------------------------------------------------------------------------
+//
+RESOURCE CBA r_bctestsingleclick_cba_options_next
+    {
+    buttons =
+        {
+	CBA_BUTTON 
+	    {
+	    id = EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+	    },
+        AVKON_CBA_BUTTON
+            {
+            id = EBCTESTSingleClickCbaCmdNext;
+            txt = qtn_bctestsingleclick_cba_next;
+            }
+        };
+    }
+        
+// End of File

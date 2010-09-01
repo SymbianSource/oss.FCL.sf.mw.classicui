@@ -52,7 +52,7 @@ void CAknMediatorEvent::RaiseEvent(TInt aId, const TDesC8& aBuf )
                 
             if (!err)                
                 {
-                iArray.Append(aId);
+                err = iArray.Append(aId);
                 }
             }
             

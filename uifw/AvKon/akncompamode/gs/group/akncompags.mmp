@@ -1,0 +1,71 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project specification file.
+*
+*/
+
+
+#include  <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+CAPABILITY          CAP_ECOM_PLUGIN
+TARGET              akncompags.dll
+TARGETTYPE          PLUGIN
+UID                 0x10009D8D 0x20011149
+VENDORID            VID_DEFAULT
+
+USERINCLUDE         ../inc
+USERINCLUDE         ../../inc ../../loc // from akncompamode
+
+APP_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH          ../src
+SOURCE              akncompagscontainer.cpp
+SOURCE              akncompags.cpp
+SOURCE              akncompagsmodel.cpp
+
+SOURCEPATH          ../data
+
+START RESOURCE      20011149.rss
+TARGETPATH          ECOM_RESOURCE_DIR
+TARGET              akncompags.rsc
+END
+
+START RESOURCE      akncompagsrsc.rss
+HEADER
+TARGETPATH          RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+LIBRARY   euser.lib
+LIBRARY   ecom.lib
+LIBRARY   efsrv.lib
+LIBRARY   avkon.lib
+LIBRARY   bafl.lib
+LIBRARY   cone.lib
+LIBRARY   eikcoctl.lib
+LIBRARY   eikcore.lib
+LIBRARY   egul.lib
+LIBRARY   eikdlg.lib            // eikon dialogs
+LIBRARY   centralrepository.lib
+
+LIBRARY   CommonEngine.lib      // For RConeResourceLoader
+LIBRARY   aknskinsrv.lib        // for enhanced skinning
+LIBRARY   aknskins.lib          // for enhanced skinning
+LIBRARY   hlplch.lib            // for "Help" options menu
+LIBRARY   gsframework.lib       // For base classes
+LIBRARY   gslistbox.lib         // For CGSListBoxItemTextArray
+LIBRARY   gsecomplugin.lib
+
+// End of File

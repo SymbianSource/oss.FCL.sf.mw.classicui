@@ -34,7 +34,120 @@
 #include <eikedwob.h>
 
 #include <AknTasHook.h>
+#include <AknFepInternalPSKeys.h>
+#include <e32property.h>
+#include <AknDef.h>
 
+
+/*
+ * this class is a fixing for bug ESLM-8395MP 
+ * Settingpage will keep watch the RProperty(set by Fep) to hide it self 
+ */
+NONSHARABLE_CLASS( CAknFepSettingDialogStatusWatcher ) : public CActive
+    {
+public:
+    static CAknFepSettingDialogStatusWatcher* NewL( CAknTextSettingPage* aControl )
+        {
+        CAknFepSettingDialogStatusWatcher* watcher = new (ELeave) CAknFepSettingDialogStatusWatcher( aControl );
+        CleanupStack::PushL( watcher );
+        watcher->ConstructL();
+        CleanupStack::Pop(watcher);
+        return watcher;
+        }
+
+    CAknFepSettingDialogStatusWatcher( CAknTextSettingPage* aControl )
+        : CActive( EPriorityNormal )
+        , iControl( aControl ) 
+        , iAttachSucceed( EFalse )
+        {
+        CActiveScheduler::Add( this );
+        }
+
+    ~CAknFepSettingDialogStatusWatcher()
+        {
+        StopWatching();
+        iFepSettingDialogStatusProperty.Close();
+        }
+
+    void StartWatching()
+        {
+        if ( !IsActive() && iAttachSucceed )
+            {
+            iFepSettingDialogStatusProperty.Subscribe( iStatus );
+            SetActive();
+            }
+        }
+
+    void StopWatching()
+        {
+        Cancel();
+        }
+
+private:
+
+    void ConstructL()
+        {
+        TInt ret = iFepSettingDialogStatusProperty.Attach( KPSUidAknFep
+                                                         , KAknFepSettingDialogState
+                                                         , EOwnerThread );
+        iAttachSucceed = ( ret == KErrNone );
+        }
+
+    void HandleAknFepSettingDialogStatusChangeNotification()
+        {
+        TInt isOpen = 0;
+        iFepSettingDialogStatusProperty.Get( isOpen );
+        if ( !iControl )
+            {
+            return;
+            }
+
+        if ( isOpen )
+            {
+            iControl->MakeVisible( EFalse );
+            }
+        else
+            {
+            iControl->MakeVisible( ETrue );
+            }
+        }
+
+private: // from CActive
+
+    void RunL()
+        {
+        if ( iStatus.Int() == KErrNone )
+            {
+            HandleAknFepSettingDialogStatusChangeNotification();
+            StartWatching();
+            }
+        }
+
+    void DoCancel()
+        {
+        iFepSettingDialogStatusProperty.Cancel();
+        }
+
+private:
+    //
+    // not owned
+    //
+    CAknTextSettingPage* iControl;
+
+    RProperty  iFepSettingDialogStatusProperty;
+
+    //
+    // If RProperty attach succeed 
+    //
+    TBool iAttachSucceed ;
+    };
+
+
+// ============================================================================
+//  text settingpage private extented class 
+//
+// ============================================================================
+//
 class CAknTextSettingPageExtension : public CBase
 								   , public MEikEdwinObserver
     {
@@ -51,16 +164,24 @@ public:
     ~CAknTextSettingPageExtension()
         {
         iExtensionOwner = 0;
+		
+		if( iAknFepSettingDialogStatusWatcher )
+		    {
+		    iAknFepSettingDialogStatusWatcher->StopWatching();
+            }			
+		delete iAknFepSettingDialogStatusWatcher;
         }
         
     TInt PreviousCba()
         {
         return iPreviousCba;
         };
+		
     void SetPreviousCba(TInt aCbaId)
         {
         iPreviousCba = aCbaId;
         }
+		
 	TBool PopupState()
 	 	{
 		return iPopupState;
@@ -82,10 +203,13 @@ public:
 private:
     void ConstructL()
         {
+		iAknFepSettingDialogStatusWatcher = CAknFepSettingDialogStatusWatcher::NewL( iExtensionOwner );
+		iAknFepSettingDialogStatusWatcher->StartWatching();
         }
         
     CAknTextSettingPageExtension(CAknTextSettingPage*  aExtensionOwner )
-        : iPreviousCba( 0 ), iExtensionOwner( aExtensionOwner )
+        : iPreviousCba( 0 )
+        , iExtensionOwner( aExtensionOwner )
         , iPopupState( EFalse )
         {
         }
@@ -94,6 +218,11 @@ private:
     TInt iPreviousCba;
     CAknTextSettingPage* iExtensionOwner;
     TBool iPopupState;  // when open the popup set popup state flag  to 1
+
+	//
+	// active object keep watching Fep's property (Owned)
+	//
+	CAknFepSettingDialogStatusWatcher* iAknFepSettingDialogStatusWatcher;
     };
 
 /**
@@ -227,6 +356,7 @@ EXPORT_C void CAknTextSettingPage::ConstructL()
 	iBackupText = iText.AllocL();
 	CEikEdwin* editor = TextControl();
 
+	editor->EnableKineticScrollingL( ETrue );
 	// Inhibit predictive text entry unless allowed by API
 	if ( !(iTextSettingPageFlags & EPredictiveTextEntryPermitted) )
 		editor->SetAknEditorFlags( EAknEditorFlagNoT9 | editor->AknEdwinFlags() );
@@ -269,7 +399,14 @@ EXPORT_C void CAknTextSettingPage::ConstructL()
 	// Construct an appropriate control context for the contained editor areas.
 	// Context produced is owned by CAknSettingPage. 
     SetEditedItemFrameIID( KAknsIIDQsnFrInput, KAknsIIDQsnFrInputCenter );
-	TextControl()->ScrollBarFrame()->VerticalScrollBar()->SetMopParent(this);
+    
+    // ScrollBarFrame always exists in this phase
+    CEikScrollBar* sb = editor->ScrollBarFrame()->VerticalScrollBar();
+    if ( sb )
+        {
+        sb->SetMopParent( this );
+        sb->MakeVisible( ETrue );
+        }
 	}
 
 /**
@@ -423,8 +560,12 @@ EXPORT_C void CAknTextSettingPage::SizeChanged()
     
     for ( TInt i = textLimits.FirstRow(); i <= textLimits.LastRow(); ++i )
         {
-        array.Append(
-            AknLayoutScalable_Avkon::set_text_pane_t1_copy1( 0, 0, i ) );
+		TInt err = array.Append( AknLayoutScalable_Avkon::set_text_pane_t1_copy1( 0, 0, i ) );
+        if ( err != KErrNone)
+        	{
+			array.Close();
+			return;
+        	}
         }
     
     AknLayoutUtils::LayoutEdwin( TextControl(),

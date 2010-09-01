@@ -18,6 +18,15 @@
 // Avkon Default KeySounds
 //
 
+#define KVolumeMinSoundFile "z:\\resource\\avkonsystemsounds\\volume_min.wav"
+#define KVolumeMaxSoundFile "z:\\resource\\avkonsystemsounds\\volume_max.wav"
+#define KBatteryLowSoundFile "z:\\resource\\avkonsystemsounds\\battery_low.wav"
+#define KDefaultBeepSoundFile "z:\\resource\\avkonsystemsounds\\default_beep.wav"
+#define KBatteryRechargeSoundFile "z:\\resource\\avkonsystemsounds\\battery_dead.wav"
+#define KConfirmationSoundFile "z:\\resource\\avkonsystemsounds\\confirmation.wav"
+#define KWarningSoundFile "z:\\resource\\avkonsystemsounds\\warning.wav"
+
+
 RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 	{
 	list=
@@ -44,14 +53,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDConfirmationTone; 
 			priority=EAvkonConfirmationNotePriority; 
 			preference=EAvkonConfirmationNotePreference;
-			sequencelength=6;
-			sequence={0,17,10,118,17,11};
+			//sequencelength=6;
+			//sequence={0,17,10,118,17,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
             // 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x11 = 17 = tone_tick = 170ms
 			// 0x0B = 11 = OPCODE_END 
+			file = KConfirmationSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -59,14 +69,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDErrorTone; 
 			priority=EAvkonErrorNotePriority;
 			preference=EAvkonErrorNotePreference;
-			sequencelength=6;
-			sequence={0,17,10,108,25,11};
+			//sequencelength=6;
+			//sequence={0,17,10,108,25,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
 			// 0x19 = 25 = tone_tick = 250ms
 			// 0x0B = 11 = OPCODE_END 
+			file = KWarningSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -74,14 +85,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDWarningTone; 
 			priority=EAvkonWarningNotePriority; 
 			preference=EAvkonWarningNotePreference;
-			sequencelength=6;
-			sequence={0,17,10,108,25,11};
+			//sequencelength=6;
+			//sequence={0,17,10,108,25,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x6C = 108 => 108-64=44=AUD_TONE_RING_FREQ_G1	 = 784Hz
 			// 0x19 = 25 = tone_tick = 250ms
 			// 0x0B = 11 = OPCODE_END 
+			file = KWarningSoundFile;
 			volume = 5;
 			},
 
@@ -90,29 +102,31 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDVolumeMinTone; 
 			priority=EAvkonVolumeSettingTonesPriority; 
 			preference=EAknAudioPrefAudioVolumeMin;
-			sequencelength=6;
-			sequence={0,17,10,113,6,11};
+			//sequencelength=6;
+			//sequence={0,17,10,113,6,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x71 = 113 => 113-64=49=AUD_TONE_RING_FREQ_C2	 = 1047Hz
 			// 0x06 = 6 = tone_tick = 60ms
 			// 0x0B = 11 = OPCODE_END
-			volume = 9;
+			file = KVolumeMinSoundFile;
+			volume = 5;
 			},
 		AVKON_SOUND_INFO 
 			{
 			sid=EAvkonSIDVolumeMaxTone; 
 			priority=EAvkonVolumeSettingTonesPriority; 
 			preference=EAknAudioPrefAudioVolumeMax;
-			sequencelength=6;
-			sequence={0,17,10,122,6,11};
+			//sequencelength=6;
+			//sequence={0,17,10,122,6,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x7A = 122 => 122-64=58=AUD_TONE_RING_FREQ_A3	 = 1760Hz
 			// 0x06 = 6 = tone_tick = 60ms
 			// 0x0B = 11 = OPCODE_END
+			file = KVolumeMaxSoundFile;
 			volume = 6;
 			},
 		AVKON_SOUND_INFO 
@@ -139,8 +153,8 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDBatteryLowTone; 
 			priority=EAvkonChargingTonesPriority; 
 			preference=EAknAudioPrefBatteryLow;
-			sequencelength=10;
-			sequence={0,17,10,104,15,102,22,99,30,11};
+			//sequencelength=10;
+			//sequence={0,17,10,104,15,102,22,99,30,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
@@ -151,6 +165,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x63 = 99 => 99-64=35=AUD_TONE_RING_FREQ_A1    = 440Hz
 			// 0x1E = 30 = tone_tick = 300ms
 			// 11 = OPCODE_END
+			file = KBatteryLowSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -158,14 +173,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDChargingBatteryTone; 
 			priority=EAvkonLowLevelNotesPriority; 
 			preference=EAknAudioPrefCharging;
-			sequencelength=6;
-			sequence={0,17,10,118,17,11};
+			// sequencelength=6;
+			// sequence={0,17,10,118,17,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x11 = 17 = tone_tick = 170ms
 			// 0x0B = 11 = OPCODE_END
+			file = KDefaultBeepSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -207,14 +223,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDDefaultSound; 
 			priority=EAvkonLowLevelNotesPriority;
 			preference=EAknAudioPrefDefaultTone;
-			sequencelength=6;
-			sequence={0,17,10,118,10,11};
+			//sequencelength=6;
+			//sequence={0,17,10,118,10,11};
 		   	// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x0A = 10 = tone_tick = 100ms
 			// 0x0B = 11 = OPCODE_END
+			file = KDefaultBeepSoundFile;
   			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -304,14 +321,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDPowerOffTone; 
 			priority=EAvkonPoweringTonesPriority;
 			preference=EAknAudioPrefPowerOff;
-			sequencelength=6;
-			sequence={0,17,10,118,10,11};
+			//sequencelength=6;
+			//sequence={0,17,10,118,10,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x0A = 10 = tone_tick = 100ms
 			// 0x0B = 11 = OPCODE_END
+			file = KDefaultBeepSoundFile;
 			volume = 5;
 			},
 
@@ -320,14 +338,15 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDPowerOnTone; 
 			priority=EAvkonPoweringTonesPriority;
 			preference=EAknAudioPrefPowerOn;
-			sequencelength=6;
-			sequence={0,17,10,118,10,11};
+			//sequencelength=6;
+			//sequence={0,17,10,118,10,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
 			// 0x76 = 118 => 118-64=54=AUD_TONE_RING_FREQ_F2	 = 1397Hz
 			// 0x0A = 10 = tone_tick = 100ms
 			// 0x0B = 11 = OPCODE_END
+			file = KDefaultBeepSoundFile;
 			volume = 5;
 			},
 		AVKON_SOUND_INFO 
@@ -335,8 +354,8 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			sid=EAvkonSIDRechargeBatteryTone; 
 			priority=EAvkonChargingTonesPriority;
 			preference=EAknAudioPrefRechargeBattery;
-			sequencelength=12;
-			sequence={0,17,10,104,15,102,22,99,30,96,45,11};
+			//sequencelength=12;
+			//sequence={0,17,10,104,15,102,22,99,30,96,45,11};
 			// 0x00 = 0  = OPCODE_SEQUENCE_START
 			// 0x11 = 17 = OPCODE_DURATION_UNIT
 			// 0x0A = 10 = duration unit => tone duration is 10ms * tone_tick
@@ -349,6 +368,7 @@ RESOURCE AVKON_SOUND_INFO_LIST r_avkon_default_sound_list
 			// 0x60 = 96 => 96-64=32=AUD_TONE_RING_FREQ_G0    = 392Hz
 			// 0x2D = 45 = tone_tick = 450ms
 			// 0x0B = 11 = OPCODE_END
+			file = KBatteryRechargeSoundFile;
 			volume = 5;
 			},
 

@@ -26,7 +26,7 @@
 #include <testclassassert.h>
 #include <eikenv.h>
 #include <e32std.h>
-#include <aknlayout2scalabledef.h>
+#include <AknLayout2ScalableDef.h>
 #include <aknstylusactivatedpopupcontent.h>
 
 #include "testdomstylusactivepopupcontainer.h"
@@ -86,6 +86,20 @@ private:
      * Method used to log version of test class
      */
     void SendTestClassVersion();
+    
+        /**
+     * Turn off ScreenSaver
+     * @since S60 5.0
+     * @return Symbian OS error code.
+     */
+    void TurnOffScreenSaver();
+
+    /**
+     * Restore ScreenSaver
+     * @since S60 5.0
+     * @return Symbian OS error code.
+     */
+    void RestoreScreenSaver();
 
 private: // [TestMethods]
     

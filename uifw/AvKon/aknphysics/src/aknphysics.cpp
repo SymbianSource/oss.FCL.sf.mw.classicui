@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009, 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -426,7 +426,15 @@ EXPORT_C TBool CAknPhysics::StartPhysics( TPoint& aDrag,
                                           const TTime& aStartTime )
     {
     // Check that world really exists
-    if ( !iEngine || !iEngine->WorldExists() )
+    if ( iEngine )
+        {
+        if ( ( !iLandscape && iWorldSize.iHeight <= iViewSize.iHeight ) ||
+                ( iLandscape && iWorldSize.iWidth <= iViewSize.iWidth ) )
+            {
+            return EFalse;
+            }
+        }
+    else
         {
         return EFalse;
         }
@@ -544,6 +552,14 @@ EXPORT_C TInt CAknPhysics::OngoingPhysicsAction() const
 //
 EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
     {
+    TInt viewSize = !iLandscape ? iViewSize.iHeight : iViewSize.iWidth;
+    TInt worldSize = !iLandscape ? iWorldSize.iHeight : iWorldSize.iWidth;
+    
+    if ( worldSize <= viewSize )
+        {
+        return;
+        }
+	
     TTimeIntervalMicroSeconds time;
     TInt err( KErrNone );
     if ( iNullThread.Handle() )
@@ -589,7 +605,8 @@ EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
     iPanningDrawOmitted = !drawNow;
     
     TPoint position( iObserver.ViewPosition() );
-    position += aDelta;
+    
+    TPoint movement( aDelta );
 
     if ( iRestrictor && iRestrictor->AllowedViewPosition( position ) )
         {
@@ -602,6 +619,23 @@ EXPORT_C void CAknPhysics::RegisterPanningPosition( const TPoint& aDelta )
                 iEngine->StartFpsLogging();
                 }
             }
+
+        // reduce movement if content is dragged over boundaries
+        if ( OngoingPhysicsAction() == EAknPhysicsActionDragging )
+            {
+            TInt currentPosition = !iLandscape ? position.iY : position.iX;
+            TInt* movementPtr = !iLandscape ? &movement.iY : &movement.iX;
+        
+            TInt top = viewSize / 2;
+            TInt bottom = worldSize - top;
+            
+            if ( currentPosition < top || currentPosition > bottom )
+                {
+                *movementPtr /= 2;
+                }
+            }
+
+        position += movement;
         
         NotifyViewPositionChanged( position, drawNow );
         
@@ -897,6 +931,7 @@ TInt CAknPhysics::MinFrameInterval() const
 void CAknPhysics::DrawViewInCurrentPosition()
     {
     NotifyViewPositionChanged( iObserver.ViewPosition(), ETrue );
+    iPanningDrawOmitted = EFalse;
     }
 
 // --------------------------------------------------------------------------
@@ -939,7 +974,6 @@ void CAknPhysics::ConstructL( CCoeControl* aViewControl )
     // Create Physics timer to step physics emulation
     iPhysics = CAknHighResPeriodic::NewL(
         CActive::EPriorityStandard, nullThreadOpen ? &iNullThread : NULL );
-    iPhysics->SetMinCallBackPeriod( FrameDelay() * 1000 );
     
     iEngine = CAknPhysicsEngine::NewL( this );
     iParamProvider = CAknPhysicsParameterProvider::NewL();
@@ -947,6 +981,7 @@ void CAknPhysics::ConstructL( CCoeControl* aViewControl )
     iConeObserver = CAknPhysicsConeObserver::NewL( this, iRestrictor );
     iConeObserver->SetViewWindowControl( aViewControl );
     iFeedback = MTouchFeedback::Instance();
+    iPhysics->SetMinCallBackPeriod( FrameDelay() * 1000 );
     }
 
 
@@ -1106,7 +1141,7 @@ void CAknPhysics::DoSimulation()
             if ( iBounceTactileFeedback && iFeedback )
                 {
                 iFeedback->InstantFeedback( NULL,
-                                            ETouchFeedbackBounceEffect,
+                                            ETouchFeedbackBoundaryList,
                                             ETouchFeedbackVibra,
                                             TPointerEvent() );
                 }

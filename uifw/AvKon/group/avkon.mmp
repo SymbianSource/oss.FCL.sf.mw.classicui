@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 - 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002 - 2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -60,10 +60,6 @@ USERINCLUDE   ../../../inc
 USERINCLUDE   ../../eikctl/inc
 USERINCLUDE   ../../EikStd/coctlinc
 USERINCLUDE   . ../inc ../animdllinc ../akncompamode/inc
-
-/* notifier removal workaround */
-USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
-USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
 
 // This is a SYSTEMINCLUDE macro containing the middleware
 // and applications layer specific include directories
@@ -284,14 +280,16 @@ SOURCE          akndiscreetpopupdrawer.cpp
 SOURCE          akndiscreetpopupdata.cpp
 SOURCE          akndiscreetpopupserverhandler.cpp
 
+SOURCE          AknSmileyUtils.cpp
 SOURCE          AknSmileyModel.cpp
 SOURCE          AknSmileyImage.cpp
+SOURCE          akncombinedpane.cpp
 
 LIBRARY         FontProvider.lib
-LIBRARY         FontUtils.lib
+LIBRARY         fontutils.lib
 
-LIBRARY         EUSER.LIB
-LIBRARY         EIKCORE.LIB
+LIBRARY         euser.lib
+LIBRARY         eikcore.lib
 LIBRARY         cone.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         eikctl.lib
@@ -299,12 +297,12 @@ LIBRARY         egul.lib
 LIBRARY         bafl.lib
 LIBRARY         gdi.lib
 LIBRARY         fbscli.lib
-LIBRARY         APGRFX.LIB
+LIBRARY         apgrfx.lib
 LIBRARY         ws32.lib
 LIBRARY         eikdlg.lib
 LIBRARY         bitgdi.lib
 LIBRARY         etext.lib
-LIBRARY         BMPANIM.LIB
+LIBRARY         bmpanim.lib
 LIBRARY         fepbase.lib
 LIBRARY         form.lib
 LIBRARY         estor.lib
@@ -312,28 +310,28 @@ LIBRARY         CommonEngine.lib
 LIBRARY         phoneclient.lib
 LIBRARY         apparc.lib
 LIBRARY         aknnotify.lib // Global Note
-LIBRARY         INSOCK.LIB // For IP address copying in CAknIpFieldSettingPage
+LIBRARY         insock.lib // For IP address copying in CAknIpFieldSettingPage
 LIBRARY         efsrv.lib
 LIBRARY         eiksrvc.lib
-LIBRARY         AknSkins.lib // Skins support
+LIBRARY         aknskins.lib // Skins support
 LIBRARY         linebreak.lib
-LIBRARY         FeatMgr.lib
-LIBRARY         NumberConversion.lib
-LIBRARY         findutil.lib
+LIBRARY         featmgr.lib
+LIBRARY         numberconversion.lib
+LIBRARY         FindUtil.lib
 LIBRARY         aknpictograph.lib
 LIBRARY         CdlEngine.lib
-LIBRARY         AknIcon.lib
-LIBRARY         ECom.lib
+LIBRARY         aknicon.lib
+LIBRARY         ecom.lib
 LIBRARY         oommonitor.lib
 LIBRARY         akncapserverclient.lib
-LIBRARY         Apmime.lib
+LIBRARY         apmime.lib
 LIBRARY         servicehandler.lib
 LIBRARY         numbergrouping.lib
-LIBRARY         AknLayout2.lib
+LIBRARY         aknlayout2.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         centralrepository.lib
 LIBRARY         cenrepnotifhandler.lib
-LIBRARY         PtiEngine.lib
+LIBRARY         ptiengine.lib
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY         aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
@@ -346,8 +344,8 @@ LIBRARY         touchfeedback.lib
 LIBRARY         tacticon.lib
 LIBRARY         viewcli.lib
 LIBRARY         aknphysics.lib
-LIBRARY         HWRMLightClient.lib
-LIBRARY         lockclient.lib
+LIBRARY         hwrmlightclient.lib
+LIBRARY         aiwdialdata.lib
 
 DEFFILE AVKON.def
 

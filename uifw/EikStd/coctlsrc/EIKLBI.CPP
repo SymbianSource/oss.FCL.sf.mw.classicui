@@ -38,7 +38,7 @@
 #include "laflbx.h"
 #include "akntrace.h"
 
-const TUint KListItemDrawerAllowedFlags = 0x00ff;
+const TUint KListItemDrawerAllowedFlags = 0x3fff;
 
 const TInt KDefaultMarkColumnWidth = 10;
 const TInt KDefaultMarkGutter = 2;
@@ -83,6 +83,13 @@ EXPORT_C void CListItemDrawer::SetFlags(TInt aFlags)
            &&  iFlags & ESingleClickEnabled )
         {
         aFlags &= ~EPressedDownState;
+        }
+    
+    // do not raise EDrawWholeBackground unless ENativeImplementation is set
+    if ( ( aFlags & EDrawWholeBackground ) 
+            && !( iFlags & ENativeImplementation ) )
+        {
+        aFlags &= ~EDrawWholeBackground;
         }
     
     iFlags |= aFlags; 

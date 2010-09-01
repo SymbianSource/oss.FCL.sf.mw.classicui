@@ -18,6 +18,7 @@
 
 #include <platform_paths.hrh>
 
+
 PRJ_EXPORTS
 
 // OEM headers - not in SDK!
@@ -46,11 +47,45 @@ PRJ_EXPORTS
 ../conf/s60/avkon_102858F2.crml           APP_LAYER_CRML(avkon_102858F2.crml)
 ../conf/s60/testability_2001844B.crml     APP_LAYER_CRML(testability_2001844B.crml)
 
-mif2cdlindex.xml         /epoc32/tools/makefile_templates/s60/mif2cdindex.xml
-mif2cdlindex.flm          /epoc32/tools/makefile_templates/s60/mif2cdlindex.flm
-mif2cdlindex.meta       /epoc32/tools/makefile_templates/s60/mif2cdlindex.meta
+mif2cdlindex.xml	/epoc32/tools/makefile_templates/s60/mif2cdindex.xml
+mif2cdlindex.flm	/epoc32/tools/makefile_templates/s60/mif2cdlindex.flm
+mif2cdlindex.meta	/epoc32/tools/makefile_templates/s60/mif2cdlindex.meta
+
+smiley.mbg		/epoc32/include/smiley.mbg
+
+smiley.mif		/epoc32/data/z/resource/apps/smiley.mif
+smiley.mif		/epoc32/release/winscw/udeb/z/resource/apps/smiley.mif
+smiley.mif		/epoc32/release/winscw/urel/z/resource/apps/smiley.mif
+smiley.mif		/epoc32/release/armv5/udeb/Z/resource/apps/smiley.mif
+smiley.mif		/epoc32/release/armv5/urel/z/resource/apps/smiley.mif
+
+../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/data/z/resource/avkonsystemsounds/volume_min.wav
+../srcdata/AvkonSystemSounds/volume_max.wav		/epoc32/data/z/resource/avkonsystemsounds/volume_max.wav
+../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/data/z/resource/avkonsystemsounds/battery_low.wav
+../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/data/z/resource/avkonsystemsounds/default_beep.wav
+../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/data/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/data/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/data/z/resource/avkonsystemsounds/warning.wav
+
+../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/volume_min.wav
+../srcdata/AvkonSystemSounds/volume_max.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/volume_max.wav
+../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/battery_low.wav
+../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/default_beep.wav
+../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/release/winscw/udeb/z/resource/avkonsystemsounds/warning.wav
+
+../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/volume_min.wav
+../srcdata/AvkonSystemSounds/volume_max.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/volume_max.wav
+../srcdata/AvkonSystemSounds/battery_low.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/battery_low.wav
+../srcdata/AvkonSystemSounds/default_beep.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/default_beep.wav
+../srcdata/AvkonSystemSounds/battery_dead.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/battery_dead.wav
+../srcdata/AvkonSystemSounds/confirmation.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/confirmation.wav
+../srcdata/AvkonSystemSounds/warning.wav		/epoc32/release/winscw/urel/z/resource/avkonsystemsounds/warning.wav
+
 
 PRJ_MMPFILES
+
 // Specify the .mmp files required for building the important component releasables.
 // Note that you should specify any .mmp files for test programs further down the file.
 //
@@ -99,7 +134,7 @@ OPTION SOURCEFILE Iconlist.txt
 END
 
 START EXTENSION s60/mif2cdlindex
-OPTION TARGETFILE Avkon2mifheader_inst.cpp
+OPTION TARGETFILE avkon2mifheader_inst.cpp
 OPTION GENPATH ../Avkon2MifHeader
 OPTION MIFFILE avkon2.mif
 // OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/Z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
@@ -119,11 +154,11 @@ OPTION HEADERFILE aknmemorycardui.mbg
 OPTION SOURCEFILE Iconlist3.txt
 END
 
-START EXTENSION s60/mifconv
-OPTION TARGETFILE smiley.mif
-OPTION HEADERFILE smiley.mbg
-OPTION SOURCEFILE smileyiconlist2.txt
-END
+//START EXTENSION s60/mifconv
+//OPTION TARGETFILE smiley.mif
+//OPTION HEADERFILE smiley.mbg
+//OPTION SOURCEFILE smileyiconlist2.txt
+//END
 
 #endif
 #endif

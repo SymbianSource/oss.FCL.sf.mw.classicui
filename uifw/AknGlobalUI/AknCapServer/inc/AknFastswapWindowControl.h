@@ -26,6 +26,8 @@
 #include <bldvariant.hrh>
 #include <apgcli.h>
 #include <coecobs.h> // MCoeControlObserver
+
+#include <widgetregistryclient.h>
 #include <eikmobs.h>
 
 // CONSTANTS
@@ -41,6 +43,8 @@ class CGulIcon;
 class CAknInfoPopupNoteController;
 class CEikLabel;
 class CAknAlwaysShownAppList;
+
+class CAknWidgetList;
 class CAknChoiceList;
 class CAknStylusPopUpMenu;
 class CAknLongTapAnimation;
@@ -499,6 +503,13 @@ private: // Data
     // AppArc session is created only once and handle is stored in the class.
     TBool iAppArcSessionInitiated;
     RApaLsSession iAppArcSession;
+
+    /** Contains data of running widgets */
+    CAknWidgetList* iWidgetList;
+    friend class CAknWidgetList;
+    /** Window group id of Widget application */
+    TInt iWidgetAppUiWgId;
+    TBool iWidgetsSupported;
 
     // Tooltip that shows application names.
     CAknInfoPopupNoteController* iTooltip;

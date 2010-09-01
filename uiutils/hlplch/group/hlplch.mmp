@@ -31,7 +31,6 @@ USERINCLUDE		../inc
 
 START RESOURCE	../data/lch.rss
 TARGETPATH		resource/apps
-HEADER
 END
 
 LIBRARY			euser.lib	apgrfx.lib	eikcore.lib	apparc.lib bafl.lib efsrv.lib

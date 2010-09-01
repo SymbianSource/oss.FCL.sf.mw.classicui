@@ -32,8 +32,8 @@
 
 // This is currently nasty set dependencies, API should be moved to middleware layer asap 
 #include <ctsydomainpskeys.h> 
-
-#include <networkhandlingdomainpskeys.h>
+#include <activeidle2domainpskeys.h>
+#include <NetworkHandlingDomainPSKeys.h>
 #include <PSVariables.h>
 
 #include <hwrmlight.h> 
@@ -258,6 +258,10 @@ void CAknAnimKeySound::ConstructL( TAny* /*aArgs*/, TBool /*aHasFocus*/ )
         iPendingEvent = CAknPendingKeyEvent::NewL(iFunctions, iNoPowerKeyScanCode);
         }
 
+    
+    iSupportQuertyKey = 
+               FeatureManager::FeatureSupported( KFeatureIdQwertyInput );
+    
     FeatureManager::UnInitializeLib();
     
     // Get extension for querying and manipulating the window and screen attributes.
@@ -287,8 +291,12 @@ void CAknAnimKeySound::FocusChanged( TBool /*aState*/ )
 // CAknAnimKeySound::IsBlockedKeyCode
 // -----------------------------------------------------------------------------
 //
-TBool CAknAnimKeySound::IsBlockedKeyCode( TInt aScanCode )
+TBool CAknAnimKeySound::IsBlockedKeyCode( TBool aSupportQuerty , TInt aScanCode )  
     {
+    if( aSupportQuerty )
+        {
+        return EFalse;
+        }
     for ( TInt ii=0; ii < KBlockedKeyCodeTableSize; ii++ )
         {
         if ( aScanCode == KBlockedKeyCodes[ii] )
@@ -525,6 +533,7 @@ void EmulateEndKeyL(TKeyEmulationAction& aResult, const TRawEvent &aRawEvent,
 
         // If system is not in idle or there are calls ongoing, then end key ought to be generated.
         User::LeaveIfError( RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, ps ) );
+        User::LeaveIfError( RProperty::Get( KPSUidAiInformation, KActiveIdleState, idle ) );
         User::LeaveIfError( RProperty::Get( KPSUidUikon, KUikGlobalNotesAllowed, startupOk ) );
 
         RDebug::Print(_L("call: %d, idle %d, notes %d"), ps, idle, startupOk);
@@ -535,10 +544,22 @@ void EmulateEndKeyL(TKeyEmulationAction& aResult, const TRawEvent &aRawEvent,
             {
             return;
             }
+        
+        if ( idle == EPSAiForeground )
+            { 
+            // Notify active idle plugins that combined end key / power key has been pressed.
+            RProperty::Set(KPSUidAvkonDomain, KAknEndKeyEvent, 1); 
+            }
+        
         if ( ps != EPSCTsyCallStateNone )
             {
             // A phone call is active.
             aResult = EEmulateNowPhoneCallActive;
+            }
+        else if ( idle != EPSAiForeground )
+            {
+            // We are not in idle view. No active phone calls.
+            aResult = EEmulateNow;
             }
         else
             {
@@ -725,7 +746,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) 
-                && iKeyPressed && iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                && iKeyPressed && iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 blockEvent = ETrue;
                 }
@@ -751,7 +772,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) && iKeyPressed != scan && 
-                 iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                 iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 // If down event is not passed forward, then 
                 // repeat events are not passed either.
@@ -764,7 +785,7 @@ TBool CAknAnimKeySound::OfferRawEvent(const TRawEvent &aRawEvent)
             {
             TInt scan = aRawEvent.ScanCode() & 0xFFFF;
             if ( !NonBlockedKeyCode( scan ) && iKeyPressed != scan && 
-                 iEnableKeyBlock && IsBlockedKeyCode( scan ) )
+                 iEnableKeyBlock && IsBlockedKeyCode(iSupportQuertyKey, scan ) )
                 {
                 // Do not need to block key-up events - there's not a problem 
                 // if there's an unexpected key-up events delivery to an app

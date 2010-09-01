@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  project specification file for the BCTestDomInputMethods.
+*
+*/
+
+
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET                  bctestdomecom.dll
+TARGETTYPE              PLUGIN
+UID                     0x10009d8d 0xa00040a7
+
+CAPABILITY              CAP_ECOM_PLUGIN
+VENDORID                VID_DEFAULT
+
+START RESOURCE  a00040a7.rss
+//#ifdef SYMBIAN_SECURE_ECOM
+TARGET  bctestdomecom.rsc
+//#endif
+END
+
+SOURCEPATH              ../src
+SOURCE                  bctestdomecom.cpp
+SOURCE                  bctestdomrecognizer.cpp
+SOURCE                  bctestdompticore.cpp
+
+USERINCLUDE             ../inc
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY                 euser.lib
+LIBRARY                 ecom.lib
+LIBRARY                 ptiengine.lib

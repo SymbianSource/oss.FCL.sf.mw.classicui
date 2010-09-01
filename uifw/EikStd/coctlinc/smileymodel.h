@@ -108,6 +108,7 @@ public:
     TInt SmileyStringLength( TInt aNodeIndex );
     TText SmileyCode( TInt aNodeIndex );
     void ReplaceTextWithCodes( TDes& aText, TInt aDocPos, TInt aNodeIndex );
+    TBool IsSmileyBySemanticAnalysis(const TDesC& aText, TInt aSmileyLength);
 
 private:    
     TInt AddLinkAndImageInfoL( CSmileyInfo& aInfo, TInt aStrIndex );    

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="13d0fb1d993241e97865f994cb15cf53" dataversion="1.0">
+  <name>Screen Saver API</name>
+  <description>Provides interface for screen saver plug-ins.</description>
+  <type>c++</type>
+  <subsystem>screensaver</subsystem>
+  <libs>
+  </libs>
+  <release category="sdk" sinceversion="2.0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>yes</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

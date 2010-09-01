@@ -23,6 +23,7 @@
 #include "akncapserverdiscreetpopuphandler.h"
 #include "akndiscreetpopupcontrol.h"
 #include "akndiscreetpopupdata.h"
+#include "akntrace.h"
 
 const TUid KAknCapServerDiscreetPopupHandler = { 0x2001FDF8 };
 
@@ -34,6 +35,7 @@ const TUid KAknCapServerDiscreetPopupHandler = { 0x2001FDF8 };
 //
 CAknCapServerDiscreetPopupHandler::~CAknCapServerDiscreetPopupHandler()
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iPopupDataArray.Count(); i++ )
         {
         if ( iPopupDataArray[ i ].iPopupControl )
@@ -43,6 +45,7 @@ CAknCapServerDiscreetPopupHandler::~CAknCapServerDiscreetPopupHandler()
             }
         }
     iPopupDataArray.Close();    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -53,12 +56,14 @@ CAknCapServerDiscreetPopupHandler::~CAknCapServerDiscreetPopupHandler()
 void CAknCapServerDiscreetPopupHandler::HandleDiscreetPopupMessageL( 
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknCapServerDiscreetPopupHandler* instance 
         = CAknCapServerDiscreetPopupHandler::InstanceL();
     if ( instance )
         {
         instance->DoHandleDiscreetPopupMessageL( aMessage );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -68,8 +73,10 @@ void CAknCapServerDiscreetPopupHandler::HandleDiscreetPopupMessageL(
 //
 void CAknCapServerDiscreetPopupHandler::CreateDiscreetPopupHandlerL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknCapServerDiscreetPopupHandler* instance 
         = CAknCapServerDiscreetPopupHandler::InstanceL();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -121,6 +128,7 @@ CAknCapServerDiscreetPopupHandler* CAknCapServerDiscreetPopupHandler::InstanceL(
 void CAknCapServerDiscreetPopupHandler::DoHandleDiscreetPopupMessageL(
     const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknDiscreetPopupData dataType;
     TPckg<TAknDiscreetPopupData> pkgType( dataType );
     aMessage.ReadL( 0, pkgType );
@@ -143,7 +151,7 @@ void CAknCapServerDiscreetPopupHandler::DoHandleDiscreetPopupMessageL(
             }
         case ( TAknDiscreetPopupData::EAknPopupTypeQueryInUseRect ):
             {
-            HandleQueryInUseRect( aMessage );
+            HandleQueryInUseRectL( aMessage );
             break;
             }        
         default:
@@ -151,6 +159,7 @@ void CAknCapServerDiscreetPopupHandler::DoHandleDiscreetPopupMessageL(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -161,6 +170,7 @@ void CAknCapServerDiscreetPopupHandler::DoHandleDiscreetPopupMessageL(
 void CAknCapServerDiscreetPopupHandler::LaunchFromResourceL(  
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknDiscreetPopupResourceData data;
     TPckg<TAknDiscreetPopupResourceData> pkg( data );
     aMessage.ReadL( 0, pkg );
@@ -188,6 +198,7 @@ void CAknCapServerDiscreetPopupHandler::LaunchFromResourceL(
         data.ViewUid(),
         aMessage );
     CleanupStack::Pop( popup );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -198,6 +209,7 @@ void CAknCapServerDiscreetPopupHandler::LaunchFromResourceL(
 void CAknCapServerDiscreetPopupHandler::LaunchWithParamsL(  
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknDiscreetPopupParamData data;
     TPckg<TAknDiscreetPopupParamData> pkg( data );
     aMessage.ReadL( 0, pkg );
@@ -231,6 +243,7 @@ void CAknCapServerDiscreetPopupHandler::LaunchWithParamsL(
         data.ViewUid(),
         aMessage );
     CleanupStack::Pop( popup );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -241,6 +254,7 @@ void CAknCapServerDiscreetPopupHandler::LaunchWithParamsL(
 void CAknCapServerDiscreetPopupHandler::HandleRequestCancellationL(  
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknDiscreetPopupCancelRequestData data;
     TPckg<TAknDiscreetPopupCancelRequestData> pkg( data );
     aMessage.ReadL( 0, pkg );
@@ -263,15 +277,17 @@ void CAknCapServerDiscreetPopupHandler::HandleRequestCancellationL(
             }
         }
     aMessage.Complete( KErrNone );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // ---------------------------------------------------------------------------
-// CAknCapServerDiscreetPopupHandler::HandleQueryInUseRect
+// CAknCapServerDiscreetPopupHandler::HandleQueryInUseRectL
 // ---------------------------------------------------------------------------
 //
-void CAknCapServerDiscreetPopupHandler::HandleQueryInUseRect( 
+void CAknCapServerDiscreetPopupHandler::HandleQueryInUseRectL( 
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     TRect rect(TRect::EUninitialized);
     if( iPopupDataArray.Count() != 0 ) 
         {
@@ -282,6 +298,7 @@ void CAknCapServerDiscreetPopupHandler::HandleQueryInUseRect(
     TPckg<TAknDiscreetPopupRectData> pkg( data );
     aMessage.WriteL( 0, pkg );
     aMessage.Complete( KErrNone );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // ---------------------------------------------------------------------------
@@ -295,6 +312,7 @@ void CAknCapServerDiscreetPopupHandler::ShowPopupL(
         const TUid& aViewUid,
         const RMessage2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
     aPopup->SetObserver( this );
 
     // Inform other popups that new popup is launched
@@ -316,6 +334,7 @@ void CAknCapServerDiscreetPopupHandler::ShowPopupL(
     popupData.iMessage = aMessage;
     iPopupDataArray.AppendL( popupData );
     NotifyRunningGlobalDiscreetPopupChanged();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -350,6 +369,7 @@ TInt CAknCapServerDiscreetPopupHandler::NextAvailableCommandId()
 //
 void CAknCapServerDiscreetPopupHandler::NotifyRunningGlobalDiscreetPopupChanged()
     {
+    _AKNTRACE_FUNC_ENTER;
     _LIT_SECURITY_POLICY_S0( writePolicy, RProcess().SecureId() );
 	_LIT_SECURITY_POLICY_PASS( readPolicy );
     
@@ -363,6 +383,7 @@ void CAknCapServerDiscreetPopupHandler::NotifyRunningGlobalDiscreetPopupChanged(
         {
         RProperty::Set( KPSUidAvkonDomain, KAknGlobalDiscreetPopupNumChanged, 0 );
         }            
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // ---------------------------------------------------------------------------
@@ -371,6 +392,7 @@ void CAknCapServerDiscreetPopupHandler::NotifyRunningGlobalDiscreetPopupChanged(
 //
 void CAknCapServerDiscreetPopupHandler::ProcessCommandL( TInt aCommandId )
     {
+    _AKNTRACE_FUNC_ENTER;
     TAknCapServerDiscreetPopupData* popupData( NULL );
     for ( TInt i = 0; i < iPopupDataArray.Count(); i++ )
         {
@@ -405,6 +427,7 @@ void CAknCapServerDiscreetPopupHandler::ProcessCommandL( TInt aCommandId )
         {
         popupData->iMessage.Complete( KErrCompletion );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -415,6 +438,7 @@ void CAknCapServerDiscreetPopupHandler::ProcessCommandL( TInt aCommandId )
 void CAknCapServerDiscreetPopupHandler::HandleControlEventL( 
     CCoeControl* aControl, TCoeEvent aEventType )
     {
+    _AKNTRACE( "CAknCapServerDiscreetPopupHandler::HandleControlEventL, aEventType : %d", aEventType );
     // Popup has been closed or cancelled - remove from array
     if ( aEventType == EEventRequestExit || aEventType == EEventRequestCancel )
         {

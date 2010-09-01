@@ -94,53 +94,11 @@ private: // new methods
         );
 
 
-   /**
-    * Creates a new bitmap based on the given source bitmap. New bitmap
-    * will be rotated 90 degrees agains clock direction if wanted.
-    *
-    * @since    2.6
-    * @param    aSourceBitmap  Bitmap which content is copied to new bitmap
-    * @param    aRotated       If ETrue the source bitmap data is rotated
-    *                          90 degrees.
-    * @return   a pointer to a new bitmap.
-    *
-    */
-    CFbsBitmap* CreateBitmapL(CFbsBitmap* aSourceBitmap, TBool aRotated);
-
-   /**
-    * Creates a new bitmap and a mask based on the given skin item id. 
-    * New bitmap will be rotated 90 degrees agains clock direction if wanted.
-    *
-    * @since    2.6
-    * @param    aID            Skin item id for the bitmap and mask.
-    * @param    aBitmap        When this method returns this will contain a poiter
-    *                          to a new bitmap.
-    * @param    aMask          When this method returns this will contain a poiter
-    *                          to a new mask bitmap.
-    * @param    aRotated       If ETrue the skin source bitmap data is rotated
-    *                          90 degrees.
-    *
-    */
-    void CreateSkinnedBitmapAndMaskL(MAknsSkinInstance* aInstance, 
-        const TAknsItemID& aID,
-        CFbsBitmap*& aBitmap, 
-        CFbsBitmap*& aMask,
-        TBool aRotated);
-
-
 public: // data
     TAknsItemID iTopId;
     TAknsItemID iMidId;
     TAknsItemID iBottomId;
-
-    CFbsBitmap* iTop;
-	CFbsBitmap* iTopMask;
-	CFbsBitmap* iMiddle;
-	CFbsBitmap* iMiddleMask;
-    CFbsBitmap* iBottom;
-    CFbsBitmap* iBottomMask;
     TSize       iItemSize;
-
     };
 
 #endif

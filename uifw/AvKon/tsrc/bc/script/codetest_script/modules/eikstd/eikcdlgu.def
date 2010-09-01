@@ -1,0 +1,18 @@
+EXPORTS
+	??0CEikInfoDialog@@QAE@ABVTDesC16@@0W4TExitKeys@0@@Z @ 1 NONAME ; CEikInfoDialog::CEikInfoDialog(class TDesC16 const &, class TDesC16 const &, enum CEikInfoDialog::TExitKeys)
+	?CEikDialog_Reserved_1@CEikInfoDialog@@EAEXXZ @ 2 NONAME ; void CEikInfoDialog::CEikDialog_Reserved_1(void)
+	?CEikDialog_Reserved_2@CEikInfoDialog@@EAEXXZ @ 3 NONAME ; void CEikInfoDialog::CEikDialog_Reserved_2(void)
+	?ControlFactory@CEikCDlgLibrary@@SAP6A?AUSEikControlInfo@@H@ZXZ @ 4 NONAME ; struct SEikControlInfo (*)(int) CEikCDlgLibrary::ControlFactory(void)
+	?ExtensionInterface@CEikAlert@@EAEPAXVTUid@@@Z @ 5 NONAME ; void * CEikAlert::ExtensionInterface(class TUid)
+	?ExtensionInterface@CEikInfoDialog@@EAEPAXVTUid@@@Z @ 6 NONAME ; void * CEikInfoDialog::ExtensionInterface(class TUid)
+	?HandlePointerEventL@CEikAlert@@UAEXABUTPointerEvent@@@Z @ 7 NONAME ; void CEikAlert::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikDebugKeys@@UAEXABUTPointerEvent@@@Z @ 8 NONAME ; void CEikDebugKeys::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikDebugWin@@UAEXABUTPointerEvent@@@Z @ 9 NONAME ; void CEikDebugWin::HandlePointerEventL(struct TPointerEvent const &)
+	?HandlePointerEventL@CEikInfoDialog@@UAEXABUTPointerEvent@@@Z @ 10 NONAME ; void CEikInfoDialog::HandlePointerEventL(struct TPointerEvent const &)
+	?InitializeL@CEikCDlgLibrary@@SAXXZ @ 11 NONAME ; void CEikCDlgLibrary::InitializeL(void)
+	?NewL@CEikCDlgDialogFactory@@SAPAV1@XZ @ 12 NONAME ; class CEikCDlgDialogFactory * CEikCDlgDialogFactory::NewL(void)
+	?RequestInfoDialogL@CEikCDlgLibrary@@SAXXZ @ 13 NONAME ; void CEikCDlgLibrary::RequestInfoDialogL(void)
+	?RequestQueryDialogL@CEikCDlgLibrary@@SAXXZ @ 14 NONAME ; void CEikCDlgLibrary::RequestQueryDialogL(void)
+	?ResourceFile@CEikCDlgLibrary@@SA?AV?$TBuf@$0BAA@@@XZ @ 15 NONAME ; class TBuf<256> CEikCDlgLibrary::ResourceFile(void)
+	?RunDlgLD@CEikInfoDialog@@SAHABVTDesC16@@0W4TExitKeys@1@@Z @ 16 NONAME ; int CEikInfoDialog::RunDlgLD(class TDesC16 const &, class TDesC16 const &, enum CEikInfoDialog::TExitKeys)
+

@@ -109,6 +109,8 @@ private:
 public:
     TBitFlags iPublicFlags;
     TBool iInitialMade;
+    TInt iButtonGroupResourceId;
+    TBool iDeleteEmbeddedCba;
   } ;
 
 

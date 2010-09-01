@@ -1,0 +1,161 @@
+EXPORTS
+	?Background@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@AAVCWindowGc@@ABVTRect@@@Z @ 1 NONAME ; public: static int __cdecl AknsDrawUtils::Background(class MAknsSkinInstance *,class MAknsControlContext *,class CWindowGc &,class TRect const &)
+	?Background@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@PBVCCoeControl@@AAVCWindowGc@@ABVTRect@@@Z @ 2 NONAME ; public: static int __cdecl AknsDrawUtils::Background(class MAknsSkinInstance *,class MAknsControlContext *,class CCoeControl const *,class CWindowGc &,class TRect const &)
+	?BackgroundBetweenRects@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@AAVCWindowGc@@ABVTRect@@3@Z @ 3 NONAME ; public: static int __cdecl AknsDrawUtils::BackgroundBetweenRects(class MAknsSkinInstance *,class MAknsControlContext *,class CWindowGc &,class TRect const &,class TRect const &)
+	?BackgroundBetweenRects@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@PBVCCoeControl@@AAVCWindowGc@@ABVTRect@@4@Z @ 4 NONAME ; public: static int __cdecl AknsDrawUtils::BackgroundBetweenRects(class MAknsSkinInstance *,class MAknsControlContext *,class CCoeControl const *,class CWindowGc &,class TRect const &,class TRect const &)
+	?Bitmap@CAknsBitmapItemData@@QAEPAVCFbsBitmap@@XZ @ 5 NONAME ; public: class CFbsBitmap * __thiscall CAknsBitmapItemData::Bitmap(void)
+	?ImageIID@CAknsImageTableItemData@@QBE?AVTAknsItemID@@H@Z @ 6 NONAME ; public: class TAknsItemID  __thiscall CAknsImageTableItemData::ImageIID(int)const 
+	?ColorIndexed@CAknsColorTableItemData@@QBEHH@Z @ 7 NONAME ; public: int __thiscall CAknsColorTableItemData::ColorIndexed(int)const 
+	?ColorRgb@CAknsColorTableItemData@@QBE?AVTRgb@@H@Z @ 8 NONAME ; public: class TRgb  __thiscall CAknsColorTableItemData::ColorRgb(int)const 
+	?ControlContext@AknsDrawUtils@@SAPAVMAknsControlContext@@PBVMObjectProvider@@@Z @ 9 NONAME ; public: static class MAknsControlContext * __cdecl AknsDrawUtils::ControlContext(class MObjectProvider const *)
+	?CreateBitmapItemDefL@AknsUtils@@SAPAVCAknsItemDef@@ABVTAknsItemID@@ABVTDesC16@@H@Z @ 10 NONAME ; public: static class CAknsItemDef * __cdecl AknsUtils::CreateBitmapItemDefL(class TAknsItemID const &,class TDesC16 const &,int)
+	?CreateBitmapL@AknsUtils@@SAPAVCFbsBitmap@@PAVMAknsSkinInstance@@ABVTAknsItemID@@@Z @ 11 NONAME ; public: static class CFbsBitmap * __cdecl AknsUtils::CreateBitmapL(class MAknsSkinInstance *,class TAknsItemID const &)
+	?CreateDataContextForContainerL@AknsUtils@@SAPAVMAknsDataContext@@XZ @ 12 NONAME ; public: static class MAknsDataContext * __cdecl AknsUtils::CreateDataContextForContainerL(void)
+	?CreateMaskedBitmapItemDefL@AknsUtils@@SAPAVCAknsItemDef@@ABVTAknsItemID@@ABVTDesC16@@HH@Z @ 13 NONAME ; public: static class CAknsItemDef * __cdecl AknsUtils::CreateMaskedBitmapItemDefL(class TAknsItemID const &,class TDesC16 const &,int,int)
+	?DataContext@AknsUtils@@SAPAVMAknsDataContext@@PAVMObjectProvider@@@Z @ 14 NONAME ; public: static class MAknsDataContext * __cdecl AknsUtils::DataContext(class MObjectProvider *)
+	?DestroyAndSetBitmap@CAknsBitmapItemData@@QAEXPAVCFbsBitmap@@@Z @ 15 NONAME ; public: void __thiscall CAknsBitmapItemData::DestroyAndSetBitmap(class CFbsBitmap *)
+	?DestroyAndSetMask@CAknsMaskedBitmapItemData@@QAEXPAVCFbsBitmap@@@Z @ 16 NONAME ; public: void __thiscall CAknsMaskedBitmapItemData::DestroyAndSetMask(class CFbsBitmap *)
+	?GetAppIcon@AknsUtils@@SAHPAVMAknsSkinInstance@@VTUid@@VTSize@@AAVCApaMaskedBitmap@@@Z @ 17 NONAME ; public: static int __cdecl AknsUtils::GetAppIcon(class MAknsSkinInstance *,class TUid,class TSize,class CApaMaskedBitmap &)
+	?GetCachedBitmap@AknsUtils@@SAPAVCFbsBitmap@@PAVMAknsSkinInstance@@ABVTAknsItemID@@@Z @ 18 NONAME ; public: static class CFbsBitmap * __cdecl AknsUtils::GetCachedBitmap(class MAknsSkinInstance *,class TAknsItemID const &)
+	?Reserved@AknsUtils@@CAHXZ @ 19 NONAME ; private: static int __cdecl AknsUtils::Reserved(void)
+	?HasBitmapBackground@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@@Z @ 20 NONAME ; public: static int __cdecl AknsDrawUtils::HasBitmapBackground(class MAknsSkinInstance *,class MAknsControlContext *)
+	?Images@CAknsImageTableItemData@@QBEPAVTAknsItemID@@XZ @ 21 NONAME ; public: class TAknsItemID * __thiscall CAknsImageTableItemData::Images(void)const 
+	?InitSkinSupportL@AknsUtils@@SAXXZ @ 22 NONAME ; public: static void __cdecl AknsUtils::InitSkinSupportL(void)
+	?Mask@CAknsMaskedBitmapItemData@@QAEPAVCFbsBitmap@@XZ @ 23 NONAME ; public: class CFbsBitmap * __thiscall CAknsMaskedBitmapItemData::Mask(void)
+	?NewL@CAknsImageTableItemData@@SAPAV1@XZ @ 24 NONAME ; public: static class CAknsImageTableItemData * __cdecl CAknsImageTableItemData::NewL(void)
+	?NewL@CAknsBasicBackgroundControlContext@@SAPAV1@ABVTAknsItemID@@ABVTRect@@H@Z @ 25 NONAME ; public: static class CAknsBasicBackgroundControlContext * __cdecl CAknsBasicBackgroundControlContext::NewL(class TAknsItemID const &,class TRect const &,int)
+	?NewL@CAknsBitmapItemData@@SAPAV1@XZ @ 26 NONAME ; public: static class CAknsBitmapItemData * __cdecl CAknsBitmapItemData::NewL(void)
+	?NewL@CAknsColorTableItemData@@SAPAV1@XZ @ 27 NONAME ; public: static class CAknsColorTableItemData * __cdecl CAknsColorTableItemData::NewL(void)
+	?NewL@CAknsMaskedBitmapItemData@@SAPAV1@XZ @ 28 NONAME ; public: static class CAknsMaskedBitmapItemData * __cdecl CAknsMaskedBitmapItemData::NewL(void)
+	?NumberOfImages@CAknsImageTableItemData@@QBEHXZ @ 29 NONAME ; public: int __thiscall CAknsImageTableItemData::NumberOfImages(void)const 
+	?SetBitmap@CAknsBasicBackgroundControlContext@@QAEXABVTAknsItemID@@@Z @ 30 NONAME ; public: void __thiscall CAknsBasicBackgroundControlContext::SetBitmap(class TAknsItemID const &)
+	?SetBitmap@CAknsBitmapItemData@@QAEXPAVCFbsBitmap@@@Z @ 31 NONAME ; public: void __thiscall CAknsBitmapItemData::SetBitmap(class CFbsBitmap *)
+	?SetColorsL@CAknsColorTableItemData@@QAEXHPBUTAknsColorTableEntry@@@Z @ 32 NONAME ; public: void __thiscall CAknsColorTableItemData::SetColorsL(int,struct TAknsColorTableEntry const *)
+	?SetImagesL@CAknsImageTableItemData@@QAEXHPBVTAknsItemID@@@Z @ 33 NONAME ; public: void __thiscall CAknsImageTableItemData::SetImagesL(int,class TAknsItemID const *)
+	?SetMask@CAknsMaskedBitmapItemData@@QAEXPAVCFbsBitmap@@@Z @ 34 NONAME ; public: void __thiscall CAknsMaskedBitmapItemData::SetMask(class CFbsBitmap *)
+	?SetParentPos@CAknsBasicBackgroundControlContext@@QAEXABVTPoint@@@Z @ 35 NONAME ; public: void __thiscall CAknsBasicBackgroundControlContext::SetParentPos(class TPoint const &)
+	?SetRect@CAknsBasicBackgroundControlContext@@QAEXABVTRect@@@Z @ 36 NONAME ; public: void __thiscall CAknsBasicBackgroundControlContext::SetRect(class TRect const &)
+	?Attributes@CAknsImageItemData@@QBEPBUTAknsImageAttributeData@@XZ @ 37 NONAME ; public: struct TAknsImageAttributeData const * __thiscall CAknsImageItemData::Attributes(void)const 
+	?SkinInstance@AknsUtils@@SAPAVMAknsSkinInstance@@XZ @ 38 NONAME ; public: static class MAknsSkinInstance * __cdecl AknsUtils::SkinInstance(void)
+	?SupplyMopObject@MAknsControlContext@@SA?AVPtr@TTypeUid@@V3@PAV1@@Z @ 39 NONAME ; public: static class TTypeUid::Ptr  __cdecl MAknsControlContext::SupplyMopObject(class TTypeUid,class MAknsControlContext *)
+	?SupplyMopObject@MAknsDataContext@@SA?AVPtr@TTypeUid@@V3@PAV1@@Z @ 40 NONAME ; public: static class TTypeUid::Ptr  __cdecl MAknsDataContext::SupplyMopObject(class TTypeUid,class MAknsDataContext *)
+	?Type@CAknsItemData@@QBE?AW4TAknsItemType@@XZ @ 41 NONAME ; public: enum TAknsItemType  __thiscall CAknsItemData::Type(void)const 
+	?NewL@CAknsListBoxBackgroundControlContext@@SAPAV1@ABVTAknsItemID@@ABVTRect@@H01@Z @ 42 NONAME ; public: static class CAknsListBoxBackgroundControlContext * __cdecl CAknsListBoxBackgroundControlContext::NewL(class TAknsItemID const &,class TRect const &,int,class TAknsItemID const &,class TRect const &)
+	?SetTiledBitmap@CAknsListBoxBackgroundControlContext@@QAEXABVTAknsItemID@@@Z @ 43 NONAME ; public: void __thiscall CAknsListBoxBackgroundControlContext::SetTiledBitmap(class TAknsItemID const &)
+	?SetTiledRect@CAknsListBoxBackgroundControlContext@@QAEXABVTRect@@@Z @ 44 NONAME ; public: void __thiscall CAknsListBoxBackgroundControlContext::SetTiledRect(class TRect const &)
+	?Background@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@PBVCCoeControl@@AAVCWindowGc@@ABVTRect@@H@Z @ 45 NONAME ; public: static int __cdecl AknsDrawUtils::Background(class MAknsSkinInstance *,class MAknsControlContext *,class CCoeControl const *,class CWindowGc &,class TRect const &,int)
+	?BackgroundBetweenRects@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@PBVCCoeControl@@AAVCWindowGc@@ABVTRect@@4H@Z @ 46 NONAME ; public: static int __cdecl AknsDrawUtils::BackgroundBetweenRects(class MAknsSkinInstance *,class MAknsControlContext *,class CCoeControl const *,class CWindowGc &,class TRect const &,class TRect const &,int)
+	?AvkonSkinEnabled@AknsUtils@@SAHXZ @ 47 NONAME ; public: static int __cdecl AknsUtils::AvkonSkinEnabled(void)
+	?SetAvkonSkinEnabledL@AknsUtils@@SAXH@Z @ 48 NONAME ; public: static void __cdecl AknsUtils::SetAvkonSkinEnabledL(int)
+	?CreateMaskedBitmapL@AknsUtils@@SAPAVCApaMaskedBitmap@@PAVMAknsSkinInstance@@ABVTAknsItemID@@@Z @ 49 NONAME ; public: static class CApaMaskedBitmap * __cdecl AknsUtils::CreateMaskedBitmapL(class MAknsSkinInstance *,class TAknsItemID const &)
+	?SetAttributesL@CAknsImageItemData@@QAEXABUTAknsImageAttributeData@@@Z @ 50 NONAME ; public: void __thiscall CAknsImageItemData::SetAttributesL(struct TAknsImageAttributeData const &)
+	?DrawCachedImage@AknsDrawUtils@@SAXPAVMAknsSkinInstance@@AAVCWindowGc@@ABVTRect@@ABVTAknsItemID@@@Z @ 51 NONAME ; public: static void __cdecl AknsDrawUtils::DrawCachedImage(class MAknsSkinInstance *,class CWindowGc &,class TRect const &,class TAknsItemID const &)
+	?DrawFrame@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@AAVCWindowGc@@ABVTRect@@2ABVTAknsItemID@@3@Z @ 52 NONAME ; public: static int __cdecl AknsDrawUtils::DrawFrame(class MAknsSkinInstance *,class CWindowGc &,class TRect const &,class TRect const &,class TAknsItemID const &,class TAknsItemID const &)
+	?DrawFramePart@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@AAVCWindowGc@@ABVTRect@@ABVTAknsItemID@@W4TAknsFrameElementIndex@@@Z @ 53 NONAME ; public: static int __cdecl AknsDrawUtils::DrawFramePart(class MAknsSkinInstance *,class CWindowGc &,class TRect const &,class TAknsItemID const &,enum TAknsFrameElementIndex)
+	?SetBottomBitmap@CAknsListBoxBackgroundControlContext@@QAEXABVTAknsItemID@@@Z @ 54 NONAME ; public: void __thiscall CAknsListBoxBackgroundControlContext::SetBottomBitmap(class TAknsItemID const &)
+	?SetBottomRect@CAknsListBoxBackgroundControlContext@@QAEXABVTRect@@@Z @ 55 NONAME ; public: void __thiscall CAknsListBoxBackgroundControlContext::SetBottomRect(class TRect const &)
+	?GetCachedColor@AknsUtils@@SAHPAVMAknsSkinInstance@@AAVTRgb@@ABVTAknsItemID@@H@Z @ 56 NONAME ; public: static int __cdecl AknsUtils::GetCachedColor(class MAknsSkinInstance *,class TRgb &,class TAknsItemID const &,int)
+	?DrawBackground@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@PAVMAknsControlContext@@PBVCCoeControl@@AAVCBitmapContext@@ABVTPoint@@ABVTRect@@H@Z @ 57 NONAME ; public: static int __cdecl AknsDrawUtils::DrawBackground(class MAknsSkinInstance *,class MAknsControlContext *,class CCoeControl const *,class CBitmapContext &,class TPoint const &,class TRect const &,int)
+	?NewL@CAknsFrameBackgroundControlContext@@SAPAV1@ABVTAknsItemID@@ABVTRect@@1H@Z @ 58 NONAME ; public: static class CAknsFrameBackgroundControlContext * __cdecl CAknsFrameBackgroundControlContext::NewL(class TAknsItemID const &,class TRect const &,class TRect const &,int)
+	?NewL@CAknsLayeredBackgroundControlContext@@SAPAV1@ABVTAknsItemID@@ABVTRect@@HH@Z @ 59 NONAME ; public: static class CAknsLayeredBackgroundControlContext * __cdecl CAknsLayeredBackgroundControlContext::NewL(class TAknsItemID const &,class TRect const &,int,int)
+	?SetCenter@CAknsFrameBackgroundControlContext@@QAEXABVTAknsItemID@@@Z @ 60 NONAME ; public: void __thiscall CAknsFrameBackgroundControlContext::SetCenter(class TAknsItemID const &)
+	?SetFrame@CAknsFrameBackgroundControlContext@@QAEXABVTAknsItemID@@@Z @ 61 NONAME ; public: void __thiscall CAknsFrameBackgroundControlContext::SetFrame(class TAknsItemID const &)
+	?SetFramePartRect@CAknsFrameBackgroundControlContext@@QAEXABVTRect@@W4TAknsFrameElementIndex@@@Z @ 62 NONAME ; public: void __thiscall CAknsFrameBackgroundControlContext::SetFramePartRect(class TRect const &,enum TAknsFrameElementIndex)
+	?SetFrameRects@CAknsFrameBackgroundControlContext@@QAEXABVTRect@@0@Z @ 63 NONAME ; public: void __thiscall CAknsFrameBackgroundControlContext::SetFrameRects(class TRect const &,class TRect const &)
+	?SetLayerImage@CAknsLayeredBackgroundControlContext@@QAEXHABVTAknsItemID@@@Z @ 64 NONAME ; public: void __thiscall CAknsLayeredBackgroundControlContext::SetLayerImage(int,class TAknsItemID const &)
+	?SetLayerRect@CAknsLayeredBackgroundControlContext@@QAEXHABVTRect@@@Z @ 65 NONAME ; public: void __thiscall CAknsLayeredBackgroundControlContext::SetLayerRect(int,class TRect const &)
+	?DeregisterControlPosition@AknsUtils@@SAXPBVCCoeControl@@@Z @ 66 NONAME ; public: static void __cdecl AknsUtils::DeregisterControlPosition(class CCoeControl const *)
+	?RegisterControlPosition@AknsUtils@@SAXPBVCCoeControl@@@Z @ 67 NONAME ; public: static void __cdecl AknsUtils::RegisterControlPosition(class CCoeControl const *)
+	?Flash@CAknsBmpAnimItemData@@QBEHXZ @ 68 NONAME ; public: int __thiscall CAknsBmpAnimItemData::Flash(void)const 
+	?FrameInfos@CAknsBmpAnimItemData@@QBEPAUTAknsBmpAnimFrameInfo@@XZ @ 69 NONAME ; public: struct TAknsBmpAnimFrameInfo * __thiscall CAknsBmpAnimItemData::FrameInfos(void)const 
+	?FrameInterval@CAknsBmpAnimItemData@@QBEFXZ @ 70 NONAME ; public: short __thiscall CAknsBmpAnimItemData::FrameInterval(void)const 
+	?LastFrameBackground@CAknsBmpAnimItemData@@QBEHXZ @ 71 NONAME ; public: int __thiscall CAknsBmpAnimItemData::LastFrameBackground(void)const 
+	?NewL@CAknsBmpAnimItemData@@SAPAV1@XZ @ 72 NONAME ; public: static class CAknsBmpAnimItemData * __cdecl CAknsBmpAnimItemData::NewL(void)
+	?PlayMode@CAknsBmpAnimItemData@@QBEFXZ @ 73 NONAME ; public: short __thiscall CAknsBmpAnimItemData::PlayMode(void)const 
+	?SetFlash@CAknsBmpAnimItemData@@QAEXH@Z @ 74 NONAME ; public: void __thiscall CAknsBmpAnimItemData::SetFlash(int)
+	?SetFrameInfosL@CAknsBmpAnimItemData@@QAEXPBUTAknsBmpAnimFrameInfo@@@Z @ 75 NONAME ; public: void __thiscall CAknsBmpAnimItemData::SetFrameInfosL(struct TAknsBmpAnimFrameInfo const *)
+	?SetFrameInterval@CAknsBmpAnimItemData@@QAEXF@Z @ 76 NONAME ; public: void __thiscall CAknsBmpAnimItemData::SetFrameInterval(short)
+	?SetLastFrameBackground@CAknsBmpAnimItemData@@QAEXH@Z @ 77 NONAME ; public: void __thiscall CAknsBmpAnimItemData::SetLastFrameBackground(int)
+	?SetPlayMode@CAknsBmpAnimItemData@@QAEXF@Z @ 78 NONAME ; public: void __thiscall CAknsBmpAnimItemData::SetPlayMode(short)
+	?DebugHookClientErrors@CAknsAppSkinInstance@@QAEXP6AXPAX@Z0@Z @ 79 NONAME ; public: void __thiscall CAknsAppSkinInstance::DebugHookClientErrors(void (__cdecl*)(void *),void *)
+	?DebugLocalItemDefCount@CAknsAppSkinInstance@@QAEHXZ @ 80 NONAME ; public: int __thiscall CAknsAppSkinInstance::DebugLocalItemDefCount(void)
+	?DebugHookChangeNotifications@CAknsAppSkinInstance@@QAEXP6AXPAX@Z0@Z @ 81 NONAME ; public: void __thiscall CAknsAppSkinInstance::DebugHookChangeNotifications(void (__cdecl*)(void *),void *)
+	?DebugCacheCount@CAknsAppSkinInstance@@QAEHXZ @ 82 NONAME ; public: int __thiscall CAknsAppSkinInstance::DebugCacheCount(void)
+	?GetControlPosition@AknsUtils@@SAHPBVCCoeControl@@AAVTPoint@@@Z @ 83 NONAME ; public: static int __cdecl AknsUtils::GetControlPosition(class CCoeControl const *,class TPoint &)
+	?RegisterControlPosition@AknsUtils@@SAXPBVCCoeControl@@ABVTPoint@@@Z @ 84 NONAME ; public: static void __cdecl AknsUtils::RegisterControlPosition(class CCoeControl const *,class TPoint const &)
+	?CreateGulIconL@AknsUtils@@SAPAVCGulIcon@@PAVMAknsSkinInstance@@ABVTAknsItemID@@H@Z @ 85 NONAME ; public: static class CGulIcon * __cdecl AknsUtils::CreateGulIconL(class MAknsSkinInstance *,class TAknsItemID const &,int)
+	?GetCachedMaskedBitmap@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@2@Z @ 86 NONAME ; public: static void __cdecl AknsUtils::GetCachedMaskedBitmap(class MAknsSkinInstance *,class TAknsItemID const &,class CFbsBitmap * &,class CFbsBitmap * &)
+	?NewL@CAknsStringItemData@@SAPAV1@XZ @ 87 NONAME ; public: static class CAknsStringItemData * __cdecl CAknsStringItemData::NewL(void)
+	?SetStringL@CAknsStringItemData@@QAEXABVTDesC16@@@Z @ 88 NONAME ; public: void __thiscall CAknsStringItemData::SetStringL(class TDesC16 const &)
+	?String@CAknsStringItemData@@QBEABVTDesC16@@XZ @ 89 NONAME ; public: class TDesC16 const & __thiscall CAknsStringItemData::String(void)const 
+	?SetParentContext@CAknsBasicBackgroundControlContext@@QAEXPAVMAknsControlContext@@@Z @ 90 NONAME ; public: void __thiscall CAknsBasicBackgroundControlContext::SetParentContext(class MAknsControlContext *)
+	?ControlContextOfParent@AknsDrawUtils@@SAPAVMAknsControlContext@@PBVCCoeControl@@@Z @ 91 NONAME ; public: static class MAknsControlContext * __cdecl AknsDrawUtils::ControlContextOfParent(class CCoeControl const *)
+	?RemovePointer@AknsPointerStore@@SAXPBX@Z @ 92 NONAME ; public: static void __cdecl AknsPointerStore::RemovePointer(void const *)
+	?RetrievePointer@AknsPointerStore@@SAPAXPBX@Z @ 93 NONAME ; public: static void * __cdecl AknsPointerStore::RetrievePointer(void const *)
+	?StorePointerL@AknsPointerStore@@SAXPBXPAX@Z @ 94 NONAME ; public: static void __cdecl AknsPointerStore::StorePointerL(void const *,void *)
+	?CreateGulIconL@AknsUtils@@SAPAVCGulIcon@@PAVMAknsSkinInstance@@ABVTAknsItemID@@ABVTDesC16@@HH@Z @ 95 NONAME ; public: static class CGulIcon * __cdecl AknsUtils::CreateGulIconL(class MAknsSkinInstance *,class TAknsItemID const &,class TDesC16 const &,int,int)
+	?CreateIconL@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@2ABVTDesC16@@HH@Z @ 96 NONAME ; public: static void __cdecl AknsUtils::CreateIconL(class MAknsSkinInstance *,class TAknsItemID const &,class CFbsBitmap * &,class CFbsBitmap * &,class TDesC16 const &,int,int)
+	?CreateMaskedBitmapL@AknsUtils@@SAPAVCApaMaskedBitmap@@PAVMAknsSkinInstance@@ABVTAknsItemID@@ABVTDesC16@@HH@Z @ 97 NONAME ; public: static class CApaMaskedBitmap * __cdecl AknsUtils::CreateMaskedBitmapL(class MAknsSkinInstance *,class TAknsItemID const &,class TDesC16 const &,int,int)
+	?CreateIconLC@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@2ABVTDesC16@@HH@Z @ 98 NONAME ; public: static void __cdecl AknsUtils::CreateIconLC(class MAknsSkinInstance *,class TAknsItemID const &,class CFbsBitmap * &,class CFbsBitmap * &,class TDesC16 const &,int,int)
+	?CreateIconL@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@ABVTDesC16@@H@Z @ 99 NONAME ; public: static void __cdecl AknsUtils::CreateIconL(class MAknsSkinInstance *,class TAknsItemID const &,class CFbsBitmap * &,class TDesC16 const &,int)
+	?CreateIconLC@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@ABVTDesC16@@H@Z @ 100 NONAME ; public: static void __cdecl AknsUtils::CreateIconLC(class MAknsSkinInstance *,class TAknsItemID const &,class CFbsBitmap * &,class TDesC16 const &,int)
+	?DebugReset@CAknsAppSkinInstance@@QAEXXZ @ 101 NONAME ; public: void __thiscall CAknsAppSkinInstance::DebugReset(void)
+	?CreateColorIconL@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@1HAAPAVCFbsBitmap@@2ABVTDesC16@@HHVTRgb@@@Z @ 102 NONAME ; public: static void __cdecl AknsUtils::CreateColorIconL(class MAknsSkinInstance *,class TAknsItemID const &,class TAknsItemID const &,int,class CFbsBitmap * &,class CFbsBitmap * &,class TDesC16 const &,int,int,class TRgb)
+	?CreateColorIconLC@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@1HAAPAVCFbsBitmap@@2ABVTDesC16@@HHVTRgb@@@Z @ 103 NONAME ; public: static void __cdecl AknsUtils::CreateColorIconLC(class MAknsSkinInstance *,class TAknsItemID const &,class TAknsItemID const &,int,class CFbsBitmap * &,class CFbsBitmap * &,class TDesC16 const &,int,int,class TRgb)
+	?GetColorL@CAknsColorTableItemData@@QBEXHAAVTRgb@@@Z @ 104 NONAME ; public: void __thiscall CAknsColorTableItemData::GetColorL(int,class TRgb &)const 
+	?CreateAppIconLC@AknsUtils@@SAXPAVMAknsSkinInstance@@VTUid@@W4TAknsAppIconType@@AAPAVCFbsBitmap@@3@Z @ 105 NONAME ; void AknsUtils::CreateAppIconLC(class MAknsSkinInstance *, class TUid, enum TAknsAppIconType, class CFbsBitmap * &, class CFbsBitmap * &)
+	?CreateColorIconL@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@1HAAPAVCFbsBitmap@@2ABVTDesC16@@HHVTRgb@@ABVTSize@@W4TScaleMode@@@Z @ 106 NONAME ; void AknsUtils::CreateColorIconL(class MAknsSkinInstance *, class TAknsItemID const &, class TAknsItemID const &, int, class CFbsBitmap * &, class CFbsBitmap * &, class TDesC16 const &, int, int, class TRgb, class TSize const &, enum TScaleMode)
+	?CreateColorIconLC@AknsUtils@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@1HAAPAVCFbsBitmap@@2ABVTDesC16@@HHVTRgb@@ABVTSize@@W4TScaleMode@@@Z @ 107 NONAME ; void AknsUtils::CreateColorIconLC(class MAknsSkinInstance *, class TAknsItemID const &, class TAknsItemID const &, int, class CFbsBitmap * &, class CFbsBitmap * &, class TDesC16 const &, int, int, class TRgb, class TSize const &, enum TScaleMode)
+	?AppendCommandL@CAknsEffectQueueItemData@@QAEXPBVCAknsEffectCommand@@@Z @ 108 NONAME ; public: void __thiscall CAknsEffectQueueItemData::AppendCommandL(class CAknsEffectCommand const *)
+	?AppendParameterL@CAknsEffectCommand@@QAEXABUTAknsRlParameterData@@@Z @ 109 NONAME ; public: void __thiscall CAknsEffectCommand::AppendParameterL(struct TAknsRlParameterData const &)
+	?CreateCommandIteratorL@CAknsEffectQueueItemData@@QAEPAVMAknsRlCommandIterator@@XZ @ 110 NONAME ; public: class MAknsRlCommandIterator * __thiscall CAknsEffectQueueItemData::CreateCommandIteratorL(void)
+	?CreateParameterIteratorL@CAknsEffectCommand@@QAEPAVMAknsRlParameterIterator@@XZ @ 111 NONAME ; public: class MAknsRlParameterIterator * __thiscall CAknsEffectCommand::CreateParameterIteratorL(void)
+	?EffectUid@CAknsEffectCommand@@QBE?AVTUid@@XZ @ 112 NONAME ; public: class TUid  __thiscall CAknsEffectCommand::EffectUid(void)const 
+	?InputLayer@CAknsEffectQueueItemData@@QBEHXZ @ 113 NONAME ; public: int __thiscall CAknsEffectQueueItemData::InputLayer(void)const 
+	?LayerConf@CAknsEffectCommand@@QBE?AUTAknsRlRenderOpParam@@XZ @ 114 NONAME ; public: struct TAknsRlRenderOpParam  __thiscall CAknsEffectCommand::LayerConf(void)const 
+	?NewL@CAknsEffectCommand@@SAPAV1@XZ @ 115 NONAME ; public: static class CAknsEffectCommand * __cdecl CAknsEffectCommand::NewL(void)
+	?NewL@CAknsEffectQueueItemData@@SAPAV1@XZ @ 116 NONAME ; public: static class CAknsEffectQueueItemData * __cdecl CAknsEffectQueueItemData::NewL(void)
+	?OutputLayer@CAknsEffectQueueItemData@@QBEHXZ @ 117 NONAME ; public: int __thiscall CAknsEffectQueueItemData::OutputLayer(void)const 
+	?SetEffectUid@CAknsEffectCommand@@QAEXVTUid@@@Z @ 118 NONAME ; public: void __thiscall CAknsEffectCommand::SetEffectUid(class TUid)
+	?SetInputLayer@CAknsEffectQueueItemData@@QAEXH@Z @ 119 NONAME ; public: void __thiscall CAknsEffectQueueItemData::SetInputLayer(int)
+	?SetLayerConf@CAknsEffectCommand@@QAEXUTAknsRlRenderOpParam@@@Z @ 120 NONAME ; public: void __thiscall CAknsEffectCommand::SetLayerConf(struct TAknsRlRenderOpParam)
+	?SetOutputLayer@CAknsEffectQueueItemData@@QAEXH@Z @ 121 NONAME ; public: void __thiscall CAknsEffectQueueItemData::SetOutputLayer(int)
+	?RefItem@CAknsEffectQueueItemData@@QBE?AVTAknsItemID@@XZ @ 122 NONAME ; class TAknsItemID CAknsEffectQueueItemData::RefItem(void) const
+	?SetRefItem@CAknsEffectQueueItemData@@QAEXVTAknsItemID@@@Z @ 123 NONAME ; void CAknsEffectQueueItemData::SetRefItem(class TAknsItemID)
+	?InputLayerMode@CAknsEffectQueueItemData@@QBEHXZ @ 124 NONAME ; int CAknsEffectQueueItemData::InputLayerMode(void) const
+	?OutputLayerMode@CAknsEffectQueueItemData@@QBEHXZ @ 125 NONAME ; int CAknsEffectQueueItemData::OutputLayerMode(void) const
+	?SetInputLayerMode@CAknsEffectQueueItemData@@QAEXH@Z @ 126 NONAME ; void CAknsEffectQueueItemData::SetInputLayerMode(int)
+	?SetOutputLayerMode@CAknsEffectQueueItemData@@QAEXH@Z @ 127 NONAME ; void CAknsEffectQueueItemData::SetOutputLayerMode(int)
+	?RenderScalableItemL@AknsRendererWrapper@@SAXPAVMAknsSkinInstance@@ABVTAknsItemID@@AAPAVCFbsBitmap@@2ABVTRect@@PBV4@4@Z @ 128 NONAME ; void AknsRendererWrapper::RenderScalableItemL(class MAknsSkinInstance *, class TAknsItemID const &, class CFbsBitmap * &, class CFbsBitmap * &, class TRect const &, class CFbsBitmap const *, class CFbsBitmap const *)
+	?DrawCachedImage@AknsDrawUtils@@SAXPAVMAknsSkinInstance@@AAVCFbsBitGc@@ABVTRect@@ABVTAknsItemID@@@Z @ 129 NONAME ; void AknsDrawUtils::DrawCachedImage(class MAknsSkinInstance *, class CFbsBitGc &, class TRect const &, class TAknsItemID const &)
+	?IsListSeperatorLines@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@@Z @ 130 NONAME ; int AknsDrawUtils::IsListSeperatorLines(class MAknsSkinInstance *)
+	?DrawFrame@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@AAVCFbsBitGc@@ABVTRect@@2ABVTAknsItemID@@3@Z @ 131 NONAME ; int AknsDrawUtils::DrawFrame(class MAknsSkinInstance *, class CFbsBitGc &, class TRect const &, class TRect const &, class TAknsItemID const &, class TAknsItemID const &)
+	?BooleanPropertyL@AknsUtils@@SAHPAVMAknsSkinInstance@@ABVTAknsItemID@@@Z @ 132 NONAME ; int AknsUtils::BooleanPropertyL(class MAknsSkinInstance *, class TAknsItemID const &)
+	?DrawFrame@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@AAVCFbsBitGc@@ABVTRect@@2ABVTAknsItemID@@3H@Z @ 133 NONAME ; int AknsDrawUtils::DrawFrame(class MAknsSkinInstance *, class CFbsBitGc &, class TRect const &, class TRect const &, class TAknsItemID const &, class TAknsItemID const &, int)
+	?OpenAppIconFile@AknsUtils@@QAEHPAVMAknsSkinInstance@@VTUid@@W4TAknsAppIconType@@AAVRFile@@@Z @ 134 NONAME ; int AknsUtils::OpenAppIconFile(class MAknsSkinInstance *, class TUid, enum TAknsAppIconType, class RFile &)
+	??1CAknsEffectAnim@@UAE@XZ @ 135 NONAME ; CAknsEffectAnim::~CAknsEffectAnim(void)
+	?BeginConfigInputLayersL@CAknsEffectAnim@@QAEXABVTSize@@H@Z @ 136 NONAME ; void CAknsEffectAnim::BeginConfigInputLayersL(class TSize const &, int)
+	?ConstructFromSkinL@CAknsEffectAnim@@QAEHABVTAknsItemID@@@Z @ 137 NONAME ; int CAknsEffectAnim::ConstructFromSkinL(class TAknsItemID const &)
+	?Continue@CAknsEffectAnim@@QAEHXZ @ 138 NONAME ; int CAknsEffectAnim::Continue(void)
+	?EndConfigInputLayersL@CAknsEffectAnim@@QAEXXZ @ 139 NONAME ; void CAknsEffectAnim::EndConfigInputLayersL(void)
+	?InputAlphaGc@CAknsEffectAnim@@QBEPAVCFbsBitGc@@XZ @ 140 NONAME ; class CFbsBitGc * CAknsEffectAnim::InputAlphaGc(void) const
+	?InputRgbGc@CAknsEffectAnim@@QBEPAVCFbsBitGc@@XZ @ 141 NONAME ; class CFbsBitGc * CAknsEffectAnim::InputRgbGc(void) const
+	?MinimumSize@CAknsEffectAnim@@QBE?AVTSize@@XZ @ 142 NONAME ; class TSize CAknsEffectAnim::MinimumSize(void) const
+	?NewL@CAknsEffectAnim@@SAPAV1@PAVMAknsEffectAnimObserver@@@Z @ 143 NONAME ; class CAknsEffectAnim * CAknsEffectAnim::NewL(class MAknsEffectAnimObserver *)
+	?OutputAlpha@CAknsEffectAnim@@QBEPBVCFbsBitmap@@XZ @ 144 NONAME ; class CFbsBitmap const * CAknsEffectAnim::OutputAlpha(void) const
+	?OutputRgb@CAknsEffectAnim@@QBEPBVCFbsBitmap@@XZ @ 145 NONAME ; class CFbsBitmap const * CAknsEffectAnim::OutputRgb(void) const
+	?Pause@CAknsEffectAnim@@QAEHXZ @ 146 NONAME ; int CAknsEffectAnim::Pause(void)
+	?Render@CAknsEffectAnim@@QBEHAAVCFbsBitGc@@ABVTRect@@@Z @ 147 NONAME ; int CAknsEffectAnim::Render(class CFbsBitGc &, class TRect const &) const
+	?Render@CAknsEffectAnim@@QBEHAAVCWindowGc@@ABVTRect@@@Z @ 148 NONAME ; int CAknsEffectAnim::Render(class CWindowGc &, class TRect const &) const
+	?Size@CAknsEffectAnim@@QBE?AVTSize@@XZ @ 149 NONAME ; class TSize CAknsEffectAnim::Size(void) const
+	?Start@CAknsEffectAnim@@QAEHXZ @ 150 NONAME ; int CAknsEffectAnim::Start(void)
+	?State@CAknsEffectAnim@@QAEHXZ @ 151 NONAME ; int CAknsEffectAnim::State(void)
+	?Stop@CAknsEffectAnim@@QAEHXZ @ 152 NONAME ; int CAknsEffectAnim::Stop(void)
+	?UpdateOutput@CAknsEffectAnim@@QAEHXZ @ 153 NONAME ; int CAknsEffectAnim::UpdateOutput(void)
+	?PrepareFrame@AknsDrawUtils@@SAHPAVMAknsSkinInstance@@ABVTRect@@1ABVTAknsItemID@@2@Z @ 154 NONAME ; int AknsDrawUtils::PrepareFrame(class MAknsSkinInstance *, class TRect const &, class TRect const &, class TAknsItemID const &, class TAknsItemID const &)
+	?SlidingMode@AknsDrawUtils@@SA?AW4TSlidingMode@@PAVMAknsSkinInstance@@@Z @ 155 NONAME ; enum TSlidingMode AknsDrawUtils::SlidingMode(class MAknsSkinInstance *)
+	?AvkonHighlightAnimationEnabled@AknsUtils@@SAHXZ @ 156 NONAME ; int AknsUtils::AvkonHighlightAnimationEnabled(void)
+	?SetAvkonHighlightAnimationEnabledL@AknsUtils@@SAXH@Z @ 157 NONAME ; void AknsUtils::SetAvkonHighlightAnimationEnabledL(int)
+	?IsIdling@CAknsEffectAnim@@QBEHXZ @ 158 NONAME ; int CAknsEffectAnim::IsIdling(void) const
+	?SetIdling@CAknsEffectAnim@@QAEXH@Z @ 159 NONAME ; void CAknsEffectAnim::SetIdling(int)
+

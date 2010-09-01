@@ -1,0 +1,9 @@
+EXPORTS
+	?TableLimits@AknLayoutAdaptationDecodeSupport@@SA?AVTAknLayoutTableLimits@@PBI@Z @ 1 NONAME ; public: static class TAknLayoutTableLimits  __cdecl AknLayoutAdaptationDecodeSupport::TableLimits(unsigned int const *)
+	?TextTable@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknTextLineLayout@@PBIHABVTRect@@HHHHH@Z @ 2 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::TextTable(class TAknTextLineLayout &,unsigned int const *,int,class TRect const &,int,int,int,int,int)
+	?TextTable@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknTextLineLayout@@PBIHHHHHH@Z @ 3 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::TextTable(class TAknTextLineLayout &,unsigned int const *,int,int,int,int,int,int)
+	?WindowTable@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknWindowLineLayout@@PBIHABVTRect@@HHHHH@Z @ 4 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::WindowTable(class TAknWindowLineLayout &,unsigned int const *,int,class TRect const &,int,int,int,int,int)
+	?WindowTable@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknWindowLineLayout@@PBIHHHHHH@Z @ 5 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::WindowTable(class TAknWindowLineLayout &,unsigned int const *,int,int,int,int,int,int)
+	?MultiLineTextLine@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknTextLineLayout@@PBIABVTRect@@HHHHH@Z @ 6 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::MultiLineTextLine(class TAknTextLineLayout &,unsigned int const *,class TRect const &,int,int,int,int,int)
+	?MultiLineTextLine@AknLayoutAdaptationDecodeSupport@@SAXAAVTAknTextLineLayout@@PBIHHHHH@Z @ 7 NONAME ; public: static void __cdecl AknLayoutAdaptationDecodeSupport::MultiLineTextLine(class TAknTextLineLayout &,unsigned int const *,int,int,int,int,int)
+

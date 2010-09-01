@@ -266,7 +266,6 @@ public:
     virtual void MapcPlayComplete(TInt aError);
     virtual void DoPlay();
 private:
-    void LoadAudioDataL(RFs& aFs, const TDesC& aFileName, TDes8& aDes);
     void DoSetVolume(CMdaAudioPlayerUtility* aAudioPlayer);
 
     // From MMdaObjectStateChangeObserver
@@ -274,11 +273,10 @@ private:
         TInt aErrorCode);
 public:
     CMdaAudioPlayerUtility* iAudioPlayer;
-    HBufC8* iAudioData;
 private:
     TBool iPlaying;
     TBool iPrepared;
-    CMdaServer* iMdaServer;
+    TFileName iFileName;
     };
 
 

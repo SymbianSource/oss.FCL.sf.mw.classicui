@@ -17,13 +17,16 @@
 
 
 // INCLUDE FILES
+#include <aknconfgesture.rsg>
+#include <akntextsettingpage.h>
+#include <centralrepository.h>
 
-//#include "aknconfsettingitem.h"
+#include "aknconfsettingitem.h"
 #include "aknconfgesturesettinglist.h"
-//#include "aknconf.hrh"
-//#include "akntouchgesturefwcrkeys.h"
+#include "aknconf.hrh"
+#include "akntouchgesturefwcrkeys.h"
 
-//_LIT( KResourceFile, "\\resource\\apps\\aknconfgesture.rsc" );
+_LIT( KResourceFile, "\\resource\\apps\\aknconfgesture.rsc" );
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -55,7 +58,7 @@ CAknConfGestureSettingList::~CAknConfGestureSettingList()
 // -----------------------------------------------------------------------------
 //
 void CAknConfGestureSettingList::ResetValues()
-    {/*
+    {
     if ( iCenRep )
         {
         iCenRep->Reset();
@@ -86,7 +89,7 @@ void CAknConfGestureSettingList::ResetValues()
         TRAP_IGNORE( LoadSettingsL() );
         DrawDeferred();
         }
-    */}
+    }
 
 
 // -----------------------------------------------------------------------------
@@ -119,12 +122,12 @@ CAknConfGestureSettingList::CAknConfGestureSettingList()
 // -----------------------------------------------------------------------------
 //
 void CAknConfGestureSettingList::ConstructL()
-    {/*
+    {
     CAknConfSettingList::ConstructL(
             KCRUidAknTouchGestureFwSettings, KResourceFile );
     CAknConfSettingList::ConstructFromResourceL(
             R_AKNCONF_GESTURE_SETTINGITEMLIST );
-    */}
+    }
 
 
 // -----------------------------------------------------------------------------
@@ -133,7 +136,7 @@ void CAknConfGestureSettingList::ConstructL()
 //
 TInt* CAknConfGestureSettingList::DataValuePointer( const TInt& aId, TInt& aCenRepKey )
     {
-    TInt* valuePtr( NULL );/*
+    TInt* valuePtr( NULL );
     switch ( aId )
         {
         case EAknConfGestureSettingTapThreshold:
@@ -194,7 +197,7 @@ TInt* CAknConfGestureSettingList::DataValuePointer( const TInt& aId, TInt& aCenR
             break;
         default:
             break;
-        }*/
+        }
     return valuePtr;
     }
 

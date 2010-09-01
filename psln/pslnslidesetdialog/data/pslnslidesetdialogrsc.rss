@@ -1,0 +1,535 @@
+/*
+* Copyright (c) 2006-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for project pslnslidesetdialog.
+*
+*/
+
+NAME PSSD
+
+#include <psln.loc>
+#include <avkon.loc>
+#include <drmcommon.loc>
+#include <avkon.mbg>
+#include <avkon.rsg>
+#include <eikcore.rsg>
+#include <uikon.rh>
+#include <avkon.rh>
+#include <eikon.rh>
+#include "pslnslidesetdialog.hrh"
+#include "pslnslidesetdialog.rh"
+#include <pslnslidesetdialog.loc>
+
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF { buf=""; }
+
+// COMMON FOR ALL SLIDE SETS
+
+// ---------------------------------------------------------
+//
+//  r_psln_settings_dialog
+//  Slide set settings dialog.
+// ---------------------------------------------------------
+//
+RESOURCE DIALOG r_psln_settings_dialog
+    {
+    flags = EAknDialogSelectionList;
+    buttons = R_AVKON_SOFTKEYS_SELECTION_LIST;
+    items =
+        {
+        DLG_LINE
+            {
+            type = EAknCtSettingListBox;
+            id = ESelectionListControl;
+            control = LISTBOX
+                {
+                flags = EAknListBoxSelectionList;
+                };
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_slide_dialog_menubar
+//  Menu bar for slide set settings.
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_slide_dialog_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_psln_slide_dialog_menu;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_slide_dialog_menu
+//  Options menu items.
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_psln_slide_dialog_menu
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EPslnSlideSetCmdChange;
+            txt = qtn_sanim_option_change;
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdHelp;
+            txt = qtn_options_help;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_options_exit;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_msk_change
+//  Middle softkey label: change.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_msk_change
+    {
+    buf = qtn_msk_change;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_setting_listbox
+//  Slide set type selection listbox.
+// -----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_psln_setting_listbox
+    {
+    flags = EEikListBoxMultipleSelection;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_property_menubar
+//  Setting page menubar.
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_psln_property_menubar
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_psln_slide_dialog_menu;
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//    r_psln_image_selection_setting_page
+//  Slide set type (random/image list) selection setting page.
+//  Bad name as this can be used as a general setting page editor.
+// -----------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_psln_image_selection_setting_page
+    {
+    menubar = r_psln_property_menubar;
+    number = EAknSettingPageNoOrdinalDisplayed;
+    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    type = EAknSetListBox;
+    editor_resource_id = r_psln_setting_listbox;
+    }
+
+// SCREENSAVER SLIDE SET SPECIFIC
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_screensaver_slide_setting_lbx
+//  Screen saver slide set settings listbox.
+// -----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_psln_screensaver_slide_setting_lbx
+    {
+    array_id = r_psln_screensaver_slide_setting_lbx_items;
+    flags = EEikListBoxMultipleSelection;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_screensaver_slide_setting_lbx_items
+//  Screen saver slide set setting items.
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_psln_screensaver_slide_setting_lbx_items
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "\t"qtn_sanim_list_slide_images"\t\t";
+            },
+        LBUF
+            {
+            txt = "\t"qtn_sanim_list_anim_timeout"\t\t";
+            },
+        LBUF
+            {
+            txt = "\t"qtn_sanim_list_light_timeout"\t\t";
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_slideset_screensaver_dialog_title
+//  Title for screensaver settings.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_screensaver_dialog_title
+    {
+    buf = qtn_sanim_title_settings;
+    }
+
+//----------------------------------------------------
+//
+//  r_backlight_slider
+//  Backlight slider setting page.
+//----------------------------------------------------
+//
+RESOURCE SLIDER r_psln_backlight_slider
+    {
+    layout = EAknSettingsItemSliderLayout;
+    minvalue = 0;
+    maxvalue = 30;
+    step = 1;
+    valuetype = EAknSliderValueBareFigure;
+    singular_valuelabel = qtn_sanim_duration_slider_ykcur;
+    minlabel = qtn_sanim_slider_off;
+    maxlabel = qtn_sanim_slider_max_secs;
+    valuelabel = qtn_sanim_slider_context_value_secs;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_duration_slider
+//  Duration slider setting page.
+//----------------------------------------------------
+//
+RESOURCE SLIDER r_psln_duration_slider
+    {
+    layout = EAknSettingsItemSliderLayout;
+    minvalue = 5;
+    maxvalue = 60;
+    step = 1;
+    valuetype = EAknSliderValueBareFigure;
+    singular_valuelabel = qtn_sanim_duration_slider_ykcur;
+    minlabel = qtn_sanim_duration_slider_min;
+    maxlabel = qtn_sanim_duration_slider_max;
+    valuelabel = qtn_sanim_duration_slider_cur;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_duration_slide_page_title
+//  Title for screensaver duration setting page.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_duration_slide_page_title
+    {
+    buf = qtn_sanim_list_anim_timeout;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_images_slide_ss_page_title
+//  Title for screensaver images setting page.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_images_slide_ss_page_title
+    {
+    buf = qtn_sanim_list_slide_images;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_images_slide_page_title
+//  Title for screensaver timeout setting page.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_backlight_slide_page_title
+    {
+    buf = qtn_sanim_list_light_timeout;
+    }
+
+
+// WALLPAPER SLIDE SET SPECIFIC
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_wallpaper_slide_setting_lbx
+//  Wallpaper slide set settings listbox.
+// -----------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_psln_wallpaper_slide_setting_lbx
+    {
+    array_id = r_psln_wallpaper_slide_setting_lbx_items;
+    flags = EEikListBoxMultipleSelection;
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_wallpaper_slide_setting_lbx_items
+//  Wallpaper slide set setting items.
+// -----------------------------------------------------------------------------
+//
+RESOURCE ARRAY r_psln_wallpaper_slide_setting_lbx_items
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = "\t"qtn_skins_list_wp_images"\t\t";
+            },
+        LBUF
+            {
+            txt = "\t"qtn_skins_list_wp_interval"\t\t";
+            }
+        };
+    }
+
+// -----------------------------------------------------------------------------
+//
+//  r_psln_slideset_wallpaper_dialog_title
+//  Title for wallpaper settings.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_wallpaper_dialog_title
+    {
+    buf = qtn_skins_title_settings;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_images_slide_wp_page_title
+//  Title for wallpaper images setting page.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_images_slide_wp_page_title
+    {
+    buf = qtn_skins_list_wp_images;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_interval_slide_page_title
+//  Title for wallpaper interval setting page.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_interval_slide_page_title
+    {
+    buf = qtn_skins_list_wp_interval;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slide_set_image_corrupted
+//  Text for corrupted image error note.
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_image_corrupted
+    {
+    buf = qtn_skins_image_format_wrong;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_slide_set_drm_error
+// Text for DRM error note.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_drm_error
+    {
+    buf = qtn_drm_prev_rights_set;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_slide_set_wp_images
+// Text for wallpaper images.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_wp_images
+    {
+    buf = qtn_skins_wp_nimages;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_slide_set_ss_images
+// Text for screensaver images.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_ss_images
+    {
+    buf = qtn_sanim_slide_set_nimages;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_slide_set_wp_image
+// Text for wallpaper image.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_wp_image
+    {
+    buf = qtn_skins_wp_image;
+    }
+
+// -----------------------------------------------------------------------------
+//
+// r_psln_slide_set_ss_image
+// Text for screensaver image.
+// -----------------------------------------------------------------------------
+//
+RESOURCE TBUF r_psln_slide_set_ss_image
+    {
+    buf = qtn_sanim_slide_set_image;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_type_wp_setting_page_lbx
+//  Setting page items for slide set type.
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_psln_slideset_type_wp_setting_page_lbx
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_skins_wp_user_defined;
+            },
+        LBUF
+            {
+            txt = qtn_skins_wp_random;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_type_ss_setting_page_lbx
+//  Setting page items for slide set type.
+//
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_psln_slideset_type_ss_setting_page_lbx
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_sanim_slide_set_user_defined;
+            },
+        LBUF
+            {
+            txt = qtn_sanim_slide_set_random;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_interval_1_minute
+//  Interval duration text - 1 minute.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_interval_1_minute
+    {
+    buf = qtn_skins_wp_minute;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_interval_10_minute
+//  Interval duration text - 10 minutes.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_interval_10_minute
+    {
+    buf = qtn_skins_wp_ten_minutes;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_interval_30_minute
+//  Interval duration text - 30 minutes.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_interval_30_minute
+    {
+    buf = qtn_skins_wp_minutes;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_interval_1_hour
+//  Interval duration text - 1 hour.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_interval_1_hour
+    {
+    buf = qtn_skins_wp_hour;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_slideset_interval_1_day
+//  Interval duration text - 1 day.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_slideset_interval_1_day
+    {
+    buf = qtn_skins_wp_day;
+    }
+
+//----------------------------------------------------
+//
+//  r_psln_sanim_slider_off
+//  Backlight Off text.
+//
+//----------------------------------------------------
+//
+RESOURCE TBUF r_psln_sanim_slider_off
+    {
+    buf = qtn_sanim_slider_off;
+    }
+
+//End of File
+

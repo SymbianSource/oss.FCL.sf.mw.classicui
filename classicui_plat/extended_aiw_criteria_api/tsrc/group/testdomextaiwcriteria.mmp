@@ -44,11 +44,11 @@ SOURCE          testdomextaiwcriteriablockspocpara.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib
-LIBRARY         vpbkeng.lib
-LIBRARY         PbkEng.lib
+LIBRARY         VPbkEng.lib
+LIBRARY         pbkeng.lib
 
 LANG            SC
 

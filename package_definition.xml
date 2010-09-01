@@ -79,22 +79,19 @@
       </component>
     </collection>
     <collection id="commonuisupport" name="Common UI Support" level="support">
-      <component id="uikon" name="Uikon" introduced="6.0" purpose="mandatory" filter="s60">
+      <component id="uikon" name="Uikon" introduced="6.0" purpose="mandatory">
         <unit bldFile="commonuisupport/uikon/group" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
       </component>
-      <component id="uikon_ncp" name="Uikon" introduced="6.0" purpose="mandatory">
-        <unit bldFile="commonuisupport/uikon/group_ncp" mrp="commonuisupport/uikon/group/app-framework_uikon.mrp"/>
-      </component>
-      <component id="errorresolverdata" name="Error Resolver Data" purpose="mandatory" filter="s60">
+      <component id="errorresolverdata" name="Error Resolver Data" purpose="mandatory">
         <unit bldFile="commonuisupport/errorresolverdata/group" mrp="commonuisupport/errorresolverdata/group/app-framework_errorresgt.mrp"/>
       </component>
       <component id="uilaf" name="UI Look and Feel" introduced="6.0" purpose="mandatory">
         <unit bldFile="commonuisupport/uilaf/GROUP" mrp="commonuisupport/uilaf/GROUP/app-framework_uiklafgt.mrp"/>
       </component>
-      <component id="grid" name="Grid" purpose="optional" filter="s60">
+      <component id="grid" name="Grid" purpose="optional">
         <unit bldFile="commonuisupport/grid/group" mrp="commonuisupport/grid/group/app-framework_grid.mrp"/>
       </component>
-      <component id="uifwsdocs" name="UI Frameworks Documentation" purpose="development" class="doc" filter="s60">
+      <component id="uifwsdocs" name="UI Frameworks Documentation" purpose="development" class="doc">
         <unit mrp="commonuisupport/uifwsdocs/app-framework_documentation.mrp"/>
       </component>
     </collection>
@@ -102,7 +99,7 @@
       <component id="cone" name="Control Environment" purpose="mandatory">
         <unit bldFile="lafagnosticuifoundation/cone/group" mrp="lafagnosticuifoundation/cone/group/app-framework_cone.mrp"/>
       </component>
-      <component id="graphicseffects" name="Graphics Effects" introduced="9.2" purpose="optional" filter="s60">
+      <component id="graphicseffects" name="Graphics Effects" introduced="9.2" purpose="optional">
         <unit bldFile="lafagnosticuifoundation/graphicseffects/group" mrp="lafagnosticuifoundation/graphicseffects/group/app-framework_gfxtranseffect.mrp"/>
       </component>
       <component id="uigraphicsutils" name="UI Graphics Utilities" purpose="mandatory">
@@ -111,10 +108,10 @@
       <component id="clockanim" name="Clock" purpose="optional" class="plugin">
         <unit bldFile="lafagnosticuifoundation/clockanim/group" mrp="lafagnosticuifoundation/clockanim/group/app-framework_clock.mrp"/>
       </component>
-      <component id="bmpanimation" name="BMP Animation" introduced="6.0" purpose="optional" filter="s60">
+      <component id="bmpanimation" name="BMP Animation" introduced="6.0" purpose="optional">
         <unit bldFile="lafagnosticuifoundation/bmpanimation/group" mrp="lafagnosticuifoundation/bmpanimation/group/app-framework_bmpanim.mrp"/>
       </component>
-      <component id="animation" name="Animation" introduced="9.1" purpose="optional" filter="s60">
+      <component id="animation" name="Animation" introduced="9.1" purpose="optional">
         <unit bldFile="lafagnosticuifoundation/animation/group" mrp="lafagnosticuifoundation/animation/group/app-framework_animation.mrp"/>
       </component>
     </collection>
@@ -142,7 +139,7 @@
         <unit bldFile="classicui_plat/ganes_api/tsrc/group"/>
         <unit bldFile="classicui_plat/physics_api/tsrc/group"/>
       </component>
-      <component id="classicui_metadata" name="Classic UI Metadata" class="config" introduced="^2" purpose="development" target="desktop" filter="s60">
+      <component id="classicui_metadata" name="Classic UI Metadata" class="config" introduced="^2" purpose="development" target="desktop">
         <unit mrp="classicui_info/classicui_metadata/classicui_metadata.mrp"/>
       </component>
     </collection>

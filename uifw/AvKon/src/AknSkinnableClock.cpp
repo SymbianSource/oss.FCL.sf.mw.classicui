@@ -417,7 +417,7 @@ void CAknSkinnableClock::Draw( const TRect& /*aRect*/ ) const
     homeTime.HomeTime();
     if (iFace)
         {
-        iFace->DrawTimeToBitmapL(rect, gc, homeTime);
+        TRAP_IGNORE(iFace->DrawTimeToBitmapL(rect, gc, homeTime));
         }
     }
 

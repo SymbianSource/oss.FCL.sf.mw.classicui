@@ -1,0 +1,116 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:    
+*
+*/
+
+#include <defaultcaps.hrh>
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh>
+
+TARGET        ganes.dll
+TARGETTYPE    dll
+UID           0x1000008D 0x2001CBE2
+SECUREID      0x2001CBE2
+
+VENDORID      VID_DEFAULT
+CAPABILITY    CAP_GENERAL_DLL
+
+VERSION       10.0
+LANG          SC
+
+PAGED
+
+SOURCEPATH		../src
+SOURCE        HgGrid.cpp
+SOURCE        HgList.cpp 
+SOURCE        HgScroller.cpp 
+SOURCE        HgItem.cpp 
+SOURCE        HgScrollbar.cpp 
+SOURCE        HgSingleGraphicList.cpp 
+SOURCE        HgSingleLargeList.cpp 
+SOURCE        HgDoubleGraphicList.cpp
+SOURCE        HgScrollBufferManager.cpp
+SOURCE        HgPopupDrawer.cpp 
+SOURCE        HgMarquee.cpp
+SOURCE        HgDoubleTextList.cpp 
+SOURCE        HgDrawUtils.cpp 
+SOURCE        HgIndicatorManager.cpp
+SOURCE        HgSingleTextList.cpp
+SOURCE        HgScrollerWithTitle.cpp
+SOURCE        HgKeyUtils.cpp
+SOURCE        HgTextFind.cpp
+SOURCE 	      HgVgMediaWall.cpp 
+SOURCE 	      HgVgDrawBuffer.cpp 
+SOURCE 	      HgVgScrollBar.cpp 
+SOURCE        HgVgHelper.cpp 
+SOURCE        HgVgMediaWallRenderer.cpp
+SOURCE        HgVgSkinRenderer.cpp 
+SOURCE        HgVgItem.cpp 
+SOURCE        HgVgTimer.cpp 
+SOURCE        HgVgLetterPopup.cpp 
+SOURCE        HgSingleTextListWithIcon.cpp 
+SOURCE        HgVgButton.cpp 
+SOURCE 	      HgVgLabel.cpp
+SOURCE        HgDoubleGraphicListFlat.cpp 
+SOURCE 	      HgVgEGL.cpp 
+SOURCE 	      HgVgSpring.cpp 
+SOURCE        HgVgImageCreator.cpp
+
+USERINCLUDE	  ../inc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY       aknicon.lib
+LIBRARY       aknlayout2.lib
+LIBRARY       AknLayout2Scalable.lib
+LIBRARY       aknnotify.lib
+LIBRARY       aknphysics.lib
+LIBRARY       aknskins.lib
+LIBRARY       aknskinsrv.lib
+LIBRARY       akntouchgesturefw.lib
+LIBRARY       apparc.lib
+LIBRARY       avkon.lib
+LIBRARY       bitgdi.lib
+LIBRARY       CdlEngine.lib 
+LIBRARY       cenrepnotifhandler.lib
+LIBRARY       centralrepository.lib
+LIBRARY       CommonEngine.lib
+LIBRARY       cone.lib
+LIBRARY       efsrv.lib 
+LIBRARY       egul.lib
+LIBRARY       eikcoctl.lib
+LIBRARY       eikcore.lib
+LIBRARY       eikctl.lib
+LIBRARY       estor.lib
+LIBRARY       euser.lib
+LIBRARY       fbscli.lib
+LIBRARY       fepbase.lib
+LIBRARY       featmgr.lib
+LIBRARY       gdi.lib
+LIBRARY       imageconversion.lib 
+LIBRARY       libOpenVG.lib
+LIBRARY       libOpenVGU.lib
+LIBRARY       libEGL.lib 
+LIBRARY       touchfeedback.lib
+LIBRARY       ws32.lib
+LIBRARY		  NVGDecoder.lib 
+LIBRARY       alfdecoderserverclient.lib 
+LIBRARY       featdiscovery.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE
+#endif
+
+// End of File

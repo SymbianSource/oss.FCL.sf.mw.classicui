@@ -40,6 +40,7 @@ class CAknsBasicBackgroundControlContext;
 class CEikScrollBarFrame;
 class CAknTreeListPhysicsHandler;
 class CAknItemActionMenu;
+class CAknIconArray;
 
 /**
  *  Hierarchical list view.
@@ -58,8 +59,8 @@ NONSHARABLE_CLASS( CAknTreeListView ) : public CAknControl,
                                         public MAknsEffectAnimObserver,
                                         public MEikCommandObserver,
                                         public MAknCollection,
-                                        public MAknLongTapDetectorCallBack
-                                        
+                                        public MAknLongTapDetectorCallBack,
+                                        public MAknMarkingCollection
     {
 
 public:
@@ -448,12 +449,9 @@ TInt& HighlightIndex();
 TInt& TopIndex();
 TInt& BottomIndex();
 
-void UpdateIndexes();
-
 TInt iItemCountLimit;
 TInt iHighlightIndex;
 TInt iTopIndex;
-TInt iBottomIndex;
 
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
@@ -645,8 +643,10 @@ private:
 
     /**
      * Updates scrollbars.
+     * 
+     * @param  aDrawNow  Whether or not to draw the scrollbar.
      */
-    void UpdateScrollbars();
+    void UpdateScrollbars( TBool aDrawNow );
 
     /**
      * Updates the horizontal position of the view so that the beginning of
@@ -814,23 +814,23 @@ private:
     void DoHandleLongPressL();
 
     /**
-     * Enters marking mode. When in marking mode, the list controls the MSK
+     * Enters normal marking. When in marking state, the list controls the MSK
      * commands depending on whether the currently focused item is marked or
-     * unmarked. Marking mode is entered after specified timeout, when user
+     * unmarked. Marking state is entered after specified timeout, when user
      * keeps one of the marking modifier keys pressed.
      *
      * Notifications of the beginning and ending of marking mode is sent to
      * list observers, so that they would not update the MSK commands, when
      * they are handled by the list.
      */
-    void EnterMarkingMode();
+    void EnterMarking();
 
     /**
-     * Exits marking mode. Marking mode is exited when user releases
+     * Exits marking state. Marking state is exited when user releases
      * all the marking modifier keys. After that, the list no longer
      * handles the MSK commands.
      */
-    void ExitMarkingMode();
+    void ExitMarking();
 
     /**
      * Updates correct mark/unmark command to MSK depending on the marking
@@ -866,6 +866,16 @@ private:
      */
     void UpdateViewItemAsVisible( CAknTreeItem* aItem );
 
+    /**
+     * Updates indexes 
+     */
+	void UpdateIndexes();
+	
+	/**
+	 * Loads marking mode icons.
+	 */
+    void LoadMarkingIconsL();
+	
 // from base class CCoeControl
 
     /**
@@ -889,8 +899,9 @@ public:
      * Enables or disables highlight
      * 
      * @param ETrue to enable highlight, EFalse to disable
-     */
-    void EnableHighlight( TBool aEnabled );
+     * @param aPointerEnabled ETrue if highlight was enabled by pointer event.
+     */    
+    void EnableHighlight( TBool aEnabled, TBool aPointerEnabled = EFalse );
 
     /**
      * Is highlight enabled
@@ -917,7 +928,7 @@ public:
      * 
      * @return ETrue if list has marked items
      */    
-    TBool HasMarkedItemsL();    
+    TBool HasMarkedItemsL() const;
     
 // From MAknCollection
     /**
@@ -942,6 +953,55 @@ public:
      * @param  a1            Second extension method parameter.
      */    
     TInt CollectionExtension( TUint aExtensionId, TAny*& a0, TAny* a1 );    
+
+// From MAknMarkingCollection
+    /**
+     * Sets multiple marking state.
+     *
+     * @param aActive ETrue if multiple marking should be active.
+     */
+    void SetMultipleMarkingState( TBool aActive );
+
+    /**
+     * Returns the collection marking state. The state is combination of
+     * flags defined in @c TStateFlag. 
+     *
+     * @return  Collection state.
+     */
+    TUint MarkingState() const;
+
+    /**
+     * Marks the currently selected item.
+     */
+    void MarkCurrentItemL();
+     
+    /**
+     * Marks all items in the collection.
+     */
+    void MarkAllL(); 
+
+    /**
+     * Unmarks all items in the collection.
+     */
+    void UnmarkAll();
+    
+    /*
+     * Can current item be marked.
+     */
+    TBool CurrentItemMarkable();    
+
+    /**
+     * Returns whether the observer accepts ending of marking mode
+     * 
+     * @return ETrue if observer accepts exiting marking mode
+     */
+    TBool ExitMarkingMode();
+
+    /**
+     * Reports collection change event.
+     */    
+    void ReportCollectionChangedEvent();   
+
 
 // From MAknLongTapDetectorCallBack
     /**
@@ -1052,9 +1112,6 @@ private: // data
      */
     CAknTreeItem* iPreviouslyFocusedItem;
 
-    TBool iIsPressedDownState;
-    
-    TBool iIsDragged;
     
     /**
      * Physics handler. Used only when physics feature is enabled.
@@ -1062,10 +1119,6 @@ private: // data
      */
     CAknTreeListPhysicsHandler* iPhysicsHandler;
 
-    /**
-     * ETrue if physics view should be adjusted according to top item.
-     */
-    TBool iScrollPhysicsTop;
 
     /**
     * Pointer to tfx redirect gc for effects
@@ -1083,7 +1136,31 @@ private: // data
     * Long tap detector
     */
     CAknLongTapDetector* iLongTapDetector;
-    };
 
+   /**
+    * Last visible item index
+	*/
+	TInt iBottomIndex;
+	
+	
+    /**
+     * Remember pointer to bottom item. Use for drawing line seperator only.
+     * iBottomIndex is not valid in some case becaue of iItems already changed.
+     * Not own.
+     */
+	CAknTreeItem* iBottomItem;	
+
+	
+	/**
+	 * Array for marking mode icons.
+	 * Own.
+	 */
+    CAknIconArray* iMarkingIconArray;
+    
+    /**
+     * Ordinal position of window, before stylus menu is opened.
+     */
+    TInt iOldWinPos;
+    };
 
 #endif // C_AKNTREELISTVIEW_H

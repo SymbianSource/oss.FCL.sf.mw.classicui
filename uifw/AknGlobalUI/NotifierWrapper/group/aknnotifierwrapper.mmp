@@ -31,11 +31,6 @@ MW_LAYER_SYSTEMINCLUDE
 USERINCLUDE     ../inc 
 USERINCLUDE     ../../CommonInc
 
-/* notifier removal workaround */
-USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
-USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
-
-
 SOURCEPATH      ../src
 
 SOURCE          AknNotifierAppServer.cpp
@@ -56,6 +51,7 @@ LIBRARY         eikdlg.lib
 LIBRARY         estor.lib 
 LIBRARY         eiksrvui.lib
 LIBRARY         akncapserverclient.lib
+LIBRARY         gfxtrans.lib
 
 deffile         AKNNOTIFIERWRAPPER.DEF
 

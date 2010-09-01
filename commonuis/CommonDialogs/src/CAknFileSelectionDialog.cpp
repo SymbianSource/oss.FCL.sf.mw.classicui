@@ -324,10 +324,10 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
         KAknsIIDQgnPropNrtypNote, KAvkonBitmapFile,
         EMbmAvkonQgn_prop_nrtyp_note, EMbmAvkonQgn_prop_nrtyp_note_mask );
     
-    // Add sis file icon.
+    // Add app file icon.
     AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *iconArray, skin,
         KAknsIIDQgnPropAmSis, KCommonDialogsBitmapFile,
-        EMbmCommondialogsQgn_prop_am_sis, EMbmCommondialogsQgn_prop_am_sis_mask );
+        EMbmCommondialogsQgn_prop_fmgr_file_apps, EMbmCommondialogsQgn_prop_fmgr_file_apps_mask );
     
     // Add video file icon.
     AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *iconArray, skin,
@@ -338,11 +338,6 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
     AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *iconArray, skin,
         KAknsIIDQgnPropFmgrFileGame, KCommonDialogsBitmapFile,
         EMbmCommondialogsQgn_prop_fmgr_file_game, EMbmCommondialogsQgn_prop_fmgr_file_game_mask );
-        
-    // Add java file icon.
-    AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *iconArray,         
-        skin, KAknsIIDQgnPropAmMidlet, KCommonDialogsBitmapFile,
-        EMbmCommondialogsQgn_prop_am_midlet, EMbmCommondialogsQgn_prop_am_midlet_mask );
     
     // Add unknow file type icon.
     AknCFDUtility::AppendSkinnedImageToArrayL( *eikEnv, *iconArray,         
@@ -385,6 +380,7 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
 
     iEventHandler->ResetSoftkeyStatus();
     iEventHandler->UpdateSoftkeysL( focus, popupList->ButtonGroupContainer() );
+    iEventHandler->StartFileSystemNotifierL(popupList);
 
     TBool returnValue( popupList->ExecuteLD() );
     if( returnValue )
@@ -402,6 +398,7 @@ EXPORT_C TBool CAknFileSelectionDialog::ExecuteL( TDes& aFileName )
                 }
             }
         }
+    iEventHandler->StopFileSystemNotifier();
 
     CleanupStack::Pop(); // popupList
     CleanupStack::PopAndDestroy(); // listBox

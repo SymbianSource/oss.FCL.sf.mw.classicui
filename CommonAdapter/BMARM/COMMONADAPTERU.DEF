@@ -1,0 +1,9 @@
+EXPORTS
+	SetSoftkeys__11CGlobalNote18TGlobalNoteSoftkey @ 1 NONAME R3UNUSED ; CGlobalNote::SetSoftkeys(TGlobalNoteSoftkey)
+	NewLC__11CGlobalNote @ 2 NONAME R3UNUSED ; CGlobalNote::NewLC(void)
+	NewL__11CGlobalNote @ 3 NONAME R3UNUSED ; CGlobalNote::NewL(void)
+	CancelNoteL__11CGlobalNotei @ 4 NONAME R3UNUSED ; CGlobalNote::CancelNoteL(int)
+	ShowNoteL__11CGlobalNote15TGlobalNoteTypeRC7TDesC16 @ 5 NONAME R3UNUSED ; CGlobalNote::ShowNoteL(TGlobalNoteType, TDesC16 const &)
+	ShowNoteL__11CGlobalNoteR14TRequestStatus15TGlobalNoteTypeRC7TDesC16 @ 6 NONAME ; CGlobalNote::ShowNoteL(TRequestStatus &, TGlobalNoteType, TDesC16 const &)
+	"_._11CGlobalNote" @ 7 NONAME R3UNUSED ; CGlobalNote::~CGlobalNote(void)
+

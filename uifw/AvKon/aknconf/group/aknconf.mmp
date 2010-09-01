@@ -73,7 +73,7 @@ LIBRARY		   apparc.lib
 LIBRARY		   cone.lib
 LIBRARY		   eikcore.lib
 LIBRARY		   avkon.lib
-LIBRARY		   commonengine.lib
+LIBRARY		   CommonEngine.lib
 LIBRARY		   efsrv.lib 
 LIBRARY		   estor.lib
 LIBRARY        aknnotify.lib

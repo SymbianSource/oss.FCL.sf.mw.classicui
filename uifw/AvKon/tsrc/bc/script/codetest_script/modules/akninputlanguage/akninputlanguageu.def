@@ -1,0 +1,23 @@
+EXPORTS
+	??0CAknInputLanguageList@@QAE@H@Z @ 1 NONAME ; public: __thiscall CAknInputLanguageList::CAknInputLanguageList(int)
+	??0TAknInputLanguageCapabilities@@QAE@XZ @ 2 NONAME ; public: __thiscall TAknInputLanguageCapabilities::TAknInputLanguageCapabilities(void)
+	??1CAknInputLanguageItem@@UAE@XZ @ 3 NONAME ; public: virtual __thiscall CAknInputLanguageItem::~CAknInputLanguageItem(void)
+	??1CAknInputLanguageList@@UAE@XZ @ 4 NONAME ; public: virtual __thiscall CAknInputLanguageList::~CAknInputLanguageList(void)
+	??1CT9InputLanguageInfo@@UAE@XZ @ 5 NONAME ; public: virtual __thiscall CT9InputLanguageInfo::~CT9InputLanguageInfo(void)
+	?AppendAvailableLanguagesL@CT9InputLanguageInfo@@UAEXPAVCAknInputLanguageList@@@Z @ 6 NONAME ; public: virtual void __thiscall CT9InputLanguageInfo::AppendAvailableLanguagesL(class CAknInputLanguageList *)
+	?AssignCapability@TAknInputLanguageCapabilities@@QAEXHH@Z @ 7 NONAME ; public: void __thiscall TAknInputLanguageCapabilities::AssignCapability(int,int)
+	?Capabilities@CAknInputLanguageItem@@QBE?AVTAknInputLanguageCapabilities@@XZ @ 8 NONAME ; public: class TAknInputLanguageCapabilities  __thiscall CAknInputLanguageItem::Capabilities(void)const 
+	?CreateInputLanguageInfoL@AknInputLanguageInfoFactory@@SAPAVCAknInputLanguageInfo@@XZ @ 9 NONAME ; public: static class CAknInputLanguageInfo * __cdecl AknInputLanguageInfoFactory::CreateInputLanguageInfoL(void)
+	?HasCapability@TAknInputLanguageCapabilities@@QBEHH@Z @ 10 NONAME ; public: int __thiscall TAknInputLanguageCapabilities::HasCapability(int)const 
+	?LanguageCapabilitiesFromLanguage@CT9InputLanguageInfo@@UAE?AVTAknInputLanguageCapabilities@@W4TLanguage@@@Z @ 11 NONAME ; public: virtual class TAknInputLanguageCapabilities  __thiscall CT9InputLanguageInfo::LanguageCapabilitiesFromLanguage(enum TLanguage)
+	?LanguageCode@CAknInputLanguageItem@@QBE?AW4TLanguage@@XZ @ 12 NONAME ; public: enum TLanguage  __thiscall CAknInputLanguageItem::LanguageCode(void)const 
+	?LanguageName@CAknInputLanguageItem@@QBE?AVTPtrC16@@XZ @ 13 NONAME ; public: class TPtrC16  __thiscall CAknInputLanguageItem::LanguageName(void)const 
+	?MdcaCount@CAknInputLanguageList@@UBEHXZ @ 14 NONAME ; public: virtual int __thiscall CAknInputLanguageList::MdcaCount(void)const 
+	?MdcaPoint@CAknInputLanguageList@@UBE?AVTPtrC16@@H@Z @ 15 NONAME ; public: virtual class TPtrC16  __thiscall CAknInputLanguageList::MdcaPoint(int)const 
+	?AppendLanguagesL@CT9InputLanguageInfo@@UAEXPAVCAknInputLanguageList@@PAV?$CArrayFix@H@@AAVTAknInputLanguageCapabilities@@@Z @ 16 NONAME ; public: virtual void __thiscall CT9InputLanguageInfo::AppendLanguagesL(class CAknInputLanguageList *,class CArrayFix<int> *,class TAknInputLanguageCapabilities &)
+	?FilteredCapabilities@TAknInputLanguageCapabilities@@QBE?AV1@AAV1@@Z @ 17 NONAME ; public: class TAknInputLanguageCapabilities  __thiscall TAknInputLanguageCapabilities::FilteredCapabilities(class TAknInputLanguageCapabilities &)const 
+	?HasAnySupport@TAknInputLanguageCapabilities@@QBEHXZ @ 18 NONAME ; public: int __thiscall TAknInputLanguageCapabilities::HasAnySupport(void)const 
+	?LanguageName@CT9InputLanguageInfo@@UBE?AV?$TBuf@$0CA@@@W4TLanguage@@@Z @ 19 NONAME ; public: virtual class TBuf<32>  __thiscall CT9InputLanguageInfo::LanguageName(enum TLanguage)const 
+	?SetAllCapabilities@TAknInputLanguageCapabilities@@QAEXXZ @ 20 NONAME ; public: void __thiscall TAknInputLanguageCapabilities::SetAllCapabilities(void)
+	?UrlLanguage@CT9InputLanguageInfo@@UBE?AW4TLanguage@@XZ @ 21 NONAME ; public: virtual enum TLanguage  __thiscall CT9InputLanguageInfo::UrlLanguage(void)const 
+

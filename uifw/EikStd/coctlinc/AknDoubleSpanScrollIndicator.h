@@ -23,28 +23,6 @@
 
 #include "AknDoubleSpanScrollIndicatorItem.h"
 
-class CAknDoubleSpanScrollIndicatorBGExtension;
-
-NONSHARABLE_CLASS( TBitmapFx )
-    {
-public:    
-    struct TRGB
-        {
-        TInt iR;
-        TInt iG;
-        TInt iB;
-        };
-    struct THSL
-        {
-        TInt iH;
-        TInt iS;
-        TInt iL;
-        };
-    
-    static void PixelEffect( TUint16* aPixelData );
-    static TInt HueToRGB( TInt v1, TInt v2, TInt aH );
-    };
-
 NONSHARABLE_CLASS(CAknDoubleSpanScrollIndicator) : public CCoeControl
     {            
 public: // public construction and destruction methods
@@ -219,15 +197,6 @@ public:
     TBool HandleHighlight() const;
     
     /**
-    * Sets the touch area control.
-    *
-    * @since    5.0
-    * @param    aTouchAreaControl A pointer to the control which is drawn
-    *           along with this indicator.
-    */
-    void SetTouchAreaControl( CCoeControl* aTouchAreaControl );
-    
-    /**
     * Sets the background drag highlight.
     *
     * @since    5.0
@@ -286,8 +255,7 @@ private: // new methods
     */
     void CreateScrollBarItemsL();    
 
-    TInt ScrollHandleMaxVisibleSizeInPixels();
-    TInt HandleBackgroundMinSizeInPixels();
+    TInt HandleMaxSizeInPixels();
     TInt HandleMinSizeInPixels();
 
     /**
@@ -297,35 +265,6 @@ private: // new methods
     *
     */
     void DrawBackground() const;
-    
-    /**
-    * Handles background bitmap creation for window owning scrollbar
-    * 
-    * @since    3.1
-    *
-    */
-    void CreateBackgroundBitmapL();
-    
-    /**
-    * Layout scrollbar handle
-    * 
-    * @since    3.1
-    *
-    */
-    void LayoutHandleGraphics();
-    
-    /**
-    * Used for highlighting handle skin graphics. Takes a bitmap, creates 
-    * a copy and optionally applies an effect for the pixels in the
-    * bitmap. Returns the new bitmap, so caller must take ownership.
-    * Note that the effect only works for EColor64K bitmaps.
-    *
-    * @since    5.0
-    * @param    aSource The source bitmap.
-    * @param    aCopyOnly If ETrue, doesn't apply effect.
-    * @return   The new bitmap.
-    */
-    CFbsBitmap* CopyAndApplyEffectL( const CFbsBitmap* aSource, TBool aCopyOnly = EFalse );
     
     CAknDoubleSpanScrollIndicatorItem* LoadScrollIndicatorItemL(
             const TAknsItemID &aTopId,
@@ -345,7 +284,6 @@ private: // data
     TInt iFieldPosition;        // Size of the current field. (Optional double span)
     TInt iFieldSize;            // Position inside the current field. (Optional double span)
     TBool iOwnsWindow;            // Is window owning
-    TInt iSpare;
 
     TRect iBackgroundRect;       // Rect for scrollbar background.
     TRect iHandleBackgroundRect; // Rect for scrollbar handle background.
@@ -353,13 +291,12 @@ private: // data
     
     TBool iTransparentBackground;  // A flag which tells if we have transparent bg
     TBool iDrawBackground; // do  we draw any background
+    TBool iForceDrawBackground; // draw background
     
     TBool iHandleHighlight; // is handle drag highlight on?
     
     TBool iBackgroundHighlight; //is background highlight on?
    
-    
-    mutable TBool iDrawBackgroundBitmap; // do we draw the background to the background bitmap before it is drawn
     TRect iOldRect; // the old scb retangle, to optimize unneccessary resizing
 
     CEikScrollBar::TOrientation iOrientation;    // Vertical or horizontal scrollbar
@@ -369,12 +306,18 @@ private: // data
     CAknDoubleSpanScrollIndicatorItem* iHandleBar;
     CAknDoubleSpanScrollIndicatorItem* iHighlightHandleBar;
  
-    
     TInt iHeadItemSize;
-    TInt iMidItemSize;
     TInt iTailItemSize;
+
+    /**
+     * Minimum handle size.
+     */
+    TInt iHandleMinSize;
     
-    CCoeControl* iTouchAreaControl; // Not own.
+    /**
+     * Maximum handle size.
+     */
+    TInt iHandleMaxSize;
     };
 
 #endif

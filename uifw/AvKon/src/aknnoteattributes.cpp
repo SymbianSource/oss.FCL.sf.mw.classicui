@@ -1029,8 +1029,11 @@ void CAknNoteAttributes::PictographCallBack()
             iNoteControl->DeactivateGc();
 
             // Redraw the label after the background
-            iNoteText->Line( i )->ActivateL(); // Never leaves
-            iNoteText->Line( i )->DrawNow();
+            TRAPD(err, iNoteText->Line( i )->ActivateL()); // Never leaves
+            if (err == KErrNone)
+                {
+                iNoteText->Line( i )->DrawNow();
+                }
             iNoteText->SetLineModified( i, EFalse );
             }
         }

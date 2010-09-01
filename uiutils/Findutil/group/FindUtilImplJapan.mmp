@@ -47,11 +47,11 @@ SOURCEPATH      ../src
 SOURCE          FindUtilJapanese.cpp
 
 LIBRARY         euser.lib
-LIBRARY         findutil.lib
+LIBRARY         FindUtil.lib
 LIBRARY         ptiengine.lib
-LIBRARY         commonengine.lib
-LIBRARY         CentralRepository.lib
-LIBRARY         CenRepNotifHandler.lib
+LIBRARY         CommonEngine.lib
+LIBRARY         centralrepository.lib
+LIBRARY         cenrepnotifhandler.lib
 LIBRARY         cone.lib
 LIBRARY         fepbase.lib 
 LIBRARY         avkon.lib eikcoctl.lib eikctl.lib form.lib uiklaf.lib 

@@ -1,0 +1,59 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description:
+;
+
+; Languages
+&EN
+
+; Header
+#{"testsdkcfd"}, (0x2001CB80), 1, 0, 0, TYPE=SA
+
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+;Copying ordinary file (not language dependent) to fixed drive drive.
+"..\init\testsdkcfd.ini"-"c:\Testframework\testsdkcfd.ini", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdcommondialogs.cfg"-"c:\Testframework\tctestsdkcfdcommondialogs.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdcommondialogs.cfg"-"c:\Testframework\ui_testsdkcfdcommondialogs.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdcommondialogsdynmem.cfg"-"c:\Testframework\tctestsdkcfdcommondialogsdynmem.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdcommondialogsdynmem.cfg"-"c:\Testframework\ui_testsdkcfdcommondialogsdynmem.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdfilenamepromptdialog.cfg"-"c:\Testframework\tctestsdkcfdfilenamepromptdialog.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdfilenamepromptdialog.cfg"-"c:\Testframework\ui_testsdkcfdfilenamepromptdialog.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdfileselectiondialog.cfg"-"c:\Testframework\tctestsdkcfdfileselectiondialog.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdfileselectiondialog.cfg"-"c:\Testframework\ui_testsdkcfdfileselectiondialog.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdmemoryselectiondialog.cfg"-"c:\Testframework\tctestsdkcfdmemoryselectiondialog.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdmemoryselectiondialog.cfg"-"c:\Testframework\ui_testsdkcfdmemoryselectiondialog.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdmemoryselectionsettingitem.cfg"-"c:\Testframework\tctestsdkcfdmemoryselectionsettingitem.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdmemoryselectionsettingitem.cfg"-"c:\Testframework\ui_testsdkcfdmemoryselectionsettingitem.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdmemoryselectionsettingpage.cfg"-"c:\Testframework\tctestsdkcfdmemoryselectionsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdmemoryselectionsettingpage.cfg"-"c:\Testframework\ui_testsdkcfdmemoryselectionsettingpage.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdmemoryselectiondialogmulti.cfg"-"c:\Testframework\tctestsdkcfdmemoryselectiondialogmulti.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdmemoryselectiondialogmulti.cfg"-"c:\Testframework\ui_testsdkcfdmemoryselectiondialogmulti.cfg", FF   ; FF stands for Normal file
+"..\conf\tctestsdkcfdmemoryselectionsettingitemmulti.cfg"-"c:\Testframework\tctestsdkcfdmemoryselectionsettingitemmulti.cfg", FF   ; FF stands for Normal file
+"..\conf\ui_testsdkcfdmemoryselectionsettingitemmulti.cfg"-"c:\Testframework\ui_testsdkcfdmemoryselectionsettingitemmulti.cfg", FF   ; FF stands for Normal file
+
+"\epoc32\RELEASE\ARMV5\urel\testsdkcfd.dll"-"c:\sys\bin\testsdkcfd.dll", FF
+
+"\epoc32\data\Z\resource\testsdkcfd.rsc"-"c:\resource\testsdkcfd.rsc", FF
+
+
+; Trim For Mms
+; ------------
+; to be added later
+

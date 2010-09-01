@@ -1,0 +1,82 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Command definitions for Psln application.
+*
+*/
+
+
+#ifndef PSLN_HRH
+#define PSLN_HRH
+
+// PslnUi's commands
+
+enum TPslnMenuCommands
+    {
+    // Skin preview command for softkey.
+    EPslnCmdAppPreview = 1,
+    // Skin activation command for softkey.
+    EPslnCmdAppActivate,
+    // Skin activation from preview command for softkey.
+    EPslnCmdAppPreviewActivate,
+    // Download command for softkey.
+    EPslnCmdAppDownload,
+    // Activate screensaver command for softkey.
+    EPslnCmdAppSetScreenSaver,
+    // Help command for softkey.
+    EPslnCmdAppHelp,
+    // Launch settings for screensaver command for softkey.
+    EPslnCmdAppSettings,
+    // Open command for softkey.
+    EPslnCmdAppOpen,
+    // Preview screensaver command for softkey.
+    EPslnCmdPreviewScreenSaver,
+    // Activate selected wallpaper.
+    EPslnCmdAppSetWallpaper,
+    // Reconfigures active screensaver.
+    EPslnCmdAppChangeScreenSaver,
+    // No command defined.
+    EPslnCmdEmptyCommand,
+    // Reconfigure active wallpaper.
+    EPslnCmdAppChangeWallpaper,
+    // Open cascade menu.
+    EPslnCmdTransitionEffectsSubMenuOpen,
+    // Activate Transition Effects.
+    EPslnCmdTransitionEffectsActivate,
+    // Deactivate Transition Effects.
+    EPslnCmdTransitionEffectsDeactivate,
+    // Configure wallpaper slide set.
+    EPslnCmdWallpaperConfigure,
+    // Open cascade menu.
+    EPslnCmdAnimBackgroundSubMenuOpen,
+    // Activate Anim Background.
+    EPslnCmdAnimBackgroundActivate,
+    // Deactivate Anim Background.
+    EPslnCmdAnimBackgroundDeactivate
+    };
+
+enum TPslnNotes
+    {
+    // Id for Psln wait note. 
+    EPslnGeneralWaitNote = 1
+    };
+
+enum TPslnSoftKeys
+    {
+    // Id for Activate softkey.
+    EPslnSoftkeyActivate = 1
+    };
+
+#endif // PSLN_HRH
+
+// End of File

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -33,7 +33,7 @@
 #include <aknnotecontrol.h>
 #include <aknlayoutscalable_avkon.cdl.h>
 
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include <avkondomainpskeys.h> // KPSUidAvkonDomain, KAknKeyguardStatus, TAknKeyguardStatus
 #include <startupdomainpskeys.h> // KStartupSecurityCodeQueryStatus
 #include <coreapplicationuisdomainpskeys.h> // KCoreAppUIsAutolockStatus
@@ -42,6 +42,7 @@
 #include <aknglobalpopupprioritycontroller.h>
 #include "GlobalWindowPriorities.h"
 #include <keylockpolicyapi.h>
+#include <ScreensaverInternalPSKeys.h>
 
 #include <PSVariables.h>   // Property values
 #include <coreapplicationuisdomainpskeys.h>
@@ -49,7 +50,7 @@
 #include <ctsydomainpskeys.h>
 #include <bafindf.h>
 #include "AknNotifyPlugin.hrh"
-
+#include "akntrace.h"
 
 
 #ifdef _DEBUG
@@ -88,9 +89,429 @@ _LIT( KRESOURCEFILE, "\\resource\\aknnotpi.rsc" );
 _LIT_SECURITY_POLICY_C1( KWritePolicy, ECapabilityWriteDeviceData );
 
 
+/**
+ *  CAknKeylockScreenSaverObserver captures primary keys
+ *  from screensaver when screen saver is active.
+ *
+ *  @lib   aknoldstylenotif.lib
+ *  @since 3.2
+ */
+NONSHARABLE_CLASS( CAknKeylockScreenSaverObserver ): public CActive
+    {
+public:
+
+    /**
+    * Creates instance of the CAknKeylockScreenSaverObserver class.
+    *
+    * @param aWindowGroup application window group used to capture primary keys
+    * @return Returns the instance just created.
+    */
+    static CAknKeylockScreenSaverObserver* NewL( RWindowGroup& aWindowGroup );
+
+    /**
+    * Destructor.
+    */
+    ~CAknKeylockScreenSaverObserver();
+
+public:
+
+    /**
+    * Starts asynchronic listening KUidCurrentCall event
+    *
+    * @return KErrNone: if no errors
+    * @return KErrInUse: if already listening
+    */
+    TInt Start();
+
+    /**
+    * Stops asynchronic listening KUidAutolockStatus event
+    */
+    void Stop();
+
+public:
+
+    /**
+     *  Method handles the lock state changes.
+     *
+     * @param aStatus The new lock state
+     */
+    void SetLockStatus( TBool aKeylockEnabled, TBool aAutolockEnabled );
+
+private: // constructors
+
+    /**
+    * C++ default constructor.
+    *
+    * @param aAppUi (pointer to autolock appui)
+    */
+    CAknKeylockScreenSaverObserver( RWindowGroup& aWindowGroup );
+
+    /**
+    * Symbian OS constructor.
+    */
+    void ConstructL();
+
+private: // from CActive
+
+    /** @see CActive::RunL() */
+    void RunL();
+
+    /** @see CActive::DoCancel() */
+    void DoCancel();
+
+private:
+
+    /**
+    * Used to capture primary keys defined in keylocking policies
+    */
+    void CapturePrimaryKeys( TBool aCapture );
+
+private: // data
+
+    // screen saver on property
+    RProperty  iScreenSaverActiveProperty;
+
+    // if screensaver is active or not
+    TBool iScreenSaverActive;
+
+    // if primary keys have been captured
+    TBool iCaptured;
+
+    // locking states
+    TBool iKeylockEnabled;
+    TBool iAutolockEnabled;
+
+    // left softkey capture
+    TInt iLeftSoftKey;
+
+    // a reference to application window group
+    RWindowGroup& iWindowGroup;
+
+    // keylockpolicy support (not owned)
+    CKeyLockPolicyApi* iUnlockPolicyApi;
+
+    // keylockpolicy support (not owned)
+    CKeyLockPolicyApi* iDevicelockPolicyApi;
+
+    // primary key captures
+    RArray<TUint> iPrimaryKeyCaptures;
+    };
+
+// ===========================================================================
+// class CAknKeylockScreenSaverObserver
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Constructs a new entry with given values.
+// ---------------------------------------------------------------------------
+//
+CAknKeylockScreenSaverObserver* CAknKeylockScreenSaverObserver::NewL(
+    RWindowGroup& aWindowGroup )
+    {
+    CAknKeylockScreenSaverObserver* self =
+        new (ELeave) CAknKeylockScreenSaverObserver( aWindowGroup );
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    return self;
+    }
 
 
+// ---------------------------------------------------------------------------
+// Destructor
+// ---------------------------------------------------------------------------
+//
+CAknKeylockScreenSaverObserver::~CAknKeylockScreenSaverObserver()
+    {
+    Cancel();
 
+    // Close the property handle.
+    iScreenSaverActiveProperty.Close();
+
+    // Release key captures.
+    CapturePrimaryKeys( EFalse );
+
+    // Delete policies.
+    delete iUnlockPolicyApi;
+    delete iDevicelockPolicyApi;
+    }
+
+
+// ---------------------------------------------------------------------------
+// Starts listening to the KScreenSaverOn event.
+// ---------------------------------------------------------------------------
+//
+TInt CAknKeylockScreenSaverObserver::Start()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    if ( IsActive() )
+        {
+        return KErrInUse;
+        }
+    iStatus = KRequestPending;
+    iScreenSaverActiveProperty.Subscribe( iStatus );
+    SetActive();
+    
+    _AKNTRACE_FUNC_EXIT;
+    
+    return KErrNone;
+    }
+
+
+// ---------------------------------------------------------------------------
+// Stops listening to the KScreenSaverOn event.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::Stop()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    if ( !IsActive() )
+        {
+        return;
+        }
+    Cancel();
+    iScreenSaverActiveProperty.Cancel();
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// C++ constructor
+// ---------------------------------------------------------------------------
+//
+CAknKeylockScreenSaverObserver::CAknKeylockScreenSaverObserver(
+    RWindowGroup& aWindowGroup )
+    : CActive( 0 ),
+      iScreenSaverActive( EFalse ),
+      iCaptured( EFalse ),
+      iKeylockEnabled( EFalse ),
+      iAutolockEnabled( EFalse ),
+      iLeftSoftKey( NULL ),
+      iWindowGroup( aWindowGroup )
+    {
+    }
+
+
+// ---------------------------------------------------------------------------
+// Second phase constructor.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::ConstructL()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    // Add this active object to the scheduler.
+    CActiveScheduler::Add( this );
+    User::LeaveIfError( iScreenSaverActiveProperty.Attach( KPSUidScreenSaver,
+                                                           KScreenSaverOn ) );
+
+    // We need policies to poll primary keys.
+    iUnlockPolicyApi = CKeyLockPolicyApi::NewL( EPolicyDeactivateKeyguard );
+    if ( !iUnlockPolicyApi->HasConfiguration() )
+        {
+        delete iUnlockPolicyApi;
+        iUnlockPolicyApi = NULL;
+        }
+
+    // we need policies to poll primary keys
+    iDevicelockPolicyApi = CKeyLockPolicyApi::NewL( EPolicyDevicelockQuery );
+    if ( !iDevicelockPolicyApi->HasConfiguration() )
+        {
+        delete iDevicelockPolicyApi;
+        iDevicelockPolicyApi = NULL;
+        }
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// From base class CActive.
+// Handles change in the screen saver state.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::RunL()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    if ( iKeylockEnabled || iAutolockEnabled )
+        {
+        // Resubscribe before processing new value to prevent missing updates.
+        Start();
+        }
+
+    TInt screenSaverState;
+    iScreenSaverActiveProperty.Get( screenSaverState );
+    // Primary keys are captured from screensaver when screensaver
+    // is the top most application.
+    if ( screenSaverState > NULL )
+        {
+         __ASSERT_DEBUG( !iCaptured,
+                         Panic( EAknPanicKeyLockObserverAlreadyExists ) );
+        iScreenSaverActive = ETrue;
+        CapturePrimaryKeys( ETrue );
+        }
+    else
+        {
+        // If screensaver is disabled, stop capturing primary key events.
+        if ( iScreenSaverActive )
+            {
+            CapturePrimaryKeys( EFalse );
+            }
+        iScreenSaverActive = EFalse;
+        }
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// Set the lock status.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::SetLockStatus( TBool aKeylockEnabled,
+                                                    TBool aAutolockEnabled )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    iKeylockEnabled  = aKeylockEnabled;
+    iAutolockEnabled = aAutolockEnabled;
+
+    if ( iKeylockEnabled || iAutolockEnabled )
+        {
+        // Start observing screensaver activation.
+        Start();
+        }
+    else
+        {
+        if ( iScreenSaverActive )
+            {
+            CapturePrimaryKeys( EFalse );
+            }
+        // Screensaver is only observed when keylock is enabled.
+        Stop();
+        }
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// Capture or uncapture primary keys.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::CapturePrimaryKeys( TBool aCapture )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    if ( aCapture )
+        {
+        if ( iScreenSaverActive && !iCaptured )
+            {
+            if ( iKeylockEnabled && !iAutolockEnabled )
+                {
+                iCaptured = ETrue;
+                // If no unlocking policy has been defined,
+                // the default primary key is the left soft key.
+                if ( !iUnlockPolicyApi )
+                    {
+                    // Capture LSK (starts unlock prosess, capturing
+                    // bypasses screensaver)
+                    iLeftSoftKey = iWindowGroup.CaptureKey( EKeyDevice0, 0, 0 );
+                    }
+                else
+                    {
+                    iPrimaryKeyCaptures.Reset();
+                    TUint32 index( 0 );
+                    TUint32 primaryKey( 0 );
+                    TUint32 secondaryKey( 0 );
+                    while ( iUnlockPolicyApi->GetKeyCombination( index,
+                                                                 primaryKey,
+                                                                 secondaryKey ) == KErrNone )
+                        {
+                        if (KErrNone != iPrimaryKeyCaptures.Append(iWindowGroup.CaptureKeyUpAndDowns(primaryKey, 0, 0)))
+                            {
+                            return;
+                            }
+                        index++;
+                        }
+                    }
+                }
+            else
+                {
+                if ( iKeylockEnabled && iAutolockEnabled )
+                    {
+                    iCaptured = ETrue;
+                    // If no devicelock query policy has been defined,
+                    // the default primary key is the left soft key.
+                    if ( !iDevicelockPolicyApi )
+                        {
+                        // Capture LSK (starts unlock prosess,
+                        // capturing bypasses screensaver).
+                        iLeftSoftKey = iWindowGroup.CaptureKey( EKeyDevice0, 0, 0 );
+                        }
+                    else
+                        {
+                        iPrimaryKeyCaptures.Reset();
+                        TUint32 index( 0 );
+                        TUint32 primaryKey( 0 );
+                        TUint32 secondaryKey( 0 );
+                        while ( iDevicelockPolicyApi->GetKeyCombination( index, primaryKey, secondaryKey ) == KErrNone )
+                            {
+                            if (KErrNone != iPrimaryKeyCaptures.Append(iWindowGroup.CaptureKeyUpAndDowns(primaryKey, 0, 0)))
+                                {
+                                return;
+                                }
+                            index++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    else
+        {
+        if (iCaptured)
+            {
+            if (iLeftSoftKey > 0)
+                {
+                iWindowGroup.CancelCaptureKey(iLeftSoftKey); 
+                }
+            iLeftSoftKey = 0;
+            
+            if (iPrimaryKeyCaptures.Count() > 0)
+                {
+                for (TInt x = 0; x < iPrimaryKeyCaptures.Count(); x++)
+                    {
+                    iWindowGroup.CancelCaptureKeyUpAndDowns(iPrimaryKeyCaptures[x]);
+                    }
+                iPrimaryKeyCaptures.Reset();
+                }
+            
+            iCaptured = EFalse;
+            }
+        }
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// From base class CActive.
+// Cancels event listening.
+// ---------------------------------------------------------------------------
+//
+void CAknKeylockScreenSaverObserver::DoCancel()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    iScreenSaverActiveProperty.Cancel();
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
 
 
 // ===========================================================================
@@ -117,11 +538,16 @@ CAknLockedNote::CAknLockedNote( TInt& aLocked,
 //
 TBool CAknLockedNote::OkToExitL( TInt aCommand )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     iLocked = EFalse;
     if ( iCommandObserver )
         {
         iCommandObserver->ProcessCommandL( aCommand );
         }
+    
+    _AKNTRACE_FUNC_EXIT;
+    
     return ETrue;
     }
 
@@ -143,12 +569,16 @@ CAknLockedNote::~CAknLockedNote()
 //
 void CAknLockedNote::CancelNote()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( iTimer )
         {
         iTimer->Cancel();
         }
     ExitSleepingDialog();
     iLocked = EFalse;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -159,10 +589,14 @@ void CAknLockedNote::CancelNote()
 //
 void CAknLockedNote::FocusChanged( TDrawNow /*aDrawNow*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( !IsFocused() && iCommandObserver )
         {
         TRAP_IGNORE( iCommandObserver->ProcessCommandL( KNoteCmdFocusLost ) )
         }
+  
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -243,9 +677,14 @@ void CAknSleepingNote::ConstructSleepingNoteL( TInt aResourceId )
 //
 TInt CAknSleepingNote::ShowNote( const TInt aTimeout, const TTone aTone )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TRAP_IGNORE(AknGlobalPopupPriorityController::SetPopupPriorityL( *this, KGlobalWindowPriority_KeyLock ));
     iTimeoutInMicroseconds = aTimeout;
     iTone = aTone;
+    
+    _AKNTRACE_FUNC_EXIT;
+    
     return RouseSleepingDialog();
     }
 
@@ -257,10 +696,15 @@ TInt CAknSleepingNote::ShowNote( const TInt aTimeout, const TTone aTone )
 //
 TBool CAknSleepingNote::OkToExitL( TInt aCommand )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( iCommandObserver )
         {
         iCommandObserver->ProcessCommandL( aCommand );
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return ETrue;
     }
 
@@ -272,6 +716,8 @@ TBool CAknSleepingNote::OkToExitL( TInt aCommand )
 //
 void CAknSleepingNote::HandleResourceChange( TInt aType )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( aType == KAknsMessageSkinChange )
         {
         TInt animationRes( 0 );
@@ -325,6 +771,8 @@ void CAknSleepingNote::HandleResourceChange( TInt aType )
         }
 
     CAknNoteDialog::HandleResourceChange( aType );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -417,6 +865,8 @@ CAknEcsNote::CAknEcsNote( MEikCommandObserver* aCommandObserver ) :
 //
 void CAknEcsNote::SetEmergencyNumber( const TDesC& aMatchedNumber )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TRect mainPane;
     AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EPopupParent,
                                        mainPane );
@@ -480,6 +930,8 @@ void CAknEcsNote::SetEmergencyNumber( const TDesC& aMatchedNumber )
 
     number.Append( aMatchedNumber );
     TRAP_IGNORE( SetTextL( number ) );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -489,12 +941,16 @@ void CAknEcsNote::SetEmergencyNumber( const TDesC& aMatchedNumber )
 //
 void CAknEcsNote::SleepNote()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( iNoteOnScreen )
         {
         // Causes flicker to other notes if called when note is not on screen.
         ExitSleepingDialog();
         }
     iNoteOnScreen = EFalse;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -521,7 +977,11 @@ CAknKeyLockControl::CAknKeyLockControl() :
 CAknKeyLockControl::CAknKeyLockControl( CAknKeyLockNotifierSubject* aNotif ) :
     iNotif( aNotif )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     AKNTASHOOK_ADD( this, "CAknKeyLockControl" );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -531,6 +991,8 @@ CAknKeyLockControl::CAknKeyLockControl( CAknKeyLockNotifierSubject* aNotif ) :
 //
 CAknKeyLockControl::~CAknKeyLockControl()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     AKNTASHOOK_REMOVE();
     // We implicitely trust that Eikon env exists
     // (though in practice it does not make the
@@ -555,6 +1017,9 @@ CAknKeyLockControl::~CAknKeyLockControl()
     delete iOfferLockNote;
     delete iEcsNote; // Ecs change
     delete iKeylockApi;
+    delete iKeylockScreenSaverObserver;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -564,7 +1029,7 @@ CAknKeyLockControl::~CAknKeyLockControl()
 //
 void CAknKeyLockControl::ConstructL()
     {
-    TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::ConstructL ")); )
+    _AKNTRACE_FUNC_ENTER;
 
     FeatureManager::InitializeLibL();
     iFeatureKeypadNoSlider =
@@ -601,8 +1066,7 @@ void CAknKeyLockControl::ConstructL()
 
     TBool touchEnabled( AknLayoutUtils::PenEnabled() );
 
-	TBool hasSlider(iHardwareSupport != EKeyguardDefaultHardware);
-
+    TBool hasSlider = HasSliderKey();
     iKeyLockCba = CEikButtonGroupContainer::NewL(
                     CEikButtonGroupContainer::ECba,
                     CEikButtonGroupContainer::EHorizontal,
@@ -719,6 +1183,9 @@ void CAknKeyLockControl::ConstructL()
         iKeylockApi = NULL;
         }
 
+    iKeylockScreenSaverObserver =
+        CAknKeylockScreenSaverObserver::NewL( groupWin );
+
     // Define P&S key that is used to publish the keyguard status.
     RProperty::Define( KPSUidAvkonDomain,
                        KAknKeyguardStatus,
@@ -728,6 +1195,8 @@ void CAknKeyLockControl::ConstructL()
 
     iStatusProperty.Attach( KPSUidAvkonDomain, KAknKeyguardStatus );
     iStatusProperty.Set( EKeyguardNotActive );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -735,17 +1204,20 @@ void CAknKeyLockControl::ConstructL()
 // Enable key lock.
 // ---------------------------------------------------------------------------
 //
-void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
+void CAknKeyLockControl::EnableKeylock( TBool aShowNote, TBool aNotifySysApp )
     {
-    TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock %d"), aShowNote); )
-
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aShowNote:%d",aShowNote);
+    _AKNTRACE("aNotifySysApp:%d",aNotifySysApp);
+    
     // Policy can be used to disable support for keyguard.
     if ( !iAutolockEnabled && !CKeyLockPolicyApi::KeyguardAllowed() )
         {
         // Keylock Disabled
         return;
         }
-
+    // Keylock Enabled
+    iKeylockScreenSaverObserver->SetLockStatus( ETrue, iAutolockEnabled );
     if ( iOfferLockEnabled )
         {
         iOfferLockNote->CancelNote();
@@ -756,12 +1228,12 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
                                             EKeyguardLocked );
     iKeyLockEnabled = ETrue;
 
-    if ( !iAutolockEnabled )
+    if ( !iAutolockEnabled && aNotifySysApp )
         {
         SendMessageToSysAp( EEikKeyLockEnabled );
         }
-
-    if ( !AknLayoutUtils::PenEnabled() || iHardwareSupport == EKeyguardDefaultHardware)
+    TBool hasSliderKey = HasSliderKey();
+    if ( !AknLayoutUtils::PenEnabled() || !hasSliderKey)
         {
         iKeyLockCba->MakeVisible( ETrue );
         }
@@ -793,7 +1265,7 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
         DisplayLockedNote();
         }
 
-    if ( !AknLayoutUtils::PenEnabled() || iHardwareSupport == EKeyguardDefaultHardware)
+    if ( !AknLayoutUtils::PenEnabled() || !hasSliderKey)
         {
         ShowKeylockCba();
         }
@@ -811,23 +1283,23 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
             }
         }
 
-		// in case Telephone-app is topmost, then the user is confused because he sees but can't use it.
-		// therefore it's required to hide it, by sending to background. ETMA-7M8A2Y 20090105
-		if ( AknLayoutUtils::PenEnabled() )
-       	{ 		
-	   			TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
-	   			#define KPhoneAppUid TUid::Uid(0x100058B3)
+        // in case Telephone-app is topmost, then the user is confused because he sees but can't use it.
+        // therefore it's required to hide it, by sending to background. ETMA-7M8A2Y 20090105
+        if ( AknLayoutUtils::PenEnabled() )
+            {
+            TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
+            #define KPhoneAppUid TUid::Uid(0x100058B3)
 
-     			TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
-     			if (apaTask.Exists())
-         	{
-				 		#if defined(_DEBUG)
-				 			RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock() Bring phone to background"));
-				 		#endif
-         		// Bring phone to background
-         		apaTask.SendToBackground();
-         	}
-				}
+            TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
+            if (apaTask.Exists())
+                {
+                #if defined(_DEBUG)
+                RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::EnableKeylock() Bring phone to background"));
+                #endif
+                // Bring phone to background
+                apaTask.SendToBackground();
+                }
+            }
 
     // Start capturing system keys.
     CaptureSystemKeys();
@@ -862,6 +1334,8 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
     // leave, but we trap it in just in case.
     TRAP_IGNORE( static_cast<CAknCapAppServerAppUi*>( iEikonEnv->EikAppUi() )->HandleResourceChangeL(
             KAknInternalFSWClose ); );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -869,10 +1343,13 @@ void CAknKeyLockControl::EnableKeylock( TBool aShowNote )
 // Disable key lock.
 // ---------------------------------------------------------------------------
 //
-void CAknKeyLockControl::DisableKeylock()
+void CAknKeyLockControl::DisableKeylock(TBool aNotifySysApp)
     {
-    TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::DisableKeylock")); )
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aShowNote:%d",aNotifySysApp);
 
+    // Keep locking status in sync.
+    iKeylockScreenSaverObserver->SetLockStatus( EFalse, iAutolockEnabled );
     if ( iSoundsMuted )
         {
         CAknAppUiBase* appUi= iAvkonAppUiBase;
@@ -902,40 +1379,42 @@ void CAknKeyLockControl::DisableKeylock()
     iStatusProperty.Set( EKeyguardNotActive );
     iKeyLockEnabled = EFalse;
 
-    if ( !iAutolockEnabled )	// only when Autolock was user-activated
+    if ( !iAutolockEnabled )    // only when Autolock was user-activated
         {
-		    // in case Telephone-app was topmost and sent to background, then the user is confused because he expects to see it again.
-				// therefore it's required to show it, by sending to foreground. 
-				if ( AknLayoutUtils::PenEnabled() )
-		     	{ 		
-    	    TInt callState;
-    	    RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, callState );
-    	    #if defined(_DEBUG)
-						RDebug::Printf( "%s %s (%u) callState=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, callState );
-						RDebug::Printf( "%s %s (%u) EPSCTsyCallStateNone=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, EPSCTsyCallStateNone );
-					#endif
-          if (callState != EPSCTsyCallStateNone )
-              {
-                	
-				   			TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
-				   			#define KPhoneAppUid TUid::Uid(0x100058B3)
-				
-				   			TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
-				   			if (apaTask.Exists())
-				       	{
-									RDebug::Printf( "%s %s (%u) foreground=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, 1 );
-							 		#if defined(_DEBUG)
-							 			RDebug::Print(_L("(AUTOLOCK)CAknKeyLockControl::EnableKeylock() Send phone to foreground"));
-							 		#endif
-				       		// Bring phone to foreground
-				       		apaTask.BringToForeground();
-				       	}
-		       		}
-					}	// PenEnabled()
-
-        SendMessageToSysAp( EEikKeyLockDisabled );
+        // in case Telephone-app was topmost and sent to background, then the user is confused because he expects to see it again.
+        // therefore it's required to show it, by sending to foreground. 
+        if ( AknLayoutUtils::PenEnabled() )
+            {       
+            TInt callState;
+            RProperty::Get( KPSUidCtsyCallInformation, KCTsyCallState, callState );
+            #if defined(_DEBUG)
+            RDebug::Printf( "%s %s (%u) callState=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, callState );
+            RDebug::Printf( "%s %s (%u) EPSCTsyCallStateNone=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, EPSCTsyCallStateNone );
+            #endif
+            if (callState != EPSCTsyCallStateNone )
+                {
+                TApaTaskList apaTaskList(CCoeEnv::Static()->WsSession());
+                #define KPhoneAppUid TUid::Uid(0x100058B3)
+                TApaTask apaTask = apaTaskList.FindApp(KPhoneAppUid);
+                if (apaTask.Exists())
+                    {
+                    RDebug::Printf( "%s %s (%u) foreground=%x", __FILE__, __PRETTY_FUNCTION__, __LINE__, 1 );
+                    #if defined(_DEBUG)
+                    RDebug::Print(_L("(AUTOLOCK)CAknKeyLockControl::EnableKeylock() Send phone to foreground"));
+                    #endif
+                    // Bring phone to foreground
+                    apaTask.BringToForeground();
+                    }
+                }
+            }   // PenEnabled()
         }
-    if ( iNotif )
+
+	if (aNotifySysApp)
+		{
+		SendMessageToSysAp( EEikKeyLockDisabled );
+		}
+
+	if ( iNotif )
         {
         iNotif->NotifyStatusChange( EKeyLockDisabled );
         }
@@ -945,6 +1424,8 @@ void CAknKeyLockControl::DisableKeylock()
         iEikonEnv->EikAppUi() )->SuppressAppSwitching( EFalse );
 
     iAutolockEnabled = EFalse;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -954,6 +1435,8 @@ void CAknKeyLockControl::DisableKeylock()
 //
 void CAknKeyLockControl::SendMessageToSysAp( TInt aMessage )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RWsSession& ws = iEikonEnv->WsSession();
     TInt wgId = 0;
     CApaWindowGroupName::FindByAppUid( KSysApUid, ws, wgId );
@@ -964,6 +1447,8 @@ void CAknKeyLockControl::SendMessageToSysAp( TInt aMessage )
         event.SetTimeNow();
         ws.SendEventToWindowGroup( wgId, event );
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -973,9 +1458,13 @@ void CAknKeyLockControl::SendMessageToSysAp( TInt aMessage )
 //
 void CAknKeyLockControl::OfferKeylock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     iOfferLockNote->ShowNote( (CAknNoteDialog::TTimeout)KAknOfferKeyLockTimeout,
                               CAknNoteDialog::ENoTone );
     iOfferLockEnabled = ETrue;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -987,8 +1476,6 @@ void CAknKeyLockControl::DisplayLockedNote()
     {
     if ( !iAutolockEnabled )
         {
-        iKeypadLockedNote->ShowNote( KKeyLockCustomShortTimeout,
-                                     CAknNoteDialog::ENoTone );
         }
     }
 
@@ -1001,8 +1488,6 @@ void CAknKeyLockControl::DisplayKeyActiveNote()
     {
     if ( !iAutolockEnabled )
         {
-        iKeypadUnlockedNote->ShowNote( KKeyLockCustomShortTimeout,
-                                       CAknNoteDialog::ENoTone );
         }
     }
 
@@ -1013,8 +1498,12 @@ void CAknKeyLockControl::DisplayKeyActiveNote()
 //
 void CAknKeyLockControl::DoUnlock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     DisableKeylock();
     DisplayKeyActiveNote();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1025,6 +1514,9 @@ void CAknKeyLockControl::DoUnlock()
 //
 void CAknKeyLockControl::HandleResourceChange( TInt aType )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aType:%d",aType);
+
     if ( aType == KEikDynamicLayoutVariantSwitch )
         {
         TRect screenRect;
@@ -1047,6 +1539,8 @@ void CAknKeyLockControl::HandleResourceChange( TInt aType )
                 }
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1057,7 +1551,8 @@ void CAknKeyLockControl::HandleResourceChange( TInt aType )
 //
 void CAknKeyLockControl::ProcessCommandL( TInt aCommandId )
     {
-    TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::ProcessCommandL %d"), aCommandId); )
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE("aCommandId:%d",aCommandId);
 
     switch ( aCommandId )
         {
@@ -1118,6 +1613,8 @@ void CAknKeyLockControl::ProcessCommandL( TInt aCommandId )
             break;
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1163,8 +1660,8 @@ CCoeControl* CAknKeyLockControl::ComponentControl( TInt /*aIndex*/ ) const
 //
 void CAknKeyLockControl::LeftSoftKeyPressed()
     {
-    TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::LeftSoftKeyPressed")); )
-
+    _AKNTRACE_FUNC_ENTER; 
+    
     // Check that the confirmation note exists, as it's not created on
     // startup if touch layout is in use. In emulator this might cause
     // a problem, as layout can be changed to a non-touch one, and
@@ -1187,6 +1684,8 @@ void CAknKeyLockControl::LeftSoftKeyPressed()
         SendMessageToSysAp( EEikKeyLockLightsOnRequest );
         iUnlockConfirmation = ETrue;
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1198,15 +1697,17 @@ void CAknKeyLockControl::LeftSoftKeyPressed()
 TKeyResponse CAknKeyLockControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                                                  TEventCode aType )
     {
+    _AKNTRACE_FUNC_ENTER; 
+    
     if ( AknLayoutUtils::PenEnabled() )
         {
-        TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: PenEnabled"));)
+        _AKNTRACE("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: PenEnabled");
         if ( iAutolockEnabled )
             { // The case when touch device is locked and so must be unlocked by hold switch.
-            TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: Autolock Enabled"));)
+            _AKNTRACE("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: Autolock Enabled");
             if ( aType == EEventKey && aKeyEvent.iCode == EKeyDeviceF )
                 {
-                TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: SysAp message"));)
+                _AKNTRACE("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: SysAp message");
                 SendMessageToSysAp( EEikKeyLockLightsOnRequest );
                 if ( iAutolockEnabled && !iKeylockApi )
                     {
@@ -1222,7 +1723,7 @@ TKeyResponse CAknKeyLockControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                         autolocktask.SendKey( keyEvent );
                         }
                     }
-                TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::OfferKeyEventL: return EKeyWasConsumed"));)
+                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
             }
@@ -1427,7 +1928,7 @@ TKeyResponse CAknKeyLockControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
             ShowLockedNote();
             }
         }
-
+    _AKNTRACE_FUNC_EXIT;
     return EKeyWasConsumed;
     }
 
@@ -1438,10 +1939,14 @@ TKeyResponse CAknKeyLockControl::OfferKeyEventL( const TKeyEvent& aKeyEvent,
 //
 void CAknKeyLockControl::ShowLockedNote()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( !iLockedNoteDisplayed )
         {
         DoShowLockedNote();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1453,9 +1958,6 @@ void CAknKeyLockControl::DoShowLockedNote()
     {
     if ( !iAutolockEnabled )
         {
-        iLockedNote->ShowNote( KKeyLockDisplayLockedTimeout,
-                               CAknNoteDialog::ENoTone );
-        iLockedNoteDisplayed = ETrue;
         }
     }
 
@@ -1466,11 +1968,15 @@ void CAknKeyLockControl::DoShowLockedNote()
 //
 void CAknKeyLockControl::ShowKeylockCba()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     RDrawableWindow* cbaWindow =
         iKeyLockCba->ButtonGroup()->AsControl()->DrawableWindow();
     cbaWindow->SetFaded( EFalse, RWindowTreeNode::EFadeWindowOnly );
     cbaWindow->SetOrdinalPosition( 0, 1 );
     cbaWindow->SetNonFading( ETrue );
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1480,6 +1986,8 @@ void CAknKeyLockControl::ShowKeylockCba()
 //
 void CAknKeyLockControl::CaptureSystemKeys()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( !iKeysCaptured )
         {
         RWindowGroup& groupWin = iCoeEnv->RootWin();
@@ -1507,15 +2015,17 @@ void CAknKeyLockControl::CaptureSystemKeys()
 
         if ( AknLayoutUtils::PenEnabled() )
             {
-            TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::CaptureSystemKeys PenEnabled"));)
+             _AKNTRACE("(KeyGuard)CAknKeyLockControl::CaptureSystemKeys PenEnabled");
             if ( iAutolockEnabled )
                 { //Capture Hold Switch
-                TRACES( RDebug::Print(_L("(KeyGuard)CAknKeyLockControl::CaptureSystemKeys iAutolockEnabled"));)
+             _AKNTRACE("(KeyGuard)CAknKeyLockControl::CaptureSystemKeys iAutolockEnabled");
                 iHoldSwitch = groupWin.CaptureKey( EKeyDeviceF, 0, 0 );
                 }
             }
         iKeysCaptured = ETrue;
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1525,6 +2035,8 @@ void CAknKeyLockControl::CaptureSystemKeys()
 //
 void CAknKeyLockControl::UnCaptureSystemKeys()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( iKeysCaptured )
         {
         RWindowGroup& groupWin = iCoeEnv->RootWin();
@@ -1545,6 +2057,8 @@ void CAknKeyLockControl::UnCaptureSystemKeys()
 
         iKeysCaptured = EFalse;
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1556,6 +2070,8 @@ void CAknKeyLockControl::UnCaptureSystemKeys()
 void CAknKeyLockControl::HandleEcsEvent( CAknEcsDetector* aEcsDetector,
                                          CAknEcsDetector::TState aState )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     switch ( aState )
         {
         case CAknEcsDetector::ECompleteMatchThenSendKey:
@@ -1564,6 +2080,7 @@ void CAknKeyLockControl::HandleEcsEvent( CAknEcsDetector* aEcsDetector,
             break;
             }
         case CAknEcsDetector::ECompleteMatch:
+        case CAknEcsDetector::EServiceNumMatch:
             {
             iEcsNote->SetEmergencyNumber( aEcsDetector->CurrentMatch() );
             iEcsNote->ShowNote( CAknNoteDialog::ENoTimeout,
@@ -1599,6 +2116,8 @@ void CAknKeyLockControl::HandleEcsEvent( CAknEcsDetector* aEcsDetector,
             break;
             }
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1608,7 +2127,11 @@ void CAknKeyLockControl::HandleEcsEvent( CAknEcsDetector* aEcsDetector,
 //
 void CAknKeyLockControl::DoExitOfferKeylock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     iOfferLockNote->CancelNote();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1618,7 +2141,11 @@ void CAknKeyLockControl::DoExitOfferKeylock()
 //
 void CAknKeyLockControl::OfferTimerExpired()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     DoExitOfferKeylock();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1628,7 +2155,11 @@ void CAknKeyLockControl::OfferTimerExpired()
 //
 void CAknKeyLockControl::AutolockEnabled( TBool aAutoLockOn )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     iAutolockEnabled = aAutoLockOn;
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1656,11 +2187,15 @@ void CAknKeyLockControl::ShowLockPhoneQueryL()
 //
 void CAknKeyLockControl::CapturePointerEvents()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( AknLayoutUtils::PenEnabled() )
         {
         Window().SetPointerCapture( RWindowBase::TCaptureDragDrop );
         Window().ClaimPointerGrab( ETrue );
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1670,11 +2205,31 @@ void CAknKeyLockControl::CapturePointerEvents()
 //
 void CAknKeyLockControl::UnCapturePointerEvents()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( AknLayoutUtils::PenEnabled() )
         {
         Window().SetPointerCapture( RWindowBase::TCaptureDisabled );
         Window().ClaimPointerGrab( EFalse );
         }
+    
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+TBool CAknKeyLockControl::HasSliderKey()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    TBool hasSlider(iHardwareSupport != EKeyguardDefaultHardware);
+    if( FeatureManager::FeatureSupported( KFeatureIdFfPowerKeyAsKeyguard ) )
+        {
+        hasSlider = ETrue;  // the only purpose is to display empty sotkeys
+        }
+    
+    _AKNTRACE( "hasSlider:%d",hasSlider);
+    _AKNTRACE_FUNC_EXIT;
+    
+    return hasSlider;
     }
 
 
@@ -1788,6 +2343,8 @@ CAknKeyLockNotifierSubject::TNotifierInfo CAknKeyLockNotifierSubject::Info() con
 //
 TPtrC8 CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer )
     {
+    _AKNTRACE_FUNC_ENTER; 
+    
     SAknNotifierPackage<SAknKeyLockNotifierParams>* params =
         ( SAknNotifierPackage<SAknKeyLockNotifierParams>*)aBuffer.Ptr();
 
@@ -1798,6 +2355,8 @@ TPtrC8 CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer )
         User::Leave( KErrArgument );
         }
 
+    _AKNTRACE( "params->iParamData.iReason:%d",params->iParamData.iReason);
+        
     switch ( params->iParamData.iReason )
         {
         case ELockEnabled:
@@ -1823,6 +2382,8 @@ TPtrC8 CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer )
             }
         }
 
+    _AKNTRACE_FUNC_EXIT;
+    
     return iRetPckg;
     }
 
@@ -1836,6 +2397,8 @@ void CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer,
                                          TInt /*aReplySlot*/,
                                          const RMessagePtr2& aMessage )
     {
+    _AKNTRACE_FUNC_ENTER; 
+    
     SAknNotifierPackage<SAknKeyLockNotifierParams>* params =
         ( SAknNotifierPackage<SAknKeyLockNotifierParams>*)aBuffer.Ptr();
 
@@ -1846,6 +2409,8 @@ void CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer,
         User::Leave( KErrArgument );
         }
 
+    _AKNTRACE( "params->iParamData.iReason:%d",params->iParamData.iReason);
+    
     switch ( params->iParamData.iReason )
         {
         case ELockEnabled:
@@ -1929,6 +2494,8 @@ void CAknKeyLockNotifierSubject::StartL( const TDesC8& aBuffer,
             }
         };
 
+    _AKNTRACE_FUNC_EXIT;
+    
     aMessage.Complete( KErrNone );
     }
 
@@ -1983,10 +2550,14 @@ TBool CAknKeyLockNotifierSubject::AllowNotifications()
 //
 void CAknKeyLockNotifierSubject::UnlockKeys()
     {
+    _AKNTRACE_FUNC_ENTER; 
+    
     if ( IsKeyLockEnabled() )
         {
         iKeyLockControl->DisableKeylock();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -1997,17 +2568,22 @@ void CAknKeyLockNotifierSubject::UnlockKeys()
 //
 void CAknKeyLockNotifierSubject::LockKeys( TBool aAutoLockOn )
     {
+    _AKNTRACE_FUNC_ENTER; 
+    _AKNTRACE( "aAutoLockOn:%d",aAutoLockOn);
+    
     // We'll have to disable keylock if we are changing autolock status.
     if ( IsKeyLockEnabled() && aAutoLockOn != iKeyLockControl->iAutolockEnabled )
         {
-        iKeyLockControl->DisableKeylock();
+        iKeyLockControl->DisableKeylock(EFalse);
         }
 
     if ( !IsKeyLockEnabled() )
         {
         iKeyLockControl->AutolockEnabled( aAutoLockOn );
-        iKeyLockControl->EnableKeylock();
+        iKeyLockControl->EnableKeylock(ETrue, EFalse);
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2018,6 +2594,8 @@ void CAknKeyLockNotifierSubject::LockKeys( TBool aAutoLockOn )
 //
 void CAknKeyLockNotifierSubject::AddObserverL( MAknKeyLockObserver* aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
 #if defined(_DEBUG)
     TInt count = iObserverList->Count();
     for ( TInt index = 0; index < count; index++ )
@@ -2032,6 +2610,8 @@ void CAknKeyLockNotifierSubject::AddObserverL( MAknKeyLockObserver* aObserver )
 
     // Make sure that the observer isn't obscuring the keylock CBA
     ShowKeylockCba();
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2042,6 +2622,8 @@ void CAknKeyLockNotifierSubject::AddObserverL( MAknKeyLockObserver* aObserver )
 //
 void CAknKeyLockNotifierSubject::RemoveObserver( MAknKeyLockObserver* aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     TInt count = iObserverList->Count();
     for ( TInt index = 0; index < count; index++ )
         {
@@ -2054,6 +2636,8 @@ void CAknKeyLockNotifierSubject::RemoveObserver( MAknKeyLockObserver* aObserver 
 #if defined(_DEBUG)
     Panic( EAknPanicKeyLockObserverNotFound );
 #endif
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2063,11 +2647,16 @@ void CAknKeyLockNotifierSubject::RemoveObserver( MAknKeyLockObserver* aObserver 
 //
 void CAknKeyLockNotifierSubject::NotifyStatusChange( TKeyLockStatus aStatus )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "aStatus:%d",aStatus);
+    
     TInt count = iObserverList->Count();
     for ( TInt index = count - 1; index >= 0; index-- )
         {
         ((*iObserverList)[index])->KeyLockStatusChange( aStatus );
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2077,10 +2666,14 @@ void CAknKeyLockNotifierSubject::NotifyStatusChange( TKeyLockStatus aStatus )
 //
 void CAknKeyLockNotifierSubject::ShowKeylockCba()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( IsKeyLockEnabled() )
         {
         iKeyLockControl->ShowKeylockCba();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2090,10 +2683,14 @@ void CAknKeyLockNotifierSubject::ShowKeylockCba()
 //
 void CAknKeyLockNotifierSubject::DoEnableKeyLock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( !IsKeyLockEnabled() )
         {
         iKeyLockControl->EnableKeylock();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2103,6 +2700,8 @@ void CAknKeyLockNotifierSubject::DoEnableKeyLock()
 //
 void CAknKeyLockNotifierSubject::DoDisableKeyLock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( IsKeyLockEnabled() )
         {
         iKeyLockControl->DisableKeylock();
@@ -2114,6 +2713,8 @@ void CAknKeyLockNotifierSubject::DoDisableKeyLock()
         // Remove the offer key lock CBA.
         iKeyLockControl->OfferTimerExpired();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -2123,9 +2724,13 @@ void CAknKeyLockNotifierSubject::DoDisableKeyLock()
 //
 void CAknKeyLockNotifierSubject::DoOfferKeyLock()
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     if ( !IsKeyLockEnabled() )
         {
         NotifyStatusChange( EKeyLockOffered );
         iKeyLockControl->OfferKeylock();
         }
+    
+    _AKNTRACE_FUNC_EXIT;
     }

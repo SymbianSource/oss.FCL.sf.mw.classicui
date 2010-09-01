@@ -82,10 +82,6 @@ USERINCLUDE   ../../inc
 USERINCLUDE   ../../../inc
 USERINCLUDE   . ../inc ../LibLoad/inc
 
-/* notifier removal workaround */
-USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
-USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
-
 SYSTEMINCLUDE   /epoc32/include/ecom //youdk : now leave this line unchange, since it will cause build break. We should remove this line after web fixed the header reloc error.
 
 // This is a SYSTEMINCLUDE macro containing the middleware
@@ -100,26 +96,31 @@ LIBRARY         bafl.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         eikdlg.lib
-LIBRARY         ServiceHandler.lib
-LIBRARY         cdlengine.lib
+LIBRARY         servicehandler.lib
+LIBRARY         CdlEngine.lib
 LIBRARY         ecom.lib
 LIBRARY         CommonEngine.lib        // For class Stringloader, etc.
 LIBRARY         apgrfx.lib              // For class RApaLsSession, class TApaTask
-LIBRARY         FeatMgr.lib             // For class FeatureManager
+LIBRARY         featmgr.lib             // For class FeatureManager
+#ifdef __SERIES60_MMC
+LIBRARY         commondialogs.lib
+#endif
 
 // FindUI
 LIBRARY         etext.lib               // For class CPlainText, class TCharFormat
 LIBRARY         form.lib                // For class CTextLayout
 LIBRARY         eikctl.lib              // For class CRichText
+LIBRARY         favouritesengine.lib    // For class CFavouritesItem, etc.
+LIBRARY         sendui.lib              // For class CSendUi, class CMessageData
 #ifndef RD_VIRTUAL_PHONEBOOK
-LIBRARY         PbkView.lib             // For class RPbkViewResourceFile, class CPbkDataSaveAppUi
-LIBRARY         PbkEng.lib              // For class CPbkContactEngine, class CPbkFieldInfo
+LIBRARY         pbkview.lib             // For class RPbkViewResourceFile, class CPbkDataSaveAppUi
+LIBRARY         pbkeng.lib              // For class CPbkContactEngine, class CPbkFieldInfo
 #endif // !RD_VIRTUAL_PHONEBOOK
-LIBRARY         CentralRepository.lib   // For class CRepository
-LIBRARY         CenRepNotifHandler.lib  // For CRepository things
+LIBRARY         centralrepository.lib   // For class CRepository
+LIBRARY         cenrepnotifhandler.lib  // For CRepository things
 #ifdef __VOIP
 #ifndef RD_VOIP_REL_2_2
-LIBRARY         RCSE.lib
+LIBRARY         rcse.lib
 #else // RD_VOIP_REL_2_2
 LIBRARY         serviceprovidersettings.lib
 #endif // !RD_VOIP_REL_2_2
@@ -130,14 +131,14 @@ LIBRARY         hlplch.lib              // for "Help" options menu
 LIBRARY         efsrv.lib               // For file handling operations
 LIBRARY         apparc.lib              // For Application lauching
 LIBRARY         apmime.lib              // For mime type handling (class TDataType)
-LIBRARY         SysUtil.lib             // For checking the filesystem space
+LIBRARY         sysutil.lib             // For checking the filesystem space
 LIBRARY         estor.lib               // For class RDesReadStream in GameHandler
-LIBRARY         PlatformEnv.lib         // For finding correct paths for files (class PathInfo)
+LIBRARY         platformenv.lib         // For finding correct paths for files (class PathInfo)
 #ifdef RD_CONTENTNOTIFICATION
 LIBRARY         contentnotification.lib // For notifying Media Gallery about new content.
 #endif
-LIBRARY         SWInstCli.lib           // For Application installer launching
-LIBRARY         CharConv.lib            // For class CCnvCharacterSetConverter
+LIBRARY         swinstcli.lib           // For Application installer launching
+LIBRARY         charconv.lib            // For class CCnvCharacterSetConverter
 #ifdef __DRM
 LIBRARY         DRMCommon.lib
 LIBRARY         DcfRep.lib
@@ -149,7 +150,7 @@ MACRO ENABLE_DRM
 LIBRARY         aknnotify.lib           // For Global note (class CAknGlobalNote)
 LIBRARY         aknskins.lib            // Skins support
 
-LIBRARY         EGUL.LIB
+LIBRARY         egul.lib
 
 #ifdef __KEEP_DRM_CONTENT_ON_PHONE
 LIBRARY         distributablechecker.lib    // generic API for determining if content is protected
@@ -157,7 +158,11 @@ LIBRARY         distributablechecker.lib    // generic API for determining if co
 
 LIBRARY         aiwdialdata.lib
 
+#ifdef RD_MULTIPLE_DRIVE 
+LIBRARY         rsfwmountman.lib
+#endif
 
 LIBRARY         AknLayout2Scalable.lib
+LIBRARY         touchfeedback.lib
 
 // End of file.

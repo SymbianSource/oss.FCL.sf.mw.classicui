@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2005-2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ECOM plugin resource file for PslnGSPlugin.
+*
+*/
+
+#include <ecom/registryinfo.rh>
+
+RESOURCE REGISTRY_INFO theInfo
+    {
+    dll_uid     = 0x102818EC;
+    interfaces  =
+        {
+        INTERFACE_INFO
+            {
+            interface_uid   = 0x10207236;
+            implementations =
+                {
+                IMPLEMENTATION_INFO
+                    {
+                    implementation_uid  = 0x102818ED;
+                    version_no          = 1;
+                    display_name        = "Themes plugin";
+                    default_data        = "0x1020723B"; // Parent UID
+#ifdef RD_CONTROL_PANEL
+                    opaque_data         = "8"; // Order number
+#else
+                    opaque_data         = "3"; // Order number
+#endif // RD_CONTROL_PANEL
+                    }
+                };
+            }
+        };
+    }
+

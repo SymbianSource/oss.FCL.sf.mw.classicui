@@ -78,6 +78,9 @@
 //UID for the USB MEM indicator plugin
 #define KImplUIDUSBMEMIndicatorsPlugin              0x20026FC4
 
+//UID for the IIM indicator plugin
+#define KImplUIDIIMIndicatorPlugin                  0x2002BC7F
+
 #endif // AVKON_INDICATOR_PLUGIN_IMPL_UIDS_HRH
 
 // End of file

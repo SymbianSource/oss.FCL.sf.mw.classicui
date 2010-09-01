@@ -32,6 +32,10 @@
 
 #include "aknresourceprovider.h"
 
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+#include <gfxtranseffect/gfxtranseffect.h>
+#include <akntransitionutils.h>
+#endif
 const TInt KNoItemSelected = -1; 
 const TUint32 KToolbarExtensionBgColor = 0x00000000;
 const TInt KToolBarExtensionBgAlpha = 0x7F;
@@ -70,6 +74,16 @@ CAknToolbarExtensionView* CAknToolbarExtensionView::NewL( TResourceReader& aRead
 //
 CAknToolbarExtensionView::~CAknToolbarExtensionView()
     {
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+    if ( IsVisible() )
+        {
+        CAknControl::MakeVisible( EFalse );
+        }
+    if ( GfxTransEffect::IsRegistered( this ) )
+        {
+        GfxTransEffect::Deregister( this );
+        }
+#endif
     SetFocus( EFalse );
     CEikonEnv::Static()->EikAppUi()->RemoveFromStack( this );
     if ( iSelectedItem >= 0 && iSelectedItem < iItems.Count() ) 
@@ -156,6 +170,10 @@ void CAknToolbarExtensionView::ConstructFromResourceL( TResourceReader& aReader 
         iItems[i]->Control()->ActivateL(); 
         }
     SetComponentsToInheritVisibility( ETrue );
+    
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+    GfxTransEffect::Register( this, KGfxTransEffectToolbarExtensionControlUid);
+#endif
     }
 
 // ---------------------------------------------------------------------------
@@ -169,13 +187,7 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
 
     if ( aVisible && !isVisible )
         {
-            // the toolbar extension is shown, this happens only with pointer event? 
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-                {
-                feedback->InstantFeedback( ETouchFeedbackPopUp );
-                }
-
+        // the toolbar extension is shown, this happens only with pointer event? 
         TRect rect; 
         TRAP_IGNORE( rect = CalculateSizeL() ); 
         CEikonEnv::Static()->EikAppUi()->UpdateStackedControlFlags( this, 
@@ -184,9 +196,23 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
         
         // Calling this here, so that iVisibleItems array has been updated and
         // all items visible in extension get call makevisible
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+        if ( !GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknControl::MakeVisible( aVisible );
+            }            
+#else
         CAknControl::MakeVisible( aVisible );
+#endif 
         SetRect( rect );     
         DrawableWindow()->SetOrdinalPosition( 0, ECoeWinPriorityNormal );    
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS       
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EAppearInvisible );
+            }
+#endif
         TBool floating = !IsNonFocusing(); 
         for ( TInt i = 0; i < iItems.Count(); i++ )
             {
@@ -227,16 +253,61 @@ void CAknToolbarExtensionView::MakeVisible( TBool aVisible )
                 }
             iPreviousItem = KNoItemSelected;
             }
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS        
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::SetAllParents( this );
+            GfxTransEffect::NotifyExternalState( EInternalHandleSequence, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::Begin( this, KGfxControlAppearAction );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsBegin, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::SetDemarcation( this, rect );
+            CAknControl::MakeVisible( ETrue );
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EAppearVisible );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsEnd, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::End( this );
+            }
+        else
+            {
         DrawNow(); 
+            }
+#else
+        DrawNow();
+#endif 
         }
     else if ( !aVisible && isVisible )
         {
         CEikonEnv::Static()->EikAppUi()->UpdateStackedControlFlags( this, 
             ~0, ECoeStackFlagRefusesFocus | ECoeStackFlagRefusesAllKeys );
         CEikonEnv::Static()->EikAppUi()->HandleStackChanged();
-        CAknControl::MakeVisible( aVisible );
         TRAP_IGNORE( SelectItemL( iSelectedItem, EFalse ) ); 
-        DrawableWindow()->SetOrdinalPosition( 0, ECoeWinPriorityNeverAtFront );
+        DrawableWindow()->SetOrdinalPosition( 0, 
+                ECoeWinPriorityNeverAtFront );
+#ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
+        if ( GfxTransEffect::IsRegistered( this ) )
+            {
+            CAknTransitionUtils::SetAllParents( this );
+            GfxTransEffect::Begin( this, KGfxControlDisappearAction );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsBegin, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::SetDemarcation( this, Rect() );
+            CAknControl::MakeVisible( EFalse );
+            CAknTransitionUtils::MakeVisibleSubComponents( this,
+                                    CAknTransitionUtils::EForceInvisible );
+            GfxTransEffect::NotifyExternalState( ECaptureComponentsEnd, 
+                    ( const TDesC8* )this );
+            GfxTransEffect::End( this );
+            }
+        else
+            {
+            CAknControl::MakeVisible( EFalse );
+            }
+#else
+        CAknControl::MakeVisible( EFalse );
+#endif 
         }
     else 
         {
@@ -264,10 +335,10 @@ TKeyResponse CAknToolbarExtensionView::OfferKeyEventL(
         {
         if( IsVisible()&& ( aKeyEvent.iCode == EKeyDevice0 ||
                             aKeyEvent.iCode == EKeyDevice1 ))
-        	{
-			iExtension->SetShown(EFalse);
-		    return EKeyWasConsumed;	
-        	}
+            {
+            iExtension->SetShown(EFalse);
+            return EKeyWasConsumed; 
+            }
         return EKeyWasNotConsumed;
         }
     // When this is visible and without focus, nothing to do 
@@ -416,12 +487,23 @@ void CAknToolbarExtensionView::HandleResourceChange( TInt aType )
                         *button, EColorControlBackground, KRgbWhite ) );
                     TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( 
                         *button, EColorButtonText, KRgbBlack ) );
+                    }               
+                else 
+                    {
+                    //Reset the pressed down text color when get the skin change message and 
+                    // KAknTbExtensionDsaMode isn't used.
+                    TRgb pressDownColor;
+                    if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), 
+                            pressDownColor, KAknsIIDQsnTextColors, 
+                            EAknsCIQsnTextColorsCG11 ) == KErrNone )
+                        {
+                        TRAP_IGNORE( AknLayoutUtils::OverrideControlColorL( *button, 
+                                    EColorButtonTextPressed, pressDownColor ) );                        
+                        }               
                     }
                 }
             }
         }
-
-
 
     // Remember to check here if iSelectedItem still is in iVisibleItems, and if 
     // not then do something. 
@@ -456,13 +538,15 @@ void CAknToolbarExtensionView::HandlePointerEventL(
         if ( !Rect().Contains( aPointerEvent.iPosition) && iIsDownOutside )
             {
             // tapped outside view, 
-            MTouchFeedback* feedback = MTouchFeedback::Instance();
-            if ( feedback )
-                {
-                feedback->InstantFeedback( ETouchFeedbackPopUp );
+            MakeVisible( EFalse ); 
+
+          	MTouchFeedback* feedback = MTouchFeedback::Instance();
+	        if ( feedback )
+				{
+        		feedback->InstantFeedback( this, ETouchFeedbackPopUp,
+                                   		   ETouchFeedbackVibra, aPointerEvent );
                 }
 
-            MakeVisible( EFalse ); 
             // Close extension view and let also extension know about it
             // so it can change state
             iExtension->ViewClosed(); 
@@ -545,7 +629,7 @@ void CAknToolbarExtensionView::HandlePointerEventL(
                         // focus has moved from one button to another due to dragging, 
                         // give sensitive feedback
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
-                        if ( feedback && 
+                        if ( feedback && !button->IsDimmed() &&
                         ( aPointerEvent.iType == TPointerEvent::EDrag ||
                           aPointerEvent.iType == TPointerEvent::EButtonRepeat ) )
                             {
@@ -569,12 +653,14 @@ void CAknToolbarExtensionView::HandlePointerEventL(
                     {
                     // Up and down events are in different items, give basic
                     // feedback to the released item.
-                    if ( ii != iDownItem )
+                    if ( ii != iDownItem && !button->IsDimmed() )
                         {
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( ETouchFeedbackBasicButton );
+                            feedback->InstantFeedback(
+                                    this, ETouchFeedbackBasicButton,
+                                    ETouchFeedbackVibra, aPointerEvent );
                             }
                         }
                 
@@ -705,14 +791,40 @@ void CAknToolbarExtensionView::AdjustButtonL( CAknButton& aButton )
         cell_tb_ext_pane_t1( useOutline ? 0 : 1 ).LayoutLine().FontId() );
 
     aButton.SetTextFont( font ); 
-    aButton.SetTextColorIds( KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG60 );
-
+    aButton.SetTextColorIds( KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG20 );
+    
+    
+    //Using CAknButton default frame if KAknTbExtensionTransparent 
+    //and KAknTbExtensionDsaMode are not defined.
+    if ( !( iExtension->ExtensionFlags() & KAknTbExtensionTransparent  ||
+            iExtension->ExtensionFlags() & KAknTbExtensionDsaMode ) ) 
+        {
+        aButton.SetFrameAndCenterIds(
+                KAknsIIDQsnFrButtonNormal, KAknsIIDQsnFrButtonCenterNormal,
+                KAknsIIDQsnFrButtonPressed, KAknsIIDQsnFrButtonCenterPressed,
+                KAknsIIDQsnFrButtonInactive, KAknsIIDQsnFrButtonCenterInactive, 
+                KAknsIIDQsnFrGrid, KAknsIIDQsnFrGridCenter,
+                KAknsIIDQsnFrButtonInactive, KAknsIIDQsnFrButtonCenterInactive );
+        }
+    
     if ( iExtension->ExtensionFlags() & KAknTbExtensionDsaMode )
         {
         AknLayoutUtils::OverrideControlColorL( aButton, 
             EColorControlBackground, KRgbWhite );
         AknLayoutUtils::OverrideControlColorL( aButton, 
             EColorButtonText, KRgbBlack );
+        }
+    else
+        {
+        //Reset the pressed down text color when get the skin change message and 
+        // KAknTbExtensionDsaMode isn't used.
+        TRgb pressDownColor;
+        if ( AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), pressDownColor, 
+                KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG11 ) == KErrNone )
+            {
+            AknLayoutUtils::OverrideControlColorL( aButton, 
+                    EColorButtonTextPressed, pressDownColor );        
+            }
         }
     }
 
@@ -761,17 +873,19 @@ void CAknToolbarExtensionView::Draw( const TRect& aRect ) const
     MAknsSkinInstance* skin = AknsUtils::SkinInstance();
     if ( iExtension->ExtensionFlags() & KAknTbExtensionDsaMode )
         {
+        TSize cornerSize(20,20);
         gc.SetDrawMode( CGraphicsContext::EDrawModeWriteAlpha );
         gc.SetBrushColor( TRgb( KToolbarExtensionBgColor, KToolBarExtensionBgAlpha ) );
         gc.SetBrushStyle( CGraphicsContext::ESolidBrush );
-        gc.DrawRect( rect );
+        gc.DrawRoundRect( rect, cornerSize );
+
         gc.SetDrawMode( CGraphicsContext::EDrawModePEN );
         TSize penSize( 1, 1 );
         gc.SetPenSize( penSize );
-        gc.SetPenStyle( CGraphicsContext::EDottedPen );
-        gc.SetPenColor( KRgbWhite );
+        gc.SetPenStyle( CGraphicsContext::ESolidPen );
+        gc.SetPenColor( KRgbDarkGray );
         gc.SetBrushStyle( CGraphicsContext::ENullBrush );
-        gc.DrawRect( rect );
+        gc.DrawRoundRect( rect, cornerSize );
         }
     else
         {
@@ -941,20 +1055,12 @@ TRect CAknToolbarExtensionView::CalculateSizeL()
     TInt extensionWidth = CalculateControlPositions( 
         windowRect, gridExtRect, cellExtRect );
     
+    //In some cases, extension height is more larger than grid rect. 
+    //And for they are only used to define the margin size, width is more exact than height.
     TSize viewSize( extensionWidth + ( extensionRect.Width() - gridExtRect.Width() ),
-        ( extensionRect.Height() - gridExtRect.Height() ) + iNumberOfRows * 
+        ( extensionRect.Width() - gridExtRect.Width() ) + iNumberOfRows * 
         buttonSize.iHeight ); 
     
-    //reset the height in portrait mode
-    if ( !landscape )
-        {
-        //In some cases, extension rect is more larger than grid rect. 
-        //And for they are only used to define the margin size, width is more exact than height.
-        viewSize = TSize( extensionWidth + ( extensionRect.Width() - gridExtRect.Width() ),
-            ( extensionRect.Width() - gridExtRect.Width() ) + iNumberOfRows * 
-            buttonSize.iHeight ); 
-        }
-
     TInt variety = GetVariety( iNumberOfRows - 1, landscape );
 
      // To get the correct y-coordinate
@@ -964,15 +1070,8 @@ TRect CAknToolbarExtensionView::CalculateSizeL()
          
     if( landscape && !floating )
         {
-
-        TRect extButtonRect( iExtension->Rect() );
-
         // Calculate new y coordinate according to button middle point
-        TInt newY = 
-            ( extButtonRect.iTl.iY + ( extButtonRect.Height() / 2 ) )
-             - viewSize.iHeight / 2 
-             + mainPaneRect.iTl.iY;
-             
+        TInt newY = ( mainPaneRect.Height() - viewSize.iHeight ) / 2 + mainPaneRect.iTl.iY;            
         // Check that rect with new y fits to extension view area
         if( newY < extensionRect.iTl.iY ) // Top
             {
@@ -1606,3 +1705,5 @@ void CAknToolbarExtensionView::HideItemL( TInt aCommandId, TBool aHide )
         item->SetHidden( aHide ); 
         }
     }
+
+//end file

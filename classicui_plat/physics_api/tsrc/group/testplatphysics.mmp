@@ -40,7 +40,7 @@ SOURCE          testplatphysicsblocksaknphysics.cpp
 SOURCE          testplatphysicscontrol.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         aknphysics.lib
 LIBRARY         eikcoctl.lib

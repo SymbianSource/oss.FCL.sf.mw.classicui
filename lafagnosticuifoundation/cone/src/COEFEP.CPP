@@ -18,7 +18,7 @@
 #include <e32std.h>
 #include <e32base.h>
 #include <coemain.h>
-#include "CoeDataStorage.h"
+#include "coedatastorage.h"
 #include "coepanic.h"
 #include <centralrepository.h>
 #include "coedefkeys.h"

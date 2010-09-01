@@ -108,7 +108,13 @@ void CFindUtilChinese::ConstructL()
                                             
     iWatcherAdaptive = CFindRepositoryWatcher::NewL(KCRUidAvkon,
                                             TCallBack(HandleFindRepositoryCallBack, this),
-                                            iRepositoryFindAdaptive);                                        
+                                            iRepositoryFindAdaptive); 
+    iEikEnv = CEikonEnv::Static();
+    if (iEikEnv)
+        {
+        TUid appUid(iEikEnv->EikAppUi()->Application()->AppDllUid());
+        iIsPhoneBook = (appUid== KUidPhoneBook || appUid == KUidPhoneBookServer);
+        }
     }
 
 // ---------------------------------------------------------
@@ -122,7 +128,9 @@ CFindUtilChinese::CFindUtilChinese():
     iSearchMethodPRC(EAdptSearchPinyin),
     iSearchMethodTaiWan(EAdptSearchZhuyin),
     iSearchMethodHongKong(EAdptSearchStroke),
-    iSearchMethodAdaptive(EFalse)
+    iSearchMethodAdaptive(EFalse),    
+    iEikEnv(NULL),
+    iIsPhoneBook(EFalse)
     {
     }
 
@@ -179,10 +187,9 @@ void CFindUtilChinese::CloseT9InterfaceL()
 TBool CFindUtilChinese::DoTranslationL(TInt16 aHZUnicode,  
                                        RPointerArray<HBufC>& aSpellList)
     {
-    if(CEikonEnv::Static())
+    if(iEikEnv)
         {
-        if (iSearchMethodAdaptive &&(CEikonEnv::Static()->EikAppUi()->Application()->AppDllUid() == KUidPhoneBook ||
-                CEikonEnv::Static()->EikAppUi()->Application()->AppDllUid() == KUidPhoneBookServer ))
+        if (iSearchMethodAdaptive && iIsPhoneBook)
                 {
                 if (!T9ChineseTranslationAdaptiveL(aHZUnicode, aSpellList))
                     {
@@ -318,14 +325,17 @@ TBool CFindUtilChinese::T9ChineseTranslationL(TInt16 aHZUnicode,
 	    {
 	    if (wordInterpretationBuf[i] == KSeperator) 
 	        {
-	        aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	        HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	        aSpellList.AppendL(tmpStr);
+	        CleanupStack::Pop(tmpStr);
 	        start = i + 1;
 	        }
 	    }
-	        
-	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());   	
 
-    
+	HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+	aSpellList.AppendL(tmpStr);
+    CleanupStack::Pop(tmpStr);
+
     return ETrue;
 	}
 
@@ -458,12 +468,16 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+	            CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-	        
-	    aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());   	
+
+	    HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+	    aSpellList.AppendL(tmpStr);   	
+        CleanupStack::Pop(tmpStr);
 	    }
     //Could look advanced cangjie as normal and easy cangjie
     else 
@@ -475,14 +489,17 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+                CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-        
-    	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc()); 
-    	 
-    	
+
+	    HBufC16* tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+    	aSpellList.AppendL(tmpStr); 
+        CleanupStack::Pop(tmpStr);
+
     	iPtiEngine->GetSpelling(aHZUnicode, wordInterpretationBuf, EPtiCangJie);
 	    len = wordInterpretationBuf.Length();
         start = 0;
@@ -490,12 +507,16 @@ TBool CFindUtilChinese::T9ChineseTranslationAdaptiveL(TInt16 aHZUnicode,
 	        {
 	        if (wordInterpretationBuf[i] == KSeperator) 
 	            {
-	            aSpellList.Append((wordInterpretationBuf.MidTPtr(start, i-start)).Alloc());
+	            tmpStr = (wordInterpretationBuf.MidTPtr(start, i-start)).AllocLC();
+	            aSpellList.AppendL(tmpStr);
+                CleanupStack::Pop(tmpStr);
 	            start = i + 1;
 	            }
 	        }
-        
-    	aSpellList.Append((wordInterpretationBuf.MidTPtr(start, len-start)).Alloc());  
+
+	    tmpStr = (wordInterpretationBuf.MidTPtr(start, len-start)).AllocLC();
+    	aSpellList.AppendL(tmpStr);
+        CleanupStack::Pop(tmpStr);
 	    }
     
     return ETrue;
@@ -854,7 +875,7 @@ TBool CFindUtilChinese::MatchRefineL( const TDesC& aItemString, const TDesC &aSe
         haschineseword = ETrue;
         ret = IncludeString(aItemString, tempBuf);
         
-        if (ret || ChineseWord( tempBuf ))
+        if (ret)
             {
             return ret;
             }
@@ -884,45 +905,50 @@ TBool CFindUtilChinese::MatchRefineL( const TDesC& aItemString, const TDesC &aSe
     if (haschineseword)
         {
         TInt ii=0;
-        TBuf<KMaxWordLength> tmpBuf;
-        tmpBuf.Zero();
-        
-        ////translate the whole searchstring to spelllist
+        TBool leftDifferentChinese = EFalse; 
+		//this is used for fixing for the issue of search string including Chinese characters
         while (ii< tempBuf.Length())
             {
-            
-            //if it is a valid chinese character
             if ((TInt)tempBuf[ii]>= KMinUnicodeHz && (!InputMethodStroke
                     ||(InputMethodStroke && !IsStrokeSymbol(tempBuf[ii]))))
                 {
-                
-                RPointerArray<HBufC> spellList;
-                
-                //translate the chinese charater to spellList( pinyin or stroke )
-                if( DoTranslationL(TInt16(tempBuf[ii]), spellList)
-                    && ( tmpBuf.Length() + spellList[0]->Length() < KMaxWordLength)  )
-                	{
-                    tmpBuf.Append( spellList[0]->Des() );
+                TInt Findcursor = itemString.Locate(tempBuf[ii]);
+                if (Findcursor != KErrNotFound)
+                    {
+                    if ((Findcursor == itemString.Length()-1)&& (ii
+                            ==tempBuf.Length()-1))
+                        {
+                        
+                        if ( leftDifferentChinese || IsChineseWord(
+                            itemString.Left( Findcursor ) ) )
+                            {
+                            //if the different Chinese character at the left or middle, return false.
+                            return EFalse;
+                            }
+                        
+                        return ETrue;
+                        }
+                    itemString.Delete(0, Findcursor+1);
+                    tempBuf.Delete(0, ii+1);
+                    ii=0;
                     }
+                else
+                    {
                     
-                spellList.ResetAndDestroy();
-                spellList.Close();
-                ii++;
+                    if ( IsChineseWord( tempBuf.Left( ii + 1 ) ) )
+                        {
+                        //flag the different Chinese character at the left.
+                        leftDifferentChinese = ETrue;
+                        }
+                    
+                    ii++;
+                    }
                 }
-            //if not, just append it     
             else
                 {
-                if( tmpBuf.Length() + 1 < KMaxWordLength )
-                	{
-                    tmpBuf.Append( tempBuf[ii] );
-                    }
-                    
                 ii++;
                 }
             }
-            
-            tempBuf.Zero();
-            tempBuf.Copy(tmpBuf);
         }
 
     // Array for item string
@@ -1460,32 +1486,6 @@ TBool CFindUtilChinese::IsChineseWord(const TDesC& aWord)
 
     return IsChineseSearchStr;
     }
-
-// --------------------------------------------------------
-// Find pane text is just Chinese word
-// --------------------------------------------------------
-//
-TBool CFindUtilChinese::ChineseWord(const TDesC& aWord)
-	{
-	TBool isChineseWord = ETrue;
-	const TInt len = aWord.Length();
-	
-    TBool InputMethodStroke = EFalse;
-    if(iLanguage == ELangHongKongChinese && iCurInputMode == 0x0020)
-        {
-        InputMethodStroke = ETrue;
-        }
-	
-	for( TInt i = 0; i < len; i++ )
-		{
-		if( ( ( TInt )aWord[i] < KMinUnicodeHz ) || ( InputMethodStroke && IsStrokeSymbol(aWord[i]) ) )
-			{
-			isChineseWord = EFalse;
-			break;
-			}
-		}
-	return isChineseWord;
-	}
     
 // ---------------------------------------------------------
 // Find pane text is including stroke symbol  
@@ -1919,6 +1919,10 @@ void CFindUtilChinese::AddNextIfOverlapL(const RPointerArray<STRINGINFO>& astrin
         {
         pStringInfo= astringInfoArr[aindex];
         }
+    else
+    	{
+    	return;
+    	}
     
     if (pStringInfo->isChinese)
         {
@@ -2330,9 +2334,7 @@ TBool CFindUtilChinese::IsAdaptiveFindMatchL( const TDesC& aItemString, const TD
                         {
                         //for multiphnetic spell
                         TInt spellCount = tempSpellList.Count();
-                        TInt matchMaxIndex = 0;
-                        TInt matchMax = 0;
-                        TInt matchMaxPre = 0;
+
                         // Search all spelling
                         for (TInt j = 0; j < spellCount; j++)
                             {

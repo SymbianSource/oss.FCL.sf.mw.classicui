@@ -1,0 +1,78 @@
+/*
+* Copyright (c) 2007 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  project specification file for the BCtestdompopup.
+*
+*/
+
+
+#include <platform_paths.hrh>
+
+TARGET          bctestdompopup.exe
+TARGETTYPE      exe
+UID             0x0 0xA00040A6
+
+VENDORID        0x101FB657
+CAPABILITY      NetworkServices LocalServices Location ReadUserData \
+                WriteUserData ReadDeviceData WriteDeviceData SwEvent \
+                UserEnvironment
+
+TARGETPATH      sys/bin
+
+EPOCSTACKSIZE 0x10000
+EPOCHEAPSIZE 0x10000 0x1000000
+
+START RESOURCE bctestdompopup.rss
+HEADER
+TARGETPATH resource/apps
+END  // RESOURCE
+
+LANG            01
+
+SOURCEPATH      ../Src
+SOURCE          bctestdompopupapp.cpp
+SOURCE          bctestdompopupdocument.cpp
+SOURCE          bctestdompopupappui.cpp
+SOURCE          bctestdompopupview.cpp
+SOURCE          bctestdompopupcontainer.cpp
+SOURCE          bctestdompopupcase.cpp
+SOURCE          bctestdompopupimp.cpp
+
+USERINCLUDE     ../inc
+USERINCLUDE     ../../../bctestutil/inc
+
+APP_LAYER_SYSTEMINCLUDE
+
+LIBRARY         cone.lib
+LIBRARY         estor.lib 
+LIBRARY         euser.lib
+LIBRARY         apparc.lib
+LIBRARY         eikcore.lib
+LIBRARY         eikcoctl.lib
+LIBRARY			eikdlg.lib
+LIBRARY         avkon.lib
+LIBRARY         ws32.lib
+LIBRARY         aknskins.lib
+LIBRARY         apgrfx.lib
+LIBRARY         bctestutil.lib
+LIBRARY	        efsrv.lib
+LIBRARY         egul.lib
+LIBRARY         aknnotify.lib
+
+START RESOURCE ../group/bctestdompopup_reg.rss
+DEPENDS bctestdompopup.rsg
+HEADER
+TARGETPATH /private/10003a3f/apps
+END
+
+// End of File

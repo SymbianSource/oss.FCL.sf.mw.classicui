@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -279,11 +279,18 @@ void CAknIndicator::SetIndicatorState(TInt aState)
     if ( iState == EAknIndicatorStateOn )
         {
         iAnimState = iCountOfAnimStates - 1;
+        this->MakeVisible(ETrue);
         }
     else if ( iState == EAknIndicatorStateOff )
         {
+        this->MakeVisible(EFalse);
         DeleteBitmaps();
         }
+    else if (iState == EAknIndicatorStateAnimate )
+        {
+        MakeVisible( ETrue );
+        }
+        
     SizeChanged();
     }
 
@@ -608,6 +615,13 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
             }
 
         MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+        
+        if ( iIndicatorBitmaps[layoutMode]->Count() <= 0 || !iIndicatorBitmaps[layoutMode]->At( 0 ) )
+            {
+            
+            __ASSERT_DEBUG( EFalse, User::Panic( _L("indicatorcount"),iIndicatorBitmaps[layoutMode]->Count()));
+            return;
+            }
         TSize iconSize( iIndicatorBitmaps[layoutMode]->At( 0 )->SizeInPixels() );
         TInt iconWidth  = iconSize.iWidth;
         TInt iconHeight = iconSize.iHeight;
@@ -652,8 +666,9 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
                     }
                 }
 
-            if ( iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 ) &&
-                 iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 + 1 ) )
+             if ( ( iAnimState * 2 + 1 ) < iIndicatorBitmaps[layoutMode]->Count()
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2)
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2 + 1))
                 {
                 CFbsBitmap* mask = iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 + 1 );
                 if ( iExtension && iExtension->iFader )
@@ -671,7 +686,8 @@ void CAknIndicator::Draw( const TRect& /*aRect*/ ) const
                                  mask,
                                  ETrue );
                 }
-        else if ( iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 ) )
+             else if (( iAnimState * 2 ) < iIndicatorBitmaps[layoutMode]->Count()
+                    && iIndicatorBitmaps[layoutMode]->At(iAnimState * 2) )
                 {
                 // Draw editor indicator bitmap without mask
                 CFbsBitmap* mask = iIndicatorBitmaps[layoutMode]->At( iAnimState * 2 );
@@ -843,8 +859,6 @@ void CAknIndicator::SetIndicatorValue( TInt aValue, TInt aMaxValue )
 
 void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
     {
-    TRect rect( Rect() );
-
     TInt indicatorUid = iUid;
     if (indicatorUid >= EAknNaviPaneEditorIndicatorDynamicUidRangeFirst &&
         indicatorUid <= EAknNaviPaneEditorIndicatorDynamicUidRangeLast)
@@ -855,51 +869,7 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
     TSize size(10,10); // default size (every SVG icon needs to be initialized)
     TScaleMode aspectRatio = EAspectRatioPreservedAndUnusedSpaceRemoved;
 
-    TRect navipaneRect(0,0,0,0);
-    CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-    if (statusPane)
-        {
-        CCoeControl* control = NULL;
-        TRAP_IGNORE(control = statusPane->ControlL(TUid::Uid( EEikStatusPaneUidNavi )));
-        if (control)
-            {
-            navipaneRect.SetSize( control->Size() );
-            }
-        }
-
-    // If navipane is not found, we get portrait normal navipanerect frop laf data which is usually right enough.
-    if (navipaneRect.Size() == TSize(0,0))
-        {
-        TInt battery = 0;
-        TRect statusPaneRect;
-        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EStatusPane, statusPaneRect );
-
-        if ( AknStatuspaneUtils::IdleLayoutActive() )
-            {
-            if ( ( iIndicatorContext == CAknIndicatorContainer::EQueryEditorIndicators )
-                && ( statusPaneRect.Size() == TSize(0,0) ) )
-                {
-                battery = 0;
-                }
-            else
-                {
-                battery = 1;
-                }
-            }
-
-
-        // Navi pane
-        TAknWindowComponentLayout naviPaneLayout( AknLayoutScalable_Avkon::navi_pane(battery) );
-        TAknLayoutRect naviPaneLayoutRect;
-        naviPaneLayoutRect.LayoutRect(statusPaneRect, naviPaneLayout);
-        navipaneRect.SetSize( naviPaneLayoutRect.Rect().Size() );
-        }
-
-    // Screen
-    TRect screenRect;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
-
-    switch (indicatorUid)
+    switch ( indicatorUid )
         {
         // Status pane's indicators
         case EAknIndicatorIrActive:
@@ -966,86 +936,18 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
         case EAknIndicatorUSBMemActive:
         case EAknIndicatorStopWatch:
         case EAknIndicatorMecoServiceTab:
+        case EAknIndicatorIntegratedIM:
             {
-            // Main pane
-            TRect mainPaneRect;
-            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane,
-                                               mainPaneRect );
-
-            // statuspane, usual
-            TRect usualStatusPaneRect;
-            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EStatusPane,
-                                               usualStatusPaneRect );
-
-            // status indicator pane elements
-            TRect statusIndicatorPaneElementsRect;
-            AknLayoutUtils::LayoutMetricsRect(
-                AknLayoutUtils::EIndicatorPane,
-                statusIndicatorPaneElementsRect );
-
-            // universal indicator pane (note statuspane as parent)
-            TAknLayoutRect universalIndicatorPaneLayoutRect;
-            universalIndicatorPaneLayoutRect.LayoutRect(
-                usualStatusPaneRect,
-                AknLayoutScalable_Avkon::uni_indicator_pane( 0 ) );
-            TRect universalIndicatorPaneRect(
-                universalIndicatorPaneLayoutRect.Rect() );
-
-            // universal indicator pane elements
-            TAknLayoutRect universalIndicatorPaneElementsLayoutRect;
-            universalIndicatorPaneElementsLayoutRect.LayoutRect(
-                universalIndicatorPaneRect,
-                AknLayoutScalable_Avkon::uni_indicator_pane_g1() );
-            TRect universalIndicatorPaneElementsRect(
-                universalIndicatorPaneElementsLayoutRect.Rect() );
-
-            if ( aLayoutMode == ELayoutModeUsual )
-                {
-                size = universalIndicatorPaneElementsRect.Size();
-                }
-
-            if ( aLayoutMode == ELayoutModeWide )
-                {
-                size = statusIndicatorPaneElementsRect.Size();
-                }
-
-            // Stacon special cases
-            if ( AknStatuspaneUtils::StaconPaneActive() &&
-                 !AknStatuspaneUtils::IdleLayoutActive() &&
-                 !AknStatuspaneUtils::ExtendedStaconPaneActive())
-                {
-                size = Size();
-                }
-            else if ( AknStatuspaneUtils::ExtendedStaconPaneActive() )
-                {
-                size = Size();
-                }
-
-            // Flat special cases
-            if ( AknStatuspaneUtils::FlatLayoutActive() )
-                {
-                size = Size();
-                }
 
             // Portrait extended cases
-            if ( AknStatuspaneUtils::ExtendedLayoutActive() )
+            if ( AknStatuspaneUtils::ExtendedLayoutActive() &&
+                 AknStatuspaneUtils::IdleLayoutActive() &&
+                 !AknStatuspaneUtils::HDLayoutActive() )
                 {
-                size = Size();
-                if ( AknStatuspaneUtils::IdleLayoutActive() &&
-                     !AknStatuspaneUtils::HDLayoutActive() )
-                    {
-                    aspectRatio = EAspectRatioPreserved;
-                    }
+                aspectRatio = EAspectRatioPreserved;
                 }
 
-            // In landscape idle we use vertical indicators if parent
-            // is in vertical mode, otherwise horizontal.
-            if ( AknStatuspaneUtils::IdleLayoutActive() &&
-                 Layout_Meta_Data::IsLandscapeOrientation() &&
-                 iParent->Size().iWidth < iParent->Size().iHeight )
-                {
-                size = Size();
-                }
+            size = Size();
 
             break;
             }
@@ -1145,9 +1047,41 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
         case EAknNaviPaneEditorIndicatorFnKeyLocked:
 #endif
             {
-            TAknWindowComponentLayout l1 = AknLayoutScalable_Avkon::navi_icon_pane(0);
-            TAknWindowComponentLayout l2 = AknLayoutScalable_Avkon::navi_icon_pane_g1();
-            TAknWindowComponentLayout layout = TAknWindowComponentLayout::Compose( l1, l2 );
+            TRect navipaneRect( 0, 0, 0, 0 );
+            CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
+            if ( statusPane )
+                {
+                CCoeControl* control = NULL;
+                TRAP_IGNORE(
+                    control = statusPane->ControlL(
+                        TUid::Uid( EEikStatusPaneUidNavi ) ) );
+                if ( control )
+                    {
+                    navipaneRect.SetSize( control->Size() );
+                    }
+                }
+        
+            // If navi pane is not found, we get portrait normal navi pane
+            // rect from LAF data which is usually right enough.
+            if ( navipaneRect.IsEmpty() )
+                {
+                TRect statusPaneRect;
+                AknLayoutUtils::LayoutMetricsRect(
+                    AknLayoutUtils::EStatusPane, statusPaneRect );
+
+                // Navi pane
+                TAknLayoutRect naviPaneLayoutRect;
+                naviPaneLayoutRect.LayoutRect(
+                    statusPaneRect, AknLayoutScalable_Avkon::navi_pane( 6 ) );
+                navipaneRect.SetSize( naviPaneLayoutRect.Rect().Size() );
+                }
+            
+            TAknWindowComponentLayout l1(
+                AknLayoutScalable_Avkon::navi_icon_pane( 0 ) );
+            TAknWindowComponentLayout l2(
+                AknLayoutScalable_Avkon::navi_icon_pane_g1() );
+            TAknWindowComponentLayout layout(
+                TAknWindowComponentLayout::Compose( l1, l2 ) );
 
             TAknLayoutRect layoutRect;
             layoutRect.LayoutRect( navipaneRect, layout );
@@ -1161,6 +1095,8 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
         case EAknNaviPaneEditorIndicatorWaitBar:
         case EAknNaviPaneEditorIndicatorProgressBar:
             {
+            TRect rect( Rect() );
+
             TAknLayoutRect waitPaneComponentLayoutRect;
             waitPaneComponentLayoutRect.LayoutRect(
                 rect,
@@ -1181,28 +1117,30 @@ void CAknIndicator::SetSvgIconSize( CFbsBitmap*& aBitmap, TInt aLayoutMode )
         case EAknNaviPaneEditorIndicatorWlanActive:
         case EAknNaviPaneEditorIndicatorWlanActiveSecure:
             {
-            // app window
-            TAknWindowComponentLayout applicationWindowLayout( AknLayoutScalable_Avkon::application_window(0) );
-            TAknLayoutRect applicationWindowLayoutRect;
-            applicationWindowLayoutRect.LayoutRect( screenRect, applicationWindowLayout );
-            TRect applicationWindowRect( applicationWindowLayoutRect.Rect() );
+            // Screen
+            TRect screenRect;
+            AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen,
+                                               screenRect );
 
-            // top area
-            TAknWindowComponentLayout topAreaLayout( AknLayoutScalable_Avkon::area_top_pane(1) );
+            // top area, skip the application window as it's the same
+            // size as the screen.
             TAknLayoutRect topAreaLayoutRect;
-            topAreaLayoutRect.LayoutRect( applicationWindowRect, topAreaLayout );
+            topAreaLayoutRect.LayoutRect(
+                screenRect, AknLayoutScalable_Avkon::area_top_pane( 1 ) );
             TRect topAreaRect( topAreaLayoutRect.Rect() );
 
             // small statuspane
-            TAknWindowComponentLayout smallStatusPaneLayout( AknLayoutScalable_Avkon::status_small_pane() );
             TAknLayoutRect smallStatusPaneLayoutRect;
-            smallStatusPaneLayoutRect.LayoutRect( topAreaRect, smallStatusPaneLayout );
+            smallStatusPaneLayoutRect.LayoutRect(
+                topAreaRect, AknLayoutScalable_Avkon::status_small_pane() );
             TRect smallStatusPaneRect( smallStatusPaneLayoutRect.Rect() );
 
             // icon pane
-            TAknWindowComponentLayout iconPaneLayout( AknLayoutScalable_Avkon::status_small_icon_pane() );
             TAknLayoutRect iconPaneLayoutRect;
-            iconPaneLayoutRect.LayoutRect( smallStatusPaneRect, iconPaneLayout );
+            iconPaneLayoutRect.LayoutRect(
+                smallStatusPaneRect,
+                AknLayoutScalable_Avkon::status_small_icon_pane() );
+
             TRect iconPaneRect( iconPaneLayoutRect.Rect() );
 
             size = iconPaneRect.Size();

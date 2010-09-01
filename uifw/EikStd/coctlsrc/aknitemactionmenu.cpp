@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -28,6 +28,8 @@
 #include "akncollectionobserver.h"
 #include "aknitemactionmenudata.h"
 #include "aknitemactionmenuregister.h"
+#include "akntrace.h"
+#include "aknmarkingmode.h"
 
 /**
  * Index for invalid list index.
@@ -39,10 +41,13 @@ const TInt KInvalidListIndex( -1 );
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* CAknItemActionMenu::NewL(
-        MAknCollection& aCollection )
+        MAknCollection& aCollection, MObjectProvider* aOwner )
     {
-    CAknItemActionMenu* self = CAknItemActionMenu::NewLC( aCollection );
+    _AKNTRACE_FUNC_ENTER;
+    CAknItemActionMenu* self = CAknItemActionMenu::NewLC( 
+            aCollection, aOwner );
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -51,11 +56,14 @@ CAknItemActionMenu* CAknItemActionMenu::NewL(
 // CAknItemActionMenu::NewLC
 // ---------------------------------------------------------------------------
 //
-CAknItemActionMenu* CAknItemActionMenu::NewLC( MAknCollection& aCollection )
+CAknItemActionMenu* CAknItemActionMenu::NewLC(
+        MAknCollection& aCollection, MObjectProvider* aOwner )
     {
-    CAknItemActionMenu* self = new ( ELeave ) CAknItemActionMenu();
+    _AKNTRACE_FUNC_ENTER;
+    CAknItemActionMenu* self = new ( ELeave ) CAknItemActionMenu( aOwner );
     CleanupStack::PushL( self );
     self->ConstructL( aCollection );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -66,12 +74,21 @@ CAknItemActionMenu* CAknItemActionMenu::NewLC( MAknCollection& aCollection )
 //
 CAknItemActionMenu::~CAknItemActionMenu()
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_REMOVE();
     delete iPopupMenu;
     delete iMenuPane;
     delete iMenuData;
+    delete iMarking;
     iStates.Close();
+    
+    for ( TInt i = 0; i < iObservers.Count(); ++i )
+        {
+        iObservers[i]->SetItemActionMenu( NULL );
+        }
+
     iObservers.Close();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -82,7 +99,24 @@ CAknItemActionMenu::~CAknItemActionMenu()
 EXPORT_C CAknItemActionMenu* CAknItemActionMenu::RegisterCollectionL(
         MAknCollection& aCollection )
     {
-    return AknItemActionMenuRegister::RegisterCollectionL( aCollection );
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return AknItemActionMenuRegister::RegisterCollectionL(
+            aCollection, NULL );
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::RegisterCollectionL
+// ---------------------------------------------------------------------------
+//
+EXPORT_C CAknItemActionMenu* CAknItemActionMenu::RegisterCollectionL(
+        MAknCollection& aCollection, MObjectProvider* aMenuBarOwner )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return AknItemActionMenuRegister::RegisterCollectionL( 
+            aCollection, aMenuBarOwner );
     }
 
 
@@ -93,6 +127,7 @@ EXPORT_C CAknItemActionMenu* CAknItemActionMenu::RegisterCollectionL(
 EXPORT_C void CAknItemActionMenu::RemoveCollection(
         MAknCollection& aCollection )
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iStates.Count(); i++ )
         {
         MAknCollection* state( iStates[ i ] );
@@ -103,6 +138,7 @@ EXPORT_C void CAknItemActionMenu::RemoveCollection(
             }
         }
     UnregisterMenu(); 
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -112,6 +148,7 @@ EXPORT_C void CAknItemActionMenu::RemoveCollection(
 //
 EXPORT_C TBool CAknItemActionMenu::InitMenuL()
     {
+    _AKNTRACE_FUNC_ENTER;
     iMenuData->Reset();
     if ( !iMenuBar )
         {
@@ -131,6 +168,7 @@ EXPORT_C TBool CAknItemActionMenu::InitMenuL()
         return EFalse;
         }
 
+    _AKNTRACE_FUNC_EXIT;
     return iMenuData->Count();
     }
 
@@ -143,11 +181,13 @@ EXPORT_C void CAknItemActionMenu::ShowMenuL(
         const TPoint& aPosition,
         TUint /*aFlags*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iMenuData->Count() )
         {
         if ( !iPopupMenu )
             {
-            iPopupMenu = CAknStylusPopUpMenu::NewL( this, TPoint() );
+            iPopupMenu = CAknStylusPopUpMenu::NewL( this, TPoint(), NULL,
+                    CAknStylusPopUpMenu::EConsumeKeyEvents );
             }
         iPopupMenu->Clear();
         iMenuData->AddMenuItemsToStylusPopupMenuL( iPopupMenu );
@@ -156,6 +196,7 @@ EXPORT_C void CAknItemActionMenu::ShowMenuL(
                 CAknStylusPopUpMenu::EPositionTypeRightBottom );
         iPopupMenu->ShowMenu();
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -166,12 +207,14 @@ EXPORT_C void CAknItemActionMenu::ShowMenuL(
 EXPORT_C void CAknItemActionMenu::CollectionChanged(
         MAknCollection& aCollection )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iObservers.Count() && iStates.Find( &aCollection ) != KErrNotFound )
         {
         TBool collectionVisible( aCollection.CollectionState()
                 & MAknCollection::EStateCollectionVisible );
         NotifyChangeToActiveObserver( collectionVisible );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -182,10 +225,12 @@ EXPORT_C void CAknItemActionMenu::CollectionChanged(
 void CAknItemActionMenu::AddCollectionStateL(
         MAknCollection& aCollection )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iStates.Find( &aCollection ) == KErrNotFound )
         {
         iStates.InsertL( &aCollection, 0 );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -197,8 +242,10 @@ void CAknItemActionMenu::SetMenuBar(
         MEikMenuObserver* aMenuObserver,
         CEikMenuBar* aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
     iMenuBarObserver = aMenuObserver;
     iMenuBar = aMenuBar;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -208,18 +255,23 @@ void CAknItemActionMenu::SetMenuBar(
 //
 TBool CAknItemActionMenu::CollectionHighlightVisible() const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool highlightVisible( ETrue );
     for ( TInt i = 0; i < iStates.Count(); i++ )
         {
-        MAknCollection* state( iStates[ i ] );
-        if ( state->CollectionState() &
-                MAknCollection::EStateCollectionVisible )
+        MAknCollection* collection( iStates[ i ] );
+        TUint state = collection->CollectionState();
+
+        highlightVisible = state & MAknCollection::EStateHighlightVisible;
+        
+        if ( highlightVisible )
             {
-            highlightVisible = state->CollectionState()
-                & MAknCollection::EStateHighlightVisible;
+            // Highlight can't be visible if the collection is not visible.
+            highlightVisible = state & MAknCollection::EStateCollectionVisible;
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return highlightVisible;
     }
 
@@ -231,6 +283,7 @@ TBool CAknItemActionMenu::CollectionHighlightVisible() const
 TBool CAknItemActionMenu::CollectionSoftkeyVisible(
         TBool aVisibleCollection ) const
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool softkeyVisible( ETrue );
     for ( TInt i = 0; i < iStates.Count(); i++ )
         {
@@ -251,6 +304,7 @@ TBool CAknItemActionMenu::CollectionSoftkeyVisible(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return softkeyVisible;
     }
 
@@ -261,6 +315,8 @@ TBool CAknItemActionMenu::CollectionSoftkeyVisible(
 //
 CAknItemActionMenuData& CAknItemActionMenu::MenuData()
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     return *iMenuData;
     }
 
@@ -272,11 +328,13 @@ CAknItemActionMenuData& CAknItemActionMenu::MenuData()
 void CAknItemActionMenu::RegisterCollectionObserverL(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iObservers.Find( &aObserver ) == KErrNotFound )
         {
         iObservers.InsertL( &aObserver, 0 );
         aObserver.SetItemActionMenu( this );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -287,12 +345,14 @@ void CAknItemActionMenu::RegisterCollectionObserverL(
 void CAknItemActionMenu::RemoveCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     TInt index( iObservers.Find( &aObserver ) );
     if ( index != KErrNotFound )
         {
         iObservers.Remove( index );
         UnregisterMenu(); 
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -302,7 +362,70 @@ void CAknItemActionMenu::RemoveCollectionObserver(
 //
 TInt CAknItemActionMenu::CollectionCount() const
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     return iStates.Count();
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::Owner
+// ---------------------------------------------------------------------------
+//
+ MObjectProvider* CAknItemActionMenu::Owner() const
+     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+     return iOwner;
+     }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::MarkingMode
+// ---------------------------------------------------------------------------
+//
+CAknMarkingMode& CAknItemActionMenu::MarkingMode()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return *iMarking;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::CollectionHasMarkedItems
+// ---------------------------------------------------------------------------
+//
+TBool CAknItemActionMenu::CollectionHasMarkedItems()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    TBool markedItems( EFalse );
+    for ( TInt i = 0; i < iStates.Count(); i++ )
+        {
+        TInt state( iStates[ i ]->CollectionState() );
+        if ( state & MAknCollection::EStateCollectionVisible )
+            {
+            if ( state & MAknCollection::EStateMarkedItems )
+                {
+                markedItems = ETrue;
+                }
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    return markedItems;
+    }
+
+
+// ---------------------------------------------------------------------------
+// CAknItemActionMenu::HideMenu
+// ---------------------------------------------------------------------------
+//
+void CAknItemActionMenu::HideMenu()
+    {
+    if ( iPopupMenu && !iProcessingCommand )
+        {
+        iPopupMenu->HideMenu();
+        }
     }
 
 
@@ -310,14 +433,18 @@ TInt CAknItemActionMenu::CollectionCount() const
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------
 //
-CAknItemActionMenu::CAknItemActionMenu()
+CAknItemActionMenu::CAknItemActionMenu( MObjectProvider* aOwner )
     : iPopupMenu( NULL ),
     iMenuBarObserver( NULL ),
     iMenuBar( NULL ),
     iMenuPane( NULL ),
-    iMenuData( NULL )
+    iMenuData( NULL ),
+    iOwner( aOwner ),
+    iMarking( NULL )
     {
+    _AKNTRACE_FUNC_ENTER;
     AKNTASHOOK_ADD( this, "CAknItemActionMenu" );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -327,8 +454,11 @@ CAknItemActionMenu::CAknItemActionMenu()
 //
 void CAknItemActionMenu::ConstructL( MAknCollection& aCollection )
     {
+    _AKNTRACE_FUNC_ENTER;
     AddCollectionStateL( aCollection );
     iMenuData = CAknItemActionMenuData::NewL();
+    iMarking = CAknMarkingMode::NewL( *this, iStates );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -338,6 +468,7 @@ void CAknItemActionMenu::ConstructL( MAknCollection& aCollection )
 //
 TInt CAknItemActionMenu::LaunchSubMenuQueryL( const TDesC& aHeading )
     {
+    _AKNTRACE_FUNC_ENTER;
     TInt selectedIndex( KInvalidListIndex );
     if ( iMenuData->Count() )
         {
@@ -353,6 +484,7 @@ TInt CAknItemActionMenu::LaunchSubMenuQueryL( const TDesC& aHeading )
             }
         queryDialog->RunLD();
         }
+    _AKNTRACE_FUNC_EXIT;
     return ++selectedIndex;
     }
 
@@ -364,6 +496,7 @@ TInt CAknItemActionMenu::LaunchSubMenuQueryL( const TDesC& aHeading )
 void CAknItemActionMenu::NotifyChangeToActiveObserver(
         TBool aCollectionVisible )
     {
+    _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iObservers.Count(); i++ )
         {
         MAknCollectionObserver* observer( iObservers[ i ] );
@@ -373,6 +506,7 @@ void CAknItemActionMenu::NotifyChangeToActiveObserver(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -384,6 +518,8 @@ void CAknItemActionMenu::SetEmphasis(
         CCoeControl* /*aMenuControl*/,
         TBool /*aEmphasis*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -393,6 +529,7 @@ void CAknItemActionMenu::SetEmphasis(
 //
 void CAknItemActionMenu::ProcessCommandL( TInt aCommandId )
     {
+    _AKNTRACE_FUNC_ENTER;
     MAknCollection* informState ( NULL );
     // Store collection state before sending the command
     for ( TInt i = 0; i < iStates.Count(); i++ )
@@ -413,25 +550,33 @@ void CAknItemActionMenu::ProcessCommandL( TInt aCommandId )
             {
             TMenuItemTextBuf text = iMenuData->MenuItemText( aCommandId );
             iMenuData->Reset();
-            iMenuPane->AddCascadeMenuItemsToActionMenuL(
-                    cascadeId, EFalse, *iMenuData );
+            iMenuPane->AddCascadeMenuItemsToMenuL(
+                    cascadeId, EFalse, ETrue, iMenuData );
             aCommandId = LaunchSubMenuQueryL( text );
             }
                 
-        if ( aCommandId > 0 && iMenuBarObserver )
+        if ( aCommandId > 0 && iMenuData->MenuItemCommandId( aCommandId ) 
+                == EAknCmdMarkingModeMarkOne && iMenuBar )
+            {
+            MarkingMode().MarkCurrentItemL();
+            }
+        else if ( aCommandId > 0 && iMenuBarObserver )
             {
             iProcessingCommand = ETrue; 
             iMenuBarObserver->ProcessCommandL(
                     iMenuData->MenuItemCommandId( aCommandId ) );
             iProcessingCommand = EFalse; 
+            // Try exit marking mode
+            MarkingMode().TryExitMarkingMode();
             }
         }
     // Inform collection that submenu was closed
-    if ( iStates.Find( informState ) != KErrNotFound ) 
+    if ( informState && iStates.Find( informState ) != KErrNotFound ) 
         {
         informState->ItemActionMenuClosed();
         }
     UnregisterMenu(); 
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -441,6 +586,7 @@ void CAknItemActionMenu::ProcessCommandL( TInt aCommandId )
 //
 void CAknItemActionMenu::UnregisterMenu()
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( !iProcessingCommand && !iStates.Count() && !iObservers.Count() )
         {
         delete iPopupMenu;
@@ -449,6 +595,8 @@ void CAknItemActionMenu::UnregisterMenu()
         iMenuPane = NULL;
         AknItemActionMenuRegister::UnregisterItemActionMenu( *this );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 // End of File
+

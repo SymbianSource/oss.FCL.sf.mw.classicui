@@ -32,6 +32,7 @@
 #endif
 #include "avkoninternalpskeys.h"     // KAknIdleAppWindowGroupId
 #include <AknCapServerDefs.h>
+#include <activeidle2domainpskeys.h>
 #include <eikpriv.rsg>
 #include <coedef.h>
 #include <eiksvdef.h>
@@ -73,13 +74,17 @@
     #include <akntranseffect.h> // for Transition effect enumerations
 #endif
 
+#ifdef SYMBIAN_BUILD_GCE
+    #include <alf/alfclientbase.h>
+#endif    
+
 #ifdef RD_INTELLIGENT_TEXT_INPUT
 #include <AvkonInternalCRKeys.h>
 
 #include "akncapserverdiscreetpopuphandler.h"
 
 const TUid KPtiEnginePSUid = {0x101F8610}; // Same as PtiEngine dll
-const TUid KPhoneUid = { 0x100058B3 };
+
 enum TPtiEnginePSKeys
     {
     EKeyMapPropertyCount,
@@ -102,7 +107,7 @@ const TInt KWgPriorityCoverEverything = 10000;
 const TInt KKeyEventICodeThreshold = 0x001f;
 const TInt KMaxLanguageCodeLength = 6; // 5 digits + separator
 
-                
+const TInt KRemoveBlankDelay = 200000; // 0.2s     
 
 _LIT(KEikSrvUIResFileName, "z:\\resource\\eiksrvui.rsc");
 _LIT_SECURITY_POLICY_PASS(KPassReadPolicy);
@@ -148,6 +153,7 @@ CAknCapAppServerAppUi::CAknCapAppServerAppUi( CAknCapServer* aCapServer ) : iCap
 CAknCapAppServerAppUi::~CAknCapAppServerAppUi()
     {
     delete iAlternateFS;
+    delete iTelephonyIdleUidSubscriber;
     delete iGlobalNotesAllowedSubscriber;
     
     if (iKeyCaptureControl)
@@ -166,7 +172,8 @@ CAknCapAppServerAppUi::~CAknCapAppServerAppUi()
     delete iMMCUnlock;
     delete iIdler;
     iEikSrv.Close(); // this shouldn't be connected here anyway
-    delete iPtiEngine;          
+    delete iPtiEngine;                          
+    iAlfClient.Close();	
     }
 
 _LIT(KProductSpecificHalFile, "z:\\system\\data\\ProductSpecificHalParams.txt");
@@ -224,7 +231,11 @@ TInt StartOOM(TAny* aThis)
 
     me->iEikSrv.AllowNotifierAppServersToLoad();
     me->iEikSrv.Close(); // currently there is no use to keep this session alive.
-
+    
+#ifdef SYMBIAN_BUILD_GCE
+    TRAP(err, CAlfAsynchStartup::StartL());
+#endif     
+    
     return err;
     }
 
@@ -266,6 +277,8 @@ void CAknCapAppServerAppUi::ConstructL()
     User::SetCritical(User::ESystemCritical);
 
     InitiateOFNStatus();
+    
+    iEikonEnv->SetSystem( ETrue );
 
     // install default FEP if none set before
     if (iEikonEnv->FepUid() == KNullUid)
@@ -358,10 +371,6 @@ void CAknCapAppServerAppUi::ConstructL()
     TFileName fileName(KEikSrvUIResFileName);
     BaflUtils::NearestLanguageFile(iEikonEnv->FsSession(),fileName);
     iResourceFileOffset=iCoeEnv->AddResourceFileL(fileName);
-
-    // Create FSW
-    iFSControl= new (ELeave) CAknFastSwapWindowControl(*this);
-    iFSControl->ConstructL();
     
     // MMC unlocker
     iMMCUnlock = CAknMMCPasswordRequester::NewL();
@@ -432,6 +441,16 @@ void CAknCapAppServerAppUi::ConstructL()
 
     iGlobalNotesAllowedSubscriber->Subscribe();
     
+    // Start listening "telephony idle uid" property.
+    User::LeaveIfError(iTelephonyIdleUidProperty.Attach(
+        KPSUidAiInformation, 
+        KActiveIdleUid));
+
+    iTelephonyIdleUidSubscriber = new (ELeave) CPropertySubscriber(
+        TCallBack(TelephonyIdleUidCallBack, this), 
+        iTelephonyIdleUidProperty);
+
+    iTelephonyIdleUidSubscriber->Subscribe();    
 #ifdef RD_INTELLIGENT_TEXT_INPUT
          
     TInt err1 = 0;         
@@ -466,8 +485,14 @@ void CAknCapAppServerAppUi::ConstructL()
 
     // Create capserver discreetpopuphandler     
     CAknCapServerDiscreetPopupHandler::CreateDiscreetPopupHandlerL();     
-	LoadAlternateFsPlugin();
-
+	
+    LoadAlternateFsPlugin();
+    // Create FSW
+    if ( iAlternateFS == NULL )
+        {
+        iFSControl= new (ELeave) CAknFastSwapWindowControl(*this);
+        iFSControl->ConstructL();
+        }
 	ProcessInitFlipStatus();
     }
     
@@ -561,19 +586,22 @@ void CAknCapAppServerAppUi::DoTaskListCommandL(const RMessage2& aMessage)
                     }
                 else
                     {
-                    if ( aMessage.Int0() )
-                        {
-                        TInt err = KErrNone;
-                        TRAP( err, iFSControl->InitializeWindowGroupListL( EFalse ));
-                        if ( !err )
-                            {   
-                            iFSControl->RunFastSwapL();             
+                    if ( iFSControl )
+                    	{
+                        if ( aMessage.Int0() )
+                            {
+                            TInt err = KErrNone;
+                            TRAP( err, iFSControl->InitializeWindowGroupListL( EFalse ));
+                            if ( !err )
+                                {   
+                                iFSControl->RunFastSwapL();             
+                                }
                             }
-                        }
-                    else
-                        {
-                        iFSControl->CloseFastSwap();
-                        }                        
+                        else
+                            {
+                            iFSControl->CloseFastSwap();
+                            }  
+                    	}
                     }
                 }
             aMessage.Complete(KErrNone);
@@ -584,7 +612,10 @@ void CAknCapAppServerAppUi::DoTaskListCommandL(const RMessage2& aMessage)
             TInt err = UpdateTaskListL( ETrue );
             if ( err != KErrNone )
                 {
-                iFSControl->CloseFastSwap();
+                if ( iFSControl )
+                	{
+                    iFSControl->CloseFastSwap();
+                	}
                 }
             aMessage.Complete(err);
             break;
@@ -779,11 +810,15 @@ TBool CAknCapAppServerAppUi::HandleShortAppsKeyPressL()
         iAlternateFS->HandleShortAppKeyPress();
         return ETrue;
         }
-    if (iFSControl->IsVisible())
-        {
-        iFSControl->HandleShortAppsKeyPressL();
-        return ETrue;
-        }
+    if ( iFSControl )
+    	{
+        if (iFSControl->IsVisible())
+            {
+            iFSControl->HandleShortAppsKeyPressL();
+            return ETrue;
+            }
+    	}
+    
         
     return EFalse;
     }
@@ -798,21 +833,25 @@ TBool CAknCapAppServerAppUi::HandleLongAppsKeyPressL()
             }
         else
             {
-            if (iFSControl->IsVisible())
-                {
-                iFSControl->HandleLongAppsKeyPressL();
-                }
-            else
-                {
-                if (iFSControl->VisibleWindowGroupsCountL()<1)
+            if ( iFSControl )
+            	{
+                if ( iFSControl->IsVisible())
                     {
-                    return EFalse;
+                    iFSControl->HandleLongAppsKeyPressL();
                     }
                 else
                     {
-                    iFSControl->RunFastSwapL();
+                    if (iFSControl->VisibleWindowGroupsCountL()<1)
+                        {
+                        return EFalse;
+                        }
+                    else
+                        {
+                        iFSControl->RunFastSwapL();
+                        }
                     }
-                }            
+            	}
+                        
             }
         }
     return ETrue;
@@ -834,12 +873,26 @@ void CAknCapAppServerAppUi::SetStatusPaneLayoutL(TInt aLayoutResId)
         }
     }
 
-void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
+TInt CAknCapAppServerAppUi::RemoveBlankCallBack( TAny* aThis )
+    {
+    static_cast<CAknCapAppServerAppUi*>( aThis )->DoRemoveBlank();
+    return EFalse;
+    }
+
+void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool /* aToForeground */)
     {
     if (aBlank)
         {
         if (++iBlankWinRefCount == 1)
             {
+            delete iRemoveBlankCallBack;
+            iRemoveBlankCallBack = NULL;
+
+		    // We are ignoring the foreground parameter because we only have one 
+            // type of blanking behaviour in AlfClient. Act as if ETrue
+            iAlfClient.BlankScreen(ETrue);	
+            iForegroundBlankScreen = ETrue; // always as if foreground blanking
+/*
             ASSERT(!iBlankWin);
             if (aToForeground)
                 {
@@ -851,16 +904,30 @@ void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
                 }
             iBlankWin = CAknServBlankWin::NewL(iBackdropWindowGroup, iStatusPane);
             iForegroundBlankScreen = aToForeground;
+*/
             }
         }
     else if (--iBlankWinRefCount <= 0)
         {
         iBlankWinRefCount = 0;
-        if (iForegroundBlankScreen)
+
+        // Blanking IPC is delayed or restarted
+        delete iRemoveBlankCallBack;
+        iRemoveBlankCallBack = NULL;
+        iRemoveBlankCallBack = CPeriodic::NewL(CActive::EPriorityLow);     
+        
+        iRemoveBlankCallBack->Start(
+            KRemoveBlankDelay,
+            KRemoveBlankDelay,
+            TCallBack(RemoveBlankCallBack, this));
+        
+
+/*        if (iForegroundBlankScreen)
             {
+            */
 #ifdef RD_UI_TRANSITION_EFFECTS_LAYOUT_SWITCH
-            CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
             /*
+            CWsScreenDevice* screen = iEikonEnv->ScreenDevice();
             RWsSession& ws = iEikonEnv->WsSession();
             TInt wgId = ws.GetFocusWindowGroup();
             CApaWindowGroupName* wgName = CApaWindowGroupName::NewL(ws, wgId);
@@ -874,18 +941,28 @@ void CAknCapAppServerAppUi::BlankScreenL(TBool aBlank, TBool aToForeground)
             //        AknTransEffect::GfxTransParam( KTfxServerUid )
             //        );
 
-            GfxTransEffect::EndFullScreen();
+//            GfxTransEffect::EndFullScreen();
 #endif
-            iBackdropWindowGroup.SetOrdinalPosition(1, ECoeWinPriorityNormal);
-            }
+/*            iBackdropWindowGroup.SetOrdinalPosition(1, ECoeWinPriorityNormal);
+           }
         delete iBlankWin;
         iBlankWin = 0;
+*/
         iForegroundBlankScreen = EFalse;
         } 
     }
 
+void CAknCapAppServerAppUi::DoRemoveBlank()
+    {
+    RDebug::Print( _L("CAknCapAppServerAppUi::DoRemoveBlank"));
+    iAlfClient.BlankScreen(EFalse); 
+    delete iRemoveBlankCallBack;
+    iRemoveBlankCallBack = NULL;
+    }
+
 void CAknCapAppServerAppUi::SwapLayoutSwitchBlankScreenL()
     {
+    	/*
     if (iBlankWin)
         {
         if (!iForegroundBlankScreen)
@@ -898,6 +975,7 @@ void CAknCapAppServerAppUi::SwapLayoutSwitchBlankScreenL()
         delete iBlankWin;
         iBlankWin = newBlankWin;
         }
+        */
     }
 
 TBool CAknCapAppServerAppUi::IsDisplayingForegroundBlankScreen() const
@@ -945,7 +1023,9 @@ void CAknCapAppServerAppUi::HandleResourceChangeL(TInt aType)
     
 void CAknCapAppServerAppUi::HandleWsEventL(const TWsEvent& aEvent,CCoeControl* aDestination)
     {
-    if ( iMessageReaderLongPressDetector && !IsAppsKeySuppressed() && !iFSControl->IsDisplayed() )
+    if ( iMessageReaderLongPressDetector && 
+    	 !IsAppsKeySuppressed() && 
+    	 ( iFSControl == NULL || !iFSControl->IsDisplayed() ) )
         {
         // Message Reader can be launched by long pressing left soft key 
         // events need to be intercepted/consumed before they are forwarded to cba
@@ -1005,7 +1085,7 @@ void CAknCapAppServerAppUi::RotateScreenL()
 TInt CAknCapAppServerAppUi::UpdateTaskListL( TBool aTaskListRefreshNeeded )
     {
     TInt err = KErrNone;
-    if ( iFSControl->IsDisplayed() )
+    if ( iFSControl && iFSControl->IsDisplayed() )
         {
         // update window group list (task list)
         TInt windowGroupListChanged = ETrue;
@@ -1051,7 +1131,9 @@ TBool CAknCapAppServerAppUi::IsCharacterCategoryNumber(TUint aChar) const
     TBool isNumber = EFalse;
     numCategory = (TChar(aChar)).GetBdCategory();
     isNumber = ((numCategory == TChar::EEuropeanNumber) || (numCategory == TChar::EArabicNumber) ||
-               (numCategory == TChar::EEuropeanNumberTerminator) || (aChar == 0x2E) || 
+               (numCategory == TChar::EEuropeanNumberTerminator) || 
+               ( numCategory == TChar::EEuropeanNumberSeparator ) ||
+               (aChar == 0x2E) || 
                (aChar == 0x2A) || (aChar == 0x3D) || (aChar == 0x2F));
     return isNumber;
 }
@@ -1339,6 +1421,15 @@ TInt CAknCapAppServerAppUi::GlobalNotesAllowedCallBack(TAny* aPtr)
     return KErrNone;
     }
 
+TInt CAknCapAppServerAppUi::TelephonyIdleUidCallBack(TAny* aPtr)
+    {
+    CAknCapAppServerAppUi* self = static_cast<CAknCapAppServerAppUi*>(aPtr);
+    if (self)
+        {
+        self->HandlePropertyChange(KActiveIdleUid);
+        }
+    return KErrNone;
+    }
     
 void CAknCapAppServerAppUi::HandlePropertyChange(const TInt aProperty)
     {
@@ -1346,15 +1437,29 @@ void CAknCapAppServerAppUi::HandlePropertyChange(const TInt aProperty)
         {
         case KUikGlobalNotesAllowed:
             {
-            TUid uid = KPhoneUid;
-            TApaTaskList taskList ( CEikonEnv::Static ()->WsSession () );
-            TApaTask task = taskList.FindApp ( uid );
-            if ( task.Exists() )
+            TInt globalNotesAllowed = 0;
+            TInt err = iTelephonyIdleUidProperty.Get(globalNotesAllowed);
+            if(!err && globalNotesAllowed)
                 {
-                TInt wgId = task.WgId ();
+                // Global notes allowed, so the boot is finished. Now the idle app uid and its
+                // window group id can be fetched.
+                HandlePropertyChange(KActiveIdleUid);
+                }
+            }
+            break;
+        case KActiveIdleUid:
+            {
+            TInt idleAppUid = 0;
+            TInt err = iTelephonyIdleUidProperty.Get(idleAppUid);
+            if(!err)
+                {
+                // Fetch the Idle application window group id.
+                TApaTaskList taskList(CEikonEnv::Static()->WsSession());
+                TApaTask task = taskList.FindApp(TUid::Uid(idleAppUid));
+                TInt wgId = task.WgId();
+                
                 // Save the window group id to PubSub. 
-                RProperty::Set ( KPSUidAvkonInternal, KAknIdleAppWindowGroupId,
-                        wgId );
+                RProperty::Set(KPSUidAvkonInternal, KAknIdleAppWindowGroupId, wgId);     
                 }
             }
             break;

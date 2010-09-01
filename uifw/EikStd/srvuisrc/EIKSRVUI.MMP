@@ -43,10 +43,6 @@ USERINCLUDE     ../srvuiinc
 USERINCLUDE     ../dlginc
 USERINCLUDE     ../cdlginc
 
-/* notifier removal workaround */
-USERINCLUDE /sf/mw/classicui/classicui_plat/extended_notifiers_api/inc
-USERINCLUDE /sf/mw/classicui/classicui_plat/notifiers_api/inc
-
 // This is a SYSTEMINCLUDE macro containing the middleware
 // and applications layer specific include directories
 APP_LAYER_SYSTEMINCLUDE
@@ -75,17 +71,17 @@ LIBRARY         eikdlg.lib
 LIBRARY         mediaclientaudio.lib
 LIBRARY         eiksrv.lib
 LIBRARY         avkon.lib
-LIBRARY         eikalert.lib
+LIBRARY         Eikalert.lib
 LIBRARY         apfile.lib
-LIBRARY         cdlengine.lib
-LIBRARY         commonengine.lib
+LIBRARY         CdlEngine.lib
+LIBRARY         CommonEngine.lib
 LIBRARY         aknnotify.lib
 LIBRARY         aknskins.lib
 LIBRARY         fbscli.lib
 LIBRARY         featmgr.lib
 LIBRARY         aknicon.lib
 LIBRARY         egul.lib
-LIBRARY         aknlayout2scalable.lib
+LIBRARY         AknLayout2Scalable.lib
 LIBRARY         oodmonitor.lib
 LIBRARY         uiklaf.lib
 LIBRARY         viewcli.lib
@@ -98,7 +94,6 @@ LIBRARY         akncapserverclient.lib
 LIBRARY         aknnotifierwrapper.lib
 LIBRARY         aknnotifyplugin.lib // for dialog controller stub
 LIBRARY         aknlayout2.lib
-LIBRARY        HbCore.lib
 
 LIBRARY         gdi.lib
 DEFFILE         EIKSVUI.DEF

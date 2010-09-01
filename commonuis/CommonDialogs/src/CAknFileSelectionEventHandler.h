@@ -25,10 +25,13 @@
 
 #include "MAknCommonDialogsEventObserver.h"
 #include "CAknCommonDialogsBase.h"
+#include "MAknCFDFileSystemObserver.h"
 
 // FORWARD DECLARATIONS
 class MAknFileSelectionObserver;
 class CAknFileSelectionModel;
+class CAknCFDFileSystemEvent;
+class CAknCommonDialogsPopupList;
 
 // CLASS DEFINITION
 /**
@@ -37,7 +40,8 @@ class CAknFileSelectionModel;
 *  @lib CommonDialogs.lib
 *  @since 1.2
 */
-NONSHARABLE_CLASS(CAknFileSelectionEventHandler) : public CBase, public MAknCommonDialogsEventObserver
+NONSHARABLE_CLASS(CAknFileSelectionEventHandler) : public CBase, public MAknCommonDialogsEventObserver,
+        public MAknCFDFileSystemObserver
     {
     public:     // Constructors and destructors
 
@@ -107,6 +111,9 @@ NONSHARABLE_CLASS(CAknFileSelectionEventHandler) : public CBase, public MAknComm
             TInt& aTopItemIndex,
             CEikButtonGroupContainer* aContainer );
 
+        void StartFileSystemNotifierL(CAknCommonDialogsPopupList* aPopupList);
+        void StopFileSystemNotifier();
+        virtual void NotifyFileSystemChangedL();
     private:    // Enumerations
 
         /**
@@ -198,6 +205,8 @@ NONSHARABLE_CLASS(CAknFileSelectionEventHandler) : public CBase, public MAknComm
 
         // Ref: Softkey text
         const HBufC*& iRightSoftkeySubfolder;
+        CAknCFDFileSystemEvent* iFSObserver;
+        CAknCommonDialogsPopupList* iPopupList;
     };
 
 

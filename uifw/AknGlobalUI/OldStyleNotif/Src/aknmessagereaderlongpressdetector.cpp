@@ -461,22 +461,17 @@ TBool CAknMessageReaderLongPressDetector::IsPointerInLeftSoftKeyRect(TPoint aPoi
             
             if (Layout_Meta_Data::IsLandscapeOrientation())
                 {
-                TAknWindowComponentLayout rightAreaLayout(
-                    AknLayoutScalable_Avkon::area_side_right_pane(0));
-                    
-                layoutRect.LayoutRect(
-                        containerRect,
-                        TAknWindowComponentLayout::Compose(
-                                    rightAreaLayout,
-                                    AknLayoutScalable_Avkon::sctrl_sk_bottom_pane()).LayoutLine());
-                
-                TRect bottomSKRect(layoutRect.Rect());
+                layoutRect.LayoutRect(containerRect,
+                        AknLayoutScalable_Avkon::popup_sk_window_g1(0));
 
-                layoutRect.LayoutRect(
-                        bottomSKRect,
-                        AknLayoutScalable_Avkon::aid_touch_sctrl_bottom().LayoutLine());
-                
-                button1Rect = layoutRect.Rect();
+                // Button widths are calculated based on cba area width
+                // margin width is taken from layout
+                TInt margin = layoutRect.Rect().iTl.iX - containerRect.iTl.iX;
+                TInt buttonWidth = (containerRect.Width() - margin * 2) / 2;
+                TSize buttonSize(buttonWidth, layoutRect.Rect().Height());
+
+                button1Rect = TRect(TPoint(containerRect.iTl.iX + margin,
+                        layoutRect.Rect().iTl.iY), buttonSize);
                 }
             else
                 {

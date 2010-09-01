@@ -31,29 +31,21 @@
 #include "MAknFileFilter.h"
 #include "AknCFDUtility.h"
 #include "CAknDataCagingFilter.h"
-
+#include "commondialogsdata.hrh"
 // CONSTANTS
+_LIT( KImageHeader, "%d\t" );
+const TInt KFileExtNameSize = 10;
 const TInt KEntryArrayGranularity( 10 );
 const TInt KFilterArrayGranularity( 2 );
+const TInt KIndexDataLen = 6;
 
-_LIT( KCFDMimeTypeImage, "image/*" );
-_LIT( KCFDMimeTypeImageGms, "image/x-ota-bitmap" );
-_LIT( KCFDMimeTypeRam, "audio/x-pn-realaudio-plugin" ); // = link
-_LIT( KCFDMimeTypeAudioVoiceRec, "audio/amr*" );
-_LIT( KCFDMimeTypeAudioVoiceRec2, "application/vnd.nokia.ringing-tone" );
-_LIT( KCFDMimeTypeAudio, "audio/*" ); // = other sound files
-_LIT( KCFDMimeTypePlaylist, "audio/*mpegurl*" );
-_LIT( KCFDMimeTypeVideo, "video/*" );
-_LIT( KCFDMimeTypeVideoRealMedia, "application/*n-realmedia" );
-_LIT( KCFDMimeTypeVideoSdp, "application/sdp" );
-_LIT( KCFDMimeTypeGame, "application/*game*" );
-_LIT( KCFDMimeTypeNote, "text/*" );
-_LIT( KCFDMimeTypeJava, "application/java-archive" );
-_LIT( KCFDMimeTypeFlash, "application/x-shockwave-flash" );
-
-_LIT( KCFDFileExtSis, ".sis" );
-_LIT( KCFDFileExtSisx, ".sisx");
-_LIT( KCFDFileExtMid, ".mid" );
+// Store file ext name and right icon index
+class TCFDFileTypes
+    {
+public:
+    TBuf<KFileExtNameSize> iFileType;
+    TInt iIconIndex;
+    };
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -65,8 +57,7 @@ _LIT( KCFDFileExtMid, ".mid" );
 //
 CAknFileSelectionModel::CAknFileSelectionModel(
     const TCommonDialogType& aDialogType, CCoeEnv& aCoeEnv )
-    :   iImageIndexArray( KEntryArrayGranularity ),
-        iDirectoryLevel( 0 ),
+      : iDirectoryLevel( 0 ),
         iDialogType( aDialogType ),
         iCoeEnv( aCoeEnv )
     {
@@ -79,18 +70,46 @@ CAknFileSelectionModel::CAknFileSelectionModel(
 //
 void CAknFileSelectionModel::ConstructL()
     {
-    User::LeaveIfError( iApaSession.Connect() );
     iLocalizer = CDirectoryLocalizer::NewL();
     iEntryArray = new( ELeave ) CArrayPakFlat<TEntry>( KEntryArrayGranularity );
     iFilterArray = new( ELeave ) CArrayPtrSeg<MAknFileFilter>( KFilterArrayGranularity );
-    iItemWithImageIndex = HBufC::NewL(KMaxPath);
+    iFileTypeArray = new ( ELeave ) CArrayFixFlat<TCFDFileTypes>( KEntryArrayGranularity );
+    
+    // Directories should be shown in front of files in list, 
+    // create two arrays to save it respectively
+    iLocalFileNameArray = new ( ELeave ) CDesC16ArraySeg( KEntryArrayGranularity );
+    iLocalDirNameArray = new ( ELeave ) CDesC16ArraySeg( KEntryArrayGranularity );
+    
+    TResourceReader reader;
+    iCoeEnv.CreateResourceReaderLC( reader, R_CDF_FILE_TYPE_ICON_SET );
+    ReadFileExtNameAndIconIndexL( reader );
+    CleanupStack::PopAndDestroy();//reader
+    
+    iStringBuf = HBufC::NewL(KMaxPath);
+    
     User::LeaveIfError( iFs.Connect() );
     iRootFolderText = iCoeEnv.AllocReadResourceL( R_CFD_QTN_FLDR_ROOT_LEVEL );
-
     AddFilterL( CAknDataCagingFilter::NewLC() );
     CleanupStack::Pop();    //caging filter
     }
 
+// -----------------------------------------------------------------------------
+// CAknFileSelectionModel::ReadFileExtNameAndIconIndexL
+//
+// -----------------------------------------------------------------------------
+//
+void CAknFileSelectionModel::ReadFileExtNameAndIconIndexL( TResourceReader& aReader )
+    {
+    // File icon will be selected by file extname.
+    TInt count( aReader.ReadInt16() );
+    for ( TInt i = 0; i < count; i++ )
+        {
+        TCFDFileTypes type;
+        type.iFileType.Copy( aReader.ReadTPtrC() );
+        type.iIconIndex = aReader.ReadInt32();
+        iFileTypeArray->AppendL( type );
+        }
+    }
 // -----------------------------------------------------------------------------
 // CAknFileSelectionModel::NewL
 //
@@ -111,10 +130,23 @@ CAknFileSelectionModel* CAknFileSelectionModel::NewL(
 CAknFileSelectionModel::~CAknFileSelectionModel()
     {
     delete iRootFolderText;
-    iImageIndexArray.Close();
     iFs.Close();
-
-    delete iItemWithImageIndex;
+    if ( iFileTypeArray )
+        {
+        iFileTypeArray->Reset();
+        delete iFileTypeArray;
+        }
+    if ( iLocalFileNameArray )
+        {
+        iLocalFileNameArray->Reset();
+        delete iLocalFileNameArray;
+        }
+    if ( iLocalDirNameArray )
+        {
+        iLocalDirNameArray->Reset();
+        delete iLocalDirNameArray;
+        }
+    delete iStringBuf;
 
     if ( iFilterArray )
         {
@@ -128,8 +160,6 @@ CAknFileSelectionModel::~CAknFileSelectionModel()
         }
     delete iLocalizer;
 
-
-    iApaSession.Close();
     }
 
 
@@ -171,9 +201,6 @@ TInt CAknFileSelectionModel::SetPathL( const TDesC& aPath )
 
     // Set as current path
     iCurrentPath = iParse;
-    // Reset directory level
-    iDirectoryLevel = 0;
-
 
     errorCode = UpdateItemListL();
 
@@ -190,8 +217,8 @@ TInt CAknFileSelectionModel::SetPathL( const TDesC& aPath )
 //
 TInt CAknFileSelectionModel::AddFolderL( const TDesC& aFolder )
     {
-    // Cache the directory level because SetPath resets it
-    TInt level( iDirectoryLevel );
+    // Open new sub-folder, directory level is increased
+    iDirectoryLevel++;
 
     // The engine only supports adding one folder at a time
     if ( AknCFDUtility::DirectoryCount( aFolder ) !=  1 )
@@ -215,8 +242,6 @@ TInt CAknFileSelectionModel::AddFolderL( const TDesC& aFolder )
         {
         return errorCode;
         }
-
-    iDirectoryLevel = ++level;
 
     return errorCode;
     }
@@ -270,9 +295,11 @@ TInt CAknFileSelectionModel::GotoParentFolderL()
 //
 TInt CAknFileSelectionModel::UpdateItemListL()
     {
+    // Clear array contents
     iEntryArray->Reset();
-    iImageIndexArray.Reset();
-
+    iLocalDirNameArray->Reset();
+    iLocalFileNameArray->Reset();
+    
     CDir* entryArray = ReadDirectory( iCurrentPath.DriveAndPath() );
     if ( !entryArray )
         {
@@ -281,157 +308,110 @@ TInt CAknFileSelectionModel::UpdateItemListL()
     CleanupStack::PushL( entryArray );
 
     TInt itemCount( entryArray->Count() );
-    if ( itemCount > 0 )
+    // entry index in iEntryArray
+    TInt entryIndex = 0;
+    for ( TInt i( 0 ); i < itemCount; i++ ) // Add entry or not
         {
-        TInt filterCount( iFilterArray->Count() );
-        TInt filterIndex;
-        TBool accepted;
-        CDesC16Array* desC16FoldersArray = new ( ELeave )
-                           CDesC16ArrayFlat( KEntryArrayGranularity );
-        CleanupStack::PushL( desC16FoldersArray );
-        CDesC16Array* desC16FilesArray = new ( ELeave )
-                           CDesC16ArrayFlat( KEntryArrayGranularity );
-        CleanupStack::PushL( desC16FilesArray );
-        CArrayPakFlat<TEntry>* tmpFoldersArray = new( ELeave ) 
-            CArrayPakFlat<TEntry>( KEntryArrayGranularity );
-        CleanupStack::PushL( tmpFoldersArray );
-        CArrayPakFlat<TEntry>* tmpFilesArray = new( ELeave ) 
-            CArrayPakFlat<TEntry>( KEntryArrayGranularity );
-        CleanupStack::PushL( tmpFilesArray );
-            
-        tmpFoldersArray->Reset();
-        desC16FoldersArray->Reset();
-        tmpFilesArray->Reset();
-        desC16FilesArray->Reset();
-        
-        for ( TInt i( 0 ); i < itemCount; i++ ) // Generate filtered list
+        TEntry entry = ( *entryArray )[i];
+        if ( EntryIsAccepted( entry ) )
             {
-            accepted = ETrue; // If there are no filters, accept the entry
-            TEntry entry = ( *entryArray )[i];
-            filterIndex = 0;
-            // Go thru the filters while the entry is accepted
-            while( ( filterIndex < filterCount ) && ( accepted ) )
+             // Add entry
+            if ( entry.IsDir() )
                 {
-                accepted = iFilterArray->At( filterIndex )->Accept(
-                    iCurrentPath.DriveAndPath(), entry );
-                filterIndex++;
-                }
-            if ( accepted ) // Directory entry has passed all filters
-                {
-                 // Add filename to filtered list
-                if ( entry.IsDir() )
+            // Entry is a directory
+                TFileTypeIcon folderIcon( EFolderIcon );
+                
+                if( !AknCFDUtility::IsRemoteDrive( iCurrentPath.Drive() ) )
                     {
-                    desC16FoldersArray->AppendL( GetLocalizedName( entry.iName ) );
-                    tmpFoldersArray->AppendL( entry, sizeof( TEntry ) );
-                    }
-                else
-                    {
-                    desC16FilesArray->AppendL( GetLocalizedName( entry.iName ) );
-                    tmpFilesArray->AppendL( entry, sizeof( TEntry ) );
-                    }
-                }
-            }
-        
-        TInt entryCount = 0;
-        TInt index;
-        TKeyArrayPak key( _FOFF( TEntry, iName ), ECmpCollated );
-        
-        // Add folder entries
-        desC16FoldersArray->Sort( ECmpCollated );
-        entryCount = desC16FoldersArray->MdcaCount();
-        for( TInt j( 0 ); j < entryCount; j++ )
-            {
-            for( TInt k( 0 ); k < entryCount; k++ )
-                {
-                if( ( *desC16FoldersArray )[j] == 
-                        GetLocalizedName( ( *tmpFoldersArray )[k].iName ) &&
-                    iEntryArray->Find( ( *tmpFoldersArray )[k], key, index ) != 0 )
-                    {
-                    TEntry tmpEntry = ( *tmpFoldersArray )[k];
-                    
-                    iEntryArray->AppendL( tmpEntry, sizeof( TEntry ) );
-                    
-                    // Entry is a directory
-                    TFileTypeIcon folderIcon( EFolderIcon );
-                    
-                    if( !AknCFDUtility::IsRemoteDrive( iCurrentPath.Drive() ) )
+                    if ( ContainsSubfolders( entry.iName ) )
                         {
-                        if ( ContainsSubfolders( tmpEntry.iName ) )
-                            {
-                            folderIcon = ESubFolderIcon;
-                            }
-                        else if ( !ContainsFiles( tmpEntry.iName ) )
-                            {
-                            folderIcon = EFolderEmptyIcon;
-                            }
+                        folderIcon = ESubFolderIcon;
                         }
-                    iImageIndexArray.Append( folderIcon );
-                    
-                    break;
+                    else if ( !ContainsFiles( entry.iName ) )
+                        {
+                        folderIcon = EFolderEmptyIcon;
+                        }
                     }
+                // List item uses localized name and icon index to show itself,
+                // common dialogs need to give user the entry's iName, list item
+                // need to bind unique entry. For sorting list and binding entry,
+                // save icon index, localized name and right entry index of iEntryArray
+                // in the element of iLocalDirNameArray and iLocalFileNameArray
+                TFileName name( GetLocalizedName( entry.iName ) );
+                // Append icon index number at the end of entry's localized name
+                name.AppendNumFixedWidth( folderIcon, EDecimal, KIndexDataLen );
+                // Append entry index number of iEntryArray in the end
+                name.AppendNumFixedWidth( entryIndex, EDecimal, KIndexDataLen );
+                iLocalDirNameArray->AppendL( name );
                 }
-            }
-        
-        // Add file entries
-        desC16FilesArray->Sort( ECmpCollated );
-        entryCount = desC16FilesArray->MdcaCount();
-        for( TInt j( 0 ); j < entryCount; j++ )
-            {
-            for( TInt k( 0 ); k < entryCount; k++ )
+            else
                 {
-                if( ( *desC16FilesArray )[j] == 
-                        GetLocalizedName( ( *tmpFilesArray )[k].iName ) &&
-                    iEntryArray->Find( ( *tmpFilesArray )[k], key, index ) != 0 )
-                    {
-                    TEntry tmpFile = ( *tmpFilesArray )[k];
-                    
-                    iEntryArray->AppendL( tmpFile, sizeof( TEntry ) );
-                    
-                    // Entry is a file
-                    AppendIconForFileL( tmpFile.iName );
-                    
-                    break;
-                    }
+                TInt icon(EUnknowTypeIcon);
+                icon = GetIconForFileL( entry.iName );
+                TFileName name( GetLocalizedName( entry.iName ) );
+                name.AppendNumFixedWidth( icon, EDecimal, KIndexDataLen );
+                name.AppendNumFixedWidth( entryIndex, EDecimal, KIndexDataLen );
+                iLocalFileNameArray->AppendL( name );
                 }
+            entryIndex++;
+            iEntryArray->AppendL( entry, sizeof( TEntry ) );
             }
-        
-        CleanupStack::PopAndDestroy( tmpFilesArray );
-        CleanupStack::PopAndDestroy( tmpFoldersArray );
-        CleanupStack::Pop( desC16FilesArray );
-        desC16FilesArray->Reset();
-        delete desC16FilesArray;
-        CleanupStack::Pop( desC16FoldersArray );
-        desC16FoldersArray->Reset();
-        delete desC16FoldersArray;
         }
     
     CleanupStack::PopAndDestroy( entryArray );
-    
+    // Sort list item to show
+    iLocalDirNameArray->Sort( ECmpCollated );
+    iLocalFileNameArray->Sort( ECmpCollated );
     if ( AknCFDUtility::DirectoriesOnly( iDialogType ) )
         {
         // Set the current folder name as first item.
-        // Current folder is for example "E:\Images\Holiday\"
-        // Remove trailing backslash, we get "E:\Images\Holiday"
-        // Parse the path with TParse and ask for NameAndExt().
-        // TParse interpretes "Holiday" as file name and returns it.
-
-        HBufC * bufFolder = HBufC::NewLC(KMaxPath);
-        * bufFolder = iCurrentPath.DriveAndPath() ;
-        TPtr folder = bufFolder->Des();
-
+        TPtr folder = iStringBuf->Des();
+        folder = iCurrentPath.DriveAndPath();
         AknCFDUtility::RemoveTrailingBackslash( folder ); // ignore error
-
         TParsePtr parsedFolder(folder);
-
         folder = parsedFolder.NameAndExt();
-        iFolderEntry.iName = folder;
-        iEntryArray->InsertL( 0, iFolderEntry, sizeof( TEntry ) );
-        iImageIndexArray.Insert( EThisFolderIcon, 0 );
-
-        CleanupStack::PopAndDestroy(); //bufFolder
+        TFileName name(folder);
+        TEntry folderEntry;
+        folderEntry.iName = name;
+        if ( iDirectoryLevel == 0 )
+            {
+            name = iRootFolderText->Des();
+            }
+        else
+            {
+            folder = iCurrentPath.DriveAndPath();
+            iLocalizer->SetFullPath( folder );
+            if( iLocalizer->IsLocalized() )
+                {
+                name = iLocalizer->LocalizedName();
+                }
+            }
+        name.AppendNumFixedWidth( EThisFolderIcon, EDecimal, KIndexDataLen );
+        name.AppendNumFixedWidth( entryIndex, EDecimal, KIndexDataLen );
+        iLocalDirNameArray->InsertL( 0, name );
+        iEntryArray->AppendL( folderEntry, sizeof(TEntry) );
         }
-    
     return iEntryArray->Count();
+    }
+
+// -----------------------------------------------------------------------------
+// CAknFileSelectionModel::EntryIsAccepted
+// -----------------------------------------------------------------------------
+//
+TBool CAknFileSelectionModel::EntryIsAccepted( const TEntry& aEntry ) const
+    {
+    TInt filterCount( iFilterArray->Count() );
+    // Go through the filters while the entry is accepted
+    for ( TInt i = 0 ; i < filterCount ; ++i )
+        {
+        if ( !( iFilterArray->At( i )->Accept(
+                iCurrentPath.DriveAndPath(), aEntry ) ) )
+            {
+            // Some filter does not accept this entry
+            return EFalse;
+            }
+        }
+    return ETrue;
     }
 
 // -----------------------------------------------------------------------------
@@ -442,7 +422,20 @@ TInt CAknFileSelectionModel::UpdateItemListL()
 //
 const TEntry& CAknFileSelectionModel::Entry( const TInt& aIndex ) const
     {
-    return iEntryArray->At( aIndex );
+    TInt index = aIndex;
+    // List item sequence is arranged in MdcaPoint()
+    if ( aIndex < iLocalDirNameArray->Count() )
+        {
+        // Get right entry index of iEntryArray
+        TLex lex((*iLocalDirNameArray)[aIndex].Right(KIndexDataLen));
+        lex.Val( index );
+        }
+    else
+        {
+        TLex lex((*iLocalFileNameArray)[aIndex - iLocalDirNameArray->Count()].Right(KIndexDataLen));
+        lex.Val( index );
+        }
+    return iEntryArray->At( index );
     }
 
 // -----------------------------------------------------------------------------
@@ -519,60 +512,33 @@ TInt CAknFileSelectionModel::MdcaCount() const
 //
 TPtrC CAknFileSelectionModel::MdcaPoint( TInt aIndex ) const
     {
-    TEntry entry = iEntryArray->At( aIndex ); // reference
-    TParsePtrC parsedEntry( entry.iName );
-    TPtrC fileName( parsedEntry.NameAndExt() );
-    TInt entryType( iImageIndexArray[ aIndex ] );
-
-    TPtr itemWithImageIndex = iItemWithImageIndex->Des();
-
-    switch( entryType )
+    // List items sequence follows the sequence of sorted array
+    TPtr listItem = iStringBuf->Des();
+    TInt icon(0);
+    if ( aIndex < iLocalDirNameArray->Count() )
         {
-        case EThisFolderIcon:
-            {
-            if ( iDirectoryLevel == 0 )
-                {
-                // Root folder
-                fileName.Set( iRootFolderText->Des() );
-                }
-            else
-                {
-                // Not the root folder
-                iLocalizer->SetFullPath( iCurrentPath.DriveAndPath() );
-                if ( iLocalizer->IsLocalized() ) // Localized?
-                    {
-                    // Folder name is localized
-                    fileName.Set( iLocalizer->LocalizedName() );
-                    }
-                }
-            break;
-            }
-        case EFolderIcon: // fall through
-        case ESubFolderIcon:
-        case EFolderEmptyIcon:
-            {
-            itemWithImageIndex = iCurrentPath.DriveAndPath();
-            itemWithImageIndex.Append( entry.iName );
-            // ignore error:
-            AknCFDUtility::AddTrailingBackslash( itemWithImageIndex );
-            iLocalizer->SetFullPath( itemWithImageIndex );
-            if( iLocalizer->IsLocalized() )
-                {
-                fileName.Set( iLocalizer->LocalizedName() );
-                }
-            break;
-            }
-        default: // EFileIcon
-            {
-            break;
-            }
+        // Directories need to arrange at ahead of files
+        TInt len = (*iLocalDirNameArray)[aIndex].Length();
+        TLex lex( (*iLocalDirNameArray)[aIndex].Mid( 
+            len - KIndexDataLen - KIndexDataLen, KIndexDataLen) );
+        // Get icon index for the item
+        lex.Val( icon );
+        listItem.Format( KImageHeader, icon );
+        // Append localized name as list item name
+        listItem.Append((*iLocalDirNameArray)[aIndex].Left(
+            len - KIndexDataLen - KIndexDataLen ) );
         }
-
-    _LIT( KImageHeader, "%d\t" );
-    itemWithImageIndex.Format( KImageHeader, entryType );
-    itemWithImageIndex.Append( fileName );
-
-    return itemWithImageIndex;
+    else
+        {
+        TInt len = (*iLocalFileNameArray)[aIndex - iLocalDirNameArray->Count()].Length();
+        TLex lex( (*iLocalFileNameArray)[aIndex - iLocalDirNameArray->Count()].Mid( 
+            len - KIndexDataLen - KIndexDataLen, KIndexDataLen) );
+        lex.Val( icon );
+        listItem.Format( KImageHeader, icon );
+        listItem.Append((*iLocalFileNameArray)[aIndex - iLocalDirNameArray->Count()].Left(
+            len - KIndexDataLen - KIndexDataLen ) );
+        }
+    return listItem;
     }
 
 // -----------------------------------------------------------------------------
@@ -622,26 +588,34 @@ CDir* CAknFileSelectionModel::ReadDirectory( const TDesC& aDirectory )
 //
 TBool CAknFileSelectionModel::ContainsSubfolders( const TDesC& aFolder )
     {
+    return ContainsContents( aFolder, KEntryAttDir | KEntryAttMatchExclusive );
+    }
+
+// -----------------------------------------------------------------------------
+// CAknFileSelectionModel::ContainsFiles
+//
+// -----------------------------------------------------------------------------
+//
+TBool CAknFileSelectionModel::ContainsFiles( const TDesC& aFolder )
+    {
+    return ContainsContents( aFolder, KEntryAttNormal );
+    }
+
+// -----------------------------------------------------------------------------
+// CAknFileSelectionModel::ContainsFiles
+//
+// -----------------------------------------------------------------------------
+//
+TBool CAknFileSelectionModel::ContainsContents(
+    const TDesC& aFolder, TUint aAttMask )
+    {
     TPath directory( iCurrentPath.DriveAndPath() );
     directory.Append( aFolder );
     AknCFDUtility::AddTrailingBackslash( directory ); // ignore error
     
-    // Keep old code for possible roll-back
-    /*
-    CDir* array = ReadDirectory( directory );
-    if( ( !array ) || ( array->Count() == 0 ) || ( !(* array)[ 0 ].IsDir() ) )
-        {
-        delete array;
-        return EFalse;
-        }
-    delete array;
-    return ETrue;
-    */
-    
     RDir dir;
     TBool ret( EFalse );
-    if ( dir.Open(
-        iFs, directory, KEntryAttDir | KEntryAttMatchExclusive ) != KErrNone )
+    if ( dir.Open( iFs, directory, aAttMask ) != KErrNone )
         {
         return EFalse;
         }
@@ -653,111 +627,23 @@ TBool CAknFileSelectionModel::ContainsSubfolders( const TDesC& aFolder )
     dir.Close();
     return ret;
     }
-
-void CAknFileSelectionModel::AppendIconForFileL(const TDesC& aFileName)
+// -----------------------------------------------------------------------------
+// CAknFileSelectionModel::AppendIconForFileL
+//
+// -----------------------------------------------------------------------------
+//
+TInt CAknFileSelectionModel::GetIconForFileL(const TDesC& aFileName ) const
     {
-    //TFileName absFileName( iCurrentPath.DriveAndPath() );
-    HBufC *bufAbsFileName = HBufC::NewLC(KMaxPath);
-    *bufAbsFileName = iCurrentPath.DriveAndPath();
-    TPtr absFileName = bufAbsFileName->Des();
-
-    absFileName.Append( aFileName );
-    TUid uidIgnore;
-    TDataType dataType;
-    TInt err = iApaSession.AppForDocument( absFileName, uidIgnore, dataType );
-    TInt iconIndex = EUnknowTypeIcon;
-    CleanupStack::PopAndDestroy(); //bufAbsFileName
-
-    if( err != KErrNone )
+    TParsePtrC ptr( aFileName );
+    TPtrC ptrc = ptr.Ext();
+    for ( TInt i = 0; i < iFileTypeArray->Count(); i++ )
         {
-        // Couldn't find out the data type, use generic file icon:
-        iconIndex = EUnknowTypeIcon;
+        if ( ptrc.MatchF( (*iFileTypeArray)[i].iFileType ) == 0 )
+            {
+            return (*iFileTypeArray)[i].iIconIndex;
+            }
         }
-    else
-        {
-        HBufC *bufDataTypeBuf = HBufC::NewLC(KMaxDataTypeLength);
-        *bufDataTypeBuf = dataType.Des();
-        TPtr dataTypeBuf = bufDataTypeBuf->Des();
-
-        if( dataTypeBuf.MatchF( KCFDMimeTypeAudioVoiceRec ) == 0 ||
-            dataTypeBuf.MatchF( KCFDMimeTypeAudioVoiceRec2 ) == 0 )
-            {
-            iconIndex = EVoiceRecFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypePlaylist ) == 0 )
-            {
-            iconIndex = EPlaylistFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeRam ) == 0 )
-            {
-            iconIndex = ELinkFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeAudio ) == 0 )
-            {
-            iconIndex = ESoundFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeImageGms ) == 0 )
-            {
-            iconIndex = EGmsFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeImage ) == 0 )
-            {
-            iconIndex = EImageFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeVideo ) == 0 ||
-                 dataTypeBuf.MatchF( KCFDMimeTypeVideoRealMedia ) == 0 ||
-                 dataTypeBuf.MatchF( KCFDMimeTypeVideoSdp ) == 0 )
-            {
-            iconIndex = EVideoFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeGame ) == 0 )
-            {
-            iconIndex = EGameFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeNote ) == 0 )
-            {
-            iconIndex = ENoteFileIcon;
-            }
-        else if( dataTypeBuf.MatchF( KCFDMimeTypeJava ) == 0 )
-            {
-            iconIndex = EJavaFileIcon;
-            }
-        else if ( dataTypeBuf.MatchF( KCFDMimeTypeFlash ) == 0 )
-            {
-            iconIndex = EFlashFileIcon;
-            }
-        else
-            {
-            // Check from the file name extension, if it's a SIS file:
-            //TParse fileName;
-            //fileName.Set( aFileName, NULL, NULL );
-
-            HBufC * bufFileName = aFileName.AllocLC();
-            TPtr ptrFileName = bufFileName->Des();
-            TParsePtr fileName(ptrFileName);
-
-            TPtrC ext( fileName.Ext() );
-            if( ext.CompareF( KCFDFileExtSis ) == 0
-                || ext.CompareF( KCFDFileExtSisx ) == 0 )
-                {
-                iconIndex = ESisFileIcon;
-                }
-            // RApaLsSession does not recognize .mid's:
-            else if( ext.CompareF( KCFDFileExtMid ) == 0 )
-                {
-                iconIndex = ESoundFileIcon;
-                }
-            else
-                {
-                iconIndex = EUnknowTypeIcon;
-                }
-            CleanupStack::PopAndDestroy(); //bufFileName
-
-            }
-
-        CleanupStack::PopAndDestroy(); //bufDataTypeBuf
-        }
-    iImageIndexArray.Append( iconIndex );
+    return EUnknowTypeIcon;
     }
 
 TPtrC CAknFileSelectionModel::GetLocalizedName(const TDesC& aFileName)
@@ -765,7 +651,7 @@ TPtrC CAknFileSelectionModel::GetLocalizedName(const TDesC& aFileName)
     TParsePtrC parsedEntry( aFileName );
     TPtrC fileName( parsedEntry.NameAndExt() );
 
-    TPtr itemWithImageIndex = iItemWithImageIndex->Des();
+    TPtr itemWithImageIndex = iStringBuf->Des();
     
     itemWithImageIndex = iCurrentPath.DriveAndPath();
     itemWithImageIndex.Append( aFileName);
@@ -779,30 +665,4 @@ TPtrC CAknFileSelectionModel::GetLocalizedName(const TDesC& aFileName)
     return fileName;
     }
 
-// -----------------------------------------------------------------------------
-// CAknFileSelectionModel::ContainsFiles
-//
-// -----------------------------------------------------------------------------
-//
-TBool CAknFileSelectionModel::ContainsFiles( const TDesC& aFolder )
-    {
-    TPath directory( iCurrentPath.DriveAndPath() );
-    directory.Append( aFolder );
-    AknCFDUtility::AddTrailingBackslash( directory ); // ignore error
-    
-    RDir dir;
-    TBool ret( EFalse );
-    if ( dir.Open(
-        iFs, directory, KEntryAttNormal ) != KErrNone )
-        {
-        return EFalse;
-        }
-    TEntry entry;
-    if ( dir.Read( entry ) == KErrNone )
-        {
-        ret = ETrue;
-        }
-    dir.Close();
-    return ret;
-    }
 //  End of File

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -20,6 +20,7 @@
 #include <aknitemactionmenu.h>
 #include <eikdialg.h>
 #include <eikmenub.h>
+#include <akntrace.h>
 
 #include "aknitemactionmenuregister.h"
 #include "aknitemactionmenuregisterarray.h"
@@ -34,14 +35,16 @@ const TInt KRegisterDestructionPriority( -1 );
 EXPORT_C void AknItemActionMenuRegister::SetConstructingMenuBarOwnerL(
         MObjectProvider* aMenuBarOwner )
     {
-    if ( AppUiSingleClickCompatible() )
+    _AKNTRACE_FUNC_ENTER;
+
+    AknItemActionMenuRegister* instance( Instance() );
+
+    if ( instance )
         {
-        AknItemActionMenuRegister* instance( Instance() );
-        if ( instance )
-            {
-            instance->iMenuBarOwner = aMenuBarOwner;
-            }
+        instance->iMenuBarOwner = aMenuBarOwner;
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -52,6 +55,8 @@ EXPORT_C void AknItemActionMenuRegister::SetConstructingMenuBarOwnerL(
 EXPORT_C void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(
         MObjectProvider* aMenuBarOwner, TUint /*aFlags*/ )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -60,6 +65,31 @@ EXPORT_C void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(
             instance->iOverridingMenuBarOwner = aMenuBarOwner;
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::RemoveConstructingMenuBarOwner
+// ---------------------------------------------------------------------------
+//
+EXPORT_C void AknItemActionMenuRegister::RemoveConstructingMenuBarOwner( 
+        MObjectProvider* aMenuBarOwner )
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    if ( AppUiSingleClickCompatible() )
+        {
+        AknItemActionMenuRegister* instance( Instance() );
+
+        if ( instance )
+            {
+            instance->DoRemoveConstructingMenuBarOwner( aMenuBarOwner );
+            }
+        }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -68,17 +98,22 @@ EXPORT_C void AknItemActionMenuRegister::SetOverridingMenuBarOwnerL(
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* AknItemActionMenuRegister::RegisterCollectionL(
-        MAknCollection& aCollectionState )
+        MAknCollection& aCollectionState, MObjectProvider* aMenuBarOwner )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CAknItemActionMenu* menu( NULL );
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
         if ( instance )
             {
-            menu = instance->DoRegisterCollectionL( aCollectionState );
+            menu = instance->DoRegisterCollectionL( 
+                    aCollectionState, aMenuBarOwner );
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     return menu;
     }
 
@@ -90,6 +125,8 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterCollectionL(
 void AknItemActionMenuRegister::RegisterMenuBarL(
         CEikMenuBar& aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -98,6 +135,8 @@ void AknItemActionMenuRegister::RegisterMenuBarL(
             instance->DoRegisterMenuBarL( aMenuBar );
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -108,6 +147,8 @@ void AknItemActionMenuRegister::RegisterMenuBarL(
 void AknItemActionMenuRegister::UnregisterMenuBar(
         CEikMenuBar& aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -116,7 +157,9 @@ void AknItemActionMenuRegister::UnregisterMenuBar(
             instance->DoUnregisterMenuBar( aMenuBar );
             }
         }
-    }
+
+    _AKNTRACE_FUNC_EXIT;
+   }
 
 
 // ---------------------------------------------------------------------------
@@ -126,11 +169,15 @@ void AknItemActionMenuRegister::UnregisterMenuBar(
 void AknItemActionMenuRegister::RegisterItemActionMenuL(
         CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     AknItemActionMenuRegister* instance( Instance() );
     if ( instance )
         {
         instance->DoRegisterItemActionMenuL( aItemActionMenu );
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -141,6 +188,8 @@ void AknItemActionMenuRegister::RegisterItemActionMenuL(
 void AknItemActionMenuRegister::UnregisterItemActionMenu(
         CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -149,6 +198,8 @@ void AknItemActionMenuRegister::UnregisterItemActionMenu(
             instance->DoUnregisterItemActionMenu( aItemActionMenu );
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -159,6 +210,8 @@ void AknItemActionMenuRegister::UnregisterItemActionMenu(
 void AknItemActionMenuRegister::RegisterCollectionObserverL(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -167,6 +220,8 @@ void AknItemActionMenuRegister::RegisterCollectionObserverL(
             instance->DoRegisterCollectionObserverL( aObserver );
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -177,6 +232,8 @@ void AknItemActionMenuRegister::RegisterCollectionObserverL(
 void AknItemActionMenuRegister::UnregisterCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     if ( AppUiSingleClickCompatible() )
         {
         AknItemActionMenuRegister* instance( Instance() );
@@ -185,6 +242,8 @@ void AknItemActionMenuRegister::UnregisterCollectionObserver(
             instance->DoUnregisterCollectionObserver( aObserver );
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -194,6 +253,8 @@ void AknItemActionMenuRegister::UnregisterCollectionObserver(
 //
 AknItemActionMenuRegister::~AknItemActionMenuRegister()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
         {
         TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
@@ -203,6 +264,8 @@ AknItemActionMenuRegister::~AknItemActionMenuRegister()
     iUnregisteredMenus.Close();
     iUnregisteredObservers.Close();
     delete iRegisterArray;
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -214,6 +277,8 @@ AknItemActionMenuRegister::AknItemActionMenuRegister()
     : CCoeStatic( KAknItemActionMenuRegister, KRegisterDestructionPriority ),
     iMenuBarOwner( NULL )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -223,7 +288,11 @@ AknItemActionMenuRegister::AknItemActionMenuRegister()
 //
 void AknItemActionMenuRegister::ConstructL()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     iRegisterArray = CAknItemActionMenuRegisterArray::NewL();
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -233,9 +302,19 @@ void AknItemActionMenuRegister::ConstructL()
 //
 TBool AknItemActionMenuRegister::AppUiSingleClickCompatible()
     {
-    CAknAppUi* appUi =
-        static_cast<CAknAppUi*>( CEikonEnv::Static()->AppUi() );
-    return appUi->IsSingleClickCompatible();
+    _AKNTRACE_FUNC_ENTER;
+
+    TBool isCompatible = EFalse;
+    CAknAppUi* appUi = AppUI();
+    
+    if ( appUi )
+        {
+        isCompatible = appUi->IsSingleClickCompatible();
+        }
+    
+    _AKNTRACE_FUNC_EXIT;
+
+    return isCompatible;
     }
 
 // ---------------------------------------------------------------------------
@@ -244,6 +323,8 @@ TBool AknItemActionMenuRegister::AppUiSingleClickCompatible()
 //
 AknItemActionMenuRegister* AknItemActionMenuRegister::Instance()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     AknItemActionMenuRegister* instance =
         static_cast<AknItemActionMenuRegister*>(
                 CCoeEnv::Static( KAknItemActionMenuRegister ) );
@@ -251,6 +332,9 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::Instance()
         {
         TRAP_IGNORE( instance = CreateInstanceL() ); 
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return instance;
     }
 
@@ -260,11 +344,26 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::Instance()
 // ---------------------------------------------------------------------------
 //
 CAknItemActionMenu* AknItemActionMenuRegister::DoRegisterCollectionL(
-        MAknCollection& aCollectionState )
+        MAknCollection& aCollectionState, MObjectProvider* aMenuBarOwner )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CAknItemActionMenu* menu( NULL );
-    CEikMenuBar* menuBar = FindCurrentMenuBarL();
+    CEikMenuBar* menuBar = NULL;
+    
+    if ( aMenuBarOwner )
+        {
+        aMenuBarOwner->MopGetObject( menuBar );
+        }
+
+    if ( !menuBar )
+        {
+        menuBar = FindCurrentMenuBar();
+        }
     menu = RegisterStateToItemActionMenuL( menuBar, aCollectionState );
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menu;
     }
 
@@ -275,23 +374,30 @@ CAknItemActionMenu* AknItemActionMenuRegister::DoRegisterCollectionL(
 //
 void AknItemActionMenuRegister::DoRegisterMenuBarL( CEikMenuBar& aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
+    
     CAknItemActionMenu* menu( NULL );
     for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
         {
         TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
-        CEikMenuBar* ownerMenubar( NULL );
-        data.iOwner->MopGetObjectNoChaining( ownerMenubar );
-        if ( ownerMenubar == &aMenuBar )
+        if ( data.iOwner ) 
             {
-            menu = data.iMenu;
-            if ( menu )
+            CEikMenuBar* ownerMenubar( NULL );
+            data.iOwner->MopGetObjectNoChaining( ownerMenubar );
+            if ( ownerMenubar == &aMenuBar )
                 {
-                AddRegisterEntryL( aMenuBar, *menu );
+                menu = data.iMenu;
+                if ( menu )
+                    {
+                    AddRegisterEntryL( aMenuBar, *menu );
+                    iUnregisteredMenus.Remove( i );
+                    }
+                break;
                 }
-            iUnregisteredMenus.Remove( i );
-            break;
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -301,7 +407,11 @@ void AknItemActionMenuRegister::DoRegisterMenuBarL( CEikMenuBar& aMenuBar )
 //
 void AknItemActionMenuRegister::DoUnregisterMenuBar( CEikMenuBar& aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     iRegisterArray->UnregisterMenuBar( aMenuBar );
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -312,21 +422,28 @@ void AknItemActionMenuRegister::DoUnregisterMenuBar( CEikMenuBar& aMenuBar )
 void AknItemActionMenuRegister::DoRegisterItemActionMenuL(
         CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CEikMenuBar* menuBar( NULL );
     for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
         {
         TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
         if ( data.iMenu == &aItemActionMenu )
             {
-            data.iOwner->MopGetObjectNoChaining( menuBar );
-            if ( menuBar )
+            if ( data.iOwner ) 
                 {
-                AddRegisterEntryL( *menuBar, aItemActionMenu );
+                data.iOwner->MopGetObjectNoChaining( menuBar );
+                if ( menuBar )
+                    {
+                    AddRegisterEntryL( *menuBar, aItemActionMenu );
+                    iUnregisteredMenus.Remove( i );
+                    }
                 }
-            iUnregisteredMenus.Remove( i );
             break;
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -337,7 +454,22 @@ void AknItemActionMenuRegister::DoRegisterItemActionMenuL(
 void AknItemActionMenuRegister::DoUnregisterItemActionMenu(
         CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     iRegisterArray->UnregisterItemActionMenu( aItemActionMenu );
+
+    for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
+        {
+        TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
+        if ( data.iMenu == &aItemActionMenu )
+            {
+            delete data.iMenu;
+            iUnregisteredMenus.Remove( i ); 
+            break; 
+            }
+        }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -348,13 +480,21 @@ void AknItemActionMenuRegister::DoUnregisterItemActionMenu(
 void AknItemActionMenuRegister::DoRegisterCollectionObserverL(
         MAknCollectionObserver& aObserver )
     {
-    CEikMenuBar* menuBar = FindCurrentMenuBarL();
+    _AKNTRACE_FUNC_ENTER;
+
+    CEikMenuBar* menuBar = FindCurrentMenuBar();
     if ( !menuBar || !iRegisterArray->RegisterCollectionObserverL(
             *menuBar, aObserver ) )
         {
-        TAknUnregisteredObserverData newData( menuBar, aObserver );
+        TAknUnregisteredObserverData newData( menuBar, 
+                aObserver, Owner() );
+        
+        
+        _AKNTRACE( "    Added observer %d", &aObserver );
         iUnregisteredObservers.AppendL( newData );
         }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -365,16 +505,29 @@ void AknItemActionMenuRegister::DoRegisterCollectionObserverL(
 void AknItemActionMenuRegister::DoUnregisterCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     iRegisterArray->UnregisterCollectionObserver( aObserver );
+
     for ( TInt i = 0; i < iUnregisteredObservers.Count(); i++ )
         {
         TAknUnregisteredObserverData& data( iUnregisteredObservers[ i ] );
         if ( &data.iObserver == &aObserver )
             {
             iUnregisteredObservers.Remove( i );
-            break;
+            _AKNTRACE_FUNC_EXIT;
+
+            return;
             }
         }
+
+    for ( TInt i = 0; i < iUnregisteredMenus.Count(); i++ )
+        {
+        TAknUnregisteredMenuData& data( iUnregisteredMenus[ i ] );
+        data.iMenu->RemoveCollectionObserver( aObserver ); 
+        }
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -384,9 +537,11 @@ void AknItemActionMenuRegister::DoUnregisterCollectionObserver(
 //
 CEikMenuBar* AknItemActionMenuRegister::DialogMenuBar( CAknAppUi* aAppUi )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CEikMenuBar* menuBar( NULL );
     // Check if there is an active dialog and fetch its menubar
-    if ( aAppUi->IsDisplayingMenuOrDialog() )
+    if ( aAppUi && aAppUi->IsDisplayingMenuOrDialog() )
         {
         CCoeControl* ctrl = aAppUi->TopFocusedControl();
         if ( ctrl )
@@ -398,6 +553,9 @@ CEikMenuBar* AknItemActionMenuRegister::DialogMenuBar( CAknAppUi* aAppUi )
                 }
             }
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menuBar;
     }
 
@@ -408,22 +566,18 @@ CEikMenuBar* AknItemActionMenuRegister::DialogMenuBar( CAknAppUi* aAppUi )
 //
 CEikMenuBar* AknItemActionMenuRegister::ViewMenuBar( CAknAppUi* aAppUi )
     {
-    CEikMenuBar* menuBar( NULL );
-    CAknViewAppUi* appUi( static_cast<CAknViewAppUi*>( aAppUi ) );
+    _AKNTRACE_FUNC_ENTER;
 
-    // Check if there is an active view
-    TVwsViewId uid;
-    if ( appUi->GetActiveViewId( uid ) == KErrNone )
+    CEikMenuBar* menuBar( NULL );
+    CAknView* view = View( aAppUi );
+        
+    if ( view )
         {
-        if ( uid.iAppUid != uid.iViewUid )
-            {
-            CAknView* view = appUi->View( uid.iViewUid );
-            if ( view )
-                {
-                menuBar = view->MenuBar();
-                }
-            }
+        menuBar = view->MenuBar();
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menuBar;
     }
 
@@ -434,11 +588,16 @@ CEikMenuBar* AknItemActionMenuRegister::ViewMenuBar( CAknAppUi* aAppUi )
 //
 CEikMenuBar* AknItemActionMenuRegister::ConstructingObjectMenuBar()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CEikMenuBar* menuBar( NULL );
     if ( iMenuBarOwner )
         {
         iMenuBarOwner->MopGetObjectNoChaining( menuBar );
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menuBar;
     }
 
@@ -449,12 +608,108 @@ CEikMenuBar* AknItemActionMenuRegister::ConstructingObjectMenuBar()
 //
 CEikMenuBar* AknItemActionMenuRegister::OverridingObjectMenuBar()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CEikMenuBar* menuBar( NULL );
     if ( iOverridingMenuBarOwner )
         {
         iOverridingMenuBarOwner->MopGetObjectNoChaining( menuBar );
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menuBar;
+    }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::Owner
+// ---------------------------------------------------------------------------
+//
+MObjectProvider* AknItemActionMenuRegister::Owner() const
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    MObjectProvider* owner = NULL;
+    CAknAppUi* appUi = AppUI();
+    
+    if ( iOverridingMenuBarOwner )
+        {
+        owner = iOverridingMenuBarOwner;
+        }
+    else
+        {
+        owner = View( appUi );
+
+        if ( !owner )
+            {
+            owner = iMenuBarOwner;
+            }
+        }
+    
+    if ( !owner )
+        {
+        owner = appUi;
+        }
+
+    __ASSERT_DEBUG( owner, User::Invariant() );
+    _AKNTRACE_FUNC_EXIT;
+
+    return owner;
+    }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::View
+// ---------------------------------------------------------------------------
+//
+CAknView* AknItemActionMenuRegister::View( CAknAppUi* aAppUi ) const
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    CAknView* view = NULL;
+
+    if ( aAppUi )
+        {
+        // Check if there is an active view
+        TVwsViewId uid;
+    
+        if ( aAppUi->GetActiveViewId( uid ) == KErrNone )
+            {
+            if ( uid.iAppUid != uid.iViewUid )
+                {
+                view = static_cast<CAknViewAppUi*>(
+                        aAppUi )->View( uid.iViewUid );
+                }
+            }
+        }
+
+    _AKNTRACE_FUNC_EXIT;
+
+    return view;
+    }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::AppUI
+// ---------------------------------------------------------------------------
+//
+CAknAppUi* AknItemActionMenuRegister::AppUI()
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+   CAknAppUi* appUi = NULL;
+    CCoeEnv* env = CCoeEnv::Static();
+    
+    if ( env )
+        {
+        appUi = static_cast<CAknAppUi*>( env->AppUi() );
+        }
+    
+
+    _AKNTRACE_FUNC_EXIT;
+
+    return appUi;
     }
 
 
@@ -466,6 +721,8 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterStateToItemActionMenuL(
         CEikMenuBar* aMenuBar,
         MAknCollection& aCollectionState )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     CAknItemActionMenu* menu( NULL );
 
     // View / dialog / appUi menubar was found
@@ -475,7 +732,7 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterStateToItemActionMenuL(
         // menubar does not have item action menu -> create one
         if ( !menu )
             {
-            menu = CAknItemActionMenu::NewLC( aCollectionState );
+            menu = CAknItemActionMenu::NewLC( aCollectionState, Owner() );
             AddRegisterEntryL( *aMenuBar, *menu );
             CleanupStack::Pop( menu );
             }
@@ -507,31 +764,36 @@ CAknItemActionMenu* AknItemActionMenuRegister::RegisterStateToItemActionMenuL(
         // No unregistered menu found -> create one and add to list
         if ( !viewRegistered )
             {
-            menu = CAknItemActionMenu::NewL( aCollectionState );
+            menu = CAknItemActionMenu::NewLC( aCollectionState, Owner() );
             TAknUnregisteredMenuData newData;
             newData.iOwner = iMenuBarOwner;
             newData.iMenu = menu;
             iUnregisteredMenus.AppendL( newData );
+            CleanupStack::Pop( menu );
             }
         }
     if ( menu )
         {
         // Set observers with menubar to menu
-        AddObserversToItemActionMenuL( aMenuBar, *menu );
+        AddObserversToItemActionMenuL( *menu );
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menu;
     }
 
 
 // ---------------------------------------------------------------------------
-// AknItemActionMenuRegister::FindCurrentMenuBarL
+// AknItemActionMenuRegister::FindCurrentMenuBar
 // ---------------------------------------------------------------------------
 //
-CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBarL()
+CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBar()
     {
+    _AKNTRACE_FUNC_ENTER;
+
+    CAknAppUi* appUi = AppUI();
     CEikonEnv* eikonEnv( CEikonEnv::Static() );
-    CAknAppUi* appUi( static_cast<CAknAppUi*>( eikonEnv->AppUi() ) );
-    TBool isConstructingDialog( EFalse );
     CEikMenuBar* menuBar( NULL );
     
     // If overriding menubar owner is set then it's the one to obey. If the
@@ -539,42 +801,35 @@ CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBarL()
     // isn't proper one available.
     if ( iOverridingMenuBarOwner )
         {
+        _AKNTRACE_FUNC_EXIT;
         return OverridingObjectMenuBar();
         }
-    
-    // Check if there is existing constructing dialog
+
+    // by default choose the current constructing menubar owner
     if ( iMenuBarOwner )
         {
-        CEikDialog* dialog( NULL );
-        iMenuBarOwner->MopGetObjectNoChaining( dialog );
-        if ( dialog )
-            {
-            isConstructingDialog = ETrue;
-            }
+        menuBar = ConstructingObjectMenuBar();
         }
-    // No constructing dialog
-    if ( !isConstructingDialog )
+    else
         {
         // Fetch pointer to dialog that is currently displayed
         menuBar = DialogMenuBar( appUi );
+
         // No dialog - pointer to active view menu bar
         if ( !menuBar )
             {
             menuBar = ViewMenuBar( appUi );
             }
         }
-    
-    // Fetch pointer to constructing object menu bar
-    if ( !menuBar )
-        {
-        menuBar = ConstructingObjectMenuBar();
-        }
 
     // Finally, if no luck with others, fetch pointer to appUi menu bar.
-    if ( !menuBar )
+    if ( !menuBar && eikonEnv )
         {
         menuBar = eikonEnv->AppUiFactory()->MenuBar();
         }
+
+    _AKNTRACE_FUNC_EXIT;
+
     return menuBar;
     }
 
@@ -586,9 +841,13 @@ CEikMenuBar* AknItemActionMenuRegister::FindCurrentMenuBarL()
 void AknItemActionMenuRegister::AddRegisterEntryL(
         CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
+
     aMenuBar.SetItemActionMenu( &aItemActionMenu );
     iRegisterArray->AddEntryL( aMenuBar, aItemActionMenu );
-    AddObserversToItemActionMenuL( &aMenuBar, aItemActionMenu );
+    AddObserversToItemActionMenuL( aItemActionMenu );
+
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -597,20 +856,36 @@ void AknItemActionMenuRegister::AddRegisterEntryL(
 // ---------------------------------------------------------------------------
 //
 void AknItemActionMenuRegister::AddObserversToItemActionMenuL(
-        CEikMenuBar* aMenuBar, CAknItemActionMenu& aItemActionMenu )
+        CAknItemActionMenu& aItemActionMenu )
     {
-    for ( TInt i = 0; i < iUnregisteredObservers.Count(); i++ )
+    _AKNTRACE_FUNC_ENTER;
+
+    TInt i = 0;
+    
+    while ( i  < iUnregisteredObservers.Count() )
         {
-        TAknUnregisteredObserverData& data( iUnregisteredObservers[ i ] );
-        // Add if matching menubar or observer with no menubar
-        if ( data.iMenuBar == aMenuBar || !data.iMenuBar )
+        TAknUnregisteredObserverData& data( iUnregisteredObservers[i] );
+        
+        // Register to item action menu if observer's owner matches item action
+        // menu's owner.
+        if ( data.iOwner == aItemActionMenu.Owner() )
             {
+            _AKNTRACE( "    Observer %d added to item action menu", &data.iObserver );
+
             aItemActionMenu.RegisterCollectionObserverL(
                     data.iObserver );
+            
+            iUnregisteredObservers.Remove( i );
+            }
+        else
+            {
+            ++i;
             }
         }
-    iUnregisteredObservers.Reset();
+
+    _AKNTRACE_FUNC_EXIT;
     }
+
 
 // ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::CreateInstanceL
@@ -618,13 +893,57 @@ void AknItemActionMenuRegister::AddObserversToItemActionMenuL(
 //
 AknItemActionMenuRegister* AknItemActionMenuRegister::CreateInstanceL()
     {
+    _AKNTRACE_FUNC_ENTER;
+
     AknItemActionMenuRegister* instance = NULL; 
     instance = new ( ELeave ) AknItemActionMenuRegister();
     CleanupStack::PushL( instance );
     instance->ConstructL();
     CleanupStack::Pop( instance );
+
+    _AKNTRACE_FUNC_EXIT;
     return instance;
     }
+
+
+// ---------------------------------------------------------------------------
+// AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner
+// ---------------------------------------------------------------------------
+//
+void AknItemActionMenuRegister::DoRemoveConstructingMenuBarOwner( 
+        MObjectProvider* aMenuBarOwner )
+    {
+    TInt i = 0;
+    
+    // set all references to removed menubar owner to NULL
+    while ( i  < iUnregisteredMenus.Count() )
+        {
+        TAknUnregisteredMenuData& data( iUnregisteredMenus[i] );
+
+        if ( data.iOwner == aMenuBarOwner ) 
+            {
+            data.iOwner = NULL;
+            }
+        ++i;
+        }
+    
+    // NULL also possible references in unregistered observers
+    for ( i = 0; i < iUnregisteredObservers.Count(); ++i )
+        {
+        TAknUnregisteredObserverData& data( iUnregisteredObservers[i] );
+        
+        if ( data.iOwner == aMenuBarOwner )
+            {
+            data.iOwner = NULL;
+            }
+        }
+    
+    if ( iMenuBarOwner == aMenuBarOwner )
+        {
+        iMenuBarOwner = NULL;
+        }
+    }
+
 
 // ---------------------------------------------------------------------------
 // AknItemActionMenuRegister::TAknUnregisteredObserverData
@@ -633,12 +952,13 @@ AknItemActionMenuRegister* AknItemActionMenuRegister::CreateInstanceL()
 //
 AknItemActionMenuRegister::TAknUnregisteredObserverData::\
     TAknUnregisteredObserverData(
-        CEikMenuBar* aMenuBar, MAknCollectionObserver& aObserver )
+        CEikMenuBar* aMenuBar, MAknCollectionObserver& aObserver,
+        MObjectProvider* aOwner )
     : iMenuBar( aMenuBar ),
-    iObserver( aObserver )
+    iObserver( aObserver ),
+    iOwner( aOwner )
     {
     }
-
 
 // End of File
 

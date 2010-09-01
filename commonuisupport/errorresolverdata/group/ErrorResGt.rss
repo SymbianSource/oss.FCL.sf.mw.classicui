@@ -25,6 +25,11 @@ RESOURCE ERROR_SET r_error_res_base_list
 		{
 		ERROR_ARRAY
 			{
+			startError=-101;	// KFaxErrModemNotWorking
+			errors=r_error_res_fax_errors;
+			},
+		ERROR_ARRAY
+			{
 			startError=-170;	// KPop3CannotConnect
 			errors=r_error_res_email_pop3_errors;
 			},
@@ -260,6 +265,7 @@ RESOURCE ERROR_SET r_error_res_base_list
 
 #include <errors/generic/psderr.ra>
 #include <errors/generic/netconerr.ra>
+#include <errors/generic/faxerr.ra>
 #include <errors/generic/emailerr.ra>
 #include <errors/generic/sockerr.ra>
 #include <errors/generic/tcperr.ra>

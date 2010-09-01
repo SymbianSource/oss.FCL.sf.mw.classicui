@@ -76,6 +76,7 @@ public:
     ~CSmileyIconRecord();
     
     void InsertIconL( CSmileyIcon* aIcon );
+    void DeleteIconAtPos( TInt aDocPos );
     void HandleTextDelete( TInt aStart, TInt aLength );
     void HandleTextInsert( TInt aStart, TInt aLength );
     void CancelSelection();

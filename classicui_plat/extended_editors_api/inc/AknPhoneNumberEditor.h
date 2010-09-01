@@ -248,7 +248,7 @@ public:
      */
     EXPORT_C void OpenVKB();
 
-
+    void MakeVisible(TBool aVisible);
 private: 
 //new functions, for ccpu support 
     /**
@@ -280,7 +280,7 @@ private:
      * Report event to pen input method.
      * @param aStateEvent, MAknEdStateObserver::EAknEdwinStateEvent     
      */
-    void ReportAknEdStateEventL( 
+    void ReportAknEdStateEvent( 
              MAknEdStateObserver::EAknEdwinStateEvent aStateEvent );
     /**
      * close VKB .    

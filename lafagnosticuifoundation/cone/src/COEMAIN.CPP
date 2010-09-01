@@ -21,7 +21,7 @@
 #include "COETLS.H"
 #include "COEFEP.H"		// class FepName
 #include "coepanic.h"
-#include "COEVER.H"
+#include "coever.h"
 #include <coecntrl.h>
 #include <coeerror.h>
 #include "coeenvextra.h"
@@ -30,7 +30,7 @@
 #include <viewcli.h>
 #include <coeaui.h>
 #include <hal.h>
-#include "CoeDataStorage.h"
+#include "coedatastorage.h"
 #include <coefontprovider.h>
 #include <centralrepository.h>
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
@@ -231,6 +231,9 @@ EXPORT_C void CCoeEnv::RunL()
 	case KErrServerTerminated:
 		return;
 	default:
+#ifdef _DEBUG
+	    RDebug::Print( _L("CCoeEnv's iStatus = %d"), iStatus.Int() );
+#endif
 		Panic(ECoePanicWservBlindCommandFailed);
 		}
 	TWsEvent event;

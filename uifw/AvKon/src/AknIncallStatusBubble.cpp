@@ -337,21 +337,21 @@ void CIncallAnim::Draw( const TRect& /*aRect*/ ) const
         // Start animation - we can't do a thing if this fails
         if ( iCallAnimType == EVoipCallAnim )
             {
-            TRAP( error , iIndiVoIPAnim->StartAnimationL() );
+            TRAP( error , iIndiVoIPAnim->StartAnimationL(EFalse) );
             mutableThis->iIsVoIPRunning = ETrue;
             mutableThis->iIsRunning = EFalse;
             mutableThis->iIsVideoRunning = EFalse;
             }
         else if ( iCallAnimType == EVideoCallAnim )
             {
-            TRAP( error , iIndiVideoAnim->StartAnimationL() );
+            TRAP( error , iIndiVideoAnim->StartAnimationL(EFalse) );
             mutableThis->iIsVoIPRunning = EFalse;
             mutableThis->iIsVideoRunning = ETrue;
             mutableThis->iIsRunning = EFalse;
             }
         else
             {
-            TRAP( error , iIndiAnim->StartAnimationL() );
+            TRAP( error , iIndiAnim->StartAnimationL(EFalse) );
             mutableThis->iIsVoIPRunning = EFalse;
             mutableThis->iIsRunning = ETrue;
             mutableThis->iIsVideoRunning = EFalse;
@@ -938,7 +938,9 @@ void CIncallStatusBubble::SizeChanged()
         AknLayoutScalable_Apps::call_type_pane( isLandscape ) );
     TRect callTypeIndicationRect( callTypeIndicationLayoutRect.Rect() );
     
-    TBool hideTypeIndication = isLandscape && !AknStatuspaneUtils::HDLayoutActive();
+    TBool hideTypeIndication = isLandscape 
+            && !AknStatuspaneUtils::HDLayoutActive() 
+            && !AknStatuspaneUtils::FlatLayoutActive();
     	
     if ( iFlags & ESBVideo )
         {

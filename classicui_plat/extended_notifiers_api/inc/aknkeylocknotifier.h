@@ -32,6 +32,7 @@ class CAknKeyLockControl;
 class CAknEcsNote;
 class CAknKeyLockNotifierSubject;
 class CKeyLockPolicyApi; 
+class CAknKeylockScreenSaverObserver;
 
 NONSHARABLE_CLASS(CAknSleepingNote) : public CAknNoteDialog
     {
@@ -97,8 +98,8 @@ public:
     CAknKeyLockControl();
     ~CAknKeyLockControl();
     void ConstructL();
-    void EnableKeylock(TBool aShowNote = ETrue);
-    void DisableKeylock();
+    void EnableKeylock(TBool aShowNote = ETrue, TBool aNotifySysApp = ETrue);
+    void DisableKeylock(TBool aNotifySysApp = ETrue);
     void OfferKeylock();
 
     void DisplayLockedNote();
@@ -135,6 +136,8 @@ private:
     // For screen lock
     void CapturePointerEvents();
     void UnCapturePointerEvents();
+	// whether Silder-key exists
+    TBool HasSliderKey();
 
 private:
     CEikButtonGroupContainer* iKeyLockCba;
@@ -184,6 +187,7 @@ private:
     TBool iFeatureNoPowerkey;
     TLockHardware iHardwareSupport;
     CKeyLockPolicyApi* iKeylockApi; 
+    CAknKeylockScreenSaverObserver* iKeylockScreenSaverObserver;    
     TBool iConsumeNextEventKey;
 public:
     TBool iAutolockEnabled;

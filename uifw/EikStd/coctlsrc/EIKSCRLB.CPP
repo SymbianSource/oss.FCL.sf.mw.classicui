@@ -41,8 +41,6 @@
 #include "eikscrlb.h"
 #include "EIKSBEXT.H"
 
-const TInt KIntensity = 100; // 100%
-
 const TInt KScrollBarWidth=9;
 // const TInt KScrollButtonHeight=10;
 // const TInt KArrowHeadScrollBarLength=20;
@@ -515,9 +513,6 @@ TInt CEikScrollBarExtension::ScrollBarType()
     return CEikScrollBar::EArrowHead;
     }
 
-void CEikScrollBarExtension::CreateButtonL(CAknScrollButton*& /*aButton*/,CAknScrollButton::TType /*aType*/)
-    {
-    }
 
 void CEikScrollBarExtension::DoSetModel(const TEikScrollBarModel* aModel)
     {
@@ -674,13 +669,13 @@ EXPORT_C CAknDoubleSpanScrollBar::~CAknDoubleSpanScrollBar()
     if ( iAvkonAppUiBase )
         {
         CAknPointerEventModifier* modifier = iAvkonAppUiBase->PointerEventModifier();
-        
+
         if ( modifier )
             {
             modifier->Pop( *this );
             }
         }
-        
+
     AknsUtils::DeregisterControlPosition( this );
     }
 
@@ -706,14 +701,9 @@ EXPORT_C void CAknDoubleSpanScrollBar::ConstructL(TBool aWindowOwning, MEikScrol
     if (aWindowOwning)
         {
         CreateWindowL(aParent);
-        if ( CAknEnv::Static()->TransparencyEnabled() )
-            {
-            Window().SetRequiredDisplayMode( EColor16MA );
-            if ( Window().SetTransparencyAlphaChannel() == KErrNone )
-                {
-                Window().SetBackgroundColor( ~0 );
-                }
-            }
+        EnableWindowTransparency();
+        Window().SetPointerGrab( ETrue );
+        EnableDragEvents();
         }
     else if(aParent)
         {
@@ -731,18 +721,6 @@ EXPORT_C void CAknDoubleSpanScrollBar::ConstructL(TBool aWindowOwning, MEikScrol
 
     iOrientation=aOrientation;
     CreateRequiredComponentsL();
-
-    if (aWindowOwning)
-        {
-        Window().SetPointerGrab(ETrue);
-        EnableDragEvents();
-        if (extension->iScrollIndicator)
-               extension->iScrollIndicator->SetAsWindowOwning(ETrue);
-
-
-        // By default set background to transparent
-        SetTransparentBackground(ETrue);
-        }
 
     SetComponentsToInheritVisibility(ETrue);
     MakeVisible(EFalse);
@@ -846,11 +824,11 @@ void CAknDoubleSpanScrollBar::SetButtonPositionL(CAknScrollButton* aButton)
 EXPORT_C void CAknDoubleSpanScrollBar::MakeVisible(TBool aVisible)
     {
     CAknPointerEventModifier* modifier = iAvkonAppUiBase ? iAvkonAppUiBase->PointerEventModifier() : NULL;
-    
+
     if ( modifier )
         {
         CAknDoubleSpanScrollBarExtension* extension = static_cast<CAknDoubleSpanScrollBarExtension*> (iExtension);
-        if ( aVisible  && (extension->iScrollIndicator->ScrollSpan() > 0) )
+        if ( aVisible  && (extension->iScrollIndicator->ScrollSpan() > 0)  && !( extension->iExtensionType & ENoExpandedTouchArea ) )
             {
             modifier->Push( *this, ExtensionArea() );
             }
@@ -916,10 +894,21 @@ EXPORT_C CCoeControl* CAknDoubleSpanScrollBar::ComponentControl(TInt aIndex) con
 EXPORT_C void CAknDoubleSpanScrollBar::SizeChanged()
     {
     CAknPointerEventModifier* modifier = iAvkonAppUiBase ? iAvkonAppUiBase->PointerEventModifier() : NULL;
-    
-    if ( modifier && IsVisible() )
+
+    if (iExtension)
+            {
+            CAknDoubleSpanScrollBarExtension* extension = static_cast<CAknDoubleSpanScrollBarExtension*> (iExtension);
+            if ( modifier && IsVisible() && !( extension->iExtensionType & ENoExpandedTouchArea ) )
+                {
+                modifier->Update( *this, ExtensionArea() );
+                }
+          }
+    else
         {
-        modifier->Update( *this, ExtensionArea() );
+        if ( modifier && IsVisible()  )
+            {
+            modifier->Update( *this, ExtensionArea() );
+            }
         }
 
     AknsUtils::RegisterControlPosition( this );
@@ -1054,33 +1043,48 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
     // The real span area available (as pixels)
     scrollSpanPix -= thumbSpanPix;
 
-            
-         // touch release on thumb
-         TBool thumbPressed = 
-                 ( position < (thumbPositionPix + thumbSpanPix) 
-                         && position > thumbPositionPix );
-         if ( thumbPressed &&
-              aPointerEvent.iType == TPointerEvent::EButton1Up &&
-              thumbSpan < scrollSpan )
-             {
-             MTouchFeedback* feedback = MTouchFeedback::Instance();
 
-             CCoeControl* parent = Parent();
-             TBool feedbackEnabled = !IsDimmed() && IsVisible();
-             if (parent && feedbackEnabled)
-                 {
-                 // check the same for the parent
-                 feedbackEnabled = !parent->IsDimmed() && parent->IsVisible();
-                 }
-             if ( feedback && feedbackEnabled )
-                 {
-                 feedback->InstantFeedback( this, 
-                                            ETouchFeedbackBasicSlider, 
-                                            ETouchFeedbackVibra, 
-                                            aPointerEvent );
-                 }
+     // touch release on thumb
+    TBool thumbPressed =
+             ( position < (thumbPositionPix + thumbSpanPix)
+                     && position > thumbPositionPix );
+    if ( thumbPressed &&
+          aPointerEvent.iType == TPointerEvent::EButton1Up &&
+          thumbSpan < scrollSpan )
+        {
+         MTouchFeedback* feedback = MTouchFeedback::Instance();
+
+         CCoeControl* parent = Parent();
+         TBool feedbackEnabled = !IsDimmed() && IsVisible();
+         if (parent && feedbackEnabled)
+             {
+             // check the same for the parent
+             feedbackEnabled = !parent->IsDimmed() && parent->IsVisible();
              }
-     
+         if ( feedback && feedbackEnabled )
+             {
+             feedback->InstantFeedback( this,
+                                        ETouchFeedbackSlider,
+                                        ETouchFeedbackVibra,
+                                        aPointerEvent );
+             }
+         }
+
+     if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
+         {
+         extension->iPointerDownOn = CEikScrollBar::ENone;
+
+         // Highlight off always when the pointer is lifted
+         indicator->SetHandleHighlight( EFalse );
+         indicator->DrawDeferred();
+         indicator->SetBackgroudHighlight( EFalse );
+
+         if ( extension->iPopupController )
+             {
+             extension->iPopupController->HideInfoPopupNote();
+                 extension->iShowPopup = EFalse;
+             }
+         }
     // check that scroll bar is useful
     if (thumbSpan < scrollSpan)
         {
@@ -1090,7 +1094,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
             indicator->SetBackgroudHighlight( ETrue );
 
             extension->iPointerDownPosition  = position;
-            
+
             if(iButtons.iIncreaseNudge &&
                iButtons.iIncreaseNudge->Rect().Contains(aPointerEvent.iPosition))
                 {
@@ -1120,22 +1124,6 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                 }
             }
 
-        if (aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            extension->iPointerDownOn = CEikScrollBar::ENone;
-
-            // Highlight off always when the pointer is lifted
-            indicator->SetHandleHighlight( EFalse );
-            indicator->DrawDeferred();
-            indicator->SetBackgroudHighlight( EFalse );
-
-            if ( extension->iPopupController )
-                {
-                extension->iPopupController->HideInfoPopupNote();
-                    extension->iShowPopup = EFalse;
-                }
-            }
-
         // respond to the pointer event
         switch(extension->iPointerDownOn)
             {
@@ -1154,7 +1142,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
 
 
                         TInt prevPosValue = extension->ThumbPosition();
-                        
+
                         // This will update the thumb's pixel extent, used
                         // below
                         extension->SetModelThumbPosition(thumbPosition);
@@ -1174,7 +1162,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                                 }
                             if ( feedback && feedbackEnabled )
                                 {
-                                feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aPointerEvent );
+                                feedback->InstantFeedback( this, ETouchFeedbackSlider, aPointerEvent );
                                 }
                             }
 
@@ -1197,7 +1185,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                             // repeat until thumb reaches the stylus down position
                             pointerWindow->RequestPointerRepeatEvent(KScrollRepeatTimeout, ignoreRect);
                             }
-                        
+
 
                         }
                     else
@@ -1224,7 +1212,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                                 }
                             if ( feedback && feedbackEnabled )
                                 {
-                                feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aPointerEvent );
+                                feedback->InstantFeedback( this, ETouchFeedbackSlider, aPointerEvent );
                                 }
                             }
 
@@ -1248,7 +1236,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                             pointerWindow->RequestPointerRepeatEvent(KScrollRepeatTimeout, ignoreRect);
 
                             }
-                        
+
                         }
 
                     if(indicator->DrawBackgroundState())
@@ -1272,30 +1260,30 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
 
                     if ( feedback )
                         {
-                        TTouchFeedbackType fbType = TTouchFeedbackType( 
+                        TTouchFeedbackType fbType = TTouchFeedbackType(
                                                         ETouchFeedbackAudio |
                                                         ETouchFeedbackVibra );
-                          
-                        feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, fbType, aPointerEvent );
+
+                        feedback->InstantFeedback( this, ETouchFeedbackSlider, fbType, aPointerEvent );
                         }
                     }
 
-                if( aPointerEvent.iType == TPointerEvent::EDrag 
+                if( aPointerEvent.iType == TPointerEvent::EDrag
                    || aPointerEvent.iType == TPointerEvent::EButtonRepeat )
                     {
-                    // performace improving. Too many drag event received, handling every single event 
+                    // performace improving. Too many drag event received, handling every single event
                     // will use too much CPU time.
                     TTime now;
-                    now.HomeTime();                    
+                    now.HomeTime();
                     if ( extension->iDragged &&
-                         now.MicroSecondsFrom( extension->iLastDrag ) 
+                         now.MicroSecondsFrom( extension->iLastDrag )
                          < KScrollDragTimeout )
-                        {                        
+                        {
                         break; // ignore drag for this time
                         }
                     extension->iDragged = ETrue; // after this time, iLastDragged has value.
                     extension->iLastDrag = now;
-                    
+
                     thumbPositionPix = position - extension->iPointerOffsetFromThumb;
                     TInt oldPosition = thumbPosition;
                     TReal newPosition = thumbPositionPix * ( scrollSpan - thumbSpan ) / (TReal)scrollSpanPix;
@@ -1313,20 +1301,6 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
 
                     if(thumbPosition != oldPosition)
                         {
-                        // Smooth continuous tactile feedback is produced
-                        // during thumb dragging. The tactile feedback API 
-                        // filters out possible re-startings of the effect.
-                        MTouchFeedback* feedback = MTouchFeedback::Instance();
-
-                        if ( feedback )
-                            {
-                            TTimeIntervalMicroSeconds32 timeout( 300000 );
-                            feedback->StartFeedback( this, 
-                                                     ETouchContinuousSlider, 
-                                                     &aPointerEvent, 
-                                                     KIntensity, // intensity 100%
-                                                     timeout );
-                            }
                         extension->SetModelThumbPosition(thumbPosition);
                         indicator->SetIndicatorValues(scrollSpan, thumbPosition, thumbSpan, 0, 0);
 
@@ -1346,25 +1320,31 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                     if ( extension->iShowPopup && extension->iPopupController )
                         {
                         TPoint infoPoint = PositionRelativeToScreen();
-
+                        
                         if ( iOrientation == EVertical )
                             {
                             if ( AknLayoutUtils::LayoutMirrored() )
-                                {
-                                infoPoint.iX += Rect().Width();
-                                infoPoint.iY += aPointerEvent.iPosition.iY;
-                                extension->iPopupController->SetPositionAndAlignment (
-                                    infoPoint, EHLeftVCenter );
-                                }
-                            else
-                                {
+                            	{
+								TRect mainPaneRect( 0, 0, 0, 0 );    
+                                AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane, 
+                                                mainPaneRect );
+                                TInt mainPaneWidth = mainPaneRect.Width();
+                                infoPoint.iX += ( mainPaneWidth - infoPoint.iX + Rect().Width() ) / 2 ;
                                 infoPoint.iY += aPointerEvent.iPosition.iY;
                                 extension->iPopupController->SetPositionAndAlignment (
                                     infoPoint, EHRightVCenter );
                                 }
+                            else
+                                {
+                                infoPoint.iX = infoPoint.iX / 2;
+                                infoPoint.iY += aPointerEvent.iPosition.iY;
+                                extension->iPopupController->SetPositionAndAlignment (
+                                    infoPoint, EHLeftVCenter );
+                                }
                             }
                         else if ( iOrientation == EHorizontal )
                             {
+                            //infoPoint.iY = infoPoint.iY / 2;
                             infoPoint.iX += aPointerEvent.iPosition.iX;
                             extension->iPopupController->SetPositionAndAlignment(
                                 infoPoint, EHCenterVBottom );
@@ -1376,17 +1356,6 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                 break;
 
             case CEikScrollBar::ENone:
-                {
-                // Stop the continuous tactile feedback that may be playing
-                // at the time due to possible previous thumb dragging.
-                MTouchFeedback* feedback = MTouchFeedback::Instance();
-
-                if ( feedback )
-                    {
-                    feedback->StopFeedback( this );
-                    }
-                }
-
                 if(lastPointerDownOn == CEikScrollBar::EThumb)
                     {
                     if(extension->ScrollBarObserver())
@@ -1416,7 +1385,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback ( this, ETouchFeedbackBasicSlider, aPointerEvent );
+                            feedback->InstantFeedback ( this, ETouchFeedbackSlider, aPointerEvent );
                             }
                         extension->SetModelThumbPosition(thumbPosition);
                         indicator->SetIndicatorValues(scrollSpan, thumbPosition, thumbSpan, 0, 0);
@@ -1459,7 +1428,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback ( this, ETouchFeedbackBasicSlider, aPointerEvent );
+                            feedback->InstantFeedback ( this, ETouchFeedbackSlider, aPointerEvent );
                             }
                         extension->SetModelThumbPosition(thumbPosition);
                         indicator->SetIndicatorValues(scrollSpan, thumbPosition, thumbSpan, 0, 0);
@@ -1599,9 +1568,9 @@ void CAknDoubleSpanScrollBar::ResetPressedDownHighlight()
     {
     CAknDoubleSpanScrollBarExtension* extension =
         static_cast<CAknDoubleSpanScrollBarExtension*>( iExtension );
-        
+
     CAknDoubleSpanScrollIndicator* indicator = extension->iScrollIndicator;
-    
+
     indicator->SetHandleHighlight( EFalse );
     }
 
@@ -1736,9 +1705,6 @@ TInt CAknDoubleSpanScrollBarExtension::ScrollBarType()
     return CEikScrollBarFrame::EDoubleSpan;
     }
 
-void CAknDoubleSpanScrollBarExtension::CreateButtonL(CAknScrollButton*& /*aButton*/,CAknScrollButton::TType /*aType*/)
-    {
-    }
 
 void CAknDoubleSpanScrollBarExtension::DoSetModel(const TEikScrollBarModel* aModel)
     {
@@ -1770,10 +1736,6 @@ void CAknDoubleSpanScrollBarExtension::DoSetModel(const TEikScrollBarModel* aMod
                 0);
             }
 
-        if (iParent->OwnsWindow() && iScrollIndicator->TransparentBackground())
-            {
-            iParent->Window().HandleTransparencyUpdate();
-            }
         if(iScrollIndicator->IsVisible())
             {
             if(iScrollIndicator->DrawBackgroundState() && !iParent->OwnsWindow())
@@ -1789,7 +1751,7 @@ void CAknDoubleSpanScrollBarExtension::DoSetModel(const TEikScrollBarModel* aMod
                 }
             else
                 {
-                iParent->DrawDeferred();                 
+                iParent->DrawDeferred();
                 }
 
             }
@@ -1904,6 +1866,7 @@ void CAknDoubleSpanScrollBarExtension::CreateRequiredComponentsL()
         iScrollIndicator->SetContainerWindowL( *iParent );
         iScrollIndicator->SetRect( iParent->Rect() );
         iScrollIndicator->SetComponentsToInheritVisibility(ETrue);
+        iScrollIndicator->SetAsWindowOwning( iParent->OwnsWindow() );
         }
 
     if ( AknLayoutUtils::PenEnabled() &&
@@ -2360,13 +2323,13 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
     // interested in only about the ratio between scrollbar and extension.
     TAknLayoutRect layoutRect;
     layoutRect.LayoutRect( TRect( 0, 0, 200, 200 ), AknLayoutScalable_Avkon::listscroll_gen_pane( 0 ).LayoutLine() );
-    
+
     TRect parent( layoutRect.Rect() ); // parent of both extension and scrollbar
-    
+
     layoutRect.LayoutRect( parent, AknLayoutScalable_Avkon::scroll_pane( 0 ).LayoutLine() );
-    
+
     TRect scrollbar( layoutRect.Rect() );
-    
+
     CAknDoubleSpanScrollBarExtension* extension1 = static_cast<CAknDoubleSpanScrollBarExtension*> (iExtension);
     if( extension1->iExtensionType & ENormalExpandedTouchArea )
         layoutRect.LayoutRect( parent, AknLayoutScalable_Avkon::aid_size_touch_scroll_bar( 0 ).LayoutLine() );
@@ -2377,7 +2340,58 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
     TRect extension( layoutRect.Rect() );
 
     TRect area;
-    
+
+    if ( iParentControl )
+        {
+        CCoeControl* windowOwningParent = iParentControl;
+        while ( windowOwningParent && !windowOwningParent->OwnsWindow() )
+            {
+            windowOwningParent = windowOwningParent->Parent();
+            }
+
+        if ( windowOwningParent )
+            {
+            TInt xGap = 0;
+            TRect scrollBarRect = Rect();
+            TRect parentRect = windowOwningParent->Rect();
+
+            if ( OwnsWindow() )
+                {
+                scrollBarRect.Move( Position().iX -
+                    windowOwningParent->Position().iX, 0 );
+                }
+            if ( iOrientation == CEikScrollBar::EVertical )
+                {
+                // left to right layout in use
+                if ( !AknLayoutUtils::LayoutMirrored() )
+                    {
+                    xGap = parentRect.iBr.iX - scrollBarRect.iBr.iX;
+                    if ( Abs( xGap ) < scrollBarRect.Width() )
+                        {
+                        extension.iBr.iX += xGap;
+                        }
+                    }
+                // right to left layout in use
+                else
+                    {
+                    xGap = parentRect.iTl.iX - scrollBarRect.iTl.iX;
+                    if ( Abs( xGap ) < scrollBarRect.Width() )
+                        {
+                        extension.iTl.iX += xGap;
+                        }
+                    }
+                }
+            else
+                {
+                xGap = parentRect.iBr.iY - scrollBarRect.iBr.iY;
+                if ( Abs( xGap ) < scrollBarRect.Height() )
+                    {
+                    extension.iBr.iY += xGap;
+                    }
+                }
+            }
+        }
+
     if ( iOrientation == CEikScrollBar::EVertical )
         {
         area.iTl.iX = extension.iTl.iX - scrollbar.iTl.iX;
@@ -2392,7 +2406,7 @@ TRect CAknDoubleSpanScrollBar::ExtensionArea() const
         area.iBr.iX = iSize.iWidth + ( extension.Height() - scrollbar.Height() );
         area.iBr.iY = area.iTl.iY + extension.Width();
         }
-    
+
     return area;
     }
 

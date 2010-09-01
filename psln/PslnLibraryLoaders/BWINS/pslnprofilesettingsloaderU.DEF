@@ -1,0 +1,3 @@
+EXPORTS
+	?GateFunction@@YAPAXXZ @ 1 NONAME ; void * GateFunction(void)
+

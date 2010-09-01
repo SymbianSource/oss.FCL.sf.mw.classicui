@@ -19,6 +19,7 @@
 #define M_AKNCOLLECTION_H
 
 #include <e32std.h>
+#include <coemop.h>
 
 /**
  * Collection state provider.
@@ -33,6 +34,8 @@
 class MAknCollection
     {
 public:
+
+    DECLARE_TYPE_ID( 0x2002C343 )
 
     /**
      * Enum for collection state flags.
@@ -54,7 +57,22 @@ public:
         /**
          * Collection is view-only (no highlight ever).
          */
-        EStateViewOnly                = 0x00000008
+        EStateViewOnly                = 0x00000008, 
+        /**
+         * Collection has marked items. 
+         */
+        EStateMarkedItems             = 0x00000010 
+        };
+
+    /**
+     * Enum for collection extension types.
+     */
+    enum TExtensionType
+        {
+        /**
+         * Collection supports multiple marking mode
+         */
+        EAknMarkingCollection = 1
         };
 
     /**
@@ -77,9 +95,95 @@ public:
      * @param  aExtensionId  Extension id. 
      * @param  a0            First extension method parameter.
      * @param  a1            Second extension method parameter.
+     * @return Error code
      */    
     virtual TInt CollectionExtension(
             TUint aExtensionId, TAny*& a0, TAny* a1 ) = 0;
     };
 
+
+/**
+ * Collection marking mode handler.
+ *
+ * This interface is intended for those collections that implement
+ * multiple marking mode and wish to use mode directly from options menu.
+ *
+ * @lib eikcoctl
+ * @since S60 v5.2
+ */
+class MAknMarkingCollection
+    {
+public:
+
+    /**
+     * Extension type.
+     */
+    enum { TYPE = MAknCollection::EAknMarkingCollection };
+
+    /**
+     * Enum for collection state flags.
+     */
+    enum TStateFlag
+        {
+        /**
+         * Collection is in multiple marking mode.
+         */
+        EStateMarkingMode             = 0x00000001,
+        /**
+         * Collection has marked items.
+         */
+        EStateMarkedItems             = 0x00000002,
+        /**
+         * Collection is empty
+         */
+        EStateCollectionEmpty         = 0x00000004
+        };
+
+    /**
+     * Sets multiple marking state.
+     *
+     * @param aActive ETrue if multiple marking should be active.
+     */
+    virtual void SetMultipleMarkingState( TBool aActive ) = 0;
+
+    /**
+     * Request to end marking mode
+     * 
+     * @return ETrue if marking mode can be ended 
+     */
+    virtual TBool ExitMarkingMode() = 0;
+    
+    /**
+     * Returns the collection marking state. The state is combination of
+     * flags defined in @c TStateFlag. 
+     *
+     * @return  Marking state.
+     */
+    virtual TUint MarkingState() const = 0;
+    
+    /**
+     * Marks the currently selected item.
+     */
+    virtual void MarkCurrentItemL() = 0;
+     
+    /**
+     * Marks all items in the collection.
+     */
+    virtual void MarkAllL() = 0; 
+
+    /**
+     * Unmarks all items in the collection.
+     */
+    virtual void UnmarkAll() = 0; 
+    
+    /*
+     * Can current item be marked
+     * 
+     * @return ETrue if item is markable
+     */
+    virtual TBool CurrentItemMarkable() = 0;
+    
+    };
+
 #endif // M_AKNCOLLECTION_H
+

@@ -4194,5 +4194,133 @@
 //r: TB9.2
 #define qtn_tin_option_menu_add_smiley "Add smiley"
 
+//d:Restart phone note for inserting SIM card. Shown if SIM card has been inserted and offline mode has been changed to another one when phone is on.
+//l:popup_note_window
+//r: TB9.2
+#define qtn_su_note_insert_sim_and_restart "Insert SIM card and restart phone"
+
+//d: Text in touch inputmethod menu list
+//d: Command to switch handwriting input orientation to portrait.
+//l: list_single_pane_t1_cp2
+//r: TB9.2 
+#define qtn_tin_option_menu_to_portrait_hwr "To portrait handwriting"
+
+//d: Text in touch inputmethod menu list
+//d: Command to switch handwriting input orientation to landscape.
+//l: list_single_pane_t1_cp2
+//r: TB9.2 
+#define qtn_tin_option_menu_to_landscape_hwr "To landscape handwriting"
+
+//d: Text in touch inputmethod menu list
+//d: Command to switch to virtual key based input methods.
+//l: list_single_pane_t1_cp2
+//r: TB9.2 
+#define qtn_tin_option_menu_switch_to_vkey_input "Switch to virtual key based input"
+
+//d: Text in touch inputmethod menu list
+//d: Command to display writing speed setting list.
+//l: list_single_pane_t1_cp2
+//r: TB9.2 
+#define qtn_tin_settings_writing_speed "Writing speed"
+
+//d: Text in touch inputmethod menu list
+//d: Command to display guide line setting list.
+//l: list_single_pane_t1_cp2
+//r: TB9.2 
+#define qtn_tin_settings_guiding_line "Guiding Line"
+
+//d: Text in Chinese ITUT popup note
+//d: Notification that clarify that only Chinese character can be input
+//l: popup_note_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_invalid_phrase "Invalid phrase"
+
+//d: Text in Chinese ITUT popup note
+//d: Notification that clarify that the phrase is not exist in database
+//l: popup_note_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_phrase_not_existed "The phrase is not exist in database"
+
+//d: Text in Chinese ITUT popup note
+//d: Notification that clarify that the database has no space to save the new phrase
+//l: popup_note_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_db_have_no_space "The database has no space now"
+
+//d: Text in Chinese ITUT popup note
+//d: Notification that clarify that the new phrase is too long
+//l: popup_note_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_phrase_too_long "The phrase is too long"
+
+//d: Text in Chinese ITUT popup wait note
+//d: Notification that it is deleting phrase
+//l: popup_note_wait_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_deleting_phrases "It is deleting phrases"
+
+//d: Text in Chinese ITUT confirmation query prompt
+//d: Notification that confirm to delete the phrases
+//l: popup_note_window
+//r: TB9.2
+#define qtn_chi_chinese_user_db_note_confirm_deletions "Delete %N Phrase?"
+
+//d: Edit menu item to activate pinyin phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_pinyin_phrase "Pinyin phrase"
+
+//d: Edit menu item to activate zhuyin phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_zhuyin_phrase "Zhuyin phrase"
+
+//d: Edit menu item to activate stroke phrase input mode.
+//d: Only Chinese.
+//l: list_single_pane_t1_cp2
+//r: TB9.2
+#define text_chi_input_stroke_phrase "Stroke phrase"
+
+// d: Default text shown in the universal indicator popup for integrate im indicator.
+// l: list_single_uniindi_pane_t1
+// w:
+// r: TB9.2
+//
+#define qtn_iim_uni_ind_default "New unread chats"
+
+//d: Text in touch inputmethod menu list
+//d: Command to change editor input mode to alpha input mode
+//d: Only Korean
+//l: list_single_pane_t1_cp2
+//r: 5.0
+#define qtn_activate_english_mode "Alpha mode"
+
+//d: Text in touch inputmethod menu list
+//d: Command to change editor input mode to Korean character input mode
+//d: Only Korean
+//l: list_single_pane_t1_cp2
+//r: 5.0
+#define qtn_activate_korean_mode "Korean mode"
+
+//d:Command in options menu.
+//d:Mark multiple -operation. Launches list multiple marking mode.
+//l:list_single_pane_t1_cp2/opt3
+//r: TB9.2
+//
+#define qtn_options_list_mark_multiple "Mark multiple"
+
+//d: Text shown in navi pane when phone is in marking mode
+//l: navi_text_pane_t1
+//r: TB9.2
+//
+#define qtn_navi_pane_marking_mode "Marking mode"
+
+//d: handwriting setting menu items.
+//l: list_single_pane_t1_cp2/opt3
+//r: TB9.2
+#define qtn_handwriting_input_options "Handwriting input settings"
 
 // End of File
+

@@ -30,9 +30,12 @@
 #include <aknview.h>
 #include <apgwgnam.h>
 #include <aknlayoutscalable_avkon.cdl.h>
-
+#include <akntransitionutils.h>
 #include <AknTasHook.h> // for testability hooks
 #include <touchfeedback.h>
+#include <gfxtranseffect/gfxtranseffect.h>
+#include <akntranseffect.h>
+#include <akntransitionutils.h>
 const TInt KWindowPosition = 1000;             // window's position
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -41,7 +44,6 @@ const TInt KWindowPosition = 1000;             // window's position
 // CAknPreviewPopUp::NewL
 // -----------------------------------------------------------------------------
 //
-#if defined( RD_SCALABLE_UI_V2 ) || defined( RD_PREVIEW_POPUP )
 CAknPreviewPopUp* CAknPreviewPopUp::NewL( CCoeControl& aContent,
         CAknPreviewPopUpController& aController,
         const TInt aStyle )
@@ -68,6 +70,7 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
       iFlags( aStyle ),
       iAllowUpEvent(EFalse)
     {
+    GfxTransEffect::Register( this, KGfxPreviewPopupControlUid );
     }
 
 // -----------------------------------------------------------------------------
@@ -76,7 +79,22 @@ CAknPreviewPopUp::CAknPreviewPopUp( CCoeControl& aContent,
 //
 CAknPreviewPopUp::~CAknPreviewPopUp()
     {
+    if( iIsDeleted )
+        {
+    	*iIsDeleted = ETrue ;
+        iIsDeleted = 0 ;
+        }
+
+    if ( IsVisible() )
+        {
+        iCloseMenu = ETrue;
+        iController.HidePopUp();
+        }
+		
     AKNTASHOOK_REMOVE();
+    
+    GfxTransEffect::Deregister( this );
+
     if ( CapturesPointer() )
         {
         SetPointerCapture( EFalse );
@@ -114,57 +132,29 @@ void CAknPreviewPopUp::ConstructL()
     iBgContext = CAknsFrameBackgroundControlContext::NewL(
         iFrameId, nullRect, nullRect, EFalse );
 
+    CreateWindowL();
+    EnableWindowTransparency();
+    
+    TInt stackPriority = ECoeStackPriorityCba;
+    
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {
-        
-        CreateWindowL();
-        
-        // try to enable window transparency
-        if( CAknEnv::Static()->TransparencyEnabled() )
-            {
-            Window().SetRequiredDisplayMode( EColor16MA );
-            if ( Window().SetTransparencyAlphaChannel() == KErrNone )
-                {
-                
-                Window().SetBackgroundColor( ~0 );
-                }
-            }
-
-        iAvkonAppUi->AddToStackL( this, ECoeStackPriorityCba,
-                                  ECoeStackFlagRefusesAllKeys |
-                                  ECoeStackFlagRefusesFocus );
-
         Window().SetPointerGrab( ETrue );
         SetGloballyCapturing( ETrue );
-        //fix for TSW error PTPA-7HNA25
         Window().SetOrdinalPosition(KWindowPosition);
         }
     else
         {
-        CreateWindowL();
-
-        // try to enable window transparency
-        if( CAknEnv::Static()->TransparencyEnabled() )
-            {
-            Window().SetRequiredDisplayMode( EColor16MA );
-            if ( Window().SetTransparencyAlphaChannel() == KErrNone )
-                {
-                
-                Window().SetBackgroundColor( ~0 );
-                }
-            }
-        
-        iAvkonAppUi->AddToStackL( this, ECoeStackPriorityDefault,
-                                  ECoeStackFlagRefusesAllKeys |
-                                  ECoeStackFlagRefusesFocus );
-                                  
+        stackPriority = ECoeStackPriorityDefault;
         Window().SetOrdinalPosition( 0, ECoeWinPriorityNormal );
         }
 
+    iAvkonAppUi->AddToStackL( this, stackPriority,
+                              ECoeStackFlagRefusesAllKeys |
+                              ECoeStackFlagRefusesFocus );
+
     EnableDragEvents();
-
     SetComponentsToInheritVisibility( ETrue );
-
 
     iContent.SetBackground( this );
     iContent.SetContainerWindowL( *this );
@@ -181,7 +171,6 @@ void CAknPreviewPopUp::ConstructL()
         SetRect( layoutRect.Rect() );
         }
 
-    DrawableWindow()->EnableBackup( EWindowBackupAreaBehind );
     MakeVisible( EFalse );   
     ActivateL();
     }
@@ -194,20 +183,28 @@ void CAknPreviewPopUp::Show()
     {
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {
-        //fix for TSW error PTPA-7HNA25
         Window().SetOrdinalPosition( 0 );
         iAvkonAppUi->UpdateStackedControlFlags( this, NULL,
                                                 ECoeStackFlagRefusesAllKeys );
 
-        if ( AknLayoutUtils::PenEnabled() )
-            {
-            SetPointerCapture( ETrue );
-            }
+        SetPointerCapture( ETrue );
         }
 
     iCloseMenu = EFalse; 
-    Window().Invalidate();
-    MakeVisible( ETrue );
+    TBool useTfx = !( iFlags & CAknPreviewPopUpController::EPermanentMode 
+            || iFlags & CAknPreviewPopUpController::EFixedMode );
+    
+    if ( useTfx && GfxTransEffect::IsRegistered( this ) )
+        {
+        GfxTransEffect::Begin( this, KGfxControlAppearAction );
+        MakeVisible( ETrue );
+        GfxTransEffect::SetDemarcation( this, iPosition );
+        GfxTransEffect::End( this );
+        }
+    else
+        {
+        MakeVisible( ETrue );
+        }
     if( GrabbingComponent() )
         {
         iCloseMenu = ETrue;
@@ -227,12 +224,28 @@ void CAknPreviewPopUp::Hide()
         return; 
         }
 
+    // Skip disappear transition if the popup is either permanent, fixed or
+    // faded. Fading status is checked because there can't be two parallel
+    // effects applied to the same window.
+    TBool useTfx = !( iFlags & CAknPreviewPopUpController::EPermanentMode 
+            || iFlags & CAknPreviewPopUpController::EFixedMode ) 
+                    && !Window().IsFaded();
+    
+    if ( useTfx && GfxTransEffect::IsRegistered( this ) )
+        {
+        GfxTransEffect::Begin( this, KGfxControlDisappearAction );
+        MakeVisible( EFalse );
+        GfxTransEffect::End( this );
+        }
+    else
+        {
+        MakeVisible( EFalse );
+        }
+
     Window().ClearRedrawStore();
-    MakeVisible( EFalse );
 
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {
-        //fix for TSW error PTPA-7HNA25
         Window().SetOrdinalPosition( KWindowPosition );
         iAvkonAppUi->UpdateStackedControlFlags( this,
                                                 ECoeStackFlagRefusesAllKeys,
@@ -403,17 +416,6 @@ void CAknPreviewPopUp::Draw( CWindowGc& aGc, const CCoeControl& /*aControl*/,
         }
     }
 
-// -----------------------------------------------------------------------------
-// CAknPreviewPopUp::MakeVisible
-// -----------------------------------------------------------------------------
-//
-void CAknPreviewPopUp::MakeVisible( TBool aVisible )
-    {
-    if ( aVisible != IsVisible() )
-        {
-        CCoeControl::MakeVisible( aVisible );
-        }
-    }
     
 // -----------------------------------------------------------------------------
 // CAknPreviewPopUp::CountComponentControls
@@ -523,7 +525,10 @@ void CAknPreviewPopUp::SizeChanged()
 // -----------------------------------------------------------------------------
 //
 void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
-    {
+    {   
+	TBool isDelete = EFalse; 
+	iIsDeleted = &isDelete;
+	
     if ( AknLayoutUtils::PenEnabled() )
         {
         iCloseMenu = EFalse;
@@ -531,14 +536,18 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             {
             SetPointerCapture( EFalse );
             }
-    
-        CAknTouchPane* touchPane = iAvkonAppUi->TouchPane();
-        
+
         // redirect pointer event to content
         if ( Rect().Contains( aPointerEvent.iPosition ) && IsVisible() )
             {
-            iAllowUpEvent = ETrue;
+            iAllowUpEvent = ETrue;         
+            CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
             CCoeControl::HandlePointerEventL( aPointerEvent );
+            CleanupStack::Pop();
+            if( isDelete )
+            	{
+            	return;
+            	}
             if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) && aPointerEvent.iType == TPointerEvent::EButton1Up && IsVisible() )
                 {
             	  // if pointer up is already redirected to the content, but the popup is still visible,
@@ -549,26 +558,6 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             }
         else
             {
-            if ( touchPane )
-                {
-                if ( touchPane->IsVisible() )
-                    {
-                    // touchpane is a window-owning control -> Rect() cannot be used
-                    TRect touchPaneRect( touchPane->Position(), touchPane->Size() );
-                
-                    if ( touchPaneRect.Contains( aPointerEvent.iParentPosition ) )
-                        {
-                        TPointerEvent pointerEvent( aPointerEvent );
-                    
-                        // make event's coordinates touch pane relative
-                        pointerEvent.iPosition = aPointerEvent.iParentPosition - 
-                                                 touchPaneRect.iTl;
-                    
-                        static_cast<CCoeControl*>( touchPane )->HandlePointerEventL( 
-                                                                    pointerEvent );
-                        }
-                    }
-                }
             if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) && 
                 aPointerEvent.iType != TPointerEvent::EDrag &&
                 aPointerEvent.iType != TPointerEvent::EButtonRepeat )
@@ -585,10 +574,16 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     
                     if ( aPointerEvent.iType != TPointerEvent::EButton1Up )
                         {
+                        // popup will be hiden when EButton1Down comes.
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( ETouchFeedbackPopUp );
+                            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
+                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                                {
+                                feedbackType = ETouchFeedbackOptionsMenuClosed;
+                                }
+                            feedback->InstantFeedback( feedbackType );
                             }        
                         iCloseMenu = ETrue; 
                         iController.HidePopUp(); 
@@ -612,13 +607,19 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                             }
                         else
                             {
+                            // popup will be hiden when EButton1Down comes.
+                            TTouchLogicalFeedback feedbackType = ETouchFeedbackPopUp;
+                            if ( CAknTransitionUtils::TransitionsEnabled( AknTransEffect::EComponentTransitionsOff ) )
+                                {
+                                feedbackType = ETouchFeedbackOptionsMenuClosed;
+                                }
                             feedback->InstantFeedback( this,
-                                                       ETouchFeedbackPopUp,
+                                                       feedbackType,
                                                        aPointerEvent );
                             }
                         }
                     iCloseMenu = ETrue;
-                    iController.HidePopUp();    
+                    iController.HidePopUp();
                     }          
                 }
                 
@@ -629,7 +630,13 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                     aPointerEvent.iType == TPointerEvent::EButtonRepeat ||
                     (aPointerEvent.iType == TPointerEvent::EButton1Up && iAllowUpEvent ) )
                     {
+                    CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    CleanupStack::Pop();
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
             else
@@ -637,7 +644,13 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
                 if ( aPointerEvent.iType == TPointerEvent::EDrag || 
                     aPointerEvent.iType == TPointerEvent::EButtonRepeat )
                     {
+                    CleanupStack::PushL( TCleanupItem( CleanLocalRef, this ) );
                     CCoeControl::HandlePointerEventL( aPointerEvent );
+                    CleanupStack::Pop();
+                    if( isDelete )
+                    	{
+                    	return;
+                    	}
                     }
                 }
                 
@@ -647,6 +660,8 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
             iAllowUpEvent = EFalse;
             }
         }
+       
+    iIsDeleted = NULL;
     }
     
 // -----------------------------------------------------------------------------
@@ -654,12 +669,27 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
 // -----------------------------------------------------------------------------
 //
 TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& /*aKeyEvent*/,
-                                               TEventCode /*aType*/ )
+                                               TEventCode aType )
     {
+    TKeyResponse ret ( EKeyWasNotConsumed );
+
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {
-        iCloseMenu = ETrue; 
-        iController.HidePopUp();
+        if ( !( iFlags & CAknPreviewPopUpController::EConsumeKeys ) )
+            {
+            iCloseMenu = ETrue;
+            iController.HidePopUp();
+            }
+        else
+            {
+            if ( aType == EEventKey || aType == EEventKeyUp )
+                {
+                iCloseMenu = ETrue;
+                iController.HidePopUp();
+
+                ret = EKeyWasConsumed;
+                }
+            }
         }
 
     if ( CapturesPointer() )
@@ -667,7 +697,7 @@ TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& /*aKeyEvent*/,
         SetPointerCapture( EFalse );
         }
 
-    return EKeyWasNotConsumed;
+    return ret;
     }
     
 // -----------------------------------------------------------------------------
@@ -697,78 +727,16 @@ TTypeUid::Ptr CAknPreviewPopUp::MopSupplyObject( TTypeUid aId )
 //
 void CAknPreviewPopUp::Draw( const TRect& aRect ) const
     {
-    if( CAknEnv::Static()->TransparencyEnabled() )
-        {
-    
-        CWindowGc& gc = SystemGc();
+    CWindowGc& gc = SystemGc();
 
-        TRegionFix< 4 > region;
-        region.AddRect( Rect() );
-        region.SubRect( iContent.Rect() );
-        gc.SetClippingRegion( region );
-    
-        DrawBackground( gc, aRect );
+    TRegionFix<4> region;
+    region.AddRect( Rect() );
+    region.SubRect( iContent.Rect() );
+    gc.SetClippingRegion( region );
 
-        gc.CancelClippingRegion();
-        }
-    else
-        {
-        CWindowGc& gc = SystemGc();
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
+    DrawBackground( gc, aRect );
 
-        if ( !AknsDrawUtils::Background( skin, iBgContext, gc, aRect ) )
-            {
-            gc.Clear( aRect );
-            }
-    
-        if ( HasHeading() )
-            {
-            gc.SetClippingRect( aRect );
-        
-            // heading graphics
-            TAknLayoutRect layoutRect;
-            layoutRect.LayoutRect( Rect(),
-                TAknWindowComponentLayout::Compose( 
-                AknLayoutScalable_Avkon::heading_preview_pane(),
-                AknLayoutScalable_Avkon::bg_popup_heading_pane_cp2( 1 ) ).LayoutLine() );
-        
-            TRect outerRect( layoutRect.Rect() );
-        
-            layoutRect.LayoutRect( outerRect, 
-                AknLayoutScalable_Avkon::bg_popup_heading_pane_g1() );
-            
-            // There's no error checking since if skinned drawing fails heading 
-            // text will be drawn on top of the background.
-            AknsDrawUtils::DrawFrame( skin, gc, outerRect, layoutRect.Rect(), 
-                KAknsIIDQsnFrPopupHeading, KAknsIIDDefault );
-        
-            // heading text                               
-            TAknLayoutText textLayout;
-            textLayout.LayoutText( Rect(),
-                TAknWindowComponentLayout::ComposeText(
-                AknLayoutScalable_Avkon::heading_preview_pane(),
-                AknLayoutScalable_Avkon::heading_preview_pane_t1( 1 ) ).LayoutLine() );
-
-            gc.SetBrushStyle( CGraphicsContext::ENullBrush );
-            
-            TRgb color( textLayout.Color() );
-
-            if ( iFlags & CAknPreviewPopUpController::ELayoutSubMenu )
-                {
-                AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnTextColors,
-                     EAknsCIQsnTextColorsCG55 );
-                }
-            else
-                {
-                AknsUtils::GetCachedColor( skin, color, KAknsIIDQsnTextColors,
-                     EAknsCIQsnTextColorsCG19 );
-                }
-        
-            textLayout.DrawText( gc, *iHeadingText, ETrue, color );
-        
-            gc.CancelClippingRect();
-            }
-        }
+    gc.CancelClippingRegion();
     }
 
 // -----------------------------------------------------------------------------
@@ -895,6 +863,14 @@ void CAknPreviewPopUp::DrawBackground( CWindowGc& aGc, const TRect& aRect ) cons
         }   
     }
 
-#endif // RD_SCALABLE_UI_V2 || RD_PREVIEW_POPUP
+// -----------------------------------------------------------------------------
+// CAknPreviewPopUp::CleanLocalRef
+// -----------------------------------------------------------------------------
+//
+void CAknPreviewPopUp::CleanLocalRef( TAny* aParam )
+    {
+    static_cast<CAknPreviewPopUp*>( aParam )->iIsDeleted = NULL;
+    }
 
 //  End of File  
+

@@ -29,7 +29,8 @@
 class MAknFileFilter;
 class MAknFileSelectionObserver;
 class CDirectoryLocalizer;
-
+class TResourceReader;
+class TCFDFileTypes;
 
 /**
  *  A model class for file selection dialog. It is derived from
@@ -43,35 +44,7 @@ NONSHARABLE_CLASS(CAknFileSelectionModel) : public CBase, public MDesCArray
     {
 
 public:
-
-// Enumerations
-
-    /**
-     * Enumerations for images.
-     */
-    enum TFileTypeIcon
-        {
-        EFolderIcon,
-        EFileIcon,
-        ESubFolderIcon,
-        EThisFolderIcon,
-        EImageFileIcon,
-        EGmsFileIcon,
-        ELinkFileIcon,
-        EVoiceRecFileIcon,
-        ESoundFileIcon,
-        EPlaylistFileIcon,
-        ECompoFileIcon,
-        ENoteFileIcon,
-        ESisFileIcon,
-        EVideoFileIcon,
-        EGameFileIcon,
-        EJavaFileIcon,
-        EUnknowTypeIcon,
-        EFolderEmptyIcon,
-        EFlashFileIcon
-        };
-
+    
 // Constructors and destructor
 
     /**
@@ -186,23 +159,47 @@ private:
     CDir* ReadDirectory( const TDesC& aDirectory );
 
     /**
-     * Returns ETrue if a folder contains subfolders.
+     * Test if a folder contains subfolders.
      * @param aFolder Relative folder to current path.
      * @return Returns ETrue if a folder contains subfolders.
      */
     TBool ContainsSubfolders( const TDesC& aFolder );
-
-    void AppendIconForFileL(const TDesC& aFileName);
-
-    TPtrC GetLocalizedName(const TDesC& aFileName);
     
     /**
-     * Returns ETrue if a folder contains files.
+     * Test if a folder contains files.
      * @param aFolder Relative folder to current path.
      * @return Returns ETrue if a folder contains files.
      */
     TBool ContainsFiles( const TDesC& aFolder );
-
+    /**
+     * Test if a folder contains contents.
+     * @param aFolder Relative folder to current path.
+     * @return Returns ETrue if a folder contains contents.
+     */
+    TBool ContainsContents( const TDesC& aFolder, TUint aAttMask );
+    /**
+     * Get the file type icon.
+     * @param aFileName File name to get right icon.
+     * return Return incon index base on the extname of file.
+     */
+    TInt GetIconForFileL( const TDesC& aFileName ) const;
+    /**
+     * Get the file local name.
+     * @param aFileName File name to get its locallize name.
+     * @return Returns file's local name.
+     */
+    TPtrC GetLocalizedName(const TDesC& aFileName);
+    /**
+     * Test if a entry can be added in listbox.
+     * @param aEntry The entry which be added or not.
+     * @return Returns ETrue if a entry can be added.
+     */
+    TBool EntryIsAccepted( const TEntry& aEntry ) const;
+    /**
+     * Read file type and icon index from reader
+     * @param aReader Reader object
+     */
+    void ReadFileExtNameAndIconIndexL( TResourceReader& aReader );
 // Constructors and destructor
 
     void ConstructL();
@@ -217,9 +214,21 @@ private:    // Data
 
     // Own: An array of filtered directory entries.
     CArrayPakFlat<TEntry>* iEntryArray;
-
-    // Own: An array for image indices
-    RArray<TInt> iImageIndexArray;
+    
+    /* Own: An array which item has local name of file entry 
+     * with icon index and entry index in iEntryArray
+     * */
+    CDesC16ArraySeg * iLocalFileNameArray;
+    
+    /* Own: An array which item has local name of directory entry 
+     * with icon index and entry index in iEntryArray
+     * */
+    CDesC16ArraySeg * iLocalDirNameArray;
+    
+    /* Own: An array which item has extent name of file entry 
+     * with icon index for the file type
+     * */
+    CArrayFixFlat<TCFDFileTypes>* iFileTypeArray;
 
     // Own: // An array of filters.
     CArrayPtrSeg<MAknFileFilter>* iFilterArray;
@@ -242,14 +251,9 @@ private:    // Data
     // Own: Root folder text
     HBufC* iRootFolderText;
 
-    // Own: RApaLsSession for getting mime-types for files:
-    RApaLsSession iApaSession;
-
-    TEntry iFolderEntry;
-
     TParse iParse;
-
-    HBufC * iItemWithImageIndex;
+    // Own: A buffer for using
+    HBufC * iStringBuf;
 
     };
 

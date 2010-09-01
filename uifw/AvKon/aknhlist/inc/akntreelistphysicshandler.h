@@ -263,11 +263,11 @@ private:
     TInt WorldHeight();
 
     /**
-     * Returns wheter pointer click is in empty list area.
+     * Returns wheter pointer is in empty list area.
      *
      * @return ETrue if aPosition is in empty list area.
      */    
-    TBool EmptyAreaClicked( TPoint aPosition );
+    TBool PointerOnEmptyArea( TPoint aPosition );
     
 private: // data
 
@@ -403,10 +403,11 @@ private: // data
     // bottom item in current view, fields count when Y is larger than
     // the last item's Y
     TInt iOldBottomItem; 
+    
     /**
-     * ETrue if empty list area is clicked.
+     * ETrue if pointer down on empty list area.
      */    
-    TBool iEmptyAreaClicked;
+    TBool iDownOnEmptyArea;
     };
 
 

@@ -208,3 +208,20 @@
 //l:list_set_graphic_pane_t1
 #define qtn_mem_memory_card_defaul_setting_list "%U: Memory card"
 
+//d:Text for USB Memory (no name) in memory selection
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_memc_usb_available_single_list "%U USB memory"
+
+//d:Text for USB Memory in  memory selection when USB memory is unavilable
+//l:list_single_graphic_pane_t1_cp2
+#define qtn_memc_usb_unavailable_single_list "%U USB memory unavailable"
+
+//d:Text for USB Memory (no name) in memory selection
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_memc_usb_available_double "%U USB memory"
+
+//d:Text for USB Memory in memory selection when USB memory is unavilable
+//l:list_double_large_graphic_pane_t1_cp2
+#define qtn_memc_usb_unavailable_double "%U USB memory unavailable"
+
+

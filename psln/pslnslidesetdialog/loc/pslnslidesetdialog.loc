@@ -1,0 +1,268 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization strings for project pslnslidesetdialog.
+*
+*/
+
+
+/*
+  The syntax of a logical name entry in this file is the following:
+
+  // d:context description (line 1)
+  // d:context description (line N)
+  // l:layout id
+  // w:
+  // r:release information
+  //
+  #define qtn_<?feature_or_application>_?freetext "?text"
+
+  where
+      "qtn_" starts a logical name.  Note: "text_" has been used in
+           old logical names, but is deprecated.
+      "?feature/application" is 2-5 lower-case characters and/or numbers
+           identifying the larger context of the display text.
+      "?freetext" is the free text portion of the logical name.
+           It may contain only lower-case letters ('a' to 'z'), numbers
+           ('0' to '9'), and the underscore ('_').  The total length of
+           the logical name does must not exceed 50 characters.
+      "d:" Starts a description line clarifying the entry's context with
+           information like:
+           - Is a word a verb in imperative or is it a noun?  (For instance,
+             what does "Set" mean?)
+           - What will replace %U (unicode text parameter) or %N (number
+             parameter) included in texts?  (For instance, is it a phone
+             number or an e-mail address?)
+      "l:" Starts a layout id information (one line).
+           "P" and "No" are symbols in LAF's information table
+                - "P" is parent pane or current pane
+                - "No" is reference number in table
+      "r:" Starts a release information: one line indicating in which
+           S60 release the text was used for the first time.
+
+  Refer to the S60 localization instructions for more information.
+
+*/
+
+// COMMON
+
+// d:Slide set settings command in options menu.
+// d:Opens settings view for the slide set.
+// l:list_single_popup_menu_pane_1
+// r:3.2
+//
+#define qtn_sanim_option_change "Change"
+
+// SCREENSAVER SLIDE SET
+
+// d:Text in title pane when slide set screensaver settings
+// d:are defined.
+// l:title_pane_1
+// r:3.2
+//
+#define qtn_sanim_title_settings "Settings"
+
+// d:Text of a list item in slide set dialog's list.
+// d:Item opens Images setting view.
+// l:list_setting_pane_1
+// r:3.2
+//
+#define qtn_sanim_list_slide_images "Images"
+
+// d:Text of a list item in slide set dialog's list.
+// d:Item opens Duration setting view.
+// l:list_setting_pane_1
+// r:3.2
+//
+#define qtn_sanim_list_anim_timeout "Duration"
+
+// d:Text of a list item in slide set dialog's list.
+// d:Item opens Backlight setting view.
+// l:list_setting_pane_1
+// r:3.2
+//
+#define qtn_sanim_list_light_timeout "Backlight"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Images setting.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_skins_wp_nimages "%N images"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Images setting.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_skins_wp_image "1 image"
+
+// d:Text in slider control.
+// d:Minimum setting value for Slide set duration.
+// l:slider_set_pane_2
+// r:3.2
+//
+#define qtn_sanim_duration_slider_min "5 sec."
+
+// d:Text in slider control.
+// d:Maximum setting value for Slide set duration.
+// l:slider_set_pane_2
+// r:3.2
+//
+#define qtn_sanim_duration_slider_max "60 sec."
+
+// d:Text in setting list item's current value field
+// d:Context specific text for singular current value.
+// d: %U will be replaced by the slider setting page's
+// d: minimum value (=1)
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_sanim_duration_slider_ykcur "%U second"
+
+// d:Text in setting list item's current value field
+// d:Context specific text for plural current value.
+// d: %U will be replaced by the slider setting page's
+// d: current value.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_sanim_duration_slider_cur "%U seconds"
+
+// d:Text in slider control.
+// d:Minimum setting value for Slide set Backlight.
+// d:Backlight is turned off.
+// l:slider_set_pane_2
+// r:3.2
+//
+#define qtn_sanim_slider_off "Off"
+
+// d:Text in slider control.
+// d:Maximum setting value for Slide set Backlight.
+// l:slider_set_pane_2
+// r:3.2
+//
+#define qtn_sanim_slider_max_secs "30 secs."
+
+// d:Text in setting list item's current value field
+// d:Context specific text for current value.
+// d: %U will be replaced by the slider setting page's
+// d: current value.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_sanim_slider_context_value_secs "%U seconds"
+
+// WALLPAPER SLIDE SET
+
+// d:Text in title pane when slide set wallpaper settings
+// d:are defined.
+// l:title_pane_1
+// r:3.2
+//
+#define qtn_skins_title_settings "Settings"
+
+// d:Text of a list item in slide set dialog's list.
+// d:Item opens Images setting view.
+// l:list_setting_pane_1
+// r:3.2
+//
+#define qtn_skins_list_wp_images "Images"
+
+// d:Text of a list item in slide set dialog's list.
+// d:Item opens Interval setting view.
+// l:list_setting_pane_1
+// r:3.2
+//
+#define qtn_skins_list_wp_interval "Interval"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Images setting.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_sanim_slide_set_nimages "%N images"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Images setting.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_sanim_slide_set_image "1 image"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Interval period.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_skins_wp_minute "1 minute"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Interval period.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_skins_wp_ten_minutes "10 minutes"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Interval period.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_skins_wp_minutes "30 minutes"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Interval period.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_skins_wp_hour "1 hour"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for slide set Interval period.
+// l:list_setting_pane_2
+// r:3.2
+//
+#define qtn_skins_wp_day "1 day"
+
+// d:Text in setting list item's current value field
+// d:Setting value for Slide set Image type. 
+// d: Opens multi-selection image fetch dialog.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_sanim_slide_set_user_defined "User Defined"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for Slide set Image type.
+// d:Sets image selection as random.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_sanim_slide_set_random "Random"
+
+// d:Text in setting list item's current value field
+// d:Setting value for Slide set Image type. 
+// d: Opens multi-selection image fetch dialog.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_skins_wp_user_defined "User Defined"
+
+// d:Text in setting list item's current value field.
+// d:Setting value for Slide set Image type.
+// d:Sets image selection as random.
+// l:list_set_graphic_pane_t1
+// r:3.2
+//
+#define qtn_skins_wp_random "Random"

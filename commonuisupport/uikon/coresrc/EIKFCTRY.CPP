@@ -15,7 +15,7 @@
 
 #include <eikfctry.h>
 #include <eikenv.h>
-#include "EIKDGFTY.H"
+#include "eikdgfty.h"
 
 /** Creates the specified type of control by going through the dynamically loaded 
 DLLs' Control Factories until one is found which successfully creates the 

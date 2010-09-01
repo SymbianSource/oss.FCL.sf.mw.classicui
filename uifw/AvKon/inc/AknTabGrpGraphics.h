@@ -115,21 +115,6 @@ public: // New functions
     */
     void SetTabGroupBackgroundParent( TRect aParent );
 
-#if 0 // not used
-    /**
-    * This method draws the tab background bitmap using SVG graphics.
-    * The tab combination is given as bitmap id which refers to old style
-    * tab bitmaps.
-    *
-    * @param  aAvkonBitmapId  Bitmap index (@see avkon.mbg).
-    *
-    * @return  Struct which contains both the bitmap and the mask.
-    *          Ownership is transferred to the caller.
-    */
-    CAknTabGroupGraphics::SAknTabGroupBackground CreateTabGroupBackgroundL(
-        TInt aAvkonBitmapId );
-        
-#endif
     /**
     * Draw modes of the tab background graphics.
     */ 
@@ -187,7 +172,7 @@ public: // New functions
     * @param  aTabsHidden      Specifies where hidden tabs are drawn.
     * @param  aAnimation       Specifies the used animation.
     */
-    void DrawTabGroupBackgroundL(
+    void DrawTabGroupBackground(
         TTabDrawMode aTabDrawMode,
         TBool aLongTabs,
         TInt aNumberOfTabs,
@@ -195,7 +180,8 @@ public: // New functions
         CBitmapContext* aGc,
         SAknTabGroupBackgroundLayout& aLayout,
         TTabsHidden aTabsHidden,
-        TTabAnimationType aAnimation = ENoAnimation ) const;
+        TTabAnimationType aAnimation = ENoAnimation,
+        TInt aHighlightTab = 0 ) const;
 
     /**
     * Draws narrow tab background from given parameters.
@@ -213,7 +199,7 @@ public: // New functions
     *                          @c EFalse, then the layout is calculated
     *                          to the @c aLayout. 
     */
-    void DrawTabGroupNarrowBackgroundL(
+    void DrawTabGroupNarrowBackground(
         TTabDrawMode aTabDrawMode,
         TBool aLongTabs,
         TInt aNumberOfTabs,
@@ -337,70 +323,6 @@ private:
     CAknTabGroupGraphics::SAknTabGroupBackgroundLayout
         ThreeLongTabNarrowBackground( TInt aActiveTab ) const;
 
-    /**
-    * Methods to draw normal tab backgrounds.
-    */
-    void DrawTwoTabBackground( TTabDrawMode aDrawMode,
-                               TInt aActiveTab,
-                               CBitmapContext* aGc,
-                               SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawThreeTabBackground( TTabDrawMode aDrawMode,
-                                 TInt aActiveTab,
-                                 CBitmapContext* aGc,
-                                 SAknTabGroupBackgroundLayout& aLayout,
-                                 TTabsHidden aTabsHidden,
-                                 TTabAnimationType aAnimation = ENoAnimation ) const;
-
-    void DrawFourTabBackground( TTabDrawMode aDrawMode,
-                                TInt aActiveTab,
-                                CBitmapContext* aGc,
-                                SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawTwoLongTabBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawThreeLongTabBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    /**
-    * Methods to draw narrow tab backgrounds.
-    */
-    void DrawTwoTabNarrowBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawThreeTabNarrowBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawFourTabNarrowBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawTwoLongTabNarrowBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
-
-    void DrawThreeLongTabNarrowBackground(
-        TTabDrawMode aDrawMode,
-        TInt aActiveTab,
-        CBitmapContext* aGc,
-        SAknTabGroupBackgroundLayout& aLayout ) const;
 
     /**
     * Draws single tab graphics for an active tab.
@@ -435,6 +357,21 @@ private:
                          TBool aFaded = EFalse ) const;
     
     /**
+     * Draws single tab graphics for a Highlight tab.
+     * 
+     * @param  aDrawMode  Mode with which the background is drawn.
+     * @param  aLeft      Rectangle of the left part of the tab.
+     * @param  aMiddle    Rectangle of the middle part of the tab.
+     * @param  aRight     Rectangle of the right part of the tab.
+     * @param  aGc        Graphics context used in drawing.
+     */
+    void DrawHighlightTabL( TTabDrawMode aDrawMode,
+                            TRect aLeft,
+                            TRect aMiddle,
+                            TRect aRight,
+                            CBitmapContext* aGc ) const;
+    
+    /**
     * Draws single tab part graphics for a passive tab.
     * Used in drawing the hidden tab bits.
     * 
@@ -458,6 +395,73 @@ private:
     * Helper method to get the narrow tab container rect.
     */
     TRect NarrowParentRect() const;
+    
+    /**
+    * Sets the layout for tab background according to specified parameters. 
+    * Used in DrawTabGroupBackground/DrawTabGroupNarrowBackground
+    * 
+    * @param  aLayout[in,out]  Tab group background layout used in drawing.
+    *                          If the @c aLayout's @c iUse parameter is
+    *                          @c EFalse, then the layout is calculated
+    *                          to the @c aLayout. 
+    * @param  aNumberOfTabs    Number of tabs visible in the tab group (not
+    *                          the total number of tabs in the tab group).
+    * @param  aLongTabs        Active tab number in relation to the first tab
+    *                          shown. This value can be from one to
+    *                          @c aNumberOfTabs.
+    * @param  aLongTabs        Specifies whether or not long tabs are used.
+    * @param  aIsNarrow        Specifies whether or not narrow tabs are used.
+    * @param  aAnimation       Specifies the used animation.
+    */
+    void CAknTabGroupGraphics::ReviseLayoutForTabBackground(
+            SAknTabGroupBackgroundLayout& aLayout,
+            TInt aNumberOfTabs,
+            TBool aLongTabs,
+            TInt aActiveTab,
+            TBool aIsNarrow,
+            TTabAnimationType aAnimation
+            ) const;
+    
+    /**
+    * Sets active tab flag for the layout. 
+    * Used in DrawTabGroupBackground/DrawTabGroupNarrowBackground
+    * 
+    * @param  aLayout[in,out]  Tab group background layout used in drawing.
+    *                          If the @c aLayout's @c iUse parameter is
+    *                          @c EFalse, then the layout is calculated
+    *                          to the @c aLayout. 
+    * @param  aActiveTab       Active tab number in relation to the first tab
+    *                          shown. This value can be from one to
+    *                          @c aNumberOfTabs.
+    */
+    void ReviseLayoutUseFlag(
+            SAknTabGroupBackgroundLayout& aLayout,
+            TInt aActiveTab
+            ) const;
+    
+    /**
+    * Processes the instructions and draw the tab background according to instructions.
+    * Instructions are created according to drawing sequence.
+    * Used in DrawTabGroupBackground/DrawTabGroupNarrowBackground
+    * 
+    * @param aInstructions      The instructions for drawing tabs.
+    * @param aNumOfIns          The number of instructions.
+    * @param aTabDrawMode       Mode with which the background is drawn.
+    * @param aLayout[in,out]    Tab group background layout used in drawing.
+    *                           If the @c aLayout's @c iUse parameter is
+    *                           @c EFalse, then the layout is calculated
+    *                           to the @c aLayout.       
+    * @param  aGc               Graphics context used in drawing the background.
+    * 
+    */
+    void ProcessDrawTabInstructions(
+            struct TTabInstruction *aInstructions,
+            TInt aNumOfIns,
+            TTabDrawMode aTabDrawMode,
+            SAknTabGroupBackgroundLayout& aLayout,
+            CBitmapContext* aGc
+            ) const;
+    
 
 private: // Member data.
 

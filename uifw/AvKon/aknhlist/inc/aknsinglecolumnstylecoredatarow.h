@@ -51,7 +51,11 @@ public:
         /** Third text column is enabled. */
         EThirdColumnEnabled = 0x00010000,
         /** Core data row is emphasised. */
-        EEmphasis           = 0x00020000
+        EEmphasis           = 0x00020000,
+        /** Enable smiley icon in first column */
+        EFirstColumnSmiley  = 0x00040000,
+        /** Enable smiley icon in second column */
+        ESecondColumnSmiley = 0x00080000
         };
 
     /** Icon types for single column style core data row. */

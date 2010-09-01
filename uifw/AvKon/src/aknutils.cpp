@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -119,7 +119,7 @@
 #include "AknAdaptiveSearch.h"
 #include <PtiEngine.h>
 
-#include <akntrace.h> 
+#include "akntrace.h"
 
 #ifdef RD_HINDI_PHONETIC_INPUT
 #include <ptiindicdefs.h>
@@ -133,6 +133,10 @@ const TInt KAknStringBufferSize = 256;
 const TInt KTextColorNone = -1;
 const TInt KFontHeightComparisonDivisor = 20;
 const TInt KInvalidIndex = -1;
+
+// Default for list separator line color's alpha value, used if not
+// found from skin.
+const TInt KDefaultSeparatorAlpha = 32;
 
 enum TAknLayoutEdwinPanic
     {
@@ -526,11 +530,11 @@ EXPORT_C void AknFind::HandleFindSizeChanged(CCoeControl *aParentControl,
     _AKNDEBUG(
             if ( aListBox )
                 {
-    		_AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
-    				"AknFind", __FUNCTION__, 
-    				aParentControl->Rect().iTl.iX, aParentControl->Rect().iTl.iY, 
-    				aParentControl->Rect().iBr.iX, aParentControl->Rect().iBr.iY 
-				);
+            _AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
+                    "AknFind", __FUNCTION__, 
+                    aParentControl->Rect().iTl.iX, aParentControl->Rect().iTl.iY, 
+                    aParentControl->Rect().iBr.iX, aParentControl->Rect().iBr.iY 
+                );
                 }
         );
     _AKNTRACE_FUNC_EXIT;
@@ -617,7 +621,7 @@ EXPORT_C void AknFind::HandleFindSizeChangedLayouts(
         
     AknLayoutUtils::LayoutControl(aListBox, aParentControl->Rect(), tempListArea);
     _AKNDEBUG(
-    		if ( aListBox )
+            if ( aListBox )
                 {
                 _AKNTRACE( "[%s][%s] ListBox Rect iTl: %d,%d; iBr: %d,%d", 
                             "AknFind", __FUNCTION__,
@@ -625,7 +629,7 @@ EXPORT_C void AknFind::HandleFindSizeChangedLayouts(
                             aListBox->Rect().iBr.iX, aListBox->Rect().iBr.iY 
                             );
                 }
-		);
+        );
     if ( aListBox )
         {
         aListBox->DrawNow();
@@ -758,7 +762,7 @@ inline TChar ReplaceVietnameseChar( const TChar aCh )
  *
  * @since 5.0
  * @return @c ETrue If it is accent from Vietnamese language, otherwise EFalse. 
- */	
+ */ 
 inline TBool IsVietnameseSpecialCharacter( TChar aCh )
     {  
     if ( ( aCh >= 0x0300 && aCh <= 0x0303 ) || aCh == 0x0306 ||     
@@ -775,10 +779,10 @@ inline TBool IsVietnameseSpecialCharacter( TChar aCh )
 inline TBool IsThaiSpecialCharacter( TChar aCh )
     {    
     if( ( aCh > 0xE46 && aCh < 0xE4F ) ||  aCh == 0xE3A )
-		{
-		return ETrue;
-		}       
-	return EFalse;
+        {
+        return ETrue;
+        }       
+    return EFalse;
     }
   
 // ---------------------------------------------------------------------------
@@ -786,25 +790,25 @@ inline TBool IsThaiSpecialCharacter( TChar aCh )
 // ---------------------------------------------------------------------------
 //
 EXPORT_C TBool AknFind::IsAdaptiveFindMatch( const TDesC& aItemText, 
-										     const TDesC& aSearchText,
- 										 	 HBufC*& aNextChars )
-	{	
-	HBufC16* searchText( NULL );
-	TRAPD( error, searchText = HBufC16::NewL( KMatchingBufferLength ) );
-	if ( error == KErrNone )
-	    {
-	    TInt itemStringLength = aItemText.Length();
+                                             const TDesC& aSearchText,
+                                             HBufC*& aNextChars )
+    {   
+    HBufC16* searchText( NULL );
+    TRAPD( error, searchText = HBufC16::NewL( KMatchingBufferLength ) );
+    if ( error == KErrNone )
+        {
+        TInt itemStringLength = aItemText.Length();
         TInt searchTextLength = aSearchText.Length();    
         
         if ( searchTextLength < KMatchingBufferLength )
-        	{
-        	searchText->Des().Append( aSearchText );
-        	}
+            {
+            searchText->Des().Append( aSearchText );
+            }
         else
-        	{
-        	searchText->Des().Append( aSearchText.Left(KMatchingBufferLength-1) );
-        	}    
-    	
+            {
+            searchText->Des().Append( aSearchText.Left(KMatchingBufferLength-1) );
+            }    
+        
         searchText->Des().Append( KLitStar );
             
         TInt all_result = KErrNotFound;
@@ -817,34 +821,34 @@ EXPORT_C TBool AknFind::IsAdaptiveFindMatch( const TDesC& aItemText,
                 if( result != KErrNotFound ) 
                     {
                     all_result = result;
-                    if( i < (itemStringLength-searchTextLength) )                	   	       	   		
+                    if( i < (itemStringLength-searchTextLength) )                                       
                         {                 
-                	   	 if( !(IsThaiSpecialCharacter(aItemText[i+searchTextLength])) && !(IsVietnameseSpecialCharacter( aItemText[i+searchTextLength]) ))
+                         if( !(IsThaiSpecialCharacter(aItemText[i+searchTextLength])) && !(IsVietnameseSpecialCharacter( aItemText[i+searchTextLength]) ))
                                 {
                                 TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemText[i+searchTextLength]) );   
                                 }   
                         }
-                    }                                                                  	   	
+                    }                                                                       
                 } // if (i==0 ..)        
-      	    } // for	 
-	    
-  	    if( all_result != KErrNotFound )
+            } // for     
+        
+        if( all_result != KErrNotFound )
             {
             delete searchText;
             return ETrue;
-           	}    
+            }    
         else 
             {
             delete searchText;
             return EFalse;
             }
-        	            		
+                                
          } // if (error == KErrNone)   
 
     delete searchText;                 
     return EFalse;
-	}
-	
+    }
+    
 
 /**
  * For Devanagari AS
@@ -974,41 +978,78 @@ inline TBool IsIndicHalantChar(const TChar aCh)
     return ( aCh == 0x094D );
     }
 
+static void SortCharsForAdaptiveSearchL( TPtr &aChars )
+    {
+    const TInt KDefaultArraySize = 10;// the default length of for sort
+    CDesCArray* arrayFlat = new ( ELeave ) CDesCArrayFlat( KDefaultArraySize );
+    CleanupStack::PushL( arrayFlat );
+    
+    TInt length = aChars.Length();                 
+    TInt arrayCount( 0 );      
+      
+    for( TInt i = 0; i < length; i++ )
+        {
+        // the "IndicHalant" Chars occupys two spaces.
+        if ( ( i < length-2 ) && IsIndicHalantChar( aChars[i+1] ) )
+           {
+           arrayFlat->AppendL( aChars.Mid( i, 3 ) );
+           // One "IndicHalant" character occupys two spaces
+           i+=2;
+           ++arrayCount;
+           }
+       else
+           {
+           arrayFlat->AppendL( aChars.Mid( i, 1 ) );
+           ++arrayCount;
+           }
+        }  
+    
+    // Alphabetical sort        
+    arrayFlat->Sort( ECmpCollated );
+    aChars.Delete( 0, aChars.Length() );
+
+    for( TInt i = 0; i < arrayCount; i++ )
+        {
+        aChars.Append( arrayFlat->MdcaPoint( i ) );
+        }  
+    CleanupStack::PopAndDestroy( arrayFlat );  
+    }
+
 // ---------------------------------------------------------------------------
 // For Devanagari AS
 // AknFind::UpdateNextCharsL
 // ---------------------------------------------------------------------------
 //
 void AknFind::UpdateNextCharsL( HBufC*& aNextChars, const TDesC& aItemString )
-	{
-	_AKNTRACE_FUNC_ENTER;
-	TChar searchChar = aItemString[0];
-	    //Check if this is an Indic special ligature
-	    if ( IsIndicConsonant(searchChar) && aItemString.Length() > 2
-	            && IsSpecialIndicLigature(aItemString) 
-	            && KErrNotFound == (*aNextChars).Find(aItemString.Mid(0,3)) )
-	        {
-	        //Check if we have enough space for 3 more characters
-	        if( aNextChars->Des().Length() >= aNextChars->Des().MaxLength()-3 )
-	            {
-	            aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
-	            TInt length1 = aNextChars->Des().Length();
-	            TInt maxlength1 = aNextChars->Des().MaxLength();
-	            }       
-	        aNextChars->Des().Append( aItemString.Mid(0,3) );        
-	        }
-	    else
-	        {
-	        if ( !IsValidCharForASGrid(searchChar) ) 
-	            {
-	            return;	            
-	            }
-	        //check if this is an Indic combined Char
-	        if ( IsIndicCombinedChar(searchChar) )
-	            {
-	            searchChar = RemoveIndicNukta( searchChar );
-	            }
-	        //Now update the nextChars string
+    {
+    _AKNTRACE_FUNC_ENTER;
+    TChar searchChar = aItemString[0];
+        //Check if this is an Indic special ligature
+        if ( IsIndicConsonant(searchChar) && aItemString.Length() > 2
+                && IsSpecialIndicLigature(aItemString) 
+                && KErrNotFound == (*aNextChars).Find(aItemString.Mid(0,3)) )
+            {
+            //Check if we have enough space for 3 more characters
+            if( aNextChars->Des().Length() >= aNextChars->Des().MaxLength()-3 )
+                {
+                aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
+                TInt length1 = aNextChars->Des().Length();
+                TInt maxlength1 = aNextChars->Des().MaxLength();
+                }       
+            aNextChars->Des().Append( aItemString.Mid(0,3) );        
+            }
+        else
+            {
+            if ( !IsValidCharForASGrid(searchChar) ) 
+                {
+                return;             
+                }
+            //check if this is an Indic combined Char
+            if ( IsIndicCombinedChar(searchChar) )
+                {
+                searchChar = RemoveIndicNukta( searchChar );
+                }
+            //Now update the nextChars string
             TInt strLength = aNextChars->Length();
             for ( TInt i(0); i < strLength ; ++i )
                 {
@@ -1033,9 +1074,9 @@ void AknFind::UpdateNextCharsL( HBufC*& aNextChars, const TDesC& aItemString )
                 aNextChars = aNextChars->ReAllocL( aNextChars->Des().MaxLength()+10 );
                 }       
             aNextChars->Des().Append( searchChar );   
-	        }
-	    _AKNTRACE_FUNC_EXIT;
-	}
+            }
+        _AKNTRACE_FUNC_EXIT;
+    }
 
 // -----------------------------------------------------------------------------
 // AknFind::UpdateNextCharsL
@@ -1064,25 +1105,25 @@ void AknFind::UpdateNextCharsL( HBufC*& aNextChars, TChar aCh )
 // ---------------------------------------------------------------------------
 //
 EXPORT_C void AknFind::UpdateNextCharsFromString( HBufC*& aNextChars, const TDesC& aItemString )
-	{
-	TInt itemStringLength = aItemString.Length();
-	     
-	for( TInt i = 0; i < itemStringLength; i++ )
-	    {
-	    if ( i == 0 || IsFindWordSeparator( aItemString[i-1] ) )
-	        {  
-	        // If Indic letter
-	        if ( aItemString[i] >= 0x0900 && aItemString[i] <= 0x0980 )
-	            {
-	            TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString.Mid(i) ) );
-	            }
-	        else  if (!(IsVietnameseSpecialCharacter( aItemString[i])))
-	            {
-	            TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString[i] ) );
-	            }
-	        }
-	    }
-	}
+    {
+    TInt itemStringLength = aItemString.Length();
+         
+    for( TInt i = 0; i < itemStringLength; i++ )
+        {
+        if ( i == 0 || IsFindWordSeparator( aItemString[i-1] ) )
+            {  
+            // If Indic letter
+            if ( aItemString[i] >= 0x0900 && aItemString[i] <= 0x0980 )
+                {
+                TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString.Mid(i) ) );
+                }
+            else  if (!(IsVietnameseSpecialCharacter( aItemString[i])))
+                {
+                TRAP_IGNORE( UpdateNextCharsL( aNextChars, aItemString[i] ) );
+                }
+            }
+        }
+    }
 
 // ---------------------------------------------------------------------------
 // UpdateItemTextAccordingToFlag
@@ -1464,6 +1505,10 @@ EXPORT_C void CAknListBoxFilterItems::HandleItemArrayChangeL()
                 }
             ptr_temptext.Zero(); 
             }
+        
+        TPtr nextChars = iExtension->iNextChars->Des();
+        SortCharsForAdaptiveSearchL( nextChars );
+        
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         CleanupStack::PopAndDestroy ( temptext );
         }
@@ -1769,7 +1814,6 @@ EXPORT_C void CAknListBoxFilterItems::UpdateCachedDataL()
     FetchSelectionIndexesFromListBoxL();
     }
 
-
 void CAknListBoxFilterItems::NoCriteriaL(TBool aUpdateAS)
     {
     if (iDisableChangesToShownIndexes) return;
@@ -1816,36 +1860,7 @@ void CAknListBoxFilterItems::NoCriteriaL(TBool aUpdateAS)
         if( aUpdateAS )
             {
             TPtr nextChars = iExtension->iNextChars->Des(); 
-            CDesCArray* array = new (ELeave) CDesCArrayFlat(10);
-            CleanupStack::PushL(array);
-            
-            TInt length = nextChars.Length();                 
-            TInt count(0);      
-              
-            for( TInt i = 0; i < length; i++ )
-                {
-                if ( (i < length-2) && IsIndicHalantChar( nextChars[i+1] ) )
-                   {
-                   array->AppendL( nextChars.Mid(i,3) );
-                   i+=2;
-                   ++count;
-                   }
-               else
-                   {
-                   array->AppendL( nextChars.Mid(i,1) );
-                   ++count;
-                   }
-                }  
-            
-            // Alphabetical sort        
-            array->Sort( ECmpCollated );
-            nextChars.Delete( 0, nextChars.Length() );
-
-            for( TInt i = 0; i < count; i++ )
-                {
-                nextChars.Append(array->MdcaPoint(i));
-                }  
-            CleanupStack::PopAndDestroy(array);   
+            SortCharsForAdaptiveSearchL( nextChars );  
             
             iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) );
             }
@@ -1909,36 +1924,7 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
             }           
    
         TPtr nextChars = iExtension->iNextChars->Des(); 
-        CDesCArray* array = new (ELeave) CDesCArrayFlat(10);
-        CleanupStack::PushL(array);
-        
-        TInt length = nextChars.Length();                 
-        TInt count(0);      
-          
-        for( TInt i = 0; i < length; i++ )
-            {
-            if ( (i < length-2) && IsIndicHalantChar( nextChars[i+1] ) )
-               {
-               array->AppendL( nextChars.Mid(i,3) );
-               i+=2;
-               ++count;
-               }
-           else
-               {
-               array->AppendL( nextChars.Mid(i,1) );
-               ++count;
-               }
-            }  
-        
-        // Alphabetical sort        
-        array->Sort( ECmpCollated );
-        nextChars.Delete( 0, nextChars.Length() );
-
-        for( TInt i = 0; i < count; i++ )
-            {
-            nextChars.Append(array->MdcaPoint(i));
-            }  
-        CleanupStack::PopAndDestroy(array);   
+        SortCharsForAdaptiveSearchL( nextChars );
 
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         CleanupStack::PopAndDestroy( temptext );
@@ -1970,6 +1956,7 @@ void CAknListBoxFilterItems::TightenCriteriaL(const TDesC &aCriteria)
         iListBox->SetCurrentItemIndex( Max( iShownIndexes->Count() - indexEnd, 0 ));    
         }
     }
+
 
 void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
     {
@@ -2008,7 +1995,11 @@ void CAknListBoxFilterItems::ReleaseCriteriaL( const TDesC &aCriteria )
                 iShownIndexes->AppendL(i);
                 }
             ptr_temptext.Zero();    
-           }                
+           }  
+        
+        TPtr nextChars = iExtension->iNextChars->Des(); 
+        SortCharsForAdaptiveSearchL( nextChars );
+        
         iSearchField->SetAdaptiveGridChars( *(iExtension->iNextChars) ); 
         InstallEmptyTextL(); 
         CleanupStack::PopAndDestroy( temptext );
@@ -3413,18 +3404,22 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
     // No stacon pane active etc. cheking is done here before the switch-case so that we can 
     // have slightly better performance for some other lookups (e.g. screen).
     
-    switch (aParam)
+    switch ( aParam )
         {
         case EScreen:
+            {
             aRect = screenRect;
             return ETrue;
+            }
 
         case EApplicationWindow:
-            rect.LayoutRect(
-                screenRect,
-                AknLayoutScalable_Avkon::application_window( 0 ) );
-            aRect = rect.Rect();
+            {
+            // Application window is always the same as screen, so skip
+            // reading the application_window from layout data for
+            // performance improvement.
+            aRect = screenRect;
             return ETrue;
+            }
 
         case EStatusPane:
             {
@@ -3433,118 +3428,126 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
             if ( statusPane )
                 {
                 TInt currentStatusPaneLayoutResId = statusPane->CurrentLayoutResId();
-                
-                if ( AknStatuspaneUtils::StaconPaneActive() )
+
+                TAknWindowComponentLayout parent;
+
+                switch ( currentStatusPaneLayoutResId )
                     {
-                    // flat status pane in landscape mode is the whole top pane area  
-                    if ( currentStatusPaneLayoutResId == R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT ||
-                         currentStatusPaneLayoutResId == R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT )
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_WITH_BATTERY_PANE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL:
+                    case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_VT:
+                    case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
+                    default:
                         {
-                        rect.LayoutRect( screenRect, AknLayoutScalable_Avkon::area_top_pane(8) ); // flat area_top_pane in lsc
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 0 );
+                        line = AknLayoutScalable_Avkon::status_pane( 0 );
+                        break;
+                        }
+                    
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE_MIRRORED:
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 7 );
+                        line = AknLayoutScalable_Avkon::status_idle_pane(); // idle status pane
+                        break;
+                        }
+                        
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL:
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE:
+                    case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE_MIRRORED:
+                        {
+                        // Small status pane is the whole top area.
+                        parent = AknLayoutScalable_Avkon::application_window( 0 );
+                        if ( Layout_Meta_Data::IsLandscapeOrientation() &&
+                             AknLayoutUtils::CbaLocation() == AknLayoutUtils::EAknCbaLocationBottom )
+                            {
+                            line = AknLayoutScalable_Avkon::area_top_pane( 2 );
+                            }
+                        else
+                            {
+                            line = AknLayoutScalable_Avkon::area_top_pane( 1 );
+                            }
+                            
+                        break;
+                        }
+                        
+                    case R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT:
+                    case R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                        {
+                        if ( Layout_Meta_Data::IsLandscapeOrientation() )
+                            {
+                            parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
+                            }
+                        else
+                            {
+                            parent = AknLayoutScalable_Avkon::area_top_pane( 6 );
+                            }
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 ); // flat status pane
+                        break;
+                        }
+
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 8 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 );
+                        break;
+                        }
+
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 1 );
+                        break;
+                        }
+                        
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS:
+                    case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS: // fallthrough
+                        {
+                        parent = AknLayoutScalable_Avkon::area_top_pane( 20 );
+                        line   = AknLayoutScalable_Avkon::status_pane( 5 );
+                        break;
+                        }
+                        
+                    case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_LEFT:
+                    case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_LEFT:        
+                    case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_RIGHT:
+                    case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_LEFT:
+                        {
+                        rect.LayoutRect(
+                            screenRect,
+                            TAknWindowComponentLayout::Compose(
+                                AknLayoutScalable_Avkon::area_top_pane( 2 ),
+                                AknLayoutScalable_Avkon::stacon_top_pane() ) );
                         aRect = rect.Rect();
+
+                        rect.LayoutRect(
+                            aRect,
+                            AknLayoutScalable_Avkon::control_top_pane_stacon( 0 ) );
+
+                        // Status pane top = stacon top - control pane top.
+                        aRect.iBr.iX = rect.Rect().iTl.iX;
                         return ETrue;
-                        }    
-                    else
-                        {
-                        rect.LayoutRect( screenRect, AknLayoutScalable_Avkon::area_top_pane(2) ); // classic area_top_pane in lsc
-                        aRect = rect.Rect();
-                        rect.LayoutRect( aRect, AknLayoutScalable_Avkon::stacon_top_pane() );
-                        aRect = rect.Rect();
-                        rect.LayoutRect( aRect, AknLayoutScalable_Avkon::control_top_pane_stacon(0) );
-                        aRect.iBr.iX = rect.Rect().iTl.iX;  // Status pane top = stacon top - control pane top.
-                        return ETrue;   
                         }
                     }
-                else
-                    {
-                    TAknWindowComponentLayout parent;
-                        
-                    switch ( currentStatusPaneLayoutResId )
-                        {
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_WITH_BATTERY_PANE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL:
-                        case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_VT:
-                        case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
-                        default:
-                            parent = AknLayoutScalable_Avkon::area_top_pane(0);
-                            line = AknLayoutScalable_Avkon::status_pane(0); // classic status pane
-                            break;
-                        
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE_MIRRORED:
-                            parent = AknLayoutScalable_Avkon::area_top_pane(7);
-                            line = AknLayoutScalable_Avkon::status_idle_pane(); // idle status pane
-                            break;
-                            
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL:
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE:
-                        case R_AVKON_STATUS_PANE_LAYOUT_SMALL_WITH_SIGNAL_PANE_MIRRORED:
-                            // Small status pane is the whole top area.
-                            parent = AknLayoutScalable_Avkon::application_window(0);
-                            if ( Layout_Meta_Data::IsLandscapeOrientation() &&
-                                 AknLayoutUtils::CbaLocation() == AknLayoutUtils::EAknCbaLocationBottom )
-                                {
-                                line = AknLayoutScalable_Avkon::area_top_pane(2);
-                                }
-                            else
-                                {
-                                line = AknLayoutScalable_Avkon::area_top_pane(1);
-                                }
-                                
-                            break;
-                            
-                        case R_AVKON_STATUS_PANE_LAYOUT_USUAL_FLAT:
-                        case R_AVKON_STATUS_PANE_LAYOUT_IDLE_FLAT: // fallthrough
-                            {
-                            if ( Layout_Meta_Data::IsLandscapeOrientation() &&
-                                 Layout_Meta_Data::IsPenEnabled() )
-                                {
-                                parent = AknLayoutScalable_Avkon::area_top_pane( 2 );
-                                }
-                            else
-                                {
-                                parent = AknLayoutScalable_Avkon::area_top_pane( 6 );
-                                }
-                            line   = AknLayoutScalable_Avkon::status_pane( 1 ); // flat status pane
-                            break;
-                            }
-
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE: // fallthrough
-                            {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 8 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 1 );
-                            break;
-                            }
-
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT: // fallthrough
-                            {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 19 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 4 );
-                            break;
-                            }
-                            
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS:
-                        case R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS: // fallthrough
-                            {
-                            parent = AknLayoutScalable_Avkon::area_top_pane( 20 );
-                            line   = AknLayoutScalable_Avkon::status_pane( 5 );
-                            break;
-                            }
-                        }
-                        
-                    rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose( parent, line ) );
-                    aRect = rect.Rect();
-                    }
+                
+                rect.LayoutRect(
+                    screenRect,
+                    TAknWindowComponentLayout::Compose( parent, line ) );
+                aRect = rect.Rect();
                 return ETrue;
                 }
-            return EFalse;
+
+            return EFalse; // no status pane
             }
+
         case EPopupParent:
             {
             if ( screenRect.iBr.iX == 640 && screenRect.iBr.iY == 360 )
@@ -3558,18 +3561,16 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     variety = 25;
                     }
 
-                rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+                rect.LayoutRect( screenRect,
+                                 AknLayoutScalable_Avkon::main_pane( variety ) );
                 aRect = rect.Rect();
                 return ETrue;
                 }
             else if ( screenRect.iBr.iX == 360 && screenRect.iBr.iY == 640 )
                 {
                 TInt variety = 1;
-                rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+                rect.LayoutRect( screenRect,
+                                 AknLayoutScalable_Avkon::main_pane( variety ) );
                 aRect = rect.Rect();
                 return ETrue;
                 }
@@ -3578,6 +3579,7 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 return LayoutMetricsRect( EMainPane, aRect );
                 }
             }
+
         case EMainPane:
             {
             TInt variety = 3; // classic main pane variety by default
@@ -3626,30 +3628,24 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 case R_AVKON_STATUS_PANE_LAYOUT_VT_MIRRORED:
                 case R_AVKON_STATUS_PANE_LAYOUT_USUAL_EXT:
                     {
-                    // main pane variety for usual portrait main pane with
-                    // 'area_top_pane' and 'area_bottom_pane'
-#ifdef RD_SCALABLE_UI_V2
-                    variety = 3; 
-                    if ( iAvkonAppUi && iAvkonAppUi->TouchPane() && iAvkonAppUi->TouchPane()->IsVisible() )
+                    // Main pane variety for usual portrait main pane with
+                    // 'area_top_pane' and 'area_bottom_pane'.
+                    variety = 3;
+
+                    if ( iAvkonAppUi )
                         {
-                        variety = 15;
-                        }
-                    else if ( iAvkonAppUi && iAvkonAppUi->CurrentFixedToolbar() )
-                        {
-                        if ( AknLayoutUtils::PenEnabled() )
-                             {
-                             CAknToolbar* toolbar = iAvkonAppUi->CurrentFixedToolbar(); 
-                             TInt flags = toolbar->ToolbarFlags(); 
-                             if ( flags & KAknToolbarFixed && !( flags & KAknToolbarDefault )
-                                && toolbar->IsShown() ) 
+                        CAknToolbar* toolbar = iAvkonAppUi->CurrentFixedToolbar(); 
+                        if ( toolbar )
+                            {
+                            TInt flags = toolbar->ToolbarFlags(); 
+                            if ( flags & KAknToolbarFixed &&
+                                 !( flags & KAknToolbarDefault ) &&
+                                 toolbar->IsShown() ) 
                                  {
                                  variety = 18; 
                                  }
-                             }
+                            }
                         }
-#else
-                    variety = 3;
-#endif // RD_SCALABLE_UI_V2    
                     }
                     break;
 
@@ -3667,36 +3663,9 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {                    
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        if ( PenEnabled() )
-                            {
-                            // This is quite awkward but necessary since the fixed
-                            // toolbar area can be used by the application main pane
-                            // if the application doesn't use toolbar.
-                            TBool toolbarVisible( EFalse );
-                            if ( iAvkonAppUi )
-                                {
-                                CAknToolbar* fixedToolbar =
-                                    iAvkonAppUi->CurrentFixedToolbar();
-                                if ( fixedToolbar )
-                                    {
-                                    TInt toolbarFlags(  fixedToolbar->ToolbarFlags() );
-                                    if ( toolbarFlags & KAknToolbarFixed &&
-                                         !( toolbarFlags & KAknToolbarDefault ) &&
-                                         fixedToolbar->IsShown()  )
-                                        {
-                                        toolbarVisible = ETrue;
-                                        }
-                                    }
-                                }
-
-                            variety = toolbarVisible ? 21 : 4;
-                            }
-                        else
-                            {
-                            // main pane variety with 'area_top_pane' and 
-                            // 'area_bottom_pane' in landscape (without touch pane).
-                            variety = 9;             
-                            }                    
+                        // main pane variety with 'area_top_pane' and
+                        // 'area_bottom_pane' in landscape (without touch pane).
+                        variety = 9;
                         }
                     else
                         {
@@ -3711,19 +3680,10 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        if ( PenEnabled() )
-                            {
-                            // main pane variety with small status pane in landscape
-                            // mode with 'area_top_pane', 'area_bottom_pane' and
-                            // touch pane
-                            variety = 4;
-                            }
-                        else
-                            {
-                            // main pane variety with 'area_top_pane' and
-                            // 'area_bottom_pane' in landscape (without touch pane)
-                            variety = 9;
-                            }
+                        // main pane variety with small status pane in landscape
+                        // mode with 'area_top_pane', 'area_bottom_pane' and
+                        // touch pane
+                        variety = 4;
                         }
                     else
                         {
@@ -3731,8 +3691,9 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                         // (with 'area_top_pane' and 'area_bottom_pane').
                         variety = 6;                    
                         }
-                    }
+
                     break;
+                    }
 
                 case R_AVKON_STATUS_PANE_EMPTY:
                 case R_AVKON_STATUS_PANE_LAYOUT_EMPTY:
@@ -3761,7 +3722,27 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     {
                     if ( Layout_Meta_Data::IsLandscapeOrientation() )
                         {
-                        variety = 21;
+                        // This is quite awkward but necessary since the fixed
+                        // toolbar area can be used by the application main pane
+                        // if the application doesn't use toolbar.
+                        TBool toolbarVisible( EFalse );
+                        if ( iAvkonAppUi )
+                            {
+                            CAknToolbar* fixedToolbar =
+                                iAvkonAppUi->CurrentFixedToolbar();
+                            if ( fixedToolbar )
+                                {
+                                TInt toolbarFlags( fixedToolbar->ToolbarFlags() );
+                                if ( toolbarFlags & KAknToolbarFixed &&
+                                     !( toolbarFlags & KAknToolbarDefault ) &&
+                                     fixedToolbar->IsShown()  )
+                                    {
+                                    toolbarVisible = ETrue;
+                                    }
+                                }
+                            }
+
+                        variety = toolbarVisible ? 21 : 4;
                         }
                     break;
                     }
@@ -3788,9 +3769,11 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                     break;
                 }
 
-            rect.LayoutRect( screenRect, TAknWindowComponentLayout::Compose(
-                                     AknLayoutScalable_Avkon::application_window( 0 ),
-                                     AknLayoutScalable_Avkon::main_pane( variety ) ) );
+            // Application window is always the same as screen, so use screen
+            // as parent and skip reading the application_window from layout
+            // data for performance improvement.
+            rect.LayoutRect( screenRect,
+                             AknLayoutScalable_Avkon::main_pane( variety ) );
                 
             aRect = rect.Rect();
             return ETrue;
@@ -4842,7 +4825,7 @@ EXPORT_C void AknDrawWithSkins::DrawEmptyListForSettingPage(const TRect &aRect, 
     {
     if ( aControl && aControl->FindBackground() )
         {        
-		DrawEmptyListImpl_real(  aRect, aGc, text, NULL, ETrue);        
+        DrawEmptyListImpl_real(  aRect, aGc, text, NULL, ETrue);        
         return;
         }
 
@@ -5317,8 +5300,21 @@ void DrawEmptyListImpl_real( const TRect &aClientRect,
         CleanupStack::PopAndDestroy(); // wrapWidthArray
         } ); // TRAP end
 
-    // there is no layout for empty popuplist
-    if ( error != KErrNone || popupList )
+    if ( error == KErrNone )
+        {
+        n = 0;
+        for ( i = 0; i < buffer.Length(); i++ )
+            {
+            if ( buffer[i] == '\n' )
+                {
+                n++;
+                }
+            }        
+        }
+    
+    // There is no layout for empty popuplist
+    // The second layout that 2 lines with big font is used for two lines text.
+    if ( n < 3 || error != KErrNone || popupList )
         {
         DrawEmptyListImpl_real_DrawUpToTwoLines( aGc, aText, line1, line2,
                                                  line1length, line2length,
@@ -6547,11 +6543,28 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
     TInt x = ( screen.Width() - aSize.iWidth ) >> 1;
     TInt y = screen.Height() - aSize.iHeight;
 
-    // Popups are centered on y-axis if screen orientation is landscape or
-    // softkeys are not visible.
-    if ( !aSoftkeysVisible || Layout_Meta_Data::IsLandscapeOrientation() )
+    if ( Layout_Meta_Data::IsLandscapeOrientation() )
         {
-        y >>= 1; 
+        // popups are centered on y-axis on landscape orientation
+        y >>= 1;
+        }
+    else
+        {
+        // On portrait popup is located on top of the control pane if it doesn't
+        // have softkeys visible and there's enough room i.e. the popup still
+        // fits to the screen.
+        if ( !aSoftkeysVisible )
+            {
+            TSize controlPane;
+            AknLayoutUtils::LayoutMetricsSize( AknLayoutUtils::EControlPane,
+                    controlPane );
+            y -= controlPane.iHeight;
+            
+            if ( y < 0 )
+                {
+                y = 0;
+                }
+            }
         }
 
     return TPoint( x, y );
@@ -6579,6 +6592,39 @@ EXPORT_C TPoint AknPopupUtils::Position( const TSize& aSize,
     
     return Position( aSize, softkeys );
     }
+
+
+// -----------------------------------------------------------------------------
+// Draws the separator line between list items.
+// -----------------------------------------------------------------------------
+//
+EXPORT_C void AknListUtils::DrawSeparator( CGraphicsContext& aGc, 
+                                           const TRect& aRect,
+                                           const TRgb& aColor,
+                                           MAknsSkinInstance* aSkin )
+    {
+    aGc.SetBrushStyle( CGraphicsContext::ENullBrush );
+    aGc.SetPenStyle( CGraphicsContext::ESolidPen );
+    TRgb color( aColor );
     
+    // Get the alpha value from skin.
+    TRgb colorFromSkin;
+    TInt err = AknsUtils::GetCachedColor( aSkin ? aSkin : AknsUtils::SkinInstance(),
+                                          colorFromSkin,
+                                          KAknsIIDQsnLineColors,
+                                          EAknsCIQsnLineColorsCG15 );
+    
+    color.SetAlpha( !err ? colorFromSkin.Red() : KDefaultSeparatorAlpha );
+    aGc.SetPenColor( color );
+    aGc.SetDrawMode( CGraphicsContext::EDrawModePEN );
+    TRect lineRect( aRect );
+    
+    TInt gap = AknLayoutScalable_Avkon::listscroll_gen_pane( 0 ).LayoutLine().it; 
+    lineRect.Shrink( gap, 0 );
+    lineRect.Move( 0, -1 );
+    aGc.DrawLine( TPoint( lineRect.iTl.iX, lineRect.iBr.iY ), 
+                  TPoint( lineRect.iBr.iX, lineRect.iBr.iY ) );
+    }
+
 // End of file
 

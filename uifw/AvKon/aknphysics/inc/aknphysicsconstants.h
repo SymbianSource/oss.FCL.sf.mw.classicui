@@ -21,9 +21,9 @@
 
 // Physics Constants
 const TInt KDefaultFriction( 10 );
-const TInt KFps( 50 ); // desired framerate
+const TInt KFps( 60 ); // desired framerate
 const TInt KPhysicsTime( 1000000/KFps ); // timer value
-const TInt KPhysicsMinTime( 17000 ); // ~1000000/(2*KFps);
+const TInt KPhysicsMinTime( 8500 ); // ~1000000/(2*KFps);
 const TInt KAknHighResMinWait( 500 ); // minimum wait time between callbacks
 const TInt KAknHighResMaxWait( 100000 ); // maximum wait time between callbacks
 const TInt KMaxContacts( 2 ); // max amount of contacts with 2 objects

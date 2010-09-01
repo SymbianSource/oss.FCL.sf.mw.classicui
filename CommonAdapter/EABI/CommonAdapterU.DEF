@@ -1,0 +1,11 @@
+EXPORTS
+	_ZN11CGlobalNote11CancelNoteLEi @ 1 NONAME
+	_ZN11CGlobalNote11SetSoftkeysE18TGlobalNoteSoftkey @ 2 NONAME
+	_ZN11CGlobalNote4NewLEv @ 3 NONAME
+	_ZN11CGlobalNote5NewLCEv @ 4 NONAME
+	_ZN11CGlobalNote9ShowNoteLE15TGlobalNoteTypeRK7TDesC16 @ 5 NONAME
+	_ZN11CGlobalNote9ShowNoteLER14TRequestStatus15TGlobalNoteTypeRK7TDesC16 @ 6 NONAME
+	_ZN11CGlobalNoteD0Ev @ 7 NONAME
+	_ZN11CGlobalNoteD1Ev @ 8 NONAME
+	_ZN11CGlobalNoteD2Ev @ 9 NONAME
+

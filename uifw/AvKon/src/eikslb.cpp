@@ -78,7 +78,8 @@ EXPORT_C void CSettingsListBoxItemDrawer::DrawItemText( TInt aItemIndex,
         }
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
 
-    DrawBackgroundAndSeparatorLines( aItemTextRect );
+    DrawBackgroundAndSeparatorLines( aItemTextRect, 
+            aItemIndex != FormattedCellData()->ListBox()->BottomItemIndex() );
 
     if ( aItemIsCurrent )
         {
@@ -86,9 +87,7 @@ EXPORT_C void CSettingsListBoxItemDrawer::DrawItemText( TInt aItemIndex,
         }
         
     FormattedCellData()->SetCurrentlyDrawnItemIndex( aItemIndex );
-
-    FormattedCellData()->DrawSettingHighlight( *iGc, aItemTextRect, aItemIsCurrent );
-
+    FormattedCellData()->DrawDefaultHighlight( *iGc, aItemTextRect, aItemIsCurrent );
     TBool drawBackground = ETrue;
     TPtrC temp = iModel->ItemText( aItemIndex );
     TPtrC columnText;

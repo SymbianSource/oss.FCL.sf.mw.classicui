@@ -104,6 +104,128 @@ GLDEF_C void Panic(TEikMfnePanic aPanic)
     User::Panic(KPanicCat, aPanic);
     }
 
+NONSHARABLE_CLASS(CEikTimeEditorExtension) : public CBase, 
+	public CAknExtendedInputCapabilities::MAknEventObserver 
+    {
+public:
+    static CEikTimeEditorExtension* NewL();
+    virtual ~CEikTimeEditorExtension();
+private: 
+    CEikTimeEditorExtension();
+
+    void ConstructL();
+public:
+    /**
+     * From CAknExtendedInputCapabilities::MAknEventObserver
+     * Handle an event
+     *
+     * @since S60 v9.2
+     * @param aEvent An event, see TInputCapabilitiesEvent
+     * @param aParams Event dependent parameters
+     */
+
+    void HandleInputCapabilitiesEventL( TInt aEvent, TAny* aParams );
+public:
+    CEikTimeEditor * iEditor;
+    };
+
+CEikTimeEditorExtension* CEikTimeEditorExtension::NewL()
+    {
+	CEikTimeEditorExtension* self = new (ELeave) CEikTimeEditorExtension();
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
+
+CEikTimeEditorExtension::~CEikTimeEditorExtension()
+    {
+
+    }
+
+CEikTimeEditorExtension::CEikTimeEditorExtension()
+    {
+    }
+
+void CEikTimeEditorExtension::ConstructL()
+    {
+    }
+
+void CEikTimeEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* /*aParams*/ )
+	{
+    switch ( aEvent )
+        {
+        case CAknExtendedInputCapabilities::MAknEventObserver::EChangeAmPm:
+        	if ( iEditor )
+	            {
+        	    iEditor->ChangeAmPm();
+	            }
+            break;
+        }
+    return;
+	}
+
+
+NONSHARABLE_CLASS(CEikTimeAndDateEditorExtension) : public CBase, 
+	public CAknExtendedInputCapabilities::MAknEventObserver 
+    {
+public:
+    static CEikTimeAndDateEditorExtension* NewL();
+    virtual ~CEikTimeAndDateEditorExtension();
+private: 
+    CEikTimeAndDateEditorExtension();
+
+    void ConstructL();
+public:
+    /**
+     * From CAknExtendedInputCapabilities::MAknEventObserver
+     * Handle an event
+     *
+     * @since S60 v9.2
+     * @param aEvent An event, see TInputCapabilitiesEvent
+     * @param aParams Event dependent parameters
+     */
+
+    void HandleInputCapabilitiesEventL( TInt aEvent, TAny* aParams );
+public:
+    CEikTimeAndDateEditor * iEditor;
+    };
+
+CEikTimeAndDateEditorExtension* CEikTimeAndDateEditorExtension::NewL()
+    {
+	CEikTimeAndDateEditorExtension* self = new (ELeave) CEikTimeAndDateEditorExtension();
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop();
+    return self;
+    }
+
+CEikTimeAndDateEditorExtension::~CEikTimeAndDateEditorExtension()
+    {
+
+    }
+
+CEikTimeAndDateEditorExtension::CEikTimeAndDateEditorExtension()
+    {
+    }
+
+void CEikTimeAndDateEditorExtension::ConstructL()
+    {
+    }
+
+void CEikTimeAndDateEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* /*aParams*/ )
+	{
+    switch ( aEvent )
+        {
+        case CAknExtendedInputCapabilities::MAknEventObserver::EChangeAmPm:
+        	if ( iEditor )
+	            {
+        	    iEditor->ChangeAmPm();
+	            }
+            break;
+        }
+    return;
+	}
 NONSHARABLE_CLASS(CEikMfneExtension) : public CBase, public MCoeFepAwareTextEditor 
     {
 public:
@@ -155,7 +277,6 @@ public:
         iExtendedInputCapabilitiesProvider;
     TInt iClipGcToRect; // Mainly for 0/1 values
     TInt iDisablePenInput; // Mainly for 0/1 values
-    TBool iTwiceTap;   
     TBool iCursorShown; 
     TBool iFingerSupport;
     TInt iFingerParam;
@@ -166,6 +287,7 @@ public:
     MTouchFeedback* iFeedback;
     TBool iLaunchPenInputAutomatic;
     TBool iPartialScreenInput;
+    TBool iChangeAmPm;
     };
 
 // Implementation of the extension
@@ -1612,7 +1734,7 @@ EXPORT_C TKeyResponse CEikMfne::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEven
     if ( !ConsumesUpAndDownKeys() && (code==EKeyDownArrow || code==EKeyUpArrow))
         return EKeyWasNotConsumed;
 
-    if ((aType==EEventKey) && (iCurrentField!=ENullIndex) && 
+    if ((aType==EEventKey) && (iCurrentField!=ENullIndex) && iExtension &&
         ( aKeyEvent.iRepeats == 0 || code == EKeyLeftArrow || 
             code == EKeyRightArrow || code == EKeyDownArrow || code == EKeyUpArrow ) )
         {
@@ -1742,7 +1864,7 @@ EXPORT_C void CEikMfne::HandleInteraction(TBool aHandleDeHighlight, TInt aNewCur
     {
     const CFont& font=*Font();
     TBool drawAllFields = ETrue;
-    if (aHandleDeHighlight)
+    if ( aHandleDeHighlight && iExtension )
         {
         iFields[iCurrentField]->HandleDeHighlight(font, *iEikonEnv, aDataAltered, aError);
         iExtension->iValidateValueCallBack.CallBack();
@@ -1844,7 +1966,7 @@ EXPORT_C void CEikMfne::SetMfneAlignment(TInt aAlignment)
             return;
             }
         }
-    if ( aAlignment >= ELayoutAlignNone && iExtension )
+    if ( aAlignment >= ELayoutAlignNone )
         {
         iAlignment = aAlignment;
         TUint capabilities = iExtension->
@@ -1931,6 +2053,7 @@ EXPORT_C TInt CEikMfne::SetFeature( TInt aFeatureId, TInt aFeatureParam )
                     iExtension->iDisablePenInput = !( iExtension->iFingerSupport );                    
                     iExtension->iFingerParam = aFeatureParam; 
                     iExtension->iHighlightAll = ( iExtension->iFingerSupport &&
+                        !iExtension->iTouchActivated &&
                         aFeatureParam == EnableWithAllHighlight );                  
                     }
                 else
@@ -1960,6 +2083,26 @@ EXPORT_C TInt CEikMfne::SetFeature( TInt aFeatureId, TInt aFeatureParam )
                     else
                         {
                         caps &= ~CAknExtendedInputCapabilities::EInputEditorPartialScreen;
+                        }
+                    iExtension->iExtendedInputCapabilities->SetCapabilities( caps );
+                    }
+                else
+                    {
+                    ret = KErrGeneral;
+                    }
+                break;
+            case EChangeAmPm:
+                if ( iExtension )
+                    {
+                    iExtension->iChangeAmPm = aFeatureParam;
+                    TUint caps( iExtension->iExtendedInputCapabilities->Capabilities() );
+                    if ( aFeatureParam )
+                        {
+                        caps |= CAknExtendedInputCapabilities::EInputEditorAmPm;
+                        }
+                    else
+                        {
+                        caps &= ~CAknExtendedInputCapabilities::EInputEditorAmPm;
                         }
                     iExtension->iExtendedInputCapabilities->SetCapabilities( caps );
                     }
@@ -2040,6 +2183,16 @@ EXPORT_C TInt CEikMfne::GetFeature( TInt aFeatureId, TInt& aFeatureParam ) const
                     ret = KErrGeneral;
                     }
                 break;
+            case EChangeAmPm:
+                if ( iExtension )
+                    {
+                    aFeatureParam = iExtension->iChangeAmPm;
+                    }
+                else
+                    {
+                    ret = KErrGeneral;
+                    }
+                break;
             default:
                 ret = KErrNotSupported;
                 break;
@@ -2060,7 +2213,8 @@ EXPORT_C TBool CEikMfne::SupportsFeature( TInt aFeatureId ) const
         EDisablePenInput,
         EFingerSupport,
         ELaunchPenInputAutomatic,
-        EPartialScreenInput
+        EPartialScreenInput,
+        EChangeAmPm
         };
         
     TBool ret = EFalse;
@@ -2253,18 +2407,12 @@ EXPORT_C void CEikMfne::HandlePointerEventL(const TPointerEvent& aPointerEvent)
             }
         if (newField==ENullIndex)
             newField=iCurrentField;
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down )
-            {
-            iExtension->iTwiceTap = ( iExtension->iFingerSupport ? ETrue : 
-                newField == iCurrentField );            
-            }
 
         if (iExtension && aPointerEvent.iType == TPointerEvent::EButton1Down)
             {
             // Edit feedback on down event in current field, 
             // Edit feedback when changing fields
-            TTouchLogicalFeedback feedback = 
-                ( iExtension->iTwiceTap ? ETouchFeedbackEditor : ETouchFeedbackEditor );
+            TTouchLogicalFeedback feedback = ETouchFeedbackEdit;
             iExtension->iFeedback->InstantFeedback( this, feedback );
             }
         TBool createPopoutIfRequired=((newField==iCurrentField) && aPointerEvent.iType==TPointerEvent::EButton1Down && IsFocused());
@@ -2279,10 +2427,10 @@ EXPORT_C void CEikMfne::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         }
     else if ( aPointerEvent.iType == TPointerEvent::EButton1Up )
         {
-        if ( iExtension && !iExtension->iDisablePenInput && iExtension->iTwiceTap )
+        if ( iExtension && !iExtension->iDisablePenInput )
             {
             iExtension->iFeedback->InstantFeedback( this,
-                ETouchFeedbackEditor,
+                ETouchFeedbackEdit,
                 ETouchFeedbackVibra,
                 aPointerEvent );
             LaunchPenInputL();
@@ -2446,7 +2594,7 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
             {
             if (i>=aFirstField)
                 {
-                if (focused && ( iExtension->iHighlightAll || ( i == iCurrentField 
+                if (focused && iExtension && ( iExtension->iHighlightAll || ( i == iCurrentField 
                     && iFields[i]->HighlightType() == CEikMfneField::EInverseVideo
                     && iFields[i]->FieldText().Length() > 0 ) ) && !isEmpty )
                     {
@@ -2455,10 +2603,7 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
                     }
                 else 
                     {
-                    if (IsDimmed())
-                        SetGcToDimmedVideo(aGc);
-                    else
-                        SetGcToNormalVideo(aGc);
+
 
                     // Note!! This is taking responsibility away from the CEikMfne Field for drawing
                     // Skin background is drawn for the fields here
@@ -2492,6 +2637,15 @@ void CEikMfne::DrawRange( CWindowGc& aGc,
 
                         // Set up null brush GC here for the upcoming draw
                         aGc.SetBrushStyle(CGraphicsContext::ENullBrush);
+                        }
+                    // set aGc for drawing field text
+                    if ( IsDimmed() )
+                        {
+                        SetGcToDimmedVideo( aGc );
+                        }
+                    else
+                        {
+                        SetGcToNormalVideo( aGc );
                         }
                     }
                 // This draw must only draw the text with a null brush or draw block highlight 
@@ -2703,12 +2857,15 @@ void CEikMfne::DrawCursor()
     GetCursorInfo( cursorPosition, cursorHeight, cursorWidth, cursorAscent );
 
     iEikonEnv->DrawCursor(this, cursorPosition, cursorWidth, cursorAscent, cursorHeight);
-    iExtension->iCursorShown = ETrue;
+    if ( iExtension )
+    	{
+        iExtension->iCursorShown = ETrue;
+    	}
     }
 
 void CEikMfne::HideCursor()
     {
-    if ( iExtension->iCursorShown )
+    if ( iExtension && iExtension->iCursorShown )
         {
         iEikonEnv->HideCursor(this);
         iExtension->iCursorShown = EFalse;
@@ -3150,7 +3307,8 @@ public:
     void SetUninitialised(TBool aUninitialised);
     TBool IsUninitialised() const;
     void RefreshFromLocale(const CFont& aFont);
-
+    void ChangeAmPm();
+    TBool HasAmPm();
 private:
     void AddAmPmFieldsIfNecessaryL(CEikMfne& aOwner, TAmPm aAmPm, TLocalePos aPos);
 private:
@@ -3421,7 +3579,25 @@ TBool CTimeEditor::IsUninitialised() const
         (iAmPm && iAmPm->IsUninitialised());
     }
 
+void CTimeEditor::ChangeAmPm()
+	{
+	if ( iAmPm && HasAmPm() )
+		{
+	    if ( iAmPm->IdOfCurrentSymbolicItem() == EPm )
+	    	{
+	        iAmPm->SetCurrentSymbolicItemToId(EAm);
+	    	}
+	    else
+	    	{
+            iAmPm->SetCurrentSymbolicItemToId(EPm);
+	    	}
+		}
+	}
 
+TBool CTimeEditor::HasAmPm()
+	{
+	return iAmPm && ( iFlags&EIn12HourFormat );
+	}
 // CDateEditor
 
 class CDateEditor : public CBase
@@ -3819,7 +3995,9 @@ EXPORT_C CEikTimeEditor::CEikTimeEditor()
 EXPORT_C CEikTimeEditor::~CEikTimeEditor()
     {
     AKNTASHOOK_REMOVE();
+    iExtension->iExtendedInputCapabilities->UnregisterObserver(iTimeExtension);
     delete iTimeEditor;
+    delete iTimeExtension;
     }
 
 EXPORT_C void CEikTimeEditor::ConstructL(const TTime& aMinimumTime, const TTime& aMaximumTime, const TTime& aInitialTime, TUint32 aFlags)
@@ -3830,6 +4008,10 @@ EXPORT_C void CEikTimeEditor::ConstructL(const TTime& aMinimumTime, const TTime&
     iTimeEditor->ConstructFieldsL(*this, aInitialTime, *Font());
     iTimeEditor->RefreshFromLocale(*Font());
     DoSetMinimumAndMaximum(aMinimumTime, aMaximumTime);
+    iTimeExtension = CEikTimeEditorExtension::NewL();
+    iTimeExtension->iEditor = this;
+    iExtension->iExtendedInputCapabilities->RegisterObserver(iTimeExtension);
+    SetFeature( CEikMfne::EChangeAmPm, iTimeEditor->HasAmPm() );
     }
 
 EXPORT_C void CEikTimeEditor::SetMinimumAndMaximum(const TTime& aMinimumTime, const TTime& aMaximumTime)
@@ -3925,6 +4107,19 @@ EXPORT_C TBool CEikTimeEditor::IsUninitialised() const
     return iTimeEditor->IsUninitialised();
     }
 
+void CEikTimeEditor::ChangeAmPm( )
+	{
+	TInt para( 0 );
+    GetFeature( CEikMfne::EChangeAmPm, para );
+	if ( para )
+		{
+	    iTimeEditor->ChangeAmPm();
+	    DrawDeferred();
+	    TRAP_IGNORE ( ReportEventL( MCoeControlObserver::EEventStateChanged ) );
+        ReportUpdate();
+		}
+	return;
+	}
 // CEikDateEditor
 
 EXPORT_C CEikDateEditor::CEikDateEditor()
@@ -3989,18 +4184,24 @@ TTime CEikDateEditor::GetTTime() const
     return(Date());
     }
 
-EXPORT_C TKeyResponse CEikDateEditor::OfferKeyEventL(const TKeyEvent& aKeyEvent, TEventCode aType)
+EXPORT_C TKeyResponse CEikDateEditor::OfferKeyEventL( const TKeyEvent& aKeyEvent, TEventCode aType )
     {
-    if (iDateEditor->OfferKeyEventL(aKeyEvent, aType)==EKeyWasConsumed)
-        return EKeyWasConsumed;
-    if ( ( aType==EEventKey)&& 
-           ( aKeyEvent.iCode == EKeyLeftArrow || aKeyEvent.iCode == EKeyRightArrow || 
-             aKeyEvent.iCode == EKeyDownArrow || aKeyEvent.iCode == EKeyUpArrow ) )
+	TKeyResponse ret = EKeyWasNotConsumed;
+    if ( iDateEditor->OfferKeyEventL( aKeyEvent, aType ) == EKeyWasConsumed )
     	{
-        iDateEditor->UpdateMaxDay( *Font() );
+        ret = EKeyWasConsumed;
     	}
-
-    return CEikMfne::OfferKeyEventL(aKeyEvent, aType);
+    else 
+    	{
+	    ret = CEikMfne::OfferKeyEventL( aKeyEvent, aType );
+	    if ( ( aType == EEventKey ) && 
+		     ( aKeyEvent.iCode == EKeyDownArrow || aKeyEvent.iCode == EKeyUpArrow ) )
+		    {
+		    iDateEditor->UpdateMaxDay( *Font() );
+		    this->DrawDeferred();
+		    }
+    	}
+    return ret;
     }
 
 EXPORT_C void CEikDateEditor::ConstructFromResourceL(TResourceReader& aResourceReader)
@@ -4101,8 +4302,10 @@ EXPORT_C CEikTimeAndDateEditor::CEikTimeAndDateEditor()
 EXPORT_C CEikTimeAndDateEditor::~CEikTimeAndDateEditor()
     {
     AKNTASHOOK_REMOVE();
+    iExtension->iExtendedInputCapabilities->UnregisterObserver(iTimeDateExtension);
     delete iTimeEditor;
     delete iDateEditor;
+    delete iTimeDateExtension;
     }
 
 EXPORT_C void CEikTimeAndDateEditor::ConstructL(const TTime& aMinimumTimeAndDate, const TTime& aMaximumTimeAndDate,
@@ -4148,6 +4351,10 @@ EXPORT_C void CEikTimeAndDateEditor::ConstructL(const TTime& aMinimumTimeAndDate
     // do stuff that can only be done when all leaving functions have successfully been done
     if (aInterveningText)
         interveningText->SetText(aInterveningText);
+    iTimeDateExtension = CEikTimeAndDateEditorExtension::NewL();
+    iTimeDateExtension->iEditor = this;
+    iExtension->iExtendedInputCapabilities->RegisterObserver(iTimeDateExtension);
+    SetFeature( CEikMfne::EChangeAmPm, iTimeEditor->HasAmPm() );
     }
 
 EXPORT_C void CEikTimeAndDateEditor::SetMinimumAndMaximum(const TTime& aMinimumTimeAndDate, const TTime& aMaximumTimeAndDate)
@@ -4287,6 +4494,19 @@ EXPORT_C void CEikTimeAndDateEditor::CEikMfne_Reserved()
     {
     }
 
+void CEikTimeAndDateEditor::ChangeAmPm( )
+	{
+	TInt para( 0 );
+    GetFeature( CEikMfne::EChangeAmPm, para );
+	if ( para )
+		{
+	    iTimeEditor->ChangeAmPm();
+	    DrawDeferred();
+	    TRAP_IGNORE ( ReportEventL( MCoeControlObserver::EEventStateChanged ) );
+        ReportUpdate();
+		}
+	return;
+	}
 
 // CEikDurationEditor
 
@@ -4578,9 +4798,18 @@ EXPORT_C void CEikMfne::SizeChanged()
 EXPORT_C void CEikMfne::MakeVisible( TBool aVisible )
     {
     CEikBorderedControl::MakeVisible( aVisible );
-    if ( !aVisible && iExtension->iCursorShown )
+    if ( !aVisible && iExtension && iExtension->iCursorShown )
         {
         HideCursor();
+        }
+    
+    if ( iExtension && !aVisible )
+        {
+        TRAP_IGNORE (
+            iExtension->iExtendedInputCapabilities->ReportEventL( 
+                CAknExtendedInputCapabilities::MAknEventObserver::EClosePenInputRequest, 
+                0 );
+            )
         }
     }
 

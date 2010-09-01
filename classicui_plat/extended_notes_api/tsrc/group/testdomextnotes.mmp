@@ -49,7 +49,7 @@ SOURCE          testdomextnotes.cpp
 SOURCE          testdomextnotesblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcdlg.lib

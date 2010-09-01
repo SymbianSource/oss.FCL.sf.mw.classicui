@@ -64,6 +64,9 @@ public:
 
     static TInt LayoutInstallationCallBack(TAny* aPtr);
     
+    void SetBackgroundAppsStateChangeDeferred(TBool aDeferred);
+    TBool BackgroundAppsStateChangeDeferred() const;
+    
 private:
     class TWgState
         {
@@ -133,6 +136,13 @@ private:
     void DoMoveApp();
     TInt RefreshLayoutIfRequiredL();
     
+    void UpdateIdleState();
+    void DoChangeIdleState();
+    static TInt ChangeIdleStateCallBack(TAny* aThis);
+    TInt  ForegroundWgId();
+    TBool IsIdleForeground();
+    void SetIdleState(TBool aFlag);
+    
 private:
     CWgStates* iWgStates;
     RWsSession& iWs;
@@ -143,6 +153,7 @@ private:
     TInt iLastTopSpWg;
     TInt iLastScreenModeSet;
     CLayoutChangeCallBack* iLayoutChangeCallBack;
+    CPeriodic* iChangeIdleState;
     struct SRelinquishedThread
         {
         RThread iThread;
@@ -171,6 +182,7 @@ private:
 	TInt iTouchCompaScreenMode;
     CEComPluginNotifier* iLayoutNotifier; // Owned
     REComPluginInfoArray iPrevPluginInfo;
+    TInt iBackgroundLayoutDeferred;
     };
 
 #endif // EIKSGCS_H

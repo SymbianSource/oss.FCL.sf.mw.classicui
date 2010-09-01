@@ -1258,7 +1258,7 @@ EXPORT_C void CAknVolumeControl::HandlePointerEventL(
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
                 if ( feedback )
                     {
-                    feedback->InstantFeedback( ETouchFeedbackBasicSlider );
+                    feedback->InstantFeedback( ETouchFeedbackSlider );
                     }
                 }
             case TPointerEvent::EDrag:
@@ -1365,7 +1365,7 @@ EXPORT_C void CAknVolumeControl::HandlePointerEventL(
                 MTouchFeedback* feedback = MTouchFeedback::Instance();
                 if ( feedback )
                     {
-                    feedback->InstantFeedback( this, ETouchFeedbackBasicSlider );    
+                    feedback->InstantFeedback( this, ETouchFeedbackSlider );    
                     }                
                 }
             

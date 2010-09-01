@@ -55,6 +55,8 @@
 #include <AknTasHook.h>
 #include "aknsctfocushandler.h"
 
+#include <eikdialogext.h>
+
 //
 // class CAknCharMapDialog
 //
@@ -432,10 +434,12 @@ EXPORT_C TBool CAknCharMapDialog::OkToExitL(TInt aButtonId)
     // to select multiple characters before.
     if (aButtonId == EAknSoftkeyOk || aButtonId == EAknSoftkeySelect || aButtonId == EAknSoftkeyExit)
         {
-        // In Japanese UI, SCT isn't closed by pressing "Select" softkey,
+        // In Korean UI, SCT isn't closed by pressing "Select" softkey,
         // but SCT is closed by pressing "Back"(button id is EAknSoftkeyClose).
+        // Japanese feature for SCT will not be supported since TB9.2 PS2,
+        // so remove the code for Japanese SCT.
         MAknSctFocusHandler* handler = charmapControl->FocusHandler();
-        if (charmapControl->IsJapaneseSctUi() &&
+        if ( charmapControl->IsKoreanSctUi() &&
             aButtonId != EAknSoftkeyExit &&
             handler->FocusedControl() == charmapControl)
             {
@@ -531,8 +535,9 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
 	/// -- Change Window Priority for dialog and CBA 
 	
 	DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); //
-	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); 	
-
+	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
+	
+	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);
     }
 
 EXPORT_C void CAknCharMapDialog::SetSizeAndPosition( const TSize& aSize )
@@ -592,7 +597,7 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
             case EKeyDownArrow:
                 {
                 TKeyResponse res = charmapControl->OfferKeyEventL(aKeyEvent, aModifiers);
-                RefreshTitleAndNavi();
+                RefreshTitleAndNaviL();
                 return res;
                 }
 
@@ -602,8 +607,6 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
                 TryExitL(EAknSoftkeySelect);
                 return EKeyWasConsumed;
                 }
-                break;
-                    
             case '*':
                 {
                 if (!aKeyEvent.iRepeats) // switch another table when repeat count is 0 only.
@@ -955,23 +958,16 @@ EXPORT_C void CAknCharMapDialog::DisableRecentCharsRow()
 //
 EXPORT_C void CAknCharMapDialog::HandlePointerEventL(const TPointerEvent& aPointerEvent)
     {
-    if (!Rect().Contains( aPointerEvent.iPosition))
+    if(!Rect().Contains(aPointerEvent.iPosition))
         {
         if(aPointerEvent.iType == TPointerEvent::EButton1Down)
             {
-            TryExitL (EAknSoftkeyCancel);
+            TryExitL(EAknSoftkeyCancel);
             return;
             }
-         else if(aPointerEvent.iType == TPointerEvent::EButton1Up)
-            {
-            CAknCharMap* charMap = STATIC_CAST( CAknCharMap*, Control( EAknSCTQueryContentId ) );
-            charMap->HandlePointerEventL( aPointerEvent);
-            }
         }
-    else
-        {
-        CAknDialog::HandlePointerEventL(aPointerEvent);
-        }
+
+    CAknDialog::HandlePointerEventL(aPointerEvent);
     }
 
 void CAknCharMapDialog::SwitchTablesOrPagesL()
@@ -1006,10 +1002,10 @@ void CAknCharMapDialog::SwitchPagesL()
     CAknPopupHeadingPane* headingPane = STATIC_CAST(CAknPopupHeadingPane*, Control(EAknSCTQueryHeadingId));
     
     charmapControl->NextPageL();
-    RefreshTitleAndNavi();
+    RefreshTitleAndNaviL();
     }
 
-void CAknCharMapDialog::RefreshTitleAndNavi()
+void CAknCharMapDialog::RefreshTitleAndNaviL()
     {
     CAknCharMap* charmapControl = STATIC_CAST(CAknCharMap*, Control(EAknSCTQueryContentId));
     CAknPopupHeadingPane* headingPane = STATIC_CAST(CAknPopupHeadingPane*, Control(EAknSCTQueryHeadingId));

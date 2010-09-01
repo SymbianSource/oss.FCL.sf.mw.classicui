@@ -19,8 +19,7 @@
 #include <aknmemorycardui.rsg>
 #include <StringLoader.h>
 #include <aknsoundsystem.h>
-#include <AknNotifyStd.h>
-#include <SecondaryDisplay/AknSecondaryDisplayDefs.h>
+#include <secondarydisplay/AknSecondaryDisplayDefs.h>
 #include "AknCapServerEntry.h"
 #include "AknCapServerDefs.h"
 #include "AknMemoryCardDialogImpl.h"

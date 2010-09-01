@@ -18,4 +18,6 @@
 
 #include "../Localizer/group/bld.inf"
 #include "../Findutil/group/bld.inf"
+#include "../gamerecognizer/group/bld.inf"
+#include "../AknJapaneseReading/group/bld.inf"
 #include "../hlplch/group/bld.inf"

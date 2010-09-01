@@ -98,8 +98,33 @@ public:
     IMPORT_C static void MoveApp(TInt aAppWindowGroupId, TSgcMoveAppToWhere aWhere);
 	IMPORT_C static void SetImpl(CAknSgcImpl* aImpl);
 
-	// internal
-    static void RelinquishPriorityToForegroundAppLC(TBool aIsForeground);
+	/**
+     * Relinquishes priority for the foreground application during layout
+     * switches and skin change events. During these events the process
+     * priorities are adjusted so that the priorities of the processes at the
+     * background are lowered so that the foreground process gets more CPU
+     * time in order to be able to quickly process the events.
+     *
+     * @internal Used internally by the UI Framework.
+     *
+     * @param  aIsForeground  @c ETrue if the application is currently on
+     *                        foreground, @c EFalse otherwise.
+     */
+    static void RelinquishPriorityToForegroundAppLC( TBool aIsForeground );
+    
+    /**
+     * Enables or disables the foreground process priority maintaining
+     * during priority relinquishment. With this enabled the application can
+     * be set to the foreground process priority even if it's actually
+     * on the background, to handle the events where priority relinquishment
+     * is used faster.
+     *
+     * @internal Used internally by the UI Framework.
+     *
+     * @param  aUseForeground  @c ETrue to maintain the foreground priority,
+     *                         @c EFalse otherwise.
+     */
+    static void UseForegroundPriorityDuringRelinquish( TBool aUseForeground );
 
 protected:
 	CAknSgcClient();

@@ -34,8 +34,9 @@ DEFFILE         testdominputblk.def
 #ifdef SBSV2
 USERINCLUDE     ../inc 
 
-	    MW_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
+SOURCEPATH      ../src
 #else // SBSV2 not defined
 USERINCLUDE     ../inc 
 
@@ -51,9 +52,9 @@ SOURCE          activeexample.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         Avkon.lib
+LIBRARY         avkon.lib
 
 LANG            SC
 

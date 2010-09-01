@@ -25,6 +25,7 @@
 #include <e32err.h>
 
 #include "aknrecordinggc.h"
+#include "akntrace.h"
 
 #ifdef _DEBUG
 _LIT( KOverFlow, "Array overflow" );
@@ -64,10 +65,12 @@ void CAknRecordingGc::ConstructL( const TSize& /*aSize*/ )
 //
 CAknRecordingGc::~CAknRecordingGc()
     {
+    _AKNTRACE_FUNC_ENTER;
     iLines.ResetAndDestroy();
     delete iOffScreenBmp;
     delete iBitGc;
     delete iBitmapDevice;
+    _AKNTRACE_FUNC_EXIT;
     }
     
 
@@ -77,6 +80,11 @@ CAknRecordingGc::~CAknRecordingGc()
 //
 void CAknRecordingGc::FlushBuffer( const TRect& aRect, TInt aLineToSkip )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "The rect of FlushBuffer are ( %d, %d ) ( %d, %d )", 
+    		aRect.iTl.iX, aRect.iTl.iY, 
+    		aRect.iBr.iX, aRect.iBr.iY );
+    _AKNTRACE( "[%s][%s]aLineToSkip: [%d]", "CAknRecordingGc", __FUNCTION__, aLineToSkip );
     if ( iLines.Count() == 0 )
         {
         return;
@@ -167,8 +175,26 @@ void CAknRecordingGc::FlushBuffer( const TRect& aRect, TInt aLineToSkip )
                     case CBufferItem::EDrawRect:
                         gc->DrawRect( item->iRect );
                         break;
+                        
                     case CBufferItem::EClear:
                         gc->Clear( item->iRect );
+                        break;
+                        
+                    case CBufferItem::EDrawLine:
+                        // EDrawLine is used for separator line only and it
+                        // should be skipped for the last visible item.
+                        if ( i < iLines.Count() - 1 )
+                            {
+                            gc->DrawLine( item->iRect.iTl, item->iRect.iBr );
+                            }
+                        break;
+                        
+                    case CBufferItem::EUseBrushPattern:
+                        gc->UseBrushPattern( item->iBitmap );
+                        break;
+                        
+                    case CBufferItem::EDiscardBrushPattern:
+                        gc->DiscardBrushPattern();
                         break;
                     }
                 }
@@ -192,6 +218,7 @@ void CAknRecordingGc::FlushBuffer( const TRect& aRect, TInt aLineToSkip )
         {
         iRealGc->BitBlt( TPoint( 0, 0 ), iOffScreenBmp, TRect( 0, 0, 360, 500 ) );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -212,10 +239,12 @@ void CAknRecordingGc::PurgeBuffer()
 //
 void CAknRecordingGc::PrepareForNewLineL( const TRect& aRect )
     {
+    _AKNTRACE_FUNC_ENTER;
     CLineData* newLine = new ( ELeave ) CLineData;
     newLine->iRect = aRect;
     iLines.AppendL( newLine );
     iCurrentLine = iLines.Count() - 1;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -225,6 +254,8 @@ void CAknRecordingGc::PrepareForNewLineL( const TRect& aRect )
 //
 void CAknRecordingGc::ReplaceLineL( TInt aLine )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s]aLine: [%d].", "CAknRecordingGc", __FUNCTION__, aLine );
     if (  aLine < iLines.Count() )
         {
         TRect rect( iLines[aLine]->iRect );
@@ -236,6 +267,7 @@ void CAknRecordingGc::ReplaceLineL( TInt aLine )
         }
         
     iCurrentLine = aLine;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -255,11 +287,14 @@ void CAknRecordingGc::UseBitGc( TBool aUseBitGc )
 //
 void CAknRecordingGc::InsertLineL( TInt aLine, const TRect& aRect )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s]aLine: [%d].", "CAknRecordingGc", __FUNCTION__, aLine );
     CLineData* newLine = new ( ELeave ) CLineData;
     newLine->iRect = aRect;
     
     iLines.Insert( newLine, aLine );
     iCurrentLine = aLine;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -314,11 +349,14 @@ void CAknRecordingGc::SetLineRect( TInt aLine, const TRect& aRect )
 //
 void CAknRecordingGc::DeleteLine( TInt aLine )
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE( "[%s][%s]aLine: [%d].", "CAknRecordingGc", __FUNCTION__, aLine );
     if ( aLine != -1 && aLine < iLines.Count() )
         {
         delete iLines[aLine];
         iLines.Remove( aLine );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -581,8 +619,15 @@ void CAknRecordingGc::SetBrushOrigin( const TPoint& /*aOrigin*/ )
 // From class CWindowGc
 // ---------------------------------------------------------------------------
 //
-void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* /*aDevice*/ )
+void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* aDevice )
     {
+    CBufferItem* buffer = BufferItem();
+    buffer->iType = CBufferItem::EUseBrushPattern;
+    
+    CFbsBitmap* bitmap = NULL;
+    TRAP_IGNORE( bitmap = new (ELeave) CFbsBitmap() );
+    bitmap->Duplicate(aDevice->Handle());
+    buffer->iBitmap = bitmap;
     }
     
     
@@ -592,6 +637,8 @@ void CAknRecordingGc::UseBrushPattern( const CFbsBitmap* /*aDevice*/ )
 //
 void CAknRecordingGc::DiscardBrushPattern()
     {
+    CBufferItem* buffer = BufferItem();
+    buffer->iType = CBufferItem::EDiscardBrushPattern;    
     }
     
     
@@ -636,9 +683,15 @@ void CAknRecordingGc::DrawArc( const TRect& /*aRect*/, const TPoint& /*aStart*/,
 // From class CWindowGc
 // ---------------------------------------------------------------------------
 //
-void CAknRecordingGc::DrawLine( const TPoint& /*aPoint1*/, 
-    const TPoint& /*aPoint2*/ )
+void CAknRecordingGc::DrawLine( const TPoint& aPoint1, 
+    const TPoint& aPoint2 )
     {
+    _AKNTRACE_FUNC_ENTER;
+    CBufferItem* buffer = BufferItem();
+    buffer->iType = CBufferItem::EDrawLine;
+    buffer->iRect.iTl = aPoint1;
+    buffer->iRect.iBr = aPoint2;
+    _AKNTRACE_FUNC_EXIT;
     }
     
     
@@ -895,6 +948,7 @@ void CAknRecordingGc::BitBltMasked( const TPoint& aPoint,
     const CFbsBitmap* aBitmap, const TRect& aSourceRect, 
     const CFbsBitmap* aMaskBitmap, TBool aInvertMask )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( !iUseBitGc )
         {
         CBufferItem* buffer = BufferItem();
@@ -919,6 +973,7 @@ void CAknRecordingGc::BitBltMasked( const TPoint& aPoint,
         {
         iBitGc->BitBltMasked( aPoint, aBitmap, aSourceRect, aMaskBitmap, aInvertMask );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
     
     
@@ -1091,6 +1146,7 @@ const TAny* CAknRecordingGc::Interface( TUid /*aInterfaceId*/ ) const
 TInt CAknRecordingGc::APIExtension( TUid aUid, TAny*& /*aOutput*/,
     TAny* aInput )
     {
+    _AKNTRACE_FUNC_ENTER;
     if (aUid == KDrawTextInContextUid)
         {
         __ASSERT_DEBUG( aInput, User::Panic(KBadArgument, KErrArgument ));
@@ -1101,10 +1157,12 @@ TInt CAknRecordingGc::APIExtension( TUid aUid, TAny*& /*aOutput*/,
         TPtrC textToDraw = contextParam->iText.Mid( params->iStart, 
                                                     params->iEnd - params->iStart );
         DrawText(textToDraw, contextParam->iPosition);
+		_AKNTRACE_FUNC_EXIT;
         return KErrNone;
         }
     else
         {
+		_AKNTRACE_FUNC_EXIT;
         return KErrNotSupported;
         }
     }

@@ -179,6 +179,15 @@ private:
     */
     void ConstructL();
 
+    /**
+    * Loads the AT&T signal icon to be displayed.
+    * 
+    * @param  aIconState       ID of the signal state, @see signal indicator
+    *                          states in @c avkon.hrh.
+    * @param  aIconColorIndex  Color index of the icon.
+    */
+    void LoadATTIconL( TInt aIconState, TInt aIconColorIndex );
+    
 private:
     
     /**
@@ -207,6 +216,9 @@ private:
     
     /** Flag defining whether or not the offline icon is drawn. */
     TBool       iShowOffLineIcon;
+    
+	/** Flag defining whether or not the ATT is enable. */
+    TInt        iATTEnable;
     };
 
 #endif // AKNSIGNALICON_H

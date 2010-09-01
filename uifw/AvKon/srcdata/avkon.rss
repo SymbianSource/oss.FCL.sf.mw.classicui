@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -35,8 +35,8 @@ NAME AVKN
 #include <aknsconstants.hrh>
 
 #include <smiley.mbg>
-//#include <trui_icons.mbg>
-//#include <peninputcommonctrls.loc>
+#include <trui_icons.mbg>
+#include <peninputcommonctrls.loc>
 
 RESOURCE RSS_SIGNATURE { }
 
@@ -149,6 +149,9 @@ RESOURCE MENU_PANE r_avkon_edit_mode_menu
         MENU_ITEM { command=EChinFepCmdModePinyin; txt=text_chi_input_pinyin; },
         MENU_ITEM { command=EChinFepCmdModeZhuyin; txt=text_chi_input_zhuyin; },
         MENU_ITEM { command=EChinFepCmdModeStroke; txt=text_chi_input_stroke; },
+        MENU_ITEM { command=EChinFepCmdModePinyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_pinyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeZhuyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_zhuyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeStrokePhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_stroke_phrase; },
         MENU_ITEM { cascade=r_avkon_fep_cmd_mode_japin_edit_predict_on_submenu; command=EJapanFepCmdModePredictiveOn; flags=EEikMenuItemDimmed; txt=qtn_japin_edit_predict; },
         MENU_ITEM { cascade=r_avkon_fep_cmd_mode_japin_edit_predict_off_submenu; command=EJapanFepCmdModePredictiveOff; flags=EEikMenuItemDimmed; txt=qtn_japin_edit_predict; },
         MENU_ITEM { command=EAknCmdT9PredictiveT9Off; flags=EEikMenuItemDimmed; txt=qtn_editing_state_indicator_list_prediction_off; },
@@ -630,8 +633,14 @@ RESOURCE STATUS_PANE_SYSTEM_MODEL r_avkon_status_pane
             flags = EEikStatusPaneAppOwned;
             type = EAknCtStatuspaneEmpty;
             resource = r_avkon_status_pane_empty;
+            },
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidCombined;
+            flags = EEikStatusPaneAppOwned;
+            type = EAknCtCombinedPane;
+            resource = r_avkon_status_pane_combined_default;
             }
-
         };
 
     default_layout = r_avkon_status_pane_layout_usual;
@@ -1508,7 +1517,19 @@ RESOURCE INDICATOR_PANE r_avkon_status_pane_indicator_default
             bmpfile = AVKON_BITMAP_FILE;
             states = INDICATOR_STATE
                 {
-                id = EAknIndicatorStateOn;
+                id = EAknIndicatorStateAnimate;
+                icons = INDICATOR_ICON
+                    {
+                    // IR indicator blank image used here to avoid having
+                    // multiple instances of the same icon in the Avkon bitmap
+                    // file. This is ok because the blank image is essentially
+                    // the same for all the animated universal indicators,
+                    // and it won't change.
+                    widebmpid = EMbmAvkonQgn_stat_ir_uni_blank;
+                    widebmpmask = EMbmAvkonQgn_stat_ir_uni_blank_mask;
+                    narrowbmpid = EMbmAvkonQgn_stat_ir_uni_blank;
+                    narrowbmpmask = EMbmAvkonQgn_stat_ir_uni_blank_mask;
+                    };
                 icons = INDICATOR_ICON
                     {
                     widebmpid = EMbmAvkonQgn_stat_usb_uni;
@@ -2087,7 +2108,26 @@ RESOURCE INDICATOR_PANE r_avkon_status_pane_indicator_default
                     narrowbmpmask = EMbmAvkonQgn_stat_hdmi_connect_mask;
                     };
                 };
-            }            
+            },
+             
+          INDICATOR
+            {
+            uid = EAknIndicatorIntegratedIM;
+            npriority = 41;
+            wpriority = 41;
+            bmpfile = AVKON_BITMAP_FILE;
+            states = INDICATOR_STATE
+                {
+                id = EAknIndicatorStateOn;
+                icons = INDICATOR_ICON
+                    {
+                    widebmpid = EMbmAvkonQgn_stat_joint_im_uni;
+                    widebmpmask = EMbmAvkonQgn_stat_joint_im_uni_mask;
+                    narrowbmpid = EMbmAvkonQgn_stat_joint_im_uni;
+                    narrowbmpmask = EMbmAvkonQgn_stat_joint_im_uni_mask;
+                    };
+                };
+            }           
         };
     }
 
@@ -5080,7 +5120,12 @@ RESOURCE AVKON_SKEY_LIST r_avkon_default_skey_list
         // Left down
         AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick;},
         AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeLong;},
-        AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;}
+        AVKON_SKEY_INFO {key=EStdKeyDevice13; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;},
+        
+        //Default keysound for @ key
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick;},
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeLong;},
+        AVKON_SKEY_INFO {key=EStdKeySquareBracketRight; sid=EAvkonSIDStandardKeyClick; type = ESKeyTypeRepeat;}
 
         };
     }
@@ -7993,7 +8038,7 @@ RESOURCE MENU_PANE r_avkon_peninput_option_menu
         // common
         MENU_ITEM { command=EPenInputCmdHwrTraining; txt=qtn_tin_option_menu_training;},
         MENU_ITEM { command=EAknCmdInputLanguage; txt=text_pup_option_input_language;},
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; }
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; }
         };
     }
 
@@ -9226,6 +9271,18 @@ RESOURCE STATUS_PANE_LAYOUT r_avkon_widescreen_pane_layout_usual_flat
                 id = EEikStatusPaneUidBattery;
                 size = 1;      // Dummy size, real size comes from AknLayout
                 sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidDigitalClock;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidCombined;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
                 }
             };
         };
@@ -9271,6 +9328,18 @@ RESOURCE STATUS_PANE_LAYOUT r_avkon_widescreen_pane_layout_idle_flat
             SPANE_LAYOUT_TREE_NODE
                 {
                 id = EEikStatusPaneUidBattery;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidDigitalClock;
+                size = 1;      // Dummy size, real size comes from AknLayout
+                sub_panes = {};
+                },
+            SPANE_LAYOUT_TREE_NODE
+                {
+                id = EEikStatusPaneUidCombined;
                 size = 1;      // Dummy size, real size comes from AknLayout
                 sub_panes = {};
                 }
@@ -9713,6 +9782,11 @@ RESOURCE ARRAY r_avkon_indicator_popup_defaults
             {
             indicator_uid = EAknIndicatorMissedCalendarAlarm;
             text          = qtn_uni_ind_caled_alarm_stat;
+            },
+        AVKON_INDICATOR_POPUP_ITEM
+            {
+            indicator_uid = EAknIndicatorIntegratedIM;
+            text          = qtn_iim_uni_ind_default;
             }
         };
     }
@@ -9737,7 +9811,12 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EAknCmdEditInsertSmiley; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_add_smiley; },
         MENU_ITEM { command=EAknCmdPredictiveTextCascade; cascade=r_avkon_predictive_text_menu_t9; flags=EEikMenuItemDimmed; txt=qtn_options_t9; },
         MENU_ITEM { command=EAknCmdMultitapPredictiveT9On; flags=EEikMenuItemDimmed; txt=qtn_options_t9_on; },
+        MENU_ITEM { command=EPenInputCmdHwrInputToPortrait; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_to_portrait_hwr; },
+        MENU_ITEM { command=EPenInputCmdHwrInputToLandscape; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_to_landscape_hwr; },
+        MENU_ITEM { command=EPenInputCmdSwitchToVkeyBasedInput; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_switch_to_vkey_input; },
         MENU_ITEM { command=EPenInputPreview; cascade=r_avkon_touchinput_preview; txt=qtn_tin_option_menu_character_preview; },
+        MENU_ITEM { command=EPenInputCmdWritingSpeed; flags=EEikMenuItemDimmed; txt=qtn_tin_settings_writing_speed; },
+        MENU_ITEM { command=EPenInputCmdGuidingLine; flags=EEikMenuItemDimmed; txt=qtn_tin_settings_guiding_line; },
         MENU_ITEM { command=EAknCmdInputLanguage; txt=qtn_tin_option_menu_writing_language; },
         MENU_ITEM { command=EPenInputCmdRecognitionWithDictionary; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_arabic_recognition; },
         MENU_ITEM { command=EJapanFepCmdModeHiragana; flags=EEikMenuItemDimmed;txt=qtn_japin_edit_hiragana; },
@@ -9749,6 +9828,9 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EChinFepCmdModePinyin; txt=text_chi_input_pinyin; },
         MENU_ITEM { command=EChinFepCmdModeZhuyin; txt=text_chi_input_zhuyin; },
         MENU_ITEM { command=EChinFepCmdModeStroke; txt=text_chi_input_stroke; },
+        MENU_ITEM { command=EChinFepCmdModePinyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_pinyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeZhuyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_zhuyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeStrokePhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_stroke_phrase; },
         MENU_ITEM { command=EChinFepCmdModeZhuyinFind; txt=qtn_chi_find_zhuyin; },
         MENU_ITEM { command=EChinFepCmdModeStrokeFind; txt=qtn_chi_find_stroke; },
         MENU_ITEM { command=EAknCmdEditModeAlpha; flags=EEikMenuItemDimmed; txt=qtn_editing_shift_menu_alpha; },
@@ -9767,7 +9849,10 @@ RESOURCE MENU_PANE r_avkon_touch_touchinput_menu
         MENU_ITEM { command=EPenInputCmdHwrTraining; txt=qtn_tin_option_menu_training;},
 		MENU_ITEM { command=EPenInputCmdVITUT; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_itu_t; },
 		MENU_ITEM { command=EPeninputCmdFSQ; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_fs_qwerty; },
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; },
+        MENU_ITEM { command=EPeninputCmdPortraitEditor; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_portrait_editor; },
+        MENU_ITEM { command=EPeninputCmdLandscapeEditor; flags=EEikMenuItemDimmed; txt=qtn_tin_option_menu_landscape_editor; },        
+        MENU_ITEM { command=EPeninputCmdHwr; flags=EEikMenuItemDimmed; txt=qtn_input_switcher_hwr; },
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
         };
     }
@@ -9789,6 +9874,9 @@ RESOURCE MENU_PANE r_avkon_touch_indicator_edit_mode_menu
         MENU_ITEM { command=EChinFepCmdModePinyin; txt=text_chi_input_pinyin; },
         MENU_ITEM { command=EChinFepCmdModeZhuyin; txt=text_chi_input_zhuyin; },
         MENU_ITEM { command=EChinFepCmdModeStroke; txt=text_chi_input_stroke; },
+        MENU_ITEM { command=EChinFepCmdModePinyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_pinyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeZhuyinPhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_zhuyin_phrase; },
+        MENU_ITEM { command=EChinFepCmdModeStrokePhrase; flags=EEikMenuItemDimmed; txt=text_chi_input_stroke_phrase; },
         MENU_ITEM { cascade=r_avkon_fep_cmd_mode_japin_edit_predict_on_submenu; command=EJapanFepCmdModePredictiveOn; flags=EEikMenuItemDimmed; txt=qtn_japin_edit_predict; },
         MENU_ITEM { cascade=r_avkon_fep_cmd_mode_japin_edit_predict_off_submenu; command=EJapanFepCmdModePredictiveOff; flags=EEikMenuItemDimmed; txt=qtn_japin_edit_predict; },
         MENU_ITEM { command=EAknCmdT9PredictiveT9Off; flags=EEikMenuItemDimmed; txt=qtn_editing_state_indicator_list_prediction_off; },
@@ -9824,7 +9912,7 @@ RESOURCE MENU_PANE r_avkon_touch_indicator_edit_mode_menu
         MENU_ITEM { command=EAknCmdInputLanguage; flags=EEikMenuItemDimmed; txt=text_pup_option_input_language; },
         MENU_ITEM { command=EAknCmdInputMethod; flags=EEikMenuItemDimmed; txt=text_pup_option_input_language; cascade=r_avkon_input_mode_sub_menu; },
         MENU_ITEM { command=EChinFepCmdModeCangJieOption; flags=EEikMenuItemDimmed; txt=qtn_chi_pup_option_cangjie_mode; },
-        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_tin_option_menu_help; },
+        MENU_ITEM { command=EFepInputCmdHelp; txt=qtn_options_help; },
         MENU_ITEM { command=EAknCmdEditModeKorean; flags=EEikMenuItemDimmed; txt=qtn_activate_korean_mode; },
         MENU_ITEM { command=EAknCmdEditModeEnglish; flags=EEikMenuItemDimmed; txt=qtn_activate_english_mode; }
         };
@@ -9953,6 +10041,11 @@ RESOURCE AVKON_SCT_NAVI_BUTTONS r_avkon_sct_page_navi_control
         {
         AVKON_SCT_NAVI_BUTTON
             {
+            id = EAknSctTableNaviExit;
+            button = r_avkon_sct_navi_table_exit_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
             id = EAknSctPageNaviPrevPage;
             button = r_avkon_sct_navi_prev_page_button;
             },
@@ -9960,6 +10053,16 @@ RESOURCE AVKON_SCT_NAVI_BUTTONS r_avkon_sct_page_navi_control
             {
             id = EAknSctPageNaviNextPage;
             button = r_avkon_sct_navi_next_page_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
+            id = EAknSctTableNaviSpecialChar;
+            button = r_avkon_sct_navi_table_special_char_button;
+            },
+        AVKON_SCT_NAVI_BUTTON
+            {
+            id = EAknSctTableNaviEmotion;
+            button = r_avkon_sct_navi_table_emotion_button;
             }
         };
     }
@@ -10106,4 +10209,169 @@ RESOURCE DIALOG r_avkon_insert_word_fs_query
         };
     }
 
+
+// ---------------------------------------------------------------------------
+// r_avkon_menupane_mark_multiple
+// Multiple marking mode menu pane.
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_avkon_menupane_mark_multiple
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeMarkOne;
+            txt = qtn_options_list_mark_one;
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeMarkAll;
+            txt = qtn_options_list_mark_all;
+            flags = EEikMenuItemDimmed;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeUnmarkAll;
+            txt = qtn_options_list_unmark_all;
+            flags = EEikMenuItemDimmed;
+            },
+        MENU_ITEM
+            {
+            command = EAknCmdMarkingModeEnter;
+            txt = qtn_options_list_mark_multiple;
+            }
+        };
+    }
+
+
+// ---------------------------------------------------------------------------- 
+// r_marking_mode_navi_pane
+// Multiple marking mode navi pane
+// ---------------------------------------------------------------------------- 
+//
+RESOURCE NAVI_LABEL r_marking_mode_navi_pane
+    {
+    txt = qtn_navi_pane_marking_mode;
+    }
+
+
+RESOURCE COMBINED_PANE r_avkon_status_pane_combined_default
+    {
+    panes =
+        {
+        COMBINED_PANE_SUBPANE
+            {
+            uid = EEikStatusPaneUidDigitalClock;
+            },
+        COMBINED_PANE_SUBPANE
+            {
+            uid = EEikStatusPaneUidIndic;
+            }
+        };
+    }
+
+RESOURCE DIALOG r_avkon_special_character_table_dialog_for_lockcode_symbol_input
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    buttons = r_avkon_softkeys_select_cancel__select;
+    items=
+        {
+	DLG_LINE
+	    {
+	    type = EAknCtPopupHeadingPane;
+	    id = EAknSCTQueryHeadingId;
+	    control = AVKON_HEADING
+		{
+		label = qtn_pop_up_select_character;
+		headinglayout = r_avkon_sct_list_heading_pane;
+		};
+	    },
+	DLG_LINE
+	    {
+	    type = EAknCtSpecialCharacterMap;
+	    id = EAknSCTQueryContentId;
+	    control = SPECIAL_CHAR_TABLE
+		{
+		contents =
+		    {
+		    SCT_CHAR_SET
+			{
+			id = EAknSCTLowerCase;
+			chars = qtn_sct_special_characters_lockcode;
+			}
+		    };
+		};
+	    }
+	};
+    }
+
+RESOURCE DIALOG r_avkon_special_character_table_dialog_korean
+    {
+    flags = EGeneralQueryFlags | EEikDialogFlagNoBorder | EEikDialogFlagNoShadow;
+    buttons = r_avkon_softkeys_select_cancel__select;
+    items=
+        {
+        DLG_LINE
+            {
+            type = EAknCtPopupHeadingPane;
+            id = EAknSCTQueryHeadingId;
+            control = AVKON_HEADING
+                {
+                label = qtn_pop_up_select_character;
+                headinglayout = r_avkon_sct_list_heading_pane;
+                };
+            },
+        DLG_LINE
+            {
+            type = EAknCtSpecialCharacterMap;
+            id = EAknSCTQueryContentId;
+            control = SPECIAL_CHAR_TABLE
+                {
+                contents =
+                    {
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTUpperCase;
+                        chars = qtn_sct_kor_special_characters;
+                        },
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTLowerCase;
+                        chars = qtn_sct_kor_special_characters;
+                        },
+                    SCT_CHAR_SET
+                        {
+                        id = EAknSCTQwerty;
+                        chars = qtn_sct_kor_special_characters;
+                        }
+                    };
+                };
+            }
+        };
+    }
+
+RESOURCE SPECIAL_CHAR_TABLE r_avkon_menu_sct_row_default_contents_korean
+    {
+    contents =
+        {
+        SCT_CHAR_SET
+            {
+            id = EAknSCTUpperCase;
+            chars = qtn_sct_kor_special_characters;
+            },
+        SCT_CHAR_SET
+            {
+            id = EAknSCTLowerCase;
+            chars = qtn_sct_kor_special_characters;
+            },
+        SCT_CHAR_SET
+            {
+            id = EAknSCTQwerty;
+            chars = qtn_sct_kor_special_characters;
+            }
+        };
+    }
 // End of File
+

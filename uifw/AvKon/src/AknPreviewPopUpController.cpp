@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -231,124 +231,64 @@ EXPORT_C void CAknPreviewPopUpController::SetPosition( const TPoint& aPoint )
             resize = ETrue;
             }
 
-        // allowed rect
-        TRect clientRect;
-        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EMainPane, clientRect );
-        
-        // Control is allowed to be on top of the status pane but it cannot
-        // overlay either stacon pane or control pane.
-        
-        //switch ( iAvkonAppUi->StatusPane()->CurrentLayoutResId() )
-        CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-        TInt currentStatusPaneLayoutResId = 0;
-        if (statusPane)
-            {
-            currentStatusPaneLayoutResId = statusPane->CurrentLayoutResId();
-            }
-        else
-            {
-            // If this app does not have statuspane, then we ask the layout from AknCapServer.
-            currentStatusPaneLayoutResId = CAknSgcClient::CurrentStatuspaneResource();        
-            }
-            
-        switch ( currentStatusPaneLayoutResId )
-            {
-            case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_RIGHT:
-            case R_AVKON_STACON_PANE_LAYOUT_USUAL_SOFTKEYS_LEFT:
-            case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_RIGHT:
-            case R_AVKON_STACON_PANE_LAYOUT_IDLE_SOFTKEYS_LEFT:
-            case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_RIGHT:
-            case R_AVKON_STACON_PANE_LAYOUT_EMPTY_SOFTKEYS_LEFT:
-                break;
-                
-            default:
-                TRect statusPaneRect;
-                AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EStatusPane, 
-                                                   statusPaneRect );
-
-                clientRect.BoundingRect( statusPaneRect );
-            }
+        // Adjust the position if the popup would go outside of the screen
+        // rect with the given position.
+        TRect screenRect;
+        AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, screenRect );
+        TInt screenWidth( screenRect.Width() );
+        TInt screenHeight( screenRect.Height() );
 
         TPoint finalPosition;
 
-        // resize if the popup is too wide
-        if ( popupSize.iWidth > clientRect.Width() )
+        // Resize if the popup is too wide.
+        if ( popupSize.iWidth > screenWidth )
             {
             resize = ETrue;
-            popupSize.iWidth = clientRect.Width();
+            popupSize.iWidth = screenWidth;
             }
 
-        // resize if the popup is too tall
-        if ( popupSize.iHeight > clientRect.Height() )
-        	{
+        // Resize if the popup is too tall.
+        if ( popupSize.iHeight > screenHeight )
+            {
             resize = ETrue;
-            popupSize.iHeight = clientRect.Height();
-        	}
+            popupSize.iHeight = screenHeight;
+            }
 
-        // :winterTTr:
-        // Auto mirror left <==> right if there is space on the other side.
-        // Let the popup not drop out under the finger, if possible
-        if ( ( askedPoint.iX <= clientRect.iBr.iX ) 
-        	 && ( askedPoint.iX - popupSize.iWidth >=  clientRect.iTl.iX ) )
-        	{
-        	finalPosition.iX = askedPoint.iX - popupSize.iWidth ;
-        	}
-        else if ( askedPoint.iX > clientRect.iBr.iX )
-        	{
-        	if ( askedPoint.iX - popupSize.iWidth * 2 >= clientRect.iTl.iX )
-        		{
-        		finalPosition.iX = askedPoint.iX - popupSize.iWidth * 2 ;
-        		}
-        	else
-        		{
-        		finalPosition.iX = clientRect.iBr.iX - popupSize.iWidth ;
-        		}
-        	}
-        else // askedPoint.iX - popupSize.iWidth <  clientRect.iTl.iX
-        	{
-        	if ( askedPoint.iX + popupSize.iWidth <= clientRect.iBr.iX )
-        		{
-        		finalPosition.iX = askedPoint.iX;
-        		}
-        	else
-        		{
-        		finalPosition.iX = clientRect.iTl.iX;
-        		}
-        	
-        	}
-        
-        // :winterTTr:
-        // Auto mirror top <==> buttom if there is space on the other side.
-        // Let the popup not drop out under the finger, if possible
-        if ( askedPoint.iY >= clientRect.iTl.iY 
-        		&& askedPoint.iY + popupSize.iHeight <= clientRect.iBr.iY )
-        	{
-        	finalPosition.iY = askedPoint.iY;
-        	}
-        else if ( askedPoint.iY < clientRect.iTl.iY )
-        	{
-        	if ( askedPoint.iY + popupSize.iHeight *2 <= clientRect.iBr.iY )
-        		{
-        		finalPosition.iY = askedPoint.iY + popupSize.iHeight;
-        		}
-        	else
-        		{
-        		finalPosition.iY = clientRect.iTl.iY;
-        		}
-        	}
-        else // askedPoint.iY + popupSize.iHeight > clientRect.iBr.iY
-        	{
-        	if ( askedPoint.iY - popupSize.iHeight >= clientRect.iTl.iY )
-        		{
-        		finalPosition.iY = askedPoint.iY - popupSize.iHeight;
-        		}
-        	else
-        		{
-        		finalPosition.iY = clientRect.iBr.iY - popupSize.iHeight;
-        		}
-        	
-        	}
-        
+        // Default horizontal position is left from the given point.
+        if ( askedPoint.iX - popupSize.iWidth >= screenRect.iTl.iX )
+            {
+            finalPosition.iX = askedPoint.iX - popupSize.iWidth;
+            }
+        else
+            {
+            // outside left border, move to left border
+            finalPosition.iX = screenRect.iTl.iX;
+            }
+
+        // Check the right border.
+        if ( finalPosition.iX + popupSize.iWidth > screenRect.iBr.iX )
+            {
+            finalPosition.iX = screenRect.iBr.iX - popupSize.iWidth;
+            }
+
+        // Default vertical position is up from the given point.
+        // Coordinates grow from top to bottom.
+        if ( askedPoint.iY > screenRect.iTl.iY )
+            {
+            finalPosition.iY = askedPoint.iY;
+            }
+        else
+            {
+            // Outside top border, move to top border.
+            finalPosition.iY = screenRect.iTl.iY;
+            }
+
+        // Outside bottom border, move to bottom border.
+        if ( ( askedPoint.iY + popupSize.iHeight ) > screenRect.iBr.iY )
+            {
+            finalPosition.iY = screenRect.iBr.iY - popupSize.iHeight;
+            }
+
         if ( resize )
             {
             iPopUp->SetSize( popupSize );

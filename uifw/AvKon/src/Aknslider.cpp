@@ -65,8 +65,6 @@ const TInt KAknSliderDefaultDrawColor = 120;
 const TInt KScrollRepeatTimeout = 250000; // 0.25 seconds
 const TInt KStableFeedbackIntesity = 100;
 const TInt KFeedbackTimeout = 100000;
-const TInt KNoFeedbackTimeout = 0;
-const TInt KStepThreshold = 15;
 // ============================================================================
 // Internal class to hold slider control data, primarily coming from resource.
 NONSHARABLE_CLASS( CAknSliderData ): public CBase
@@ -539,12 +537,12 @@ void CAknSliderExtension::TryLoadNSliderVerticalBitmap( MAknsSkinInstance* aSkin
         }; 
     const TAknsItemID iconSkinIDArray[] = 
         {
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalTop,        
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalBottom,
-        KAknsIIDNone,//KAknsIIDQgnGrafNsliderVerticalMiddle,
-        KAknsIIDNone,// KAknsIIDQgnGrafNsliderVerticalMarker,
-        KAknsIIDNone,// KAknsIIDQgnGrafNsliderVerticalTIckMajor,
-        KAknsIIDNone//KAknsIIDQgnGrafNsliderVerticalMarker
+        KAknsIIDQgnGrafNsliderVerticalTop,   //KAknsIIDNone,     
+        KAknsIIDQgnGrafNsliderVerticalBottom,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMiddle,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMarker,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalTickMajor,//KAknsIIDNone,
+        KAknsIIDQgnGrafNsliderVerticalMarker//KAknsIIDNone
         };
         
     const TInt element[] = 
@@ -1499,7 +1497,12 @@ EXPORT_C CFbsBitmap* CAknSlider::CreateBitmapL( TInt aValue, TInt aResourceId )
     TResourceReader reader;
     CEikonEnv::Static()->CreateResourceReaderLC( reader, aResourceId );
 
-    reader.ReadInt16(); // ignore layout
+    TInt sliderType = reader.ReadInt16();
+    if ( sliderType == EAknSliderWithFeedbackStyle )
+        {
+        reader.ReadInt16(); // ignore type
+        reader.ReadInt16(); // ignore layout
+        }
     TInt minValue = reader.ReadInt16();
     TInt maxValue = reader.ReadInt16();
     CleanupStack::PopAndDestroy(); // reader
@@ -1540,7 +1543,12 @@ EXPORT_C CGulIcon* CAknSlider::CreateSetStyleListBoxIconL(
     TResourceReader reader;
     CEikonEnv::Static()->CreateResourceReaderLC( reader, aResourceId );
 
-    reader.ReadInt16(); // ignore layout
+    TInt sliderType = reader.ReadInt16();
+    if ( sliderType == EAknSliderWithFeedbackStyle )
+        {
+        reader.ReadInt16(); // ignore type
+        reader.ReadInt16(); // ignore layout
+        }
     TInt minValue = reader.ReadInt16();
     TInt maxValue = reader.ReadInt16();
     CleanupStack::PopAndDestroy(); // reader
@@ -3150,15 +3158,6 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                 {
                 if ( touchDownArea.Contains( aEvent.iPosition ) )
                     {
-                    TInt stepCount = SliderData()->Range() / SliderData()->iStepSize;
-                    if ( stepCount <= KStepThreshold )
-                        {
-                        MTouchFeedback* feedback = MTouchFeedback::Instance();
-                        if ( feedback )
-                            {
-                            feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aEvent );
-                            }
-                        }
                        // repeat until thumb reaches the stylus down position    
                     iExt->iPenInputPos = aEvent.iPosition;
 
@@ -3170,7 +3169,7 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                         MTouchFeedback* feedback = MTouchFeedback::Instance();
                         if ( feedback )
                             {
-                            feedback->InstantFeedback( this, ETouchFeedbackBasicSlider, aEvent );
+                            feedback->InstantFeedback( this, ETouchFeedbackSlider, aEvent );
                             }
                         iExt->SetFlag( CAknSliderExtension::EFlagDraggingThumb );
                         reportDragEvent = EDragMarkerStart;
@@ -3257,7 +3256,7 @@ EXPORT_C void CAknSlider::HandlePointerEventL( const TPointerEvent& aEvent )
                     if ( feedback )
                         {
                         feedback->InstantFeedback( this,
-                                                   ETouchFeedbackBasicSlider,
+                                                   ETouchFeedbackSlider,
                                                    ETouchFeedbackVibra,
                                                    aEvent );
                         }
@@ -3618,29 +3617,11 @@ void CAknSlider::TranslateValueL( TInt aDelta, TBool aFeedback )
         {
         if( aFeedback )
             {
-            TInt stepCount = SliderData()->Range() / SliderData()->iStepSize;
-            if ( stepCount > KStepThreshold )
-                {
-                if ( iExt->IsFlagSet( CAknSliderExtension::EFlagPlayingContinuousFb ))
-                    {
-                    if ( SliderData()->iFeedbackStyle == EAknSliderFbDynamic )
-                        {
-                        ModifyFeedback();
-                        }
-                    }
-                else
-                    {
-                    StartFeedback( NULL, KNoFeedbackTimeout );
-                    }
-                }
-            else
-                {
-                MTouchFeedback* feedback = MTouchFeedback::Instance();
-                if ( feedback )
-                    {
-                    feedback->InstantFeedback( this, ETouchFeedbackBasicSlider );
-                    }
-                }            
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if ( feedback )
+               {
+               feedback->InstantFeedback( this, ETouchFeedbackSlider );
+               }          
             }
 
         Window().Invalidate( Rect() );
@@ -4209,7 +4190,8 @@ void CAknSlider::SetLabelColor()
     if ( Layout() != EAknSettingsItemSliderLayout &&
          Layout() != EAknSettingsItemSliderLayoutWithGraphics  &&
          Layout() != EAknSliderLayoutVertical &&
-         Layout() != EAknSliderLayoutHorizontal ) 
+         Layout() != EAknSliderLayoutHorizontal &&
+         Layout() != EAknMIDPFormSliderLayout ) 
         {
         error = AknsUtils::GetCachedColor( skin, color,
                     KAknsIIDQsnTextColors, EAknsCIQsnTextColorsCG8 );
@@ -4277,12 +4259,16 @@ void CAknSlider::StartFeedback( const TPointerEvent* aPointerEvent, TTimeInterva
     MTouchFeedback* feedback = MTouchFeedback::Instance();
     if ( feedback )
         {
+        TTouchContinuousFeedback type = ETouchContinuousSmooth;
         TInt intensity = KStableFeedbackIntesity;
+        
         if ( SliderData()->iFeedbackStyle == EAknSliderFbDynamic )
             {
+            type = ETouchDynamicSlider;
             intensity = FeedbackIntensity();
             }
-        feedback->StartFeedback( this, ETouchContinuousSlider, aPointerEvent, intensity, aTimeout );
+        
+        feedback->StartFeedback( this, type, aPointerEvent, intensity, aTimeout );
         iExt->SetFlag( CAknSliderExtension::EFlagPlayingContinuousFb );
         }
     }

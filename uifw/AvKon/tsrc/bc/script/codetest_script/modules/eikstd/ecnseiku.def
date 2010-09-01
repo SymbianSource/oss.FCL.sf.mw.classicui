@@ -1,0 +1,13 @@
+EXPORTS
+	NewConsole @ 1 NONAME
+	?CEikonEnv_Reserved_10@CConsEikonEnv@@EAEXXZ @ 2 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_10(void)
+	?CEikonEnv_Reserved_1@CConsEikonEnv@@EAEXXZ @ 3 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_1(void)
+	?CEikonEnv_Reserved_2@CConsEikonEnv@@EAEXXZ @ 4 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_2(void)
+	?CEikonEnv_Reserved_3@CConsEikonEnv@@EAEXXZ @ 5 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_3(void)
+	?CEikonEnv_Reserved_4@CConsEikonEnv@@EAEXXZ @ 6 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_4(void)
+	?CEikonEnv_Reserved_5@CConsEikonEnv@@EAEXXZ @ 7 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_5(void)
+	?CEikonEnv_Reserved_6@CConsEikonEnv@@EAEXXZ @ 8 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_6(void)
+	?CEikonEnv_Reserved_7@CConsEikonEnv@@EAEXXZ @ 9 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_7(void)
+	?CEikonEnv_Reserved_8@CConsEikonEnv@@EAEXXZ @ 10 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_8(void)
+	?CEikonEnv_Reserved_9@CConsEikonEnv@@EAEXXZ @ 11 NONAME ; void CConsEikonEnv::CEikonEnv_Reserved_9(void)
+

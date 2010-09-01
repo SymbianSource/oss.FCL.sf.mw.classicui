@@ -52,7 +52,7 @@ PRJ_EXPORTS
 ../inc/coeerrorconsts.h 	SYMBIAN_MW_LAYER_PLATFORM_EXPORT_PATH(graphics/cone/coeerrorconsts.h)
 
 ../bwins/COEFEPU.DEF		/epoc32/release/wins/coefepu.def
-../eabi/COEFEPU.DEF			/epoc32/include/def/eabi/coefepu.def
+../EABI/COEFEPU.DEF			/epoc32/include/def/eabi/coefepu.def
 
 ../group/cone.iby      /epoc32/rom/include/cone.iby
 

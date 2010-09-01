@@ -30,7 +30,7 @@ PRJ_EXPORTS
 ../inc/bmpansrv.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(bmpansrv.h)
 ../inc/bmpanconsts.h SYMBIAN_MW_LAYER_PUBLIC_EXPORT_PATH(bmpanconsts.h)
 
-//../docs/animation_design_spec.doc /epoc32/engdoc/application_framework/bmpanim/animation_design_spec.doc
+../docs/animation_design_spec.doc /epoc32/engdoc/application_framework/bmpanim/animation_design_spec.doc
 ../group/BmpAnim.iby	/epoc32/rom/include/bmpanim.iby
 
 PRJ_MMPFILES

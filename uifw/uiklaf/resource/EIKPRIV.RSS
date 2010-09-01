@@ -70,8 +70,8 @@ RESOURCE INT16 r_eik_default_char_format_height { value=125; }
 
 RESOURCE VIEW_ID r_eik_system_default_view_id
 	{
-	appuid=0x20022F35;
-	viewuid=0x20022F35;
+	appuid=0x101F4CD2;
+	viewuid=0x101F4CD2;
 	}
 
 #include "EIKDEBUG.RA"

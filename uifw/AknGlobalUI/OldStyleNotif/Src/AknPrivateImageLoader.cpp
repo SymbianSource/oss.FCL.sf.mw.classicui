@@ -372,7 +372,8 @@ void CAknPrivateImageLoader::LoadSVGImageL(
     // create soft mask
     icon->SetMask( new(ELeave) CFbsBitmap() );
     User::LeaveIfError( icon->Mask()->Create( aSize, EGray256 ) );
-
+    svgEngine->SetViewportHeight((CSvgDocumentImpl *)handle,aSize.iHeight);
+    svgEngine->SetViewportWidth((CSvgDocumentImpl *)handle,aSize.iWidth);
     // render svg image
     LeaveIfErrorL( 
         svgEngine->RenderDom( handle, icon->Bitmap(), icon->Mask() ) );

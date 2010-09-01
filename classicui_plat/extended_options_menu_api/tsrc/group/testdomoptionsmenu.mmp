@@ -42,7 +42,7 @@ SOURCE          testdomoptionsmenublocks.cpp
 //RESOURCE        resource_file2
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
+LIBRARY         StifTestInterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY			avkon.lib

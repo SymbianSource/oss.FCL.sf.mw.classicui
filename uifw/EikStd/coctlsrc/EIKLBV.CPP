@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -657,15 +657,33 @@ EXPORT_C void CListBoxView::CalcBottomItemIndex()
 
 EXPORT_C TInt CListBoxView::NumberOfItemsThatFitInRect(const TRect& aRect) const
 	{
+    TInt itemNumber = 0;
 	if (iItemHeight == 0)
 	    {
 	    _AKNTRACE( "Number of items is 0" );
-		return 0;
+		return itemNumber;
 	    }
-    TInt items = aRect.Height() / iItemHeight;
-	if ( ( iVerticalOffset != 0 ) || ( (aRect.Height() - iVerticalOffset) % iItemHeight > 0 ) ) items++;
-	_AKNTRACE( "Number of items is %d", items );
-	return items;
+    TInt items = aRect.Height() / iItemHeight;     
+    TInt extraHeight = aRect.Height() % iItemHeight;
+    // if there is offset or extra height, then there is at least one partical
+    // displayed item
+    if ( iVerticalOffset != 0 || extraHeight > 0 )
+        {
+        items++;
+        }
+    // if extra height is not totally taken by top partically displayed item,
+    // then there is still place to display a partcial item in bottom. consider
+    // a example which view height is 35 and item height is 10, then it's possible
+    // to display 5 items with the height like 3,10,10,10,2
+    if ( iVerticalOffset != 0 && 
+         extraHeight != 0 && 
+         ( iItemHeight + iVerticalOffset ) < extraHeight )
+        {
+        items++;
+        }
+    itemNumber = items;
+	_AKNTRACE( "Number of items is %d", itemNumber );
+	return itemNumber;
 	}
 
 EXPORT_C void CListBoxView::DeselectRangeL(TInt aItemIndex1, TInt aItemIndex2)
@@ -815,6 +833,11 @@ EXPORT_C void CListBoxView::VerticalMoveToItemL(TInt aTargetItemIndex, TSelectio
 	        }
 	    else // items will get redrawn anyway
 	        {
+            // As the iVerticalOffset is changed in CalcNewTopItemIndexSoItemIsVisible(),
+            // and ScrollToMakeItemVisible() will call the CalcNewTopItemIndexSoItemIsVisible() again,
+            // which will use iVerticalOffset to do some judgementes,
+            // we must set iVerticalOffset back to original value.
+            iVerticalOffset = oldVerticalOffset;
 	        ScrollToMakeItemVisible(iCurrentItemIndex);
 	        }
         UpdateSelectionL(aSelectionMode);
@@ -951,33 +974,28 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
 		return;
 	    }
 
-    TBool transparencyEnabled( CAknEnv::Static()->TransparencyEnabled() );
-
     if ((ITEM_EXISTS_ONCE(aItemIndex)) && ItemIsVisible(aItemIndex))
 		{
 		TBool drawingInitiated = ETrue;
 
-		if ( transparencyEnabled )
-		    {
-		    if ( iWin && iWin->GetDrawRect() == TRect::EUninitialized )
-			    {
+        if ( iWin && iWin->GetDrawRect() == TRect::EUninitialized )
+            {
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
-                MAknListBoxTfxInternal* transApi =
-                    CAknListLoader::TfxApiInternal( iGc );
-                drawingInitiated = transApi && !transApi->EffectsDisabled();
+            MAknListBoxTfxInternal* transApi =
+                CAknListLoader::TfxApiInternal( iGc );
+            drawingInitiated = transApi && !transApi->EffectsDisabled();
 #else
-                drawingInitiated = EFalse;
+            drawingInitiated = EFalse;
 #endif			
-                }
+            }
 
-            if ( !drawingInitiated )
-			    {
-                TRect rect( ItemPos(aItemIndex), ItemSize(aItemIndex) );
-			    rect.Intersection( iViewRect );
-			    iWin->Invalidate( rect );
-			    iWin->BeginRedraw( rect );
-			    }
-		    }
+        if ( !drawingInitiated )
+            {
+            TRect rect( ItemPos(aItemIndex), iItemDrawer->ItemCellSize() );
+            rect.Intersection( iViewRect );
+            iWin->Invalidate( rect );
+            iWin->BeginRedraw( rect );
+            }
 		
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         MAknListBoxTfxInternal *transApi = CAknListLoader::TfxApiInternal( iGc );
@@ -989,8 +1007,16 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             transApi->StartDrawing( MAknListBoxTfxInternal::EListItem );
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+        TBool backgroundDrawingSuppressed = ( iItemDrawer 
+		        && ( iItemDrawer->Flags() 
+                & ( CListItemDrawer::EDrawWholeBackground
+                | CListItemDrawer::EBackgroundDrawn ) ) );
         
-        iGc->SetClippingRect( iViewRect );
+        if ( !backgroundDrawingSuppressed )
+            {
+            iGc->SetClippingRect( iViewRect );
+            }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         if ( transApi )
@@ -1011,7 +1037,10 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
             
-		iGc->CancelClippingRect();
+        if ( !backgroundDrawingSuppressed )
+            {
+    		iGc->CancelClippingRect();
+            }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
         if ( transApi )
@@ -1027,7 +1056,7 @@ EXPORT_C void CListBoxView::DrawItem(TInt aItemIndex) const
             }
 #endif // RD_UI_TRANSITION_EFFECTS_LIST
 
-		if ( transparencyEnabled && !drawingInitiated )
+        if ( !drawingInitiated )
 			{
 			iWin->EndRedraw();
 			}
@@ -1182,11 +1211,18 @@ EXPORT_C TInt CListBoxView::CalcNewTopItemIndexSoItemIsVisible(TInt aItemIndex) 
     RDebug::Print( _L( "CListBoxView::CalcNewTopItemIndexSoItemIsVisible" ) );
 #endif // _DEBUG
 	TInt newTopItemIndex=iTopItemIndex;
-	const TInt numItemsThatFitInRect=NumberOfItemsThatFitInRect(iViewRect);
-	if (aItemIndex < iTopItemIndex || numItemsThatFitInRect == 0)
+	const TInt numItemsThatFitInRect=NumberOfItemsThatFitInRect( iViewRect );
+	if ( aItemIndex < iTopItemIndex || numItemsThatFitInRect == 0 )
+        {
 		newTopItemIndex = aItemIndex;
-	else if (aItemIndex > iBottomItemIndex)
-		newTopItemIndex = aItemIndex - numItemsThatFitInRect + 1;
+        }   
+	else 
+        {
+        if (aItemIndex > iBottomItemIndex)
+		   {
+	       newTopItemIndex = aItemIndex - numItemsThatFitInRect + 1;
+		   }
+        }
 
 	if (!ITEM_EXISTS_ONCE(newTopItemIndex) && newTopItemIndex != 0 )
 		{ // if application fails to call HandleItemAdditionL(), we might go here.
@@ -1212,6 +1248,13 @@ EXPORT_C TInt CListBoxView::CalcNewTopItemIndexSoItemIsVisible(TInt aItemIndex) 
             {
             me->SetItemOffsetInPixels( 0 );
             }
+        //after reset vertical offset, 
+        //the number of items which fit in the view maybe change
+        TInt newNumItemsThatFitInRect = NumberOfItemsThatFitInRect( iViewRect );
+        if ( newNumItemsThatFitInRect != numItemsThatFitInRect )
+        	{
+			newTopItemIndex = aItemIndex - newNumItemsThatFitInRect + 1;
+        	}
 	    }
 
 	_AKNTRACE_FUNC_EXIT;
@@ -1407,6 +1450,96 @@ EXPORT_C TBool CListBoxView::ItemIsPartiallyVisible( TInt aItemIndex ) const
     return itemPartiallyVisible;
     }
 
+
+// ---------------------------------------------------------------------------
+// Resets the selection state so that there is nothing selected.
+// ---------------------------------------------------------------------------
+//
+void CListBoxView::ClearSelection( TBool aDrawItems )
+    {
+    _AKNTRACE_FUNC_ENTER;
+
+    __ASSERT_DEBUG( iSelectionIndexes,
+                    Panic( EEikPanicListBoxNoSelIndexArray ) );
+
+    TInt numSelectedItems = iSelectionIndexes->Count();
+    TKeyArrayFix key( 0, ECmpTInt );
+    TInt selectedItemIndex;
+    TInt pos;
+
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+    
+    for ( TInt i = 0; i < numSelectedItems; i++ )
+        {
+        selectedItemIndex = ( *( iSelectionIndexes ) )[0];
+
+        if ( !( iSelectionIndexes->Find( selectedItemIndex, key, pos ) ) )
+            {
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+            if ( transApi )
+                {
+                transApi->Invalidate( MAknListBoxTfxInternal::EListItem,
+                                      selectedItemIndex );
+                }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+
+            iSelectionIndexes->Delete( pos );
+
+            if ( aDrawItems )
+                {
+                DrawItem( selectedItemIndex );
+                }
+            }
+        }
+
+    ClearSelectionAnchorAndActiveIndex();
+
+    _AKNTRACE_FUNC_EXIT;
+    }
+
+
+// ---------------------------------------------------------------------------
+// Sets all items selected.
+// ---------------------------------------------------------------------------
+//
+void CListBoxView::SelectAllL( TBool aDrawItems )
+    {
+    _AKNTRACE_FUNC_ENTER;
+    
+    __ASSERT_DEBUG( iSelectionIndexes, 
+                    Panic( EEikPanicListBoxNoSelIndexArray ) );
+    __ASSERT_DEBUG( iModel, Panic( EEikPanicListBoxNoModel ) );
+    
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+    MAknListBoxTfxInternal* transApi = CAknListLoader::TfxApiInternal( iGc );
+#endif // RD_UI_TRANSITION_EFFECTS_LIST    
+    
+    ClearSelection();
+    TInt numItems = iModel->NumberOfItems();
+    
+    for ( TInt i = 0; i < numItems; i++ )
+        {
+        if ( !iItemDrawer->Properties( i ).IsSelectionHidden() ) 
+            { 
+#ifdef RD_UI_TRANSITION_EFFECTS_LIST
+            if ( transApi )
+                {
+                transApi->Invalidate( MAknListBoxTfxInternal::EListItem, i );
+                }
+#endif // RD_UI_TRANSITION_EFFECTS_LIST
+            
+            iSelectionIndexes->AppendL( i );
+            
+            if ( aDrawItems )
+                {
+                DrawItem( i );
+                }
+            }
+        }
+    _AKNTRACE_FUNC_EXIT;
+    }
 
 
 // class CSnakingListBoxView

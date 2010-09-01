@@ -1,0 +1,196 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource file for akncompags
+*
+*/
+
+
+#include    <gscommon.rh>
+#include    <avkon.rh>
+#include    <avkon.rsg>
+#include    <eikon.rh>
+#include    <avkon.loc>
+#include    <gs.loc>
+
+//  RESOURCE IDENTIFIER
+NAME    ACMG // 4 letter ID
+
+//  INCLUDES
+#include "akncompags.hrh"
+#include "akncompamode.loc"
+
+RESOURCE RSS_SIGNATURE {}
+
+//- START COMMON DEFINITIONS ------------------------------------------------
+
+
+// --------------------------------------------------------------------------
+//
+// r_gs_menubar_change_exit
+// GS menu with 'change' and 'exit' items.
+//
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_gs_menubar_change_exit
+    {
+    titles =
+        {
+        MENU_TITLE
+            {
+            menu_pane = r_gs_menu_item_exit;
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_gs_menu_item_help;
+            },
+        MENU_TITLE
+            {
+            menu_pane = r_gs_menu_item_change;
+            }
+        };
+    }
+
+
+// --------------------------------------------------------------------------
+//
+// r_gs_menu_item_exit
+//
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_gs_menu_item_exit
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAknCmdExit;
+            txt = qtn_options_exit;
+            }
+        };
+    }
+
+
+// --------------------------------------------------------------------------
+//
+// r_gs_menu_item_change
+// Change item.
+//
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_gs_menu_item_change
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EGSCmdAppChange;
+            txt = qtn_set_options_change;
+            }
+        };
+    }
+
+
+// --------------------------------------------------------------------------
+//
+// r_gs_menu_item_help
+// Change item.
+//
+// --------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_gs_menu_item_help
+    {
+    items =
+        {
+        MENU_ITEM
+            {
+            command = EAknCmdHelp;
+            txt = qtn_options_help;
+            }
+        };
+    }
+
+//- END COMMON --------------------------------------------------------------
+
+RESOURCE CBA r_gs_softkeys_options_back_change
+    {
+    buttons =
+        {
+        CBA_BUTTON 
+            {
+            id=EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id=EAknSoftkeyBack; 
+            txt = text_softkey_back; 
+            },
+        CBA_BUTTON 
+            {
+            id=EGSMSKCmdAppChange; 
+            txt = qtn_msk_change;
+            }
+        };
+    }
+
+
+RESOURCE TBUF r_akncompags_list_caption
+    {
+    buf = qtn_set_folder_cmode;
+    }
+
+
+RESOURCE AVKON_VIEW r_akncompags_view
+    {
+    menubar = r_gs_menubar_change_exit;
+    cba = r_gs_softkeys_options_back_change;
+    }
+
+
+RESOURCE TITLE_PANE r_akncompags_view_title
+    {
+    txt = qtn_cmode_view_title;
+    }
+
+
+RESOURCE GS_FEATURE_ARRAY r_akncompags_lbx
+    {
+    items =
+        {
+        GS_FEATURE
+            {
+            txt = "\t"qtn_cmode_state_setting_label"\t\t";
+            item = KCompaGSIdState;
+            }
+        };
+    }
+
+
+RESOURCE ARRAY r_akncompags_state_setting_page_lbx
+    {
+    items =
+        {
+        LBUF
+            {
+            txt = qtn_cmode_set_normal_mode;
+            },
+        LBUF
+            {
+            txt = qtn_cmode_set_comp_mode;
+            }
+        };
+    }
+
+
+// End of File

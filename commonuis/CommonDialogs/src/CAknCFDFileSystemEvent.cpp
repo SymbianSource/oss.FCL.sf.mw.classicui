@@ -109,7 +109,7 @@ void CAknCFDFileSystemEvent::RunL()
 
     // If not ENotifyDisk, do refresh when event is checked
     // using CheckFileSystemEvent
-    if ( iNotifyType == ENotifyDisk )
+    if ( iNotifyType == ENotifyDisk || iNotifyType == ENotifyEntry )
         {
         iObserver.NotifyFileSystemChangedL();
         }

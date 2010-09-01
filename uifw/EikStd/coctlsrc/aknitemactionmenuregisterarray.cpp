@@ -19,6 +19,7 @@
 #include <eikmenub.h>
 
 #include "aknitemactionmenuregisterarray.h"
+#include "akntrace.h"
 
 // ---------------------------------------------------------------------------
 // CCAknItemActionMenuRegisterArray::NewL
@@ -26,9 +27,11 @@
 //
 CAknItemActionMenuRegisterArray* CAknItemActionMenuRegisterArray::NewL()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknItemActionMenuRegisterArray* self =
         CAknItemActionMenuRegisterArray::NewLC();
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -39,9 +42,11 @@ CAknItemActionMenuRegisterArray* CAknItemActionMenuRegisterArray::NewL()
 //
 CAknItemActionMenuRegisterArray* CAknItemActionMenuRegisterArray::NewLC()
     {
+    _AKNTRACE_FUNC_ENTER;
     CAknItemActionMenuRegisterArray* self =
         new ( ELeave ) CAknItemActionMenuRegisterArray();
     CleanupStack::PushL( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -52,8 +57,10 @@ CAknItemActionMenuRegisterArray* CAknItemActionMenuRegisterArray::NewLC()
 //
 CAknItemActionMenuRegisterArray::~CAknItemActionMenuRegisterArray()
     {
+    _AKNTRACE_FUNC_ENTER;
     iRegisterArray.ResetAndDestroy();
     iRegisterArray.Close();
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -64,10 +71,12 @@ CAknItemActionMenuRegisterArray::~CAknItemActionMenuRegisterArray()
 void CAknItemActionMenuRegisterArray::AddEntryL(
         CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* newEntry = CRegisterEntry::NewLC(
             aMenuBar, aItemActionMenu );
     iRegisterArray.AppendL( newEntry );
     CleanupStack::Pop( newEntry );
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -78,6 +87,7 @@ void CAknItemActionMenuRegisterArray::AddEntryL(
 void CAknItemActionMenuRegisterArray::UnregisterMenuBar(
         CEikMenuBar& aMenuBar )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* entry( NULL );
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
         {
@@ -97,6 +107,7 @@ void CAknItemActionMenuRegisterArray::UnregisterMenuBar(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -107,7 +118,9 @@ void CAknItemActionMenuRegisterArray::UnregisterMenuBar(
 void CAknItemActionMenuRegisterArray::UnregisterItemActionMenu(
         CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* entry( NULL );
+
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
         {
         entry = iRegisterArray[ i ];
@@ -121,6 +134,7 @@ void CAknItemActionMenuRegisterArray::UnregisterItemActionMenu(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -131,6 +145,7 @@ void CAknItemActionMenuRegisterArray::UnregisterItemActionMenu(
 TBool CAknItemActionMenuRegisterArray::RegisterCollectionObserverL(
         CEikMenuBar& aMenuBar, MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     TBool menuBarFound( EFalse );
     CRegisterEntry* entry( NULL );
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
@@ -147,6 +162,7 @@ TBool CAknItemActionMenuRegisterArray::RegisterCollectionObserverL(
             break;
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     return menuBarFound;
     }
 
@@ -158,7 +174,9 @@ TBool CAknItemActionMenuRegisterArray::RegisterCollectionObserverL(
 void CAknItemActionMenuRegisterArray::UnregisterCollectionObserver(
         MAknCollectionObserver& aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* entry( NULL );
+
     for ( TInt i = 0; i < iRegisterArray.Count(); i++ )
         {
         entry = iRegisterArray[ i ];
@@ -167,6 +185,7 @@ void CAknItemActionMenuRegisterArray::UnregisterCollectionObserver(
             entry->ItemActionMenu()->RemoveCollectionObserver( aObserver );
             }
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -194,6 +213,7 @@ void CAknItemActionMenuRegisterArray::ConstructL()
 //
 void CAknItemActionMenuRegisterArray::RemoveEntry( TInt aIndex )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( aIndex >= 0 && aIndex < iRegisterArray.Count() )
         {
         CRegisterEntry* entry = iRegisterArray[ aIndex ];
@@ -201,6 +221,7 @@ void CAknItemActionMenuRegisterArray::RemoveEntry( TInt aIndex )
         entry = NULL;
         iRegisterArray.Remove( aIndex );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -212,8 +233,10 @@ CAknItemActionMenuRegisterArray::CRegisterEntry*
     CAknItemActionMenuRegisterArray::CRegisterEntry::NewL(
             CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* self = CRegisterEntry::NewLC( aMenuBar, aItemActionMenu );
     CleanupStack::Pop( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -226,9 +249,11 @@ CAknItemActionMenuRegisterArray::CRegisterEntry*
     CAknItemActionMenuRegisterArray::CRegisterEntry::NewLC(
             CEikMenuBar& aMenuBar, CAknItemActionMenu& aItemActionMenu )
     {
+    _AKNTRACE_FUNC_ENTER;
     CRegisterEntry* self =
         new ( ELeave ) CRegisterEntry( aMenuBar, aItemActionMenu );
     CleanupStack::PushL( self );
+    _AKNTRACE_FUNC_EXIT;
     return self;
     }
 
@@ -239,7 +264,9 @@ CAknItemActionMenuRegisterArray::CRegisterEntry*
 //
 CAknItemActionMenuRegisterArray::CRegisterEntry::~CRegisterEntry()
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iActionMenu;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -249,7 +276,9 @@ CAknItemActionMenuRegisterArray::CRegisterEntry::~CRegisterEntry()
 //
 void CAknItemActionMenuRegisterArray::CRegisterEntry::RemoveMenuBar()
     {
+    _AKNTRACE_FUNC_ENTER;
     iMenuBar = NULL;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -259,6 +288,8 @@ void CAknItemActionMenuRegisterArray::CRegisterEntry::RemoveMenuBar()
 //
 CEikMenuBar* CAknItemActionMenuRegisterArray::CRegisterEntry::MenuBar()
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     return iMenuBar;
     }
 
@@ -269,8 +300,10 @@ CEikMenuBar* CAknItemActionMenuRegisterArray::CRegisterEntry::MenuBar()
 //
 void CAknItemActionMenuRegisterArray::CRegisterEntry::RemoveItemActionMenu()
     {
+    _AKNTRACE_FUNC_ENTER;
     delete iActionMenu;
     iActionMenu = NULL;
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -281,6 +314,8 @@ void CAknItemActionMenuRegisterArray::CRegisterEntry::RemoveItemActionMenu()
 CAknItemActionMenu*
     CAknItemActionMenuRegisterArray::CRegisterEntry::ItemActionMenu()
     {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
     return iActionMenu;
     }
 

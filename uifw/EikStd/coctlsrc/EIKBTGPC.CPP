@@ -495,7 +495,7 @@ EXPORT_C void CEikButtonGroupContainer::DoSetCommandL(
     CFbsBitmap* mask = AknIconUtils::CreateIconL(aFile, aMaskId);
     CleanupStack::PushL(mask);
     DoSetCommandL(aPosition, aCommandId, aText, bitmap, mask, aOp);
-    CleanupStack::Pop(2); // bitmap, mask
+    CleanupStack::PopAndDestroy(2); // bitmap, mask
     }
 
 EXPORT_C void CEikButtonGroupContainer::DoSetCommandL(

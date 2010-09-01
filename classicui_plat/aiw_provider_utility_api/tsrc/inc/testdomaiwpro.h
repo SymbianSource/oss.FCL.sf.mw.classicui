@@ -98,6 +98,22 @@ private:
      */
     void SendTestClassVersion();
 
+    /**
+     * Turn off ScreenSaver
+     * @since S60 5.0
+     * @return Symbian OS error code.
+     */
+    void TurnOffScreenSaver();
+    
+    /**
+     * Restore ScreenSaver
+     * @since S60 5.0
+     * @return Symbian OS error code.
+     */
+    void RestoreScreenSaver();
+
+    //[TestMethods]
+
 private: // Test AiwMenu.h
     /**
      * TestAMConstructor test function for testing the Constructor function

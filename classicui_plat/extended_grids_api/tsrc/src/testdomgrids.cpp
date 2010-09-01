@@ -20,6 +20,7 @@
 // INCLUDE FILES
 #include <stiftestinterface.h>
 #include <settingserverclient.h>
+#include <screensaverinternalpskeys.h>
 #include <e32property.h>
 
 #include "testdomgrids.h"
@@ -100,6 +101,8 @@ void Ctestdomgrids::ConstructL()
                           EFalse );
     
     SendTestClassVersion();
+    
+    TurnOffScreenSaver();
     }
 
 // -----------------------------------------------------------------------------
@@ -151,5 +154,31 @@ EXPORT_C CScriptBase* LibEntryL(
     {
     return ( CScriptBase* ) Ctestdomgrids::NewL( aTestModuleIf );
     }
+
+// -----------------------------------------------------------------------------
+// Turn off ScreenSaver
+// -----------------------------------------------------------------------------
+//
+void Ctestdomgrids::TurnOffScreenSaver()
+    {
+    TInt err1 = RProperty::Get( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
+        iOldScreenSaverProperty );
+    TInt err2 = RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
+        KScreenSaverAllowScreenSaver );    
+    RDebug::Printf( "screensaver property=%d err1=%d err2=%d\n", 
+        iOldScreenSaverProperty, err1, err2 );
+    }
+
+// -----------------------------------------------------------------------------
+// Restore ScreenSaver
+// -----------------------------------------------------------------------------
+//
+void Ctestdomgrids::RestoreScreenSaver()
+    {
+    RProperty::Set( KPSUidScreenSaver, KScreenSaverAllowScreenSaver, 
+        iOldScreenSaverProperty );
+    User::ResetInactivityTime();
+    }
+
 
 //  End of File

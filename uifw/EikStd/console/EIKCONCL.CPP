@@ -984,7 +984,7 @@ void CEikConsoleClient::ClearToEndOfLine()
 
 TSize CEikConsoleClient::ScreenSize() const
 	{
-	return(iScreen->ScreenSize()+TSize(2,2));		// e32 console adds 2,2 for border, so we should too!
+	return(iScreen->ScreenSize() );
 	}
 
 TKeyCode CEikConsoleClient::KeyCode() const

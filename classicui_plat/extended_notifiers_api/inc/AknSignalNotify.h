@@ -209,6 +209,24 @@ private:
     * Reserved for future use.
     */
     IMPORT_C void CAknNotifyBase_Reserved();
+
+public:
+    
+    /** 
+    * Set UMA indicator state. Available states from avkon.hrh:
+    *
+    * EAknSignalUmaIndicatorOff = 0x600,
+    * EAknSignalUmaIndicatorAvailable,
+    * EAknSignalUmaIndicatorAttached,    
+    * EAknSignalUmaIndicatorEstablishingContext,
+    * EAknSignalUmaIndicatorContext,
+    * EAknSignalUmaIndicatorSuspended,
+    * EAknSignalUmaIndicatorMultipdp
+    *
+    * @param aUmaState UMA indicator state.
+    */
+    IMPORT_C void SetUmaStateL(TInt aUmaState);
+    
     };
 
 #endif // __AKNSIGNALNOTIFY_H__

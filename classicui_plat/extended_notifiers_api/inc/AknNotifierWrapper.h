@@ -21,7 +21,6 @@
 #include <eiknotapi.h>
 #include <eikserverapp.h>
 #include <AknNotifierWrapperDefs.h>
-#include <e32notif.h>
 
 // FORWARD DECLARATIONS
 class CAknNotifierMessageObserver;

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -323,7 +323,9 @@ void CAknDigitalClock::Draw( const TRect& /*aRect*/ ) const
 
         TRect rect( Rect() );
 
-        if ( iFlags & EAknDigitalClockInStatusPane )
+        const MCoeControlBackground* backgroundDrawer = FindBackground();
+        if ( !backgroundDrawer &&
+             iFlags & EAknDigitalClockInStatusPane )
             {
             MAknsSkinInstance* skin = AknsUtils::SkinInstance();
             MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
@@ -353,72 +355,110 @@ void CAknDigitalClock::Draw( const TRect& /*aRect*/ ) const
 
 // -----------------------------------------------------------------------------
 // CAknDigitalClock::HandlePointerEventL
-// Starts clock application in down event.
+// Opens the universal indicator popup upon tap.
 // -----------------------------------------------------------------------------
 //
 void CAknDigitalClock::HandlePointerEventL( const TPointerEvent& aPointerEvent )
     {
-    CAknControl:: HandlePointerEventL( aPointerEvent );
+    CAknControl::HandlePointerEventL( aPointerEvent );
 
-    if ( AknLayoutUtils::PenEnabled() )
+    // Do nothing if dimmed.
+    if ( IsDimmed() || Window().IsFaded() )
         {
-        // Do nothing if dimmed.
-        if ( IsDimmed() ||
-             Window().IsFaded() )
+        return;
+        }
+
+    TRect rect( Rect() );
+
+    // Currently the small digital clock pane, universal
+    // indicator pane and battery pane (in status pane layouts
+    // where it's adjacent to universal indicator or digital
+    // clock pane) are regarded as one touch responsive
+    // area from which the universal indicator popup should
+    // open on tap, so upon pointer up event it must be checked
+    // here if the down event happened inside this control,
+    // but the up event inside battery or indicator pane area.
+    TBool pointerUpInIndicatorArea( EFalse );
+    TBool pointerUpInBatteryArea( EFalse );
+
+    if ( iFlags & EAknDigitalClockInStatusPane &&
+         aPointerEvent.iType == TPointerEvent::EButton1Up )
+        {
+        CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
+
+        if ( sp )
             {
-            return;
-            }
-
-        TRect rect( Rect() );
-
-        // Currently the small digital clock pane and universal
-        // indicator pane are regarded as one touch responsive area from
-        // which the universal indicator popup should open on tap,
-        // so upon pointer up event it must be checked here if
-        // the down event happened inside this control, but the up event
-        // inside indicator pane area.
-        TRect indicatorRect( 0, 0, 0, 0 );
-
-        if ( iFlags & EAknDigitalClockInStatusPane &&
-             aPointerEvent.iType == TPointerEvent::EButton1Up )
-            {
-            CEikStatusPaneBase* sp = CEikStatusPaneBase::Current();
-
-            if ( sp )
+            CCoeControl* indicatorPane = sp->ContainerControlL(
+                TUid::Uid( EEikStatusPaneUidIndic ) );
+            if ( indicatorPane )
                 {
-                CCoeControl* indicatorPane = sp->ContainerControlL(
-                    TUid::Uid( EEikStatusPaneUidIndic ) );
-                if ( indicatorPane )
+                TRect indicatorRect( indicatorPane->PositionRelativeToScreen(),
+                                     indicatorPane->Size() );
+                pointerUpInIndicatorArea =
+                    indicatorRect.Contains( aPointerEvent.iParentPosition );
+                }
+            
+            if ( !AknStatuspaneUtils::ExtendedFlatLayoutActive() )
+                {
+                CCoeControl* batteryPane = sp->ContainerControlL(
+                    TUid::Uid( EEikStatusPaneUidBattery ) );
+                if ( batteryPane )
                     {
-                    indicatorRect =
-                        TRect( indicatorPane->PositionRelativeToScreen(),
-                               indicatorPane->Size() );
+                    TRect batteryRect( batteryPane->PositionRelativeToScreen(),
+                                       batteryPane->Size() );
+                    pointerUpInBatteryArea =
+                        batteryRect.Contains( aPointerEvent.iParentPosition );
                     }
                 }
             }
+        }
 
-        if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
-             rect.Contains( aPointerEvent.iPosition ) )
+    if ( aPointerEvent.iType == TPointerEvent::EButton1Down &&
+         rect.Contains( aPointerEvent.iPosition ) )
+        {
+        // Set flag that down event was inside the clock.
+        iFlags |= EAknDigitalClockButton1DownReceived;
+
+        // tactile feedback is done with SetFeedbackArea
+        }
+    else if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
+              ( ( iFlags & EAknDigitalClockButton1DownReceived &&
+                  rect.Contains( aPointerEvent.iPosition ) ) ||
+                pointerUpInIndicatorArea ||
+                pointerUpInBatteryArea ) )
+        {
+        if ( pointerUpInIndicatorArea || pointerUpInBatteryArea )
             {
-            // Set flag that down event was inside the clock.
-            iFlags |= EAknDigitalClockButton1DownReceived;
-
-            // tactile feedback is done with SetFeedbackArea
+            MTouchFeedback* feedback = MTouchFeedback::Instance();
+            if ( feedback )
+                {
+                // The pointer down was received in another control,
+                // so the tactile feedback must be given directly.
+                feedback->InstantFeedback( this,
+                                           ETouchFeedbackSensitiveButton,
+                                           ETouchFeedbackVibra,
+                                           aPointerEvent );
+                }
             }
-        else if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-                  ( ( iFlags & EAknDigitalClockButton1DownReceived &&
-                      rect.Contains( aPointerEvent.iPosition ) ) ||
-                    ( indicatorRect.Contains( aPointerEvent.iParentPosition ) ) ) )
+    
+        // Launch the universal indicator popup.
+        CAknSmallIndicator* indicatorNotifier =
+            CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
+        indicatorNotifier->HandleIndicatorTapL();
+        //for indicator popup event
+        MTouchFeedback* feedback = MTouchFeedback::Instance();
+        if ( feedback )
             {
-            // Launch the universal indicator popup.
-            CAknSmallIndicator* indicatorNotifier =
-                CAknSmallIndicator::NewLC( TUid::Uid( 0 ) );
-            indicatorNotifier->HandleIndicatorTapL();
-            CleanupStack::PopAndDestroy( indicatorNotifier );
-
-            // Up event received, reset button down flag.
-            iFlags &= ( ~EAknDigitalClockButton1DownReceived );
+            feedback->InstantFeedback(
+                               this,
+                               ETouchFeedbackPopUp,
+                               ETouchFeedbackVibra,
+                               aPointerEvent );
             }
+        CleanupStack::PopAndDestroy( indicatorNotifier );
+
+        // Up event received, reset button down flag.
+        iFlags &= ( ~EAknDigitalClockButton1DownReceived );
         }
     }
 

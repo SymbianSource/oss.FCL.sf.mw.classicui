@@ -30,7 +30,7 @@ data=DATAZ_\RESOURCE_FILES_DIR\akncomparesources.rsc RESOURCE_FILES_DIR\akncompa
 S60_APP_EXE(akncompasrv)
 
 // General settings plugin (ECOM)
-//ECOM_PLUGIN(akncompags.dll, akncompags.rsc)
-//data=DATAZ_\RESOURCE_FILES_DIR\akncompagsrsc.rsc RESOURCE_FILES_DIR\akncompagsrsc.rsc
+ECOM_PLUGIN(akncompags.dll, akncompags.rsc)
+data=DATAZ_\RESOURCE_FILES_DIR\akncompagsrsc.rsc RESOURCE_FILES_DIR\akncompagsrsc.rsc
 
 #endif // AKNCOMPAMODE_IBY

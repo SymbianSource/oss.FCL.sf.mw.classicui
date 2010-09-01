@@ -24,6 +24,8 @@
 
 #include "CAknFileSelectionModel.h"
 #include "MAknFileSelectionObserver.h"
+#include "CAknCommonDialogsPopupList.h"
+#include "CAknCFDFileSystemEvent.h"
 #include "AknCFDUtility.h"
 
 
@@ -93,6 +95,12 @@ CAknFileSelectionEventHandler* CAknFileSelectionEventHandler::NewL(
 // Destructor
 CAknFileSelectionEventHandler::~CAknFileSelectionEventHandler()
     {
+    if(iFSObserver)
+        {
+        iFSObserver->Cancel();
+        delete iFSObserver;
+        iFSObserver = NULL;
+        }
     }
 
 
@@ -290,7 +298,7 @@ MAknCommonDialogsEventObserver::TAction CAknFileSelectionEventHandler::HandleEve
             {
             if( iModel->DirectoryLevel() > 0 ) // We are not in the root folder
                 {
-                while( ETrue ) // Find until existing contents
+                while( iModel->DirectoryLevel() > 0 ) // Find until existing contents
                     {
                     entries = iModel->GotoParentFolderL();
                     PopIndices( aTopItemIndex, aFocusedItemIndex );
@@ -307,6 +315,10 @@ MAknCommonDialogsEventObserver::TAction CAknFileSelectionEventHandler::HandleEve
                         }
                     UpdateSoftkeysL( aFocusedItemIndex, aContainer );
                     returnType = EItemsUpdated;
+                    }
+                else
+                    {
+                    returnType = ETryingToExit;
                     }
                 }
             else // We are in the root folder
@@ -384,4 +396,22 @@ MAknCommonDialogsEventObserver::TAction CAknFileSelectionEventHandler::HandleEve
     return returnType;
     }
 
+void CAknFileSelectionEventHandler::StartFileSystemNotifierL(CAknCommonDialogsPopupList* aPopupList)
+    {
+    iPopupList = aPopupList;
+    TPath path;
+    iModel->GetCurrentPath(path);
+    iFSObserver = CAknCFDFileSystemEvent::NewL(iCoeEnv->FsSession(),*this,
+            ENotifyEntry,path);
+    }
+void CAknFileSelectionEventHandler::StopFileSystemNotifier()
+    {
+    iFSObserver->Cancel();
+    }
+void CAknFileSelectionEventHandler::NotifyFileSystemChangedL()
+    {
+    iModel->UpdateItemListL();
+    iPopupList->HandleFileSystemChangedL(iModel);
+    iFSObserver->Setup();
+    }
 // End of File

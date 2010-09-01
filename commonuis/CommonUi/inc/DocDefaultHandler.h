@@ -228,6 +228,16 @@ NONSHARABLE_CLASS(CDocDefaultHandler) :
         *               constant declared in CDocumentHandler.h
         */
         TInt SetSrcFileName( const TDesC& aFileName );
+        
+        /**
+        * Set source file.
+        *
+        * @param aFile Source file handle
+        *
+        * @return       KErrNone if success. If fail, a fail reason
+        *               constant declared in CDocumentHandler.h
+        */
+        TInt SetSrcFile( const RFile& aFile );
 
         /**
         * Set destination file name.
@@ -696,7 +706,14 @@ NONSHARABLE_CLASS(CDocDefaultHandler) :
         * Source filename
         */
         TFileName iSourceFile;
-
+        
+        /**
+        * Source file handle
+        */
+        RFile iFile;
+        
+        TBool iFileHandleSet;
+        
         /**
         * Request status for the latest operation.
         */

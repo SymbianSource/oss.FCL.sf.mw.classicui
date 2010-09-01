@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007,2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -1100,12 +1100,12 @@ void CAknIndicatorPopupContent::ConstructL()
     {
     iClock = CAknDigitalClock::NewL( this );
     TAknTextLineLayout clockLayout(
-        AknLayoutScalable_Avkon::uniindi_top_pane_t1( 1 ).LayoutLine() );
+        AknLayoutScalable_Avkon::uniindi_top_pane_t1( 0 ).LayoutLine() );
 
     // Ensure that the left and right values of the clock text layout
     // are zero, currently the whole top area is set as the parent
     // for this layout, so it's narrowed by reducting the
-    // signal pane area.
+    // signal and battery pane areas.
     clockLayout.il = 0;
     clockLayout.ir = 0;
     iClock->SetTimeLayout( clockLayout );
