@@ -120,6 +120,10 @@ LIBRARY         flogger.lib
 MACRO           WCPLOG
 #endif
 
+#ifdef SYMBIAN_BUILD_GCE
+LIBRARY         goommonitor.lib
+#endif // SYMBIAN_BUILD_GCE
+
 START RESOURCE AknCapServer_reg.rss
 // Do not change the UID below.
 TARGETPATH /private/10003a3f/apps
