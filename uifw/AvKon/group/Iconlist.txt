@@ -845,3 +845,22 @@
 /c8,8 qgn_indi_signal_uma_multipdp.svg
 /c8,8 qgn_indi_signal_uma_noservice.svg
 /c8,8 qgn_indi_signal_uma_suspended.svg
+
+/1,8 qgn_indi_signal_gprs_tdscdma_attach.svg
+/1,8 qgn_indi_signal_gprs_tdscdma_context.svg
+/1,8 qgn_indi_signal_gprs_tdscdma_icon.svg
+/1,8 qgn_indi_signal_gprs_tdscdma_multipdp.svg
+/1,8 qgn_indi_signal_gprs_tdscdma_suspended.svg
+
+/1,8 qgn_indi_signal_hsdpa_tdscdma_attach.svg
+/1,8 qgn_indi_signal_hsdpa_tdscdma_context.svg
+/1,8 qgn_indi_signal_hsdpa_tdscdma_icon.svg
+/1,8 qgn_indi_signal_hsdpa_tdscdma_multipdp.svg
+/1,8 qgn_indi_signal_hsdpa_tdscdma_suspended.svg
+
+/1,8 qgn_indi_signal_tdscdma_attach.svg
+/1,8 qgn_indi_signal_tdscdma_context.svg
+/1,8 qgn_indi_signal_tdscdma_icon.svg
+/1,8 qgn_indi_signal_tdscdma_multipdp.svg
+/1,8 qgn_indi_signal_tdscdma_suspended.svg
+

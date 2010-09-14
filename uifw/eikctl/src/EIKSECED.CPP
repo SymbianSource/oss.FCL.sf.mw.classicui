@@ -283,6 +283,15 @@ EXPORT_C CEikSecretEditor::~CEikSecretEditor()
         delete listener;
         }
 #endif
+	// When destruct secret editor, inform FEP that secret editor has been destroyed ,
+    // so FEP can get opportunity to do some clean work, e.g. closing opened SCT dialog.
+    if ( iFepState )
+    	{
+        TRAP_IGNORE( 
+            static_cast<CAknEdwinState*>( iFepState )->ReportAknEdStateEventL( 
+	            MAknEdStateObserver::EAknEdwinDestroy ) 
+            );
+    	}
     delete iInlineEditText;
     delete iFepState;
     delete iTimer;

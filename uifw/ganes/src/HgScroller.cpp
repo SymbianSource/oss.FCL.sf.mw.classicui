@@ -15,7 +15,6 @@
 *
 */
 
-
 // INCLUDE FILES
 #include <ganes/HgScroller.h>
 
@@ -590,10 +589,16 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
             iPointerDown = ETrue;
             HandleDownEventL( aEvent );
 
+            // Long tap is supported in marking mode only for an item that is marked.
+            const TBool validIndex = iSelectedIndex != KErrNotFound && 
+                    iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
+            const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
+            const TBool longTapEnabled = validIndex && (!selectionMode ||
+                    (selectionMode && iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked));
+            
             if( iDetector 
-                    && iSelectedIndex != KErrNotFound 
+                    && longTapEnabled
                     && !HasHighlight()
-                    && !(iFlags & EHgScrollerSelectionMode)
                     && iActionMenu->InitMenuL() )
                 {
                 iDetector->PointerEventL( aEvent );
@@ -1272,6 +1277,19 @@ EXPORT_C void CHgScroller::Reset()
     {
     if(iItemCount)
         {
+        iHighlightTimer->Cancel();
+        iPointerDown = EFalse;
+        if(iDetector)
+            iDetector->CancelAnimationL();
+        iPanning = EFalse;
+    
+        iPhysics->StopPhysics();
+        iPhysics->ResetFriction();
+    
+        iFocusedIndex = KErrNotFound;
+        iSelectionToFocusedItem = EFalse;
+        iDrawUtils->EnableMarquee(false);    
+    
         iItems.ResetAndDestroy();
         iItemCount = 0;
         iSelectedIndex = KErrNotFound;
@@ -1282,6 +1300,9 @@ EXPORT_C void CHgScroller::Reset()
             }
     
         HandleItemCountChanged();
+    
+        iViewPosition = TPoint(iWidth/2, iHeight/2);    
+        HandleViewPositionChanged();        
         }
     }
 
@@ -1291,6 +1312,14 @@ EXPORT_C void CHgScroller::Reset()
 //
 EXPORT_C void CHgScroller::SetFlags(TInt aFlags)
     {
+    const TBool currentSelectionMode = iFlags & EHgScrollerSelectionMode;
+    const TBool newSelectionMode = aFlags & EHgScrollerSelectionMode;
+    if( currentSelectionMode != newSelectionMode )
+        {
+        // when selection mode changes we need to repaint
+        DrawDeferred();
+        }
+    
     iFlags |= aFlags;
     }
 
@@ -1599,12 +1628,18 @@ void CHgScroller::SetHighlightL()
 //     
 void CHgScroller::SetSelectionMode( TSelectionMode aMode )
     {
+    if( aMode != iSelectionMode )
+        {
+        DrawDeferred();
+        }
+    
     iSelectionMode = aMode;
     if( iSelectionMode == ESelectionPossible
             || iSelectionMode == ENoSelection )
         {
         iCoeEnv->InputCapabilitiesChanged();
         }
+    
     }
 
 // ---------------------------------------------------------------------------
@@ -1747,7 +1782,14 @@ void CHgScroller::HandleResourceChange( TInt aType )
 void CHgScroller::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
                         const TPoint& aPenEventScreenLocation)
     {
-    if( iActionMenu && !(iFlags & EHgScrollerSelectionMode) )
+    // Long tap is supported in marking mode only for an item that is marked.
+    const TBool validIndex = iSelectedIndex != KErrNotFound && 
+            iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
+    const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
+    const TBool longTapEnabled = validIndex && (!selectionMode ||
+            (selectionMode && iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked));
+    
+    if( iActionMenu && longTapEnabled )
         {
         iOldWinPos = DrawableWindow()->OrdinalPosition();
         iActionMenu->ShowMenuL(aPenEventScreenLocation);

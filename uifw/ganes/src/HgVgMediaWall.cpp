@@ -230,7 +230,12 @@ EXPORT_C TInt CHgVgMediaWall::ItemsOnScreen()
 //
 EXPORT_C TInt CHgVgMediaWall::SelectedIndex()
     {
-    return iSelectedIndex * iRowCount;
+    // iObserverNotified flag is set on when animation is about to end and
+    // observer is notified from the selected index.
+    return ((iAnimationState == EHgVgMediaWallAnimationStateTransition ||
+            iAnimationState == EHgVgMediaWallAnimationStateFastTransition) &&
+            !iObserverNotified) ?
+                KErrNotFound : iSelectedIndex * iRowCount;
     }
 
 // -----------------------------------------------------------------------------
@@ -343,6 +348,9 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
     iPopupText1.Close();
     iPopupText2.Close();
 
+    // Just to be safe, this will release all resource, eventhought
+    // they should be already released at this point.
+    eglReleaseThread();
     }
 
 // -----------------------------------------------------------------------------

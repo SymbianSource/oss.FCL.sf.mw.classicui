@@ -3574,6 +3574,16 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 aRect = rect.Rect();
                 return ETrue;
                 }
+            //add below code for vga_touch
+            else if ( screenRect.iBr.iX == 640 && screenRect.iBr.iY == 480 )
+                {
+                TInt variety = 13;
+
+                 rect.LayoutRect( screenRect,
+                                  AknLayoutScalable_Avkon::main_pane( variety ) );
+                 aRect = rect.Rect();
+                 return ETrue;
+                }
             else
                 {
                 return LayoutMetricsRect( EMainPane, aRect );

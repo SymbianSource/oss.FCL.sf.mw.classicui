@@ -19,6 +19,6 @@
 #ifndef AKNCUSTCMDS_IBY
 #define AKNCUSTCMDS_IBY
 
-file=ABI_DIR\UDEB\akncustcmds.dll SHARED_LIB_DIR\akncustcmds.dll
+file=ABI_DIR\BUILD_DIR\akncustcmds.dll SHARED_LIB_DIR\akncustcmds.dll
 
 #endif // AKNCUSTCMDS_IBY

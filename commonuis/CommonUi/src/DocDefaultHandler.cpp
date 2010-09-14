@@ -361,7 +361,7 @@ TInt CDocDefaultHandler::CopyChecksAndQueriesL(TInt aDataSize)
                     done = ETrue;
                     error = KErrNone;
                     break;
-                case EDocFileRenameNew:  
+                case EDocFileRenameNew:
                     CheckFileNameExtensionL( iDestFile, iDataType );
                     break;
                 default:
@@ -556,6 +556,15 @@ TInt CDocDefaultHandler::SetSrcFile( const RFile& aFile )
 	TInt err = iFile.Duplicate( aFile );
 	iFileHandleSet = ( err == KErrNone ) ? ETrue : EFalse;
 	return SetAndReturnStatus( KErrNone );
+	}
+
+void CDocDefaultHandler::ResetSrcFile()
+	{
+	if( iFileHandleSet )
+		{
+	    iFile.Close();
+	    iFileHandleSet = EFalse;
+		}
 	}
 
 // ---------------------------------------------------------
@@ -1660,54 +1669,56 @@ void CDocDefaultHandler::CheckFileNameExtensionL(
     // If we have iSourceFile available, we check first that is file DCF file. 
     // If it is, then we will use dcf file extensions, which override all other extensions.
     if (iSourceFile.Length() > 0)
-        {
+    	{
         TInt ret = EFalse;
         TBuf<6> ext;
 
-		CContent* content = NULL;
-		if( iFileHandleSet )
-			{
-		    content = CContent::NewL( iFile );
-		    iFile.Close();
-		    iFileHandleSet = EFalse;
-			}
-		else
-			{
-		    content = CContent::NewL( iSourceFile );
-			}
-		
-		CleanupStack::PushL(content);
-		content->GetAttribute( ContentAccess::EIsProtected, ret  );
-		if ( ret )
-			{
-			content->GetAttribute( EFileType, ret );
+        CContent* content = NULL;
+        TInt err = KErrNone;
+        if( iFileHandleSet )
+           {
+           TRAP(err, content = CContent::NewL( iFile ));
+           }
+       else
+           {
+           TRAP(err, content = CContent::NewL( iSourceFile ));
+           }
+        
+        if( err == KErrNone)
+            {
+            content->GetAttribute( ContentAccess::EIsProtected, ret  );
+            if ( ret )
+                {
+                content->GetAttribute( EFileType, ret );
             
-			#ifdef _DEBUG             
-			RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
-			#endif 
+                #ifdef _DEBUG             
+                RDebug::Print( _L("DocumentHandler: CDocDefaultHandler::CheckFileNameExtensionL: GetAttribute called, ret =%d"), ret);
+                #endif 
     
-			if ( ret == EOma1Dcf )
-				{
-				// change extension to .dcf
-				ext.Copy( KOma1DcfExtension );         
-				ReplaceExtension( aFileName, ext );            
-				CleanupStack::PopAndDestroy();  // content
-				return;            
-				}
-			else if ( ret == EOma2Dcf )
-	            {
-		        // change extension to .odf if not already .o4a, .o4v or .odf
-			    ext.Copy( KOma2DcfExtension );
-				if ( NeedsToReplaceDcf2Extension( aFileName ) )
-					{
-				    ReplaceExtension( aFileName, ext );
-	                }
-		        CleanupStack::PopAndDestroy();  // content
-			    return;            
-				}
-			}
-		CleanupStack::PopAndDestroy();  // content
-		}
+                if ( ret == EOma1Dcf )
+                    {
+                    // change extension to .dcf
+                    ext.Copy( KOma1DcfExtension );         
+                    ReplaceExtension( aFileName, ext );  
+                    delete content;
+                    return;            
+                    }
+                else if ( ret == EOma2Dcf )
+                    {
+                    // change extension to .odf if not already .o4a, .o4v or .odf
+                    ext.Copy( KOma2DcfExtension );
+                    if ( NeedsToReplaceDcf2Extension( aFileName ) )
+                        {
+                        ReplaceExtension( aFileName, ext );
+                        }
+                    delete content;
+                    return;            
+                    }
+                }
+            delete content;
+            content = NULL;
+            }
+        }
 
     //if mime type=oma 2 dcf check extension separately
     if ( aDataType.Des8().FindF( KOma2DcfContentType ) != KErrNotFound )

@@ -20,7 +20,7 @@
 */
 
 // include test code
-#include "../test/group/BLD.INF"
+#include "../test/group/bld.inf"
 
 PRJ_EXPORTS
 // specify the source file followed by its destination here

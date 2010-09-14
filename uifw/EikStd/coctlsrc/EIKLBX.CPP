@@ -75,6 +75,7 @@
 #include <aknlongtapdetector.h>
 #include <AknPriv.hrh>
 #include <aknmarkingmodeobserver.h>
+#include <aknmarkingmode.h>
 #include "akntrace.h"
 
 // timeout for long keypress used in markable lists
@@ -1060,7 +1061,33 @@ TInt CListBoxExt::CollectionExtension(
 void CListBoxExt::SetMultipleMarkingState( TBool aActive )
     {
     _AKNTRACE_FUNC_ENTER;
-    iListBox.SetMarkingMode( aActive );
+    if ( iMarkingModeInUse != aActive ) 
+        {
+        if ( aActive )
+            {
+            iListBox.iView->ItemDrawer()->SetFlags( 
+                    CListItemDrawer::EMarkingModeEnabled );
+            }
+        else
+            {
+            iListBox.iView->ItemDrawer()->ClearFlags( 
+                    CListItemDrawer::EMarkingModeEnabled );        
+
+            if ( iListBox.iView->SelectionIndexes()->Count() > 0 )
+                {
+                iListBox.iView->ClearSelection( EFalse );
+                }
+            } 
+
+        iMarkingModeInUse = aActive;
+        iListBox.DrawDeferred();
+        } 
+
+    if ( iListBox.MarkingModeObserver() )
+        {
+        iListBox.MarkingModeObserver()->MarkingModeStatusChanged( aActive );
+        }
+    
     _AKNTRACE_FUNC_EXIT;
     }
 
@@ -1185,6 +1212,7 @@ void CListBoxExt::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
     _AKNTRACE_FUNC_ENTER;
     iLongTappedItem = iLastDownTappedItem;
     iLastDownTappedItem = KErrNotFound;
+    iListBox.ReportListBoxEventL( MEikListBoxObserver::EEventItemLongTapped );
     iItemActionMenu->ShowMenuL( aPenEventScreenLocation, 0 );
     iOldWinPos = iListBox.DrawableWindow()->OrdinalPosition();
     _AKNTRACE_FUNC_EXIT;
@@ -6722,36 +6750,19 @@ EXPORT_C TBool CEikListBox::IsHighlightEnabled()
 //
 EXPORT_C void CEikListBox::SetMarkingMode( TBool aEnable )
     {
-    if ( iListBoxExt && iListBoxExt->iSingleClickEnabled && 
-            ( iListBoxFlags & CEikListBox::ES60StyleMarkable ) )
+    _AKNTRACE_FUNC_ENTER;
+    if ( iListBoxExt 
+             && iListBoxExt->iSingleClickEnabled 
+             && ( iListBoxFlags & CEikListBox::ES60StyleMarkable ) 
+             && iListBoxExt->iItemActionMenu
+             && iListBoxExt->iMarkingModeInUse != aEnable )
         {
-        if ( iListBoxExt->iMarkingModeInUse != aEnable ) 
-            {
-            if ( aEnable )
-                {
-                iView->ItemDrawer()->SetFlags( 
-                        CListItemDrawer::EMarkingModeEnabled );
-                }
-            else
-                {
-                iView->ItemDrawer()->ClearFlags( 
-                        CListItemDrawer::EMarkingModeEnabled );
-            
-                if ( iView->SelectionIndexes()->Count() > 0 )
-                    {
-                    iView->ClearSelection( EFalse );
-                    }
-                }
-
-            iListBoxExt->iMarkingModeInUse = aEnable;
-            DrawDeferred();
-            }
-
-        if ( MarkingModeObserver() )
-            {
-            MarkingModeObserver()->MarkingModeStatusChanged( aEnable );
-            }
+        CAknMarkingMode& markingMode = iListBoxExt->iItemActionMenu->MarkingMode();
+        // Multiple marking state will be set, navi pane will be updated
+        // and softkeys will be updated when entering and exiting marking mode.       
+        markingMode.SetCollectionMultipleMarkingState( aEnable );
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -6762,10 +6773,12 @@ EXPORT_C void CEikListBox::SetMarkingMode( TBool aEnable )
 EXPORT_C void CEikListBox::SetMarkingModeObserver( 
         MAknMarkingModeObserver* aObserver )
     {
+    _AKNTRACE_FUNC_ENTER;
     if ( iListBoxExt )
         {
         iListBoxExt->iMarkingModeObserver = aObserver;
         }
+    _AKNTRACE_FUNC_EXIT;
     }
 
 
@@ -6898,12 +6911,13 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
 
     TBool blockEvent = EFalse;
     
-    // If tap down in listbox area, kinetic scrolling is enabled and style popup menu is not shown,
-    // drag event is sent to listbox.
+    // If touch down in listbox area, kinetic scrolling is enabled, and single
+    // click is disabled or style popup menu is not shown when single click is
+    // enabled, events of kinetic scrolling are sent to listbox.
     TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) 
-            && !iListBoxExt->iScrollingDisabled 
-            && ( iListBoxExt->iSingleClickEnabled 
-                    && iListBoxExt->iLongTappedItem == KErrNotFound ) );
+        && !iListBoxExt->iScrollingDisabled 
+        && ( !iListBoxExt->iSingleClickEnabled
+            || iListBoxExt->iLongTappedItem == KErrNotFound ) );
     
     switch ( aPointerEvent.iType )
         {

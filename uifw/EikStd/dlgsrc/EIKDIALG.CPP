@@ -2077,10 +2077,7 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
             GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
             GfxTransEffect::Abort(this);
             }
-            
-        // Draw again in cast any content change in OkToExitL
-        DrawDeferred();
-        
+                    
         _AKNTRACE("CEikDialog::TryExitL return with OkToExitL false");
         return;
         }

@@ -181,7 +181,7 @@ EXPORT_C void CAknRadioButtonSettingPage::ConstructL()
 		{
 		iExtension = new (ELeave) CAknRadioButtonSettingPageExtension( *this ); 
 		}
-
+    iExtension->iIsValidSelection = ( iCurrentSelectionIndex != -1 );
     // Range should be within the valid indices, or -1:
 	// So valid range is >= -1 and also < Count.
 	__ASSERT_ALWAYS( iCurrentSelectionIndex >= -1, Panic(	EAknPanicRadioButtonSettingPageIndexOutOfRange) );
@@ -315,7 +315,8 @@ EXPORT_C void CAknRadioButtonSettingPage::SelectCurrentItemL()
         {
         iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
         }
-    else
+    else if( iCurrentSelectionIndex >= 0 &&
+        iCurrentSelectionIndex < ListBoxControl()->Model()->NumberOfItems() )
         {
         ListBoxControl()->SetCurrentItemIndex ( iCurrentSelectionIndex );
         }

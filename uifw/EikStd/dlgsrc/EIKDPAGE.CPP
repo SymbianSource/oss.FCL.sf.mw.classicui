@@ -2245,6 +2245,8 @@ void CEikDialogPage::HandleResourceChange(TInt aType)
                     {
                     ExposeLine( iCurrentLine, ETrue );
                     }
+                TRAP_IGNORE( RecordLinesL() );
+                DrawDeferred();
                 break;
                 
             case KAknMessageFocusLost:
@@ -2259,6 +2261,15 @@ void CEikDialogPage::HandleResourceChange(TInt aType)
                         {
                         ShowFocus( EFalse, ETrue );
                         }
+                    }
+                //Stop physics and synchronize the page to reset KS
+                //when page losing foreground.
+                if ( IsEditable() && iExtension->iScrolling 
+                	              && iPhysics->OngoingPhysicsAction() == 
+                                  CAknPhysics::EAknPhysicsActionDragging ) 
+                	{
+                	iPhysics->Stop();
+                    Synchronize();
                     }
                 break;
 
@@ -3202,7 +3213,7 @@ void CEikDialogPage::HandleHighlightTimer()
     
     if ( ( touchedLine < iLines->Count() ) && ( touchedLine != iCurrentLine ) )
         {
-        (*iLines)[touchedLine]->ActivateL();
+        TRAP_IGNORE( (*iLines)[touchedLine]->ActivateL() );
         
         if ( LineIsFocusable( touchedLine ) )
             {

@@ -275,7 +275,7 @@ void CAknSignalNotifierSubject::HandleSignalMessageL(const TDesC8& aBuffer)
         }
         
     if ( sParams.iGprsState != EAknSignalGprsIndicatorBgTypeWipe && 
-         sParams.iGprsState != EAknNaviPaneBackgroundTypeSolid &&
+         sParams.iGprsState != EAknSignalGprsIndicatorBgTypeSolid &&
          sParams.iGprsState >= 0 )    
         {               
         publisher->SetSignalIcon( sParams.iGprsState );       

@@ -10373,5 +10373,11 @@ RESOURCE SPECIAL_CHAR_TABLE r_avkon_menu_sct_row_default_contents_korean
             }
         };
     }
+
+// the buffer of "tap to write"
+RESOURCE TBUF r_avkon_tap_to_write
+    {
+    buf = qtn_editors_tap_to_write;
+    }
 // End of File
 

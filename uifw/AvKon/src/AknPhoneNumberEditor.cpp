@@ -32,6 +32,10 @@
 #include <touchfeedback.h>
 #include <aknnotedialog.h>
 
+#include <e32property.h>
+#include <AvkonInternalCRKeys.h>        // for checking qwerty availability
+
+
 static const TInt KPlainTextPos = 0;
 
 typedef CArrayFixFlat<CAknPhoneNumberEditor::TFormat> CFormatArray;
@@ -52,6 +56,8 @@ NONSHARABLE_CLASS( CAknPhoneNumberEditorExtension ) : public CBase,
         TInt iPointPos;
         CAknCcpuSupport* iCcpuSupport; 
         HBufC* iPasteText;       
+        TBool iQwertyAllowed;
+        TBool iHybridModeAllowed;
       };
 
 CAknPhoneNumberEditorExtension::CAknPhoneNumberEditorExtension()
@@ -435,16 +441,29 @@ EXPORT_C void CAknPhoneNumberEditor::Draw( const TRect& aRect ) const
 
 EXPORT_C TCoeInputCapabilities CAknPhoneNumberEditor::InputCapabilities() const
     {
-    if ( FeatureManager::FeatureSupported( KFeatureIdCommonVoip ) )
+    if ( iExtension->iQwertyAllowed )
         {
         TCoeInputCapabilities inputCaps(
             TCoeInputCapabilities::EWesternAlphabetic | 
             TCoeInputCapabilities::ENavigation, 
             const_cast<CAknPhoneNumberEditor*>( this ), NULL ); 
             
+        //iExtension->iExtendedInputCapabilities->SetEditorType( 
+        //    CAknExtendedInputCapabilities::EPhoneNumberEditor );
+        TInt qwertyActive = 0;
+        RProperty::Get( KCRUidAvkon, KAknQwertyInputModeActive, qwertyActive );
+        if ( qwertyActive && iExtension->iHybridModeAllowed )
+            {
+            iExtension->iExtendedInputCapabilities->SetEditorType(
+                CAknExtendedInputCapabilities::EHybridAlphaNumericEditor );
+            }
+        else
+            {
+            iExtension->iExtendedInputCapabilities->SetEditorType(
+                    CAknExtendedInputCapabilities::EPhoneNumberEditor );
+            }
+
         // Voip-enabled phone editor wants to use edit-key style hash key mode selection.    
-        iExtension->iExtendedInputCapabilities->SetEditorType( 
-            CAknExtendedInputCapabilities::EPhoneNumberEditor );                    
         iExtension->iExtendedInputCapabilities->SetCapabilities(
             CAknExtendedInputCapabilities::EForceHashKeySelectionStatusFlagOff |
             CAknExtendedInputCapabilities::EForceEditSubmenuStatusFlagOff );              
@@ -772,7 +791,7 @@ EXPORT_C TInt CAknPhoneNumberEditor::ChangeEditorMode( TBool aDefaultMode )
     {
     TInt value( EAknEditorNumericInputMode ); // Return value.
     
-    if ( FeatureManager::FeatureSupported( KFeatureIdCommonVoip ) )
+    if ( iExtension->iQwertyAllowed )
         {
         CAknEdwinState* fepState = ( CAknEdwinState* )iFepState; 
 
@@ -876,8 +895,31 @@ EXPORT_C void CAknPhoneNumberEditor::ResetEditorToDefaultValues()
     fepState->SetSpecialCharacterTableResourceId( 0 );
     fepState->SetNumericKeymap( EAknEditorStandardNumberModeKeymap );
     
+    iExtension->iQwertyAllowed = EFalse;
+    iExtension->iHybridModeAllowed = EFalse;
+	
     DrawChanges();
     }
+
+
+// --------------------------------------------------------------------------
+// CAknPhoneNumberEditor::SetQwertyAllowed
+// --------------------------------------------------------------------------
+//
+EXPORT_C void CAknPhoneNumberEditor::SetQwertyAllowed( TBool aQwertyAllowed ) 
+    {
+    iExtension->iQwertyAllowed = aQwertyAllowed;
+    }
+
+// --------------------------------------------------------------------------
+// CAknPhoneNumberEditor::SetHybridModeAllowed
+// --------------------------------------------------------------------------
+//
+EXPORT_C void CAknPhoneNumberEditor::SetHybridModeAllowed( TBool aHybridModeAllowed )
+    {
+    iExtension->iHybridModeAllowed = aHybridModeAllowed;
+    }
+
 
 // --------------------------------------------------------------------------
 // CAknPhoneNumberEditor::HandlePointerEventL

@@ -64,6 +64,8 @@ public: // Methods
     
     CFbsBitmap* GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape = EFalse) const;
     
+    static TBool EglInitialized();
+    
 protected: // Constructors
 
     CHgVgEGL();

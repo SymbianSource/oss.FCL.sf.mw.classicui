@@ -139,6 +139,11 @@ class CDocHandlerBase : public CBase
         *                   constant declared in CDocumentHandler.h
         */
         virtual TInt SetSrcFile( const RFile& aFile ) = 0;
+        
+        /**
+        * Reset source file. It should be called until source file will not be used.
+        */
+        virtual void ResetSrcFile() = 0;
 
         /**
         * Set the root path of the memory where the file should be moved.

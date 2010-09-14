@@ -238,6 +238,11 @@ NONSHARABLE_CLASS(CDocDefaultHandler) :
         *               constant declared in CDocumentHandler.h
         */
         TInt SetSrcFile( const RFile& aFile );
+        
+        /**
+        * Reset source file. It should be called until source file will not be used.
+        */
+        void ResetSrcFile();
 
         /**
         * Set destination file name.

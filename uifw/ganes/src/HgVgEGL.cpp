@@ -47,6 +47,12 @@ CHgVgEGL* CHgVgEGL::NewL(RWindow& aWindow)
 void CHgVgEGL::ConstructL (RWindow& aWindow)
     {
     InitEGL(aWindow);
+    // Enable flag that is used to determine whether egl has been initialized.
+    // For example vgImages shouldn't be created before egl has been initialized.
+    // There will be only one instance of this class so there is no need to check
+    // whether there is already something in the DLL tls.
+    TBool* eglInitialized = new TBool(ETrue);
+    Dll::SetTls((TAny*)eglInitialized);
     }
 
 // -----------------------------------------------------------------------------
@@ -66,6 +72,10 @@ CHgVgEGL::CHgVgEGL()
 CHgVgEGL::~CHgVgEGL ( )
     {
     DestroyEGL();
+    // Disable flag that is used to determine whether egl has been initialized.
+    // For example vgImages shouldn't be created before egl has been initialized.
+    delete Dll::Tls();
+    Dll::FreeTls();
     }
 
 // ---------------------------------------------------------------------------
@@ -356,5 +366,15 @@ CFbsBitmap* CHgVgEGL::GetSurfaceToBitmap(const TRect& aRect, TBool aLandscape) c
     
     return bitmap;    
     }
+
+// ---------------------------------------------------------------------------
+// CHgVgEGL::EglInitialized()
+// ---------------------------------------------------------------------------
+//     
+TBool CHgVgEGL::EglInitialized()
+{
+    TBool* eglInitialized = (TBool*)Dll::Tls();
+    return eglInitialized ? *eglInitialized : EFalse;
+}
 
 // End of File

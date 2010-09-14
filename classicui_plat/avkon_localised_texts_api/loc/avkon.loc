@@ -4322,5 +4322,9 @@
 //r: TB9.2
 #define qtn_handwriting_input_options "Handwriting input settings"
 
+
+//d: Text in editor when the editor is empty, it is used to indicate user to tap and input
+//r: 9.2
+#define qtn_editors_tap_to_write "Tap to write"
 // End of File
 

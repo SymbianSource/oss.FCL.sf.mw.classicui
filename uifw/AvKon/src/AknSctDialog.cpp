@@ -56,6 +56,7 @@
 #include "aknsctfocushandler.h"
 
 #include <eikdialogext.h>
+#include <aknglobalpopupprioritycontroller.h>
 
 //
 // class CAknCharMapDialog
@@ -91,8 +92,6 @@ public:
 private:
     CAknCharMapDialogExtension(CAknCharMapDialog* aCaller);
     void ConstructL();
-    static TInt QwertyModeChangeNotification(TAny* aObj);
-    void HandleQwertyModeChangeNotification();
 
 public: // New method
     void SetCharacterCaseIfRequiredL();
@@ -106,31 +105,7 @@ public:
     TInt iShowAnotherTableCharCase;
     TAknCharMapPictoMode    iPictoMode;
     TAknCharMapEmotionMode  iEmotionMode;
-
-private:
-    NONSHARABLE_CLASS(CSubscriber) : public CActive
-        {
-    public:
-        CSubscriber(TCallBack aCallBack, RProperty& aProperty);
-        ~CSubscriber();
-
-    public: // New functions
-        void SubscribeL();
-        void StopSubscribe();
-
-    private: // from CActive
-        void RunL();
-        void DoCancel();
-
-    private:
-        TCallBack   iCallBack;
-        RProperty&  iProperty;
-        };
-
-private:
-    CSubscriber* iQwertyModeStatusSubscriber;
-    RProperty iQwertyModeStatusProperty;
-    TInt iOldCharCase;
+    TBool iFirstOrientation;
     };
 
 // -----------------------------------------------------------------------------
@@ -153,13 +128,6 @@ iShowAnotherTableCharCase(-1), iPictoMode(EAknCharMapPictoNoUse), iEmotionMode(E
 //
 CAknCharMapDialogExtension::~CAknCharMapDialogExtension()
     {
-    // Stop subscribe in PubSub
-    if (iQwertyModeStatusSubscriber)
-        {
-        iQwertyModeStatusSubscriber->StopSubscribe();
-        }
-    iQwertyModeStatusProperty.Close();
-    delete iQwertyModeStatusSubscriber;
     }
 
 // -----------------------------------------------------------------------------
@@ -185,150 +153,45 @@ CAknCharMapDialogExtension* CAknCharMapDialogExtension::NewL(CAknCharMapDialog* 
 //
 void CAknCharMapDialogExtension::ConstructL()
     {
-    // Start also listening qwerty mode status.
-    User::LeaveIfError(iQwertyModeStatusProperty.Attach(KCRUidAvkon,
-        KAknQwertyInputModeActive));
-
-    iQwertyModeStatusSubscriber = new (ELeave) CSubscriber(
-        TCallBack(QwertyModeChangeNotification, this), iQwertyModeStatusProperty);
-
-    iQwertyModeStatusSubscriber->SubscribeL();
-
-    iOldCharCase=-1; // no default character case at beginning
+    iFirstOrientation = Layout_Meta_Data::IsLandscapeOrientation();
     }
 
-TInt CAknCharMapDialogExtension::QwertyModeChangeNotification(TAny* aObj)
-    {
-    if (aObj != NULL)
-        {
-        static_cast<CAknCharMapDialogExtension*>(aObj)->HandleQwertyModeChangeNotification();
-        return KErrNone;
-        }
-    else
-        {
-        return KErrArgument;
-        }
-    }
-
+// -----------------------------------------------------------------------------
+// CAknCharMapDialogExtension::SetCharacterCaseIfRequiredL
+//
+// change the character case, when orientation changed if any.
+// -----------------------------------------------------------------------------
+//
 void CAknCharMapDialogExtension::SetCharacterCaseIfRequiredL()
     {
-    TInt value = 0;
-    iQwertyModeStatusProperty.Get(value);
-    iQwertyMode = value;
-
+    TBool landscape = Layout_Meta_Data::IsLandscapeOrientation();
+    TInt charCase = EAknSCTLowerCase;
     CAknCharMap* charmapControl =
-            STATIC_CAST(CAknCharMap*, iCaller->Control(EAknSCTQueryContentId));
+            STATIC_CAST( CAknCharMap*, iCaller->Control( EAknSCTQueryContentId ) );
 
-    if ( (iQwertyMode) == (charmapControl->CharacterCase() == EAknSCTQwerty) )
-        {
-        // No change for Qwerty mode
-        return;
-        }
-
-    if (iQwertyMode)
+    // Set character case logic changed from Timebox 92 PS2, if Orientation is Landscape
+    //   the case will be QWERTY, otherwise it will be LOWER. However, it is possible for
+    //   Landscape launches LOWER case, or Poratrait does QWERTY at the first time launched,
+    //   in this case, we need to store the first SCT launched case.
+    if ( landscape )
         {
         iFlags |= ECharMapDialogItemLockNumericKeys;
-
-        iOldCharCase=charmapControl->CharacterCase();
-        charmapControl->SetCharacterCaseL(EAknSCTQwerty);
+        charCase = EAknSCTQwerty;
         }
     else
         {
-        iFlags &= (~ECharMapDialogItemLockNumericKeys);
-        if (iOldCharCase!=-1)
-            {
-            charmapControl->SetCharacterCaseL(iOldCharCase);
-            }
-        else
-            {
-            charmapControl->SetCharacterCaseL(EAknSCTLowerCase);
-            iOldCharCase = EAknSCTLowerCase;
-            }
-        }
-    //charmapControl->DrawNow();
-    }
-
-void CAknCharMapDialogExtension::HandleQwertyModeChangeNotification()
-    {
-    TInt value = 0;
-    iQwertyModeStatusProperty.Get(value);
-    iQwertyMode = value;
-
-    CAknCharMap* charmapControl =
-            STATIC_CAST(CAknCharMap*, iCaller->Control(EAknSCTQueryContentId));
-
-    if ( (iQwertyMode) == (charmapControl->CharacterCase() == EAknSCTQwerty) )
-        {
-        // No change for Qwerty mode
-        return;
+        iFlags &= ( ~ECharMapDialogItemLockNumericKeys );
+        charCase = EAknSCTLowerCase;
         }
 
-    if (iQwertyMode)
-        {
-        iFlags |= ECharMapDialogItemLockNumericKeys;
+    if ( landscape == iFirstOrientation )
+    	{
+        // Note, it should be equal to first char case once it return
+        //    to the first orientation
+        charCase = iCaller->CharacterCase();
+    	}
+    charmapControl->SetCharacterCaseL( charCase );
 
-        iOldCharCase=charmapControl->CharacterCase();
-        TRAP_IGNORE( charmapControl->SetCharacterCaseL(EAknSCTQwerty) );
-        }
-    else
-        {
-        iFlags &= ~ECharMapDialogItemLockNumericKeys;
-        if (iOldCharCase!=-1)
-            {
-            TRAP_IGNORE( charmapControl->SetCharacterCaseL(iOldCharCase) );
-            }
-        else
-            {
-            TRAP_IGNORE( charmapControl->SetCharacterCaseL(EAknSCTLowerCase) );
-            iOldCharCase = EAknSCTLowerCase;
-            }
-        }
-
-        // Reset focus.
-    charmapControl->TakeFocus();
-
-    // Draw new characters.
-    charmapControl->DrawNow();
-    }
-
-// CAknCharMapDialogExtension::CSubscriber
-CAknCharMapDialogExtension::CSubscriber::CSubscriber(TCallBack aCallBack, RProperty& aProperty)
-    : CActive(EPriorityNormal), iCallBack(aCallBack), iProperty(aProperty)
-    {
-    CActiveScheduler::Add(this);
-    }
-
-CAknCharMapDialogExtension::CSubscriber::~CSubscriber()
-    {
-    Cancel();
-    }
-
-void CAknCharMapDialogExtension::CSubscriber::SubscribeL()
-    {
-    if (!IsActive())
-        {
-        iProperty.Subscribe(iStatus);
-        SetActive();
-        }
-    }
-
-void CAknCharMapDialogExtension::CSubscriber::StopSubscribe()
-    {
-    Cancel();
-    }
-
-void CAknCharMapDialogExtension::CSubscriber::RunL()
-    {
-    if (iStatus.Int() == KErrNone)
-        {
-        iCallBack.CallBack();
-        SubscribeL();
-        }
-    }
-
-void CAknCharMapDialogExtension::CSubscriber::DoCancel()
-    {
-    iProperty.Cancel();
     }
 
 // CAknCharMapDialog
@@ -497,7 +360,6 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
     charmapControl->SetCaseTableL(caseTable);
     caseTable.Close();
 
-    // 
     charmapControl->SetBuffer(*iSpecialChars);
     charmapControl->SetCharacterCaseL(iCharCase);
 
@@ -537,7 +399,12 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
 	DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); //
 	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
 	
-	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);
+	// Boost its priority in GlobalPopupPriorityController queue, because its window priority is higher than zero,
+    // otherwise, GlobalPopupPriorityController will dim it wrongly.
+    // This code only effects for aknnfysrv.exe, since input server doesn't have GlobalPopupPriorityController instance.
+    AknGlobalPopupPriorityController::SetPopupPriorityL(*this, 1);
+    
+	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);	
     }
 
 EXPORT_C void CAknCharMapDialog::SetSizeAndPosition( const TSize& aSize )
@@ -1126,5 +993,8 @@ void CAknCharMapDialog::SetSoftKeyL(const TBool aDrawNow /*= EFalse*/)
         }
     }
 
-
+TInt CAknCharMapDialog::CharacterCase()
+	{
+	return iCharCase & KCharMapCaseMask;
+	}
 //  End of File

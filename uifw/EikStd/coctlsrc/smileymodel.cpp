@@ -15,8 +15,7 @@
 *
 */
 
-//#include <streamlogger.h>
-
+#include <AknSmileyUtils.h>
 #include "smileymanager.h"
 #include "smileymodel.h"
 
@@ -205,8 +204,8 @@ void CSmileyModel::GetImageInfo( TImageInfo& aImageInfo, HBufC** aFileName )
 //
 void CSmileyModel::AddSimleyL( CSmileyInfo& aInfo )
     {
-    if ( aInfo.iImageInfo.iCode < CSmileyManager::KSmileyCodeMin || 
-        aInfo.iImageInfo.iCode > CSmileyManager::KSmileyCodeMax || 
+    if ( aInfo.iImageInfo.iCode < CAknSmileyManager::KSmileyCodeMin || 
+        aInfo.iImageInfo.iCode > CAknSmileyManager::KSmileyCodeMax || 
         aInfo.iStrArray.Count() == 0 )
         {
         return;
@@ -383,11 +382,11 @@ void CSmileyModel::ReplaceTextWithCodes( TDes& aText, TInt aDocPos,
     TInt len( iLinkArray[linkIndex].iStrLength );
     TInt imageIndex( iLinkArray[linkIndex].iImageIndex );
     aText[aDocPos] = iImageInfoArray[imageIndex].iCode;
-    aText[aDocPos + 1] = CSmileyManager::KCompensateChar;
+    aText[aDocPos + 1] = CAknSmileyManager::KCompensateChar;
     const TInt KThirdIndex = 2;
     for ( TInt i( KThirdIndex ); i < len; i++ )
         {
-        aText[i + aDocPos] = CSmileyManager::KPlaceHolder;
+        aText[i + aDocPos] = CAknSmileyManager::KPlaceHolder;
         }
     }
 

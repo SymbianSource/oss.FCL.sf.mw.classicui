@@ -286,10 +286,12 @@ void CFindUtilWestern::OpenL()
 		iNotifyHandler->StartListeningL();
 	    }	
 //TSW: LYEE-7Q2GRV  
-	if(!iFindUtilKorean)
-	    {
+    FeatureManager::InitializeLibL();
+    if( !iFindUtilKorean && FeatureManager::FeatureSupported( KFeatureIdKorean ) )
+        {
         iFindUtilKorean = CFindUtilKorean::NewL();
-	    }
+        }
+    FeatureManager::UnInitializeLib();
 	}
 	
 void CFindUtilWestern::HandleNotifyInt( TUint32 aId, TInt aNewValue )
@@ -306,7 +308,7 @@ void CFindUtilWestern::HandleNotifyInt( TUint32 aId, TInt aNewValue )
 
 TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
     {
-    if ( iFindUtilKorean->IsKoreanLanguage( aContactsField ) || iFindUtilKorean->IsKoreanLanguage( aWord ) )
+    if ( iFindUtilKorean && ( iFindUtilKorean->IsKoreanLanguage( aContactsField ) || iFindUtilKorean->IsKoreanLanguage( aWord ) ) )
         {
         return iFindUtilKorean->Match( aContactsField, aWord );	
         }
@@ -345,9 +347,9 @@ TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
 //
 TBool CFindUtilWestern::MatchRefineL( const TDesC& aItemString, const TDesC& aSearchText )
     {
-    if ( FeatureManager::FeatureSupported( KFeatureIdKorean ) || 
-         iFindUtilKorean->IsKoreanLanguage( aItemString ) || 
-         iFindUtilKorean->IsKoreanLanguage( aSearchText ) )
+    if ( iFindUtilKorean && 
+        ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || 
+          iFindUtilKorean->IsKoreanLanguage( aSearchText ) ) )
         {
         return iFindUtilKorean->MatchRefineL( aItemString, aSearchText );	
         }
@@ -1316,7 +1318,7 @@ TBool CFindUtilWestern::MatchAdaptiveRefineL( const TDesC& aItemString,
         return EFalse;
         }
 		
-    if ( iFindUtilKorean )
+    if ( iFindUtilKorean && ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || iFindUtilKorean->IsKoreanLanguage( aSearchText ) ) )
         {
         return iFindUtilKorean->MatchAdaptiveRefineL(aItemString,aSearchText,aNextChars);   
         }

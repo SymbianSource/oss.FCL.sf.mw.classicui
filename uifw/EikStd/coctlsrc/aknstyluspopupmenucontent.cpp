@@ -1026,11 +1026,11 @@ void CAknStylusPopUpMenuContent::DrawItem(
     
         layoutText.DrawText( aGc, *(iItems[aItem]->iText), ETrue, textColor ); 
 
-        if ( aItem < iLastVisibleItem )
+        if ( aItem < iItems.Count()-1 )
             {
             AknListUtils::DrawSeparator( aGc, rect, textColor, skin );
             }
-		}
+        }
     }
 
 // -----------------------------------------------------------------------------

@@ -56,7 +56,7 @@ smiley.mbg		/epoc32/include/smiley.mbg
 smiley.mif		/epoc32/data/z/resource/apps/smiley.mif
 smiley.mif		/epoc32/release/winscw/udeb/z/resource/apps/smiley.mif
 smiley.mif		/epoc32/release/winscw/urel/z/resource/apps/smiley.mif
-smiley.mif		/epoc32/release/armv5/udeb/Z/resource/apps/smiley.mif
+smiley.mif		/epoc32/release/armv5/udeb/z/resource/apps/smiley.mif
 smiley.mif		/epoc32/release/armv5/urel/z/resource/apps/smiley.mif
 
 ../srcdata/AvkonSystemSounds/volume_min.wav		/epoc32/data/z/resource/avkonsystemsounds/volume_min.wav
@@ -137,7 +137,7 @@ START EXTENSION s60/mif2cdlindex
 OPTION TARGETFILE avkon2mifheader_inst.cpp
 OPTION GENPATH ../Avkon2MifHeader
 OPTION MIFFILE avkon2.mif
-// OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/Z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
+// OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
 OPTION DLLNAME Avkon2MifHeader
 OPTION DLLUID 0x102827CF
 END

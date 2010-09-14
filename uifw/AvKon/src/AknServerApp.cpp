@@ -21,7 +21,7 @@
 
 #include <avkon.hrh>
 #include <aknenv.h>
-#include <aknsgcc.h>
+#include <AknSgcc.h>
 #include "AknOpenFileServiceImpl.h"
 #include "AknNullServiceImpl.h"
 #include "AknLaunchAppServiceImpl.h"

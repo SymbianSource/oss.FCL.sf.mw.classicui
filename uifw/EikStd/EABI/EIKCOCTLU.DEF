@@ -2017,4 +2017,5 @@ EXPORTS
 	_ZN10CAknButton14EnableFeedbackEi @ 2016 NONAME
 	_ZN22CAknLocalScreenClearer4NewLEii @ 2017 NONAME
 	_ZN22CAknLocalScreenClearer5NewLCEii @ 2018 NONAME
+	_ZN9CEikEdwin10EnableT2WLEi @ 2019 NONAME
 

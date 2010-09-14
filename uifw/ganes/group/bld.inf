@@ -46,6 +46,7 @@ OPTION SOURCES\
  -c32,8 qgn_graf_mup_adtl_reorder_up\
  -c32,8 qgn_graf_mup_adtl_reorder_updown\
  -c32,8 qgn_prop_checkbox_on\
+ -c32,8 qgn_prop_checkbox_off\
  -c32,8 qgn_indi_button_exit_fs\
  -c32,8 qgn_indi_media_thumbnail
 END

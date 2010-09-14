@@ -142,9 +142,11 @@ TBool CAknTouchGestureFwPointerState::Update(
 //
 TPoint* CAknTouchGestureFwPointerState::FirstPointerPosition()
     {
-    __ASSERT_ALWAYS( iFirstPointerNumber != KInvalidPointerNumber,
+    __ASSERT_DEBUG( iFirstPointerNumber != KInvalidPointerNumber,
         User::Invariant() );
-    return &iPointerData[ iFirstPointerNumber ].iPosition;
+	
+	// If iFirstPointerNumber is invalid, use default index instead.
+    return &iPointerData[ iFirstPointerNumber == KInvalidPointerNumber ? 0 : iFirstPointerNumber ].iPosition;
     }
 
 
@@ -154,9 +156,11 @@ TPoint* CAknTouchGestureFwPointerState::FirstPointerPosition()
 //
 TPoint* CAknTouchGestureFwPointerState::SecondPointerPosition()
     {
-    __ASSERT_ALWAYS( iSecondPointerNumber != KInvalidPointerNumber,
+    __ASSERT_DEBUG( iSecondPointerNumber != KInvalidPointerNumber,
         User::Invariant() );
-    return &iPointerData[ iSecondPointerNumber ].iPosition;
+		
+	// If iSecondPointerNumber is invalid, use default index instead.
+    return &iPointerData[ iSecondPointerNumber == KInvalidPointerNumber ? 1 : iSecondPointerNumber ].iPosition;
     }
 
 

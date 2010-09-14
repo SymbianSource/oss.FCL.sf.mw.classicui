@@ -170,16 +170,16 @@ static void CreateAndSetDimmedIconL( CGulIcon*& aDimmedIcon,
             {
             CGulIcon* newIcon = CGulIcon::NewLC();
             CFbsBitmap* newPic = new ( ELeave ) CFbsBitmap;
-            CleanupStack::PushL( newPic );
             
             newPic->Duplicate( aIcon->Bitmap()->Handle() );
-            newIcon->SetBitmap( newPic );
+            //newPic ownership is transferred to newIcon
+            newIcon->SetBitmap( newPic );            
 
             CFbsBitmap* newMask = new ( ELeave ) CFbsBitmap;
+            CleanupStack::PushL( newMask );
             
             User::LeaveIfError( newMask->Create( 
                 newIcon->Bitmap()->SizeInPixels(), EGray256 ) );
-            CleanupStack::PushL( newMask );
                
             CFbsBitmapDevice* bitmapDevice = CFbsBitmapDevice::NewL( newMask );
             CleanupStack::PushL( bitmapDevice );
@@ -212,7 +212,7 @@ static void CreateAndSetDimmedIconL( CGulIcon*& aDimmedIcon,
             ReplaceIconStatic( aDimmedIcon, newIcon, aScaleMode );
                                
             CleanupStack::PopAndDestroy( 2 ); // bitmapDevice, bitGc
-            CleanupStack::Pop( 3 ); // newIcon, newPic, newMask
+            CleanupStack::Pop( 2 ); // newIcon, newMask
             }
         }
     }
@@ -2307,9 +2307,9 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
             {
             return;
             }            
-        
-        if ( ( iFlags & KAknButtonHitTest ) && 
-             !HitAreaContainsL( aPointerEvent.iPosition, EFalse ) )
+        TBool hitArea( EFalse );
+        TRAP_IGNORE( hitArea = HitAreaContainsL( aPointerEvent.iPosition, EFalse ))
+        if ( ( iFlags & KAknButtonHitTest ) && !hitArea )
             {
             buttonEvent = EFalse;
             }

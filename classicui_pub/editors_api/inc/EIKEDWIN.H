@@ -500,6 +500,23 @@ private:
 		 * Record if text view has been actually hidden.
 		 */
 		TBool iTextViewHidden;
+        /**
+         * Record the buff of "Tap To write" in current language.
+         * 
+         * Own.
+         */
+        HBufC* iT2WBuf;
+        enum TT2WFlag
+            {
+            ESplitInputEnabled  = 0x00000001,
+            EFocusOn            = 0x00000002,
+            ERecordCursor       = 0x00000004,
+            ECursorVisible      = 0x00000008
+            };
+        /**
+         * Record internal status of of "tap to write".
+         */
+		TInt iT2WState;
         };
 
 public:
@@ -2385,7 +2402,15 @@ private:
     TBool AdjustCursorPosByMovementL( TCursorPosition::TMovementType aMovement, 
         TBool aSelect );
     void HandleSelectionForSmiley( TCursorSelection aSelect );
-	    
+    
+    /**
+     * 1,If the editor is read only or it is display only "tap to write" is disabled
+     * 2,If iEdwinExtension->iT2WBuf is NULL, "tap to write" is disabled. 
+     * 3,If Qwerty key borad is opened, "tap to write" is disabled
+     * 4,If focus off, "tap to write" is disabled
+     * 5,If split input is enabled, "tap to write" is disabled 
+     */    
+    TBool IsT2WEnabled() const;
 protected:
 
     /**
@@ -2778,6 +2803,12 @@ private:
     TRect AdjustedViewRect() const;
     void SetVKBStatus();
     void ScrollViewToCursorLineL();
+
+    /**
+     * Scrolls view so that cursor is visible.
+     */
+    void MoveViewToCursorLineL();
+
     void PerformRecordedOperationL();
     void ScrollIfAtTopOrBottomL();
     void SetSelectionVisibilityL( TBool aIsVisable );
@@ -2805,6 +2836,41 @@ private:
 private:
 
 	void DrawFirstLineTextL() const;
+	
+    /**
+     * Draws "Tap to write" text to help user to navigate to virtual input
+     * This text is drawn when the text length of the editor field is zero
+     * 
+     * @param  none
+     * @return none
+     */
+    void DrawT2WTextL() const;
+    
+    /**
+     * Draws "Tap to write" text if text length is zero
+     * 
+     * @param  aClean. When aClean is set to ETrue and the codition of "tap to write" is False,
+     *     The editor will be redraw and "tap to write" will be clean.
+     * @return none
+     */
+    void TryToDrawT2W( TBool aClean = EFalse );
+    
+    /**
+     * Get the align of the first line text
+     * 
+     * @param  none
+     * @return text align for first line text
+     */
+    CGraphicsContext::TTextAlign AlignForFirstLineText( const TPtr & aReorderedTextPtr ) const;
+    
+    /**
+     * Get the rect of the first line text
+     * 
+     * @param  none
+     * @return rect of the first line
+     */
+    TRect RectForFirstLineText() const;
+    
     CAknEdwinDrawingModifier* AknEdwinDrawingModifier();
     TBool EditorSupportsNeutralProtection() const;
 
@@ -3089,6 +3155,28 @@ public:
      */
 	TBool ContentFitsToViewRect() const;
 
+    /**
+     * Set the "Tap To Write" enable or not
+     * There are two ways to use this API. The first way is: after construct a editor you can 
+     * call EnableT2WL( ETrue ) to enable the feature, then editor will display or hide 
+     * "tap to write" by the internal status of editor. It means that "tap to write" will 
+     * display and hide automatically as internal logical of editor.
+     * Enable the feature: 
+     * CEikEdwin *editor = new (ELeave) CEikEdwin;
+     * editor->ConstructL();
+     * editor->EnableT2WL( ETrue );
+     * 
+     * The second way is application can call EnableT2WL( ETrue/EFalse )
+     * to display or hide "tap to write" immediately according to its own logic.
+     * Display:
+     * editor->EnableT2WL( ETrue );
+     * Hide:
+     * editor->EnableT2WL( EFalse );
+     * 
+     * @param ETure for enable EFalse for not disable.
+     * @return none.
+     */
+    IMPORT_C void EnableT2WL( TBool aEnable );
 protected:
 
     /**

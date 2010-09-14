@@ -208,9 +208,7 @@ void CAknMessageQueryControl::LayoutEditorL()
      **/ 
     AknLayoutUtils::LayoutEdwin( iEdwin, listPopupInfoPane.Rect(),
         TAknTextComponentLayout::Multiline(textComponentLayoutArray), EAknsCIQsnTextColorsCG19 );
-    iEdwin->SetSuppressFormatting(ETrue);
     iEdwin->SetRect( listPopupInfoPane.Rect() );
-    iEdwin->SetSuppressFormatting(EFalse);
     textComponentLayoutArray.Close();
     }    
 

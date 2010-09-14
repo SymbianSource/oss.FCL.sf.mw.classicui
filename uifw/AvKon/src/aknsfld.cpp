@@ -896,7 +896,11 @@ EXPORT_C void CAknSearchField::MakeVisible( TBool aVisible )
             {
             iEditor->SetFocus( aVisible );
             }
-        }        
+        }
+    if( iAdaptiveSearch && !aVisible )
+    	{
+        TRAP_IGNORE( iAdaptiveSearch->HideAdaptiveSearchGridL() );
+    	}
     _AKNTRACE_FUNC_EXIT;
     }
 

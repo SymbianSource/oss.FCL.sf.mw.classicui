@@ -188,6 +188,16 @@ private:
     */
     void LoadATTIconL( TInt aIconState, TInt aIconColorIndex );
     
+   
+    /**
+       * Loads the signal icon for TD phone to be displayed.
+       * 
+       * @param  aIconState       ID of the signal state, @see signal indicator
+       *                          states in @c avkon.hrh.
+       * @param  aIconColorIndex  Color index of the icon.
+       */
+    void LoadTDIconL(TInt aIconState, TInt aIconColorIndex);
+
 private:
     
     /**
@@ -219,6 +229,9 @@ private:
     
 	/** Flag defining whether or not the ATT is enable. */
     TInt        iATTEnable;
+	
+	/** Flag defining whether or not the TD is enable. */
+    TBool       iTDEnable;
     };
 
 #endif // AKNSIGNALICON_H

@@ -335,6 +335,11 @@ private: // Member data
     * Current rect of press down effect
     */
     TRect iPressedDownRect;
+
+    /**
+     * Ordinal upon button down
+     */
+    TInt iOrdinal;
     };
 
 #endif // C_AKNINDICATORPOPUPCONTENT_H

@@ -464,6 +464,8 @@ EXPORT_C TInt CDocumentHandler::CopyL(
         error = iHandler->CopyHandleL( aFileOld, aAttr );
         }
 
+    iHandler->ResetSrcFile();
+    
     #ifdef _DEBUG
     RDebug::Print( _L("DocumentHandler: CDocumentHandler::CopyL: finished with error=%d."), error);
     #endif

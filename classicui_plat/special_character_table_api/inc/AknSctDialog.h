@@ -153,6 +153,14 @@ public:
     * Handles pointer events
     */
     IMPORT_C void HandlePointerEventL(const TPointerEvent& aPointerEvent);
+
+    /**
+    * Return the initialized character case
+    * @since Timebox 92
+    *
+    */
+    TInt CharacterCase();
+
 private: // helpers
     void DoLayout();
 private:
