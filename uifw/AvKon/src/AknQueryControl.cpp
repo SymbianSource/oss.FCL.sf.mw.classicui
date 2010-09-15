@@ -3396,7 +3396,7 @@ EXPORT_C void CAknQueryControl::HandlePointerEventL(const TPointerEvent& aPointe
 		to open in input dialog (usability). The valid area is enlarged to editor frame rect,
 		instead of text's rect, because text rect is too small for user to tap*/
 		CCoeControl* ctrl = ControlByLayoutOrNull( iQueryType );
-		if( ctrl )
+		if( ctrl && !EmbeddedVirtualInput() )
 			{
 			TPointerEvent pointerEvent( aPointerEvent );
 			if( !ctrl->Rect().Contains( aPointerEvent.iPosition ) && ( NbrOfEditorLines() == 1 ) )

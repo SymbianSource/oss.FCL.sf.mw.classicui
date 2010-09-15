@@ -446,8 +446,14 @@ TBool IsPartOfUrl(const TDesC& aText)
     while(pos > 0)
         {
         const TUint16 word = aText[--pos];
-        if(word == ' ' || word == 0x2029)
+        // Since in most cases, URL is comprised of ASCII characters, 
+        // so if there is a character out of the ASCII printable characters, 
+        // we can stop the search.
+        const TInt KMinPrintableAscIIChar( 0x21 ); // excluding space
+        const TInt KMaxPrintableAscIIChar( 0x7e );
+        if( word < KMinPrintableAscIIChar || word > KMaxPrintableAscIIChar )
             {
+            pos++; // make the string begin with printable character.
             break;
             }
         }
@@ -461,7 +467,22 @@ TBool IsPartOfUrl(const TDesC& aText)
         if(KErrNotFound != pos)
             {
             return ETrue;
-            }    
+            }
+        else
+            {
+            // Although the string doesn't contain '://', it is also considered
+            // as an URL if it contains 'www.'.
+            HBufC* fieldTextBuf( field.Alloc() );
+            if ( fieldTextBuf )
+                {
+                TPtr fieldText( fieldTextBuf->Des() );
+                // Use lower case for search to avoid case sensitive mismatch.
+                fieldText.LowerCase();
+                TBool result( fieldText.Find( _L("www.") ) != KErrNotFound );
+                delete fieldTextBuf;
+                return result;
+                }
+            }
         }
     
     return EFalse;

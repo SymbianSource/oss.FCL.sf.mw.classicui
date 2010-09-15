@@ -400,6 +400,12 @@ enum
     EPeninputCmdLandscapeEditor,
 
     /**
+     * Command id for find pane to hide adaptive search grid
+     * 
+     */
+    EAknCmdHideASGrid,
+
+    /**
     * @deprecated
     * Do not use.
     */

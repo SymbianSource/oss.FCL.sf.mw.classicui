@@ -60,9 +60,11 @@
 #define EEikCbaFlagSemiTransparent      0x100
 
 /**
- * Button group app msk icon flag. This flag can be set with CBA resource
- * or by using CEikCba::SetButtonGroupFlags(TInt) method. CBA using 
- * control_pane_g4(0) to draw the window rect
+ * Button group app msk icon flag,also support msk label. 
+ * This flag can be set with CBA resource
+ * or by using CEikCba::SetButtonGroupFlags(TInt) method. 
+ * CBA using control_pane_g4(0) to draw the window rect.
+ * Use the CEikCba::UpdateIconL() to set the msk icon or show the msk label.
  */
 #define EEikCbaFlagAppMskIcon           0x200
 // EIKBUTB.HRH

@@ -558,6 +558,16 @@ TRect CEikAppUiFactory::ClientRect()
             }
         
         TRect wndRc( splitwnd.Rect() );
+		
+        if ( !Layout_Meta_Data::IsLandscapeOrientation() )
+            {		
+			// include indicator pane height
+            TAknWindowLineLayout indiPane = AknLayoutScalable_Avkon::icf_edit_indi_pane( 2 ).LayoutLine();
+    		TAknLayoutRect indiRect;
+    		indiRect.LayoutRect(splitwnd.Rect(), indiPane);
+	        wndRc.iTl.iY -= indiRect.Rect().Height();
+			}
+		
         inputTop = wndRc.iTl.iY;
         rect.iBr.iY = rect.iBr.iY > inputTop ? inputTop : rect.iBr.iY;
         rect.iTl.iY = 0;

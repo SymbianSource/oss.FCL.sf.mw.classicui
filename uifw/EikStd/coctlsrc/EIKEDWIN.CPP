@@ -102,14 +102,16 @@
 #include "smileycustomwrap.h"
 #include <touchfeedback.h>
 
-// declare function
-void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId );
-void ReadSCTHeadPane( TResourceReader& aReader );
 // for supporting TapToWrite
 #include <AvkonInternalCRKeys.h>
 #include <e32property.h>
 #include <AknFepInternalPSKeys.h>
 #include <AknFontAccess.h>
+#include <AvkonInternalCRKeys.h>  // KAknQwertyInputModeActive
+
+// declare function
+void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId );
+void ReadSCTHeadPane( TResourceReader& aReader );
 
 GLDEF_C void Panic(TEikEdwinPanic aPanic)
     {
@@ -1075,6 +1077,14 @@ CEikEdwin::CEikEdwinExtension::~CEikEdwinExtension()
         }
     delete iCenRepNotifyHandler;
     delete iCenRep;
+    
+    // Stop listening CenRep for qwerty key board.
+    if ( iCenRepNotifyHandlerForQwerty )
+        {
+        iCenRepNotifyHandlerForQwerty->StopListening();
+        }
+    delete iCenRepNotifyHandlerForQwerty;
+    delete iCenRepForQwerty;
 
     delete iFormAccessor;
     delete iFormCursorModifier;
@@ -1226,6 +1236,19 @@ void CEikEdwin::CEikEdwinExtension::ConstructL(CEikEdwin* aEdwin)
         iCenRepNotifyHandler->StartListeningL();
         iCenRep->Get(KAknFepClearDirection, iClearDirection);
         }
+    // Start listening a CenRep key indicating whether qwerty input mode is active.
+    TRAPD( error, iCenRepForQwerty = CRepository::NewL( KCRUidAvkon ) );
+    if ( error == KErrNone )
+        {
+        iCenRepNotifyHandlerForQwerty = CCenRepNotifyHandler::NewL( *this,
+            *iCenRepForQwerty,
+            CCenRepNotifyHandler::EIntKey,
+            KAknQwertyInputModeActive );
+
+        iCenRepNotifyHandlerForQwerty->StartListeningL();
+        iCenRepForQwerty->Get( KAknQwertyInputModeActive, iQwertyStatus );
+        }
+    
     iSmileyWrap = new ( ELeave ) CSmileyCustomWrap;
     iSkinInstance = AknsUtils::SkinInstance();
     }
@@ -1314,6 +1337,12 @@ void CEikEdwin::CEikEdwinExtension::HandleNotifyInt(TUint32 aId, TInt aNewValue)
     if (aId == KAknFepClearDirection)
         {
         iClearDirection = (TBool)aNewValue;
+        }
+    //If qwerty key board is opened clean the "tap to write", if qwerty key board is closed display the "tap to write"
+    else if ( aId == KAknQwertyInputModeActive )
+        {
+        iQwertyStatus = ( TBool )aNewValue;
+        iEdwin->TryToDrawT2W( iQwertyStatus );
         }
     }
 
@@ -2412,6 +2441,11 @@ TestMagnify:
             break; // prevent eg Ctrl-I inserting a tab
         goto InChar;
     default:
+        // If ctrl + key is not hotkey return not consume. 
+        if ( magnify )
+            {
+            return EKeyWasNotConsumed;
+            }
         if (code>=ENonCharacterKeyBase || !TChar(code).IsPrint() || (!IsValidChar(code)))
             {
             ret=EKeyWasNotConsumed;
@@ -4490,8 +4524,7 @@ TBool CEikEdwin::IsT2WEnabled() const
          !( iEdwinUserFlags & EDisplayOnly ) && iEdwinExtension->iT2WBuf && 
          ( iEdwinExtension->iT2WState & CEikEdwinExtension::EFocusOn ) &&
          !( iEdwinExtension->iT2WState & CEikEdwinExtension::ESplitInputEnabled ) && 
-         !( iEdwinExtension->iExtendedInputCapabilities->Capabilities() & 
-           CAknExtendedInputCapabilities::EInputEditorQwertyInputActive );
+         !( iEdwinExtension->iQwertyStatus );
     }
 
 void CEikEdwin::SetCursorVisibilityL(TBool aEmphasis)
@@ -8744,10 +8777,11 @@ void CEikEdwin::OnEditorStateFlagChange( TInt aOldFlags, TInt aNewFlags )
 
         TBool partialScreenDisabled( !( aNewFlags & EAknEditorFlagEnablePartialScreen ) && 
             ( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
-         
-        if ( ( textViewHideEnabled && 
-                !( aNewFlags & EAknEditorFlagEnablePartialScreen ) ) ||
-             ( partialScreenDisabled && ( aNewFlags & EAknEditorFlagHideTextView ) ) )
+
+        if ( IsActivated() && 
+            ( ( textViewHideEnabled && !( aNewFlags & EAknEditorFlagEnablePartialScreen ) ) ||
+              ( partialScreenDisabled && ( aNewFlags & EAknEditorFlagHideTextView ) ) )
+            )
             {
             iTextView->MakeVisible( EFalse );
             iEdwinExtension->iTextViewHidden = ETrue;
@@ -9137,13 +9171,7 @@ TBool CEikEdwin::IsSelectionVisible()
 	for (TInt i = 0; i < text.Length(); i++)
 		{
 		TChar character(text[i]);
-		if (text[i] == ' ')
-			return ETrue;
-		
-		TChar::TCategory category = character.GetCategory();
-		
-		if ( !( ( ( category & TChar::ESeparatorGroup ) == TChar::ESeparatorGroup ) ||
-			   ( text[i] >= 0x200B && text[i] <= 0xFFFC ) ) )
+        if ( character.IsPrint() )
 			{
 			ret = ETrue;
 			break;

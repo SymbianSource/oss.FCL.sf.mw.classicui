@@ -876,6 +876,11 @@ private:
      * Resets the highlight status for tabs
      */
     void ResetHighlightStatus();
+    
+    /**
+     * Enable/Disable highlight effect
+     */
+    void EnableHighlight( TBool aEnable, TInt aNewTab = -1 , TInt aPointX = -1 );
         
 
 private:

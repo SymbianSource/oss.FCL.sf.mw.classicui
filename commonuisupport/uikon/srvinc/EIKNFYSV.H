@@ -68,12 +68,13 @@ public:
 public:
 	TUid iNotifierUid;
 	TSecureId iSecureId;
+	TInt iCount;
 	};
 
 /** @internalComponent */
 typedef RArray<const TNotifierMessageInfo> RNotifierMessageInfoQueue;
 /** @internalComponent */
-typedef RArray<const TNotifierSecureInfo> RNotifierSecureInfoQueue;
+typedef RArray<TNotifierSecureInfo> RNotifierSecureInfoQueue;
 
 /** 
 @internalComponent 

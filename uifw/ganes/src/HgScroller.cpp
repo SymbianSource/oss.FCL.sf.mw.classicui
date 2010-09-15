@@ -891,6 +891,7 @@ void CHgScroller::KeyEventDown()
     
     iPointerDown = EFalse;
     iPanning = EFalse;
+    iEnterKeyHandled = EFalse;
     }
 
 // -----------------------------------------------------------------------------
@@ -1061,33 +1062,37 @@ void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
     iViewPosition = aNewPosition;
     iPhysics->StopPhysics();
     
-    if( iScrollBarType == EHgScrollerTimeStrip )
+    // show a letter popup only if we are currently dragging with scrollbar
+    if(iScrollbar && iScrollbar->IsDragging())
         {
-        // Show first item's time.
-        TInt selectedItem = CurrentIndex();
-        if( selectedItem >= 0 && selectedItem < iItems.Count()
-                && iItems[selectedItem]->Time().Int64() )
+        if( iScrollBarType == EHgScrollerTimeStrip )
             {
-            TRAP_IGNORE(
-                    iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );
-                    iItems[selectedItem]->Time().FormatL( iPopupText2, KGanesYearString );
-                )
-            // To display month and year correctly in arabic.
-            AknTextUtils::LanguageSpecificNumberConversion( iPopupText1 );
-            AknTextUtils::LanguageSpecificNumberConversion( iPopupText2 );
-            }
-        }
-    else if( iScrollBarType == EHgScrollerLetterStrip
-            || iScrollBarType == EHgScrollerLetterStripLite )
-        {
-        TInt selectedItem = CurrentIndex();
-        if( selectedItem >= 0 && selectedItem < iItems.Count() )
-            {
-            if(iItems[selectedItem]->Title().Length())
+            // Show first item's time.
+            TInt selectedItem = CurrentIndex();
+            if( selectedItem >= 0 && selectedItem < iItems.Count()
+                    && iItems[selectedItem]->Time().Int64() )
                 {
-                iPopupText1.Zero();
-                iPopupText1.Append( iItems[selectedItem]->Title()[0] );
-                iPopupText1.UpperCase();
+                TRAP_IGNORE(
+                        iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );
+                        iItems[selectedItem]->Time().FormatL( iPopupText2, KGanesYearString );
+                    )
+                // To display month and year correctly in arabic.
+                AknTextUtils::LanguageSpecificNumberConversion( iPopupText1 );
+                AknTextUtils::LanguageSpecificNumberConversion( iPopupText2 );
+                }
+            }
+        else if( iScrollBarType == EHgScrollerLetterStrip
+                || iScrollBarType == EHgScrollerLetterStripLite )
+            {
+            TInt selectedItem = CurrentIndex();
+            if( selectedItem >= 0 && selectedItem < iItems.Count() )
+                {
+                if(iItems[selectedItem]->Title().Length())
+                    {
+                    iPopupText1.Zero();
+                    iPopupText1.Append( iItems[selectedItem]->Title()[0] );
+                    iPopupText1.UpperCase();
+                    }
                 }
             }
         }
@@ -1191,24 +1196,46 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
         case EKeyEnter:
         case EKeyOK:
             {
-            if( iSelectedIndex != KErrNotFound && HasHighlight() )
+            // If enter key is pushed down for a long time, many key events
+            // are generated. Enter should be handled only ones.
+            if (!iEnterKeyHandled)
                 {
-                iShowHighlight = EFalse;
-                iDrawUtils->EnableMarquee(HasHighlight());
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
-                return EKeyWasConsumed;
-                }
-            else if( iItemCount )
-                {
-                iSelectedIndex = CurrentIndex();
-                FitSelectionToView();
-                iShowHighlight = ETrue;
-                iDrawUtils->EnableMarquee(HasHighlight());
-                DrawDeferred();
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
-                return EKeyWasConsumed;
+                iEnterKeyHandled = ETrue;
+                if( iSelectedIndex != KErrNotFound && HasHighlight())
+                    {                
+                    iEnterKeyHandled = ETrue;
+                    const TBool validIndex = iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
+                    const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
+                    if (validIndex && selectionMode)
+                        {
+                        // In selection mode enterkey should mark/unmark item.
+                        iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked ? 
+                            UnMark(iSelectedIndex) : Mark(iSelectedIndex);
+                        DrawDeferred();
+                        }
+                    else
+                        {
+                        // Item will be opened so highlight is removed.
+                        iShowHighlight = EFalse;
+                        if( iSelectionObserver )
+                            {
+                            TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
+                            }
+                        }
+                    iDrawUtils->EnableMarquee(HasHighlight());
+                    return EKeyWasConsumed;
+                    }
+                else if( iItemCount )
+                    {
+                    iSelectedIndex = CurrentIndex();
+                    FitSelectionToView();
+                    iShowHighlight = ETrue;
+                    iDrawUtils->EnableMarquee(HasHighlight());
+                    DrawDeferred();
+                    if( iSelectionObserver )
+                        TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
+                    return EKeyWasConsumed;
+                    }
                 }
             return EKeyWasNotConsumed;
             }
@@ -1280,7 +1307,9 @@ EXPORT_C void CHgScroller::Reset()
         iHighlightTimer->Cancel();
         iPointerDown = EFalse;
         if(iDetector)
-            iDetector->CancelAnimationL();
+            {
+            TRAP_IGNORE(iDetector->CancelAnimationL());
+            }
         iPanning = EFalse;
     
         iPhysics->StopPhysics();

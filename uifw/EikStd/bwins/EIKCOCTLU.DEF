@@ -1629,3 +1629,6 @@ EXPORTS
 	?NewLC@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1628 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewLC(int, int)
 	?NewL@CAknLocalScreenClearer@@SAPAV1@HH@Z @ 1629 NONAME ; class CAknLocalScreenClearer * CAknLocalScreenClearer::NewL(int, int)
 	?EnableT2WL@CEikEdwin@@QAEXH@Z @ 1630 NONAME ; void CEikEdwin::EnableT2WL(int)
+	?MarkingMode@CAknItemActionMenu@@QAEAAVCAknMarkingMode@@XZ @ 1631 NONAME ; class CAknMarkingMode & CAknItemActionMenu::MarkingMode(void)
+	?SetCollectionMultipleMarkingState@CAknMarkingMode@@QAEXH@Z @ 1632 NONAME ; void CAknMarkingMode::SetCollectionMultipleMarkingState(int)
+

@@ -30,6 +30,7 @@
 #include <avkon.mbg>
 #include <gulicon.h>
 #include <aknmarkingmodeobserver.h>
+#include <aknmarkingmode.h>
 #include "akntreelistview.h"
 #include "akntree.h"
 #include "akntreelist.h"
@@ -2971,6 +2972,8 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
         const TInt itemCount = iItems.Count();
         for ( TInt ii = 0; ii < itemCount; ++ii )
             {
+            TBool itemIsMarkable = ( iItems[ii].Item() &&
+                    iItems[ii].Item()->IsMarkable() );
             TRect drawRect( iItems[ii].Rect() );
 
             if ( iFlags.IsSet( EFlagMarkingMode ) )
@@ -3087,7 +3090,7 @@ void CAknTreeListView::DrawItemsWithPhysics( const TRect& aRect ) const
 
                 if ( iFlags.IsSet( EFlagMarkingMode ) && iMarkingIconArray
                         && iMarkingIconArray->Count() == 
-                                KMarkingModeIconArraySize )
+                                KMarkingModeIconArraySize && itemIsMarkable )
                     {
                     // Rect for the marking icon
                     TRect iconRect = RectFromLayout( drawRect,
@@ -3604,6 +3607,18 @@ TBool CAknTreeListView::HasMarkedItemsL() const
     return ( count > 0 );
     }
 
+// ---------------------------------------------------------------------------
+// CAknTreeListView::SetMarkingMode
+// ---------------------------------------------------------------------------
+//
+void CAknTreeListView::SetMarkingMode( TBool aEnable )
+    {
+    if ( ( iFlags.IsSet( EFlagMarkingMode ) != aEnable ) && iItemActionMenu )
+        {
+        iItemActionMenu->MarkingMode().SetCollectionMultipleMarkingState(
+            aEnable );
+        }
+    }
 
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 // ---------------------------------------------------------------------------

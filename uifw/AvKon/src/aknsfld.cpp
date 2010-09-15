@@ -799,6 +799,10 @@ EXPORT_C void CAknSearchField::ProcessCommandL( TInt aCommandId )
                 }                  
             iListBox->DrawNow();
             }
+        }  
+    else if( aCommandId == EAknCmdHideASGrid && iAdaptiveSearch )
+        {     
+        iAdaptiveSearch->HideAdaptiveSearchGridL();                       
         }
     }
 

@@ -219,6 +219,18 @@ EXPORT_C void CAknItemActionMenu::CollectionChanged(
 
 
 // ---------------------------------------------------------------------------
+// CAknItemActionMenu::MarkingMode
+// ---------------------------------------------------------------------------
+//
+EXPORT_C CAknMarkingMode& CAknItemActionMenu::MarkingMode()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return *iMarking;
+    }
+
+
+// ---------------------------------------------------------------------------
 // CAknItemActionMenu::AddCollectionStateL
 // ---------------------------------------------------------------------------
 //
@@ -378,18 +390,6 @@ TInt CAknItemActionMenu::CollectionCount() const
     _AKNTRACE_FUNC_EXIT;
      return iOwner;
      }
-
-
-// ---------------------------------------------------------------------------
-// CAknItemActionMenu::MarkingMode
-// ---------------------------------------------------------------------------
-//
-CAknMarkingMode& CAknItemActionMenu::MarkingMode()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
-    return *iMarking;
-    }
 
 
 // ---------------------------------------------------------------------------

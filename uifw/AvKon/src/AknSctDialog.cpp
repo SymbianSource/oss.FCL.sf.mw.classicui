@@ -106,6 +106,7 @@ public:
     TAknCharMapPictoMode    iPictoMode;
     TAknCharMapEmotionMode  iEmotionMode;
     TBool iFirstOrientation;
+    TBool iSimKeyDown;
     };
 
 // -----------------------------------------------------------------------------
@@ -116,7 +117,8 @@ public:
 //
 CAknCharMapDialogExtension::CAknCharMapDialogExtension(CAknCharMapDialog* aCaller) : 
 iFlags(0), iQwertyMode(EFalse), iCaller(aCaller), 
-iShowAnotherTableCharCase(-1), iPictoMode(EAknCharMapPictoNoUse), iEmotionMode(EAknCharMapEmotionNoUse)
+iShowAnotherTableCharCase(-1), iPictoMode(EAknCharMapPictoNoUse), iEmotionMode(EAknCharMapEmotionNoUse),
+iSimKeyDown( EFalse )
     {
     }
 
@@ -297,22 +299,7 @@ EXPORT_C TBool CAknCharMapDialog::OkToExitL(TInt aButtonId)
     // to select multiple characters before.
     if (aButtonId == EAknSoftkeyOk || aButtonId == EAknSoftkeySelect || aButtonId == EAknSoftkeyExit)
         {
-        // In Korean UI, SCT isn't closed by pressing "Select" softkey,
-        // but SCT is closed by pressing "Back"(button id is EAknSoftkeyClose).
-        // Japanese feature for SCT will not be supported since TB9.2 PS2,
-        // so remove the code for Japanese SCT.
         MAknSctFocusHandler* handler = charmapControl->FocusHandler();
-        if ( charmapControl->IsKoreanSctUi() &&
-            aButtonId != EAknSoftkeyExit &&
-            handler->FocusedControl() == charmapControl)
-            {
-            TKeyEvent key;
-            key.iCode=EKeySpace;
-            key.iModifiers=0;
-            handler->FocusedControl()->OfferKeyEventL(key, EEventKey);
-            return(EFalse);
-            }
-        // else
         TKeyEvent key;
         key.iCode=EKeyOK;
         key.iModifiers=0;
@@ -494,20 +481,35 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
                 break;
             }
         }
-    else if (aModifiers == EEventKeyUp)
+    else if ( aModifiers == EEventKeyDown )
         {
-        switch (aKeyEvent.iScanCode)
+        switch ( aKeyEvent.iScanCode )
             {
             case EStdKeyLeftFunc:
             case EStdKeyRightFunc:
                 {
-                if (!aKeyEvent.iRepeats) // switch another table when repeat count is 0 only.
+                iExtension->iSimKeyDown = ETrue;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    else if ( aModifiers == EEventKeyUp )
+        {
+        switch ( aKeyEvent.iScanCode )
+            {
+            case EStdKeyLeftFunc:
+            case EStdKeyRightFunc:
+                {
+                if ( !aKeyEvent.iRepeats  && iExtension->iSimKeyDown ) // switch another table when repeat count is 0 only.
                     {
                     if (!isLockNumericKeys) // Check whether current input mode is Qwerty.
                         {
                         SwitchTablesOrPagesL();
                         }
                     }
+                iExtension->iSimKeyDown = EFalse;
                 }
                 break;
             default:

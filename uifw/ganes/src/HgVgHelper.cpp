@@ -20,7 +20,7 @@
 #include "HgVgHelper.h"
 #include "HgVgDrawBuffer.h"
 #include "HgVgImageCreator.h"
-#include "HgVgEgl.h"
+#include "HgVgEGL.h"
 
 #include <e32math.h>
 #include <gulicon.h>

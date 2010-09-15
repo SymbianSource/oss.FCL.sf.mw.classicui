@@ -2121,6 +2121,10 @@ EXPORT_C TBool CAknMultiLineDataQueryDialog::OkToExitL(TInt aButtonId)
 				CEikCaptionedControl *ctrl2 = GetLineByLineAndPageIndex(line2, 0);
 				TryChangeFocusToL(ctrl2->iId);
                 HandleOrientationSwitch();
+                // In landscape mode, the first and second lines are at the same position, 
+                // so set the height of first line¡¯s control to 0 to prevent it from being 
+                // selected by touch event.
+                ctrl1->SetSize( TSize( ctrl1->Size().iWidth, 0 ) );
 
                 UpdateLeftSoftKeyL();
                 _AKNTRACE( "[%s][%s] return EFalse", "CAknMultiLineDataQueryDialog", __FUNCTION__);

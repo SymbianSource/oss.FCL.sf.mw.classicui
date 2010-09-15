@@ -150,6 +150,13 @@ public:
     IMPORT_C void CollectionChanged( MAknCollection& aCollection );
 
     /**
+     * Provides marking mode handler.
+     *
+     * @return Marking mode handler.
+     */
+    IMPORT_C CAknMarkingMode& MarkingMode();
+    
+    /**
      * Sets menu bar to item action menu.
      * 
      * @internal
@@ -223,14 +230,6 @@ public:
      */
     MObjectProvider* Owner() const;
 
-    /**
-     * Provides marking mode handler.
-     *
-     * @internal
-     * @return Marking mode handler.
-     */
-    CAknMarkingMode& MarkingMode();
-    
     /**
      * Returns ETrue if collection has marked items.
      * 

@@ -89,7 +89,7 @@ TRect ColourSelectionDialogRect()
         }
     
     TRect mainPane;
-    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EPopupParent, mainPane );
+    AknLayoutUtils::LayoutMetricsRect( AknLayoutUtils::EScreen, mainPane );
     
     TAknLayoutRect colourPopupWindow;
     colourPopupWindow.LayoutRect(mainPane, AknLayoutScalable_Avkon::popup_large_graphic_colour_window(colourPopupVariety));     

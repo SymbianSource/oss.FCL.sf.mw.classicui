@@ -2018,4 +2018,6 @@ EXPORTS
 	_ZN22CAknLocalScreenClearer4NewLEii @ 2017 NONAME
 	_ZN22CAknLocalScreenClearer5NewLCEii @ 2018 NONAME
 	_ZN9CEikEdwin10EnableT2WLEi @ 2019 NONAME
+	_ZN15CAknMarkingMode33SetCollectionMultipleMarkingStateEi @ 2020 NONAME
+	_ZN18CAknItemActionMenu11MarkingModeEv @ 2021 NONAME
 

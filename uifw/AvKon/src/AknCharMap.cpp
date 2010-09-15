@@ -6269,7 +6269,9 @@ TBool CAknCharMap::IsJapaneseSctUi() const
 
 TBool CAknCharMap::IsKoreanSctUi() const
     {
-    return FeatureManager::FeatureSupported( KFeatureIdKorean );
+	// Korean feature dropped half-screen SCT in 9.2, it has the same
+	//   behavior with others, so return false here
+    return EFalse;
     }
 // -----------------------------------------------------------------------------
 // CAknCharMap::TitleWithSelectingSpecialChar()

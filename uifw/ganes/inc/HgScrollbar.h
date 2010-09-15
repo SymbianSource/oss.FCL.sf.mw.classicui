@@ -116,17 +116,20 @@ private:
 
     TRect iScrollbarRect;
     TRect iNaviRect;
-    TPoint iHandlePosition;
+    TPoint iHandlePosition;  //exists only for CHgScrollbar::HandlePosition()
+    TReal iHandlePos;
+    TReal iPageSize;
+    TInt iScrollLength;
+    TSize iHandleSize;
+    
     TPoint iPrevDrag;
     TSize iTotalSize;
     TSize iViewSize;
-    TSize iHandleSize;
     TBool iLandscapeScrolling;
     TBool iDragging;
     TBool iHandler;
     TBool iStatic;
     
-    TInt iScrollLength;
     TInt iTotalLength;
     };
 

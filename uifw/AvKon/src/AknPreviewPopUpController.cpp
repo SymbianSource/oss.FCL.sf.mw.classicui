@@ -131,6 +131,15 @@ void CAknPreviewPopUpController::ConstructL( CCoeControl& aContent,
 //
 CAknPreviewPopUpController::~CAknPreviewPopUpController()
     {
+    // If transition effect is on, when the deleting is caused by pressing red key
+    // (the font for CONE is already destroyed), the preview popup's hide operation
+    // will call its draw operation which will use the deleted font, thus panic happens;
+    // we hide the popup here in advance to prevent transation effect from drawing.
+    if( iPopUp->IsVisible() )
+        {
+        iPopUp->MakeVisible( EFalse );
+        }
+
     Cancel();
     delete iPopUp;
     iObservers.Reset();

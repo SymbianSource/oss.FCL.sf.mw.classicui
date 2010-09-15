@@ -931,6 +931,16 @@ public:
      */
     IMPORT_C void SetMarkingModeObserver( MAknMarkingModeObserver* aObserver );
 
+    /**
+     * Turns the marking mode on / off.
+     *
+     * @since S60 5.2
+     * 
+     * @param  aEnable @c ETrue to turn marking mode on
+     *                 @c EFalse to turn marking mode off
+     */
+    IMPORT_C void SetMarkingMode( TBool aEnable );
+
 // From base class CCoeControl
 
     /**

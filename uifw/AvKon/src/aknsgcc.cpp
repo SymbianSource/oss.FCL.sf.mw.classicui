@@ -80,8 +80,12 @@ EXPORT_C void MAknSgcStatusPaneRedrawCoordinator::MAknSgcStatusPaneRedrawCoordin
 
 
 inline CAknSgcClient* CAknSgcClient::Static()
-	{ return static_cast<CAknSgcClient*>(CCoeEnv::Static(KAknSgcClientStaticId)); }
-
+	{
+    if (CCoeEnv::Static())
+        return static_cast<CAknSgcClient*>(CCoeEnv::Static(KAknSgcClientStaticId));
+    else
+        return NULL;
+	}
 
 
 NONSHARABLE_CLASS(TSgcClientStatusPaneRedrawCoordinator) : public MAknSgcStatusPaneRedrawCoordinator

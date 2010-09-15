@@ -99,6 +99,13 @@ NONSHARABLE_CLASS(CAknViewAppUiExtension) : public CBase
         TInt iFlags;
 #endif // RD_SPLIT_VIEW
         TBool iUseDefaultScreenClearer;
+        
+        /**
+         * Used to control whether or not the default screen clearer
+		 * is used when launching the application as embedded. By default the
+         * clearer isn't used for embedded applications.
+         */
+        TBool iUseDefaultScreenClearerInEmbeddedLaunch;
     };
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -239,8 +246,12 @@ EXPORT_C void CAknViewAppUi::BaseConstructL( TInt aAppUiFlags )
 	if ( iEikonEnv->RootWin().OrdinalPosition() == 0 &&
 	     iExtension->iUseDefaultScreenClearer )
         {
-	    if ( !iEikonEnv->StartedAsServerApp() )
+	    if ( !iEikonEnv->StartedAsServerApp() ||
+	         iExtension->iUseDefaultScreenClearerInEmbeddedLaunch )
             {
+	        // Use transparent screen clearer for embedded applications,
+	        // except for when application wants to use the normal
+	        // screen clearer.
             iClearer = CAknLocalScreenClearer::NewL( ETrue );
             }
         else
@@ -1014,18 +1025,16 @@ EXPORT_C void CAknViewAppUi::EnableLocalScreenClearer( TBool aEnable )
         TRAP_IGNORE( iExtension = CAknViewAppUiExtension::NewL() );
         }
     
-    // Update flag
+    // Update the flags
     if ( iExtension )
         {
         iExtension->iUseDefaultScreenClearer = aEnable;
+        iExtension->iUseDefaultScreenClearerInEmbeddedLaunch = aEnable;
         }
 
-    // Create/delete iClearer if required
-    if ( aEnable && !iClearer )
-        {
-        TRAP_IGNORE( iClearer = CAknLocalScreenClearer::NewL( EFalse ) );
-        }
-    else if ( !aEnable && iClearer )
+    // Delete the clearer if it already exists but isn't required anymore.
+    // The clearer is created when needed on BaseConstructL.
+    if ( !aEnable && iClearer )
         {
         delete iClearer;
         iClearer = NULL;

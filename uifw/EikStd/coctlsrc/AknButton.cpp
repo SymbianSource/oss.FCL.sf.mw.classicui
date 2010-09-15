@@ -2307,11 +2307,11 @@ EXPORT_C void CAknButton::HandlePointerEventL( const TPointerEvent& aPointerEven
             {
             return;
             }            
-        TBool hitArea( EFalse );
-        TRAP_IGNORE( hitArea = HitAreaContainsL( aPointerEvent.iPosition, EFalse ))
-        if ( ( iFlags & KAknButtonHitTest ) && !hitArea )
+        //Using HitAreaContainsL() to verify whether pointer event locates in valid area
+        //when KAknButtonHitTest is defined.
+        if ( iFlags & KAknButtonHitTest ) 
             {
-            buttonEvent = EFalse;
+            TRAP_IGNORE( buttonEvent = HitAreaContainsL( aPointerEvent.iPosition, EFalse ))     
             }
         
         TBool redrawNeeded(EFalse);

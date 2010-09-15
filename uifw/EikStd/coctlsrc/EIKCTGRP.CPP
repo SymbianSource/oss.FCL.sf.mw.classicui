@@ -348,23 +348,11 @@ EXPORT_C TInt CEikControlGroup::CountComponentControls() const
 	{
     TInt count = iControlArray->Count();
 
-	// This prevents MSK from drawing in landscape layouts.
-	// Also MSK doesn't even need to be activated in landscape modes.
-    if ( count == 4 )
-        {   
-        // Exception is made for idle flat status pane layouts,
-        // in which the MSK is used also in landscape.
-        TBool mskSupportedLscLayoutActive(
-            AVKONENV->StatusPaneResIdForCurrentLayout(
-                AknStatuspaneUtils::CurrentStatusPaneLayoutResId() ) ==
-                    R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS );
-
-        if ( iLayout & EDisableMSKDrawing ||
-             ( Layout_Meta_Data::IsLandscapeOrientation() && 
-               !mskSupportedLscLayoutActive ) )
-            {
-            count--;
-            }
+    // count == 4 means MSK is on, but when it is disabled by EDisableMSKDrawing,
+    // we should decrease the count to avoid drawing it.
+    if ( count == 4 && ( iLayout & EDisableMSKDrawing ) )
+        {
+        count--;
         }
 
 	return count;

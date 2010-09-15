@@ -426,14 +426,7 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
     {
     if ( aControl && aEventType == EEventStateChanged )
         {
-        if ( iPreviewPopup )
-            {
-            iPreviewPopup->HidePopUp();
-            }
-        if ( iController )
-            {
-            iController->HidePopUp();
-            }
+        HidePreviewPopup();
 
         if ( iMenuObserver )
             {
@@ -463,20 +456,14 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
         }
     else if ( aControl && aEventType == EEventRequestExit )
         {
-        if ( iPreviewPopup )
-            {
-            iPreviewPopup->HidePopUp();
-            }
-
-        if ( iController )
-            {
-            iController->HidePopUp();
-            }      
+        HidePreviewPopup();
 
         StartControllerIdleL();
         }
     else if ( aControl && aEventType == EEventRequestCancel )
         {
+        HidePreviewPopup();
+
         if ( iMenuObserver )
             {
             TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
@@ -586,4 +573,21 @@ void CAknStylusPopUpMenu::RemoveController()
 void CAknStylusPopUpMenu::CleanLocalRef( TAny* aParam )
     {
     static_cast<CAknStylusPopUpMenu*>( aParam )->iIsDeleted = NULL;
+    }
+
+// -----------------------------------------------------------------------------
+// Hide Preview Popups
+// -----------------------------------------------------------------------------
+//
+void CAknStylusPopUpMenu::HidePreviewPopup()
+    {
+    if ( iPreviewPopup )
+        {
+        iPreviewPopup->HidePopUp();
+        }
+
+    if ( iController )
+        {
+        iController->HidePopUp();
+        }
     }

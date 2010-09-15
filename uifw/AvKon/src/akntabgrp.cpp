@@ -38,6 +38,7 @@
 
 #include <AknTasHook.h>
 #include <touchfeedback.h>
+#include <AknPriv.hrh>
 
 // USER INCLUDE FILES
 #include "aknappui.h"
@@ -2916,21 +2917,9 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                 // pointer position.
                 newTab = iActiveTab;
                 }
-            iExtension->iPointerDownTab       = newTab;
-            iExtension->iPointerDownXPosition = aPointerEvent.iPosition.iX;
             
             //Activates highlight drawing for pressed tab.
-            if (!iExtension->iHighlight)
-                {
-                iExtension->iHighlight = ETrue;
-                
-                // Set the pressed tab to highlight
-                if ( iExtension->iPointerDownTab >= 0 )
-                    {
-                    iTabArray->At( iExtension->iPointerDownTab )->SetHighlight( ETrue );
-                    }
-                DrawDeferred();
-                }
+            EnableHighlight( ETrue, newTab, aPointerEvent.iPosition.iX );
             
             return;
             }
@@ -2961,14 +2950,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
             // if the button up event occurs ouside tabgroup, ignore it.
             if ( !Rect().Contains( aPointerEvent.iPosition ) || iExtension->iPointerDownTab != newTab )
                 {
-                iExtension->iPointerDownTab = -1;
-                iExtension->iPointerDownXPosition = -1;
-                if (iExtension->iHighlight)
-                    {
-                    iExtension->iHighlight = EFalse;
-                    ResetHighlightStatus();
-                    DrawDeferred();
-                    }
+                EnableHighlight( EFalse );
                 return;
                 }
 
@@ -3075,14 +3057,7 @@ EXPORT_C void CAknTabGroup::HandlePointerEventL(
                     }
                 }
 
-            iExtension->iPointerDownTab       = -1;
-            iExtension->iPointerDownXPosition = -1;
-            if( iExtension->iHighlight )
-                {
-                iExtension->iHighlight = EFalse;
-                ResetHighlightStatus();
-                DrawDeferred();
-                }
+            EnableHighlight( EFalse );
             }
         }
     }
@@ -3436,6 +3411,12 @@ void CAknTabGroup::HandleResourceChange( TInt aType )
         TRAP_IGNORE( InitTabGroupGraphicsL() );
         TRAP_IGNORE( LoadTabBitmapsL( iNumberOfTabsShown, iLongTabs ) );
         }
+    
+    // Stop highlighting the pressed tab when receives KAknMessageFocusLost event.
+    if( aType == KAknMessageFocusLost )
+        {
+        EnableHighlight(EFalse);
+        }
 
     if ( aType == KEikDynamicLayoutVariantSwitch )
         {
@@ -3466,11 +3447,7 @@ void CAknTabGroup::HandleResourceChange( TInt aType )
         if ( iExtension )
             {
             iExtension->iNarrowTabLayout = EFalse;
-            if( iExtension->iHighlight )
-                {
-                iExtension->iHighlight = EFalse;
-                ResetHighlightStatus();
-                }
+            EnableHighlight(EFalse);
             }
 
         if ( !COMPARE_BOOLS( iMirrored, AknLayoutUtils::LayoutMirrored() ) )
@@ -4518,6 +4495,36 @@ void CAknTabGroup::ResetHighlightStatus()
     for( TInt i = 0; i < iTabArray->Count(); i++ )
         {
         iTabArray->At(i)->SetHighlight( EFalse );
+        }
+    }
+
+void CAknTabGroup::EnableHighlight( TBool aEnable, TInt aNewTab , TInt aPointX )
+    {
+    iExtension->iPointerDownTab = aNewTab;
+    iExtension->iPointerDownXPosition = aPointX;
+    if( aEnable )
+        {
+        //Activates highlight drawing for pressed tab.
+        if (!iExtension->iHighlight)
+            {
+            iExtension->iHighlight = ETrue;
+            
+            // Set the pressed tab to highlight
+            if ( iExtension->iPointerDownTab >= 0 )
+                {
+                iTabArray->At( iExtension->iPointerDownTab )->SetHighlight( ETrue );
+                }
+            DrawDeferred();
+            }
+        }
+    else
+        {
+        if (iExtension->iHighlight)
+            {
+            iExtension->iHighlight = EFalse;
+            ResetHighlightStatus();
+            DrawDeferred();
+            }
         }
     }
  //  End of File

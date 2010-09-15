@@ -1026,7 +1026,7 @@ void CAknStylusPopUpMenuContent::DrawItem(
     
         layoutText.DrawText( aGc, *(iItems[aItem]->iText), ETrue, textColor ); 
 
-        if ( aItem < iItems.Count()-1 )
+        if ( aItem < iLastVisibleItem )
             {
             AknListUtils::DrawSeparator( aGc, rect, textColor, skin );
             }
@@ -1214,11 +1214,11 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
                     {
                     iSBFrame->DrawBackground( EFalse, EFalse );
                     if ( AknLayoutUtils::LayoutMirrored() )
-        	            {
+                        {
                         listRect.iTl.iX += AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
-        	            }
+                        }
                     else
-        	            {
+                        {
                         listRect.iBr.iX -= AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
                         }
                     }
@@ -1227,14 +1227,14 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
         else
         	{
             if ( AknLayoutUtils::LayoutMirrored() )
-	            {
+                {
                 listRect.iTl.iX += AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
-	            }
+                }
             else
-	            {
+                {
                 listRect.iBr.iX -= AknLayoutScalable_Avkon::scroll_pane().LayoutLine().iW;
-                }        	
-        	}
+                }
+            }
 
         }
     
@@ -1295,12 +1295,18 @@ TInt CAknStylusPopUpMenuContent::CalculateShownItems(  TScrollType aScroll )
         iItems[i]->iRect = itemRect;
         }
 
-    if ( lastItem == iItems.Count() || ( Rect().Height() % singleItemHeight ) == 0 )
+    // info:
+    //    1, according to the function MinimumSize the following 
+    // condition is always true: Rect().Height() % singleItemHeight == 0
+    //    2, the Offset is in the range of [0 , singleItemHeight)
+    //    we get partial items only when Offset is not zero during scrolling
+    // note:
+    //    should subtract the lastItem when Offset is zero without partical items
+    if ( lastItem == iItems.Count() || ( 0 == Offset() ) )
         {
-        // substract the partially visible item
         --lastItem;
         }
-    
+
     return lastItem; 
     }
 

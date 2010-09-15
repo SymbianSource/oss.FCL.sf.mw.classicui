@@ -126,6 +126,7 @@ void CHgScrollbar::InitScrollBarL(
     iViewSize = aViewSize;
     iLandscapeScrolling = aLandscapeScrolling;
     iHandlePosition.SetXY(0,0);
+    iHandlePos = 0.0;
 
     if(iLandscapeScrolling)
         {
@@ -153,16 +154,16 @@ void CHgScrollbar::SetViewPosition( TPoint aPosition )
             {
             if (AknLayoutUtils::LayoutMirrored())
                 {
-                iHandlePosition.iX = (iScrollLength) * (1.0 - aPosition.iX / TReal(iTotalLength));
+                iHandlePos = 1.0 - (TReal(aPosition.iX) / TReal(iTotalLength));
                 }
             else
                 {
-                iHandlePosition.iX = (iScrollLength) * (aPosition.iX / TReal(iTotalLength));            
+                iHandlePos = TReal(aPosition.iX) / TReal(iTotalLength);
                 }
             }
         else
             {
-            iHandlePosition.iY = (iScrollLength) * (aPosition.iY / TReal(iTotalLength));
+            iHandlePos = TReal(aPosition.iY) / TReal(iTotalLength);
             }
         CheckHandlePosition( EFalse );
         }
@@ -186,15 +187,32 @@ TBool CHgScrollbar::HandleScrollBarPointerEvent( const TPointerEvent& aEvent )
     TBool ret = EFalse;
     // Quick and dirty hack, remove when logic for fetching the correct drag rect is available
     TRect dragArea( iScrollbarRect );
-    dragArea.iBr.iX += KScrollAreaOffset; 
-    dragArea.iTl.iX -= KScrollAreaOffset;
-
+    if (iLandscapeScrolling)
+        {
+        dragArea.iBr.iY += KScrollAreaOffset; 
+        dragArea.iTl.iY -= KScrollAreaOffset;
+        }
+    else 
+        {
+        dragArea.iBr.iX += KScrollAreaOffset; 
+        dragArea.iTl.iX -= KScrollAreaOffset;
+        }
+    
     // Start drag
     if( aEvent.iType == TPointerEvent::EButton1Down && dragArea.Contains(aEvent.iPosition))
         {
-        TSize size(iHandleSize);
-        size.iWidth += KScrollAreaOffset*2;
-        TRect handleRect( dragArea.iTl + iHandlePosition, size );
+        TSize size = iHandleSize;
+		TRect handleRect;
+        if (iLandscapeScrolling)
+            {
+            size.iHeight += KScrollAreaOffset*2;
+			handleRect = TRect( dragArea.iTl + TPoint(iHandlePos*iScrollLength, 0), size );
+            }
+        else 
+            {
+            size.iWidth += KScrollAreaOffset*2;
+			handleRect = TRect( dragArea.iTl + TPoint(0, iHandlePos*iScrollLength), size );
+            }
         iDragging = handleRect.Contains( aEvent.iPosition );
         iPrevDrag = aEvent.iPosition;
         iHandler = ret = ETrue;
@@ -208,11 +226,11 @@ TBool CHgScrollbar::HandleScrollBarPointerEvent( const TPointerEvent& aEvent )
             {
             if(iLandscapeScrolling)
                 {
-                iHandlePosition.iX -= iPrevDrag.iX - aEvent.iPosition.iX;
+                iHandlePos -= (iPrevDrag.iX - aEvent.iPosition.iX)/TReal(iScrollLength);
                 }
             else
                 {
-                iHandlePosition.iY -= iPrevDrag.iY - aEvent.iPosition.iY;
+                iHandlePos -= (iPrevDrag.iY - aEvent.iPosition.iY)/TReal(iScrollLength);
                 }
             CheckHandlePosition( !iStatic );
             
@@ -227,9 +245,16 @@ TBool CHgScrollbar::HandleScrollBarPointerEvent( const TPointerEvent& aEvent )
         if(!iDragging)
             {
             TBool below = iLandscapeScrolling ? 
-                    aEvent.iPosition.iX > iHandlePosition.iX 
-                    : aEvent.iPosition.iY > iHandlePosition.iY;
-            iHandlePosition += below ? iHandleSize.AsPoint() : -iHandleSize.AsPoint();
+                    aEvent.iPosition.iX > iHandlePos*iScrollLength 
+                    : aEvent.iPosition.iY > iHandlePos*iScrollLength;
+            if(below)
+                {
+                iHandlePos += iPageSize;
+                }
+            else
+                {
+                iHandlePos -= iPageSize;
+                }
             }
         CheckHandlePosition( !iStatic );
         iHandler = iDragging = EFalse; 
@@ -298,19 +323,21 @@ void CHgScrollbar::CheckHandlePosition( TBool aReportChange )
 
     if(iLandscapeScrolling)
         {
-        iHandlePosition.iY = 0;
-        if(iHandlePosition.iX < 0 )
-            iHandlePosition.iX = 0;
-        if(iHandlePosition.iX > iScrollLength)
-            iHandlePosition.iX = iScrollLength;
+        if(iHandlePos < 0.0 )
+            iHandlePos = 0.0;
+        if(iHandlePos > 1.0)
+            iHandlePos = 1;
+		
+		iHandlePosition.SetXY(iHandlePos*iScrollLength, 0);
         }
     else
         {
-        iHandlePosition.iX = 0;
-        if(iHandlePosition.iY < 0 )
-            iHandlePosition.iY = 0;
-        if(iHandlePosition.iY > iScrollLength)
-            iHandlePosition.iY = iScrollLength;
+        if(iHandlePos < 0.0 )
+            iHandlePos = 0.0;
+        if(iHandlePos > 1)
+            iHandlePos = 1.0;
+		
+		iHandlePosition.SetXY(0, iHandlePos*iScrollLength);
         }
     if( aReportChange )
         {
@@ -319,16 +346,16 @@ void CHgScrollbar::CheckHandlePosition( TBool aReportChange )
             {
             if (AknLayoutUtils::LayoutMirrored())
                 {
-                pos.iX += (1.0 - iHandlePosition.iX / TReal(iScrollLength)) * (iTotalLength);
+                pos.iX += (1.0 - iHandlePos) * iTotalLength;
                 }
             else
                 {
-                pos.iX += (iHandlePosition.iX / TReal(iScrollLength)) * (iTotalLength);            
+                pos.iX += iHandlePos * iTotalLength;
                 }
             }
         else
             {
-            pos.iY += (iHandlePosition.iY / TReal(iScrollLength)) * (iTotalLength);
+            pos.iY += iHandlePos * iTotalLength;
             }
         
         iObserver.ScrollBarPositionChanged( pos );
@@ -354,27 +381,32 @@ void CHgScrollbar::InitIconsL( TBool aInitBgIcons )
     
     TReal xFactor = iScrollbarRect.Width()/TReal(iTotalSize.iWidth);
     TReal yFactor = iScrollbarRect.Height()/TReal(iTotalSize.iHeight); 
-    
-    iHandleSize = TSize ( iViewSize.iWidth * xFactor, iViewSize.iHeight * yFactor );
+
+    TReal handleSizeWidth = iViewSize.iWidth * xFactor;
+    TReal handleSizeHeight = iViewSize.iHeight * yFactor;
 
     if(iLandscapeScrolling)
         {
-        TInt min = 2*iHandleSize.iHeight;
-        if( iHandleSize.iWidth < min )
+        iPageSize = TReal(iViewSize.iWidth) / TReal(iTotalSize.iWidth - (iTotalSize.iWidth % iViewSize.iWidth) );
+        TReal min = 2 * handleSizeHeight;
+        if( handleSizeWidth < min )
             {
-            iHandleSize.iWidth = min;
+            handleSizeWidth = min;
             }
-        iScrollLength = iScrollbarRect.Width() - iHandleSize.iWidth;
+        iScrollLength = TReal(iScrollbarRect.Width()) - handleSizeWidth;
         }
     else
         {
-        TInt min = 2*iHandleSize.iWidth;
-        if( iHandleSize.iHeight < min )
+        iPageSize = TReal(iViewSize.iHeight) / TReal(iTotalSize.iHeight - (iTotalSize.iHeight % iViewSize.iHeight) );
+        TReal min = 2 * handleSizeWidth;
+        if( handleSizeHeight < min )
             {
-            iHandleSize.iHeight = min;
+            handleSizeHeight = min;
             }
-        iScrollLength = iScrollbarRect.Height() - iHandleSize.iHeight;
+        iScrollLength = TReal(iScrollbarRect.Height()) - handleSizeHeight;
         }
+    
+    iHandleSize = TSize(handleSizeWidth,handleSizeHeight);
     
     delete iScrollbarHandle; iScrollbarHandle = NULL;
     delete iScrollbarHandleSelected; iScrollbarHandleSelected = NULL;

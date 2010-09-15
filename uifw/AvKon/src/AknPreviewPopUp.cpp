@@ -360,7 +360,7 @@ void CAknPreviewPopUp::HandleResourceChange( TInt aType )
                 TRAP_IGNORE( CreateClosingIconL() );
                 }
             break;
-            
+
         case KEikDynamicLayoutVariantSwitch:
             if ( iFlags & CAknPreviewPopUpController::EFixedMode )
                 {

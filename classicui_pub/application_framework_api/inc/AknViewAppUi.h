@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -228,7 +228,10 @@ public:
     * Enables/disables local screen clearer.
     * Local screen clearer is used in the view based applications
     * to clear the application window if/when the view itself fails
-    * to do this. By default, the clearer is used.
+    * to do this. By default, the clearer is used except when launching
+    * the application as embedded. If the clearer needs to be used
+    * in an application that is launched as embedded, then this
+    * function must be explicitly called.
     * This function must be called before the BaseConstructL() to
     * prevent the screen clearer on application start up.
     *

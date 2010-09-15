@@ -385,6 +385,9 @@ private:
         CRepository* iCenRep;                           // Owned
         CCenRepNotifyHandler* iCenRepNotifyHandler;     // Owned
         TInt iClearDirection;                           // Value of ClearDirection
+        // For listening the status of qwerty key board
+        CRepository* iCenRepForQwerty;                           // Owned
+        CCenRepNotifyHandler* iCenRepNotifyHandlerForQwerty;     // Owned
      public:
 
         TInt iSkinIdForText;
@@ -517,6 +520,12 @@ private:
          * Record internal status of of "tap to write".
          */
 		TInt iT2WState;
+		
+        /**
+         * Used to record if qwerty key board is opened.
+         * 
+         */
+        TInt iQwertyStatus;                           
         };
 
 public:

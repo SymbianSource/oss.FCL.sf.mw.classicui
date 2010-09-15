@@ -56,7 +56,7 @@ public:
      * @internal
      * @param aActive ETrue if multiple marking should be active.
      */
-    void SetCollectionMultipleMarkingState( TBool aActive );
+    IMPORT_C void SetCollectionMultipleMarkingState( TBool aActive );
     
     /**
      * Ends marking mode if collection allows it

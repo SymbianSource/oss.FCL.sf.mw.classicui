@@ -882,18 +882,54 @@ EXPORT_C void CFindItemMenu::UpdateItemFinderMenuL(
     // Replace cmd call with AIW menu if more than one option available in AIW
     // menu
     // Note: count of VoIP profiles is not static. If phone contains VoIP
-    // profiles there must be Internet call command in call submenu.
+    // profiles there must be Internet call command in call submenu.   
+    // No context sensitive menu now. And new requirement is to show 
+    // call menu for normal item and voip menu for sip address if voip is enabled.
     TInt dummy = 0;
-    if ( ( !iHideCallMenu ||
-        ( iFindItemVoIPExtension->IsVoIPSupported() &&
-        iFindItemVoIPExtension->VoIPProfilesExistL() ) ) &&
+    if ( itemType == CItemFinder::EEmailAddress &&
+        iFindItemVoIPExtension->IsVoIPSupported() &&
+        iFindItemVoIPExtension->VoIPProfilesExistL() &&
         iMenuPane->MenuItemExists( EFindItemCmdCall, dummy ) &&
-        !iHideCallSubMenu )
-        {
+        !( iMenuItemFlags & CFindItemMenu::ECallItem ) 
+        )         
+        { 
+        // CMyMenuPane is used only to get the aiw menu item 
+        // for sip address, as it is an argument of the InitializeMenuPaneL
+        CMyMenuPane* aiwVoipMenu =
+            new ( ELeave ) CMyMenuPane( ( MEikMenuObserver* )this ); // not used really
+        CleanupStack::PushL( aiwVoipMenu );
+        TResourceReader callUiReader;
+        iCoeEnv->CreateResourceReaderLC(
+            callUiReader, R_FINDMENU_CALLUI_AIW_SUBMENU );
+        aiwVoipMenu->ConstructFromResourceL( callUiReader );
+        CleanupStack::PopAndDestroy(); //  callUiReader 
+
+        CAiwGenericParamList* inList = CAiwGenericParamList::NewLC();
+
+        // For SIP Address, use sip parameters
+        TAiwGenericParam param( EGenericParamSIPAddress );
+        
+        // get the aiw menu item for sip address
+        inList->AppendL( param );
+        iServiceHandler->InitializeMenuPaneL(
+                *( CEikMenuPane* )aiwVoipMenu,
+                R_FINDMENU_CALLUI_AIW_SUBMENU,
+                EFindMenuPlaceHolderCallUI,
+                *inList );
+        
+        // Add all the menus for aiw to context main menu now.
+        for ( TInt i = 0; i < aiwVoipMenu->NumberOfItemsInPane(); i++ )
+            {
+            iMenuPane->AddMenuItemL( aiwVoipMenu->ItemDataByIndexL( i ), EFindItemCmdCall );
+            }
+        
+        // Now options of VOIP call and voice call are exclusive.
+        // For email( sip ) address, voip is used. So set the call
+        // menu to dimmed.
         iMenuPane->SetItemDimmed( EFindItemCmdCall, ETrue );
-        iMenuPane->AddMenuItemsL(
-            R_FINDMENU_CALLUI_AIW_ITEM,
-            EFindItemCmdCall );
+            
+        CleanupStack::PopAndDestroy( inList );
+        CleanupStack::PopAndDestroy( aiwVoipMenu );
         }
     }
 
@@ -932,7 +968,7 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
            #ifndef RD_UNIFIED_EDITOR
            if ( !iEmailOverSmsFeatureSupported )
                {
-           	   mtmFilter->AppendL(KSenduiMtmSmsUid);
+               mtmFilter->AppendL(KSenduiMtmSmsUid);
                }
            // Hide MMS if not supported
            if (!iMMSFeatureSupported)
@@ -944,7 +980,7 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
            // Hide E-Mail if nosupported or phonenumber 
            if ( !iEmailUiFeatureSupported || itemType == CItemFinder::EPhoneNumber )
                {
-       	       mtmFilter->AppendL(KSenduiMtmSmtpUid);
+               mtmFilter->AppendL(KSenduiMtmSmtpUid);
                mtmFilter->AppendL(KSenduiMtmImap4Uid);
                mtmFilter->AppendL(KSenduiMtmPop3Uid);
                mtmFilter->AppendL(KSenduiMtmSyncMLEmailUid);
@@ -952,7 +988,7 @@ EXPORT_C void CFindItemMenu::HandleItemFinderCommandL( TInt aCommand )
            // Hide Audio if not supported or E-mail address
            if( !iAudioMessagingFeatureSupported || itemType == CItemFinder::EEmailAddress)
                {
-           	   mtmFilter->AppendL(KSenduiMtmAudioMessageUid);
+               mtmFilter->AppendL(KSenduiMtmAudioMessageUid);
                }
            TUid uid = iSendUi->ShowTypedQueryL( CSendUi::EWriteMenu, NULL, sendingCapabilities, mtmFilter );
            
@@ -1302,7 +1338,7 @@ void CFindItemMenu::CreateContactCardL( TInt aCommandId )
         else if ( itemType == CItemFinder::EEmailAddress &&
             ( fieldInfo->FieldId() == EPbkFieldIdEmailAddress ||
 #ifdef __VOIP 
-			iFindItemVoIPExtension->IsVoIPSupported() && 
+            iFindItemVoIPExtension->IsVoIPSupported() && 
 #else
             iVoIPFeatureSupported &&
 #endif 
@@ -1561,6 +1597,18 @@ TBool CFindItemMenu::FormatDialDataL( TBool aFormatVoIPDialData )
             // sets call type for VoIP
             iDialData->SetCallType( CAiwDialData::EAIWVoiP );
             }
+        else
+            {
+            // sets call type for call, as now only voice call
+            // exists in menu now.
+            iDialData->SetCallType( CAiwDialData::EAIWVoice );
+            }
+        }
+    else
+        {
+        // sets call type for call, as now only voice call
+        // exists in menu now.
+        iDialData->SetCallType( CAiwDialData::EAIWVoice );
         }
 #endif // RD_VOIP_REL_2_2
     iDialData->SetPhoneNumberL( numberPtr );

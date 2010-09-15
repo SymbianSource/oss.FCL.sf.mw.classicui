@@ -252,6 +252,12 @@ private:
      */
     static void CleanLocalRef( TAny* aParam );
     
+
+    /**
+     * Hide Preview Popups
+     */
+    void HidePreviewPopup();
+
 private: // data
 
     /**

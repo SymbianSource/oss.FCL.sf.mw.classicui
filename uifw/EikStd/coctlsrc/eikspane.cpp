@@ -3726,6 +3726,18 @@ EXPORT_C void CEikStatusPaneBase::ReduceRect( TRect& aBoundingRect ) const
 
         // Read statuspane shape
         TRAP_IGNORE( GetShapeL( statusPaneRegion, ETrue, ETrue ) );
+        
+        // We need to subduce the rect of digital clock pane here, 
+        // because it stay on the bottom cba area always in landscape mode.
+        if (Layout_Meta_Data::IsLandscapeOrientation())
+            {
+            CEikStatusPaneLayoutTree* pane = iModel->CurrentLayout()->Find(TUid::Uid(EEikStatusPaneUidDigitalClock));
+            if (pane != NULL)
+                {
+                statusPaneRegion.SubRect(pane->Rect());
+                }
+            }
+        
         statusPaneRegion.Tidy();
 
         // Get largest possible rect that does not overlap with sp shape

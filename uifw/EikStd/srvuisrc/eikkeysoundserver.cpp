@@ -88,6 +88,7 @@ void RAknAnimKeySound::Close()
 
 TInt CEikKeySoundServer::LaunchServer(TThreadId& aThreadId)
     {
+    LOGTEXT(_L("CEikKeySoundServer::LaunchServer"));
     // First, check that ther server isn't already running.
     TFindServer findServer(__KEYSOUND_SERVER_NAME);
     TFullName name;
@@ -192,6 +193,7 @@ iDisabledScanCode( -1 )
 
 void CEikKeySoundServer::ConstructL()
     {
+    LOGTEXT(_L("CEikKeySoundServer::ConstructL"));
     iInit = EFalse;
     iSidList = new(ELeave)CArrayFixFlat<TAknSoundID>(KAknSoundInfoMapGranularity);
     iSoundList = new(ELeave)CArrayPtrFlat<CEikSoundInfo>(KAknSoundInfoMapGranularity);
@@ -242,6 +244,7 @@ void CEikKeySoundServer::ConstructL()
 
 CEikKeySoundServer::~CEikKeySoundServer()
     {
+    LOGTEXT(_L("CEikKeySoundServer::~CEikKeySoundServer"));
     if (iProfilesNotifyHandler)
         {
         iProfilesNotifyHandler->StopListening();
@@ -264,6 +267,7 @@ CEikKeySoundServer::~CEikKeySoundServer()
 CSession2* CEikKeySoundServer::NewSessionL(const TVersion& aVersion,
     const RMessage2& /*aMessage*/) const
     {
+    LOGTEXT(_L("CEikKeySoundServer::NewSessionL"));
     TVersion ver(KKeySoundServMajorVN, KKeySoundServMinorVN, KKeySoundServBuildVN);
     if (!User::QueryVersionSupported(ver, aVersion))
         {
@@ -290,6 +294,7 @@ void CEikKeySoundServer::Complete(TInt aError, TAudioThemeEvent aEvent)
 
 void CEikKeySoundServer::PlaySid(TInt aSid, TBool aPlaySelf)
     {
+    LOGTEXT1(_L("CEikKeySoundServer::PlaySid aSid: %d"), aSid);
     if (aSid == EAvkonSIDWarningTone && iWarningToneEnabled == 0)
         {
         // Don't play warning tone, when the warning tone is disabled in setting.
@@ -384,6 +389,8 @@ void CEikKeySoundServer::SetVolumeForPreferenceType(TInt aPreference,
 
 void CEikKeySoundServer::SetDisabledScanCode( TInt aScanCode )
 	{
+    LOGTEXT1(_L("CEikKeySoundServer::SetDisabledScanCode aScanCode: %d"),
+            aScanCode);
 	iDisabledScanCode = aScanCode;
 	}
 
@@ -427,6 +434,8 @@ CEikKeySoundSession::CEikKeySoundSession(CEikKeySoundServer* aServer)
 
 CEikKeySoundSession::~CEikKeySoundSession()
     {
+    LOGTEXT1(_L("CEikKeySoundSession::~CEikKeySoundSession iClientUid %d"),
+            iClientUid);
     RemoveSids(iClientUid);
     if (iHasLockedContext)
         {
@@ -437,6 +446,7 @@ CEikKeySoundSession::~CEikKeySoundSession()
         }
     if (iOwnsDefaultSounds)
         {
+        LOGTEXT(_L("CEikKeySoundSession::~CEikKeySoundSession OwnsDefaultSounds"));
         RemoveSids(0);
         iServer->iInit = EFalse;
         }
@@ -470,6 +480,8 @@ void CEikKeySoundSession::ConstructL()
 
 void CEikKeySoundSession::ServiceL(const RMessage2& aMessage)
     {
+    LOGTEXT1(_L("CEikKeySoundSession::ServiceL aMessage: %d"),
+            aMessage.Function());
     if (aMessage.Function() == EKeySoundServerPlayKey)
         {
         TInt scancode = aMessage.Int0() & 0xff;
@@ -583,7 +595,7 @@ void CEikKeySoundSession::AddSoundIdBufferL(const RMessage2& aMessage)
     {
     TInt uid = aMessage.Int0();
     TInt size = aMessage.Int1();
-
+    LOGTEXT1(_L("CEikKeySoundSession::AddSoundIdBufferL uid: %d"), uid);
     // CBufFlat requires that size must be positive and not larger than KMaxTInt / 2.
     // Without this check the KeySoundServer could panic.
     if (size <= 0 || size >= ((KMaxTInt / 2) - KKeySoundServerBufExpandSize))
@@ -700,6 +712,7 @@ void CEikKeySoundSession::AddSoundIdBufferL(const RMessage2& aMessage)
 
 void CEikKeySoundSession::RemoveSids(TInt aUid)
     {
+    LOGTEXT1(_L("CEikKeySoundSession::RemoveSids aUid %d"), aUid);
     TUint uid = aUid << 16;
     if (!iServer->iSidList)
         {
@@ -730,7 +743,18 @@ void CEikKeySoundSession::RemoveSids(TInt aUid)
             if (!duplicateFound)
                 {
                 // Remove sound at this position
-                delete id.iSoundInfo;
+                if(id.iSoundInfo->IsWaittingPlay())
+                    {
+                    LOGTEXT1(_L("CEikKeySoundSession::RemoveSids DestroyAfterplay : %d"),
+                            (TInt)id.iSoundInfo );
+                    id.iSoundInfo->SetDestroyAfterPlay(ETrue);
+                    }
+                else
+                    {
+                    LOGTEXT1(_L("CEikKeySoundSession::RemoveSids Destroy : %d"),
+                            (TInt)id.iSoundInfo );
+                    delete id.iSoundInfo;
+                    }
                 if (iServer->iSoundList)
                     {
                     iServer->iSoundList->Delete(ii);
@@ -800,6 +824,7 @@ void CEikKeySoundSession::PopContext()
 
 void CEikKeySoundSession::AddToneSidL(const TAknSoundID& aSoundID, CAknToneSoundInfo* aSoundInfo)
     {
+    LOGTEXT(_L("CEikKeySoundSession::AddToneSidL"));
     aSoundInfo->InitL();
 
     TKeyArrayFix sidKey(_FOFF(TAknSoundID, iSid), ECmpTUint);
@@ -818,6 +843,7 @@ void CEikKeySoundSession::AddToneSidL(const TAknSoundID& aSoundID, CAknToneSound
 void CEikKeySoundSession::AddSequenceSidL(const TAknSoundID& aSoundID,
     CAknSequenceSoundInfo* aSoundInfo)
     {
+    LOGTEXT(_L("CEikKeySoundSession::AddSequenceSidL"));
     aSoundInfo->InitL();
 
     TKeyArrayFix sidKey(_FOFF(TAknSoundID, iSid), ECmpTUint);
@@ -837,6 +863,7 @@ void CEikKeySoundSession::AddSequenceSidL(const TAknSoundID& aSoundID,
 void CEikKeySoundSession::AddFileSidL(const TAknSoundID& aSoundID, CAknFileSoundInfo* aSoundInfo,
     const TDesC& aFileName)
     {
+    LOGTEXT(_L("CEikKeySoundSession::AddFileSidL"));
     aSoundInfo->InitL(aFileName, NULL);
 
     TKeyArrayFix sidKey(_FOFF(TAknSoundID, iSid), ECmpTUint);
@@ -860,6 +887,8 @@ CEikSoundInfo::CEikSoundInfo(TInt aPriority, TInt aPreference)
     {
     iPriority = aPriority;
     iPreference = aPreference;
+    iWaittingPlay = EFalse;
+    iDestroyAfterPlay = EFalse;
     iVolume = ESoundVolume9; // default to loudest
     }
 
@@ -877,6 +906,17 @@ TInt CEikSoundInfo::Preference()
 CEikSoundInfo::TVolumeSetting CEikSoundInfo::Volume()
     {
     return iVolume;
+    }
+
+TBool CEikSoundInfo::IsWaittingPlay()
+    {
+    LOGTEXT1(_L("CEikSoundInfo::IsWaittingPlay : %d"), iWaittingPlay);
+    return iWaittingPlay;
+    }
+
+void CEikSoundInfo::SetDestroyAfterPlay(TBool aDestroyAfterPlay)
+    {
+    iDestroyAfterPlay = aDestroyAfterPlay;
     }
 
 // ==================================
@@ -1130,7 +1170,7 @@ CAknFileSoundInfo::~CAknFileSoundInfo()
     delete iAudioPlayer;
     }
 
-void CAknFileSoundInfo::InitL(const TDesC& aFileName, CMdaServer* aMdaServer)
+void CAknFileSoundInfo::InitL(const TDesC& aFileName, CMdaServer* /*aMdaServer*/)
     {
     LOGTEXT(_L("CAknFileSoundInfo::InitL() - Filename:"));
     LOGTEXT(aFileName);
@@ -1148,6 +1188,7 @@ void CAknFileSoundInfo::PlayL()
 
     // Create audio player. DoPlay() will be called in all circumstances.
     iAudioPlayer = CMdaAudioPlayerUtility::NewFilePlayerL(iFileName, *this, iPriority,(TMdaPriorityPreference)iPreference );
+    iWaittingPlay =ETrue;
     LOGTEXT(_L(" CAknFileSoundInfo::PlayL() - Exit"));
     }
 
@@ -1177,6 +1218,7 @@ void CAknFileSoundInfo::DoPlay()
 
         delete iAudioPlayer;
         iAudioPlayer = NULL;
+        iWaittingPlay = EFalse;
         }
     }
 
@@ -1203,6 +1245,7 @@ void CAknFileSoundInfo::Stop()
         delete iAudioPlayer;
         iAudioPlayer = NULL;
         iPrepared = EFalse;
+        iWaittingPlay = EFalse;
         }
     }
 
@@ -1269,12 +1312,19 @@ void CAknFileSoundInfo::MapcInitComplete(TInt aError,
 void CAknFileSoundInfo::MapcPlayComplete(TInt /*aError*/)
     {
     LOGTEXT(_L("CAknFileSoundInfo::MapcPlayComplete()"));
-
+    LOGTEXT1(_L(" aError:%d"), aError);
     iPlaying = EFalse;
+    iWaittingPlay = EFalse;
 
     delete iAudioPlayer;
     iAudioPlayer = NULL;
     iPrepared = EFalse;
+    if(iDestroyAfterPlay)
+        {
+        LOGTEXT1(_L("CAknFileSoundInfo::MapcPlayComplete DestroyAfterPlay : %d"),
+                TInt(this));
+        delete this;
+        }
     }
 
 // End of file

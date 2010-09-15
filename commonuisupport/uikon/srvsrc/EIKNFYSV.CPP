@@ -219,16 +219,13 @@ CPolicyServer::TCustomResult CEikServNotifyServer::CustomSecurityCheckL(const RM
 //aAction is not set because default value to it is already set(CPolicyServer::EFailClient)
 //aMissing is not set because it is not needed as we aren't overriding CheckFailedL
 	{
-	const TUid notifierUid = TUid::Uid(aMsg.Int0());
 	const TSecureId clientSid = aMsg.SecureId();
-
 	const TInt count = iAsyncSecureInfoQueue.Count();
 	for(int i = 0; i < count; i++)
 		{
 		if(iAsyncSecureInfoQueue[i].iSecureId == clientSid)
 			return CPolicyServer::EPass;
 		}
-	
 	return CPolicyServer::EFail;
 	}
 
@@ -448,32 +445,59 @@ void CEikServNotifySession::StartNotifierL(const RMessage2& aMessage)
 	const TUid notifierUid = TUid::Uid(aMessage.Int0());
 	const TSecureId secureId = aMessage.SecureId();
 	RNotifierSecureInfoQueue& secureInfoQueue = Server().AsyncSecureInfoQueue();
-	secureInfoQueue.AppendL(TNotifierSecureInfo(notifierUid, secureId));
+	TInt queueTotal = secureInfoQueue.Count();
+    TBool needsNewEntry = ETrue;
+    TInt indexOfInfo=0;
+    for(indexOfInfo = 0; indexOfInfo < queueTotal; indexOfInfo++)
+        {
+        if (secureInfoQueue[indexOfInfo].iNotifierUid == notifierUid && secureInfoQueue[indexOfInfo].iSecureId == secureId)
+            {
+            secureInfoQueue[indexOfInfo].iCount++;
+            needsNewEntry = EFalse;
+            break;
+            }
+        }
+    if (needsNewEntry)
+        {
+        secureInfoQueue.AppendL(TNotifierSecureInfo(notifierUid, secureId));
+        }
 	
 	if (!aMessage.Int2()) // if the third parameter is null
 		{
-		TRAPD(err, Server().Manager()->NotifierStartL(TUid::Uid(aMessage.Int0()),*inputBuffer,NULL,iClientId));
-		if(err)
-			{
-			secureInfoQueue.Remove(secureInfoQueue.Count()-1);
-			User::Leave(err);
-			}
+        TRAPD(err, Server().Manager()->NotifierStartL(TUid::Uid(aMessage.Int0()),*inputBuffer,NULL,iClientId));
+        if(err)
+            {
+            if (needsNewEntry)
+                {
+                secureInfoQueue.Remove(queueTotal);
+                }
+            else
+                {
+                secureInfoQueue[indexOfInfo].iCount--;
+                }
+            User::Leave(err);
+            }
 		}
 	else
 		{
 		HBufC8* const responseBuffer = HBufC8::NewLC(User::LeaveIfError(aMessage.GetDesMaxLength(2)));
 		TPtr8 response(responseBuffer->Des());
-		TRAPD(err, Server().Manager()->NotifierStartL(TUid::Uid(aMessage.Int0()), *inputBuffer, &response, iClientId));
-		if(err)
-			{
-			secureInfoQueue.Remove(secureInfoQueue.Count()-1);
-			User::Leave(err);
-			}
-			
-		aMessage.WriteL(2,response);
-		CleanupStack::PopAndDestroy(responseBuffer);
-		}
-		
+		TRAPD(err, Server().Manager()->NotifierStartL(TUid::Uid(aMessage.Int0()), *inputBuffer, &response, iClientId));	
+	    if(err)
+	        {
+	        if (needsNewEntry)
+	            {
+	            secureInfoQueue.Remove(queueTotal);
+	            }
+	        else
+	            {
+	            secureInfoQueue[indexOfInfo].iCount--;
+	            }
+	        User::Leave(err);
+	        }
+        aMessage.WriteL(2,response);
+        CleanupStack::PopAndDestroy(responseBuffer);
+	    }
 	CleanupStack::PopAndDestroy(inputBuffer);
 	}
 
@@ -520,12 +544,34 @@ void CEikServNotifySession::StartNotifierAndGetResponseL(const RMessage2& aMessa
 	const TUid notifierUid = TUid::Uid(aMessage.Int0());
 	const TSecureId secureId = aMessage.SecureId();
 	RNotifierSecureInfoQueue& secureInfoQueue = Server().AsyncSecureInfoQueue();
-	secureInfoQueue.AppendL(TNotifierSecureInfo(notifierUid,secureId));
+	TInt queueTotal = secureInfoQueue.Count();
+	TBool needsNewEntry = ETrue;
+	TInt indexOfInfo=0;
+	for(indexOfInfo = 0; indexOfInfo < queueTotal; indexOfInfo++)
+        {
+        if (secureInfoQueue[indexOfInfo].iNotifierUid == notifierUid && secureInfoQueue[indexOfInfo].iSecureId == secureId)
+            {
+            secureInfoQueue[indexOfInfo].iCount++;
+            needsNewEntry = EFalse;
+            break;
+            }
+        }
+	if (needsNewEntry)
+        {
+        secureInfoQueue.AppendL(TNotifierSecureInfo(notifierUid,secureId));
+        }
 	
 	TRAPD(err, Server().Manager()->NotifierStartAndGetResponseL(TUid::Uid(aMessage.Int0()), *inputBuffer, 2, aMessage, iClientId, aCleanupComplete));
 	if(err)
 		{
-		secureInfoQueue.Remove(secureInfoQueue.Count()-1);
+        if (needsNewEntry)
+            {
+		    secureInfoQueue.Remove(queueTotal);
+            }
+        else
+            {
+            secureInfoQueue[indexOfInfo].iCount--;
+            }
 		User::Leave(err);
 		}
 		
@@ -566,7 +612,14 @@ TInt CEikServNotifySession::NotifierCancel(const RMessage2& aMessage)
 		{
 		if(secureInfoQueue[i].iNotifierUid == notifierUid && secureInfoQueue[i].iSecureId == secureId)
 			{
-			secureInfoQueue.Remove(i);
+            if(secureInfoQueue[i].iCount)
+                {
+                secureInfoQueue[i].iCount--;
+                }
+            else
+                {
+                secureInfoQueue.Remove(i);
+                }
 			return KErrNone;
 			}
 		}
@@ -2057,7 +2110,7 @@ CPluginTrack::~CPluginTrack()
 //
 
 TNotifierSecureInfo::TNotifierSecureInfo(const TUid aNotifierUid, const TSecureId aSecureId)
- : iNotifierUid(aNotifierUid), iSecureId(aSecureId)
+ : iNotifierUid(aNotifierUid), iSecureId(aSecureId), iCount(0)
 	{
 	}
 
