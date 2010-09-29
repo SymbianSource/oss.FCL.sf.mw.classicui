@@ -11,6 +11,17 @@
       </module>
     </layer>
     
+    <layer name="mw_layer">
+      <module name="from_package_definition">
+        <unit unitID="abs.classicui.uikon" mrp="" bldFile="&layer_real_source_path;/commonuisupport/uikon/group" name="abs.classicui.uikon"/>
+        <unit unitID="abs.classicui.grid" mrp="" bldFile="&layer_real_source_path;/commonuisupport/grid/group" name="abs.classicui.grid"/>
+        <unit unitID="abs.classicui.errorresolverdata" mrp="" bldFile="&layer_real_source_path;/commonuisupport/errorresolverdata/group" name="abs.classicui.errorresolverdata"/>
+        <unit unitID="abs.classicui.graphicseffects" mrp="" bldFile="&layer_real_source_path;/lafagnosticuifoundation/graphicseffects/group" name="abs.classicui.graphicseffects"/>
+        <unit unitID="abs.classicui.bmpanimation" mrp="" bldFile="&layer_real_source_path;/lafagnosticuifoundation/bmpanimation/group" name="abs.classicui.bmpanimation"/>
+        <unit unitID="abs.classicui.animation" mrp="" bldFile="&layer_real_source_path;/lafagnosticuifoundation/animation/group" name="abs.classicui.animation"/>
+      </module>
+    </layer>
+
 <layer name="api_test_layer">
   <module name="classicui_plat_api_tests">
     <unit unitID="abs.classicui.tsrc.all" mrp="" bldFile="&layer_real_source_path;/tsrc/group" name="classicui_tsrc_all" filter="classicui_api_all" />

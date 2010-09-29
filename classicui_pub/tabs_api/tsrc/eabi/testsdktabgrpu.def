@@ -1,5 +1,0 @@
-EXPORTS
-	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
-	_ZTI16CTestTabsControl @ 2 NONAME ; #<TI>#
-	_ZTV16CTestTabsControl @ 3 NONAME ; #<VT>#
-
