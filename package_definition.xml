@@ -277,10 +277,6 @@
     <unit bldFile="classicui_plat/layout_configuration_api/group" filter="!test"/>
     <unit bldFile="classicui_plat/layout_configuration_api/tsrc/group" filter="test,api_test"/>
    </component>
-   <component id="common_file_dialogs_filter_factory_api" name="Common File Dialogs Filter Factory API" class="api" filter="s60,build_as_app">
-    <meta rel="Api" href="classicui_plat/common_file_dialogs_filter_factory_api/common_file_dialogs_filter_factory_api.metaxml"/>
-    <unit bldFile="classicui_plat/common_file_dialogs_filter_factory_api/group"/>
-   </component>
    <component id="avkon_anim_dll_api" name="AVKON Anim DLL API" class="api" filter="s60,build_as_app">
     <meta rel="Api" href="classicui_plat/avkon_anim_dll_api/avkon_anim_dll_api.metaxml"/>
     <unit bldFile="classicui_plat/avkon_anim_dll_api/group"/>
@@ -421,10 +417,6 @@
     <meta rel="Api" href="classicui_plat/editors_api/editors_api.metaxml"/>
     <unit bldFile="classicui_plat/editors_api/group" filter="!test"/>
     <unit bldFile="classicui_plat/editors_api/tsrc/group" filter="test,api_test"/>
-   </component>
-   <component id="common_file_dialogs_api" name="Common File Dialogs API" class="api" filter="s60,build_as_app">
-    <meta rel="Api" href="classicui_plat/common_file_dialogs_api/common_file_dialogs_api.metaxml"/>
-    <unit bldFile="classicui_plat/common_file_dialogs_api/group"/>
    </component>
    <component id="dialog_shutter_api" name="Dialog Shutter API" class="api" filter="s60,build_as_app">
     <meta rel="Api" href="classicui_plat/dialog_shutter_api/dialog_shutter_api.metaxml"/>
@@ -702,9 +694,6 @@
   <collection id="commonuis" name="Common UIs" level="specific">
    <component id="commonui" filter="s60,build_as_app" name="Common UI">
     <unit bldFile="commonuis/commonui/group"/>
-   </component>
-   <component id="commondialogs" filter="s60,build_as_app" name="Common Dialogs">
-    <unit bldFile="commonuis/commondialogs/group"/>
    </component>
   </collection>
   <collection id="applicationinterworkingfw" name="Application Interworking Framework" level="generic">

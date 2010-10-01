@@ -53,8 +53,8 @@ SOURCE          testdomutilitiesobserver.cpp
 SOURCE          testdomutilitiescontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         apparc.lib
 LIBRARY         cone.lib
 LIBRARY         eikcore.lib

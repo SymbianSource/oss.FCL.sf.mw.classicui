@@ -26,7 +26,7 @@ PRJ_EXPORTS
 
 // Generic configuration interface for component cenrep settings  
 ../cenrep/20021192.txt                     /epoc32/winscw/c/private/10202be9/20021192.txt
-../cenrep/20021192.txt                     /epoc32/data/Z/private/10202BE9/20021192.txt
+../cenrep/20021192.txt                     /epoc32/data/z/private/10202BE9/20021192.txt
 ../conf/s60/aknphysics.confml             APP_LAYER_CONFML(aknphysics.confml)
 ../conf/s60/aknphysics_20021192.crml      APP_LAYER_CRML(aknphysics_20021192.crml)
 

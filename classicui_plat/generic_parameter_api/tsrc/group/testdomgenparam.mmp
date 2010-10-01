@@ -50,8 +50,8 @@ SOURCE          testdomgenparamblocks.cpp
 SOURCE          testdomgenparamext.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         commonui.lib
 LIBRARY         cone.lib
 LIBRARY         eikcore.lib

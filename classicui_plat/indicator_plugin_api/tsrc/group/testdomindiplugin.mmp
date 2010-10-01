@@ -54,8 +54,8 @@ SOURCE          testdomindipluginblocks.cpp
 SOURCE          testdomindipluginext.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         avkon.lib
 
 LANG            SC

@@ -90,6 +90,7 @@ void CDocGameHandler::ParseGameInfoFromFileL( const TDesC& aFilename )
     {
     RFile file;
     User::LeaveIfError( file.Open( iFs, aFilename, EFileRead ) );
+    CleanupClosePushL( file );
     RFileReadStream reader( file );    
     iGameId = reader.ReadInt32L();
     reader.ReadInt8L();             // Data Type
@@ -100,7 +101,7 @@ void CDocGameHandler::ParseGameInfoFromFileL( const TDesC& aFilename )
         reader.ReadL( iDestFile, size );// Name String
         }
     reader.Close();
-    file.Close();
+    CleanupStack::PopAndDestroy( &file );
     }
     
 // TODO: Does this method work, how to test this?    

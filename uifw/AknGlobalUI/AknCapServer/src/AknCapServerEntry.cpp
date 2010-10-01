@@ -19,6 +19,7 @@
 #include <uikon/eikdefconst.h>
 #include <uikon/eikenvinterface.h>
 #endif
+#include <e32uid.h>
 #include <eikstart.h>
 #include <AknDef.h>
 #include <barsread.h>
@@ -72,10 +73,6 @@
     #include <gfxtranseffect/gfxtranseffect.h>
     #include <akntranseffect.h> // for Transition effect enumerations
 #endif
-
-#ifdef SYMBIAN_BUILD_GCE
-    #include <goommonitor.h>
-#endif 
 
 
 #ifdef RD_INTELLIGENT_TEXT_INPUT
@@ -231,11 +228,33 @@ TInt StartOOM(TAny* aThis)
     me->iEikSrv.Close(); // currently there is no use to keep this session alive.
 
 #ifdef SYMBIAN_BUILD_GCE
-   TRAP( err, CreateGOOMWatcherThreadL());
-   if (err != KErrNone)
-       {
-       RDebug::Print(_L("Creating out of graphics mem thread failed with err %d"), err);
-       }
+    const TInt KOOMWatcherDllUid = 0x10282DBF;
+    _LIT(KOOMWatcherDll, "goommonitor.dll");
+
+    RLibrary lib; // we don't need to push to stack because there is no leaving in following operations.
+    TUidType uidType(KDynamicLibraryUid, KSharedLibraryUid, TUid::Uid(KOOMWatcherDllUid));
+
+    err = lib.Load(KOOMWatcherDll, uidType);
+    if (KErrNone == err)
+        {
+        TLibraryFunction func = lib.Lookup(2); /* CreateGOOMWatcherThreadL */
+        if (func)
+            {
+            TRAP(err, (*func)());
+            if (err != KErrNone)
+                {
+                RDebug::Print(_L("Creating out of graphics mem thread in capserver failed with err %d"), err);
+                }
+            }
+        else
+            {
+            RDebug::Print(_L("Lookup function entry in goommonitor.dll return NULL, the entry number may be wrong!"));
+            }
+        }
+    else
+        {
+        RDebug::Print(_L("Dynamically Loading goommonitor.dll failed with err %d, it's ok!"), err);
+        }
 #endif 
 
     return err;

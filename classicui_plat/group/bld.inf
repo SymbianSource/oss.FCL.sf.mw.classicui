@@ -161,6 +161,4 @@
 #include "../information_preview_popup_api/group/bld.inf"
 #include "../intermediate_state_api/group/bld.inf"
 #include "../help_launcher_api/group/bld.inf"
-#include "../common_file_dialogs_api/group/bld.inf"
-#include "../common_file_dialogs_filter_factory_api/group/bld.inf"
 

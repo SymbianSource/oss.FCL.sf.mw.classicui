@@ -38,8 +38,8 @@ SOURCE          testplatextsoundblocks.cpp
 SOURCE          testplatextsoundblocksataudioeventapi.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         ATSoundServerClient.lib
 
 LANG            SC

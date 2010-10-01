@@ -38,8 +38,8 @@ SOURCE          testdomapplicationswitchingblocks.cpp
 SOURCE          testdomserappuiderive.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         eiksrv.lib
 LIBRARY         eiksrvui.lib
 LIBRARY         cone.lib

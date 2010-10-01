@@ -102,7 +102,7 @@ START EXTENSION s60/mif2cdlindex
 OPTION TARGETFILE Avkon2mifheader_inst.cpp
 OPTION GENPATH ../Avkon2MifHeader
 OPTION MIFFILE avkon2.mif
-// OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/Z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
+// OPTION MIFDIR armv5 uses $(EPOCROOT)epoc32/data/z/resource/apps and for winscw uses $(EPOCROOT)epoc32/release/winscw/$(CFG)/z/resource/apps
 OPTION DLLNAME Avkon2MifHeader
 OPTION DLLUID 0x102827CF
 END

@@ -49,8 +49,8 @@ SOURCE          testdomextnotes.cpp
 SOURCE          testdomextnotesblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcdlg.lib
 LIBRARY         eikctl.lib

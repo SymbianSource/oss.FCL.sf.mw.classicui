@@ -49,8 +49,8 @@ SOURCE          testdomextendedutlts.cpp
 SOURCE          testdomextendedutltsblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         avkon.lib 
 LIBRARY         eikcoctl.lib 
 LIBRARY         eikdlg.lib

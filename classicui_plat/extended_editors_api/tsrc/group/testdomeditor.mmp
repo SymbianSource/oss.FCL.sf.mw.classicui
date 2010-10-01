@@ -68,8 +68,8 @@ SOURCE          testdomeditorblocksaknphonenumbereditor.cpp
 SOURCE          testdomeditorcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         eikctl.lib

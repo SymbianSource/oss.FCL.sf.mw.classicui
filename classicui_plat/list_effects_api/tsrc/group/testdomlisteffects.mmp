@@ -50,8 +50,8 @@ SOURCE          testdomlisteffectsblocks.cpp
 SOURCE          testdomlisteffectscontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         cone.lib
 LIBRARY         aknlistloadertfx.lib
 LIBRARY         avkon.lib

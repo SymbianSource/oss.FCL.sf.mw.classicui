@@ -49,8 +49,8 @@ SOURCE          testdomtasklist.cpp
 SOURCE          testdomtasklistblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         stiftestinterface.lib
-LIBRARY         stiftestengine.lib
+LIBRARY         StifTestInterface.lib
+LIBRARY         StifTestEngine.lib
 LIBRARY         cone.lib 
 LIBRARY         avkon.lib
 
