@@ -58,14 +58,14 @@ LIBRARY   eikcoctl.lib
 LIBRARY   eikcore.lib
 LIBRARY   egul.lib
 LIBRARY   eikdlg.lib            // eikon dialogs
-LIBRARY   centralrepository.lib
+LIBRARY   CentralRepository.lib
 
 LIBRARY   CommonEngine.lib      // For RConeResourceLoader
 LIBRARY   aknskinsrv.lib        // for enhanced skinning
 LIBRARY   aknskins.lib          // for enhanced skinning
 LIBRARY   hlplch.lib            // for "Help" options menu
-LIBRARY   gsframework.lib       // For base classes
-LIBRARY   gslistbox.lib         // For CGSListBoxItemTextArray
-LIBRARY   gsecomplugin.lib
+LIBRARY   GSFramework.lib       // For base classes
+LIBRARY   GSListBox.lib         // For CGSListBoxItemTextArray
+LIBRARY   GSEcomPlugin.lib
 
 // End of File

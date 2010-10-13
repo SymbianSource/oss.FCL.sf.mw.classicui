@@ -3469,7 +3469,4 @@ EXPORTS
 	?IsSmiley@CAknSmileyManager@@QBEHVTChar@@@Z @ 3468 NONAME ; int CAknSmileyManager::IsSmiley(class TChar) const
 	?ProcessCommandL@CAknRadioButtonSettingPage@@MAEXH@Z @ 3469 NONAME ; void CAknRadioButtonSettingPage::ProcessCommandL(int)
 	?ProcessCommandL@CAknPopupSettingPage@@MAEXH@Z @ 3470 NONAME ; void CAknPopupSettingPage::ProcessCommandL(int)
-	?ShowUmaIconL@CAknSignalPane@@QAEXH@Z @ 3471 NONAME ; void CAknSignalPane::ShowUmaIconL(int)
-	?SetQwertyAllowed@CAknPhoneNumberEditor@@QAEXH@Z @ 3472 NONAME ; void CAknPhoneNumberEditor::SetQwertyAllowed(int)
-	?SetHybridModeAllowed@CAknPhoneNumberEditor@@QAEXH@Z @ 3473 NONAME ; void CAknPhoneNumberEditor::SetHybridModeAllowed(int)
 

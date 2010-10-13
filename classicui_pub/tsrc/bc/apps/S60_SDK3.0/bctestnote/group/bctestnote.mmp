@@ -69,8 +69,8 @@ USERINCLUDE     ../../../bctestutil/inc
 
 SYSTEMINCLUDE   . /epoc32/include
 
-LIBRARY	    	aknicon.lib
-LIBRARY         aknskins.lib
+LIBRARY	    	AknIcon.lib
+LIBRARY         AknSkins.lib
 LIBRARY         avkon.lib
 LIBRARY         apparc.lib
 LIBRARY         aknnotify.lib

@@ -2619,11 +2619,12 @@ void CColumnListBoxData::Draw( const TListItemProperties& aItemProperties,
                 TBool useOverrideColor = view->ItemDrawer()->Flags() & CListItemDrawer::EUseOverrideSkinTextColor;
                 if ( AknsUtils::AvkonSkinEnabled() && !useOverrideColor )
                     {
-                    if ( iExtension->iTextColor != NULL )
+                    if (iExtension->iTextColor != NULL)
                         {
                         aGc.SetPenColor(iExtension->iTextColor);
                         }
-                    if ( aHighlight && iExtension->iHighlightedTextColor != NULL )
+
+                    if (aHighlight && iExtension->iHighlightedTextColor != NULL)
                         {
                         aGc.SetPenColor(iExtension->iHighlightedTextColor);
                         }
@@ -2840,8 +2841,12 @@ void CColumnListBoxData::DrawMarkingModeIcons(
                 & CListItemDrawer::EMarkingModeEnabled &&
                 !aProperties.IsSelectionHidden() &&
                 iExtension->iMarkingIconArray &&
+#ifdef RD_TOUCH2_MARKING
                 iExtension->iMarkingIconArray->Count() == 
-                        KMarkingModeIconArraySize )          
+                        KMarkingModeIconArraySize )
+#else
+                iExtension->iMarkingIconArray->Count() == 2 )
+#endif // RD_TOUCH2_MARKING            
             {
             if ( AknLayoutUtils::LayoutMirrored() )
                 {

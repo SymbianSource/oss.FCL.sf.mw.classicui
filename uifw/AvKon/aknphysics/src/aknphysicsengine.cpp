@@ -60,11 +60,7 @@ CAknPhysicsEngine* CAknPhysicsEngine::NewLC( CAknPhysics* aPhysics )
 CAknPhysicsEngine::~CAknPhysicsEngine()
     {
     DeletePhysics();
-    if ( iAlfClient )
-        {
-        iAlfClient->Close();
-        delete iAlfClient;
-        }       
+    delete iAlfClient;
     }
 
 

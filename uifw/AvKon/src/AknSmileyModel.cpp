@@ -1025,38 +1025,10 @@ void CSmileyModel::LoadStillImagesL(const TDesC& aText)
         }
     }
 
-void CSmileyModel::PlayAnimationL(const TDesC& aText, TInt aRepeat, TInt aDelay)
-    {
-    for(TInt i(0); i<aText.Length(); i++)
-        {
-        PlayAnimationL(aText[i], aRepeat, aDelay);
-        }
-    }
-
-void CSmileyModel::StopAnimation(const TDesC& aText)
-    {
-    for(TInt i(0); i<aText.Length(); i++)
-        {
-        StopAnimation(aText[i]);
-        }
-    }
-
 void CSmileyModel::LoadStillImageL(TChar aChar)
     {
     CSmileyIcon* icon = static_cast<CSmileyIcon*>(Smiley(aChar));
     iSmileyLoader.AddTaskL(icon);
-    }
-
-void CSmileyModel::PlayAnimationL(TChar aChar, TInt aRepeat, TInt aDelay)
-    {
-    CSmileyIcon* icon = static_cast<CSmileyIcon*>(Smiley(aChar));
-    if(icon) icon->PlayAnimationL(aRepeat, aDelay);
-    }
-
-void CSmileyModel::StopAnimation(TChar aChar)
-    {
-    CSmileyIcon* icon = static_cast<CSmileyIcon*>(Smiley(aChar));
-    if(icon) icon->StopAnimation();
     }
 
 const TDesC& CSmileyModel::Text(TInt aIndex, TInt aVariant) const

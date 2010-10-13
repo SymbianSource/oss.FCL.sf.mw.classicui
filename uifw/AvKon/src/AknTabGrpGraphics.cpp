@@ -49,76 +49,6 @@
 //const TUint8 KHiddenFadeBlackMap( 20 );
 //const TUint8 KHiddenFadeWhiteMap( 255 );
 
-
-/****************************** New functions for refactoring tab drawing logic ******************************/
-/**
- * Specifies the structure of each drawing instruction
- */
-struct TTabInstruction
-    {
-    // 1 - Active tab, 2 - Passive tab, 3 - HighLight tab, 4 - Bit tab right, 5 - Bit tab left.
-    TInt    iTabStyle;
-
-    // 1 - iFirstTab, 2 - iSecondTab, 3 - iThirdTab, 4 - iFourthTab, 5 - iHiddenTabLeft, 6 - iHiddenTabRight.
-    TInt    iLayoutIdx;
-    
-    // Rect for DrawPassiveTabBit.
-    TRect   iBitTabRect;
-    
-    // Fade for DrawPassiveTab.
-    TBool   iPassiveFade;
-    };
-
-/******************** Three help functions for setting struct TTabInstruction. *******************/
-/**
- * Composes the instructions used for drawing passive bit tab.
- * 
- */
-void AssemblyPassiveTabBitInstruction( 
-    TTabInstruction& instruction,
-    TInt aTabStyle,
-    TRect &aRect )
-    {
-    instruction.iTabStyle = aTabStyle;
-    instruction.iBitTabRect = aRect;
-    }
-
-/**
- * Composes the instructions used for drawing passive or highlight tab.
- * 
- */
-void AssemblyPassiveOrHighlightTabInstruction( 
-    TTabInstruction& instruction,
-    TInt aHighlightTab, 
-    TInt aLayoutIdx, 
-    TBool aFade )
-    {
-    if (aHighlightTab != 0 && aHighlightTab == aLayoutIdx)
-        {
-        //Highlight tab
-        instruction.iTabStyle = 3;
-        }
-    else
-        {
-        instruction.iTabStyle = 2;
-        }
-    instruction.iLayoutIdx = aLayoutIdx;
-    instruction.iPassiveFade = aFade;
-    }
-
-/**
- * Composes the instructions for drawing active tab.
- * 
- */
-void AssemblyActiveTabInstruction(
-    TTabInstruction& instruction,
-    TInt aLayoutIdx )
-    {
-    instruction.iTabStyle = 1;
-    instruction.iLayoutIdx = aLayoutIdx;
-    }
-
-
 // ============================ MEMBER FUNCTIONS ===============================
 
 // -----------------------------------------------------------------------------
@@ -187,11 +117,217 @@ void CAknTabGroupGraphics::SetTabGroupBackgroundParent( TRect aParent )
     iTabGroupBackgroundParent = aParent;
     }
     
+#if 0
+
+CAknTabGroupGraphics::SAknTabGroupBackground CAknTabGroupGraphics::CreateTabGroupBackgroundL( TInt aAvkonBitmapId)
+    {
+    CAknTabGroupGraphics::SAknTabGroupBackground emptyTabGroupBackGround;
+
+    if ( !TabGroupBackgroundAvailable() )
+        {
+        return emptyTabGroupBackGround;
+        }
+
+    TBool longTabs    = EFalse;
+    TInt numberOfTabs = 0;
+    TInt activeTab    = 0;
+
+    switch ( aAvkonBitmapId )
+        {
+        case EMbmAvkonQgn_graf_tab_21:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 2;
+            activeTab    = 1;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_22:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 2;
+            activeTab    = 2;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_31:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 3;
+            activeTab    = 1;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_32:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 3;
+            activeTab    = 2;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_33:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 3;
+            activeTab    = 3;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_41:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 4;
+            activeTab    = 1;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_42:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 4;
+            activeTab    = 2;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_43:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 4;
+            activeTab    = 3;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_44:
+            {
+            longTabs     = EFalse;
+            numberOfTabs = 4;
+            activeTab    = 4;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_long_21:
+            {
+            longTabs     = ETrue;
+            numberOfTabs = 2;
+            activeTab    = 1;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_long_22:
+            {
+            longTabs     = ETrue;
+            numberOfTabs = 2;
+            activeTab    = 2;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_long_31:
+            {
+            longTabs     = ETrue;
+            numberOfTabs = 3;
+            activeTab    = 1;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_long_32:
+            {
+            longTabs     = ETrue;
+            numberOfTabs = 3;
+            activeTab    = 2;
+            break;
+            }
+        case EMbmAvkonQgn_graf_tab_long_33:
+            {
+            longTabs     = ETrue;
+            numberOfTabs = 3;
+            activeTab    = 3;
+            break;
+            }
+        default:
+            {
+            break;
+            }
+        }
+        
+    return CreateTabGroupBackgroundL( longTabs, numberOfTabs, activeTab );
+    }
+
+CAknTabGroupGraphics::SAknTabGroupBackground CAknTabGroupGraphics::CreateTabGroupBackgroundL(
+    TBool aLongTabs, TInt aNumberOfTabs, TInt aActiveTab )
+    {
+    CAknTabGroupGraphics::SAknTabGroupBackground       tabGroupBackGround;
+    CAknTabGroupGraphics::SAknTabGroupBackgroundLayout tabGroupBackGroundLayout;
+
+    AknIconConfig::TPreferredDisplayMode mode;
+    AknIconConfig::PreferredDisplayMode( mode,
+                                         AknIconConfig::EImageTypeOffscreen );
+
+    TDisplayMode bitmapDisplayMode = mode.iBitmapMode;
+    TDisplayMode maskDisplayMode   = EGray256;
+    TSize size( iTabGroupBackgroundParent.Size() );
+
+    // BITMAP
+    tabGroupBackGround.iBitmap = new (ELeave) CFbsBitmap();
+    CleanupStack::PushL( tabGroupBackGround.iBitmap );
+    User::LeaveIfError( tabGroupBackGround.iBitmap->Create( size, bitmapDisplayMode ) );
+    CFbsBitmapDevice* bitmapDevice = CFbsBitmapDevice::NewL( tabGroupBackGround.iBitmap );
+    CleanupStack::PushL( bitmapDevice );
+    CFbsBitGc* bitmapGc;
+    User::LeaveIfError( bitmapDevice->CreateContext( bitmapGc ) );
+
+    // Clear background first...
+    bitmapGc->SetBrushColor( KRgbBlack );
+    bitmapGc->SetBrushStyle( CGraphicsContext::ESolidBrush );
+    bitmapGc->DrawRect( iTabGroupBackgroundParent );
+
+    bitmapGc->SetBrushStyle( CGraphicsContext::ENullBrush );
+    DrawTabGroupBackgroundL( CAknTabGroupGraphics::ENormal,
+                             aLongTabs,
+                             aNumberOfTabs,
+                             aActiveTab,
+                             bitmapGc,
+                             tabGroupBackGroundLayout,
+                             ENone );
+    delete bitmapGc;
+
+    CleanupStack::Pop( 2, tabGroupBackGround.iBitmap );
+    delete bitmapDevice;
+    bitmapGc = NULL;
+    bitmapDevice = NULL;
+
+    // MASK
+    tabGroupBackGround.iMask = new (ELeave) CFbsBitmap();
+    CleanupStack::PushL( tabGroupBackGround.iMask );
+    User::LeaveIfError( tabGroupBackGround.iMask->Create( size, maskDisplayMode ) );
+    bitmapDevice = CFbsBitmapDevice::NewL( tabGroupBackGround.iMask );
+    CleanupStack::PushL( bitmapDevice );
+    User::LeaveIfError( bitmapDevice->CreateContext( bitmapGc ) );
+
+    // Clear background first...
+    bitmapGc->SetBrushStyle( CGraphicsContext::ESolidBrush );
+    if ( maskDisplayMode == EGray256 )
+        {
+        bitmapGc->SetBrushColor( KRgbBlack );
+        }
+    else
+        {
+        bitmapGc->SetBrushColor( KRgbWhite );
+        }
+    bitmapGc->DrawRect( iTabGroupBackgroundParent );
+
+    bitmapGc->SetBrushStyle( CGraphicsContext::ENullBrush );
+    DrawTabGroupBackgroundL( CAknTabGroupGraphics::EMaskOnly,
+                             aLongTabs,
+                             aNumberOfTabs,
+                             aActiveTab,
+                             bitmapGc,
+                             tabGroupBackGroundLayout,
+                             ENone);
+    delete bitmapGc;
+
+    CleanupStack::Pop( 2, tabGroupBackGround.iMask );
+    delete bitmapDevice;
+
+    return tabGroupBackGround;
+    }
+    
+#endif
+
+
 // ---------------------------------------------------------------------------
 // Draws normal tab background from given parameters.
 // ---------------------------------------------------------------------------
 //
-void CAknTabGroupGraphics::DrawTabGroupBackground(
+void CAknTabGroupGraphics::DrawTabGroupBackgroundL(
     TTabDrawMode aTabDrawMode,
     TBool aLongTabs,
     TInt aNumberOfTabs,
@@ -199,210 +335,91 @@ void CAknTabGroupGraphics::DrawTabGroupBackground(
     CBitmapContext* aGc,
     SAknTabGroupBackgroundLayout& aLayout,
     TTabsHidden aTabsHidden,
-    TTabAnimationType aAnimation,
-    TInt aHighlightTab ) const
+    TTabAnimationType aAnimation ) const
     {
-    //Set the layout for tab background;
-    ReviseLayoutForTabBackground(aLayout, aNumberOfTabs, aLongTabs, aActiveTab, EFalse, aAnimation);
-    
-    TInt insCnt = 0;
-    TTabInstruction instruction[8];
-    
-    switch (aNumberOfTabs)
+    switch ( aNumberOfTabs )
         {
         case 2:
             {
-            if (aActiveTab == 1)
+            if ( aLongTabs )
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 1);
+                DrawTwoLongTabBackground( aTabDrawMode,
+                                          aActiveTab,
+                                          aGc,
+                                          aLayout );
                 }
             else
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 2);
+                DrawTwoTabBackground( aTabDrawMode,
+                                      aActiveTab,
+                                      aGc,
+                                      aLayout );
                 }
-            }
             break;
+            }
         case 3:
             {
             if ( aLongTabs )
                 {
-                if (aActiveTab == 1)
-                    {
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                    AssemblyActiveTabInstruction(instruction[insCnt++], 1);
-                    }
-                else if ( aActiveTab == 2)
-                    {
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                    AssemblyActiveTabInstruction(instruction[insCnt++], 2);
-                    }
-                else if ( aActiveTab == 3)
-                    {
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                    AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                    }
+                DrawThreeLongTabBackground( aTabDrawMode,
+                                            aActiveTab,
+                                            aGc,
+                                            aLayout );
                 }
             else
                 {
-                TInt xOffset(aLayout.iFirstTab.iRight.iBr.iX - aLayout.iSecondTab.iLeft.iTl.iX);
-                
-                if (aActiveTab == 1)
-                    {
-                    if (aTabsHidden == EOnRightSide)
-                        {
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 6, ETrue);
-                        }
-                    
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                    AssemblyActiveTabInstruction(instruction[insCnt++], 1);
-                    }
-                else if (aActiveTab == 2)
-                    {
-                    switch (aTabsHidden)
-                        {
-                        case EOnLeftSide:
-                            {
-                            TRect bitRect(aLayout.iHiddenTabLeft.iLeft);
-                            bitRect.Resize(xOffset, 0);
-                            AssemblyPassiveTabBitInstruction(instruction[insCnt++], 5, bitRect);
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 5,
-                                    aAnimation != ECycleToLeft ? ETrue : EFalse);
-                            }
-                            break;
-                        case EOnRightSide:
-                            {
-                            TRect bitRect(aLayout.iHiddenTabRight.iRight);
-                            bitRect.Move(-xOffset, 0);
-                            bitRect.Resize(xOffset, 0);
-                            AssemblyPassiveTabBitInstruction(instruction[insCnt++], 4, bitRect);
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 6,
-                                    aAnimation != ECycleToRight ? ETrue : EFalse);
-                            }
-                            break;
-                        case EOnBothSides:
-                            {
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 5,
-                                    aAnimation != ECycleToLeft ? ETrue : EFalse);
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 6,
-                                    aAnimation != ECycleToRight ? ETrue : EFalse);
-                            }
-                            break;
-                        case ETwoOnBothSides:
-                            {
-                            TRect bitRect(aLayout.iHiddenTabLeft.iLeft);
-                            bitRect.Resize(xOffset, 0);
-                            AssemblyPassiveTabBitInstruction(instruction[insCnt++], 5, bitRect);
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 5,
-                                    aAnimation != ECycleToLeft ? ETrue : EFalse);
-
-                            bitRect = aLayout.iHiddenTabRight.iRight;
-                            bitRect.Move(-xOffset, 0);
-                            bitRect.Resize(xOffset, 0);
-                            AssemblyPassiveTabBitInstruction(instruction[insCnt++], 4, bitRect);
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 6,
-                                    aAnimation != ECycleToRight ? ETrue : EFalse);
-                            }
-                            break;
-                        case ENone:
-                        default:
-                            break;
-                        }
-
-                    if (aAnimation == ECycleToLeft)
-                        {
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, ETrue);
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                        AssemblyActiveTabInstruction(instruction[insCnt++], 1);
-                        }
-                    else if ( aAnimation == ECycleToRight )
-                        {
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, ETrue);
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                        AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                        }
-                    else
-                        {
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                
-                        if (aAnimation)
-                            {
-                            AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                            }
-                        else
-                            {
-                            AssemblyActiveTabInstruction(instruction[insCnt++], 2);
-                            }
-                        }
-                    }
-                else if (aActiveTab == 3)
-                    {
-                    if (aTabsHidden == EOnLeftSide)
-                        {
-                        AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 5, ETrue);
-                        }
-                    
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                    AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                    AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                    }
+                DrawThreeTabBackground( aTabDrawMode,
+                                        aActiveTab,
+                                        aGc,
+                                        aLayout,
+                                        aTabsHidden,
+                                        aAnimation );
                 }
-            }
             break;
+            }
         case 4:
             {
-            if (aActiveTab == 1)
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 4, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 1);
-                }
-            else if ( aActiveTab == 2 )
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 4, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 2);
-                }
-            else if ( aActiveTab == 3 )
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 4, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                }
-            else if ( aActiveTab == 4 )
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 2, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], aHighlightTab, 3, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 4);
-                }
-            }
+            DrawFourTabBackground( aTabDrawMode,
+                                   aActiveTab,
+                                   aGc,
+                                   aLayout );
             break;
+            }
         default:
             {
 #ifdef AVKON_RDEBUG_ERROR
-            RDebug::Print( _L("CAknTabGroupGraphics: Unknown tab group background !") );
+            RDebug::Print( _L("CAknTabGroupGraphics: Unknown tab layout !") );
 #endif
-            break;
             }
         }
-    
-    //Draw tab background according to instructions
-    ProcessDrawTabInstructions(instruction, insCnt, aTabDrawMode, aLayout, aGc);
-    
-    ReviseLayoutUseFlag(aLayout, aActiveTab);
+
+    if ( !aLayout.iUse )
+        {
+        aLayout.iFirstTab.iActive  = EFalse;
+        aLayout.iSecondTab.iActive = EFalse;
+        aLayout.iThirdTab.iActive  = EFalse;
+        aLayout.iFourthTab.iActive = EFalse;
+
+        if ( aActiveTab == 1 )
+            {
+            aLayout.iFirstTab.iActive = ETrue;
+            }
+        else if ( aActiveTab == 2 )
+            {
+            aLayout.iSecondTab.iActive = ETrue;
+            }
+        else if ( aActiveTab == 3 )
+            {
+            aLayout.iThirdTab.iActive = ETrue;
+            }
+        else if ( aActiveTab == 4 )
+            {
+            aLayout.iFourthTab.iActive = ETrue;
+            }
+        }
     }
 
-void CAknTabGroupGraphics::DrawTabGroupNarrowBackground(
+void CAknTabGroupGraphics::DrawTabGroupNarrowBackgroundL(
     TTabDrawMode aTabDrawMode,
     TBool aLongTabs,
     TInt aNumberOfTabs,
@@ -410,97 +427,110 @@ void CAknTabGroupGraphics::DrawTabGroupNarrowBackground(
     CBitmapContext* aGc,
     SAknTabGroupBackgroundLayout& aLayout ) const
     {
-    //Set the layout for tab background;
-    ReviseLayoutForTabBackground(aLayout, aNumberOfTabs, aLongTabs, aActiveTab, ETrue, ENoAnimation);
-    
-    TInt insCnt = 0;
-    TTabInstruction instruction[6];
-    
     switch ( aNumberOfTabs )
         {
         case 2:
             {
-            if (aActiveTab == 1)
+            if ( aLongTabs )
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 1);
+                if ( !aLayout.iUse )
+                    {
+                    aLayout = TwoLongTabNarrowBackground( aActiveTab );
+                    }
+                aLayout.iUse = ETrue;
+                DrawTwoLongTabNarrowBackground( aTabDrawMode,
+                                                aActiveTab,
+                                                aGc,
+                                                aLayout );
                 }
             else
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 2);
+                if ( !aLayout.iUse )
+                    {
+                    aLayout = TwoTabNarrowBackground( aActiveTab );
+                    }
+                aLayout.iUse = ETrue;
+                DrawTwoTabNarrowBackground( aTabDrawMode,
+                                            aActiveTab,
+                                            aGc,
+                                            aLayout );
                 }
-            }
             break;
+            }
         case 3:
             {
-            if (aActiveTab == 1)
+            if ( aLongTabs )
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 3, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 1);
+                if ( !aLayout.iUse )
+                    {
+                    aLayout = ThreeLongTabNarrowBackground( aActiveTab );
+                    }
+                aLayout.iUse = ETrue;
+                DrawThreeLongTabNarrowBackground( aTabDrawMode,
+                                                  aActiveTab,
+                                                  aGc,
+                                                  aLayout );
                 }
-            else if (aActiveTab == 2)
+            else
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 3, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 2);
+                if ( !aLayout.iUse )
+                    {
+                    aLayout = ThreeTabNarrowBackground( aActiveTab );
+                    }
+                aLayout.iUse = ETrue;
+                DrawThreeTabNarrowBackground( aTabDrawMode,
+                                              aActiveTab,
+                                              aGc,
+                                              aLayout );
                 }
-            else if (aActiveTab == 3)
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                }
-            }
             break;
+            }
         case 4:
             {
-            if (aActiveTab == 1)
+            if ( !aLayout.iUse )
                 {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 4, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 3, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 1);
+                aLayout = FourTabNarrowBackground( aActiveTab );
                 }
-            else if (aActiveTab == 2)
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 4, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 3, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 2);
-                }
-            else if (aActiveTab == 3)
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 4, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 3);
-                }
-            else if (aActiveTab == 4)
-                {
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 1, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 2, EFalse);
-                AssemblyPassiveOrHighlightTabInstruction(instruction[insCnt++], 0, 3, EFalse);
-                AssemblyActiveTabInstruction(instruction[insCnt++], 4);
-                }
-            }
+            aLayout.iUse = ETrue;
+            DrawFourTabNarrowBackground( aTabDrawMode,
+                                         aActiveTab,
+                                         aGc,
+                                         aLayout );
             break;
+            }
         default:
             {
 #ifdef AVKON_RDEBUG_ERROR
-            RDebug::Print( _L("CAknTabGroupGraphics: Unknown tab narrow background !") );
+            RDebug::Print( _L("CAknTabGroupGraphics: Unknown tab layout !") );
 #endif
-            break;
             }
         }
-    
-    //Draw tab background according to instructions
-    ProcessDrawTabInstructions(instruction, insCnt, aTabDrawMode, aLayout, aGc);
-    
-    ReviseLayoutUseFlag(aLayout, aActiveTab);
-    }
 
+        if ( !aLayout.iUse )
+            {
+            aLayout.iFirstTab.iActive  = EFalse;
+            aLayout.iSecondTab.iActive = EFalse;
+            aLayout.iThirdTab.iActive  = EFalse;
+            aLayout.iFourthTab.iActive = EFalse;
+
+            if ( aActiveTab == 1 )
+                {
+                aLayout.iFirstTab.iActive = ETrue;
+                }
+            else if ( aActiveTab == 2 )
+                {
+                aLayout.iSecondTab.iActive = ETrue;
+                }
+            else if ( aActiveTab == 3 )
+                {
+                aLayout.iThirdTab.iActive = ETrue;
+                }
+            else if ( aActiveTab == 4 )
+                {
+                aLayout.iFourthTab.iActive = ETrue;
+                }
+            }
+    }
 
 TBool CAknTabGroupGraphics::TabClickedL( TInt aTabComponent,
                                          const TRect& aTabRect,
@@ -812,6 +842,91 @@ CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::TwoTabN
 
     return aLayout;
     }
+
+void CAknTabGroupGraphics::DrawTwoTabBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = TwoTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    }
+
+void CAknTabGroupGraphics::DrawTwoTabNarrowBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = TwoTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    }
+
 
 // ---------------------------------------------------------------------------
 // Extracts tab group background layout from layout data for three tab layout.
@@ -1217,6 +1332,339 @@ CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::ThreeTa
 
     return aLayout;
     }
+
+
+// ---------------------------------------------------------------------------
+// Draws the tab group background in three tab layout.
+// ---------------------------------------------------------------------------
+//
+void CAknTabGroupGraphics::DrawThreeTabBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout,
+    TTabsHidden aTabsHidden,
+    TTabAnimationType aAnimation ) const
+    {
+    TInt animActiveTab( aActiveTab );
+    if ( aAnimation && aActiveTab == 2 )
+        {
+        // Move the tab highlight already during the animation.
+        animActiveTab = aAnimation == ECycleToLeft ? aActiveTab - 1 :
+                                                     aActiveTab + 1;
+        }
+
+    // If not given layout, then get the default layout.
+    if ( !aLayout.iUse )
+        {
+        aLayout = ThreeTabBackground( animActiveTab );
+        }
+
+    TInt xOffset( aLayout.iFirstTab.iRight.iBr.iX -
+                      aLayout.iSecondTab.iLeft.iTl.iX );
+    
+    if ( aActiveTab == 1 )
+        {
+        if ( aTabsHidden == EOnRightSide )
+            {
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iHiddenTabRight.iLeft,
+                            aLayout.iHiddenTabRight.iMiddle,
+                            aLayout.iHiddenTabRight.iRight,
+                            aGc,
+                            ETrue );
+            }
+
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2 )
+        {
+        switch ( aTabsHidden )
+            {
+            case EOnLeftSide:
+                {
+                TRect bitRect( aLayout.iHiddenTabLeft.iLeft );
+                bitRect.Resize( xOffset, 0 );
+                DrawPassiveTabBit( aTabDrawMode,
+                                   ERight,
+                                   bitRect,
+                                   aGc );
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabLeft.iLeft,
+                                aLayout.iHiddenTabLeft.iMiddle,
+                                aLayout.iHiddenTabLeft.iRight,
+                                aGc,
+                                aAnimation != ECycleToLeft ? ETrue : EFalse  );
+                break;
+                }
+            case EOnRightSide:
+                {
+                TRect bitRect( aLayout.iHiddenTabRight.iRight );
+                bitRect.Move( -xOffset, 0 );
+                bitRect.Resize( xOffset, 0 );
+                DrawPassiveTabBit( aTabDrawMode,
+                                   ELeft,
+                                   bitRect,
+                                   aGc );
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabRight.iLeft,
+                                aLayout.iHiddenTabRight.iMiddle,
+                                aLayout.iHiddenTabRight.iRight,
+                                aGc,
+                                aAnimation != ECycleToRight ? ETrue : EFalse  );
+                break;
+                }
+            case EOnBothSides:
+                {
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabLeft.iLeft,
+                                aLayout.iHiddenTabLeft.iMiddle,
+                                aLayout.iHiddenTabLeft.iRight,
+                                aGc,
+                                aAnimation != ECycleToLeft ? ETrue : EFalse  );
+
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabRight.iLeft,
+                                aLayout.iHiddenTabRight.iMiddle,
+                                aLayout.iHiddenTabRight.iRight,
+                                aGc,
+                                aAnimation != ECycleToRight ? ETrue : EFalse  );
+                break;
+                }
+            case ETwoOnBothSides:
+                {
+                TRect bitRect( aLayout.iHiddenTabLeft.iLeft );
+                bitRect.Resize( xOffset, 0 );
+                DrawPassiveTabBit( aTabDrawMode,
+                                   ERight,
+                                   bitRect,
+                                   aGc );
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabLeft.iLeft,
+                                aLayout.iHiddenTabLeft.iMiddle,
+                                aLayout.iHiddenTabLeft.iRight,
+                                aGc,
+                                aAnimation != ECycleToLeft ? ETrue : EFalse );
+
+                bitRect = aLayout.iHiddenTabRight.iRight;
+                bitRect.Move( -xOffset, 0 );
+                bitRect.Resize( xOffset, 0 );
+                DrawPassiveTabBit( aTabDrawMode,
+                                   ELeft,
+                                   bitRect,
+                                   aGc );
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iHiddenTabRight.iLeft,
+                                aLayout.iHiddenTabRight.iMiddle,
+                                aLayout.iHiddenTabRight.iRight,
+                                aGc,
+                                aAnimation != ECycleToRight ? ETrue : EFalse);
+                break;
+                }
+            case ENone:
+            default:
+                {
+                break;
+                }
+            }
+
+        if ( aAnimation == ECycleToLeft )
+            {
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iThirdTab.iLeft,
+                            aLayout.iThirdTab.iMiddle,
+                            aLayout.iThirdTab.iRight,
+                            aGc,
+                            ETrue );
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iSecondTab.iLeft,
+                            aLayout.iSecondTab.iMiddle,
+                            aLayout.iSecondTab.iRight,
+                            aGc );
+             DrawActiveTab( aTabDrawMode,
+                            aLayout.iFirstTab.iLeft,
+                            aLayout.iFirstTab.iMiddle,
+                            aLayout.iFirstTab.iRight,
+                            aGc );
+            }
+        else if ( aAnimation == ECycleToRight )
+            {
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iFirstTab.iLeft,
+                            aLayout.iFirstTab.iMiddle,
+                            aLayout.iFirstTab.iRight,
+                            aGc,
+                            ETrue );
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iSecondTab.iLeft,
+                            aLayout.iSecondTab.iMiddle,
+                            aLayout.iSecondTab.iRight,
+                            aGc );
+            DrawActiveTab( aTabDrawMode,
+                           aLayout.iThirdTab.iLeft,
+                           aLayout.iThirdTab.iMiddle,
+                           aLayout.iThirdTab.iRight,
+                           aGc );
+            }
+        else
+            {
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iFirstTab.iLeft,
+                            aLayout.iFirstTab.iMiddle,
+                            aLayout.iFirstTab.iRight,
+                            aGc );
+    
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iThirdTab.iLeft,
+                            aLayout.iThirdTab.iMiddle,
+                            aLayout.iThirdTab.iRight,
+                            aGc );
+    
+            if ( aAnimation )
+                {
+                DrawPassiveTab( aTabDrawMode,
+                                aLayout.iSecondTab.iLeft,
+                                aLayout.iSecondTab.iMiddle,
+                                aLayout.iSecondTab.iRight,
+                                aGc );
+                }
+            else
+                {
+                DrawActiveTab( aTabDrawMode,
+                               aLayout.iSecondTab.iLeft,
+                               aLayout.iSecondTab.iMiddle,
+                               aLayout.iSecondTab.iRight,
+                               aGc );
+                }
+            }
+        }
+    else if ( aActiveTab == 3 )
+        {
+        if ( aTabsHidden == EOnLeftSide )
+            {
+            DrawPassiveTab( aTabDrawMode,
+                            aLayout.iHiddenTabLeft.iLeft,
+                            aLayout.iHiddenTabLeft.iMiddle,
+                            aLayout.iHiddenTabLeft.iRight,
+                            aGc,
+                            ETrue  );
+            }
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    }
+
+
+// ---------------------------------------------------------------------------
+// Draws the tab group background in three tab narrow layout.
+// ---------------------------------------------------------------------------
+//
+void CAknTabGroupGraphics::DrawThreeTabNarrowBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = ThreeTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 3 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    }
+
 
 CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::FourTabBackground(
     TInt aActiveTab ) const
@@ -1692,6 +2140,242 @@ CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::FourTab
     return aLayout;
     }
 
+void CAknTabGroupGraphics::DrawFourTabBackground( TTabDrawMode aTabDrawMode,
+                                                  TInt aActiveTab,
+                                                  CBitmapContext* aGc,
+                                                  SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = FourTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 3 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 4 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFourthTab.iLeft,
+                       aLayout.iFourthTab.iMiddle,
+                       aLayout.iFourthTab.iRight,
+                       aGc );
+        }
+    }
+
+void CAknTabGroupGraphics::DrawFourTabNarrowBackground( TTabDrawMode aTabDrawMode,
+                                                        TInt aActiveTab,
+                                                        CBitmapContext* aGc,
+                                                        SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = FourTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode, 
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 3 )
+        {
+        // Note the drawing order of passive tabs
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFourthTab.iLeft,
+                        aLayout.iFourthTab.iMiddle,
+                        aLayout.iFourthTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 4 )
+        {
+        // Note the drawing order of passive tabs
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFourthTab.iLeft,
+                       aLayout.iFourthTab.iMiddle,
+                       aLayout.iFourthTab.iRight,
+                       aGc );
+        }
+    }
+
 CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::TwoLongTabBackground(TInt aActiveTab) const
     {
     SAknTabGroupBackgroundLayout aLayout;
@@ -1902,6 +2586,90 @@ CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::TwoLong
     aLayout.iFourthTab.iRight  = nullRect;
 
     return aLayout;
+    }
+
+void CAknTabGroupGraphics::DrawTwoLongTabBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = TwoLongTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft,
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
+    }
+
+void CAknTabGroupGraphics::DrawTwoLongTabNarrowBackground(
+    TTabDrawMode aTabDrawMode,
+    TInt aActiveTab,
+    CBitmapContext* aGc,
+    SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = TwoLongTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+                        
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iSecondTab.iLeft, 
+                       aLayout.iSecondTab.iMiddle,
+                       aLayout.iSecondTab.iRight,
+                       aGc );
+        }
     }
 
 CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::ThreeLongTabBackground(TInt aActiveTab) const
@@ -2271,6 +3039,140 @@ CAknTabGroupGraphics::SAknTabGroupBackgroundLayout CAknTabGroupGraphics::ThreeLo
 
     return aLayout;
     }
+
+void CAknTabGroupGraphics::DrawThreeLongTabBackground( TTabDrawMode aTabDrawMode,
+                                                       TInt aActiveTab, CBitmapContext* aGc,
+                                                       SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = ThreeLongTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2)
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        }
+    else if ( aActiveTab == 3)
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    }
+
+void CAknTabGroupGraphics::DrawThreeLongTabNarrowBackground( TTabDrawMode aTabDrawMode,
+                                                             TInt aActiveTab,
+                                                             CBitmapContext* aGc,
+                                                             SAknTabGroupBackgroundLayout& aLayout ) const
+    {
+    // If not given layout, then get the default layout
+    if ( !aLayout.iUse )
+        {
+        aLayout = ThreeLongTabBackground( aActiveTab );
+        }
+
+    if ( aActiveTab == 1 )
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iFirstTab.iLeft,
+                       aLayout.iFirstTab.iMiddle,
+                       aLayout.iFirstTab.iRight,
+                       aGc );
+        }
+    else if ( aActiveTab == 2)
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iThirdTab.iLeft,
+                        aLayout.iThirdTab.iMiddle,
+                        aLayout.iThirdTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        }
+    else if ( aActiveTab == 3)
+        {
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iFirstTab.iLeft,
+                        aLayout.iFirstTab.iMiddle,
+                        aLayout.iFirstTab.iRight,
+                        aGc );
+        DrawPassiveTab( aTabDrawMode,
+                        aLayout.iSecondTab.iLeft,
+                        aLayout.iSecondTab.iMiddle,
+                        aLayout.iSecondTab.iRight,
+                        aGc );
+        DrawActiveTab( aTabDrawMode,
+                       aLayout.iThirdTab.iLeft,
+                       aLayout.iThirdTab.iMiddle,
+                       aLayout.iThirdTab.iRight,
+                       aGc );
+        }
+    }
+
 
 // ---------------------------------------------------------------------------
 // Draws single tab graphics for an active tab.
@@ -2724,302 +3626,6 @@ TBool CAknTabGroupGraphics::TabGroupBackgroundAvailable()
         }
 
     return iTabGroupBackgroundAvailable; // 3
-    }
-
-void CAknTabGroupGraphics::DrawHighlightTabL(TTabDrawMode aDrawMode,
-        TRect aLeft, TRect aMiddle, TRect aRight, CBitmapContext* aGc) const
-    {
-    if ( aDrawMode == CAknTabGroupGraphics::ENoDraw )
-        {
-        return;
-        }
-
-    TRect rect( aLeft );
-    CFbsBitmap* activeColorBitmap = new (ELeave) CFbsBitmap();
-    CleanupStack::PushL( activeColorBitmap );
-
-    TDisplayMode screenDisplayMode( iPassiveTabLeft->DisplayMode() );
-    activeColorBitmap->Create( rect.Size(), screenDisplayMode );
-
-    TRgb color;
-    AknsUtils::GetCachedColor( AknsUtils::SkinInstance(), color,
-            KAknsIIDQsnOtherColors, EAknsCIQsnOtherColorsCG25 );
-
-    CFbsBitmapDevice* destinationDevice = CFbsBitmapDevice::NewL( activeColorBitmap );
-    CleanupStack::PushL( destinationDevice );
-    CFbsBitGc* destinationGc;
-    User::LeaveIfError( destinationDevice->CreateContext( destinationGc ) );
-    destinationGc->SetPenColor( color );
-    destinationGc->SetPenStyle( CGraphicsContext::ESolidPen );
-    destinationGc->SetBrushColor( color );
-    destinationGc->SetBrushStyle( CGraphicsContext::ESolidBrush );
-    destinationGc->DrawRect( TRect( activeColorBitmap->SizeInPixels() ) );
-
-    delete destinationGc;
-    CleanupStack::PopAndDestroy( destinationDevice );
-
-    aGc->BitBltMasked( rect.iTl, activeColorBitmap, 
-            TRect( 0, 0, rect.Width(), rect.Height() ), 
-            iPassiveTabLeftMask, ETrue );
-
-    CleanupStack::PopAndDestroy( activeColorBitmap );
-
-    /*********************************************************************/
-
-    rect = aMiddle;
-
-    CFbsBitmap* activeColorBitmapM = new (ELeave) CFbsBitmap();
-    CleanupStack::PushL( activeColorBitmapM );
-
-    activeColorBitmapM->Create( rect.Size(), screenDisplayMode );
-
-    destinationDevice = CFbsBitmapDevice::NewL( activeColorBitmapM );
-    CleanupStack::PushL( destinationDevice );
-    User::LeaveIfError( destinationDevice->CreateContext( destinationGc ) );
-    destinationGc->SetPenColor( color );
-    destinationGc->SetPenStyle( CGraphicsContext::ESolidPen );
-    destinationGc->SetBrushColor( color );
-    destinationGc->SetBrushStyle( CGraphicsContext::ESolidBrush );
-    destinationGc->DrawRect( TRect( activeColorBitmapM->SizeInPixels() ) );
-
-    delete destinationGc;
-    CleanupStack::PopAndDestroy( destinationDevice );
-
-    aGc->BitBltMasked(rect.iTl, activeColorBitmapM, 
-            TRect(0, 0, rect.Width(), rect.Height() ), 
-            iPassiveTabMiddleMask, ETrue );
-    CleanupStack::PopAndDestroy( activeColorBitmapM );
-
-    /*********************************************************************/
-
-    rect = aRight;
-
-    CFbsBitmap* activeColorBitmapR = new (ELeave) CFbsBitmap();
-    CleanupStack::PushL( activeColorBitmapR );
-
-    activeColorBitmapR->Create( rect.Size(), screenDisplayMode );
-
-    destinationDevice = CFbsBitmapDevice::NewL( activeColorBitmapR );
-    CleanupStack::PushL( destinationDevice );
-    User::LeaveIfError( destinationDevice->CreateContext( destinationGc ) );
-    destinationGc->SetPenColor( color );
-    destinationGc->SetPenStyle( CGraphicsContext::ESolidPen );
-    destinationGc->SetBrushColor( color );
-    destinationGc->SetBrushStyle( CGraphicsContext::ESolidBrush );
-    destinationGc->DrawRect( TRect( activeColorBitmapR->SizeInPixels() ) );
-
-    delete destinationGc;
-    CleanupStack::PopAndDestroy( destinationDevice );
-    aGc->BitBltMasked( rect.iTl, activeColorBitmapR, 
-        TRect(0, 0, rect.Width(), rect.Height() ), 
-        iPassiveTabRightMask, ETrue );
-
-    CleanupStack::PopAndDestroy( activeColorBitmapM );
-    }
-
-void CAknTabGroupGraphics::ReviseLayoutForTabBackground(
-    SAknTabGroupBackgroundLayout& aLayout,
-    TInt aNumberOfTabs,
-    TBool aLongTabs,
-    TInt aActiveTab,
-    TBool aIsNarrow,
-    TTabAnimationType aAnimation) const
-    {
-    if (aLayout.iUse)
-        {
-        // aLayout has been set, return directly.
-        return;
-        }
-    
-    if (aIsNarrow)
-        {
-        switch (aNumberOfTabs)
-            {
-            case 2:
-                {
-                aLayout = aLongTabs ? TwoLongTabNarrowBackground(aActiveTab) : TwoTabNarrowBackground(aActiveTab);
-                break;
-                }
-            case 3:
-                {
-                aLayout = aLongTabs ? ThreeLongTabNarrowBackground(aActiveTab) : ThreeTabNarrowBackground(aActiveTab);
-                break;
-                }
-            case 4:
-                {
-                aLayout = FourTabNarrowBackground(aActiveTab);
-                break;
-                }
-            default:
-                {
-#ifdef AVKON_RDEBUG_ERROR
-                RDebug::Print(_L("CAknTabGroupGraphics: Unknown narrow tab layout !"));
-#endif
-                }
-            }
-        aLayout.iUse = ETrue;
-        }
-    else
-        {
-        switch (aNumberOfTabs)
-            {
-            case 2:
-                {
-                aLayout = aLongTabs ? TwoLongTabBackground(aActiveTab) : TwoTabBackground(aActiveTab);
-                break;
-                }
-            case 3:
-                {
-                if (aLongTabs)
-                    {
-                    aLayout = ThreeLongTabBackground(aActiveTab);
-                    }
-                else
-                    {
-                    TInt animActiveTab = aActiveTab;
-                    if (aAnimation && aActiveTab == 2)
-                        {
-                        // Move the tab highlight already during the animation.
-                        animActiveTab = 
-                                aAnimation == ECycleToLeft ? aActiveTab - 1 : aActiveTab + 1;
-                        }
-                    aLayout = ThreeTabBackground(animActiveTab);
-                    }
-                break;
-                }
-            case 4:
-                {
-                aLayout = FourTabBackground(aActiveTab);
-                break;
-                }
-            default:
-                {
-#ifdef AVKON_RDEBUG_ERROR
-                RDebug::Print( _L("CAknTabGroupGraphics: Unknown tab layout !") );
-#endif
-                }
-            }
-        }
-    }
-
-void CAknTabGroupGraphics::ReviseLayoutUseFlag(
-    SAknTabGroupBackgroundLayout& aLayout,
-    TInt aActiveTab) const
-    {
-    if (!aLayout.iUse)
-        {
-        aLayout.iFirstTab.iActive  = EFalse;
-        aLayout.iSecondTab.iActive = EFalse;
-        aLayout.iThirdTab.iActive  = EFalse;
-        aLayout.iFourthTab.iActive = EFalse;
-
-        if (aActiveTab == 1)
-            {
-            aLayout.iFirstTab.iActive = ETrue;
-            }
-        else if (aActiveTab == 2)
-            {
-            aLayout.iSecondTab.iActive = ETrue;
-            }
-        else if (aActiveTab == 3)
-            {
-            aLayout.iThirdTab.iActive = ETrue;
-            }
-        else if (aActiveTab == 4)
-            {
-            aLayout.iFourthTab.iActive = ETrue;
-            }
-        }
-    }
-
-
-#define GET_TABLAYOUT_RECT(idx) do{ \
-        left = aLayout.idx.iLeft; \
-        middle = aLayout.idx.iMiddle; \
-        right = aLayout.idx.iRight; \
-}while (0)
-
-void CAknTabGroupGraphics::ProcessDrawTabInstructions(
-    TTabInstruction *aInstructions,
-    TInt aNumOfIns,
-    TTabDrawMode aTabDrawMode,
-    SAknTabGroupBackgroundLayout& aLayout,
-    CBitmapContext* aGc) const
-    {
-    if (aInstructions == NULL || aNumOfIns <= 0 || aGc == NULL)
-        {
-        return;
-        }
-    
-    for ( TInt i = 0; i < aNumOfIns; i++ )
-        {
-        if ( aInstructions[i].iTabStyle == 5 || aInstructions[i].iTabStyle == 6 )
-            {
-            // Draw passive tab bit.
-            DrawPassiveTabBit(aTabDrawMode, 
-                              aInstructions[i].iTabStyle == 5 ? ELeft : ERight, 
-                              aInstructions[i].iBitTabRect, 
-                              aGc);
-            }
-        else
-            {
-            TBool layoutValid = ETrue;
-            TRect left, middle, right;
-            switch (aInstructions[i].iLayoutIdx)
-                {
-                case 1: 
-                    {
-                    GET_TABLAYOUT_RECT(iFirstTab); 
-                    break;
-                    }
-                case 2: 
-                    {
-                    GET_TABLAYOUT_RECT(iSecondTab); 
-                    break;
-                    }
-                case 3: 
-                    {
-                    GET_TABLAYOUT_RECT(iThirdTab); 
-                    break;
-                    }
-                case 4: 
-                    {
-                    GET_TABLAYOUT_RECT(iFourthTab); 
-                    break;
-                    }
-                case 5: 
-                    {
-                    GET_TABLAYOUT_RECT(iHiddenTabLeft); 
-                    break;
-                    }
-                case 6: 
-                    {
-                    GET_TABLAYOUT_RECT(iHiddenTabRight); 
-                    break;
-                    }
-                default:
-                    {
-                    layoutValid = EFalse;
-                    }
-                }
-            
-            if (layoutValid)
-                {
-                if (aInstructions[i].iTabStyle == 1)
-                    {
-                    DrawActiveTab(aTabDrawMode, left, middle, right, aGc);
-                    }
-                else if (aInstructions[i].iTabStyle == 2)
-                    {
-                    DrawPassiveTab(aTabDrawMode, left, middle, right, aGc, aInstructions[i].iPassiveFade);
-                    }
-                else if (aInstructions[i].iTabStyle == 3)
-                    {
-                    TRAP_IGNORE( DrawHighlightTabL(aTabDrawMode, left, middle, right, aGc) );
-                    }
-                }
-            }
-        }
     }
 
 // End of file

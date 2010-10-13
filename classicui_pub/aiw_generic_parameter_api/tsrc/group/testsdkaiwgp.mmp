@@ -49,9 +49,9 @@ SOURCE          testsdkaiwgpblocksaiwvariant.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         servicehandler.lib
+LIBRARY         ServiceHandler.lib
 LIBRARY         estor.lib
 LIBRARY         efsrv.lib
 

@@ -52,10 +52,10 @@ SOURCE          testsdksfview.cpp
 SOURCE          testsdksfastobserver.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         cone.lib
 LIBRARY         ws32.lib
 LIBRARY         eikcore.lib

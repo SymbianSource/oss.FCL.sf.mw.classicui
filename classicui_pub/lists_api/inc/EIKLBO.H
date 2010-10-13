@@ -72,9 +72,7 @@ class MEikListBoxObserver
 			/**  An empty listbox was clicked */
             EEventEmptyListClicked,
             /**  An empty area of non-empty listbox was clicked */
-            EEventEmptyAreaClicked,
-            /**  Item is long tapped in single click enabled list*/
-            EEventItemLongTapped
+            EEventEmptyAreaClicked         
             };
 
     public:

@@ -41,7 +41,7 @@ SOURCE          testsdkappservicebase.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         apparc.lib

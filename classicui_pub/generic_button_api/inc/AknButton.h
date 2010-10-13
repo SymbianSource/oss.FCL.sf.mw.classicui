@@ -1485,24 +1485,9 @@ class CAknButton : public CAknControl
 
         /**
          * Converts text to visual and clips it. This is called when there
-         * are possible changes in visual text or text area changed.
-         * Notice that if the text area size is changed, clipped visual text 
-         * should be regenerated. 
-         *
-         * @param aRect new text area.         
-         *         
+         * are possible changes in visual text.
          */
-        void ConvertTextToVisualAndClip( const TRect& aRect ) const; 
-        
-        /*
-         * Get rect for icon and text of the current button state .
-         * 
-         * @param aIconRect the rectangle for icon. If no icon used in current state,
-         *                 this will be EUninitialized.
-         * @param aTextRect the rectangle for text. If no text in current state,
-         *                 this will be EUninitialized.
-         */
-        void GetCurrentStateTextAndIconRect( TRect& aIconRect, TRect& aTextRect ) const;
+        void ConvertTextToVisualAndClip() const; 
 
     protected: // Data
 

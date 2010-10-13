@@ -99,13 +99,13 @@ LIBRARY                 egul.lib
 LIBRARY                 mgfetch.lib
 LIBRARY                 aknskinsrv.lib
 LIBRARY                 aknskins.lib
-LIBRARY                 CommonEngine.lib
+LIBRARY                 commonengine.lib
 LIBRARY                 aknnotify.lib
 LIBRARY                 hlplch.lib
-LIBRARY                 DrmHelper.lib
+LIBRARY                 drmhelper.lib
 LIBRARY                 pslnengine.lib
 LIBRARY                 pslnframework.lib
-LIBRARY                 CdlEngine.lib
+LIBRARY                 cdlengine.lib
 LIBRARY                 aknicon.lib
 LIBRARY                 ecom.lib
 LIBRARY                 centralrepository.lib

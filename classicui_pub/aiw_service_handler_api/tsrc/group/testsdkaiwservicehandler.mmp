@@ -54,7 +54,7 @@ SOURCE          testsdkaiwservicehandler.cpp
 SOURCE          testsdkaiwservicehandlerblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         servicehandler.lib
 LIBRARY         eikcore.lib 

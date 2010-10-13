@@ -60,11 +60,6 @@ public:
 class CAknSmileyManager : public CBase
     {
 public:
-    static const TText KPlaceHolder = 0xfff0;
-    static const TText KCompensateChar = 'i'; 
-    static const TUint KSmileyCodeMin = 0xf880;
-    static const TUint KSmileyCodeMax = 0xf8e4;
-        
     IMPORT_C static CAknSmileyManager* NewL(MAknSmileyObserver* aObserver);
     IMPORT_C ~CAknSmileyManager();
 

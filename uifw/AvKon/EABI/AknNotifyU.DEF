@@ -150,5 +150,3 @@ EXPORTS
 	_ZN22CAknGlobalListMsgQueryD2Ev @ 149 NONAME
 	_Z13AknTracePrint11TRefByValueIK7TDesC16Ez @ 150 NONAME
 	_Z13AknTracePrintPKcz @ 151 NONAME
-	_ZN16CAknSignalNotify12SetUmaStateLEi @ 152 NONAME
-

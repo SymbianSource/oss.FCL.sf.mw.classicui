@@ -68,7 +68,7 @@ SOURCE          testsdkanimationblocks.cpp
 SOURCE          testsdkacontrol.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib

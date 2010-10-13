@@ -178,14 +178,6 @@ public:
      * @since s60 v5.2
      */
     void Clear();
-    
-    /**
-     * Hides the stylus popup menu.
-     *
-     * @internal
-     * @since S60 v5.2
-     */
-    void HideMenu();
 
 // from base class CCoeControl
 
@@ -252,12 +244,6 @@ private:
      */
     static void CleanLocalRef( TAny* aParam );
     
-
-    /**
-     * Hide Preview Popups
-     */
-    void HidePreviewPopup();
-
 private: // data
 
     /**

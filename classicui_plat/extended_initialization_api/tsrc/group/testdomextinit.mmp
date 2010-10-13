@@ -49,9 +49,9 @@ SOURCE          testdomextinit.cpp
 SOURCE          testdomextinitblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         avkon.lib
+LIBRARY         avkon.LIB
 
 LANG            SC
 

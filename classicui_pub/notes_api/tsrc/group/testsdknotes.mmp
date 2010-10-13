@@ -83,7 +83,7 @@ SOURCE          testsdknotescontrol.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcdlg.lib
@@ -98,15 +98,15 @@ LIBRARY         ws32.lib
 LIBRARY         form.lib
 LIBRARY         uiklaf.lib
 LIBRARY         eikcore.lib
-LIBRARY         lbs.lib
+LIBRARY         Lbs.lib
 LIBRARY         insock.lib
 LIBRARY         fepbase.lib
 LIBRARY         etext.lib
 LIBRARY         field.lib
 LIBRARY         efsrv.lib
 LIBRARY         gdi.lib
-LIBRARY         aknskins.lib
-LIBRARY         aknskinsrv.lib
+LIBRARY         aknskins.lib 
+LIBRARY         aknskinsrv.lib 
 LIBRARY         aknswallpaperutils.lib
 LIBRARY         fbscli.lib
 LIBRARY         print.lib

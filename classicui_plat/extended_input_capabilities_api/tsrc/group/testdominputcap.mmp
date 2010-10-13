@@ -50,7 +50,7 @@ SOURCE          testdominputcapblocks.cpp
 SOURCE          testdominputcapext.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikctl.lib
 

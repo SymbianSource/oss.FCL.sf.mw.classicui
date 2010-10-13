@@ -15,6 +15,7 @@
 *
 */
 
+
 // INCLUDE FILES
 #include <ganes/HgScroller.h>
 
@@ -240,9 +241,9 @@ EXPORT_C void CHgScroller::Mark( TInt aIndex )
             if( iMarkingObserver )
                 {
                 TRAP_IGNORE( iMarkingObserver->HandleMarkingL( aIndex, ETrue ) );
-                }
+                }            
             }
-        }
+        }    
     }
 
 // -----------------------------------------------------------------------------
@@ -589,16 +590,9 @@ void CHgScroller::HandlePointerEventL( const TPointerEvent& aEvent )
             iPointerDown = ETrue;
             HandleDownEventL( aEvent );
 
-            // Long tap is supported in marking mode only for an item that is marked.
-            const TBool validIndex = iSelectedIndex != KErrNotFound && 
-                    iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
-            const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
-            const TBool longTapEnabled = validIndex && (!selectionMode ||
-                    (selectionMode && iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked));
-            
             if( iDetector 
-                    && longTapEnabled
-                    && !HasHighlight()
+                    && iSelectedIndex != KErrNotFound 
+                    && !HasHighlight() 
                     && iActionMenu->InitMenuL() )
                 {
                 iDetector->PointerEventL( aEvent );
@@ -891,7 +885,6 @@ void CHgScroller::KeyEventDown()
     
     iPointerDown = EFalse;
     iPanning = EFalse;
-    iEnterKeyHandled = EFalse;
     }
 
 // -----------------------------------------------------------------------------
@@ -1062,37 +1055,33 @@ void CHgScroller::ScrollBarPositionChanged( const TPoint& aNewPosition )
     iViewPosition = aNewPosition;
     iPhysics->StopPhysics();
     
-    // show a letter popup only if we are currently dragging with scrollbar
-    if(iScrollbar && iScrollbar->IsDragging())
+    if( iScrollBarType == EHgScrollerTimeStrip )
         {
-        if( iScrollBarType == EHgScrollerTimeStrip )
+        // Show first item's time.
+        TInt selectedItem = CurrentIndex();
+        if( selectedItem >= 0 && selectedItem < iItems.Count()
+                && iItems[selectedItem]->Time().Int64() )
             {
-            // Show first item's time.
-            TInt selectedItem = CurrentIndex();
-            if( selectedItem >= 0 && selectedItem < iItems.Count()
-                    && iItems[selectedItem]->Time().Int64() )
-                {
-                TRAP_IGNORE(
-                        iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );
-                        iItems[selectedItem]->Time().FormatL( iPopupText2, KGanesYearString );
-                    )
-                // To display month and year correctly in arabic.
-                AknTextUtils::LanguageSpecificNumberConversion( iPopupText1 );
-                AknTextUtils::LanguageSpecificNumberConversion( iPopupText2 );
-                }
+            TRAP_IGNORE(
+                    iItems[selectedItem]->Time().FormatL( iPopupText1, KGanesMonthString );
+                    iItems[selectedItem]->Time().FormatL( iPopupText2, KGanesYearString );
+                )
+            // To display month and year correctly in arabic.
+            AknTextUtils::LanguageSpecificNumberConversion( iPopupText1 );
+            AknTextUtils::LanguageSpecificNumberConversion( iPopupText2 );
             }
-        else if( iScrollBarType == EHgScrollerLetterStrip
-                || iScrollBarType == EHgScrollerLetterStripLite )
+        }
+    else if( iScrollBarType == EHgScrollerLetterStrip
+            || iScrollBarType == EHgScrollerLetterStripLite )
+        {
+        TInt selectedItem = CurrentIndex();
+        if( selectedItem >= 0 && selectedItem < iItems.Count() )
             {
-            TInt selectedItem = CurrentIndex();
-            if( selectedItem >= 0 && selectedItem < iItems.Count() )
+            if(iItems[selectedItem]->Title().Length())
                 {
-                if(iItems[selectedItem]->Title().Length())
-                    {
-                    iPopupText1.Zero();
-                    iPopupText1.Append( iItems[selectedItem]->Title()[0] );
-                    iPopupText1.UpperCase();
-                    }
+                iPopupText1.Zero();
+                iPopupText1.Append( iItems[selectedItem]->Title()[0] );
+                iPopupText1.UpperCase();
                 }
             }
         }
@@ -1196,46 +1185,24 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
         case EKeyEnter:
         case EKeyOK:
             {
-            // If enter key is pushed down for a long time, many key events
-            // are generated. Enter should be handled only ones.
-            if (!iEnterKeyHandled)
+            if( iSelectedIndex != KErrNotFound && HasHighlight() )
                 {
-                iEnterKeyHandled = ETrue;
-                if( iSelectedIndex != KErrNotFound && HasHighlight())
-                    {                
-                    iEnterKeyHandled = ETrue;
-                    const TBool validIndex = iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
-                    const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
-                    if (validIndex && selectionMode)
-                        {
-                        // In selection mode enterkey should mark/unmark item.
-                        iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked ? 
-                            UnMark(iSelectedIndex) : Mark(iSelectedIndex);
-                        DrawDeferred();
-                        }
-                    else
-                        {
-                        // Item will be opened so highlight is removed.
-                        iShowHighlight = EFalse;
-                        if( iSelectionObserver )
-                            {
-                            TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
-                            }
-                        }
-                    iDrawUtils->EnableMarquee(HasHighlight());
-                    return EKeyWasConsumed;
-                    }
-                else if( iItemCount )
-                    {
-                    iSelectedIndex = CurrentIndex();
-                    FitSelectionToView();
-                    iShowHighlight = ETrue;
-                    iDrawUtils->EnableMarquee(HasHighlight());
-                    DrawDeferred();
-                    if( iSelectionObserver )
-                        TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
-                    return EKeyWasConsumed;
-                    }
+                iShowHighlight = EFalse;
+                iDrawUtils->EnableMarquee(HasHighlight());
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
+                return EKeyWasConsumed;
+                }
+            else if( iItemCount )
+                {
+                iSelectedIndex = iCurrentRow;
+                FitSelectionToView();
+                iShowHighlight = ETrue;
+                iDrawUtils->EnableMarquee(HasHighlight());
+                DrawDeferred();
+                if( iSelectionObserver )
+                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
+                return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;
             }
@@ -1304,21 +1271,6 @@ EXPORT_C void CHgScroller::Reset()
     {
     if(iItemCount)
         {
-        iHighlightTimer->Cancel();
-        iPointerDown = EFalse;
-        if(iDetector)
-            {
-            TRAP_IGNORE(iDetector->CancelAnimationL());
-            }
-        iPanning = EFalse;
-    
-        iPhysics->StopPhysics();
-        iPhysics->ResetFriction();
-    
-        iFocusedIndex = KErrNotFound;
-        iSelectionToFocusedItem = EFalse;
-        iDrawUtils->EnableMarquee(false);    
-    
         iItems.ResetAndDestroy();
         iItemCount = 0;
         iSelectedIndex = KErrNotFound;
@@ -1329,9 +1281,6 @@ EXPORT_C void CHgScroller::Reset()
             }
     
         HandleItemCountChanged();
-    
-        iViewPosition = TPoint(iWidth/2, iHeight/2);    
-        HandleViewPositionChanged();        
         }
     }
 
@@ -1341,14 +1290,6 @@ EXPORT_C void CHgScroller::Reset()
 //
 EXPORT_C void CHgScroller::SetFlags(TInt aFlags)
     {
-    const TBool currentSelectionMode = iFlags & EHgScrollerSelectionMode;
-    const TBool newSelectionMode = aFlags & EHgScrollerSelectionMode;
-    if( currentSelectionMode != newSelectionMode )
-        {
-        // when selection mode changes we need to repaint
-        DrawDeferred();
-        }
-    
     iFlags |= aFlags;
     }
 
@@ -1657,18 +1598,12 @@ void CHgScroller::SetHighlightL()
 //     
 void CHgScroller::SetSelectionMode( TSelectionMode aMode )
     {
-    if( aMode != iSelectionMode )
-        {
-        DrawDeferred();
-        }
-    
     iSelectionMode = aMode;
     if( iSelectionMode == ESelectionPossible
             || iSelectionMode == ENoSelection )
         {
         iCoeEnv->InputCapabilitiesChanged();
         }
-    
     }
 
 // ---------------------------------------------------------------------------
@@ -1811,14 +1746,7 @@ void CHgScroller::HandleResourceChange( TInt aType )
 void CHgScroller::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
                         const TPoint& aPenEventScreenLocation)
     {
-    // Long tap is supported in marking mode only for an item that is marked.
-    const TBool validIndex = iSelectedIndex != KErrNotFound && 
-            iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
-    const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
-    const TBool longTapEnabled = validIndex && (!selectionMode ||
-            (selectionMode && iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked));
-    
-    if( iActionMenu && longTapEnabled )
+    if( iActionMenu )
         {
         iOldWinPos = DrawableWindow()->OrdinalPosition();
         iActionMenu->ShowMenuL(aPenEventScreenLocation);

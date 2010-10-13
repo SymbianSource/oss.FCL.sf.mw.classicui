@@ -74,5 +74,4 @@ EXPORTS
 	_ZN12CAknTreeList13SetEmptyTextLERK7TDesC16 @ 73 NONAME
 	_ZNK12CAknTreeList16VisibleItemIndexEi @ 74 NONAME
 	_ZN12CAknTreeList22SetMarkingModeObserverEP23MAknMarkingModeObserver @ 75 NONAME
-	_ZN12CAknTreeList14SetMarkingModeEi @ 76 NONAME
 

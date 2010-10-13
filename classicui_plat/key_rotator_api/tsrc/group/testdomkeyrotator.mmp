@@ -49,9 +49,9 @@ SOURCE          testdomkeyrotator.cpp
 SOURCE          testdomkeyrotatorblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         AknKeyRotator.lib
+LIBRARY         aknkeyrotator.lib
 
 LANG            SC
 

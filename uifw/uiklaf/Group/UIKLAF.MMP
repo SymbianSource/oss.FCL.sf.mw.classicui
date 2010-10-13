@@ -81,16 +81,16 @@ LIBRARY         form.lib
 LIBRARY         avkon.lib
 LIBRARY         apgrfx.lib
 LIBRARY         aknnotify.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         eikcore.lib
 LIBRARY         aknskins.lib
-LIBRARY         CdlEngine.lib
-LIBRARY	        estor.lib
+LIBRARY         cdlengine.lib
+LIBRARY	        ESTOR.LIB 
 LIBRARY         EikCoCtlLaf.lib
-LIBRARY         fontutils.lib
+LIBRARY         FontUtils.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         FontProvider.lib
-LIBRARY         akncapserverclient.lib
+LIBRARY         AknCapServerClient.lib
 
 #if defined(ARMCC)
 DEFFILE         /epoc32/include/uiklaf/private/eabi/uiklaf.def

@@ -47,7 +47,7 @@ SOURCE          testsdkbasecontrolsblockseikbctrl.cpp
 SOURCE          testsdkbasecontrolsblockseikalign.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib

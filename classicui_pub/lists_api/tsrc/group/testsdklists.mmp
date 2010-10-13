@@ -98,7 +98,7 @@ SOURCE          testsdklistsblockseiktxlbx.cpp
 SOURCE          testsdklistsblocksaknlists.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib 
 LIBRARY         eikctl.lib
@@ -114,7 +114,7 @@ LIBRARY         eikcore.lib
 LIBRARY         gdi.lib
 LIBRARY         CommonEngine.lib
 LIBRARY         bitgdi.lib
-LIBRARY         AknLayout2Scalable.lib
+LIBRARY         aknlayout2scalable.lib
 LIBRARY         aknskins.lib
 LIBRARY         aknskinsrv.lib
 LIBRARY         aknswallpaperutils.lib

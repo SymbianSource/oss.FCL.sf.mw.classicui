@@ -279,7 +279,6 @@ TInt CPslnScreenSaverView::HandlePreviewModeChanged( TAny *aPtr )
         self->iModel->ActivateScreenSaver(
             KErrNotFound,
             EPslnScreenSaverPreviewDeactivation );
-        self->iScreenSaverPreviewing = EFalse;
 
         if ( self->iContainer )
             {
@@ -564,12 +563,6 @@ void CPslnScreenSaverView::HandleNotifyError(
 //
 void CPslnScreenSaverView::HandleScreenSaverActivationL( TInt aCurrentItem )
     {
-    // Protect screensaver type during preview.
-    if ( iScreenSaverPreviewing )
-        {
-        return;
-        }
-
     TInt PsmMode = 0; 
     iPsmClient->PsmSettings().GetCurrentMode( PsmMode );
     if ( PsmMode == EPsmsrvModePowerSave ) // PSM on, setting is protected
@@ -617,12 +610,6 @@ void CPslnScreenSaverView::HandleScreenSaverActivationL( TInt aCurrentItem )
 //
 void CPslnScreenSaverView::HandleScreenSaverPreviewL( TInt aCurrentItem )
     {
-    // Stop responding to preview again if screensaver is being previewed.
-    if ( iScreenSaverPreviewing )
-        {
-        return;
-        }
-
     TRAPD( err, DoInvokeScreenSaverFunctionL(
         aCurrentItem,
         EScpCapsPreviewNotification ) );
@@ -632,8 +619,7 @@ void CPslnScreenSaverView::HandleScreenSaverPreviewL( TInt aCurrentItem )
         // Start listening for screensaver preview mode key changes.
         CreatePreviewModeSubscriberL();
         CreatePreviewStateSubscriberL();
-
-        iScreenSaverPreviewing = ETrue;
+        
         User::LeaveIfError(
             iModel->ActivateScreenSaver(
                 aCurrentItem,

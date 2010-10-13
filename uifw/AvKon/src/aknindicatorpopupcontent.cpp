@@ -605,7 +605,6 @@ void CAknIndicatorPopupContent::HandlePointerEventL(
         switch ( aPointerEvent.iType )
             {
             case TPointerEvent::EButton1Down:
-                iOrdinal = DrawableWindow()->OrdinalPosition();
                 // Set flag that down was inside the popup.
                 iFlags |= EAknIndicatorPopupContentButton1Down;
                 iPreviousPressedDownItem = NULL;
@@ -676,12 +675,6 @@ void CAknIndicatorPopupContent::HandlePointerEventL(
                     // Up happened, reset button down flag.
                     iFlags &= ( ~EAknIndicatorPopupContentButton1Down );
                     iEnablePressedDownState = EFalse;
-
-                    if ( iOrdinal != DrawableWindow()->OrdinalPosition() )
-                        {
-                        Window().Invalidate( iPressedDownRect );
-                        break;
-                        }
 
                     if ( iBatteryPlugin &&
                          iBatteryArea.Contains( aPointerEvent.iPosition ) )

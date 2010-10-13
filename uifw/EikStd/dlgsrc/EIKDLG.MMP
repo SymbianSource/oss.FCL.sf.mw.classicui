@@ -73,7 +73,7 @@ LIBRARY         egul.lib
 LIBRARY         avkon.lib
 LIBRARY         form.lib
 LIBRARY         fepbase.lib
-LIBRARY         CdlEngine.lib
+LIBRARY         cdlengine.lib
 LIBRARY         gdi.lib
 LIBRARY         aknskins.lib
 LIBRARY         fbscli.lib

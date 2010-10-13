@@ -44,9 +44,9 @@ LIBRARY    euser.lib
 LIBRARY    cone.lib
 LIBRARY    eikcore.lib
 LIBRARY    aknnotify.lib
-LIBRARY    CommonEngine.lib
+LIBRARY    commonengine.lib
 LIBRARY    avkon.lib
-LIBRARY    centralrepository.lib
+LIBRARY    CentralRepository.lib
 LIBRARY    sysutil.lib
 
 #if defined(WINS) && !defined(WINSB)

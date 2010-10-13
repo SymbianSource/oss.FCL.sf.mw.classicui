@@ -396,9 +396,7 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         void SwitchEmotionVisibilityL();
         TBool NeedEmotionSwitchIcon() const;
         HBufC* ReadEmotionHBufCL();
-        void LoadEmotionTumbnails(const TDesC& aText);
-        void PlayAnimationL(const TDesC& aText);
-        void StopAnimation(const TDesC& aText);
+        void LoadEmotionTumbnails(const TDesC& aChars);
         void SetEmotionSize(const TSize& aSize);
         TBool IsEmotionChar(TChar aChar);
         TChar SwitchToSctChar();
@@ -439,9 +437,6 @@ NONSHARABLE_CLASS(CAknCharMapExtension) :
         TBool iKineticScrolling;
         // Indicates whether menu sct is highlighted or not.
         TBool iMenuSctHighlighted;
-        
-        // flag for focus status of char map dialog
-        TBool iCharMapFocusGained;
         
     public: // for Emotion
         HBufC* iCharsSmiley;
@@ -1501,24 +1496,11 @@ HBufC* CAknCharMapExtension::ReadEmotionHBufCL()
     return charsSmiley;
     }
 
-void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aText)
+void CAknCharMapExtension::LoadEmotionTumbnails(const TDesC& aChars)
     {
     //If emotion tumbbails can't be load, 
     // no emotion tumbnail will be dispalyed.
-    TRAP_IGNORE( iSmileyModel->LoadStillImagesL(aText) );
-    }
-
-const TInt KAnimationRepeat = 30;
-const TInt KAnimationDelay = 150*1000;
-
-void CAknCharMapExtension::PlayAnimationL(const TDesC& aText)
-    {
-    iSmileyModel->PlayAnimationL(aText, KAnimationRepeat, KAnimationDelay);
-    }
-
-void CAknCharMapExtension::StopAnimation(const TDesC& aText)
-    {
-    iSmileyModel->StopAnimation(aText);
+    TRAP_IGNORE( iSmileyModel->LoadStillImagesL(aChars) );
     }
 
 void CAknCharMapExtension::SetEmotionSize(const TSize& aSize)
@@ -2192,7 +2174,9 @@ EXPORT_C void CAknCharMap::SetCharacterCaseL(TInt aCharCase)
         UpdateScrollIndicatorL();
         }
     
-    Extension()->LoadEmotionTumbnails(*iChars);
+    iExtension->LoadEmotionTumbnails(*iChars);
+    
+    SetSmileyAnimationActivityInCurrentPageL(ETrue);
     
     }
 
@@ -2887,13 +2871,11 @@ void CAknCharMap::DoHandleResourceChangeL(TInt aType)
 
     else if(aType == KEikMessageFadeAllWindows) // focus gained // KEikMessageWindowsFadeChange
         {
-        Extension()->iCharMapFocusGained = ETrue;
         SetSmileyAnimationActivityInCurrentPageL(ETrue);
         }
     
     else if(aType == KAknMessageFocusLost) // focus lost
         {
-        Extension()->iCharMapFocusGained = EFalse;
         SetSmileyAnimationActivityInCurrentPageL(EFalse);
         
         if ( iExtension->iHighlightVisible )
@@ -3470,13 +3452,14 @@ void CAknCharMap::DrawRecentCharFrame( CWindowGc& aGc) const
 
     TPoint pos = iGridTopLeft;
     TSize size(iGridItemWidth*iMaxColumns+1, iGridItemHeight);
-    
-    // eliminate the overlap area between menu sct and the first menu item.
+	
+	// eliminate the overlap area between menu sct and the first menu item.
     if ( Extension()->iMenuSct )
         {
         // provide a dirty fix for Menu SCT, since Layout data is not suitable for this
         size = TSize( Rect().Width()- 1, iGridItemHeight - 1 );
         }
+    
     if(iIsMirrored)
         {
         pos.iX += iGridItemWidth - size.iWidth;
@@ -4882,16 +4865,17 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
         TAknLayoutRect rightCellLayRect;
         rightCellLayRect.LayoutRect(gridRect,
             AknLayoutScalable_Avkon::cell_graphic_popup_pane_cp2(0,1,0));
+			
         TRect firstCellRect;
-
-        // Cell width.
+		
+		// Cell width.
         iGridItemWidth =
             rightCellLayRect.Rect().iTl.iX - firstCellLayRect.Rect().iTl.iX;
         if (iGridItemWidth < 0)
             {
             iGridItemWidth = -iGridItemWidth;
             }
-        
+			
         if ( Extension()->iMenuSct )
             {
             firstCellRect = TRect( TPoint(0, 0),
@@ -4901,7 +4885,6 @@ void CAknCharMap::CountMaxColumnsAndCellSizes()
             {
             firstCellRect = firstCellLayRect.Rect();
             }
-
 
         TInt firstVisibleIndex = iFirstVisibleRow * iMaxColumns;
         // Max columns.
@@ -5682,11 +5665,6 @@ EXPORT_C void CAknCharMap::ConstructMenuSctRowL()
         {
         resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_CHINESE;
         }
-    else if (FeatureManager::FeatureSupported(KFeatureIdKorean))
-        {
-        // Added korea character support
-        resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_KOREAN;
-        }
 
     CCoeEnv::Static()->CreateResourceReaderLC( reader, resourceId );
     ConstructFromResourceL( reader );
@@ -5887,7 +5865,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
             }
         
         CAknCharMapHistory::THistoryFilter historyFilter;
-        if(Extension()->IsEmotionEnabled())
+        if(iExtension->IsEmotionEnabled())
             {
             historyFilter = CAknCharMapHistory::EHistoryFilterMixed;
             }
@@ -6002,10 +5980,7 @@ EXPORT_C void CAknCharMap::SetMenuSctRect( const TRect& aRect )
         iExtension->iFlags |= EAknCharMapCharsAllocated; // mark that iChars points to HBufC
         }
     
-    Extension()->LoadEmotionTumbnails(*iChars);
-    
-    // control will never get focus event while it is in EditMenu mode
-    Extension()->iCharMapFocusGained = ETrue;
+    iExtension->LoadEmotionTumbnails(*iChars);
 
     // The "PlayAnimationL" in "SetSmileyAnimationActivityInCurrentPageL"
     // will leave. If we ignore it, just no animation is played.
@@ -6262,17 +6237,9 @@ TBool CAknCharMap::IsSupportCategoryButtonUi() const
 
 TBool CAknCharMap::IsJapaneseSctUi() const
     {
-    //Japanese feature for SCT will not be supported since TB9.2 PS2,
-    //so it always return EFalse.
     return EFalse;
     }
 
-TBool CAknCharMap::IsKoreanSctUi() const
-    {
-	// Korean feature dropped half-screen SCT in 9.2, it has the same
-	//   behavior with others, so return false here
-    return EFalse;
-    }
 // -----------------------------------------------------------------------------
 // CAknCharMap::TitleWithSelectingSpecialChar()
 // Return the title string with the selecting special characters
@@ -6764,22 +6731,37 @@ void CAknCharMap::SmileyAnimationChanged(TChar aChar)
         }
     }
 
+const TInt KAnimationRepeat = 30;
+const TInt KAnimationDelay = 1000*1000;
+
 void CAknCharMap::SetSmileyAnimationActivityInCurrentPageL(TBool aIsActive)
     {
-    TInt pos = iFirstVisibleRow * iMaxColumns;
-    TInt maxLength = iChars->Length() - pos;
-    TInt length = iExtension->iMaxVisibleRows * iMaxColumns;
-    if(length > maxLength) length = maxLength;
-
-    const TPtrC textInCurrentPage = iChars->Mid(pos, length);
-    
-    if(Extension()->iCharMapFocusGained && aIsActive)
+    TInt begin = iFirstVisibleRow * iMaxColumns;
+    TInt end = iExtension->iMaxVisibleRows * iMaxColumns + begin;
+    if( end > iChars->Length() ) 
         {
-        Extension()->PlayAnimationL(textInCurrentPage);
+        end = iChars->Length();
         }
-    else
+
+    for( TInt i(begin); i<end; i++ )
         {
-        Extension()->StopAnimation(textInCurrentPage);
+        TChar code = (*iChars)[i];
+        CAknSmileyIcon* icon = iExtension->EmotionIcon(code);
+        if( !icon ) 
+            {
+            continue;
+            }
+
+        if( ( aIsActive ) && 
+           ( Extension()->IsShowingEmotion() || Extension()->iMenuSctHighlighted) 
+           )
+            {
+            icon->PlayAnimationL( KAnimationRepeat, KAnimationDelay );
+            }
+        else
+            {
+            icon->StopAnimation();
+            }
         }
     }
 

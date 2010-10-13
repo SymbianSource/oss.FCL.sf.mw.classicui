@@ -29,9 +29,6 @@
 #include "FindUtilKorean.h"
 #include <avkon.rsg>
 #include <StringLoader.h>
-#include <featmgr.h>
-#include <bldvariant.hrh>
-
 const TInt KLitTab('\t');
 const TInt KLitSpace(' ');
 const TInt KLitHyphen('-');
@@ -286,12 +283,10 @@ void CFindUtilWestern::OpenL()
 		iNotifyHandler->StartListeningL();
 	    }	
 //TSW: LYEE-7Q2GRV  
-    FeatureManager::InitializeLibL();
-    if( !iFindUtilKorean && FeatureManager::FeatureSupported( KFeatureIdKorean ) )
-        {
+	if(!iFindUtilKorean)
+	    {
         iFindUtilKorean = CFindUtilKorean::NewL();
-        }
-    FeatureManager::UnInitializeLib();
+	    }
 	}
 	
 void CFindUtilWestern::HandleNotifyInt( TUint32 aId, TInt aNewValue )
@@ -308,13 +303,13 @@ void CFindUtilWestern::HandleNotifyInt( TUint32 aId, TInt aNewValue )
 
 TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
     {
-    if ( iFindUtilKorean && ( iFindUtilKorean->IsKoreanLanguage( aContactsField ) || iFindUtilKorean->IsKoreanLanguage( aWord ) ) )
+    if ( iFindUtilKorean->IsKoreanLanguage( aContactsField ) || iFindUtilKorean->IsKoreanLanguage( aWord ) )
         {
         return iFindUtilKorean->Match( aContactsField, aWord );	
         }
     else
     	{
-        TInt numChar = 1;
+    TInt numChar = 1;
     	if (!aContactsField.Length())
         	{
                 _LIT( KNone, "*" );
@@ -347,24 +342,22 @@ TBool CFindUtilWestern::Match(const TDesC& aContactsField, const TDesC& aWord)
 //
 TBool CFindUtilWestern::MatchRefineL( const TDesC& aItemString, const TDesC& aSearchText )
     {
-    if ( iFindUtilKorean && 
-        ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || 
-          iFindUtilKorean->IsKoreanLanguage( aSearchText ) ) )
+    if ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || iFindUtilKorean->IsKoreanLanguage( aSearchText ) )
         {
         return iFindUtilKorean->MatchRefineL( aItemString, aSearchText );	
         }
     else
+    {
+    if ( aItemString.Length() == 0 )
         {
-        if ( aItemString.Length() == 0 )
-            {
-            return EFalse;
-            }
-    
-        if ( aSearchText.Length() == 0 )
-            {
-            return ETrue;
-            }
-        return IsFindMatch( aItemString, aSearchText, iInputLanguage );
+        return EFalse;
+        }
+
+    if ( aSearchText.Length() == 0 )
+        {
+        return ETrue;
+        }
+    return IsFindMatch( aItemString, aSearchText, iInputLanguage );
     	}
     }
 
@@ -1317,12 +1310,6 @@ TBool CFindUtilWestern::MatchAdaptiveRefineL( const TDesC& aItemString,
         {
         return EFalse;
         }
-		
-    if ( iFindUtilKorean && ( iFindUtilKorean->IsKoreanLanguage( aItemString ) || iFindUtilKorean->IsKoreanLanguage( aSearchText ) ) )
-        {
-        return iFindUtilKorean->MatchAdaptiveRefineL(aItemString,aSearchText,aNextChars);   
-        }
-		
     if ( aSearchText.Length() == 0 )
         {        
         UpdateNextCharsFromString( aNextChars, aItemString );

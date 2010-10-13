@@ -68,7 +68,7 @@ SOURCE          testsdktitlepaneext.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         bafl.lib

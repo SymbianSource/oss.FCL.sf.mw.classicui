@@ -79,7 +79,7 @@
 
 #include "akntrace.h"
 const TInt KPinCodeTacticonInterval = 30000000; // 30s
-const TInt KPinCodeMaxTacticons = 5;
+const TInt KPinCodeMaxTacticons = 10;
 /*******
  * CAknQueryControlExtension
  */
@@ -3072,11 +3072,8 @@ void CAknQueryControl::PictographCallBack()
             DeactivateGc();
 
             // Draw the label after the background.
-            TRAPD(err, iPrompt->Line( i )->ActivateL()); // Never leaves
-            if (err == KErrNone)
-                {
-                iPrompt->Line( i )->DrawNow();
-                }
+            iPrompt->Line( i )->ActivateL(); // Never leaves
+            iPrompt->Line( i )->DrawNow();
             iPrompt->SetLineModified( i, EFalse );
             }
         }
@@ -4079,11 +4076,8 @@ void CAknExtQueryControl::PictographCallBack()
             DeactivateGc();
 
             // Draw the label after the background.
-            TRAPD(err, iPrompt->Line( i )->ActivateL()); // Never leaves
-            if (err == KErrNone)
-                {
-                iPrompt->Line( i )->DrawNow();
-                }
+            iPrompt->Line( i )->ActivateL(); // Never leaves
+            iPrompt->Line( i )->DrawNow();
             iPrompt->SetLineModified( i, EFalse );
             }
         }

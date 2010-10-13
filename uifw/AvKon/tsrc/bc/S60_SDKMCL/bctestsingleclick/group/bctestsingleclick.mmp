@@ -64,7 +64,7 @@ LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
 LIBRARY         akncapserverclient.lib
-LIBRARY         CommonEngine.lib
+LIBRARY         commonengine.lib
 LIBRARY         bafl.lib 
 
 START RESOURCE ../group/bctestsingleclick_reg.rss

@@ -51,8 +51,8 @@ SOURCE          testdomserviceimblocks.cpp
 SOURCE          testserviceifmenuprotected.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         servicehandler.lib
+LIBRARY         ServiceHandler.lib
 
 LANG            SC

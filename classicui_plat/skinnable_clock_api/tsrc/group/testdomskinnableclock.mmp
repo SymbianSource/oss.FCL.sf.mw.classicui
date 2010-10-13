@@ -50,14 +50,14 @@ SOURCE          testdomskinnableclockblocks.cpp
 SOURCE          testdomclockcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcore.lib 
-LIBRARY         commonui.lib
+LIBRARY         commonui.lib 
 LIBRARY         cone.lib 
-LIBRARY         aknskins.lib
-LIBRARY         aknskinsrv.lib
-LIBRARY         aknswallpaperutils.lib
+LIBRARY         aknskins.lib 
+LIBRARY         aknskinsrv.lib 
+LIBRARY         aknswallpaperutils.lib 
 LIBRARY         apparc.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib

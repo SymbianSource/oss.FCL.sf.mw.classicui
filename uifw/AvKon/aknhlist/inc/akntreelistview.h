@@ -930,14 +930,6 @@ public:
      */    
     TBool HasMarkedItemsL() const;
     
-    /**
-     * Turns the marking mode on / off.
-     *
-     * @param  aEnable @c ETrue to turn marking mode on
-     *                 @c EFalse to turn marking mode off
-     */
-    void SetMarkingMode( TBool aEnable );
-
 // From MAknCollection
     /**
      * Returns the collection state. The state is combination of

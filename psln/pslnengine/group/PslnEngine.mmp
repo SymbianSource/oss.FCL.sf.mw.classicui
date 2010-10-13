@@ -52,10 +52,10 @@ LIBRARY                 bafl.lib
 LIBRARY                 efsrv.lib
 LIBRARY                 apparc.lib
 LIBRARY                 featmgr.lib
-LIBRARY                 CommonEngine.lib
+LIBRARY                 commonengine.lib
 LIBRARY                 centralrepository.lib
 LIBRARY                 aknskinsrv.lib
-LIBRARY                 DrmHelper.lib
+LIBRARY                 drmhelper.lib
 LIBRARY                 platformenv.lib
 LIBRARY                 gfxtrans.lib
 LIBRARY                 caf.lib

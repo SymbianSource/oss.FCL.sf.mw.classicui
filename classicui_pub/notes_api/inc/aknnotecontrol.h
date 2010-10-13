@@ -369,7 +369,7 @@ public:
             * @return Left index into table "Note With Image Popup Window
             * Texts Line 1".
             */
-			TInt NWIPWindowTextsLine1Left(TInt aLineNum) const;
+			TInt NWIPWindowTextsLine1L(TInt aLineNum) const;
 
         	/**
             * Return Right index into table "Note With Image Popup Window
@@ -385,7 +385,7 @@ public:
             * @return Right index into table "Note With Image Popup Window
             * Texts Line 1".
             */
-			TInt NWIPWindowTextsLine1Right(TInt aLineNum) const;
+			TInt NWIPWindowTextsLine1R(TInt aLineNum) const;
 
 			/**
             * Return Bottom index into table "Note With Image Popup Window

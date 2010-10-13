@@ -8,7 +8,7 @@
 *
 * Initial Contributors:
 * Nokia Corporation - initial contribution.
-*  Version:   %version: be1nfmx1#2.1.4 %
+*  Version:   %version: 2.1.2 %
 *
 * Contributors:
 *
@@ -53,7 +53,7 @@ SOURCE          testdomextnotifiersblockssoftnotifier.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         aknnotifyplugin.lib
 LIBRARY         akndynamicsoftnote.lib

@@ -56,7 +56,7 @@ USERINCLUDE     ../../../bctestutil/inc
 APP_LAYER_SYSTEMINCLUDE
 
 LIBRARY         aknhlist.lib
-LIBRARY         aknicon.lib
+LIBRARY         aknicon.lib 
 LIBRARY         akninputlanguage.lib
 LIBRARY         aknnotify.lib
 LIBRARY         aknskins.lib
@@ -84,7 +84,7 @@ LIBRARY         insock.lib
 LIBRARY         touchfeedback.lib
 LIBRARY         ws32.lib
 LIBRARY         hwrmhapticsclient.lib
-LIBRARY         aknskinsrv.lib
+LIBRARY         AknSkinSrv.lib
 
 START RESOURCE ../group/bctestmix50_reg.rss
 DEPENDS bctestmix50.rsg

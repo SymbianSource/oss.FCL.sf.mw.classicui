@@ -158,9 +158,6 @@ public:
     IMPORT_C TInt GetEditorMode() const;    
     IMPORT_C void ResetEditorToDefaultValues();  
 
-    IMPORT_C void SetQwertyAllowed( TBool aQwertyAllowed );  
-    IMPORT_C void SetHybridModeAllowed( TBool aHybridModeAllowed );  
-    
 public: 
 // from CCoeControl  
     /**
@@ -283,7 +280,7 @@ private:
      * Report event to pen input method.
      * @param aStateEvent, MAknEdStateObserver::EAknEdwinStateEvent     
      */
-    void ReportAknEdStateEvent( 
+    void ReportAknEdStateEventL( 
              MAknEdStateObserver::EAknEdwinStateEvent aStateEvent );
     /**
      * close VKB .    

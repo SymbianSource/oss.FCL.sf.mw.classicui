@@ -51,7 +51,7 @@ SOURCE          testdomasdsblocksfacade.cpp
 SOURCE          testdomasdsblocksdata.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikdlg.lib 
 LIBRARY         estor.lib 

@@ -15,7 +15,8 @@
 *
 */
 
-#include <AknSmileyUtils.h>
+//#include <streamlogger.h>
+
 #include "smileymanager.h"
 #include "smileymodel.h"
 
@@ -204,8 +205,8 @@ void CSmileyModel::GetImageInfo( TImageInfo& aImageInfo, HBufC** aFileName )
 //
 void CSmileyModel::AddSimleyL( CSmileyInfo& aInfo )
     {
-    if ( aInfo.iImageInfo.iCode < CAknSmileyManager::KSmileyCodeMin || 
-        aInfo.iImageInfo.iCode > CAknSmileyManager::KSmileyCodeMax || 
+    if ( aInfo.iImageInfo.iCode < CSmileyManager::KSmileyCodeMin || 
+        aInfo.iImageInfo.iCode > CSmileyManager::KSmileyCodeMax || 
         aInfo.iStrArray.Count() == 0 )
         {
         return;
@@ -382,11 +383,11 @@ void CSmileyModel::ReplaceTextWithCodes( TDes& aText, TInt aDocPos,
     TInt len( iLinkArray[linkIndex].iStrLength );
     TInt imageIndex( iLinkArray[linkIndex].iImageIndex );
     aText[aDocPos] = iImageInfoArray[imageIndex].iCode;
-    aText[aDocPos + 1] = CAknSmileyManager::KCompensateChar;
+    aText[aDocPos + 1] = CSmileyManager::KCompensateChar;
     const TInt KThirdIndex = 2;
     for ( TInt i( KThirdIndex ); i < len; i++ )
         {
-        aText[i + aDocPos] = CAknSmileyManager::KPlaceHolder;
+        aText[i + aDocPos] = CSmileyManager::KPlaceHolder;
         }
     }
 
@@ -446,14 +447,8 @@ TBool IsPartOfUrl(const TDesC& aText)
     while(pos > 0)
         {
         const TUint16 word = aText[--pos];
-        // Since in most cases, URL is comprised of ASCII characters, 
-        // so if there is a character out of the ASCII printable characters, 
-        // we can stop the search.
-        const TInt KMinPrintableAscIIChar( 0x21 ); // excluding space
-        const TInt KMaxPrintableAscIIChar( 0x7e );
-        if( word < KMinPrintableAscIIChar || word > KMaxPrintableAscIIChar )
+        if(word == ' ' || word == 0x2029)
             {
-            pos++; // make the string begin with printable character.
             break;
             }
         }
@@ -467,22 +462,7 @@ TBool IsPartOfUrl(const TDesC& aText)
         if(KErrNotFound != pos)
             {
             return ETrue;
-            }
-        else
-            {
-            // Although the string doesn't contain '://', it is also considered
-            // as an URL if it contains 'www.'.
-            HBufC* fieldTextBuf( field.Alloc() );
-            if ( fieldTextBuf )
-                {
-                TPtr fieldText( fieldTextBuf->Des() );
-                // Use lower case for search to avoid case sensitive mismatch.
-                fieldText.LowerCase();
-                TBool result( fieldText.Find( _L("www.") ) != KErrNotFound );
-                delete fieldTextBuf;
-                return result;
-                }
-            }
+            }    
         }
     
     return EFalse;

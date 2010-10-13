@@ -64,7 +64,7 @@ LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
-LIBRARY		    fontutils.lib
+LIBRARY		    fontutils.lib 
 
 START RESOURCE ../group/BCTestFontInput_reg.rss
 DEPENDS bctestfontinput.rsg

@@ -1839,25 +1839,24 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
             {
             iScreenSaverInfo = CPslnScreenSaverInfo::NewL();
             }
-        iScreenSaverInfo->iFileName->Des().Zero();
         
         //backup current screensaver settings
         error = iScreenSaverRepository->Get(
             KScreenSaverObject,
             iScreenSaverInfo->iScreenSaverType );
 
+        if ( iScreenSaverInfo->iScreenSaverType == KPslnSsObject )
+            {
+            TPtr ptr = iScreenSaverInfo->iFileName->Des();
+            error = iScreenSaverRepository->Get(
+                KScreenSaverPluginName,
+                ptr );
+            }
         if ( previewSsType == KPslnSsText )
             {
             TPtr ptr = iScreenSaverInfo->iScreenSaverTxt->Des();
             error = iScreenSaverRepository->Get(
                 KScreenSaverText,
-                ptr );
-            }
-        else if ( previewSsType == KPslnSsObject )
-            {
-            TPtr ptr = iScreenSaverInfo->iFileName->Des();
-            error = iScreenSaverRepository->Get(
-                KScreenSaverPluginName,
                 ptr );
             }
             
@@ -1909,13 +1908,13 @@ void CPslnModel::ActivateScreenSaverL( const TInt aItemIndex,
             previewSsType );
 
         //restore the screen saver settings.
-        if ( iScreenSaverInfo->iFileName->Des().Compare( KNullDesC ) )
+        if ( iScreenSaverInfo->iScreenSaverType == KPslnSsObject )
             {
             error = iScreenSaverRepository->Set(
                 KScreenSaverPluginName,
                 iScreenSaverInfo->iFileName->Des() );
             }
-        else if ( previewSsType == KPslnSsText )
+        if ( previewSsType == KPslnSsText )
             {
             error = iScreenSaverRepository->Set(
                 KScreenSaverText,

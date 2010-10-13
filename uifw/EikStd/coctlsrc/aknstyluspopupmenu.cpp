@@ -426,7 +426,14 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
     {
     if ( aControl && aEventType == EEventStateChanged )
         {
-        HidePreviewPopup();
+        if ( iPreviewPopup )
+            {
+            iPreviewPopup->HidePopUp();
+            }
+        if ( iController )
+            {
+            iController->HidePopUp();
+            }
 
         if ( iMenuObserver )
             {
@@ -456,14 +463,20 @@ EXPORT_C void CAknStylusPopUpMenu::HandleControlEventL( CCoeControl* aControl,
         }
     else if ( aControl && aEventType == EEventRequestExit )
         {
-        HidePreviewPopup();
+        if ( iPreviewPopup )
+            {
+            iPreviewPopup->HidePopUp();
+            }
+
+        if ( iController )
+            {
+            iController->HidePopUp();
+            }      
 
         StartControllerIdleL();
         }
     else if ( aControl && aEventType == EEventRequestCancel )
         {
-        HidePreviewPopup();
-
         if ( iMenuObserver )
             {
             TBool isAlreadySet = iFlags.IsSet( EIdleDisabled );
@@ -505,20 +518,6 @@ void CAknStylusPopUpMenu::Clear()
         iController->UpdateContentSize();
         }
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknStylusPopUpMenu::HideMenu
-// ---------------------------------------------------------------------------
-//
-void CAknStylusPopUpMenu::HideMenu()
-    {
-    if ( iController )
-        {
-        iController->HidePopUp();
-        }
-    }
-
 
 // -----------------------------------------------------------------------------
 // CAknStylusPopUpMenu::StartControllerIdleL
@@ -573,21 +572,4 @@ void CAknStylusPopUpMenu::RemoveController()
 void CAknStylusPopUpMenu::CleanLocalRef( TAny* aParam )
     {
     static_cast<CAknStylusPopUpMenu*>( aParam )->iIsDeleted = NULL;
-    }
-
-// -----------------------------------------------------------------------------
-// Hide Preview Popups
-// -----------------------------------------------------------------------------
-//
-void CAknStylusPopUpMenu::HidePreviewPopup()
-    {
-    if ( iPreviewPopup )
-        {
-        iPreviewPopup->HidePopUp();
-        }
-
-    if ( iController )
-        {
-        iController->HidePopUp();
-        }
     }

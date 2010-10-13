@@ -2077,7 +2077,10 @@ EXPORT_C void CEikDialog::TryExitL(TInt aButtonId)
             GfxTransEffect::NotifyExternalState(ECaptureComponentsAbort, (const TDesC8*)this);
             GfxTransEffect::Abort(this);
             }
-                    
+            
+        // Draw again in cast any content change in OkToExitL
+        DrawDeferred();
+        
         _AKNTRACE("CEikDialog::TryExitL return with OkToExitL false");
         return;
         }
@@ -2462,19 +2465,16 @@ void CEikDialog::DoResourceChangeLayout()
     if ( !isForm )
         {
         SizeChanged();
-		}
-	
-    if( iPageSelector )
-    	{		
-		TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
-		TInt pageIndex = 0;
-		CEikDialogPage* page( NULL );
-	
-		while ( pageIndex++ <= lastPage )
-			{
-			page = iPageSelector->PageContainer()->Page( pageIndex );
-			page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
-			}   
+    
+        TInt lastPage =  ( iPageSelector->PageContainer()->NumPages() - 1 );
+        TInt pageIndex = 0;
+        CEikDialogPage* page;
+    
+        while ( pageIndex++ <= lastPage )
+            {
+            page = iPageSelector->PageContainer()->Page( pageIndex );
+            page->HandleResourceChange( KEikDynamicLayoutVariantSwitch );
+            }
         }
 
    	if (iExtension)

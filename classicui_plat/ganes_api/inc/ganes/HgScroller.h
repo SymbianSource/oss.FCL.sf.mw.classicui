@@ -506,7 +506,6 @@ protected:
     
     TBool iResetViewPosition; // ETrue on the first time run, and when iViewPosition must be reset.
     TBool iPointerDown;
-    TBool iEnterKeyHandled;
 
     CPeriodic* iHighlightTimer; // Higlight timer, own.
     TBool iSelectionToFocusedItem; // Is focused item clicked

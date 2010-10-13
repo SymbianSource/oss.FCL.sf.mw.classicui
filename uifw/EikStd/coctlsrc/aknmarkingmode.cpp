@@ -59,8 +59,7 @@ CAknMarkingMode::~CAknMarkingMode()
 // CAknMarkingMode::SetCollectionMultipleMarkingState
 // ---------------------------------------------------------------------------
 //
-EXPORT_C void CAknMarkingMode::SetCollectionMultipleMarkingState(
-    TBool aActive )
+void CAknMarkingMode::SetCollectionMultipleMarkingState( TBool aActive )
     {
     _AKNTRACE_FUNC_ENTER;
     for ( TInt i = 0; i < iCollections.Count(); i++ )
@@ -122,12 +121,17 @@ TBool CAknMarkingMode::MultipleMarkingActive() const
     for ( TInt i = 0; i < iCollections.Count(); i++ )
         {
         MAknCollection* collection( iCollections[i] );
-        MAknMarkingCollection* markingCollection
-            = MarkingCollection( *collection );
-        if ( markingCollection )
+        if ( collection->CollectionState() &
+                MAknCollection::EStateCollectionVisible )
             {
-            markingActive = markingCollection->MarkingState()
-                & MAknMarkingCollection::EStateMarkingMode;
+            MAknMarkingCollection* markingCollection
+                = MarkingCollection( *collection );
+            if ( markingCollection )
+                {
+                markingActive = markingCollection->MarkingState()
+                    & MAknMarkingCollection::EStateMarkingMode;
+                }
+            break;
             }
         }
     _AKNTRACE_FUNC_EXIT;

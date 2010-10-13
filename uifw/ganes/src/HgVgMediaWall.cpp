@@ -159,15 +159,11 @@ EXPORT_C void CHgVgMediaWall::InitScreenL( const TRect& aRect )
     // Set the windows size       
     SetRect ( aRect );
 
-#ifdef MEDIAWALL_ORIENTATION_FIX
+#ifdef MEDIAWALL_ORIENTATION_FIX    
     TSize screenSize = iCoeEnv->ScreenDevice()->SizeInPixels();
     if (aRect == TRect(TPoint(0,0), screenSize) 
             && iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen)
         {
-        TPixelsAndRotation sizeAndRotation;
-        iCoeEnv->ScreenDevice()->GetDefaultScreenSizeAndRotation(sizeAndRotation);
-        iRotatedDraw = sizeAndRotation.iRotation != CFbsBitGc::EGraphicsOrientationNormal;
-        
         Window().FixNativeOrientation();
         }
 #endif
@@ -230,12 +226,7 @@ EXPORT_C TInt CHgVgMediaWall::ItemsOnScreen()
 //
 EXPORT_C TInt CHgVgMediaWall::SelectedIndex()
     {
-    // iObserverNotified flag is set on when animation is about to end and
-    // observer is notified from the selected index.
-    return ((iAnimationState == EHgVgMediaWallAnimationStateTransition ||
-            iAnimationState == EHgVgMediaWallAnimationStateFastTransition) &&
-            !iObserverNotified) ?
-                KErrNotFound : iSelectedIndex * iRowCount;
+    return iSelectedIndex * iRowCount;
     }
 
 // -----------------------------------------------------------------------------
@@ -348,9 +339,6 @@ EXPORT_C CHgVgMediaWall::~CHgVgMediaWall ( )
     iPopupText1.Close();
     iPopupText2.Close();
 
-    // Just to be safe, this will release all resource, eventhought
-    // they should be already released at this point.
-    eglReleaseThread();
     }
 
 // -----------------------------------------------------------------------------
@@ -877,11 +865,10 @@ TKeyResponse CHgVgMediaWall::HandleKeyEvent(const TKeyEvent& aKeyEvent)
             handled = ETrue;
             } break;
         case EKeyEnter:
-        case EKeyOK:
             {
             if( iSelectedIndex != KErrNotFound && iSelectionObserver )
                 {
-                TRAP_IGNORE( DoStartOpeningAnimationL( ); )
+                TRAP_IGNORE( DoStartOpeningAnimationL( ); )                
                 return EKeyWasConsumed;
                 }
             return EKeyWasNotConsumed;
@@ -1120,9 +1107,8 @@ CFbsBitmap* CHgVgMediaWall::DrawToBitmap()
         return NULL;
     
 #ifdef MEDIAWALL_ORIENTATION_FIX    
-    return iEGL->GetSurfaceToBitmap(
-            iRect, 
-            iRotatedDraw && (iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen) );        
+    return iEGL->GetSurfaceToBitmap(iRect, 
+            iMediaWallStyle == EHgVgMediaWallStyleCoverflowFullScreen);        
 #else
     return iEGL->GetSurfaceToBitmap(iRect, EFalse);            
 #endif
@@ -1604,8 +1590,7 @@ void CHgVgMediaWall::InitScrollBarL(TBool /*aResize*/)
     
 #ifdef MEDIAWALL_ORIENTATION_FIX
     iScrollBar->EnableLandscapeRendering( 
-            iRotatedDraw 
-            && (iMediaWallStyle == CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen) );
+            iMediaWallStyle == CHgVgMediaWall::EHgVgMediaWallStyleCoverflowFullScreen );
 #endif
     
     }
@@ -2454,15 +2439,15 @@ void CHgVgMediaWall::InitMediaWallFullScreenLandscapeL()
     
     InitScrollBarL(EFalse);
 
-#ifdef MEDIAWALL_ORIENTATION_FIX
-    iRenderer->EnableLandscapeMode(iRotatedDraw);
-    iAlbumLabel->EnableLandscapeRendering(iRotatedDraw);
-    iArtistLabel->EnableLandscapeRendering(iRotatedDraw);
-    iEmptyLabel->EnableLandscapeRendering(iRotatedDraw);
-    iSkinRenderer->EnableLanscapeRendering(iRotatedDraw);
-    iScrollBar->EnableLandscapeRendering(iRotatedDraw);
-    iHideSKButton->EnableLandscapeRendering(iRotatedDraw);
-    iLetterPopup->EnableLandscapeRendering(iRotatedDraw);
+#ifdef MEDIAWALL_ORIENTATION_FIX    
+    iRenderer->EnableLandscapeMode(ETrue);
+    iAlbumLabel->EnableLandscapeRendering(ETrue);
+    iArtistLabel->EnableLandscapeRendering(ETrue);
+    iEmptyLabel->EnableLandscapeRendering(ETrue);
+    iSkinRenderer->EnableLanscapeRendering(ETrue);
+    iScrollBar->EnableLandscapeRendering(ETrue);
+    iHideSKButton->EnableLandscapeRendering(ETrue);
+    iLetterPopup->EnableLandscapeRendering(ETrue);
 #endif
     
     }

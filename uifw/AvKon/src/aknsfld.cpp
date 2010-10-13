@@ -799,10 +799,6 @@ EXPORT_C void CAknSearchField::ProcessCommandL( TInt aCommandId )
                 }                  
             iListBox->DrawNow();
             }
-        }  
-    else if( aCommandId == EAknCmdHideASGrid && iAdaptiveSearch )
-        {     
-        iAdaptiveSearch->HideAdaptiveSearchGridL();                       
         }
     }
 
@@ -900,11 +896,7 @@ EXPORT_C void CAknSearchField::MakeVisible( TBool aVisible )
             {
             iEditor->SetFocus( aVisible );
             }
-        }
-    if( iAdaptiveSearch && !aVisible )
-    	{
-        TRAP_IGNORE( iAdaptiveSearch->HideAdaptiveSearchGridL() );
-    	}
+        }        
     _AKNTRACE_FUNC_EXIT;
     }
 

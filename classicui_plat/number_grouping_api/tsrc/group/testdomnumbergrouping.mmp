@@ -52,10 +52,10 @@ SOURCE          testdomnumbergroupingblocksphonenumgrping.cpp
 SOURCE          testdomnumbergroupingblocksnumgrping.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         avkon.lib
-LIBRARY         numbergrouping.lib
+LIBRARY         AVKON.LIB
+LIBRARY         NumberGrouping.lib
 
 LANG            SC
 

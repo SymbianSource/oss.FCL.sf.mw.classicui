@@ -17,11 +17,6 @@
 
 
 #include "FindUtilKorean.h"
-#include <e32svr.h>
-
-#ifdef _DEBUG
-#include <charconv.h>
-#endif
 
 const TInt KSBase = 0xac00; // base address for hangul syllables
 const TInt KLBase = 0x1100; // base address for L-jamo
@@ -98,47 +93,7 @@ const TUint16 conversionTableFromCompatibilityJamoToJamo[] = {
 0x1175,
 };
 
-const TUint16 conversionTableFromLJamoToCompatibilityJamo[] = {
-0x3131, /* ? */
-0x3132, /* ? */
-0x3134, /* ? */
-0x3137, /* ? */
-0x3138, /* ? */
-0x3139, /* ? */
-0x3141, /* ? */
-0x3142, /* ? */
-0x3143, /* ? */
-0x3145, /* ? */
-0x3146, /* ? */
-0x3147, /* ? */
-0x3148, /* ? */
-0x3149, /* ? */
-0x314A, /* ? */
-0x314B, /* ? */
-0x314C, /* ? */
-0x314D, /* ? */
-0x314E  /* ? */
-};
-
 #define KCCount (sizeof(conversionTableFromCompatibilityJamoToJamo) / sizeof(TUint16))
-
-#define KCountCompToJamo (sizeof(conversionTableFromCompatibilityJamoToJamo) / sizeof(TUint16))
-
-#define KCountLJamoToComp (sizeof(conversionTableFromLJamoToCompatibilityJamo) / sizeof(TUint16))
-
-#define ISLJamo(a) (KLBase <= a && a <= KLBase + KLCount)
-
-#define IsCompatibilityJamo(a) (0x3130 <= a && a <= 0x318F)
-
-const TInt KNextCharsGranuarity = 20;
-
-const TUid KUidPhoneBook = {0x101F4CCE};
-const TUid KUidPhoneBookServer = {0x10207277};
-const TUid KUidSymbianContactModel = {0x10003A73};
-
-#define IsPhoneBookProcess(a) ( a == KUidSymbianContactModel || a == KUidPhoneBook || a == KUidPhoneBookServer )
-
-
 
 // ============================ MEMBER FUNCTIONS =============================
 
@@ -162,13 +117,6 @@ CFindUtilKorean* CFindUtilKorean::NewL()
 //
 void CFindUtilKorean::ConstructL()
     {
-#ifdef _DEBUG
-    User::LeaveIfError( iFs.Connect() );
-    iConv = CCnvCharacterSetConverter::NewL();
-    iConv->PrepareToConvertToOrFromL(0x200100FF, iFs);
-#endif
-    
-    iCurrentProcessUid3 = ( RProcess().Type() )[2];
     }
 
 // ---------------------------------------------------------------------------
@@ -185,10 +133,6 @@ CFindUtilKorean::CFindUtilKorean()
 //
 CFindUtilKorean::~CFindUtilKorean()
     {
-#ifdef _DEBUG
-    delete iConv;
-    iFs.Close();
-#endif
     }
 
 // ---------------------------------------------------------------------------
@@ -212,140 +156,35 @@ TBool CFindUtilKorean::IsKoreanLanguage( const TDesC& aDes )
 // Compares two strings against others.
 // ---------------------------------------------------------------------------
 //
-TInt CFindUtilKorean::IsFindMatch( 
-        const TDesC& aItemString, 
-        const TDesC& aSearchText,
-        const TMatchFlag aFlag)
+TBool CFindUtilKorean::IsFindMatchL( 
+    const TDesC& aItemString, 
+    const TDesC& aSearchText )
     {
-    
-#ifdef _DEBUG
-    TRAP_IGNORE(
-        HBufC8* bufItemString = HBufC8::NewLC((aItemString.Length() + 1) * 2);
-        HBufC8* bufSearchText = HBufC8::NewLC((aSearchText.Length() + 1) * 2);
-        TPtr8 ptrItemString(bufItemString->Des());
-        ptrItemString.FillZ(ptrItemString.MaxLength());
-        TPtr8 ptrSearchText(bufSearchText->Des());
-        ptrSearchText.FillZ(ptrSearchText.MaxLength());
-        iConv->ConvertFromUnicode(ptrItemString, aItemString);
-        iConv->ConvertFromUnicode(ptrSearchText, aSearchText);
-        RDebug::Printf("DBG: comparing %s, %s", bufItemString->Ptr(), bufSearchText->Ptr());
-        CleanupStack::PopAndDestroy(2);
-    );
-#endif
+    TBool result( EFalse );
     
     // To disable the wildchar matching provided by MatchC.
-    if ( aFlag == EMatchFlagNone &&
-        KErrNotFound != aSearchText.Locate( KLitQuestion ) && 
+    if ( KErrNotFound != aSearchText.Locate( KLitQuestion ) && 
         KErrNotFound != aSearchText.Locate( KLitStar ) )
     	{
-#ifdef _DEBUG
-    	RDebug::Printf("DBG: comparing includes wild");
-#endif
-    	return KErrNotFound;
+    	return EFalse;
     	}
-
-#if 1 // 2009.08.14 consonent based search
-    TUint flag = aFlag;
-
-    TInt lenItemString = aItemString.Length();
-    TInt lenSearchText = aSearchText.Length();
-
-    // detect asterik in end of string
-    if (lenSearchText > 0 && aSearchText[lenSearchText - 1] == KLitStar)
-        {
-        flag |= EMatchFlagAsterikInLast;
-        lenSearchText--;
-        }
-
-    // set asterik start
-    if (!IsPhoneBookProcess(iCurrentProcessUid3) || 
-        (aSearchText.Length() > 0 && aSearchText[0] == KLitStar))
-        {
-        flag |= EMatchFlagAsterikInStart;
-        }
-
-    if (lenItemString < lenSearchText)
-        {
-        return KErrNotFound;
-        }
-
-    if (IsPhoneBookProcess(iCurrentProcessUid3))
-        {
-        TInt i = 0;
-        TInt j = 0;
-        for (; i < lenItemString && j < lenSearchText; i++)
-            {
-            TChar ch(aItemString[i]);
-            if (IsFindWordSeparator(ch))
-                {
-                continue;
-                }
-            
-            if (MatchConsonentBased(ch, aSearchText[j]))
-                {
-                j++;
-                }
-            else
-                {
-                break;
-                }
-            }
-        
-        if (j == lenSearchText)
-            return 0;
-        }
-
-    for (TInt i = 0; i < lenItemString - lenSearchText + 1; i++)
-        {
-        if (!(flag & EMatchFlagAsterikInStart))
-            {
-            if (0 != i && !IsFindWordSeparator(aItemString[i - 1]))
-                {
-                continue;
-                }
-            }
-
-        TBool matched(ETrue);
-        for (TInt j = 0; j < lenSearchText; j++)
-            {
-            if (!MatchConsonentBased(aItemString[i + j], aSearchText[j]))
-                {
-#ifdef _DEBUG
-                RDebug::Printf("DBG: mismatch between %d %d", i + j, j);
-#endif
-                matched = EFalse;
-                break;
-                }
-            }
-
-        if (matched)
-            {
-#ifdef _DEBUG
-            RDebug::Print(_L("DBG: comparing matched"));
-#endif
-            return i;
-            }
-        }
-
-    return KErrNotFound;
-
-#else
+    
     // Convert aItemString to single jamo's.
     HBufC* itemString = HBufC::NewLC( aItemString.Length() * KMaxLengthDecomposedSyllable );
     DecomposeToPlainJamos( aItemString, itemString );
-
+    
     HBufC* searchText = HBufC::NewLC( aSearchText.Length() * KMaxLengthDecomposedSyllable + 2 );
     searchText->Des().Append( KLitStar );
 
     // Convert aSearchText to single jamo's.
     DecomposeToPlainJamos( aSearchText, searchText );
     searchText->Des().Append( KLitStar );
-
+    
     // Compare strings containing plain jamo's against others.
     for ( TInt i = 0; i < itemString->Length() && !result; i++ )
         {
-        if ( 0 == i || IsFindWordSeparator(
-                        static_cast<TChar>( itemString->Des()[ i - 1 ] ) ) )
+        if ( 0 == i || IsFindWordSeparator( 
+            static_cast<TChar>( itemString->Des()[ i - 1 ] ) ) )
             {
             if ( KErrNotFound != itemString->Mid( i ).MatchC( *searchText ) )
                 {
@@ -353,12 +192,11 @@ TInt CFindUtilKorean::IsFindMatch(
                 }
             }
         }
-
+    
     CleanupStack::PopAndDestroy( searchText );
     CleanupStack::PopAndDestroy( itemString );
-
-    return result;
-#endif
+    
+    return result;    
     }
 
 // ---------------------------------------------------------------------------
@@ -390,25 +228,6 @@ void CFindUtilKorean::DecomposeToPlainJamos(
             aDecomposedString->Des().Append( aString[ i ] );
             }
         }
-    }
-
-void CFindUtilKorean::DecomposeChar( TChar aChar, TDes& aDecomposedString )
-    {
-    aDecomposedString.Zero();
-    if ( IsHangulSyllable( aChar ) )
-        {
-        Decompose( aChar, aDecomposedString );
-        }
-    else if ( IsHangulCompatibilityJamo( aChar ) )
-        {
-        TUint16 jamo = conversionTableFromCompatibilityJamoToJamo[ (TInt)aChar - KCBase ];
-        aDecomposedString.Append( jamo );    
-        }
-    // Otherwise append character directly to 'decomposed string'.
-    else
-        {
-        aDecomposedString.Append( aChar );
-        }    
     }
 
 // ---------------------------------------------------------------------------
@@ -466,7 +285,7 @@ TBool CFindUtilKorean::IsHangulCompatibilityJamo( TChar aChar )
     {
     // Character is 'hangul compatibility jamo' 
     // if it's numeric value is between KCBase and KCBase + KCCount.
-    TInt index = static_cast<TInt>( aChar ) - KCBase;
+    TInt index = static_cast<TInt> ( aChar ) - KCBase;
     if ( index < 0 || index >= KCCount )
         {
         return EFalse;
@@ -485,16 +304,19 @@ TBool CFindUtilKorean::Match( const TDesC& aContactsField, const TDesC& aWord )
     // does not contain any characters.
     if ( aContactsField.Length() )
         {
-	    // In case that both of strings contain some characters,
-	    // matching is made with function below.
-#ifdef _DEBUG
-        RDebug::Printf("DBG: Comparing from Match");
-#endif
-	    retVal = (IsFindMatch( aContactsField, aWord ) != KErrNotFound);
+       // In case that both of strings contain some characters,
+       // matching is made with function below.
+      TRAPD(err, retVal = IsFindMatchL( aContactsField, aWord ));
+    	
+      if (err != KErrNone)
+    	{
+    	retVal = EFalse;
+    	}
         }
 	
-	return retVal;
+   return retVal;
     }
+
 
 // ---------------------------------------------------------------------------
 // It tests a partial matching.
@@ -520,11 +342,7 @@ TBool CFindUtilKorean::MatchRefineL(
 
     // In case that both of strings contain some characters,
     // matching is made with function below.
-#ifdef _DEBUG
-    RDebug::Printf("DBG: Comparing from MatchRefineL");
-#endif
-    
-    return (IsFindMatch( aItemString, aSearchText ) != KErrNotFound);
+    return IsFindMatchL( aItemString, aSearchText );
     }
 
 // -----------------------------------------------------------------------------
@@ -532,276 +350,19 @@ TBool CFindUtilKorean::MatchRefineL(
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //  
-TBool CFindUtilKorean::MatchAdaptiveRefineL(const TDesC& aItemString,
-        const TDesC& aSearchText, HBufC*& aNextChars)
-    {
-    if (aSearchText.Length() == 0)
-        {
-        TakeIntoNextCharsL(aNextChars, aItemString[0]);
-        return ETrue;
-        }
-    else
-        {
-        const TInt lenItemString = aItemString.Length();
-        const TInt lenSearchText = aSearchText.Length();
-
-        if (lenItemString < lenSearchText)
-            {
-            return EFalse;
-            }
-
-#ifdef _DEBUG
-        RDebug::Printf("DBG: Comparing from MatchAdaptiveRefineL");
-#endif
-        TInt idx = IsFindMatch(aItemString, aSearchText,
-                EMatchFlagAsterikInLast);
-
-        if (idx == KErrNotFound)
-            {
-            return EFalse;
-            }
-
-        TLex lexItemString(aItemString);
-        if (IsPhoneBookProcess(iCurrentProcessUid3) && idx == 0)
-            {
-            // find out the position next to last matched string.
-            // work through strings when it reaches length of search string,
-            // while skipping spaces due to ingnoring space matching scheme.
-            for (TInt compareCount = 0; compareCount < lenSearchText;)
-                {
-                if (!IsFindWordSeparator(lexItemString.Get()))
-                    {
-                    compareCount++;
-                    }
-                }
-            
-            if (lexItemString.Eos())
-                return EFalse;
-
-            // Skip spaces
-            while (IsFindWordSeparator(lexItemString.Peek()))
-                {
-                lexItemString.Inc();
-                }
-            
-            if (lexItemString.Eos())
-                {
-                return EFalse;
-                }
-            }
-        else
-            {
-            lexItemString.Inc(idx + lenSearchText);
-            }
-
-        TChar next = lexItemString.Peek();
-        if (next == 0)
-            {
-            // nothing to take
-            }
-        else
-            {
-            TakeIntoNextCharsL(aNextChars, next);
-            }
-        }
-    
-    return ETrue;
-    }
-
-void CFindUtilKorean::TakeIntoNextCharsL(HBufC*& aNextChars,
-        TChar aCharToInsert)
-    {
-    // examine the characters to be inserted
-    TBuf<3> jamo;
-    if (IsHangulSyllable(aCharToInsert))
-        {
-        Decompose(aCharToInsert, jamo);
-        }
-    else if (IsHangulCompatibilityJamo(aCharToInsert))
-        {
-        TUint16 ljamo = 
-                conversionTableFromCompatibilityJamoToJamo[(TInt)aCharToInsert - KCBase];
-        jamo.Append(ljamo);
-        }
-    else
-        {
-        aCharToInsert.UpperCase();
-        }
-
-    TPtr nextChar(aNextChars->Des());
-    TBool reAlloced(EFalse);
-
-    // in case there is no character in the list
-    if (nextChar.Length() == 0)
-        {
-        __ASSERT_ALWAYS(nextChar.MaxLength() > 2, User::Panic(_L("FINDUTIL"), __LINE__));
-        
-        // Hangul only
-        if (jamo.Length() && ISLJamo(jamo[0]))
-            {
-            const TChar consonentToInsert =
-                    conversionTableFromLJamoToCompatibilityJamo[jamo[0] - KLBase];
-            
-            InsertNextCharsL(aNextChars, reAlloced, consonentToInsert);
-
-            // if Jamo only character, return...
-            if (jamo.Length() == 1)
-                {
-                return;
-                }
-            }
-        
-        InsertNextCharsL(aNextChars, reAlloced, aCharToInsert);
-        return;
-        }
-
-    TBool jamoInserted(EFalse);
-    TInt length = nextChar.Length();
-    const TBool isPB(IsPhoneBookProcess(iCurrentProcessUid3));
-    
-    for (TInt i = 0; i < length; i++)
-        {
-        const TChar ch = nextChar[i];
-        // Hangul consonent check
-        if (!jamoInserted && jamo.Length() && ISLJamo(jamo[0]))
-            {
-            const TChar consonentToInsert =
-                    conversionTableFromLJamoToCompatibilityJamo[jamo[0] - KLBase];
-            
-            if (ch == consonentToInsert)
-                {
-                // Jamo only character finished
-                if (jamo.Length() == 1)
-                    {
-                    return;
-                    }
-
-                jamoInserted = ETrue;
-                }
-            else if ((isPB && !IsCompatibilityJamo(ch)) || (ch > consonentToInsert))
-                {
-                InsertNextCharsL(aNextChars, reAlloced, consonentToInsert, i);
-                // Jamo only character finished
-                if (jamo.Length() == 1)
-                    {
-                    return;
-                    }
-
-                jamoInserted = ETrue;
-                }
-            else
-                {
-                // pass
-                }
-            }
-        // Hangul or Latin
-        else
-            {
-            if (ch == aCharToInsert)
-                {
-                return; // already exist
-                }
-            else if (isPB && IsCompatibilityJamo(ch))
-                {
-                // pass
-                }
-            else if (ch > aCharToInsert)
-                {
-                InsertNextCharsL(aNextChars, reAlloced, aCharToInsert, i);
-                return; // finished
-                }
-            else
-                {
-                // pass
-                }
-            }
-        
-        if (reAlloced)
-            {
-            nextChar.Set(aNextChars->Des());
-            length = nextChar.Length();
-            }
-        }
-    
-    InsertNextCharsL(aNextChars, reAlloced, aCharToInsert);
-    }
-
-void CFindUtilKorean::InsertNextCharsL(HBufC*& aNextChars, TBool& aReAlloced,
-        const TChar& aChar, const TInt aIndex)
-    {
-    aReAlloced = EFalse;
-    TPtr ptr(aNextChars->Des());
-    const TInt len = ptr.Length();
-    const TInt maxLen = ptr.MaxLength();
-
-    if (KErrNotFound != ptr.Locate(aChar))
-        {
-        // Do not insert duplicate characters
-        return;
-        }
-
-    if (len == maxLen)
-        {
-        aNextChars = aNextChars->ReAllocL(maxLen + KNextCharsGranuarity);
-        ptr.Set(aNextChars->Des());
-        aReAlloced = ETrue;
-        
-#ifdef _DEBUG
-        RDebug::Printf("DBG: Next Character buffer created with %d",
-                ptr.MaxLength());
-#endif
-        }
-
-    if (aIndex == KErrNotFound)
-        {
-        ptr.Append(aChar);
-        }
-    else
-        {
-        TBuf<1> buf;
-        buf.Append(aChar);
-        ptr.Insert(aIndex, buf);
-        }
-    }
+TBool CFindUtilKorean::MatchAdaptiveRefineL( const TDesC& /*aItemString*/, 
+	const TDesC& /*aSearchText*/, HBufC*& /*aNextChars*/ )
+	{
+	return 0;	
+	}
 
 // ---------------------------------------------------------------------------
 // It checks whether aWord is valid.
 // ---------------------------------------------------------------------------
 //
-TBool CFindUtilKorean::IsWordValidForMatching(const TDesC& /*aWord*/)
+TBool CFindUtilKorean::IsWordValidForMatching( const TDesC& /*aWord*/ )
     {
     return ETrue;
     }
 
-TBool CFindUtilKorean::MatchConsonentBased(const TChar& aA, const TChar& aB)
-    {
-    TBuf<3> jamoItemString;
-    TBuf<3> jamoSearchText;
-    DecomposeChar(aA, jamoItemString);
-    DecomposeChar(aB, jamoSearchText);
-    const TInt lenJamoItemString = jamoItemString.Length();
-    const TInt lenJamoSearchText = jamoSearchText.Length();
-
-    // check consonent match for one character
-    if (lenJamoSearchText == 1 && 
-        ISLJamo(jamoItemString[0]) && ISLJamo(jamoSearchText[0]))
-        {
-        if (jamoItemString[0] == jamoSearchText[0])
-            {
-            return ETrue;
-            }
-        }
-    else
-        {
-        TChar chItemString(aA);
-        TChar chSearchText(aB);
-        chItemString.UpperCase();
-        chSearchText.UpperCase();
-        if (chItemString == chSearchText)
-            {
-            return ETrue;
-            }
-        }
-    return EFalse;
-    }
 // End of file

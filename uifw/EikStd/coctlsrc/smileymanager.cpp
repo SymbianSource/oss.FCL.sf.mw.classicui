@@ -18,7 +18,6 @@
 #include <coecntrl.h>
 #include <eikedwin.h>
 #include <frmtlay.h>
-#include <AknSmileyUtils.h>
 
 #include "smileymodel.h"
 #include "smileyinforeader.h"
@@ -218,8 +217,7 @@ void CSmileyManager::DrawIconL( CBitmapContext& aGc, const TRect& aRect,
 //
 TBool CSmileyManager::IsSmileyCode( TText aCode )
 	{
-	return ( aCode >= CAknSmileyManager::KSmileyCodeMin && 
-	    aCode <= CAknSmileyManager::KSmileyCodeMax );
+	return ( aCode >= KSmileyCodeMin && aCode <= KSmileyCodeMax );
 	}
 
 // ---------------------------------------------------------------------------

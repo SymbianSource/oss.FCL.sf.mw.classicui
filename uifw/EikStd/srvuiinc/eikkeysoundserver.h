@@ -103,13 +103,9 @@ public:
     TInt Preference();
     TVolumeSetting Volume();
     virtual void DoPlay() = 0;
-    TBool IsWaittingPlay();
-    void SetDestroyAfterPlay(TBool aDestroyAfterPlay);
 protected:
     TInt iPriority;
     TInt iPreference;
-    TBool iWaittingPlay;
-    TBool iDestroyAfterPlay;
     TVolumeSetting iVolume;
     };
 

@@ -32,10 +32,6 @@
 #include <touchfeedback.h>
 #include <aknnotedialog.h>
 
-#include <e32property.h>
-#include <AvkonInternalCRKeys.h>        // for checking qwerty availability
-
-
 static const TInt KPlainTextPos = 0;
 
 typedef CArrayFixFlat<CAknPhoneNumberEditor::TFormat> CFormatArray;
@@ -56,8 +52,6 @@ NONSHARABLE_CLASS( CAknPhoneNumberEditorExtension ) : public CBase,
         TInt iPointPos;
         CAknCcpuSupport* iCcpuSupport; 
         HBufC* iPasteText;       
-        TBool iQwertyAllowed;
-        TBool iHybridModeAllowed;
       };
 
 CAknPhoneNumberEditorExtension::CAknPhoneNumberEditorExtension()
@@ -381,7 +375,7 @@ EXPORT_C TKeyResponse CAknPhoneNumberEditor::OfferKeyEventL( const TKeyEvent& aK
         }
     if ( cousorChanged )
     	{
-        ReportAknEdStateEvent( MAknEdStateObserver::EAknCursorPositionChanged );
+        ReportAknEdStateEventL( MAknEdStateObserver::EAknCursorPositionChanged );
     	}
     // see if we want to remember the old cursor X position
     if ( targetPosUsed )
@@ -427,7 +421,7 @@ EXPORT_C void CAknPhoneNumberEditor::FocusChanged( TDrawNow aDrawNow )
         }    
     if ( ! IsFocused() )
         {
-        ReportAknEdStateEvent( MAknEdStateObserver::EAknSyncEdwinState );
+        TRAP_IGNORE( ReportAknEdStateEventL( MAknEdStateObserver::EAknSyncEdwinState ) );
         }
     if ( aDrawNow )
         DrawNow();
@@ -441,29 +435,16 @@ EXPORT_C void CAknPhoneNumberEditor::Draw( const TRect& aRect ) const
 
 EXPORT_C TCoeInputCapabilities CAknPhoneNumberEditor::InputCapabilities() const
     {
-    if ( iExtension->iQwertyAllowed )
+    if ( FeatureManager::FeatureSupported( KFeatureIdCommonVoip ) )
         {
         TCoeInputCapabilities inputCaps(
             TCoeInputCapabilities::EWesternAlphabetic | 
             TCoeInputCapabilities::ENavigation, 
             const_cast<CAknPhoneNumberEditor*>( this ), NULL ); 
             
-        //iExtension->iExtendedInputCapabilities->SetEditorType( 
-        //    CAknExtendedInputCapabilities::EPhoneNumberEditor );
-        TInt qwertyActive = 0;
-        RProperty::Get( KCRUidAvkon, KAknQwertyInputModeActive, qwertyActive );
-        if ( qwertyActive && iExtension->iHybridModeAllowed )
-            {
-            iExtension->iExtendedInputCapabilities->SetEditorType(
-                CAknExtendedInputCapabilities::EHybridAlphaNumericEditor );
-            }
-        else
-            {
-            iExtension->iExtendedInputCapabilities->SetEditorType(
-                    CAknExtendedInputCapabilities::EPhoneNumberEditor );
-            }
-
         // Voip-enabled phone editor wants to use edit-key style hash key mode selection.    
+        iExtension->iExtendedInputCapabilities->SetEditorType( 
+            CAknExtendedInputCapabilities::EPhoneNumberEditor );                    
         iExtension->iExtendedInputCapabilities->SetCapabilities(
             CAknExtendedInputCapabilities::EForceHashKeySelectionStatusFlagOff |
             CAknExtendedInputCapabilities::EForceEditSubmenuStatusFlagOff );              
@@ -519,7 +500,7 @@ EXPORT_C void CAknPhoneNumberEditor::SetSelectionL( TInt aCursorPos,TInt aAnchor
     {
     iModel->SetRealCursorPosition(aCursorPos);
     iModel->SetAnchorPosition( aAnchorPos );
-    ReportAknEdStateEvent( 
+    ReportAknEdStateEventL( 
             MAknEdStateObserver::EAknCursorPositionChanged );
     }
 
@@ -529,7 +510,7 @@ EXPORT_C void CAknPhoneNumberEditor::SetCursorPosL( TInt aCursorPos,TBool aSelec
     iModel->SetRealCursorPosition( aCursorPos );
     if ( aSelect )
         iModel->SetAnchorPosition( anchor );
-    ReportAknEdStateEvent( 
+    ReportAknEdStateEventL( 
         MAknEdStateObserver::EAknCursorPositionChanged );
     }
 
@@ -663,7 +644,7 @@ void CAknPhoneNumberEditor::SetCursorSelectionForFepL( const TCursorSelection& a
     iModel->SetRealCursorPosition( iModel->Uncompensate( aCursorSelection.iCursorPos ) );
     iModel->SetAnchorPosition( iModel->Uncompensate( aCursorSelection.iAnchorPos  ) );
     
-    ReportAknEdStateEvent( 
+    ReportAknEdStateEventL( 
             MAknEdStateObserver::EAknCursorPositionChanged );
     DrawNow();
     }
@@ -791,7 +772,7 @@ EXPORT_C TInt CAknPhoneNumberEditor::ChangeEditorMode( TBool aDefaultMode )
     {
     TInt value( EAknEditorNumericInputMode ); // Return value.
     
-    if ( iExtension->iQwertyAllowed )
+    if ( FeatureManager::FeatureSupported( KFeatureIdCommonVoip ) )
         {
         CAknEdwinState* fepState = ( CAknEdwinState* )iFepState; 
 
@@ -895,31 +876,8 @@ EXPORT_C void CAknPhoneNumberEditor::ResetEditorToDefaultValues()
     fepState->SetSpecialCharacterTableResourceId( 0 );
     fepState->SetNumericKeymap( EAknEditorStandardNumberModeKeymap );
     
-    iExtension->iQwertyAllowed = EFalse;
-    iExtension->iHybridModeAllowed = EFalse;
-	
     DrawChanges();
     }
-
-
-// --------------------------------------------------------------------------
-// CAknPhoneNumberEditor::SetQwertyAllowed
-// --------------------------------------------------------------------------
-//
-EXPORT_C void CAknPhoneNumberEditor::SetQwertyAllowed( TBool aQwertyAllowed ) 
-    {
-    iExtension->iQwertyAllowed = aQwertyAllowed;
-    }
-
-// --------------------------------------------------------------------------
-// CAknPhoneNumberEditor::SetHybridModeAllowed
-// --------------------------------------------------------------------------
-//
-EXPORT_C void CAknPhoneNumberEditor::SetHybridModeAllowed( TBool aHybridModeAllowed )
-    {
-    iExtension->iHybridModeAllowed = aHybridModeAllowed;
-    }
-
 
 // --------------------------------------------------------------------------
 // CAknPhoneNumberEditor::HandlePointerEventL
@@ -1168,19 +1126,6 @@ void CAknPhoneNumberEditor::DoCanPasteL() const
 //
 EXPORT_C void CAknPhoneNumberEditor::CcpuPasteL()
     {
-    // When we paste the buffer to phone number editor, we must get the buffer from clipboard first 
-    // and then insert buffer to phone number editor. As the main job of CcpuCanPaste() is getting and 
-    // checking the buffer in clipboard, so we must call CcpuCanPaste() first.
-    // If iExtension->iPasteText is not NULL, it means CcpuCanPaste() has been called before and the 
-    // buffer in clipboard is valid. No need to call it once again. 
-    if ( !iExtension->iPasteText )
-        {
-        // If the return value of CcpuCanPaste is EFalse, iExtension->iPasteText must be NULL,
-        // else if the return value of CcpuCanPaste is ETure, iExtension->iPasteText must not be NULL.
-        // So we don't need to check if the return value is ETure or EFalse, 
-        // we will check iExtension->iPasteText instead of that.
-        CcpuCanPaste();
-        }
     if ( iExtension->iPasteText )
         {
         iModel->Paste( iExtension->iPasteText->Des() );
@@ -1308,8 +1253,8 @@ EXPORT_C void CAknPhoneNumberEditor::OpenVKB( )
     TUint cap = iExtension->iExtendedInputCapabilities->Capabilities();
     cap &= ~CAknExtendedInputCapabilities::EInputEditorDisableVKB;
     iExtension->iExtendedInputCapabilities->SetCapabilities( cap );
-    ReportAknEdStateEvent( 
-    		     MAknEdStateObserver::EAknActivatePenInputRequest );
+    TRAP_IGNORE( ReportAknEdStateEventL( 
+    		     MAknEdStateObserver::EAknActivatePenInputRequest ) );
     }
 
 // --------------------------------------------------------------------------
@@ -1321,14 +1266,14 @@ void CAknPhoneNumberEditor::CloseVKB( )
     TUint cap = iExtension->iExtendedInputCapabilities->Capabilities();
     cap |= CAknExtendedInputCapabilities::EInputEditorDisableVKB;
     iExtension->iExtendedInputCapabilities->SetCapabilities( cap );
-    ReportAknEdStateEvent( MAknEdStateObserver::EAknClosePenInputRequest );
+    ReportAknEdStateEventL( MAknEdStateObserver::EAknClosePenInputRequest );
     }
 
 // --------------------------------------------------------------------------
 // CAknPhoneNumberEditor::ReportAknEdStateEventL
 // --------------------------------------------------------------------------
 //
-void CAknPhoneNumberEditor::ReportAknEdStateEvent( 
+void CAknPhoneNumberEditor::ReportAknEdStateEventL( 
          MAknEdStateObserver::EAknEdwinStateEvent aStateEvent )
     {
     CAknEdwinState* edwinState = STATIC_CAST( CAknEdwinState*,State(KNullUid) );

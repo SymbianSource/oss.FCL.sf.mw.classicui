@@ -310,16 +310,6 @@ const TUint32 KAknServiceCallNumber = 0x00000018;
  *
  */
 const TUint32 KAknATTSignalIconEnable = 0x00000019;
-/**
- * Value indicates the feature "tap to write"
- *
- * Possible values are:
- *
- * 0: The "tap to write" feature isn't supported 
- * 1: The "tap to write" feature is supported
- *
- */
-const TUint32 KAknEdwinTapToWrite = 0x0000001A;
 
 const TUid KCRUidLeaveAppsInMemory = { 0x102858F2 };
 

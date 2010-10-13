@@ -14,7 +14,7 @@
 * Description:  smiely engine class
 *
 */
-#include <AknSmileyUtils.h>
+
 #include "smileymanager.h"
 #include "smileycustomwrap.h"
 
@@ -51,12 +51,12 @@ TUint CSmileyCustomWrap::LineBreakClass( TUint aCode, TUint& aRangeStart,
         customWrap->iPrevCodeIsSmiley = !iPlaceHolder;
         customWrap->iPlaceHolder = EFalse;
         }
-    else if ( ( iPrevCodeIsSmiley || iPlaceHolder ) && aCode == CAknSmileyManager::KCompensateChar )
+    else if ( ( iPrevCodeIsSmiley || iPlaceHolder ) && aCode == CSmileyManager::KCompensateChar )
         {
         breakClass = MTmCustom::EClLineBreakClass;
         customWrap->iPrevCodeIsSmiley = EFalse;
         } 
-    else if ( aCode == CAknSmileyManager::KPlaceHolder )        
+    else if ( aCode == CSmileyManager::KPlaceHolder )        
         { 
         breakClass = MTmCustom::EB2LineBreakClass;
         customWrap->iPlaceHolder = ETrue;

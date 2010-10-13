@@ -77,7 +77,7 @@ void CAknProgressDialog::CCancelWhileHidden::AknInputBlockCancel()
 	key.iCode=EKeyEscape;
 	key.iModifiers=0;
 	key.iScanCode = EStdKeyNull;
-	TRAP_IGNORE(iAknProgressDialog->OfferKeyEventL(key, EEventKey));
+	iAknProgressDialog->OfferKeyEventL(key, EEventKey);
 	}
 	
 CAknProgressDialog::CCancelWhileHidden::CCancelWhileHidden(CAknProgressDialog* aAknProgressDialog)
@@ -226,7 +226,7 @@ TInt CAknProgressDialog::DialogTimerEvent()
             MakeVisible(ETrue);
    			CCoeControl* cba = ButtonGroupContainer().ButtonGroup()->AsControl();
 			iEikonEnv->RemoveFromStack(cba);
-			TRAP_IGNORE(iEikonEnv->EikAppUi()->AddToStackL(cba, ECoeStackPriorityCba, ECoeStackFlagRefusesFocus));	// Won't fail since we just removed it (and array will not reallocate)
+			__ASSERT_DEBUG_NO_LEAVE(iEikonEnv->EikAppUi()->AddToStackL(cba, ECoeStackPriorityCba, ECoeStackFlagRefusesFocus));	// Won't fail since we just removed it (and array will not reallocate)
 			cba->DrawableWindow()->SetOrdinalPosition(0);
             cba->MakeVisible(ETrue);
             ReportUserActivity();

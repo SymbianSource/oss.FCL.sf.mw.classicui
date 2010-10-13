@@ -1286,7 +1286,7 @@ EXPORT_C void CAknDoubleSpanScrollBar::HandlePointerEventL(const TPointerEvent& 
 
                     thumbPositionPix = position - extension->iPointerOffsetFromThumb;
                     TInt oldPosition = thumbPosition;
-                    TReal newPosition = (TReal)thumbPositionPix * ( scrollSpan - thumbSpan ) / scrollSpanPix;
+                    TReal newPosition = thumbPositionPix * ( scrollSpan - thumbSpan ) / (TReal)scrollSpanPix;
                     thumbPosition = newPosition;
 
                     // round the value to the nearest possible position

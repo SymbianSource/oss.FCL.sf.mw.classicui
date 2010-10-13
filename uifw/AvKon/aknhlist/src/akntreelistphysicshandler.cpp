@@ -1054,7 +1054,7 @@ TInt CAknTreeListPhysicsHandler::HighlightTimerCallback( TAny* aPtr )
         if ( handler->iTreeListView->SingleClickEnabled() 
              && !handler->iEnableEvents )
             {
-            handler->iTreeListView->EnableHighlight( ETrue, ETrue );
+            handler->iTreeListView->EnableHighlight(ETrue);
             }
         // Pressed down highlight if item still pressed down
         if ( !handler->iFlags.IsSet( EFlagButtonUpReceived )

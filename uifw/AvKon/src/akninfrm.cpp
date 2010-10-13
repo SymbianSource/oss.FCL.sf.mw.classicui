@@ -353,18 +353,11 @@ void CAknInputFrame::SizeChanged()
         // we need to provide own context if one does not exist
         // because old style drawing did kind of work even
         // without calling SetInputContext( ... )
-        TRAP_IGNORE
-            ( 
-            iInputContext = CAknsFrameBackgroundControlContext::NewL(
-                    KAknsIIDQsnFrInput, TRect(0,0,0,0), TRect(0,0,0,0), EFalse);
-        
-            if (iInputContext)
-                {
-                iFlags = iFlags | EOwnsInputContext;
-                // also need to provide skin for the editor in this case
-                static_cast<CEikEdwin*>( iField )->SetSkinBackgroundControlContextL( iInputContext );  
-                }
-            );
+        iInputContext = CAknsFrameBackgroundControlContext::NewL(
+            KAknsIIDQsnFrInput, TRect(0,0,0,0), TRect(0,0,0,0), EFalse );
+        iFlags = iFlags | EOwnsInputContext;
+        // also need to provide skin for the editor in this case
+        static_cast<CEikEdwin*>( iField )->SetSkinBackgroundControlContextL( iInputContext );
         }
 
     if ( iInputContext )
@@ -516,7 +509,7 @@ void CAknInputFrame::HandleResourceChange( TInt aType )
         {
         case KAknsMessageSkinChange:
         case KEikDynamicLayoutVariantSwitch:
-            TRAP_IGNORE(CreateIconL());
+            CreateIconL();
             break;
             
         default:

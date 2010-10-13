@@ -225,21 +225,6 @@ private:
 private: // From CCoeControl
     IMPORT_C virtual void Draw(const TRect& aRect) const;
 
-public:
-    /** 
-     * Set UMA state. Available UMA states are (avkon.hrh): 
-     * EAknSignalUmaIndicatorOff = 0x600,
-     * EAknSignalUmaIndicatorAvailable,
-     * EAknSignalUmaIndicatorAttached,
-     * EAknSignalUmaIndicatorEstablishingContext,
-     * EAknSignalUmaIndicatorContext,
-     * EAknSignalUmaIndicatorSuspended,
-     * EAknSignalUmaIndicatorMultipdp
-     * 
-     * @param aUmaIconState UMA state.
-     */
-    IMPORT_C void ShowUmaIconL(TInt aUmaIconState);
-    
 private:
    	static TInt TickerCallback(TAny* aThis);
     TInt DoTick();

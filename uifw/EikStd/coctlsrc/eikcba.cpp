@@ -132,7 +132,7 @@ static TBool IsMskEnabledLayoutActive()
             result = ETrue;
             }
         }
-    _AKNTRACE( "IsMskEnabledLayoutActive is %d", result );
+    
     _AKNTRACE_FUNC_EXIT;
     return result;
     }
@@ -784,10 +784,9 @@ public:
      */
     TBool Active() const
         {
-    	TBool ret;
-    	ret = iOwner.IsVisible() && !iOwner.IsEmpty();
-    	_AKNTRACE( "Active is %d", ret );
-        return ret;
+        _AKNTRACE_FUNC_ENTER;
+        _AKNTRACE_FUNC_EXIT;
+        return iOwner.IsVisible() && !iOwner.IsEmpty();
         }
     
     /*
@@ -2957,8 +2956,8 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         // If the status pane is invisible in landscape, softkey need to draw frame to cover
         // the area of combine pane.
         CEikStatusPaneBase* statusPane = CEikStatusPaneBase::Current();
-        if ( ( iCbaFlags & EEikCbaFlagAppMskIcon ) || ( statusPane && !statusPane->IsVisible() && isLandscapeOrient &&
-            statusPane->PaneCapabilities(TUid::Uid(EEikStatusPaneUidCombined)).IsInCurrentLayout()))
+        if (statusPane && !statusPane->IsVisible() && isLandscapeOrient &&
+            statusPane->PaneCapabilities(TUid::Uid(EEikStatusPaneUidCombined)).IsInCurrentLayout())
             {
             iFlags.Set( ECbaCombinePaneUncovered );
             }
@@ -2984,95 +2983,90 @@ void CEikCba::SetBoundingRect( const TRect& /*aBoundingRect*/ )
         // If status indicators and clock are shown in control pane area,
         // then remove those areas from cba window region.
         // 
+        // NOTE: MSK is not supported in landscape.
         //
-        // NOTE: MSK is not supported in landscape except the flag EEikCbaFlagAppMskIcon is defined .
-        //
-
-        if ( !(iCbaFlags & EEikCbaFlagAppMskIcon ) )
-        	{
-            if( statusPane &&
+        if ( statusPane &&
              statusPane->IsVisible() &&
              AknStatuspaneUtils::ExtendedFlatLayoutActive() )
-                { 
-                if ( iBgIID == KAknsIIDQsnBgAreaControlMp )
+            { 
+            if ( iBgIID == KAknsIIDQsnBgAreaControlMp )
+                {
+                if ( !iIsClockIndicBgIIDSet )
                     {
-                    if ( !iIsClockIndicBgIIDSet )
-                        {
-                        statusPane->SetCbaAreaBackgroundID(
-                            iBgIID,
-                            CEikStatusPaneBase::EDrawDeferred );
-                        iIsClockIndicBgIIDSet = ETrue;
-                        }
+                    statusPane->SetCbaAreaBackgroundID(
+                        iBgIID,
+                        CEikStatusPaneBase::EDrawDeferred );
+                    iIsClockIndicBgIIDSet = ETrue;
                     }
-                else
+                }
+            else
+                {
+                if ( statusPane->CbaAreaBackgroundID() != iBgIID )
                     {
-                    if ( statusPane->CbaAreaBackgroundID() != iBgIID )
-                        {
-                        statusPane->SetCbaAreaBackgroundID(
-                            iBgIID,
-                            CEikStatusPaneBase::EDrawDeferred );
-                        }
+                    statusPane->SetCbaAreaBackgroundID(
+                        iBgIID,
+                        CEikStatusPaneBase::EDrawDeferred );
                     }
+                }
 
-                if ( statusPane->PaneCapabilities(
-                         TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() )
-                    {
-                    TRect combinedPaneRect( 0, 0, 0, 0 );
-                    TRAPD( err,
-                           combinedPaneRect =
-                               statusPane->PaneRectL( TUid::Uid( 
-                                   EEikStatusPaneUidCombined ) ) );
+            if ( statusPane->PaneCapabilities(
+                     TUid::Uid( EEikStatusPaneUidCombined ) ).IsInCurrentLayout() )
+                {
+                TRect combinedPaneRect( 0, 0, 0, 0 );
+                TRAPD( err,
+                       combinedPaneRect =
+                           statusPane->PaneRectL( TUid::Uid( 
+                               EEikStatusPaneUidCombined ) ) );
                 
-                    if ( !err )
-                        {
-                        TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
-                        TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
+                if ( !err )
+                    {
+                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
+                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
                     
-                        if ( cbaRectRelativeToScreen.Intersects( combinedPaneRect ) )
-                            {
-                            combinedPaneRect.Move(
-                                -cbaPositionRelativeToScreen.iX,
-                                -cbaPositionRelativeToScreen.iY );
+                    if ( cbaRectRelativeToScreen.Intersects( combinedPaneRect ) )
+                        {
+                        combinedPaneRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
                             
-                            region.SubRect( combinedPaneRect );                              
-                            }
+                        region.SubRect( combinedPaneRect );                              
                         }
                     }
-                else
-                    {
-                    TRect digitalClockRect( 0, 0, 0, 0 );
-                    TRect indicatorRect( 0, 0, 0, 0 );
+                }
+            else
+                {
+                TRect digitalClockRect( 0, 0, 0, 0 );
+                TRect indicatorRect( 0, 0, 0, 0 );
 
-                    TRAPD( err1,
-                           indicatorRect = statusPane->PaneRectL( TUid::Uid( 
-                               EEikStatusPaneUidIndic ) ) );
+                TRAPD( err1,
+                       indicatorRect = statusPane->PaneRectL( TUid::Uid( 
+                           EEikStatusPaneUidIndic ) ) );
                                                
-                    TRAPD( err2,
-                           digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
-                               EEikStatusPaneUidDigitalClock ) ) );
+                TRAPD( err2,
+                       digitalClockRect = statusPane->PaneRectL( TUid::Uid( 
+                           EEikStatusPaneUidDigitalClock ) ) );
                 
-                    if ( !err1 && !err2 )
-                        {
-                        TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
-                        TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
+                if ( !err1 && !err2 )
+                    {
+                    TPoint cbaPositionRelativeToScreen( PositionRelativeToScreen() );
+                    TRect cbaRectRelativeToScreen( cbaPositionRelativeToScreen, Size() );
 
-                        if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
-                            {
-                            indicatorRect.Move(
-                                -cbaPositionRelativeToScreen.iX,
-                                -cbaPositionRelativeToScreen.iY );
+                    if ( cbaRectRelativeToScreen.Intersects( indicatorRect ) )
+                        {
+                        indicatorRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
                             
-                            region.SubRect( indicatorRect );                              
-                            }
+                        region.SubRect( indicatorRect );                              
+                        }
                     
-                        if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
-                            {
-                            digitalClockRect.Move(
-                                -cbaPositionRelativeToScreen.iX,
-                                -cbaPositionRelativeToScreen.iY );
+                    if ( cbaRectRelativeToScreen.Intersects( digitalClockRect ) )
+                        {
+                        digitalClockRect.Move(
+                            -cbaPositionRelativeToScreen.iX,
+                            -cbaPositionRelativeToScreen.iY );
                             
-                            region.SubRect( digitalClockRect );       
-                            }
+                        region.SubRect( digitalClockRect );       
                         }
                     }
                 }
@@ -3570,7 +3564,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             {
             if( button1->IsDimmed() )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
             // Return immediately if the button is invisible                        
@@ -3608,7 +3601,6 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
             {
             if( button2->IsDimmed() )
                 {
-                _AKNTRACE_FUNC_EXIT;
                 return EKeyWasConsumed;
                 }
             // Return immediately if the button is invisible.
@@ -3663,8 +3655,7 @@ TKeyResponse CEikCba::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType
                 && !Window().IsFaded() )
         {
         if( buttonMSK->IsDimmed() )
-            { 
-            _AKNTRACE_FUNC_EXIT;
+            {
             return EKeyWasConsumed;
             }
         if (KControlArrayCBAButtonMSKPosn < iControlArray->Count())
@@ -3892,7 +3883,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         if( button1->IsDimmed() )
             {
             CCoeControl::HandlePointerEventL( aPointerEvent );
-            _AKNTRACE_FUNC_EXIT;
             return;
             }
         if ( button1->IsVisible() )
@@ -3957,7 +3947,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         if( button2->IsDimmed() )
             {
             CCoeControl::HandlePointerEventL( aPointerEvent );
-            _AKNTRACE_FUNC_EXIT;
             return;
             }             
         if ( button2->IsVisible() )
@@ -4024,7 +4013,6 @@ void CEikCba::HandlePointerEventL( const TPointerEvent& aPointerEvent )
         if( buttonMSK->IsDimmed() )
             {
             CCoeControl::HandlePointerEventL( aPointerEvent );
-            _AKNTRACE_FUNC_EXIT;
             return;
             }
         if  ( buttonMSK->IsVisible() )
@@ -4563,7 +4551,6 @@ void CEikCba::Draw( const TRect& aRect ) const
     // Embedded CBA doesn't draw anything
     if ( iFlags.IsSet( ECbaInsideDialog ) )
         {
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
     
@@ -4572,7 +4559,6 @@ void CEikCba::Draw( const TRect& aRect ) const
         CWindowGc &gc = SystemGc();
 
         iExtension->DrawSemiTransparency( gc );
-        _AKNTRACE_FUNC_EXIT;
         return;
         }
 
@@ -5284,7 +5270,7 @@ void CEikCba::SizeChangedInControlPane()
     TRect posInScreen( cbarect.Rect() );
     
     TBool mskEnabledInPlatform( iMSKEnabledInPlatform &&
-                                ( IsMskEnabledLayoutActive() || ( iCbaFlags & EEikCbaFlagAppMskIcon ) ) );
+                                IsMskEnabledLayoutActive() );
 
     TBool mskEnabledInApplication( AknLayoutUtils::MSKEnabled() && iMSKset );
     
@@ -7750,14 +7736,11 @@ TBool CEikCba::UpdateIconL()
 //     
 TBool CEikCba::MskAllowed() const
     {
-	_AKNTRACE_FUNC_ENTER;
-    TBool ret = EFalse;
-    ret = iMSKEnabledInPlatform &&
-    	    ( ( AknLayoutUtils::MSKEnabled() &&
-             IsMskEnabledLayoutActive() ) || ( iCbaFlags & EEikCbaFlagAppMskIcon ) );
-    _AKNTRACE( "MskAllowed is %d", ret );
+    _AKNTRACE_FUNC_ENTER;
     _AKNTRACE_FUNC_EXIT;
-    return ret;
+    return ( iMSKEnabledInPlatform &&
+             AknLayoutUtils::MSKEnabled() &&
+             IsMskEnabledLayoutActive() );
     }
 
 
@@ -7896,10 +7879,6 @@ void CEikCba::UpdateItemSpecificSoftkey( CCoeControl& aControl, TBool aEnable )
 void CEikCba::UpdateMultipleMarkingSoftkey()
     {
     _AKNTRACE_FUNC_ENTER;
-    if ( iFlags.IsSet( ECbaEmbedded ) )
-        {
-        return;
-        }
     if ( iFlags.IsSet( ECbaSingleClickEnabled )
             && iExtension && iExtension->iItemActionMenu )
         {

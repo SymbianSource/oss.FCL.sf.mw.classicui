@@ -65,7 +65,7 @@ SOURCE          testsdkdialogmediatorobserver.cpp
 SOURCE          testsdkaknquerydialogprotected.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib 
 LIBRARY         eikcoctl.lib
@@ -75,7 +75,7 @@ LIBRARY         eikdlg.lib
 LIBRARY         bafl.lib
 LIBRARY         aknicon.lib
 LIBRARY         egul.lib
-LIBRARY         lbs.lib
+LIBRARY         Lbs.lib
 LIBRARY         insock.lib
 
 LANG            SC

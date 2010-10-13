@@ -64,7 +64,7 @@ SOURCE          testsdkeikhkeyt.cpp
 SOURCE          testsdkeikhkeytblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         cone.lib

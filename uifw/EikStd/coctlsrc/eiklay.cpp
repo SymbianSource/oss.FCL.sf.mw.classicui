@@ -97,7 +97,7 @@ static const TLineBreakRule TheLineBreakRuleTable[TAvkonEditorCustomWrap::EAvkLi
     { 0, 0, },                                                                      // Sa 26
     { KUsualForbidden, KOpFlag | KPrFlag | KPoFlag | KIdFlag | KBbFlag | KB2Flag }, // Ai 27
     { 0, 0, },                                                                      // Xx 28
-    { KUsualForbidden, KUsualAllowed | KCalSpaceFlag },                             // CalSpace 29
+    { KUsualForbidden, KUsualAllowed | KCalSpaceFlag | KCmFlag },                             // CalSpace 29
     };
 
 const TText KPrivateUseAreaStart = 0xE000;

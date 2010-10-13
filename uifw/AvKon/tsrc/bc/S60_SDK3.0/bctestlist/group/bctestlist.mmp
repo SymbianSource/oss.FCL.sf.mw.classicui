@@ -69,8 +69,8 @@ LIBRARY         avkon.lib
 LIBRARY         eikctl.lib 
 LIBRARY         bafl.lib
 LIBRARY         eikdlg.lib                                                  
-LIBRARY         aknskins.lib
-LIBRARY         aknicon.lib
+LIBRARY         AknSkins.lib
+LIBRARY         AknIcon.lib
 LIBRARY         egul.lib
 LIBRARY         gdi.lib
 LIBRARY         efsrv.lib

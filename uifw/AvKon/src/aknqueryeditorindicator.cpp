@@ -82,7 +82,7 @@ void CAknQueryEditIndicator::SetState(TAknEditingState aState)
     iState = aState;
     if (Observer())
     	{
-    	TRAP_IGNORE(Observer()->HandleControlEventL( this, MCoeControlObserver::EEventStateChanged ));
+    	Observer()->HandleControlEventL( this, MCoeControlObserver::EEventStateChanged );
     	}
     
     if ( iFlags.IsSet(CAknQueryControl::EEditorIndicatorOff) )

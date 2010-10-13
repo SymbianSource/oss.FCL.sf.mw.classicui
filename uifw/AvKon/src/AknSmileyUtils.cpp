@@ -50,10 +50,9 @@ TBool CAknSmileyIcon::ReadyToDraw() const
     return FALSE;
     }
 
-const TSize KSize;
 const TSize& CAknSmileyIcon::Size() const
     {
-    return KSize;
+    return TSize();
     }
 
 void CAknSmileyIcon::PlayAnimationL(TInt /*aRepeat*/, TInt /*aDelay*/)

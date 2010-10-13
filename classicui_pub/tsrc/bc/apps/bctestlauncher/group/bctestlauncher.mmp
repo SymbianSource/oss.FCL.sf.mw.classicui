@@ -64,17 +64,17 @@ USERINCLUDE     ../../bctestutil/inc
 
 
 
-LIBRARY         euser.lib
-LIBRARY         ws32.lib
-LIBRARY         cone.lib
-LIBRARY         eikcore.lib
-LIBRARY         avkon.lib
-LIBRARY         apparc.lib
+LIBRARY         EUSER.LIB   
+LIBRARY         WS32.LIB
+LIBRARY         CONE.LIB
+LIBRARY         EIKCORE.LIB 
+LIBRARY         AVKON.LIB
+LIBRARY         APPARC.LIB
 LIBRARY         eikcoctl.lib
 LIBRARY         efsrv.lib
 LIBRARY	        apgrfx.lib
-LIBRARY         CommonEngine.lib
-LIBRARY         centralrepository.lib
+LIBRARY         commonengine.lib
+LIBRARY         CentralRepository.lib
 LIBRARY         bafl.lib
 LIBRARY         sysutil.lib
 LIBRARY         estor.lib 

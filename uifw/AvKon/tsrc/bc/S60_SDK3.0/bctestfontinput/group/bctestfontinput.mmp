@@ -58,13 +58,13 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         aknskins.lib
+LIBRARY         AknSkins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY			efsrv.lib
 LIBRARY         fbscli.lib
 LIBRARY         akninputlanguage.lib
-LIBRARY		    fontutils.lib
+LIBRARY		    fontutils.lib 
 LIBRARY         uiklaf.lib 
 LIBRARY         gdi.lib 
 LIBRARY         egul.lib 

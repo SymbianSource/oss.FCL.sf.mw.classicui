@@ -286,10 +286,10 @@ SOURCE          AknSmileyImage.cpp
 SOURCE          akncombinedpane.cpp
 
 LIBRARY         FontProvider.lib
-LIBRARY         fontutils.lib
+LIBRARY         FontUtils.lib
 
-LIBRARY         euser.lib
-LIBRARY         eikcore.lib
+LIBRARY         EUSER.LIB
+LIBRARY         EIKCORE.LIB
 LIBRARY         cone.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         eikctl.lib
@@ -297,12 +297,12 @@ LIBRARY         egul.lib
 LIBRARY         bafl.lib
 LIBRARY         gdi.lib
 LIBRARY         fbscli.lib
-LIBRARY         apgrfx.lib
+LIBRARY         APGRFX.LIB
 LIBRARY         ws32.lib
 LIBRARY         eikdlg.lib
 LIBRARY         bitgdi.lib
 LIBRARY         etext.lib
-LIBRARY         bmpanim.lib
+LIBRARY         BMPANIM.LIB
 LIBRARY         fepbase.lib
 LIBRARY         form.lib
 LIBRARY         estor.lib
@@ -310,28 +310,28 @@ LIBRARY         CommonEngine.lib
 LIBRARY         phoneclient.lib
 LIBRARY         apparc.lib
 LIBRARY         aknnotify.lib // Global Note
-LIBRARY         insock.lib // For IP address copying in CAknIpFieldSettingPage
+LIBRARY         INSOCK.LIB // For IP address copying in CAknIpFieldSettingPage
 LIBRARY         efsrv.lib
 LIBRARY         eiksrvc.lib
-LIBRARY         aknskins.lib // Skins support
+LIBRARY         AknSkins.lib // Skins support
 LIBRARY         linebreak.lib
-LIBRARY         featmgr.lib
-LIBRARY         numberconversion.lib
-LIBRARY         FindUtil.lib
+LIBRARY         FeatMgr.lib
+LIBRARY         NumberConversion.lib
+LIBRARY         findutil.lib
 LIBRARY         aknpictograph.lib
 LIBRARY         CdlEngine.lib
-LIBRARY         aknicon.lib
-LIBRARY         ecom.lib
+LIBRARY         AknIcon.lib
+LIBRARY         ECom.lib
 LIBRARY         oommonitor.lib
 LIBRARY         akncapserverclient.lib
-LIBRARY         apmime.lib
+LIBRARY         Apmime.lib
 LIBRARY         servicehandler.lib
 LIBRARY         numbergrouping.lib
-LIBRARY         aknlayout2.lib
+LIBRARY         AknLayout2.lib
 LIBRARY         AknLayout2Scalable.lib
 LIBRARY         centralrepository.lib
 LIBRARY         cenrepnotifhandler.lib
-LIBRARY         ptiengine.lib
+LIBRARY         PtiEngine.lib
 #ifdef RD_UI_TRANSITION_EFFECTS_LIST
 LIBRARY         aknlistloadertfx.lib
 #endif //RD_UI_TRANSITION_EFFECTS_LIST
@@ -344,7 +344,7 @@ LIBRARY         touchfeedback.lib
 LIBRARY         tacticon.lib
 LIBRARY         viewcli.lib
 LIBRARY         aknphysics.lib
-LIBRARY         hwrmlightclient.lib
+LIBRARY         HWRMLightClient.lib
 LIBRARY         aiwdialdata.lib
 
 DEFFILE AVKON.def

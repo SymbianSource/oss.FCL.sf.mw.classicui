@@ -795,21 +795,24 @@ void AknCFDUtility::SetSecondRowTextL( TInt64 aFreeSpace, TDes& aUnitBuf )
                         
         if (( aFreeSpace >= KHundredNum ) && ( aFreeSpace < KMegaNum ))
             {
-            tempNum /= TReal64( KThousandNum ); // Divide to kilobytes
+            tempNum /= KThousandNum; // Divide to kilobytes
+            tempNum = TReal32( TInt( tempNum * 10 ) ) / 10;
             unitBuf = StringLoader::LoadLC(
                                     R_CFD_QTN_MEMC_UNITS_KILOBYTE,
                                     CCoeEnv::Static());                              
             }
         else if (( aFreeSpace >= KMegaNum ) && ( aFreeSpace < KGigaNum ))
             {                             
-            tempNum /= TReal64( KMegaNum ); // Divide to Megabytes
+            tempNum /= KMegaNum; // Divide to Megabytes
+            tempNum = TReal32( TInt( tempNum * 10 ) ) / 10;
             unitBuf = StringLoader::LoadLC(
                                     R_CFD_QTN_MEMC_UNITS_MEGABYTE,
                                     CCoeEnv::Static());            
             }
         else if (aFreeSpace >= KGigaNum )   
             {
-            tempNum /= TReal64( KGigaNum ); // Divide to Gigabytes
+            tempNum /= KGigaNum; // Divide to Gigabytes
+            tempNum = TReal32( TInt( tempNum * 10 ) ) / 10;
             unitBuf = StringLoader::LoadLC(
                                     R_CFD_QTN_MEMC_UNITS_GIGABYTE,
                                     CCoeEnv::Static());            

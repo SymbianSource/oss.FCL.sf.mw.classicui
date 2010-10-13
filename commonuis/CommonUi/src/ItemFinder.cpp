@@ -38,7 +38,6 @@
 
 #include <centralrepository.h>
 #include <CommonUiInternalCRKeys.h>
-#include <AknSmileyUtils.h>
 
 // CONSTANTS
 const TInt KMINTAGLENGTH(5);
@@ -144,38 +143,7 @@ CItemFinderAsyncParser::~CItemFinderAsyncParser()
 void CItemFinderAsyncParser::RunL()
     {
     TInt fullLength = Min( iEditor->TextLength(), 0xffff );
-    if ( fullLength <= 0 )
-        {
-        return;
-        }
-    // If editor enables smiley feature, then smiley string shouldn't be included
-    // in the search string. Normally a smiley string comprises 3 parts: a smiley code,
-    // a smiley compensating character to expand smiley icon area, and several invisible 
-    // smiley placeholder characters if the length of the smiley string is longer than 2 
-    // characters. Since smiley codes are in reserved Unicode range and smiley placeholder 
-    // is 0xfff0, they won't be counted in search string, but the compensating character 
-    // is a valid english character so it needs to be replaced with smiley placeholder 
-    // otherwise it will mess the search string.
-    HBufC* textBuf( iEditor->Text()->Read( 0, fullLength ).Alloc() );
-    if( !textBuf )
-        {
-        return;
-        }
-    CleanupStack::PushL( textBuf );
-    TPtr text( textBuf->Des() );
-    for ( TInt i( 0 ); i < fullLength; i++ )
-        {
-        // Check if current character is a smiley code, if so, the character 
-        // following the code is a smiley compensating character and it needs to 
-        // be replaced.
-        if ( text[i] >= CAknSmileyManager::KSmileyCodeMin && 
-             text[i] <= CAknSmileyManager::KSmileyCodeMax &&
-             ( i + 1 < fullLength ) )
-            {
-            i++;
-            text[i] = CAknSmileyManager::KPlaceHolder; 
-            }
-        }
+    const TDesC& text = iEditor->Text()->Read( 0, fullLength );
     TInt searchAll = CFindItemEngine::EFindItemSearchURLBin
         |CFindItemEngine::EFindItemSearchMailAddressBin
         |CFindItemEngine::EFindItemSearchPhoneNumberBin
@@ -188,7 +156,6 @@ void CItemFinderAsyncParser::RunL()
         {
         iFIE->DoNewSearchL( text, (CFindItemEngine::TFindItemSearchCase)searchAll, iMinDigitsToFind );
         }
-    CleanupStack::PopAndDestroy( textBuf );
     delete iMarkedItems;
     iMarkedItems = 0;
     iMarkedItems = new ( ELeave ) CArrayPtrFlat<CItemFinder::CFindItemExt>( 10 );

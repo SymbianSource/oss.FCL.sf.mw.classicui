@@ -60,11 +60,9 @@
 #define EEikCbaFlagSemiTransparent      0x100
 
 /**
- * Button group app msk icon flag,also support msk label. 
- * This flag can be set with CBA resource
- * or by using CEikCba::SetButtonGroupFlags(TInt) method. 
- * CBA using control_pane_g4(0) to draw the window rect.
- * Use the CEikCba::UpdateIconL() to set the msk icon or show the msk label.
+ * Button group app msk icon flag. This flag can be set with CBA resource
+ * or by using CEikCba::SetButtonGroupFlags(TInt) method. CBA using 
+ * control_pane_g4(0) to draw the window rect
  */
 #define EEikCbaFlagAppMskIcon           0x200
 // EIKBUTB.HRH
@@ -224,10 +222,6 @@ enum TAknEditorNumericKeymap
 #define EAknEditorFlagHideTextView                    0x800000
 #define EAknEditorFlagCursorLedingEdge                0x1000000
 #define EAknEditorFlagNeedWholeTextData               0x2000000
-// Avkon secret editor and web secret editor has different behavior, this flag 
-// is used to distinguish them for FEP 
-#define EAknEditorFlagAvkonSecretEditor               0x4000000
-
 // NOTICE! Flag value 0x80000000 is reserved for internal use by FEP.
 
 // EIKLABEL.HRH

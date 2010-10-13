@@ -64,10 +64,10 @@ LIBRARY                 eikdlg.lib
 LIBRARY                 featmgr.lib
 LIBRARY                 cone.lib
 LIBRARY                 efsrv.lib
-LIBRARY                 CommonEngine.lib
-LIBRARY                 CdlEngine.lib
+LIBRARY                 commonengine.lib
+LIBRARY                 cdlengine.lib
 LIBRARY                 centralrepository.lib
-LIBRARY                 DrmHelper.lib
+LIBRARY                 drmhelper.lib
 LIBRARY                 hlplch.lib
 LIBRARY                 mgfetch.lib
 LIBRARY                 aknskinsrv.lib

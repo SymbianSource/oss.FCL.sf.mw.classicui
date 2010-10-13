@@ -151,7 +151,7 @@ void CEikTimeEditorExtension::ConstructL()
     {
     }
 
-void CEikTimeEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* /*aParams*/ )
+void CEikTimeEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* aParams )
 	{
     switch ( aEvent )
         {
@@ -213,7 +213,7 @@ void CEikTimeAndDateEditorExtension::ConstructL()
     {
     }
 
-void CEikTimeAndDateEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* /*aParams*/ )
+void CEikTimeAndDateEditorExtension::HandleInputCapabilitiesEventL( TInt aEvent, TAny* aParams )
 	{
     switch ( aEvent )
         {
@@ -2053,7 +2053,6 @@ EXPORT_C TInt CEikMfne::SetFeature( TInt aFeatureId, TInt aFeatureParam )
                     iExtension->iDisablePenInput = !( iExtension->iFingerSupport );                    
                     iExtension->iFingerParam = aFeatureParam; 
                     iExtension->iHighlightAll = ( iExtension->iFingerSupport &&
-                        !iExtension->iTouchActivated &&
                         aFeatureParam == EnableWithAllHighlight );                  
                     }
                 else
@@ -4090,22 +4089,6 @@ EXPORT_C void CEikTimeEditor::CEikMfne_Reserved()
 EXPORT_C void CEikTimeEditor::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
     CEikTTimeEditor::HandlePointerEventL(aPointerEvent); 
-    // If touch input is disabled or qwerty key board is opened, AM/PM will change when
-    // user taps at AM/PM filed; else touch input will be opened. 
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-         ( ( iExtension->iExtendedInputCapabilities->Capabilities() & 
-           CAknExtendedInputCapabilities::EInputEditorQwertyInputActive ) ||
-         iExtension->iDisablePenInput || iExtension->iPartialScreenInput ) )
-        {
-        TAmPmName amName( EAm );
-        TAmPmName pmName( EPm );
-        if ( !IsUninitialised() && 
-            ( !iFields[iCurrentField]->FieldText().Compare( amName ) ||
-             !iFields[iCurrentField]->FieldText().Compare( pmName ) ) )
-            {
-            ChangeAmPm();
-            }
-        }
     }   
 
 EXPORT_C void* CEikTimeEditor::ExtensionInterface( TUid /*aInterface*/ )
@@ -4499,22 +4482,6 @@ void CEikTimeAndDateEditor::DoSetMinimumAndMaximum(const TTime& aMinimumTimeAndD
 EXPORT_C void CEikTimeAndDateEditor::HandlePointerEventL(const TPointerEvent& aPointerEvent) 
     { 
     CEikTTimeEditor::HandlePointerEventL(aPointerEvent); 
-    // If touch input is disabled or qwerty key board is opened, AM/PM will change when
-    // user taps at AM/PM filed; else touch input will be opened. 
-    if ( aPointerEvent.iType == TPointerEvent::EButton1Up &&
-         ( ( iExtension->iExtendedInputCapabilities->Capabilities() & 
-           CAknExtendedInputCapabilities::EInputEditorQwertyInputActive ) ||
-           iExtension->iDisablePenInput || iExtension->iPartialScreenInput ) )
-        {
-        TAmPmName amName( EAm );
-        TAmPmName pmName( EPm );
-        if ( !IsUninitialised() && 
-            ( !iFields[iCurrentField]->FieldText().Compare( amName ) ||
-             !iFields[iCurrentField]->FieldText().Compare( pmName ) ) )
-            {
-            ChangeAmPm();
-            }
-        }
     }
 
 EXPORT_C void* CEikTimeAndDateEditor::ExtensionInterface( TUid /*aInterface*/ )

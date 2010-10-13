@@ -32,8 +32,6 @@
 #include <akniconconfig.h>
 
 #include <AknTasHook.h>
-#include <AknPriv.hrh>
-
 // USER INCLUDE FILES
 #include "aknenv.h"
 #include "AknDef.h"
@@ -2010,47 +2008,26 @@ void CAknNavigationControlContainer::NotifyNaviWipeStatusL()
 //
 void CAknNavigationControlContainer::HandleLosingForeground()
     {
-    // Get the top control on navi pane.
+    // If volume popup is shown when the navi pane loses foreground,
+    // then the popup needs to be closed if shown, and the volume control
+    // told that it's not the topmost control.    
     CAknNavigationDecorator* topControl = Top();
     
     if ( topControl )
         {
-        switch( topControl->ControlType() )
+        if ( topControl &&
+             topControl->ControlType() == CAknNavigationDecorator::ENaviVolume )
             {
-            case CAknNavigationDecorator::ENaviVolume:
-                {
-                // If volume popup is shown when the navi pane loses foreground,
-                // then the popup needs to be closed if shown, and the volume control
-                // told that it's not the topmost control.  
-                CAknVolumePopup* volumePopup =
-                    static_cast<CAknVolumePopup*> (
-                        topControl->iDecoratedControl );
+            CAknVolumePopup* volumePopup =
+                static_cast<CAknVolumePopup*> (
+                    topControl->iDecoratedControl );
 
-                if ( volumePopup )
-                    {
-                    volumePopup->CloseVolumePopup();
-                    static_cast<CAknVolumeControl*>(
-                        topControl->DecoratedControl() )->HandleNaviStackChange( EFalse );
-                    }
-                break;
-                }
-            case CAknNavigationDecorator::ETabGroup:
+            if ( volumePopup )
                 {
-                // If tabgroup is shown when navi pane loses foreground, forward 
-                // KAknMessageFocusLost event to tabgroup. Tab panes will stop highlighting
-                // the pressed tab.
-                CAknTabGroup* tabGroup =
-                       static_cast<CAknTabGroup*> (
-                           topControl->iDecoratedControl );
-
-                if ( tabGroup )
-                    {
-                    tabGroup->HandleResourceChange(KAknMessageFocusLost);
-                    }
-                break;
+                volumePopup->CloseVolumePopup();
+                static_cast<CAknVolumeControl*>(
+                    topControl->DecoratedControl() )->HandleNaviStackChange( EFalse );
                 }
-            default:
-                break;
             }
         }
     }

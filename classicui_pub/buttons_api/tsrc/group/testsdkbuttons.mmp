@@ -52,7 +52,7 @@ SOURCE          testsdkbuttonsblockseikbtgpc.cpp
 SOURCE          testsdkbuttonscontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         bafl.lib
 LIBRARY         eikcoctl.lib

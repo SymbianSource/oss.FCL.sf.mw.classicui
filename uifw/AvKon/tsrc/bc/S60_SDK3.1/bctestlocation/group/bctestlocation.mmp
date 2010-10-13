@@ -57,12 +57,12 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         aknskins.lib
+LIBRARY         AknSkins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
 LIBRARY         eikctl.lib
-LIBRARY         lbs.lib
+LIBRARY         Lbs.lib
 
 START RESOURCE ../group/BCTestLocation_reg.rss
 DEPENDS bctestlocation.rsg

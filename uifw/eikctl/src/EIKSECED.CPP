@@ -283,15 +283,6 @@ EXPORT_C CEikSecretEditor::~CEikSecretEditor()
         delete listener;
         }
 #endif
-	// When destruct secret editor, inform FEP that secret editor has been destroyed ,
-    // so FEP can get opportunity to do some clean work, e.g. closing opened SCT dialog.
-    if ( iFepState )
-    	{
-        TRAP_IGNORE( 
-            static_cast<CAknEdwinState*>( iFepState )->ReportAknEdStateEventL( 
-	            MAknEdStateObserver::EAknEdwinDestroy ) 
-            );
-    	}
     delete iInlineEditText;
     delete iFepState;
     delete iTimer;
@@ -951,8 +942,7 @@ EXPORT_C MCoeFepAwareTextEditor_Extension1::CState* CEikSecretEditor::CreateFepS
     editorState->SetFlags( EAknEditorFlagNoLRNavigation |
                            EAknEditorFlagLatinInputModesOnly |
                            EAknEditorFlagNoT9 |
-                           EAknEditorFlagUseSCTNumericCharmap |
-                           EAknEditorFlagAvkonSecretEditor );
+                           EAknEditorFlagUseSCTNumericCharmap );
 
     editorState->SetDefaultInputMode(EAknEditorSecretAlphaInputMode);
     editorState->SetCurrentInputMode(EAknEditorSecretAlphaInputMode);
@@ -1218,7 +1208,7 @@ TPoint CEikSecretEditor::CursorPos()
     TInt textWidth( iRevealSecretText ? 
         iFont->TextWidthInPixels( *iSecCharArr ) : 
         iFont->CharWidthInPixels( KSecretChar ) * pos );
-    TInt x( 0 );
+    TInt x;
     if ( iExtension )
     	{
 		if ( iAlign == CGraphicsContext::ELeft )
@@ -1288,11 +1278,11 @@ EXPORT_C void CEikSecretEditor::EnableCursor( TBool aEnable )
         TInt flags( edwinState->Flags() );
         if ( aEnable )
             {
-            flags |= EAknEditorFlagTextCursorVisible;
+            flags &= ~EEikEdwinAvkonDisableCursor;
             }
         else
             {
-            flags &= ~EAknEditorFlagTextCursorVisible;
+            flags |= EEikEdwinAvkonDisableCursor;
             }
         edwinState->SetFlags( flags );
         }    

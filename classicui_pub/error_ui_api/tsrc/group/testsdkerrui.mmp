@@ -49,7 +49,7 @@ SOURCE          testsdkerrui.cpp
 SOURCE          testsdkerruiblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib
 LIBRARY         commonui.lib

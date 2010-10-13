@@ -190,6 +190,17 @@ void CAknEdwinPhysicsHandler::InitPhysicsL()
                 + KMaxWorldSize );
         TSize viewSize( iViewRect.Width(), iViewRect.Height() );
         
+        CTextLayout* layout = iEdwin.TextLayout();
+        
+        if ( layout )
+            {
+            TInt pixelsAbove = layout->PixelsAboveBand();
+            if ( pixelsAbove > 0 )
+                {
+                MoveScrollIndex( -pixelsAbove );
+                }
+            } 
+        
         iPhysics->InitPhysicsL( totalSize, viewSize, EFalse );
         }
 	}

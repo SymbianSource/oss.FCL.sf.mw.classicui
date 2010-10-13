@@ -557,7 +557,7 @@ void CAknBitmapAnimation::SizeChanged()
 LOCAL_C TInt WaitForUiEffect(TAny* aArg)
 	{
 	CAknBitmapAnimation* self = (CAknBitmapAnimation*)aArg;
-	TRAP_IGNORE(self->StartAnimationL());
+	self->StartAnimationL();
 	return EFalse;
 	}
 #endif

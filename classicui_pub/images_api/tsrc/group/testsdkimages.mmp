@@ -64,7 +64,7 @@ SOURCE          testsdkimages.cpp
 SOURCE          testsdkimagesblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         fbscli.lib

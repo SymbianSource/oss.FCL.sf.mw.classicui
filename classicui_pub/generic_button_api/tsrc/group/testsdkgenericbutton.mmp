@@ -68,16 +68,16 @@ SOURCE          testbutton.cpp
 SOURCE          animatorcallback.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         eikcoctl.lib
+LIBRARY         EIKCOCTL.LIB
 LIBRARY         bafl.lib
 LIBRARY         egul.lib 
 LIBRARY         aknskins.lib
 LIBRARY         aknskinsrv.lib
 LIBRARY         aknswallpaperutils.lib
 LIBRARY         fbscli.lib 
-LIBRARY         aknicon.lib
+LIBRARY         aknicon.lib 
 LIBRARY         cone.lib
 LIBRARY         bitgdi.lib
 LIBRARY         avkon.lib

@@ -20,7 +20,6 @@
 #include "HgVgHelper.h"
 #include "HgVgDrawBuffer.h"
 #include "HgVgImageCreator.h"
-#include "HgVgEGL.h"
 
 #include <e32math.h>
 #include <gulicon.h>
@@ -108,9 +107,7 @@ static VGImage CreateMaskedVgImageL( CFbsBitmap* aBitmap, CFbsBitmap* aMask )
 //     
 VGImage CreateVgImageFromIconL(const CGulIcon& aIcon)
     {
-    // If egl has not been initialized we aren't allowed to create vgimages.
-    if (!CHgVgEGL::EglInitialized()) return VG_INVALID_HANDLE;
-    
+        
     CFbsBitmap* bitmap = aIcon.Bitmap();
     User::LeaveIfNull(bitmap);
     CFbsBitmap* mask = aIcon.Mask();

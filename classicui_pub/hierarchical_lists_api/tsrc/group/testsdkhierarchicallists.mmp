@@ -55,7 +55,7 @@ SOURCE          testsdkhierarchicallistsblockstl.cpp
 SOURCE          testsdkhierarchicallistsordering.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         apparc.lib
 LIBRARY         cone.lib
@@ -63,13 +63,13 @@ LIBRARY         eikcore.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         avkon.lib
 LIBRARY         ws32.lib
-LIBRARY         aknskins.lib
+LIBRARY         AknSkins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         efsrv.lib
 LIBRARY         aknhlist.lib
 LIBRARY         aknicon.lib
-LIBRARY         aknskins.lib
-LIBRARY         aknskinsrv.lib
+LIBRARY         aknskins.lib 
+LIBRARY         aknskinsrv.lib 
 LIBRARY         aknswallpaperutils.lib
 
 LANG            SC

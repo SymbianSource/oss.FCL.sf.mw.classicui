@@ -245,10 +245,9 @@ void CAknAdaptiveSearch::ProcessCommandL( TInt aCommand )
 		{
 		//hide grid
         HideAdaptiveSearchGridL();
-        if( iSearchField->IsVisible() )
-        	{
-            iSearchField->SetFocus( ETrue );
-        	}
+		iSearchField->MakeVisible( ETrue );	
+		iSearchField->SetFocus( ETrue );	
+	
 		}
     else if( aCommand == CAknAdaptiveSearchGrid::EDeleteLastCharPressed )
 		{

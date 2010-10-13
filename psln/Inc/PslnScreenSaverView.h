@@ -294,11 +294,6 @@ class CPslnScreenSaverView : public CPslnBaseView,
         */
         CCenRepNotifyHandler* iScreenSaverNotifier;
         CPsmClient *iPsmClient;
-        
-        /**
-        * Ture if screensaver is being previewed.
-        */
-        TBool iScreenSaverPreviewing;
 
     };
 

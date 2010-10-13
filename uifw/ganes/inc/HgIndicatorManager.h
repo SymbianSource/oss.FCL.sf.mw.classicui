@@ -45,15 +45,14 @@ public:
             const TRect& aRect,
             TInt aFlags, 
             TAknWindowComponentLayout aFirstIndicatorLayout, 
-            TAknWindowComponentLayout aSecondIndicatorLayout,
-            TBool aMarkingMode
+            TAknWindowComponentLayout aSecondIndicatorLayout 
             ) const;
     
     TBool DrawIndicator( 
             CWindowGc& aGc,
             TAknLayoutRect& aRect,
             TInt aFlags,
-            TBool& aMemIndicator
+            TBool& aMemIndicator 
             ) const;
 
     void InitIconL(
@@ -91,7 +90,6 @@ private: // data
     CGulIcon* iDrmExpIcon; // icon for expired drm rights indicator
     CGulIcon* iVideoIcon; // icon for video indicator
     CGulIcon* iMarkIcon; // Icon for selection marking
-    CGulIcon* iMarkIconOff; // Icon for selection marking, the off state
     CGulIcon* iMmcIcon; // Mmc indicator icon
     CGulIcon* iPlaybackIndicatorIcon; // Playback indicator icon
     CGulIcon* iPauseIndicatorIcon; // Playback pause indicator icon

@@ -592,7 +592,7 @@ EXPORT_C CAknSettingPage::~CAknSettingPage()
 
 	iEikonEnv->EikAppUi()->RemoveFromStack(this);
 
-    TRAP_IGNORE(AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL ));
+    AknItemActionMenuRegister::SetOverridingMenuBarOwnerL( NULL );
     
 	if (iMenuBar)
 		{

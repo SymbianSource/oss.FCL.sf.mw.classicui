@@ -400,12 +400,6 @@ enum
     EPeninputCmdLandscapeEditor,
 
     /**
-     * Command id for find pane to hide adaptive search grid
-     * 
-     */
-    EAknCmdHideASGrid,
-
-    /**
     * @deprecated
     * Do not use.
     */
@@ -1312,16 +1306,7 @@ enum // Signal indicator states
     EAknSignalHsdpaIndicatorEstablishingContext,
     EAknSignalHsdpaIndicatorContext,
     EAknSignalHsdpaIndicatorSuspended,
-    EAknSignalHsdpaIndicatorMultipdp,
-
-    // UMA indicator states
-    EAknSignalUmaIndicatorOff = 0x600,
-    EAknSignalUmaIndicatorAvailable,
-    EAknSignalUmaIndicatorAttached,
-    EAknSignalUmaIndicatorEstablishingContext,
-    EAknSignalUmaIndicatorContext,
-    EAknSignalUmaIndicatorSuspended,
-    EAknSignalUmaIndicatorMultipdp
+    EAknSignalHsdpaIndicatorMultipdp
     };
 
 #define KAknSignalOffLineMode 0x00010000

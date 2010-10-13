@@ -192,12 +192,6 @@ enum TGenericParamIdValue
     EGenericParamLastName               = 1921,
     EGenericParamNickname               = 1922
 // BRANCH_END 08-28-08: gronoff
-    
-    ,
-    EGenericParamHideCallSubmenu        = 1950,
-    EGenericParamVoiceCall              = 1951,
-    EGenericParamVideoCall              = 1952,
-    EGenericParamVoIPCall               = 1953   
     };
 
 

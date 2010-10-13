@@ -37,7 +37,7 @@ SOURCE          testsdkscreensaver.cpp
 SOURCE          testsdkscreensaverblocks.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         ecom.lib
 

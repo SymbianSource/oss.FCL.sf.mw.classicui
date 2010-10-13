@@ -219,18 +219,6 @@ EXPORT_C void CAknItemActionMenu::CollectionChanged(
 
 
 // ---------------------------------------------------------------------------
-// CAknItemActionMenu::MarkingMode
-// ---------------------------------------------------------------------------
-//
-EXPORT_C CAknMarkingMode& CAknItemActionMenu::MarkingMode()
-    {
-    _AKNTRACE_FUNC_ENTER;
-    _AKNTRACE_FUNC_EXIT;
-    return *iMarking;
-    }
-
-
-// ---------------------------------------------------------------------------
 // CAknItemActionMenu::AddCollectionStateL
 // ---------------------------------------------------------------------------
 //
@@ -393,6 +381,18 @@ TInt CAknItemActionMenu::CollectionCount() const
 
 
 // ---------------------------------------------------------------------------
+// CAknItemActionMenu::MarkingMode
+// ---------------------------------------------------------------------------
+//
+CAknMarkingMode& CAknItemActionMenu::MarkingMode()
+    {
+    _AKNTRACE_FUNC_ENTER;
+    _AKNTRACE_FUNC_EXIT;
+    return *iMarking;
+    }
+
+
+// ---------------------------------------------------------------------------
 // CAknItemActionMenu::CollectionHasMarkedItems
 // ---------------------------------------------------------------------------
 //
@@ -414,21 +414,6 @@ TBool CAknItemActionMenu::CollectionHasMarkedItems()
     _AKNTRACE_FUNC_EXIT;
     return markedItems;
     }
-
-
-// ---------------------------------------------------------------------------
-// CAknItemActionMenu::HideMenu
-// ---------------------------------------------------------------------------
-//
-void CAknItemActionMenu::HideMenu()
-    {
-    if ( iPopupMenu && !iProcessingCommand )
-        {
-        iPopupMenu->HideMenu();
-        }
-    }
-
-
 // ---------------------------------------------------------------------------
 // CAknItemActionMenu::CAknItemActionMenu
 // ---------------------------------------------------------------------------

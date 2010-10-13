@@ -47,7 +47,6 @@ CHgIndicatorManager::~CHgIndicatorManager()
     delete iPlaybackIndicatorIcon;
     delete iMmcIcon;
     delete iMarkIcon;
-    delete iMarkIconOff;
     delete iPauseIndicatorIcon;
     delete iBrokenPlaylistIcon;
     delete iBrokenTrackIcon; 
@@ -110,15 +109,9 @@ void CHgIndicatorManager::InitIndicatorsL( const TSize& aIndicatorSize )
 
     // Skinned icons
     // Mark icon
-    InitIconL( iMarkIcon, KAknsIIDQgnPropCheckboxOn, 
-            EMbmGanesQgn_prop_checkbox_on, 
-            EMbmGanesQgn_prop_checkbox_on_mask, 
-            aIndicatorSize );
-
-    // Mark icon, off state
-    InitIconL( iMarkIconOff, KAknsIIDQgnPropCheckboxOff, 
-            EMbmGanesQgn_prop_checkbox_off, 
-            EMbmGanesQgn_prop_checkbox_off_mask, 
+    InitIconL( iMarkIcon, KAknsIIDQgnPropSubMarked, 
+            EMbmGanesQgn_prop_sub_marked, 
+            EMbmGanesQgn_prop_sub_marked_mask, 
             aIndicatorSize );
 
     // DRM valid icon
@@ -193,8 +186,7 @@ void CHgIndicatorManager::DrawIndicators(
         const TRect& aRect,
         TInt aFlags, 
         TAknWindowComponentLayout aFirstIndicatorLayout, 
-        TAknWindowComponentLayout aSecondIndicatorLayout,
-        TBool aMarkingMode
+        TAknWindowComponentLayout aSecondIndicatorLayout 
         ) const
     {
     TAknLayoutRect secondIndicator;
@@ -212,12 +204,6 @@ void CHgIndicatorManager::DrawIndicators(
         rect.DrawImage(aGc, iMarkIcon->Bitmap(), iMarkIcon->Mask());
         ++indicatorsDrawn;
         rect = firstIndicator;
-        }
-    else if(aMarkingMode)
-        {
-        rect.DrawImage(aGc, iMarkIconOff->Bitmap(), iMarkIconOff->Mask());
-        ++indicatorsDrawn;
-        rect = firstIndicator;    
         }
     
     if( DrawIndicator(aGc, rect, aFlags, memIndicator) )
@@ -248,7 +234,7 @@ TBool CHgIndicatorManager::DrawIndicator(
         CWindowGc& aGc,
         TAknLayoutRect& aRect,
         TInt aFlags,
-        TBool& aMemIndicator
+        TBool& aMemIndicator 
         ) const
     {
     TBool ret = EFalse;

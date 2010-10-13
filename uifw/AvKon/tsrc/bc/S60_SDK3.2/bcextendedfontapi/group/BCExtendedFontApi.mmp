@@ -64,7 +64,7 @@ LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY	        efsrv.lib
-LIBRARY         FontProvider.lib
+LIBRARY         fontprovider.lib
 LIBRARY         fontutils.lib
 LIBRARY         gdi.lib
 

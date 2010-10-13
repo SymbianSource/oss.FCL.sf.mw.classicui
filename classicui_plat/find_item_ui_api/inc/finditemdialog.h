@@ -196,15 +196,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
          */
         void HandlePointerEventL ( const TPointerEvent& aPointerEvent );
 
-		/**
-        * Sets AIW submenu item visibility 
-        * Must be called before displaying the dialog
-        * 
-        * @since S60 5.2
-        * @param aVisible AIW submenu item visibility
-        */
-        IMPORT_C void SetCallSubMenuVisibility( TBool aVisible );
-
     protected:  // Functions from base classes
 
         /**
@@ -550,9 +541,6 @@ NONSHARABLE_CLASS(CFindItemDialog)
 
         // Tactile Feedback interface
         MTouchFeedback* iFeedback;        		
-
-		// Hide AIW submenu
-        TBool iHideCallSubMenu;
 		
     public: // new methods
         void DeleteMeL();

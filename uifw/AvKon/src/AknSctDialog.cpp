@@ -56,7 +56,6 @@
 #include "aknsctfocushandler.h"
 
 #include <eikdialogext.h>
-#include <aknglobalpopupprioritycontroller.h>
 
 //
 // class CAknCharMapDialog
@@ -92,9 +91,6 @@ public:
 private:
     CAknCharMapDialogExtension(CAknCharMapDialog* aCaller);
     void ConstructL();
-
-public: // New method
-    void SetCharacterCaseIfRequiredL();
     
 public:
     TInt iFlags;
@@ -105,8 +101,7 @@ public:
     TInt iShowAnotherTableCharCase;
     TAknCharMapPictoMode    iPictoMode;
     TAknCharMapEmotionMode  iEmotionMode;
-    TBool iFirstOrientation;
-    TBool iSimKeyDown;
+
     };
 
 // -----------------------------------------------------------------------------
@@ -117,8 +112,7 @@ public:
 //
 CAknCharMapDialogExtension::CAknCharMapDialogExtension(CAknCharMapDialog* aCaller) : 
 iFlags(0), iQwertyMode(EFalse), iCaller(aCaller), 
-iShowAnotherTableCharCase(-1), iPictoMode(EAknCharMapPictoNoUse), iEmotionMode(EAknCharMapEmotionNoUse),
-iSimKeyDown( EFalse )
+iShowAnotherTableCharCase(-1), iPictoMode(EAknCharMapPictoNoUse), iEmotionMode(EAknCharMapEmotionNoUse)
     {
     }
 
@@ -155,45 +149,6 @@ CAknCharMapDialogExtension* CAknCharMapDialogExtension::NewL(CAknCharMapDialog* 
 //
 void CAknCharMapDialogExtension::ConstructL()
     {
-    iFirstOrientation = Layout_Meta_Data::IsLandscapeOrientation();
-    }
-
-// -----------------------------------------------------------------------------
-// CAknCharMapDialogExtension::SetCharacterCaseIfRequiredL
-//
-// change the character case, when orientation changed if any.
-// -----------------------------------------------------------------------------
-//
-void CAknCharMapDialogExtension::SetCharacterCaseIfRequiredL()
-    {
-    TBool landscape = Layout_Meta_Data::IsLandscapeOrientation();
-    TInt charCase = EAknSCTLowerCase;
-    CAknCharMap* charmapControl =
-            STATIC_CAST( CAknCharMap*, iCaller->Control( EAknSCTQueryContentId ) );
-
-    // Set character case logic changed from Timebox 92 PS2, if Orientation is Landscape
-    //   the case will be QWERTY, otherwise it will be LOWER. However, it is possible for
-    //   Landscape launches LOWER case, or Poratrait does QWERTY at the first time launched,
-    //   in this case, we need to store the first SCT launched case.
-    if ( landscape )
-        {
-        iFlags |= ECharMapDialogItemLockNumericKeys;
-        charCase = EAknSCTQwerty;
-        }
-    else
-        {
-        iFlags &= ( ~ECharMapDialogItemLockNumericKeys );
-        charCase = EAknSCTLowerCase;
-        }
-
-    if ( landscape == iFirstOrientation )
-    	{
-        // Note, it should be equal to first char case once it return
-        //    to the first orientation
-        charCase = iCaller->CharacterCase();
-    	}
-    charmapControl->SetCharacterCaseL( charCase );
-
     }
 
 // CAknCharMapDialog
@@ -223,12 +178,6 @@ CAknCharMapDialog::~CAknCharMapDialog()
 EXPORT_C void CAknCharMapDialog::HandleResourceChange(TInt aType)
     {
     CAknCharMap* charmapControl = static_cast<CAknCharMap*>( Control( EAknSCTQueryContentId ) );
-
-    if (aType==KEikDynamicLayoutVariantSwitch)
-        {
-        TRAP_IGNORE(iExtension->SetCharacterCaseIfRequiredL());
-        //DoLayout();
-        }
 
     CAknDialog::HandleResourceChange(aType);
 
@@ -299,7 +248,20 @@ EXPORT_C TBool CAknCharMapDialog::OkToExitL(TInt aButtonId)
     // to select multiple characters before.
     if (aButtonId == EAknSoftkeyOk || aButtonId == EAknSoftkeySelect || aButtonId == EAknSoftkeyExit)
         {
+        // In Japanese UI, SCT isn't closed by pressing "Select" softkey,
+        // but SCT is closed by pressing "Back"(button id is EAknSoftkeyClose).
         MAknSctFocusHandler* handler = charmapControl->FocusHandler();
+        if (charmapControl->IsJapaneseSctUi() &&
+            aButtonId != EAknSoftkeyExit &&
+            handler->FocusedControl() == charmapControl)
+            {
+            TKeyEvent key;
+            key.iCode=EKeySpace;
+            key.iModifiers=0;
+            handler->FocusedControl()->OfferKeyEventL(key, EEventKey);
+            return(EFalse);
+            }
+        // else
         TKeyEvent key;
         key.iCode=EKeyOK;
         key.iModifiers=0;
@@ -386,12 +348,7 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
 	DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); //
 	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
 	
-	// Boost its priority in GlobalPopupPriorityController queue, because its window priority is higher than zero,
-    // otherwise, GlobalPopupPriorityController will dim it wrongly.
-    // This code only effects for aknnfysrv.exe, since input server doesn't have GlobalPopupPriorityController instance.
-    AknGlobalPopupPriorityController::SetPopupPriorityL(*this, 1);
-    
-	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);	
+	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);
     }
 
 EXPORT_C void CAknCharMapDialog::SetSizeAndPosition( const TSize& aSize )
@@ -481,35 +438,20 @@ EXPORT_C TKeyResponse CAknCharMapDialog::OfferKeyEventL(const TKeyEvent& aKeyEve
                 break;
             }
         }
-    else if ( aModifiers == EEventKeyDown )
+    else if (aModifiers == EEventKeyUp)
         {
-        switch ( aKeyEvent.iScanCode )
+        switch (aKeyEvent.iScanCode)
             {
             case EStdKeyLeftFunc:
             case EStdKeyRightFunc:
                 {
-                iExtension->iSimKeyDown = ETrue;
-                }
-                break;
-            default:
-                break;
-            }
-        }
-    else if ( aModifiers == EEventKeyUp )
-        {
-        switch ( aKeyEvent.iScanCode )
-            {
-            case EStdKeyLeftFunc:
-            case EStdKeyRightFunc:
-                {
-                if ( !aKeyEvent.iRepeats  && iExtension->iSimKeyDown ) // switch another table when repeat count is 0 only.
+                if (!aKeyEvent.iRepeats) // switch another table when repeat count is 0 only.
                     {
                     if (!isLockNumericKeys) // Check whether current input mode is Qwerty.
                         {
                         SwitchTablesOrPagesL();
                         }
                     }
-                iExtension->iSimKeyDown = EFalse;
                 }
                 break;
             default:
@@ -995,8 +937,5 @@ void CAknCharMapDialog::SetSoftKeyL(const TBool aDrawNow /*= EFalse*/)
         }
     }
 
-TInt CAknCharMapDialog::CharacterCase()
-	{
-	return iCharCase & KCharMapCaseMask;
-	}
+
 //  End of File

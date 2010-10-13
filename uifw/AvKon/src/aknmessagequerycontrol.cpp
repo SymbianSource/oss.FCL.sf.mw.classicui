@@ -208,7 +208,9 @@ void CAknMessageQueryControl::LayoutEditorL()
      **/ 
     AknLayoutUtils::LayoutEdwin( iEdwin, listPopupInfoPane.Rect(),
         TAknTextComponentLayout::Multiline(textComponentLayoutArray), EAknsCIQsnTextColorsCG19 );
+    iEdwin->SetSuppressFormatting(ETrue);
     iEdwin->SetRect( listPopupInfoPane.Rect() );
+    iEdwin->SetSuppressFormatting(EFalse);
     textComponentLayoutArray.Close();
     }    
 
@@ -896,8 +898,7 @@ void CAknMessageQueryControl::DoSizeChangedL()
     TAknMultiLineTextLayout multilineLayout = TAknTextComponentLayout::Multiline(textComponentLayoutArray);
     AknLayoutUtils::LayoutEdwin( iEdwin, listPopupInfoPane.Rect(),
         multilineLayout, EAknsCIQsnTextColorsCG19 );
-    // Use list_popup_info_pane as editor's rect
-    iEdwin->SetRect( listPopupInfoPane.Rect() );
+    //iEdwin->SetRect( listPopupInfoPane.Rect() );
     textComponentLayoutArray.Close();
     
     iEdwin->SetBorder( TGulBorder::ENone );

@@ -258,7 +258,7 @@ void CAknDoubleSpanScrollIndicator::CalculateRects()
     if ( roomForMovementInSpan > 0 && roomForMovementInPixels > 0 )
         {
         focusPositionInPixels =
-            (TInt64)checkedFocusPosition * roomForMovementInPixels /
+            checkedFocusPosition * roomForMovementInPixels /
             roomForMovementInSpan;
         }
 

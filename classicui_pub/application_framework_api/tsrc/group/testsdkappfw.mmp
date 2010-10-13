@@ -71,7 +71,7 @@ SOURCE          testsdkappfwview.cpp
 SOURCE          testsdkappfwviewappui.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcore.lib

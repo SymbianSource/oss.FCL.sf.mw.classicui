@@ -675,16 +675,6 @@ EXPORT_C void CAknTreeList::SetMarkingModeObserver(
 
 
 // ---------------------------------------------------------------------------
-// CAknTreeList::SetMarkingMode
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CAknTreeList::SetMarkingMode( TBool aEnable )
-    {
-    View().SetMarkingMode( aEnable );
-    }
-
-
-// ---------------------------------------------------------------------------
 // Handles key events by mediating them to the view.
 // ---------------------------------------------------------------------------
 //

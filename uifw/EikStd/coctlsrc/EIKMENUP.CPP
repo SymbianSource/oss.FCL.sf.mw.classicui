@@ -6384,10 +6384,6 @@ EXPORT_C void CEikMenuPane::ConstructMenuSctRowL( TDes& aSpecialChars )
         {
         resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_CHINESE;
         }
-    if (FeatureManager::FeatureSupported(KFeatureIdKorean))
-        {
-        resourceId = R_AVKON_MENU_SCT_ROW_DEFAULT_CONTENTS_KOREAN;
-        }
     iExtension->ConstructMenuSctRowL( aSpecialChars, resourceId );
     }
 

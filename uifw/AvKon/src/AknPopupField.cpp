@@ -932,7 +932,7 @@ EXPORT_C void CAknPopupField::HandleResourceChange(TInt aType)
                 && iExtension && iExtension->iSingleClickEnabled )
             {
             // Edit mode to view while popup is open -> first cancel popup
-            TRAP_IGNORE(AttemptExitL( EFalse ));
+            AttemptExitL( EFalse );
             }
         else
             {

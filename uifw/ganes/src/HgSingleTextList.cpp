@@ -143,8 +143,7 @@ void CHgSingleTextList::DrawItem( TInt aIndex, const TRect& aRect ) const
             aRect, 
             item->Flags(), 
             iLayoutData->FirstIndicatorLayout(), 
-            iLayoutData->SecondIndicatorLayout(),
-            iFlags & EHgScrollerSelectionMode || iSelectionMode != ENoSelection );  
+            iLayoutData->SecondIndicatorLayout() );  
    }
 
 // -----------------------------------------------------------------------------

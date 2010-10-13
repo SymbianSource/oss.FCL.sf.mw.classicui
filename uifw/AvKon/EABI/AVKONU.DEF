@@ -4603,7 +4603,4 @@ EXPORTS
 	_ZN26CAknRadioButtonSettingPage15ProcessCommandLEi @ 4602 NONAME
 	_ZThn84_N20CAknPopupSettingPage15ProcessCommandLEi @ 4603 NONAME
 	_ZThn84_N26CAknRadioButtonSettingPage15ProcessCommandLEi @ 4604 NONAME
-	_ZN14CAknSignalPane12ShowUmaIconLEi @ 4605 NONAME
-	_ZN21CAknPhoneNumberEditor16SetQwertyAllowedEi @ 4606 NONAME
-	_ZN21CAknPhoneNumberEditor20SetHybridModeAllowedEi @ 4607 NONAME
 

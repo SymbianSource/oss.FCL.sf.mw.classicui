@@ -3574,16 +3574,6 @@ EXPORT_C TBool AknLayoutUtils::LayoutMetricsRect( TAknLayoutMetrics aParam,
                 aRect = rect.Rect();
                 return ETrue;
                 }
-            //add below code for vga_touch
-            else if ( screenRect.iBr.iX == 640 && screenRect.iBr.iY == 480 )
-                {
-                TInt variety = 13;
-
-                 rect.LayoutRect( screenRect,
-                                  AknLayoutScalable_Avkon::main_pane( variety ) );
-                 aRect = rect.Rect();
-                 return ETrue;
-                }
             else
                 {
                 return LayoutMetricsRect( EMainPane, aRect );
@@ -5310,21 +5300,8 @@ void DrawEmptyListImpl_real( const TRect &aClientRect,
         CleanupStack::PopAndDestroy(); // wrapWidthArray
         } ); // TRAP end
 
-    if ( error == KErrNone )
-        {
-        n = 0;
-        for ( i = 0; i < buffer.Length(); i++ )
-            {
-            if ( buffer[i] == '\n' )
-                {
-                n++;
-                }
-            }        
-        }
-    
-    // There is no layout for empty popuplist
-    // The second layout that 2 lines with big font is used for two lines text.
-    if ( n < 3 || error != KErrNone || popupList )
+    // there is no layout for empty popuplist
+    if ( error != KErrNone || popupList )
         {
         DrawEmptyListImpl_real_DrawUpToTwoLines( aGc, aText, line1, line2,
                                                  line1length, line2length,

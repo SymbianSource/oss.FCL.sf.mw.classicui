@@ -56,15 +56,15 @@ LIBRARY             apgrfx.lib
 LIBRARY             apparc.lib
 LIBRARY             avkon.lib
 LIBRARY             bafl.lib
-LIBRARY             CommonEngine.lib
+LIBRARY             commonengine.lib
 LIBRARY             cone.lib
 LIBRARY             ecom.lib
 LIBRARY             efsrv.lib
 LIBRARY             eikcoctl.lib
 LIBRARY             eikcore.lib
 LIBRARY             euser.lib
-LIBRARY             gsecomplugin.lib
-LIBRARY             gsframework.lib
+LIBRARY             GSEcomPlugin.lib
+LIBRARY             GSFramework.lib
 LIBRARY             ws32.lib
 
 // End of File

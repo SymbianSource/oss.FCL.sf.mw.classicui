@@ -73,20 +73,20 @@ USERINCLUDE	  ../inc
 MW_LAYER_SYSTEMINCLUDE
 
 LIBRARY       aknicon.lib
-LIBRARY       aknlayout2.lib
+LIBRARY       AknLayout2.lib       
 LIBRARY       AknLayout2Scalable.lib
 LIBRARY       aknnotify.lib
 LIBRARY       aknphysics.lib
-LIBRARY       aknskins.lib
+LIBRARY       aknskins.lib 
 LIBRARY       aknskinsrv.lib
 LIBRARY       akntouchgesturefw.lib
 LIBRARY       apparc.lib
 LIBRARY       avkon.lib
 LIBRARY       bitgdi.lib
 LIBRARY       CdlEngine.lib 
-LIBRARY       cenrepnotifhandler.lib
+LIBRARY       CenrepNotifHandler.lib
 LIBRARY       centralrepository.lib
-LIBRARY       CommonEngine.lib
+LIBRARY       commonengine.lib
 LIBRARY       cone.lib
 LIBRARY       efsrv.lib 
 LIBRARY       egul.lib
@@ -97,7 +97,7 @@ LIBRARY       estor.lib
 LIBRARY       euser.lib
 LIBRARY       fbscli.lib
 LIBRARY       fepbase.lib
-LIBRARY       featmgr.lib
+LIBRARY       FeatMgr.lib
 LIBRARY       gdi.lib
 LIBRARY       imageconversion.lib 
 LIBRARY       libOpenVG.lib

@@ -183,17 +183,15 @@ TBool CAknListBoxSettingPage::EnableSingleClickHighlight( TInt aCommandId )
         {   
         TKeyEvent event;
         event.iCode = EKeyOK;      
-        
         // restore highlight with simulated key event
-        TRAP_IGNORE
-		    (
-            TKeyResponse response = ListBoxControl()->OfferKeyEventL( event, EEventKey );
-            if ( response == EKeyWasConsumed )
-                {
-                highLightEnabled = ETrue;
-                }
-            );
-        }
+        TKeyResponse response = 
+            ListBoxControl()->OfferKeyEventL( event, EEventKey );        
+        
+        if ( response == EKeyWasConsumed )
+            {
+            highLightEnabled = ETrue;
+            }
+        }    
     return highLightEnabled;
     }
 

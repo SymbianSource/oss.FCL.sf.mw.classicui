@@ -48,17 +48,13 @@ SOURCE          FindUtilWestern.cpp
 SOURCE          FindUtilKorean.cpp
 
 LIBRARY         euser.lib
-LIBRARY         FindUtil.lib
+LIBRARY         findutil.lib
 LIBRARY         ptiengine.lib
-LIBRARY         CommonEngine.lib
-LIBRARY         centralrepository.lib
-LIBRARY         cenrepnotifhandler.lib
+LIBRARY         commonengine.lib
+LIBRARY         CentralRepository.lib
+LIBRARY         CenRepNotifHandler.lib
 LIBRARY         cone.lib
 LIBRARY         fepbase.lib 
 LIBRARY         avkon.lib eikcoctl.lib eikctl.lib form.lib uiklaf.lib 
-LIBRARY         featmgr.lib
-
-DEBUGLIBRARY    charconv.lib
-DEBUGLIBRARY 	efsrv.lib
 
 // end of file

@@ -28,12 +28,16 @@
 #include <AknSettingCache.h>
 #include <AknsUtils.h>
 #include <AknPanic.h>
+#include <txtglobl.h> // CGlobalText
+#include <aknextendedinputcapabilities.h> // CAknExtendedInputCapabilities
 
+const TInt KAlignFlagsOfferset( 3 );
+const TInt KNeedFormat( 2000 );      // If text length < 2000 then format it.
 LOCAL_C TBool IsEmpty(TInt aValue)
-	{
-	return aValue == ELayoutEmpty;
-	}
-	
+    {
+    return aValue == ELayoutEmpty;
+    }
+    
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -52,10 +56,10 @@ TInt AknLayoutUtilsHelpers::CorrectBaseline( TInt aParentHeight, TInt aBaseline,
         const CAknLayoutFont *font = AknLayoutUtils::LayoutFontFromId(aFontId);
         TInt descent = font->BaselineToTextPaneBottom();
 
-		// calculate distance down from top of parent to bottom of maximal glyph
+        // calculate distance down from top of parent to bottom of maximal glyph
         TInt top2bog = aParentHeight - b;
 
-		// distance down to baseline is distance down to bottom of glyph minus descent
+        // distance down to baseline is distance down to bottom of glyph minus descent
         // A further 1 is subtracted to account for the definition of baseline in the
         // Series 60 pre-2.8 layout specifications.
         B = top2bog - descent - 1;
@@ -92,7 +96,7 @@ TInt AknLayoutUtilsHelpers::EdwinHeightFromLines (
     
     return EdwinHeightFromLines(
         font->TextPaneHeight(), decorationMetrics,
-        aBaselineSeparationOverRide, aNumberOfLinesToShowOverRide);	
+        aBaselineSeparationOverRide, aNumberOfLinesToShowOverRide);    
     }
     
  TInt AknLayoutUtilsHelpers::EdwinHeightFromLines (
@@ -218,7 +222,7 @@ void AknLayoutUtilsHelpers::GetFontMaxHeightAndDepth( const CFont* aFont, TInt& 
         {
         aMaxHeight = aFont->AscentInPixels();
         aMaxDepth = aFont->DescentInPixels();
-        }	
+        }    
     }
 
     
@@ -260,17 +264,17 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalableWithCorrectedParametersAndDecorat
     paraFormat.iLineSpacingInTwips = baselineDelta;
     paraFormatMask.SetAttrib(EAttLineSpacing); 
 
-	CAknSettingCache& cache = CAknEnv::Static()->SettingCache();
+    CAknSettingCache& cache = CAknEnv::Static()->SettingCache();
     paraFormat.iLanguage = cache.InputLanguage(); // Default paragraph language (in case there is no text yet)
-	paraFormatMask.SetAttrib(EAttParaLanguage);
+    paraFormatMask.SetAttrib(EAttParaLanguage);
 
     TCharFormat charFormat;
     TCharFormatMask charFormatMask;
     charFormat.iFontSpec = aFont->FontSpecInTwips();
     charFormatMask.SetAttrib(EAttFontTypeface);
     charFormatMask.SetAttrib(EAttFontHeight);
-	charFormatMask.SetAttrib(EAttFontStrokeWeight);
-	charFormatMask.SetAttrib(EAttFontPosture);
+    charFormatMask.SetAttrib(EAttFontStrokeWeight);
+    charFormatMask.SetAttrib(EAttFontPosture);
 
     charFormat.iFontPresentation.iTextColor = AKN_LAF_COLOR_STATIC(aColor);
     charFormatMask.SetAttrib(EAttColor);
@@ -297,6 +301,7 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalableWithCorrectedParametersAndDecorat
     CParaFormatLayer* paraFormatLayer = NULL;
     CCharFormatLayer* charFormatLayer = NULL;
 
+    TBool needFormat = EFalse;
     TRAPD(
             error, 
             { 
@@ -315,13 +320,61 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalableWithCorrectedParametersAndDecorat
         }
     else
         {
+        // Get paragraph format of current editor
+        CGlobalText* globleText = static_cast<CGlobalText*>( aEdwin->Text() );
+        if ( globleText )
+            {
+            TCursorSelection selection = aEdwin->Selection();
+            TInt selectionLength = selection.Length();
+            CParaFormat oldParaFormat;
+            TParaFormatMask oldParaMask;
+            TRAPD( error, globleText->GetParaFormatL( &oldParaFormat, 
+                    paraFormatMask, 
+                    selection.LowerPos(), 
+                    selectionLength ) );
+            if ( error == KErrNone )
+                {
+                // Get char format of current editor
+                TCharFormat oldCharFormat;
+                TCharFormatMask oldCharMask;
+                TCharFormatMask charUndeterminedMask;
+                globleText->GetCharFormat( oldCharFormat, 
+                        charFormatMask,
+                        selection.LowerPos(),
+                        selectionLength);
+                
+                // If paragraph format and char format are not changed no need to do global format.
+                needFormat = !( oldParaFormat.IsEqual( paraFormat, paraFormatMask ) && 
+                     oldCharFormat.IsEqual( charFormat, charFormatMask ) );
+                }
+            }
         aEdwin->SetParaFormatLayer(paraFormatLayer);
         aEdwin->SetCharFormatLayer(charFormatLayer);
         }
-    aEdwin->SetSuppressFormatting(ETrue);
-	// Setting editor alignment must be done after
-	// other editor paragraph formatting
-	aEdwin->SetAlignment(aJustification);
+    aEdwin->SetSuppressFormatting( ETrue );
+    // Setting editor alignment must be done after
+    // other editor paragraph formatting
+    if ( !needFormat )
+        {
+        CAknExtendedInputCapabilities* extendedInputCapabilities = 
+            aEdwin->MopGetObject( extendedInputCapabilities );
+        if ( extendedInputCapabilities )
+            {
+            /* 
+             * We need to map LayoutAlign to InputEditorAlign, then check if the alignment
+             * is changed. The algorithm is follow: 
+             * ELayoutAlignCenter = 1 -> EInputEditorAlignCenter = 0x00000010
+             * ELayoutAlignLeft = 2 -> EInputEditorAlignLeft = 0x00000020
+             * ELayoutAlignRight = 3 -> EInputEditorAlignRight = 0x00000040
+             * ELayoutAlignBidi = 4 -> EInputEditorAlignBidi = 0x00000080
+            */
+            TUint capabilities = extendedInputCapabilities->Capabilities();
+            capabilities &= CAknExtendedInputCapabilities::KAknEditorAlignMask;
+            capabilities >>= ( KAlignFlagsOfferset + aJustification );
+            needFormat = ( capabilities != 1 );
+            }
+        }
+    aEdwin->SetAlignment(aJustification);
     aEdwin->SetSuppressFormatting(EFalse);
 
     aEdwin->SetBorder(ENone);
@@ -480,13 +533,20 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalableWithCorrectedParametersAndDecorat
         }
 
     // The order of SetRect(), AlterViewRect and NotifyNewFormat is important.
-    aEdwin->SetSuppressFormatting(ETrue);
+    aEdwin->SetSuppressFormatting( ETrue );
+    // If width is changed or text length is more then 2000 we will format
+    // it by calling aEdwin->NotifyNewFormatL() at the end of this function.
+    needFormat = ( needFormat || 
+                  ( aEdwin->Rect().Width() != edwinRect.Width() ) || 
+                  aEdwin->TextLength() < KNeedFormat );
     aEdwin->SetRect(edwinRect);
     aEdwin->SetSuppressFormatting(EFalse);
     
-	aEdwin->SetSuppressNotifyDraw( ETrue );
-    TRAP_IGNORE(aEdwin->NotifyNewFormatL());
-	aEdwin->SetSuppressNotifyDraw( EFalse );
+    aEdwin->SetSuppressNotifyDraw( ETrue );
+    aEdwin->SetSuppressFormatting( !needFormat );
+    TRAP_IGNORE( aEdwin->NotifyNewFormatL() );
+    aEdwin->SetSuppressFormatting( EFalse );
+    aEdwin->SetSuppressNotifyDraw( EFalse );
     }
 
 void AknLayoutUtilsHelpers::LayoutEdwinScalable(CEikEdwin *aEdwin, 
@@ -506,7 +566,7 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalable(CEikEdwin *aEdwin,
     {
     __ASSERT_DEBUG(aEdwin,Panic(EAknPanicNullPointer));
     __ASSERT_DEBUG(!(aEdwin->MaximumHeightInLines())||aNumberOfLinesShown<=aEdwin->MaximumHeightInLines(),Panic(EAknPanicOutOfRange));
-	
+    
     const CAknLayoutFont *font = AknLayoutUtils::LayoutFontFromId(aFontId, aCustomFont);
     
     aBaseline = CorrectBaseline( aEdwinParent.Height(), aBaseline, aFontId);
@@ -515,7 +575,7 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalable(CEikEdwin *aEdwin,
     // thin imaginary line underneath the glyphs' baseline pixels:
     aBaseline += 1; 
     
-	if (aSecondLineBaseline != 0)
+    if (aSecondLineBaseline != 0)
         {
         aSecondLineBaseline = CorrectBaseline( aEdwinParent.Height(),aSecondLineBaseline, aFontId);    
         aSecondLineBaseline += 1; // This puts baseline into a more natural definition
@@ -525,9 +585,9 @@ void AknLayoutUtilsHelpers::LayoutEdwinScalable(CEikEdwin *aEdwin,
     if (IsParentRelative(aRightMargin)) { aRightMargin = aEdwinParent.Width() - ELayoutP + aRightMargin; }
     if (IsParentRelative(aWidth)) { aWidth = aEdwinParent.Width() - ELayoutP + aWidth; }
 
-	if (IsEmpty(aLeftMargin)) { aLeftMargin = aEdwinParent.Width() - aRightMargin - aWidth; }
-	if (IsEmpty(aRightMargin)) { aRightMargin = aEdwinParent.Width() - aLeftMargin - aWidth; }
-	if (IsEmpty(aWidth)) { aWidth = aEdwinParent.Width() - aLeftMargin - aRightMargin; }
+    if (IsEmpty(aLeftMargin)) { aLeftMargin = aEdwinParent.Width() - aRightMargin - aWidth; }
+    if (IsEmpty(aRightMargin)) { aRightMargin = aEdwinParent.Width() - aLeftMargin - aWidth; }
+    if (IsEmpty(aWidth)) { aWidth = aEdwinParent.Width() - aLeftMargin - aRightMargin; }
 
     TAknTextDecorationMetrics metrics( aFontId );
     LayoutEdwinScalableWithCorrectedParametersAndDecorationMetrics(

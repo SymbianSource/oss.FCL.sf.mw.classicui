@@ -2862,8 +2862,12 @@ void CFormattedCellListBoxData::DrawMarkingModeIcons(
             & CListItemDrawer::EMarkingModeEnabled 
             && !aProperties.IsSelectionHidden()            
             && iExtension->iMarkingIconArray
+#ifdef RD_TOUCH2_MARKING
             &&  iExtension->iMarkingIconArray->Count() 
-                == KMarkingModeIconArraySize )       
+                == KMarkingModeIconArraySize )         
+#else            
+            &&  iExtension->iMarkingIconArray->Count() == 2 )
+#endif // RD_TOUCH2_MARKING        
         {
         if ( AknLayoutUtils::LayoutMirrored() )
             {

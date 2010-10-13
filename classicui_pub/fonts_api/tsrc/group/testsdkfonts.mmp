@@ -57,13 +57,13 @@ SOURCE          testsdkfontsblockslayoutfont.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcore.lib
 LIBRARY         cone.lib
 LIBRARY         eikcoctl.lib
-LIBRARY         fontutils.lib
+LIBRARY         fontutils.lib 
 LIBRARY         uiklaf.lib 
 LIBRARY         gdi.lib 
 

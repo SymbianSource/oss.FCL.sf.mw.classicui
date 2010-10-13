@@ -50,7 +50,7 @@ SOURCE          testdompoieventmodblocks.cpp
 SOURCE          testdompoieventmodcontainer.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         cone.lib
 LIBRARY         avkon.lib

@@ -121,6 +121,4 @@ EXPORTS
 	_ZN12MPBAiwNotify13HandleNotifyLEiiR20CAiwGenericParamListRKS0_ @ 120 NONAME
 	_ZN11CItemFinder22SetItemFinderObserverLEP22MAknItemFinderObserver @ 121 NONAME
 	_ZN15CFindItemDialog17EnableSingleClickEi @ 122 NONAME
-	_ZN13CFindItemMenu24SetCallSubMenuVisibilityEi @ 123 NONAME
-	_ZN15CFindItemDialog24SetCallSubMenuVisibilityEi @ 124 NONAME
 

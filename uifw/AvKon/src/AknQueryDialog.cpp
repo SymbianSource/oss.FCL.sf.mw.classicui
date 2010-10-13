@@ -428,10 +428,13 @@ EXPORT_C TInt CAknQueryDialog::RunLD()
 
     CAknsFrameBackgroundControlContext* cc = (CAknsFrameBackgroundControlContext*)AknsDrawUtils::ControlContext( this );
     cc->SetCenter(KAknsIIDQsnFrPopupCenterQuery);
-    
-    // Check Query is wait of not.
-    TBool isWaitDialog( ( DialogFlags() & EEikDialogFlagWait ) != 0 );
 
+    TBool isWaitDialog(EFalse);
+ 
+    if ( DialogFlags() & EEikDialogFlagWait )
+        {
+        isWaitDialog = ETrue;
+        }
     SetGloballyCapturing(ETrue); 
     TInt ret = CAknDialog::RunLD();
     _AKNTRACE( "[%s][%s] ret: %d", "CAknQueryDialog", __FUNCTION__, ret );
@@ -439,7 +442,7 @@ EXPORT_C TInt CAknQueryDialog::RunLD()
         {
         soundSystem->PopContext();
         }
-    // If wait QueryDialog, instance will be deleted right after RunLD via CBA
+ 
     if ( !isWaitDialog )
         {
         SetGloballyCapturing(EFalse); 
@@ -2121,10 +2124,6 @@ EXPORT_C TBool CAknMultiLineDataQueryDialog::OkToExitL(TInt aButtonId)
 				CEikCaptionedControl *ctrl2 = GetLineByLineAndPageIndex(line2, 0);
 				TryChangeFocusToL(ctrl2->iId);
                 HandleOrientationSwitch();
-                // In landscape mode, the first and second lines are at the same position, 
-                // so set the height of first line¡¯s control to 0 to prevent it from being 
-                // selected by touch event.
-                ctrl1->SetSize( TSize( ctrl1->Size().iWidth, 0 ) );
 
                 UpdateLeftSoftKeyL();
                 _AKNTRACE( "[%s][%s] return EFalse", "CAknMultiLineDataQueryDialog", __FUNCTION__);

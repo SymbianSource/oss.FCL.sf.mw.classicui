@@ -97,17 +97,10 @@
 #include <aknpointereventsuppressor.h>
 #include <aknnotedialog.h>
 #include <AknFepGlobalEnums.h>
-#include <AknSmileyUtils.h>
+
 #include "smileymanager.h"
 #include "smileycustomwrap.h"
 #include <touchfeedback.h>
-
-// for supporting TapToWrite
-#include <AvkonInternalCRKeys.h>
-#include <e32property.h>
-#include <AknFepInternalPSKeys.h>
-#include <AknFontAccess.h>
-#include <AvkonInternalCRKeys.h>  // KAknQwertyInputModeActive
 
 // declare function
 void ReadSpecialCharFromSCTL( TPtr& ptr, TInt sctResourceId );
@@ -164,10 +157,6 @@ const TInt KNmericSCTLimit( 256 );
 const TInt KTInt16Length( sizeof( TInt16 ) );
 const TInt KTInt32Length( sizeof( TInt32 ) );
 const TInt KTUint32Length( sizeof( TUint32 ) );
-const TInt KBlackMap( 179 );
-const TInt KWhiteMap( 76 );
-_LIT( KParagraphSeparator, "\x2029" );
-TRgb FadeRgb( TRgb aColor, TUint8 aBlackMap, TUint8 aWhiteMap );
 
 //
 // class CEikEdwin::CUndoBuffer
@@ -517,9 +506,6 @@ void CEikEdwinFepSupport::UpdateTextViewAfterChangeInInlineTextL(TBool aParagrap
         }
     iEdwin.iTextView->HandleInsertDeleteL( select, aNumberOfCharactersSuccessfullyDeleted,
         aParagraphContainingStartPositionOfInlineTextHasChangedFormat );
-    // try to draw "tap to write"
-    iEdwin.TryToDrawT2W();
-    
     User::LeaveIfError(aError);
     iEdwin.SetScrollBarsL();
     iEdwin.DoReportEventL(MCoeControlObserver::EEventStateChanged);
@@ -812,7 +798,7 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
         TInt smileyEndPos( 0 );
         for ( TInt i( 0 ); i < length; i++ )
             {
-            if ( aEditorContent[i] == CAknSmileyManager::KCompensateChar )
+            if ( aEditorContent[i] == CSmileyManager::KCompensateChar )
                 {
                 // when 'i' is the first character, it is unkonwn whether it is
                 // part of a smiley code string or not, so we have to use another 
@@ -820,7 +806,7 @@ void CEikEdwinFepSupport::GetEditorContentForFep(TDes& aEditorContent,TInt aDocu
                 if ( ( i > 0 && i < smileyEndPos ) ||
                      ( i == 0 && smiley->SmileyCodeByPos( aDocumentPosition ) > 0 ) )
                     {
-                    aEditorContent[i] = CAknSmileyManager::KPlaceHolder;
+                    aEditorContent[i] = CSmileyManager::KPlaceHolder;
                     }
                 }
             else if ( smiley->IsSmileyCode( aEditorContent[i] ) )
@@ -1077,14 +1063,6 @@ CEikEdwin::CEikEdwinExtension::~CEikEdwinExtension()
         }
     delete iCenRepNotifyHandler;
     delete iCenRep;
-    
-    // Stop listening CenRep for qwerty key board.
-    if ( iCenRepNotifyHandlerForQwerty )
-        {
-        iCenRepNotifyHandlerForQwerty->StopListening();
-        }
-    delete iCenRepNotifyHandlerForQwerty;
-    delete iCenRepForQwerty;
 
     delete iFormAccessor;
     delete iFormCursorModifier;
@@ -1098,7 +1076,6 @@ CEikEdwin::CEikEdwinExtension::~CEikEdwinExtension()
         *iDestroyedPtr = ETrue;
         iDestroyedPtr = NULL;
         }
-    delete iT2WBuf;
     delete iSmiley;
     delete iSmileyWrap;
     }
@@ -1236,19 +1213,6 @@ void CEikEdwin::CEikEdwinExtension::ConstructL(CEikEdwin* aEdwin)
         iCenRepNotifyHandler->StartListeningL();
         iCenRep->Get(KAknFepClearDirection, iClearDirection);
         }
-    // Start listening a CenRep key indicating whether qwerty input mode is active.
-    TRAPD( error, iCenRepForQwerty = CRepository::NewL( KCRUidAvkon ) );
-    if ( error == KErrNone )
-        {
-        iCenRepNotifyHandlerForQwerty = CCenRepNotifyHandler::NewL( *this,
-            *iCenRepForQwerty,
-            CCenRepNotifyHandler::EIntKey,
-            KAknQwertyInputModeActive );
-
-        iCenRepNotifyHandlerForQwerty->StartListeningL();
-        iCenRepForQwerty->Get( KAknQwertyInputModeActive, iQwertyStatus );
-        }
-    
     iSmileyWrap = new ( ELeave ) CSmileyCustomWrap;
     iSkinInstance = AknsUtils::SkinInstance();
     }
@@ -1337,12 +1301,6 @@ void CEikEdwin::CEikEdwinExtension::HandleNotifyInt(TUint32 aId, TInt aNewValue)
     if (aId == KAknFepClearDirection)
         {
         iClearDirection = (TBool)aNewValue;
-        }
-    //If qwerty key board is opened clean the "tap to write", if qwerty key board is closed display the "tap to write"
-    else if ( aId == KAknQwertyInputModeActive )
-        {
-        iQwertyStatus = ( TBool )aNewValue;
-        iEdwin->TryToDrawT2W( iQwertyStatus );
         }
     }
 
@@ -2328,8 +2286,6 @@ is a selection operation
             const TCursorSelection sel(lower,lower);
             iTextView->SetPendingSelection(sel);
             iTextView->HandleInsertDeleteL(sel,toDelete.Length(),formatHasChanged);
-            // try to draw "tap to write"
-            TryToDrawT2W();
             cursorPos = lower;
             reportChange=ETrue;
             }
@@ -2389,7 +2345,6 @@ is a selection operation
                 if (!isPicture)
                     ClearUndo();
                 iTextView->HandleCharEditL(charEditType,formatHasChanged);
-                TryToDrawT2W();
                 reportChange=ETrue;
                 formatChange=formatHasChanged;
                 }
@@ -2441,11 +2396,6 @@ TestMagnify:
             break; // prevent eg Ctrl-I inserting a tab
         goto InChar;
     default:
-        // If ctrl + key is not hotkey return not consume. 
-        if ( magnify )
-            {
-            return EKeyWasNotConsumed;
-            }
         if (code>=ENonCharacterKeyBase || !TChar(code).IsPrint() || (!IsValidChar(code)))
             {
             ret=EKeyWasNotConsumed;
@@ -2472,8 +2422,6 @@ InChar: CheckNotReadOnlyL();
             selection=pending;
             --selection.iAnchorPos;
             iTextView->HandleInsertDeleteL(selection,selectionLength,formatHasChanged);
-            // try to draw "tap to write"
-            TryToDrawT2W();
             User::LeaveIfError(err);
             reportChange=ETrue;
             formatChange=formatHasChanged;
@@ -2491,7 +2439,6 @@ InChar: CheckNotReadOnlyL();
                     ETrue );
                 }
             iTextView->HandleCharEditL(charEditType);
-            TryToDrawT2W();
             reportChange=ETrue;
             }
         else
@@ -2598,8 +2545,6 @@ line the cursor was on before the edit.
 @return The number of pixels scrolled horizontally and vertically. ( Ignored )
 */
     (void)iTextView->HandleInsertDeleteL( selection, deletedChars, aFormatHasChanged);
-    // try to draw "tap to write"
-    TryToDrawT2W();
     User::LeaveIfError(err);
     }
 
@@ -2657,6 +2602,32 @@ EXPORT_C void CEikEdwin::HandlePointerEventL(const TPointerEvent& aPointerEvent)
         else // Need to call this method for the case where the pen is beyond the last line of text
             {
             params.iDocPos = iTextView->XyPosToDocPosL( pos );
+            }
+
+        // To check if user taps on inline editing text in partial screen mode,
+        // if so, the event has to be passed to FEP handler so FEP can display 
+        // candidate words list.
+        TInt checkedFlags( EAknEditorFlagEnablePartialScreen | 
+            EAknEditorFlagTouchInputModeOpened );
+        if ( ( AknEditorFlags() & checkedFlags ) == checkedFlags )
+            {
+            TCursorSelection inlineRange( InlineTextRange() );
+            if ( params.iDocPos >= inlineRange.LowerPos() && 
+                params.iDocPos < inlineRange.HigherPos() )                
+                {
+                // Only pass EButton1up event to FEP handler to improve performance.
+                // Ignore other events on inline text, otherwise they will cancel
+                // inline editing status.
+                if ( aPointerEvent.iType == TPointerEvent::EButton1Up && 
+                    iEdwinFepSupport && iEdwinFepSupport->iPointerEventHandlerDuringInlineEdit )
+                    {
+                    iEdwinFepSupport->iPointerEventHandlerDuringInlineEdit->
+                        HandlePointerEventInInlineTextL( TPointerEvent::EButton1Up, 
+                            aPointerEvent.iModifiers, 
+                            params.iDocPos - inlineRange.LowerPos() );
+                    }
+                return;
+                }            
             }
         
         /** The local @c destroyed variable keeps track of the object destroyed state. */
@@ -3179,23 +3150,6 @@ EXPORT_C void CEikEdwin::FocusChanged(TDrawNow /*aDrawNow*/)
         return;
     const TBool focused=IsFocused();
     TRAP_IGNORE(SetCursorVisibilityL(focused));
-    if ( iEdwinExtension )
-        {
-        if ( focused )
-            {
-            iEdwinExtension->iT2WState |= CEikEdwinExtension::EFocusOn;
-            TryToDrawT2W();
-            }
-        else 
-            {
-            TBool change = ( TextLength() == 0 && IsT2WEnabled() );
-            iEdwinExtension->iT2WState &= ~CEikEdwinExtension::EFocusOn;
-            if ( change )
-                {
-                TryToDrawT2W( ETrue );
-                }
-            }
-        }
     if (!focused && iEdwinUserFlags&EAlwaysShowSelection)
         ;
     else
@@ -3476,16 +3430,22 @@ EXPORT_C void CEikEdwin::HandleSizeChangedL()
         {
         displayRect.iBr.iY = displayRect.iTl.iY + displayRectHeight;
         }
-
-
-    iTextView->SetViewRect(displayRect);
-    iLayout->SetWrapWidth(LayoutWidth());
+    // Check if the width of view rect is changed, if it is not changed no need to global reformat.
+    const TBool differentWidth = ( iTextView->ViewRect().Width() != displayRect.Width() );
+    iTextView->SetViewRect( displayRect );
+    if ( differentWidth )
+    	{
+        iLayout->SetWrapWidth( LayoutWidth() );
+    	}
     TViewYPosQualifier yPosQualifier;
     yPosQualifier.SetFillScreen();
     yPosQualifier.SetMakeLineFullyVisible();
     SetAmountToFormatL( EFalse, EFalse ); // Not a new doc; Do not reformat
-    if (!(iEdwinInternalFlags & ESuppressFormatting))
-        iTextView->HandleGlobalChangeNoRedrawL(yPosQualifier); // This does the reformat
+    if ( !( iEdwinInternalFlags & ESuppressFormatting ) && 
+         ( differentWidth || iLayout->DocumentLength() < KFullFormattingUpperThreshold ) )
+    	{
+        iTextView->HandleGlobalChangeNoRedrawL( yPosQualifier ); // This does the reformat
+    	}
     CalculateLineMetricsForBandFormattingL();
     SetScrollBarsL();
     UpdateScrollBarsL();
@@ -4060,12 +4020,6 @@ EXPORT_C void CEikEdwin::Draw(const TRect& /*aRect*/) const
             }
 
         TrappedDraw(viewRect);
-        
-        // try to draw "tap to write"
-        if ( TextLength() == 0 && IsT2WEnabled() )
-            {
-            TRAP_IGNORE( DrawT2WTextL() );
-            }
 
     #ifdef RD_UI_TRANSITION_EFFECTS_POPUPS
         // Workaround for clipping rect problem in multiline queries with text
@@ -4086,68 +4040,33 @@ void CleanupReleaseFont(TAny* aFont)
     CEikonEnv::Static()->ScreenDevice()->ReleaseFont(*fontPtr);
     }
 
-void CEikEdwin::DrawT2WTextL() const
+void CEikEdwin::DrawFirstLineTextL() const
     {
-    if ( iEdwinExtension && iEdwinExtension->iT2WBuf )
-        {
-        // rect
-        TRect edwinRect = RectForFirstLineText();
-        
-        // font
-        TAknTextLineLayout textLayout =
-                AknLayoutScalable_Avkon::data_form_wide_pane_t1(0).LayoutLine();
-        const CAknLayoutFont* font = AknLayoutUtils::LayoutFontFromId(
-                textLayout.FontId());
-        TFontSpec fontSpec = CursorFontSpec();
-        fontSpec.iFontStyle.SetStrokeWeight( EStrokeWeightNormal );
+   
+    HBufC* clipbuf = GetTextInHBufL();
+    CleanupStack::PushL(clipbuf);
 
-        CGraphicsDevice* screenDevice = iEikonEnv->ScreenDevice();
-        CFbsFont* customFont( NULL );
-        TInt err = screenDevice->GetNearestFontInTwips((CFont*&) customFont,
-                fontSpec);
-        
-        //color
-        TRgb textColor = iEikonEnv->ControlColor(EColorControlText, *this);
-        MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-        if ( skin && SkinColorId() != KErrNotFound )
-            {
-            AknsUtils::GetCachedColor( skin, textColor, KAknsIIDQsnTextColors, 
-                    SkinColorId() );
-            }
-        
-        // reorder the buffer
-        TPtrC clipbufPtr = iEdwinExtension->iT2WBuf->Des();
-        AknBidiTextUtils::PrepareRunInfoArray( clipbufPtr );
-        HBufC* reorderedText = HBufC::NewLC( clipbufPtr.Length() + TBidiLogicalToVisual::KMinCharAvailable);
-        TPtr reorderedTextPtr = reorderedText->Des();
-        TInt width = edwinRect.Size().iWidth;
-        AknBidiTextUtils::ConvertToVisualAndClip( clipbufPtr, reorderedTextPtr, *font, width, width );
-        
-        CWindowGc& gc = SystemGc();
-        gc.SetBrushStyle(CGraphicsContext::ENullBrush);
-        gc.SetPenStyle(CGraphicsContext::ESolidPen);
-        gc.SetPenColor( FadeRgb( textColor, KBlackMap , KWhiteMap ) );
-        gc.UseFont( customFont );
-        gc.DrawText( reorderedTextPtr, edwinRect, font->TextPaneTopToBaseline(),
-                     AlignForFirstLineText( reorderedTextPtr ) );
-        gc.DiscardFont();
-        screenDevice->ReleaseFont( customFont );
-        CleanupStack::PopAndDestroy( reorderedText );
-        }
-    }
-
-TRect CEikEdwin::RectForFirstLineText() const
-    {
+    TPtrC clipbufPtr = clipbuf->Des();
     TMargins8 margins = Margins();
     const TRect rect(Rect());
     TInt cursorWidth = CursorWidth(); // need to add cursor width to right hand margin
-    TRect edwinRect = AknLayoutUtils::RectFromCoords(rect, margins.iLeft, margins.iTop, margins.iRight+cursorWidth, 
-            margins.iBottom, ELayoutEmpty, ELayoutEmpty);
-    return edwinRect;
-    }
+    TRect edwinRect = AknLayoutUtils::RectFromCoords(rect, margins.iLeft, margins.iTop, margins.iRight+cursorWidth, margins.iBottom, ELayoutEmpty, ELayoutEmpty);
 
-CGraphicsContext::TTextAlign CEikEdwin::AlignForFirstLineText( const TPtr & aReorderedTextPtr ) const
-    {
+    TAknTextLineLayout textLayout = AknLayoutScalable_Avkon::data_form_wide_pane_t1(0).LayoutLine();
+    const CAknLayoutFont* font = AknLayoutUtils::LayoutFontFromId( textLayout.FontId());
+
+    // reorder the text
+    AknBidiTextUtils::PrepareRunInfoArray(clipbufPtr);
+
+    HBufC* reorderedText = HBufC::NewLC(clipbufPtr.Length() + TBidiLogicalToVisual::KMinCharAvailable);
+    TPtr reorderedTextPtr = reorderedText->Des();
+    TInt width = edwinRect.Size().iWidth;
+    AknBidiTextUtils::ConvertToVisualAndClip(clipbufPtr, reorderedTextPtr, *font, width, width);
+    AknTextUtils::ReplaceCharacters( reorderedTextPtr, _L("\x2029"), TChar(' ') );
+    CleanupStack::Pop(reorderedText);   
+    CleanupStack::PopAndDestroy(clipbuf);   
+    CleanupStack::PushL(reorderedText);
+
     CGraphicsContext::TTextAlign alignment = CGraphicsContext::ELeft;
     switch(CurrentAlignment())
         {
@@ -4164,45 +4083,33 @@ CGraphicsContext::TTextAlign CEikEdwin::AlignForFirstLineText( const TPtr & aReo
         case EAknEditorAlignBidi: // drop through to default
         default:
             {
-            if ( TBidiText::TextDirectionality( aReorderedTextPtr ) == TBidiText::ELeftToRight )
+            if (TBidiText::TextDirectionality(reorderedTextPtr) == TBidiText::ELeftToRight)
                 alignment = CGraphicsContext::ELeft;
             else
                 alignment = CGraphicsContext::ERight;
             }
             break;
         }
-    return alignment;
-    }
-void CEikEdwin::DrawFirstLineTextL() const
-    {
-    // rect
-    TRect edwinRect = RectForFirstLineText();
-    // font
-    TAknTextLineLayout textLayout = AknLayoutScalable_Avkon::data_form_wide_pane_t1(0).LayoutLine();
-    const CAknLayoutFont* font = AknLayoutUtils::LayoutFontFromId( textLayout.FontId());
-    // reorder the text
-    HBufC* clipbuf = GetTextInHBufL();
-    CleanupStack::PushL(clipbuf);
-    TPtrC clipbufPtr = clipbuf->Des();
-    AknBidiTextUtils::PrepareRunInfoArray( clipbufPtr );
-    HBufC* reorderedText = HBufC::NewLC( clipbufPtr.Length() + TBidiLogicalToVisual::KMinCharAvailable );
-    TPtr reorderedTextPtr = reorderedText->Des();
-    TInt width = edwinRect.Size().iWidth;
-    AknBidiTextUtils::ConvertToVisualAndClip( clipbufPtr, reorderedTextPtr, *font, width, width );
-    AknTextUtils::ReplaceCharacters( reorderedTextPtr, KParagraphSeparator, TChar(' ') );
-    CleanupStack::Pop( reorderedText );   
-    CleanupStack::PopAndDestroy( clipbuf );   
-    CleanupStack::PushL( reorderedText );
         
     CWindowGc& gc=SystemGc();               
-    gc.UseFont( font );
-    gc.SetBrushStyle( CGraphicsContext::ENullBrush );
-    gc.SetPenStyle( CGraphicsContext::ESolidPen );
-    gc.SetPenColor( iEikonEnv->ControlColor( EColorControlText, *this ) );  // Text color
-    gc.DrawText( reorderedTextPtr, edwinRect, font->TextPaneTopToBaseline(), 
-            AlignForFirstLineText( reorderedTextPtr ) );
-    CleanupStack::PopAndDestroy(reorderedText); 
-    gc.DiscardFont();
+    gc.UseFont(font);
+
+    // Following patching up of the GC are now necessary after calling LafCustomDrawerfor background
+    gc.SetBrushStyle(CGraphicsContext::ENullBrush);
+    gc.SetPenStyle(CGraphicsContext::ESolidPen);
+    TRgb textColor=iEikonEnv->ControlColor(EColorControlText,*this);
+
+    gc.SetPenColor(textColor);  // Text color
+
+    // Edwin is assumed to be laid out already with LayoutEdwin. In that case
+    // the textpane top is the top of the edwin
+    TInt ascent = font->TextPaneTopToBaseline();
+    
+    gc.DrawText(reorderedTextPtr, edwinRect, ascent, alignment);
+
+    CleanupStack::PopAndDestroy(reorderedText);
+    
+    gc.DiscardFont(); // So the GC will not try to use the font.
     }
 
 EXPORT_C void CEikEdwin::TrappedDraw(const TRect& aViewRect) const
@@ -4511,22 +4418,6 @@ EXPORT_C TInt CEikEdwin::TextLength() const
     return(iText->DocumentLength());
     }
 
-TBool CEikEdwin::IsT2WEnabled() const
-    {
-    /**
-     * 1,If the editor is read only or it is display only "tap to write" is disabled
-     * 2,If iEdwinExtension->iT2WBuf is NULL, "tap to write" is disabled. 
-     * 3,If Qwerty key borad is opened, "tap to write" is disabled
-     * 4,If focus off, "tap to write" is disabled
-     * 5,If split input is enabled, "tap to write" is disabled 
-     */ 
-    return iEdwinExtension && !( iEdwinUserFlags & EReadOnly ) && 
-         !( iEdwinUserFlags & EDisplayOnly ) && iEdwinExtension->iT2WBuf && 
-         ( iEdwinExtension->iT2WState & CEikEdwinExtension::EFocusOn ) &&
-         !( iEdwinExtension->iT2WState & CEikEdwinExtension::ESplitInputEnabled ) && 
-         !( iEdwinExtension->iQwertyStatus );
-    }
-
 void CEikEdwin::SetCursorVisibilityL(TBool aEmphasis)
     {
     TCursor::TVisibility textCursor=(aEmphasis? TCursor::EFCursorFlashing : TCursor::EFCursorInvisible);
@@ -4538,22 +4429,6 @@ void CEikEdwin::SetCursorVisibilityL(TBool aEmphasis)
         lineCursor = TCursor::EFCursorInvisible;
         }
     
-    if ( iEdwinExtension && ( iEdwinExtension->iT2WState & CEikEdwinExtension::ERecordCursor ) )
-        {
-        if ( aEmphasis )
-            {
-            iEdwinExtension->iT2WState |= CEikEdwinExtension::ECursorVisible;
-            }
-        else 
-            {
-            iEdwinExtension->iT2WState &= ~CEikEdwinExtension::ECursorVisible;
-            }
-        }
-    
-    if ( TextLength() == 0 && IsT2WEnabled() )
-        {
-        textCursor = TCursor::EFCursorInvisible;
-        }
     iTextView->SetCursorVisibilityL(lineCursor,textCursor);
     CAknEdwinState*edwinState = EditorState();
     if( !edwinState )
@@ -5015,8 +4890,6 @@ EXPORT_C void CEikEdwin::UndoL()
             ConvertTextForSmileyL( TCursorSelection( lower, undoneLength ), ETrue );
             }
         TRAPD(err2,iTextView->HandleInsertDeleteL(TCursorSelection(lower,lower+undoneLength),newText.Length(),changed));
-        // try to draw "tap to write"
-        TryToDrawT2W();
         ClearUndo();
         if (NeedToChangeFormattingModeL())
             SetAmountToFormatL();
@@ -5099,15 +4972,9 @@ EXPORT_C void CEikEdwin::InsertFromTextFileL(const TFileName& aFileName,const CP
     const TInt newCursorPos=cursorPos+newLength-oldLength;
     iTextView->SetPendingSelection(TCursorSelection(newCursorPos,newCursorPos));
     if (NeedToChangeFormattingModeL())
-        {
         SetAmountToFormatL();
-        }
     else
-        {
         iTextView->HandleInsertDeleteL(TCursorSelection(newCursorPos,cursorPos),0,ETrue);
-        // try to draw "tap to write"
-        TryToDrawT2W();
-        }
     DrawContents();
     UpdateScrollBarsL();
     ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
@@ -5188,8 +5055,6 @@ EXPORT_C void CEikEdwin::ClipboardL(TClipboardFunc aClipboardFunc)
                 selection.iAnchorPos=lower;
                 selection.iCursorPos=lower;
                 iTextView->HandleInsertDeleteL(selection,selLength,formatHasChanged);
-                // try to draw "tap to write"
-                TryToDrawT2W();
                 reportChange=ETrue;
                 }
             CAknNoteDialog* dlg = new (ELeave) CAknNoteDialog();
@@ -5338,11 +5203,7 @@ EXPORT_C void CEikEdwin::PasteFromStoreL(CStreamStore& aStore,CStreamDictionary&
         DrawContents();
         }
     else
-        {
         iTextView->HandleInsertDeleteL(selection,selLength,formatHasChanged);
-        // try to draw "tap to write"
-        TryToDrawT2W();
-        }
     iEikonEnv->BusyMsgCancel();
     User::LeaveIfError(err);
     }
@@ -6689,8 +6550,6 @@ EXPORT_C void CEikEdwin::ReplaceL(SEdwinFindModel* aModel)
     const TCursorSelection pending(selection.iCursorPos,selection.iCursorPos);
     iTextView->SetPendingSelection(pending);
     iTextView->HandleInsertDeleteL(selection,aModel->iText.Length(),formatHasChanged);
-    // try to draw "tap to write"
-    TryToDrawT2W();
     if ( NeedToChangeFormattingModeL())
         SetAmountToFormatL();
     ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
@@ -6998,8 +6857,6 @@ EXPORT_C void CEikEdwin::InsertFieldL(CTextField* aField,TUid aFieldType)
         if (iUndoStore)
             iUndoStore->SetNewText(selection);
         iTextView->HandleInsertDeleteL(selection,selectionLength,formatHasChanged);
-        // try to draw "tap to write"
-        TryToDrawT2W();
         ReportEdwinEventL( MEikEdwinObserver::EEventTextUpdate );
         DoReportEventL( MCoeControlObserver::EEventStateChanged );
         User::LeaveIfError(err);
@@ -7103,7 +6960,6 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
             yPosQ.SetFillScreen();
             TRAP_IGNORE( iTextView->SetViewL( docPos, yPos, yPosQ ) ); 
             }                
-        TRAP_IGNORE( MoveViewToCursorLineL() );
         }
         break;
     case KEikMessageVirtualCursorStateChange:
@@ -7145,28 +7001,6 @@ EXPORT_C void CEikEdwin::HandleResourceChange(TInt aType)
         DoAlignment();
         }
         break;
-    case KAknSplitInputEnabled:
-    	{
-        if ( iEdwinExtension )
-            {
-            TBool change = ( TextLength() == 0 && IsT2WEnabled() );
-            iEdwinExtension->iT2WState |= CEikEdwinExtension::ESplitInputEnabled;           
-            if ( change )
-                {
-                TryToDrawT2W( ETrue );
-                }
-            }
-    	}
-    	break;
-    case KAknSplitInputDisabled:
-    	{
-        if ( iEdwinExtension )
-            {
-            iEdwinExtension->iT2WState &= ~CEikEdwinExtension::ESplitInputEnabled;
-            TryToDrawT2W();
-            }
-    	}
-    	break;
     default:
         break;
         }
@@ -7380,8 +7214,6 @@ EXPORT_C void CEikEdwin::InsertDeleteCharsL(TInt aInsertPos,const TDesC& aText,c
             aInsertPos + aText.Length() ), ETrue );
         }
     iTextView->HandleInsertDeleteL(TCursorSelection(aInsertPos,aInsertPos+aText.Length()),length,formatChanged);
-    // try to draw "tap to write"
-    TryToDrawT2W();
     }
 
 EXPORT_C void CEikEdwin::SetNonPrintingCharsVisibility(TNonPrintingCharVisibility aVisibility)
@@ -8103,11 +7935,19 @@ EXPORT_C TTypeUid::Ptr CEikEdwin::MopSupplyObject(TTypeUid aId)
     return TTypeUid::Null();
     }
 
-EXPORT_C void CEikEdwin::SetAlignment(TInt aAlignment)
+EXPORT_C void CEikEdwin::SetAlignment( TInt aAlignment )
     {
-    if (iEdwinExtension)
-        iEdwinExtension->SetAlignment(aAlignment);
-    DoAlignment();
+	TBool alignmentChange( ETrue );
+    if ( iEdwinExtension )
+    	{
+        alignmentChange = ( iEdwinExtension->CurrentAlignment() != aAlignment );
+        iEdwinExtension->SetAlignment( aAlignment );
+    	}
+    // If alignment is not changed, no need to reformat.
+    if ( alignmentChange )
+    	{
+        DoAlignment();
+    	}
     }
 
 void CEikEdwin::NewParagraphL()
@@ -8169,7 +8009,10 @@ void CEikEdwin::DoAlignment()
         SetParaFormatLayer(paraFormatLayer);
         if (iTextView)
             {
-            NotifyNewFormatL();
+            if ( ( iEdwinInternalFlags & ESuppressFormatting ) == 0 )
+            	{
+                NotifyNewFormatL();
+            	}
             }
         else
             {
@@ -8637,40 +8480,6 @@ void CEikEdwin::ScrollViewToCursorLineL()
         UpdateScrollBarsL();
         }
     }
-
-// ---------------------------------------------------------------------------
-// CEikEdwin::MoveViewToCursorLineL
-// ---------------------------------------------------------------------------
-//
-void CEikEdwin::MoveViewToCursorLineL()
-    {
-    if ( !iTextView )
-        {
-        return;
-        }
-
-    const TInt cursorPos ( CursorPos() );
-    const TRect viewRect( AdjustedViewRect() );
-
-    const TPoint startPoint ( viewRect.iTl );
-    const TPoint endPoint ( viewRect.iBr );
-
-    TPoint cursorPoint;
-    iTextView->DocPosToXyPosL( cursorPos, cursorPoint );
-
-    if ( cursorPoint.iY > endPoint.iY )
-        {
-        TBool exceed ( EFalse ) ;
-        TInt rest ( 0 );
-        ScrollView ( endPoint.iY - cursorPoint.iY, exceed, rest );
-        }
-    else if ( cursorPoint.iY < startPoint.iY )
-        {
-        TBool exceed ( EFalse ) ;
-        TInt rest ( 0 );
-        ScrollView ( startPoint.iY - cursorPoint.iY, exceed, rest );
-        }
-    }
     
 EXPORT_C void CEikEdwin::SetCursorVisible(TBool aVisible)
     {
@@ -8777,10 +8586,10 @@ void CEikEdwin::OnEditorStateFlagChange( TInt aOldFlags, TInt aNewFlags )
 
         TBool partialScreenDisabled( !( aNewFlags & EAknEditorFlagEnablePartialScreen ) && 
             ( aOldFlags & EAknEditorFlagEnablePartialScreen ) );
-
-        if ( IsActivated() && 
-            ( ( textViewHideEnabled && !( aNewFlags & EAknEditorFlagEnablePartialScreen ) ) ||
-              ( partialScreenDisabled && ( aNewFlags & EAknEditorFlagHideTextView ) ) )
+        
+        if (IsActivated() && 
+            ( (textViewHideEnabled && !(aNewFlags & EAknEditorFlagEnablePartialScreen)) ||
+              (partialScreenDisabled && (aNewFlags & EAknEditorFlagHideTextView)) )
             )
             {
             iTextView->MakeVisible( EFalse );
@@ -9171,7 +8980,13 @@ TBool CEikEdwin::IsSelectionVisible()
 	for (TInt i = 0; i < text.Length(); i++)
 		{
 		TChar character(text[i]);
-        if ( character.IsPrint() )
+		if (text[i] == ' ')
+			return ETrue;
+		
+		TChar::TCategory category = character.GetCategory();
+		
+		if ( !( ( ( category & TChar::ESeparatorGroup ) == TChar::ESeparatorGroup ) ||
+			   ( text[i] >= 0x200B && text[i] <= 0xFFFC ) ) )
 			{
 			ret = ETrue;
 			break;
@@ -9476,6 +9291,32 @@ TBool CEikEdwin::ContentFitsToViewRect() const
     return EFalse;
     }
 
+// ---------------------------------------------------------------------------
+// CEikEdwin::InlineTextRange
+// ---------------------------------------------------------------------------
+//
+TCursorSelection CEikEdwin::InlineTextRange() const
+    {
+    TInt startPosOfInline( 0 );
+    TInt endPosOfInline( 0 );
+    if ( iEdwinFepSupport )
+        {           
+        startPosOfInline = iEdwinFepSupport->iPositionOfInlineTextInDocument;
+        endPosOfInline = iEdwinFepSupport->iPositionOfInlineTextInDocument + 
+            iEdwinFepSupport->iLengthOfInlineText;
+        if ( iEdwinFepSupport->iLengthOfInlineText <= 0 )
+            {
+            CAknEdwinState* state( EditorState() );
+            if ( state && state->CurrentInlineEditSpan().Length() > 0 )
+                {
+                startPosOfInline = state->CurrentInlineEditSpan().LowerPos();
+                endPosOfInline = state->CurrentInlineEditSpan().HigherPos();
+                }
+            }
+        }
+    return TCursorSelection( startPosOfInline, endPosOfInline );
+    }
+
 
 // ---------------------------------------------------------------------------
 // ReadSpecialCharFromSCTL
@@ -9546,111 +9387,6 @@ void ReadSCTHeadPane( TResourceReader& aReader )
 	aReader.Advance( KTInt16Length + KTInt16Length );
 	aReader.ReadTPtrC(); // Process ToolTip
 	}
-
-// returns the faded color of aColor
-// aWhiteMap and aBlackMap parameters control the amount of fading
-TRgb FadeRgb(TRgb aColor, TUint8 aBlackMap,TUint8 aWhiteMap)
-    {
-    TUint8 fadeMapFactor = aWhiteMap - aBlackMap + 1;
-    TUint8 fadeMapOffset = aBlackMap;
-    TInt value = aColor.Internal();
-    TInt b = (((value & 0x000000ff) * fadeMapFactor) >> 8)  + fadeMapOffset;
-    TInt g = (((value & 0x0000ff00) * fadeMapFactor) >> 16) + fadeMapOffset;
-    //the multiplication by iFadeMapFactor can overflow into the sign bit, so we shift down in two steps
-    TInt r = ((((value & 0x00ff0000) >> 16) * fadeMapFactor) >> 8) + fadeMapOffset;
-    TInt a = aColor.Alpha();
-    return TRgb(r,g,b,a );
-    }
-
-// ---------------------------------------------------------------------------
-// CEikEdwin::EnableT2WL
-// ---------------------------------------------------------------------------
-//
-EXPORT_C void CEikEdwin::EnableT2WL( TBool aEnable )
-    {
-    if ( iEdwinExtension )
-        {
-        if ( !aEnable && iEdwinExtension->iT2WBuf )
-            {
-            delete iEdwinExtension->iT2WBuf;
-            iEdwinExtension->iT2WBuf = NULL;
-            if ( iTextView ) 
-                {
-                TryToDrawT2W( ETrue );
-                }
-            }
-        else if ( aEnable && !iEdwinExtension->iT2WBuf )
-            {
-            CRepository* cenrep = NULL;
-            TInt supportT2W = 0;
-            TRAPD(error, cenrep = CRepository::NewL(KCRUidAvkon));
-            if ( error == KErrNone )
-                {
-                error = cenrep->Get( KAknEdwinTapToWrite, supportT2W );
-                }
-            delete cenrep;
-            if ( supportT2W && !iEdwinExtension->iT2WBuf )
-                {
-                iEdwinExtension->iT2WBuf = iEikonEnv->AllocReadResourceLC( R_AVKON_TAP_TO_WRITE ); 
-                CleanupStack::Pop( iEdwinExtension->iT2WBuf );
-                if ( iTextView )
-                    {
-                    TryToDrawT2W();
-                    }
-                }
-            }
-        } 
-    }
-
-// ---------------------------------------------------------------------------
-// CEikEdwin::TryToDrawT2W
-// ---------------------------------------------------------------------------
-//
-void CEikEdwin::TryToDrawT2W( TBool aClean )
-    {
-    CAknEdwinState* edwinState = EditorState();
-    TBool cursorVisible( EFalse );
-    if ( edwinState )
-        {
-        cursorVisible = ( edwinState->Flags() | EAknEditorFlagTextCursorVisible );
-        }
-    
-    if ( iEdwinExtension )
-        {
-        // When "tap to write" is enabled( started ) we should record the status of cursor.
-        if ( TextLength() == 0 && IsT2WEnabled() )
-            {
-            SetCursorVisible( EFalse );
-            iEdwinExtension->iT2WState |= CEikEdwinExtension::ERecordCursor;
-            if ( cursorVisible )
-                {
-                iEdwinExtension->iT2WState |= CEikEdwinExtension::ECursorVisible;
-                }
-            else 
-                {
-                iEdwinExtension->iT2WState &= ~CEikEdwinExtension::ECursorVisible;
-                }
-            DrawDeferred();
-            }
-        // When "tap to write" is disabled ( ended ) we need to recover the status of cursor.
-        else if ( IsFocused() && 
-                  ( iEdwinExtension->iT2WState & CEikEdwinExtension::ERecordCursor ) ) 
-            {
-            iEdwinExtension->iT2WState &= ~CEikEdwinExtension::ERecordCursor;
-            SetCursorVisible( iEdwinExtension->iT2WState & CEikEdwinExtension::ECursorVisible );
-            }
-        // When focus off, we don't need to record the status anymore. So clean it.
-        else if ( !IsFocused() ) 
-            {
-            iEdwinExtension->iT2WState &= ~CEikEdwinExtension::ERecordCursor;
-            }
-        }
-    
-    if ( aClean && TextLength() == 0 )
-        {
-        DrawDeferred();
-        }  
-    }
 
 // End of File
 

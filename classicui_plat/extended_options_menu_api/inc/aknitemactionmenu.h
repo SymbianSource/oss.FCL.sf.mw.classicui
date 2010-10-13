@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -150,13 +150,6 @@ public:
     IMPORT_C void CollectionChanged( MAknCollection& aCollection );
 
     /**
-     * Provides marking mode handler.
-     *
-     * @return Marking mode handler.
-     */
-    IMPORT_C CAknMarkingMode& MarkingMode();
-    
-    /**
      * Sets menu bar to item action menu.
      * 
      * @internal
@@ -231,19 +224,20 @@ public:
     MObjectProvider* Owner() const;
 
     /**
+     * Provides marking mode handler.
+     *
+     * @internal
+     * @return Marking mode handler.
+     */
+    CAknMarkingMode& MarkingMode();
+    
+    /**
      * Returns ETrue if collection has marked items.
      * 
      * @internal
      * @return ETrue if collection has marked items.
      */
     TBool CollectionHasMarkedItems();
-    
-    /**
-     * Hides this item action menu.
-     * 
-     * @internal
-     */
-    void HideMenu();
 
 private:
 

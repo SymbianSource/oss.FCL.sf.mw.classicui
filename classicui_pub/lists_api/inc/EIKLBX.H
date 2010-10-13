@@ -1540,17 +1540,12 @@ public:
     IMPORT_C TBool IsHighlightEnabled();
     
     /**
-     * Turns the marking mode on / off. 
-     * States of navipane and softkeys are updated. 
+     * Turns the marking mode on / off.
      *
      * @since S60 5.2
      * 
-     * @param  aEnable @c ETrue to turn marking mode on, 
-     *                 "marking mode" is shown in navipane, 
-     *                 "Cancel" is shown in right softkey.
-     *                 @c EFalse to turn marking mode off,
-     *                 "marking mode" is not shown in navipane,
-     *                 "Back" or "exit" is shown in right softkey.
+     * @param  aEnable @c ETrue to turn marking mode on
+     *                 @c EFalse to turn marking mode off
      */
     IMPORT_C void SetMarkingMode( TBool aEnable );
 

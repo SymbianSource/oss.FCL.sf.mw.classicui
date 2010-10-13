@@ -64,7 +64,7 @@ LIBRARY         eikcore.lib
 LIBRARY         avkon.lib
 LIBRARY         eikcoctl.lib
 LIBRARY         ws32.lib
-LIBRARY         aknskins.lib
+LIBRARY         AknSkins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY			efsrv.lib

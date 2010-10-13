@@ -52,9 +52,9 @@ SOURCE          testdomjapanesereadingblocksaknreadingconverter.cpp
 
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
-LIBRARY         ptiengine.lib
+LIBRARY         ptiengine.lib 
 LIBRARY         aknjapanesereading.lib
 
 LANG            SC

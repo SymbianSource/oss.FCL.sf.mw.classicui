@@ -408,7 +408,7 @@ public: // from MCoeControlContext
 public:
     TBool HitRegionContains( const TPoint& aPoint, const CCoeControl& aControl ) const;
 public:
-    void SetPageFormSized(const TRect& aRect);
+    void SetPageFormSized();
 protected:  // from CCoeControl
     virtual void SizeChanged();
     virtual TInt CountComponentControls() const;

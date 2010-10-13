@@ -71,7 +71,6 @@ LIBRARY         bafl.lib
 LIBRARY         efsrv.lib
 LIBRARY         estor.lib
 LIBRARY         eikcore.lib 
-LIBRARY         aknnotify.lib
 
 START WINS
 END

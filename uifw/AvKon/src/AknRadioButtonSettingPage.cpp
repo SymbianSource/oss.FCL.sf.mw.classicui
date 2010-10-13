@@ -92,10 +92,9 @@ public: // Data
 
 CAknRadioButtonSettingPageExtension::CAknRadioButtonSettingPageExtension(
     CCoeControl& aOwner ) :
-    iOldFocusedItemIndex( -1 ),
-    iIsDragged( EFalse ),
-    iPenDownOnItem ( KErrNotFound ),
-    iIsValidSelection( ETrue )
+    iOldFocusedItemIndex(-1), iIsDragged( EFalse ), 
+    iIsValidSelection( ETrue ),
+    iPenDownOnItem ( KErrNotFound )
     {
     if ( static_cast<CAknAppUi*>(
             aOwner.ControlEnv()->AppUi() )->IsSingleClickCompatible() )
@@ -181,7 +180,7 @@ EXPORT_C void CAknRadioButtonSettingPage::ConstructL()
 		{
 		iExtension = new (ELeave) CAknRadioButtonSettingPageExtension( *this ); 
 		}
-    iExtension->iIsValidSelection = ( iCurrentSelectionIndex != -1 );
+
     // Range should be within the valid indices, or -1:
 	// So valid range is >= -1 and also < Count.
 	__ASSERT_ALWAYS( iCurrentSelectionIndex >= -1, Panic(	EAknPanicRadioButtonSettingPageIndexOutOfRange) );
@@ -315,8 +314,7 @@ EXPORT_C void CAknRadioButtonSettingPage::SelectCurrentItemL()
         {
         iCurrentSelectionIndex = ListBoxControl()->CurrentItemIndex();
         }
-    else if( iCurrentSelectionIndex >= 0 &&
-        iCurrentSelectionIndex < ListBoxControl()->Model()->NumberOfItems() )
+    else
         {
         ListBoxControl()->SetCurrentItemIndex ( iCurrentSelectionIndex );
         }
@@ -526,16 +524,10 @@ EXPORT_C void CAknRadioButtonSettingPage::Reserved_2()
 EXPORT_C void CAknRadioButtonSettingPage::HandleResourceChange(TInt aType)
 	{
     if( aType == KAknsMessageSkinChange )
-        {
-        TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
-        }
-    else if( aType == KEikMessageFadeAllWindows )
-        {
-        if ( iExtension )
-            {
-            iExtension->iIsValidSelection = EFalse;
-            }
-        }
+    	{
+    	TRAP_IGNORE( InitialiseRadioButtonBitmapsL() );    	
+    	}
+	
 	CAknListBoxSettingPage::HandleResourceChange(aType);
 	}
 

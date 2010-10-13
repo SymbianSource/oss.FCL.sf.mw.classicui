@@ -59,9 +59,9 @@ LIBRARY         aknskins.lib
 LIBRARY         apgrfx.lib
 LIBRARY         bctestutil.lib
 LIBRARY         efsrv.lib
-LIBRARY         MenuInterface.lib
+LIBRARY         menuinterface.lib
 LIBRARY         voiceuinamedialer.lib
-LIBRARY         pbkeng.lib
+LIBRARY         pbkeng.lib 
 LIBRARY         eikdlg.lib 
 LIBRARY         eikctl.lib
 LIBRARY         eikcdlg.lib 

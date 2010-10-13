@@ -67,7 +67,7 @@ SOURCE          testsdkdialogsblocks.cpp
 SOURCE          testsdkdialogscontrol.cpp
 
 LIBRARY         euser.lib
-LIBRARY         StifTestInterface.lib
+LIBRARY         stiftestinterface.lib
 LIBRARY         stiftestengine.lib
 LIBRARY         eikdlg.lib
 LIBRARY         avkon.lib
