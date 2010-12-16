@@ -56,6 +56,7 @@
 #include "aknsctfocushandler.h"
 
 #include <eikdialogext.h>
+#include <aknglobalpopupprioritycontroller.h>
 
 //
 // class CAknCharMapDialog
@@ -348,7 +349,12 @@ EXPORT_C void CAknCharMapDialog::PreLayoutDynInitL()
 	DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront); //
 	ButtonGroupContainer().ButtonGroup()->AsControl()->DrawableWindow()->SetOrdinalPosition(0,ECoeWinPriorityAlwaysAtFront);
 	
-	CEikDialog::Extension()->SetPriority(CActive::EPriorityStandard);
+    // Boost its priority in GlobalPopupPriorityController queue, because its window priority is higher than zero,
+    // otherwise, GlobalPopupPriorityController will dim it wrongly.
+    // This code only effects for aknnfysrv.exe, since input server doesn't have GlobalPopupPriorityController instance.
+    AknGlobalPopupPriorityController::SetPopupPriorityL( *this, 1 );
+    
+    CEikDialog::Extension()->SetPriority( CActive::EPriorityStandard );   
     }
 
 EXPORT_C void CAknCharMapDialog::SetSizeAndPosition( const TSize& aSize )
@@ -480,14 +486,14 @@ EXPORT_C TInt CAknCharMapDialog::ExecuteLD(TInt aResourceId)
     if ( (langcode & KAknLanguageMask) == ELangEnglish && phoneLanguage != ELangEnglish  )
         {
         switch ( phoneLanguage )
-        	{
-        	case ELangThai:
-        		langcode = ELangEnglish_Thailand;
-        		break;
-        			
-        	default:
-        		break;
-        	}
+            {
+            case ELangThai:
+                langcode = ELangEnglish_Thailand;
+                break;
+                    
+            default:
+                break;
+            }
         }
     
     if (langcode < 10)
@@ -545,7 +551,12 @@ EXPORT_C TInt CAknCharMapDialog::ExecuteLD(TInt aResourceId)
         {
         TResourceReader reader;
         iCoeEnv->CreateResourceReaderLC(reader, iCharSetResourceId);
-        charmapControl->ReadAndAddCharSetFromResourceL(reader);
+        //resource erro, use default id
+        TRAPD( resourceError, charmapControl->ReadAndAddCharSetFromResourceL(reader) );
+        if ( KErrNone != resourceError )
+            { 
+            iCharSetResourceId = 0;
+            }
         CleanupStack::PopAndDestroy(); // reader
         }
 

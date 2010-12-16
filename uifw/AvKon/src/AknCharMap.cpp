@@ -2189,53 +2189,84 @@ void CAknCharMap::ReadCharSetFromResourceL(TResourceReader& aReader)
     {
     __ASSERT_DEBUG(iExtension, Panic(EAknPanicInvalidResourceData));
 
-    iChars = NULL;
-    
-    delete iCharsBufferHalf;
-    iCharsBufferHalf = NULL;
-    delete iCharsBufferFull;
-    iCharsBufferFull = NULL;
-    delete iCharsBufferLower;
-    iCharsBufferLower = NULL;
-    delete iCharsBufferUpper;
-    iCharsBufferUpper = NULL;
-    delete iCharsBufferNumeric;
-    iCharsBufferNumeric = NULL;
-    delete iExtension->iCharsQwerty;
-    iExtension->iCharsQwerty = NULL;
-    delete iExtension->iCharsSmiley;
-    iExtension->iCharsSmiley = NULL;
-
     TInt component_count=aReader.ReadInt16();
+    
+    HBufC* charsBufferLower = NULL;
+    HBufC* charsBufferUpper = NULL;
+    HBufC* charsBufferNumeric = NULL;
+    HBufC* charsBufferFull = NULL;
+    HBufC* charsBufferHalf = NULL;
+    HBufC* extensionCharsQwerty = NULL;
+    HBufC* extensionCharsSmiley = NULL;
+    TInt cleanupPushedItemNumber = 0;
+    
     for (TInt ii=0;ii<component_count;ii++)
         {
         TInt component_id=aReader.ReadInt16();
+        HBufC* tempReadBuffer = aReader.ReadHBufCL();
+        if ( NULL == tempReadBuffer )
+            {
+            // Empty resource file.
+            User::LeaveIfError( KErrNotFound );
+            }
         switch(component_id)
             {
             case EAknSCTLowerCase:
-                iCharsBufferLower = aReader.ReadHBufCL();
+                charsBufferLower = tempReadBuffer;
+                CleanupStack::PushL( charsBufferLower );
+                ++cleanupPushedItemNumber;
                 break;
             case EAknSCTUpperCase:
-                iCharsBufferUpper = aReader.ReadHBufCL();
+                charsBufferUpper = tempReadBuffer;
+                CleanupStack::PushL( charsBufferUpper );
+                ++cleanupPushedItemNumber;
                 break;
             case EAknSCTNumeric:
-                iCharsBufferNumeric = aReader.ReadHBufCL();
+                charsBufferNumeric= tempReadBuffer;
+                CleanupStack::PushL( charsBufferNumeric );
+                ++cleanupPushedItemNumber;
                 break;
             case EAknSCTFullCase:
-                iCharsBufferFull = AppendTextL(iCharsBufferFull, aReader.ReadHBufCL());
+                charsBufferFull= AppendTextL( charsBufferFull, tempReadBuffer );
+                CleanupStack::PushL( charsBufferFull );
+                ++cleanupPushedItemNumber;
                 break;
             case EAknSCTHalfCase:
-                iCharsBufferHalf = AppendTextL(iCharsBufferHalf, aReader.ReadHBufCL());
+                charsBufferHalf = AppendTextL( charsBufferHalf, tempReadBuffer );
+                CleanupStack::PushL( charsBufferHalf );
+                ++cleanupPushedItemNumber;
                 break;
             case EAknSCTQwerty:
-                 iExtension->iCharsQwerty = aReader.ReadHBufCL();
+                 extensionCharsQwerty = tempReadBuffer;
+                 CleanupStack::PushL( extensionCharsQwerty );
+                 ++cleanupPushedItemNumber;
                  break;
             default:
                 break;
             }
-        }
+        }     
+ 
+    extensionCharsSmiley = iExtension->ReadEmotionHBufCL();
     
-    iExtension->iCharsSmiley = iExtension->ReadEmotionHBufCL();
+    CleanupStack::Pop( cleanupPushedItemNumber );
+    
+    iChars = NULL;    
+    delete iCharsBufferHalf;
+    delete iCharsBufferFull;
+    delete iCharsBufferLower;
+    delete iCharsBufferUpper;
+    delete iCharsBufferNumeric;
+    delete iExtension->iCharsQwerty;
+    delete iExtension->iCharsSmiley;
+
+    
+    iCharsBufferLower = charsBufferLower;
+    iCharsBufferUpper = charsBufferUpper;
+    iCharsBufferNumeric = charsBufferNumeric;
+    iCharsBufferFull = charsBufferFull;
+    iCharsBufferHalf = charsBufferHalf;
+    iExtension->iCharsQwerty = extensionCharsQwerty;   
+    iExtension->iCharsSmiley = extensionCharsSmiley;
 
     // EFalse is set to iSetRecentSct variable when setting special
     // characters from resouce.

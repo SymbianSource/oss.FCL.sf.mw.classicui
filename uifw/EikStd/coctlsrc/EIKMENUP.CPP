@@ -603,6 +603,7 @@ void CEikMenuPaneExtension::RestoreOffset( TInt aKeyCode )
         }
     _AKNTRACE_FUNC_ENTER;    
     TPoint oldViewPos = iViewPosition;
+    TPoint newViewPos = iViewPosition;
     
     TInt itemsInRect = iControl->NumberOfItemsThatFitInView();
     TInt topItem = iControl->iScroller->TopItemIndex();
@@ -610,20 +611,32 @@ void CEikMenuPaneExtension::RestoreOffset( TInt aKeyCode )
     TInt highLightItem = iControl->iSelectedItem;    
            
     // There is partially visible items in menu. Offset is restored here if highlight 
-    // is moved to partially visible item by using hw keys (up/down)     
+    // is moved to partially visible item by using hw keys (up/down)
+    // ENothingSelected is for sct row.
+    // If highlight item is second or first item, and press up arrow key.	     
     if ( ( highLightItem == topItem + 1 || highLightItem == topItem ) 
         && aKeyCode == EKeyUpArrow )
         {   
-        iViewPosition.iY += iVerticalOffset;
+        newViewPos.iY += iVerticalOffset;
         }
-    //ENothingSelected is for sct row.
-    else if ( ( highLightItem == bottomItem - 1 
-                || highLightItem == bottomItem
-                || highLightItem == CEikMenuPane::ENothingSelected                
-              ) && aKeyCode == EKeyDownArrow )
+    // If highlight item is SCT item, press down arrow key.
+    else if ( highLightItem == CEikMenuPane::ENothingSelected 
+    		&& aKeyCode == EKeyDownArrow)
+    	{
+        newViewPos.iY += iVerticalOffset;
+    	}
+    // If highlight item is SCT item, press up arrow key.
+    else if ( highLightItem == CEikMenuPane::ENothingSelected           
+            && aKeyCode == EKeyUpArrow )
         {
-        iViewPosition.iY += iControl->iItemHeight + iVerticalOffset;
-        }        
+        newViewPos.iY += iControl->iItemHeight + iVerticalOffset;
+        }            
+    // If highlight item is penultimate or last item, press down arrow key.
+    else if ( ( highLightItem == bottomItem - 1 || highLightItem == bottomItem ) 
+              && aKeyCode == EKeyDownArrow )
+        {
+        newViewPos.iY += iControl->iItemHeight + iVerticalOffset;
+        }       
     // Submenu can be opened with left or right key depending on layout 
     // or with selection keys   
     else if ( ( !AknLayoutUtils::LayoutMirrored() && aKeyCode == EKeyRightArrow ) ||
@@ -641,23 +654,23 @@ void CEikMenuPaneExtension::RestoreOffset( TInt aKeyCode )
                 // to bring it fully visible
                 if ( highLightItem == topItem )
                     {   
-                    iViewPosition.iY += iVerticalOffset;
+                    newViewPos.iY += iVerticalOffset;
                     }
                 else if ( highLightItem == bottomItem )
                     {
-                    iViewPosition.iY += iControl->iItemHeight + iVerticalOffset;
+                    newViewPos.iY += iControl->iItemHeight + iVerticalOffset;
                     }             
                 }             
             }     
         }
 
     // Avoid redraw if position not changed
-    if ( oldViewPos != iViewPosition )
+    if ( oldViewPos != newViewPos )
         {
         // Report view position change to scroll physics
         // when sub menu is opened with hw keys.                                            
         _AKNTRACE( "[%s]", " ViewPositionChanged( iViewPosition )" );
-        ViewPositionChanged( iViewPosition );
+        ViewPositionChanged( newViewPos );
         }
     _AKNTRACE_FUNC_EXIT;
     }
@@ -2725,6 +2738,15 @@ void CEikMenuPane::DrawItem(CWindowGc& aGc,TInt aItem,THighlightType aHighlight)
         {
         TRect drawRect( itemRect ); 
         drawRect.Intersection( iExtension->iItemAreaRect );
+        //here the rect of the menu item is not in the rect of SCT.        
+        if ( iExtension->iSct )
+        	{
+            TRect sctRect = ItemRect( 0 );
+            if ( drawRect.Intersects( sctRect ) )
+            	{
+                drawRect.iTl.iY = sctRect.iBr.iY;
+            	}
+        	}
         window.Invalidate( drawRect );
         window.BeginRedraw( drawRect );
         }
@@ -3334,13 +3356,7 @@ EXPORT_C TKeyResponse CEikMenuPane::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
         // Next key down after stopping flick, it is ok to continue.
         iExtension->iKeyEventActive = EFalse;
         }
-        
-    // Restore possible panning offset
-    if (iExtension->Offset() != 0 )
-        {
-        iExtension->RestoreOffset( aKeyEvent.iCode );
-        }       
-          
+                      
     CheckCreateScrollerL();
     const TInt modifiers = ( aKeyEvent.iModifiers )&( EModifierCtrl|EModifierShift|EModifierPureKeycode );
     const TInt code = aKeyEvent.iCode;
@@ -3374,7 +3390,13 @@ EXPORT_C TKeyResponse CEikMenuPane::OfferKeyEventL( const TKeyEvent& aKeyEvent, 
             return EKeyWasConsumed;
             }
         }    
-
+    
+    // Restore possible panning offset
+    if (iExtension->Offset() != 0 )
+        {
+        iExtension->RestoreOffset( aKeyEvent.iCode );
+        }   
+    
     // if popup menu displaying, needs to check for hotkeys itself.
     if ( IsHotKeyL( modifiers, code ) )
         return EKeyWasConsumed;
@@ -3937,7 +3959,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
 
     // if grabberBefore or grabberAfter, then some child is handling pointerevent.
     if ( (grabberBefore || grabberAfter ) 
-         && ( !iExtension->iSct || iExtension->iScrollBarRect.Contains( pointerEvent.iPosition ) ) )
+         && ( !iExtension->iSct || sbRect.Contains( pointerEvent.iPosition ) ) )
         {
         _AKNTRACE( "[%s]", "HandlePointerEventL return 3" );
         _AKNTRACE_FUNC_EXIT;
@@ -4006,7 +4028,7 @@ EXPORT_C void CEikMenuPane::HandlePointerEventL( const TPointerEvent& aPointerEv
         }
 
     // Rect whic contains only area of menu items.
-    const TRect innerRect = iBorder.InnerRect( Rect() );
+    const TRect innerRect = iExtension->iItemAreaRect;
     TRect menuSctRect;
     // Get the option item's rect in Menu SCT
     if ( iExtension->iSct )

@@ -39,6 +39,7 @@
 #include <data_caging_path_literals.hrh>
 #include <f32file.h>
 #include <hal.h>
+#include <apgcli.h>
 
 // UI libraries
 #include <AknsSkinUID.h>
@@ -273,23 +274,46 @@ EXPORT_C void  CPslnModel::GuardActivationLC()
 EXPORT_C void CPslnModel::DownloadSkinL()
     {
     PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL BEGIN");
-    PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL Load DLL");
-    LoadBrowserLaunchL();
-    if ( iBrowserLauncher )
+    RApaLsSession session;
+    User::LeaveIfError( session.Connect() );
+    CleanupClosePushL( session );
+    
+    //get app info
+    TApaAppInfo appInfo;
+    const TUid KLauncherUid = {0x2002D07F};
+    _LIT( KDownloadThemes, "themes" );
+
+    if ( session.GetAppInfo( appInfo, KLauncherUid ) == KErrNone )
         {
-        PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL Launch embedded browser");
-        TRAPD( error, 
-               iBrowserLauncher->LaunchBrowserStandaloneL( ) );
-        if ( error != KErrNone )
+        // do the launch
+        RProcess process;
+        User::LeaveIfError( process.Create( appInfo.iFullName, KDownloadThemes ) );
+        process.Resume();
+        process.Close();
+        }
+    else
+        {
+        // Ovi launcher not found
+        PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL Load DLL");
+        LoadBrowserLaunchL();
+        if ( iBrowserLauncher )
             {
-            PSLN_TRACE_DEBUG1("CPslnModel::DownloadSkinL Handle exit: %d", error );
-            }
-        if ( error == KErrNoMemory )
-            {
-            PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL OOM");
-            User::Leave( error );
+            PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL Launch embedded browser");
+            TRAPD( error, 
+                   iBrowserLauncher->LaunchBrowserStandaloneL( ) );
+            if ( error != KErrNone )
+                {
+                PSLN_TRACE_DEBUG1("CPslnModel::DownloadSkinL Handle exit: %d", error );
+                }
+            if ( error == KErrNoMemory )
+                {
+                PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL OOM");
+                User::Leave( error );
+                }
             }
         }
+
+    CleanupStack::PopAndDestroy( &session );
     PSLN_TRACE_DEBUG("CPslnModel::DownloadSkinL END");
     }
 

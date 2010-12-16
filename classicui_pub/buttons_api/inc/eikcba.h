@@ -70,6 +70,25 @@ public:
      */
     DECLARE_TYPE_ID(0x101F4105)
 
+    enum TCbaChangeRecordedFlags
+        {
+        ECbaChangeRecordedLayout,
+        ECbaChangeRecordedSkin,
+        ECbaChangeRecordedColor,
+        ECbaInsideDialog,
+        ECbaEmbedded,       // cba is embedded in a parent control (dialog or popup)
+        ECbaHasContent,     // cba has content and should be visible when embedded
+        ECbaParentAsControl, // cba's parent window group is treated as CCoeControl
+        ECbaActivationDelayed, // activation delayed
+        ECbaSingleClickEnabled, // single click enabled in appUi
+        ECbaItemSoftkeyDisabled, // item specific softkey disabled
+        ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
+        ECbaItemSoftkeyDisabledByClient, // client has disabled item specific softkey
+        ECbaMultipleMarkingActive, // multiple marking has changed RSK
+        ECbaCombinePaneUncovered, // The combine pane in status pane is invisible.
+        ECbaKeepItemSoftkeyVisible // No auto hide for item specific commands
+        };
+    
     /**
      * Creates a new control button array.
      *

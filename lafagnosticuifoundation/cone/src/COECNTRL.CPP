@@ -144,7 +144,9 @@ void CCoeControl::Constructor(CCoeEnv* aCoeEnv)
 
 	iData = new CCoeControlStorage;		// Non-leaving allocation
 	if (!iData || iData->Open()!=KErrNone)
+		{
 		iFlags |= EMemoryAllocationFailed;	// Handle OOM later
+		}
 
 	SetFocusing(CCoeControlStaticSettings::FocusedByDefault(iCoeEnv));
 	}
@@ -3199,11 +3201,19 @@ EXPORT_C void CCoeControl::GetTextDrawer(CCoeTextDrawerBase*& /*aTextDrawer*/, c
  
 EXPORT_C CCoeControl* CCoeControl::Parent()
 	{
+	// Check construction completed correctly.
+	if(iData==NULL)
+		return NULL;
+
 	return DoGetParent(iData->DynamicDataStorage());
 	}
 
 EXPORT_C const CCoeControl* CCoeControl::Parent() const
 	{
+	// Check construction completed correctly.
+	if(iData==NULL)
+		return NULL;
+	
 	return DoGetParent(iData->DynamicDataStorage());
 	}
 

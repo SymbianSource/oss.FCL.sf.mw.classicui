@@ -233,31 +233,41 @@ TKeyResponse CHgKeyUtils::OfferKeyEventL( const TKeyEvent& aKeyEvent, TEventCode
     if( iShiftKeyPressed 
             && aType == EEventKey 
             && selectedIndex != KErrNotFound
-            && iScroller.SelectionMode() == CHgScroller::ESelectionPossible )
+            && iScroller.SelectionMode() != CHgScroller::ENoSelection )
         {
         TBool itemMarked = iScroller.ItemL( selectedIndex ).Flags() & CHgItem::EHgItemFlagMarked; 
-        if(itemMarked)
-            {
-            iScroller.SetSelectionMode( CHgScroller::ESelectionUnMark );
-            }
-        else
-            {
-            iScroller.SetSelectionMode( CHgScroller::ESelectionMark );
-            }
 
-        if( ( iAknFepHashKeySelection && aKeyEvent.iScanCode == EStdKeyHash ) )
+        if( (iAknFepHashKeySelection && aKeyEvent.iScanCode == EStdKeyHash) ||
+                aKeyEvent.iScanCode == EStdKeyEnter )
             {
             if( itemMarked )
                 {
                 iScroller.UnMark(selectedIndex);
+                // Change also the selection mode. After this arrow keys
+                // can be used to unmark items.
+                iScroller.SetSelectionMode( CHgScroller::ESelectionUnMark );
                 }
             else 
                 {
                 iScroller.Mark(selectedIndex);
+                // Change also the selection mode. After this arrow keys
+                // can be used to mark items.
+                iScroller.SetSelectionMode( CHgScroller::ESelectionMark );
                 }
+            response = EKeyWasConsumed;
             iScroller.RefreshScreen(selectedIndex);
             }
-        
+        else if (iScroller.SelectionMode() == CHgScroller::ESelectionPossible)
+            {
+            if(itemMarked)
+                {
+                iScroller.SetSelectionMode( CHgScroller::ESelectionUnMark );
+                }
+            else
+                {
+                iScroller.SetSelectionMode( CHgScroller::ESelectionMark );
+                }            
+            }
         }
     
     return response;

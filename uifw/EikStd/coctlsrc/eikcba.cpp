@@ -201,24 +201,6 @@ enum TCommandTableCbaPositions
     ECommandTableCommand4Posn = 3
     };
 
-enum TCbaChangeRecordedFlags
-    {
-    ECbaChangeRecordedLayout,
-    ECbaChangeRecordedSkin,
-    ECbaChangeRecordedColor,
-    ECbaInsideDialog,
-    ECbaEmbedded,       // cba is embedded in a parent control (dialog or popup)
-    ECbaHasContent,     // cba has content and should be visible when embedded
-    ECbaParentAsControl, // cba's parent window group is treated as CCoeControl
-    ECbaActivationDelayed, // activation delayed
-    ECbaSingleClickEnabled, // single click enabled in appUi
-    ECbaItemSoftkeyDisabled, // item specific softkey disabled
-    ECbaItemSpecificSoftkeyInUse, // item specific softkey is in use
-    ECbaItemSoftkeyDisabledByClient, // client has disabled item specific softkey
-    ECbaMultipleMarkingActive, // multiple marking has changed RSK
-    ECbaCombinePaneUncovered, // The combine pane in status pane is invisible.
-    ECbaKeepItemSoftkeyVisible // No auto hide for item specific commands
-    };
 
 enum TCbaLayers
     {
@@ -273,7 +255,7 @@ public:
         {
         _AKNTRACE_FUNC_ENTER;
         // Wallpaper is not drawn by embedded CBA.
-        if ( !iOwner.Flags().IsSet( ECbaEmbedded ) )
+        if ( !iOwner.Flags().IsSet( CEikCba::ECbaEmbedded ) )
             {
             iRepository = CRepository::NewL( KCRUidPersonalisation );
             iRepository->Get( KPslnWallpaperType, iWallpaperInUse );
@@ -290,7 +272,7 @@ public:
         iIfSkinChanged = EFalse;
         iIfMskIconSet = EFalse;
 
-        if ( iOwner.Flags().IsSet( ECbaSingleClickEnabled ) )
+        if ( iOwner.Flags().IsSet( CEikCba::ECbaSingleClickEnabled ) )
             {
             AknItemActionMenuRegister::RegisterCollectionObserverL(
                     *this );
@@ -301,7 +283,7 @@ public:
     ~CEikCbaExtension() 
         {
         _AKNTRACE_FUNC_ENTER;
-        if ( iOwner.Flags().IsSet( ECbaSingleClickEnabled ) )
+        if ( iOwner.Flags().IsSet( CEikCba::ECbaSingleClickEnabled ) )
             {
             AknItemActionMenuRegister::UnregisterCollectionObserver( *this );
             }
@@ -351,7 +333,7 @@ public:
         TRect mskOuterRect;
         TRect mskInnerRect;
 
-        if ( iOwner.Flags().IsSet( ECbaEmbedded ) )
+        if ( iOwner.Flags().IsSet( CEikCba::ECbaEmbedded ) )
             {
             TRect rect ( iOwner.Rect() );
             if ( rect.Width() > 0 && rect.Height() > 0 )
@@ -732,7 +714,7 @@ public:
         TBool cancelled( EFalse );
         if ( aCommandId == EAknSoftkeyCancel
                 && iItemActionMenu
-                && iOwner.Flags().IsSet( ECbaMultipleMarkingActive ) )
+                && iOwner.Flags().IsSet( CEikCba::ECbaMultipleMarkingActive ) )
             {
             iItemActionMenu->MarkingMode().SetCollectionMultipleMarkingState(
                     EFalse );
@@ -767,7 +749,7 @@ public:
         _AKNTRACE_FUNC_ENTER;
         // Do not update state if invisible collection tries to enable sk
         if ( aCollectionVisible
-                || iOwner.Flags().IsClear( ECbaItemSoftkeyDisabled ) )
+                || iOwner.Flags().IsClear( CEikCba::ECbaItemSoftkeyDisabled ) )
             {
             iOwner.UpdateItemSpecificSoftkey();
             }

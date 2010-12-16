@@ -136,8 +136,13 @@ EXPORT_C TBool AknStatuspaneUtils::FlatLayoutActive()
                currentStatusPaneLayoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT ||
                currentStatusPaneLayoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT ||
                currentStatusPaneLayoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_USUAL_FLAT_NO_SOFTKEYS ||
-               currentStatusPaneLayoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS );
-
+               currentStatusPaneLayoutResId == R_AVKON_WIDESCREEN_PANE_LAYOUT_IDLE_FLAT_NO_SOFTKEYS ||
+               (Layout_Meta_Data::IsLandscapeOrientation() && 
+                                       (AknStatuspaneUtils::CurrentStatusPaneLayoutResId()
+                                                 == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE ||
+                                        AknStatuspaneUtils::CurrentStatusPaneLayoutResId()
+                                                 == R_AVKON_STATUS_PANE_LAYOUT_POWER_OFF_RECHARGE_MIRRORED)));
+    
     return retVal;
     }
 

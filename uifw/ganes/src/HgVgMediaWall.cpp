@@ -874,8 +874,12 @@ TKeyResponse CHgVgMediaWall::HandleKeyEvent(const TKeyEvent& aKeyEvent)
             return EKeyWasNotConsumed;
             }
         default:
-            TChar key(aKeyEvent.iCode);
-            SearchItem(key);
+            // Following lines are disabled because search does not work with qwerty keyboard.
+            // Can be fixed by using HgTextFind, but at this point it was considered
+            // too risky. If HgTextFind is taken into use one should call SetFocus
+            // in the constructor so that inputcapabilities are fetched correctly.
+//            TChar key(aKeyEvent.iCode);
+//            SearchItem(key);
             break;
         }
     

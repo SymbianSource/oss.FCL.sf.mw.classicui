@@ -29,9 +29,6 @@ const TInt KLeftSoftkeyIndex = 0;
 const TInt KRightSoftkeyIndex = 2;
 const TInt KNullCommandId = -1;
 
-// declare the function IsCbaEmbeddedInDialog
-TBool IsCbaEmbeddedInDialog( const TInt& aFlags );
-
 /**
 * Internal extension class for CAknCcpuSupport.
 *
@@ -51,7 +48,7 @@ public: // Data
     // Owned
     CEikButtonGroupContainer* iCba;
     // not owned
-    CEikButtonGroupContainer* iDialogCba;
+    CEikButtonGroupContainer* iEmbedCba;
     };
 
 CAknCcpuSupportExtension::CAknCcpuSupportExtension()
@@ -97,6 +94,16 @@ EXPORT_C void CAknCcpuSupport::ConstructL()
 
 EXPORT_C void CAknCcpuSupport::HandleSelectionChangeL()
 	{
+    CCoeControl* container( NULL );
+    CEikButtonGroupContainer* currentCba( NULL );
+    GetTopContainerAndEmbedCBA( container, currentCba );
+    // when editor status changed we need to update the position of ccpu CBA. 
+    if ( container && currentCba && iExtention && iExtention->iCba )
+        {
+        CEikCba* embedCba = static_cast<CEikCba*>( currentCba->ButtonGroup() );
+        UseNewCBAToCoverEmbedCBA( container, embedCba );
+        }               
+    
 	if ( iExtention->iCba )
 	    {
 		UpdateCBALabelsL();
@@ -149,49 +156,36 @@ EXPORT_C TKeyResponse CAknCcpuSupport::OfferKeyEventL( const TKeyEvent& aKeyEven
 		if ( aType == EEventKey )
 			{		
 			DeleteCBAL();
-			CEikAppUi* eikAppUi = (CEikAppUi *)CCoeEnv::Static()->AppUi();
-			if( eikAppUi && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
-				{
-				CEikDialog* dlg = eikAppUi->TopFocusedControl()->MopGetObject( dlg );
-				if ( dlg && IsCbaEmbeddedInDialog( dlg->DialogFlags() ) )
-					{
-					CEikButtonGroupContainer* currentCba = dlg->MopGetObject( currentCba );
-					
-					if ( currentCba )
-						{
-						CEikCba* dlgcba = static_cast<CEikCba*>( currentCba->ButtonGroup() );
-						TUint flags( 0 ); 
-						flags |= CEikButtonGroupContainer::EIsEmbedded | CEikButtonGroupContainer::EAddToStack;
-                        iExtention->iCba = CEikButtonGroupContainer::NewL( 
-                                CEikButtonGroupContainer::ECba, 
-                                CEikButtonGroupContainer::EHorizontal, 
-								this, R_AVKON_SOFTKEYS_EMPTY, flags );
-						
-						CEikCba* cba = static_cast<CEikCba*>(
-                                iExtention->iCba->ButtonGroup() );					   
-						
-                        if( !iExtention->iIsCbaEmded )
-							{
-							currentCba->AddCommandToStackL( KLeftSoftkeyIndex, -1, KNullDesC, NULL, NULL );
-							currentCba->AddCommandToStackL( KRightSoftkeyIndex, -1, KNullDesC, NULL, NULL );
-							currentCba->ActivateL();
-							currentCba->DrawNow();
-                            iExtention->iDialogCba = currentCba;
-                            iExtention->iIsCbaEmded = ETrue;
-							}
-					
-						cba->SetButtonGroupFlags( ~( EEikCbaFlagTransparent | EEikCbaFlagOutlineFont ) );
-						TRect dlgRect(dlg->Rect());
-						TRect cbaRect(currentCba->Rect());
-                        iExtention->iCba->SetRect( currentCba->Rect());
-                        iExtention->iCba->SetPosition(
-                            TPoint( dlg->DrawableWindow()->Position().iX, 
-                                    dlg->DrawableWindow()->Position().iY + dlgRect.Height() - cbaRect.Height() ) );
-                        iExtention->iCba->SetBoundingRect( dlg->Rect() );
-						
-						}				
-					}	
-				}
+	        CCoeControl* container( NULL );
+	        CEikButtonGroupContainer* currentCba( NULL );
+	        GetTopContainerAndEmbedCBA( container, currentCba );
+	        if ( currentCba && container )
+                {
+                CEikCba* embedCba = static_cast<CEikCba*>( currentCba->ButtonGroup() );
+                TUint flags( 0 ); 
+                flags |= CEikButtonGroupContainer::EIsEmbedded | CEikButtonGroupContainer::EAddToStack;
+                iExtention->iCba = CEikButtonGroupContainer::NewL( 
+                        CEikButtonGroupContainer::ECba, 
+                        CEikButtonGroupContainer::EHorizontal, 
+                        this, R_AVKON_SOFTKEYS_EMPTY, flags );
+                
+                CEikCba* cba = static_cast<CEikCba*>(
+                        iExtention->iCba->ButtonGroup() );					   
+                
+                if( !iExtention->iIsCbaEmded )
+                    {
+                    currentCba->AddCommandToStackL( KLeftSoftkeyIndex, -1, KNullDesC, NULL, NULL );
+                    currentCba->AddCommandToStackL( KRightSoftkeyIndex, -1, KNullDesC, NULL, NULL );
+                    currentCba->ActivateL();
+                    currentCba->DrawNow();
+                    iExtention->iEmbedCba = currentCba;
+                    iExtention->iIsCbaEmded = ETrue;
+                    }
+            
+                cba->SetButtonGroupFlags( ~( EEikCbaFlagTransparent | EEikCbaFlagOutlineFont ) );
+                iExtention->iCba->SetRect( embedCba->Rect() );
+                UseNewCBAToCoverEmbedCBA( container, embedCba );
+                }				
 			if( !iExtention->iCba )//if iCba was not create in the above branch but was deleted by DeleteCBA
 				{
 			    iExtention->iCba = CEikButtonGroupContainer::NewL( 
@@ -317,41 +311,47 @@ void CAknCcpuSupport::DeleteCBAL()
 		}
 	if ( iExtention->iIsCbaEmded )
 		{
-		CEikAppUi* eikAppUi = (CEikAppUi *)CCoeEnv::Static()->AppUi();
-        if( eikAppUi && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
+        CCoeControl* container( NULL );
+        CEikButtonGroupContainer* currentCba( NULL );
+        GetTopContainerAndEmbedCBA( container, currentCba );
+        if ( currentCba && iExtention->iEmbedCba == currentCba )
             {
-            CEikDialog* dlg = eikAppUi->TopFocusedControl()->MopGetObject( dlg );
-            if ( dlg )
-                {
-                CEikButtonGroupContainer* currentCba = dlg->MopGetObject( currentCba );
-                CEikCba* dlgcba = static_cast<CEikCba*>(
-                    currentCba->ButtonGroup() );
-                if ( currentCba && iExtention->iDialogCba == currentCba )
-                    {
-                    currentCba->RemoveCommandFromStack( KLeftSoftkeyIndex, -1 );
-                    currentCba->RemoveCommandFromStack( KRightSoftkeyIndex, -1 );
-                    currentCba->DrawNow();
-                    currentCba->ActivateL();
-                    iExtention->iDialogCba = NULL;
-                    iExtention->iIsCbaEmded = EFalse;
-                    }
-                }
+            currentCba->RemoveCommandFromStack( KLeftSoftkeyIndex, -1 );
+            currentCba->RemoveCommandFromStack( KRightSoftkeyIndex, -1 );
+            currentCba->DrawNow();
+            currentCba->ActivateL();
+            iExtention->iEmbedCba = NULL;
+            iExtention->iIsCbaEmded = EFalse;
             }
 		}
 	}
 
-/**
- * To detect if CBA is embedded in the diaplog.
- * @param aFlags it should be CEikDialog::DialogFlags()
- * @return if an CBA is embedded in the dialog return ETrue 
- *         else return EFalse
- */
-TBool IsCbaEmbeddedInDialog( const TInt& aFlags )
+
+void CAknCcpuSupport::GetTopContainerAndEmbedCBA( CCoeControl*& aContainer, CEikButtonGroupContainer*& aCurrentCba ) const
     {
-    return !( aFlags & EEikDialogFlagFillAppClientRect ) &&
-        !( aFlags & EEikDialogFlagFillScreen ) &&
-        !( aFlags & EEikDialogFlagVirtualInput ) &&
-        !( aFlags & EEikDialogFlagNoEmbeddedSoftkeys );
+    CEikButtonGroupContainer* currentCba = NULL;
+    CEikAppUi* eikAppUi = static_cast<CEikAppUi*>( CCoeEnv::Static()->AppUi() );
+    if( eikAppUi && eikAppUi->IsDisplayingDialog() && eikAppUi->TopFocusedControl() )
+        {
+        currentCba = eikAppUi->TopFocusedControl()->MopGetObject( currentCba );
+        }
+	if ( currentCba )
+		{
+        CEikCba* embedCba = static_cast<CEikCba*>(
+                currentCba->ButtonGroup() );
+        if ( embedCba && embedCba->Flags().IsSet( CEikCba::ECbaEmbedded ) )
+        	{
+            aContainer = embedCba->Parent();
+            aCurrentCba = currentCba;
+        	}
+		}
     }
-
-
+void CAknCcpuSupport::UseNewCBAToCoverEmbedCBA( CCoeControl* aContainer, CEikCba* aEmbedCba )
+    {
+    TRect containerRect( aContainer->Rect() );
+    iExtention->iCba->SetPosition(
+        TPoint( aContainer->DrawableWindow()->Position().iX, 
+                aContainer->DrawableWindow()->Position().iY + 
+                containerRect.Height() - aEmbedCba->Rect().Height() ) );
+    iExtention->iCba->SetBoundingRect( aContainer->Rect() );
+    }

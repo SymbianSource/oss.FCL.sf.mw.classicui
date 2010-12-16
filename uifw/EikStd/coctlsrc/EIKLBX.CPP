@@ -1189,8 +1189,8 @@ void CListBoxExt::HandleLongTapEventL( const TPoint& /*aPenEventLocation*/,
     _AKNTRACE_FUNC_ENTER;
     iLongTappedItem = iLastDownTappedItem;
     iLastDownTappedItem = KErrNotFound;
+    iListBox.ReportListBoxEventL( MEikListBoxObserver::EEventItemLongTapped );
     iItemActionMenu->ShowMenuL( aPenEventScreenLocation, 0 );
-    IgnorePointerEventsUntilUp();
     iOldWinPos = iListBox.DrawableWindow()->OrdinalPosition();
     _AKNTRACE_FUNC_EXIT;
     }
@@ -5158,6 +5158,7 @@ EXPORT_C void CEikListBox::HandlePointerEventL(const TPointerEvent& aPointerEven
             // For drag outside listbox
             iListBoxExt->iIsDownOnItem = pointerIsOverAnItem;
             iListBoxExt->iLastPoint = pointerPos;
+			iListBoxExt->iLongTappedItem = KErrNotFound;
 
             // update index of the last down tapped item
             iListBoxExt->iLastDownTappedItem = itemIndex;
@@ -6889,8 +6890,13 @@ TBool CEikListBox::HandlePhysicsPointerEventL( const TPointerEvent& aPointerEven
 
     TBool blockEvent = EFalse;
     
-    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) && !iListBoxExt->iScrollingDisabled );
-
+    // If touch down in listbox area, kinetic scrolling is enabled, and single
+    // click is disabled or style popup menu is not shown when single click is
+    // enabled, events of kinetic scrolling are sent to listbox.
+    TBool allowDragEvent( ( iListBoxFlags & ELeftDownInViewRect ) 
+        && !iListBoxExt->iScrollingDisabled 
+        && ( !iListBoxExt->iSingleClickEnabled
+            || iListBoxExt->iLongTappedItem == KErrNotFound ) );
     
     switch ( aPointerEvent.iType )
         {

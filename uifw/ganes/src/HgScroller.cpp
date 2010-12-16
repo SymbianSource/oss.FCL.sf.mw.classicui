@@ -77,15 +77,13 @@ void CHgScroller::ConstructL (const TRect& aRect, RWsSession* aSession )
     
     iIndicatorManager = CHgIndicatorManager::NewL();
 
-    /*
     // Enable key search only in non-touch or hybrid (touch + qwerty) devices
     if( !AknLayoutUtils::PenEnabled() ||
         CFeatureDiscovery::IsFeatureSupportedL(TUid::Uid(KFeatureIdQwertyInput)) )
         {
-        iTextFind = CHgTextFind::NewL( *this );
+//        iTextFind = CHgTextFind::NewL( *this, this );
         iKeyUtils = CHgKeyUtils::NewL(*this);
         }
-    */
     
     // Init Stuff
     if( aSession )
@@ -885,6 +883,7 @@ void CHgScroller::KeyEventDown()
     
     iPointerDown = EFalse;
     iPanning = EFalse;
+    iEnterKeyHandled = EFalse;
     }
 
 // -----------------------------------------------------------------------------
@@ -1185,24 +1184,46 @@ TKeyResponse CHgScroller::HandleKeyEvent(const TKeyEvent& aKeyEvent)
         case EKeyEnter:
         case EKeyOK:
             {
-            if( iSelectedIndex != KErrNotFound && HasHighlight() )
+            // If enter key is pushed down for a long time, many key events
+            // are generated. Enter should be handled only ones.
+            if (!iEnterKeyHandled)
                 {
-                iShowHighlight = EFalse;
-                iDrawUtils->EnableMarquee(HasHighlight());
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
-                return EKeyWasConsumed;
-                }
-            else if( iItemCount )
-                {
-                iSelectedIndex = iCurrentRow;
-                FitSelectionToView();
-                iShowHighlight = ETrue;
-                iDrawUtils->EnableMarquee(HasHighlight());
-                DrawDeferred();
-                if( iSelectionObserver )
-                    TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
-                return EKeyWasConsumed;
+                iEnterKeyHandled = ETrue;
+                if( iSelectedIndex != KErrNotFound && HasHighlight())
+                    {                
+                    iEnterKeyHandled = ETrue;
+                    const TBool validIndex = iSelectedIndex >= 0 && iSelectedIndex < iItems.Count();
+                    const TBool selectionMode = iFlags & EHgScrollerSelectionMode;
+                    if (validIndex && selectionMode)
+                        {
+                        // In selection mode enterkey should mark/unmark item.
+                        iItems[iSelectedIndex]->Flags() & CHgItem::EHgItemFlagMarked ? 
+                            UnMark(iSelectedIndex) : Mark(iSelectedIndex);
+                        DrawDeferred();
+                        }
+                    else
+                        {
+                        // Item will be opened so highlight is removed.
+                        iShowHighlight = EFalse;
+                        if( iSelectionObserver )
+                            {
+                            TRAP_IGNORE( iSelectionObserver->HandleOpenL( iSelectedIndex ); )
+                            }
+                        }
+                    iDrawUtils->EnableMarquee(HasHighlight());
+                    return EKeyWasConsumed;
+                    }
+                else if( iItemCount )
+                    {
+                    iSelectedIndex = CurrentIndex();
+                    FitSelectionToView();
+                    iShowHighlight = ETrue;
+                    iDrawUtils->EnableMarquee(HasHighlight());
+                    DrawDeferred();
+                    if( iSelectionObserver )
+                        TRAP_IGNORE( iSelectionObserver->HandleSelectL( iSelectedIndex ); )
+                    return EKeyWasConsumed;
+                    }
                 }
             return EKeyWasNotConsumed;
             }

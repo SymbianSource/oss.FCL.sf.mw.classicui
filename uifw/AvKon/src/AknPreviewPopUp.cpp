@@ -668,10 +668,20 @@ void CAknPreviewPopUp::HandlePointerEventL( const TPointerEvent& aPointerEvent )
 // CAknPreviewPopUp::OfferKeyEventL
 // -----------------------------------------------------------------------------
 //
-TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& /*aKeyEvent*/,
+TKeyResponse CAknPreviewPopUp::OfferKeyEventL( const TKeyEvent& aKeyEvent,
                                                TEventCode aType )
     {
     TKeyResponse ret ( EKeyWasNotConsumed );
+
+    //
+    // does not response to the event between EKeyDeviceA and EKeyDeviceF
+    //
+    if( aType == EEventKey 
+        && aKeyEvent.iCode >= EKeyDeviceA 
+        && aKeyEvent.iCode <= EKeyDeviceF )
+        {
+        return ret;
+        }
 
     if ( !( iFlags & CAknPreviewPopUpController::EPermanentMode ) )
         {

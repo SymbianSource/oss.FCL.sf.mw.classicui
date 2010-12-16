@@ -61,4 +61,5 @@ LIBRARY                 gfxtrans.lib
 LIBRARY                 caf.lib
 LIBRARY                 hal.lib
 LIBRARY                 cenrepnotifhandler.lib
+LIBRARY                 apgrfx.lib
 

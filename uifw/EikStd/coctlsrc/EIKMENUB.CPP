@@ -977,6 +977,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         iMenuCba = NULL;
         iTitleArray->ResetAndDestroy();
         iMenuPane->Close();
+        CloseWindow();
         return;
         }
 
@@ -1120,6 +1121,7 @@ void CEikMenuBar::StartDisplayingMenuBarL()
         iMenuObserver->SetEmphasis(this,EFalse);
         iTitleArray->ResetAndDestroy();
         iMenuPane->Close();
+        CloseWindow();
         return;
         }
 

@@ -29,7 +29,7 @@
 class CEikButtonGroupContainer;
 class CEikMenuBar;
 class CAknCcpuSupportExtension;
-
+class CEikCba;
 /**
  * Interface for cut, copy, paste and undo functionality.
  */
@@ -210,7 +210,25 @@ private:
     TBool UpdateCBALabelL(TInt aPosition, TInt aCommandId, TInt aTextResId);
     void SetEmphasis(CCoeControl* aMenuControl,TBool aEmphasis);
     void DeleteCBAL();
-
+    
+    /** 
+     * Get the top Container ( which contain the top focused control ) and the CBA embed in it. 
+     *
+     * @param[out] aContainer The pointer of the top Container.
+     * @param[out] aCurrentCba The pointer of the CBA embed in the container. 
+     *             If there is no CBA embed in top Container it is NULL
+     */
+    void GetTopContainerAndEmbedCBA( CCoeControl*& aContainer, 
+             CEikButtonGroupContainer*& aCurrentCba ) const;
+    
+    /** 
+     * Coordinate copy/past CBA position and set its rect same as the embed CBA.
+     *
+     * @param aContainer The pointer of the top Container.
+     * @param aEmbedCba The pointer of the CBA embed in the container. 
+     */
+    void CAknCcpuSupport::UseNewCBAToCoverEmbedCBA( CCoeControl* aContainer, 
+             CEikCba* aEmbedCba );
 private:
     /**
     * From CAknControl

@@ -8687,19 +8687,24 @@ void CEikEdwin::DrawSmileyInTextL( RRegion& rgn, const TRect& aDrawRect,
         TPtr text( buf->Des() );
         text.Copy( aText );
         TrimText( text );
-        TInt smileyWidth( aFont.TextWidthInPixels( KSmileyString ) );
-        for ( TInt i( 0 ); i < text.Length(); i++ )
-            {
-            if ( iEdwinExtension && CSmileyManager::IsSmileyCode( text[i] ) )
-                {
-                TInt x( pt.iX + aFont.TextWidthInPixels( text.Left( i ) ) );
-                TRect clipRect( x, aDrawRect.iTl.iY, x + smileyWidth, 
-                    aDrawRect.iBr.iY ); 
-                rgn.SubRect( clipRect, NULL );
-                TRect iconRect( x, topY, x + smileyWidth, bottomY );
-                iEdwinExtension->iSmiley->DrawIconL( aGc, iconRect, i + pos );
-                }
-            }
+        TPoint startPt;
+		TInt smileyWidth( aFont.TextWidthInPixels( KSmileyString ) );
+		for ( TInt i( 0 ); i < text.Length(); i++ )
+			{
+			// If current character is a smiley code, get coordinates of the character
+			// by DocPosToXyPosL so we can know correct start position of smiley icon. 
+			// When the character isn't formatted, DocPosToXyPosL will return EFalse,
+			// which means the character is invisible so no need to draw the icon.
+			if ( iEdwinExtension && CSmileyManager::IsSmileyCode( text[i] ) && 
+				 iTextView->DocPosToXyPosL( i + pos, startPt ) )
+				{
+				TRect clipRect( startPt.iX, aDrawRect.iTl.iY, startPt.iX + smileyWidth, 
+					aDrawRect.iBr.iY ); 
+				rgn.SubRect( clipRect, NULL );
+				TRect iconRect( startPt.iX, topY, startPt.iX + smileyWidth, bottomY );
+				iEdwinExtension->iSmiley->DrawIconL( aGc, iconRect, i + pos );
+				}
+			}
         }
     delete buf;
     }
